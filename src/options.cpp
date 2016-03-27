@@ -26,6 +26,7 @@
 bool trigdist;
 bool use_tiles;
 bool log_from_top;
+int message_ttl;
 bool fov_3d;
 bool tile_iso;
 
@@ -204,6 +205,35 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
     setSortPos(sPageIn);
 }
 
+//int map constructor
+options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+           const std::map<int, std::string> mIntValuesIn, int iInitialIn, int iDefaultIn, copt_hide_t opt_hide)
+{
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "int_map";
+
+    hide = opt_hide;
+
+    mIntValues = mIntValuesIn;
+
+    auto item = mIntValuesIn.find( iInitialIn );
+    if ( item == mIntValuesIn.cend() ) {
+        iInitialIn = mIntValuesIn.cbegin()->first;
+    }
+
+    item = mIntValuesIn.find( iDefaultIn );
+    if ( item == mIntValuesIn.cend() ) {
+        iDefaultIn = mIntValuesIn.cbegin()->first;
+    }
+
+    iDefault = iDefaultIn;
+    iSet = iInitialIn;
+
+    setSortPos(sPageIn);
+}
+
 //float constructor
 options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
            const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide)
@@ -318,7 +348,7 @@ std::string options_manager::cOpt::getValue()
     } else if (sType == "bool") {
         return (bSet) ? "true" : "false";
 
-    } else if (sType == "int") {
+    } else if (sType == "int" || sType == "int_map") {
         std::stringstream ssTemp;
         ssTemp << iSet;
         return ssTemp.str();
@@ -342,6 +372,9 @@ std::string options_manager::cOpt::getValueName()
 
     } else if (sType == "bool") {
         return (bSet) ? _("True") : _("False");
+
+    } else if ( sType == "int_map" ) {
+        return string_format(_("%d: %s"), iSet, mIntValues.find( iSet )->second.c_str());
     }
 
     return getValue();
@@ -368,6 +401,9 @@ std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
 
     } else if (sType == "int") {
         return string_format(_("Default: %d - Min: %d, Max: %d"), iDefault, iMin, iMax);
+
+    } else if (sType == "int_map") {
+        return string_format( _( "Default: %d: %s" ), iDefault, mIntValues.find( iDefault )->second.c_str() );
 
     } else if (sType == "float") {
         return string_format(_("Default: %.2f - Min: %.2f, Max: %.2f"), fDefault, fMin, fMax);
@@ -424,6 +460,14 @@ void options_manager::cOpt::setNext()
             iSet = iMin;
         }
 
+    } else if (sType == "int_map") {
+        auto next = std::next( mIntValues.find( iSet ) );
+        if ( next == mIntValues.cend() ) {
+            iSet = mIntValues.cbegin()->first;
+        } else {
+            iSet = next->first;
+        }
+
     } else if (sType == "float") {
         fSet += fStep;
         if (fSet > fMax) {
@@ -453,6 +497,16 @@ void options_manager::cOpt::setPrev()
         iSet--;
         if (iSet < iMin) {
             iSet = iMax;
+        }
+
+    } else if (sType == "int_map") {
+        auto item = mIntValues.find( iSet );
+        if ( item == mIntValues.cbegin() ) {
+            auto prev = std::prev( mIntValues.cend() );
+            iSet = prev->first;
+        } else {
+            auto prev = std::prev( item );
+            iSet = prev->first;
         }
 
     } else if (sType == "float") {
@@ -497,6 +551,14 @@ void options_manager::cOpt::setValue(std::string sSetIn)
             iSet = iDefault;
         }
 
+    } else if (sType == "int_map") {
+        iSet = atoi(sSetIn.c_str());
+
+        auto item = mIntValues.find( iSet );
+        if ( item == mIntValues.cend() ) {
+            iSet = iDefault;
+        }
+
     } else if (sType == "float") {
         std::istringstream ssTemp(sSetIn);
         ssTemp.imbue(std::locale::classic());
@@ -519,7 +581,7 @@ options_manager::cOpt::operator float() const
         return (!sSet.empty()) ? 1.0f : 0.0f;
     } else if (sType == "bool") {
         return (bSet) ? 1.0f : 0.0f;
-    } else if (sType == "int") {
+    } else if (sType == "int" || sType == "int_map") {
         return static_cast<float>(iSet);
     } else if (sType == "float") {
         return fSet;
@@ -536,7 +598,7 @@ options_manager::cOpt::operator int() const
         return (!sSet.empty()) ? 1 : 0;
     } else if (sType == "bool") {
         return (bSet) ? 1 : 0;
-    } else if (sType == "int") {
+    } else if (sType == "int" || sType == "int_map") {
         return iSet;
     } else if (sType == "float") {
         return static_cast<int>(fSet);
@@ -944,6 +1006,12 @@ void options_manager::init()
                                        "new_top,new_bottom", "new_bottom"
                                       );
 
+    OPTIONS["MESSAGE_TTL"] = cOpt("interface", _("Sidebar log message display duration"),
+                                        _("Number of turns after which a message will be removed from the sidebar log. '0' disables this option."),
+                                        0, 1000, 0
+                                       );
+
+
     //~ style of vehicle interaction menu; vertical is old one.
     optionNames["vertical"] = _("Vertical");
     optionNames["horizontal"] = _("Horizontal");
@@ -1072,6 +1140,12 @@ void options_manager::init()
                                           );
 
     mOptionsSort["graphics"]++;
+
+
+    OPTIONS["DISPLAY"] = cOpt("graphics", _("Display"),
+                              _("Sets which video display will be used to show the game. Requires restart."),
+                              0, 10000, 0, COPT_CURSES_HIDE
+                              );
 
     optionNames["fullscreen"] = _("Fullscreen");
     optionNames["windowedbl"] = _("Windowed borderless");
@@ -1740,6 +1814,7 @@ bool options_manager::save(bool ingame)
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+    message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
     fov_3d = OPTIONS["FOV_3D"];
 
     try {
@@ -1794,6 +1869,7 @@ void options_manager::load()
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+    message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
     fov_3d = OPTIONS["FOV_3D"];
 }
 

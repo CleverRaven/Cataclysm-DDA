@@ -31,6 +31,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "item_group.h"
+#include "pathfinding.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -159,6 +160,10 @@ map::map( int mapsize, bool zlev )
 
     for( auto &ptr : caches ) {
         ptr = std::unique_ptr<level_cache>( new level_cache() );
+    }
+
+    for( auto &ptr : pathfinding_caches ) {
+        ptr = std::unique_ptr<pathfinding_cache>( new pathfinding_cache() );
     }
 
     dbg(D_INFO) << "map::map(): my_MAPSIZE: " << my_MAPSIZE << " zlevels enabled:" << zlevels;
@@ -348,6 +353,7 @@ void map::on_vehicle_moved( const int smz ) {
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
+    set_pathfinding_cache_dirty( smz );
 }
 
 void map::vehmove()
@@ -1617,6 +1623,9 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
         set_floor_cache_dirty( p.z );
     }
 
+    // @todo Limit to changes that affect move cost, traps and stairs
+    set_pathfinding_cache_dirty( p.z );
+
     // Make sure the furniture falls if it needs to
     support_dirty( p );
     tripoint above( p.x, p.y, p.z + 1 );
@@ -1827,6 +1836,9 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
         // It's a set, not a flag
         support_cache_dirty.insert( p );
     }
+
+    // @todo Limit to changes that affect move cost, traps and stairs
+    set_pathfinding_cache_dirty( p.z );
 
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
@@ -2394,7 +2406,7 @@ bool map::has_flag(const std::string &flag, const int x, const int y) const
     return has_flag_ter_or_furn(flag, x, y); // Does bound checking
 }
 
-bool map::can_put_items(const int x, const int y)
+bool map::can_put_items_ter_furn(const int x, const int y) const
 {
     return !has_flag("NOITEM", x, y) && !has_flag("SEALED", x, y);
 }
@@ -2472,7 +2484,18 @@ bool map::has_flag( const std::string &flag, const tripoint &p ) const
     return has_flag_ter_or_furn( flag, p ); // Does bound checking
 }
 
-bool map::can_put_items( const tripoint &p )
+bool map::can_put_items( const tripoint &p ) const
+{
+    if (can_put_items_ter_furn( p )) {
+        return true;
+    } else {
+        int part = -1;
+        const vehicle * const veh = veh_at( p, part );
+        return veh != nullptr && veh->part_with_feature( part, "CARGO" ) >= 0;
+    }
+}
+
+bool map::can_put_items_ter_furn( const tripoint &p ) const
 {
     return !has_flag( "NOITEM", p ) && !has_flag( "SEALED", p );
 }
@@ -5097,7 +5120,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         return;
     }
 
-    itype *itt = f.crafting_pseudo_item_type();
+    const itype *itt = f.crafting_pseudo_item_type();
     if (itt == NULL || itt->id != type) {
         return;
     }
@@ -5140,14 +5163,14 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             continue;
         }
 
-        const int kpart = veh->part_with_feature(vpart, "KITCHEN");
+        const int kpart = veh->part_with_feature(vpart, "FAUCET");
         const int weldpart = veh->part_with_feature(vpart, "WELDRIG");
         const int craftpart = veh->part_with_feature(vpart, "CRAFTRIG");
         const int forgepart = veh->part_with_feature(vpart, "FORGE");
         const int chempart = veh->part_with_feature(vpart, "CHEMLAB");
         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
-        if (kpart >= 0) { // we have a kitchen, now to see what to drain
+        if (kpart >= 0) { // we have a faucet, now to see what to drain
             ammotype ftype = "NULL";
 
             if (type == "water_clean") {
@@ -5597,6 +5620,11 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
     // Dirty the transparency cache now that field processing doesn't always do it
     // TODO: Make it skip transparent fields
     set_transparency_cache_dirty( p.z );
+
+    if( field_type_dangerous( t ) ) {
+        set_pathfinding_cache_dirty( p.z );
+    }
+
     return true;
 }
 
@@ -5616,6 +5644,13 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
         for( int i = 0; i < 3; ++i ) {
             if( !fdata.transparent[i] ) {
                 set_transparency_cache_dirty( p.z );
+                break;
+            }
+        }
+
+        for( int i = 0; i < 3; ++i ) {
+            if( fdata.dangerous[i] ) {
+                set_pathfinding_cache_dirty( p.z );
                 break;
             }
         }
@@ -6732,6 +6767,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_transparency_cache_dirty( gridz );
     set_outside_cache_dirty( gridz );
     set_floor_cache_dirty( gridz );
+    set_pathfinding_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
     for( auto it : tmpsub->vehicles ) {
@@ -7750,6 +7786,7 @@ void map::draw_fill_background( ter_id type )
     // Need to explicitly set caches dirty - set_ter would do it before
     set_transparency_cache_dirty( abs_sub.z );
     set_outside_cache_dirty( abs_sub.z );
+    set_pathfinding_cache_dirty( abs_sub.z );
 
     // Fill each submap rather than each tile
     constexpr size_t block_size = SEEX * SEEY;
@@ -8087,6 +8124,107 @@ level_cache::level_cache()
     outside_cache_dirty = true;
     veh_in_active_range = false;
     std::fill_n( &veh_exists_at[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
+}
+
+pathfinding_cache::pathfinding_cache()
+{
+    dirty = true;
+}
+
+pathfinding_cache::~pathfinding_cache()
+{
+}
+
+pathfinding_cache &map::get_pathfinding_cache( int zlev ) const {
+    return *pathfinding_caches[zlev + OVERMAP_DEPTH];
+}
+
+void map::set_pathfinding_cache_dirty( const int zlev ) {
+    if( inbounds_z( zlev ) ) {
+        get_pathfinding_cache( zlev ).dirty = true;
+    }
+}
+
+const pathfinding_cache &map::get_pathfinding_cache_ref( int zlev ) const
+{
+    if( !inbounds_z( zlev ) ) {
+        debugmsg( "Tried to get pathfinding cache for out of bounds z-level %d", zlev );
+        return *pathfinding_caches[ OVERMAP_DEPTH ];
+    }
+    auto &cache = get_pathfinding_cache( zlev );
+    if( cache.dirty ) {
+        update_pathfinding_cache( zlev );
+    }
+
+    return cache;
+}
+
+void map::update_pathfinding_cache( int zlev ) const
+{
+    auto &cache = get_pathfinding_cache( zlev );
+    if( !cache.dirty ) {
+        return;
+    }
+
+    std::uninitialized_fill_n( &cache.special[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, PF_NORMAL );
+
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+
+            tripoint p( 0, 0, zlev );
+
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                p.x = sx + smx * SEEX;
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    p.y = sy + smy * SEEY;
+
+                    pf_special cur_value = PF_NORMAL;
+
+                    maptile tile( cur_submap, sx, sy );
+
+                    const auto &terrain = tile.get_ter_t();
+                    const auto &furniture = tile.get_furn_t();
+                    int part;
+                    const vehicle *veh = veh_at_internal( p, part );
+
+                    const int cost = move_cost_internal( furniture, terrain, veh, part );
+
+                    if( cost > 2 ) {
+                        cur_value |= PF_SLOW;
+                    } else if( cost <= 0 ) {
+                        cur_value |= PF_WALL;
+                    }
+
+                    if( veh != nullptr ) {
+                        cur_value |= PF_VEHICLE;
+                    }
+
+                    for( auto const &fld : tile.get_field() ) {
+                        const field_entry &cur = fld.second;
+                        const field_id type = cur.getFieldType();
+                        const int density = cur.getFieldDensity();
+                        if( fieldlist[type].dangerous[density - 1] ) {
+                            cur_value |= PF_FIELD;
+                        }
+                    }
+
+                    if( !tile.get_trap_t().is_benign() || !terrain.trap.obj().is_benign() ) {
+                        cur_value |= PF_TRAP;
+                    }
+
+                    if( terrain.has_flag( TFLAG_GOES_DOWN ) || terrain.has_flag( TFLAG_GOES_UP ) ||
+                        terrain.has_flag( TFLAG_RAMP ) ) {
+                        cur_value |= PF_UPDOWN;
+                    }
+
+                    cache.special[p.x][p.y] = cur_value;
+                }
+            }
+        }
+    }
+
+    cache.dirty = false;
 }
 
 void map::clip_to_bounds( tripoint &p ) const

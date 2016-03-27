@@ -1,7 +1,7 @@
 [
     {
         "type": "item_group",
-        "id" : "rifles",
+        "id" : "guns_rifle_rare",
         "items" :[
           ["cw-24", 4],
           ["cwd-63", 5]
@@ -39,14 +39,6 @@
     },
     {
         "type": "item_group",
-        "id": "lmoe_guns",
-        "items": [
-          ["cw-24", 6],
-          ["cwd-63", 5]
-        ]
-    },
-    {
-        "type": "item_group",
         "id": "ammo",
         "items": [
           ["654", 4],
@@ -71,10 +63,16 @@
     },
     {
         "type": "item_group",
-        "id": "stash_ammo",
+        "id": "ammo_rifle_rare",
         "items": [
           ["654", 5],
-          ["654t", 2],
+          ["654t", 2]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "ammo_smg_rare",
+        "items": [
           ["20_dread", 2]
         ]
     },

@@ -244,9 +244,9 @@
             {"x": -3, "y": 0, "chance": 7, "items": ["jack", "wheel_wide"]},
             {"x": -2, "y": 2, "chance": 14, "items": ["2x4"]},
             {"x": -2, "y": 0, "chance": 15, "items": ["2x4"]},
-            {"x": -3, "y": 0, "chance": 2, "item_groups": ["bigtools"]},
-            {"x": -3, "y": 1, "chance": 10, "item_groups": ["mischw"]},
-            {"x": -3, "y": 2, "chance": 5, "item_groups": ["tools"]}
+            {"x": -3, "y": 0, "chance": 2, "item_groups": ["hardware"]},
+            {"x": -3, "y": 1, "chance": 10, "item_groups": ["hardware"]},
+            {"x": -3, "y": 2, "chance": 5, "item_groups": ["tools_carpentry"] }
         ]
     },{
         "type" : "vehicle",
@@ -369,9 +369,9 @@
             {"x": -4, "y": 3, "part": "roof"}
         ],
         "items" : [
-            {"x": -2, "y": 0, "chance": 5, "item_groups": ["tools"]},
-            {"x": -2, "y": 2, "chance": 5, "item_groups": ["tools"]},
-            {"x": -3, "y": 2, "chance": 2, "item_groups": ["bigtools"]}
+            { "x": -2, "y": 0, "chance": 5, "item_groups": [ "hardware" ] },
+            { "x": -2, "y": 2, "chance": 5, "item_groups": [ "hardware" ] },
+            { "x": -3, "y": 2, "chance": 2, "item_groups": [ "tools_carpentry" ] }
         ]
     },{
         "type" : "vehicle",

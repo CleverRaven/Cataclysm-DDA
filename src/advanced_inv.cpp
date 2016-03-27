@@ -632,7 +632,7 @@ void advanced_inv_area::init()
             if( veh != nullptr ) {
                 vstor = veh->part_with_feature( vstor, "CARGO", false );
             }
-            canputitemsloc = can_store_in_vehicle() || g->m.can_put_items( pos );
+            canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
             max_volume = g->m.max_volume( pos );
             if( can_store_in_vehicle() ) {
@@ -1985,7 +1985,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     }
 
     std::string err;
-    if( !dest_container.fill_with( src, err ) ) {
+    // @todo Allow buckets here, but require them to be on the ground or wielded
+    if( !dest_container.fill_with( src, err, false ) ) {
         popup( err.c_str() );
         return false;
     }

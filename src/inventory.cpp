@@ -450,7 +450,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
         if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
             const furn_t &f = g->m.furn_at( p );
-            itype *type = f.crafting_pseudo_item_type();
+            const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {
                 item furn_item(type->id, 0);
                 const itype *ammo = f.crafting_ammo_item_type();
@@ -662,7 +662,7 @@ std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
 
 item inventory::remove_item(const item *it)
 {
-    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    auto tmp = remove_items_with( [&it](const item& i) { return &i == it; }, 1 );
     if( !tmp.empty() ) {
         return tmp.front();
     }

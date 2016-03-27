@@ -946,7 +946,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         if( remotely_controlled ){
             menu.addentry( release_remote_control, true, 'l', _( "Stop controlling" ) );
         }
-        
+
         // iterate over all parts
         for( size_t p = 0; !has_electronic_controls && p < parts.size(); ++p ) {
             has_electronic_controls = part_flag( p, "CTRL_ELECTRONIC" ) ||
@@ -2737,10 +2737,10 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
 
         if (i == 0 && is_inside(pl[i])) {
             //~ indicates that a vehicle part is inside
-            mvwprintz(win, y, width-2-utf8_width(_("In")), c_ltgray, _("In"));
+            mvwprintz(win, y, width-2-utf8_width(_("Interior")), c_ltgray, _("Interior"));
         } else if (i == 0) {
             //~ indicates that a vehicle part is outside
-            mvwprintz(win, y, width-2-utf8_width(_("Out")), c_ltgray, _("Out"));
+            mvwprintz(win, y, width-2-utf8_width(_("Exterior")), c_ltgray, _("Exterior"));
         }
         y++;
     }
@@ -3601,9 +3601,9 @@ void vehicle::consume_fuel( double load = 1.0 )
         //cost proportional to strain
         int mod = 1 + 4 * st;
         if (one_in(10)) {
-            g->u.fatigue += mod;
             g->u.mod_hunger(mod);
-            g->u.thirst += mod;
+            g->u.mod_thirst(mod);
+            g->u.mod_fatigue(mod);
         }
         g->u.mod_stat( "stamina", -mod * 20);
     }
@@ -4575,12 +4575,14 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
-    std::vector<std::string> vpart_item_mats = type->materials;
+    const auto &mats = type->materials;
     float vpart_dens = 0;
-    for( auto mat_id : vpart_item_mats ) {
-        vpart_dens += material_type::find_material(mat_id)->density();
+    if( !mats.empty() ) {
+        for( auto &mat_id : mats ) {
+            vpart_dens += material_type::find_material( mat_id )->density();
+        }
+        vpart_dens /= mats.size(); // average
     }
-    vpart_dens /= vpart_item_mats.size(); // average
 
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj
@@ -4607,7 +4609,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Velocity of the object we're hitting
     // Assuming it starts at 0, but we'll probably hit it many times
     // in one collision, so accumulate the velocity gain from each hit.
-    float vel2 = 0;
+    float vel2 = 0.0f;
     do {
         smashed = false;
         // Impulse of vehicle
@@ -4709,7 +4711,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     fabs(e * mass * vel1_a) > fabs(mass2 * (10.0f - vel2_a)) ) {
                     // Also handle the weird case when we don't have enough force
                     // but still have to push (in such case compare momentum)
-                    const float push_force = fabs(vel2_a) > 10.0f ? fabs(vel2_a) : 10.1f;
+                    const float push_force = std::max<float>( fabs( vel2_a ), 10.1f );
                     const int angle_sum = vel2_a > 0 ?
                         move.dir() + angle : -(move.dir() + angle);
                     g->fling_creature( critter, angle_sum, push_force );
@@ -4730,7 +4732,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         }
 
-        coll_velocity = vel1_a * 100;
+        coll_velocity = vel1_a * ( smashed ? 100 : 90 );
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
@@ -4974,14 +4976,23 @@ bool vehicle::add_item (int part, item itm)
         }
     }
 
-    if ( cur_volume + add_volume > maxvolume ) {
+    if( cur_volume + add_volume > maxvolume ) {
         return false;
     }
+
     return add_item_at( part, parts[part].items.end(), itm );
 }
 
 bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
 {
+    if( itm.is_bucket_nonempty() ) {
+        for( auto &elem : itm.contents ) {
+            g->m.add_item_or_charges( global_part_pos3( part ), elem );
+        }
+
+        itm.contents.clear();
+    }
+
     const auto new_pos = parts[part].items.insert( index, itm );
     if( itm.needs_processing() ) {
         active_items.add( new_pos, parts[part].mount );
@@ -5991,15 +6002,11 @@ void vehicle::control_turrets() {
         for( int i = 0; i < (int)turrets.size(); i++ ) {
             int p = turrets[i];
             const item gun( part_info( p ).item, 0 );
-            bool charge = gun.is_charger_gun();
-            bool burst = gun.burst_size() > 1;
             char sym;
             if( parts[p].mode == 0 ) {
                 sym = ' ';
-            } else if( parts[p].mode > 9 && burst ) {
+            } else if( parts[p].mode > 9 && gun.burst_size() > 1 ) {
                 sym = 'B'; // Burst
-            } else if( parts[p].mode > 9 && charge ) {
-                sym = 'X'; // Big charge
             } else if( parts[p].mode > 0 && parts[p].mode < 10 ) {
                 sym = '0' + parts[p].mode;
             } else if( parts[p].mode < -1 ) {
@@ -6048,7 +6055,6 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
 
     vehicle_part &tr = parts[p];
     const bool auto_only = gun.has_flag("BURST_ONLY");
-    const bool burst_or_charge = gun.burst_size() > 1 || gun.is_charger_gun();
     const bool was_auto = tr.mode > 0;
     if( tr.mode < -1 && !auto_only ) {
         tr.mode = -1;
@@ -6057,18 +6063,14 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
         tr.mode = 1;
     } else if( tr.mode <= 1 && !only_manual_modes ) {
-        tr.mode = burst_or_charge ? 1000 : -1;
+        tr.mode = gun.burst_size() > 1 ? 1000 : -1;
     } else {
-        tr.mode = burst_or_charge ? -1000 : -1;
+        tr.mode = gun.burst_size() > 1 ? -1000 : -1;
     }
 
     if( only_manual_modes ) {
         const char *name = part_info( p ).name.c_str();
-        if( tr.mode < -1 && gun.is_charger_gun() ) {
-            add_msg( m_info, _("Setting turret %s to full power mode."), name );
-        } else if( tr.mode == -1 && gun.is_charger_gun() ) {
-            add_msg( m_info, _("Setting turret %s to low power mode."), name );
-        } else if( tr.mode < -1 ) {
+        if( tr.mode < -1 ) {
             add_msg( m_info, _("Setting turret %s to burst mode."), name );
         } else if( tr.mode == -1 ) {
             add_msg( m_info, _("Setting turret %s to single-fire mode."), name );
@@ -6154,18 +6156,6 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
         source = NONE;
         ammo = nullptr;
         charges = ammo_for;
-        return;
-    }
-
-    // In case of charger guns, we return max charge rather than max burst.
-    // Note that charger guns have special ammo type, but they consume regular "battery" ammo from
-    // the vehicle tank, therefor ammo != gun.curammo, but both have to be valid.
-    if ( gun.is_charger_gun() ) {
-        charge_mult *= 5;
-        source = TANK;
-        ammo = item::find_type( fuel_type_battery );
-        gun.set_curammo( "charge_shot" );
-        charges = std::min( ammo_for, power / charge_mult );
         return;
     }
 
@@ -6265,17 +6255,6 @@ bool vehicle::fire_turret( int p, bool manual )
     // note that guns that don't use ammo return 0 for ammo_required(), in which case
     // turret_data.charges will be the number of individual shots we can take
     long charges = std::max( turret_data.gun.ammo_required(), 1L );
-    if( turret_data.gun.is_charger_gun() ) {
-        if( one_in(100) ) {
-            charges = rng( 5, 8 ); // kaboom
-        } else {
-            charges = rng( 1, 4 );
-        }
-
-        if( charges > abs( parts[p].mode ) ) {
-            charges = abs( parts[p].mode ); // Currently only limiting, not increasing
-        }
-    }
 
     // check if we can fire at least one shot
     if( turret_data.charges - charges < 0 ) {
@@ -6285,20 +6264,17 @@ bool vehicle::fire_turret( int p, bool manual )
 
         return false;
     }
-    
+
     // set up for burst shots
     if( abs(parts[p].mode) > 1 ){
         charges *= turret_data.gun.burst_size();
         charges = std::min(charges, turret_data.charges);
     }
-    
+
     // Create a fake gun
     // @todo damage the gun based on part hp
     item gun( turret_data.gun.typeId(), turret_data.gun.bday );
-    if( gun.is_charger_gun() ) {
-        gun.charges = charges;
-        gun.update_charger_gun_ammo();
-    } else if( turret_data.gun.ammo_current() != "null" ) {
+    if( turret_data.gun.ammo_current() != "null" ) {
         gun.ammo_set( turret_data.gun.ammo_current(), charges );
     }
 
@@ -6445,8 +6421,8 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         const tripoint &targ = trajectory.back();
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
-        
-        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1; 
+
+        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1;
         res = shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
@@ -6460,8 +6436,8 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
     } else {
         // This shouldn't happen, not even if armor below the UPS is destroyed
         // ...but let's handle anyway
-        auto upses = shooter.remove_items_with( [] ( item &it ) {
-            return it.type->id == "fake_UPS";
+        auto upses = shooter.remove_items_with( [] ( const item& it ) {
+            return it.typeId() == "fake_UPS";
         } );
         for( auto &up : upses ) {
             refill( fuel_type_battery, up.charges );
@@ -6933,7 +6909,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             // Change back to the above if it runs too slowly
             m_part += j.weight();
         }
-        
+
         if( pi.has_flag( VPFLAG_BOARDABLE ) && parts[i].has_flag( vehicle_part::passenger_flag ) ) {
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!

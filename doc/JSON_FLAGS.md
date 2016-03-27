@@ -586,8 +586,9 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```INCENDIARY``` Lights target on fire.
 - ```NAPALM``` Explosion that spreads fire.
 - ```TEARGAS``` Generates a cloud of teargas.
-- ```SMOKE``` Generates a cloud of smoke.
-- ```SMOKE_BIG``` Generates a large cloud of smoke.
+- ```SMOKE``` Generates a cloud of smoke at the target.
+- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
+- ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
 - ```TRAIL``` Creates a trail of smoke.
 - ```FLARE``` Lights the target on fire.
 - ```FLASHBANG``` Blinds and deafens nearby targets.

@@ -11,6 +11,9 @@
 #include <map>
 
 using skill_id = string_id<Skill>;
+enum field_id : int;
+class field;
+class field_entry;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -122,16 +125,22 @@ class Character : public Creature, public visitable<Character>
 
         /** Getter for need values exclusive to characters */
         virtual int get_hunger() const;
+        virtual int get_thirst() const;
+        virtual int get_fatigue() const;
         virtual int get_stomach_food() const;
         virtual int get_stomach_water() const;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_hunger(int nhunger);
+        virtual void mod_thirst(int nthirst);
+        virtual void mod_fatigue(int nfatigue);
         virtual void mod_stomach_food(int n_stomach_food);
         virtual void mod_stomach_water(int n_stomach_water);
 
         /** Setters for need values exclusive to characters */
         virtual void set_hunger(int nhunger);
+        virtual void set_thirst(int nthirst);
+        virtual void set_fatigue(int nfatigue);
         virtual void set_stomach_food(int n_stomach_food);
         virtual void set_stomach_water(int n_stomach_water);
 
@@ -240,6 +249,8 @@ class Character : public Creature, public visitable<Character>
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
 
+        bool made_of( const material_id &m ) const override;
+
  private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
@@ -318,34 +329,6 @@ class Character : public Creature, public visitable<Character>
         std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
         std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
 
-        /**
-         * Removes the items that match the given filter.
-         * The returned items are a copy of the removed item.
-         * If no item has been removed, an empty list will be returned.
-         */
-        template<typename T>
-        std::list<item> remove_items_with( T filter )
-        {
-            // player usually interacts with items in the inventory the most (?)
-            std::list<item> result = inv.remove_items_with( filter );
-            for( auto iter = worn.begin(); iter != worn.end(); ) {
-                item &article = *iter;
-                if( filter( article ) ) {
-                    result.splice( result.begin(), worn, iter++ );
-                } else {
-                    result.splice( result.begin(), article.remove_items_with( filter ) );
-                    ++iter;
-                }
-            }
-            if( !weapon.is_null() ) {
-                if( filter( weapon ) ) {
-                    result.push_back( remove_weapon() );
-                } else {
-                    result.splice( result.begin(), weapon.remove_items_with( filter ) );
-                }
-            }
-            return result;
-        }
         /**
          * Similar to @ref remove_items_with, but considers only worn items and not their
          * content (@ref item::contents is not checked).
@@ -442,6 +425,8 @@ class Character : public Creature, public visitable<Character>
         SkillLevel const& get_skill_level(const Skill &_skill) const;
         SkillLevel const& get_skill_level(const skill_id &ident) const;
 
+        bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
+
         /** Return character dispersion penalty dependent upon relevant gun skill level */
         int skill_dispersion( const item& gun, bool random ) const;
 
@@ -472,6 +457,10 @@ class Character : public Creature, public visitable<Character>
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */
         virtual bool query_yn( const char *mes, ... ) const = 0;
+
+        bool is_dangerous_field( const field &fld ) const;
+        bool is_dangerous_field( const field_entry &entry ) const;
+        bool is_dangerous_field( const field_id fid ) const;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
@@ -569,9 +558,6 @@ class Character : public Creature, public visitable<Character>
         void load(JsonObject &jsin);
 
         // --------------- Values ---------------
-        /** Needs (hunger, thirst, fatigue, etc.) */
-        int hunger, stomach_food, stomach_water;
-
         std::map<const Skill*, SkillLevel> _skills;
 
         // Cached vision values.
@@ -580,6 +566,15 @@ class Character : public Creature, public visitable<Character>
 
         // turn the character expired, if -1 it has not been set yet.
         int turn_died = -1;
+
+    private:
+        /** Needs (hunger, thirst, fatigue, etc.) */
+        int hunger;
+        int thirst;
+        int fatigue;
+
+        int stomach_food;
+        int stomach_water;
 };
 
 #endif

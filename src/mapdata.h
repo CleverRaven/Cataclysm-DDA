@@ -275,9 +275,9 @@ struct furn_t : map_data_common_t {
     int move_str_req; //The amount of strength required to move through this terrain easily.
 
     // May return NULL
-    itype *crafting_pseudo_item_type() const;
+    const itype *crafting_pseudo_item_type() const;
     // May return NULL
-    itype *crafting_ammo_item_type() const;
+    const itype *crafting_ammo_item_type() const;
 };
 
 
@@ -356,7 +356,7 @@ extern ter_id t_null,
     // Walls
     t_wall_log_half, t_wall_log, t_wall_log_chipped, t_wall_log_broken, t_palisade, t_palisade_gate, t_palisade_gate_o,
     t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
-    t_wall, t_concrete_wall,
+    t_wall, t_concrete_wall, t_brick_wall,
     t_wall_metal,
     t_wall_glass,
     t_wall_glass_alarm,
@@ -400,7 +400,7 @@ extern ter_id t_null,
     t_generator_broken,
     t_missile, t_missile_exploded,
     t_radio_tower, t_radio_controls,
-    t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_barndoor, t_palisade_pulley,
+    t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick, t_barndoor, t_palisade_pulley,
     t_gates_control_metal,
     t_sewage_pipe, t_sewage_pump,
     t_centrifuge,

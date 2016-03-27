@@ -241,12 +241,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "laser_capacitor",
-        "name" : "charge",
-        "default" : "laser_pack"
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "plutonium",
         "name" : "plutonium",
         "default" : "plut_cell"
@@ -397,7 +391,7 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "ammo_flintlock",
+        "id" : "flintlock",
         "name" : "paper cartridge",
         "default" : "flintlock_ammo"
     },

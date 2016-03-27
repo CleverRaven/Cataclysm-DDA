@@ -46,9 +46,9 @@ Symbol and color representing monster in-game. The symbol must be a UTF-8 string
 Size flag, see JSON_FLAGS.md.
 
 ## "material"
-(string)
+(array of strings, optional)
 
-The material the monster is primarily composed of. Must be a valid material id.
+The materials the monster is primarily composed of. Must contain valid material ids. An empty array (which is the default) is also allowed, the monster is made of no specific material. One can add or remove entries in mods via "add:material" and "remove:material".
 
 ## "phase"
 (string, optional)

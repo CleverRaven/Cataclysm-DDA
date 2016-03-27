@@ -456,6 +456,7 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        int get_user_action_counter() const;
 
         std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
@@ -697,7 +698,7 @@ class game
         void reload(); // Reload a wielded gun/tool  'r'
         void reload(int pos);
 public:
-        void unload(item &it); // Unload a gun/tool  'U'
+        bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
@@ -826,6 +827,7 @@ private:
         special_game *gamemode;
 
         int moveCount; //Times the player has moved (not pause, sleep, etc)
+        int user_action_counter; // Times the user has input an action
         const int lookHeight; // Look Around window height
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */

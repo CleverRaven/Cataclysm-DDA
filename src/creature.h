@@ -24,6 +24,7 @@ struct trap;
 enum m_flag : int;
 enum field_id : int;
 enum damage_type : int;
+using material_id = std::string;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -315,6 +316,11 @@ class Creature
 
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
+        virtual void mod_pain_noresist(int npain);
+        virtual void set_pain(int npain);
+        virtual int get_pain() const;
+        virtual int get_perceived_pain() const;
+
         virtual void mod_moves(int nmoves);
         virtual void set_moves(int nmoves);
 
@@ -354,10 +360,7 @@ class Creature
         virtual int get_hp( hp_part bp = num_hp_parts ) const = 0;
         virtual int get_hp_max( hp_part bp = num_hp_parts ) const = 0;
         virtual int hp_percentage() const = 0;
-        virtual std::string get_material() const
-        {
-            return "flesh";
-        }
+        virtual bool made_of( const material_id &m ) const = 0;
         virtual field_id bloodType () const = 0;
         virtual field_id gibType () const = 0;
         // TODO: replumb this to use a std::string along with monster flags.
@@ -425,7 +428,7 @@ class Creature
         virtual int weight_capacity() const;
         virtual int get_weight() const;
 
-        int moves, pain;
+        int moves;
         bool underwater;
 
         void draw(WINDOW *w, int plx, int ply, bool inv) const;
@@ -551,6 +554,9 @@ class Creature
         void store(JsonOut &jsout) const;
         // Load creature data from the given json object.
         void load(JsonObject &jsin);
+
+    private:
+        int pain;
 };
 
 #endif

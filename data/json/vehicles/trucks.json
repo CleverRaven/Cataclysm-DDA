@@ -97,7 +97,7 @@
             {"x": 0, "y": 0, "chance": 2, "items": ["beer", "beer", "beer", "beer", "beer", "beer"]},
             {"x": -2, "y": 0, "chance": 7, "item_groups": "car_kit"},
             {"x": -2, "y": 1, "chance": 7, "items": ["jack", "wheel_wide"]},
-            {"x": -2, "y": 0, "chance": 2, "item_groups": "bigtools"}
+            {"x": -2, "y": 0, "chance": 2, "item_groups": "hardware"}
         ]
     },{
         "type" : "vehicle",
@@ -257,9 +257,9 @@
             {"x": 0, "y": 0, "chance": 10, "items": ["cig"]},
             {"x": 0, "y": 0, "chance": 5, "items": ["choco_coffee_beans"]},
             {"x": 0, "y": 1, "chance": 5, "items": ["colamdew"]},
-            {"x": -4, "y": 0, "chance": 12, "item_groups": ["tools"]},
+            {"x": -4, "y": 0, "chance": 12, "item_groups": ["car_kit"]},
             {"x": -4, "y": 0, "chance": 5, "item_groups": ["fuel_diesel"]},
-            {"x": -4, "y": 3, "chance": 10, "item_groups": ["tools"]}
+            {"x": -4, "y": 3, "chance": 10, "item_groups": ["car_kit"]}
         ]
     },{
         "type" : "vehicle",

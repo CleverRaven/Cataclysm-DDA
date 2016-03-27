@@ -332,7 +332,7 @@
         }
     ],
     "description":"The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND"],
@@ -400,7 +400,7 @@
     "hp":22,
     "death_function":"NORMAL",
     "description":"The Eastern coyote, also called the tweed wolf, is a territorial canine descended from the offspring of gray wolves and true coyotes.  It is intimidated by humans and other predators, but will fight if threatened.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -430,7 +430,7 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"The Northeastern coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -545,7 +545,7 @@
     "hp":30,
     "death_function":"NORMAL",
     "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -4065,7 +4065,6 @@
         "symbol":"O",
         "color":"black_green",
         "size":"HUGE",
-        "material":"null",
         "diff":40,
         "aggression":50,
         "morale":100,
@@ -4092,7 +4091,6 @@
         "symbol":"O",
         "color":"ltgray",
         "size":"LARGE",
-        "material":"null",
         "diff":10,
         "aggression":100,
         "morale":100,
@@ -4121,7 +4119,6 @@
         "symbol":"O",
         "color":"dkgray",
         "size":"MEDIUM",
-        "material":"null",
         "diff":19,
         "aggression":100,
         "morale":100,
@@ -4150,7 +4147,6 @@
         "symbol":"o",
         "color":"dkgray",
         "size":"SMALL",
-        "material":"null",
         "diff":2,
         "aggression":100,
         "morale":100,
@@ -4455,7 +4451,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A ferocious mutant dragonfly as big as a cat, darting through the air with a cluster of fangs for a mouth.",
-    "flags":["SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "ATTACKMON", "CHITIN"],
+    "flags":["SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "CHITIN"],
     "anger_triggers":["PLAYER_WEAK"],
     "fear_triggers":["PLAYER_CLOSE"]
     },{
@@ -4509,7 +4505,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A meter-long centipede with a menacing pair of pincers, moving swiftly on dozens of spindly legs.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT"]
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CHITIN", "FAT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_frog",
@@ -4577,7 +4573,7 @@
         }
     ],
     "description":"A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
-    "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -4737,7 +4733,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A wolf spider mutated to about thirty times its normal size, it moves quickly and aggressively to catch and consume prey.",
-    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "ATTACKMON", "CHITIN", "FAT", "CLIMBS"],
+    "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CHITIN", "FAT", "CLIMBS"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -5288,7 +5284,6 @@
     "symbol":"s",
     "color":"pink",
     "size":"MEDIUM",
-    "material":"null",
     "diff":28,
     "aggression":100,
     "morale":100,
@@ -5368,7 +5363,6 @@
     "symbol":"O",
     "color":"ltgray",
     "size":"LARGE",
-    "material":"null",
     "diff":20,
     "aggression":0,
     "morale":100,
@@ -5529,7 +5523,6 @@
     "symbol":"A",
     "color":"dkgray",
     "size":"TINY",
-    "material":"null",
     "diff":14,
     "aggression":100,
     "morale":100,
@@ -5557,7 +5550,6 @@
     "symbol":"S",
     "color":"dkgray",
     "size":"HUGE",
-    "material":"null",
     "diff":50,
     "aggression":2,
     "morale":500,
@@ -5585,7 +5577,6 @@
     "symbol":"O",
     "color":"pink",
     "size":"MEDIUM",
-    "material":"null",
     "diff":2,
     "aggression":0,
     "morale":0,
@@ -5611,7 +5602,6 @@
     "symbol":"o",
     "color":"pink",
     "size":"MEDIUM",
-    "material":"null",
     "diff":2,
     "aggression":0,
     "morale":0,
@@ -5663,7 +5653,6 @@
     "symbol":"&",
     "color":"dkgray",
     "size":"HUGE",
-    "material":"protoplasmic",
     "diff":20,
     "aggression":100,
     "morale":100,
@@ -6160,59 +6149,6 @@
     "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
-    "id" : "mon_secubot",
-    "name": "security bot",
-    "species":"ROBOT",
-    "default_faction":"defense_bot",
-    "symbol":"R",
-    "color":"dkgray",
-    "size":"SMALL",
-    "material":"steel",
-    "diff":19,
-    "aggression":100,
-    "morale":100,
-    "speed":70,
-    "melee_skill":0,
-    "melee_dice":0,
-    "melee_dice_sides":0,
-    "melee_cut":0,
-    "dodge":0,
-    "armor_bash":14,
-    "armor_cut":14,
-    "vision_day":50,
-    "death_drops": {
-        "groups": [
-            [ "robots", 4 ],
-            [ "secubot", 1]
-        ]
-    },
-    "hp":80,
-    "death_function":"EXPLODE",
-    "special_attacks":[
-        {
-            "type" : "gun",
-            "cooldown" : 2,
-            "gun_type" : "hk_mp5",
-            "ammo_type" : "9mm",
-            "max_ammo" : 1000,
-            "fake_str" : 16,
-            "fake_dex" : 8,
-            "fake_per" : 12,
-            "fake_skills" : [["gun", 4], ["smg", 8]],
-            "move_cost" : 150,
-            "targeting_cost" : 100,
-            "range" : 18,
-            "description" : "The turret fires its smg!",
-            "targeting_sound" : "beep-beep-beep!",
-            "targeting_volume" : 6,
-            "no_ammo_sound" : "a chk!"
-        }
-    ],
-    "starting_ammo" : {"9mm":100},
-    "description":"The Northrop Watchman X-1 is a production series of heavily armored combat robots.  Initially designed for military patrol and escort service, it rolls on a set of hydraulic treads and is armed with a 3\"/50 caliber gun.",
-    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"]
-    },{
-    "type" : "MONSTER",
     "id" : "mon_hazmatbot",
     "name": "cleaner bot",
     "species":"ROBOT",
@@ -6403,187 +6339,6 @@
     "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "NO_BREATHE", "ELECTRONIC"]
     },{
     "type" : "MONSTER",
-    "id" : "mon_turret",
-    "name": "turret",
-    "species":"ROBOT",
-    "default_faction":"defense_bot",
-    "symbol":"2",
-    "color":"ltgray",
-    "size":"SMALL",
-    "material":"steel",
-    "diff":14,
-    "aggression":100,
-    "morale":100,
-    "speed":100,
-    "melee_skill":0,
-    "melee_dice":0,
-    "melee_dice_sides":0,
-    "melee_cut":0,
-    "dodge":0,
-    "armor_bash":14,
-    "armor_cut":16,
-    "revert_to_itype": "bot_turret",
-    "death_drops": {
-        "groups": [
-            [ "robots", 10 ],
-            [ "turret", 1 ]
-        ]
-    },
-    "luminance":200,
-    "hp":30,
-    "death_function":"EXPLODE",
-    "special_attacks":[
-        {
-            "type" : "gun",
-            "cooldown" : 1,
-            "gun_type" : "hk_mp5",
-            "ammo_type" : "9mm",
-            "max_ammo" : 1000,
-            "fake_str" : 16,
-            "fake_dex" : 8,
-            "fake_per" : 12,
-            "fake_skills" : [["gun", 4], ["smg", 8]],
-            "move_cost" : 150,
-            "targeting_cost" : 100,
-            "range" : 18,
-            "description" : "The turret fires its smg!",
-            "targeting_sound" : "beep-beep-beep!",
-            "targeting_volume" : 6,
-            "no_ammo_sound" : "a chk!"
-        }
-    ],
-    "starting_ammo" : {"9mm":100},
-    "description":"The General Atomics TX-1 Guardian, a small, pill-shaped automated gun turret using state of the art ATR systems to dynamically reorient itself to new friends and enemies alike.  The two SMG barrels can swivel a full 360 degrees.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
-    },{
-        "type" : "MONSTER",
-    "id" : "mon_laserturret",
-    "name": "laser turret",
-    "species":"ROBOT",
-    "default_faction":"military",
-    "symbol":"2",
-    "color":"white",
-    "size":"SMALL",
-    "material":"steel",
-    "diff":14,
-    "aggression":100,
-    "morale":100,
-    "speed":100,
-    "melee_skill":0,
-    "melee_dice":0,
-    "melee_dice_sides":0,
-    "melee_cut":0,
-    "dodge":0,
-    "armor_bash":14,
-    "armor_cut":16,
-    "revert_to_itype": "bot_laserturret",
-    "death_drops": {
-        "groups": [
-            [ "robots", 10 ],
-            [ "laserturret", 1 ]
-        ]
-    },
-    "luminance":200,
-    "hp":30,
-    "death_function":"EXPLODE",
-    "special_attacks":[["LASER", 1]],
-    "description":"The TX-5LR Cerberus is an upgrade to its predecessors.  It features a state of the art revolving laser cannon system with three barrels that charge from solar cells embedded in its hull.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_turret_rifle",
-    "name": "milspec turret",
-    "species":"ROBOT",
-    "default_faction":"military",
-    "symbol":"2",
-    "color":"green",
-    "size":"SMALL",
-    "material":"steel",
-    "diff":20,
-    "aggression":100,
-    "morale":100,
-    "speed":100,
-    "melee_skill":0,
-    "melee_dice":0,
-    "melee_dice_sides":0,
-    "melee_cut":0,
-    "dodge":0,
-    "armor_bash":14,
-    "armor_cut":16,
-    "revert_to_itype": "bot_rifleturret",
-    "death_drops": {
-        "groups": [
-            [ "robots", 9 ],
-            [ "turret_rifle", 2 ]
-        ]
-    },
-    "luminance":210,
-    "hp":40,
-    "death_function":"EXPLODE",
-    "special_attacks":[["RIFLE_TUR", 1]],
-    "starting_ammo" : {"556":100},
-    "description":"Leadworks LLC's T-4A1 Sentry.  It features improved firmware over General Atomics' TX-1 9mm model and an automated M4 carbine.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_turret_bmg",
-    "name": "antimateriel turret",
-    "species":"ROBOT",
-    "default_faction":"military",
-    "symbol":"2",
-    "color":"green",
-    "size":"MEDIUM",
-    "material":"steel",
-    "diff":30,
-    "aggression":100,
-    "morale":100,
-    "speed":100,
-    "melee_skill":0,
-    "melee_dice":0,
-    "melee_dice_sides":0,
-    "melee_cut":0,
-    "dodge":0,
-    "armor_bash":14,
-    "armor_cut":16,
-    "death_drops": {
-        "groups": [
-            [ "robots", 9 ],
-            [ "turret_bmg", 2 ]
-        ]
-    },
-    "luminance":210,
-    "hp":40,
-    "death_function":"EXPLODE",
-    "special_attacks":[
-        {
-            "type" : "gun",
-            "cooldown" : 1,
-            "gun_type" : "m107a1",
-            "ammo_type" : "50bmg",
-            "max_ammo" : 500,
-            "fake_str" : 16,
-            "fake_dex" : 12,
-            "fake_per" : 12,
-            "fake_skills" : [["gun", 8], ["rifle", 8]],
-            "move_cost" : 150,
-            "targeting_cost" : 200,
-            "range" : 30,
-            "laser_lock" : true,
-            "require_targeting_player" : true,
-            "require_targeting_npc" : true,
-            "require_targeting_monster" : true,
-            "targeting_timeout_extend" : -10,
-            "description" : "The antimateriel turret aims and fires!",
-            "targeting_sound" : "\"Hostile detected.\"",
-            "targeting_volume" : 10,
-            "no_ammo_sound" : "a chk!"
-        }
-    ],
-    "starting_ammo" : {"50bmg":100},
-    "description":"Leadworks LLC's T-107A1 Interdictor, an automated .50BMG antimateriel rifle.  Credited with forestalling countless car-bombing attempts, it has always been kept under extremely tight control, so as to itself maintain extremely tight control of its area.  And then the Cataclysm struck.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
-    },{
-    "type" : "MONSTER",
     "id" : "mon_turret_searchlight",
     "name": "milspec searchlight",
     "species":"ROBOT",
@@ -6701,7 +6456,6 @@
     "symbol":"O",
     "color":"ltgreen",
     "size":"MEDIUM",
-    "material":"null",
     "diff":19,
     "aggression":75,
     "morale":100,
@@ -6904,7 +6658,7 @@
     "hp":50,
     "death_function":"NORMAL",
     "description":"A mutant, terrestrial variety of the signal crayfish, this massive crustacean resembles a humongous lobster.",
-    "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "ATTACKMON", "GRABS", "FAT", "ARTHROPOD_BLOOD"],
+    "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "FAT", "ARTHROPOD_BLOOD"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
     },{

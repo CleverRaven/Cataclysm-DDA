@@ -1,0 +1,30 @@
+[
+  {
+    "abstract": "pistol_base",
+    "type": "GUN",
+    "name": "base pistol",
+    "skill": "pistol",
+    "aim_speed": 4
+  },
+  {
+    "abstract": "rifle_base",
+    "type": "GUN",
+    "name": "base rifle",
+    "skill": "rifle",
+    "aim_speed": 8
+  },
+  {
+    "abstract": "shotgun_base",
+    "type": "GUN",
+    "name": "base shotgun",
+    "skill": "shotgun",
+    "aim_speed": 6
+  },
+  {
+    "abstract": "smg_base",
+    "type": "GUN",
+    "name": "base SMG",
+    "skill": "smg",
+    "aim_speed": 6
+  }
+]

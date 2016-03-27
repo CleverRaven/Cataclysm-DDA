@@ -320,14 +320,14 @@ std::string monster::name_with_armor() const
     std::string ret;
     if( type->in_species( INSECT ) ) {
         ret = string_format(_("carapace"));
-    } else if( type->has_material("veggy") ) {
+    } else if( type->made_of( material_id( "veggy" ) ) ) {
         ret = string_format(_("thick bark"));
-    } else if( type->has_material("flesh") || type->has_material("hflesh") ||
-               type->has_material("iflesh") ) {
+    } else if( type->made_of( material_id( "flesh" ) ) || type->made_of( material_id( "hflesh" ) ) ||
+               type->made_of( material_id( "iflesh" ) ) ) {
         ret = string_format(_("thick hide"));
-    } else if( type->has_material("iron") || type->has_material("steel")) {
+    } else if( type->made_of( material_id( "iron" ) ) || type->made_of( material_id( "steel" ) )) {
         ret = string_format(_("armor plating"));
-    } else if( type->has_material("protoplasmic") ) {
+    } else if( type->made_of( material_id( "protoplasmic" ) ) ) {
         ret = string_format(_("hard protoplasmic hide"));
     }
     return ret;
@@ -543,9 +543,9 @@ int monster::sight_range( const int light_level ) const
     return range;
 }
 
-bool monster::made_of( const std::string &m ) const
+bool monster::made_of( const material_id &m ) const
 {
-    return type->has_material( m );
+    return type->made_of( m );
 }
 
 bool monster::made_of(phase_id p) const
@@ -1119,16 +1119,12 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     switch (du.type) {
     case DT_ELECTRIC:
         if (has_flag(MF_ELECTRIC)) {
-            damage += 0; // immunity
-            pain += 0;
-            return; // returns, since we don't want a fallthrough
+            return; // immunity
         }
         break;
     case DT_COLD:
         if (!has_flag(MF_WARM)) {
-            damage += 0; // immunity
-            pain += 0;
-            return;
+            return; // immunity
         }
         break;
     case DT_BASH:
@@ -1143,9 +1139,7 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
         break;
     case DT_ACID:
         if( has_flag( MF_ACIDPROOF ) ) {
-            damage += 0; // immunity
-            pain += 0;
-            return;
+            return; // immunity
         }
     case DT_TRUE: // typeless damage, should always go through
     case DT_BIOLOGICAL: // internal damage, like from smoke or poison
@@ -1815,9 +1809,9 @@ bool monster::make_fungus()
     if( type->in_species( FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
-    if( !type->has_material("flesh") && !type->has_material("hflesh") &&
-        !type->has_material("veggy") && !type->has_material("iflesh") &&
-        !type->has_material("bone") ) {
+    if( !type->made_of( material_id( "flesh" ) ) && !type->made_of( material_id( "hflesh" ) ) &&
+        !type->made_of( material_id( "veggy" ) ) && !type->made_of( material_id( "iflesh" ) ) &&
+        !type->made_of( material_id( "bone" ) ) ) {
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
@@ -2065,11 +2059,6 @@ int monster::get_hp_max() const
     return type->hp;
 }
 
-std::string monster::get_material() const
-{
-    return type->mat[0];
-}
-
 void monster::hear_sound( const tripoint &source, const int vol, const int dist )
 {
     if( !can_hear() ) {
@@ -2131,7 +2120,7 @@ void monster::on_load()
         regen = 10.0f;
     } else if( has_flag( MF_REVIVES ) ) {
         regen = 1.0f / HOURS(1);
-    } else if( type->has_material( "flesh" ) || type->has_material( "veggy" ) ) {
+    } else if( type->made_of( material_id( "flesh" ) ) || type->made_of( material_id( "veggy" ) ) ) {
         // Most living stuff here
         regen = 0.25f / HOURS(1);
     }

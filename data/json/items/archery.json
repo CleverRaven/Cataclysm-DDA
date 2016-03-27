@@ -829,7 +829,7 @@
       "name" : "reflex recurve bow",
       "description" : "A bow that combines the traits from both the reflex and the recurve bows, with both limbs and tips curving away from the archer.  This dramatically increases the power and requires significant strength to draw the bow effectively.",
       "price" : 72000,
-      "material" : ["wood", "null"],
+      "material" : ["wood"],
       "flags" : ["FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON"],
       "skill" : "archery",
       "min_strength" : 6,

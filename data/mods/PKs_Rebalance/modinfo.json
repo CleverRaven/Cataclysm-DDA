@@ -1,0 +1,12 @@
+[
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "PK_REBALANCE",
+    "name": "PKs Rebalancing",
+    "description": "Rebalances spawning and adds critters.  Currently in the process of updating, please see the forums for the full mod.",
+    "category": "creatures",
+    "author": "pisskop",
+    "path": ""
+}
+]

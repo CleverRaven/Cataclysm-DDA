@@ -34,7 +34,9 @@ const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_throw( "throw" );
 
-Character::Character()
+const std::string debug_nodmg( "DEBUG_NODMG" );
+
+Character::Character() : Creature(), visitable<Character>()
 {
     str_max = 0;
     dex_max = 0;
@@ -51,11 +53,12 @@ Character::Character()
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
+    thirst = 0;
+    fatigue = 0;
     stomach_food = 0;
     stomach_water = 0;
 
     name = "";
-    Creature::set_speed_base(100);
 }
 
 field_id Character::bloodType() const
@@ -459,7 +462,7 @@ float Character::get_vision_threshold(int light_level) const {
      */
     if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
         // Debug vision always works with absurdly little light.
-        threshold = 0.01;
+        return 0.01;
     } else if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
                vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         if( vision_mode_cache[BIRD_EYE] ) {
@@ -566,14 +569,17 @@ std::vector<const item *> Character::items_with( const std::function<bool(const 
 
 item& Character::i_add(item it)
 {
- itype_id item_type_id = "null";
- if( it.type ) item_type_id = it.type->id;
+    itype_id item_type_id = "null";
+    if( it.type ) {
+        item_type_id = it.type->id;
+    }
 
- last_item = item_type_id;
+    last_item = item_type_id;
 
- if (it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
-     it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container())
-  inv.unsort();
+    if( it.is_food() || it.is_ammo() || it.is_gun()  || it.is_armor() ||
+        it.is_book() || it.is_tool() || it.is_weap() || it.is_food_container() ) {
+        inv.unsort();
+    }
 
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
@@ -585,6 +591,7 @@ item& Character::i_add(item it)
             break;
         }
     }
+
     auto &item_in_inv = inv.add_item(it, keep_invlet);
     item_in_inv.on_pickup( *this );
     return item_in_inv;
@@ -662,7 +669,7 @@ item Character::i_rem(int pos)
 
 item Character::i_rem(const item *it)
 {
-    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; }, 1 );
     if( tmp.empty() ) {
         debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
         return ret_null;
@@ -688,7 +695,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
         }
         if( drop ) {
             retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
-        } else if ( !( it.has_flag("IRREMOVEABLE") && !it.is_gun() ) ){
+        } else if ( !( it.has_flag("IRREMOVABLE") && !it.is_gun() ) ){
             i_add(it);
         }
     }
@@ -719,9 +726,6 @@ bool Character::has_active_item(const itype_id & id) const
 
 item Character::remove_weapon()
 {
-    if( weapon.active ) {
-        weapon.deactivate_charger_gun();
-    }
  item tmp = weapon;
  weapon = ret_null;
  return tmp;
@@ -991,6 +995,13 @@ SkillLevel const& Character::get_skill_level(const skill_id &ident) const
         return none;
     }
     return get_skill_level( &ident.obj() );
+}
+
+bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
+{
+    return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {
+        return get_skill_level( pr.first ) >= pr.second;
+    });
 }
 
 int Character::skill_dispersion( const item& gun, bool random ) const
@@ -1516,13 +1527,30 @@ int Character::get_hunger() const
 {
     return hunger;
 }
+
 void Character::mod_hunger(int nhunger)
 {
-    hunger += nhunger;
+    set_hunger( hunger + nhunger );
 }
+
 void Character::set_hunger(int nhunger)
 {
     hunger = nhunger;
+}
+
+int Character::get_thirst() const
+{
+    return thirst;
+}
+
+void Character::mod_thirst(int nthirst)
+{
+    set_thirst( thirst + nthirst );
+}
+
+void Character::set_thirst(int nthirst)
+{
+    thirst = nthirst;
 }
 
 int Character::get_stomach_food() const
@@ -1548,6 +1576,21 @@ void Character::mod_stomach_water(int n_stomach_water)
 void Character::set_stomach_water(int n_stomach_water)
 {
     stomach_water = std::max(0, n_stomach_water);
+}
+
+void Character::mod_fatigue(int nfatigue)
+{
+    set_fatigue(fatigue + nfatigue);
+}
+
+void Character::set_fatigue(int nfatigue)
+{
+    fatigue = std::max( nfatigue, -1000 );
+}
+
+int Character::get_fatigue() const
+{
+    return fatigue;
 }
 
 void Character::reset_bonuses()
@@ -1833,6 +1876,80 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
+bool Character::is_dangerous_field( const field &fd ) const
+{
+    if( fd.fieldCount() == 0 || has_trait( debug_nodmg ) ) {
+        return false;
+    }
+
+    for( auto &fld : fd ) {
+        if( is_dangerous_field( fld.second ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Character::is_dangerous_field( const field_entry &entry ) const
+{
+    const field_id fid = entry.getFieldType();
+    switch( fid ) {
+        // @todo Lower density fields are less dangerous
+        case fd_smoke:
+        case fd_tear_gas:
+        case fd_toxic_gas:
+        case fd_gas_vent:
+        case fd_relax_gas:
+        case fd_fungal_haze:
+        case fd_electricity:
+        case fd_acid:
+            return is_dangerous_field( fid );
+        default:
+            return !has_trait( debug_nodmg ) && entry.is_dangerous();
+    }
+
+    return false;
+}
+
+bool Character::is_dangerous_field( const field_id fid ) const
+{
+    if( has_trait( debug_nodmg ) ) {
+        return false;
+    }
+
+    switch( fid ) {
+        case fd_smoke:
+            return get_env_resist( bp_mouth ) < 12;
+        case fd_tear_gas:
+        case fd_toxic_gas:
+        case fd_gas_vent:
+        case fd_relax_gas:
+            return get_env_resist( bp_mouth ) < 15;
+        case fd_fungal_haze:
+            return get_env_resist( bp_mouth ) < 15 ||
+                   get_env_resist( bp_eyes ) < 15 ||
+                   has_trait("M_IMMUNE");
+        case fd_electricity:
+            return !is_elec_immune();
+        case fd_acid:
+            return !has_trait("ACIDPROOF") &&
+                   (is_on_ground() ||
+                   get_env_resist( bp_foot_l ) < 15 ||
+                   get_env_resist( bp_foot_r ) < 15 ||
+                   get_env_resist( bp_leg_l ) < 15 ||
+                   get_env_resist( bp_leg_r ) < 15 ||
+                   get_armor_type( DT_ACID, bp_foot_l ) < 5 ||
+                   get_armor_type( DT_ACID, bp_foot_r ) < 5 ||
+                   get_armor_type( DT_ACID, bp_leg_l ) < 5 ||
+                   get_armor_type( DT_ACID, bp_leg_r ) < 5);
+        default:
+            return field_type_dangerous( fid );
+    }
+
+    return false;
+}
+
 int Character::throw_range( const item &it ) const
 {
     if( it.is_null() ) {
@@ -1870,3 +1987,8 @@ int Character::throw_range( const item &it ) const
     return ret;
 }
 
+bool Character::made_of( const material_id &m ) const {
+    // TODO: check for mutations that change this.
+    static const std::vector<material_id> fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
+    return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+}

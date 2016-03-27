@@ -32,6 +32,7 @@ const skill_id skill_archery( "archery" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
+const skill_id skill_driving( "driving" );
 
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
@@ -39,7 +40,7 @@ const efftype_id effect_bounced( "bounced" );
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 static inline void eject_casing( player& p, item& weap );
-int recoil_add( player& p, const item& gun );
+int recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
@@ -141,6 +142,14 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     } else {
         // Go around obstacles a little if we're on target.
         trajectory = g->m.find_clear_path( source, target );
+    }
+
+    if( proj_effects.count( "MUZZLE_SMOKE" ) ) {
+        for( const auto& e : closest_tripoints_first( 1, trajectory.empty() ? source : trajectory[ 0 ] ) ) {
+            if( one_in( 2 ) ) {
+                g->m.add_field( e, fd_smoke, 1, 0 );
+            }
+        }
     }
 
     add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f",
@@ -376,15 +385,13 @@ int player::fire_gun( const tripoint &target, int shots )
 
 int player::fire_gun( const tripoint &target, int shots, item& gun )
 {
-    const bool is_charger_gun = gun.update_charger_gun_ammo();
-
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return 0;
     }
 
     // Number of shots to fire is limited by the ammount of remaining ammo
-    if( gun.ammo_required() && !is_charger_gun ) {
+    if( gun.ammo_required() ) {
         shots = std::min( shots, int( gun.ammo_remaining() / gun.ammo_required() ) );
     }
 
@@ -416,6 +423,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
     tripoint aim = target;
     int curshot = 0;
+    int burst = 0; // count of shots against current target
     for( ; curshot != shots; ++curshot ) {
 
 
@@ -437,7 +445,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         // if we are firing a turret don't apply that recoil to the player
         // @todo turrets need to accumulate recoil themselves
-        recoil_add( *this, gun );
+        recoil_add( *this, gun, ++burst );
 
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
@@ -447,8 +455,6 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         if( gun.has_flag( "BIO_WEAPON" ) ) {
             // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
             gun.charges--;
-        } else if( gun.deactivate_charger_gun() ) {
-            // Deactivated charger gun
         } else {
             if( !gun.ammo_consume( gun.ammo_required(), pos() ) ) {
                 debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
@@ -502,6 +508,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
                 break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
             }
             aim = random_entry( hostiles )->pos();
+            burst = 0;
         }
     }
 
@@ -707,6 +714,26 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
+static std::string print_recoil( const player &p)
+{
+    if( p.weapon.is_gun() ) {
+        const int adj_recoil = p.recoil + p.driving_recoil;
+        if( adj_recoil > MIN_RECOIL ) {
+            // 150 is the minimum when not actively aiming
+            const char *color_name = "c_ltgray";
+            if( adj_recoil >= 690 ) {
+                color_name = "c_red";
+            } else if( adj_recoil >= 450 ) {
+                color_name = "c_ltred";
+            } else if( adj_recoil >= 210 ) {
+                color_name = "c_yellow";
+            }
+            return string_format("<color_%s>%s</color>", color_name, _("Recoil"));
+        }
+    }
+    return std::string();
+}
+
 // Draws the static portions of the targeting menu,
 // returns the number of lines used to draw instructions.
 static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, target_mode mode,
@@ -728,7 +755,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                 title = string_format( _( "Firing %s" ), relevant->tname().c_str() );
             }
             title += " ";
-            title += p.print_recoil();
+            title += print_recoil( p );
         } else if( mode == TARGET_MODE_THROW ) {
             title = string_format( _("Throwing %s"), relevant->tname().c_str());
         } else {
@@ -823,13 +850,72 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
     }
 }
 
+static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *weapon,
+                           Creature *target, int predicted_recoil ) {
+    // This is absolute accuracy for the player.
+    // TODO: push the calculations duplicated from Creature::deal_projectile_attack() and
+    // Creature::projectile_attack() into shared methods.
+    // Dodge is intentionally not accounted for.
+
+    // Confidence is chance of the actual shot being under the target threshold,
+    // This simplifies the calculation greatly, that's intentional.
+    const double aim_level = predicted_recoil + p.driving_recoil +
+        p.get_weapon_dispersion( weapon, false );
+    const double range = rl_dist( p.pos(), target->pos() );
+    const double missed_by = aim_level * 0.00021666666666666666 * range;
+    const double hit_rating = missed_by / std::max( double( p.get_speed() ) / 80., 1.0 );
+    const double confidence = 1 / hit_rating;
+    // This is a relative measure of how steady the player's aim is,
+    // 0 it is the best the player can do.
+    const double steady_score = predicted_recoil - p.weapon.sight_dispersion( -1 );
+    // Fairly arbitrary cap on steadiness...
+    const double steadiness = 1.0 - steady_score / 250;
+
+    const std::array<std::pair<double, char>, 3> confidence_ratings = {{
+        std::make_pair( 0.1, '*' ),
+        std::make_pair( 0.4, '+' ),
+        std::make_pair( 0.6, '|' ) }};
+
+    const int window_width = getmaxx( w ) - 2; // Window width minus borders.
+    const std::string &confidence_bar = get_labeled_bar( confidence, window_width, _( "Confidence" ),
+                                                         confidence_ratings.begin(),
+                                                         confidence_ratings.end() );
+    const std::string &steadiness_bar = get_labeled_bar( steadiness, window_width,
+                                                         _( "Steadiness" ), '*' );
+
+    mvwprintw( w, line_number++, 1, _( "Symbols: * = Headshot + = Hit | = Graze" ) );
+    mvwprintw( w, line_number++, 1, confidence_bar.c_str() );
+    mvwprintw( w, line_number++, 1, steadiness_bar.c_str() );
+
+    return line_number;
+}
+
+static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const tripoint &targ )
+{
+    vehicle *veh = g->m.veh_at( p.pos() );
+    if( veh == nullptr ) {
+        debugmsg( "Tried to aim turret while outside vehicle" );
+        return line_number;
+    }
+
+    const auto turret_state = veh->turrets_can_shoot( targ );
+    int num_ok = 0;
+    for( const auto &pr : turret_state ) {
+        if( pr.second == turret_all_ok ) {
+            num_ok++;
+        }
+    }
+
+    mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), num_ok );
+    return line_number;
+}
+
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const tripoint &high,
                                     std::vector<Creature *> t, int &target,
                                     item *relevant, target_mode mode,
                                     const tripoint &from_arg )
 {
-
     std::vector<tripoint> ret;
     tripoint from = from_arg;
     if( from == tripoint_min ) {
@@ -1048,12 +1134,16 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             } else {
                 predicted_recoil = u.recoil;
             }
-            line_number = u.print_aim_bars( w_target, line_number, relevant, critter, predicted_recoil );
+            if( relevant->gunmod_current() ) {
+                line_number = print_aim_bars( u, w_target, line_number, relevant->gunmod_current(), critter, predicted_recoil );
+            } else {
+                line_number = print_aim_bars( u, w_target, line_number, relevant, critter, predicted_recoil );
+            }
             if( aim_mode->has_threshold ) {
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
-            line_number = u.draw_turret_aim( w_target, line_number, p );
+            line_number = draw_turret_aim( u, w_target, line_number, p );
         }
 
         wrefresh(w_target);
@@ -1405,18 +1495,27 @@ static int rand_or_max( bool random, int max )
     return random ? rng(0, max) : max;
 }
 
+static bool is_driving( const player &p )
+{
+    const auto veh = g->m.veh_at( p.pos() );
+    return veh && veh->velocity != 0 && veh->player_in_control( p );
+}
+
+
 // utility functions for projectile_attack
 double player::get_weapon_dispersion( const item *weapon, bool random ) const
 {
-    if( weapon->is_gun() && weapon->is_in_auxiliary_mode() ) {
-        const auto gunmod = weapon->gunmod_current();
-        if( gunmod != nullptr ) {
-            return get_weapon_dispersion( gunmod, random );
-        }
-    }
-
     double dispersion = 0.; // Measured in quarter-degrees.
     dispersion += skill_dispersion( *weapon, random );
+
+    if( is_driving( *this ) ) {
+        // get volume of gun (or for auxiliary gunmods the parent gun)
+        const item *parent = has_item( *weapon ) ? find_parent( *weapon ) : nullptr;
+        int vol = parent ? parent->volume() : weapon->volume();
+
+        ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
+        dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
+    }
 
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
@@ -1444,13 +1543,10 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
         dispersion *= 4;
     }
 
-    if (dispersion < 0) {
-        return 0;
-    }
-    return dispersion;
+    return std::max( dispersion, 0.0 );
 }
 
-int recoil_add( player& p, const item &gun )
+int recoil_add( player& p, const item &gun, int shot )
 {
     if( p.has_effect( effect_on_roof ) ) {
         // @todo fix handling of turret recoil
@@ -1468,6 +1564,10 @@ int recoil_add( player& p, const item &gun )
     ///\EFFECT_SMG randomly decreases recoil with appropriate guns
     qty -= rng( 0, p.get_skill_level( gun.gun_skill() ) * 7 );
 
+    // when firing in bursts reduce the penalty from each sucessive shot
+    double k = 1.6; // 5 round burst is equivalent to ~2 individually aimed shots
+    qty *= pow( 1.0 / sqrt( shot ), k );
+
     return p.recoil += std::max( qty, 0 );
 }
 
@@ -1480,7 +1580,7 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
     if( !target->is_npc() && !target->is_player() ) {
         //Check if the creature isn't an NPC or the player (so the cast works)
         const monster *mon = dynamic_cast<const monster *>(target);
-        if (mon->is_hallucination() || mon->get_material() != "flesh" ||
+        if (mon->is_hallucination() || !mon->made_of( material_id( "flesh" ) ) ||
             mon->has_flag( MF_VERMIN)) {
             // If it is a hallucination, not made of flesh, or a vermin creature,
             // don't splatter the blood.

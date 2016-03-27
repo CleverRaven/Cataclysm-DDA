@@ -1,5 +1,22 @@
 [
   {
+    "id" : "calicomag",
+    "type" : "MAGAZINE",
+    "name" : "Calico magazine",
+    "description" : "A surprisingly compact 50-round helical magazine for use with the Calico M960 SMG.",
+    "weight" : 490,
+    "volume" : 2,
+    "price" : 9920,
+    "material" : "steel",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "9mm",
+    "capacity" : 50,
+    "reliability" : 7,
+    "reload_time" : 160,
+    "flags" : [ "MAG_COMPACT" ]
+  },
+  {
     "id" : "glockbigmag",
     "type" : "MAGAZINE",
     "name" : "Glock extended magazine",
@@ -151,6 +168,23 @@
     "reliability" : 5,
     "reload_time" : 160,
     "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id" : "tec9mag",
+    "type" : "MAGAZINE",
+    "name" : "TEC-9 magazine",
+    "description" : "A cheap and somewhat unreliable 32-round steel box magazine for use with the TEC-9 SMG.",
+    "weight" : 220,
+    "volume" : 2,
+    "price" : 3100,
+    "material" : "steel",
+    "symbol" : "#",
+    "color" : "ltgray",
+    "ammo_type" : "9mm",
+    "capacity" : 32,
+    "reliability" : 7,
+    "reload_time" : 100,
+    "flags" : [ "MAG_COMPACT" ]
   },
   {
     "id" : "usp9mag",

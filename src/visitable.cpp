@@ -7,6 +7,7 @@
 #include "map_selector.h"
 #include "vehicle_selector.h"
 #include "map.h"
+#include "submap.h"
 #include "vehicle.h"
 #include "game.h"
 
@@ -15,12 +16,12 @@ item *visitable<T>::find_parent( const item &it )
 {
     item *res = nullptr;
     if( visit_items_with_parent( [&]( item * node, item * parent ) {
-                if( node == &it ) {
-                    res = parent;
-                    return VisitResponse::ABORT;
-                }
-                return VisitResponse::NEXT;
-            } ) != VisitResponse::ABORT ) {
+    if( node == &it ) {
+            res = parent;
+            return VisitResponse::ABORT;
+        }
+        return VisitResponse::NEXT;
+    } ) != VisitResponse::ABORT ) {
         debugmsg( "Tried to find item parent using an object that doesn't contain it" );
     }
     return res;
@@ -211,6 +212,265 @@ VisitResponse visitable<vehicle_selector>::visit_items_with_parent(
     }
     return VisitResponse::NEXT;
 }
+
+// Specialize visitable<T>::remove_items_with() for each class that will implement the visitable interface
+
+template <typename T>
+item visitable<T>::remove_item( item& it ) {
+    auto obj = remove_items_with( [&it]( const item& e ) { return &e == &it; }, 1 );
+    if( !obj.empty() ) {
+        return obj.front();
+
+    } else {
+        debugmsg( "Tried removing item from object which did not contain it" );
+        return item();
+    }
+}
+
+template <typename OutputIterator>
+static void remove_internal( const std::function<bool( item & )> &filter, item &node, int &count,
+                             OutputIterator out )
+{
+    for( auto it = node.contents.begin(); it != node.contents.end(); ) {
+        if( filter( *it ) ) {
+            out = std::move( *it );
+            it = node.contents.erase( it );
+            if( --count == 0 ) {
+                return;
+            }
+        } else {
+            remove_internal( filter, *it, count, out );
+            ++it;
+        }
+    }
+}
+
+template <>
+std::list<item> visitable<item>::remove_items_with( const std::function<bool( const item &e )>
+        &filter, int count )
+{
+    auto it = static_cast<item *>( this );
+    std::list<item> res;
+
+    if( count <= 0 ) {
+        return res; // nothing to do
+    }
+
+    remove_internal( filter, *it, count, std::back_inserter( res ) );
+    return res;
+}
+
+
+template <>
+std::list<item> visitable<inventory>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    auto inv = static_cast<inventory *>( this );
+    std::list<item> res;
+
+    if( count <= 0 ) {
+        return res; // nothing to do
+    }
+
+    for( auto stack = inv->items.begin(); stack != inv->items.end(); ) {
+        // all items in a stack are identical so we only need to call the predicate once
+        if( filter( stack->front() ) ) {
+
+            if( count >= int( stack->size() ) ) {
+                // remove the entire stack
+                count -= stack->size();
+                res.splice( res.end(), *stack );
+                stack = inv->items.erase( stack );
+                if( count == 0 ) {
+                    return res;
+                }
+
+            } else {
+                // remove only some of the stack
+                char invlet = stack->front().invlet;
+                auto fin = stack->begin();
+                std::advance( fin, count );
+                res.splice( res.end(), *stack, stack->begin(), fin );
+                stack->front().invlet = invlet; // preserve invlet for remaining stacked items
+                return res;
+            }
+
+        } else {
+            // recurse through the contents of each stacked item separately
+            for( auto &e : *stack ) {
+                remove_internal( filter, e, count, std::back_inserter( res ) );
+                if( count == 0 ) {
+                    return res;
+                }
+            }
+
+            ++stack;
+        }
+    }
+    return res;
+}
+
+template <>
+std::list<item> visitable<Character>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    auto ch = static_cast<Character *>( this );
+    std::list<item> res;
+
+    if( count <= 0 ) {
+        return res; // nothing to do
+    }
+
+    // first try and remove items from the inventory
+    res = ch->inv.remove_items_with( filter, count );
+    count -= res.size();
+    if( count == 0 ) {
+        return res;
+    }
+
+    // then try any worn items
+    for( auto iter = ch->worn.begin(); iter != ch->worn.end(); ) {
+        if( filter( *iter ) ) {
+            res.splice( res.end(), ch->worn, iter++ );
+            if( --count == 0 ) {
+                return res;
+            }
+        } else {
+            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            if( count == 0 ) {
+                return res;
+            }
+            ++iter;
+        }
+    }
+
+    // finally try the currently wielded item (if any)
+    if( filter( ch->weapon ) ) {
+        res.push_back( ch->remove_weapon() );
+        count--;
+    } else {
+        remove_internal( filter, ch->weapon, count, std::back_inserter( res ) );
+    }
+
+    return res;
+}
+
+template <>
+std::list<item> visitable<map_cursor>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    auto cur = static_cast<map_cursor *>( this );
+    std::list<item> res;
+
+    if( count <= 0 ) {
+        return res; // nothing to do
+    }
+
+    if( !g->m.inbounds( *cur ) ) {
+        debugmsg( "cannot remove items from map: cursor out-of-bounds" );
+        return res;
+    }
+
+    // fetch the appropriate item stack
+    int x, y;
+    submap *sub = g->m.get_submap_at( *cur, x, y );
+
+    for( auto iter = sub->itm[ x ][ y ].begin(); iter != sub->itm[ x ][ y ].end(); ) {
+        if( filter( *iter ) ) {
+            // check for presence in the active items cache
+            if( sub->active_items.has( iter, point( x, y ) ) ) {
+                sub->active_items.remove( iter, point( x, y ) );
+            }
+
+            // if necessary remove item from the luminosity map
+            sub->update_lum_rem( *iter, x, y );
+
+            // finally remove the item
+            res.splice( res.end(), sub->itm[ x ][ y ], iter++ );
+
+            if( --count == 0 ) {
+                return res;
+            }
+        } else {
+            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            if( count == 0 ) {
+                return res;
+            }
+            ++iter;
+        }
+    }
+    return res;
+}
+
+template <>
+std::list<item> visitable<map_selector>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    for( auto &cursor : static_cast<map_selector &>( *this ) ) {
+        std::list<item> out = cursor.remove_items_with( filter, count );
+        count -= out.size();
+        res.splice( res.end(), out );
+    }
+
+    return res;
+}
+
+template <>
+std::list<item> visitable<vehicle_cursor>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    auto cur = static_cast<vehicle_cursor *>( this );
+    std::list<item> res;
+
+    if( count <= 0 ) {
+        return res; // nothing to do
+    }
+
+    vehicle_part& part = cur->veh.parts[ cur->part ];
+    for( auto iter = part.items.begin(); iter != part.items.end(); ) {
+        if( filter( *iter ) ) {
+            // check for presence in the active items cache
+            if( cur->veh.active_items.has( iter, part.mount ) ) {
+                cur->veh.active_items.remove( iter, part.mount );
+            }
+            res.splice( res.end(), part.items, iter++ );
+            if( --count == 0 ) {
+                return res;
+            }
+        } else {
+            remove_internal( filter, *iter, count, std::back_inserter( res ) );
+            if( count == 0 ) {
+                return res;
+            }
+            ++iter;
+        }
+    }
+
+    if( !res.empty() ) {
+        // if we removed any items then invalidate the cached mass
+        cur->veh.invalidate_mass();
+    }
+
+    return res;
+}
+
+template <>
+std::list<item> visitable<vehicle_selector>::remove_items_with( const
+        std::function<bool( const item &e )> &filter, int count )
+{
+    std::list<item> res;
+
+    for( auto &cursor : static_cast<vehicle_selector &>( *this ) ) {
+        std::list<item> out = cursor.remove_items_with( filter, count );
+        count -= out.size();
+        res.splice( res.end(), out );
+    }
+
+    return res;
+}
+
 
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;

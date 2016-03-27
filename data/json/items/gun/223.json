@@ -21,16 +21,18 @@
     "recoil": -15,
     "durability": 8,
     "burst": 3,
-    "reload": 100,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
   {
     "id": "ar15",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "AR-15",
     "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained. This one is a semi automatic civilian version.",
@@ -42,16 +44,15 @@
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",
-    "skill": "rifle",
     "ammo": "223",
     "dispersion": 5,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
     "durability": 7,
-    "reload": 100,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ]
   },
   {
@@ -75,11 +76,12 @@
     "aim_speed" : 6,
     "recoil": 30,
     "durability": 8,
-    "reload": 100,
     "burst": 6,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-       [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
+       [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+       [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -104,11 +106,12 @@
     "aim_speed" : 6,
     "recoil": 75,
     "durability": 8,
-    "reload": 100,
     "burst": 15,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -135,8 +138,8 @@
     "aim_speed": 4,
     "recoil": 120,
     "durability": 8,
-    "clip_size": 5,
     "reload": 75,
+    "clip_size": 5,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -162,7 +165,6 @@
     "aim_speed" : 6,
     "recoil": 60,
     "durability": 3,
-    "reload": 100,
     "burst": 3,
     "valid_mod_locations": [[ "accessories", 4 ]],
     "magazines" : [
@@ -192,7 +194,6 @@
     "aim_speed" : 0,
     "recoil": -180,
     "durability": 7,
-    "reload": 100,
     "burst": 5,
     "valid_mod_locations": [[ "accessories", 2 ]],
     "magazines" : [
@@ -222,7 +223,6 @@
     "aim_speed" : 9,
     "recoil": -150,
     "durability": 7,
-    "reload": 100,
     "valid_mod_locations": [[ "accessories", 2 ]],
     "magazines" : [
       [ "223", [ "lw223mag", "lw223bigmag" ] ]
@@ -248,7 +248,6 @@
     "aim_speed" : 2,
     "recoil": -90,
     "durability": 7,
-    "reload": 100,
     "valid_mod_locations": [[ "accessories", 2 ]],
     "burst": 3,
     "magazines" : [
@@ -278,7 +277,6 @@
     "aim_speed" : 6,
     "recoil": -165,
     "durability": 7,
-    "reload": 100,
     "burst": 20,
     "valid_mod_locations": [[ "accessories", 2 ]],
     "magazines" : [
@@ -338,11 +336,12 @@
     "aim_speed" : 6,
     "recoil": 120,
     "durability": 8,
-    "reload": 100,
     "burst": 15,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag50", "stanag30", "stanag10" ] ]
+      [ "223", [ "stanag50", "stanag30", "stanag10" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -367,11 +366,12 @@
     "aim_speed" : 6,
     "recoil": 30,
     "durability": 6,
-    "reload": 100,
     "burst": 10,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -396,11 +396,12 @@
     "aim_speed" : 6,
     "recoil": -60,
     "durability": 8,
-    "reload": 100,
     "barrel_length" : 2,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]],
     "magazines": [
-      [ "223", [ "stanag10", "survivor223mag" ] ]
+      [ "223", [ "stanag10", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag" ] ]
     ]
   },
   {
@@ -424,11 +425,12 @@
     "aim_speed" : 6,
     "recoil": -60,
     "durability": 8,
-    "reload": 100,
     "burst": 10,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "scarhmag", "scarhbigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -453,11 +455,12 @@
     "aim_speed" : 6,
     "recoil": -120,
     "durability": 8,
-    "reload": 100,
     "burst": 6,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
-      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ]
+      [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
     "flags": "MODE_BURST"
   },
@@ -482,7 +485,7 @@
     "aim_speed": 4,
     "recoil": 30,
     "durability": 6,
-    "reload": 140,
+    "reload": 200,
     "loudness": 25,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [

@@ -812,13 +812,13 @@ std::string new_artifact()
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-                if (modinfo->volume >= 0 || art->volume > unsigned(abs(modinfo->volume))) {
+                if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume)) {
                     art->volume += modinfo->volume;
                 } else {
                     art->volume = 1;
                 }
 
-                if (modinfo->weight >= 0 || art->weight > unsigned(abs(modinfo->weight))) {
+                if (modinfo->weight >= 0 || art->weight > abs(modinfo->weight)) {
                     art->weight += modinfo->weight;
                 } else {
                     art->weight = 1;
@@ -1200,11 +1200,6 @@ void it_artifact_armor::deserialize(JsonObject &jo)
             materials.push_back(jarr.get_string(i));
         }
     }
-    if (materials.size() == 0) {
-        // I don't think we need this, but a lot of code seems to want at least
-        // one material and I'm not sure I found every single corner case.
-        materials.push_back("null");
-    }
     volume = jo.get_int("volume");
     weight = jo.get_int("weight");
     melee_dam = jo.get_int("melee_dam");
@@ -1241,8 +1236,8 @@ bool save_artifacts( const std::string &path )
         JsonOut json( fout );
         json.start_array();
         for( auto & p : item_controller->get_all_itypes() ) {
-            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second );
-            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second );
+            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second.get() );
+            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second.get() );
             if( art_tool != nullptr ) {
                 json.write( *art_tool );
             } else if( art_armor != nullptr ) {

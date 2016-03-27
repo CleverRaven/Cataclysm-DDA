@@ -15,6 +15,8 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "rng.h"
+#include "enums.h"
+#include "pathfinding.h"
 
 //TODO: include comments about how these variables work. Where are they used. Are they constant etc.
 #define CAMPSIZE 1
@@ -73,6 +75,7 @@ class map;
 enum ter_bitflags : int;
 template<typename T>
 struct id_or_id;
+struct pathfinding_cache;
 
 class map_stack : public item_stack {
 private:
@@ -129,15 +132,6 @@ struct bash_params {
     bool bashed_solid; // Did we bash furniture, terrain or vehicle
 };
 
-enum visibility_type {
-  VIS_HIDDEN,
-  VIS_CLEAR,
-  VIS_LIT,
-  VIS_BOOMER,
-  VIS_DARK,
-  VIS_BOOMER_DARK
-};
-
 struct level_cache {
     level_cache(); // Zeroes all relevant values
     level_cache( const level_cache &other ) = default;
@@ -186,7 +180,9 @@ struct level_cache {
  */
 class map
 {
- friend class editmap;
+    friend class editmap;
+    friend class visitable<map_cursor>;
+
  public:
 // Constructors & Initialization
  map(int mapsize = MAPSIZE, bool zlev = false);
@@ -225,6 +221,8 @@ class map
             get_cache( zlev ).floor_cache_dirty = true;
         }
     }
+
+    void set_pathfinding_cache_dirty( const int zlev );
     /*@}*/
 
 
@@ -432,16 +430,19 @@ public:
  std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const;
  std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
- /**
-  * Calculate a best path using A*
-  *
-  * @param f The source location from which to path.
-  * @param t The destination to which to path.
-  * @param bash Bashing strength of pathing creature (0 means no bashing through terrain).
-  * @param maxdist Consider only paths up to this length (move cost multiplies "length" of a tile).
-  */
- std::vector<tripoint> route( const tripoint &f, const tripoint &t,
-                              const int bash, const int maxdist ) const;
+    /**
+     * Calculate a best path using A*
+     *
+     * @param f The source location from which to path.
+     * @param t The destination to which to path.
+     * @param bash Bashing strength of pathing creature (0 means no bashing through terrain).
+     * @param maxdist Consider only paths up to this length (move cost multiplies "length" of a tile).
+     */
+    std::vector<tripoint> route( const tripoint &f, const tripoint &t,
+                                 const int bash, const int maxdist,
+                                 const std::set<tripoint> &pre_closed ) const;
+    std::vector<tripoint> route( const tripoint &f, const tripoint &t,
+                                 const int bash, const int maxdist ) const;
 
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
 // Vehicles: Common to 2D and 3D
@@ -601,7 +602,7 @@ public:
 // Flags: 2D overloads
     std::string features(const int x, const int y); // Words relevant to terrain (sharp, etc)
     bool has_flag(const std::string & flag, const int x, const int y) const;  // checks terrain, furniture and vehicles
-    bool can_put_items(const int x, const int y); // True if items can be placed in this tile
+    bool can_put_items_ter_furn(const int x, const int y) const; // True if items can be placed in this tile
     bool has_flag_ter(const std::string & flag, const int x, const int y) const;  // checks terrain
     bool has_flag_furn(const std::string & flag, const int x, const int y) const;  // checks furniture
     bool has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const; // checks terrain or furniture
@@ -615,7 +616,8 @@ public:
 // Flags: 3D
     std::string features( const tripoint &p ); // Words relevant to terrain (sharp, etc)
     bool has_flag( const std::string &flag, const tripoint &p ) const;  // checks terrain, furniture and vehicles
-    bool can_put_items( const tripoint &p ); // True if items can be placed in this tile
+    bool can_put_items( const tripoint &p ) const; // True if items can be dropped in this tile
+    bool can_put_items_ter_furn( const tripoint &p ) const; // True if items can be placed in this tile
     bool has_flag_ter( const std::string &flag, const tripoint &p ) const;  // checks terrain
     bool has_flag_furn( const std::string &flag, const tripoint &p ) const;  // checks furniture
     bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const; // checks terrain or furniture
@@ -795,8 +797,9 @@ void add_corpse( const tripoint &p );
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
                         const long charges, const int damlevel );
-    int place_items(items_location loc, const int chance, const int x1, const int y1,
-                  const int x2, const int y2, bool ongrass, const int turn, bool rand = true);
+    std::vector<item *> place_items( items_location loc, const int chance, const int x1, const int y1,
+                                     const int x2, const int y2, bool ongrass, const int turn,
+                                     int magazine = 0, int ammo = 0 );
     void spawn_items(const int x, const int y, const std::vector<item> &new_items);
     void create_anomaly(const int cx, const int cy, artifact_natural_property prop);
 // Items: 3D
@@ -856,10 +859,13 @@ void add_corpse( const tripoint &p );
     * all. Values <= 0 or > 100 are invalid.
     * @param ongrass If false the items won't spawn on flat terrain (grass, floor, ...).
     * @param turn The birthday that the created items shall have.
-    * @return The number of placed items.
+    * @param magazine percentage chance item will contain the default magazine
+    * @param ammo percentage chance item will be filled with default ammo
+    * @return vector containing all placed items
     */
-    int place_items( items_location loc, const int chance, const tripoint &f,
-                     const tripoint &t, bool ongrass, const int turn, bool rand = true );
+    std::vector<item *> place_items( items_location loc, const int chance, const tripoint &f,
+                                     const tripoint &t, bool ongrass, const int turn,
+                                     int magazine = 0, int ammo = 0 );
     /**
     * Place items from an item group at p. Places as much items as the item group says.
     * (Most item groups are distributions and will only create one item.)
@@ -1399,15 +1405,23 @@ private:
      */
     std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
+    mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
+
     // Note: no bounds check
-    level_cache &get_cache( const int zlev ) {
+    level_cache &get_cache( int zlev ) {
         return *caches[zlev + OVERMAP_DEPTH];
     }
 
+    pathfinding_cache &get_pathfinding_cache( int zlev ) const;
+
   public:
-    const level_cache &get_cache_ref( const int zlev ) const {
+    const level_cache &get_cache_ref( int zlev ) const {
         return *caches[zlev + OVERMAP_DEPTH];
     }
+
+    const pathfinding_cache &get_pathfinding_cache_ref( int zlev ) const;
+
+    void update_pathfinding_cache( int zlev ) const;
 
     void update_visibility_cache( visibility_variables &cache, int zlev );
 

@@ -523,7 +523,7 @@ bool player::create(character_type type, std::string tempname)
 
     //Learn recipes
     for( auto &cur_recipe : recipe_dict ) {
-        if( !cur_recipe->autolearn && has_recipe_requirements( cur_recipe ) &&
+        if( has_recipe_autolearned( *cur_recipe ) &&
             !( learned_recipes.find( cur_recipe->ident() ) != learned_recipes.end()) ) {
 
             learn_recipe( (recipe *)cur_recipe );
@@ -612,13 +612,13 @@ bool player::create(character_type type, std::string tempname)
             style_selected = ma_type;
         }
     }
-    // For compatibility with old versions and for better user experience:
-    // activate some mutations right from the start.
-    // TODO: (maybe) move this to json?
-    if( has_trait( "NIGHTVISION" ) ) {
-        my_mutations["NIGHTVISION"].powered = true;
-    } else if( has_trait( "URSINE_EYE" ) ) {
-        my_mutations["URSINE_EYE"].powered = true;
+
+    // Activate some mutations right from the start.
+    for( const std::string &mut : get_mutations() ) {
+        const auto branch = mutation_branch::get( mut );
+        if( branch.starts_active ) {
+            my_mutations[mut].powered = true;
+        }
     }
 
     // Likewise, the asthmatic start with their medication.
@@ -1610,9 +1610,9 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 
             // Filter out autolearend recipes, recipes that don't use the current skill,
             // recipes we're missing prerequisites for, and uncraft recipes.
-            if( !cur_recipe->autolearn &&
+            if( !u->has_recipe_autolearned( *cur_recipe ) &&
                 ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
-                u->has_recipe_requirements( cur_recipe ) &&
+                u->has_recipe_requirements( *cur_recipe ) &&
                 cur_recipe->ident().find("uncraft") == std::string::npos )  {
 
                 recipes[cur_recipe->skill_used.obj().name()].push_back(
