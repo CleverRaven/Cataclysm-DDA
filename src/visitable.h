@@ -31,7 +31,8 @@ class visitable
          * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
          */
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func );
-        VisitResponse visit_items( const std::function<VisitResponse( const item *, const item * )> &func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse( const item *, const item * )> &func )
+        const;
 
         /** Lightweight version which provides only the current node */
         VisitResponse visit_items( const std::function<VisitResponse( item * )> &func );
@@ -78,8 +79,8 @@ class visitable
         }
 
         /** Returns all items (including those within a container) matching the filter */
-        std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
-        std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
+        std::vector<item *> items_with( const std::function<bool( const item & )> &filter );
+        std::vector<const item *> items_with( const std::function<bool( const item & )> &filter ) const;
 
         /**
          * Removes items contained by this instance which match the filter
