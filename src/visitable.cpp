@@ -102,6 +102,11 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
+            if( node->is_gun() || node->is_magazine() ) {
+                // content of guns and magazines are accessible only via their specific accessors
+                return VisitResponse::NEXT;
+            }
+
             for( auto &e : node->contents ) {
                 if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
