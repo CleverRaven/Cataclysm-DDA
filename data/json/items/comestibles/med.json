@@ -71,6 +71,60 @@
         "fun" : 5
     },
     {
+        "id" : "iodine",
+        "type" : "COMESTIBLE",
+        "name" : "potassium iodide tablet",
+        "weight" : 1,
+        "color" : "white",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some potassium iodide.",
+            "effects" : [ {
+                    "id" : "iodine",
+                    "duration" : 7200
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "quench" : 0,
+        "healthy" : 0,
+        "nutrition" : 0,
+        "description" : "Potassium iodide tablets.  If taken prior to exposure, they help to mitigate injury caused by radiation absorption.",
+        "price" : 1000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200,
+        "fun" : 0
+    },
+    {
+        "id" : "prussian_blue",
+        "type" : "COMESTIBLE",
+        "name" : "Prussian blue tablet",
+        "weight" : 1,
+        "color" : "blue",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some Prussian blue.",
+            "effects" : [ {
+                    "id" : "pblue",
+                    "duration" : 3600
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "quench" : 0,
+        "healthy" : 0,
+        "nutrition" : 0,
+        "description" : "Tablets containing oxidized ferrous ferrocyanide salts.  Capable of purging nuclear contaminants from the body if taken after radiation exposure.",
+        "price" : 3000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200,
+        "fun" : 0
+    },
+    {
         "id" : "cotton_ball",
         "type" : "COMESTIBLE",
         "name" : "cotton balls",
