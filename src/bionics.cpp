@@ -1786,7 +1786,7 @@ void load_bionic( JsonObject &jsobj )
                                         ja.get_int( 1 ) );
         }
     } else {
-        occupied_bodyparts.emplace( bp_torso, 1 );
+        occupied_bodyparts.emplace( bp_torso, 0 );
     }
 
 
