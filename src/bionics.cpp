@@ -321,7 +321,7 @@ void player::power_bionics()
             // bodyparts: all
             if( tab_index == tab_count - 1 ) {
                 content.clear();
-                for( int bp_index = 0; bp_index <= num_bp; ++bp_index ) {
+                for( int bp_index = 0; bp_index < num_bp; ++bp_index ) {
                     std::vector<cbm_pair> more_content = define_content( *this,
                                                          static_cast<body_part>( bp_index ) );
                     content.insert( content.end(), more_content.begin(), more_content.end() );
