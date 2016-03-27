@@ -721,8 +721,10 @@ private:
         void print_visibility_info( WINDOW *w_look, int column, int &line,
                                     visibility_type visibility );
         void print_visibility_indicator( visibility_type visibility );
-        void print_items_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                               const int last_line );
+        void print_items_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                               int last_line );
+        void print_graffiti_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                                  int last_line );
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
         input_context get_player_input(std::string &action);

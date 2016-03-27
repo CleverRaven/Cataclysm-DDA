@@ -8289,6 +8289,7 @@ void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, 
                 print_creature_info( creature, w_look, column, line );
                 print_vehicle_info( veh, veh_part, w_look, column, line, last_line );
                 print_items_info( lp, w_look, column, line, last_line );
+                print_graffiti_info( lp, w_look, column, line, last_line );
 
                 if ( draw_terrain_indicators) {
                     if ( creature != nullptr ) {
@@ -8310,10 +8311,6 @@ void game::print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, 
                 print_visibility_indicator( visibility );
             }
             break;
-    }
-
-    if( m.has_graffiti_at( lp ) ) {
-        mvwprintw(w_look, ++line + 1, 1, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
     }
 
     auto this_sound = sounds::sound_at( lp );
@@ -8508,6 +8505,17 @@ void game::print_items_info( const tripoint &lp, WINDOW *w_look, const int colum
                 trim_and_print( w_look, line++, column, max_width, c_white, "%s", it.first.c_str() );
             }
         }
+    }
+}
+
+void game::print_graffiti_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
+                             const int last_line )
+{
+    if (line > last_line) {
+        return;
+    }
+    if( m.has_graffiti_at( lp ) ) {
+        mvwprintw(w_look, line++, column, _("Graffiti: %s"), m.graffiti_at( lp ).c_str() );
     }
 }
 
