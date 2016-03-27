@@ -578,6 +578,44 @@ long visitable<Character>::charges_of( const std::string &what ) const
     return charges_of_internal( *this, what );
 }
 
+template <typename T>
+static int amount_of_internal( const T& self, const itype_id& id, bool pseudo )
+{
+    int qty = 0;
+    self.visit_items( [&qty, &id, &pseudo] ( const item *e ) {
+        qty += ( e->typeId() == id && e->contents.empty() && ( pseudo || !e->has_flag( "PSEUDO" ) ) );
+        return VisitResponse::NEXT;
+    } );
+    return qty;
+}
+
+template <typename T>
+int visitable<T>::amount_of( const std::string& what, bool pseudo ) const
+{
+    return amount_of_internal( *this, what, pseudo );
+}
+
+template <>
+int visitable<Character>::amount_of( const std::string& what, bool pseudo ) const
+{
+    auto self = static_cast<const Character *>( this );
+
+    if( what == "toolset" && pseudo && self->has_active_bionic( "bio_tools" ) ) {
+        return 1;
+    }
+
+    if( what == "apparatus" && pseudo ) {
+        int qty = 0;
+        visit_items( [&qty, &limit] ( const item *e ) {
+            qty += e->has_quality( "SMOKE_PIPE", 1 );
+            return qty != limit ? VisitResponse::NEXT : VisitResponse::SKIP;
+        } );
+        return qty;
+    }
+
+    return amount_of_internal( *this, what, pseudo );
+}
+
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
 template class visitable<inventory>;

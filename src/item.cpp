@@ -4860,23 +4860,6 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid,
     return L_ERR_NONE;
 }
 
-int item::amount_of(const itype_id &it, bool used_as_tool) const
-{
-    int count = 0;
-    // Check that type matches, and (if not used as tool), it
-    // is not a pseudo item.
-    if (type->id == it && (used_as_tool || !has_flag("PSEUDO"))) {
-        if (contents.empty()) {
-            // Only use empty container
-            count++;
-        }
-    }
-    for( auto &elem : contents ) {
-        count += elem.amount_of( it, used_as_tool );
-    }
-    return count;
-}
-
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents

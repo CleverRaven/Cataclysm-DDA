@@ -9199,22 +9199,6 @@ bool player::has_amount(const itype_id &it, int quantity) const
     return (amount_of(it) >= quantity);
 }
 
-int player::amount_of(const itype_id &it) const
-{
-    if (it == "toolset" && has_active_bionic("bio_tools")) {
-        return 1;
-    }
-    if (it == "apparatus") {
-        return ( has_items_with_quality("SMOKE_PIPE", 1, 1) ? 1 : 0 );
-    }
-    int quantity = weapon.amount_of(it, true);
-    for( const auto &elem : worn ) {
-        quantity += elem.amount_of( it, true );
-    }
-    quantity += inv.amount_of(it);
-    return quantity;
-}
-
 int player::amount_worn(const itype_id &id) const
 {
     int amount = 0;

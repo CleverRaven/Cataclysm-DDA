@@ -143,9 +143,6 @@ class inventory : public visitable<inventory>
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
-        int  amount_of (itype_id it) const;
-        int  amount_of (itype_id it, bool used_as_tool) const;
-
         std::list<item> use_amount (itype_id it, int quantity);
         std::list<item> use_charges(itype_id it, long quantity);
 

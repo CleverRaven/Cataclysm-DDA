@@ -376,15 +376,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     int reach_range() const;
 
  /**
-  * Count the amount of items of type 'it' including this item,
-  * and any of its contents (recursively).
-  * @param it The type id, only items with the same id are counted.
-  * @param used_as_tool If false all items with the PSEUDO flag are ignore
-  * (not counted).
-  */
- int amount_of(const itype_id &it, bool used_as_tool) const;
-
- /**
   * Consume a specific amount of charges from items of a specific type.
   * This includes this item, and any of its contents (recursively).
   * @param it The type id, only items of this type are considered.

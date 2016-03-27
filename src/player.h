@@ -962,7 +962,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::list<item> use_charges( itype_id it, long quantity );// Uses up charges
         bool has_amount( const itype_id &it, int quantity ) const;
         bool has_charges( const itype_id &it, long quantity ) const;
-        int  amount_of( const itype_id &it ) const;
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 

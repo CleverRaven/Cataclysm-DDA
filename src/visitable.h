@@ -64,6 +64,13 @@ class visitable
         /** Count maximum available charges from this instance and any contained items */
         long charges_of( const std::string &what ) const;
 
+        /**
+         * Count items matching id including both this instance and any contained items
+         * @param pseudo whether pseudo-items (from map/vehicle tiles, bionics etc) are considered
+         * @note items must be empty to be considered a match
+         */
+        int amount_of( const std::string &what, bool pseudo = true ) const;
+
         /** Returns all items (including those within a container) matching the filter */
         std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
         std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
