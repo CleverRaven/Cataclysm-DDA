@@ -162,6 +162,9 @@ class game
         void unserialize_master(std::ifstream &fin);  // for load
         bool unserialize_master_legacy(std::ifstream &fin);  // for old load
 
+        /** write stats of all loaded items of the given type to stdout */
+        void dump_stats( const std::string& what );
+
         /** Returns false if saving failed. */
         bool save();
         /** Deletes the given world. If delete_folder is true delete all the files and directories

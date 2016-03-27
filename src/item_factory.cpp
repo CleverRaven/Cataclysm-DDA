@@ -557,7 +557,11 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->ammo ) {
-            check_ammo_type( msg, type->ammo->type );
+            if( type->ammo->type.empty() ) {
+                msg << "ammo does not specify a type" << "\n";
+            } else {
+                check_ammo_type( msg, type->ammo->type );
+            }
             if( type->ammo->casing != "null" && !has_template( type->ammo->casing ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing.c_str() ) << "\n";
             }
@@ -811,6 +815,13 @@ typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
         val += tmp;
         return true;
     }
+
+    double scalar;
+    if( jo.get_object( "proportional" ).read( name, scalar ) && scalar > 0.0 ) {
+        val *= scalar;
+        return true;
+    }
+
     return jo.read( name, val );
 }
 
@@ -823,11 +834,19 @@ typename std::enable_if<std::is_same<T, std::string>::value, bool>::type assign(
 template <typename T>
 typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::type assign(
     JsonObject &jo, const std::string& name, T& val ) {
+
+    if( jo.has_string( name ) || jo.has_array( name ) ) {
+        val = jo.get_tags( name );
+        return true;
+    }
+
+    bool res = false;
+
     auto add = jo.get_object( "extend" );
     if( add.has_string( name ) || add.has_array( name ) ) {
         auto tags = add.get_tags( name );
         val.insert( tags.begin(), tags.end() );
-        return true;
+        res = true;
     }
 
     auto del = jo.get_object( "delete" );
@@ -835,14 +854,10 @@ typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::ty
         for( const auto& e : del.get_tags( name ) ) {
             val.erase( e );
         }
-        return true;
+        res = true;
     }
 
-    if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags( name );
-        return true;
-    }
-    return false;
+    return res;
 }
 
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
