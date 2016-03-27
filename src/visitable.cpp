@@ -70,6 +70,32 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
 }
 
 template <typename T>
+std::vector<item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter )
+{
+    std::vector<item *> res;
+    visit_items( [&res,&filter]( item * node, item * ) {
+        if( filter( *node ) ) {
+            res.push_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+    return res;
+}
+
+template <typename T>
+std::vector<const item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter ) const
+{
+    std::vector<const item *> res;
+    visit_items( [&res,&filter]( const item * node, const item * ) {
+        if( filter( *node ) ) {
+            res.push_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+    return res;
+}
+
+template <typename T>
 VisitResponse visitable<T>::visit_items(
     const std::function<VisitResponse( const item *, const item * )> &func ) const
 {

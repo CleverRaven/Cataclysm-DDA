@@ -1188,25 +1188,3 @@ std::set<char> inventory::allocated_invlets() const
     }
     return invlets;
 }
-
-std::vector<item *> inventory::items_with( const std::function<bool(const item&)>& filter ) {
-    std::vector<item *> res;
-    visit_items( [&res, &filter]( item *node ) {
-        if( filter( *node ) ) {
-            res.emplace_back( node );
-        }
-        return VisitResponse::NEXT;
-    });
-    return res;
-}
-
-std::vector<const item *> inventory::items_with( const std::function<bool(const item&)>& filter ) const {
-    std::vector<const item *> res;
-    visit_items( [&res, &filter]( const item *node ) {
-        if( filter( *node ) ) {
-            res.emplace_back( node );
-        }
-        return VisitResponse::NEXT;
-    });
-    return res;
-}

@@ -521,52 +521,6 @@ map_selector Character::nearby( int radius, bool accessible )
     return map_selector( pos(), radius, accessible );
 }
 
-std::vector<item *> Character::items_with( const std::function<bool(const item&)>& filter )
-{
-    auto res = inv.items_with( filter );
-
-    weapon.visit_items( [&res, &filter]( item *node ) {
-        if( filter( *node ) ) {
-            res.emplace_back( node );
-        }
-        return VisitResponse::NEXT;
-    });
-
-    for( auto &e : worn ) {
-        e.visit_items( [&res, &filter]( item *node ) {
-            if( filter( *node ) ) {
-                res.emplace_back( node );
-            }
-            return VisitResponse::NEXT;
-        });
-    }
-
-    return res;
-}
-
-std::vector<const item *> Character::items_with( const std::function<bool(const item&)>& filter ) const
-{
-    auto res = inv.items_with( filter );
-
-    weapon.visit_items( [&res, &filter]( const item *node ) {
-        if( filter( *node ) ) {
-            res.emplace_back( node );
-        }
-        return VisitResponse::NEXT;
-    });
-
-    for( const auto &e : worn ) {
-        e.visit_items( [&res, &filter]( const item *node ) {
-            if( filter( *node ) ) {
-                res.emplace_back( node );
-            }
-            return VisitResponse::NEXT;
-        });
-    }
-
-    return res;
-}
-
 item& Character::i_add(item it)
 {
     itype_id item_type_id = "null";

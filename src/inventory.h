@@ -211,10 +211,6 @@ class inventory : public visitable<inventory>
             return stacks;
         }
 
-        /** Returns all items matching the filter including any within containers */
-        std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
-        std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
-
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;

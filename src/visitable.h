@@ -58,6 +58,10 @@ class visitable
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
 
+        /** Returns all items (including those within a container) matching the filter */
+        std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
+        std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
+
         /**
          * Removes items contained by this instance which match the filter
          * @note if this instance itself is an item it will not be considered by the filter
