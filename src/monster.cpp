@@ -327,8 +327,6 @@ std::string monster::name_with_armor() const
         ret = string_format(_("thick hide"));
     } else if( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) )) {
         ret = string_format(_("armor plating"));
-    } else if( made_of( material_id( "protoplasmic" ) ) ) {
-        ret = string_format(_("hard protoplasmic hide"));
     }
     return ret;
 }
