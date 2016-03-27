@@ -37,7 +37,6 @@ class material_type
 
     public:
         material_type();
-        material_type( material_id ident );
         static void load_material( JsonObject &jsobj );
 
         // functions
