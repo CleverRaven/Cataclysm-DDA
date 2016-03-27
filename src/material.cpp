@@ -16,7 +16,7 @@ std::map<material_id, material_type> _all_materials;
 template<>
 bool string_id<material_type>::is_valid() const
 {
-    return material_type::has_material( *this );
+    return _all_materials.count( *this ) > 0;
 }
 
 template<>
@@ -84,11 +84,6 @@ void material_type::load_material( JsonObject &jsobj )
 void material_type::reset()
 {
     _all_materials.clear();
-}
-
-bool material_type::has_material( const material_id &ident )
-{
-    return _all_materials.count( ident ) > 0;
 }
 
 int material_type::dam_resist( damage_type damtype ) const

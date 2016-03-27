@@ -682,7 +682,7 @@ void MonsterGenerator::check_monster_definitions() const
                      mon->death_drops.c_str());
         }
         for( auto &m : mon->mat ) {
-            if( m.str() == "null" || !material_type::has_material( m ) ) {
+            if( m.str() == "null" || !m.is_valid() ) {
                 debugmsg( "monster %s has unknown material: %s", mon->id.c_str(), m.c_str() );
             }
         }
