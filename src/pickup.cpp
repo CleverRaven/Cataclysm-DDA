@@ -353,7 +353,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         // @todo Make quiver code generic so that ammo pouches can use it too
         //add ammo to quiver
         int quivered = handle_quiver_insertion( newit, moves_taken, picked_up );
-        add_msg(m_info, _("Quivering %d %d %d"), newit.charges, newit.volume(), quivered);
+
         if( quivered > 0 ) {
             quantity = quivered;
             //already picked up some for quiver so use special case handling
