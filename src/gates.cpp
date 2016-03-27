@@ -123,7 +123,7 @@ void gates::open_gate( const tripoint &pos )
                 while( g->m.ter( x, y ) == floor ) {
                     const tripoint gate_pos( x, y, pos.z );
 
-                    fail = !g->forced_gate_closing( gate_pos, door, gate.bash_dmg ) || fail;
+                    fail = !g->forced_door_closing( gate_pos, door, gate.bash_dmg ) || fail;
                     close = !fail;
                     x += dx[j];
                     y += dy[j];

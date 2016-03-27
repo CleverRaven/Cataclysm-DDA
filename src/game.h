@@ -604,7 +604,7 @@ class game
         // will do so, if bash_dmg is greater than 0, items won't stop the door
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
-        bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
+        bool forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
 
         //pixel minimap management
