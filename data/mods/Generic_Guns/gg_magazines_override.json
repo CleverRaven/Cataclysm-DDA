@@ -10,7 +10,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "ltgray",
-    "ammo_type": "762",
+    "ammo_type": "223",
     "capacity": 30,
     "reliability": 9,
     "reload_time": 100,
@@ -27,7 +27,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "ltgray",
-    "ammo_type": "762",
+    "ammo_type": "223",
     "capacity": 40,
     "reliability": 8,
     "reload_time": 120

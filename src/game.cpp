@@ -3497,6 +3497,9 @@ void game::load(std::string worldname, std::string name)
         gamemode = new special_game();
     }
 
+    safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
+    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
+
     init_autosave();
     get_auto_pickup().load_character(); // Load character auto pickup rules
     zone_manager::get_manager().load_zones(); // Load character world zones
@@ -7543,6 +7546,9 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
             add_msg(_("The %1$s hits the %2$s."), door_name.c_str(), npc_or_player->name.c_str());
         } else if (npc_or_player->is_player()) {
             add_msg(m_bad, _("The %s hits you."), door_name.c_str());
+        }
+        if( npc_or_player->activity.type != ACT_NULL ) {
+            npc_or_player->cancel_activity();
         }
         // TODO: make the npc angry?
         npc_or_player->hitall(bash_dmg, 0, nullptr);

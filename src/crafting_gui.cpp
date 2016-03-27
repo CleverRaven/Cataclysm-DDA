@@ -750,7 +750,7 @@ void pick_recipes( const inventory &crafting_inv,
                 }
                 bool match_found = false;
                 if( search_result_qualities ) {
-                    itype *it = item::find_type( rec->result );
+                    const itype *it = item::find_type( rec->result );
                     for( auto &quality : it->qualities ) {
                         if( lcmatch( quality::get_name( quality.first ), filter ) ) {
                             match_found = true;

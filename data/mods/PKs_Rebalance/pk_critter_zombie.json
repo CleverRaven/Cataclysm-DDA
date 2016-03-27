@@ -166,7 +166,7 @@
     "id" : "mon_zombie_brute",
     "edit-mode" : "modify",
         "upgrades":{
-      "into_group": "GROUP_ZOMBIE_MID",
+      "into_group": "GROUP_ZOMBIE_BRUTE",
       "half_life": 28
       }
     },{
@@ -261,7 +261,7 @@
     "hp":220,
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 30], ["STRETCH_ATTACK", 3], ["LONGSWIPE", 15]],
-    "description":"Somehow this brute hides in the dark like some kind of boogeyman, where its massive hands flex gnarled claws.  Very agile for such a large zombie.",
+    "description":"Somehow this brute hides in the dark like some kind of boogeyman.  Very agile for such a large zombie.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY"]
     },{
     "type" : "MONSTER",
@@ -324,7 +324,7 @@
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
-        "into_group": "GROUP_ZOMBIE_MID",
+        "into_group": "GROUP_ZOMBIE_EVO",
         "half_life": 28
     },
     "hp":100,
@@ -362,7 +362,7 @@
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
-      "into_group": "GROUP_ZOMBIE_MID",
+      "into_group": "GROUP_ZOMBIE_DECAY",
       "half_life": 21
     },
     "hp":80,
@@ -567,7 +567,7 @@
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"Z",
-    "color":"yellow_green",
+    "color":"green_yellow",
     "size":"MEDIUM",
     "material":"flesh",
     "diff":24,
@@ -593,7 +593,7 @@
         ["ACID_ACCURATE", 30], ["ACID_BARF", 30], ["GRAB", 20]],
     "special_when_hit":["ACIDSPLASH", 80],
     "description":"Dragging its distended belly with powerful arms, this zombie's mangled, chunky legs appear to be leaking a flim of acid.  It appears to have poor sight, and might be dangerous to attack.  Then again, it seems to be capable of spitting acid as well.",
-    "flags":["ACIDPROOF", "ACID_BLOOD", "ACIDTRAIL", "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
+    "flags":["ACIDPROOF", "ACID_BLOOD", "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -902,7 +902,7 @@
     "diff":16,
     "aggression":100,
     "morale":100,
-    "speed":100,
+    "speed":95,
     "melee_skill":7,
     "melee_dice":2,
     "melee_dice_sides":10,

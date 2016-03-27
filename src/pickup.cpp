@@ -353,13 +353,15 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         // @todo Make quiver code generic so that ammo pouches can use it too
         //add ammo to quiver
         int quivered = handle_quiver_insertion( newit, moves_taken, picked_up );
+
+        if( quivered > 0 ) {
+            quantity = quivered;
+            //already picked up some for quiver so use special case handling
+            picked_up = true;
+            option = NUM_ANSWERS;
+        }
         if( newit.charges > 0 ) {
             if( !u.can_pickVolume( newit.volume() ) ) {
-                if( quivered > 0 ) {
-                    //update the charges for the item that gets re-added to the game map
-                    quantity = quivered;
-                    leftovers.charges = newit.charges;
-                }
                 if( !autopickup ) {
                     // Silence some messaging if we're doing autopickup.
                     add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
@@ -370,6 +372,11 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                 // Add to inventory instead
                 option = STASH;
             }
+        }
+        if( option != STASH ) {
+            //not picking up the rest so
+            //update the charges for the item that gets re-added to the game map
+            leftovers.charges = newit.charges;
         }
     } else if( newit.is_bucket() && !newit.is_container_empty() ) {
         if( !autopickup ) {

@@ -318,7 +318,7 @@
      "loudness": 150,
      "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
      "magazines": [
-       [ "762", [ "akmmag", "akmbigmag" ] ]
+       [ "223", [ "akmmag", "akmbigmag" ] ]
      ]
     },
     {
@@ -364,7 +364,7 @@
      "material": ["steel", "plastic"],
      "flags": "MODE_BURST",
      "skill": "rifle",
-     "ammo": "9mm",
+     "ammo": "223",
      "weight": 8700,
      "volume": 14,
      "bashing": 15,

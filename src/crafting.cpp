@@ -215,7 +215,7 @@ void finalize_recipes()
                 debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident().c_str());
                 continue;
             }
-            itype *t = item::find_type( book_id );
+            const itype *t = item::find_type( book_id );
             if( !t->book ) {
                 // TODO: we could make up a book slot?
                 debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident().c_str());
