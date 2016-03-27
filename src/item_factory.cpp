@@ -1216,7 +1216,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "bashing", new_item_template->melee_dam );
     assign( jo, "cutting", new_item_template->melee_cut );
     assign( jo, "to_hit", new_item_template->m_to_hit );
-    assign( jo, "default_container", new_item_template->default_container );
+    assign( jo, "container", new_item_template->default_container );
     assign( jo, "rigid", new_item_template->rigid );
     assign( jo, "min_strength", new_item_template->min_str );
     assign( jo, "min_dexterity", new_item_template->min_dex );
