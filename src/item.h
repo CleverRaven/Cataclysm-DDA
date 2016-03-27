@@ -383,12 +383,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
   * (not counted).
   */
  int amount_of(const itype_id &it, bool used_as_tool) const;
- /**
-  * Count all the charges of items of the type 'it' including this item,
-  * and any of its contents (recursively).
-  * @param it The type id, only items with the same id are counted.
-  */
- long charges_of(const itype_id &it) const;
+
  /**
   * Consume a specific amount of charges from items of a specific type.
   * This includes this item, and any of its contents (recursively).

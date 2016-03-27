@@ -853,17 +853,6 @@ int inventory::amount_of(itype_id it, bool used_as_tool) const
     return count;
 }
 
-long inventory::charges_of(itype_id it) const
-{
-    int count = 0;
-    for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
-            count += elem_stack_iter.charges_of( it );
-        }
-    }
-    return count;
-}
-
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
     long quantity = _quantity; // Don't wanny change the function signature right now

@@ -9234,41 +9234,6 @@ bool player::has_charges(const itype_id &it, long quantity) const
     return (charges_of(it) >= quantity);
 }
 
-long player::charges_of(const itype_id &it) const
-{
-    if (it == "toolset") {
-        if (has_active_bionic("bio_tools")) {
-            return power_level;
-        } else {
-            return 0;
-        }
-    }
-    // Handle requests for UPS charges as request for adv. UPS charges
-    // and as request for bionic UPS charges, both with their own multiplier
-    if ( it == "UPS" ) {
-        // This includes the UPS bionic (regardless of active state)
-        return charges_of( "UPS_off" );
-    }
-    // Now regular charges from all items (weapone,worn,inventory)
-    long quantity = weapon.charges_of(it);
-    for( const auto &armor : worn ) {
-        quantity += armor.charges_of(it);
-    }
-    quantity += inv.charges_of(it);
-    // Now include charges from advanced UPS if the request was UPS
-    if ( it == "UPS_off" ) {
-        // Round charges from adv. UPS down, if this reports there are N
-        // charges available, we must be able to remove at least N charges.
-        quantity += static_cast<long>( floor( charges_of( "adv_UPS_off" ) / 0.6 ) );
-    }
-    if ( power_level > 0 ) {
-        if ( it == "UPS_off" && has_active_bionic( "bio_ups" ) ) {
-            quantity += power_level * 10;
-        }
-    }
-    return quantity;
-}
-
 int  player::leak_level( std::string flag ) const
 {
     int leak_level = 0;

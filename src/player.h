@@ -965,7 +965,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  amount_of( const itype_id &it ) const;
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
-        long charges_of( const itype_id &it ) const;
 
         int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 

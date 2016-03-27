@@ -10,6 +10,8 @@
 #include "submap.h"
 #include "vehicle.h"
 #include "game.h"
+#include "itype.h"
+#include "player.h"
 
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
@@ -515,6 +517,66 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
     return res;
 }
 
+template <typename T>
+static long charges_of_internal( const T& self, const itype_id& id )
+{
+    long qty = 0;
+
+    self.visit_items( [&]( const item *e ) {
+        if( e->is_tool() ) {
+            // for tools we also need to check if this item is a subtype of the required id
+            if( e->typeId() == id || dynamic_cast<const it_tool *>( e->type)->subtype == id ) {
+                qty += e->ammo_remaining(); // includes charges from any contained magazine
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == id ) {
+                qty += e->charges;
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
+        }
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
+
+    return qty;
+}
+
+template <typename T>
+long visitable<T>::charges_of( const std::string &what ) const
+{
+    return charges_of_internal( *this, what );
+}
+
+template <>
+long visitable<Character>::charges_of( const std::string &what ) const
+{
+    auto self = static_cast<const Character *>( this );
+    auto p = dynamic_cast<const player *>( self );
+
+    if( what == "toolset") {
+        if( p && p->has_active_bionic( "bio_tools" ) ) {
+            return p->power_level;
+        } else {
+            return 0;
+        }
+    }
+
+    if( what == "UPS" ) {
+        long qty = 0;
+        qty += charges_of( "UPS_off" );
+        qty += charges_of( "adv_UPS_off" ) / 0.6;
+        if ( p && p->has_active_bionic( "bio_ups" ) ) {
+            qty += p->power_level * 10;
+        }
+        return qty;
+    }
+
+    return charges_of_internal( *this, what );
+}
 
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;

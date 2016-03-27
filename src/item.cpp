@@ -4940,40 +4940,6 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     return true;
 }
 
-long item::charges_of( const itype_id& id ) const
-{
-    long qty = 0;
-
-    // recursively find available charges from this or any contained items
-    visit_items_const( [&]( const item *e ) {
-
-        if( e->is_gun() || e->is_magazine() ) {
-            // charges in magazines are unavailable except when loaded in a tool
-            // charges in guns are never available
-            return VisitResponse::SKIP;
-
-        } else if( e->is_tool() ) {
-            // for tools we also need to check if this item is a subtype of the required id
-            if( e->typeId() == id || dynamic_cast<const it_tool *>( e->type)->subtype == id ) {
-                qty += e->ammo_remaining(); // includes charges from any contained magazine
-            }
-            return VisitResponse::SKIP;
-
-        } else if( e->count_by_charges() ) {
-            if( e->typeId() == id ) {
-                qty += e->charges;
-            }
-            // items counted by charges are not themselves expected to be containers
-            return VisitResponse::SKIP;
-        }
-
-        // recurse through any nested containers
-        return VisitResponse::NEXT;
-    } );
-
-    return qty;
-}
-
 bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents
