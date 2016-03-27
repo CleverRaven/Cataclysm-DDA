@@ -1417,36 +1417,40 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
                 int x = gate_x;
                 int y = gate_y;
                 while( g->m.ter( x, y ) == gi->floor_type ) {
-                    if( !g->forced_gate_closing( tripoint( x, y, pos.z ), gi->door_type, gi->bash_dmg ) ) {
-                        fail = true;
-                        close = false;
-                        break;
-                    }
+                    const tripoint gate_pos( x, y, pos.z );
+
+                    fail = !g->forced_gate_closing( gate_pos, gi->door_type, gi->bash_dmg ) || fail;
+                    close = !fail;
                     x += dx[j];
                     y += dy[j];
-                    close = true;
                 }
             }
 
             if( !close ) {  //opening the gate...
                 int x = gate_x;
                 int y = gate_y;
-                while( g->m.ter( x, y ) == gi->door_type ) {
-                    g->m.ter_set( x, y, gi->floor_type );
+                while( true ) {
+                    const ter_id ter = g->m.ter( x, y );
+
+                    if( ter == gi->door_type ) {
+                        g->m.ter_set( x, y, gi->floor_type );
+                        open = !fail;
+                    } else if( ter != gi->floor_type ) {
+                        break;
+                    }
                     x += dx[j];
                     y += dy[j];
-                    open = true;
                 }
             }
         }
     }
 
-    if( fail ) {
-        p->add_msg_if_player( gi->fail_message );
-    } else if( open ) {
+    if( open ) {
         p->add_msg_if_player( gi->open_message );
     } else if( close ) {
         p->add_msg_if_player( gi->close_message );
+    } else if( fail ) {
+        p->add_msg_if_player( gi->fail_message );
     } else {
         p->add_msg_if_player( _( "Nothing happens." ) );
     }
