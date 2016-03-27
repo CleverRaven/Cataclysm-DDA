@@ -70,6 +70,20 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
 }
 
 template <typename T>
+bool visitable<T>::has_items_with_quality( const std::string &qual, int level, int qty ) const
+{
+    visit_items( [&qual, level, &qty]( const item *e ) {
+        if( e->has_quality( qual, level ) ) {
+            if( --qty == 0 ) {
+                return VisitResponse::ABORT; // found sufficient items
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    return qty == 0;
+}
+
+template <typename T>
 std::vector<item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter )
 {
     std::vector<item *> res;

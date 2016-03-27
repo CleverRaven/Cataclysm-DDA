@@ -13408,22 +13408,6 @@ bool player::has_item_with_flag( std::string flag ) const
     } );
 }
 
-bool player::has_items_with_quality( const std::string &quality_id, int level, int amount ) const
-{
-    visit_items( [&quality_id, level, &amount]( const item *node ) {
-        if( node->has_quality( quality_id, level ) ) {
-            // Each suitable item decreases the require count until it reaches 0,
-            // where the requirement is fulfilled.
-            if( --amount <= 0) {
-                return VisitResponse::ABORT;
-            }
-        }
-        return VisitResponse::NEXT;
-    } );
-
-    return amount <= 0;
-}
-
 void player::on_mutation_gain( const std::string &mid )
 {
     morale.on_mutation_gain( mid );

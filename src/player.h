@@ -973,8 +973,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( std::string flag ) const;
-        // Has amount (or more) items with at least the required quality level.
-        bool has_items_with_quality( const std::string &quality_id, int level, int amount ) const;
         // Returns max required quality in player's items, INT_MIN if player has no such items
         int max_quality( const std::string &quality_id ) const;
 

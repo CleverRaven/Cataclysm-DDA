@@ -58,6 +58,9 @@ class visitable
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
 
+        /** Returns true if instance has amount (or more) items of at least quality level */
+        bool has_items_with_quality( const std::string &qual, int level = 1, int amount = 1 ) const;
+
         /** Returns all items (including those within a container) matching the filter */
         std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
         std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
