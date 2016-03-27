@@ -1168,10 +1168,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
-        int get_used_bionics_slots( body_part bp ) const;
-        int get_total_bionics_slots( body_part bp ) const;
-        int get_free_bionics_slots( body_part bp ) const;
-        bool has_enough_slots( body_part bp, int slots_needed ) const;
+        int get_used_bionics_slots( const body_part bp ) const;
+        int get_total_bionics_slots( const body_part bp ) const;
+        int get_free_bionics_slots( const body_part bp ) const;
+        bool has_enough_slots( const body_part bp, const int slots_needed ) const;
 
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;

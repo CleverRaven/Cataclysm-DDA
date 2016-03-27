@@ -353,20 +353,12 @@ void player::power_bionics()
 
                 // show bodypart name and slots
                 if( content[i].second == INT_MAX ) {
-                    const size_t total_slots = get_total_bionics_slots( content[i].first );
-                    std::string str;
-                    if( total_slots < INT_MAX ) {
-                        str = string_format( "%s [%i/%i]:", bp_category( content[i].first ).c_str(),
-                                             get_used_bionics_slots( content[i].first ),
-                                             total_slots );
-
-                    // no need to show INT_MAX amount of total slots
-                    } else {
-                        str = string_format( "%s [%i]:", bp_category( content[i].first ).c_str(),
-                                             get_used_bionics_slots( content[i].first ) );
-                    }
-                    mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow, str.c_str() );
-
+                    mvwprintz( w_bio_list, i - scroll_position, 2, c_yellow,
+                               string_format( "%s [%i/%i]:",
+                                              bp_category( content[i].first ).c_str(),
+                                              get_used_bionics_slots( content[i].first ),
+                                              get_total_bionics_slots( content[i].first )
+                                            ).c_str() );
                     if( i == cursor ) {
                         cursor++;
                     }
@@ -1172,7 +1164,7 @@ void player::process_bionic(int b)
     }
 }
 
-int player::get_used_bionics_slots( body_part bp ) const
+int player::get_used_bionics_slots( const body_part bp ) const
 {
     int used_slots = 0;
     for( auto &bio : my_bionics ) {
@@ -1185,7 +1177,7 @@ int player::get_used_bionics_slots( body_part bp ) const
     return used_slots;
 }
 
-int player::get_total_bionics_slots( body_part bp ) const
+int player::get_total_bionics_slots( const body_part bp ) const
 {
     switch( bp ) {
     case bp_torso:
@@ -1222,12 +1214,12 @@ int player::get_total_bionics_slots( body_part bp ) const
     return 0;
 }
 
-int player::get_free_bionics_slots( body_part bp ) const
+int player::get_free_bionics_slots( const body_part bp ) const
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
 }
 
-bool player::has_enough_slots( body_part bp, int slots_needed ) const
+bool player::has_enough_slots( const body_part bp, const int slots_needed ) const
 {
     return( get_free_bionics_slots( bp ) >= slots_needed );
 }
