@@ -548,7 +548,7 @@ std::vector<const item *> Character::items_with( const std::function<bool(const 
 {
     auto res = inv.items_with( filter );
 
-    weapon.visit_items_const( [&res, &filter]( const item *node ) {
+    weapon.visit_items( [&res, &filter]( const item *node ) {
         if( filter( *node ) ) {
             res.emplace_back( node );
         }
@@ -556,7 +556,7 @@ std::vector<const item *> Character::items_with( const std::function<bool(const 
     });
 
     for( const auto &e : worn ) {
-        e.visit_items_const( [&res, &filter]( const item *node ) {
+        e.visit_items( [&res, &filter]( const item *node ) {
             if( filter( *node ) ) {
                 res.emplace_back( node );
             }

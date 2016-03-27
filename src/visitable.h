@@ -30,14 +30,12 @@ class visitable
          *
          * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
          */
-        VisitResponse visit_items_with_parent(
-            const std::function<VisitResponse( item *, item * )> &func );
-        VisitResponse visit_items_with_parent_const(
-            const std::function<VisitResponse( const item *, const item * )> &func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func );
+        VisitResponse visit_items( const std::function<VisitResponse( const item *, const item * )> &func ) const;
 
         /** Lightweight version which provides only the current node */
         VisitResponse visit_items( const std::function<VisitResponse( item * )> &func );
-        VisitResponse visit_items_const( const std::function<VisitResponse( const item * )> &func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse( const item * )> &func ) const;
 
         /**
          * Determine the immediate parent container (if any) for an item.

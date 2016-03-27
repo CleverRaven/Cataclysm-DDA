@@ -15,7 +15,7 @@ template <typename T>
 item *visitable<T>::find_parent( const item &it )
 {
     item *res = nullptr;
-    if( visit_items_with_parent( [&]( item * node, item * parent ) {
+    if( visit_items( [&]( item * node, item * parent ) {
     if( node == &it ) {
             res = parent;
             return VisitResponse::ABORT;
@@ -56,7 +56,7 @@ std::vector<const item *> visitable<T>::parents( const item &it ) const
 template <typename T>
 bool visitable<T>::has_item( const item &it ) const
 {
-    return visit_items_const( [&it]( const item * node ) {
+    return visit_items( [&it]( const item * node ) {
         return node == &it ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
@@ -64,22 +64,21 @@ bool visitable<T>::has_item( const item &it ) const
 template <typename T>
 bool visitable<T>::has_item_with( const std::function<bool( const item & )> &filter ) const
 {
-    return visit_items_const( [&filter]( const item * node ) {
+    return visit_items( [&filter]( const item * node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
 
 template <typename T>
-VisitResponse visitable<T>::visit_items_with_parent_const(
+VisitResponse visitable<T>::visit_items(
     const std::function<VisitResponse( const item *, const item * )> &func ) const
 {
-    return const_cast<visitable<T> *>( this )->visit_items_with_parent(
+    return const_cast<visitable<T> *>( this )->visit_items(
                static_cast<const std::function<VisitResponse( item *, item * )>&>( func ) );
 }
 
 template <typename T>
-VisitResponse visitable<T>::visit_items_const( const std::function<VisitResponse( const item * )>
-        &func ) const
+VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( const item * )> &func ) const
 {
     return const_cast<visitable<T> *>( this )->visit_items(
                static_cast<const std::function<VisitResponse( item * )>&>( func ) );
@@ -88,7 +87,7 @@ VisitResponse visitable<T>::visit_items_const( const std::function<VisitResponse
 template <typename T>
 VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( item * )> &func )
 {
-    return visit_items_with_parent( [&func]( item * it, item * ) {
+    return visit_items( [&func]( item * it, item * ) {
         return func( it );
     } );
 }
@@ -119,7 +118,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
 }
 
 template <>
-VisitResponse visitable<item>::visit_items_with_parent(
+VisitResponse visitable<item>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto it = static_cast<item *>( this );
@@ -127,7 +126,7 @@ VisitResponse visitable<item>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<inventory>::visit_items_with_parent(
+VisitResponse visitable<inventory>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto inv = static_cast<inventory *>( this );
@@ -142,7 +141,7 @@ VisitResponse visitable<inventory>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<Character>::visit_items_with_parent(
+VisitResponse visitable<Character>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto ch = static_cast<Character *>( this );
@@ -158,11 +157,11 @@ VisitResponse visitable<Character>::visit_items_with_parent(
         }
     }
 
-    return ch->inv.visit_items_with_parent( func );
+    return ch->inv.visit_items( func );
 }
 
 template <>
-VisitResponse visitable<map_cursor>::visit_items_with_parent(
+VisitResponse visitable<map_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto cur = static_cast<map_cursor *>( this );
@@ -176,11 +175,11 @@ VisitResponse visitable<map_cursor>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<map_selector>::visit_items_with_parent(
+VisitResponse visitable<map_selector>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     for( auto &cursor : static_cast<map_selector &>( *this ) ) {
-        if( cursor.visit_items_with_parent( func ) == VisitResponse::ABORT ) {
+        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -188,7 +187,7 @@ VisitResponse visitable<map_selector>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<vehicle_cursor>::visit_items_with_parent(
+VisitResponse visitable<vehicle_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto self = static_cast<vehicle_cursor *>( this );
@@ -202,11 +201,11 @@ VisitResponse visitable<vehicle_cursor>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<vehicle_selector>::visit_items_with_parent(
+VisitResponse visitable<vehicle_selector>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     for( auto &cursor : static_cast<vehicle_selector &>( *this ) ) {
-        if( cursor.visit_items_with_parent( func ) == VisitResponse::ABORT ) {
+        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
