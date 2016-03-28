@@ -13,7 +13,6 @@
         "range": -2,
         "dispersion": 110,
         "recoil": 15,
-        "aim_speed": -2
     },
     "proportional": { "reload": 0.5 },
     "valid_mod_locations": [ [ "accessories", 1 ] ]
@@ -35,7 +34,6 @@
     "ranged_damage": 2,
     "dispersion": 360,
     "sight_dispersion": 120,
-    "aim_speed": 6,
     "recoil": 120,
     "durability": 6,
     "clip_size": 1,
@@ -58,7 +56,6 @@
     "ammo": "flintlock",
     "dispersion": 360,
     "sight_dispersion": 140,
-    "aim_speed": 6,
     "recoil": 120,
     "durability": 6,
     "clip_size": 6,
@@ -83,7 +80,6 @@
     "ranged_damage": 10,
     "dispersion": 180,
     "sight_dispersion": 90,
-    "aim_speed": 10,
     "recoil": 30,
     "durability": 6,
     "clip_size": 1,

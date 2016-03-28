@@ -10,7 +10,6 @@
     "bashing": 6,
     "to_hit": -2,
     "skill": "pistol",
-    "aim_speed": 4,
     "relative": {
         "durability": -2
     },
@@ -39,7 +38,6 @@
     "range": 2,
     "dispersion": 75,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 90,
     "durability": 8,
     "clip_size": 8,
@@ -63,7 +61,6 @@
     "ammo": "shot",
     "dispersion": 45,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 120,
     "durability": 9,
     "burst": 2,
@@ -87,7 +84,6 @@
     "ammo": "shot",
     "dispersion": 75,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": -15,
     "durability": 9,
     "clip_size": 8,
@@ -137,7 +133,6 @@
     "ammo": "shot",
     "dispersion": 45,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "durability": 8,
     "clip_size": 6,
     "barrel_length": 3,
@@ -155,7 +150,6 @@
     "bashing": 6,
     "to_hit": -2,
     "skill": "pistol",
-    "aim_speed": 4,
     "clip_size": 6,
     "relative": {
         "durability": -2
@@ -183,7 +177,6 @@
     "ammo": "shot",
     "dispersion": 95,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "durability": 7,
     "barrel_length": 3,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
@@ -221,7 +214,6 @@
     "ammo": "shot",
     "dispersion": 105,
     "sight_dispersion": 90,
-    "aim_speed": 6,
     "recoil": 75,
     "durability": 9,
     "clip_size": 1,
