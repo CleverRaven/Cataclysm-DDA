@@ -15,7 +15,6 @@
     "range": 6,
     "ranged_damage": 4,
     "dispersion": 45,
-    "sight_dispersion": 90,
     "recoil": 75,
     "relative": {
         "aim_speed": -2,
@@ -40,7 +39,6 @@
     "material": ["superalloy", "ceramic"],
     "ammo": "20x66mm",
     "dispersion": 90,
-    "sight_dispersion": 75,
     "relative": {
         "aim_speed": -2,
 	"durability": 1
@@ -67,7 +65,6 @@
     "material": [ "superalloy", "ceramic" ],
     "ammo": "20x66mm",
     "dispersion": 270,
-    "sight_dispersion": 90,
     "recoil": 225,
     "relative": { "durability": 1 },
     "burst": 2,

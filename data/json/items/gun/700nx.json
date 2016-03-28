@@ -13,7 +13,6 @@
     "material": [ "steel", "wood" ],
     "ammo": "700nx",
     "dispersion": 60,
-    "sight_dispersion": 60,
     "clip_size": 1,
     "reload": 600,
     "barrel_length": 4,

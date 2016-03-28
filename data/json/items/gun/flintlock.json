@@ -34,7 +34,6 @@
     "range": 2,
     "ranged_damage": 2,
     "dispersion": 360,
-    "sight_dispersion": 120,
     "recoil": 120,
     "clip_size": 1,
     "reload": 800,
@@ -55,7 +54,6 @@
     "material": [ "iron", "wood" ],
     "ammo": "flintlock",
     "dispersion": 360,
-    "sight_dispersion": 140,
     "recoil": 120,
     "relative": {
         "aim_speed": -2
@@ -81,7 +79,6 @@
     "range": 6,
     "ranged_damage": 10,
     "dispersion": 180,
-    "sight_dispersion": 90,
     "recoil": 30,
     "clip_size": 1,
     "reload": 1200,

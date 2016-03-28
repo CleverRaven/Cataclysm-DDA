@@ -13,7 +13,6 @@
     "material": ["superalloy", "ceramic"],
     "ammo": "5x50",
     "dispersion": 50,
-    "sight_dispersion": 75,
     "ranged_damage": 10,
     "range" : 10,
     "relative": {
@@ -43,7 +42,6 @@
     "material": ["superalloy", "ceramic"],
     "ammo": "5x50",
     "dispersion": 125,
-    "sight_dispersion": 95,
     "recoil": 50,
     "relative": {
         "aim_speed": -2,

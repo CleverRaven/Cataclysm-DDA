@@ -15,7 +15,6 @@
     "ammo": "22",
     "ranged_damage": 2,
     "dispersion": 180,
-    "sight_dispersion": 105,
     "recoil": 10,
     "burst": 30,
     "barrel_length": 1,
@@ -41,7 +40,6 @@
     "material": [ "iron", "wood" ],
     "ammo": "22",
     "dispersion": 30,
-    "sight_dispersion": 60,
     "recoil": -75,
     "clip_size": 19,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
@@ -63,7 +61,6 @@
     "ammo": "22",
     "range": 3,
     "dispersion": 300,
-    "sight_dispersion": 120,
     "recoil": 30,
     "clip_size": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
@@ -85,7 +82,6 @@
     "ammo": "22",
     "ranged_damage": -2,
     "dispersion": 105,
-    "sight_dispersion": 60,
     "recoil": 30,
     "loudness": 25,
     "clip_size": 1,
@@ -108,7 +104,6 @@
     "material": [ "superalloy", "ceramic" ],
     "ammo": "22",
     "dispersion": 200,
-    "sight_dispersion": 80,
     "recoil": 5,
     "relative": {
         "aim_speed": -2
@@ -134,7 +129,6 @@
     "material": [ "steel", "wood" ],
     "ammo": "22",
     "dispersion": 10,
-    "sight_dispersion": 60,
     "recoil": -75,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
@@ -169,7 +163,6 @@
     "material": [ "steel", "plastic" ],
     "ammo": "22",
     "dispersion": 300,
-    "sight_dispersion": 90,
     "recoil": 60,
     "relative": {
         "aim_speed": -2
@@ -195,7 +188,6 @@
     "material": [ "steel", "plastic" ],
     "ammo": "22",
     "dispersion": 255,
-    "sight_dispersion": 90,
     "recoil": 75,
     "relative": {
         "aim_speed": -2

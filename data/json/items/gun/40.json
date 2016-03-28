@@ -14,7 +14,6 @@
     "material": [ "plastic", "steel" ],
     "ammo": "40",
     "dispersion": 240,
-    "sight_dispersion": 90,
     "recoil": 90,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -40,7 +39,6 @@
     "material": [ "steel", "plastic" ],
     "ammo": "40",
     "dispersion": 210,
-    "sight_dispersion": 90,
     "recoil": 120,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -85,7 +83,6 @@
     "material": [ "steel", "wood" ],
     "ammo": "40",
     "dispersion": 225,
-    "sight_dispersion": 90,
     "recoil": 90,
     "clip_size": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]

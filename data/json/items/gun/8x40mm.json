@@ -13,7 +13,6 @@
     "material": ["superalloy", "ceramic"],
     "ammo": "8x40mm",
     "dispersion": 200,
-    "sight_dispersion": 90,
     "recoil": 100,
     "relative": {
         "aim_speed": -2,
@@ -69,7 +68,6 @@
     "material": ["superalloy", "ceramic"],
     "ammo": "8x40mm",
     "dispersion": 120,
-    "sight_dispersion": 90,
     "recoil": 100,
     "relative": {
         "aim_speed": -2,
@@ -99,7 +97,6 @@
     "ranged_damage": 10,
     "range": -6,
     "dispersion": 180,
-    "sight_dispersion": 90,
     "recoil": 25,
     "relative": {
         "aim_speed": -2,
@@ -130,7 +127,6 @@
     "ammo": "8x40mm",
     "ranged_damage": 5,
     "dispersion": 90,
-    "sight_dispersion": 60,
     "recoil": 75,
     "relative": {
         "aim_speed": -2,
@@ -159,7 +155,6 @@
     "ammo": "8x40mm",
     "ranged_damage": 5,
     "dispersion": 140,
-    "sight_dispersion": 70,
     "recoil": 50,
     "relative": {
         "aim_speed": -2,
@@ -190,7 +185,6 @@
     "ammo": "8x40mm",
     "ranged_damage": 10,
     "dispersion": 50,
-    "sight_dispersion": 60,
     "recoil": 25,
     "relative": {
         "aim_speed": -2,

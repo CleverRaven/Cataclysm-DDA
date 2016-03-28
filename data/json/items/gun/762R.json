@@ -42,7 +42,6 @@
     "material": [ "steel", "wood" ],
     "ammo": "762R",
     "range": 3,
-    "sight_dispersion": 60,
     "recoil": 75,
     "clip_size": 5,
     "barrel_length": 4,

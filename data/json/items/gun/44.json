@@ -14,7 +14,6 @@
     "material": [ "steel", "plastic" ],
     "ammo": "44",
     "dispersion": 405,
-    "sight_dispersion": 90,
     "recoil": 45,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -37,7 +36,6 @@
     "material": [ "steel", "wood" ],
     "ammo": "44",
     "dispersion": 180,
-    "sight_dispersion": 90,
     "recoil": 100,
     "clip_size": 9,
     "built_in_mods": [ "lemat_revolver_shotgun" ],
@@ -58,7 +56,6 @@
     "material": [ "steel", "wood" ],
     "ammo": "44",
     "dispersion": 195,
-    "sight_dispersion": 90,
     "recoil": 90,
     "clip_size": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
@@ -77,7 +74,6 @@
     "material": [ "steel", "plastic" ],
     "ammo": "44",
     "dispersion": 180,
-    "sight_dispersion": 90,
     "recoil": 100,
     "clip_size": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
