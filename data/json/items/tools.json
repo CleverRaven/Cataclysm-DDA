@@ -20,7 +20,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -39,7 +38,6 @@
     "initial_charges": 0,
     "turns_per_charge": 0,
     "charges_per_use": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "CAPTURE_MONSTER_ACT",
     "properties": [["monster_size_capacity", "SMALL"]],
@@ -60,7 +58,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": "UNFOLD_GENERIC",
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -85,7 +82,6 @@
     "rand_charges": [1,10,12,15,16,22,44,50,67,75,82,100],
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
             "type": "firestarter",
@@ -128,7 +124,6 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
             "type": "firestarter",
@@ -150,7 +145,6 @@
     "initial_charges": 50,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
@@ -172,7 +166,6 @@
     "initial_charges": 1000,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
@@ -214,7 +207,6 @@
     "weight": 400,
     "volume": 1,
     "to_hit": -1,
-    "ammo": "NULL",
     "revert_to": "null",
     "max_charges": 0,
     "initial_charges": 0,
@@ -239,7 +231,6 @@
     "weight": 500,
     "volume": 1,
     "to_hit": -1,
-    "ammo": "NULL",
     "revert_to": "null",
     "max_charges": 0,
     "initial_charges": 0,
@@ -267,7 +258,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -353,7 +343,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
@@ -375,7 +364,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "flags": ["BELT_CLIP"],
     "use_action": "HAMMER",
@@ -398,7 +386,6 @@
     "initial_charges": 60,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "EXTINGUISHER"
   },
@@ -421,7 +408,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
@@ -443,7 +429,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
 },
 {
@@ -463,7 +448,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
 },
 {
@@ -536,7 +520,6 @@
     "initial_charges": 24,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "OXYGEN_BOTTLE"
   },
@@ -557,7 +540,6 @@
     "initial_charges": 12,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "OXYGEN_BOTTLE"
   },
@@ -577,7 +559,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
     "use_action": "EXTRA_BATTERY"
@@ -598,7 +579,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
     "use_action": "DOUBLE_REACTOR"
@@ -619,7 +599,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
     "use_action": "RECHARGEABLE_BATTERY"
@@ -1016,7 +995,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "category": "other",
     "revert_to": "null"
   },
@@ -1038,7 +1016,6 @@
     "initial_charges": 900,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "transform",
@@ -1066,7 +1043,6 @@
     "initial_charges": 900,
     "charges_per_use": 0,
     "turns_per_charge": 120,
-    "ammo": "NULL",
     "revert_to": "lightstrip_dead",
     "revert_msg": "The lightstrip dies."
   },
@@ -1086,7 +1062,6 @@
     "initial_charges": 1400,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "transform",
@@ -1112,7 +1087,6 @@
     "initial_charges": 1400,
     "charges_per_use": 0,
     "turns_per_charge": 2,
-    "ammo": "NULL",
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out."
   },
@@ -1134,7 +1108,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -1154,7 +1127,6 @@
     "initial_charges": 150,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "transform",
@@ -1181,7 +1153,6 @@
     "initial_charges": 150,
     "charges_per_use": 0,
     "turns_per_charge": 2,
-    "ammo": "NULL",
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out"
   },
@@ -1681,7 +1652,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["SMOOTH", 2]]
   },
@@ -1702,7 +1672,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["SMOOTH", 1]]
   },
@@ -1844,7 +1813,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "DIRECTIONAL_ANTENNA"
   },
@@ -1866,7 +1834,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "other"
   },
@@ -1907,7 +1874,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -2074,7 +2040,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "flags": ["BELT_CLIP"],
     "use_action": "CROWBAR",
@@ -2100,7 +2065,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "CROWBAR",
     "qualities": [["PRY", 4], ["HAMMER", 2], ["DIG", 1]]
@@ -2123,7 +2087,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "flags": ["BELT_CLIP"],
     "use_action": "CROWBAR",
@@ -2147,7 +2110,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "MAKEMOUND"
   },
@@ -2169,7 +2131,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["DIG", 3]],
     "use_action": "DIG"
@@ -2189,7 +2150,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
     {
@@ -2210,7 +2170,6 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
         "revert_to": "null",
         "use_action": "SIPHON"
     },
@@ -2626,7 +2585,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2648,7 +2606,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2670,7 +2627,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2693,7 +2649,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2713,7 +2668,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2734,7 +2688,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2755,7 +2708,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2777,7 +2729,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2797,7 +2748,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2817,7 +2767,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2838,7 +2787,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2860,7 +2808,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -2923,7 +2870,6 @@
     "initial_charges": 20,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "TELEPORT"
   },
@@ -2944,7 +2890,6 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "CAN_GOO"
   },
@@ -2965,7 +2910,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "flags": "ACT_IN_FIRE",
     "category": "tools",
@@ -2988,7 +2932,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -3018,7 +2961,6 @@
     "initial_charges": 3,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": "PIPEBOMB_ACT"
@@ -3040,7 +2982,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3069,7 +3010,6 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags": ["BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3101,7 +3041,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE"],
     "revert_to": "null",
     "category": "weapons",
@@ -3130,7 +3069,6 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags": ["ACT_IN_FIRE", "BOMB"],
     "revert_to": "canister_empty",
     "category": "weapons",
@@ -3153,7 +3091,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": "GRANADE"
@@ -3175,7 +3112,6 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": "GRANADE_ACT"
@@ -3197,7 +3133,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3226,7 +3161,6 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -3254,7 +3188,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3283,7 +3216,6 @@
     "initial_charges": 3,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -3313,7 +3245,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3342,7 +3273,6 @@
     "initial_charges": 3,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -3372,7 +3302,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3401,7 +3330,6 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
     "use_action": {
@@ -3432,7 +3360,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3461,7 +3388,6 @@
     "initial_charges": 3,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
     "use_action": {
@@ -3492,7 +3418,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3521,7 +3446,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "canister_empty",
     "category": "weapons",
     "use_action": {
@@ -3551,7 +3475,6 @@
       "initial_charges": 5,
       "charges_per_use": 1,
       "turns_per_charge": 0,
-      "ammo": "NULL",
       "revert_to": "null",
       "category": "ammo",
       "use_action": "ARROW_FLAMABLE"
@@ -3573,7 +3496,6 @@
     "initial_charges": 1,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -3606,7 +3528,6 @@
     "initial_charges": 1,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": "MOLOTOV_LIT"
@@ -3629,7 +3550,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": "ACIDBOMB_ACT"
@@ -3652,7 +3572,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": "ACIDBOMB_ACT"
@@ -3674,7 +3593,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "revert_to": "null",
     "category": "weapons",
@@ -3711,7 +3629,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "explode_in_fire" : true,
@@ -3747,7 +3664,6 @@
     "initial_charges": 25,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "FIRECRACKER_PACK"
   },
@@ -3768,7 +3684,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "FIRECRACKER_PACK_ACT"
   },
@@ -3789,7 +3704,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "FIRECRACKER"
   },
@@ -3811,7 +3725,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "FIRECRACKER_ACT"
   },
@@ -3833,7 +3746,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": "MININUKE"
@@ -3857,7 +3769,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -3890,7 +3801,6 @@
     "initial_charges": 3,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "PHEROMONE"
   },
@@ -3911,7 +3821,6 @@
     "initial_charges": 10,
     "charges_per_use": 5,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "PORTAL"
   },
@@ -3933,7 +3842,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -3965,7 +3873,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -3997,7 +3904,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -4029,7 +3935,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -4061,7 +3966,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -4093,7 +3997,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -4125,7 +4028,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -4156,7 +4058,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
