@@ -594,6 +594,7 @@ void player::serialize(JsonOut &json) const
 
     json.member( "stamina", stamina);
     json.member( "move_mode", move_mode );
+    json.member( "bionic_ui_mode", bionic_ui_mode );
 
     // crafting etc
     json.member( "activity", activity );
@@ -701,6 +702,7 @@ void player::deserialize(JsonIn &jsin)
 
     data.read( "stamina", stamina);
     data.read( "move_mode", move_mode );
+    data.read( "bionic_ui_mode", bionic_ui_mode );
 
     set_highest_cat_level();
     drench_mut_calc();

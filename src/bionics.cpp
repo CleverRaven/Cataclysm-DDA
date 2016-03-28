@@ -307,7 +307,7 @@ void player::power_bionics()
     }
 
     size_t tab_count = num_bp + 1;
-    size_t tab_index = tab_count - 1;
+    size_t tab_index = bionic_ui_mode;
     int cursor = 0;
     int scroll_position = 0;
     int max_scroll_position;
@@ -445,12 +445,14 @@ void player::power_bionics()
 
         } else if( action == "LEFT" ) {
             ( tab_index > 0 ) ? tab_index-- : tab_index = tab_count - 1;
+            bionic_ui_mode = tab_index;
             cursor = 1;
             scroll_position = 0;
             recalc = true;
 
         } else if( action == "RIGHT" ) {
             tab_index = ( tab_index + 1 ) % tab_count;
+            bionic_ui_mode = tab_index;
             cursor = 1;
             scroll_position = 0;
             recalc = true;

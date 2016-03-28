@@ -1117,6 +1117,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
+        int bionic_ui_mode;
         int power_level, max_power_level;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
