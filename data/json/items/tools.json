@@ -5740,7 +5740,6 @@
     "bashing": 2,
     "cutting": 5,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
@@ -5757,7 +5756,6 @@
     "volume": 4,
     "bashing": 10,
     "cutting": 8,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
@@ -5788,7 +5786,6 @@
     "volume": 30,
     "bashing": 4,
     "to_hit": -3,
-    "turns_per_charge": 0,
     "use_action": "PORTABLE_STRUCTURE"
   },{
     "id": "damaged_shelter_kit",
@@ -5818,7 +5815,6 @@
     "bashing": 1,
     "cutting": 1,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "use_action": "HEATPACK"
   },{
     "id": "heatpack_used",
@@ -5834,7 +5830,6 @@
     "bashing": 1,
     "cutting": 1,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "category": "other"
   },{
     "id": "LAW_Packed",
@@ -5852,7 +5847,6 @@
     "max_charges": 1,
     "initial_charges": 1,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "category": "guns",
     "use_action": "LAW"
   },{
@@ -6391,7 +6385,6 @@
     "to_hit": -1,
     "max_charges": 300,
     "initial_charges": 300,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "qualities": [["DRILL", 3]]
   },
@@ -6410,7 +6403,6 @@
     "to_hit": -1,
     "max_charges": 200,
     "initial_charges": 100,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -6427,7 +6419,6 @@
     "bashing": 8,
     "to_hit": -1,
     "max_charges": 200,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -6543,7 +6534,6 @@
     "material": "cotton",
     "weight": 90,
     "volume": 0,
-    "turns_per_charge": 0,
     "category" : "drugs",
         "use_action" : {
             "type" : "heal",
@@ -6603,7 +6593,6 @@
     "volume": 86,
     "bashing": 10,
     "to_hit": -5,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "unfold_vehicle",
         "vehicle_name": "bicycle",
@@ -6626,7 +6615,6 @@
     "to_hit": -2,
     "max_charges": 450,
     "charges_per_use": 75,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": [
         {
@@ -6660,7 +6648,6 @@
     "volume": 40,
     "bashing": 10,
     "to_hit": -6,
-    "turns_per_charge": 0,
     "qualities":[["BREW", 2]]
   },
   {
@@ -6707,7 +6694,6 @@
     "to_hit": -5,
     "max_charges": 200,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "HOTPLATE",
     "qualities":[["BREW", 1], ["CHEM", 2], ["BOIL", 1]]
@@ -6724,7 +6710,6 @@
     "weight": 242,
     "volume": 1,
     "to_hit": -10,
-    "turns_per_charge": 0,
     "qualities": [["SMOKE_PIPE", 1]]
   },
   {
@@ -6740,7 +6725,6 @@
     "volume": 1,
     "to_hit": -10,
     "bashing": 1,
-    "turns_per_charge": 0,
     "qualities": [["SMOKE_PIPE", 1]]
   },
   {
@@ -6756,7 +6740,6 @@
     "volume": 1,
     "to_hit": -10,
     "bashing": 1,
-    "turns_per_charge": 0,
     "qualities": [["SMOKE_PIPE", 1]]
 },
   {
@@ -6773,7 +6756,6 @@
     "bashing": 8,
     "to_hit": -2,
     "max_charges": 500,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
 {
@@ -6791,7 +6773,6 @@
     "cutting": 2,
     "to_hit": -2,
     "max_charges": 100,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -6854,7 +6835,6 @@
     "volume": 2,
     "bashing": 3,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "qualities": [["COOK", 1]]
   },{
     "id": "chisel",
@@ -6906,7 +6886,6 @@
     "bashing": 5,
     "cutting": 50,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
@@ -6924,7 +6903,6 @@
     "volume": 2,
     "bashing": 8,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": {
         "type": "transform",
@@ -6978,7 +6956,6 @@
     "max_charges": 50,
     "initial_charges": 25,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "use_action": [
         {
@@ -7043,7 +7020,6 @@
     "bashing": 9,
     "to_hit": -2,
     "max_charges": 500,
-    "turns_per_charge": 0,
     "ammo": "charcoal"
   },
   {
@@ -7060,7 +7036,6 @@
     "bashing": 9,
     "to_hit": -2,
     "max_charges": 200,
-    "turns_per_charge": 0,
     "ammo": "charcoal"
   },
   {
@@ -7079,7 +7054,6 @@
     "max_charges": 150,
     "initial_charges": 150,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "WATER_PURIFIER"
   },
   {
@@ -7109,7 +7083,6 @@
     "weight": 15142,
     "volume": 40,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
         "type": "transform",
@@ -7154,7 +7127,6 @@
     "weight": 8142,
     "volume": 40,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "category" : "tools"
   },
   {
@@ -7170,7 +7142,6 @@
     "volume": 2,
     "bashing": 1,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "category": "veh_parts",
     "use_action": {
         "type": "manualnoise",
@@ -7194,7 +7165,6 @@
     "volume": 2,
     "bashing": 2,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "category": "veh_parts"
   },
   {
@@ -7210,7 +7180,6 @@
     "volume": 6,
     "bashing": 3,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "category": "veh_parts"
   },
   {
@@ -7224,7 +7193,6 @@
     "symbol": ",",
     "color": "light_blue",
     "description" : "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
-    "turns_per_charge": 0,
     "phase" : "solid",
     "use_action": {
         "type": "transform",
@@ -7247,7 +7215,6 @@
     "to_hit": -2,
     "max_charges": 200,
     "initial_charges": 100,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -7267,7 +7234,6 @@
     "bashing": 6,
     "cutting": 14,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
@@ -7288,7 +7254,6 @@
     "max_charges": 10,
     "initial_charges": 10,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "EXTINGUISHER"
   },
   {
@@ -7306,7 +7271,6 @@
     "volume": 0,
     "cutting": 16,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
@@ -7326,7 +7290,6 @@
     "cutting": 20,
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
     "to_hit": 1,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
@@ -7347,7 +7310,6 @@
     "cutting": 28,
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
     "to_hit": 1,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
@@ -7368,7 +7330,6 @@
     "cutting": 16,
     "flags" : ["SHEATH_KNIFE","CHOP"],
     "to_hit": -1,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
@@ -7390,7 +7351,6 @@
     "volume": 4,
     "bashing": 4,
     "cutting": 15,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
@@ -7411,7 +7371,6 @@
     "volume": 0,
     "cutting": 6,
     "to_hit": -4,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
@@ -7431,7 +7390,6 @@
     "bashing": 1,
     "cutting": 4,
     "to_hit": -4,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
   },
@@ -7452,7 +7410,6 @@
     "cutting": 20,
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
@@ -7487,7 +7444,6 @@
     "bashing": 6,
     "cutting": 14,
     "to_hit": -6,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -22]]
   },
@@ -7507,7 +7463,6 @@
     "bashing": 2,
     "cutting": 26,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 1]]
@@ -7527,7 +7482,6 @@
     "bashing": 2,
     "cutting": 16,
     "to_hit": -6,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 7]]
   },
@@ -7547,7 +7501,6 @@
     "max_charges": 50,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "manualnoise",
         "no_charges_message": "You depress the button but no sound comes out.",
@@ -7571,7 +7524,6 @@
     "max_charges": 2,
     "initial_charges": 2,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "ampoule",
     "use_action": "JET_INJECTOR"
   },
@@ -7614,7 +7566,6 @@
     "volume": 0,
     "cutting": 12,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
@@ -7634,7 +7585,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "category": "drugs",
     "use_action": "INHALER"
   },
@@ -7654,7 +7604,6 @@
     "max_charges": 10,
     "initial_charges": 10,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "category": "drugs",
     "use_action": "EYEDROPS"
   },
@@ -7671,7 +7620,6 @@
     "volume": 4,
     "bashing": 9,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "use_action": "BELL"
   },
   {
@@ -7690,7 +7638,6 @@
     "max_charges": 300,
     "initial_charges": 100,
     "charges_per_use": 100,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "GUN_REPAIR",
     "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
@@ -7711,7 +7658,6 @@
     "max_charges": 500,
     "initial_charges": 250,
     "charges_per_use": 25,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "GUN_REPAIR",
     "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
@@ -7732,7 +7678,6 @@
     "max_charges": 200,
     "initial_charges": 100,
     "charges_per_use": 50,
-    "turns_per_charge": 0,
     "ammo": "tape",
     "use_action": "MISC_REPAIR"
   },
@@ -7751,7 +7696,6 @@
     "max_charges": 10,
     "initial_charges": 5,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "soap",
     "use_action": "SHAVEKIT"
   },
@@ -7770,7 +7714,6 @@
     "to_hit": -1,
     "max_charges": 10,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "soap",
     "use_action": "SHAVEKIT"
   },
@@ -7790,7 +7733,6 @@
     "max_charges": 50,
     "initial_charges": 50,
     "charges_per_use": 10,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "HAIRKIT"
   },
@@ -7807,7 +7749,6 @@
     "volume": 4,
     "bashing": 1,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "use_action": "HAIRKIT"
   },
   {
@@ -7827,7 +7768,6 @@
     "max_charges": 400,
     "initial_charges": 200,
     "charges_per_use": 25,
-    "turns_per_charge": 0,
     "ammo": "tape",
     "use_action": [ "MISC_REPAIR", { "type": "knife" } ],
     "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
@@ -7848,7 +7788,6 @@
     "to_hit": -2,
     "max_charges": 50000,
     "initial_charges": 500,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "ATOMIC_BATTERY"
   },
@@ -7864,7 +7803,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "UPS_BATTERY"
   },
@@ -7880,7 +7818,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "RADIO_MOD"
   },
@@ -7897,7 +7834,6 @@
     "volume": 2,
     "bashing": 3,
     "cutting": 5,
-    "turns_per_charge": 0,
     "use_action": "DIG",
     "flags" : ["CHOP"],
     "to_hit": 1,
@@ -7915,7 +7851,6 @@
     "weight": 1700,
     "volume": 5,
     "bashing": 14,
-    "turns_per_charge": 0,
     "flags": ["FISH_POOR"],
     "use_action": "FISH_ROD",
     "to_hit": 1
@@ -7932,7 +7867,6 @@
     "weight": 1000,
     "volume": 5,
     "bashing": 8,
-    "turns_per_charge": 0,
     "flags": ["FISH_GOOD"],
     "use_action": "FISH_ROD",
     "to_hit": 1
@@ -7975,7 +7909,6 @@
     "weight": 0,
     "volume": 0,
     "max_charges": 10000,
-    "turns_per_charge": 0,
     "use_action": [ "HAMMER", "HACKSAW", "LUMBER", "CROWBAR", "REMOVE_ALL_MODS", { "type": "knife" } ],
     "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1], ["CUT", 2], ["SAW_W", 1], ["SAW_M", 1],
      ["SAW_M_FINE", 1], ["WRENCH", 1], ["WRENCH_FINE", 1], ["SCREW", 1], ["SCREW_FINE", 1],
@@ -8033,7 +7966,6 @@
     "volume": 8,
     "to_hit": -2,
     "max_charges": 5,
-    "turns_per_charge": 0,
     "ammo": "fish_bait",
     "revert_to": "fish_trap",
     "use_action": "FISH_TRAP"
@@ -8053,7 +7985,6 @@
     "max_charges": 100,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "eink_tablet_pc",
     "use_action": "EINKTABLETPC"
@@ -8073,7 +8004,6 @@
     "max_charges": 200,
     "initial_charges": 200,
     "charges_per_use": 5,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "camera",
     "use_action": "CAMERA"
@@ -8094,7 +8024,6 @@
     "max_charges": 200,
     "initial_charges": 200,
     "charges_per_use": 5,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "camera_pro",
     "use_action": "CAMERA"
@@ -8133,7 +8062,6 @@
     "bashing": 6,
     "to_hit": -1,
     "max_charges": 1,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -8158,7 +8086,6 @@
     "to_hit": -4,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8183,7 +8110,6 @@
     "bashing": 6,
     "to_hit": -1,
     "max_charges": 1,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -8208,7 +8134,6 @@
     "to_hit": -4,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8251,7 +8176,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -8303,7 +8227,6 @@
     "to_hit": -1,
     "max_charges": 50,
     "initial_charges": 50,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "radio_car",
     "use_action": "RADIOCAR"
@@ -8362,7 +8285,6 @@
     "max_charges": 240,
     "initial_charges": 240,
     "charges_per_use": 4,
-    "turns_per_charge": 0,
     "use_action": "OXYTORCH",
     "qualities": [["WELD", 2]]
   },
@@ -8380,7 +8302,6 @@
     "bashing": 4,
     "to_hit": -3,
     "effects": ["COOKOFF", "EXPLOSIVE"],
-    "turns_per_charge": 0,
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
@@ -8448,7 +8369,6 @@
     "use_action": "WEATHER_TOOL",
     "max_charges": 20,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "flags": ["THERMOMETER", "HYGROMETER", "BAROMETER"]
   },
   {
@@ -8466,7 +8386,6 @@
     "to_hit": -3,
     "category": "tools",
     "use_action": "WEATHER_TOOL",
-    "turns_per_charge": 0,
     "flags": ["THERMOMETER"]
   },
   {
@@ -8484,7 +8403,6 @@
     "to_hit": -3,
     "category": "tools",
     "use_action": "WEATHER_TOOL",
-    "turns_per_charge": 0,
     "flags": ["HYGROMETER"]
   },
   {
@@ -8502,7 +8420,6 @@
     "to_hit": -3,
     "category": "tools",
     "use_action": "WEATHER_TOOL",
-    "turns_per_charge": 0,
     "flags": ["BAROMETER"]
   },
   {
@@ -8519,7 +8436,6 @@
     "weight": 400,
     "volume": 4,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "delayed_transform",
         "transform_age": 28800, "//": "2 days",
@@ -8543,7 +8459,6 @@
     "weight": 400,
     "volume": 4,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "delayed_transform",
         "transform_age": 28800, "//": "2 days",
@@ -8584,7 +8499,6 @@
     "cutting": 26,
     "flags" : ["CHOP"],
     "to_hit": -3,
-    "turns_per_charge": 0,
     "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]],
     "use_action": { "type": "knife" }
   },
@@ -8604,7 +8518,6 @@
     "cutting": 20,
     "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "to_hit": 2,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
@@ -8625,7 +8538,6 @@
     "bashing": 2,
     "cutting": 35,
     "to_hit": 2,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
@@ -8646,7 +8558,6 @@
     "bashing": 8,
     "cutting": 44,
     "to_hit": 2,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
@@ -8667,7 +8578,6 @@
     "bashing": 17,
     "cutting": 50,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" }
   },
@@ -8688,7 +8598,6 @@
     "bashing": 3,
     "cutting": 34,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 23]]
@@ -8710,7 +8619,6 @@
     "bashing": 5,
     "cutting": 56,
     "to_hit": 1,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
@@ -8746,7 +8654,6 @@
     "bashing": 13,
     "to_hit": -3,
     "max_charges": 1000,
-    "turns_per_charge": 0,
     "ammo": "charcoal"
   },
   {
@@ -8762,7 +8669,6 @@
     "volume": 450,
     "bashing": 12,
     "to_hit": -5,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -8816,7 +8722,6 @@
     "weight": 500,
     "volume": 2,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -8869,7 +8774,6 @@
     "weight": 5000,
     "volume": 16,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -8921,7 +8825,6 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -8975,7 +8878,6 @@
     "volume": 200,
     "bashing": 20,
     "to_hit": -5,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -9028,7 +8930,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -2,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
