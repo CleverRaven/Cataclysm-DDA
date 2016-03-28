@@ -14,6 +14,7 @@
 #include <algorithm>
 
 // sidebar messages flow direction
+extern bool force_message_refresh;
 extern bool log_from_top;
 extern int message_ttl;
 
@@ -305,7 +306,12 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
     if (!size()) {
         return;
     }
-    
+
+    if (force_message_refresh) {
+        werase(ipk_target);
+        wrefresh(ipk_target);
+    }
+
     int const maxlength = right - left;
     int line = log_from_top ? top : bottom;
 
