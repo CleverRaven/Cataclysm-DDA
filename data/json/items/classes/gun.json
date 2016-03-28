@@ -13,6 +13,9 @@
     "type": "GUN",
     "name": "base pistol",
     "skill": "pistol",
+    "bashing": 5,
+    "to_hit": -3,
+    "sight_dispersion": 60,
     "aim_speed": 4
   },
   {
@@ -28,7 +31,10 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": "base rifle",
+    "bashing": 12,
+    "to_hit": -1,
     "skill": "rifle",
+    "sight_dispersion": 60,
     "aim_speed": 8
   },
   {
@@ -36,7 +42,10 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": "base shotgun",
+    "bashing": 12,
+    "to_hit": -1,
     "skill": "shotgun",
+    "sight_dispersion": 90,
     "aim_speed": 6
   },
   {
@@ -44,7 +53,10 @@
     "copy-from": "gun_base",
     "type": "GUN",
     "name": "base SMG",
+    "bashing": 8,
+    "to_hit": -2,
     "skill": "smg",
+    "sight_dispersion": 60,
     "aim_speed": 6
   }
 ]
