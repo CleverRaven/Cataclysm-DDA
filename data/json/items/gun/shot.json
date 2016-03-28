@@ -24,6 +24,7 @@
   },
   {
     "id": "l_def_12",
+    "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "L12 Defender",
     "name_plural": "L12 Defender",
@@ -51,6 +52,7 @@
   },
   {
     "id": "m1014",
+    "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "M1014 shotgun",
     "name_plural": "M1014 shotguns",
@@ -77,6 +79,7 @@
   },
   {
     "id": "mossberg_500",
+    "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "Mossberg 500",
     "name_plural": "Mossberg 500",
@@ -129,6 +132,7 @@
   },
   {
     "id": "remington_870",
+    "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "Remington 870",
     "name_plural": "Remington 870",
@@ -178,6 +182,7 @@
   },
   {
     "id": "saiga_12",
+    "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "Saiga-12",
     "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
@@ -218,6 +223,7 @@
   },
   {
     "id": "shotgun_s",
+    "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "single barrel shotgun",
     "description": "An old shotgun, possibly antique.  It is little more than a barrel, a wood stock, and a hammer to strike the cartridge.  Its simple design keeps it both light and accurate.",

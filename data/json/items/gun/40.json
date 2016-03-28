@@ -1,6 +1,7 @@
 [
   {
     "id": "glock_22",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Glock 22",
     "name_plural": "Glock 22",
@@ -31,6 +32,7 @@
   },
   {
     "id": "sig_40",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "SIG Pro .40",
     "name_plural": "SIG Pro .40",

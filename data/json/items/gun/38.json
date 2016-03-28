@@ -20,6 +20,7 @@
   },
   {
     "id": "cop_38",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "COP .38",
     "name_plural": "COP .38",
@@ -92,6 +93,7 @@
   },
   {
     "id": "taurus_38",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Taurus Pro .38",
     "name_plural": "Taurus Pro .38",

@@ -1,6 +1,7 @@
 [
   {
     "id": "american_180",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "American-180",
     "name_plural": "American-180",
@@ -32,6 +33,7 @@
   },
   {
     "id": "marlin_9a",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "Marlin 39A",
     "name_plural": "Marlin 39A",
@@ -57,6 +59,7 @@
   },
   {
     "id": "moss_brownie",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Mossberg Brownie",
     "name_plural": "Mossberg Brownie",
@@ -83,6 +86,7 @@
   },
   {
     "id": "rifle_22",
+    "copy-from": "rifle_pipe",
     "type": "GUN",
     "name": "pipe rifle: .22",
     "name_plural": "pipe rifles: .22",
@@ -112,6 +116,7 @@
   },
   {
     "id": "rm360_carbine",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "RM360 rotary carbine",
     "description": "This unusual Rivtech carbine features five rotating barrels and a large capacity helical magazine.  Durable and easy to handle, it was designed to overcome the deficiencies of its low power .22LR cartridge by rapidly delivering a large number of projectiles.",
@@ -138,6 +143,7 @@
   },
   {
     "id": "ruger_1022",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "Ruger 10/22",
     "name_plural": "Ruger 10/22",
@@ -177,6 +183,7 @@
   },
   {
     "id": "sig_mosquito",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "SIG Mosquito",
     "name_plural": "SIG Mosquito",
@@ -204,6 +211,7 @@
   },
   {
     "id": "sw_22",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "S&W 22A",
     "name_plural": "S&W 22A",

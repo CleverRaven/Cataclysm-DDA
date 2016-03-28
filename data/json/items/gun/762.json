@@ -1,6 +1,7 @@
 [
   {
     "id": "ak47",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "AKM",
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
@@ -31,6 +32,7 @@
   },
   {
     "id": "sks",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "SKS",
     "description": "Developed by the Soviets in 1945, this rifle was quickly replaced by the full-auto AK47.  However, due to its superb accuracy and low recoil, this gun maintains immense popularity.",

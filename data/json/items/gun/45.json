@@ -1,6 +1,7 @@
 [
   {
     "id": "hk_ump45",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "H&K UMP45",
     "description": "Developed as a successor to the MP5 submachine gun, the UMP45 retains the earlier model's supreme accuracy and low recoil, but in the higher .45 caliber.",
@@ -53,6 +54,7 @@
   },
   {
     "id": "l_long_45",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "L1820 Long Ranger",
     "name_plural": "L1820 Long Ranger",
@@ -96,6 +98,7 @@
   },
   {
     "id": "m1911",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "M1911",
     "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
@@ -124,6 +127,7 @@
   },
   {
     "id": "mac_10",
+    "copy-from": "smg_compact",
     "type": "GUN",
     "name": "MAC-10",
     "description": "The MAC-10 is a popular machine pistol originally designed for military use.  For many years they were the most inexpensive automatic weapon in the US, and enjoyed great popularity among criminals less concerned with quality firearms.",
@@ -173,6 +177,7 @@
   },
   {
     "id": "TDI",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "TDI Vector",
     "description": "The TDI Vector is a submachine gun with a unique, in-line design that makes recoil very manageable, even in the powerful .45 caliber.",
@@ -203,6 +208,7 @@
   },
   {
     "id": "tommygun",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "Thompson submachine gun",
     "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-expensive alternatives.",

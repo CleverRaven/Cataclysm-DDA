@@ -1,6 +1,7 @@
 [
   {
     "id": "deagle_44",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Desert Eagle .44",
     "name_plural": "Desert Eagle .44",

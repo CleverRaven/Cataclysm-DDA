@@ -1,6 +1,7 @@
 [
   {
     "id": "fn57",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "FN Five-Seven",
     "description": "Designed to work with FN's proprietary 5.7x28mm round, the Five-Seven is a lightweight pistol with a very high capacity, best used against armored opponents.",
@@ -29,6 +30,7 @@
   },
   {
     "id": "fn_p90",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "FN P90",
     "description": "The first in a new genre of guns, termed \"personal defense weapons.\"  FN designed the P90 to use their proprietary 5.7x28mm ammunition.  It is made for firing bursts manageably.",

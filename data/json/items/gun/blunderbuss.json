@@ -1,6 +1,7 @@
 [
   {
     "id": "blunderbuss",
+    "copy-from": "shotgun_base",
     "type": "GUN",
     "name": "blunderbuss",
     "name_plural": "blunderbusses",

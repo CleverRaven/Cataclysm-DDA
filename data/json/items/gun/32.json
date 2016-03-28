@@ -1,6 +1,7 @@
 [
   {
     "id": "sig_p230",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "SIG Sauer P230",
     "name_plural": "SIG Sauer P230",
@@ -27,6 +28,7 @@
   },
   {
     "id": "skorpion_61",
+    "copy-from": "smg_compact",
     "type": "GUN",
     "name": "Skorpion Vz. 61",
     "description": "The Skorpion Vz. 61 is a Czechosloavak submachine gun from the 1950s, chambered in .32 ACP.",
@@ -54,6 +56,7 @@
   },
   {
     "id": "walther_ppk",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Walther PPK",
     "name_plural": "Walther PPK",

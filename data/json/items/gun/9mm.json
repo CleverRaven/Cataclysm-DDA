@@ -1,6 +1,7 @@
 [
   {
     "id": "briefcase_smg",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "briefcase SMG",
     "description": "A custom built 9mm submachine gun camouflaged to look as the average businessman suitcase, panes of cutting edge materials and its clever internal construction allowed it to bypass even the most scrupulous of security checkpoints.  Due to the fact that the average security guard is now only concerned in eating you, this million dollar baby has been reduced to little more than a novelty item.",
@@ -37,6 +38,7 @@
   },
   {
     "id": "calico",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "Calico M960",
     "name_plural": "Calico M960",
@@ -70,6 +72,7 @@
   },
   {
     "id": "cx4",
+    "copy-from": "rifle_carbine",
     "type": "GUN",
     "name": "Cx4 Storm",
     "description": "A small pistol caliber carbine designed for police use and civilian self-defense, the Cx4 Storm uses magazines that are interchangeable with other Beretta 9mm handguns.",
@@ -102,6 +105,7 @@
   },
   {
     "id": "glock_19",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Glock 19",
     "description": "Possibly the most popular pistol in existence.  The Glock 19 is often derided for its plastic construction, but it is easy to shoot.",
@@ -132,6 +136,7 @@
   },
   {
     "id": "hk_mp5",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "H&K MP5",
     "description": "The Heckler & Koch MP5 is one of the most widely-used submachine guns in the world, and has been adopted by special police forces and militaries alike.  Its high degree of accuracy and low recoil are universally praised.",
@@ -164,6 +169,7 @@
   },
   {
     "id": "ksub2000",
+    "copy-from": "rifle_carbine",
     "type": "GUN",
     "name": "Kel-Tec SUB-200",
     "description": "A uniquely designed pistol caliber carbine with an integral folding stock and that makes use of 9mm Glock magazines.",
@@ -223,6 +229,7 @@
   },
   {
     "id": "l_sp_9mm",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "L39",
     "description": "A semiautomatic 9mm handgun introduced in 2039, Leadworks LLC's L39 provides accurate single-shot placement in a very robust frame.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.",
@@ -253,6 +260,7 @@
   },
   {
     "id": "m9",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "Beretta M9",
     "description": "A very popular 9mm pistol, the M9 has been the standard issue sidearm of the US army since 1985.",
@@ -285,6 +293,7 @@
   },
   {
     "id": "rifle_9mm",
+    "copy-from": "rifle_pipe",
     "type": "GUN",
     "name": "pipe rifle: 9mm",
     "name_plural": "pipe rifles: 9mm",
@@ -314,6 +323,7 @@
   },
   {
     "id": "sten",
+    "copy-from": "smg_base",
     "type": "GUN",
     "name": "STEN",
     "description": "A British submachine gun developed during World War II, to make up for shortages of supplies.  Designed to be made using unskilled labor and not known for reliablity, its main advantages were low cost and being able to use German 9mm ammunition.",
@@ -344,6 +354,7 @@
   },
   {
     "id": "tec9",
+    "copy-from": "smg_compact",
     "type": "GUN",
     "name": "TEC-9",
     "name_plural": "TEC-9",
@@ -378,6 +389,7 @@
   },
   {
     "id": "usp_9mm",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "USP 9mm",
     "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
@@ -409,6 +421,7 @@
   },
   {
     "id": "uzi",
+    "copy-from": "smg_compact",
     "type": "GUN",
     "name": "Uzi 9mm",
     "description": "The Uzi 9mm has enjoyed immense popularity, selling more units than any other submachine gun.  It is widely used as a personal defense weapon, or as a primary weapon by elite frontline forces.",

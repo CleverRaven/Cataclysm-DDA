@@ -1,6 +1,7 @@
 [
   {
     "id": "trex_gun",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "Elephant gun",
     "description": "A custom made single shot rifle specially designed for the hunting of huge game.  You could obviously kill everything with this, EVERYTHING.  If you ever find enough ammo of course.",
