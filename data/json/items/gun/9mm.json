@@ -24,7 +24,6 @@
     "relative": {
         "aim_speed": 2
     },
-    "durability": 8,
     "burst": 3,
     "magazines" : [
       [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
@@ -53,7 +52,6 @@
     "dispersion": 300,
     "sight_dispersion": 105,
     "recoil": -60,
-    "durability": 6,
     "burst": 20,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -82,7 +80,6 @@
     "dispersion": 180,
     "sight_dispersion": 75,
     "recoil": -15,
-    "durability": 10,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
@@ -110,7 +107,6 @@
     "dispersion": 240,
     "sight_dispersion": 90,
     "recoil": 90,
-    "durability": 6,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines": [
@@ -138,7 +134,6 @@
     "dispersion": 150,
     "sight_dispersion": 75,
     "recoil": -45,
-    "durability": 8,
     "burst": 8,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
@@ -167,7 +162,6 @@
     "dispersion": 210,
     "sight_dispersion": 85,
     "recoil": -15,
-    "durability": 7,
     "barrel_length" : 1,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ]],
     "built_in_mods": [ "folding_stock" ],
@@ -201,7 +195,6 @@
     "relative": {
         "weight": 130,
         "recoil": 15,
-        "durability": -1
     },
     "burst": 3, "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
     "flags": [ "MODE_BURST" ]
@@ -224,7 +217,6 @@
     "dispersion": 150,
     "sight_dispersion": 90,
     "recoil": 60,
-    "durability": 9,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines" : [
@@ -251,7 +243,6 @@
     "dispersion": 225,
     "sight_dispersion": 90,
     "recoil": 90,
-    "durability": 6,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines" : [
@@ -280,7 +271,6 @@
     "dispersion": 105,
     "sight_dispersion": 60,
     "recoil": 30,
-    "durability": 6,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -303,7 +293,6 @@
     "ranged_damage": 1,
     "dispersion": 150,
     "sight_dispersion": 90,
-    "durability": 5,
     "burst": 3,
     "valid_mod_locations": [[ "accessories", 2 ],[ "muzzle", 1 ],[ "stock", 1 ]],
     "magazines" : [
@@ -333,7 +322,6 @@
     "dispersion": 240,
     "sight_dispersion": 105,
     "recoil": -15,
-    "durability": 6,
     "burst": 8,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -363,7 +351,6 @@
     "dispersion": 255,
     "sight_dispersion": 90,
     "recoil": 75,
-    "durability": 9,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well": 1,
     "magazines" : [
@@ -391,7 +378,6 @@
     "dispersion": 255,
     "sight_dispersion": 105,
     "recoil": -15,
-    "durability": 7,
     "burst": 12,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [

@@ -14,7 +14,6 @@
     "ammo": "700nx",
     "dispersion": 60,
     "sight_dispersion": 60,
-    "durability": 8,
     "clip_size": 1,
     "reload": 600,
     "barrel_length": 4,

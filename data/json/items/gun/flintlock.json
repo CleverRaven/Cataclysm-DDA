@@ -36,7 +36,6 @@
     "dispersion": 360,
     "sight_dispersion": 120,
     "recoil": 120,
-    "durability": 6,
     "clip_size": 1,
     "reload": 800,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
@@ -61,7 +60,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 6,
     "clip_size": 6,
     "reload": 1200,
     "valid_mod_locations": [ [ "accessories", 1 ] ],
@@ -85,7 +83,6 @@
     "dispersion": 180,
     "sight_dispersion": 90,
     "recoil": 30,
-    "durability": 6,
     "clip_size": 1,
     "reload": 1200,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "underbarrel", 1 ] ],

@@ -20,7 +20,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "clip_size": 5,
     "barrel_length": 3,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
@@ -44,7 +43,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "burst": 4,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 2,
@@ -69,7 +67,6 @@
     "dispersion": 270,
     "sight_dispersion": 90,
     "recoil": 225,
-    "durability": 9,
     "burst": 2,
     "clip_size": 2,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],

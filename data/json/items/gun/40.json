@@ -16,7 +16,6 @@
     "dispersion": 240,
     "sight_dispersion": 90,
     "recoil": 90,
-    "durability": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -43,7 +42,6 @@
     "dispersion": 210,
     "sight_dispersion": 90,
     "recoil": 120,
-    "durability": 7,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -62,7 +60,6 @@
     "description": "A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work all things considered.",
     "relative": {
         "volume": 1,
-        "durability": -2
     },
     "proportional": {
         "weight": 1.5,
@@ -89,7 +86,6 @@
     "dispersion": 225,
     "sight_dispersion": 90,
     "recoil": 90,
-    "durability": 8,
     "clip_size": 6,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   }

@@ -8,7 +8,6 @@
     "clip_size": 2,
     "relative": {
         "volume": 1,
-        "durability": -2
     },
     "proportional": {
         "weight": 1.5,
@@ -36,7 +35,6 @@
     "dispersion": 225,
     "sight_dispersion": 120,
     "recoil": 30,
-    "durability": 6,
     "clip_size": 4,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
@@ -61,7 +59,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 10,
     "clip_size": 5,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
@@ -82,7 +79,6 @@
     "dispersion": 225,
     "sight_dispersion": 90,
     "recoil": 60,
-    "durability": 10,
     "clip_size": 7,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
@@ -103,7 +99,6 @@
     "dispersion": 210,
     "sight_dispersion": 90,
     "recoil": 90,
-    "durability": 7,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [

@@ -18,7 +18,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
     "magazines" : [
@@ -45,7 +44,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "barrel_length" : 3,
     "burst": 2,
     "default_mods": ["rifle_scope"],
@@ -74,7 +72,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "burst": 5,
     "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
@@ -104,7 +101,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "reload": 400,
     "barrel_length" : 6,
     "burst": 30,
@@ -135,7 +131,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "burst": 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 2,
@@ -164,7 +159,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "reload": 200,
     "barrel_length" : 2,
     "burst": 20,
@@ -195,7 +189,6 @@
     "relative": {
         "aim_speed": -2
     },
-    "durability": 9,
     "barrel_length" : 2,
     "burst": 10,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
