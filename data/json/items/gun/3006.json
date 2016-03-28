@@ -142,7 +142,10 @@
     "description": "A rusty receiver, a R700 pattern barrel and half a broken crutch; all held together in the shape of a rifle with nothing more than glue, duct tape, and generous amounts of faith.",
     "price": 100000,
     "clip_size": 1,
-    "proportional": { "reload": 4.0 },
+    "proportional": {
+        "sight_dispersion": 2.0,
+        "reload": 4.0
+    },
     "valid_mod_locations": [ [ "accessories", 4 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ]
   }
 ]

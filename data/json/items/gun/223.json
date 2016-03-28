@@ -164,6 +164,7 @@
         "aim_speed": 2
     },
     "durability": 10,
+    "sight_dispersion": 0,
     "delete": { "flags": [ "MODE_BURST" ] }
   },
   {
