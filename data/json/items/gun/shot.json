@@ -223,30 +223,20 @@
   },
   {
     "id": "surv_levershotgun",
+    "copy-from": "mossberg_500",
     "type": "GUN",
     "name": "makeshift lever shotgun",
     "description": "A well designed homemade lever-action shotgun.  With a 8 round magazine, this is one of the better homemade weapons.",
-    "weight": 3934,
-    "volume": 10,
-    "price": 135000,
-    "bashing": 12,
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "skill": "shotgun",
-    "ammo": "shot",
-    "ranged_damage": 1,
-    "dispersion": 155,
-    "sight_dispersion": 115,
-    "aim_speed": 5,
-    "recoil": 35,
-    "durability": 6,
-    "loudness": 25,
-    "clip_size": 8,
-    "reload": 200,
-    "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
   }
 ]
