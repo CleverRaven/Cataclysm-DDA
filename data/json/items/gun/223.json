@@ -155,6 +155,7 @@
     },
     "durability": 10,
     "sight_dispersion": 0,
+    "burst": 1,
     "delete": { "flags": [ "MODE_BURST" ] }
   },
   {
