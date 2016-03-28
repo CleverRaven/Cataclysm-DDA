@@ -1,29 +1,22 @@
 [
   {
     "id": "2_shot_special",
+    "copy-from": "cop_38",
     "type": "GUN",
     "name": "2 Shot Special",
-    "name_plural": "2 Shot Specials",
     "description": "A crudely made double barrel pistol firing 38 special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
-    "weight": 750,
-    "volume": 4,
-    "price": 2000,
-    "bashing": 3,
-    "to_hit": -1,
-    "material": [ "steel" ],
-    "symbol": "(",
-    "color": "brown",
-    "skill": "pistol",
-    "ammo": "38",
-    "dispersion": 300,
-    "sight_dispersion": 150,
-    "aim_speed": 1,
-    "recoil": 80,
-    "durability": 3,
     "clip_size": 2,
-    "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
   },
   {
     "id": "cop_38",
