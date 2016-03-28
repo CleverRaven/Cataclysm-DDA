@@ -171,6 +171,7 @@
         "weight": 1200,
         "volume": 4,
         "range": 3,
+        "aim_speed": 2
     },
     "sight_dispersion": 0,
     "durability": 9,
@@ -187,6 +188,7 @@
         "weight": 1200,
         "volume": 2,
         "recoil": -50,
+        "aim_speed": -2
     },
     "durability": 9
   },

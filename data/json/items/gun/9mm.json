@@ -21,6 +21,9 @@
     "ranged_damage": 1,
     "dispersion": 255,
     "sight_dispersion": 75,
+    "relative": {
+        "aim_speed": 2
+    },
     "durability": 8,
     "burst": 3,
     "magazines" : [

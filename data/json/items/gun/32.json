@@ -15,6 +15,9 @@
     "ammo": "32",
     "dispersion": 150,
     "sight_dispersion": 105,
+    "relative": {
+        "aim_speed": -2
+    },
     "durability": 8,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
@@ -62,6 +65,9 @@
     "ammo": "32",
     "dispersion": 150,
     "sight_dispersion": 105,
+    "relative": {
+        "aim_speed": -2
+    },
     "durability": 8,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,

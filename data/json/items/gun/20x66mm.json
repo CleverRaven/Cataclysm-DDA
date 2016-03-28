@@ -17,6 +17,9 @@
     "dispersion": 45,
     "sight_dispersion": 90,
     "recoil": 75,
+    "relative": {
+        "aim_speed": -2
+    },
     "durability": 9,
     "clip_size": 5,
     "barrel_length": 3,
@@ -38,6 +41,9 @@
     "ammo": "20x66mm",
     "dispersion": 90,
     "sight_dispersion": 75,
+    "relative": {
+        "aim_speed": -2
+    },
     "durability": 9,
     "burst": 4,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
