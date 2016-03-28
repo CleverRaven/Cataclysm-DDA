@@ -9,8 +9,6 @@
     "weight": 8267,
     "volume": 12,
     "price": 15000,
-    "bashing": 12,
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
     "ammo": "blunderbuss",
     "dispersion": 555,

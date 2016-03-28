@@ -9,8 +9,6 @@
     "weight": 2055,
     "volume": 3,
     "price": 90000,
-    "bashing": 12,
-    "to_hit": -2,
     "material": [ "steel", "plastic" ],
     "ammo": "500",
     "ranged_damage": 8,

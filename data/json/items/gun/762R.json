@@ -37,8 +37,6 @@
     "weight": 4000,
     "volume": 12,
     "price": 19000,
-    "bashing": 12,
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
     "ammo": "762R",
     "range": 3,
