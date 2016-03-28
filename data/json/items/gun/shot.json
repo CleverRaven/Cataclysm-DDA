@@ -9,6 +9,7 @@
     "volume": 2,
     "bashing": 6,
     "to_hit": -2,
+    "skill": "pistol",
     "aim_speed": 4,
     "relative": {
         "durability": -2
@@ -153,6 +154,7 @@
     "volume": 6,
     "bashing": 6,
     "to_hit": -2,
+    "skill": "pistol",
     "aim_speed": 4,
     "clip_size": 6,
     "relative": {
