@@ -2592,7 +2592,7 @@ int item::reach_range() const
     if( is_gunmod() || !has_flag( "REACH_ATTACK" ) ) {
         return 1;
     }
-    
+
     return has_flag( "REACH3" ) ? 3 : 2;
 }
 
@@ -3546,11 +3546,6 @@ bool item::is_tool_reversible() const
         return revert.is_tool() && typeId() == revert.typeId();
     }
     return false;
-}
-
-bool item::is_software() const
-{
-    return type->software.get() != nullptr;
 }
 
 bool item::is_artifact() const

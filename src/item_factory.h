@@ -287,7 +287,6 @@ class Item_factory
         void load( islot_spawn &slot, JsonObject &jo );
         void load( islot_ammo &slot, JsonObject &jo );
         void load( islot_seed &slot, JsonObject &jo );
-        void load( islot_software &slot, JsonObject &jo );
         void load( islot_artifact &slot, JsonObject &jo );
 
         // used to add the default categories

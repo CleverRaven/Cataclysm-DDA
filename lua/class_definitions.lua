@@ -1027,7 +1027,6 @@ classes = {
             { name = "is_seed", rval = "bool", args = { } },
             { name = "is_sided", rval = "bool", args = { } },
             { name = "is_silent", rval = "bool", args = { } },
-            { name = "is_software", rval = "bool", args = { } },
             { name = "is_tool", rval = "bool", args = { } },
             { name = "is_tool_reversible", rval = "bool", args = { } },
             { name = "is_two_handed", rval = "bool", args = { "player" } },
