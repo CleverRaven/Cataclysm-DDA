@@ -12,8 +12,6 @@
     "bashing": 12,
     "to_hit": -2,
     "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
     "ammo": "454",
     "ranged_damage": 6,
     "dispersion": 180,
