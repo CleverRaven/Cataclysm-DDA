@@ -135,6 +135,7 @@ else
   LD  = $(CROSS)$(OS_LINKER)
 endif
 RC  = $(CROSS)windres
+AR  = $(CROSS)ar
 
 # Capture CXXVERSION if using MXE - used later for ICE workaround
 ifdef CROSS
@@ -551,7 +552,7 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 cataclysm.a: $(ODIR) $(DDIR) $(OBJS)
-	ar rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+	$(AR) rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
 version:
