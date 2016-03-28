@@ -8,6 +8,7 @@
     "clip_size": 2,
     "relative": {
         "volume": 1,
+        "durability": -2
     },
     "proportional": {
         "weight": 1.5,

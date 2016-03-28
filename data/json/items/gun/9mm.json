@@ -195,6 +195,7 @@
     "relative": {
         "weight": 130,
         "recoil": 15,
+        "durability": -1
     },
     "burst": 3, "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
     "flags": [ "MODE_BURST" ]
@@ -294,6 +295,9 @@
     "dispersion": 150,
     "sight_dispersion": 90,
     "burst": 3,
+    "relative": {
+        "durability": -2
+    },
     "valid_mod_locations": [[ "accessories", 2 ],[ "muzzle", 1 ],[ "stock", 1 ]],
     "magazines" : [
         [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
@@ -323,6 +327,9 @@
     "sight_dispersion": 105,
     "recoil": -15,
     "burst": 8,
+    "relative": {
+        "durability": -1
+    },
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [

@@ -41,6 +41,7 @@
     "ammo": "223",
     "dispersion": 5,
     "sight_dispersion": 60,
+    "relative": { "durability": -1 },
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
@@ -135,6 +136,7 @@
     "ammo": "223",
     "sight_dispersion": 60,
     "recoil": -150,
+    "durability": 3,
     "burst": 3,
     "valid_mod_locations": [ [ "accessories", 2 ] ],
     "magazines" : [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ]
@@ -151,6 +153,7 @@
         "ranged_damage": -2,
         "range": -6
     },
+    "durability": 10,
     "burst": 5
   },
   {
@@ -166,6 +169,7 @@
         "range": 3,
         "aim_speed": 2
     },
+    "durability": 10,
     "sight_dispersion": 0,
     "delete": { "flags": [ "MODE_BURST" ] }
   },
@@ -182,6 +186,7 @@
         "recoil": -50,
         "aim_speed": -2
     },
+    "durability": 10
   },
   {
     "id": "l_lmg_223",
@@ -196,6 +201,7 @@
         "dispersion": 60,
         "recoil": -150
     },
+    "durability": 10,
     "burst": 20
   },
   {
@@ -232,6 +238,7 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": 3495,
     "relative": {
+        "durability": 1
     },
     "burst": 15,
     "magazines" : [
@@ -258,6 +265,9 @@
     "sight_dispersion": 60,
     "recoil": 30,
     "burst": 10,
+    "relative": {
+        "durability": -2
+    },
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
       [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
@@ -351,6 +361,7 @@
     "description": "A well designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines this is one of the better homemade weapons.",
     "relative": {
         "volume": 1,
+        "durability": -2
     },
     "proportional": {
         "weight": 1.5,

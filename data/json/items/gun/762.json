@@ -17,6 +17,9 @@
     "recoil": 60,
     "burst": 8,
     "barrel_length" : 1,
+    "relative": {
+        "durability": 1
+    },
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines": [
       [ "762", [ "akmmag", "akmbigmag" ] ],
@@ -43,6 +46,9 @@
     "recoil": -60,
     "clip_size": 10,
     "barrel_length" : 2,
+    "relative": {
+        "durability": 1
+    },
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   }

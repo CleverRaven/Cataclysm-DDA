@@ -12,6 +12,7 @@
     "skill": "pistol",
     "aim_speed": 4,
     "relative": {
+        "durability": -2
     },
     "proportional": {
         "price": 0.2,
@@ -148,6 +149,7 @@
     "skill": "pistol",
     "clip_size": 6,
     "relative": {
+        "durability": -2
     },
     "proportional": {
         "price": 0.2,
@@ -222,6 +224,7 @@
     "description": "A well designed homemade lever-action shotgun.  With a 8 round magazine, this is one of the better homemade weapons.",
     "relative": {
         "volume": 1,
+        "durability": -2
     },
     "proportional": {
         "weight": 1.5,

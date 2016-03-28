@@ -60,6 +60,7 @@
     "description": "A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work all things considered.",
     "relative": {
         "volume": 1,
+        "durability": -2
     },
     "proportional": {
         "weight": 1.5,

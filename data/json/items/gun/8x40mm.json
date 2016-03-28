@@ -16,7 +16,8 @@
     "sight_dispersion": 90,
     "recoil": 100,
     "relative": {
-        "aim_speed": -2
+        "aim_speed": -2,
+        "durability": 1
     },
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 1,
@@ -42,7 +43,8 @@
     "range": 20,
     "recoil": 125,
     "relative": {
-        "aim_speed": -2
+        "aim_speed": -2,
+        "durability": 1
     },
     "barrel_length" : 3,
     "burst": 2,
@@ -70,7 +72,8 @@
     "sight_dispersion": 90,
     "recoil": 100,
     "relative": {
-        "aim_speed": -2
+        "aim_speed": -2,
+        "durability": 1
     },
     "burst": 5,
     "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
@@ -99,7 +102,8 @@
     "sight_dispersion": 90,
     "recoil": 25,
     "relative": {
-        "aim_speed": -2
+        "aim_speed": -2,
+        "durability": 1
     },
     "reload": 400,
     "barrel_length" : 6,
@@ -129,7 +133,8 @@
     "sight_dispersion": 60,
     "recoil": 75,
     "relative": {
-        "aim_speed": -2
+        "aim_speed": -2,
+        "durability": 1
     },
     "burst": 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
@@ -157,7 +162,8 @@
     "sight_dispersion": 70,
     "recoil": 50,
     "relative": {
-        "aim_speed": -2
+        "aim_speed": -2,
+        "durability": 1
     },
     "reload": 200,
     "barrel_length" : 2,
@@ -187,7 +193,8 @@
     "sight_dispersion": 60,
     "recoil": 25,
     "relative": {
-        "aim_speed": -2
+        "aim_speed": -2,
+        "durability": 1
     },
     "barrel_length" : 2,
     "burst": 10,
