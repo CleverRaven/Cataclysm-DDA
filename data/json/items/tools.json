@@ -6874,8 +6874,7 @@
     "volume": 10,
     "to_hit": 1,
     "bashing": 3,
-    "turns_per_charge": 0,
-    "charges_per_use": 0
+    "turns_per_charge": 0
   },
   {
     "id": "chemistry_set_basic",
@@ -9314,7 +9313,6 @@
     "to_hit" : 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
@@ -9348,7 +9346,6 @@
     "to_hit" : 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
@@ -9382,7 +9379,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
@@ -9416,7 +9412,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
@@ -9450,7 +9445,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
@@ -9484,7 +9478,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
@@ -9520,7 +9513,6 @@
     "volume": 200,
     "bashing": 12,
     "to_hit": -3,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": "LADDER"
   },
@@ -9540,7 +9532,6 @@
     "flags" : ["DURABLE_MELEE"],
     "techniques": ["WBLOCK_1"],
     "to_hit": 2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": "CROWBAR",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1], ["PRY", 2]]
@@ -9593,7 +9584,6 @@
     "to_hit": 3,
     "category" : "weapons",
     "max_charges": 1000,
-    "charges_per_use": 0,
     "turns_per_charge": 40,
     "ammo": "battery",
     "revert_to": "l-stick",
