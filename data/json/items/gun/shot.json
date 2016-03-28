@@ -95,31 +95,14 @@
   },
   {
     "id": "pipe_shotgun",
+    "copy-from": "shotgun_s",
     "type": "GUN",
     "name": "pipe shotgun",
     "description": "A home-made shotgun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": 2267,
-    "volume": 9,
-    "price": 20000,
-    "bashing": 12,
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "skill": "shotgun",
-    "ammo": "shot",
-    "ranged_damage": 2,
-    "dispersion": 555,
-    "sight_dispersion": 150,
-    "aim_speed": 6,
-    "recoil": 300,
-    "durability": 6,
-    "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
-    "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "proportional": {
+        "price": 0.2,
+        "reload": 4.0
+    }
   },
   {
     "id": "remington_870",
