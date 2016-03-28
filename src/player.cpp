@@ -8351,9 +8351,7 @@ void player::mend( int rate_multiplier )
     }
 
     // Being healthy helps.
-    if( get_healthy() > 0 ) {
-        healing_factor *= get_healthy() / 200.0f;
-    }
+    healing_factor *= 1.0f + get_healthy() / 200.0f;
 
     // And being well fed...
     if( get_hunger() < 0 ) {
