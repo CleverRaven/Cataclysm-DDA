@@ -800,12 +800,6 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo )
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-void Item_factory::load( islot_software &slot, JsonObject &jo )
-{
-    slot.type = jo.get_string( "type" );
-    slot.power = jo.get_int( "power" );
-}
-
 /** Helpers to handle json entity inheritance logic in a generic way. **/
 template <typename T>
 typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
@@ -1326,7 +1320,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->spawn, jo, "spawn_data" );
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
-    load_slot_optional( new_item_template->software, jo, "software_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
     // Make sure this one is at/near the end
     // TODO: Get rid of it when it is no longer needed (unless it's desired here)

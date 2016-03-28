@@ -395,17 +395,6 @@ struct islot_bionic {
     std::string bionic_id;
 };
 
-struct islot_software {
-    /**
-     * Type of software, not used by anything at all.
-     */
-    std::string type = "USELESS";
-    /**
-     * No used, but it's there is the original data.
-     */
-    int power;
-};
-
 struct islot_seed {
     /**
      * Time it takes for a seed to grow (in days, based of off a season length of 91)
@@ -480,7 +469,6 @@ struct itype {
     copyable_unique_ptr<islot_magazine> magazine;
     copyable_unique_ptr<islot_variable_bigness> variable_bigness;
     copyable_unique_ptr<islot_bionic> bionic;
-    copyable_unique_ptr<islot_software> software;
     copyable_unique_ptr<islot_spawn> spawn;
     copyable_unique_ptr<islot_ammo> ammo;
     copyable_unique_ptr<islot_seed> seed;
