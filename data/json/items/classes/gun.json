@@ -38,6 +38,28 @@
     "aim_speed": 8
   },
   {
+    "abstract": "rifle_carbine",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "rifle carbine",
+    "relative": {
+      "basing": -2,
+      "aim_speed": -2
+    }
+  },
+  {
+    "abstract": "rifle_machine",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "machine gun"
+  },
+  {
+    "abstract": "rifle_pipe",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "rifle carbine"
+  },
+  {
     "abstract": "shotgun_base",
     "copy-from": "gun_base",
     "type": "GUN",
@@ -58,5 +80,15 @@
     "skill": "smg",
     "sight_dispersion": 60,
     "aim_speed": 6
+  },
+  {
+    "abstract": "smg_compact",
+    "copy-from": "smg_base",
+    "type": "GUN",
+    "name": "base SMG",
+    "relative": {
+      "basing": -2,
+      "aim_speed": -2
+    }
   }
 ]
