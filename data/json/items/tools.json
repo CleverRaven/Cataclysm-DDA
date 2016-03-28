@@ -15,8 +15,7 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 1,
-    "to_hit": 100,
-    "turns_per_charge": 0
+    "to_hit": 100
   },
   {
     "id": "pet_carrier",
@@ -214,8 +213,7 @@
     "weight": 3264,
     "volume": 8,
     "bashing": 5,
-    "to_hit": -4,
-    "turns_per_charge": 0
+    "to_hit": -4
   },
   {
     "id": "sewing_kit",
@@ -360,8 +358,7 @@
     "weight": 60,
     "volume": 2,
     "cutting": 2,
-    "to_hit": 1,
-    "turns_per_charge": 0
+    "to_hit": 1
 },
 {
     "id": "paint_brush",
@@ -375,8 +372,7 @@
     "material": ["wood"],
     "weight": 60,
     "volume": 2,
-    "to_hit": 1,
-    "turns_per_charge": 0
+    "to_hit": 1
 },
 {
     "type":"GENERIC",
@@ -980,8 +976,7 @@
     "weight": 29,
     "volume": 1,
     "bashing": 2,
-    "to_hit": -1,
-    "turns_per_charge": 0
+    "to_hit": -1
   },
   {
     "id": "handflare",
@@ -1683,8 +1678,7 @@
     "weight": 5,
     "volume": 0,
     "bashing": 1,
-    "to_hit": -1,
-    "turns_per_charge": 0
+    "to_hit": -1
   },
   {
     "id": "noise_emitter",
@@ -1926,8 +1920,7 @@
     "price": 4000,
     "material": ["plastic", "aluminum"],
     "weight": 150,
-    "volume": 1,
-    "turns_per_charge": 0
+    "volume": 1
   },
     {
         "id" : "hose",
@@ -3668,7 +3661,6 @@
      "to_hit" : -1,
      "max_charges" : 500,
      "charges_per_use" : 100,
-     "turns_per_charge" : 0,
      "ammo" : "battery",
      "category": "weapons",
      "use_action" : "TAZER"
@@ -3691,7 +3683,6 @@
     "to_hit" : 2,
     "max_charges" : 500,
     "charges_per_use" : 1,
-    "turns_per_charge" : 0,
     "ammo" : "battery",
     "category": "weapons",
     "use_action" : "SHOCKTONFA_OFF"
@@ -3817,8 +3808,7 @@
     "material": "bone",
     "weight": 311,
     "volume": 3,
-    "bashing": 6,
-    "turns_per_charge": 0
+    "bashing": 6
   },
   {
     "id": "dogfood",
@@ -5151,8 +5141,7 @@
     "material": "plastic",
     "weight": 489,
     "volume": 1,
-    "bashing": 5,
-    "turns_per_charge": 0
+    "bashing": 5
   },
   {
     "id": "press",
@@ -5248,8 +5237,7 @@
     "material": "wood",
     "weight": 850,
     "volume": 1,
-    "to_hit": -1,
-    "turns_per_charge": 0
+    "to_hit": -1
   },
   {
     "id": "boltcutters",
@@ -5799,8 +5787,7 @@
     "weight": 1360,
     "volume": 30,
     "bashing": 4,
-    "to_hit": -3,
-    "turns_per_charge": 0
+    "to_hit": -3
   },{
     "id": "heatpack",
     "type": "TOOL",
@@ -6662,8 +6649,7 @@
     "weight": 2,
     "volume": 10,
     "to_hit": 1,
-    "bashing": 3,
-    "turns_per_charge": 0
+    "bashing": 3
   },
   {
     "id": "chemistry_set_basic",
@@ -6787,8 +6773,7 @@
     "weight": 14000,
     "volume": 8,
     "bashing": 10,
-    "to_hit": -2,
-    "turns_per_charge": 0
+    "to_hit": -2
   },
   {
     "id": "crucible_clay",
@@ -6802,8 +6787,7 @@
     "weight": 16422,
     "volume": 10,
     "bashing": 10,
-    "to_hit": -2,
-    "turns_per_charge": 0
+    "to_hit": -2
   },
   {
     "id": "anvil",
@@ -6818,8 +6802,7 @@
     "weight": 54000,
     "volume": 16,
     "bashing": 40,
-    "to_hit": -5,
-    "turns_per_charge": 0
+    "to_hit": -5
   },
   {
     "id": "tongs",
@@ -6850,8 +6833,7 @@
     "volume": 1,
     "bashing": 4,
     "cutting": 2,
-    "to_hit": 2,
-    "turns_per_charge": 0
+    "to_hit": 2
   },
   {
     "id": "swage",
@@ -6866,8 +6848,7 @@
     "weight": 2620,
     "volume": 8,
     "bashing": 10,
-    "to_hit": 1,
-    "turns_per_charge": 0
+    "to_hit": 1
   },
   {
     "id": "nodachi",
@@ -7425,8 +7406,7 @@
     "material": "steel",
     "weight": 11974,
     "volume": 5,
-    "bashing": 8,
-    "turns_per_charge": 0
+    "bashing": 8
   },
   {
     "id": "scythe",
@@ -7545,7 +7525,6 @@
     "to_hit": 3,
     "max_charges" : 500,
     "charges_per_use" : 100,
-    "turns_per_charge" : 0,
     "ammo" : "battery",
     "category": "weapons",
     "use_action" : "TAZER"
@@ -8481,8 +8460,7 @@
     "flags": ["NO_SALVAGE"],
     "weight": 200,
     "volume": 2,
-    "to_hit": -4,
-    "turns_per_charge": 0
+    "to_hit": -4
   },
   {
     "id": "lobotomizer",
@@ -8983,7 +8961,6 @@
     "to_hit" : 0,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 10,
@@ -9016,7 +8993,6 @@
     "to_hit" : 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 13,
@@ -9049,7 +9025,6 @@
     "to_hit" : 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 17,
@@ -9082,7 +9057,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 20,
@@ -9115,7 +9089,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 18,
@@ -9148,7 +9121,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 25,
@@ -9181,7 +9153,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 25,
@@ -9216,7 +9187,6 @@
     "volume": 200,
     "bashing": 12,
     "to_hit": -3,
-    "turns_per_charge": 0,
     "use_action": "LADDER"
   },
   {
@@ -9235,7 +9205,6 @@
     "flags" : ["DURABLE_MELEE"],
     "techniques": ["WBLOCK_1"],
     "to_hit": 2,
-    "turns_per_charge": 0,
     "use_action": "CROWBAR",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1], ["PRY", 2]]
   },
@@ -9258,7 +9227,6 @@
     "category" : "weapons",
     "max_charges": 1000,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -9312,7 +9280,6 @@
     "volume": 1,
     "max_charges": 200,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "thread",
     "use_action": {
         "type": "repair_item",
