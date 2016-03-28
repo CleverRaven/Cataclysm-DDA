@@ -2451,6 +2451,28 @@
         "category": "other"
     },
     {
+        "type" : "GENERIC",
+        "id" : "joint_lit",
+        "name" : "joint",
+        "color" : "ltgreen",
+        "symbol" : "!",
+        "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
+        "price" : 0,
+        "category" : "drugs",
+        "flags" : [ "LITCIG", "LIGHT_4" ]
+    },
+    {
+        "type" : "GENERIC",
+        "id" : "joint_roach",
+        "name" : "joint roach",
+        "name_plural": "joint roaches",
+        "color" : "green",
+        "symbol" : "!",
+        "description" : "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
+        "price" : 0,
+        "category" : "other"
+    },
+    {
         "type":"GENERIC",
         "id": "cannabis",
         "symbol": "%",
