@@ -4085,7 +4085,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -4113,7 +4112,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "place_monster",
@@ -4353,7 +4351,6 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "VORTEX"
   },
@@ -4373,7 +4370,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -4393,7 +4389,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "DOGFOOD"
   },
@@ -4414,7 +4409,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "CATFOOD"
   },
@@ -4434,7 +4428,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -4454,7 +4447,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": "C4"
@@ -4476,7 +4468,6 @@
     "initial_charges": 9,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": {
@@ -4505,7 +4496,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "DOG_WHISTLE"
   },
@@ -4527,7 +4517,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "VACUTAINER"
   },
@@ -4586,7 +4575,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -4606,7 +4594,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -4626,7 +4613,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -4650,7 +4636,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
@@ -4674,7 +4659,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
@@ -4699,7 +4683,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -4812,7 +4795,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -4838,7 +4820,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -4864,7 +4845,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -4890,7 +4870,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
@@ -4916,7 +4895,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -4943,7 +4921,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -4970,7 +4947,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
@@ -4996,7 +4972,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
@@ -5101,7 +5076,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -5127,7 +5101,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
@@ -5172,7 +5145,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
@@ -5198,7 +5170,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
     "use_action": { "type": "knife" }
@@ -5380,7 +5351,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -5504,7 +5474,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]],
@@ -5529,7 +5498,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -5557,7 +5525,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -5580,7 +5547,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "LUMBER",
     "qualities":[["SAW_W", 2]]
@@ -5604,7 +5570,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["AXE", 3]],
     "use_action": "LUMBER"
@@ -5629,7 +5594,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
@@ -5653,7 +5617,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
     "qualities": [["AXE", 2]],
@@ -5677,7 +5640,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": [ "HACKSAW", "SAW_BARREL" ],
     "qualities":[["SAW_M", 1], ["SAW_M_FINE", 1]]
@@ -5698,7 +5660,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "PORTABLE_STRUCTURE"
   },
@@ -5719,7 +5680,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "PORTABLE_STRUCTURE"
   },
@@ -5741,7 +5701,6 @@
     "initial_charges": 25,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "transform",
@@ -5771,7 +5730,6 @@
     "initial_charges": 75,
     "charges_per_use": 0,
     "turns_per_charge": 20,
-    "ammo": "NULL",
     "revert_to": "torch_done",
     "use_action": "TORCH_LIT"
   },
@@ -5794,7 +5752,6 @@
     "initial_charges": 25,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
     "use_action": {
@@ -5826,7 +5783,6 @@
     "initial_charges": 25,
     "charges_per_use": 0,
     "turns_per_charge": 20,
-    "ammo": "NULL",
     "revert_to": "battletorch_done",
     "category" : "weapons",
     "use_action": "BATTLETORCH_LIT"
@@ -5847,7 +5803,6 @@
     "initial_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "can_food",
     "use_action": {
         "type": "transform",
@@ -5876,7 +5831,6 @@
     "initial_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 50,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "transform",
@@ -5901,7 +5855,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },{
@@ -5921,7 +5874,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -5942,7 +5894,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -5962,7 +5913,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -5982,7 +5932,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SET_TRAP"
   },
@@ -6002,7 +5951,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -6044,7 +5992,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1]]
@@ -6067,7 +6014,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
@@ -6090,7 +6036,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["WRENCH", 1], ["WRENCH_FINE", 1]]
   },
@@ -6111,7 +6056,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["WRENCH", 1]]
   },
@@ -6131,7 +6075,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -6153,7 +6096,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "BOLTCUTTERS"
   },
@@ -6175,7 +6117,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "MOP"
   },
@@ -6194,7 +6135,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
       "type": "picklock",
@@ -6216,7 +6156,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
       "type": "picklock",
@@ -6237,7 +6176,6 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "picklock",
@@ -6263,7 +6201,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "other"
   },
@@ -6286,7 +6223,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "PICKAXE"
   },
@@ -6305,7 +6241,6 @@
     "initial_charges": 10,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "SPRAY_CAN"
   },
@@ -6324,7 +6259,6 @@
     "initial_charges": 500,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "inscribe",
@@ -6349,7 +6283,6 @@
     "initial_charges": 100,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "inscribe",
@@ -6374,7 +6307,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
     "flags": ["NO_SALVAGE"],
@@ -6401,7 +6333,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
     "flags": ["NO_SALVAGE"]
@@ -6421,7 +6352,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
     "flags": ["NO_SALVAGE"]
@@ -6497,7 +6427,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
@@ -6519,7 +6448,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
@@ -6543,7 +6471,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
@@ -6627,7 +6554,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
@@ -6647,7 +6573,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
@@ -6668,7 +6593,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities":[ ["SAW_W", 1] ]
   },{
@@ -6689,7 +6613,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
@@ -6711,7 +6634,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
@@ -6732,7 +6654,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["DIG", 2]],
     "use_action": "DIG"
@@ -6755,7 +6676,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
@@ -6777,7 +6697,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": { "type": "knife" },
     "flags" : ["CHOP", "DURABLE_MELEE"],
@@ -6813,7 +6732,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "PORTABLE_STRUCTURE"
   },{
@@ -6833,7 +6751,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },{
     "id": "heatpack",
@@ -6853,7 +6770,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": "HEATPACK"
   },{
@@ -6874,7 +6790,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "category": "other",
     "revert_to": "null"
   },{
@@ -6894,7 +6809,6 @@
     "initial_charges": 1,
     "charges_per_use": 1,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category": "guns",
     "use_action": "LAW"
@@ -7597,7 +7511,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "drugs",
         "use_action" : {
@@ -7664,7 +7577,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "use_action": {
         "type": "unfold_vehicle",
@@ -7728,7 +7640,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities":[["BREW", 2]]
   },
@@ -7805,7 +7716,6 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL",
     "qualities": [["SMOKE_PIPE", 1]]
   },
   {
@@ -7826,7 +7736,6 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL",
     "qualities": [["SMOKE_PIPE", 1]]
   },
   {
@@ -7847,7 +7756,6 @@
     "initial_charges": 0,
     "max_charges": 0,
     "revert_to": "null",
-    "ammo": "NULL",
     "qualities": [["SMOKE_PIPE", 1]]
 },
   {
@@ -7908,7 +7816,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -7928,7 +7835,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -7949,7 +7855,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -7970,7 +7875,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "qualities": [["COOK", 1]]
   },{
@@ -7992,7 +7896,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -8013,7 +7916,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null"
   },
   {
@@ -8037,7 +7939,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "revert_to": "null",
     "category" : "weapons",
     "use_action": { "type": "knife" },
