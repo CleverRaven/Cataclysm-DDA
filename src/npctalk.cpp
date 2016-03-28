@@ -4759,9 +4759,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( ( !it.type->use_methods.empty() || comest->quench < 0 || it.poison > 0 ) &&
-        p.op_of_u.trust < 5 &&
-        !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
-        // TODO: Get some better check here
+        !p.is_minion() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         reason = _("I don't <swear> trust you enough to eat from your hand...");
         return REFUSED;
     }

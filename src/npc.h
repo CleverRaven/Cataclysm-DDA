@@ -636,6 +636,8 @@ public:
  bool is_defending() const; // Putting the player's safety ahead of ours
     /** Standing in one spot, moving back if removed from it. */
     bool is_guarding() const;
+    /** Trusts you a lot. */
+    bool is_minion() const;
         Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
  void told_to_help();

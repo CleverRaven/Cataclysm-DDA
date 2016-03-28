@@ -1630,6 +1630,10 @@ bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
         return true;
     }
 
+    if( is_minion() ) {
+        return true;
+    }
+
     // TODO: Base on inventory
     return at_price - market_price <= 50;
 }
@@ -1644,6 +1648,11 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
 {
     (void)market_price;
     (void)it;
+
+    if( is_minion() ) {
+        return true;
+    }
+
     // TODO: Base on inventory
     return at_price >= 80;
 }
@@ -1884,6 +1893,11 @@ bool npc::is_friend() const
      attitude == NPCATT_LEAD)
   return true;
  return false;
+}
+
+bool npc::is_minion() const
+{
+    return is_friend() && op_of_u.trust >= 5;
 }
 
 bool npc::is_following() const
