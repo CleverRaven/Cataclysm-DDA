@@ -70,6 +70,7 @@
     "id" : "guns_pistol_improvised",
     "//" : "Makeshift or otherwise poor quality pistols.",
     "items": [
+      [ "ashot", 100 ],
       [ "surv_hand_cannon", 100 ],
       [ "surv_six_shooter", 100 ]
     ]

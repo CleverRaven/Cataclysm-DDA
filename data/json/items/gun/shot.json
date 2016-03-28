@@ -1,5 +1,28 @@
 [
   {
+    "id": "ashot",
+    "copy-from": "shotgun_s",
+    "type": "GUN",
+    "name": "12 gauge pistol",
+    "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
+    "skill": "pistol",
+    "weight": 828,
+    "volume": 2,
+    "bashing": 6,
+    "to_hit": -2,
+    "aim_speed": 4,
+    "relative": {
+        "durability": -2
+    },
+    "proportional": {
+        "price": 0.2,
+        "recoil": 2.0,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
+  },
+  {
     "id": "l_def_12",
     "type": "GUN",
     "name": "L12 Defender",
