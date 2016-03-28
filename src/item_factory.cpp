@@ -1259,6 +1259,11 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->phase = jo.get_enum_value<phase_id>( "phase" );
     }
 
+    if( jo.has_array( "magazines" ) ) {
+        new_item_template->magazines.clear();
+        new_item_template->magazine_default.clear();
+    }
+
     JsonArray mags = jo.get_array( "magazines" );
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();

@@ -185,30 +185,23 @@
   },
   {
     "id": "rifle_308",
+    "copy-from": "m14a",
     "type": "GUN",
-    "name": "pipe rifle: .308",
-    "name_plural": "pipe rifles: .308",
+    "name": "survivor lever rifle",
     "description": "A homemade lever-action rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as an integral magazine for rounds, and chambering the more powerful .308 rounds.",
-    "weight": 2311,
-    "volume": 8,
-    "price": 10000,
-    "bashing": 10,
-    "to_hit": -1,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "skill": "rifle",
-    "ammo": "308",
-    "dispersion": 75,
-    "sight_dispersion": 60,
-    "aim_speed": 6,
-    "recoil": 30,
-    "durability": 6,
     "clip_size": 6,
-    "reload": 200,
-    "barrel_length": 2,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "magazines": [],
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "savage_111f",
