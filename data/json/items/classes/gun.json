@@ -51,7 +51,10 @@
     "abstract": "rifle_machine",
     "copy-from": "rifle_base",
     "type": "GUN",
-    "name": "machine gun"
+    "name": "machine gun",
+    "relative": {
+        "recoil": -200
+    }
   },
   {
     "abstract": "rifle_pipe",
