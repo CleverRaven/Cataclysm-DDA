@@ -105,7 +105,7 @@
     "type": "GUN",
     "name": "pipe rifle: .30-06",
     "name_plural": "pipe rifles: .30-06",
-    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.  This one is made to support more gun attachments.",
+    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
     "weight": 4080,
     "volume": 12,
     "price": 110000,
@@ -115,11 +115,7 @@
     "dispersion": 60,
     "recoil": 150,
     "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
-    "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
-    "flags": "RELOAD_ONE"
+    "barrel_length": 4
   },
   {
     "id": "survivor_special_700",
