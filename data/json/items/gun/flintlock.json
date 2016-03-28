@@ -1,30 +1,22 @@
 [
   {
     "id": "carbine_flintlock",
+    "copy-from": "rifle_flintlock",
     "type": "GUN",
     "name": "flintlock carbine",
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
-    "weight": 1450,
-    "volume": 6,
-    "price": 40000,
-    "bashing": 10,
-    "to_hit": -1,
-    "material": [ "iron", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "skill": "rifle",
-    "ammo": "flintlock",
-    "range": 4,
-    "ranged_damage": 6,
-    "dispersion": 290,
-    "sight_dispersion": 90,
-    "aim_speed": 8,
-    "recoil": 45,
-    "durability": 6,
-    "clip_size": 1,
-    "reload": 800,
-    "valid_mod_locations": [ [ "accessories", 1 ] ],
-    "flags": [ "NEVER_JAMS", "DURABLE_MELEE" ]
+    "relative": {
+        "weight": -500,
+        "volume": -4,
+        "bashing": -5,
+        "ranged_damage": -4,
+        "range": -2,
+        "dispersion": 110,
+        "recoil": 15,
+        "aim_speed": -2
+    },
+    "proportional": { "reload": 0.5 },
+    "valid_mod_locations": [ [ "accessories", 1 ] ]
   },
   {
     "id": "pistol_flintlock",

@@ -1,0 +1,328 @@
+[
+    {
+        "id" : "aspirin",
+        "type" : "COMESTIBLE",
+        "name" : "aspirin",
+        "weight" : 1,
+        "color" : "white",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some aspirin.",
+            "effects" : [ {
+                    "id" : "pkill1",
+                    "duration" : 120
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "healthy" : -1,
+        "description" : "Acetylsalicylic acid, a mild anti-inflammatory.  Take to relieve pain and swelling.",
+        "price" : 500,
+        "volume" : 1,
+        "charges" : 20,
+        "stack_size" : 200
+    },
+    {
+        "id" : "caffeine",
+        "type" : "COMESTIBLE",
+        "name" : "caffeine pill",
+        "weight" : 1,
+        "color" : "cyan",
+        "addiction_type" : "caffeine",
+        "use_action" : "CAFF",
+        "stim" : 12,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "addiction_potential" : 3,
+        "description" : "No-doz brand caffeine pills, maximum strength.  Useful in pulling an all-nighter, one pill is about equivalent to a strong cup of coffee.",
+        "price" : 1000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200
+    },
+    {
+        "id" : "pills_sleep",
+        "type" : "COMESTIBLE",
+        "name" : "Ambien",
+        "weight" : 1,
+        "color" : "light_red",
+        "addiction_type" : "sleeping pill",
+        "use_action" : "SLEEP",
+        "stim" : -8,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "addiction_potential" : 40,
+        "description" : "A habit-forming tranquilizer with a variety of psychoactive side effects.  Used in the treatment of insomnia.  Its generic name is zolpidem tartrate.",
+        "price" : 3000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200,
+        "fun" : 5
+    },
+    {
+        "id" : "iodine",
+        "type" : "COMESTIBLE",
+        "name" : "potassium iodide tablet",
+        "weight" : 1,
+        "color" : "white",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some potassium iodide.",
+            "effects" : [ {
+                    "id" : "iodine",
+                    "duration" : 7200
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "description" : "Potassium iodide tablets.  If taken prior to exposure, they help to mitigate injury caused by radiation absorption.",
+        "price" : 1000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200
+    },
+    {
+        "id" : "prussian_blue",
+        "type" : "COMESTIBLE",
+        "name" : "Prussian blue tablet",
+        "weight" : 1,
+        "color" : "blue",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some Prussian blue.",
+            "effects" : [ {
+                    "id" : "pblue",
+                    "duration" : 3600
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "description" : "Tablets containing oxidized ferrous ferrocyanide salts.  Capable of purging nuclear contaminants from the body if taken after radiation exposure.",
+        "price" : 3000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200
+    },
+    {
+        "id" : "cotton_ball",
+        "type" : "COMESTIBLE",
+        "name" : "cotton balls",
+        "name_plural" : "cotton balls",
+        "category" : "spare_parts",
+        "weight" : 180,
+        "color" : "white",
+        "container" : "bag_plastic",
+        "comestible_type" : "MED",
+        "symbol" : "*",
+        "description" : "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
+        "price" : 500,
+        "material" : "cotton",
+        "volume" : 1,
+        "charges" : 2,
+        "flags" : [ "USE_ON_NPC" ],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bleed" : 0.9,
+            "move_cost" : 300
+        }
+    },
+    {
+        "id" : "bandages",
+        "type" : "COMESTIBLE",
+        "name" : "bandage",
+        "weight" : 70,
+        "color" : "white",
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "description" : "Simple cloth bandages.  Used for healing small amounts of damage.",
+        "price" : 600,
+        "material" : "cotton",
+        "volume" : 1,
+        "charges" : 3,
+        "stack_size" : 9,
+        "flags" : [ "USE_ON_NPC" ],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bleed" : 0.9,
+            "move_cost" : 300
+        }
+    },
+    {
+        "id" : "1st_aid",
+        "type" : "COMESTIBLE",
+        "name" : "first aid kit",
+        "weight" : 240,
+        "color" : "red",
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "description" : "A full medical kit, with bandages, local anesthetics, and rapid healing agents.  Used for healing large amounts of damage.",
+        "price" : 3000,
+        "material" : "plastic",
+        "volume" : 1,
+        "charges" : 2,
+        "stack_size" : 6,
+        "flags" : [ "USE_ON_NPC" ],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 14,
+            "head_power" : 10,
+            "torso_power" : 18,
+            "bleed" : 0.95,
+            "bite" : 0.99,
+            "infect" : 0.95,
+            "move_cost" : 6000,
+            "long_action" : true,
+            "effects" : [ {
+                    "id" : "pkill1",
+                    "duration" : 120
+                }
+            ]
+        }
+    },
+    {
+        "id" : "poppysyrup",
+        "type" : "COMESTIBLE",
+        "name" : "poppy cough syrup",
+        "name_plural" : "poppy cough syrup",
+        "weight" : 48,
+        "color" : "magenta",
+        "addiction_type" : "sleeping pill",
+        "use_action" : "FLUSLEEP",
+        "stim" : -3,
+        "container" : "bottle_plastic",
+        "comestible_type" : "MED",
+        "symbol" : "~",
+        "healthy" : -1,
+        "addiction_potential" : 15,
+        "description" : "Cough syrup made from mutated poppy.  Will make you sleepy.",
+        "price" : 2500,
+        "volume" : 1,
+        "phase" : "liquid",
+        "charges" : 5
+    },
+    {
+        "id" : "poppy_sleep",
+        "type" : "COMESTIBLE",
+        "name" : "poppy sleep",
+        "weight" : 1,
+        "color" : "magenta",
+        "addiction_type" : "opiate",
+        "use_action" : "SLEEP",
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "healthy" : -2,
+        "description" : "A potent sleep aid extracted from mutated poppy seeds.  Effective, but as an opiate, it may be addictive.",
+        "price" : 2000,
+        "material" : "powder",
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 100
+    },
+    {
+        "id" : "poppy_pain",
+        "type" : "COMESTIBLE",
+        "name" : "poppy painkiller",
+        "weight" : 1,
+        "color" : "pink",
+        "addiction_type" : "opiate",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some poppy painkiller.",
+            "effects" : [ {
+                    "id" : "pkill2",
+                    "duration" : 180
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "healthy" : -2,
+        "addiction_potential" : 10,
+        "description" : "Potent opioid palliative produced by the refining of the mutated poppy.  Notably devoid of euphoric or sedative effects, as an opiate it may still be addictive.",
+        "price" : 3000,
+        "material" : "powder",
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 100
+    },
+    {   
+        "id" : "datura_seed",
+        "type" : "COMESTIBLE",
+        "name" : "datura seeds",
+        "name_plural" : "datura seeds",
+        "category" : "other",
+        "weight" : 2,
+        "color" : "brown",
+        "use_action" : "DATURA",
+        "stim" : 6,
+        "comestible_type" : "MED",
+        "symbol" : ".",
+        "healthy" : -2,
+        "description" : "Small, dark seeds from the spiny pods of a datura plant.  Full of powerful psychoactive chemicals, these tiny seeds are a potent analgesic and deliriant, and can be deadly in cases of overdose.  You could probably plant these.",
+        "price" : 0,
+        "volume" : 1,
+        "charges" : 4,
+        "stack_size" : 100,
+        "fun" : -1,
+        "seed_data" : {
+            "plant_name" : "datura",
+            "fruit" : "datura_seed",
+            "byproducts" : [ "withered" ],
+            "grow" : 91
+        }
+    },
+    {
+        "id" : "thyme_oil",
+        "type" : "COMESTIBLE",
+        "name" : "thyme oil",
+        "description" : "Some essential oil made from thyme, which can act as a mildly irritating disinfectant.",
+        "comestible_type" : "MED",
+        "spoils_in" : 672,
+        "phase" : "liquid",
+        "weight" : 40,
+        "to_hit" : -3,
+        "color" : "yellow",
+        "symbol" : "~",
+        "volume" : 1,
+        "bashing" : -8,
+        "charges" : 1,
+        "price" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        }
+    },
+    {   
+        "id" : "mugwort_oil",
+        "type" : "COMESTIBLE",
+        "name" : "mugwort oil",
+        "description" : "Some essential oil made from mugwort, which may kill parasites when ingested.  Consume it with water!",
+        "comestible_type" : "MED",
+        "use_action" : "ANTIPARASITIC",
+        "spoils_in" : 672,
+        "quench" : -50,
+        "fun" : -5,
+        "phase" : "liquid",
+        "weight" : 40,
+        "to_hit" : -3,
+        "color" : "yellow",
+        "symbol" : "~",
+        "volume" : 1,
+        "bashing" : -8,
+        "charges" : 1,
+        "price" : 0
+    }
+]

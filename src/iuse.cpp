@@ -2307,8 +2307,7 @@ void remove_battery_mods( item &modded, player &p )
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "battery";
+        return itm.is_tool() && itm.ammo_type() == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2321,8 +2320,7 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
-    if (tool->ammo_id != "battery") {
+    if( modded->ammo_type() != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -2342,8 +2340,7 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "plutonium";
+        return itm.is_tool() && itm.ammo_type() == "plutonium";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2356,8 +2353,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
-    if (tool->ammo_id != "plutonium") {
+    if( modded->ammo_type() != "plutonium" ) {
         p->add_msg_if_player(m_info, _("That item does not use plutonium!"));
         return 0;
     }
@@ -2371,8 +2367,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "battery";
+        return itm.is_tool() && itm.ammo_type() == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2385,8 +2380,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
-    if (tool->ammo_id != "battery") {
+    if( modded->ammo_type() != "battery" ) {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -2410,8 +2404,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "battery";
+        return itm.is_tool() && itm.ammo_type() == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2424,13 +2417,12 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
     if (modded->has_flag("ATOMIC_AMMO")) {
         p->add_msg_if_player(m_info,
                              _("That item has already had its battery modified to accept plutonium cells."));
         return 0;
     }
-    if (tool->ammo_id != "battery") {
+    if( modded->ammo_type() != "battery" ) {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -2450,8 +2442,7 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "battery";
+        return itm.is_tool() && itm.ammo_type() == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2464,8 +2455,7 @@ int iuse::ups_battery(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
-    if (tool->ammo_id != "battery") {
+    if( modded->ammo_type() != "battery" ) {
         p->add_msg_if_player(_("That item does not use batteries!"));
         return 0;
     }
@@ -2553,8 +2543,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") ||
+        return itm.is_tool() && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") ||
                                   itm.has_flag("USE_UPS") || itm.has_flag("ATOMIC_AMMO") );
     } );
     item *modded = &( p->i_at( inventory_index ) );
@@ -3931,16 +3920,14 @@ int iuse::geiger(player *p, item *it, bool t, const tripoint &pos)
         return it->type->charges_to_use();
     }
     // Otherwise, we're activating the geiger counter
-    const auto type = dynamic_cast<const it_tool *>(it->type);
-    bool is_on = (type->id == "geiger_on");
-    if (is_on) {
+    if( it->typeId() == "geiger_on" ) {
         add_msg(_("The geiger counter's SCANNING LED turns off."));
         it->convert( "geiger_off" ).active = false;
         return 0;
     }
-    std::string toggle_text = is_on ? _("Turn continuous scan off") : _("Turn continuous scan on");
+
     int ch = menu(true, _("Geiger counter:"), _("Scan yourself"), _("Scan the ground"),
-                  toggle_text.c_str(), _("Cancel"), NULL);
+                  _("Turn continuous scan on"), _("Cancel"), NULL);
     switch (ch) {
         case 1:
             p->add_msg_if_player(m_info, _("Your radiation level: %d (%d from items)"), p->radiation,
@@ -7553,16 +7540,14 @@ void sendRadioSignal(player *p, std::string signal)
         if (it.has_flag("RADIO_ACTIVATION") && it.has_flag(signal)) {
             sounds::sound(p->pos(), 6, _("beep."));
 
-            auto tmp = dynamic_cast<const it_tool *>(it.type);
             if( it.has_flag("RADIO_INVOKE_PROC") ) {
                 // Invoke twice: first to transform, then later to proc
-                tmp->invoke( p, &it, p->pos() );
+                it.type->invoke( p, &it, p->pos() );
                 it.charges = 0;
                 // The type changed
-                tmp = dynamic_cast<const it_tool *>(it.type);
             }
 
-            tmp->invoke(p, &it, p->pos());
+            it.type->invoke(p, &it, p->pos());
         }
     }
 
@@ -8070,8 +8055,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     mealtime = meal->time * 2 ;
                 }
 
-                const auto tmp = dynamic_cast<const it_tool *>(it->type);
-                const int all_charges = 50 + mealtime / (tmp->turns_per_charge * 100);
+                const int all_charges = 50 + mealtime / (it->type->tool->turns_per_charge * 100);
 
                 if (it->charges < all_charges) {
 

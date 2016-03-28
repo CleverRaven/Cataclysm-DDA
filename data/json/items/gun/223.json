@@ -117,6 +117,7 @@
   },
   {
     "id": "l_bak_223",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "L2037 Backup",
     "name_plural": "L2037 Backups",
@@ -135,13 +136,10 @@
     "ranged_damage": -2,
     "dispersion": 75,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 120,
     "durability": 8,
-    "reload": 75,
     "clip_size": 5,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "l_base_223",
@@ -151,138 +149,82 @@
     "weight": 2500,
     "volume": 6,
     "price": 350000, "//" : "Current milspec, so Expensive.",
-    "bashing": 12,
-    "to_hit": -1,
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",
     "skill": "rifle",
     "ammo": "223",
-    "ranged_damage": -2,
-    "range": -12,
-    "dispersion": 150,
     "sight_dispersion": 60,
     "aim_speed" : 6,
-    "recoil": 60,
+    "recoil": -150,
     "durability": 3,
     "burst": 3,
-    "valid_mod_locations": [[ "accessories", 4 ]],
-    "magazines" : [
-      [ "223", [ "lw223mag", "lw223bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    "valid_mod_locations": [ [ "accessories", 2 ] ],
+    "magazines" : [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ]
   },
   {
     "id": "l_car_223",
+    "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-CAR carbine",
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The carbine model incorporates Leadworks' proprietary gyro-stabilization technology and includes an integral laser sight, but like the rest of the family, doesn't accept third-party modifications.",
-    "weight": 2900,
-    "volume": 6,
     "price": 520000,
-    "bashing": 12,
-    "to_hit": -1,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "rifle",
-    "ammo": "223",
-    "ranged_damage": -2,
-    "range": -6,
-    "dispersion": 15,
-    "sight_dispersion": 90,
-    "aim_speed" : 0,
-    "recoil": -180,
-    "durability": 7,
-    "burst": 5,
-    "valid_mod_locations": [[ "accessories", 2 ]],
-    "magazines" : [
-      [ "223", [ "lw223mag", "lw223bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    "relative": {
+        "weight": 400,
+        "ranged_damage": -2,
+        "range": -6
+    },
+    "durability": 9,
+    "burst": 5
   },
   {
     "id": "l_dsr_223",
+    "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-DSR rifle",
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The designated-shootist rifle incorporates a specially-designed extended barrel with integral bipod and foregrip, along with an integral 8x optic, and trades selective-fire for the Leadworks gyro-stabilization system.  Like the rest of the family, though, it doesn't accept third-party modifications.",
-    "weight": 4400,
-    "volume": 10,
-    "price": 550000, "//" : "Current LEO/military use, so Expensive for civilians.",
-    "bashing": 12,
-    "to_hit": -1,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "rifle",
-    "ammo": "223",
-    "ranged_damage": 2,
-    "range": 3, "//": "Should be barely able to out-range antimateriel turrrets.",
-    "dispersion": 5,
+    "price": 580000,
+    "relative": {
+        "weight": 1200,
+        "volume": 4,
+        "range": 3,
+        "aim_speed": 2
+    },
     "sight_dispersion": 0,
-    "aim_speed" : 9,
-    "recoil": -150,
-    "durability": 7,
-    "valid_mod_locations": [[ "accessories", 2 ]],
-    "magazines" : [
-      [ "223", [ "lw223mag", "lw223bigmag" ] ]
-    ]
+    "durability": 9,
+    "delete": { "flags": [ "MODE_BURST" ] }
   },
   {
     "id": "l_mbr_223",
+    "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-MBR rifle",
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The battle rifle's (proprietary) combination optic & red-dot sights provide quick and accurate targeting, with a foregrip available for greater control.  Like the rest of the family, though, it doesn't accept third-party modifications.",
-    "weight": 3200,
-    "volume": 7,
     "price": 520000,
-    "bashing": 12,
-    "to_hit": -1,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "rifle",
-    "ammo": "223",
-    "dispersion": 8,
-    "sight_dispersion": 90,
-    "aim_speed" : 2,
-    "recoil": -90,
-    "durability": 7,
-    "valid_mod_locations": [[ "accessories", 2 ]],
-    "burst": 3,
-    "magazines" : [
-      [ "223", [ "lw223mag", "lw223bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    "relative": {
+        "weight": 1200,
+        "volume": 2,
+        "recoil": -50,
+        "aim_speed": -2
+    },
+    "durability": 9
   },
   {
     "id": "l_lmg_223",
+    "copy-from": "l_base_223",
     "type": "GUN",
     "name": "L523-LMG",
     "description": "Leadworks LLC's bullpup L523 platform utilizes the ubiquitous 5.56 round in multiple applications, and is designed to part-swap quickly, safely, and effectively from one to the next.  The rather ambitious light machine gun variant incorporates a heavy-duty barrel & foregrip, the Leadworks gyro system, and a redesigned drum magazine capable of serving up 100 rounds per reload.  Unfortunately this rules out third-party magazines, as well as more usual modifications.",
-    "weight": 4180,
-    "volume": 13,
     "price": 620000,
-    "bashing": 12,
-    "to_hit": -1,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "rifle",
-    "ammo": "223",
-    "ranged_damage": 2,
-    "range": 2,
-    "dispersion": 2,
-    "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": -165,
-    "durability": 7,
-    "burst": 20,
-    "valid_mod_locations": [[ "accessories", 2 ]],
-    "magazines" : [
-      [ "223", [ "lw223mag", "lw223bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    "relative": {
+        "weight": 2000,
+        "volume": 7,
+        "dispersion": 60,
+        "aim_speed": 2,
+        "recoil": -150
+    },
+    "durability": 9,
+    "burst": 20
   },
   {
     "id": "m249",
@@ -316,34 +258,20 @@
   },
   {
     "id": "m27iar",
+    "copy-from": "h&k416a5",
     "type": "GUN",
     "name": "M27 IAR",
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": 3495,
-    "volume": 8,
-    "price": 540000,
-    "bashing": 12,
-    "to_hit": -1,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "rifle",
-    "ammo": "223",
-    "ranged_damage": 8,
-    "range": 5,
-    "dispersion": 10,
-    "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": 120,
-    "durability": 8,
+    "relative": {
+        "durability": 1
+    },
     "burst": 15,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
       [ "223", [ "stanag50", "stanag30", "stanag10" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "m4a1",
@@ -410,7 +338,7 @@
     "name": "FN SCAR-L",
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
     "weight": 2960,
-    "volume": 8,
+    "volume": 9,
     "price": 280000,
     "bashing": 12,
     "to_hit": -1,

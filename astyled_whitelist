@@ -20,6 +20,8 @@ src/drawing_primitives.cpp
 src/editmap.cpp
 src/explosion.cpp
 src/gamemode.cpp
+src/gates.cpp
+src/gates.h
 src/item_action.cpp
 src/item_location.cpp
 src/itype.cpp

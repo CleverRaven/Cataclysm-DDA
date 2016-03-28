@@ -242,22 +242,20 @@ std::string artifact_noun[NUM_ART_NOUNS];
 std::string artifact_name(std::string type);
 
 // Constructrs for artifact itypes.
-it_artifact_tool::it_artifact_tool() : it_tool()
+it_artifact_tool::it_artifact_tool() : itype()
 {
+    tool.reset( new islot_tool() );
     artifact.reset( new islot_artifact() );
     id = item_controller->create_artifact_id();
-    ammo_id = "NULL";
     price = 0;
-    def_charges = 0;
-    charges_per_use = 1;
+    tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
-    turns_per_charge = 0;
-    revert_to = "null";
     use_methods.push_back( &iuse::artifact );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo ) : it_tool()
+it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
 {
+    tool.reset( new islot_tool() );
     artifact.reset( new islot_artifact() );
     use_methods.push_back( &iuse::artifact );
     deserialize( jo );
@@ -748,8 +746,6 @@ std::string new_artifact()
         num_good = 0;
         num_bad = 0;
         value = 0;
-        art->def_charges = 0;
-        art->max_charges = 0;
         std::vector<art_effect_active> good_a_effects = fill_good_active();
         std::vector<art_effect_active> bad_a_effects = fill_bad_active();
         while (!good_a_effects.empty() && !bad_a_effects.empty() &&
@@ -766,11 +762,11 @@ std::string new_artifact()
                 value += active_effect_cost[active_tmp];
             }
             art->artifact->effects_activated.push_back(active_tmp);
-            art->max_charges += rng(1, 3);
+            art->tool->max_charges += rng(1, 3);
         }
-        art->def_charges = art->max_charges;
+        art->tool->def_charges = art->tool->max_charges;
         // If we have charges, pick a recharge mechanism
-        if (art->max_charges > 0) {
+        if( art->tool->max_charges > 0 ) {
             art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
         }
         if (one_in(8) && num_bad + num_good >= 4) {
@@ -983,8 +979,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
     // Natural artifacts ALWAYS can recharge
     // (When "implanting" them in a mundane item, this ability may be lost
     if (!art->artifact->effects_activated.empty()) {
-        art->max_charges = rng(1, 4);
-        art->def_charges = art->max_charges;
+        art->tool->def_charges = art->tool->max_charges = rng( 1, 4 );
         art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
     }
     item_controller->add_item_type( art );
@@ -1141,13 +1136,13 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
-    max_charges = jo.get_long("max_charges");
-    def_charges = jo.get_long("def_charges");
+    tool->max_charges = jo.get_long("max_charges");
+    tool->def_charges = jo.get_long("def_charges");
 
-    charges_per_use = jo.get_int("charges_per_use");
-    turns_per_charge = jo.get_int("turns_per_charge");
-    ammo_id = jo.get_string("ammo");
-    revert_to = jo.get_string("revert_to");
+    tool->charges_per_use = jo.get_int("charges_per_use");
+    tool->turns_per_charge = jo.get_int("turns_per_charge");
+    tool->ammo_id = jo.get_string("ammo");
+    tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
 
@@ -1297,12 +1292,12 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("techniques", techniques);
 
     // tool data
-    json.member("ammo", ammo_id);
-    json.member("max_charges", max_charges);
-    json.member("def_charges", def_charges);
-    json.member("charges_per_use", charges_per_use);
-    json.member("turns_per_charge", turns_per_charge);
-    json.member("revert_to", revert_to);
+    json.member("ammo", tool->ammo_id);
+    json.member("max_charges", tool->max_charges);
+    json.member("def_charges", tool->def_charges);
+    json.member("charges_per_use", tool->charges_per_use);
+    json.member("turns_per_charge", tool->turns_per_charge);
+    json.member("revert_to", tool->revert_to);
 
     // artifact data
     json.member("charge_type", artifact->charge_type);

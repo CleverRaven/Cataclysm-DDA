@@ -80,6 +80,8 @@
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
 #include "pathfinding.h"
+#include "gates.h"
+#include "item_factory.h"
 
 #include <map>
 #include <set>
@@ -3650,6 +3652,87 @@ bool game::save_player_data()
     } catch (std::ios::failure &err) {
         popup(_("Failed to save player data"));
         return false;
+    }
+}
+
+void game::dump_stats( const std::string& what )
+{
+    load_core_data();
+    DynamicDataLoader::get_instance().finalize_loaded_data();
+
+    if( what == "GUN" ) {
+        std::cout
+            << "Name" << "\t"
+            << "Ammo" << "\t"
+            << "Volume" << "\t"
+            << "Weight" << "\t"
+            << "Capacity" << "\t"
+            << "Range" << "\t"
+            << "Dispersion" << "\t"
+            << "Recoil" << "\t"
+            << "Damage" << "\t"
+            << "Pierce" << std::endl;
+
+        auto dump = []( const item& gun ) {
+            std::cout
+                << gun.tname( false ) << "\t"
+                << ( gun.ammo_type() != "NULL" ? gun.ammo_type() : "" ) << "\t"
+                << gun.volume() << "\t"
+                << gun.weight() << "\t"
+                << gun.ammo_capacity() << "\t"
+                << gun.gun_range() << "\t"
+                << gun.gun_dispersion() << "\t"
+                << gun.gun_recoil() << "\t"
+                << gun.gun_damage() << "\t"
+                << gun.gun_pierce() << std::endl;
+        };
+
+        for( auto& e : item_controller->get_all_itypes() ) {
+            if( e.second->gun.get() ) {
+                item gun( e.first );
+                if( gun.is_reloadable() ) {
+                    gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
+                }
+                dump( gun );
+
+                if( gun.type->gun->barrel_length > 0 ) {
+                    gun.emplace_back( "barrel_small" );
+                    dump( gun );
+                }
+            }
+        }
+    } else if( what == "AMMO" ) {
+        std::cout
+            << "Name" << "\t"
+            << "Ammo" << "\t"
+            << "Volume" << "\t"
+            << "Weight" << "\t"
+            << "Stack" << "\t"
+            << "Range" << "\t"
+            << "Dispersion" << "\t"
+            << "Recoil" << "\t"
+            << "Damage" << "\t"
+            << "Pierce" << std::endl;
+
+        auto dump = []( const item& ammo ) {
+            std::cout
+                << ammo.tname( false ) << "\t"
+                << ammo.type->ammo->type << "\t"
+                << ammo.volume() << "\t"
+                << ammo.weight() << "\t"
+                << ammo.type->stack_size << "\t"
+                << ammo.type->ammo->range << "\t"
+                << ammo.type->ammo->dispersion << "\t"
+                << ammo.type->ammo->recoil << "\t"
+                << ammo.type->ammo->damage << "\t"
+                << ammo.type->ammo->pierce << std::endl;
+        };
+
+        for( auto& e : item_controller->get_all_itypes() ) {
+            if( e.second->ammo.get() ) {
+                dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
+            }
+        }
     }
 }
 
@@ -7508,7 +7591,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     refresh_all();
 }
 
-bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
+bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg )
 {
     // TODO: Z
     const int &x = p.x;
@@ -7640,48 +7723,9 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
     return true;
 }
 
-// A gate handle is adjacent to a wall section, and next to that wall section on one side or
-// another is the gate.  There may be a handle on the other side, but this is optional.
-// The gate continues until it reaches a non-floor tile, so they can be arbitrary length.
-//
-//   |  !|!  -++-++-  !|++++-
-//   +   +      !      +
-//   +   +   -++-++-   +
-//   +   +             +
-//   +   +   !|++++-   +
-//  !|   |!        !   |
-//
-// The terrain type of the handle is passed in, and that is used to determine the type of
-// the wall and gate.
-void game::open_gate( const tripoint &p, const ter_id handle_type )
+void game::open_gate( const tripoint &p )
 {
-    int moves = 900;
-    const char *pull_message;
-
-    if (handle_type == t_gates_mech_control) {
-        pull_message = _("You turn the handle...");
-    } else if (handle_type == t_gates_control_concrete) {
-        pull_message = _("You turn the handle...");
-    } else if (handle_type == t_gates_control_brick) {
-        pull_message = _("You turn the handle...");
-    } else if (handle_type == t_barndoor) {
-        pull_message = _("You pull the rope...");
-    } else if (handle_type == t_palisade_pulley) {
-        pull_message = _("You pull the rope...");
-    } else if ( handle_type == t_gates_control_metal) {
-        pull_message = _("You throw the lever...");
-    } else {
-        return;
-    }
-
-    add_msg(pull_message);
-    if (handle_type == t_gates_control_metal){
-        moves += 300;
-    }else{
-        moves += 900;
-    }
-    u.assign_activity( ACT_OPEN_GATE, moves) ;
-    u.activity.placement = p;
+    gates::open_gate( p, u );
 }
 
 void game::moving_vehicle_dismount( const tripoint &dest_loc )
@@ -9007,7 +9051,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 new_levz = -OVERMAP_DEPTH;
             }
 
-            add_msg("levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
+            add_msg( m_debug, "levx: %d, levy: %d, levz :%d", get_levx(), get_levy(), new_levz );
             u.view_offset.z = new_levz - u.posz();
             lp.z = new_levz;
             refresh_all();
@@ -10218,47 +10262,32 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
     } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
-        ammotype ammo = "NULL";
-        long max = 0;
 
-        if (cont->is_tool()) {
-            const auto tool = dynamic_cast<const it_tool *>(cont->type);
-            ammo = tool->ammo_id;
-            max = tool->max_charges;
-        } else {
-            ammo = cont->type->gun->ammo;
-            max = cont->type->gun->clip;
-        }
-
-        ammotype liquid_type = liquid.ammo_type();
-
-        if (ammo != liquid_type) {
+        if( cont->ammo_type() != liquid.ammo_type() ) {
             add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
             return false;
         }
 
-        if (max <= 0 || cont->charges >= max) {
+        if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
             add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
             return false;
         }
 
-        if( cont->charges > 0 && cont->ammo_current() != liquid.typeId() ) {
+        if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
             return false;
         }
 
         add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
-        cont->set_curammo( liquid );
         if (infinite) {
-            cont->charges = max;
+            cont->ammo_set( liquid.typeId() ); // fill to capacity
         } else {
-            cont->charges += liquid.charges;
-            if (cont->charges > max) {
-                long extra = cont->charges - max;
-                cont->charges = max;
-                liquid.charges = extra;
+            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
+            liquid.charges -= qty;
+            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
+            if( liquid.charges > 0 ) {
                 add_msg(_("There's some left over!"));
                 return false;
             }
@@ -10304,51 +10333,37 @@ int game::move_liquid(item &liquid)
     if( u.has_item( *cont ) ) {
         if (cont == NULL || cont->is_null()) {
             return -1;
+
         } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
             // for filling up chainsaws, jackhammers and flamethrowers
-            ammotype ammo = "NULL";
-            int max = 0;
 
-            if (cont->is_tool()) {
-                const auto tool = dynamic_cast<const it_tool *>(cont->type);
-                ammo = tool->ammo_id;
-                max = tool->max_charges;
-            } else {
-                ammo = cont->type->gun->ammo;
-                max = cont->type->gun->clip;
-            }
-
-            ammotype liquid_type = liquid.ammo_type();
-
-            if (ammo != liquid_type) {
-                add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
-                        liquid.tname().c_str());
+            if( cont->ammo_type() != liquid.ammo_type() ) {
+                add_msg( m_info, _( "Your %1$s won't hold %2$s." ),
+                         cont->tname().c_str(), liquid.tname().c_str() );
                 return -1;
             }
 
-            if (max <= 0 || cont->charges >= max) {
-                add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
-                        liquid.tname().c_str());
+            if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
+                add_msg( m_info, _( "Your %1$s can't hold any more %2$s." ),
+                         cont->tname().c_str(), liquid.tname().c_str() );
                 return -1;
             }
 
-            if( cont->charges > 0 && cont->ammo_current() != liquid.typeId() ) {
-                add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
+            if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
+                add_msg( m_info, _( "You can't mix loads in your %s." ), cont->tname().c_str() );
                 return -1;
             }
 
-            add_msg(_("You pour %1$ss into your %2$s."), liquid.tname().c_str(),
-                    cont->tname().c_str());
-            cont->set_curammo( liquid );
-            cont->charges += liquid.charges;
-            if (cont->charges > max) {
-                long extra = cont->charges - max;
-                cont->charges = max;
-                add_msg(_("There's some left over!"));
-                return extra;
-            } else {
-                return 0;
+            add_msg( _(" You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
+            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
+            liquid.charges -= qty;
+            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
+            if( liquid.charges > 0 ) {
+                add_msg( _( "There's some left over!" ) );
+                return liquid.charges;
             }
+            return 0;
+
         } else {
             item tmp_liquid = liquid;
             std::string err;
@@ -14424,9 +14439,8 @@ void game::process_artifact(item *it, player *p)
         effects.insert( effects.end(), ew.begin(), ew.end() );
     }
     if( it->is_tool() ) {
-        const auto tool = dynamic_cast<const it_tool*>( it->type );
         // Recharge it if necessary
-        if (it->charges < tool->max_charges) {
+        if( it->ammo_remaining() < it->ammo_capacity() ) {
             switch (it->type->artifact->charge_type) {
             case ARTC_NULL:
             case NUM_ARTCS:

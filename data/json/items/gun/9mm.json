@@ -197,60 +197,29 @@
   },
   {
     "id": "l_lookout_9mm",
+    "copy-from": "l_enforcer_45",
     "type": "GUN",
     "name": "L2032 Lookout",
     "name_plural": "L2032 Lookout",
     "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9mm market.  The Lookout, released in 2032, takes advantage of the smaller 9mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.",
-    "weight": 1090,
-    "volume": 2,
-    "price": 70000,
-    "bashing": 9,
-    "to_hit": -2,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "skill": "pistol",
     "ammo": "9mm",
-    "ranged_damage": 1,
-    "dispersion": 165,
-    "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 60,
-    "durability": 9,
-    "clip_size": 7,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "clip_size": 7
   },
   {
     "id": "l_mp_9mm",
+    "copy-from": "l_sp_9mm",
     "type": "GUN",
     "name": "L39B",
     "description": "A selective-firing 9mm handgun introduced in 2039, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.",
-    "weight": 1065,
-    "volume": 2,
     "price": 95000,
-    "bashing": 8,
-    "to_hit": -2,
-    "flags": "MODE_BURST",
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "pistol",
     "ammo": "9mm",
-    "range": 1,
-    "ranged_damage": 1,
-    "dispersion" : 150,
-    "sight_dispersion" : 90,
-    "aim_speed" : 4,
-    "recoil" : 75,
-    "durability": 8,
+    "relative": {
+        "weight": 130,
+        "recoil": 15,
+        "durability": -1
+    },
     "burst": 3, "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-      [ "9mm", [ "lw21mag" ] ],
-      [ "45", [ "lw12mag" ] ]
-    ]
+    "flags": [ "MODE_BURST" ]
   },
   {
     "id": "l_sp_9mm",
@@ -262,7 +231,6 @@
     "price": 70000,
     "bashing": 8,
     "to_hit": -2,
-    "flags": "DURABLE_MELEE",
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",
@@ -280,7 +248,8 @@
     "magazines" : [
       [ "9mm", [ "lw21mag" ] ],
       [ "45", [ "lw12mag" ] ]
-    ]
+    ],
+    "flags": [ "DURABLE_MELEE" ]
   },
   {
     "id": "m9",
@@ -411,7 +380,7 @@
     "id": "usp_9mm",
     "type": "GUN",
     "name": "USP 9mm",
-    "description": "A popular 9mm pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
+    "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "dark_gray",

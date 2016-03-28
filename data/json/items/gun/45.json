@@ -29,6 +29,7 @@
   },
   {
     "id": "l_enforcer_45",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "L2031 Enforcer",
     "name_plural": "L2031 Enforcer",
@@ -41,17 +42,14 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "light_gray",
-    "skill": "pistol",
     "ammo": "45",
     "ranged_damage": 5,
     "dispersion": 195,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 120,
     "durability": 8,
     "clip_size": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "id": "l_long_45",
@@ -82,64 +80,19 @@
   },
   {
     "id": "l_mp_45",
+    "copy-from": "l_mp_9mm",
     "type": "GUN",
     "name": "L39B-45",
     "description": "After the success of the 9mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.",
-    "weight": 1335,
-    "volume": 3,
-    "price": 115000,
-    "bashing": 12,
-    "to_hit": -2,
-    "range": 1,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "pistol",
-    "ammo": "45",
-    "ranged_damage": 4,
-    "dispersion": 240,
-    "sight_dispersion": 90,
-    "aim_speed" : 4,
-    "recoil": 150,
-    "durability": 7,
-    "burst": 3,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-        [ "45", [ "lw12mag" ] ],
-        [ "9mm", [ "lw21mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    "ammo": "45"
   },
   {
     "id": "l_sp_45",
+    "copy-from": "l_sp_9mm",
     "type": "GUN",
     "name": "L39-45",
     "description": "Capitalizing on the L39B-45's reputation as one of the most intimidating pistols on the market, Leadworks LLC manufactured a semiautomatic model as well.  Locking it semi-auto reduced cost and improved performance.",
-    "weight": 1265,
-    "volume": 3,
-    "price": 81000,
-    "bashing": 12,
-    "to_hit": -2,
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "pistol",
-    "ammo": "45",
-    "range": 1,
-    "ranged_damage": 4,
-    "dispersion": 225,
-    "sight_dispersion": 90,
-    "aim_speed" : 4,
-    "recoil": 135,
-    "durability": 9,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-        [ "45", [ "lw12mag" ] ],
-        [ "9mm", [ "lw21mag" ] ]
-    ],
-    "flags": "DURABLE_MELEE"
+    "ammo": "45"
   },
   {
     "id": "m1911",
@@ -288,30 +241,9 @@
   },
   {
     "id": "usp_45",
+    "copy-from": "usp_9mm",
     "type": "GUN",
     "name": "USP .45",
-    "description": "A popular .45 pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
-    "material": ["steel", "plastic"],
-    "symbol": "(",
-    "color": "dark_gray",
-    "weight": 789,
-    "volume": 1,
-    "price": 57100, "//" : "Extrapolated from .45ACP models that have comparable mag capacity.",
-    "bashing": 9,
-    "to_hit": -2,
-    "skill": "pistol",
-    "ammo": "45",
-    "ranged_damage": 1,
-    "dispersion": 255,
-    "sight_dispersion": 90,
-    "aim_speed" : 4,
-    "recoil": 120,
-    "durability": 9,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
-    "magazine_well" : 1,
-    "magazines" : [
-      [ "45", [ "usp45mag" ] ],
-      [ "9mm", [ "usp9mag" ] ]
-    ]
+    "ammo": "45"
   }
 ]

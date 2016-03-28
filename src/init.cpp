@@ -48,6 +48,7 @@
 #include "veh_type.h"
 #include "clzones.h"
 #include "sounds.h"
+#include "gates.h"
 
 #include <string>
 #include <vector>
@@ -217,6 +218,8 @@ void DynamicDataLoader::initialize()
 
     type_function_map["sound_effect"] = new StaticFunctionAccessor(&sfx::load_sound_effects);
     type_function_map["playlist"] = new StaticFunctionAccessor(&sfx::load_playlist);
+
+    type_function_map["gate"] = new StaticFunctionAccessor(&gates::load_gates);
 }
 
 void DynamicDataLoader::reset()
@@ -349,6 +352,7 @@ void DynamicDataLoader::unload_data()
     unload_talk_topics();
     start_location::reset();
     scenario::reset();
+    gates::reset();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -357,6 +361,7 @@ void DynamicDataLoader::unload_data()
 extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
+    item_controller->finalize();
     mission_type::initialize(); // Needs overmap terrain.
     set_ter_ids();
     set_furn_ids();
@@ -368,7 +373,6 @@ void DynamicDataLoader::finalize_loaded_data()
     MonsterGenerator::generator().finalize_mtypes();
     MonsterGroupManager::FinalizeMonsterGroups();
     monfactions::finalize();
-    item_controller->finalize();
     finalize_recipes();
     finialize_martial_arts();
     check_consistency();

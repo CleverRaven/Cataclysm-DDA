@@ -525,7 +525,7 @@ static long charges_of_internal( const T& self, const itype_id& id )
     self.visit_items( [&]( const item *e ) {
         if( e->is_tool() ) {
             // for tools we also need to check if this item is a subtype of the required id
-            if( e->typeId() == id || dynamic_cast<const it_tool *>( e->type)->subtype == id ) {
+            if( e->typeId() == id || ( e->is_tool() && e->type->tool->subtype == id ) ) {
                 qty += e->ammo_remaining(); // includes charges from any contained magazine
             }
             return VisitResponse::SKIP;
