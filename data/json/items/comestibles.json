@@ -4038,8 +4038,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 0
+        "flags" : [ "EATEN_HOT" ],
+        "fun" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -4197,10 +4197,10 @@
         "nutrition" : 25,
         "description" : "Surprisingly, not made from dog.  Cooked, this hot dog now tastes much better, but will spoil.",
         "price" : 800,
-        "material" : ["flesh", "junk"],
+        "material" : [ "flesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
-        "flags" : ["EATEN_HOT"],
+        "flags" : [ "EATEN_HOT" ],
         "fun" : 12
     },
     {
@@ -4219,10 +4219,10 @@
         "nutrition" : 50,
         "description" : "A hot dog, served with chili con carne as a topping.  Yum!",
         "price" : 900,
-        "material" : ["flesh", "junk"],
+        "material" : [ "flesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
-        "flags" : ["EATEN_HOT"],
+        "flags" : [ "EATEN_HOT" ],
         "fun" : 15
     },
     {
@@ -4241,10 +4241,10 @@
         "nutrition" : 50,
         "description" : "A hot dog, served with chili con cabron as a topping.  Delightful.",
         "price" : 8000,
-        "material" : ["hflesh", "junk"],
+        "material" : [ "flesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
-        "flags" : ["EATEN_HOT"],
+        "flags" : [ "EATEN_HOT" ],
         "fun" : 15
     },
     {
@@ -5821,27 +5821,27 @@
         "material" : "fruit",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0
+        "fun" : 2
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_blueberries",
-        "name": "irradiated blueberry",
-        "name_plural": "irradiated blueberries",
-        "weight": 200,
-        "color": "blue",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 2,
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_blueberries",
+        "name" : "irradiated blueberry",
+        "name_plural" : "irradiated blueberries",
+        "weight" : 200,
+        "color" : "blue",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 2,
         "healthy": 1,
         "nutrition" : 16,
-        "description": "An irradiated blueberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "description" : "An irradiated blueberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
         "price": 410,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 1,
-        "fun": 0
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 2
     },
     {
         "type" : "COMESTIBLE",
@@ -5884,27 +5884,27 @@
         "material" : "fruit",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0
+        "fun" : 5
     },
     {
-        "type": "COMESTIBLE",
-        "id": "irradiated_strawberries",
-        "name": "irradiated strawberry",
-        "name_plural": "irradiated strawberries",
-        "weight": 200,
-        "color": "red",
-        "container": "bag_plastic",
-        "comestible_type": "FOOD",
-        "symbol": "%",
-        "quench": 3,
-        "healthy": 1,
+        "type" : "COMESTIBLE",
+        "id" : "irradiated_strawberries",
+        "name" : "irradiated strawberry",
+        "name_plural" : "irradiated strawberries",
+        "weight" : 200,
+        "color" : "red",
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 3,
+        "healthy" : 1,
         "nutrition" : 18,
-        "description": "An irradiated strawberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
-        "price": 410,
-        "material": "fruit",
-        "volume": 1,
-        "charges": 1,
-        "fun": 0
+        "description" : "An irradiated strawberry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+        "price" : 410,
+        "material" : "fruit",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -11023,8 +11023,8 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 1,
-        "fun" : 2,
-        "flags" : ["USE_EAT_VERB", "EATEN_COLD"]
+        "fun" : 3,
+        "flags" : [ "USE_EAT_VERB", "EATEN_COLD" ]
     },
     {
         "type" : "COMESTIBLE",
