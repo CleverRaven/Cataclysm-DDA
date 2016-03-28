@@ -131,6 +131,7 @@ int mvwvline( WINDOW *win, int y, int x, chtype ch, int n );
 
 int wrefresh( WINDOW *win );
 int refresh( void );
+int wredrawln( WINDOW *win, int beg_line, int num_lines );
 int getch( void );
 int wgetch( WINDOW *win );
 int mvgetch( int y, int x );
