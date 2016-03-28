@@ -1,6 +1,15 @@
 [
   {
+    "abstract": "gun_base",
+    "type": "GUN",
+    "name": "base gun",
+    "symbol": "(",
+    "color": "dark_gray",
+    "durability": 8
+  },
+  {
     "abstract": "pistol_base",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "base pistol",
     "skill": "pistol",
@@ -16,6 +25,7 @@
   },
   {
     "abstract": "rifle_base",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "base rifle",
     "skill": "rifle",
@@ -23,6 +33,7 @@
   },
   {
     "abstract": "shotgun_base",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "base shotgun",
     "skill": "shotgun",
@@ -30,6 +41,7 @@
   },
   {
     "abstract": "smg_base",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "base SMG",
     "skill": "smg",
