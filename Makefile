@@ -467,7 +467,9 @@ else
     CXXFLAGS += $(shell ncursesw5-config --cflags)
     LDFLAGS += $(shell ncursesw5-config --libs)
   else
-    LDFLAGS += -lncurses
+    ifneq ($(TARGETSYSTEM),WINDOWS)
+      LDFLAGS += -lncurses
+    endif
   endif
 endif
 
