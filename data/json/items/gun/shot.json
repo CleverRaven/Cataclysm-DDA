@@ -154,30 +154,27 @@
   },
   {
     "id": "revolver_shotgun",
+    "copy-from": "shotgun_s",
     "type": "GUN",
     "name": "shotgun revolver",
     "description": "A shotgun modified to use a revolver cylinder mechanism, it can hold 6 cartridges.",
-    "weight": 5443,
-    "volume": 12,
-    "price": 75000,
-    "bashing": 12,
-    "to_hit": -1,
-    "material": [ "iron", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "skill": "shotgun",
-    "ammo": "shot",
-    "dispersion": 135,
-    "sight_dispersion": 90,
+    "skill": "pistol",
+    "weight": 1928,
+    "volume": 6,
+    "bashing": 6,
+    "to_hit": -2,
     "aim_speed": 4,
-    "recoil": 75,
-    "durability": 6,
-    "loudness": 25,
     "clip_size": 6,
-    "reload": 200,
-    "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "relative": {
+        "durability": -2
+    },
+    "proportional": {
+        "price": 0.2,
+        "recoil": 2.0,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
   },
   {
     "id": "saiga_12",
