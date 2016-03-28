@@ -4038,8 +4038,8 @@
         "material" : "flesh",
         "volume" : 1,
         "charges" : 1,
-        "flags" : [ "EATEN_HOT" ],
-        "fun" : 4
+        "flags" : ["EATEN_HOT"],
+        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
