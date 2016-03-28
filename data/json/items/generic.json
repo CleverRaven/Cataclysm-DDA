@@ -2394,52 +2394,6 @@
         "volume": 4
     },
     {
-        "type" : "COMESTIBLE",
-        "id" : "weed",
-        "name" : "marijuana",
-        "name_plural" : "marijuana",
-        "weight" : 1,
-        "color" : "green",
-        "addiction_type" : "none",
-        "spoils_in" : 0,
-        "use_action" : {
-            "type" : "consume_drug",
-            "activation_message" : "You smoke some weed.  Good stuff, man!",
-            "effects" : [
-                {
-                    "id": "weed_high",
-                    "duration": 90
-                },
-                {
-                    "id": "pkill1",
-                    "duration": 60
-                }
-            ],
-            "stat_adjustments": {
-                "hunger" : 4,
-                "thirst" : 6
-            },
-            "fields_produced" : {"fd_weedsmoke" : 2},
-            "charges_needed" : { "fire" : 1 },
-            "tools_needed" : { "apparatus" : -1 },
-            "moves" : 40
-        },
-        "stim" : -10,
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : -5,
-        "healthy" : 0,
-        "addiction_potential" : 5,
-        "nutrition" : 0,
-        "description" : "The dried flower buds and leaves harvested from a psychoactive variety of hemp plant.  Used to reduce nausea, stimulate appetite and elevate mood.  It can be habit-forming, and adverse reactions are possible.",
-        "price" : 2500,
-        "tool" : "null",
-        "volume" : 1,
-        "charges" : 5,
-        "stack_size" : 100,
-        "fun" : 15
-    },
-    {
         "id": "cash_card",
         "type": "TOOL",
         "symbol": ",",
