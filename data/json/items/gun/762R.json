@@ -7,6 +7,7 @@
     "name_plural": "Mosin-Nagant M44",
     "description": "The Model 44 is the carbine sized variant of the standard 1891/30.  It has a shorter barrel, therefore it is weaker than the 1891/30, but easier to carry.",
     "price": 23000,
+    "proportional": { "bashing": 0.7 },
     "relative": {
         "weight": -500,
         "volume": -2,

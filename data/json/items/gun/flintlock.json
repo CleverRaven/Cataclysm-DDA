@@ -14,7 +14,10 @@
         "recoil": 15,
         "aim_speed": -2
     },
-    "proportional": { "reload": 0.5 },
+    "proportional": {
+        "bashing": 0.7,
+        "reload": 0.5
+    },
     "valid_mod_locations": [ [ "accessories", 1 ] ]
   },
   {
@@ -67,6 +70,7 @@
     "weight": 1950,
     "volume": 10,
     "price": 41000,
+    "proportional": { "bashing": 1.2 },
     "material": [ "iron", "wood" ],
     "ammo": "flintlock",
     "range": 6,
