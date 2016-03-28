@@ -153,31 +153,23 @@
   },
   {
     "id": "surv_hand_cannon",
+    "copy-from": "l_enforcer_45",
     "type": "GUN",
     "name": "homemade hand cannon",
     "name_plural": "homemade hand cannons",
     "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
-    "weight": 1200,
-    "volume": 4,
-    "price": 60000,
-    "bashing": 12,
-    "to_hit": -3,
-    "material": [ "steel" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "pistol",
-    "ammo": "45",
-    "ranged_damage": 3,
-    "dispersion": 255,
-    "sight_dispersion": 90,
-    "aim_speed": 4,
-    "recoil": 140,
-    "durability": 7,
-    "loudness": 25,
     "clip_size": 5,
-    "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
   },
   {
     "id": "TDI",
