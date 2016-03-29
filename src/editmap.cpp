@@ -776,8 +776,8 @@ int editmap::edit_ter()
 
     const int xmin = 3; // left margin
     int xmax = pickw - xmin;
-    int tymax = int( termap.size() / xmax );
-    if( termap.size() % xmax != 0 ) {
+    int tymax = int( ter_t::count() / xmax );
+    if( ter_t::count() % xmax != 0 ) {
         tymax++;
     }
     int fymax = int( furnmap.size() / xmax );
@@ -817,8 +817,8 @@ int editmap::edit_ter()
         int cur_t = 0;
         int tstart = 2;
         // draw icon grid
-        for( int y = tstart; y < pickh && cur_t < ( int ) termap.size(); y += 2 ) {
-            for( int x = xmin; x < pickw && cur_t < ( int ) termap.size(); x++, cur_t++ ) {
+        for( int y = tstart; y < pickh && cur_t < ( int ) ter_t::count(); y += 2 ) {
+            for( int x = xmin; x < pickw && cur_t < ( int ) ter_t::count(); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
                 mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dkgray ) , ttype.symbol() );
@@ -948,20 +948,20 @@ int editmap::edit_ter()
         lastsel_frn = sel_frn;
         if( ter_frn_mode == 0 ) {
             if( action == "LEFT" ) {
-                increment( sel_ter, -1, termap.size() );
+                increment( sel_ter, -1, ter_t::count() );
             } else if( action == "RIGHT" ) {
-                increment( sel_ter, +1, termap.size() );
+                increment( sel_ter, +1, ter_t::count() );
             } else if( action == "UP" ) {
-                if( would_overflow( sel_ter, -xmax, termap.size() ) ) {
+                if( would_overflow( sel_ter, -xmax, ter_t::count() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 } else {
-                    increment( sel_ter, -xmax, termap.size() );
+                    increment( sel_ter, -xmax, ter_t::count() );
                 }
             } else if( action == "DOWN" ) {
-                if( would_overflow( sel_ter, +xmax, termap.size() ) ) {
+                if( would_overflow( sel_ter, +xmax, ter_t::count() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 } else {
-                    increment( sel_ter, +xmax, termap.size() );
+                    increment( sel_ter, +xmax, ter_t::count() );
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 bool isvert = false;

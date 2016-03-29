@@ -262,6 +262,8 @@ struct ter_t : map_data_common_t {
 
     int harvest_season; // When will this terrain get harvested?
     int bloom_season;   // When does this terrain bloom?
+
+    static size_t count();
 };
 
 void set_ter_ids();
@@ -271,7 +273,7 @@ void reset_furn_ter();
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
  */
-extern std::map<ter_str_id, ter_t> termap; // @todo Mustn't be exposed
+
 ter_id terfind(const std::string &id); // lookup, carp and return null on error
 
 struct furn_t : map_data_common_t {

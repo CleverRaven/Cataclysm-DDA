@@ -17,8 +17,13 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 "mx_crater", "mx_collegekids"
 };
 
+namespace
+{
+
 std::vector<ter_t> terlist;
 std::map<ter_str_id, ter_t> termap;
+
+}
 
 std::vector<furn_t> furnlist;
 std::map<std::string, furn_t> furnmap;
@@ -1040,14 +1045,10 @@ void set_furn_ids() {
     f_robotic_arm=furnfind("f_robotic_arm");
 }
 
-/*
- * default? N O T H I N G.
- *
-ter_furn_id::ter_furn_id() {
-    ter = (short)t_null;
-    furn = (short)t_null;
+size_t ter_t::count()
+{
+    return termap.size();
 }
-*/
 
 void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
 {

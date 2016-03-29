@@ -2722,7 +2722,7 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
 void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
 
-    tile_loading_report(termap, "Terrain", "");
+    tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
     tile_loading_report(furnmap, "Furniture", "");
     //TODO: exclude fake items from Item_factory::init_old()
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");

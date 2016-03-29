@@ -4472,8 +4472,8 @@ void groundcover_extra::setup()   // fixme return bool for failure
             continue;
         }
         const ter_str_id tid( it->first );
-        if ( termap.find( tid ) != termap.end() ) {
-            tf_id.ter = termap[ tid ].loadid;
+        if( tid.is_valid() ) {
+            tf_id.ter = tid.id();
         } else if ( furnmap.find( it->first ) != furnmap.end() ) {
             tf_id.furn = furnmap[ it->first ].loadid;
         } else {
