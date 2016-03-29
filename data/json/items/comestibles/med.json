@@ -232,7 +232,7 @@
         "bashing" : -8,
         "charges" : 1,
         "price" : 0
-    }
+    },
     {
         "id" : "pills_sleep",
         "type" : "COMESTIBLE",
