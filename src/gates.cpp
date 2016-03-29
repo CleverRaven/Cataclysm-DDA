@@ -48,7 +48,7 @@ struct gate_data {
     private:
         ter_id get_ter( const ter_str_id &ter_name, ter_id &cached_ter ) const {
             if( cached_ter == t_null ) {
-                cached_ter = terfind( ter_name.str() );
+                cached_ter = ter_name.id();
             }
             return cached_ter;
         }

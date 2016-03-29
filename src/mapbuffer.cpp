@@ -440,40 +440,41 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 jsin.start_array();
                 // Small duplication here so that the update check is only performed once
                 if (rubpow_update) {
-                    std::string ter_string;
                     item rock = item("rock", 0);
                     item chunk = item("steel_chunk", 0);
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            ter_string = jsin.get_string();
-                            if (ter_string == "t_rubble") {
+                            const ter_str_id tid( jsin.get_string() );
+
+                            if ( tid == "t_rubble" ) {
                                 sm->ter[i][j] = termap[ter_str_id( "t_dirt" )].loadid;
                                 sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
-                            } else if (ter_string == "t_wreckage"){
+                            } else if ( tid == "t_wreckage" ){
                                 sm->ter[i][j] = termap[ter_str_id( "t_dirt" )].loadid;
                                 sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
-                            } else if (ter_string == "t_ash"){
+                            } else if ( tid == "t_ash" ){
                                 sm->ter[i][j] = termap[ter_str_id(  "t_dirt" )].loadid;
                                 sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_support_l"){
+                            } else if ( tid == "t_pwr_sb_support_l" ){
                                 sm->ter[i][j] = termap[ter_str_id(  "t_support_l" )].loadid;
-                            } else if (ter_string == "t_pwr_sb_switchgear_l"){
+                            } else if ( tid == "t_pwr_sb_switchgear_l" ){
                                 sm->ter[i][j] = termap[ter_str_id(  "t_switchgear_l" )].loadid;
-                            } else if (ter_string == "t_pwr_sb_switchgear_s"){
+                            } else if ( tid == "t_pwr_sb_switchgear_s" ){
                                 sm->ter[i][j] = termap[ter_str_id(  "t_switchgear_s" )].loadid;
                             } else {
-                                sm->ter[i][j] = terfind( ter_string );
+                                sm->ter[i][j] = tid.id();
                             }
                         }
                     }
                 } else {
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            sm->ter[i][j] = terfind( jsin.get_string() );
+                            const ter_str_id tid( jsin.get_string() );
+                            sm->ter[i][j] = tid.id();
                         }
                     }
                 }

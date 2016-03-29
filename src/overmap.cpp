@@ -4531,8 +4531,11 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
 void regional_settings::setup()
 {
     if ( default_groundcover_str != NULL ) {
-        default_groundcover.primary = terfind(default_groundcover_str->primary_str);
-        default_groundcover.secondary = terfind(default_groundcover_str->secondary_str);
+        const ter_str_id primary( default_groundcover_str->primary_str );
+        const ter_str_id secondary( default_groundcover_str->secondary_str );
+
+        default_groundcover.primary = primary.id();
+        default_groundcover.secondary = secondary.id();
         field_coverage.setup();
         city_spec.shops.apply(&setup_oter);
         city_spec.parks.apply(&setup_oter);

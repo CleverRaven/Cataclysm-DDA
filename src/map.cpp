@@ -7054,7 +7054,7 @@ void map::add_roofs( const int gridx, const int gridy, const int gridz )
             const ter_t &ter_below = sub_below->ter[x][y].obj();
             if( !ter_below.roof.is_null() ) {
                 // TODO: Make roof variable a ter_id to speed this up
-                sub_here->ter[x][y] = terfind( ter_below.roof.str() );
+                sub_here->ter[x][y] = ter_below.roof.id();
             }
         }
     }
