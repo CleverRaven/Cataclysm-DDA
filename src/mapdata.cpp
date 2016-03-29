@@ -43,10 +43,21 @@ const string_id<ter_t> &int_id<ter_t>::id() const
     return obj().id;
 }
 
+ter_str_id convert_terrain_type( const ter_str_id & );
+
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
 {
-    return terfind( str() );
+    auto iter = termap.find( *this );
+    if( iter != termap.end() ) {
+        return iter->second.loadid;
+    }
+    const ter_str_id new_id = convert_terrain_type( *this );
+    if( new_id != *this ) {
+        return new_id.id();
+    }
+    debugmsg( "can't find terrain %s", c_str() );
+    return t_null;
 }
 
 template<>
@@ -442,37 +453,37 @@ void load_terrain(JsonObject &jsobj)
   terlist.push_back(new_terrain);
 }
 
-static const std::unordered_map<ter_str_id, ter_str_id> ter_type_conversion_map = { {
-    { ter_str_id( "t_wall_h" ), ter_str_id( "t_wall" ) },
-    { ter_str_id( "t_wall_v" ), ter_str_id( "t_wall" ) },
-    { ter_str_id( "t_concrete_h" ), ter_str_id( "t_concrete_wall" ) },
-    { ter_str_id( "t_concrete_v" ), ter_str_id( "t_concrete_wall" ) },
-    { ter_str_id( "t_wall_metal_h" ), ter_str_id( "t_wall_metal" ) },
-    { ter_str_id( "t_wall_metal_v" ), ter_str_id( "t_wall_metal" ) },
-    { ter_str_id( "t_wall_glass_h" ), ter_str_id( "t_wall_glass" ) },
-    { ter_str_id( "t_wall_glass_v" ), ter_str_id( "t_wall_glass" ) },
-    { ter_str_id( "t_wall_glass_h_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
-    { ter_str_id( "t_wall_glass_v_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
-    { ter_str_id( "t_reinforced_glass_h" ), ter_str_id( "t_reinforced_glass" ) },
-    { ter_str_id( "t_reinforced_glass_v" ), ter_str_id( "t_reinforced_glass" ) },
-    { ter_str_id( "t_fungus_wall_h" ), ter_str_id( "t_fungus_wall" ) },
-    { ter_str_id( "t_fungus_wall_v" ), ter_str_id( "t_fungus_wall" ) },
-    { ter_str_id( "t_wall_h_r" ), ter_str_id( "t_wall_r" ) },
-    { ter_str_id( "t_wall_v_r" ), ter_str_id( "t_wall_r" ) },
-    { ter_str_id( "t_wall_h_w" ), ter_str_id( "t_wall_w" ) },
-    { ter_str_id( "t_wall_v_w" ), ter_str_id( "t_wall_w" ) },
-    { ter_str_id( "t_wall_h_b" ), ter_str_id( "t_wall_b" ) },
-    { ter_str_id( "t_wall_v_b" ), ter_str_id( "t_wall_b" ) },
-    { ter_str_id( "t_wall_h_g" ), ter_str_id( "t_wall_g" ) },
-    { ter_str_id( "t_wall_v_g" ), ter_str_id( "t_wall_g" ) },
-    { ter_str_id( "t_wall_h_y" ), ter_str_id( "t_wall_y" ) },
-    { ter_str_id( "t_wall_v_y" ), ter_str_id( "t_wall_y" ) },
-    { ter_str_id( "t_wall_h_p" ), ter_str_id( "t_wall_p" ) },
-    { ter_str_id( "t_wall_v_p" ), ter_str_id( "t_wall_p" ) },
-} };
-
 ter_str_id convert_terrain_type( const ter_str_id &t )
 {
+    static const std::unordered_map<ter_str_id, ter_str_id> ter_type_conversion_map = { {
+        { ter_str_id( "t_wall_h" ), ter_str_id( "t_wall" ) },
+        { ter_str_id( "t_wall_v" ), ter_str_id( "t_wall" ) },
+        { ter_str_id( "t_concrete_h" ), ter_str_id( "t_concrete_wall" ) },
+        { ter_str_id( "t_concrete_v" ), ter_str_id( "t_concrete_wall" ) },
+        { ter_str_id( "t_wall_metal_h" ), ter_str_id( "t_wall_metal" ) },
+        { ter_str_id( "t_wall_metal_v" ), ter_str_id( "t_wall_metal" ) },
+        { ter_str_id( "t_wall_glass_h" ), ter_str_id( "t_wall_glass" ) },
+        { ter_str_id( "t_wall_glass_v" ), ter_str_id( "t_wall_glass" ) },
+        { ter_str_id( "t_wall_glass_h_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
+        { ter_str_id( "t_wall_glass_v_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
+        { ter_str_id( "t_reinforced_glass_h" ), ter_str_id( "t_reinforced_glass" ) },
+        { ter_str_id( "t_reinforced_glass_v" ), ter_str_id( "t_reinforced_glass" ) },
+        { ter_str_id( "t_fungus_wall_h" ), ter_str_id( "t_fungus_wall" ) },
+        { ter_str_id( "t_fungus_wall_v" ), ter_str_id( "t_fungus_wall" ) },
+        { ter_str_id( "t_wall_h_r" ), ter_str_id( "t_wall_r" ) },
+        { ter_str_id( "t_wall_v_r" ), ter_str_id( "t_wall_r" ) },
+        { ter_str_id( "t_wall_h_w" ), ter_str_id( "t_wall_w" ) },
+        { ter_str_id( "t_wall_v_w" ), ter_str_id( "t_wall_w" ) },
+        { ter_str_id( "t_wall_h_b" ), ter_str_id( "t_wall_b" ) },
+        { ter_str_id( "t_wall_v_b" ), ter_str_id( "t_wall_b" ) },
+        { ter_str_id( "t_wall_h_g" ), ter_str_id( "t_wall_g" ) },
+        { ter_str_id( "t_wall_v_g" ), ter_str_id( "t_wall_g" ) },
+        { ter_str_id( "t_wall_h_y" ), ter_str_id( "t_wall_y" ) },
+        { ter_str_id( "t_wall_v_y" ), ter_str_id( "t_wall_y" ) },
+        { ter_str_id( "t_wall_h_p" ), ter_str_id( "t_wall_p" ) },
+        { ter_str_id( "t_wall_v_p" ), ter_str_id( "t_wall_p" ) },
+    } };
+
     const auto iter = ter_type_conversion_map.find( t );
     if( iter == ter_type_conversion_map.end() ) {
         return t;
