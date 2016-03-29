@@ -35,6 +35,38 @@ const ter_t &int_id<ter_t>::obj() const
 }
 
 template<>
+const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null" );
+
+template<>
+const string_id<ter_t> &int_id<ter_t>::id() const
+{
+    return static_cast<string_id<ter_t>>( obj().id ); // @todo Get rid of the cast
+}
+
+template<>
+int_id<ter_t> string_id<ter_t>::id() const
+{
+    return terfind( _id );
+}
+
+template<>
+int_id<ter_t>::int_id( const string_id<ter_t> &id ) : _id( id.id() )
+{
+}
+
+template<>
+const ter_t &string_id<ter_t>::obj() const
+{
+    return id().obj();
+}
+
+template<>
+bool string_id<ter_t>::is_valid() const
+{
+    return termap.count( str() ) > 0;
+}
+
+template<>
 const furn_t &int_id<furn_t>::obj() const
 {
     if( static_cast<size_t>( _id ) >= furnlist.size() ) {

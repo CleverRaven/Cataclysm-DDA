@@ -24,7 +24,10 @@ struct furn_t;
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
+
 using ter_id = int_id<ter_t>;
+using ter_str_id = string_id<ter_t>;
+
 using furn_id = int_id<furn_t>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
