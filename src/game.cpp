@@ -4043,7 +4043,7 @@ void game::debug()
             temp->setx( u.posx() - 4 );
             temp->sety( u.posy() - 4 );
             temp->setz( u.posz() );
-            temp->form_opinion( &u );
+            temp->form_opinion( u );
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
@@ -13860,7 +13860,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
         }
         // adds the npc to the correct overmap.
         tmp->spawn_at( msx, msy, get_levz() );
-        tmp->form_opinion(&u);
+        tmp->form_opinion( u );
         tmp->mission = NPC_MISSION_NULL;
         tmp->add_new_mission( mission::reserve_random(ORIGIN_ANY_NPC, tmp->global_omt_location(), tmp->getID()) );
         // This will make the new NPC active

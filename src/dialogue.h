@@ -105,7 +105,6 @@ namespace talk_function {
     void mission_failure      (npc *);
     void clear_mission        (npc *);
     void mission_reward       (npc *);
-    void mission_reward_cash  (npc *);
     void mission_favor        (npc *);
     void give_equipment       (npc *);
     void give_aid             (npc *);

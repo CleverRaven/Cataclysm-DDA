@@ -1292,10 +1292,11 @@ void npc::form_opinion( const player &u )
     }
 
     // TRUST
-    if( op_of_u.fear > 0 )
+    if( op_of_u.fear > 0 ) {
         op_of_u.trust -= 3;
-    } else
+    } else {
         op_of_u.trust += 1;
+    }
 
     if( u.weapon.is_gun() ) {
         op_of_u.trust -= 2;
@@ -1303,6 +1304,7 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 2;
     }
 
+    // @todo More effects
     if( u.has_effect( effect_high ) ) {
         op_of_u.trust -= 1;
     }

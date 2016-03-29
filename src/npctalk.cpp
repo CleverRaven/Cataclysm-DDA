@@ -1957,8 +1957,6 @@ void dialogue::gen_responses( const std::string &topic )
             RESPONSE(_("Maybe you can teach me something as payment."));
                 SUCCESS("TALK_TRAIN");
         }
-        add_response( _("I'll take cash if you got it!"), "TALK_MISSION_REWARD",
-                      &talk_function::mission_reward_cash );
         RESPONSE(_("Glad to help.  I need no payment.  Bye!"));
             SUCCESS("TALK_DONE");
                 SUCCESS_ACTION(&talk_function::clear_mission);
@@ -3305,23 +3303,20 @@ void talk_function::clear_mission(npc *p)
 
 void talk_function::mission_reward(npc *p)
 {
- int trade_amount = p->op_of_u.owed;
- p->op_of_u.owed = 0;
- trade( *p, trade_amount, _("Reward") );
-}
+    const mission *miss = p->chatbin.mission_selected;
+    if( miss == nullptr ) {
+        debugmsg( "Called mission_reward with null mission" );
+        return;
+    }
 
-void talk_function::mission_reward_cash(npc *p)
-{
- int trade_amount = p->op_of_u.owed * .6;
- p->op_of_u.owed = 0;
- g->u.cash += trade_amount;
+    int mission_value = miss->get_value();
+    p->op_of_u.owed += mission_value;
+    trade( *p, 0, _("Reward") );
 }
 
 void talk_function::start_trade(npc *p)
 {
- int trade_amount = p->op_of_u.owed;
- p->op_of_u.owed = 0;
- trade( *p, trade_amount, _("Trade") );
+    trade( *p, 0, _("Trade") );
 }
 
 std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
@@ -4220,7 +4215,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         p.price *= your_adjust;
     }
 
-    long cash = cost;       // How much cash you get in the deal (negative = losing money)
+    // How much cash you get in the deal (negative = losing money)
+    long cash = cost + p.op_of_u.owed;
     bool focus_them = true; // Is the focus on them?
     bool update = true;     // Re-draw the screen?
     size_t them_off = 0, you_off = 0; // Offset from the start of the list
@@ -4371,7 +4367,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     ch = ' ';
                 } else if( volume_left < 0 || weight_left < 0 ) {
                     // Make sure NPC doesn't go over allowed volume
-                    popup( _("The %s can't carry all that."), p.name.c_str() );
+                    popup( _("%s can't carry all that."), p.name.c_str() );
                     update = true;
                     ch = ' ';
                 }
@@ -4431,13 +4427,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         p.inv = their_new_inv;
 
         if( cash > (int)p.cash ) {
-            //Trade was forced, give the NPC's cash to the player.
-            p.op_of_u.owed += (cash - p.cash);
+            // Trade was forced, give the NPC's cash to the player.
+            p.op_of_u.owed = (cash - p.cash);
             g->u.cash += p.cash;
             p.cash = 0;
         } else {
             g->u.cash += cash;
-            p.cash   -= cash;
+            p.cash -= cash;
         }
 
         // TODO: Make this depend on prices
