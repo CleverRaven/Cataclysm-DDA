@@ -532,10 +532,11 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
             switch( tmpop ) {
                 case JMAPGEN_SETMAP_TER: {
                     const ter_str_id tid( tmpid );
-                    if ( termap.find( tid ) == termap.end() ) {
+
+                    if( !tid.is_valid() ) {
                         pjo.throw_error( "no such terrain", "id" );
                     }
-                    tmp_i.val = termap[ tid ].loadid;
+                    tmp_i.val = tid.obj().loadid;
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
                     if ( furnmap.find( tmpid ) == furnmap.end() ) {

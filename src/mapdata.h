@@ -271,7 +271,7 @@ void reset_furn_ter();
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
  */
-extern std::map<ter_str_id, ter_t> termap;
+extern std::map<ter_str_id, ter_t> termap; // @todo Mustn't be exposed
 ter_id terfind(const std::string &id); // lookup, carp and return null on error
 
 struct furn_t : map_data_common_t {

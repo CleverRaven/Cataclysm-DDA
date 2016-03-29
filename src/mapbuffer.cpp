@@ -447,24 +447,24 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                             const ter_str_id tid( jsin.get_string() );
 
                             if ( tid == "t_rubble" ) {
-                                sm->ter[i][j] = termap[ter_str_id( "t_dirt" )].loadid;
+                                sm->ter[i][j] = ter_str_id( "t_dirt" ).obj().loadid;
                                 sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
                             } else if ( tid == "t_wreckage" ){
-                                sm->ter[i][j] = termap[ter_str_id( "t_dirt" )].loadid;
+                                sm->ter[i][j] = ter_str_id( "t_dirt" ).obj().loadid;
                                 sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
                             } else if ( tid == "t_ash" ){
-                                sm->ter[i][j] = termap[ter_str_id(  "t_dirt" )].loadid;
+                                sm->ter[i][j] = ter_str_id(  "t_dirt" ).obj().loadid;
                                 sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
                             } else if ( tid == "t_pwr_sb_support_l" ){
-                                sm->ter[i][j] = termap[ter_str_id(  "t_support_l" )].loadid;
+                                sm->ter[i][j] = ter_str_id(  "t_support_l" ).obj().loadid;
                             } else if ( tid == "t_pwr_sb_switchgear_l" ){
-                                sm->ter[i][j] = termap[ter_str_id(  "t_switchgear_l" )].loadid;
+                                sm->ter[i][j] = ter_str_id(  "t_switchgear_l" ).obj().loadid;
                             } else if ( tid == "t_pwr_sb_switchgear_s" ){
-                                sm->ter[i][j] = termap[ter_str_id(  "t_switchgear_s" )].loadid;
+                                sm->ter[i][j] = ter_str_id(  "t_switchgear_s" ).obj().loadid;
                             } else {
                                 sm->ter[i][j] = tid.id();
                             }

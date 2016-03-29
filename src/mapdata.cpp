@@ -1058,7 +1058,7 @@ void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_t
         if (is_terrain && mbi.ter_set.str().empty()) { // Some tiles specify t_null explicitly
             debugmsg("bash result terrain of %s is undefined/empty", id.c_str());
         }
-        if (!mbi.ter_set.is_null() && termap.count(mbi.ter_set) == 0) {
+        if ( !mbi.ter_set.is_null() && !mbi.ter_set.is_valid() ) {
             debugmsg("bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
         }
         if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
@@ -1078,7 +1078,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     if (is_terrain && mbi.ter_set.str().empty()) { // Some tiles specify t_null explicitly
         debugmsg("deconstruct result terrain of %s is undefined/empty", id.c_str());
     }
-    if (!mbi.ter_set.is_null() && termap.count(mbi.ter_set) == 0) {
+    if ( !mbi.ter_set.is_null() && !mbi.ter_set.is_valid() ) {
         debugmsg("deconstruct result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
     }
     if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
@@ -1101,13 +1101,13 @@ void check_furniture_and_terrain()
     for( const ter_t& t : terlist ) {
         check_bash_items(t.bash, t.id.str(), true);
         check_decon_items(t.deconstruct, t.id.str(), true);
-        if( !t.transforms_into.is_null() && termap.count( t.transforms_into ) == 0 ) {
+        if( !t.transforms_into.is_null() && !t.transforms_into.is_valid() ) {
             debugmsg( "invalid transforms_into %s for %s", t.transforms_into.c_str(), t.id.c_str() );
         }
-        if( !t.open.is_null() && termap.count( t.open ) == 0 ) {
+        if( !t.open.is_null() && !t.open.is_valid() ) {
             debugmsg( "invalid terrain %s for opening %s", t.open.c_str(), t.id.c_str() );
         }
-        if( !t.close.is_null() && termap.count( t.close ) == 0 ) {
+        if( !t.close.is_null() && !t.close.is_valid() ) {
             debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
         }
     }

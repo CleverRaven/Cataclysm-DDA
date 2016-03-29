@@ -713,8 +713,9 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
         if( sidlen > slen && tersid.substr( sidlen - slen, slen ) == suffix ) {
             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
             const ter_str_id tid( terasid );
-            if( termap.find( tid ) != termap.end() ) {
-                return termap[tid].loadid;
+
+            if( tid.is_valid() ) {
+                return tid.obj().loadid; // @todo Replace with .id() when cached
             }
         }
     }

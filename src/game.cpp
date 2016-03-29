@@ -3911,14 +3911,14 @@ void game::add_event(event_type type, int on_turn, int faction_id, const tripoin
 struct terrain {
     ter_id ter;
     terrain(ter_id tid) : ter(tid) {};
-    terrain(std::string sid)
+    terrain(std::string sid) : ter(t_null)
     {
         const ter_str_id tid( sid );
-        ter = t_null;
-        if (termap.find(tid) == termap.end()) {
+
+        if( !tid.is_valid() ) {
             debugmsg("terrain '%s' does not exist.", tid.c_str());
         } else {
-            ter = termap[tid].loadid;
+            ter = tid.obj().loadid; // @todo Replace with .id() when cached
         }
     };
 };
@@ -7236,13 +7236,13 @@ void game::open()
     bool didit = m.open_door( openp, !m.is_outside( u.pos() ) );
 
     if (!didit) {
-        const ter_str_id tersid = m.get_ter( openp );
-        const std::string terid = tersid.str();
-        if (terid.find("t_door") != std::string::npos) {
-            if (terid.find("_locked") != std::string::npos) {
+        const ter_str_id tid = m.get_ter( openp );
+
+        if( tid.str().find("t_door") != std::string::npos ) {
+            if( tid.str().find("_locked") != std::string::npos ) {
                 add_msg(m_info, _("The door is locked!"));
                 return;
-            } else if ( !termap[tersid].close.is_null() ) {
+            } else if ( !tid.obj().close.is_null() ) {
                 // if the following message appears unexpectedly, the prior check was for t_door_o
                 add_msg(m_info, _("That door is already open."));
                 u.moves += 100;

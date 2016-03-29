@@ -1692,7 +1692,7 @@ ter_str_id map::get_ter_harvestable(const int x, const int y) const {
 }
 
 ter_id map::get_ter_transforms_into(const int x, const int y) const {
-    return termap[ ter_at(x, y).transforms_into ].loadid;
+    return ter_at( x, y ).transforms_into.obj().loadid;
 }
 
 int map::get_ter_harvest_season(const int x, const int y) const {
@@ -1705,10 +1705,10 @@ const ter_t & map::ter_at(const int x, const int y) const
 }
 
 void map::ter_set(const int x, const int y, const ter_str_id new_terrain) {
-    if ( termap.find(new_terrain) == termap.end() ) {
+    if ( !new_terrain.is_valid() ) {
         return;
     }
-    ter_set(x, y, termap[ new_terrain ].loadid );
+    ter_set(x, y, new_terrain.obj().loadid );
 }
 
 void map::ter_set(const int x, const int y, const ter_id new_terrain) {
@@ -1762,7 +1762,7 @@ ter_str_id map::get_ter_harvestable( const tripoint &p ) const {
  * Get the terrain transforms_into id (what will the terrain transforms into)
  */
 ter_id map::get_ter_transforms_into( const tripoint &p ) const {
-    return termap[ ter_at( p ).transforms_into ].loadid;
+    return ter_at( p ).transforms_into.obj().loadid;
 }
 
 /*
@@ -1784,7 +1784,7 @@ const ter_t & map::ter_at( const tripoint &p ) const
  * set terrain via string; this works for -any- terrain id
  */
 void map::ter_set( const tripoint &p, const ter_str_id new_terrain) {
-    if( termap.find(new_terrain) == termap.end() ) {
+    if( !new_terrain.is_valid() ) {
         return;
     }
 
@@ -4124,7 +4124,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     int vpart = -1;
     vehicle *veh = veh_at( p, vpart );
     if ( !ter.open.is_null() ) {
-        if ( termap.find( ter.open ) == termap.end() ) {
+        if ( !ter.id.is_valid() ) {
             debugmsg("terrain %s.open == non existant terrain '%s'\n", ter.id.c_str(), ter.open.c_str() );
             return false;
         }
@@ -4224,7 +4224,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
  const auto &ter = ter_at( p );
  const auto &furn = furn_at( p );
  if ( !ter.close.is_null() ) {
-     if ( termap.find( ter.close ) == termap.end() ) {
+     if ( !ter.close.is_valid() ) {
          debugmsg("terrain %s.close == non existant terrain '%s'\n", ter.id.c_str(), ter.close.c_str() );
          return false;
      }
@@ -7740,11 +7740,11 @@ tinymap::tinymap( int mapsize, bool zlevels )
 ter_id find_ter_id( const ter_str_id id, bool complain = true )
 {
     ( void )complain; //FIXME: complain unused
-    if( termap.find( id ) == termap.end() ) {
-        debugmsg( "Can't find termap[%s]", id.c_str() );
+    if( !id.is_valid() ) {
+        debugmsg( "Can't find terrain %s", id.c_str() );
         return ter_id( 0 );
     }
-    return termap[id].loadid;
+    return id.obj().loadid;
 }
 
 furn_id find_furn_id( const std::string id, bool complain = true )

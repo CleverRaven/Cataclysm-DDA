@@ -1473,8 +1473,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             }
         } else if (category == C_TERRAIN) {
             const ter_str_id tid( id );
-            if (termap.count( tid ) > 0) {
-                const ter_t &t = termap[tid];
+            if ( tid.is_valid() ) {
+                const ter_t &t = tid.obj();
                 sym = t.symbol();
                 col = t.color();
             }

@@ -373,7 +373,7 @@ void construction_menu()
                             if( current_con->post_is_furniture ) {
                                 result_string = furnmap[current_con->post_terrain].name;
                             } else {
-                                result_string = termap[ter_str_id( current_con->post_terrain )].name;
+                                result_string = ter_str_id( current_con->post_terrain ).obj().name;
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Result: %s" ), result_string.c_str() ) << "</color>";
@@ -401,7 +401,7 @@ void construction_menu()
                             if( current_con->pre_is_furniture ) {
                                 require_string = furnmap[current_con->pre_terrain].name;
                             } else {
-                                require_string = termap[ter_str_id( current_con->pre_terrain )].name;
+                                require_string = ter_str_id( current_con->pre_terrain ).obj().name;
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Requires: %s" ), require_string.c_str() ) << "</color>";
@@ -620,7 +620,7 @@ bool can_construct( construction const *con, int x, int y )
             furn_id f = furnmap[con->pre_terrain].loadid;
             place_okay &= ( g->m.furn( x, y ) == f );
         } else {
-            ter_id t = termap[ter_str_id( con->pre_terrain )].loadid;
+            ter_id t = ter_str_id( con->pre_terrain ).obj().loadid; // @todo Replace with .id() when cached
             place_okay &= ( g->m.ter( x, y ) == t );
         }
     }
@@ -634,7 +634,7 @@ bool can_construct( construction const *con, int x, int y )
             furn_id f = furnmap[con->post_terrain].loadid;
             place_okay &= ( g->m.furn( x, y ) != f );
         } else {
-            ter_id t = termap[ter_str_id( con->post_terrain )].loadid;
+            ter_id t = ter_str_id( con->post_terrain ).obj().loadid; // @todo Replace with .id() when cached
             place_okay &= ( g->m.ter( x, y ) != t );
         }
     }
@@ -1404,13 +1404,13 @@ void check_constructions()
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
         c->requirements.check_consistency(display_name);
-        if (!c->pre_terrain.empty() && !c->pre_is_furniture && termap.count( ter_str_id( c->pre_terrain ) ) == 0) {
+        if (!c->pre_terrain.empty() && !c->pre_is_furniture && !ter_str_id( c->pre_terrain ).is_valid() ) {
             debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
         }
         if (!c->pre_terrain.empty() && c->pre_is_furniture && furnmap.count(c->pre_terrain) == 0) {
             debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
         }
-        if (!c->post_terrain.empty() && !c->post_is_furniture && termap.count( ter_str_id( c->post_terrain ) ) == 0) {
+        if (!c->post_terrain.empty() && !c->post_is_furniture && !ter_str_id( c->post_terrain ).is_valid() ) {
             debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
         }
         if (!c->post_terrain.empty() && c->post_is_furniture && furnmap.count(c->post_terrain) == 0) {
