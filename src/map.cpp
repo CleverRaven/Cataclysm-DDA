@@ -1692,7 +1692,7 @@ ter_str_id map::get_ter_harvestable(const int x, const int y) const {
 }
 
 ter_id map::get_ter_transforms_into(const int x, const int y) const {
-    return ter_at( x, y ).transforms_into.obj().loadid;
+    return ter_at( x, y ).transforms_into.id();
 }
 
 int map::get_ter_harvest_season(const int x, const int y) const {
@@ -1708,7 +1708,7 @@ void map::ter_set(const int x, const int y, const ter_str_id &new_terrain) {
     if ( !new_terrain.is_valid() ) {
         return;
     }
-    ter_set(x, y, new_terrain.obj().loadid );
+    ter_set(x, y, new_terrain.id() );
 }
 
 void map::ter_set(const int x, const int y, const ter_id new_terrain) {
@@ -1762,7 +1762,7 @@ ter_str_id map::get_ter_harvestable( const tripoint &p ) const {
  * Get the terrain transforms_into id (what will the terrain transforms into)
  */
 ter_id map::get_ter_transforms_into( const tripoint &p ) const {
-    return ter_at( p ).transforms_into.obj().loadid;
+    return ter_at( p ).transforms_into.id();
 }
 
 /*
@@ -7744,7 +7744,7 @@ ter_id find_ter_id( const ter_str_id &id, bool complain = true )
         debugmsg( "Can't find terrain %s", id.c_str() );
         return ter_id( 0 );
     }
-    return id.obj().loadid;
+    return id.id();
 }
 
 furn_id find_furn_id( const std::string id, bool complain = true )

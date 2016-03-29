@@ -715,7 +715,7 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
             const ter_str_id tid( terasid );
 
             if( tid.is_valid() ) {
-                return tid.obj().loadid; // @todo Replace with .id() when cached
+                return tid.id();
             }
         }
     }

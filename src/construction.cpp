@@ -620,7 +620,7 @@ bool can_construct( construction const *con, int x, int y )
             furn_id f = furnmap[con->pre_terrain].loadid;
             place_okay &= ( g->m.furn( x, y ) == f );
         } else {
-            ter_id t = ter_str_id( con->pre_terrain ).obj().loadid; // @todo Replace with .id() when cached
+            ter_id t = ter_str_id( con->pre_terrain ).id();
             place_okay &= ( g->m.ter( x, y ) == t );
         }
     }
@@ -634,7 +634,7 @@ bool can_construct( construction const *con, int x, int y )
             furn_id f = furnmap[con->post_terrain].loadid;
             place_okay &= ( g->m.furn( x, y ) != f );
         } else {
-            ter_id t = ter_str_id( con->post_terrain ).obj().loadid; // @todo Replace with .id() when cached
+            ter_id t = ter_str_id( con->post_terrain ).id();
             place_okay &= ( g->m.ter( x, y ) != t );
         }
     }

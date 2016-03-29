@@ -3918,7 +3918,7 @@ struct terrain {
         if( !tid.is_valid() ) {
             debugmsg("terrain '%s' does not exist.", tid.c_str());
         } else {
-            ter = tid.obj().loadid; // @todo Replace with .id() when cached
+            ter = tid.id();
         }
     };
 };
