@@ -1489,7 +1489,7 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
     ter_set(x, y, new_terrain);
 }
 
-void map::set(const int x, const int y, const ter_str_id new_terrain, const std::string new_furniture) {
+void map::set(const int x, const int y, const ter_str_id &new_terrain, const std::string &new_furniture) {
     furn_set(x, y, new_furniture);
     ter_set(x, y, new_terrain);
 }
@@ -1549,7 +1549,7 @@ void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_fu
     ter_set( p, new_terrain );
 }
 
-void map::set( const tripoint &p, const ter_str_id new_terrain, const std::string new_furniture) {
+void map::set( const tripoint &p, const ter_str_id &new_terrain, const std::string &new_furniture) {
     furn_set( p, new_furniture );
     ter_set( p, new_terrain );
 }
@@ -1704,7 +1704,7 @@ const ter_t & map::ter_at(const int x, const int y) const
     return ter(x,y).obj();
 }
 
-void map::ter_set(const int x, const int y, const ter_str_id new_terrain) {
+void map::ter_set(const int x, const int y, const ter_str_id &new_terrain) {
     if ( !new_terrain.is_valid() ) {
         return;
     }
@@ -1783,7 +1783,7 @@ const ter_t & map::ter_at( const tripoint &p ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-void map::ter_set( const tripoint &p, const ter_str_id new_terrain) {
+void map::ter_set( const tripoint &p, const ter_str_id &new_terrain) {
     if( !new_terrain.is_valid() ) {
         return;
     }
@@ -7737,7 +7737,7 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-ter_id find_ter_id( const ter_str_id id, bool complain = true )
+ter_id find_ter_id( const ter_str_id &id, bool complain = true )
 {
     ( void )complain; //FIXME: complain unused
     if( !id.is_valid() ) {
@@ -7764,7 +7764,7 @@ void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_line_ter( const ter_str_id type, int x1, int y1, int x2, int y2 )
+void map::draw_line_ter( const ter_str_id &type, int x1, int y1, int x2, int y2 )
 {
     draw_line_ter( find_ter_id( type ), x1, y1, x2, y2 );
 }
@@ -7799,7 +7799,7 @@ void map::draw_fill_background( ter_id type )
     }
 }
 
-void map::draw_fill_background( ter_str_id type )
+void map::draw_fill_background( ter_str_id &type )
 {
     draw_fill_background( find_ter_id( type ) );
 }
@@ -7819,7 +7819,7 @@ void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_square_ter( ter_str_id type, int x1, int y1, int x2, int y2 )
+void map::draw_square_ter( ter_str_id &type, int x1, int y1, int x2, int y2 )
 {
     draw_square_ter( find_ter_id( type ), x1, y1, x2, y2 );
 }
@@ -7857,7 +7857,7 @@ void map::draw_rough_circle_ter( ter_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_rough_circle_ter( ter_str_id type, int x, int y, int rad )
+void map::draw_rough_circle_ter( ter_str_id &type, int x, int y, int rad )
 {
     draw_rough_circle_ter( find_ter_id( type ), x, y, rad );
 }
@@ -7888,7 +7888,7 @@ void map::draw_circle_ter( ter_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_circle_ter( ter_str_id type, int x, int y, int rad )
+void map::draw_circle_ter( ter_str_id &type, int x, int y, int rad )
 {
     draw_circle_ter( find_ter_id( type ), x, y, rad );
 }
