@@ -4297,7 +4297,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 trim_and_print(w_them, i - them_off + 1, 1, 30,
                         (ip.selected ? c_white : c_ltgray), "%c %c %s",
                         char((i -them_off) + 'a'), (ip.selected ? '+' : '-'),
-                        ip.itm->tname().c_str());
+                        ip.itm->display_name().c_str());
 
                 mvwprintz(w_them, i - them_off + 1, 35 - to_string(ip.price / 100).length(),
                         (ip.selected ? c_white : c_ltgray), "$%.2f",
