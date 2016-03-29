@@ -274,8 +274,6 @@ void reset_furn_ter();
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
  */
 
-ter_id terfind(const std::string &id); // lookup, carp and return null on error
-
 struct furn_t : map_data_common_t {
     std::string id;
     furn_id loadid;     // This is akin to the old ter_id, however it is set at runtime.

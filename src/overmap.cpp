@@ -4458,7 +4458,7 @@ const char *oter_id::c_str() const
 
 void groundcover_extra::setup()   // fixme return bool for failure
 {
-    default_ter = terfind( default_ter_str );
+    default_ter = ter_str_id( default_ter_str ).id();
 
     ter_furn_id tf_id;
     int wtotal = 0;
