@@ -1472,8 +1472,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                 col = f.color();
             }
         } else if (category == C_TERRAIN) {
-            if (termap.count(id) > 0) {
-                const ter_t &t = termap[id];
+            const ter_str_id tid( id );
+            if (termap.count( tid ) > 0) {
+                const ter_t &t = termap[tid];
                 sym = t.symbol();
                 col = t.color();
             }
@@ -1930,7 +1931,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
         // do something to get other terrain orientation values
     }
 
-    const std::string& tname = t.obj().id;
+    const std::string& tname = t.obj().id.str();
 
     return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );

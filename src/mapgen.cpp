@@ -531,10 +531,11 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
             std::string tmpid = pjo.get_string("id");
             switch( tmpop ) {
                 case JMAPGEN_SETMAP_TER: {
-                    if ( termap.find( tmpid ) == termap.end() ) {
+                    const ter_str_id tid( tmpid );
+                    if ( termap.find( tid ) == termap.end() ) {
                         pjo.throw_error( "no such terrain", "id" );
                     }
-                    tmp_i.val = termap[ tmpid ].loadid;
+                    tmp_i.val = termap[ tid ].loadid;
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
                     if ( furnmap.find( tmpid ) == furnmap.end() ) {
@@ -1089,7 +1090,7 @@ public:
     jmapgen_terrain( JsonObject &jsi ) : jmapgen_piece()
     , id( 0 )
     {
-        const auto iter = termap.find( jsi.get_string( "ter" ) );
+        const auto iter = termap.find( ter_str_id( jsi.get_string( "ter" ) ) );
         if( iter == termap.end() ) {
             jsi.throw_error( "unknown terrain type", "ter" );
         }
@@ -1098,7 +1099,7 @@ public:
     jmapgen_terrain( const std::string &tid ) : jmapgen_piece()
     , id( 0 )
     {
-        const auto iter = termap.find( tid );
+        const auto iter = termap.find( ter_str_id( tid ) );
         if( iter == termap.end() ) {
             throw std::runtime_error( "unknown terrain type" );
         }
@@ -1130,7 +1131,7 @@ public:
         }
         jsi.read( "items", items );
         if( jsi.has_string( "floor_type" ) ) {
-            const auto iter = termap.find( jsi.get_string( "floor_type" ) );
+            const auto iter = termap.find( ter_str_id( jsi.get_string( "floor_type" ) ) );
             if( iter == termap.end() ) {
                 jsi.throw_error( "unknown terrain type", "floor_type" );
             }
@@ -1332,7 +1333,7 @@ bool mapgen_function_json::setup() {
         }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
-        std::string tmpval = "";
+        ter_str_id tmpval;
         JsonArray parray;
         JsonArray sparray;
         JsonObject pjo;
@@ -1345,7 +1346,7 @@ bool mapgen_function_json::setup() {
             }
             fill_ter = termap[ tmpval ].loadid;
             qualifies = true;
-            tmpval = "";
+            tmpval = NULL_ID;
         }
 
         format.resize( mapgensize * mapgensize );
@@ -1363,7 +1364,7 @@ bool mapgen_function_json::setup() {
                         pjo.throw_error( "format map key must be 1 character", key );
                     }
                     if( pjo.has_string( key ) ) {
-                        const auto tmpval = pjo.get_string( key );
+                        const auto tmpval = ter_str_id( pjo.get_string( key ) );
                         const auto iter = termap.find( tmpval );
                         if( iter == termap.end() ) {
                             pjo.throw_error( "Invalid terrain", key );

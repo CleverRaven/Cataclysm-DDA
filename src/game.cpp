@@ -3913,11 +3913,12 @@ struct terrain {
     terrain(ter_id tid) : ter(tid) {};
     terrain(std::string sid)
     {
+        const ter_str_id tid( sid );
         ter = t_null;
-        if (termap.find(sid) == termap.end()) {
-            debugmsg("terrain '%s' does not exist.", sid.c_str());
+        if (termap.find(tid) == termap.end()) {
+            debugmsg("terrain '%s' does not exist.", tid.c_str());
         } else {
-            ter = termap[sid].loadid;
+            ter = termap[tid].loadid;
         }
     };
 };
@@ -7235,12 +7236,13 @@ void game::open()
     bool didit = m.open_door( openp, !m.is_outside( u.pos() ) );
 
     if (!didit) {
-        const std::string terid = m.get_ter( openp );
+        const ter_str_id tersid = m.get_ter( openp );
+        const std::string terid = tersid.str();
         if (terid.find("t_door") != std::string::npos) {
             if (terid.find("_locked") != std::string::npos) {
                 add_msg(m_info, _("The door is locked!"));
                 return;
-            } else if (!termap[terid].close.empty() && termap[terid].close != "t_null") {
+            } else if ( !termap[tersid].close.is_null() ) {
                 // if the following message appears unexpectedly, the prior check was for t_door_o
                 add_msg(m_info, _("That door is already open."));
                 u.moves += 100;

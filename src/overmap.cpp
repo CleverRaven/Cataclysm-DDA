@@ -2698,7 +2698,7 @@ void overmap::place_forest()
                 cities.begin(),
                 cities.end(),
                 [&](const city &c) {
-                    return 
+                    return
                         // is this city too close?
                         trig_dist(forx, fory, c.x, c.y) - fors / 2 < c.s &&
                         // occasionally accept near a city if we've been failing
@@ -2706,7 +2706,7 @@ void overmap::place_forest()
                 }
             );
             if(iter == cities.end()) { // every city was too close
-                break; 
+                break;
             }
         } while( tries-- );
 
@@ -2878,7 +2878,7 @@ void overmap::place_cities()
     const double omts_per_city = (op_city_size*2+1) * (op_city_size*2+1) * 3 / 4;
 
     // how many cities on this overmap?
-    const int NUM_CITIES = 
+    const int NUM_CITIES =
         roll_remainder(omts_per_overmap * city_map_coverage_ratio / omts_per_city);
 
     // place a seed for NUM_CITIES cities, and maybe one more
@@ -4471,8 +4471,9 @@ void groundcover_extra::setup()   // fixme return bool for failure
         if ( it->second < 0.0001 ) {
             continue;
         }
-        if ( termap.find( it->first ) != termap.end() ) {
-            tf_id.ter = termap[ it->first ].loadid;
+        const ter_str_id tid( it->first );
+        if ( termap.find( tid ) != termap.end() ) {
+            tf_id.ter = termap[ tid ].loadid;
         } else if ( furnmap.find( it->first ) != furnmap.end() ) {
             tf_id.furn = furnmap[ it->first ].loadid;
         } else {
@@ -4490,8 +4491,9 @@ void groundcover_extra::setup()   // fixme return bool for failure
         if ( it->second < 0.0001 ) {
             continue;
         }
-        if ( termap.find( it->first ) != termap.end() ) {
-            tf_id.ter = termap[ it->first ].loadid;
+        const ter_str_id tid( it->first );
+        if ( termap.find( tid ) != termap.end() ) {
+            tf_id.ter = termap[ tid ].loadid;
         } else if ( furnmap.find( it->first ) != furnmap.end() ) {
             tf_id.furn = furnmap[ it->first ].loadid;
         } else {

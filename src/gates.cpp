@@ -46,9 +46,9 @@ struct gate_data {
         void load( JsonObject &jo );
 
     private:
-        ter_id get_ter( const std::string &ter_name, ter_id &cached_ter ) const {
+        ter_id get_ter( const ter_str_id &ter_name, ter_id &cached_ter ) const {
             if( cached_ter == t_null ) {
-                cached_ter = terfind( ter_name );
+                cached_ter = terfind( ter_name.str() );
             }
             return cached_ter;
         }
@@ -57,14 +57,14 @@ struct gate_data {
         mutable ter_id door;
         mutable ter_id floor;
 
-        std::string wall_id;
-        std::string door_id;
-        std::string floor_id;
+        ter_str_id wall_id;
+        ter_str_id door_id;
+        ter_str_id floor_id;
 };
 
 gate_id get_gate_id( const tripoint &pos )
 {
-    return static_cast<gate_id>( g->m.get_ter( pos ) );
+    return gate_id( g->m.get_ter( pos ).str() );
 }
 
 generic_factory<gate_data> gates_data( "gate type", "handle" );

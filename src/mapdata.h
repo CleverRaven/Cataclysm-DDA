@@ -29,6 +29,7 @@ using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;
 
 using furn_id = int_id<furn_t>;
+using furn_str_id = string_id<furn_t>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -51,7 +52,7 @@ struct map_bash_info {
     std::string drop_group; // item group of items that are dropped when the object is bashed
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
-    std::string ter_set;    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents (have to be ids of furniture)
     std::vector<std::string> tent_centers;
@@ -59,7 +60,7 @@ struct map_bash_info {
                       str_min_supported(-1), str_max_supported(-1),
                       explosive(0), sound_vol(-1), sound_fail_vol(-1),
                       collapse_radius(1), destroy_only(false), bash_below(false),
-                      drop_group("EMPTY_GROUP"), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
+                      drop_group("EMPTY_GROUP"), sound(""), sound_fail(""), ter_set(NULL_ID), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -69,9 +70,9 @@ struct map_deconstruct_info {
     bool deconstruct_above;
     // items you get when deconstructing.
     std::string drop_group;
-    std::string ter_set;    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), deconstruct_above(false), drop_group(), ter_set(), furn_set() { }
+    map_deconstruct_info() : can_do(false), deconstruct_above(false), drop_group(), ter_set(NULL_ID), furn_set() { }
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -188,10 +189,7 @@ enum ter_connects : int {
 };
 
 struct map_data_common_t {
-    std::string id;    // The terrain's ID. Must be set, must be unique.
     std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
-    std::string open;  // Open action: transform into terrain with matching id
-    std::string close; // Close action: transform into terrain with matching id
 
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
@@ -250,10 +248,15 @@ public:
 */
 struct ter_t : map_data_common_t {
     ter_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
+
+    ter_str_id id;    // The terrain's ID. Must be set, must be unique.
+    ter_str_id open;  // Open action: transform into terrain with matching id
+    ter_str_id close; // Close action: transform into terrain with matching id
+
     std::string trap_id_str;     // String storing the id string of the trap.
-    std::string harvestable;     // What will be harvested from this terrain?
-    std::string transforms_into; // Transform into what terrain?
-    std::string roof;            // What will be the floor above this terrain?
+    ter_str_id harvestable;     // What will be harvested from this terrain?
+    ter_str_id transforms_into; // Transform into what terrain?
+    ter_str_id roof;            // What will be the floor above this terrain?
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
@@ -268,11 +271,14 @@ void reset_furn_ter();
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
  */
-extern std::map<std::string, ter_t> termap;
-ter_id terfind(const std::string & id); // lookup, carp and return null on error
+extern std::map<ter_str_id, ter_t> termap;
+ter_id terfind(const std::string &id); // lookup, carp and return null on error
 
 struct furn_t : map_data_common_t {
+    std::string id;
     furn_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
+    std::string open;  // Open action: transform into terrain with matching id
+    std::string close; // Close action: transform into terrain with matching id
     std::string crafting_pseudo_item;
 
     int move_str_req; //The amount of strength required to move through this terrain easily.

@@ -1489,7 +1489,7 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
     ter_set(x, y, new_terrain);
 }
 
-void map::set(const int x, const int y, const std::string new_terrain, const std::string new_furniture) {
+void map::set(const int x, const int y, const ter_str_id new_terrain, const std::string new_furniture) {
     furn_set(x, y, new_furniture);
     ter_set(x, y, new_terrain);
 }
@@ -1549,7 +1549,7 @@ void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_fu
     ter_set( p, new_terrain );
 }
 
-void map::set( const tripoint &p, const std::string new_terrain, const std::string new_furniture) {
+void map::set( const tripoint &p, const ter_str_id new_terrain, const std::string new_furniture) {
     furn_set( p, new_furniture );
     ter_set( p, new_terrain );
 }
@@ -1683,11 +1683,11 @@ ter_id map::ter(const int x, const int y) const
     return current_submap->get_ter( lx, ly );
 }
 
-std::string map::get_ter(const int x, const int y) const {
+ter_str_id map::get_ter(const int x, const int y) const {
     return ter_at(x, y).id;
 }
 
-std::string map::get_ter_harvestable(const int x, const int y) const {
+ter_str_id map::get_ter_harvestable(const int x, const int y) const {
     return ter_at(x, y).harvestable;
 }
 
@@ -1704,7 +1704,7 @@ const ter_t & map::ter_at(const int x, const int y) const
     return ter(x,y).obj();
 }
 
-void map::ter_set(const int x, const int y, const std::string new_terrain) {
+void map::ter_set(const int x, const int y, const ter_str_id new_terrain) {
     if ( termap.find(new_terrain) == termap.end() ) {
         return;
     }
@@ -1747,14 +1747,14 @@ ter_id map::ter( const tripoint &p ) const
  * unless a mod eliminates or changes it. Generally this is less efficient
  * than ter_id, but only an issue if thousands of comparisons are made.
  */
-std::string map::get_ter( const tripoint &p ) const {
+ter_str_id map::get_ter( const tripoint &p ) const {
     return ter_at( p ).id;
 }
 
 /*
  * Get the terrain harvestable string (what will get harvested from the terrain)
  */
-std::string map::get_ter_harvestable( const tripoint &p ) const {
+ter_str_id map::get_ter_harvestable( const tripoint &p ) const {
     return ter_at( p ).harvestable;
 }
 
@@ -1783,12 +1783,12 @@ const ter_t & map::ter_at( const tripoint &p ) const
 /*
  * set terrain via string; this works for -any- terrain id
  */
-void map::ter_set( const tripoint &p, const std::string new_terrain) {
+void map::ter_set( const tripoint &p, const ter_str_id new_terrain) {
     if( termap.find(new_terrain) == termap.end() ) {
         return;
     }
 
-    ter_set( p, termap[ new_terrain ].loadid );
+    ter_set( p, new_terrain.id() );
 }
 
 void map::ter_set( const tripoint &p, const ter_id new_terrain )
@@ -3341,7 +3341,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
 
     const auto &ter_there = ter_at( p );
     const auto &roof = ter_there.roof;
-    if( roof.empty() || roof == null_ter_t ) {
+    if( roof.is_null() ) {
         // No roof
         // Not acceptable if the tile is not passable
         if( !allow_air ) {
@@ -3351,7 +3351,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
         return t_open_air;
     }
 
-    ter_id new_ter = terfind( roof );
+    ter_id new_ter = roof.id();
     if( new_ter == t_null ) {
         debugmsg( "map::get_new_floor: %d,%d,%d has invalid roof type %s",
                   p.x, p.y, p.z, roof.c_str() );
@@ -3395,7 +3395,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( !params.destroy ) {
             smash_ter = false;
             bash = nullptr;
-        } else if( bash->ter_set == null_ter_t && zlevels ) {
+        } else if( bash->ter_set.is_null() && zlevels ) {
             // A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
             tripoint below( p.x, p.y, p.z - 1 );
@@ -3404,7 +3404,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 smash_ter = false;
                 bash = nullptr;
             }
-        } else if( bash->ter_set == null_ter_t && ter( p ) == t_dirt ) {
+        } else if( bash->ter_set.is_null() && ter( p ) == t_dirt ) {
             // As above, except for no-z-levels case
             smash_ter = false;
             bash = nullptr;
@@ -3474,7 +3474,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     if( smash_furn ) {
         soundfxvariant = furnid.id;
     } else {
-        soundfxvariant = terid.id;
+        soundfxvariant = terid.id.str();
     }
 
     if( !params.destroy && !success ) {
@@ -3589,7 +3589,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Handle error earlier so that we can assume smash_ter is true below
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                   ter_at(p).id.c_str() );
-    } else if( bash->ter_set != null_ter_t ) {
+    } else if( !bash->ter_set.is_null() ) {
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash->ter_set );
     } else {
@@ -4123,7 +4123,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     const auto &furn = furn_at( p );
     int vpart = -1;
     vehicle *veh = veh_at( p, vpart );
-    if ( !ter.open.empty() && ter.open != "t_null" ) {
+    if ( !ter.open.is_null() ) {
         if ( termap.find( ter.open ) == termap.end() ) {
             debugmsg("terrain %s.open == non existant terrain '%s'\n", ter.id.c_str(), ter.open.c_str() );
             return false;
@@ -4134,7 +4134,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            sounds::sound( p, 6, "", true, "open_door", ter.id );
+            sounds::sound( p, 6, "", true, "open_door", ter.id.str() );
             ter_set(p, ter.open );
         }
 
@@ -4223,7 +4223,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
 {
  const auto &ter = ter_at( p );
  const auto &furn = furn_at( p );
- if ( !ter.close.empty() && ter.close != "t_null" ) {
+ if ( !ter.close.is_null() ) {
      if ( termap.find( ter.close ) == termap.end() ) {
          debugmsg("terrain %s.close == non existant terrain '%s'\n", ter.id.c_str(), ter.close.c_str() );
          return false;
@@ -4232,7 +4232,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
-        sounds::sound( p, 10, "", true, "close_door", ter.id );
+        sounds::sound( p, 10, "", true, "close_door", ter.id.str() );
         ter_set(p, ter.close );
      }
      return true;
@@ -6932,14 +6932,14 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
 
     const ter_id tid = ter( p );
     // TODO: De-hardcode this
-    static const std::map<ter_id, std::string> dies_into {{
-        {t_grass, "t_dirt"},
-        {t_tree_young, "t_dirt"},
-        {t_tree_pine, "t_tree_deadpine"},
-        {t_tree_birch, "t_tree_birch_harvested"},
-        {t_tree_willow, "t_tree_willow_harvested"},
-        {t_tree_hickory, "t_tree_hickory_dead"},
-        {t_tree_hickory_harvested, "t_tree_hickory_dead"},
+    static const std::map<ter_id, ter_str_id> dies_into {{
+        {t_grass, ter_str_id( "t_dirt" )},
+        {t_tree_young, ter_str_id( "t_dirt" )},
+        {t_tree_pine, ter_str_id( "t_tree_deadpine" )},
+        {t_tree_birch, ter_str_id( "t_tree_birch_harvested" )},
+        {t_tree_willow, ter_str_id( "t_tree_willow_harvested" )},
+        {t_tree_hickory, ter_str_id( "t_tree_hickory_dead" )},
+        {t_tree_hickory_harvested, ter_str_id( "t_tree_hickory_dead" )},
     }};
 
     const auto iter = dies_into.find( tid );
@@ -6952,7 +6952,7 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
     if( tr.has_flag( "SHRUB" ) ) {
         ter_set( p, t_dirt );
     } else if( tr.has_flag( "TREE" ) ) {
-        ter_set( p, "t_tree_dead" );
+        ter_set( p, ter_str_id( "t_tree_dead" ) );
     }
 }
 
@@ -7052,9 +7052,9 @@ void map::add_roofs( const int gridx, const int gridy, const int gridz )
             }
 
             const ter_t &ter_below = sub_below->ter[x][y].obj();
-            if( !ter_below.roof.empty() ) {
+            if( !ter_below.roof.is_null() ) {
                 // TODO: Make roof variable a ter_id to speed this up
-                sub_here->ter[x][y] = terfind( ter_below.roof );
+                sub_here->ter[x][y] = terfind( ter_below.roof.str() );
             }
         }
     }
@@ -7737,7 +7737,7 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-ter_id find_ter_id( const std::string id, bool complain = true )
+ter_id find_ter_id( const ter_str_id id, bool complain = true )
 {
     ( void )complain; //FIXME: complain unused
     if( termap.find( id ) == termap.end() ) {
@@ -7764,7 +7764,7 @@ void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_line_ter( const std::string type, int x1, int y1, int x2, int y2 )
+void map::draw_line_ter( const ter_str_id type, int x1, int y1, int x2, int y2 )
 {
     draw_line_ter( find_ter_id( type ), x1, y1, x2, y2 );
 }
@@ -7799,7 +7799,7 @@ void map::draw_fill_background( ter_id type )
     }
 }
 
-void map::draw_fill_background( std::string type )
+void map::draw_fill_background( ter_str_id type )
 {
     draw_fill_background( find_ter_id( type ) );
 }
@@ -7819,7 +7819,7 @@ void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_square_ter( std::string type, int x1, int y1, int x2, int y2 )
+void map::draw_square_ter( ter_str_id type, int x1, int y1, int x2, int y2 )
 {
     draw_square_ter( find_ter_id( type ), x1, y1, x2, y2 );
 }
@@ -7857,7 +7857,7 @@ void map::draw_rough_circle_ter( ter_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_rough_circle_ter( std::string type, int x, int y, int rad )
+void map::draw_rough_circle_ter( ter_str_id type, int x, int y, int rad )
 {
     draw_rough_circle_ter( find_ter_id( type ), x, y, rad );
 }
@@ -7888,7 +7888,7 @@ void map::draw_circle_ter( ter_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_circle_ter( std::string type, int x, int y, int rad )
+void map::draw_circle_ter( ter_str_id type, int x, int y, int rad )
 {
     draw_circle_ter( find_ter_id( type ), x, y, rad );
 }

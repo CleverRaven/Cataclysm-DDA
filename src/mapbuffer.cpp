@@ -158,8 +158,8 @@ void mapbuffer::save( bool delete_after_save )
     }
 }
 
-void mapbuffer::save_quad( const std::string &dirname, const std::string &filename, 
-                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete, 
+void mapbuffer::save_quad( const std::string &dirname, const std::string &filename,
+                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                            bool delete_after_save )
 {
     std::vector<point> offsets;
@@ -447,24 +447,24 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                         for( int i = 0; i < SEEX; i++ ) {
                             ter_string = jsin.get_string();
                             if (ter_string == "t_rubble") {
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->ter[i][j] = termap[ter_str_id( "t_dirt" )].loadid;
                                 sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
                             } else if (ter_string == "t_wreckage"){
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->ter[i][j] = termap[ter_str_id( "t_dirt" )].loadid;
                                 sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
                             } else if (ter_string == "t_ash"){
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                                sm->ter[i][j] = termap[ter_str_id(  "t_dirt" )].loadid;
                                 sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
                             } else if (ter_string == "t_pwr_sb_support_l"){
-                                sm->ter[i][j] = termap[ "t_support_l" ].loadid;
+                                sm->ter[i][j] = termap[ter_str_id(  "t_support_l" )].loadid;
                             } else if (ter_string == "t_pwr_sb_switchgear_l"){
-                                sm->ter[i][j] = termap[ "t_switchgear_l" ].loadid;
+                                sm->ter[i][j] = termap[ter_str_id(  "t_switchgear_l" )].loadid;
                             } else if (ter_string == "t_pwr_sb_switchgear_s"){
-                                sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
+                                sm->ter[i][j] = termap[ter_str_id(  "t_switchgear_s" )].loadid;
                             } else {
                                 sm->ter[i][j] = terfind( ter_string );
                             }

@@ -1538,7 +1538,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                 || bay.get_ter(x,y) == "t_door_boarded" || bay.get_ter(x,y) == "t_door_boarded_damaged"
                 || bay.get_ter(x,y) == "t_rdoor_boarded" || bay.get_ter(x,y) == "t_rdoor_boarded_damaged"
                 || bay.get_ter(x,y) == "t_door_boarded_peep" || bay.get_ter(x,y) == "t_door_boarded_damaged_peep"){
-                    bay.ter_set( x, y, "t_door_o");
+                    bay.ter_set( x, y, ter_str_id( "t_door_o" ) );
             } else if (bay.get_ter(x,y) == "t_door_locked" || bay.get_ter(x,y) == "t_door_locked_peep"
                 || bay.get_ter(x,y) == "t_door_locked_alarm"){
                     const map_bash_info &bash = bay.ter_at(x,y).bash;
@@ -1546,9 +1546,9 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if (bay.get_ter(x,y) == "t_door_metal_c" || bay.get_ter(x,y) == "t_door_metal_locked"
                 || bay.get_ter(x,y) == "t_door_metal_pickable"){
-                    bay.ter_set( x, y, "t_door_metal_o");
+                    bay.ter_set( x, y, ter_str_id( "t_door_metal_o" ) );
             } else if (bay.get_ter(x,y) == "t_door_glass_c"){
-                    bay.ter_set( x, y, "t_door_glass_o");
+                    bay.ter_set( x, y, ter_str_id( "t_door_glass_o" ) );
             } else if (bay.get_ter(x,y) == "t_wall" && one_in(25)){
                     const map_bash_info &bash = bay.ter_at(x,y).bash;
                     bay.ter_set( x, y, bash.ter_set);

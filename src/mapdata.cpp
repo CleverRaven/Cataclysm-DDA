@@ -18,7 +18,7 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 };
 
 std::vector<ter_t> terlist;
-std::map<std::string, ter_t> termap;
+std::map<ter_str_id, ter_t> termap;
 
 std::vector<furn_t> furnlist;
 std::map<std::string, furn_t> furnmap;
@@ -40,13 +40,13 @@ const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null" );
 template<>
 const string_id<ter_t> &int_id<ter_t>::id() const
 {
-    return static_cast<string_id<ter_t>>( obj().id ); // @todo Get rid of the cast
+    return obj().id;
 }
 
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
 {
-    return terfind( _id );
+    return terfind( str() );
 }
 
 template<>
@@ -63,7 +63,7 @@ const ter_t &string_id<ter_t>::obj() const
 template<>
 bool string_id<ter_t>::is_valid() const
 {
-    return termap.count( str() ) > 0;
+    return termap.count( *this ) > 0;
 }
 
 template<>
@@ -156,10 +156,11 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     sound = j.get_string("sound", _("smash!"));
     sound_fail = j.get_string("sound_fail", _("thump!"));
 
+    ter_set = NULL_ID;
     if( isfurniture ) {
         furn_set = j.get_string("furn_set", "f_null");
     } else {
-        ter_set = j.get_string( "ter_set" );
+        ter_set = ter_str_id( j.get_string( "ter_set" ) );
     }
 
     if( j.has_member( "items" ) ) {
@@ -183,8 +184,9 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     }
     JsonObject j = jsobj.get_object(member);
     furn_set = j.get_string("furn_set", "");
+    ter_set = NULL_ID;
     if (!isfurniture) {
-        ter_set = j.get_string( "ter_set" );
+        ter_set = ter_str_id( j.get_string( "ter_set" ) );
     }
     can_do = true;
 
@@ -213,7 +215,7 @@ furn_t null_furniture_t() {
 
 ter_t null_terrain_t() {
   ter_t new_terrain;
-  new_terrain.id = "t_null";
+  new_terrain.id = NULL_ID;
   new_terrain.name = _("nothing");
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
@@ -225,12 +227,12 @@ ter_t null_terrain_t() {
   new_terrain.set_flag("DIGGABLE");
   new_terrain.examine = iexamine_function_from_string("none");
   new_terrain.harvest_season = 0;
-  new_terrain.harvestable = "";
-  new_terrain.transforms_into = "t_null";
-  new_terrain.roof = "t_null";
+  new_terrain.harvestable = NULL_ID;
+  new_terrain.transforms_into = NULL_ID;
+  new_terrain.roof = NULL_ID;
   new_terrain.loadid = ter_id( 0 );
-  new_terrain.open = "";
-  new_terrain.close = "";
+  new_terrain.open = NULL_ID;
+  new_terrain.close = NULL_ID;
   new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_terrain;
 }
@@ -358,8 +360,8 @@ void load_terrain(JsonObject &jsobj)
       terlist.push_back(new_null);
   }
   ter_t new_terrain;
-  new_terrain.id = jsobj.get_string("id");
-  if ( new_terrain.id == "t_null" ) {
+  new_terrain.id = ter_str_id( jsobj.get_string("id") );
+  if ( new_terrain.id.is_null() ) {
       return;
   }
   new_terrain.name = _(jsobj.get_string("name").c_str());
@@ -400,15 +402,19 @@ void load_terrain(JsonObject &jsobj)
 
   // if the terrain has something harvestable
   if (jsobj.has_member("harvestable")) {
-    new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
+    new_terrain.harvestable = ter_str_id( jsobj.get_string("harvestable") ); // get the harvestable
   }
 
   if (jsobj.has_member("transforms_into")) {
-    new_terrain.transforms_into = jsobj.get_string("transforms_into"); // get the terrain to transform into later on
+    new_terrain.transforms_into = ter_str_id( jsobj.get_string("transforms_into") ); // get the terrain to transform into later on
+  } else {
+    new_terrain.transforms_into = NULL_ID;
   }
 
   if (jsobj.has_member("roof")) {
-    new_terrain.roof = jsobj.get_string("roof"); // Get the terrain to create above this one if there would be open air otherwise
+    new_terrain.roof = ter_str_id( jsobj.get_string("roof") ); // Get the terrain to create above this one if there would be open air otherwise
+  } else {
+    new_terrain.roof = NULL_ID;
   }
 
   if (jsobj.has_member("harvest_season")) {
@@ -419,13 +425,15 @@ void load_terrain(JsonObject &jsobj)
     else {new_terrain.harvest_season = 3;}
   }
 
-  new_terrain.open = "";
   if ( jsobj.has_member("open") ) {
-      new_terrain.open = jsobj.get_string("open");
+      new_terrain.open = ter_str_id( jsobj.get_string("open") );
+  } else {
+      new_terrain.open = NULL_ID;
   }
-  new_terrain.close = "";
   if ( jsobj.has_member("close") ) {
-      new_terrain.close = jsobj.get_string("close");
+      new_terrain.close = ter_str_id( jsobj.get_string("close") );
+  } else {
+      new_terrain.close = NULL_ID;
   }
   new_terrain.bash.load(jsobj, "bash", false);
   new_terrain.deconstruct.load(jsobj, "deconstruct", false);
@@ -434,36 +442,36 @@ void load_terrain(JsonObject &jsobj)
   terlist.push_back(new_terrain);
 }
 
-static const std::unordered_map<std::string, std::string> ter_type_conversion_map = { {
-    { "t_wall_h", "t_wall" },
-    { "t_wall_v", "t_wall" },
-    { "t_concrete_h", "t_concrete_wall" },
-    { "t_concrete_v", "t_concrete_wall" },
-    { "t_wall_metal_h", "t_wall_metal" },
-    { "t_wall_metal_v", "t_wall_metal" },
-    { "t_wall_glass_h", "t_wall_glass" },
-    { "t_wall_glass_v", "t_wall_glass" },
-    { "t_wall_glass_h_alarm", "t_wall_glass_alarm" },
-    { "t_wall_glass_v_alarm", "t_wall_glass_alarm" },
-    { "t_reinforced_glass_h", "t_reinforced_glass" },
-    { "t_reinforced_glass_v", "t_reinforced_glass" },
-    { "t_fungus_wall_h", "t_fungus_wall" },
-    { "t_fungus_wall_v", "t_fungus_wall" },
-    { "t_wall_h_r", "t_wall_r" },
-    { "t_wall_v_r", "t_wall_r" },
-    { "t_wall_h_w", "t_wall_w" },
-    { "t_wall_v_w", "t_wall_w" },
-    { "t_wall_h_b", "t_wall_b" },
-    { "t_wall_v_b", "t_wall_b" },
-    { "t_wall_h_g", "t_wall_g" },
-    { "t_wall_v_g", "t_wall_g" },
-    { "t_wall_h_y", "t_wall_y" },
-    { "t_wall_v_y", "t_wall_y" },
-    { "t_wall_h_p", "t_wall_p" },
-    { "t_wall_v_p", "t_wall_p" },
+static const std::unordered_map<ter_str_id, ter_str_id> ter_type_conversion_map = { {
+    { ter_str_id( "t_wall_h" ), ter_str_id( "t_wall" ) },
+    { ter_str_id( "t_wall_v" ), ter_str_id( "t_wall" ) },
+    { ter_str_id( "t_concrete_h" ), ter_str_id( "t_concrete_wall" ) },
+    { ter_str_id( "t_concrete_v" ), ter_str_id( "t_concrete_wall" ) },
+    { ter_str_id( "t_wall_metal_h" ), ter_str_id( "t_wall_metal" ) },
+    { ter_str_id( "t_wall_metal_v" ), ter_str_id( "t_wall_metal" ) },
+    { ter_str_id( "t_wall_glass_h" ), ter_str_id( "t_wall_glass" ) },
+    { ter_str_id( "t_wall_glass_v" ), ter_str_id( "t_wall_glass" ) },
+    { ter_str_id( "t_wall_glass_h_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
+    { ter_str_id( "t_wall_glass_v_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
+    { ter_str_id( "t_reinforced_glass_h" ), ter_str_id( "t_reinforced_glass" ) },
+    { ter_str_id( "t_reinforced_glass_v" ), ter_str_id( "t_reinforced_glass" ) },
+    { ter_str_id( "t_fungus_wall_h" ), ter_str_id( "t_fungus_wall" ) },
+    { ter_str_id( "t_fungus_wall_v" ), ter_str_id( "t_fungus_wall" ) },
+    { ter_str_id( "t_wall_h_r" ), ter_str_id( "t_wall_r" ) },
+    { ter_str_id( "t_wall_v_r" ), ter_str_id( "t_wall_r" ) },
+    { ter_str_id( "t_wall_h_w" ), ter_str_id( "t_wall_w" ) },
+    { ter_str_id( "t_wall_v_w" ), ter_str_id( "t_wall_w" ) },
+    { ter_str_id( "t_wall_h_b" ), ter_str_id( "t_wall_b" ) },
+    { ter_str_id( "t_wall_v_b" ), ter_str_id( "t_wall_b" ) },
+    { ter_str_id( "t_wall_h_g" ), ter_str_id( "t_wall_g" ) },
+    { ter_str_id( "t_wall_v_g" ), ter_str_id( "t_wall_g" ) },
+    { ter_str_id( "t_wall_h_y" ), ter_str_id( "t_wall_y" ) },
+    { ter_str_id( "t_wall_v_y" ), ter_str_id( "t_wall_y" ) },
+    { ter_str_id( "t_wall_h_p" ), ter_str_id( "t_wall_p" ) },
+    { ter_str_id( "t_wall_v_p" ), ter_str_id( "t_wall_p" ) },
 } };
 
-std::string convert_terrain_type( const std::string &t )
+ter_str_id convert_terrain_type( const ter_str_id &t )
 {
     const auto iter = ter_type_conversion_map.find( t );
     if( iter == ter_type_conversion_map.end() ) {
@@ -472,14 +480,16 @@ std::string convert_terrain_type( const std::string &t )
     return iter->second;
 }
 
-ter_id terfind(const std::string & id) {
-    auto iter = termap.find( id );
+ter_id terfind( const std::string &id ) {
+    const ter_str_id tid( id );
+
+    auto iter = termap.find( tid );
     if( iter != termap.end() ) {
         return iter->second.loadid;
     }
-    const std::string new_id = convert_terrain_type( id );
-    if( new_id != id ) {
-        return terfind( new_id );
+    const ter_str_id new_id = convert_terrain_type( tid );
+    if( new_id != tid ) {
+        return terfind( new_id.str() );
     }
     debugmsg( "can't find terrain %s", id.c_str() );
     return t_null;
@@ -1034,10 +1044,10 @@ void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_t
         debugmsg( "%s: bash result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
     }
     if (mbi.str_max != -1) {
-        if (is_terrain && mbi.ter_set.empty()) {
+        if (is_terrain && mbi.ter_set.str().empty()) { // Some tiles specify t_null explicitly
             debugmsg("bash result terrain of %s is undefined/empty", id.c_str());
         }
-        if (!mbi.ter_set.empty() && termap.count(mbi.ter_set) == 0) {
+        if (!mbi.ter_set.is_null() && termap.count(mbi.ter_set) == 0) {
             debugmsg("bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
         }
         if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
@@ -1054,10 +1064,10 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     if( !item_group::group_is_defined( mbi.drop_group ) ) {
         debugmsg( "%s: deconstruct result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
     }
-    if (is_terrain && mbi.ter_set.empty()) {
+    if (is_terrain && mbi.ter_set.str().empty()) { // Some tiles specify t_null explicitly
         debugmsg("deconstruct result terrain of %s is undefined/empty", id.c_str());
     }
-    if (!mbi.ter_set.empty() && termap.count(mbi.ter_set) == 0) {
+    if (!mbi.ter_set.is_null() && termap.count(mbi.ter_set) == 0) {
         debugmsg("deconstruct result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
     }
     if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
@@ -1078,15 +1088,15 @@ void check_furniture_and_terrain()
         }
     }
     for( const ter_t& t : terlist ) {
-        check_bash_items(t.bash, t.id, true);
-        check_decon_items(t.deconstruct, t.id, true);
-        if( !t.transforms_into.empty() && termap.count( t.transforms_into ) == 0 ) {
+        check_bash_items(t.bash, t.id.str(), true);
+        check_decon_items(t.deconstruct, t.id.str(), true);
+        if( !t.transforms_into.is_null() && termap.count( t.transforms_into ) == 0 ) {
             debugmsg( "invalid transforms_into %s for %s", t.transforms_into.c_str(), t.id.c_str() );
         }
-        if( !t.open.empty() && termap.count( t.open ) == 0 ) {
+        if( !t.open.is_null() && termap.count( t.open ) == 0 ) {
             debugmsg( "invalid terrain %s for opening %s", t.open.c_str(), t.id.c_str() );
         }
-        if( !t.close.empty() && termap.count( t.close ) == 0 ) {
+        if( !t.close.is_null() && termap.count( t.close ) == 0 ) {
             debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
         }
     }

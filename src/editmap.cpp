@@ -703,7 +703,7 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     alts["_v"] = "_h";
     alts["_vertical"] = "_horizontal";
     alts["_v_alarm"] = "_h_alarm";
-    const std::string tersid = sel_ter.obj().id;
+    const std::string tersid = sel_ter.obj().id.str();
     const int sidlen = tersid.size();
     for( std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end();
          ++it ) {
@@ -712,8 +712,9 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
         const int slen = suffix.size();
         if( sidlen > slen && tersid.substr( sidlen - slen, slen ) == suffix ) {
             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
-            if( termap.find( terasid ) != termap.end() ) {
-                return termap[terasid].loadid;
+            const ter_str_id tid( terasid );
+            if( termap.find( tid ) != termap.end() ) {
+                return termap[tid].loadid;
             }
         }
     }
