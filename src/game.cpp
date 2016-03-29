@@ -949,7 +949,7 @@ void game::create_starting_npcs()
     tmp->spawn_at( get_levx(), get_levy(), get_levz() );
     tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
     tmp->sety( SEEY * int(MAPSIZE / 2) + 6 );
-    tmp->form_opinion(&u);
+    tmp->form_opinion( u );
     tmp->attitude = NPCATT_NULL;
     //This sets the npc mission. This NPC remains in the shelter.
     tmp->mission = NPC_MISSION_SHELTER;

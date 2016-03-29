@@ -1220,130 +1220,149 @@ void npc::perform_mission()
     }
 }
 
-void npc::form_opinion(player *u)
+void npc::form_opinion( const player &u )
 {
     // FEAR
-    if( u->weapon.is_gun() ) {
+    if( u.weapon.is_gun() ) {
+        // @todo Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
         }
-    } else if( u->weapon_value( u->weapon ) > 20 ) {
-        // Currently rates martial arts masters as well armed
-        // When it comes to NPCs, better go with too smart than too dumb
+    } else if( u.weapon_value( u.weapon ) > 20 ) {
         op_of_u.fear += 2;
-    } else if( u->weapon.type->id == "null" ) {
+    } else if( !u.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
         op_of_u.fear -= 3;
     }
 
     ///\EFFECT_STR increases NPC fear of the player
-    if( u->str_max >= 16 ) {
+    if( u.str_max >= 16 ) {
         op_of_u.fear += 2;
-    } else if( u->str_max >= 12 ) {
+    } else if( u.str_max >= 12 ) {
         op_of_u.fear += 1;
-    } else if( u->str_max <= 5 ) {
+    } else if( u.str_max <= 5 ) {
         op_of_u.fear -= 1;
-    } else if( u->str_max <= 3 ) {
+    } else if( u.str_max <= 3 ) {
         op_of_u.fear -= 3;
     }
 
- for (int i = 0; i < num_hp_parts; i++) {
-  if (u->hp_cur[i] <= u->hp_max[i] / 2)
-   op_of_u.fear--;
-  if (hp_cur[i] <= hp_max[i] / 2)
-   op_of_u.fear++;
- }
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( u.hp_cur[i] <= u.hp_max[i] / 2 ) {
+            op_of_u.fear--;
+        }
+        if( hp_cur[i] <= hp_max[i] / 2 ) {
+            op_of_u.fear++;
+        }
+    }
 
- if (u->has_trait("SAPIOVORE")) {
-    op_of_u.fear += 10; // Sapiovores = Scary
- }
- if (u->has_trait("PRETTY"))
-  op_of_u.fear += 1;
- else if (u->has_trait("BEAUTIFUL"))
-  op_of_u.fear += 2;
- else if (u->has_trait("BEAUTIFUL2"))
-  op_of_u.fear += 3;
- else if (u->has_trait("BEAUTIFUL3"))
-  op_of_u.fear += 4;
- else if (u->has_trait("UGLY"))
-  op_of_u.fear -= 1;
- else if (u->has_trait("DEFORMED"))
-  op_of_u.fear += 3;
- else if (u->has_trait("DEFORMED2"))
-  op_of_u.fear += 6;
- else if (u->has_trait("DEFORMED3"))
-  op_of_u.fear += 9;
- if (u->has_trait("TERRIFYING"))
-  op_of_u.fear += 6;
+    if (u.has_trait("SAPIOVORE")) {
+        op_of_u.fear += 10; // Sapiovores = Scary
+    }
 
- if (u->stim > 20)
-  op_of_u.fear++;
+    if (u.has_trait("PRETTY")) {
+        op_of_u.fear += 1;
+    } else if (u.has_trait("BEAUTIFUL")) {
+        op_of_u.fear += 2;
+    } else if (u.has_trait("BEAUTIFUL2")) {
+        op_of_u.fear += 3;
+    } else if (u.has_trait("BEAUTIFUL3")) {
+        op_of_u.fear += 4;
+    } else if (u.has_trait("UGLY")) {
+        op_of_u.fear -= 1;
+    } else if (u.has_trait("DEFORMED")) {
+        op_of_u.fear += 3;
+    } else if (u.has_trait("DEFORMED2")) {
+        op_of_u.fear += 6;
+    } else if (u.has_trait("DEFORMED3")) {
+        op_of_u.fear += 9;
+    }
 
- if (u->has_effect( effect_drunk))
-  op_of_u.fear -= 2;
+    if (u.has_trait("TERRIFYING")) {
+        op_of_u.fear += 6;
+    }
 
-// TRUST
- if (op_of_u.fear > 0)
-  op_of_u.trust -= 3;
- else
-  op_of_u.trust += 1;
+    if( u.stim > 20 ) {
+        op_of_u.fear++;
+    }
 
- if (u->weapon.is_gun())
-  op_of_u.trust -= 2;
- else if (u->unarmed_attack())
-  op_of_u.trust += 2;
+    if( u.has_effect( effect_drunk ) ) {
+        op_of_u.fear -= 2;
+    }
 
- if (u->has_effect( effect_high))
-  op_of_u.trust -= 1;
- if (u->has_effect( effect_drunk))
-  op_of_u.trust -= 2;
- if (u->stim > 20 || u->stim < -20)
-  op_of_u.trust -= 1;
- if (u->get_painkiller() > 30)
-  op_of_u.trust -= 1;
+    // TRUST
+    if( op_of_u.fear > 0 )
+        op_of_u.trust -= 3;
+    } else
+        op_of_u.trust += 1;
 
- if (u->has_trait("PRETTY"))
-  op_of_u.trust += 1;
- else if (u->has_trait("BEAUTIFUL"))
-  op_of_u.trust += 3;
- else if (u->has_trait("BEAUTIFUL2"))
-  op_of_u.trust += 5;
- else if (u->has_trait("BEAUTIFUL3"))
-  op_of_u.trust += 7;
- else if (u->has_trait("UGLY"))
-  op_of_u.trust -= 1;
- else if (u->has_trait("DEFORMED"))
-  op_of_u.trust -= 3;
- else if (u->has_trait("DEFORMED2"))
-  op_of_u.trust -= 6;
- else if (u->has_trait("DEFORMED3"))
-  op_of_u.trust -= 9;
+    if( u.weapon.is_gun() ) {
+        op_of_u.trust -= 2;
+    } else if( !u.is_armed() ) {
+        op_of_u.trust += 2;
+    }
+
+    if( u.has_effect( effect_high ) ) {
+        op_of_u.trust -= 1;
+    }
+    if( u.has_effect( effect_drunk ) ) {
+        op_of_u.trust -= 2;
+    }
+    if( u.stim > 20 || u.stim < -20 ) {
+        op_of_u.trust -= 1;
+    }
+    if( u.get_painkiller() > 30 ) {
+        op_of_u.trust -= 1;
+    }
+
+    if (u.has_trait("PRETTY")) {
+      op_of_u.trust += 1;
+    } else if (u.has_trait("BEAUTIFUL")) {
+        op_of_u.trust += 3;
+    } else if (u.has_trait("BEAUTIFUL2")) {
+        op_of_u.trust += 5;
+    } else if (u.has_trait("BEAUTIFUL3")) {
+        op_of_u.trust += 7;
+    } else if (u.has_trait("UGLY")) {
+        op_of_u.trust -= 1;
+    } else if (u.has_trait("DEFORMED")) {
+        op_of_u.trust -= 3;
+    } else if (u.has_trait("DEFORMED2")) {
+        op_of_u.trust -= 6;
+    } else if (u.has_trait("DEFORMED3")) {
+        op_of_u.trust -= 9;
+    }
+
+    if( op_of_u.trust > 0 ) {
+        // Trust is worth a lot right now
+        op_of_u.trust /= 2;
+    }
 
     // VALUE
     op_of_u.value = 0;
-    for (int i = 0; i < num_hp_parts; i++) {
-        if (hp_cur[i] < hp_max[i] * .8) {
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( hp_cur[i] < hp_max[i] * 0.8f ) {
             op_of_u.value++;
         }
     }
     decide_needs();
-    for (auto &i : needs) {
-        if (i == need_food || i == need_drink) {
+    for( auto &i : needs ) {
+        if( i == need_food || i == need_drink ) {
             op_of_u.value += 2;
         }
     }
 
- if (op_of_u.fear < personality.bravery + 10 &&
-     op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8)
-  attitude = NPCATT_TALK;
- else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -30)
-  attitude = NPCATT_KILL;
- else if (my_fac != NULL && my_fac->likes_u < -10)
-    attitude = NPCATT_KILL;
- else
-  attitude = NPCATT_FLEE;
+    if( op_of_u.fear < personality.bravery + 10 &&
+        op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8 ) {
+        attitude = NPCATT_TALK;
+    } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
+        attitude = NPCATT_KILL;
+    } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
+        attitude = NPCATT_KILL;
+    } else {
+        attitude = NPCATT_FLEE;
+    }
 
     add_msg( m_debug, "%s formed an opinion of u: %s",
              name.c_str(), npc_attitude_name( attitude ).c_str() );
@@ -1667,7 +1686,7 @@ std::vector<npc::item_pricing> npc::init_selling()
         // sort them by types and values
         // allow selling some of them
         auto &it = i->front();
-        if( it.type->id == "lighter" && !found_lighter && it.ammo_remaining() >= 10 ) {
+        if( !found_lighter && it.type->id == "lighter" && it.ammo_remaining() >= 10 ) {
             found_lighter = true;
             continue;
         }

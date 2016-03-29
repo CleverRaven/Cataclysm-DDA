@@ -614,7 +614,7 @@ public:
  bool fac_has_job(faction_job job) const;
 
 // Interaction with the player
- void form_opinion(player *u);
+ void form_opinion( const player &u );
     std::string pick_talk_topic( const player &u );
  int  player_danger(const player &u) const; // Comparable to monsters
  int vehicle_danger(int radius) const;
