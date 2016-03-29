@@ -30,6 +30,35 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 extern worldfactory *world_generator;
 
+namespace
+{
+
+void print_menu_items( WINDOW *w_in, std::vector<std::string> vItems, size_t iSel,
+                       int iOffsetY, int iOffsetX, int spacing = 1 )
+{
+    mvwprintz( w_in, iOffsetY, iOffsetX, c_black, "" );
+    for( size_t i = 0; i < vItems.size(); ++i ) {
+        nc_color text_color;
+        nc_color key_color;
+        if( iSel == i ) {
+            text_color = h_white;
+            key_color = h_white;
+        } else {
+            text_color = c_ltgray;
+            key_color = c_white;
+        }
+        wprintz( w_in, c_ltgray, "[" );
+        shortcut_print( w_in, text_color, key_color, vItems[i] );
+        wprintz( w_in, c_ltgray, "]" );
+        // Don't print spaces after last item.
+        if( i != ( vItems.size() - 1 ) ) {
+            wprintz( w_in, c_ltgray, std::string( spacing, ' ' ).c_str() );
+        }
+    }
+}
+
+} // namespace
+
 static std::vector<std::string> mmenu_title;
 static std::vector<std::string> mmenu_motd;
 static std::vector<std::string> mmenu_credits;
@@ -100,27 +129,6 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
     refresh();
     wrefresh(w_open);
     refresh();
-}
-
-void game::print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int iSel, int iOffsetY,
-                            int iOffsetX, int spacing)
-{
-    mvwprintz(w_in, iOffsetY, iOffsetX, c_black, "");
-
-    const int items_size = (int)vItems.size();
-    for (int i = 0; i < items_size; i++) {
-        wprintz(w_in, c_ltgray, "[");
-        if (iSel == i) {
-            shortcut_print(w_in, h_white, h_white, vItems[i]);
-        } else {
-            shortcut_print(w_in, c_ltgray, c_white, vItems[i]);
-        }
-        wprintz(w_in, c_ltgray, "]");
-        // Don't print spaces after last item.
-        if ( i != (items_size - 1)) {
-            wprintz(w_in, c_ltgray, std::string(spacing, ' ').c_str());
-        }
-    }
 }
 
 std::vector<std::string> load_file( const std::string &path, const std::string &alternative_text )
