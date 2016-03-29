@@ -4241,7 +4241,7 @@
         "nutrition" : 50,
         "description" : "A hot dog, served with chili con cabron as a topping.  Delightful.",
         "price" : 8000,
-        "material" : [ "flesh", "junk", "wheat" ],
+        "material" : [ "hflesh", "junk", "wheat" ],
         "volume" : 1,
         "charges" : 4,
         "flags" : [ "EATEN_HOT" ],
