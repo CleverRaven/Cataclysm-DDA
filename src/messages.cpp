@@ -149,7 +149,7 @@ public:
             messages.pop_front();
         }
 
-        messages.emplace_back(remove_color_tags(std::move(msg)), type);
+        messages.emplace_back(std::move(msg), type);
     }
 
     std::vector<std::pair<std::string, std::string>> recent_messages(size_t count) const {
@@ -328,7 +328,8 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
                 // Redrawing line to ensure new messages similar to previous
                 // messages will not be missed by screen readers
                 wredrawln(ipk_target, line, 1);
-                mvwprintz(ipk_target, line++, left, col, "%s", folded.c_str());
+                nc_color col_out = col;
+                print_colored_text( ipk_target, line++, left, col_out, col, folded );
             }
         }
     } else {
@@ -350,7 +351,8 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
                 // Redrawing line to ensure new messages similar to previous
                 // messages will not be missed by screen readers
                 wredrawln(ipk_target, line, 1);
-                mvwprintz(ipk_target, line, left, col, "%s", string_iter->c_str());
+                nc_color col_out = col;
+                print_colored_text( ipk_target, line, left, col_out, col, *string_iter);
             }
         }
     }
