@@ -2346,12 +2346,13 @@ int item::price( bool practical ) const
 {
     int res = 0;
 
-    visit_items_const( [&res,&practical]( const item *e ) {
-        int child = practical ? e->type->price_post : e->type->price;
-
+    visit_items_const( [&res, practical]( const item *e ) {
         if( e->rotten() ) {
-            child /= 10; // @todo better price here calculation?
+            // @todo Special case things that stay useful when rotten
+            return VisitResponse::NEXT;
         }
+
+        int child = practical ? e->type->price_post : e->type->price;
         if( e->damage > 0 ) {
             // maximal damage is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage ) / 10;

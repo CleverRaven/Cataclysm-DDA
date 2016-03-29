@@ -1211,7 +1211,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "weight", new_item_template->weight );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
-    assign( jo, "price_post", new_item_template->price_post );
+    assign( jo, "price_postapoc", new_item_template->price_post );
     assign( jo, "stack_size", new_item_template->stack_size );
     assign( jo, "integral_volume", new_item_template->integral_volume );
     assign( jo, "bashing", new_item_template->melee_dam );

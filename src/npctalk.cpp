@@ -3789,6 +3789,22 @@ void talk_function::set_aim_strictly_precise( npc *p )
     p->rules.aim = AIM_STRICTLY_PRECISE;
 }
 
+bool pay_npc( npc &np, int cost )
+{
+    if( np.op_of_u.owed >= cost ) {
+        np.op_of_u.owed -= cost;
+        return true;
+    }
+
+    if( g->u.cash + (unsigned long)np.op_of_u.owed >= (unsigned long)cost ) {
+        g->u.cash -= cost - np.op_of_u.owed;
+        np.op_of_u.owed = 0;
+        return true;
+    }
+
+    return trade( np, -cost, _( "Pay:" ) );
+}
+
 void talk_function::start_training( npc *p )
 {
     int cost;
@@ -3812,9 +3828,7 @@ void talk_function::start_training( npc *p )
     mission *miss = p->chatbin.mission_selected;
     if( miss != nullptr ) {
         clear_mission( p );
-    } else if( p->op_of_u.owed >= cost ) {
-        p->op_of_u.owed -= cost;
-    } else if( !trade( *p, -cost, _( "Pay for training:" ) ) ) {
+    } else if( !pay_npc( *p, cost ) ) {
         return;
     }
     g->u.assign_activity( ACT_TRAIN, time * 100, 0, 0, name );
@@ -4394,7 +4408,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         }
     } while( ch != KEY_ESCAPE && ch != '\n' && ch != 'T' );
 
-    if( ch == '\n' || ch == 'T' ) {
+    const bool traded = ch == '\n' || ch == 'T';
+    if( traded ) {
         int practice = 0;
         // This weird exchange is needed to prevent pointer bugs
         // Removing items from an inventory invalidates the pointers
@@ -4449,10 +4464,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     delwin(w_head);
     delwin(w_you);
     delwin(w_them);
-    if (ch == '\n') {
-        return true;
-    }
-    return false;
+    return traded;
 }
 
 talk_trial::talk_trial( JsonObject jo )
