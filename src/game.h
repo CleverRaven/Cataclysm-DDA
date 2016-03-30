@@ -575,7 +575,8 @@ class game
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
          */
-        bool check_safe_mode_allowed();
+        bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
+        void set_safe_mode( safe_mode_type mode );
 
         const int dangerous_proximity;
         bool narrow_sidebar;
@@ -820,6 +821,7 @@ private:
         int last_target; // The last monster targeted
         bool last_target_was_npc;
         safe_mode_type safe_mode;
+        bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool autosafemode; // is autosafemode enabled?
