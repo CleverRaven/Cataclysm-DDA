@@ -50,12 +50,20 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         return string_format(_("%s x %d"), message.c_str(), count);
     }
 
+    bool is_new(int const current) const {
+        return turn() >= current;
+    }
+
+    bool is_recent(int const current) const {
+        return turn() + 5 >= current;
+    }
+
     nc_color get_color(int const current) const {
-        if (turn() >= current) {
+        if (is_new(current)) {
             // color for new messages
             return msgtype_to_color(type, false);
 
-        } else if (turn() + 5 >= current) {
+        } else if (is_recent(current)) {
             // color for slightly old messages
             return msgtype_to_color(type, true);
         }
@@ -321,7 +329,12 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
             }
 
             const nc_color col = m.get_color(player_messages.impl_->curmes);
-            for( const std::string &folded : foldstring(m.get_with_count(), maxlength) ) {
+            std::string message_text = m.get_with_count();
+            if (!m.is_recent(player_messages.impl_->curmes)) {
+                message_text = remove_color_tags(message_text);
+            }
+
+            for( const std::string &folded : foldstring(message_text, maxlength) ) {
                 if (line > bottom) {
                     break;
                 }
@@ -344,7 +357,12 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
             }
 
             const nc_color col = m.get_color(player_messages.impl_->curmes);
-            const auto folded_strings = foldstring(m.get_with_count(), maxlength);
+            std::string message_text = m.get_with_count();
+            if (!m.is_recent(player_messages.impl_->curmes)) {
+                message_text = remove_color_tags(message_text);
+            }
+
+            const auto folded_strings = foldstring(message_text, maxlength);
             const auto folded_rend = folded_strings.rend();
             for( auto string_iter = folded_strings.rbegin();
                     string_iter != folded_rend && line >= top; ++string_iter, line-- ) {
