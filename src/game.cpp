@@ -5302,6 +5302,7 @@ void game::draw_sidebar()
         wrefresh(w_status2);
     }
 
+    werase(w_messages);
     int maxlength = getmaxx(w_messages);
 
     // Print monster info and start our output below it.
