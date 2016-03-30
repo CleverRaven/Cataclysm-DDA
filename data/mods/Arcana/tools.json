@@ -158,7 +158,7 @@
     "description": "This is some sort of broadsword, decorated with a golden cross motif on the blade.  When powered by consecrated magical essence, it has the power to cut through darkness itself.",
     "price": 148800,
     "material": ["steel", "gold"],
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["WBLOCK_2"],
     "weight": 1133,
     "volume": 7,
