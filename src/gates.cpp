@@ -80,10 +80,10 @@ void gate_data::load( JsonObject &jo )
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
 
-        optional( messages_obj, was_loaded, "pull", pull_message );
-        optional( messages_obj, was_loaded, "open", open_message );
-        optional( messages_obj, was_loaded, "close", close_message );
-        optional( messages_obj, was_loaded, "fail", fail_message );
+        optional( messages_obj, was_loaded, "pull", pull_message, translated_string_reader );
+        optional( messages_obj, was_loaded, "open", open_message, translated_string_reader );
+        optional( messages_obj, was_loaded, "close", close_message, translated_string_reader );
+        optional( messages_obj, was_loaded, "fail", fail_message, translated_string_reader );
     }
 
     optional( jo, was_loaded, "moves", moves, 0 );
