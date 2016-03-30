@@ -366,9 +366,9 @@ void load_furniture(JsonObject &jsobj)
 
 void load_terrain(JsonObject &jsobj)
 {
-  if ( terlist.empty() ) {
+  if ( terlist.empty() ) { // todo@ This shouldn't live here
       ter_t new_null = null_terrain_t();
-      termap[new_null.id] = new_null.loadid;
+      termap[new_null.id] = ter_id( 0 );
       terlist.push_back(new_null);
   }
   ter_t new_terrain;
@@ -441,9 +441,8 @@ void load_terrain(JsonObject &jsobj)
   }
   new_terrain.bash.load(jsobj, "bash", false);
   new_terrain.deconstruct.load(jsobj, "deconstruct", false);
-  new_terrain.loadid = ter_id( terlist.size() );
-  termap[new_terrain.id] = new_terrain.loadid;
   terlist.push_back(new_terrain);
+  termap[new_terrain.id] = ter_id( terlist.size() - 1 );
 }
 
 ter_str_id convert_terrain_type( const ter_str_id &t )

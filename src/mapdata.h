@@ -247,8 +247,6 @@ public:
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
-    ter_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
-
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
@@ -265,7 +263,6 @@ struct ter_t : map_data_common_t {
 
     ter_t() :
         map_data_common_t(),
-        loadid( 0 ), // @todo Get rid of the loadid
         id( NULL_ID ),
         open( NULL_ID ),
         close( NULL_ID ),

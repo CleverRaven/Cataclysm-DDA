@@ -1435,7 +1435,6 @@ classes = {
             transforms_into = { type = "ter_str_id", writable = true },
             trap = { type = "trap_id", writable = true },
             id = { type = "ter_str_id" },
-            loadid = { type = "ter_id" },
             movecost = { type = "int", writable = true },
         },
         functions = {
