@@ -4,7 +4,7 @@
     "type": "GUN",
     "name": "AKM",
     "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
-    "weight": 3870,
+    "weight": 2710,
     "volume": 7,
     "price": 290000,
     "bashing": 12,

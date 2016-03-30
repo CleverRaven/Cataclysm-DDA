@@ -80,10 +80,10 @@ void gate_data::load( JsonObject &jo )
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
 
-        optional( messages_obj, was_loaded, "pull", pull_message );
-        optional( messages_obj, was_loaded, "open", open_message );
-        optional( messages_obj, was_loaded, "close", close_message );
-        optional( messages_obj, was_loaded, "fail", fail_message );
+        optional( messages_obj, was_loaded, "pull", pull_message, translated_string_reader );
+        optional( messages_obj, was_loaded, "open", open_message, translated_string_reader );
+        optional( messages_obj, was_loaded, "close", close_message, translated_string_reader );
+        optional( messages_obj, was_loaded, "fail", fail_message, translated_string_reader );
     }
 
     optional( jo, was_loaded, "moves", moves, 0 );
@@ -137,7 +137,11 @@ void gates::open_gate( const tripoint &pos )
         for( int j = 0; j < 4; ++j ) {
             const tripoint gate_pos = wall_pos + dir[j];
 
-            if( !open ) {  //closing the gate...
+            if( gate_pos == pos ) {
+                continue; // Never comes back
+            }
+
+            if( !open ) { // Closing the gate...
                 tripoint cur_pos = gate_pos;
                 while( g->m.ter( cur_pos ) == gate.get_floor() ) {
                     fail = !g->forced_door_closing( cur_pos, gate.get_door(), gate.bash_dmg ) || fail;
@@ -146,7 +150,7 @@ void gates::open_gate( const tripoint &pos )
                 }
             }
 
-            if( !close ) {  //opening the gate...
+            if( !close ) { // Opening the gate...
                 tripoint cur_pos = gate_pos;
                 while( true ) {
                     const ter_id ter = g->m.ter( cur_pos );
