@@ -2561,7 +2561,7 @@ bool game::handle_action()
             break; // handled above
 
         case ACTION_PAUSE:
-            if( check_save_mode_allowed() ) {
+            if( check_safe_mode_allowed() ) {
                 u.pause();
             }
             break;
@@ -11586,7 +11586,7 @@ void game::chat()
 
 void game::pldrive(int x, int y)
 {
-    if( !check_save_mode_allowed() ) {
+    if( !check_safe_mode_allowed() ) {
         return;
     }
     vehicle *veh = remoteveh();
@@ -11660,7 +11660,7 @@ void game::pldrive(int x, int y)
     }
 }
 
-bool game::check_save_mode_allowed()
+bool game::check_safe_mode_allowed()
 {
     std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
     if (!msg_ignore.empty()) {
@@ -11757,7 +11757,7 @@ bool game::disable_robot( const tripoint &p )
 
 bool game::plmove(int dx, int dy, int dz)
 {
-    if( (!check_save_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
+    if( (!check_safe_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
         if ( u.has_active_mutation("SHELL2")) {
             add_msg(m_warning, _("You can't move while in your shell.  Deactivate it to go mobile."));
         }

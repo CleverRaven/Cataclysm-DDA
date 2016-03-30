@@ -568,7 +568,7 @@ class game
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
          */
-        bool check_save_mode_allowed();
+        bool check_safe_mode_allowed();
 
         const int dangerous_proximity;
         bool narrow_sidebar;
