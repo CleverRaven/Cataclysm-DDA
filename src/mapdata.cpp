@@ -21,7 +21,7 @@ namespace
 {
 
 std::vector<ter_t> terlist;
-std::map<ter_str_id, ter_t> termap;
+std::map<ter_str_id, ter_id> termap;
 
 }
 
@@ -55,11 +55,15 @@ int_id<ter_t> string_id<ter_t>::id() const
 {
     auto iter = termap.find( *this );
     if( iter != termap.end() ) {
-        return iter->second.loadid;
+        return iter->second;
     }
     const ter_str_id new_id = convert_terrain_type( *this );
     if( new_id != *this ) {
-        return new_id.id();
+        iter = termap.find( new_id );
+        if( iter != termap.end() ) {
+            termap[*this] = iter->second; // So theres no need to convert anymore
+            return iter->second;
+        }
     }
     debugmsg( "can't find terrain %s", c_str() );
     return t_null;
@@ -364,7 +368,7 @@ void load_terrain(JsonObject &jsobj)
 {
   if ( terlist.empty() ) {
       ter_t new_null = null_terrain_t();
-      termap[new_null.id] = new_null;
+      termap[new_null.id] = new_null.loadid;
       terlist.push_back(new_null);
   }
   ter_t new_terrain;
@@ -438,7 +442,7 @@ void load_terrain(JsonObject &jsobj)
   new_terrain.bash.load(jsobj, "bash", false);
   new_terrain.deconstruct.load(jsobj, "deconstruct", false);
   new_terrain.loadid = ter_id( terlist.size() );
-  termap[new_terrain.id]=new_terrain;
+  termap[new_terrain.id] = new_terrain.loadid;
   terlist.push_back(new_terrain);
 }
 
