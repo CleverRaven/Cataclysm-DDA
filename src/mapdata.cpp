@@ -40,13 +40,13 @@ const ter_t &int_id<ter_t>::obj() const
 }
 
 template<>
-const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null" );
-
-template<>
 const string_id<ter_t> &int_id<ter_t>::id() const
 {
     return obj().id;
 }
+
+template<>
+const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null" );
 
 ter_str_id convert_terrain_type( const ter_str_id & );
 
@@ -231,24 +231,16 @@ furn_t null_furniture_t() {
 
 ter_t null_terrain_t() {
   ter_t new_terrain;
-  new_terrain.id = NULL_ID;
+
   new_terrain.name = _("nothing");
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
   new_terrain.movecost = 2;
-  new_terrain.trap = tr_null;
   new_terrain.trap_id_str = "";
   new_terrain.transparent = true;
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
   new_terrain.examine = iexamine_function_from_string("none");
-  new_terrain.harvest_season = 0;
-  new_terrain.harvestable = NULL_ID;
-  new_terrain.transforms_into = NULL_ID;
-  new_terrain.roof = NULL_ID;
-  new_terrain.loadid = ter_id( 0 );
-  new_terrain.open = NULL_ID;
-  new_terrain.close = NULL_ID;
   new_terrain.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_terrain;
 }
@@ -423,14 +415,10 @@ void load_terrain(JsonObject &jsobj)
 
   if (jsobj.has_member("transforms_into")) {
     new_terrain.transforms_into = ter_str_id( jsobj.get_string("transforms_into") ); // get the terrain to transform into later on
-  } else {
-    new_terrain.transforms_into = NULL_ID;
   }
 
   if (jsobj.has_member("roof")) {
     new_terrain.roof = ter_str_id( jsobj.get_string("roof") ); // Get the terrain to create above this one if there would be open air otherwise
-  } else {
-    new_terrain.roof = NULL_ID;
   }
 
   if (jsobj.has_member("harvest_season")) {
@@ -443,13 +431,9 @@ void load_terrain(JsonObject &jsobj)
 
   if ( jsobj.has_member("open") ) {
       new_terrain.open = ter_str_id( jsobj.get_string("open") );
-  } else {
-      new_terrain.open = NULL_ID;
   }
   if ( jsobj.has_member("close") ) {
       new_terrain.close = ter_str_id( jsobj.get_string("close") );
-  } else {
-      new_terrain.close = NULL_ID;
   }
   new_terrain.bash.load(jsobj, "bash", false);
   new_terrain.deconstruct.load(jsobj, "deconstruct", false);

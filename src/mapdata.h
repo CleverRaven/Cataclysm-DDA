@@ -60,7 +60,7 @@ struct map_bash_info {
                       str_min_supported(-1), str_max_supported(-1),
                       explosive(0), sound_vol(-1), sound_fail_vol(-1),
                       collapse_radius(1), destroy_only(false), bash_below(false),
-                      drop_group("EMPTY_GROUP"), sound(""), sound_fail(""), ter_set(NULL_ID), furn_set("") {};
+                      drop_group("EMPTY_GROUP"), ter_set(NULL_ID) {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -72,7 +72,7 @@ struct map_deconstruct_info {
     std::string drop_group;
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), deconstruct_above(false), drop_group(), ter_set(NULL_ID), furn_set() { }
+    map_deconstruct_info() : can_do(false), deconstruct_above(false), ter_set(NULL_ID) {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -261,7 +261,19 @@ struct ter_t : map_data_common_t {
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
     int harvest_season; // When will this terrain get harvested?
-    int bloom_season;   // When does this terrain bloom?
+    int bloom_season;   // @todo Remove the unused field
+
+    ter_t() :
+        map_data_common_t(),
+        loadid( 0 ), // @todo Get rid of the loadid
+        id( NULL_ID ),
+        open( NULL_ID ),
+        close( NULL_ID ),
+        harvestable( NULL_ID ),
+        transforms_into( NULL_ID ),
+        roof( NULL_ID ),
+        trap( 0 ), // @todo Replace with tr_null
+        harvest_season( 0 ) {};
 
     static size_t count();
 };
