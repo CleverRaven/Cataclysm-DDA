@@ -130,6 +130,14 @@ class string_id
          */
         bool is_valid() const;
         /**
+         * Returns whether this id is empty. An empty id can still be valid,
+         * and emptiness does not mean that it's null. Named is_empty() to
+         * keep consistency with the rest is_.. functions
+         */
+        bool is_empty() const {
+            return _id.empty();
+        }
+        /**
          * The null-id itself. `NULL_ID.is_null()` must always return true. See @ref is_null.
          */
         static const string_id<T> NULL_ID;

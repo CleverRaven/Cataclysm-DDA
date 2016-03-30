@@ -1027,7 +1027,7 @@ void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_t
         debugmsg( "%s: bash result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
     }
     if (mbi.str_max != -1) {
-        if (is_terrain && mbi.ter_set.str().empty()) { // Some tiles specify t_null explicitly
+        if (is_terrain && mbi.ter_set.is_empty()) { // Some tiles specify t_null explicitly
             debugmsg("bash result terrain of %s is undefined/empty", id.c_str());
         }
         if ( !mbi.ter_set.is_null() && !mbi.ter_set.is_valid() ) {
@@ -1047,7 +1047,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     if( !item_group::group_is_defined( mbi.drop_group ) ) {
         debugmsg( "%s: deconstruct result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
     }
-    if (is_terrain && mbi.ter_set.str().empty()) { // Some tiles specify t_null explicitly
+    if (is_terrain && mbi.ter_set.is_empty()) { // Some tiles specify t_null explicitly
         debugmsg("deconstruct result terrain of %s is undefined/empty", id.c_str());
     }
     if ( !mbi.ter_set.is_null() && !mbi.ter_set.is_valid() ) {
