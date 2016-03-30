@@ -5,21 +5,17 @@ std::map<std::string, int> tileset_mutation_overlay_ordering;
 
 void load_overlay_ordering( JsonObject &jsobj )
 {
-    JsonArray jarr = jsobj.get_array( "ordering" );
+    load_overlay_ordering_into_array( jsobj, base_mutation_overlay_ordering );
+}
+
+void load_overlay_ordering_into_array( JsonObject &jsobj, std::map<std::string, int> &orderarray )
+{
+    JsonArray jarr = jsobj.get_array( "overlay_ordering" );
     while( jarr.has_more() ) {
         JsonObject ordering = jarr.next_object();
-
-        JsonArray jsarr;
         int order = ordering.get_int( "order" );
-        if( ordering.has_array( "id" ) ) {
-            jsarr = ordering.get_array( "id" );
-            while( jsarr.has_more() ) {
-                std::string mut_id = jsarr.next_string();
-                base_mutation_overlay_ordering[mut_id] = order;
-            }
-        } else {
-            std::string mut_id = ordering.get_string( "id" );
-            base_mutation_overlay_ordering[mut_id] = order;
+        for( auto &id : ordering.get_tags( "id" ) ) {
+            orderarray[id] = order;
         }
     }
 }

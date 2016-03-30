@@ -1,8 +1,7 @@
 [
     {
         "type" : "overlay_order",
-        "ordering" :
-        [
+        "overlay_ordering" : [
         {
             "id" : [ "THRESH_CATTLE", "THRESH_CEPHALOPOD", "THRESH_SLIME", "WEB_RAPPEL", "WEB_ROPE", "WEB_SPINNER", "WEB_WALKER", "WEB_WEAVER", "WINGS_BAT", "WINGS_BIRD", "WINGS_BUTTERFLY", "WINGS_INSECT" ],
             "order" : 500

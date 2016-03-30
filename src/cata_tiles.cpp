@@ -457,6 +457,9 @@ void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, 
 
 void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
 {
+    // reset the overlay ordering from the previous loaded tileset
+    tileset_mutation_overlay_ordering.clear();
+
     JsonIn config_json(f);
     JsonObject config = config_json.get_object();
 
@@ -522,23 +525,7 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
 
     // allows a tileset to override the order of mutation images being applied to a character
     if( config.has_array( "overlay_ordering" ) ) {
-        tileset_mutation_overlay_ordering.clear();
-        JsonArray orderarray = config.get_array( "overlay_ordering" );
-        while( orderarray.has_more() ) {
-            JsonObject ordering = orderarray.next_object();
-
-            int order = ordering.get_int( "order" );
-            if( ordering.has_array( "id" ) ) {
-                JsonArray jsarr = ordering.get_array( "id" );
-                while( jsarr.has_more() ) {
-                    std::string mut_id = jsarr.next_string();
-                    tileset_mutation_overlay_ordering[mut_id] = order;
-                }
-            } else {
-                std::string mut_id = ordering.get_string( "id" );
-                tileset_mutation_overlay_ordering[mut_id] = order;
-            }
-        }
+        load_overlay_ordering_into_array( config, tileset_mutation_overlay_ordering );
     }
 
     // offset should be the total number of sprites loaded from every tileset image

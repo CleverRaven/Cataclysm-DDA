@@ -1523,7 +1523,7 @@ Example:
 [
     {
         "type" : "overlay_order",
-        "ordering" :
+        "overlay_ordering" :
         [
         {
             "id" : [ "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3", "LARGE", "PRETTY", "RADIOACTIVE1", "RADIOACTIVE2", "RADIOACTIVE3", "REGEN" ],
