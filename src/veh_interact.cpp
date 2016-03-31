@@ -1088,7 +1088,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         int skill_req;
         if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
             skill_req = veh->part_info(veh_part_index).difficulty;
-        } else if (is_wrenchable || is_hand_remove || is_wood) {
+        } else if (is_screwable || is_wrenchable || is_hand_remove || is_wood) {
             skill_req = 1;
         } else {
             skill_req = 2;
@@ -1106,16 +1106,14 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         } else if (is_wrenchable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> or <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
-                           has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
                            skill_req);
         } else if (is_screwable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>screwdriver</color> or <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>screwdriver</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
                            has_screwdriver ? "ltgreen" : "red",
-                           has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
                            skill_req);
         } else if (is_hand_remove) {
