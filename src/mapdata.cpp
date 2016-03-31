@@ -17,11 +17,40 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 "mx_crater", "mx_collegekids"
 };
 
-namespace
+ter_str_id convert_terrain_type( const ter_str_id & );
+
+namespace   // @todo This should belong to the generic_factory class
 {
 
 std::vector<ter_t> terlist;
 std::map<ter_str_id, ter_id> termap;
+
+std::map<ter_str_id, ter_id>::iterator find_ter_id( const ter_str_id &tid  )
+{
+    auto iter = termap.find( tid );
+    if( iter == termap.end() ) {
+        return iter;
+    }
+    const ter_str_id &new_id = convert_terrain_type( tid );
+    if( new_id != tid ) {
+        iter = termap.find( new_id );
+        if( iter != termap.end() ) {
+            termap[tid] = iter->second; // So theres no need to convert anymore
+        }
+    }
+    return iter;
+}
+
+void emplace_ter( const ter_t &ter )
+{
+    // It's going to be generic_factory's responsibility,
+    // I leave it without additional checks for now
+    const ter_id cid = ter_id( terlist.size() );
+
+    terlist.push_back( ter );
+    termap[ter.id] = cid;
+    ter.id.set_cid( cid );
+}
 
 }
 
@@ -52,24 +81,25 @@ const string_id<ter_t> &int_id<ter_t>::id() const
 }
 
 template<>
-const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null" );
-
-ter_str_id convert_terrain_type( const ter_str_id & );
+const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
 
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
 {
-    auto iter = termap.find( *this );
-    if( iter != termap.end() ) {
-        return iter->second;
+    const auto &tid = get_cid();
+    // Since we don't delete terrain objects, we don't
+    // particularly need the second condition, but
+    // generic case requires it.
+    // The idea: add a boolean flag 'deletion_occurred'.
+    // If it's false, we don't need to waste CPU time
+    // on string comparison, otherwise we make sure
+    if( tid.is_valid() && terlist[tid].id == *this ) {
+        return tid;
     }
-    const ter_str_id new_id = convert_terrain_type( *this );
-    if( new_id != *this ) {
-        iter = termap.find( new_id );
-        if( iter != termap.end() ) {
-            termap[*this] = iter->second; // So theres no need to convert anymore
-            return iter->second;
-        }
+    const auto &iter = find_ter_id( *this );
+    if( iter != termap.end() ) {
+        set_cid( iter->second );
+        return iter->second;
     }
     debugmsg( "can't find terrain %s", c_str() );
     return t_null;
@@ -89,7 +119,17 @@ const ter_t &string_id<ter_t>::obj() const
 template<>
 bool string_id<ter_t>::is_valid() const
 {
-    return termap.count( *this ) > 0;
+    const auto &tid = get_cid();
+
+    if( tid.is_valid() && terlist[tid].id == *this ) {
+        return true;
+    }
+    const auto &iter = find_ter_id( *this );
+    if( iter != termap.end() ) {
+        set_cid( iter->second );
+        return true;
+    }
+    return false;
 }
 
 template<>
@@ -373,11 +413,10 @@ void load_furniture(JsonObject &jsobj)
 void load_terrain(JsonObject &jsobj)
 {
   if ( terlist.empty() ) { // todo@ This shouldn't live here
-      ter_t new_null = null_terrain_t();
-      termap[new_null.id] = ter_id( 0 );
-      terlist.push_back(new_null);
+      emplace_ter( null_terrain_t() );
   }
   ter_t new_terrain;
+
   new_terrain.id = ter_str_id( jsobj.get_string("id") );
   if ( new_terrain.id.is_null() ) {
       return;
@@ -447,8 +486,8 @@ void load_terrain(JsonObject &jsobj)
   }
   new_terrain.bash.load(jsobj, "bash", false);
   new_terrain.deconstruct.load(jsobj, "deconstruct", false);
-  terlist.push_back(new_terrain);
-  termap[new_terrain.id] = ter_id( terlist.size() - 1 );
+
+  emplace_ter( new_terrain );
 }
 
 ter_str_id convert_terrain_type( const ter_str_id &t )
