@@ -569,11 +569,6 @@ void iexamine::toilet(player &p, const tripoint &examp)
             // The bottling happens in handle_liquid, but delay of action
             // does not.
             p.moves -= 100;
-        } else if( !drained && initial_charges == water->charges ){
-            int charges_consumed = p.drink_from_hands( *water );
-            // Drink_from_hands handles moves, but doesn't decrease water
-            // charges.
-            water->charges -= charges_consumed;
         }
 
         if( drained || water->charges <= 0 ) {

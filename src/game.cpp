@@ -10232,7 +10232,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         cont = inv_map_for_liquid(liquid, text, radius);
         if (cont == NULL || cont->is_null()) {
             // Ask the player whether they want to drink from it.
-            if (liquid.is_food(&u)) {
+            if (from_ground && liquid.is_food(&u)) {
                 int charges_consumed = u.drink_from_hands(liquid);
                 if (!infinite) {
                     liquid.charges -= charges_consumed;
