@@ -2472,6 +2472,7 @@ bool game::handle_action()
         act = look_up_action(action);
         if( act == ACTION_NULL ) {
             add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
+            return false;
         }
     }
 
