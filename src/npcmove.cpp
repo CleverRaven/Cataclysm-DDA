@@ -917,7 +917,7 @@ item &npc::find_reloadable()
         if( !wants_to_reload( *node ) ) {
             return VisitResponse::SKIP;
         }
-        const auto it_loc = std::move( node->pick_reload_ammo( *this ).ammo );
+        const auto it_loc = node->pick_reload_ammo( *this ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node;
             return VisitResponse::ABORT;
@@ -953,17 +953,17 @@ item_location npc::find_usable_ammo( const item &weap )
         return item_location();
     }
 
-    auto loc = std::move( weap.pick_reload_ammo( *this ).ammo );
+    auto loc = weap.pick_reload_ammo( *this ).ammo;
     if( !loc || !wants_to_reload_with( weap, *loc ) ) {
         return item_location();
     }
 
-    return std::move( loc );
+    return loc;
 }
 
 const item_location npc::find_usable_ammo( const item &weap ) const
 {
-    return std::move( const_cast<npc *>( this )->find_usable_ammo( weap ) );
+    return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
 npc_action npc::address_needs( int danger )
