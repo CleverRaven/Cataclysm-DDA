@@ -376,20 +376,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     int reach_range() const;
 
  /**
-  * Count the amount of items of type 'it' including this item,
-  * and any of its contents (recursively).
-  * @param it The type id, only items with the same id are counted.
-  * @param used_as_tool If false all items with the PSEUDO flag are ignore
-  * (not counted).
-  */
- int amount_of(const itype_id &it, bool used_as_tool) const;
- /**
-  * Count all the charges of items of the type 'it' including this item,
-  * and any of its contents (recursively).
-  * @param it The type id, only items with the same id are counted.
-  */
- long charges_of(const itype_id &it) const;
- /**
   * Consume a specific amount of charges from items of a specific type.
   * This includes this item, and any of its contents (recursively).
   * @param it The type id, only items of this type are considered.
@@ -500,10 +486,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * False if there are charges remaining, the charges have been reduced in that case.
      */
     bool reduce_charges( long quantity );
-    /**
-     * Returns true if the item is considered rotten.
-     */
-    bool rotten() const;
+
     /**
      * Accumulate rot of the item since last rot calculation.
      * This function works for non-rotting stuff, too - it increases the value
@@ -512,30 +495,30 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * check for temperature.
      */
     void calc_rot( const tripoint &p );
-    /**
-     * Returns whether the item has completely rotten away.
-     */
-    bool has_rotten_away() const;
-    /**
-     * Whether the item is nearly rotten (implies that it spoils).
-     */
-    bool is_going_bad() const;
-    /**
-     * Get @ref rot value relative to it_comest::spoils, if the item does not spoil,
-     * it returns 0. If the item is rotten the returned value is > 1.
-     */
-    float get_relative_rot() const;
-    /**
-     * Set the @ref rot to the given relative rot (relative to it_comest::spoils).
-     */
-    void set_relative_rot(float rel_rot);
-    /**
-     * Whether the item will spoil at all.
-     */
+
+     /** whether an item is perishable (can rot) */
     bool goes_bad() const;
+
+    /** Get @ref rot value relative to shelf life (or 0 if item does not spoil) */
+    double get_relative_rot() const;
+
+    /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
+    void set_relative_rot( double val );
+
+    /** an item is fresh if it is capable of rotting but still has a long shelf life remaining */
+    bool is_fresh() const { return goes_bad() && get_relative_rot() < 0.1; }
+
+    /** an item is about to become rotten when shelf life has nearly elapsed */
+    bool is_going_bad() const { return get_relative_rot() > 0.9; }
+
+    /** returns true if item is now rotten after all shelf life has elapsed */
+    bool rotten() const { return get_relative_rot() > 1.0; }
+
+     /** at twice regular shelf life perishable items rot away completely */
+    bool has_rotten_away() const { return get_relative_rot() > 2.0; }
+
 private:
-    /** Accumulated rot compared to it_comest::spoils to decide weather item is rotten. */
-    int rot = 0;
+    int rot = 0; /** Accumulated rot is compared to shelf life to decide if item is rotten. */
     /** Turn when the rot calculation was last performed */
     int last_rot_check = 0;
 

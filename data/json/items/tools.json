@@ -15,9 +15,7 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 1,
-    "to_hit": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": 100
   },
   {
     "id": "pet_carrier",
@@ -31,8 +29,6 @@
     "volume": 20,
     "bashing": 1,
     "cutting": 1,
-    "turns_per_charge": 0,
-    "charges_per_use": 0,
     "use_action": "CAPTURE_MONSTER_ACT",
     "properties": [["monster_size_capacity", "SMALL"]],
     "material": ["steel", "plastic"]
@@ -47,8 +43,6 @@
     "price": 0,
     "weight": 0,
     "volume": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "UNFOLD_GENERIC"
   },
   {
@@ -72,7 +66,6 @@
     "initial_charges": 100,
     "rand_charges": [1,10,12,15,16,22,44,50,67,75,82,100],
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
             "type": "firestarter",
             "moves_cost": 15
@@ -91,7 +84,6 @@
    "volume": 1,
    "max_charges": 100,
    "charges_per_use": 5,
-   "turns_per_charge": 0,
    "ammo": "battery",
    "use_action": {
             "type": "extended_firestarter"
@@ -111,7 +103,6 @@
     "max_charges": 20,
     "initial_charges": 20,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
             "type": "firestarter",
             "moves_cost": 15
@@ -131,7 +122,6 @@
     "max_charges": 50,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
             "type": "extended_firestarter"
@@ -151,7 +141,6 @@
     "max_charges": 1000,
     "initial_charges": 1000,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "flags": [ "FIRE_DRILL" ],
     "use_action": {
             "type": "extended_firestarter"
@@ -172,8 +161,6 @@
     "bashing": 5,
     "to_hit": 1,
     "max_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -190,8 +177,6 @@
     "weight": 400,
     "volume": 1,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
             "type": "extended_firestarter",
             "need_sunlight": true
@@ -211,8 +196,6 @@
     "weight": 500,
     "volume": 1,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
             "type": "extended_firestarter",
             "need_sunlight": true
@@ -230,9 +213,7 @@
     "weight": 3264,
     "volume": 8,
     "bashing": 5,
-    "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -4
   },
   {
     "id": "sewing_kit",
@@ -249,7 +230,6 @@
     "max_charges": 200,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "thread",
     "use_action": {
         "type": "repair_item",
@@ -279,7 +259,6 @@
     "max_charges": 400,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "thread",
     "use_action": [
         {
@@ -311,8 +290,6 @@
     "volume": 1,
     "cutting": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
@@ -329,8 +306,6 @@
     "volume": 2,
     "bashing": 9,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["BELT_CLIP"],
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1]]
@@ -351,7 +326,6 @@
     "max_charges": 60,
     "initial_charges": 60,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "EXTINGUISHER"
   },
   {
@@ -369,8 +343,6 @@
     "cutting" : 8,
     "flags" : ["STAB", "SHEATH_KNIFE"],
     "price" : 1000,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
@@ -386,9 +358,7 @@
     "weight": 60,
     "volume": 2,
     "cutting": 2,
-    "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": 1
 },
 {
     "id": "paint_brush",
@@ -402,9 +372,7 @@
     "material": ["wood"],
     "weight": 60,
     "volume": 2,
-    "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": 1
 },
 {
     "type":"GENERIC",
@@ -439,7 +407,7 @@
     "bashing": 6,
     "cutting": 4,
     "to_hit": 1,
-    "flags": ["STAB","RAIN_PROTECT","SHEATH_SWORD","IAIJUTSU"],
+    "flags": ["STAB","RAIN_PROTECT","SHEATH_SWORD"],
     "techniques": ["WBLOCK_1"]
 },
 {
@@ -475,7 +443,6 @@
     "max_charges": 24,
     "initial_charges": 24,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "OXYGEN_BOTTLE"
   },
   {
@@ -494,7 +461,6 @@
     "max_charges": 12,
     "initial_charges": 12,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "OXYGEN_BOTTLE"
   },
   {
@@ -509,8 +475,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "EXTRA_BATTERY"
   },
@@ -526,8 +490,6 @@
     "weight": 694,
     "volume": 3,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "DOUBLE_REACTOR"
   },
@@ -543,8 +505,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "RECHARGEABLE_BATTERY"
   },
@@ -565,7 +525,6 @@
     "max_charges": 500,
     "initial_charges": 500,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "use_action": {
         "type": "transform",
@@ -595,7 +554,6 @@
     "to_hit": 2,
     "max_charges": 500,
     "initial_charges": 500,
-    "charges_per_use": 0,
     "turns_per_charge": 20,
     "ammo": "gasoline",
     "revert_to": "gasoline_lantern",
@@ -622,7 +580,6 @@
     "max_charges": 800,
     "initial_charges": 800,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "lamp_oil",
     "use_action": {
         "type": "transform",
@@ -652,7 +609,6 @@
     "to_hit": 2,
     "max_charges": 800,
     "initial_charges": 800,
-    "charges_per_use": 0,
     "turns_per_charge": 20,
     "ammo": "lamp_oil",
     "revert_to": "oil_lamp",
@@ -679,7 +635,6 @@
     "max_charges": 400,
     "initial_charges": 400,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -707,7 +662,6 @@
     "to_hit": 2,
     "max_charges": 400,
     "initial_charges": 400,
-    "charges_per_use": 0,
     "turns_per_charge": 45,
     "ammo": "battery",
     "revert_to": "electric_lantern",
@@ -820,7 +774,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -848,7 +801,6 @@
     "to_hit": 2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 20,
     "ammo": "battery",
     "revert_to": "flashlight",
@@ -875,7 +827,6 @@
     "max_charges": 200,
     "initial_charges": 200,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -903,7 +854,6 @@
     "to_hit": 2,
     "max_charges": 200,
     "initial_charges": 200,
-    "charges_per_use": 0,
     "turns_per_charge": 12,
     "ammo": "battery",
     "revert_to": "heavy_flashlight",
@@ -927,8 +877,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "other"
   },
   {
@@ -947,8 +895,6 @@
     "to_hit": 2,
     "max_charges": 900,
     "initial_charges": 900,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "transform",
         "target": "lightstrip",
@@ -973,7 +919,6 @@
     "to_hit": 2,
     "max_charges": 900,
     "initial_charges": 900,
-    "charges_per_use": 0,
     "turns_per_charge": 120,
     "revert_to": "lightstrip_dead",
     "revert_msg": "The lightstrip dies."
@@ -992,8 +937,6 @@
     "to_hit": -1,
     "max_charges": 1400,
     "initial_charges": 1400,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "transform",
         "target": "glowstick_lit",
@@ -1016,7 +959,6 @@
     "to_hit": -1,
     "max_charges": 1400,
     "initial_charges": 1400,
-    "charges_per_use": 0,
     "turns_per_charge": 2,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out."
@@ -1034,9 +976,7 @@
     "weight": 29,
     "volume": 1,
     "bashing": 2,
-    "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -1
   },
   {
     "id": "handflare",
@@ -1053,8 +993,6 @@
     "to_hit": -1,
     "max_charges": 150,
     "initial_charges": 150,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "transform",
         "target": "handflare_lit",
@@ -1078,7 +1016,6 @@
     "to_hit": -1,
     "max_charges": 150,
     "initial_charges": 150,
-    "charges_per_use": 0,
     "turns_per_charge": 2,
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out"
@@ -1099,7 +1036,6 @@
     "max_charges": 200,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "HOTPLATE"
   },
@@ -1120,7 +1056,6 @@
     "max_charges": 200,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
     "use_action": "HOTPLATE"
@@ -1142,7 +1077,6 @@
     "max_charges": 50,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "charcoal",
     "use_action": "HOTPLATE"
   },
@@ -1163,7 +1097,6 @@
     "max_charges": 800,
     "initial_charges": 800,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "lamp_oil",
     "use_action": "HOTPLATE"
   },
@@ -1184,7 +1117,6 @@
     "max_charges": 500,
     "initial_charges": 500,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "use_action": "HOTPLATE"
   },
@@ -1204,7 +1136,6 @@
     "max_charges": 28,
     "initial_charges": 28,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "conc_alcohol",
     "use_action": "HOTPLATE"
   },
@@ -1225,7 +1156,6 @@
     "max_charges": 200,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]],
     "use_action": "HOTPLATE"
@@ -1246,7 +1176,6 @@
     "to_hit": -1,
     "max_charges": 800,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "lamp_oil",
     "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]],
     "use_action": "HOTPLATE"
@@ -1266,7 +1195,6 @@
     "bashing": 2,
     "max_charges": 200,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "HOTPLATE",
     "qualities": [["BOIL", 1]]
@@ -1547,7 +1475,6 @@
     "max_charges": 500,
     "initial_charges": 100,
     "charges_per_use": 20,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "HOTPLATE"
   },
@@ -1563,8 +1490,6 @@
     "weight": 362,
     "volume": 2,
     "bashing": 4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["SMOOTH", 2]]
   },
   {
@@ -1580,8 +1505,6 @@
     "volume": 14,
     "bashing": 12,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["SMOOTH", 1]]
   },
   {
@@ -1601,7 +1524,6 @@
     "max_charges": 200,
     "initial_charges": 20,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": [
         {
@@ -1636,7 +1558,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "WATER_PURIFIER"
   },
@@ -1655,7 +1576,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "TWO_WAY_RADIO"
   },
@@ -1675,8 +1595,6 @@
     "to_hit": -1,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "RADIO_OFF"
   },
@@ -1696,7 +1614,6 @@
     "to_hit": -1,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 8,
     "ammo": "battery",
     "revert_to": "radio",
@@ -1714,8 +1631,6 @@
     "weight": 454,
     "volume": 2,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "DIRECTIONAL_ANTENNA"
   },
   {
@@ -1732,8 +1647,6 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "other"
   },
   {
@@ -1749,7 +1662,6 @@
     "volume": 4,
     "max_charges": 1000,
     "charges_per_use": 5,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "ROBOTCONTROL",
     "flags": ["NO_UNLOAD", "RECHARGE"]
@@ -1766,9 +1678,7 @@
     "weight": 5,
     "volume": 0,
     "bashing": 1,
-    "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -1
   },
   {
     "id": "noise_emitter",
@@ -1786,8 +1696,6 @@
     "to_hit": -1,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "flags": ["RADIO_MODABLE"],
     "use_action": "NOISE_EMITTER_OFF"
@@ -1808,7 +1716,6 @@
     "to_hit": -1,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "battery",
     "flags": ["RADIO_MODABLE"],
@@ -1929,8 +1836,6 @@
     "bashing": 14,
     "cutting": 1,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["BELT_CLIP"],
     "use_action": "CROWBAR",
     "qualities": [["PRY", 2]]
@@ -1951,8 +1856,6 @@
     "bashing": 20,
     "cutting": 5,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "CROWBAR",
     "qualities": [["PRY", 4], ["HAMMER", 2], ["DIG", 1]]
   },
@@ -1970,8 +1873,6 @@
     "bashing": 12,
     "cutting": 1,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["BELT_CLIP"],
     "use_action": "CROWBAR",
     "qualities": [["PRY", 1]]
@@ -1990,8 +1891,6 @@
     "bashing": 10,
     "cutting": 6,
     "to_hit": 3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "MAKEMOUND"
   },
   {
@@ -2008,8 +1907,6 @@
     "bashing": 14,
     "cutting": 3,
     "to_hit": 3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["DIG", 3]],
     "use_action": "DIG"
   },
@@ -2023,9 +1920,7 @@
     "price": 4000,
     "material": ["plastic", "aluminum"],
     "weight": 150,
-    "volume": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "volume": 1
   },
     {
         "id" : "hose",
@@ -2041,8 +1936,6 @@
         "bashing" : 4,
         "flags" : ["WRAP"],
         "price" : 200,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
         "use_action": "SIPHON"
     },
   {
@@ -2061,8 +1954,6 @@
     "bashing": 10,
     "to_hit": -4,
     "max_charges": 400,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "use_action": "CHAINSAW_OFF"
   },
@@ -2084,7 +1975,6 @@
     "flags" : ["CHOP", "MESSY"],
     "to_hit": -5,
     "max_charges": 400,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "chainsaw_off",
@@ -2106,8 +1996,6 @@
     "bashing": 10,
     "to_hit": -4,
     "max_charges": 400,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "ELEC_CHAINSAW_OFF"
   },{
@@ -2128,7 +2016,6 @@
     "flags" : ["CHOP", "MESSY"],
     "to_hit": -5,
     "max_charges": 400,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "battery",
     "revert_to": "elec_chainsaw_off",
@@ -2150,8 +2037,6 @@
     "cutting": 8,
     "max_charges": 200,
     "initial_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "CARVER_OFF",
     "flags": ["SHEATH_SWORD"]
@@ -2171,7 +2056,6 @@
     "cutting": 30,
     "flags" : ["CHOP", "MESSY"],
     "max_charges": 200,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "battery",
     "revert_to": "carver_off",
@@ -2193,8 +2077,6 @@
     "cutting": 8,
     "to_hit": -1,
     "max_charges": 600,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "use_action": "TRIMMER_OFF"
   },{
@@ -2214,7 +2096,6 @@
     "flags" : ["CHOP", "MESSY"],
     "to_hit": -1,
     "max_charges": 600,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "trimmer_off",
@@ -2237,7 +2118,6 @@
     "max_charges": 100,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -2262,7 +2142,6 @@
     "flags" : ["CHOP", "MESSY"],
     "to_hit": -3,
     "max_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "battery",
     "revert_to": "circsaw_off",
@@ -2283,8 +2162,6 @@
     "bashing": 8,
     "to_hit": -3,
     "max_charges": 1000,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "category" : "weapons",
     "use_action": "COMBATSAW_OFF"
@@ -2306,7 +2183,6 @@
     "flags" : ["CHOP", "MESSY", "DURABLE_MELEE"],
     "to_hit": -4,
     "max_charges": 1000,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "combatsaw_off",
@@ -2329,7 +2205,6 @@
     "bashing": 20,
     "to_hit": -5,
     "max_charges": 800,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "chainsaw_off",
@@ -2352,7 +2227,6 @@
     "flags" : ["CHOP", "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE"],
     "to_hit": -5,
     "max_charges": 800,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "gasoline",
     "revert_to": "cs_lajatang_off",
@@ -2374,7 +2248,6 @@
     "to_hit": -8,
     "max_charges": 400,
     "charges_per_use": 10,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "use_action": "JACKHAMMER"
   },{
@@ -2394,7 +2267,6 @@
     "to_hit": -8,
     "max_charges": 400,
     "charges_per_use": 10,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "JACKHAMMER"
   },{
@@ -2414,7 +2286,6 @@
     "to_hit": -8,
     "max_charges": 400,
     "charges_per_use": 10,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "use_action": "JACKHAMMER"
   },
@@ -2429,8 +2300,6 @@
     "material": "plastic",
     "weight": 6,
     "volume": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2447,8 +2316,6 @@
     "bashing": 9,
     "cutting": 1,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2465,8 +2332,6 @@
     "bashing": 12,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2484,8 +2349,6 @@
     "bashing": 1,
     "cutting": 8,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2500,8 +2363,6 @@
     "weight": 40,
     "volume": 1,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2517,8 +2378,6 @@
     "volume": 7,
     "bashing": 4,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2534,8 +2393,6 @@
     "volume": 7,
     "bashing": 12,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2552,8 +2409,6 @@
     "bashing": 4,
     "cutting": 14,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2568,8 +2423,6 @@
     "weight": 886,
     "volume": 1,
     "cutting": 6,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2584,8 +2437,6 @@
     "weight": 1066,
     "volume": 1,
     "cutting": 10,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2601,8 +2452,6 @@
     "volume": 2,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2619,8 +2468,6 @@
     "bashing": 1,
     "cutting": 8,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -2639,7 +2486,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "GEIGER"
   },
@@ -2658,7 +2504,6 @@
     "bashing": 2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 10,
     "ammo": "battery",
     "revert_to": "geiger_off",
@@ -2680,7 +2525,6 @@
     "max_charges": 20,
     "initial_charges": 20,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "TELEPORT"
   },
   {
@@ -2699,7 +2543,6 @@
     "max_charges": 1,
     "initial_charges": 1,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "CAN_GOO"
   },
   {
@@ -2715,8 +2558,6 @@
     "volume": 1,
     "bashing": 3,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": "ACT_IN_FIRE",
     "category": "tools",
     "use_action": "THROWABLE_EXTINGUISHER_ACT"
@@ -2734,8 +2575,6 @@
     "volume": 2,
     "bashing": 5,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -2762,7 +2601,6 @@
     "to_hit": 1,
     "max_charges": 3,
     "initial_charges": 3,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": "PIPEBOMB_ACT"
@@ -2780,8 +2618,6 @@
     "volume": 1,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -2807,7 +2643,6 @@
     "to_hit": -1,
     "max_charges": 5,
     "initial_charges": 5,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags": ["BOMB"],
     "category": "weapons",
@@ -2835,8 +2670,6 @@
     "volume": 1,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ACT_IN_FIRE"],
     "category": "weapons",
     "use_action": {
@@ -2862,7 +2695,6 @@
     "to_hit": -1,
     "max_charges": 5,
     "initial_charges": 5,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags": ["ACT_IN_FIRE", "BOMB"],
     "revert_to": "canister_empty",
@@ -2882,8 +2714,6 @@
     "volume": 1,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": "GRANADE"
   },
@@ -2902,7 +2732,6 @@
     "to_hit": -1,
     "max_charges": 5,
     "initial_charges": 5,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": "GRANADE_ACT"
@@ -2920,8 +2749,6 @@
     "volume": 1,
     "bashing": 5,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -2947,7 +2774,6 @@
     "to_hit": -1,
     "max_charges": 5,
     "initial_charges": 5,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": {
@@ -2971,8 +2797,6 @@
     "volume": 1,
     "bashing": 5,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -2998,7 +2822,6 @@
     "to_hit": -1,
     "max_charges": 3,
     "initial_charges": 3,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": {
@@ -3024,8 +2847,6 @@
     "volume": 1,
     "bashing": 5,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -3051,7 +2872,6 @@
     "to_hit": -1,
     "max_charges": 3,
     "initial_charges": 3,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": {
@@ -3077,8 +2897,6 @@
     "volume": 1,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -3104,7 +2922,6 @@
     "to_hit": -1,
     "max_charges": 5,
     "initial_charges": 5,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
     "category": "weapons",
@@ -3132,8 +2949,6 @@
     "volume": 1,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -3159,7 +2974,6 @@
     "to_hit": -1,
     "max_charges": 3,
     "initial_charges": 3,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
     "category": "weapons",
@@ -3187,8 +3001,6 @@
     "volume": 1,
     "bashing": 5,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -3212,7 +3024,6 @@
     "volume": 1,
     "bashing": 5,
     "to_hit": -1,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "revert_to": "canister_empty",
     "category": "weapons",
@@ -3242,7 +3053,6 @@
       "max_charges": 5,
       "initial_charges": 5,
       "charges_per_use": 1,
-      "turns_per_charge": 0,
       "category": "ammo",
       "use_action": "ARROW_FLAMABLE"
    },
@@ -3261,8 +3071,6 @@
     "to_hit": 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -3292,7 +3100,6 @@
     "to_hit": 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": "MOLOTOV_LIT"
@@ -3311,8 +3118,6 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": "ACIDBOMB_ACT"
   },
@@ -3330,8 +3135,6 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": "ACIDBOMB_ACT"
   },
@@ -3348,8 +3151,6 @@
     "volume": 3,
     "bashing": 4,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "explode_in_fire" : true,
@@ -3381,7 +3182,6 @@
     "volume": 3,
     "bashing": 4,
     "to_hit": -3,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "explode_in_fire" : true,
@@ -3416,7 +3216,6 @@
     "max_charges": 25,
     "initial_charges": 25,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "FIRECRACKER_PACK"
   },
   {
@@ -3432,8 +3231,6 @@
     "weight": 3,
     "volume": 0,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "FIRECRACKER_PACK_ACT"
   },
   {
@@ -3449,8 +3246,6 @@
     "volume": 0,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "FIRECRACKER"
   },
   {
@@ -3467,7 +3262,6 @@
     "volume": 0,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "use_action": "FIRECRACKER_ACT"
   },
@@ -3485,8 +3279,6 @@
     "volume": 3,
     "bashing": 8,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": "MININUKE"
   },
@@ -3505,7 +3297,6 @@
     "volume": 3,
     "bashing": 8,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": {
@@ -3537,7 +3328,6 @@
     "max_charges": 3,
     "initial_charges": 3,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "PHEROMONE"
   },
   {
@@ -3556,7 +3346,6 @@
     "max_charges": 10,
     "initial_charges": 10,
     "charges_per_use": 5,
-    "turns_per_charge": 0,
     "use_action": "PORTAL"
   },
   {
@@ -3573,8 +3362,6 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_manhack",
@@ -3601,8 +3388,6 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_grenade_hack",
@@ -3629,8 +3414,6 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_mininuke_hack",
@@ -3657,8 +3440,6 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_gasbomb_hack",
@@ -3685,8 +3466,6 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_EMP_hack",
@@ -3713,8 +3492,6 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_c4_hack",
@@ -3741,8 +3518,6 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_flashbang_hack",
@@ -3768,8 +3543,6 @@
     "volume": 12,
     "bashing": 8,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_turret",
@@ -3792,8 +3565,6 @@
     "volume": 12,
     "bashing": 8,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_laserturret",
@@ -3816,8 +3587,6 @@
     "volume": 14,
     "bashing": 8,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_turret_rifle",
@@ -3842,8 +3611,6 @@
     "bashing": 8,
     "to_hit": -1,
     "max_charges": 1000,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "flags": ["NO_UNLOAD", "RECHARGE"]
   },
@@ -3862,8 +3629,6 @@
     "bashing": 8,
     "to_hit": -1,
     "max_charges": 2500,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "plutonium"
   },
   {
@@ -3878,8 +3643,6 @@
     "weight": 0,
     "volume": 0,
     "max_charges": 1000,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -3898,7 +3661,6 @@
      "to_hit" : -1,
      "max_charges" : 500,
      "charges_per_use" : 100,
-     "turns_per_charge" : 0,
      "ammo" : "battery",
      "category": "weapons",
      "use_action" : "TAZER"
@@ -3921,7 +3683,6 @@
     "to_hit" : 2,
     "max_charges" : 500,
     "charges_per_use" : 1,
-    "turns_per_charge" : 0,
     "ammo" : "battery",
     "category": "weapons",
     "use_action" : "SHOCKTONFA_OFF"
@@ -3964,8 +3725,6 @@
     "volume": 1,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "MP3"
   },
@@ -3983,7 +3742,6 @@
     "volume": 1,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 150,
     "ammo": "battery",
     "revert_to": "mp3",
@@ -4002,8 +3760,6 @@
      "volume": 2,
      "max_charges": 200,
      "initial_charges": 100,
-     "charges_per_use": 0,
-     "turns_per_charge": 0,
      "ammo": "battery",
      "use_action": "PORTABLE_GAME"
   },
@@ -4021,8 +3777,6 @@
     "volume": 2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "VIBE"
   },
@@ -4041,7 +3795,6 @@
     "max_charges": 1,
     "initial_charges": 1,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "VORTEX"
   },
   {
@@ -4055,9 +3808,7 @@
     "material": "bone",
     "weight": 311,
     "volume": 3,
-    "bashing": 6,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "bashing": 6
   },
   {
     "id": "dogfood",
@@ -4072,8 +3823,6 @@
     "weight": 554,
     "volume": 1,
     "to_hit": -5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "DOGFOOD"
   },
   {
@@ -4089,8 +3838,6 @@
     "weight": 223,
     "volume": 1,
     "to_hit": -5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "CATFOOD"
   },
   {
@@ -4105,8 +3852,6 @@
     "weight": 586,
     "volume": 3,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -4121,8 +3866,6 @@
     "weight": 1570,
     "volume": 4,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": "C4"
   },
@@ -4141,7 +3884,6 @@
     "to_hit": -4,
     "max_charges": 9,
     "initial_charges": 9,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": {
@@ -4166,8 +3908,6 @@
     "material": "aluminum",
     "weight": 22,
     "volume": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "DOG_WHISTLE"
   },
   {
@@ -4184,8 +3924,6 @@
     "volume": 1,
     "cutting": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "VACUTAINER"
   },
   {
@@ -4203,7 +3941,6 @@
     "to_hit": -1,
     "max_charges": 500,
     "charges_per_use": 50,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": [
         {
@@ -4237,8 +3974,6 @@
     "volume": 8,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -4253,8 +3988,6 @@
     "weight": 250,
     "volume": 4,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -4269,8 +4002,6 @@
     "weight": 1800,
     "volume": 12,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -4289,8 +4020,6 @@
     "volume": 1,
     "cutting": 7,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
@@ -4309,8 +4038,6 @@
     "volume": 1,
     "cutting": 8,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
@@ -4328,10 +4055,8 @@
     "volume": 4,
     "bashing": 6,
     "cutting": 20,
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 15]]
@@ -4351,11 +4076,9 @@
     "volume": 6,
     "bashing": 6,
     "cutting": 20,
-    "flags" : ["FIRE", "CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["FIRE", "CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 1,
     "max_charges": 50,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "category": "weapons",
     "use_action": [
@@ -4392,7 +4115,6 @@
     "flags" : ["FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
     "to_hit": 1,
     "max_charges": 50,
-    "charges_per_use": 0,
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "firemachete_off",
@@ -4434,10 +4156,8 @@
     "volume": 5,
     "bashing": 7,
     "cutting": 27,
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
@@ -4458,8 +4178,6 @@
     "cutting": 22,
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 24]]
@@ -4480,8 +4198,6 @@
     "cutting": 32,
     "flags" : ["CHOP", "NON_STUCK", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
@@ -4496,14 +4212,12 @@
     "price": 155000,
     "material": ["steel", "diamond"],
     "techniques": ["RAPID", "PRECISE", "WBLOCK_2"],
-    "flags" : ["DURABLE_MELEE", "SLICE", "SHEATH_SWORD", "IAIJUTSU", "VORPAL"],
+    "flags" : ["DURABLE_MELEE", "SLICE", "SHEATH_SWORD", "VORPAL"],
     "weight": 1100,
     "volume": 8,
     "bashing": 4,
     "cutting": 38,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
@@ -4522,10 +4236,8 @@
     "volume": 2,
     "bashing": 1,
     "cutting": 16,
-    "flags" : ["STAB", "DURABLE_MELEE", "IAIJUTSU", "SHEATH_KNIFE"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
@@ -4547,8 +4259,6 @@
     "cutting": 14,
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
@@ -4564,14 +4274,12 @@
     "price": 17800,
     "material": "steel",
     "techniques": ["RAPID", "WBLOCK_1"],
-    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "weight": 835,
     "volume": 6,
     "bashing": 3,
     "cutting": 24,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 13]]
@@ -4586,14 +4294,12 @@
     "price": 98000,
     "material": "steel",
     "techniques": ["RAPID", "WBLOCK_2"],
-    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "weight": 1133,
     "volume": 8,
     "bashing": 4,
     "cutting": 31,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
@@ -4608,15 +4314,13 @@
     "description": "This is a katana with a nozzle just behind the cutting edge of the blade.  People love fire, and people love katanas, so why not put them together?  The gas burners attached to this blade can really turn up the heat on your foes.  Use to ignite.",
     "price": 98000,
     "material": "steel",
-    "flags": ["FIRE", "SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags": ["FIRE", "SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WBLOCK_2"],
     "weight": 1400,
     "volume": 9,
     "bashing": 4,
     "cutting": 31,
     "max_charges": 50,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "category": "weapons",
     "use_action": [
@@ -4650,7 +4354,6 @@
     "bashing": 4,
     "cutting": 31,
     "max_charges": 50,
-    "charges_per_use": 0,
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "firekatana_off",
@@ -4690,8 +4393,6 @@
     "bashing": 4,
     "cutting": 16,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["COOK", 1]]
@@ -4712,8 +4413,6 @@
     "bashing": 2,
     "cutting": 29,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
@@ -4746,15 +4445,13 @@
     "description": "This is an early modern sword seeing use in the 16th, 17th, and 18th centuries.  Called 'broad' to contrast with the slimmer rapiers.",
     "price": 120000,
     "material": "steel",
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": "WBLOCK_1",
     "weight": 1133,
     "volume": 7,
     "bashing": 8,
     "cutting": 35,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
@@ -4775,8 +4472,6 @@
     "bashing": 17,
     "cutting": 40,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" }
   },
@@ -4797,8 +4492,6 @@
     "bashing": 17,
     "cutting": 40,
     "max_charges": 50,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "category" : "weapons",
     "use_action": [
@@ -4832,7 +4525,6 @@
     "bashing": 17,
     "cutting": 40,
     "max_charges": 50,
-    "charges_per_use": 0,
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "zweifire_off",
@@ -4865,7 +4557,7 @@
     "description": "This is a combination of two Dark Age conflict-resolution classics, the broadsword and the torch.  Use to light it up and show those heathen zombies who's Lord around here.",
     "price": 120000,
     "material": "steel",
-    "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags": ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": "WBLOCK_2",
     "weight": 1474,
     "volume": 9,
@@ -4873,8 +4565,6 @@
     "cutting": 35,
     "to_hit": 1,
     "max_charges": 50,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "category" : "weapons",
     "use_action": [
@@ -4909,7 +4599,6 @@
     "cutting": 35,
     "to_hit": 1,
     "max_charges": 50,
-    "charges_per_use": 0,
     "turns_per_charge": 30,
     "ammo": "gasoline",
     "revert_to": "broadfire_off",
@@ -4941,14 +4630,12 @@
     "description": "This is a large blade that has had a portion of the handle wrapped in duct tape, making it easier to wield as a rough machete.",
     "price": 1000,
     "material": "steel",
-    "flags": ["CHOP", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags": ["CHOP", "SHEATH_SWORD"],
     "weight": 538,
     "volume": 8,
     "bashing": 4,
     "cutting": 14,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -27]]
@@ -4969,8 +4656,6 @@
     "bashing": 4,
     "cutting": 14,
     "max_charges": 50,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "category" : "weapons",
     "use_action": [
@@ -5005,7 +4690,6 @@
     "bashing": 4,
     "cutting": 14,
     "max_charges": 50,
-    "charges_per_use": 0,
     "turns_per_charge": 20,
     "ammo": "gasoline",
     "revert_to": "shishkebab_off",
@@ -5064,8 +4748,6 @@
     "bashing": 2,
     "cutting": 7,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
@@ -5085,8 +4767,6 @@
     "bashing": 2,
     "cutting": 10,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 25]],
@@ -5109,8 +4789,6 @@
     "bashing": 2,
     "cutting": 18,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
@@ -5128,8 +4806,6 @@
     "volume": 5,
     "cutting": 1,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "LUMBER",
     "qualities":[["SAW_W", 2]]
   },
@@ -5148,8 +4824,6 @@
     "cutting": 14,
     "flags" : ["CHOP"],
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["AXE", 3]],
     "use_action": "LUMBER"
   },
@@ -5169,8 +4843,6 @@
     "cutting": 20,
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
   },
@@ -5189,8 +4861,6 @@
     "cutting": 30,
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
@@ -5209,8 +4879,6 @@
     "bashing": 1,
     "cutting": 1,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": [ "HACKSAW", "SAW_BARREL" ],
     "qualities":[["SAW_M", 1], ["SAW_M_FINE", 1]]
   },{
@@ -5226,8 +4894,6 @@
     "volume": 10,
     "bashing": 4,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "PORTABLE_STRUCTURE"
   },
   {
@@ -5243,8 +4909,6 @@
     "volume": 40,
     "bashing": 6,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "PORTABLE_STRUCTURE"
   },
   {
@@ -5264,7 +4928,6 @@
     "max_charges": 25,
     "initial_charges": 25,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "transform",
         "target": "torch_lit",
@@ -5291,7 +4954,6 @@
     "to_hit": 1,
     "max_charges": 75,
     "initial_charges": 75,
-    "charges_per_use": 0,
     "turns_per_charge": 20,
     "revert_to": "torch_done",
     "use_action": "TORCH_LIT"
@@ -5314,7 +4976,6 @@
     "max_charges": 25,
     "initial_charges": 25,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": {
         "type": "transform",
@@ -5343,7 +5004,6 @@
     "price" : 16000,
     "max_charges": 25,
     "initial_charges": 25,
-    "charges_per_use": 0,
     "turns_per_charge": 20,
     "revert_to": "battletorch_done",
     "category" : "weapons",
@@ -5364,7 +5024,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "revert_to": "can_food",
     "use_action": {
         "type": "transform",
@@ -5412,8 +5071,6 @@
     "volume": 6,
     "bashing": 7,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },{
     "id": "metal_funnel",
@@ -5428,8 +5085,6 @@
     "volume": 16,
     "bashing": 4,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -5445,8 +5100,6 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -5461,8 +5114,6 @@
     "weight": 4,
     "volume": 1,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -5477,8 +5128,6 @@
     "weight": 4,
     "volume": 1,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "SET_TRAP"
   },
   {
@@ -5492,9 +5141,7 @@
     "material": "plastic",
     "weight": 489,
     "volume": 1,
-    "bashing": 5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "bashing": 5
   },
   {
     "id": "press",
@@ -5511,8 +5158,6 @@
     "to_hit": -2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -5530,8 +5175,6 @@
     "bashing": 2,
     "cutting": 6,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1]]
   },
@@ -5549,8 +5192,6 @@
     "bashing": 2,
     "cutting": 6,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
@@ -5568,8 +5209,6 @@
     "volume": 2,
     "bashing": 9,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["WRENCH", 1], ["WRENCH_FINE", 1]]
   },
   {
@@ -5585,8 +5224,6 @@
     "weight": 807,
     "volume": 1,
     "bashing": 3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["WRENCH", 1]]
   },
   {
@@ -5600,9 +5237,7 @@
     "material": "wood",
     "weight": 850,
     "volume": 1,
-    "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -1
   },
   {
     "id": "boltcutters",
@@ -5619,8 +5254,6 @@
     "bashing": 7,
     "cutting": 4,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "BOLTCUTTERS"
   },
   {
@@ -5637,8 +5270,6 @@
     "volume": 7,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "MOP"
   },
   {
@@ -5652,8 +5283,6 @@
     "material": "steel",
     "weight": 544,
     "volume": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
       "type": "picklock",
       "pick_quality": 5
@@ -5670,8 +5299,6 @@
     "material": "steel",
     "weight": 230,
     "volume": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
       "type": "picklock",
       "pick_quality": 3
@@ -5690,7 +5317,6 @@
     "max_charges": 1,
     "initial_charges": 1,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "picklock",
         "pick_quality": 40
@@ -5711,8 +5337,6 @@
     "volume": 15,
     "bashing": 10,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "other"
   },
   {
@@ -5730,8 +5354,6 @@
     "bashing": 12,
     "cutting": 8,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "PICKAXE"
   },
   {
@@ -5748,7 +5370,6 @@
     "max_charges": 10,
     "initial_charges": 10,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "SPRAY_CAN"
   },
   {
@@ -5765,7 +5386,6 @@
     "max_charges": 500,
     "initial_charges": 500,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "inscribe",
         "verb": "Write",
@@ -5788,7 +5408,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "inscribe",
         "verb": "Write",
@@ -5808,8 +5427,6 @@
     "material": "cotton",
     "weight": 80,
     "volume": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "flags": ["NO_SALVAGE"],
         "use_action" : {
@@ -5831,8 +5448,6 @@
     "material": "plastic",
     "weight": 70,
     "volume": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "flags": ["NO_SALVAGE"]
   },
@@ -5847,8 +5462,6 @@
     "material": "kevlar",
     "weight": 360,
     "volume": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "flags": ["NO_SALVAGE"]
   },
@@ -5867,7 +5480,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -5918,8 +5530,6 @@
     "volume": 0,
     "cutting": 7,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },{
@@ -5936,8 +5546,6 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 12,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
@@ -5956,8 +5564,6 @@
     "bashing": 2,
     "cutting": 10,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
@@ -5977,7 +5583,6 @@
     "volume": 1,
     "max_charges": 200,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "thread",
     "use_action": {
         "type": "repair_item",
@@ -6006,7 +5611,6 @@
     "volume": 1,
     "max_charges": 200,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "thread",
     "use_action": {
         "type": "repair_item",
@@ -6032,8 +5636,6 @@
     "weight": 1020,
     "volume": 2,
     "bashing": 9,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
   },{
@@ -6048,8 +5650,6 @@
     "weight": 1020,
     "volume": 2,
     "bashing": 9,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
   },{
@@ -6065,8 +5665,6 @@
     "volume": 4,
     "bashing": 8,
     "cutting": 7,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities":[ ["SAW_W", 1] ]
   },{
     "id": "primitive_axe",
@@ -6082,8 +5680,6 @@
     "bashing": 11,
     "cutting": 8,
     "flags" : ["CHOP"],
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
   },{
@@ -6100,8 +5696,6 @@
     "bashing": 18,
     "cutting": 12,
     "flags" : ["CHOP"],
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
   },{
@@ -6117,8 +5711,6 @@
     "volume": 16,
     "bashing": 15,
     "cutting": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["DIG", 2]],
     "use_action": "DIG"
   },{
@@ -6136,8 +5728,6 @@
     "bashing": 2,
     "cutting": 5,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
@@ -6154,8 +5744,6 @@
     "volume": 4,
     "bashing": 10,
     "cutting": 8,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
@@ -6186,8 +5774,6 @@
     "volume": 30,
     "bashing": 4,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "PORTABLE_STRUCTURE"
   },{
     "id": "damaged_shelter_kit",
@@ -6201,9 +5787,7 @@
     "weight": 1360,
     "volume": 30,
     "bashing": 4,
-    "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -3
   },{
     "id": "heatpack",
     "type": "TOOL",
@@ -6218,8 +5802,6 @@
     "bashing": 1,
     "cutting": 1,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "HEATPACK"
   },{
     "id": "heatpack_used",
@@ -6235,8 +5817,6 @@
     "bashing": 1,
     "cutting": 1,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "other"
   },{
     "id": "LAW_Packed",
@@ -6254,7 +5834,6 @@
     "max_charges": 1,
     "initial_charges": 1,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "category": "guns",
     "use_action": "LAW"
   },{
@@ -6793,8 +6372,6 @@
     "to_hit": -1,
     "max_charges": 300,
     "initial_charges": 300,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "qualities": [["DRILL", 3]]
   },
@@ -6813,8 +6390,6 @@
     "to_hit": -1,
     "max_charges": 200,
     "initial_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -6831,8 +6406,6 @@
     "bashing": 8,
     "to_hit": -1,
     "max_charges": 200,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -6948,8 +6521,6 @@
     "material": "cotton",
     "weight": 90,
     "volume": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "drugs",
         "use_action" : {
             "type" : "heal",
@@ -7009,8 +6580,6 @@
     "volume": 86,
     "bashing": 10,
     "to_hit": -5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "unfold_vehicle",
         "vehicle_name": "bicycle",
@@ -7033,7 +6602,6 @@
     "to_hit": -2,
     "max_charges": 450,
     "charges_per_use": 75,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": [
         {
@@ -7067,8 +6635,6 @@
     "volume": 40,
     "bashing": 10,
     "to_hit": -6,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities":[["BREW", 2]]
   },
   {
@@ -7083,9 +6649,7 @@
     "weight": 2,
     "volume": 10,
     "to_hit": 1,
-    "bashing": 3,
-    "turns_per_charge": 0,
-    "charges_per_use": 0
+    "bashing": 3
   },
   {
     "id": "chemistry_set_basic",
@@ -7116,7 +6680,6 @@
     "to_hit": -5,
     "max_charges": 200,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "HOTPLATE",
     "qualities":[["BREW", 1], ["CHEM", 2], ["BOIL", 1]]
@@ -7133,8 +6696,6 @@
     "weight": 242,
     "volume": 1,
     "to_hit": -10,
-    "turns_per_charge": 0,
-    "charges_per_use": 0,
     "qualities": [["SMOKE_PIPE", 1]]
   },
   {
@@ -7150,8 +6711,6 @@
     "volume": 1,
     "to_hit": -10,
     "bashing": 1,
-    "turns_per_charge": 0,
-    "charges_per_use": 0,
     "qualities": [["SMOKE_PIPE", 1]]
   },
   {
@@ -7167,8 +6726,6 @@
     "volume": 1,
     "to_hit": -10,
     "bashing": 1,
-    "turns_per_charge": 0,
-    "charges_per_use": 0,
     "qualities": [["SMOKE_PIPE", 1]]
 },
   {
@@ -7185,8 +6742,6 @@
     "bashing": 8,
     "to_hit": -2,
     "max_charges": 500,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
 {
@@ -7204,8 +6759,6 @@
     "cutting": 2,
     "to_hit": -2,
     "max_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -7220,9 +6773,7 @@
     "weight": 14000,
     "volume": 8,
     "bashing": 10,
-    "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -2
   },
   {
     "id": "crucible_clay",
@@ -7236,9 +6787,7 @@
     "weight": 16422,
     "volume": 10,
     "bashing": 10,
-    "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -2
   },
   {
     "id": "anvil",
@@ -7253,9 +6802,7 @@
     "weight": 54000,
     "volume": 16,
     "bashing": 40,
-    "to_hit": -5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -5
   },
   {
     "id": "tongs",
@@ -7271,8 +6818,6 @@
     "volume": 2,
     "bashing": 3,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["COOK", 1]]
   },{
     "id": "chisel",
@@ -7288,9 +6833,7 @@
     "volume": 1,
     "bashing": 4,
     "cutting": 2,
-    "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": 2
   },
   {
     "id": "swage",
@@ -7305,9 +6848,7 @@
     "weight": 2620,
     "volume": 8,
     "bashing": 10,
-    "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": 1
   },
   {
     "id": "nodachi",
@@ -7326,8 +6867,6 @@
     "bashing": 5,
     "cutting": 50,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
@@ -7345,8 +6884,6 @@
     "volume": 2,
     "bashing": 8,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": {
         "type": "transform",
@@ -7374,7 +6911,6 @@
     "to_hit": 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category" : "weapons",
     "use_action": {
@@ -7401,7 +6937,6 @@
     "max_charges": 50,
     "initial_charges": 25,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "gasoline",
     "use_action": [
         {
@@ -7434,7 +6969,6 @@
     "volume": 0,
     "max_charges": 50,
     "initial_charges": 25,
-    "charges_per_use": 0,
     "turns_per_charge": 10,
     "ammo": "gasoline",
     "revert_to": "ref_lighter",
@@ -7467,8 +7001,6 @@
     "bashing": 9,
     "to_hit": -2,
     "max_charges": 500,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "charcoal"
   },
   {
@@ -7485,8 +7017,6 @@
     "bashing": 9,
     "to_hit": -2,
     "max_charges": 200,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "charcoal"
   },
   {
@@ -7505,7 +7035,6 @@
     "max_charges": 150,
     "initial_charges": 150,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "WATER_PURIFIER"
   },
   {
@@ -7535,8 +7064,6 @@
     "weight": 15142,
     "volume": 40,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
         "type": "transform",
@@ -7581,8 +7108,6 @@
     "weight": 8142,
     "volume": 40,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "tools"
   },
   {
@@ -7598,8 +7123,6 @@
     "volume": 2,
     "bashing": 1,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "veh_parts",
     "use_action": {
         "type": "manualnoise",
@@ -7623,8 +7146,6 @@
     "volume": 2,
     "bashing": 2,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "veh_parts"
   },
   {
@@ -7640,8 +7161,6 @@
     "volume": 6,
     "bashing": 3,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "veh_parts"
   },
   {
@@ -7655,8 +7174,6 @@
     "symbol": ",",
     "color": "light_blue",
     "description" : "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "phase" : "solid",
     "use_action": {
         "type": "transform",
@@ -7679,8 +7196,6 @@
     "to_hit": -2,
     "max_charges": 200,
     "initial_charges": 100,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery"
   },
   {
@@ -7700,8 +7215,6 @@
     "bashing": 6,
     "cutting": 14,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
@@ -7722,7 +7235,6 @@
     "max_charges": 10,
     "initial_charges": 10,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": "EXTINGUISHER"
   },
   {
@@ -7740,8 +7252,6 @@
     "volume": 0,
     "cutting": 16,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
@@ -7759,10 +7269,8 @@
     "volume": 3,
     "bashing": 2,
     "cutting": 20,
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
@@ -7781,10 +7289,8 @@
     "volume": 3,
     "bashing": 2,
     "cutting": 28,
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE", "IAIJUTSU"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
@@ -7805,8 +7311,6 @@
     "cutting": 16,
     "flags" : ["SHEATH_KNIFE","CHOP"],
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
@@ -7828,8 +7332,6 @@
     "volume": 4,
     "bashing": 4,
     "cutting": 15,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
@@ -7850,8 +7352,6 @@
     "volume": 0,
     "cutting": 6,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
@@ -7871,8 +7371,6 @@
     "bashing": 1,
     "cutting": 4,
     "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
   },
@@ -7893,8 +7391,6 @@
     "cutting": 20,
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
@@ -7910,9 +7406,7 @@
     "material": "steel",
     "weight": 11974,
     "volume": 5,
-    "bashing": 8,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "bashing": 8
   },
   {
     "id": "scythe",
@@ -7930,8 +7424,6 @@
     "bashing": 6,
     "cutting": 14,
     "to_hit": -6,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -22]]
   },
@@ -7951,8 +7443,6 @@
     "bashing": 2,
     "cutting": 26,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 1]]
@@ -7972,8 +7462,6 @@
     "bashing": 2,
     "cutting": 16,
     "to_hit": -6,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 7]]
   },
@@ -7993,7 +7481,6 @@
     "max_charges": 50,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "manualnoise",
         "no_charges_message": "You depress the button but no sound comes out.",
@@ -8017,7 +7504,6 @@
     "max_charges": 2,
     "initial_charges": 2,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "ampoule",
     "use_action": "JET_INJECTOR"
   },
@@ -8039,7 +7525,6 @@
     "to_hit": 3,
     "max_charges" : 500,
     "charges_per_use" : 100,
-    "turns_per_charge" : 0,
     "ammo" : "battery",
     "category": "weapons",
     "use_action" : "TAZER"
@@ -8060,8 +7545,6 @@
     "volume": 0,
     "cutting": 12,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
@@ -8081,7 +7564,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "category": "drugs",
     "use_action": "INHALER"
   },
@@ -8101,7 +7583,6 @@
     "max_charges": 10,
     "initial_charges": 10,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "category": "drugs",
     "use_action": "EYEDROPS"
   },
@@ -8118,8 +7599,6 @@
     "volume": 4,
     "bashing": 9,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "BELL"
   },
   {
@@ -8138,7 +7617,6 @@
     "max_charges": 300,
     "initial_charges": 100,
     "charges_per_use": 100,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "GUN_REPAIR",
     "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
@@ -8159,7 +7637,6 @@
     "max_charges": 500,
     "initial_charges": 250,
     "charges_per_use": 25,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "GUN_REPAIR",
     "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
@@ -8180,7 +7657,6 @@
     "max_charges": 200,
     "initial_charges": 100,
     "charges_per_use": 50,
-    "turns_per_charge": 0,
     "ammo": "tape",
     "use_action": "MISC_REPAIR"
   },
@@ -8199,7 +7675,6 @@
     "max_charges": 10,
     "initial_charges": 5,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "soap",
     "use_action": "SHAVEKIT"
   },
@@ -8218,7 +7693,6 @@
     "to_hit": -1,
     "max_charges": 10,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "soap",
     "use_action": "SHAVEKIT"
   },
@@ -8238,7 +7712,6 @@
     "max_charges": 50,
     "initial_charges": 50,
     "charges_per_use": 10,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": "HAIRKIT"
   },
@@ -8255,8 +7728,6 @@
     "volume": 4,
     "bashing": 1,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "HAIRKIT"
   },
   {
@@ -8276,7 +7747,6 @@
     "max_charges": 400,
     "initial_charges": 200,
     "charges_per_use": 25,
-    "turns_per_charge": 0,
     "ammo": "tape",
     "use_action": [ "MISC_REPAIR", { "type": "knife" } ],
     "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
@@ -8297,8 +7767,6 @@
     "to_hit": -2,
     "max_charges": 50000,
     "initial_charges": 500,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "ATOMIC_BATTERY"
   },
@@ -8314,8 +7782,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "UPS_BATTERY"
   },
@@ -8331,8 +7797,6 @@
     "weight": 142,
     "volume": 1,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "RADIO_MOD"
   },
@@ -8349,8 +7813,6 @@
     "volume": 2,
     "bashing": 3,
     "cutting": 5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "DIG",
     "flags" : ["CHOP"],
     "to_hit": 1,
@@ -8368,8 +7830,6 @@
     "weight": 1700,
     "volume": 5,
     "bashing": 14,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["FISH_POOR"],
     "use_action": "FISH_ROD",
     "to_hit": 1
@@ -8386,8 +7846,6 @@
     "weight": 1000,
     "volume": 5,
     "bashing": 8,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["FISH_GOOD"],
     "use_action": "FISH_ROD",
     "to_hit": 1
@@ -8430,8 +7888,6 @@
     "weight": 0,
     "volume": 0,
     "max_charges": 10000,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": [ "HAMMER", "HACKSAW", "LUMBER", "CROWBAR", "REMOVE_ALL_MODS", { "type": "knife" } ],
     "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1], ["CUT", 2], ["SAW_W", 1], ["SAW_M", 1],
      ["SAW_M_FINE", 1], ["WRENCH", 1], ["WRENCH_FINE", 1], ["SCREW", 1], ["SCREW_FINE", 1],
@@ -8471,7 +7927,6 @@
     "to_hit": -3,
     "max_charges": 300,
     "initial_charges": 300,
-    "charges_per_use": 0,
     "turns_per_charge": 10,
     "ammo": "battery",
     "revert_to": "multi_cooker",
@@ -8490,8 +7945,6 @@
     "volume": 8,
     "to_hit": -2,
     "max_charges": 5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "fish_bait",
     "revert_to": "fish_trap",
     "use_action": "FISH_TRAP"
@@ -8511,7 +7964,6 @@
     "max_charges": 100,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "eink_tablet_pc",
     "use_action": "EINKTABLETPC"
@@ -8531,7 +7983,6 @@
     "max_charges": 200,
     "initial_charges": 200,
     "charges_per_use": 5,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "camera",
     "use_action": "CAMERA"
@@ -8552,7 +8003,6 @@
     "max_charges": 200,
     "initial_charges": 200,
     "charges_per_use": 5,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "camera_pro",
     "use_action": "CAMERA"
@@ -8573,7 +8023,6 @@
     "cutting": 1,
     "to_hit": -8,
     "max_charges": 3000,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "revert_to": "e_handcuffs",
     "use_action": "EHANDCUFFS"
@@ -8592,8 +8041,6 @@
     "bashing": 6,
     "to_hit": -1,
     "max_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -8618,8 +8065,6 @@
     "to_hit": -4,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8644,8 +8089,6 @@
     "bashing": 6,
     "to_hit": -1,
     "max_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -8670,8 +8113,6 @@
     "to_hit": -4,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -8714,7 +8155,6 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -8742,7 +8182,6 @@
     "to_hit": 2,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 25,
     "ammo": "battery",
     "revert_to": "smart_lamp",
@@ -8767,8 +8206,6 @@
     "to_hit": -1,
     "max_charges": 50,
     "initial_charges": 50,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "revert_to": "radio_car",
     "use_action": "RADIOCAR"
@@ -8789,7 +8226,6 @@
     "to_hit": -1,
     "max_charges": 50,
     "initial_charges": 50,
-    "charges_per_use": 0,
     "turns_per_charge": 5,
     "ammo": "battery",
     "revert_to": "radio_car",
@@ -8809,7 +8245,6 @@
     "to_hit": -1,
     "max_charges": 100,
     "initial_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 5,
     "ammo": "battery",
     "use_action": "RADIOCONTROL"
@@ -8829,7 +8264,6 @@
     "max_charges": 240,
     "initial_charges": 240,
     "charges_per_use": 4,
-    "turns_per_charge": 0,
     "use_action": "OXYTORCH",
     "qualities": [["WELD", 2]]
   },
@@ -8847,8 +8281,6 @@
     "bashing": 4,
     "to_hit": -3,
     "effects": ["COOKOFF", "EXPLOSIVE"],
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "explode_in_fire" : true,
     "explosion" : {
@@ -8881,7 +8313,6 @@
     "to_hit": -3,
     "max_charges": 10,
     "initial_charges": 10,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "category": "weapons",
     "explode_in_fire" : true,
@@ -8917,7 +8348,6 @@
     "use_action": "WEATHER_TOOL",
     "max_charges": 20,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "flags": ["THERMOMETER", "HYGROMETER", "BAROMETER"]
   },
   {
@@ -8935,8 +8365,6 @@
     "to_hit": -3,
     "category": "tools",
     "use_action": "WEATHER_TOOL",
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["THERMOMETER"]
   },
   {
@@ -8954,8 +8382,6 @@
     "to_hit": -3,
     "category": "tools",
     "use_action": "WEATHER_TOOL",
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["HYGROMETER"]
   },
   {
@@ -8973,8 +8399,6 @@
     "to_hit": -3,
     "category": "tools",
     "use_action": "WEATHER_TOOL",
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["BAROMETER"]
   },
   {
@@ -8991,8 +8415,6 @@
     "weight": 400,
     "volume": 4,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "delayed_transform",
         "transform_age": 28800, "//": "2 days",
@@ -9016,8 +8438,6 @@
     "weight": 400,
     "volume": 4,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "delayed_transform",
         "transform_age": 28800, "//": "2 days",
@@ -9040,9 +8460,7 @@
     "flags": ["NO_SALVAGE"],
     "weight": 200,
     "volume": 2,
-    "to_hit": -4,
-    "charges_per_use": 0,
-    "turns_per_charge": 0
+    "to_hit": -4
   },
   {
     "id": "lobotomizer",
@@ -9059,8 +8477,6 @@
     "cutting": 26,
     "flags" : ["CHOP"],
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]],
     "use_action": { "type": "knife" }
   },
@@ -9078,10 +8494,8 @@
     "volume": 3,
     "bashing": 5,
     "cutting": 20,
-    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
@@ -9102,8 +8516,6 @@
     "bashing": 2,
     "cutting": 35,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
@@ -9117,15 +8529,13 @@
     "description": "This broadsword's edge has been coated with razor-sharp diamond-like carbon, making you the deadliest knight in the realm.  Your blademaster would be proud.",
     "price": 185000,
     "material": ["steel", "diamond"],
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU", "VORPAL"],
+    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "VORPAL"],
     "techniques": "WBLOCK_2",
     "weight": 1100,
     "volume": 7,
     "bashing": 8,
     "cutting": 44,
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
@@ -9146,8 +8556,6 @@
     "bashing": 17,
     "cutting": 50,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" }
   },
@@ -9162,14 +8570,12 @@
     "price": 28000,
     "material": ["steel", "diamond"],
     "techniques": ["RAPID", "WBLOCK_1", "PRECISE"],
-    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "weight": 811,
     "volume": 6,
     "bashing": 3,
     "cutting": 34,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 23]]
@@ -9191,8 +8597,6 @@
     "bashing": 5,
     "cutting": 56,
     "to_hit": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category" : "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
@@ -9228,8 +8632,6 @@
     "bashing": 13,
     "to_hit": -3,
     "max_charges": 1000,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "charcoal"
   },
   {
@@ -9245,8 +8647,6 @@
     "volume": 450,
     "bashing": 12,
     "to_hit": -5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -9274,7 +8674,6 @@
     "to_hit": -5,
     "max_charges": 20,
     "initial_charges": 20,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags": ["BOMB"],
     "category": "weapons",
@@ -9301,8 +8700,6 @@
     "weight": 500,
     "volume": 2,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -9329,7 +8726,6 @@
     "to_hit": -2,
     "max_charges": 2,
     "initial_charges": 2,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags": ["BOMB"],
     "category": "weapons",
@@ -9356,8 +8752,6 @@
     "weight": 5000,
     "volume": 16,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -9382,7 +8776,6 @@
     "to_hit": -2,
     "max_charges": 5,
     "initial_charges": 5,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags": ["BOMB"],
     "category": "weapons",
@@ -9410,8 +8803,6 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -9438,7 +8829,6 @@
     "to_hit": -2,
     "max_charges": 2,
     "initial_charges": 2,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags": ["BOMB"],
     "category": "weapons",
@@ -9466,8 +8856,6 @@
     "volume": 200,
     "bashing": 20,
     "to_hit": -5,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -9493,7 +8881,6 @@
     "to_hit": -5,
     "max_charges": 30,
     "initial_charges": 30,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags": ["BOMB"],
     "category": "weapons",
@@ -9521,8 +8908,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
     "category": "weapons",
     "use_action": {
@@ -9548,7 +8933,6 @@
     "to_hit": -2,
     "max_charges": 2,
     "initial_charges": 2,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags": ["BOMB"],
     "category": "weapons",
@@ -9577,8 +8961,6 @@
     "to_hit" : 0,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 10,
@@ -9611,8 +8993,6 @@
     "to_hit" : 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 13,
@@ -9645,8 +9025,6 @@
     "to_hit" : 1,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 17,
@@ -9679,8 +9057,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 20,
@@ -9713,8 +9089,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 18,
@@ -9747,8 +9121,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 25,
@@ -9781,8 +9153,6 @@
     "to_hit" : 2,
     "max_charges": 1,
     "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "musical_instrument",
         "speed_penalty": 25,
@@ -9817,8 +9187,6 @@
     "volume": 200,
     "bashing": 12,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "LADDER"
   },
   {
@@ -9837,8 +9205,6 @@
     "flags" : ["DURABLE_MELEE"],
     "techniques": ["WBLOCK_1"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "CROWBAR",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1], ["PRY", 2]]
   },
@@ -9861,7 +9227,6 @@
     "category" : "weapons",
     "max_charges": 1000,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "battery",
     "use_action": {
         "type": "transform",
@@ -9890,7 +9255,6 @@
     "to_hit": 3,
     "category" : "weapons",
     "max_charges": 1000,
-    "charges_per_use": 0,
     "turns_per_charge": 40,
     "ammo": "battery",
     "revert_to": "l-stick",
@@ -9916,7 +9280,6 @@
     "volume": 1,
     "max_charges": 200,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "thread",
     "use_action": {
         "type": "repair_item",
@@ -9929,5 +9292,17 @@
         "tool_quality": 0,
         "move_cost": 1200
     }
+  },
+  {
+    "id": "syringe",
+    "type":"TOOL",
+    "name": "syringe",
+    "description": "A medical syringe.  Used for administering intravenous drugs.",
+    "symbol": ",",
+    "color": "white",
+    "material": "plastic",
+    "weight": 10,
+    "volume": 1,
+    "price": 2500
   }
 ]

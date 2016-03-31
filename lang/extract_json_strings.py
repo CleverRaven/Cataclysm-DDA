@@ -376,6 +376,14 @@ def extract_recipe_category(item):
         writestr(outfile, subcat_name,
                  comment="Crafting recipes subcategory of '{}' category".format(cat_name))
 
+def extract_gate(item):
+    outfile = get_outfile("gates")
+    messages = item.get("messages", {})
+
+    for message in messages.items():
+        writestr(outfile, message[1],
+                 comment="'{}' action message of some gate object.".format(message[0]))
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
@@ -388,6 +396,7 @@ extract_specials = {
     "recipe": extract_recipes,
     "scenario": extract_scenarios,
     "talk_topic": extract_talk_topic,
+    "gate": extract_gate,
     "vehicle_spawn": extract_vehspawn
 }
 

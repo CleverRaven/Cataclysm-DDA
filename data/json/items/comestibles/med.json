@@ -1,162 +1,5 @@
 [
     {
-        "id" : "aspirin",
-        "type" : "COMESTIBLE",
-        "name" : "aspirin",
-        "weight" : 1,
-        "color" : "white",
-        "use_action" : {
-            "type" : "consume_drug",
-            "activation_message" : "You take some aspirin.",
-            "effects" : [ {
-                    "id" : "pkill1",
-                    "duration" : 120
-                }
-            ]
-        },
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "healthy" : -1,
-        "description" : "Acetylsalicylic acid, a mild anti-inflammatory.  Take to relieve pain and swelling.",
-        "price" : 500,
-        "volume" : 1,
-        "charges" : 20,
-        "stack_size" : 200
-    },
-    {
-        "id" : "caffeine",
-        "type" : "COMESTIBLE",
-        "name" : "caffeine pill",
-        "weight" : 1,
-        "color" : "cyan",
-        "addiction_type" : "caffeine",
-        "use_action" : "CAFF",
-        "stim" : 12,
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "addiction_potential" : 3,
-        "description" : "No-doz brand caffeine pills, maximum strength.  Useful in pulling an all-nighter, one pill is about equivalent to a strong cup of coffee.",
-        "price" : 1000,
-        "volume" : 1,
-        "charges" : 10,
-        "stack_size" : 200
-    },
-    {
-        "id" : "pills_sleep",
-        "type" : "COMESTIBLE",
-        "name" : "Ambien",
-        "weight" : 1,
-        "color" : "light_red",
-        "addiction_type" : "sleeping pill",
-        "use_action" : "SLEEP",
-        "stim" : -8,
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "addiction_potential" : 40,
-        "description" : "A habit-forming tranquilizer with a variety of psychoactive side effects.  Used in the treatment of insomnia.  Its generic name is zolpidem tartrate.",
-        "price" : 3000,
-        "volume" : 1,
-        "charges" : 10,
-        "stack_size" : 200,
-        "fun" : 5
-    },
-    {
-        "id" : "iodine",
-        "type" : "COMESTIBLE",
-        "name" : "potassium iodide tablet",
-        "weight" : 1,
-        "color" : "white",
-        "use_action" : {
-            "type" : "consume_drug",
-            "activation_message" : "You take some potassium iodide.",
-            "effects" : [ {
-                    "id" : "iodine",
-                    "duration" : 7200
-                }
-            ]
-        },
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "description" : "Potassium iodide tablets.  If taken prior to exposure, they help to mitigate injury caused by radiation absorption.",
-        "price" : 1000,
-        "volume" : 1,
-        "charges" : 10,
-        "stack_size" : 200
-    },
-    {
-        "id" : "prussian_blue",
-        "type" : "COMESTIBLE",
-        "name" : "Prussian blue tablet",
-        "weight" : 1,
-        "color" : "blue",
-        "use_action" : {
-            "type" : "consume_drug",
-            "activation_message" : "You take some Prussian blue.",
-            "effects" : [ {
-                    "id" : "pblue",
-                    "duration" : 3600
-                }
-            ]
-        },
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "description" : "Tablets containing oxidized ferrous ferrocyanide salts.  Capable of purging nuclear contaminants from the body if taken after radiation exposure.",
-        "price" : 3000,
-        "volume" : 1,
-        "charges" : 10,
-        "stack_size" : 200
-    },
-    {
-        "id" : "cotton_ball",
-        "type" : "COMESTIBLE",
-        "name" : "cotton balls",
-        "name_plural" : "cotton balls",
-        "category" : "spare_parts",
-        "weight" : 180,
-        "color" : "white",
-        "container" : "bag_plastic",
-        "comestible_type" : "MED",
-        "symbol" : "*",
-        "description" : "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
-        "price" : 500,
-        "material" : "cotton",
-        "volume" : 1,
-        "charges" : 2,
-        "flags" : [ "USE_ON_NPC" ],
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
-            "bleed" : 0.9,
-            "move_cost" : 300
-        }
-    },
-    {
-        "id" : "bandages",
-        "type" : "COMESTIBLE",
-        "name" : "bandage",
-        "weight" : 70,
-        "color" : "white",
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "description" : "Simple cloth bandages.  Used for healing small amounts of damage.",
-        "price" : 600,
-        "material" : "cotton",
-        "volume" : 1,
-        "charges" : 3,
-        "stack_size" : 9,
-        "flags" : [ "USE_ON_NPC" ],
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
-            "bleed" : 0.9,
-            "move_cost" : 300
-        }
-    },
-    {
         "id" : "1st_aid",
         "type" : "COMESTIBLE",
         "name" : "first aid kit",
@@ -189,70 +32,117 @@
         }
     },
     {
-        "id" : "poppysyrup",
+        "id" : "aspirin",
         "type" : "COMESTIBLE",
-        "name" : "poppy cough syrup",
-        "name_plural" : "poppy cough syrup",
-        "weight" : 48,
-        "color" : "magenta",
-        "addiction_type" : "sleeping pill",
-        "use_action" : "FLUSLEEP",
-        "stim" : -3,
-        "container" : "bottle_plastic",
-        "comestible_type" : "MED",
-        "symbol" : "~",
-        "healthy" : -1,
-        "addiction_potential" : 15,
-        "description" : "Cough syrup made from mutated poppy.  Will make you sleepy.",
-        "price" : 2500,
-        "volume" : 1,
-        "phase" : "liquid",
-        "charges" : 5
-    },
-    {
-        "id" : "poppy_sleep",
-        "type" : "COMESTIBLE",
-        "name" : "poppy sleep",
+        "name" : "aspirin",
         "weight" : 1,
-        "color" : "magenta",
-        "addiction_type" : "opiate",
-        "use_action" : "SLEEP",
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "healthy" : -2,
-        "description" : "A potent sleep aid extracted from mutated poppy seeds.  Effective, but as an opiate, it may be addictive.",
-        "price" : 2000,
-        "material" : "powder",
-        "volume" : 1,
-        "charges" : 10,
-        "stack_size" : 100
-    },
-    {
-        "id" : "poppy_pain",
-        "type" : "COMESTIBLE",
-        "name" : "poppy painkiller",
-        "weight" : 1,
-        "color" : "pink",
-        "addiction_type" : "opiate",
+        "color" : "white",
         "use_action" : {
             "type" : "consume_drug",
-            "activation_message" : "You take some poppy painkiller.",
+            "activation_message" : "You take some aspirin.",
             "effects" : [ {
-                    "id" : "pkill2",
-                    "duration" : 180
+                    "id" : "pkill1",
+                    "duration" : 120
                 }
             ]
         },
         "comestible_type" : "MED",
         "symbol" : "!",
-        "healthy" : -2,
-        "addiction_potential" : 10,
-        "description" : "Potent opioid palliative produced by the refining of the mutated poppy.  Notably devoid of euphoric or sedative effects, as an opiate it may still be addictive.",
-        "price" : 3000,
-        "material" : "powder",
+        "healthy" : -1,
+        "description" : "Acetylsalicylic acid, a mild anti-inflammatory.  Take to relieve pain and swelling.",
+        "price" : 500,
+        "volume" : 1,
+        "charges" : 20,
+        "stack_size" : 200
+    },
+    {
+        "id" : "bandages",
+        "type" : "COMESTIBLE",
+        "name" : "bandage",
+        "weight" : 70,
+        "color" : "white",
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "description" : "Simple cloth bandages.  Used for healing small amounts of damage.",
+        "price" : 600,
+        "material" : "cotton",
+        "volume" : 1,
+        "charges" : 3,
+        "stack_size" : 9,
+        "flags" : [ "USE_ON_NPC" ],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bleed" : 0.9,
+            "move_cost" : 300
+        }
+    },
+    {
+        "id" : "caffeine",
+        "type" : "COMESTIBLE",
+        "name" : "caffeine pill",
+        "weight" : 1,
+        "color" : "cyan",
+        "addiction_type" : "caffeine",
+        "use_action" : "CAFF",
+        "stim" : 12,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "addiction_potential" : 3,
+        "description" : "No-doz brand caffeine pills, maximum strength.  Useful in pulling an all-nighter, one pill is about equivalent to a strong cup of coffee.",
+        "price" : 1000,
         "volume" : 1,
         "charges" : 10,
-        "stack_size" : 100
+        "stack_size" : 200
+    },
+    {
+        "id" : "cig",
+        "type" : "COMESTIBLE",
+        "name" : "cigarette",
+        "weight" : 1,
+        "color" : "dark_gray",
+        "addiction_type" : "nicotine",
+        "use_action" : "SMOKING",
+        "stim" : 1,
+        "container" : "box_cigarette",
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "healthy" : -2,
+        "addiction_potential" : 50,
+        "description" : "A mixture of dried tobacco leaf, pesticides, and chemical additives, rolled into a filtered paper tube.  Stimulates mental acuity and reduces appetite.  Highly addictive and hazardous to health.",
+        "price" : 800,
+        "volume" : 1,
+        "charges" : 20,
+        "stack_size" : 60,
+        "fun" : 5
+    },
+    {
+        "id" : "cotton_ball",
+        "type" : "COMESTIBLE",
+        "name" : "cotton balls",
+        "name_plural" : "cotton balls",
+        "category" : "spare_parts",
+        "weight" : 180,
+        "color" : "white",
+        "container" : "bag_plastic",
+        "comestible_type" : "MED",
+        "symbol" : "*",
+        "description" : "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
+        "price" : 500,
+        "material" : "cotton",
+        "volume" : 1,
+        "charges" : 2,
+        "flags" : [ "USE_ON_NPC" ],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bleed" : 0.9,
+            "move_cost" : 300
+        }
     },
     {   
         "id" : "datura_seed",
@@ -281,6 +171,177 @@
         }
     },
     {
+        "id" : "handrolled_cig",
+        "type" : "COMESTIBLE",
+        "name" : "hand-rolled cigarette",
+        "weight" : 1,
+        "color" : "dark_gray",
+        "addiction_type" : "nicotine",
+        "use_action" : "SMOKING",
+        "stim" : 1,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "healthy" : -2,
+        "addiction_potential" : 50,
+        "description" : "A roll-your-own made from tobacco and rolling paper.  Stimulates mental acuity and reduces appetite.  Despite being hand crafted, it's still highly addictive and hazardous to health.",
+        "price" : 90, "//" : "Tougher to market a handrolled, could be anything in there.",
+        "volume" : 1,
+        "charges" : 1,
+        "stack_size" : 60,
+        "fun" : 5
+    },
+    {
+        "id" : "iodine",
+        "type" : "COMESTIBLE",
+        "name" : "potassium iodide tablet",
+        "weight" : 1,
+        "color" : "white",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some potassium iodide.",
+            "effects" : [ {
+                    "id" : "iodine",
+                    "duration" : 7200
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "description" : "Potassium iodide tablets.  If taken prior to exposure, they help to mitigate injury caused by radiation absorption.",
+        "price" : 1000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200
+    },
+    {   
+        "id" : "mugwort_oil",
+        "type" : "COMESTIBLE",
+        "name" : "mugwort oil",
+        "description" : "Some essential oil made from mugwort, which may kill parasites when ingested.  Consume it with water!",
+        "comestible_type" : "MED",
+        "use_action" : "ANTIPARASITIC",
+        "spoils_in" : 672,
+        "quench" : -50,
+        "fun" : -5,
+        "phase" : "liquid",
+        "weight" : 40,
+        "to_hit" : -3,
+        "color" : "yellow",
+        "symbol" : "~",
+        "volume" : 1,
+        "bashing" : -8,
+        "charges" : 1,
+        "price" : 0
+    },
+    {
+        "id" : "pills_sleep",
+        "type" : "COMESTIBLE",
+        "name" : "Ambien",
+        "weight" : 1,
+        "color" : "light_red",
+        "addiction_type" : "sleeping pill",
+        "use_action" : "SLEEP",
+        "stim" : -8,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "addiction_potential" : 40,
+        "description" : "A habit-forming tranquilizer with a variety of psychoactive side effects.  Used in the treatment of insomnia.  Its generic name is zolpidem tartrate.",
+        "price" : 3000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200,
+        "fun" : 5
+    },
+    {
+        "id" : "poppy_pain",
+        "type" : "COMESTIBLE",
+        "name" : "poppy painkiller",
+        "weight" : 1,
+        "color" : "pink",
+        "addiction_type" : "opiate",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some poppy painkiller.",
+            "effects" : [ {
+                    "id" : "pkill2",
+                    "duration" : 180
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "healthy" : -2,
+        "addiction_potential" : 10,
+        "description" : "Potent opioid palliative produced by the refining of the mutated poppy.  Notably devoid of euphoric or sedative effects, as an opiate it may still be addictive.",
+        "price" : 3000,
+        "material" : "powder",
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 100
+    },
+    {
+        "id" : "poppy_sleep",
+        "type" : "COMESTIBLE",
+        "name" : "poppy sleep",
+        "weight" : 1,
+        "color" : "magenta",
+        "addiction_type" : "opiate",
+        "use_action" : "SLEEP",
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "healthy" : -2,
+        "description" : "A potent sleep aid extracted from mutated poppy seeds.  Effective, but as an opiate, it may be addictive.",
+        "price" : 2000,
+        "material" : "powder",
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 100
+    },
+    {
+        "id" : "poppysyrup",
+        "type" : "COMESTIBLE",
+        "name" : "poppy cough syrup",
+        "name_plural" : "poppy cough syrup",
+        "weight" : 48,
+        "color" : "magenta",
+        "addiction_type" : "sleeping pill",
+        "use_action" : "FLUSLEEP",
+        "stim" : -3,
+        "container" : "bottle_plastic",
+        "comestible_type" : "MED",
+        "symbol" : "~",
+        "healthy" : -1,
+        "addiction_potential" : 15,
+        "description" : "Cough syrup made from mutated poppy.  Will make you sleepy.",
+        "price" : 2500,
+        "volume" : 1,
+        "phase" : "liquid",
+        "charges" : 5
+    },
+    {
+        "id" : "prussian_blue",
+        "type" : "COMESTIBLE",
+        "name" : "Prussian blue tablet",
+        "weight" : 1,
+        "color" : "blue",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some Prussian blue.",
+            "effects" : [ {
+                    "id" : "pblue",
+                    "duration" : 3600
+                }
+            ]
+        },
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "description" : "Tablets containing oxidized ferrous ferrocyanide salts.  Capable of purging nuclear contaminants from the body if taken after radiation exposure.",
+        "price" : 3000,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 200
+    },
+    {
         "id" : "thyme_oil",
         "type" : "COMESTIBLE",
         "name" : "thyme oil",
@@ -305,24 +366,82 @@
             "move_cost" : 100
         }
     },
-    {   
-        "id" : "mugwort_oil",
+    {
+        "id" : "tobacco",
         "type" : "COMESTIBLE",
-        "name" : "mugwort oil",
-        "description" : "Some essential oil made from mugwort, which may kill parasites when ingested.  Consume it with water!",
+        "name" : "rolling tobacco",
+        "weight" : 1,
+        "color" : "brown",
+        "addiction_type" : "nicotine",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You smoke some tobacco.",
+            "effects" : [ {
+                    "id" : "cig",
+                    "duration" : 200
+                }
+            ],
+            "stat_adjustments" : {
+                "hunger" : -2,
+                "thirst" : 1
+            },
+            "fields_produced" : { "fd_cigsmoke" : 2 },
+            "charges_needed" : { "fire" : 1 },
+            "tools_needed" : { "apparatus" : -1 },
+            "moves" : 250
+        },
+        "stim" : 1,
+        "container" : "bag_plastic",
         "comestible_type" : "MED",
-        "use_action" : "ANTIPARASITIC",
-        "spoils_in" : 672,
-        "quench" : -50,
-        "fun" : -5,
-        "phase" : "liquid",
-        "weight" : 40,
-        "to_hit" : -3,
-        "color" : "yellow",
-        "symbol" : "~",
+        "symbol" : "!",
+        "healthy" : -2,
+        "addiction_potential" : 50,
+        "description" : "Loose, fine-cut tobacco leaves.  Popular in Europe and among hipsters.  Highly addictive and hazardous to health.\nCan either be rolled into a cigarette with some rolling papers or smoked through a pipe.",
+        "price" : 1100,
         "volume" : 1,
-        "bashing" : -8,
-        "charges" : 1,
-        "price" : 0
+        "charges" : 20,
+        "stack_size" : 60,
+        "fun" : 5
+    },
+    {
+        "id" : "weed",
+        "type" : "COMESTIBLE",
+        "name" : "marijuana",
+        "name_plural" : "marijuana",
+        "weight" : 1,
+        "color" : "green",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You smoke some weed.  Good stuff, man!",
+            "effects" : [ {
+                    "id" : "weed_high",
+                    "duration" : 90
+                },
+                {
+                    "id": "pkill1",
+                    "duration": 60
+                }
+            ],
+            "stat_adjustments": {
+                "hunger" : 4,
+                "thirst" : 6
+            },
+            "fields_produced" : {"fd_weedsmoke" : 2},
+            "charges_needed" : { "fire" : 1 },
+            "tools_needed" : { "apparatus" : -1 },
+            "moves" : 40
+        },
+        "stim" : -10,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "quench" : -5,
+        "healthy" : 0,
+        "addiction_potential" : 5,
+        "description" : "The dried flower buds and leaves harvested from a psychoactive variety of hemp plant.  Used to reduce nausea, stimulate appetite and elevate mood.  It can be habit-forming, and adverse reactions are possible.",
+        "price" : 2500,
+        "volume" : 1,
+        "charges" : 5,
+        "stack_size" : 100,
+        "fun" : 15
     }
 ]

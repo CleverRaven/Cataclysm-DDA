@@ -9188,31 +9188,6 @@ bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
     return covered_with_flag("WATERPROOF", parts);
 }
 
-bool player::has_amount(const itype_id &it, int quantity) const
-{
-    if (it == "toolset")
-    {
-        return has_active_bionic("bio_tools");
-    }
-    return (amount_of(it) >= quantity);
-}
-
-int player::amount_of(const itype_id &it) const
-{
-    if (it == "toolset" && has_active_bionic("bio_tools")) {
-        return 1;
-    }
-    if (it == "apparatus") {
-        return ( has_items_with_quality("SMOKE_PIPE", 1, 1) ? 1 : 0 );
-    }
-    int quantity = weapon.amount_of(it, true);
-    for( const auto &elem : worn ) {
-        quantity += elem.amount_of( it, true );
-    }
-    quantity += inv.amount_of(it);
-    return quantity;
-}
-
 int player::amount_worn(const itype_id &id) const
 {
     int amount = 0;
@@ -9230,41 +9205,6 @@ bool player::has_charges(const itype_id &it, long quantity) const
         return has_fire(quantity);
     }
     return (charges_of(it) >= quantity);
-}
-
-long player::charges_of(const itype_id &it) const
-{
-    if (it == "toolset") {
-        if (has_active_bionic("bio_tools")) {
-            return power_level;
-        } else {
-            return 0;
-        }
-    }
-    // Handle requests for UPS charges as request for adv. UPS charges
-    // and as request for bionic UPS charges, both with their own multiplier
-    if ( it == "UPS" ) {
-        // This includes the UPS bionic (regardless of active state)
-        return charges_of( "UPS_off" );
-    }
-    // Now regular charges from all items (weapone,worn,inventory)
-    long quantity = weapon.charges_of(it);
-    for( const auto &armor : worn ) {
-        quantity += armor.charges_of(it);
-    }
-    quantity += inv.charges_of(it);
-    // Now include charges from advanced UPS if the request was UPS
-    if ( it == "UPS_off" ) {
-        // Round charges from adv. UPS down, if this reports there are N
-        // charges available, we must be able to remove at least N charges.
-        quantity += static_cast<long>( floor( charges_of( "adv_UPS_off" ) / 0.6 ) );
-    }
-    if ( power_level > 0 ) {
-        if ( it == "UPS_off" && has_active_bionic( "bio_ups" ) ) {
-            quantity += power_level * 10;
-        }
-    }
-    return quantity;
 }
 
 int  player::leak_level( std::string flag ) const
@@ -9321,41 +9261,39 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-    const auto comest = dynamic_cast<const it_comest*>( to_eat->type );
 
     int amount_used = 1;
-    if (comest != NULL) {
-        if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
+
+    if( to_eat->is_food() ) {
+        if( to_eat->type->comestible->comesttype == "FOOD" ||
+            to_eat->type->comestible->comesttype == "DRINK") {
             if( !eat( *to_eat ) ) {
                 return false;
             }
-        } else if (comest->comesttype == "MED") {
-            if (comest->tool != "null") {
-                // Check tools
-                bool has = has_amount(comest->tool, 1);
-                // Tools with charges need to have charges, not just be present.
-                if( item::count_by_charges( comest->tool ) ) {
-                    has = has_charges(comest->tool, 1);
+
+        } else if( to_eat->type->comestible->comesttype == "MED" ) {
+            auto req_tool = item::find_type( to_eat->type->comestible->tool );
+            if( req_tool->tool ) {
+                if( !( has_amount( req_tool->id, 1 ) && has_charges( req_tool->id, req_tool->tool->charges_per_use ) ) ) {
+                    add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname(1).c_str() );
+                    return false;                    
                 }
-                if (!has) {
-                    add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         item::nname( comest->tool ).c_str());
-                    return false;
-                }
-                use_charges(comest->tool, 1); // Tools like lighters get used
+                use_charges( req_tool->id, req_tool->tool->charges_per_use );
             }
-            if (comest->has_use()) {
-                //Check special use
-                amount_used = comest->invoke( this, to_eat, pos() );
+
+            if( to_eat->type->has_use() ) {
+                amount_used = to_eat->type->invoke( this, to_eat, pos() );
                 if( amount_used <= 0 ) {
                     return false;
                 }
             }
             consume_effects( *to_eat );
             moves -= 250;
+
         } else {
             debugmsg("Unknown comestible type of item: %s\n", to_eat->tname().c_str());
         }
+
     } else {
  // Consume other type of items.
         // For when bionics let you eat fuel
@@ -13398,22 +13336,6 @@ bool player::has_item_with_flag( std::string flag ) const
     return has_item_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
     } );
-}
-
-bool player::has_items_with_quality( const std::string &quality_id, int level, int amount ) const
-{
-    visit_items_const( [&quality_id, level, &amount]( const item *node ) {
-        if( node->has_quality( quality_id, level ) ) {
-            // Each suitable item decreases the require count until it reaches 0,
-            // where the requirement is fulfilled.
-            if( --amount <= 0) {
-                return VisitResponse::ABORT;
-            }
-        }
-        return VisitResponse::NEXT;
-    } );
-
-    return amount <= 0;
 }
 
 void player::on_mutation_gain( const std::string &mid )

@@ -917,7 +917,7 @@ item &npc::find_reloadable()
         if( !wants_to_reload( *node ) ) {
             return VisitResponse::SKIP;
         }
-        const auto it_loc = std::move( node->pick_reload_ammo( *this ).ammo );
+        const auto it_loc = node->pick_reload_ammo( *this ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
             reloadable = node;
             return VisitResponse::ABORT;
@@ -953,17 +953,17 @@ item_location npc::find_usable_ammo( const item &weap )
         return item_location();
     }
 
-    auto loc = std::move( weap.pick_reload_ammo( *this ).ammo );
+    auto loc = weap.pick_reload_ammo( *this ).ammo;
     if( !loc || !wants_to_reload_with( weap, *loc ) ) {
         return item_location();
     }
 
-    return std::move( loc );
+    return loc;
 }
 
 const item_location npc::find_usable_ammo( const item &weap ) const
 {
-    return std::move( const_cast<npc *>( this )->find_usable_ammo( weap ) );
+    return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
 npc_action npc::address_needs( int danger )
@@ -1129,10 +1129,7 @@ int npc::choose_escape_item()
     for (size_t i = 0; i < slice.size(); i++) {
         item &it = slice[i]->front();
         for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
-            const it_comest *food = NULL;
-            if (it.is_food()) {
-                food = dynamic_cast<const it_comest *>(it.type);
-            }
+            const auto food = it.type->comestible.get();
             if (it.type->id == ESCAPE_ITEMS[j] &&
                 (food == NULL || stim < food->stim ||            // Avoid guzzling down
                  (food->stim >= 10 && stim < food->stim * 2)) && //  Adderall etc.
@@ -2339,11 +2336,8 @@ void npc::activate_item(int item_index)
 {
     const int oldmoves = moves;
     item *it = &i_at(item_index);
-    if (it->is_tool()) {
+    if( it->is_tool() || it->is_food() ) {
         it->type->invoke( this, it, pos() );
-    } else if (it->is_food()) {
-        const auto comest = dynamic_cast<const it_comest *>(it->type);
-        comest->invoke( this, it, pos() );
     }
 
     if( moves == oldmoves ) {
@@ -2440,13 +2434,13 @@ void npc::use_painkiller()
 // Be eaten before it rots (favor soon-to-rot perishables)
 float rate_food( const item &it, int want_nutr, int want_quench )
 {
-    const it_comest *food = dynamic_cast<const it_comest *>( it.type );
+    const auto food = it.type->comestible.get();
     if( food == nullptr ) {
         // Not food
         return 0.0f;
     }
 
-    int nutr = food->get_nutrition();
+    int nutr = food->nutr;
     int quench = food->quench;
 
     if( nutr <= 0 && quench <= 0 ) {

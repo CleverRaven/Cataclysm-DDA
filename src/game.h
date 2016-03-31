@@ -568,7 +568,7 @@ class game
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
          */
-        bool check_save_mode_allowed();
+        bool check_safe_mode_allowed();
 
         const int dangerous_proximity;
         bool narrow_sidebar;
@@ -616,8 +616,6 @@ class game
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                         bool bShowDDA = true);
-        void print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int iSel,
-                              int iOffsetY, int iOffsetX, int spacing = 1);
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::ifstream &fin);
         void load(std::string worldname, std::string name); // Load a player-specific save file

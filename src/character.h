@@ -313,23 +313,6 @@ class Character : public Creature, public visitable<Character>
         map_selector nearby( int radius = 1, bool accessible = true );
 
         /**
-         * Gather all items that match a certain filter.
-         * The returned vector contains pointers to items in the possession
-         * of this player (can be weapon, worn items or inventory).
-         * The items might be inside other items (containers / quiver / etc.),
-         * the filter is recursively applied to all item contents.
-         * The items should not be changed directly, the pointers can be used
-         * with @ref i_rem, @ref reduce_charges. The pointers are *not* suitable
-         * for @ref get_item_position because the returned index can only
-         * refer to items directly in the inventory (e.g. -1 means the weapon,
-         * there is no index for the content of the weapon).
-         * @param filter some object that when invoked with the () operator
-         * returns true for item that should be returned.
-         */
-        std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
-        std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
-
-        /**
          * Similar to @ref remove_items_with, but considers only worn items and not their
          * content (@ref item::contents is not checked).
          * If the filter function returns true, the item is removed.

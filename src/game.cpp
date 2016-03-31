@@ -2561,7 +2561,7 @@ bool game::handle_action()
             break; // handled above
 
         case ACTION_PAUSE:
-            if( check_save_mode_allowed() ) {
+            if( check_safe_mode_allowed() ) {
                 u.pause();
             }
             break;
@@ -9019,13 +9019,17 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             wrefresh(w_info);
         }
 
-#ifndef TILES
-        // Required in ncurses mode to update selected terrain square with
-        // highlighted coloring. In TILES mode, the selected square isn't
-        // highlighted using this function, and it is too CPU-intensive to
-        // call repeatedly in a mouse event loop.
-        wrefresh(w_terrain);
-#endif
+        if (!is_draw_tiles_mode() && action != "MOUSE_MOVE") {
+            // When tiles are disabled, this refresh is required to update the
+            // selected terrain square with highlighted ascii coloring. When
+            // tiles are enabled, the selected square isn't highlighted using
+            // this function, and it is too CPU-intensive to call repeatedly
+            // in a mouse event loop. If we did want to highlight the tile
+            // selected by the mouse, we could call wrefresh when the mouse
+            // hovered over a new tile (rather than on every mouse move
+            // event).
+            wrefresh(w_terrain);
+        }
 
         if (select_zone && has_first_point) {
             inp_mngr.set_timeout(BLINK_SPEED);
@@ -10551,7 +10555,7 @@ void game::reassign_item( int pos )
     if( newch == ' ' ) {
         newch = 0;
     } else if( !inv_chars.valid( newch ) ) {
-        add_msg( m_info, _("Invlid inventory letter. Only those characters are valid:\n\n%s"),
+        add_msg( m_info, _("Invalid inventory letter. Only those characters are valid:\n\n%s"),
                  inv_chars.get_allowed_chars().c_str() );
         return;
     }
@@ -11582,7 +11586,7 @@ void game::chat()
 
 void game::pldrive(int x, int y)
 {
-    if( !check_save_mode_allowed() ) {
+    if( !check_safe_mode_allowed() ) {
         return;
     }
     vehicle *veh = remoteveh();
@@ -11656,7 +11660,7 @@ void game::pldrive(int x, int y)
     }
 }
 
-bool game::check_save_mode_allowed()
+bool game::check_safe_mode_allowed()
 {
     std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
     if (!msg_ignore.empty()) {
@@ -11753,7 +11757,7 @@ bool game::disable_robot( const tripoint &p )
 
 bool game::plmove(int dx, int dy, int dz)
 {
-    if( (!check_save_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
+    if( (!check_safe_mode_allowed()) || u.has_active_mutation("SHELL2") ) {
         if ( u.has_active_mutation("SHELL2")) {
             add_msg(m_warning, _("You can't move while in your shell.  Deactivate it to go mobile."));
         }

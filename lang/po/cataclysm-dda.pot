@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-24 10:28+0300\n"
+"POT-Creation-Date: 2016-03-28 14:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2660,7 +2660,7 @@ msgstr[1] ""
 msgid ""
 "A high-strength ethanol solution with various substances mixed in to make it "
 "toxic and extremely unpleasant to drink, so as to avoid pre-apocalyptic "
-"regulations on ethanol. Intended for use in alcohol-burning stoves and as a "
+"regulations on ethanol.  Intended for use in alcohol-burning stoves and as a "
 "solvent."
 msgstr ""
 
@@ -2944,36 +2944,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .454 Casull"
-msgid_plural "reloaded .454 Casull"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for reloaded .454 Casull
-#: lang/json/AMMO_from_json.py
-msgid ""
-".454 Casull ammunition with jacketed soft point bullets.  The .454 Casull "
-"round is derived from .45 Long Colt with a stronger, lengthened case.  It is "
-"an exceptionally powerful cartridge with higher stopping power than many "
-"rifle rounds, although it suffers from extreme recoil making it unsuitable "
-"for most purposes.  This one has been reloaded by hand."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "reloaded .500 S&W Magnum"
-msgid_plural "reloaded .500 S&W Magnum"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for reloaded .500 S&W Magnum
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Claimed to be the world's most powerful handgun round, the .500 S&W Magnum "
-"was developed in tandem with the revolutionary S&W 500 Revolver.  This one "
-"has been hand-reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
 msgid "reloaded 5.45x39mm 7N10"
 msgid_plural "reloaded 5.45x39mm 7N10"
 msgstr[0] ""
@@ -3124,21 +3094,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .700 NX"
-msgid_plural "reloaded .700 NX"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for reloaded .700 NX
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .700 Nitro Express is a very powerful rifle round designed for long-"
-"range use.  Its stupendous accuracy and armor piercing capabilities make it "
-"one of the most deadly rounds available, offset only by its drastic recoil "
-"and noise.  This one has been hand-reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
 msgid "handloaded .22 CB"
 msgid_plural "handloaded .22 CB"
 msgstr[0] ""
@@ -3278,27 +3233,11 @@ msgid_plural "handloaded .22 LR"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for handloaded .22 LR
-#: lang/json/AMMO_from_json.py
-msgid ""
-"One of the smallest calibers available, the .22 Long Rifle cartridge has "
-"maintained popularity for nearly two centuries.  Its minimal recoil, low "
-"cost and low noise are offset by its paltry damage.  This one has been "
-"handmade using an intact casing."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "handloaded .22 FMJ"
 msgid_plural "handloaded .22 FMJ"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for handloaded .22 FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A brass-jacketed .22 caliber round with superior penetration capacity.  This "
-"one has been handmade using an intact casing."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".223 Remington"
@@ -3348,42 +3287,17 @@ msgid_plural "reloaded .223 Remington"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .223 Remington
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .223 rifle round is a civilian variant of the 5.56 NATO round.  It is "
-"designed to tumble or fragment inside a target, dealing devastating damage.  "
-"The lower pressure of the .223 compared to the 5.56 results in lower "
-"accuracy.  This one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 5.56 NATO"
 msgid_plural "reloaded 5.56 NATO"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 5.56 NATO
-#: lang/json/AMMO_from_json.py
-msgid ""
-"This rifle round has enjoyed widespread use in NATO countries, thanks to its "
-"very light weight and high damage.  It is designed to shatter inside a "
-"target, inflicting massive damage.  This one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 5.56 NATO tracer"
 msgid_plural "reloaded 5.56 NATO tracer"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded 5.56 NATO tracer
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A hand-made variant of the widely-used 5.56 NATO round, the ammunition is a "
-"one-in-five mix of hand-loaded 5.56 FMJ and 5.56 incendiary rounds designed "
-"to burn hotly when fired."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".270 Winchester"
@@ -3449,28 +3363,11 @@ msgid_plural "reloaded .270 Winchester"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .270 Winchester
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Based off the military .30-03 round, the .270 rifle round is compatible with "
-"most guns that fire .30-06 rounds.  However, it is designed for hunting, and "
-"is less powerful than the military rounds, with nearly no armor "
-"penetration.  This one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .30-06 Springfield"
 msgid_plural "reloaded .30-06 Springfield"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded .30-06 Springfield
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Hand-reloaded .30-06 Springfield rounds with soft point bullets.  The .30-06 "
-"cartridge has excellent accuracy, range, and stopping power making it "
-"popular with hunters and snipers for well over a century."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .30-06 incendiary"
@@ -3478,27 +3375,11 @@ msgid_plural "reloaded .30-06 incendiary"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .30-06 incendiary
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A variant of the powerful .30-06 sniper round, incendiary rounds are "
-"designed to burn hotly upon impact, piercing armor and igniting flammable "
-"substances.  This one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .30-06 M2 AP"
 msgid_plural "reloaded .30-06 M2 AP"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded .30-06 M2 AP
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an "
-"extremely powerful and accurate cartridge but pays for it's armor "
-"penetration abilities with lowered damage.  This one has been hand-reloaded."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".308 Winchester"
@@ -3547,42 +3428,17 @@ msgid_plural "reloaded .308 Winchester"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .308 Winchester
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .308 Winchester is a rifle round, the commercial equivalent of the "
-"military 7.62x51mm round.  Its high accuracy and phenomenal damage have made "
-"it the most popular hunting round in the world.  This one has been hand-"
-"reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x51mm"
 msgid_plural "reloaded 7.62x51mm"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 7.62x51mm
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The 7.62x51mm largely replaced the .30-06 round as the standard military "
-"rifle round.  It is lighter, but offers similar velocities, resulting in "
-"great accuracy and reduced recoil.  This one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 7.62x51mm incendiary"
 msgid_plural "reloaded 7.62x51mm incendiary"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded 7.62x51mm incendiary
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A hand-made variant of the widely-used 7.62 NATO round, the ammunition is a "
-"one-in-five mix of hand-loaded 7.62 FMJ and 7.62 incendiary rounds designed "
-"to burn hotly when fired."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".32 ACP"
@@ -3602,13 +3458,6 @@ msgid "reloaded .32 ACP"
 msgid_plural "reloaded .32 ACP"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded .32 ACP
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .32 ACP was a popular handgun cartridge in the 20th century.  Not so "
-"powerful as the .38 or the 9mm though.  This one has been hand-reloaded."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".38 FMJ"
@@ -3655,41 +3504,17 @@ msgid_plural "reloaded .38 FMJ"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .38 FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A hand-reloaded brass-jacketed .38 round.  This increases penetration "
-"slightly at the cost of reduced expansion."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .38 Special"
 msgid_plural "reloaded .38 Special"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .38 Special
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .38 Smith & Wesson Special enjoyed popularity among US police forces "
-"throughout the 20th century.  It is most commonly used in revolvers.  This "
-"one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .38 Super"
 msgid_plural "reloaded .38 Super"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded .38 Super
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .38 Super is a high-pressure load of the .38 Special caliber.  It is a "
-"popular choice in pistol competitions for its high accuracy, while its "
-"stopping power keeps it popular for self-defense.  This one has been hand-"
-"reloaded."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "10mm Auto"
@@ -3739,27 +3564,11 @@ msgid_plural "reloaded 10mm Auto"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 10mm Auto
-#: lang/json/AMMO_from_json.py
-msgid ""
-"10mm Auto ammunition with hand-reloaded FMJ bullets.  The 10mm Auto round is "
-"one of the most powerful pistol cartridges available, although its "
-"usefulness is limited by high recoil."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .40 S&W FMJ"
 msgid_plural "reloaded .40 S&W FMJ"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded .40 S&W FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto "
-"cartridge's power with lower recoil, the .40 S&W round became popular for "
-"law enforcement and personal defense. This one has been hand-reloaded."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .40 S&W JHP"
@@ -3767,26 +3576,11 @@ msgid_plural "reloaded .40 S&W JHP"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .40 S&W JHP
-#: lang/json/AMMO_from_json.py
-msgid ""
-".40 S&W JHP ammunition.  The .40 S&W round is a descended from the 10mm Auto "
-"cartridge and maintains most of its predecessor's strengths while reducing "
-"recoil. This one has been reloaded by hand."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid ".44 FMJ"
 msgid_plural ".44 FMJ"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for .44 FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A brass-jacketed variant of the .44 Magnum round.  This increases "
-"penetration slightly at the cost of reduced damage from expansion."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".44 Magnum"
@@ -3808,28 +3602,11 @@ msgid_plural "reloaded .44 FMJ"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .44 FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A brass-jacketed variant of the .44 Magnum round.  This increases "
-"penetration slightly at the cost of reduced damage from expansion.  This one "
-"has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .44 Magnum"
 msgid_plural "reloaded .44 Magnum"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded .44 Magnum
-#: lang/json/AMMO_from_json.py
-msgid ""
-".44 magnum ammunition with 240gr JHP bullets.  The .44 magnum round is one "
-"of the most powerful handgun cartridges available.  It has excellent "
-"stopping power but suffers from extremely high recoil for a handgun round.  "
-"This one has been hand-reloaded."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".45 ACP FMJ"
@@ -3878,43 +3655,17 @@ msgid_plural "reloaded .45 FMJ"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .45 FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Full Metal Jacket .45 rounds are designed to overcome the poor armor "
-"penetration of the standard ACP round.  However, they are less likely to "
-"expand upon impact, resulting in reduced damage overall.  This one has been "
-"hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .45 ACP JHP"
 msgid_plural "reloaded .45 ACP JHP"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .45 ACP JHP
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .45 round was one of the most popular and powerful handgun rounds "
-"through the 20th century.  It features very good accuracy and stopping "
-"power, but suffers from moderate recoil and poor armor penetration.  This "
-"one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .45 ACP +P"
 msgid_plural "reloaded .45 ACP +P"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded .45 ACP +P
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Overpressure .45 ACP ammunition with hand-reloaded JHP bullets.  This +P "
-"ammunition has higher muzzle energy than typical loads leading to greater "
-"damage, accuracy and recoil."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".454 Casull"
@@ -3931,6 +3682,12 @@ msgid ""
 "than many rifle rounds, although it suffers from extreme recoil making it "
 "unsuitable for most purposes."
 msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .454 Casull"
+msgid_plural "reloaded .454 Casull"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "4.6x30mm"
@@ -3952,15 +3709,6 @@ msgid_plural "reloaded 4.6x30mm"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 4.6x30mm
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Designed by Heckler & Koch to compete with the 5.7x28mm round, 4.6x30mm is, "
-"like the 5.7, designed to minimize weight and recoil while increasing "
-"penetration of body armor.  Its low recoil makes it ideal for automatic "
-"fire.  This one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid ".500 S&W Magnum"
 msgid_plural ".500 S&W Magnum"
@@ -3974,6 +3722,12 @@ msgid ""
 "a colossally powerful handgun cartridge capable of killing almost any target "
 "with one hit.  It has extremely high damage and recoil to match."
 msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .500 S&W Magnum"
+msgid_plural "reloaded .500 S&W Magnum"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "5.7x28mm SS190"
@@ -3998,15 +3752,6 @@ msgid_plural "reloaded 5.7x28mm"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 5.7x28mm
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The 5.7x28mm round is a proprietary round developed by FN Herstal for use in "
-"their P90 SMG.  While it is a very small round, comparable in power to .22, "
-"it features incredible armor-piercing capabilities and very low recoil.  "
-"This one has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid ".700 NX"
 msgid_plural ".700 NX"
@@ -4021,6 +3766,12 @@ msgid ""
 "one of the most deadly rounds available, offset only by its drastic recoil "
 "and noise."
 msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .700 NX"
+msgid_plural "reloaded .700 NX"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x39mm M43"
@@ -4058,29 +3809,11 @@ msgid_plural "reloaded 7.62x39mm M43"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 7.62x39mm M43
 #: lang/json/AMMO_from_json.py
-msgid ""
-"Designed during World War II by the Soviet Union, the popularity of the "
-"AK-47 and the SKS contributed to the widespread adoption of the 7.62x39mm "
-"rifle round.  However, due to its lack of yaw, this round deals less damage "
-"than most.  This one has been hand-reloaded."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
-msgid "reloaded 7.62x39mm M67"
-msgid_plural "reloaded 7.62x39mm M67"
+msgid "reloaded 7.62x39mm M87"
+msgid_plural "reloaded 7.62x39mm M87"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded 7.62x39mm M67
-#: lang/json/AMMO_from_json.py
-msgid ""
-"7.62x39mm M67 rounds.  The inadequate terminal ballistics of the M43 round "
-"led to the development of the M67 round in Yugoslavia in the 1960s.  It "
-"destabilizes much faster than M43 after hitting a target leading to greater "
-"damage.  This one has been hand-reloaded."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "7.62x54mmR"
@@ -4103,14 +3836,6 @@ msgid "reloaded 7.62x54mmR"
 msgid_plural "reloaded 7.62x54mmR"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded 7.62x54mmR
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The 7.62×54mmR is a rimmed rifle cartridge developed by the Russian Empire "
-"in 1891.  It is still in service and has the longest service life of all "
-"military issued cartridges in the world.  This one has been hand-reloaded."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "9x19mm JHP"
@@ -4167,33 +3892,16 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 9x19mm FMJ"
-msgid_plural "reloaded 9x19mm FMJ"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for reloaded 9x19mm FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"9x19mm ammunition with a hand-reloaded jacketed hollow point bullet.  JHP "
-"rounds have inferior penetration to FMJ rounds but their expansion slightly "
-"increases stopping power against unarmored targets and reduces "
-"overpenetration."
-msgstr ""
-
-#: lang/json/AMMO_from_json.py
 msgid "reloaded 9x19mm JHP"
 msgid_plural "reloaded 9x19mm JHP"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 9x19mm JHP
 #: lang/json/AMMO_from_json.py
-msgid ""
-"9x19mm ammunition with a brass jacketed hand-reloaded bullet.  It is a "
-"popular round for military, law enforcement, and civilian use even after "
-"almost 150 years.  This one has been hand-reloaded."
-msgstr ""
+msgid "reloaded 9x19mm FMJ"
+msgid_plural "reloaded 9x19mm FMJ"
+msgstr[0] ""
+msgstr[1] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 9x19mm +P"
@@ -4201,27 +3909,11 @@ msgid_plural "reloaded 9x19mm +P"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 9x19mm +P
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Overpressure 9x19mm ammunition.  The round's increased velocity results in "
-"superior accuracy and stopping power at the cost of higher recoil.  This one "
-"has been hand-reloaded."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 9x19mm +P+"
 msgid_plural "reloaded 9x19mm +P+"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded 9x19mm +P+
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A step beyond the high-pressure 9mm +P round, the +P+ has an even higher "
-"internal pressure that offers a degree of armor-penetrating ability.  This "
-"one has been hand-reloaded."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
 msgid "paper cartridge"
@@ -4251,75 +3943,37 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded birdshot"
-msgid_plural "reloaded birdshots"
+msgid_plural "reloaded birdshot"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded birdshot
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Weak hand-reloaded shotgun ammunition.  Designed for hunting birds and other "
-"small game, its applications in combat are very limited."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 00 shot"
-msgid_plural "reloaded 00 shots"
+msgid_plural "reloaded 00 shot"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded 00 shot
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A hand-reloaded shell filled with iron pellets.  Extremely damaging, plus "
-"the spread makes it very accurate at short range.  Favored by SWAT forces."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded flechette shell"
-msgid_plural "reloaded flechette shells"
+msgid_plural "reloaded flechette shell"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded flechette shell
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A hand-reloaded shotgun shell filled with tiny steel darts.  Extremely "
-"damaging, plus the spread makes it very accurate at short range.  Slices "
-"through most forms of armor with ease."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded explosive slug"
-msgid_plural "reloaded explosive slugs"
+msgid_plural "reloaded explosive slug"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for reloaded explosive slug
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A hand-reloaded shotgun slug loaded with concussive explosives.  While the "
-"slug itself will not do much damage to its target, it will explode on "
-"contact."
-msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded shotgun slug"
-msgid_plural "reloaded shotgun slugs"
+msgid_plural "reloaded shotgun slug"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded shotgun slug
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A heavy metal slug used with shotguns to give them the range capabilities of "
-"a rifle.  Extremely damaging but rather inaccurate.  Works best in a shotgun "
-"with a rifled barrel."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "00 shot"
-msgid_plural "00 shots"
+msgid_plural "00 shot"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -4332,7 +3986,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "shotgun beanbag"
-msgid_plural "shotgun beanbags"
+msgid_plural "shotgun beanbag"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -4343,7 +3997,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "birdshot"
-msgid_plural "birdshots"
+msgid_plural "birdshot"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -4356,7 +4010,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "flechette shell"
-msgid_plural "flechette shells"
+msgid_plural "flechette shell"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -4370,20 +4024,13 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "explosive slug"
-msgid_plural "explosive slugs"
+msgid_plural "explosive slug"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for explosive slug
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A shotgun slug loaded with concussive explosives.  While the slug itself "
-"will not do much damage to its target, it will explode on contact."
-msgstr ""
-
 #: lang/json/AMMO_from_json.py
 msgid "makeshift shotgun shot"
-msgid_plural "makeshift shotgun shots"
+msgid_plural "makeshift shotgun shot"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -4396,7 +4043,7 @@ msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "makeshift shotgun slug"
-msgid_plural "makeshift shotgun slugs"
+msgid_plural "makeshift shotgun slug"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -20418,19 +20065,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "cotton balls"
-msgid_plural "cotton balls"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for cotton balls
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an "
-"emergency."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "broccoli"
 msgid_plural "broccoli"
 msgstr[0] ""
@@ -22397,30 +22031,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "bandage"
-msgid_plural "bandages"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for bandage
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Simple cloth bandages.  Used for healing small amounts of damage."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "first aid kit"
-msgid_plural "first aid kits"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for first aid kit
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"A full medical kit, with bandages, local anesthetics, and rapid healing "
-"agents.  Used for healing large amounts of damage."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "vitamin"
 msgid_plural "vitamins"
 msgstr[0] ""
@@ -22486,86 +22096,6 @@ msgid ""
 "A syringe filled with a shot of adrenaline.  It serves as a powerful "
 "stimulant when you inject yourself with it.  Asthmatics can use it in an "
 "emergency to clear their asthma."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "aspirin"
-msgid_plural "aspirins"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action activation_message for aspirin.
-#: lang/json/COMESTIBLE_from_json.py
-msgid "You take some aspirin."
-msgstr ""
-
-#. ~ Description for aspirin
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Acetylsalicylic acid, a mild anti-inflammatory.  Take to relieve pain and "
-"swelling."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "caffeine pill"
-msgid_plural "caffeine pills"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for caffeine pill
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"No-doz brand caffeine pills, maximum strength.  Useful in pulling an all-"
-"nighter, one pill is about equivalent to a strong cup of coffee."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Ambien"
-msgid_plural "Ambiens"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for Ambien
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"A habit-forming tranquilizer with a variety of psychoactive side effects.  "
-"Used in the treatment of insomnia.  Its generic name is zolpidem tartrate."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "potassium iodide tablet"
-msgid_plural "potassium iodide tablets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action activation_message for potassium iodide tablet.
-#: lang/json/COMESTIBLE_from_json.py
-msgid "You take some potassium iodide."
-msgstr ""
-
-#. ~ Description for potassium iodide tablet
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Potassium iodide tablets.  If taken prior to exposure, they help to mitigate "
-"injury caused by radiation absorption."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Prussian blue tablet"
-msgid_plural "Prussian blue tablets"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action activation_message for Prussian blue tablet.
-#: lang/json/COMESTIBLE_from_json.py
-msgid "You take some Prussian blue."
-msgstr ""
-
-#. ~ Description for Prussian blue tablet
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Tablets containing oxidized ferrous ferrocyanide salts.  Capable of purging "
-"nuclear contaminants from the body if taken after radiation exposure."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -22862,38 +22392,6 @@ msgid ""
 "Broad spectrum chemical tablets designed to eliminate parasitic infestations "
 "in living creatures.  Though designed for use on pets and livestock, it will "
 "likely work on humans as well."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "poppy sleep"
-msgid_plural "poppy sleeps"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for poppy sleep
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"A potent sleep aid extracted from mutated poppy seeds.  Effective, but as an "
-"opiate, it may be addictive."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "poppy painkiller"
-msgid_plural "poppy painkillers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action activation_message for poppy painkiller.
-#: lang/json/COMESTIBLE_from_json.py
-msgid "You take some poppy painkiller."
-msgstr ""
-
-#. ~ Description for poppy painkiller
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Potent opioid palliative produced by the refining of the mutated poppy.  "
-"Notably devoid of euphoric or sedative effects, as an opiate it may still be "
-"addictive."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24467,25 +23965,6 @@ msgid ""
 "still addictive.  It can't be reused once it's empty."
 msgstr ""
 
-#: lang/json/COMESTIBLE_from_json.py
-msgid "datura seeds"
-msgid_plural "datura seeds"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for datura seeds
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
-"psychoactive chemicals, these tiny seeds are a potent analgesic and "
-"deliriant, and can be deadly in cases of overdose.  You could probably plant "
-"these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
-msgid "datura"
-msgstr ""
-
 #: lang/json/COMESTIBLE_from_json.py src/addiction.cpp
 msgid "diazepam"
 msgid_plural "diazepams"
@@ -24769,17 +24248,6 @@ msgstr[1] ""
 msgid ""
 "Pieces of poisonous veggy that have been dried to prevent them from rotting "
 "away.  It will still poison you if you eat this."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "poppy cough syrup"
-msgid_plural "poppy cough syrup"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for poppy cough syrup
-#: lang/json/COMESTIBLE_from_json.py
-msgid "Cough syrup made from mutated poppy.  Will make you sleepy."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -25069,6 +24537,17 @@ msgid "A delicious jam sandwich."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "honey sandwich"
+msgid_plural "honey sandwiches"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for honey sandwich
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A delicious honey sandwich."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "boring sandwich"
 msgid_plural "boring sandwiches"
 msgstr[0] ""
@@ -25154,19 +24633,6 @@ msgstr[1] ""
 #. ~ Description for thyme seeds
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some thyme seeds.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "thyme oil"
-msgid_plural "thyme oils"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for thyme oil
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Some essential oil made from thyme, which can act as a mildly irritating "
-"disinfectant."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -25296,19 +24762,6 @@ msgstr[1] ""
 #. ~ Description for mugwort seeds
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Some mugwort seeds.  You could probably plant these."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
-msgid "mugwort oil"
-msgid_plural "mugwort oils"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for mugwort oil
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"Some essential oil made from mugwort, which may kill parasites when "
-"ingested.  Consume it with water!"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -25488,21 +24941,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "cigarette butt"
-msgid_plural "cigarette butts"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for cigarette butt
-#: lang/json/COMESTIBLE_from_json.py
-msgid ""
-"What was once a wonderfully addictive tube of dried tobacco leaf is now just "
-"a smelly piece of trash.  What a tragedy!\n"
-"The leftover tobacco in a few of these could probably be used to roll "
-"another cigarette.  If you're willing to go that far..."
-msgstr ""
-
-#: lang/json/COMESTIBLE_from_json.py
 msgid "marijuana"
 msgid_plural "marijuana"
 msgstr[0] ""
@@ -25519,6 +24957,211 @@ msgid ""
 "The dried flower buds and leaves harvested from a psychoactive variety of "
 "hemp plant.  Used to reduce nausea, stimulate appetite and elevate mood.  It "
 "can be habit-forming, and adverse reactions are possible."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "aspirin"
+msgid_plural "aspirins"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for aspirin.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You take some aspirin."
+msgstr ""
+
+#. ~ Description for aspirin
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Acetylsalicylic acid, a mild anti-inflammatory.  Take to relieve pain and "
+"swelling."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "caffeine pill"
+msgid_plural "caffeine pills"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for caffeine pill
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"No-doz brand caffeine pills, maximum strength.  Useful in pulling an all-"
+"nighter, one pill is about equivalent to a strong cup of coffee."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Ambien"
+msgid_plural "Ambiens"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Ambien
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A habit-forming tranquilizer with a variety of psychoactive side effects.  "
+"Used in the treatment of insomnia.  Its generic name is zolpidem tartrate."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "potassium iodide tablet"
+msgid_plural "potassium iodide tablets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for potassium iodide tablet.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You take some potassium iodide."
+msgstr ""
+
+#. ~ Description for potassium iodide tablet
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Potassium iodide tablets.  If taken prior to exposure, they help to mitigate "
+"injury caused by radiation absorption."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Prussian blue tablet"
+msgid_plural "Prussian blue tablets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for Prussian blue tablet.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You take some Prussian blue."
+msgstr ""
+
+#. ~ Description for Prussian blue tablet
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Tablets containing oxidized ferrous ferrocyanide salts.  Capable of purging "
+"nuclear contaminants from the body if taken after radiation exposure."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "cotton balls"
+msgid_plural "cotton balls"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cotton balls
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an "
+"emergency."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "bandage"
+msgid_plural "bandages"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bandage
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Simple cloth bandages.  Used for healing small amounts of damage."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "first aid kit"
+msgid_plural "first aid kits"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for first aid kit
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A full medical kit, with bandages, local anesthetics, and rapid healing "
+"agents.  Used for healing large amounts of damage."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "poppy cough syrup"
+msgid_plural "poppy cough syrup"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for poppy cough syrup
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Cough syrup made from mutated poppy.  Will make you sleepy."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "poppy sleep"
+msgid_plural "poppy sleeps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for poppy sleep
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A potent sleep aid extracted from mutated poppy seeds.  Effective, but as an "
+"opiate, it may be addictive."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "poppy painkiller"
+msgid_plural "poppy painkillers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for poppy painkiller.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You take some poppy painkiller."
+msgstr ""
+
+#. ~ Description for poppy painkiller
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Potent opioid palliative produced by the refining of the mutated poppy.  "
+"Notably devoid of euphoric or sedative effects, as an opiate it may still be "
+"addictive."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "datura seeds"
+msgid_plural "datura seeds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for datura seeds
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Small, dark seeds from the spiny pods of a datura plant.  Full of powerful "
+"psychoactive chemicals, these tiny seeds are a potent analgesic and "
+"deliriant, and can be deadly in cases of overdose.  You could probably plant "
+"these."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py lang/json/furniture_from_json.py
+msgid "datura"
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "thyme oil"
+msgid_plural "thyme oils"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for thyme oil
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Some essential oil made from thyme, which can act as a mildly irritating "
+"disinfectant."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "mugwort oil"
+msgid_plural "mugwort oils"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for mugwort oil
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"Some essential oil made from mugwort, which may kill parasites when "
+"ingested.  Consume it with water!"
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -28215,6 +27858,21 @@ msgstr ""
 msgid ""
 "Smoke swirls from the lit end of this cigarette, filling the air with the "
 "thrilling smell of burning chemicals."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "cigarette butt"
+msgid_plural "cigarette butts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cigarette butt
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"What was once a wonderfully addictive tube of dried tobacco leaf is now just "
+"a smelly piece of trash.  What a tragedy!\n"
+"The leftover tobacco in a few of these could probably be used to roll "
+"another cigarette.  If you're willing to go that far..."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -34728,6 +34386,36 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "base pistol"
+msgid_plural "base pistols"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid "revolver"
+msgid_plural "revolvers"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid "base rifle"
+msgid_plural "base rifles"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid "base shotgun"
+msgid_plural "base shotguns"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
+msgid "base SMG"
+msgid_plural "base SMGs"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lang/json/GUN_from_json.py
 msgid "RM120c shotgun"
 msgid_plural "RM120c shotguns"
 msgstr[0] ""
@@ -34863,14 +34551,6 @@ msgid "Ruger LCR .22"
 msgid_plural "Ruger LCR .22"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for Ruger LCR .22
-#: lang/json/GUN_from_json.py
-msgid ""
-"A compact, double-action-only revolver designed for easy concealment, with a "
-"stainless steel cylinder and aluminum frame.  This version is chambered "
-"in .22 Long Rifle."
-msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "SIG Mosquito"
@@ -35468,8 +35148,7 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "A compact, double-action-only revolver designed for easy concealment, with a "
-"stainless steel cylinder and aluminum frame.  This is the basic model, "
-"chambered in .38 Special."
+"stainless steel cylinder and aluminum frame."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -35758,14 +35437,6 @@ msgid "USP .45"
 msgid_plural "USP .45s"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Description for USP .45
-#: lang/json/GUN_from_json.py
-msgid ""
-"A popular .45 pistol, widely used among law enforcement.  Extensively tested "
-"for durability, it has been found to stay accurate even after being "
-"subjected to extreme abuse."
-msgstr ""
 
 #: lang/json/GUN_from_json.py
 msgid "Taurus Raging Bull"
@@ -36288,9 +35959,9 @@ msgstr[1] ""
 #. ~ Description for USP 9mm
 #: lang/json/GUN_from_json.py
 msgid ""
-"A popular 9mm pistol, widely used among law enforcement.  Extensively tested "
-"for durability, it has been found to stay accurate even after being "
-"subjected to extreme abuse."
+"A popular pistol, widely used among law enforcement.  Extensively tested for "
+"durability, it has been found to stay accurate even after being subjected to "
+"extreme abuse."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -37160,12 +36831,6 @@ msgid ""
 "A cheap carbine made for target practice or varmint hunting.  It uses "
 "detachable pistol magazines."
 msgstr ""
-
-#: lang/json/GUN_from_json.py
-msgid "revolver"
-msgid_plural "revolvers"
-msgstr[0] ""
-msgstr[1] ""
 
 #. ~ Description for revolver
 #: lang/json/GUN_from_json.py
@@ -39569,7 +39234,9 @@ msgstr ""
 
 #. ~ Description for PKs Rebalancing
 #: lang/json/MOD_INFO_from_json.py
-msgid "Rebalances spawning and adds critters"
+msgid ""
+"Rebalances spawning and adds critters.  Currently in the process of "
+"updating, please see the forums for the full mod."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -43056,14 +42723,107 @@ msgid "A medium dinosaur with a sticky green bile dripping from its teeth."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "ant larvae"
+msgstr ""
+
+#. ~ Description for ant larvae
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A writhing mass of yellowing flesh, this little guy has developed a means of "
+"expelling stomach contents if distubed."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "forager ant"
+msgstr ""
+
+#. ~ Description for forager ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A small giant ant with a carapiece shell.  Is capable of a suprising range "
+"of vocal expression for a bug, including ear-splitting wails."
+msgstr ""
+
+#. ~ Description for giant ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"An enormous red ant covered in chitinous plates.  It possesses a pair of "
+"wriggling antennae and vicious-looking mandibles.  This Earth native is "
+"comfortably adapted to its new size."
+msgstr ""
+
+#. ~ Description for soldier ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A huge and hairy red ant almost twice the size of other giant ants.  Bulging "
+"pincers extend from its jaws.  This Earth native is comfortably adapted to "
+"its new size."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "jack ant"
+msgstr ""
+
+#. ~ Description for jack ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Somewhat smaller than other soldiers, this nimble ant jumps after prey and "
+"drags them back to the hive for processing.  Its mandibles are the size of "
+"its thorax, and secrete poison."
+msgstr ""
+
+#. ~ Description for jack ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"Somewhat smaller than other soldiers, this nimble ant jumps after prey and "
+"drags them back to the hive for processing.  Its mandibles are the size of "
+"its thorax, and secrete a slick-looking poison."
+msgstr ""
+
+#. ~ Description for queen ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A colossal red ant with a bulging, bloated thorax.  It moves slowly and "
+"deliberately, tending to nearby eggs and continually laying more.  Its "
+"antennae seem almost aesthetic, or at the least not used for sensing . . ."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "young queen ant"
+msgstr ""
+
+#. ~ Description for young queen ant
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A fecund female ant.  It still bears its wings, and likely either s "
+"preparing for or just completed its nuptial flight.  Its body is well-laden "
+"with stores of nutrients for its future young."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "kwama"
+msgstr ""
+
+#. ~ Description for kwama
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"You don't know what this thing is, but the ants treat it as one of their "
+"own.  Its head looks like a maggot, completely devoid of pincers and with "
+"three beady eyes staring in different directions.  While it typically "
+"travels on its four limbs, it occassionally stands upon its hind limbs to "
+"gaze about.  It claws clumsily wth the three digits on each limb, and rumors "
+"exist of it being capable of harnessing electricity for attack."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "zombie nightstalker"
 msgstr ""
 
 #. ~ Description for zombie nightstalker
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"Somehow this brute hides in the dark like some kind of boogeyman, where its "
-"massive hands flex gnarled claws.  Very agile for such a large zombie."
+"Somehow this brute hides in the dark like some kind of boogeyman.  Very "
+"agile for such a large zombie."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -44700,16 +44460,16 @@ msgid_plural "active nail bombs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for active nail bomb.
-#: lang/json/TOOL_from_json.py
-#, no-python-format
-msgid "You've already lit the %s's fuse, try throwing it instead."
-msgstr ""
-
 #. ~ Use action sound_msg for active nail bomb.
 #. ~ Use action sound_msg for active makeshift gas grenade.
 #: lang/json/TOOL_from_json.py
 msgid "Hiss."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for active nail bomb.
+#: lang/json/TOOL_from_json.py
+#, no-python-format
+msgid "You've already lit the %s's fuse, try throwing it instead."
 msgstr ""
 
 #. ~ Description for active nail bomb
@@ -46429,18 +46189,6 @@ msgid_plural "active grenades"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for active grenade.
-#. ~ Use action no_deactivate_msg for active flashbang.
-#. ~ Use action no_deactivate_msg for active EMP grenade.
-#. ~ Use action no_deactivate_msg for active scrambler grenade.
-#. ~ Use action no_deactivate_msg for active tear gas grenade.
-#. ~ Use action no_deactivate_msg for active smoke bomb.
-#: lang/json/TOOL_from_json.py
-#: src/iuse.cpp
-#, c-format, no-python-format
-msgid "You've already pulled the %s's pin, try throwing it instead."
-msgstr ""
-
 #. ~ Use action sound_msg for active grenade.
 #. ~ Use action sound_msg for active flashbang.
 #. ~ Use action sound_msg for active EMP grenade.
@@ -46452,6 +46200,18 @@ msgstr ""
 #. ~ Use action sound_msg for active ANFO charge.
 #: lang/json/TOOL_from_json.py
 msgid "Tick."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for active grenade.
+#. ~ Use action no_deactivate_msg for active flashbang.
+#. ~ Use action no_deactivate_msg for active EMP grenade.
+#. ~ Use action no_deactivate_msg for active scrambler grenade.
+#. ~ Use action no_deactivate_msg for active tear gas grenade.
+#. ~ Use action no_deactivate_msg for active smoke bomb.
+#: lang/json/TOOL_from_json.py
+#: src/iuse.cpp
+#, c-format, no-python-format
+msgid "You've already pulled the %s's pin, try throwing it instead."
 msgstr ""
 
 #. ~ Description for active grenade
@@ -46817,15 +46577,6 @@ msgid_plural "dynamites (lit)"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for dynamite (lit).
-#. ~ Use action no_deactivate_msg for match head bomb (lit).
-#. ~ Use action no_deactivate_msg for fertilizer bomb (lit).
-#: lang/json/TOOL_from_json.py
-#: lang/json/TOOL_from_json.py src/iuse.cpp
-#, c-format, no-python-format
-msgid "You've already lit the %s, try throwing it instead."
-msgstr ""
-
 #. ~ the sound of a lit fuse
 #. ~ Use action sound_msg for dynamite (lit).
 #. ~ Use action sound_msg for match head bomb (lit).
@@ -46834,6 +46585,15 @@ msgstr ""
 #: lang/json/TOOL_from_json.py src/iuse.cpp
 #: src/iuse.cpp
 msgid "ssss..."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for dynamite (lit).
+#. ~ Use action no_deactivate_msg for match head bomb (lit).
+#. ~ Use action no_deactivate_msg for fertilizer bomb (lit).
+#: lang/json/TOOL_from_json.py
+#: lang/json/TOOL_from_json.py src/iuse.cpp
+#, c-format, no-python-format
+msgid "You've already lit the %s, try throwing it instead."
 msgstr ""
 
 #. ~ Description for dynamite (lit)
@@ -48282,18 +48042,18 @@ msgid_plural "permanent markers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action gerund for permanent marker.
-#. ~ Use action gerund for survival marker.
-#: lang/json/TOOL_from_json.py
-#: src/iuse.cpp
-msgid "Written"
-msgstr ""
-
 #. ~ Use action verb for permanent marker.
 #. ~ Use action verb for survival marker.
 #: lang/json/TOOL_from_json.py
 #: src/iuse.cpp
 msgid "Write"
+msgstr ""
+
+#. ~ Use action gerund for permanent marker.
+#. ~ Use action gerund for survival marker.
+#: lang/json/TOOL_from_json.py
+#: src/iuse.cpp
+msgid "Written"
 msgstr ""
 
 #. ~ Description for permanent marker
@@ -50210,17 +49970,17 @@ msgid_plural "active black gunpowder bombs"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for active black gunpowder bomb.
-#: lang/json/TOOL_from_json.py
-msgid "You've already lit the fuse – throw it!"
-msgstr ""
-
 #. ~ Use action sound_msg for active black gunpowder bomb.
 #. ~ Use action sound_msg for active black gunpowder charge.
 #. ~ Use action sound_msg for active RDX sand bomb.
 #. ~ Use action sound_msg for active RDX charge.
 #: lang/json/TOOL_from_json.py
 msgid "Kshhh."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for active black gunpowder bomb.
+#: lang/json/TOOL_from_json.py
+msgid "You've already lit the fuse – throw it!"
 msgstr ""
 
 #. ~ Description for active black gunpowder bomb
@@ -50367,14 +50127,14 @@ msgid_plural "burning rocket candys"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for burning rocket candy.
-#: lang/json/TOOL_from_json.py
-msgid "You've already lit the fuse – get rid of it immediately!"
-msgstr ""
-
 #. ~ Use action sound_msg for burning rocket candy.
 #: lang/json/TOOL_from_json.py
 msgid "Hsssss."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for burning rocket candy.
+#: lang/json/TOOL_from_json.py
+msgid "You've already lit the fuse – get rid of it immediately!"
 msgstr ""
 
 #. ~ Description for burning rocket candy
@@ -51135,14 +50895,14 @@ msgid_plural "glowing veinreavers"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action no_deactivate_msg for glowing veinreaver.
-#: lang/json/TOOL_from_json.py
-msgid "You can't dispel the effect. Might want to try throwing it instead."
-msgstr ""
-
 #. ~ Use action sound_msg for glowing veinreaver.
 #: lang/json/TOOL_from_json.py
 msgid "Drip."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for glowing veinreaver.
+#: lang/json/TOOL_from_json.py
+msgid "You can't dispel the effect. Might want to try throwing it instead."
 msgstr ""
 
 #. ~ Description for glowing veinreaver
@@ -56591,6 +56351,81 @@ msgstr ""
 msgid "fire ring"
 msgstr ""
 
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The gate is closed!"
+msgstr ""
+
+#. ~ 'open' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The gate is opened!"
+msgstr ""
+
+#. ~ 'pull' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "You turn the handle..."
+msgstr ""
+
+#. ~ 'fail' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The gate can't be closed!"
+msgstr ""
+
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The barn doors closed!"
+msgstr ""
+
+#. ~ 'open' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The barn doors opened!"
+msgstr ""
+
+#. ~ 'pull' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "You pull the rope..."
+msgstr ""
+
+#. ~ 'fail' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The barn doors can't be closed!"
+msgstr ""
+
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The palisade gate swings closed with a crash!"
+msgstr ""
+
+#. ~ 'open' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The palisade gate swings open!"
+msgstr ""
+
+#. ~ 'fail' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The palisade gate can't be closed!"
+msgstr ""
+
+#. ~ 'close' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The door slams shut!"
+msgstr ""
+
+#. ~ 'open' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The door rises!"
+msgstr ""
+
+#. ~ 'pull' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "You throw the lever..."
+msgstr ""
+
+#. ~ 'fail' action message of some gate object.
+#: lang/json/gates_from_json.py
+msgid "The door can't be closed!"
+msgstr ""
+
 #: lang/json/hint_from_json.py
 msgid ""
 "Squirrels are pretty yummy, but if you shoot them with a high-powered gun "
@@ -57388,7 +57223,7 @@ msgid "Enable auto pickup option"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
-msgid "Display Help"
+msgid "Display Usage Help"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -57409,6 +57244,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Unequip selected armor"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Display Help"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -78390,43 +78229,6 @@ msgid "The safe opens!"
 msgstr ""
 
 #: src/activity_handlers.cpp
-msgid "The gate is opened!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "The gate is closed!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "The barn doors opened!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "The barn doors closed!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "The palisade gate swings open!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "The palisade gate swings closed with a crash!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "The door rises!"
-msgstr ""
-
-#: src/activity_handlers.cpp
-msgid "The door slams shut!"
-msgstr ""
-
-#: src/activity_handlers.cpp src/game.cpp src/iexamine.cpp
-#: src/iexamine.cpp
-msgid "Nothing happens."
-msgstr ""
-
-#: src/activity_handlers.cpp
 msgid "Repeat once"
 msgstr ""
 
@@ -79234,9 +79036,9 @@ msgstr ""
 msgid "Sort Armor"
 msgstr ""
 
-#: src/armor_layers.cpp src/player.cpp
+#: src/armor_layers.cpp
 #, c-format
-msgid "Press %s for help."
+msgid "Press %s for help. Press %s to change keybindings."
 msgstr ""
 
 #: src/armor_layers.cpp
@@ -79311,8 +79113,8 @@ msgid ""
 "[Encumbrance and Warmth] explanation:\n"
 "The first number is the summed encumbrance from all clothing on that "
 "bodypart.\n"
-"The second number is the encumbrance caused by the number of clothing on "
-"that bodypart.\n"
+"The second number is an additional encumbrance penalty caused by wearing "
+"multiple items on one of the bodypart's four layers.\n"
 "The sum of these values is the effective encumbrance value your character "
 "has for that bodypart."
 msgstr ""
@@ -87151,6 +86953,11 @@ msgstr ""
 msgid "The nearby doors slide open!"
 msgstr ""
 
+#: src/game.cpp src/gates.cpp src/iexamine.cpp
+#: src/iexamine.cpp
+msgid "Nothing happens."
+msgstr ""
+
 #: src/game.cpp
 #, c-format
 msgid "The %s beeps erratically and deactivates!"
@@ -87352,18 +87159,6 @@ msgstr ""
 
 #: src/game.cpp
 msgid "Something shatters!"
-msgstr ""
-
-#: src/game.cpp
-msgid "You turn the handle..."
-msgstr ""
-
-#: src/game.cpp
-msgid "You pull the rope..."
-msgstr ""
-
-#: src/game.cpp
-msgid "You throw the lever..."
 msgstr ""
 
 #: src/game.cpp
@@ -87952,7 +87747,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "You pour %1$ss into your %2$s."
+msgid " You pour %1$s into the %2$s."
 msgstr ""
 
 #: src/game.cpp
@@ -87963,6 +87758,10 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "You fill your %1$s with some of the %2$s."
+msgstr ""
+
+#: src/game.cpp
+msgid "You can't place items here!"
 msgstr ""
 
 #: src/game.cpp
@@ -91861,6 +91660,18 @@ msgid "Recoil: "
 msgstr ""
 
 #: src/item.cpp
+msgid "This ammo has been <bad>hand-loaded</bad>"
+msgstr ""
+
+#: src/item.cpp
+msgid "This ammo <good>never misfires</good>"
+msgstr ""
+
+#: src/item.cpp
+msgid "This ammo <neutral>starts fires</neutral>"
+msgstr ""
+
+#: src/item.cpp
 #, c-format
 msgid "Stats of the active <info>gunmod (%s)</info> are shown."
 msgstr ""
@@ -93116,10 +92927,6 @@ msgstr ""
 
 #: src/item_factory.cpp
 msgid "cannot specify revert_msg without revert_to"
-msgstr ""
-
-#: src/item_factory.cpp
-msgid "click."
 msgstr ""
 
 #: src/item_factory.cpp
@@ -94929,14 +94736,6 @@ msgid "The geiger counter's SCANNING LED turns off."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Turn continuous scan off"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Turn continuous scan on"
-msgstr ""
-
-#: src/iuse.cpp
 msgid "Geiger counter:"
 msgstr ""
 
@@ -94946,6 +94745,10 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "Scan yourself"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Turn continuous scan on"
 msgstr ""
 
 #: src/iuse.cpp
@@ -105146,14 +104949,6 @@ msgid "%6.2f per minute"
 msgstr ""
 
 #: src/mutation.cpp
-msgid "You rip out of your clothing!"
-msgstr ""
-
-#: src/mutation.cpp
-msgid "<npcname> rips out of their clothing!"
-msgstr ""
-
-#: src/mutation.cpp
 #, c-format
 msgid "Your %s is destroyed!"
 msgstr ""
@@ -111033,6 +110828,16 @@ msgstr ""
 msgid "Where new sidebar log messages should show."
 msgstr ""
 
+#: src/options.cpp
+msgid "Sidebar log message display duration"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"Number of turns after which a message will be removed from the sidebar log. "
+"'0' disables this option."
+msgstr ""
+
 #. ~ style of vehicle interaction menu; vertical is old one.
 #: src/options.cpp
 msgid "Vertical"
@@ -112604,6 +112409,11 @@ msgid "Toggle skill training"
 msgstr ""
 
 #: src/player.cpp
+#, c-format
+msgid "Press %s for help."
+msgstr ""
+
+#: src/player.cpp
 msgid "ENCUMBRANCE AND WARMTH"
 msgstr ""
 
@@ -112806,18 +112616,6 @@ msgid "Dexterity %+d when throwing items;\n"
 msgstr ""
 
 #: src/player.cpp
-msgid "Confidence"
-msgstr ""
-
-#: src/player.cpp
-msgid "Steadiness"
-msgstr ""
-
-#: src/player.cpp
-msgid "Symbols: * = Headshot + = Hit | = Graze"
-msgstr ""
-
-#: src/player.cpp
 #, c-format
 msgid "%s (Mod)"
 msgstr ""
@@ -112830,15 +112628,6 @@ msgstr ""
 #: src/player.cpp
 #, c-format
 msgid "%s (Bayonet)"
-msgstr ""
-
-#: src/player.cpp
-msgid "Recoil"
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "Turrets in range: %d"
 msgstr ""
 
 #: src/player.cpp
@@ -114551,76 +114340,7 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "The %s is much too small to fit your huge body!"
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "You cannot put %s over your tentacles."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "You cannot put %s over your talons."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "You cannot get %s to stay on your paws."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "You cannot put a %s over your beak."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "You cannot fit the %s over your muzzle."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "You cannot fit the %s over your snout."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "Your saber teeth are simply too large for %s to fit."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "Your mandibles are simply too large for %s to fit."
-msgstr ""
-
-#: src/player.cpp
-#, c-format
-msgid "Your proboscis is simply too large for %s to fit."
-msgstr ""
-
-#: src/player.cpp
-msgid "You cannot wear footwear on your hooves."
-msgstr ""
-
-#: src/player.cpp
-msgid "You cannot wear footwear on your tentacles."
-msgstr ""
-
-#: src/player.cpp
-msgid "Your talons are much too large for footgear."
-msgstr ""
-
-#: src/player.cpp
-msgid "You cannot wear headgear over your horns."
-msgstr ""
-
-#: src/player.cpp
-msgid "You cannot fit that over your shell."
-msgstr ""
-
-#: src/player.cpp
-msgid "Your new limbs are too wriggly to fit under that."
+msgid "Your mutation %s prevents you from wearing that %s."
 msgstr ""
 
 #: src/player.cpp
@@ -115391,6 +115111,10 @@ msgid "You'll need a more accurate gun to keep improving your aim."
 msgstr ""
 
 #: src/ranged.cpp
+msgid "Recoil"
+msgstr ""
+
+#: src/ranged.cpp
 msgid "Select a vehicle"
 msgstr ""
 
@@ -115440,6 +115164,23 @@ msgstr ""
 
 #: src/ranged.cpp
 msgid "Mouse: LMB: Target, Wheel: Cycle, RMB: Fire"
+msgstr ""
+
+#: src/ranged.cpp
+msgid "Confidence"
+msgstr ""
+
+#: src/ranged.cpp
+msgid "Steadiness"
+msgstr ""
+
+#: src/ranged.cpp
+msgid "Symbols: * = Headshot + = Hit | = Graze"
+msgstr ""
+
+#: src/ranged.cpp
+#, c-format
+msgid "Turrets in range: %d"
 msgstr ""
 
 #: src/ranged.cpp

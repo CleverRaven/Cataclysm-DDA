@@ -305,7 +305,7 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
     if (!size()) {
         return;
     }
-    
+
     int const maxlength = right - left;
     int line = log_from_top ? top : bottom;
 
@@ -325,6 +325,9 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
                 if (line > bottom) {
                     break;
                 }
+                // Redrawing line to ensure new messages similar to previous
+                // messages will not be missed by screen readers
+                wredrawln(ipk_target, line, 1);
                 mvwprintz(ipk_target, line++, left, col, "%s", folded.c_str());
             }
         }
@@ -344,6 +347,9 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
             const auto folded_rend = folded_strings.rend();
             for( auto string_iter = folded_strings.rbegin();
                     string_iter != folded_rend && line >= top; ++string_iter, line-- ) {
+                // Redrawing line to ensure new messages similar to previous
+                // messages will not be missed by screen readers
+                wredrawln(ipk_target, line, 1);
                 mvwprintz(ipk_target, line, left, col, "%s", string_iter->c_str());
             }
         }

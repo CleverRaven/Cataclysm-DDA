@@ -275,6 +275,16 @@ int refresh(void)
     return wrefresh(mainwin);
 }
 
+int wredrawln( WINDOW* /*win*/, int /*beg_line*/, int /*num_lines*/ ) {
+    /**
+     * This is a no-op for non-curses implementations. wincurse.cpp doesn't
+     * use windows console for rendering, and sdltiles.cpp doesn't either.
+     * If we had a console-based windows implementation, we'd need to do
+     * something here to force the line to redraw.
+     */
+    return OK;
+}
+
 int getch(void)
 {
     return wgetch(mainwin);
