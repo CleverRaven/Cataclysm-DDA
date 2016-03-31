@@ -447,24 +447,24 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                             const ter_str_id tid( jsin.get_string() );
 
                             if ( tid == "t_rubble" ) {
-                                sm->ter[i][j] = ter_str_id( "t_dirt" ).id();
+                                sm->ter[i][j] = ter_id( "t_dirt" );
                                 sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
                             } else if ( tid == "t_wreckage" ){
-                                sm->ter[i][j] = ter_str_id( "t_dirt" ).id();
+                                sm->ter[i][j] = ter_id( "t_dirt" );
                                 sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
                             } else if ( tid == "t_ash" ){
-                                sm->ter[i][j] = ter_str_id(  "t_dirt" ).id();
+                                sm->ter[i][j] = ter_id(  "t_dirt" );
                                 sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
                             } else if ( tid == "t_pwr_sb_support_l" ){
-                                sm->ter[i][j] = ter_str_id(  "t_support_l" ).id();
+                                sm->ter[i][j] = ter_id(  "t_support_l" );
                             } else if ( tid == "t_pwr_sb_switchgear_l" ){
-                                sm->ter[i][j] = ter_str_id(  "t_switchgear_l" ).id();
+                                sm->ter[i][j] = ter_id(  "t_switchgear_l" );
                             } else if ( tid == "t_pwr_sb_switchgear_s" ){
-                                sm->ter[i][j] = ter_str_id(  "t_switchgear_s" ).id();
+                                sm->ter[i][j] = ter_id(  "t_switchgear_s" );
                             } else {
                                 sm->ter[i][j] = tid.id();
                             }
