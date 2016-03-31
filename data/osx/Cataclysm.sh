@@ -8,4 +8,9 @@ else
    export DYLD_FALLBACK_LIBRARY_PATH=${PWD}/../Resources/
    export DYLD_FALLBACK_FRAMEWORK_PATH=${PWD}/../Resources/
 fi
-cd "${PWD}/../Resources/"; ./cataclysm-tiles
+cd "${PWD}/../Resources/"; 
+if [ -f "cataclysm" ] ; then
+    osascript -e 'tell application "Terminal" to activate do script "cd '`pwd`'; ./cataclysm; exit; "'
+else
+    ./cataclysm-tiles
+fi
