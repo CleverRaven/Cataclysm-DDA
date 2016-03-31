@@ -9321,41 +9321,39 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-    const auto comest = dynamic_cast<const it_comest*>( to_eat->type );
 
     int amount_used = 1;
-    if (comest != NULL) {
-        if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
+
+    if( to_eat->is_food() ) {
+        if( to_eat->type->comestible->comesttype == "FOOD" ||
+            to_eat->type->comestible->comesttype == "DRINK") {
             if( !eat( *to_eat ) ) {
                 return false;
             }
-        } else if (comest->comesttype == "MED") {
-            if (comest->tool != "null") {
-                // Check tools
-                bool has = has_amount(comest->tool, 1);
-                // Tools with charges need to have charges, not just be present.
-                if( item::count_by_charges( comest->tool ) ) {
-                    has = has_charges(comest->tool, 1);
+
+        } else if( to_eat->type->comestible->comesttype == "MED" ) {
+            auto req_tool = item::find_type( to_eat->type->comestible->tool );
+            if( req_tool->tool ) {
+                if( !( has_amount( req_tool->id, 1 ) && has_charges( req_tool->id, req_tool->tool->charges_per_use ) ) ) {
+                    add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname(1).c_str() );
+                    return false;                    
                 }
-                if (!has) {
-                    add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         item::nname( comest->tool ).c_str());
-                    return false;
-                }
-                use_charges(comest->tool, 1); // Tools like lighters get used
+                use_charges( req_tool->id, req_tool->tool->charges_per_use );
             }
-            if (comest->has_use()) {
-                //Check special use
-                amount_used = comest->invoke( this, to_eat, pos() );
+
+            if( to_eat->type->has_use() ) {
+                amount_used = to_eat->type->invoke( this, to_eat, pos() );
                 if( amount_used <= 0 ) {
                     return false;
                 }
             }
             consume_effects( *to_eat );
             moves -= 250;
+
         } else {
             debugmsg("Unknown comestible type of item: %s\n", to_eat->tname().c_str());
         }
+
     } else {
  // Consume other type of items.
         // For when bionics let you eat fuel

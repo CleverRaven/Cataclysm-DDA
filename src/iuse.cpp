@@ -358,16 +358,14 @@ int iuse::xanax(player *p, item *it, bool, const tripoint& )
 
 int iuse::caff(player *p, item *it, bool, const tripoint& )
 {
-    const auto food = dynamic_cast<const it_comest *> (it->type);
-    p->mod_fatigue( -food->stim * 3 );
+    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 3 );
     return it->type->charges_to_use();
 }
 
 int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(m_good, _("Wow!  This %s has a kick."), it->tname().c_str());
-    const auto food = dynamic_cast<const it_comest *> (it->type);
-    p->mod_fatigue( -food->stim * 12 );
+    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 12 );
     p->radiation += 8;
     return it->type->charges_to_use();
 }
@@ -459,14 +457,13 @@ int alcohol(player *p, item *it, int strength)
     // Weaker characters are cheap drunks
     ///\EFFECT_STR_MAX reduces drunkenness duration
     int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
-    const auto food = dynamic_cast<const it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
         duration = STR(90, 180, 250) - (STR(6, 10, 10) * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p->mod_hunger(-(abs(food->stim)));
+        p->mod_hunger( -( abs( it->type->comestible ? it->type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p->stim += (abs(food->stim));
+        p->stim += abs( it->type->comestible ? it->type->comestible->stim : 0 );
     } else if (p->has_trait("TOLERANCE")) {
         duration -= STR(120, 300, 450);
     } else if (p->has_trait("LIGHTWEIGHT")) {
@@ -950,14 +947,13 @@ int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
         // NPCs hallucinating doesn't work yet!
         return 0;
     }
-    const auto comest = dynamic_cast<const it_comest *>(it->type);
 
    //Fake a normal food morale effect
     if (p->has_trait("SPIRITUAL")) {
-        p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
     } else {
-            p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
-      }
+         p->add_morale( MORALE_FOOD_GOOD, 18, 36, 60, 30, false, it->type );
+    }
     if (!p->has_effect( effect_hallu)) {
         p->add_effect( effect_hallu, 3600);
     }
@@ -1020,12 +1016,10 @@ int iuse::datura(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const auto comest = dynamic_cast<const it_comest *>(it->type);
-
     p->add_effect( effect_datura, rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
     if (p->has_trait("SPIRITUAL")) {
-        p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
     }
     return it->type->charges_to_use();
 }
@@ -1104,12 +1098,12 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         } else{
             p->add_msg_if_player(m_good, _("Oddly enough, this doesn't taste so bad."));
         }
-        const auto food = dynamic_cast<const it_comest*>(it->type);
+
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger(p->nutrition_for(food) * multiplier);
-        p->mod_thirst(-food->quench * multiplier);
-        p->mod_healthy_mod(food->healthy * multiplier, food->healthy * multiplier);
-        p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
+        p->mod_hunger( p->nutrition_for( it->type ) * multiplier );
+        p->mod_thirst( -it->type->comestible->quench * multiplier);
+        p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
+        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, it->type );
         return it->type->charges_to_use();
     } else {
         return blech( p, it, true, pos );

@@ -57,6 +57,52 @@ struct islot_tool {
     unsigned char turns_per_charge = 0;
 };
 
+struct islot_comestible
+{
+    /** subtype, eg. FOOD, DRINK, MED */
+    std::string comesttype;
+
+     /** tool needed to consume (e.g. lighter for cigarettes) */
+    std::string tool = "null";
+
+    /** Defaults # of charges (drugs, loaf of bread? etc) */
+    long def_charges = 0;
+
+    /** effect on character thirst (may be negative) */
+    int quench = 0; 
+
+    /** effect on character nutrition (may be negative) */
+    int nutr = 0;
+
+    /** turns until becomes rotten, or zero if never spoils */
+    int spoils = 0; 
+
+    /** how many seasons for a brew to ferment */
+    int brewtime = 0;
+
+    /** addiction potential */
+    int addict = 0; 
+
+    /** effects of addiction */
+    add_type add = ADD_NULL;
+
+    /** effect on morale when consuming */
+    int fun = 0;
+
+    /** stimulant effect */
+    int stim = 0;
+
+    /** @todo add documentation */
+    int healthy = 0;
+
+    /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
+    static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+
+    int get_calories() const {
+        return nutr * kcal_per_nutr;
+    }
+};
+
 struct islot_container {
     /**
      * Volume, scaled by the default-stack size of the item that is contained in this container.
@@ -462,6 +508,7 @@ struct itype {
     /*@{*/
     copyable_unique_ptr<islot_container> container;
     copyable_unique_ptr<islot_tool> tool;
+    copyable_unique_ptr<islot_comestible> comestible;
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
     copyable_unique_ptr<islot_gun> gun;
@@ -543,10 +590,12 @@ public:
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well = 0;
 
-    virtual std::string get_item_type_string() const
+    std::string get_item_type_string() const
     {
         if( tool ) {
             return "TOOL";
+        } else if( comestible ) {
+            return "FOOD";
         } else if( container ) {
             return "CONTAINER";
         } else if( armor ) {
@@ -567,31 +616,30 @@ public:
 
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-    virtual std::string nname(unsigned int quantity) const;
+    std::string nname(unsigned int quantity) const;
 
-    virtual bool is_food() const
-    {
-        return false;
-    }
-
-    virtual bool count_by_charges() const
+    bool count_by_charges() const
     {
         if( ammo ) {
             return true;
+        } else if( comestible ) {
+            return phase == LIQUID || comestible->def_charges > 1;
         }
         return false;
     }
 
-    virtual int charges_default() const {
+    int charges_default() const {
         if( tool ) {
             return tool->def_charges;
+        } else if( comestible ) {
+            return comestible->def_charges;
         } else if( ammo ) {
             return ammo->def_charges;
         }
         return 0;
     }
 
-    virtual int charges_to_use() const
+    int charges_to_use() const
     {
         if( tool ) {
             return tool->charges_per_use;
@@ -599,7 +647,7 @@ public:
         return 1;
     }
 
-    virtual int maximum_charges() const
+    int maximum_charges() const
     {
         if( tool ) {
             return tool->max_charges;
@@ -619,64 +667,6 @@ public:
     itype() : id("null"), name("none"), name_plural("none") {}
 
     virtual ~itype() { };
-};
-
-// Includes food drink and drugs
-struct it_comest : itype {
-    friend class Item_factory;
-
-    std::string tool;       // Tool needed to consume (e.g. lighter for cigarettes)
-    std::string comesttype; // FOOD, DRINK, MED
-    long        def_charges = 0;  // Defaults # of charges (drugs, loaf of bread? etc)
-    int         quench      = 0;  // Many things make you thirstier!
-private:
-    // Both values are kept to ease migration
-    // Negative nutr means it is unset - use calories
-    int         nutr        = 0;  // Nutrition imparted
-    int         kcal        = 0;  // Replacement for the above
-public:
-    /**
-     * How long it takes to spoil (turns), rotten food is handled differently
-     * (chance of bad thinks happen when eating etc).
-     * If 0, the food never spoils.
-     */
-    int      spoils   = 0;
-    unsigned addict   = 0; // Addictiveness potential
-    int      stim     = 0;
-    int      healthy  = 0;
-    unsigned brewtime = 0; // How long it takes for a brew to ferment.
-    int      fun      = 0; // How fun its use is
-
-    add_type add = ADD_NULL; // Effects of addiction
-
-    it_comest() = default;
-
-    bool is_food() const override
-    {
-        return true;
-    }
-
-    std::string get_item_type_string() const override
-    {
-        return "FOOD";
-    }
-
-    bool count_by_charges() const override
-    {
-        if (phase == LIQUID) {
-            return true;
-        } else {
-            return def_charges > 1 ;
-        }
-    }
-
-    virtual int charges_default() const override {
-        return def_charges;
-    }
-
-    int get_nutrition() const;
-
-    int get_calories() const;
 };
 
 #endif

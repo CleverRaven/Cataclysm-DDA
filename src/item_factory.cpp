@@ -96,7 +96,7 @@ void Item_factory::finalize() {
             obj.integral_volume = obj.volume;
         }
         // for ammo and comestibles stack size defaults to count of initial charges
-        if( obj.stack_size == 0 && ( obj.ammo || obj.is_food() ) ) {
+        if( obj.stack_size == 0 && ( obj.ammo || obj.comestible ) ) {
             obj.stack_size = obj.charges_default();
         }
         for( const auto &tag : obj.item_tags ) {
@@ -535,10 +535,12 @@ void Item_factory::check_definitions() const
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
-        const it_comest *comest = dynamic_cast<const it_comest *>(type);
-        if (comest != 0) {
-            if (comest->tool != "null" && !has_template(comest->tool)) {
-                msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
+        if( type->comestible ) {
+            if( type->comestible->tool != "null" ) {
+                auto req_tool = find_template( type->comestible->tool );
+                if( !req_tool->tool ) {
+                    msg << string_format( "invalid tool property %s", type->comestible->tool.c_str() ) << "\n";
+                }
             }
         }
         if( type->seed ) {
@@ -1011,29 +1013,44 @@ void Item_factory::load_book( JsonObject &jo )
     load_basic_info( jo, new_item_template );
 }
 
+void Item_factory::load( islot_comestible &slot, JsonObject &jo )
+{
+    slot.comesttype = jo.get_string( "comestible_type" );
+
+    jo.read( "charges", slot.def_charges );
+    jo.read( "tool", slot.tool );
+    jo.read( "quench", slot.quench );
+    jo.read( "brew_time", slot.brewtime );
+    jo.read( "addiction_potential", slot.addict );
+    jo.read( "fun", slot.fun );
+    jo.read( "stim", slot.stim );
+    jo.read( "healthy", slot.healthy );
+
+    if( jo.read( "spoils_in", slot.spoils ) ) {
+        slot.spoils *= 600; // JSON specifies hours so convert to turns
+    }
+
+    if( jo.has_string( "addiction_type" ) ) {
+        slot.add = addiction_type( jo.get_string( "addiction_type" ) );
+    }
+
+    if( jo.has_int( "calories" ) ) {
+        if( jo.has_member( "nutrition" ) ) {
+            jo.throw_error( "cannot specify both nutrition and calories", "nutrition" );
+        }
+        slot.nutr = jo.get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+    } else {
+        jo.read( "nutrition", slot.nutr );
+    }
+}
+
 void Item_factory::load_comestible(JsonObject &jo)
 {
-    it_comest *comest_template = new it_comest();
-    comest_template->comesttype = jo.get_string( "comestible_type" );
-    comest_template->tool = jo.get_string( "tool", "null" );
-    comest_template->quench = jo.get_int( "quench", 0 );
-    comest_template->nutr = jo.get_int( "nutrition", -1 );
-    comest_template->kcal = jo.get_int( "calories", 0 );
-    comest_template->spoils = jo.get_int( "spoils_in", 0 );
-    // In json it's in hours, here it shall be in turns, as item::rot is also in turns.
-    comest_template->spoils *= 600;
-    comest_template->brewtime = jo.get_int( "brew_time", 0 );
-    comest_template->addict = jo.get_int( "addiction_potential", 0 );
-    comest_template->def_charges = jo.get_long( "charges", 0 );
-    comest_template->stim = jo.get_int( "stim", 0 );
-    comest_template->healthy = jo.get_int( "healthy", 0 );
-    comest_template->fun = jo.get_int( "fun", 0 );
-
-    comest_template->add = addiction_type( jo.get_string( "addiction_type", "none" ) );
-
-    itype *new_item_template = comest_template;
-    load_basic_info( jo, new_item_template );
-    load_slot( new_item_template->spawn, jo );
+    auto def = new itype();
+    load_slot( def->comestible, jo );
+    def->stack_size = jo.get_int( "stack_size", def->comestible->def_charges );
+    load_basic_info( jo, def );
+    load_slot( def->spawn, jo );
 }
 
 void Item_factory::load_container(JsonObject &jo)
@@ -1815,9 +1832,8 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->armor ) {
         return category_id_clothing;
     }
-    if (it->is_food()) {
-        const it_comest *comest = dynamic_cast<const it_comest *>( it );
-        return (comest->comesttype == "MED" ? category_id_drugs : category_id_food);
+    if (it->comestible) {
+        return it->comestible->comesttype == "MED" ? category_id_drugs : category_id_food;
     }
     if( it->book ) {
         return category_id_books;

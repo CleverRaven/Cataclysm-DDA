@@ -1563,15 +1563,12 @@ void npc::decide_needs()
     needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for (auto &i : slice) {
-        const it_comest* food = NULL;
-        if (i->front().is_food()) {
-            food = dynamic_cast<const it_comest*>(i->front().type);
-        } else if (i->front().is_food_container()) {
-            food = dynamic_cast<const it_comest*>(i->front().contents[0].type);
-        }
-        if (food != NULL) {
-            needrank[need_food] += food->get_nutrition() / 4;
-            needrank[need_drink] += food->quench / 4;
+        if( i->front().is_food( )) {
+            needrank[ need_food ] += nutrition_for( i->front().type ) / 4;
+            needrank[ need_drink ] += i->front().type->comestible->quench / 4;
+        } else if( i->front().is_food_container() ) {
+            needrank[ need_food ] += nutrition_for( i->front().contents[0].type ) / 4;
+            needrank[ need_drink ] += i->front().contents[0].type->comestible->quench / 4;
         }
     }
     needs.clear();
@@ -1769,14 +1766,15 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_food() ) {
-        const auto comest = dynamic_cast<const it_comest*>(it.type);
         int comestval = 0;
-        if( comest->get_nutrition() > 0 || comest->quench > 0 ) {
+        if( nutrition_for( it.type ) > 0 || it.type->comestible->quench > 0 ) {
             comestval++;
-        } if( get_hunger() > 40 ) {
-            comestval += (comest->get_nutrition() + get_hunger() - 40) / 6;
-        } if( get_thirst() > 40 ) {
-            comestval += (comest->quench + get_thirst() - 40) / 4;
+        }
+        if( get_hunger() > 40 ) {
+            comestval += ( nutrition_for( it.type ) + get_hunger() - 40 ) / 6;
+        }
+        if( get_thirst() > 40 ) {
+            comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
         if( comestval > 0 && can_eat( it ) == EDIBLE ) {
             ret += comestval;
@@ -1811,13 +1809,11 @@ int npc::value( const item &it, int market_price ) const
 
     // TODO: Artifact hunting from relevant factions
     // ALSO TODO: Bionics hunting from relevant factions
-    if( fac_has_job(FACJOB_DRUGS) && it.is_food() &&
-        (dynamic_cast<const it_comest*>(it.type))->addict >= 5 ) {
+    if( fac_has_job(FACJOB_DRUGS) && it.is_food() && it.type->comestible->addict >= 5 ) {
         ret += 10;
     }
 
-    if( fac_has_job(FACJOB_DOCTORS) && it.is_food() &&
-        dynamic_cast<const it_comest*>( it.type )->comesttype == "MED" ) {
+    if( fac_has_job(FACJOB_DOCTORS) && it.is_food() && it.type->comestible->comesttype == "MED" ) {
         ret += 10;
     }
 

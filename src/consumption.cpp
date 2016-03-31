@@ -7,6 +7,7 @@
 #include "messages.h"
 #include "addiction.h"
 #include "cata_utility.h"
+#include "debug.h"
 
 #include <string>
 #include <algorithm>
@@ -45,9 +46,9 @@ int player::stomach_capacity() const
 // TODO: Move pizza scraping here.
 // Same for other kinds of nutrition alterations
 // This is used by item display, making actual nutrition available to player.
-int player::nutrition_for( const it_comest *comest ) const
+int player::nutrition_for( const itype *comest ) const
 {
-    return comest->get_nutrition();
+    return ( comest && comest->comestible ) ? comest->comestible->nutr : 0;
 }
 
 float player::metabolic_rate_base() const
@@ -154,7 +155,7 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return query_yn( str, itname.c_str() );
     };
 
-    const auto comest = dynamic_cast<const it_comest *>( food.type );
+    const auto comest = food.type->comestible.get();
     if( comest == nullptr ) {
         maybe_print( m_info, _( "That doesn't look edible." ) );
         return INEDIBLE;
@@ -199,7 +200,7 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     const bool hibernate = has_active_mutation( "HIBERNATE" );
     const bool eathealth = has_trait( "EATHEALTH" );
     const bool slimespawner = has_trait( "SLIMESPAWNER" );
-    const int nutr = nutrition_for( comest );
+    const int nutr = nutrition_for( food.type );
     const int quench = comest->quench;
     bool spoiled = food.rotten();
 
@@ -286,6 +287,10 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
 
 bool player::eat( item &food, bool force )
 {
+    if( !food.is_food() ) {
+        return false;
+    }
+
     // Check if it's rotten before eating!
     food.calc_rot( global_square_location() );
     const auto edible = can_eat( food, is_player() && !force, force );
@@ -293,10 +298,8 @@ bool player::eat( item &food, bool force )
         return false;
     }
 
-    const auto comest = dynamic_cast<const it_comest *>( food.type );
-    if( comest->has_use() ) {
-        const auto charges_consumed = comest->invoke( this, &food, pos() );
-        if( charges_consumed <= 0 ) {
+    if( food.type->has_use() ) {
+        if( food.type->invoke( this, &food, pos() ) <= 0 ) {
             return false;
         }
     }
@@ -305,14 +308,14 @@ bool player::eat( item &food, bool force )
     // No coming back from here
 
     const bool hibernate = has_active_mutation( "HIBERNATE" );
-    const int nutr = nutrition_for( comest );
-    const int quench = comest->quench;
+    const int nutr = nutrition_for( food.type );
+    const int quench = food.type->comestible->quench;
     const bool spoiled = food.rotten();
 
     // The item is solid food
-    const bool chew = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
+    const bool chew = food.type->comestible->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
     // This item is a drink and not a solid food (and not a thick soup)
-    const bool drinkable = !chew && comest->comesttype == "DRINK";
+    const bool drinkable = !chew && food.type->comestible->comesttype == "DRINK";
     // If neither of the above is true then it's a drug and shouldn't get mealtime penalty/bonus
 
     if( hibernate &&
@@ -390,18 +393,18 @@ bool player::eat( item &food, bool force )
                                food.tname().c_str() );
     }
 
-    if( item::find_type( comest->tool )->tool ) {
+    if( item::find_type( food.type->comestible->tool )->tool ) {
         // Tools like lighters get used
-        use_charges( comest->tool, 1 );
+        use_charges( food.type->comestible->tool, 1 );
     }
 
-    if( has_bionic( "bio_ethanol" ) && comest->can_use( "ALCOHOL" ) ) {
+    if( has_bionic( "bio_ethanol" ) && food.type->can_use( "ALCOHOL" ) ) {
         charge_power( rng( 50, 200 ) );
     }
-    if( has_bionic( "bio_ethanol" ) && comest->can_use( "ALCOHOL_WEAK" ) ) {
+    if( has_bionic( "bio_ethanol" ) && food.type->can_use( "ALCOHOL_WEAK" ) ) {
         charge_power( rng( 25, 100 ) );
     }
-    if( has_bionic( "bio_ethanol" ) && comest->can_use( "ALCOHOL_STRONG" ) ) {
+    if( has_bionic( "bio_ethanol" ) && food.type->can_use( "ALCOHOL_STRONG" ) ) {
         charge_power( rng( 75, 300 ) );
     }
 
@@ -506,9 +509,14 @@ void cap_nutrition_thirst( player &p, int capacity, bool food, bool water )
 
 void player::consume_effects( item &food, bool rotten )
 {
+    if( !food.is_food() ) {
+        debugmsg( "called player::consume_effects with non-comestible" );
+        return;
+    }
+    const auto comest = food.type->comestible.get();
+
     const int capacity = stomach_capacity();
-    const auto comest = dynamic_cast<const it_comest *>( food.type );
-    if( has_trait( "THRESH_PLANT" ) && comest->can_use( "PLANTBLECH" ) ) {
+    if( has_trait( "THRESH_PLANT" ) && food.type->can_use( "PLANTBLECH" ) ) {
         // Just keep nutrition capped, to prevent vomiting
         cap_nutrition_thirst( *this, capacity, true, true );
         return;
@@ -552,7 +560,7 @@ void player::consume_effects( item &food, bool rotten )
         hunger_factor += rng_float( 0, 1 );
     }
 
-    const auto nutr = nutrition_for( comest );
+    const auto nutr = nutrition_for( food.type );
     mod_hunger( -nutr * factor * hunger_factor );
     mod_thirst( -comest->quench * factor );
     mod_stomach_food( nutr * factor * hunger_factor );
@@ -581,7 +589,7 @@ void player::consume_effects( item &food, bool rotten )
     auto fun = comest->fun;
     if( food.has_flag( "COLD" ) && food.has_flag( "EATEN_COLD" ) && fun > 0 ) {
         if( fun > 0 ) {
-            add_morale( MORALE_FOOD_GOOD, fun * 3, fun * 3, 60, 30, false, comest );
+            add_morale( MORALE_FOOD_GOOD, fun * 3, fun * 3, 60, 30, false, food.type );
         } else {
             fun = 1;
         }
@@ -591,14 +599,14 @@ void player::consume_effects( item &food, bool rotten )
     const bool hibernate = has_active_mutation( "HIBERNATE" );
     if( gourmand ) {
         if( fun < -2 ) {
-            add_morale( MORALE_FOOD_BAD, fun * 0.5, fun, 60, 30, false, comest );
+            add_morale( MORALE_FOOD_BAD, fun * 0.5, fun, 60, 30, false, food.type );
         } else if( fun > 0 ) {
-            add_morale( MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest );
+            add_morale( MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, food.type );
         }
     } else if( fun < 0 ) {
-        add_morale( MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, comest );
+        add_morale( MORALE_FOOD_BAD, fun, fun * 6, 60, 30, false, food.type );
     } else if( fun > 0 ) {
-        add_morale( MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, comest );
+        add_morale( MORALE_FOOD_GOOD, fun, fun * 4, 60, 30, false, food.type );
     }
 
     if( hibernate ) {

@@ -131,7 +131,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
             emplace_back( default_ammo( type->magazine->type ), calendar::turn, type->magazine->count );
         }
 
-    } else if( type->is_food() ) {
+    } else if( type->comestible ) {
         active = goes_bad() && !rotten();
 
     } else if( type->tool ) {
@@ -373,7 +373,7 @@ long item::liquid_charges( long units ) const
     if( is_ammo() ) {
         return type->ammo->def_charges * units;
     } else if( is_food() ) {
-        return dynamic_cast<const it_comest *>( type )->def_charges * units;
+        return type->comestible->def_charges * units;
     } else {
         return units;
     }
@@ -384,7 +384,7 @@ long item::liquid_units( long charges ) const
     if( is_ammo() ) {
         return charges / type->ammo->def_charges;
     } else if( is_food() ) {
-        return charges / dynamic_cast<const it_comest *>( type )->def_charges;
+        return charges / type->comestible->def_charges;
     } else {
         return charges;
     }
@@ -698,24 +698,15 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
                                           ( int( calendar::turn ) - bday ) / ( 10 * 60 ), true, "", true, true ) );
-                int maxrot = 0;
-                const item *food = NULL;
-                if( goes_bad() ) {
-                    food = this;
-                    maxrot = dynamic_cast<const it_comest *>( type )->spoils;
-                } else if( is_food_container() ) {
-                    food = &contents[0];
-                    if( food->goes_bad() ) {
-                        maxrot = dynamic_cast<const it_comest *>( food->type )->spoils;
-                    }
-                }
-                if( food != NULL && maxrot != 0 ) {
+
+                const item *food = is_food_container() ? &contents[ 0 ] : this;
+                if( food && food->goes_bad() ) {
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
                                               ( int( calendar::turn ) - food->bday ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
                                               ( int )food->rot, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
-                                              ( int )maxrot, true, "", true, true ) );
+                                              food->type->comestible->spoils, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
                                               ( int )food->fridge, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
@@ -733,16 +724,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         food_item = &contents.front();
     }
     if( food_item != nullptr ) {
-        const auto food = dynamic_cast<const it_comest *>( food_item->type );
-
-        if( g->u.nutrition_for( food ) != 0 || food->quench != 0 ) {
-            info.push_back( iteminfo( "FOOD", _( "<bold>Nutrition</bold>: " ), "", g->u.nutrition_for( food ),
+        if( g->u.nutrition_for( food_item->type ) != 0 || food_item->type->comestible->quench != 0 ) {
+            info.push_back( iteminfo( "FOOD", _( "<bold>Nutrition</bold>: " ), "", g->u.nutrition_for( food_item->type ),
                                       true, "", false, true ) );
-            info.push_back( iteminfo( "FOOD", space + _( "Quench: " ), "", food->quench ) );
+            info.push_back( iteminfo( "FOOD", space + _( "Quench: " ), "", food_item->type->comestible->quench ) );
         }
 
-        if( food->fun != 0 ) {
-            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), "", food->fun ) );
+        if( food_item->type->comestible->fun ) {
+            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), "", food_item->type->comestible->fun ) );
         }
 
         info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) ) ) );
@@ -2212,24 +2201,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = label(quantity);
     }
 
-    const it_comest* food_type = NULL;
     std::string tagtext = "";
     std::string modtext = "";
     ret.str("");
-    if (is_food())
-    {
-        food_type = dynamic_cast<const it_comest*>(type);
-
-        if (food_type->spoils != 0)
-        {
-            if(rotten()) {
-                ret << _(" (rotten)");
-            } else if ( is_going_bad()) {
-                ret << _(" (old)");
-            } else if ( rot < 100 ) {
-                ret << _(" (fresh)");
-            }
+    if (is_food()) {
+        if( rotten() ) {
+            ret << _(" (rotten)");
+        } else if ( is_going_bad()) {
+            ret << _(" (old)");
+        } else if( is_fresh() ) {
+            ret << _(" (fresh)");
         }
+
         if (has_flag("HOT")) {
             ret << _(" (hot)");
             }
@@ -2716,48 +2699,20 @@ std::set<matec_id> item::get_techniques() const
     return result;
 }
 
-bool item::is_going_bad() const
+bool item::goes_bad() const
 {
-    const it_comest *comest = dynamic_cast<const it_comest *>(type);
-    if( comest != nullptr && comest->spoils > 0) {
-        return ((float)rot / (float)comest->spoils) > 0.9;
-    }
-    return false;
+    return is_food() && type->comestible->spoils;
 }
 
-bool item::rotten() const
+double item::get_relative_rot() const
 {
-    const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        return rot > comest->spoils;
-    }
-    return false;
+    return goes_bad() ? rot / double( type->comestible->spoils ) : 0;
 }
 
-bool item::has_rotten_away() const
+void item::set_relative_rot( double val )
 {
-    const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        // Twice the regular shelf life and it's gone.
-        return rot > comest->spoils * 2;
-    }
-    return false;
-}
-
-float item::get_relative_rot() const
-{
-    const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        return static_cast<float>( rot ) / comest->spoils;
-    }
-    return 0;
-}
-
-void item::set_relative_rot( float rel_rot )
-{
-    const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        rot = rel_rot * comest->spoils;
+    if( goes_bad() ) {
+        rot = type->comestible->spoils * val;
         // calc_rot uses last_rot_check (when it's not 0) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
@@ -2926,10 +2881,7 @@ int item::get_warmth() const
 
 int item::brewing_time() const
 {
-    float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
-    unsigned int b_time = dynamic_cast<const it_comest*>(type)->brewtime;
-    int ret = b_time * season_mult;
-    return ret;
+    return ( is_food() ? type->comestible->brewtime : 0 ) * ( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14.0 );
 }
 
 bool item::can_revive() const
@@ -2967,15 +2919,6 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return true;
     }
     return false;
-}
-
-bool item::goes_bad() const
-{
-    if (!is_food()) {
-        return false;
-    }
-    const auto food = dynamic_cast<const it_comest*>(type);
-    return (food->spoils != 0);
 }
 
 bool item::count_by_charges() const
@@ -3334,8 +3277,9 @@ bool item::is_food(player const*u) const
     if( is_null() )
         return false;
 
-    if (type->is_food())
+    if( type->comestible ) {
         return true;
+    }
 
     if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
         return true;
@@ -3356,12 +3300,7 @@ bool item::is_food_container(player const*u) const
 
 bool item::is_food() const
 {
-    if( is_null() )
-        return false;
-
-    if (type->is_food())
-        return true;
-    return false;
+    return type->comestible != nullptr;
 }
 
 bool item::is_food_container() const
