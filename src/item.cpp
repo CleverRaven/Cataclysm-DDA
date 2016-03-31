@@ -2329,7 +2329,7 @@ int item::price( bool practical ) const
 {
     int res = 0;
 
-    visit_items_const( [&res,&practical]( const item *e ) {
+    visit_items( [&res,&practical]( const item *e ) {
         int child = practical ? e->type->price_post : e->type->price;
 
         if( e->rotten() ) {
@@ -4778,23 +4778,6 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid,
     return L_ERR_NONE;
 }
 
-int item::amount_of(const itype_id &it, bool used_as_tool) const
-{
-    int count = 0;
-    // Check that type matches, and (if not used as tool), it
-    // is not a pseudo item.
-    if (type->id == it && (used_as_tool || !has_flag("PSEUDO"))) {
-        if (contents.empty()) {
-            // Only use empty container
-            count++;
-        }
-    }
-    for( auto &elem : contents ) {
-        count += elem.amount_of( it, used_as_tool );
-    }
-    return count;
-}
-
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents
@@ -4856,25 +4839,6 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     liquid.charges -= amount;
 
     return true;
-}
-
-long item::charges_of(const itype_id &it) const
-{
-    long count = 0;
-
-    if ( ( typeId() == it || ( is_tool() && type->tool->subtype == it ) ) && contents.empty() ) {
-        // If we're specifically looking for a container, only say we have it if it's empty.
-        if (charges < 0) {
-            count++;
-        } else {
-            count += charges;
-        }
-    } else {
-        for( const auto &elem : contents ) {
-            count += elem.charges_of( it );
-        }
-    }
-    return count;
 }
 
 bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)

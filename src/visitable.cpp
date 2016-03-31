@@ -10,12 +10,14 @@
 #include "submap.h"
 #include "vehicle.h"
 #include "game.h"
+#include "itype.h"
+#include "player.h"
 
 template <typename T>
 item *visitable<T>::find_parent( const item &it )
 {
     item *res = nullptr;
-    if( visit_items_with_parent( [&]( item * node, item * parent ) {
+    if( visit_items( [&]( item * node, item * parent ) {
     if( node == &it ) {
             res = parent;
             return VisitResponse::ABORT;
@@ -56,7 +58,7 @@ std::vector<const item *> visitable<T>::parents( const item &it ) const
 template <typename T>
 bool visitable<T>::has_item( const item &it ) const
 {
-    return visit_items_const( [&it]( const item * node ) {
+    return visit_items( [&it]( const item * node ) {
         return node == &it ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
@@ -64,22 +66,61 @@ bool visitable<T>::has_item( const item &it ) const
 template <typename T>
 bool visitable<T>::has_item_with( const std::function<bool( const item & )> &filter ) const
 {
-    return visit_items_const( [&filter]( const item * node ) {
+    return visit_items( [&filter]( const item * node ) {
         return filter( *node ) ? VisitResponse::ABORT : VisitResponse::NEXT;
     } ) == VisitResponse::ABORT;
 }
 
 template <typename T>
-VisitResponse visitable<T>::visit_items_with_parent_const(
+bool visitable<T>::has_items_with_quality( const std::string &qual, int level, int qty ) const
+{
+    visit_items( [&qual, level, &qty]( const item *e ) {
+        if( e->has_quality( qual, level ) ) {
+            if( --qty == 0 ) {
+                return VisitResponse::ABORT; // found sufficient items
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    return qty == 0;
+}
+
+template <typename T>
+std::vector<item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter )
+{
+    std::vector<item *> res;
+    visit_items( [&res,&filter]( item * node, item * ) {
+        if( filter( *node ) ) {
+            res.push_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+    return res;
+}
+
+template <typename T>
+std::vector<const item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter ) const
+{
+    std::vector<const item *> res;
+    visit_items( [&res,&filter]( const item * node, const item * ) {
+        if( filter( *node ) ) {
+            res.push_back( node );
+        }
+        return VisitResponse::NEXT;
+    } );
+    return res;
+}
+
+template <typename T>
+VisitResponse visitable<T>::visit_items(
     const std::function<VisitResponse( const item *, const item * )> &func ) const
 {
-    return const_cast<visitable<T> *>( this )->visit_items_with_parent(
+    return const_cast<visitable<T> *>( this )->visit_items(
                static_cast<const std::function<VisitResponse( item *, item * )>&>( func ) );
 }
 
 template <typename T>
-VisitResponse visitable<T>::visit_items_const( const std::function<VisitResponse( const item * )>
-        &func ) const
+VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( const item * )> &func ) const
 {
     return const_cast<visitable<T> *>( this )->visit_items(
                static_cast<const std::function<VisitResponse( item * )>&>( func ) );
@@ -88,7 +129,7 @@ VisitResponse visitable<T>::visit_items_const( const std::function<VisitResponse
 template <typename T>
 VisitResponse visitable<T>::visit_items( const std::function<VisitResponse( item * )> &func )
 {
-    return visit_items_with_parent( [&func]( item * it, item * ) {
+    return visit_items( [&func]( item * it, item * ) {
         return func( it );
     } );
 }
@@ -103,6 +144,11 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
+            if( node->is_gun() || node->is_magazine() ) {
+                // content of guns and magazines are accessible only via their specific accessors
+                return VisitResponse::NEXT;
+            }
+
             for( auto &e : node->contents ) {
                 if( visit_internal( func, &e, node ) == VisitResponse::ABORT ) {
                     return VisitResponse::ABORT;
@@ -119,7 +165,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
 }
 
 template <>
-VisitResponse visitable<item>::visit_items_with_parent(
+VisitResponse visitable<item>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto it = static_cast<item *>( this );
@@ -127,7 +173,7 @@ VisitResponse visitable<item>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<inventory>::visit_items_with_parent(
+VisitResponse visitable<inventory>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto inv = static_cast<inventory *>( this );
@@ -142,7 +188,7 @@ VisitResponse visitable<inventory>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<Character>::visit_items_with_parent(
+VisitResponse visitable<Character>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto ch = static_cast<Character *>( this );
@@ -158,11 +204,11 @@ VisitResponse visitable<Character>::visit_items_with_parent(
         }
     }
 
-    return ch->inv.visit_items_with_parent( func );
+    return ch->inv.visit_items( func );
 }
 
 template <>
-VisitResponse visitable<map_cursor>::visit_items_with_parent(
+VisitResponse visitable<map_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto cur = static_cast<map_cursor *>( this );
@@ -176,11 +222,11 @@ VisitResponse visitable<map_cursor>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<map_selector>::visit_items_with_parent(
+VisitResponse visitable<map_selector>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     for( auto &cursor : static_cast<map_selector &>( *this ) ) {
-        if( cursor.visit_items_with_parent( func ) == VisitResponse::ABORT ) {
+        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -188,7 +234,7 @@ VisitResponse visitable<map_selector>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<vehicle_cursor>::visit_items_with_parent(
+VisitResponse visitable<vehicle_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto self = static_cast<vehicle_cursor *>( this );
@@ -202,11 +248,11 @@ VisitResponse visitable<vehicle_cursor>::visit_items_with_parent(
 }
 
 template <>
-VisitResponse visitable<vehicle_selector>::visit_items_with_parent(
+VisitResponse visitable<vehicle_selector>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     for( auto &cursor : static_cast<vehicle_selector &>( *this ) ) {
-        if( cursor.visit_items_with_parent( func ) == VisitResponse::ABORT ) {
+        if( cursor.visit_items( func ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -471,6 +517,104 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
     return res;
 }
 
+template <typename T>
+static long charges_of_internal( const T& self, const itype_id& id )
+{
+    long qty = 0;
+
+    self.visit_items( [&]( const item *e ) {
+        if( e->is_tool() ) {
+            // for tools we also need to check if this item is a subtype of the required id
+            if( e->typeId() == id || ( e->is_tool() && e->type->tool->subtype == id ) ) {
+                qty += e->ammo_remaining(); // includes charges from any contained magazine
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == id ) {
+                qty += e->charges;
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
+        }
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
+
+    return qty;
+}
+
+template <typename T>
+long visitable<T>::charges_of( const std::string &what ) const
+{
+    return charges_of_internal( *this, what );
+}
+
+template <>
+long visitable<Character>::charges_of( const std::string &what ) const
+{
+    auto self = static_cast<const Character *>( this );
+    auto p = dynamic_cast<const player *>( self );
+
+    if( what == "toolset") {
+        if( p && p->has_active_bionic( "bio_tools" ) ) {
+            return p->power_level;
+        } else {
+            return 0;
+        }
+    }
+
+    if( what == "UPS" ) {
+        long qty = 0;
+        qty += charges_of( "UPS_off" );
+        qty += charges_of( "adv_UPS_off" ) / 0.6;
+        if ( p && p->has_active_bionic( "bio_ups" ) ) {
+            qty += p->power_level * 10;
+        }
+        return qty;
+    }
+
+    return charges_of_internal( *this, what );
+}
+
+template <typename T>
+static int amount_of_internal( const T& self, const itype_id& id, bool pseudo, int limit )
+{
+    int qty = 0;
+    self.visit_items( [&qty, &id, &pseudo, &limit] ( const item *e ) {
+        qty += ( e->typeId() == id && e->contents.empty() && ( pseudo || !e->has_flag( "PSEUDO" ) ) );
+        return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+    } );
+    return qty;
+}
+
+template <typename T>
+int visitable<T>::amount_of( const std::string& what, bool pseudo, int limit ) const
+{
+    return amount_of_internal( *this, what, pseudo, limit );
+}
+
+template <>
+int visitable<Character>::amount_of( const std::string& what, bool pseudo, int limit ) const
+{
+    auto self = static_cast<const Character *>( this );
+
+    if( what == "toolset" && pseudo && self->has_active_bionic( "bio_tools" ) ) {
+        return 1;
+    }
+
+    if( what == "apparatus" && pseudo ) {
+        int qty = 0;
+        visit_items( [&qty, &limit] ( const item *e ) {
+            qty += e->has_quality( "SMOKE_PIPE", 1 );
+            return qty != limit ? VisitResponse::NEXT : VisitResponse::SKIP;
+        } );
+        return qty;
+    }
+
+    return amount_of_internal( *this, what, pseudo, limit );
+}
 
 // explicit template initialization for all classes implementing the visitable interface
 template class visitable<item>;
