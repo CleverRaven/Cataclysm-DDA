@@ -10555,7 +10555,7 @@ void game::reassign_item( int pos )
     if( newch == ' ' ) {
         newch = 0;
     } else if( !inv_chars.valid( newch ) ) {
-        add_msg( m_info, _("Invlid inventory letter. Only those characters are valid:\n\n%s"),
+        add_msg( m_info, _("Invalid inventory letter. Only those characters are valid:\n\n%s"),
                  inv_chars.get_allowed_chars().c_str() );
         return;
     }
