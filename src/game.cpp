@@ -1401,14 +1401,7 @@ bool game::do_turn()
                     draw();
                 }
 
-                static bool user_took_action = false;
-                if (user_took_action) {
-                    user_action_counter += 1;
-                    user_took_action = false;
-                }
-
                 if (handle_action()) {
-                    user_took_action = true;
                     ++moves_since_last_save;
                     u.action_taken();
                 }
@@ -2373,14 +2366,15 @@ bool game::handle_action()
     // of location clicked.
     tripoint mouse_target = tripoint_min;
 
-// do not allow mouse actions while dead
-    if( !u.is_dead_state() &&
-        act == ACTION_NULL &&
-        (action == "SELECT" || action == "SEC_SELECT")
-      ) {
+    if( act == ACTION_NULL && (action == "SELECT" || action == "SEC_SELECT") ) {
         // Mouse button click
         if (veh_ctrl) {
             // No mouse use in vehicle
+            return false;
+        }
+
+        if (u.is_dead_state()) {
+            // do not allow mouse actions while dead
             return false;
         }
 
@@ -2390,90 +2384,20 @@ bool game::handle_action()
             return false;
         }
         mouse_target = tripoint( mx, my, u.posz() );
+    }
 
-        if (action == "SELECT") {
-            bool new_destination = true;
-            if (!destination_preview.empty()) {
-                auto &final_destination = destination_preview.back();
-                if (final_destination.x == mx && final_destination.y == my) {
-                    // Second click
-                    new_destination = false;
-                    u.set_destination(destination_preview);
-                    destination_preview.clear();
-                    act = u.get_next_auto_move_direction();
-                    if (act == ACTION_NULL) {
-                        // Something went wrong
-                        u.clear_destination();
-                        return false;
-                    }
-                }
-            }
-
-            if (new_destination) {
-                destination_preview = m.route( u.pos(), mouse_target, 0, 1000 );
-                return false;
-            }
-        } else if (action == "SEC_SELECT") {
-            // Right mouse button
-
-            bool had_destination_to_clear = !destination_preview.empty();
-            u.clear_destination();
-            destination_preview.clear();
-
-            if (had_destination_to_clear) {
-                return false;
-            }
-
-            int mouse_selected_mondex = mon_at( mouse_target );
-            if (mouse_selected_mondex != -1) {
-                monster &critter = critter_tracker->find(mouse_selected_mondex);
-                if (!u.sees(critter)) {
-                    add_msg(_("Nothing relevant here."));
-                    return false;
-                }
-
-                if (!u.weapon.is_gun()) {
-                    add_msg(m_info, _("You are not wielding a ranged weapon."));
-                    return false;
-                }
-
-                //TODO: Add weapon range check. This requires weapon to be reloaded.
-
-                act = ACTION_FIRE;
-            } else if (std::abs(mx - u.posx()) <= 1 && std::abs(my - u.posy()) <= 1 &&
-                       m.close_door( tripoint( mx, my, u.posz() ), !m.is_outside(u.pos()), true)) {
-                // Can only close doors when adjacent to it.
-                act = ACTION_CLOSE;
-            } else {
-                int dx = abs(u.posx() - mx);
-                int dy = abs(u.posy() - my);
-                if (dx < 2 && dy < 2) {
-                    if (dy == 0 && dx == 0) {
-                        // Clicked on self
-                        act = ACTION_PICKUP;
-                    } else {
-                        // Clicked adjacent tile
-                        act = ACTION_EXAMINE;
-                    }
-                } else {
-                    add_msg(_("Nothing relevant here."));
-                    return false;
-                }
-            }
+    if ( act == ACTION_NULL && action == "SELECT" ) {
+        if ( !try_get_left_click_action( act, mouse_target ) ) {
+            return false;
         }
     }
 
-
+    const bool cleared_destination = !destination_preview.empty();
     if( act == ACTION_NULL ) {
-        // No auto-move action, no mouse clicks.
+        // No auto-move actions have or can be set at this point.
         u.clear_destination();
         destination_preview.clear();
-
         act = look_up_action(action);
-        if( act == ACTION_NULL ) {
-            add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
-            return false;
-        }
     }
 
     if( act == ACTION_ACTIONMENU ) {
@@ -2481,6 +2405,21 @@ bool game::handle_action()
         if (act == ACTION_NULL) {
             return false;
         }
+    }
+
+    if ( can_action_change_worldstate( act ) ) {
+        user_action_counter += 1;
+    }
+
+    if ( act == ACTION_NULL && action == "SEC_SELECT" ) {
+        if ( !try_get_right_click_action( act, mouse_target, cleared_destination ) ) {
+            return false;
+        }
+    }
+
+    if( act == ACTION_NULL ) {
+        add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
+        return false;
     }
 
     // This has no action unless we're in a special game mode.
@@ -3197,6 +3136,81 @@ bool game::handle_action()
     dbg(D_INFO) << string_format("%s: [%d] %d - %d = %d", action_ident(act).c_str(),
                                  int(calendar::turn), before_action_moves, u.movecounter, u.moves);
     return (!u.is_dead_state());
+}
+
+bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_target ) {
+    bool new_destination = true;
+    if (!destination_preview.empty()) {
+        auto &final_destination = destination_preview.back();
+        if (final_destination.x == mouse_target.x && final_destination.y == mouse_target.y) {
+            // Second click
+            new_destination = false;
+            u.set_destination(destination_preview);
+            destination_preview.clear();
+            act = u.get_next_auto_move_direction();
+            if (act == ACTION_NULL) {
+                // Something went wrong
+                u.clear_destination();
+                return false;
+            }
+        }
+    }
+
+    if (new_destination) {
+        destination_preview = m.route( u.pos(), mouse_target, 0, 1000 );
+        return false;
+    }
+
+    return true;
+}
+
+bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_target,
+                               bool cleared_destination ) {
+    if (cleared_destination) {
+        // Produce no-op if auto-move had just been cleared on this action
+        // e.g. from a previous single left mouse click. This has the effect
+        // of right-click cancelling an auto-move before it is initiated.
+        return false;
+    }
+
+    int mouse_selected_mondex = mon_at( mouse_target );
+    if (mouse_selected_mondex != -1) {
+        monster &critter = critter_tracker->find(mouse_selected_mondex);
+        if (!u.sees(critter)) {
+            add_msg(_("Nothing relevant here."));
+            return false;
+        }
+
+        if (!u.weapon.is_gun()) {
+            add_msg(m_info, _("You are not wielding a ranged weapon."));
+            return false;
+        }
+
+        //TODO: Add weapon range check. This requires weapon to be reloaded.
+
+        act = ACTION_FIRE;
+    } else if (std::abs(mouse_target.x - u.posx()) <= 1 && std::abs(mouse_target.y - u.posy()) <= 1 &&
+            m.close_door( tripoint( mouse_target.x, mouse_target.y, u.posz() ), !m.is_outside(u.pos()), true)) {
+        // Can only close doors when adjacent to it.
+        act = ACTION_CLOSE;
+    } else {
+        int dx = abs(u.posx() - mouse_target.x);
+        int dy = abs(u.posy() - mouse_target.y);
+        if (dx < 2 && dy < 2) {
+            if (dy == 0 && dx == 0) {
+                // Clicked on self
+                act = ACTION_PICKUP;
+            } else {
+                // Clicked adjacent tile
+                act = ACTION_EXAMINE;
+            }
+        } else {
+            add_msg(_("Nothing relevant here."));
+            return false;
+        }
+    }
+
+    return true;
 }
 
 #define SCENT_RADIUS 40

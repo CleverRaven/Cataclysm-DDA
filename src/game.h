@@ -73,6 +73,7 @@ enum target_mode {
 enum activity_type : int;
 enum body_part : int;
 enum weather_type : int;
+enum action_id : int;
 
 struct special_game;
 struct mtype;
@@ -761,6 +762,9 @@ private:
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
+        bool try_get_right_click_action( action_id &act, const tripoint &mouse_target,
+                                       bool cleared_destination );
+        bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
 
         void item_action_menu(); // Displays item action menu
 

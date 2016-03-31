@@ -296,6 +296,51 @@ std::string action_ident( action_id act )
     }
 }
 
+bool can_action_change_worldstate( const action_id act )
+{
+    switch( act ) {
+        // Shift view
+        case ACTION_CENTER:
+        case ACTION_SHIFT_N:
+        case ACTION_SHIFT_NE:
+        case ACTION_SHIFT_E:
+        case ACTION_SHIFT_SE:
+        case ACTION_SHIFT_S:
+        case ACTION_SHIFT_SW:
+        case ACTION_SHIFT_W:
+        case ACTION_SHIFT_NW:
+        // Environment Interaction
+        case ACTION_LOOK:
+        case ACTION_LIST_ITEMS:
+        case ACTION_ZONES:
+        // Long-term / special actions
+        case ACTION_SAVE:
+        case ACTION_QUICKSAVE:
+        case ACTION_QUICKLOAD:
+        case ACTION_QUIT:
+        // Info Screens
+        case ACTION_PL_INFO:
+        case ACTION_MAP:
+        case ACTION_MISSIONS:
+        case ACTION_KILLS:
+        case ACTION_FACTIONS:
+        case ACTION_MORALE:
+        case ACTION_MESSAGES:
+        case ACTION_HELP:
+        // Debug Functions
+        case ACTION_TOGGLE_SIDEBAR_STYLE:
+        case ACTION_TOGGLE_FULLSCREEN:
+        case ACTION_DEBUG:
+        case ACTION_DISPLAY_SCENT:
+        case ACTION_ZOOM_OUT:
+        case ACTION_ZOOM_IN:
+        case ACTION_TOGGLE_PIXEL_MINIMAP:
+            return false;
+        default:
+            return true;
+    }
+}
+
 action_id look_up_action( std::string ident )
 {
     // Temporarily for the interface with the input manager!
