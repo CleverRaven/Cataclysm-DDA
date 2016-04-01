@@ -5385,14 +5385,17 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             convert( "cig_butt" );
         } else if( type->id == "cigar_lit" ) {
             convert( "cigar_butt" );
-        } else { // joint
+        } else if (type->id == "joint") { // joint
             convert( "joint_roach" );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 10 ); // one last puff
                 g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
                 weed_msg( carrier );
             }
-        }
+        } else { // cig_butts
+			return true;
+		} 
+		
         active = false;
     }
     // Item remains
