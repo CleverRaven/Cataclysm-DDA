@@ -3,6 +3,7 @@
 #include "output.h"
 #include "filesystem.h"
 #include <time.h>
+#include <cassert>
 #include <cstdlib>
 #include <cstdarg>
 #include <iosfwd>
@@ -32,12 +33,22 @@ static int debugClass = D_MAIN;
 #endif
 
 bool debug_fatal = false;
-
 bool debug_mode = false;
+
+namespace
+{
+
+std::set<std::string> ignored_messages;
+
+}
 
 void realDebugmsg( const char *filename, const char *line, const char *funcname, const char *mes,
                    ... )
 {
+    assert( filename != nullptr );
+    assert( line != nullptr );
+    assert( funcname != nullptr );
+
     va_list ap;
     va_start( ap, mes );
     const std::string text = vstring_format( mes, ap );
@@ -49,17 +60,36 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     }
 
     DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text;
+
+    std::string msg_key( filename );
+    msg_key += line;
+
+    if( ignored_messages.count( msg_key ) > 0 ) {
+        return;
+    }
+
     fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_ltred,
                     "\n \n" // Looks nicer with some space
                     " DEBUG    : %s\n \n"
                     " FUNCTION : %s\n"
                     " FILE     : %s\n"
                     " LINE     : %s\n \n"
-                    " Press spacebar to continue the game...",
+                    " Press <color_white>spacebar</color> to continue the game...\n"
+                    " Press <color_white>I</color> (or <color_white>i</color>) to also ignore this particular message in the future...",
                     text.c_str(), funcname, filename, line );
-    while( getch() != ' ' ) {
-        // wait for spacebar
+
+    for( bool stop = false; !stop; ) {
+        switch( getch() ) {
+            case 'i':
+            case 'I':
+                ignored_messages.insert( msg_key );
+            // Falling through
+            case ' ':
+                stop = true;
+                break;
+        }
     }
+
     werase( stdscr );
     refresh();
 }
