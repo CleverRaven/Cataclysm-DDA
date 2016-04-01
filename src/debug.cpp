@@ -35,7 +35,8 @@ bool debug_fatal = false;
 
 bool debug_mode = false;
 
-void realDebugmsg( const char *filename, const char *line, const char *mes, ... )
+void realDebugmsg( const char *filename, const char *line, const char *funcname, const char *mes,
+                   ... )
 {
     va_list ap;
     va_start( ap, mes );
@@ -43,12 +44,19 @@ void realDebugmsg( const char *filename, const char *line, const char *mes, ... 
     va_end( ap );
 
     if( debug_fatal ) {
-        throw std::runtime_error( string_format( "%s:%s %s", filename, line, text.c_str() ) );
+        throw std::runtime_error( string_format( "%s:%s [%s] %s", filename, line, funcname,
+                                  text.c_str() ) );
     }
 
-    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " " << text;
-    fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_ltred, "DEBUG: %s\n  Press spacebar...",
-                    text.c_str() );
+    DebugLog( D_ERROR, D_MAIN ) << filename << ":" << line << " [" << funcname << "] " << text;
+    fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_ltred,
+                    "\n \n" // Looks nicer with some space
+                    " DEBUG    : %s\n \n"
+                    " FUNCTION : %s\n"
+                    " FILE     : %s\n"
+                    " LINE     : %s\n \n"
+                    " Press spacebar to continue the game...",
+                    text.c_str(), funcname, filename, line );
     while( getch() != ' ' ) {
         // wait for spacebar
     }
@@ -274,18 +282,17 @@ struct time_info {
 };
 
 #ifdef _MSC_VER
-time_info get_time() noexcept
-{
+time_info get_time() noexcept {
     SYSTEMTIME time {};
 
     GetLocalTime( &time );
 
     return time_info { static_cast<int>( time.wHour ), static_cast<int>( time.wMinute ),
-                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds ) };
+                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds )
+                     };
 }
 #else
-time_info get_time() noexcept
-{
+time_info get_time() noexcept {
     timeval tv;
     gettimeofday( &tv, nullptr );
 
@@ -293,7 +300,8 @@ time_info get_time() noexcept
     auto const current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 ) };
+                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 )
+                     };
 }
 #endif
 
