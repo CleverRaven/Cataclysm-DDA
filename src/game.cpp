@@ -2439,9 +2439,13 @@ bool game::handle_action()
                     return false;
                 }
             }
-        } else {
+        } else if ( act != ACTION_TIMEOUT ) {
             // act has not been set for an auto-move, so clearing possible
-            // auto-move destinations
+            // auto-move destinations. Since initializing an auto-move with
+            // the mouse may span across multiple actions, we do not clear the
+            // auto-move destination if the action is only a timeout, as this
+            // would require the user to double click quicker quicker than the
+            // timeout delay.
             u.clear_destination();
             destination_preview.clear();
         }
