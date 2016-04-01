@@ -289,6 +289,10 @@ std::string action_ident( action_id act )
             return "action_menu";
         case ACTION_ITEMACTION:
             return "item_action_menu";
+        case ACTION_SELECT:
+            return "SELECT";
+        case ACTION_SEC_SELECT:
+            return "SEC_SELECT";
         case ACTION_NULL:
             return "null";
         default:

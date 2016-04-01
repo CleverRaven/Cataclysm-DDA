@@ -10,6 +10,9 @@ struct tripoint;
 
 enum action_id : int {
     ACTION_NULL = 0,
+    // Mouse
+    ACTION_SELECT,
+    ACTION_SEC_SELECT,
     // Movement
     ACTION_PAUSE,
     ACTION_MOVE_N,

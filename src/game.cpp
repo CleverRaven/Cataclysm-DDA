@@ -2366,54 +2366,58 @@ bool game::handle_action()
     // of location clicked.
     tripoint mouse_target = tripoint_min;
 
-    if( act == ACTION_NULL && (action == "SELECT" || action == "SEC_SELECT") ) {
-        // Mouse button click
-        if (veh_ctrl) {
-            // No mouse use in vehicle
-            return false;
-        }
-
-        if (u.is_dead_state()) {
-            // do not allow mouse actions while dead
-            return false;
-        }
-
-        int mx, my;
-        if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees(mx, my)) {
-            // Not clicked in visible terrain
-            return false;
-        }
-        mouse_target = tripoint( mx, my, u.posz() );
-    }
-
-    if ( act == ACTION_NULL && action == "SELECT" ) {
-        if ( !try_get_left_click_action( act, mouse_target ) ) {
-            return false;
-        }
-    }
-
-    const bool cleared_destination = !destination_preview.empty();
     if( act == ACTION_NULL ) {
-        // No auto-move actions have or can be set at this point.
-        u.clear_destination();
-        destination_preview.clear();
         act = look_up_action(action);
-    }
-
-    if( act == ACTION_ACTIONMENU ) {
-        act = handle_action_menu();
-        if (act == ACTION_NULL) {
-            return false;
+        if( act == ACTION_ACTIONMENU ) {
+            // No auto-move actions have or can be set at this point.
+            u.clear_destination();
+            destination_preview.clear();
+            act = handle_action_menu();
+            if (act == ACTION_NULL) {
+                return false;
+            }
         }
-    }
 
-    if ( can_action_change_worldstate( act ) ) {
-        user_action_counter += 1;
-    }
+        if ( can_action_change_worldstate( act ) ) {
+            user_action_counter += 1;
+        }
 
-    if ( act == ACTION_NULL && action == "SEC_SELECT" ) {
-        if ( !try_get_right_click_action( act, mouse_target, cleared_destination ) ) {
-            return false;
+        if( act == ACTION_SELECT || act == ACTION_SEC_SELECT ) {
+            // Mouse button click
+            if (veh_ctrl) {
+                // No mouse use in vehicle
+                return false;
+            }
+
+            if (u.is_dead_state()) {
+                // do not allow mouse actions while dead
+                return false;
+            }
+
+            int mx, my;
+            if (!ctxt.get_coordinates(w_terrain, mx, my) || !u.sees(mx, my)) {
+                // Not clicked in visible terrain
+                return false;
+            }
+            mouse_target = tripoint( mx, my, u.posz() );
+
+            if ( act == ACTION_SELECT ) {
+                // Note: The following has the potential side effect of
+                // setting auto-move destination state in addition to setting
+                // act.
+                if ( !try_get_left_click_action( act, mouse_target ) ) {
+                    return false;
+                }
+            } else if ( act == ACTION_SEC_SELECT ) {
+                if ( !try_get_right_click_action( act, mouse_target ) ) {
+                    return false;
+                }
+            }
+        } else {
+            // act has not been set for an auto-move, so clearing possible
+            // auto-move destinations
+            u.clear_destination();
+            destination_preview.clear();
         }
     }
 
@@ -3164,8 +3168,11 @@ bool game::try_get_left_click_action( action_id &act, const tripoint &mouse_targ
     return true;
 }
 
-bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_target,
-                               bool cleared_destination ) {
+bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_target ) {
+    const bool cleared_destination = !destination_preview.empty();
+    u.clear_destination();
+    destination_preview.clear();
+
     if (cleared_destination) {
         // Produce no-op if auto-move had just been cleared on this action
         // e.g. from a previous single left mouse click. This has the effect
