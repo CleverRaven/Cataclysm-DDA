@@ -521,7 +521,13 @@ bool player::create(character_type type, std::string tempname)
     ret_null = item("null", 0);
     weapon = ret_null;
 
-    //Learn recipes
+    // Grab the skills from the profession, if there are any
+    // We want to do this before the recipes
+    for( auto &e : g->u.prof->skills() ) {
+        g->u.boost_skill_level( e.first, e.second );
+    }
+
+    // Learn recipes
     for( auto &cur_recipe : recipe_dict ) {
         if( cur_recipe->valid_learn() && !has_recipe_autolearned( *cur_recipe ) &&
             has_recipe_requirements( *cur_recipe ) &&
@@ -578,11 +584,6 @@ bool player::create(character_type type, std::string tempname)
     for (std::vector<addiction>::const_iterator iter = prof_addictions.begin();
          iter != prof_addictions.end(); ++iter) {
         g->u.addictions.push_back(*iter);
-    }
-
-    // Grab the skills from the profession, if there are any
-    for( auto &e : g->u.prof->skills() ) {
-        g->u.boost_skill_level( e.first, e.second );
     }
 
     // Get CBMs
@@ -1592,6 +1593,12 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
 
+    std::map<skill_id, int> prof_skills;
+    const auto &pskills = u->prof->skills();
+    
+    std::copy( pskills.begin(), pskills.end(), 
+               std::inserter( prof_skills, prof_skills.begin() ) );
+
     do {
         mvwprintz(w, 3, 2, c_black, clear_str);
         mvwprintz(w, 3, 2, c_ltgray, points.to_string().c_str() );
@@ -1603,17 +1610,22 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
 
+        // We want recipes from profession skills displayed, but without boosting the skills
+        // Hack: copy the entire player, boost the clone's skills
+        player prof_u = *u;
+        for( const auto &sk : prof_skills ) {
+            prof_u.boost_skill_level( sk.first, sk.second );
+        }
+
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
         for( auto cur_recipe : recipe_dict ) {
             //Find out if the current skill and its level is in the requirement list
             auto req_skill = cur_recipe->required_skills.find( currentSkill->ident() );
             int skill = (req_skill != cur_recipe->required_skills.end()) ? req_skill->second : 0;
 
-            // Filter out autolearend recipes, recipes that don't use the current skill,
-            // recipes we're missing prerequisites for, and uncraft recipes.
-            if( !u->has_recipe_autolearned( *cur_recipe ) &&
+            if( !prof_u.has_recipe_autolearned( *cur_recipe ) &&
                 ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
-                u->has_recipe_requirements( *cur_recipe ) &&
+                prof_u.has_recipe_requirements( *cur_recipe ) &&
                 cur_recipe->ident().find("uncraft") == std::string::npos )  {
 
                 recipes[cur_recipe->skill_used.obj().name()].push_back(
