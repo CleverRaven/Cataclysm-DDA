@@ -523,10 +523,11 @@ bool player::create(character_type type, std::string tempname)
 
     //Learn recipes
     for( auto &cur_recipe : recipe_dict ) {
-        if( has_recipe_autolearned( *cur_recipe ) &&
-            !( learned_recipes.find( cur_recipe->ident() ) != learned_recipes.end()) ) {
+        if( cur_recipe->valid_learn() && !has_recipe_autolearned( *cur_recipe ) &&
+            has_recipe_requirements( *cur_recipe ) &&
+            learned_recipes.find( cur_recipe->ident() ) == learned_recipes.end() ) {
 
-            learn_recipe( (recipe *)cur_recipe );
+            learn_recipe( &*cur_recipe );
         }
     }
 
