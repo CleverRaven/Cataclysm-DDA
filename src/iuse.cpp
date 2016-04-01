@@ -524,6 +524,11 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
         cig.item_counter = 40;
         p->mod_hunger(-3);
         p->mod_thirst(2);
+    } else if (it->type->id == "cig_butt") {
+        cig = item("cig_butt_lit", int(calendar::turn));
+        cig.item_counter = 10;
+        p->mod_thirst(-3);
+        p->mod_hunger(2);
     } else if (it->type->id == "handrolled_cig") {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.

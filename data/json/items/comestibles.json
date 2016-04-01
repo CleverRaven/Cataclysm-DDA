@@ -10461,13 +10461,16 @@
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
     {
-        "type" : "GENERIC",
+        "type" : "COMESTIBLE",
         "id" : "cigar_butt",
+        "comestible_type" : "MED",
+        "use_action" : "SMOKING",
         "name" : "cigar butt",
         "color" : "dkgray",
         "symbol" : "!",
         "description" : "A true gentleman always finishes his cigars.",
-        "category": "other"
+        "category": "other",
+        "flags" : ["TOBACCO"]
     },
     {
         "type" : "COMESTIBLE",

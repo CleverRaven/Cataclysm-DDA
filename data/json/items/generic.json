@@ -2345,9 +2345,23 @@
     },
     {
         "type" : "GENERIC",
+        "id" : "cig_butt_lit",
+        "name" : "cigarette butt",
+        "weight" : "0",
+        "volume" : "0",
+        "color" : "dark_gray",
+        "symbol" : "!",
+        "description" : "Smelly piece of trash. You must be very desperate if you even try to smoke it.",
+        "flags" : ["TABACCO","LITCIG","LIGHT_2"],
+        "category" : "drugs"
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "cig_butt",
         "name" : "cigarette butt",
+        "use_action" : "SMOKING",
         "weight" : 0,
+        "comestible_type" : "MED",
         "color" : "dark_gray",
         "symbol" : "!",
         "description" : "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
