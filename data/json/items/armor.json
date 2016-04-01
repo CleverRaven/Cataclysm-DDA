@@ -27,7 +27,6 @@
         "covers" : ["HANDS"],
         "symbol" : "[",
         "description" : "A pair of improvised gloves made from socks with holes poked through them.",
-        "price" : 0,
         "material" : ["cotton"],
         "volume" : 1,
         "warmth" : 5,
@@ -181,8 +180,6 @@
         "price" : 800,
         "material" : ["plastic"],
         "volume": 0,
-        "warmth": 0,
-        "encumbrance": 0,
         "bashing" : 2,
         "flags": ["VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT"],
         "coverage": 50,
@@ -5648,7 +5645,6 @@
         "color" : "yellow",
         "price" : 9000,
         "material" : ["leather", "steel"],
-        "coverage" : 0,
         "symbol" : "[",
         "bashing" : 5,
         "flags" : ["FANCY", "WAIST", "NO_QUICKDRAW"],
@@ -6719,7 +6715,6 @@
         "color" : "yellow",
         "price" : 30000,
         "material" : ["gold"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6736,7 +6731,6 @@
         "color" : "pink",
         "price" : 1000,
         "material" : ["plastic"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6752,7 +6746,6 @@
         "color" : "pink",
         "price" : 800,
         "material" : ["plastic"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6768,7 +6761,6 @@
         "color" : "yellow",
         "price" : 190000,
         "material" : ["gold"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6784,7 +6776,6 @@
         "color" : "yellow",
         "price" : 13000,
         "material" : ["gold"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6800,7 +6791,6 @@
         "color" : "light_gray",
         "price" : 8000,
         "material" : ["silver"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6816,7 +6806,6 @@
         "color" : "brown",
         "price" : 2900,
         "material" : ["copper"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -6831,7 +6820,6 @@
         "color" : "light_gray",
         "price" : 12000,
         "material" : ["silver"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6847,7 +6835,6 @@
         "color" : "white",
         "price" : 590000,
         "material" : ["stone"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["SUPER_FANCY"]
@@ -6863,7 +6850,6 @@
         "color" : "light_gray",
         "price" : 4000,
         "material" : ["silver"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6879,7 +6865,6 @@
         "color" : "yellow",
         "price" : 46000,
         "material" : ["gold"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6895,7 +6880,6 @@
         "color" : "light_gray",
         "price" : 25000,
         "material" : ["silver"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6911,7 +6895,6 @@
         "color" : "brown",
         "price" : 2500,
         "material" : ["copper"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -6926,7 +6909,6 @@
         "color" : "dark_gray",
         "price" : 1000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6943,7 +6925,6 @@
         "color" : "green",
         "price" : 90000,
         "material" : ["stone"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6966,7 +6947,6 @@
         "color" : "white",
         "price" : 1000,
         "material" : ["bone", "silver"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -6982,7 +6962,6 @@
         "material": "gold",
         "weight": 22,
         "volume": 0,
-        "coverage" : 0,
         "warmth" : 0,
         "max_charges": 0,
         "initial_charges": 0,
@@ -7005,7 +6984,6 @@
         "material" : ["wood", "cotton"],
         "weight": 38,
         "volume": 0,
-        "coverage" : 0,
         "warmth" : 0,
         "max_charges": 0,
         "initial_charges": 0,
@@ -7028,7 +7006,6 @@
         "price" : 8000,
         "//" : "These seem to be sold via subscription; makes a certain amount of sense, but low-bid seems a Bad Idea.",
         "material" : ["plastic"],
-        "coverage" : 0,
         "flags" : ["OVERSIZE"],
         "symbol" : "[",
         "warmth" : 0
@@ -7044,7 +7021,6 @@
         "color" : "yellow",
         "price" : 5000,
         "material" : ["silver"],
-        "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
@@ -7060,7 +7036,6 @@
         "color" : "yellow",
         "price" : 5000,
         "material" : ["silver"],
-        "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
@@ -7076,7 +7051,6 @@
         "color" : "yellow",
         "price" : 5000,
         "material" : ["silver"],
-        "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
@@ -7092,7 +7066,6 @@
         "color" : "yellow",
         "price" : 5000,
         "material" : ["gold"],
-        "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
@@ -7108,7 +7081,6 @@
         "color" : "yellow",
         "price" : 10000,
         "material" : ["silver"],
-        "coverage" : 0,
         "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
@@ -9078,7 +9050,6 @@
         "color" : "dark_gray",
         "price" : 3000,
         "material" : ["leather", "plastic"],
-        "coverage" : 0,
         "symbol" : "^",
         "warmth" : 0
     },
@@ -9095,7 +9066,6 @@
         "color" : "brown",
         "price" : 1500,
         "material" : ["fur", "plastic"],
-        "coverage" : 0,
         "symbol" : "^",
         "warmth" : 0
     },
@@ -9111,7 +9081,6 @@
         "color" : "dark_gray",
         "price" : 2500,
         "material" : ["leather", "plastic"],
-        "coverage" : 0,
         "symbol" : "s",
         "bashing" : 4,
         "warmth" : 0
@@ -9128,7 +9097,6 @@
         "color" : "brown",
         "price" : 1000,
         "material" : ["fur", "plastic"],
-        "coverage" : 0,
         "symbol" : "s",
         "bashing" : 4,
         "warmth" : 0
@@ -9145,7 +9113,6 @@
         "color" : "brown",
         "price" : 1000,
         "material" : ["fur"],
-        "coverage" : 0,
         "symbol" : "-",
         "warmth" : 0
     },
@@ -9236,7 +9203,6 @@
         "color" : "dark_gray",
         "price" : 10000,
         "material" : ["leather"],
-        "coverage" : 0,
         "symbol" : "-",
         "warmth" : 0
     },
@@ -9310,7 +9276,6 @@
         "symbol" : "[",
         "description" : "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
         "flags" : ["OVERSIZE", "BELTED", "RESTRICT_HANDS"],
-        "price" : 0,
         "material" : "cotton",
         "volume" : 4,
         "warmth" : 0,
@@ -9409,10 +9374,8 @@
         "description" : "A fancy silver tie clip, a great match for your skinny tie.",
         "weight" : 12,
         "color" : "light_gray",
-        "encumbrance" : 0,
         "price" : 28000,
         "material" : ["silver"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -9549,10 +9512,8 @@
         "description" : "A staple accessory for gentlemen.  Keeps your shirt collar in place and provides a more aesthetically pleasing arc to your necktie.",
         "weight" : 10,
         "color" : "light_gray",
-        "encumbrance" : 0,
         "price" : 25000,
         "material" : ["silver"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -9567,10 +9528,8 @@
         "weight" : 10,
         "color" : "yellow",
         "covers" : ["MOUTH"],
-        "encumbrance" : 0,
         "price" : 20000,
         "material" : ["gold"],
-        "coverage" : 0,
         "symbol" : "[",
         "bashing" : 2,
         "cutting" : 2,
@@ -9590,7 +9549,6 @@
         "encumbrance" : 10,
         "price" : 50000,
         "material" : ["gold"],
-        "coverage" : 0,
         "symbol" : "[",
         "bashing" : 3,
         "cutting" : 3,
@@ -9654,7 +9612,6 @@
         "material" : ["leather"],
         "volume" : 6,
         "warmth" : 10,
-        "encumbrance" : 0,
         "bashing" : 1,
         "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 60,
@@ -9675,7 +9632,6 @@
         "material" : ["cotton"],
         "volume" : 1,
         "warmth" : 20,
-        "encumbrance" : 0,
         "flags" : ["WATER_FRIENDLY", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 2
@@ -9813,7 +9769,6 @@
         "material" : ["cotton"],
         "volume" : 1,
         "warmth" : 2,
-        "encumbrance" : 0,
         "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 80,
         "material_thickness" : 0
@@ -9832,7 +9787,6 @@
         "material" : ["wool"],
         "volume" : 6,
         "warmth" : 20,
-        "encumbrance" : 0,
         "flags" : ["VARSIZE"],
         "coverage" : 50,
         "material_thickness" : 3
@@ -9927,10 +9881,8 @@
         "description" : "Those round things people plug into their earlobes as earrings, also called \"ear plug\" or \"ear spool.\"",
         "weight" : 10,
         "color" : "dark_gray",
-        "encumbrance" : 0,
         "price" : 1200,
         "material" : ["plastic"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
         "flags" : ["FANCY"]
@@ -9948,7 +9900,6 @@
         "material" : ["cotton"],
         "volume" : 1,
         "warmth" : 0,
-        "encumbrance" : 0,
         "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 7,
         "material_thickness" : 1
@@ -9967,7 +9918,6 @@
         "material" : ["cotton"],
         "volume" : 2,
         "warmth" : 2,
-        "encumbrance" : 0,
         "flags" : ["VARSIZE"],
         "coverage" : 25,
         "material_thickness" : 1
@@ -10219,7 +10169,6 @@
         "volume" : 3,
         "warmth" : 2,
         "environmental_protection" : 2,
-        "encumbrance" : 0,
         "flags" : ["VARSIZE", "SUN_GLASSES"],
         "coverage" : 40,
         "material_thickness" : 1
@@ -10363,7 +10312,6 @@
         "material" : ["cotton"],
         "volume" : 6,
         "warmth" : 0,
-        "encumbrance" : 0,
         "flags" : ["VARSIZE"],
         "coverage" : 100,
         "material_thickness" : 1
@@ -10420,7 +10368,6 @@
         "volume" : 2,
         "cutting" : 1,
         "warmth" : 10,
-        "encumbrance" : 0,
         "flags" : ["VARSIZE"],
         "coverage" : 100,
         "material_thickness" : 1
@@ -10439,7 +10386,6 @@
         "volume" : 2,
         "cutting" : 1,
         "warmth" : 10,
-        "encumbrance" : 0,
         "flags" : ["VARSIZE"],
         "coverage" : 100,
         "material_thickness" : 1
@@ -10514,10 +10460,8 @@
         "weight" : 200,
         "to_hit" : -1,
         "color" : "white",
-        "encumbrance" : 0,
         "price" : 1000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -10531,10 +10475,8 @@
         "weight" : 200,
         "to_hit" : -1,
         "color" : "yellow",
-        "encumbrance" : 0,
         "price" : 1000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -10548,10 +10490,8 @@
         "weight" : 200,
         "to_hit" : -1,
         "color" : "light_red",
-        "encumbrance" : 0,
         "price" : 1000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -10565,10 +10505,8 @@
         "weight" : 200,
         "to_hit" : -1,
         "color" : "green",
-        "encumbrance" : 0,
         "price" : 1000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -10582,10 +10520,8 @@
         "weight" : 200,
         "to_hit" : -1,
         "color" : "blue",
-        "encumbrance" : 0,
         "price" : 1000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -10599,10 +10535,8 @@
         "weight" : 200,
         "to_hit" : -1,
         "color" : "brown",
-        "encumbrance" : 0,
         "price" : 1000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -10616,10 +10550,8 @@
         "weight" : 200,
         "to_hit" : -1,
         "color" : "dark_gray",
-        "encumbrance" : 0,
         "price" : 1000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -10633,10 +10565,8 @@
         "weight" : 200,
         "to_hit" : -1,
         "color" : "dark_gray",
-        "encumbrance" : 0,
         "price" : 2000,
         "material" : ["cotton"],
-        "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
