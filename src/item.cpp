@@ -5405,11 +5405,19 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run %s!" ), tname().c_str() );
         }
+
+        // invoking the object can convert the item to another type of item, the
+        // revert target check should be stored ahead of time
+        bool has_no_revert_target = false;
+        if( type->tool->revert_to == "null" ) {
+            has_no_revert_target = true; // reverts to nothing -> destroy the item
+        }
+
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefor will fail.
         type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
-        if( type->tool->revert_to == "null" ) {
-            return true; // reverts to nothing -> destroy the item
+        if( has_no_revert_target ) {
+            return true; // destroy after invoking, no revert target was found earlier
         }
         deactivate( carrier );
     }
