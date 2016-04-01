@@ -237,8 +237,7 @@
         "material" : ["aluminum"],
         "volume" : 1,
         "coverage" : 90,
-        "flags" : ["SKINTIGHT"],
-        "material_thickness" : 0
+        "flags" : ["SKINTIGHT"]
     },
     {
         "type" : "ARMOR",
@@ -5607,7 +5606,6 @@
         "id" : "fireman_belt",
         "name" : "firefighter belt",
         "volume" : 2,
-        "material_thickness" : 0,
         "storage" : 4,
         "covers" : ["TORSO"],
         "description" : "A stout firefighter's belt.  Useful for keeping your bunker gear up, it also doubles as an equipment belt with a reinforced loop for holding a large tool.",
@@ -6658,7 +6656,6 @@
         "id" : "ring",
         "name" : "gold ring",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A flashy gold ring.  You can wear it if you like, but it won't provide any effects.",
         "weight" : 10,
         "color" : "yellow",
@@ -6673,7 +6670,6 @@
         "id" : "fc_hairpin",
         "name" : "fancy hairpin",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A pink hairpin with cute flower textures.",
         "weight" : 4,
         "color" : "pink",
@@ -6687,7 +6683,6 @@
         "id" : "barrette",
         "name" : "barrette",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A barrette with lots of ornaments.",
         "weight" : 5,
         "color" : "pink",
@@ -6701,7 +6696,6 @@
         "id" : "diamond_ring",
         "name" : "diamond ring",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A gold ring with a sparkling diamond mounted on top of it.  Back in the old days this could be worth a fortune.",
         "weight" : 12,
         "color" : "yellow",
@@ -6715,7 +6709,6 @@
         "id" : "gold_ear",
         "name" : "gold earring",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A shiny gold earring.  You can wear it if you like, but it won't provide any effects.",
         "weight" : 10,
         "color" : "yellow",
@@ -6729,7 +6722,6 @@
         "id" : "silver_ear",
         "name" : "silver earring",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A beautiful silver earring.  You can wear it if you like, but it won't provide any effects.",
         "weight" : 10,
         "color" : "light_gray",
@@ -6743,21 +6735,18 @@
         "id" : "copper_ear",
         "name" : "copper earring",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A copper earring.  It's pretty heavy, wearing it for an extended period of time may stretch your ear longer.",
         "weight" : 50,
         "color" : "brown",
         "price" : 2900,
         "material" : ["copper"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "necklace",
         "name" : "silver necklace",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A nice silver necklace.  You can wear it if you like, but it won't provide any effects.",
         "weight" : 28,
         "color" : "light_gray",
@@ -6771,7 +6760,6 @@
         "id" : "pearl_collar",
         "name" : "pearl collar",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A collar made from round and lustrous pearls, its former owner must be a wealthy individual.",
         "weight" : 30,
         "color" : "white",
@@ -6785,7 +6773,6 @@
         "id" : "locket",
         "name" : "locket",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A small locket with a frame inside to store photographs or small objects.",
         "weight" : 26,
         "color" : "light_gray",
@@ -6799,7 +6786,6 @@
         "id" : "gold_bracelet",
         "name" : "gold bracelet",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A fancy golden bracelet.  You can wear it if you like, but it won't provide any effects.",
         "weight" : 40,
         "color" : "yellow",
@@ -6813,7 +6799,6 @@
         "id" : "silver_bracelet",
         "name" : "silver bracelet",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A nice silver bracelet.  You can wear it if you like, but it won't provide any effects.",
         "weight" : 36,
         "color" : "light_gray",
@@ -6827,21 +6812,18 @@
         "id" : "copper_bracelet",
         "name" : "copper bracelet",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "An old-fashioned, copper bracelet.",
         "weight" : 86,
         "color" : "brown",
         "price" : 2500,
         "material" : ["copper"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "skinny_tie",
         "name" : "skinny tie",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A skinny black and white checkered necktie.",
         "weight" : 12,
         "color" : "dark_gray",
@@ -6856,7 +6838,6 @@
         "name" : "jade brooch",
         "name_plural" : "jade brooches",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A hand-crafted, jade brooch of Oriental origin.",
         "weight" : 26,
         "color" : "green",
@@ -6870,7 +6851,6 @@
         "id" : "small_relic",
         "name" : "small relic",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A small relic from a forgotten saint.  As extraordinary as the world has become it may have some power yet.",
         "weight" : 50,
         "max_charges": 0,
@@ -6904,7 +6884,6 @@
         "ammo": "NULL",
         "use_action": "MEDITATE",
         "revert_to": "null",
-        "material_thickness" : 0,
         "flags" : ["FANCY"]
     },
     {
@@ -6924,15 +6903,13 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": "MEDITATE",
-        "revert_to": "null",
-        "material_thickness" : 0
+        "revert_to": "null"
     },
     {
         "type" : "ARMOR",
         "id" : "rad_badge",
         "name" : "radiation badge",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A plastic badge with an embedded film strip.  The film strip changes color as it is exposed to radiation.  Wear on your lapel so you can notice if it changes.",
         "weight" : 20,
         "color" : "light_blue",
@@ -6940,83 +6917,72 @@
         "//" : "These seem to be sold via subscription; makes a certain amount of sense, but low-bid seems a Bad Idea.",
         "material" : ["plastic"],
         "flags" : ["OVERSIZE"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "badge_deputy",
         "name" : "deputy badge",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A tarnished silver star gives an air of authority to the wearer.",
         "weight" : 60,
         "color" : "yellow",
         "price" : 5000,
         "material" : ["silver"],
         "bashing_protection" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "badge_swat",
         "name" : "SWAT ID",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough.",
         "weight" : 60,
         "color" : "yellow",
         "price" : 5000,
         "material" : ["silver"],
         "bashing_protection" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "badge_cybercop",
         "name" : "cybercop shield",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A chromed silver shield identifies the wearer as an authority even the cop-killers couldn't kill.",
         "weight" : 60,
         "color" : "yellow",
         "price" : 5000,
         "material" : ["silver"],
         "bashing_protection" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "badge_detective",
         "name" : "detective badge",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A tarnished golden shield gives an air of authority to the wearer.",
         "weight" : 60,
         "color" : "yellow",
         "price" : 5000,
         "material" : ["gold"],
         "bashing_protection" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "badge_marshal",
         "name" : "marshal badge",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A bright silver star strikes fear into the eyes of ne'er-do-wells.",
         "weight" : 60,
         "color" : "yellow",
         "price" : 10000,
         "material" : ["silver"],
         "bashing_protection" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -7651,7 +7617,6 @@
         "name" : "wrist watch",
         "name_plural" : "wrist watches",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A simple wristwatch on a plastic band.  Tells the time and has an alarm clock feature.",
         "weight" : 50,
         "to_hit" : -1,
@@ -7661,8 +7626,7 @@
         "material" : ["plastic", "steel"],
         "flags" : ["WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -7670,7 +7634,6 @@
         "name" : "diver's watch",
         "name_plural" : "diver's watches",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A waterproof, self-winding watch on a steel watchband.  Tells the time and current temperature and is impervious to water.  Activate to check the digital thermometer.",
         "weight" : 65,
         "to_hit" : -1,
@@ -7695,7 +7658,6 @@
         "name" : "gold watch",
         "name_plural" : "gold watches",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A gold-plated steel self-winding wristwatch, suitable for a retirement present.  Tells the time and looks good.",
         "weight" : 65,
         "to_hit" : -1,
@@ -7705,8 +7667,7 @@
         "material" : ["steel", "gold"],
         "flags" : ["WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -7714,7 +7675,6 @@
         "name" : "fancy watch",
         "name_plural" : "fancy watches",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A rather large and expensively made wristwatch.  Tells the time in elegantly wrought gold with silver detailing.  It's really the only timepiece suitable for someone of your exquisitely discerning tastes.",
         "weight" : 80,
         "to_hit" : -1,
@@ -7725,8 +7685,7 @@
         "material" : ["gold", "silver"],
         "flags" : ["WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 10,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -8972,15 +8931,13 @@
         "name" : "pair of leather cat ears",
         "name_plural" : "pairs of leather cat ears",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A shiny pair of black cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
         "flags" : ["FANCY"],
         "weight" : 20,
         "color" : "dark_gray",
         "price" : 3000,
         "material" : ["leather", "plastic"],
-        "symbol" : "^",
-        "warmth" : 0
+        "symbol" : "^"
     },
     {
         "type" : "ARMOR",
@@ -8988,22 +8945,19 @@
         "name" : "pair of fuzzy cat ears",
         "name_plural" : "pairs of fuzzy cat ears",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A fuzzy pair of brownish cat ears on a headband.  It does nothing, but there's no reason not to look good even if no one's looking.",
         "flags" : ["FANCY"],
         "weight" : 20,
         "color" : "brown",
         "price" : 1500,
         "material" : ["fur", "plastic"],
-        "symbol" : "^",
-        "warmth" : 0
+        "symbol" : "^"
     },
     {
         "type" : "ARMOR",
         "id" : "leather_cat_tail",
         "name" : "leather cat tail",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A glossy black leather tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
         "flags" : ["FANCY"],
         "weight" : 80,
@@ -9011,15 +8965,13 @@
         "price" : 2500,
         "material" : ["leather", "plastic"],
         "symbol" : "s",
-        "bashing" : 4,
-        "warmth" : 0
+        "bashing" : 4
     },
     {
         "type" : "ARMOR",
         "id" : "fur_cat_tail",
         "name" : "fuzzy cat tail",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A fuzzy tawny tail weighted down with tiny beads of plastic.  Sways behind you when you walk.",
         "flags" : ["FANCY"],
         "weight" : 80,
@@ -9027,23 +8979,20 @@
         "price" : 1000,
         "material" : ["fur", "plastic"],
         "symbol" : "s",
-        "bashing" : 4,
-        "warmth" : 0
+        "bashing" : 4
     },
     {
         "type" : "ARMOR",
         "id" : "fur_collar",
         "name" : "fur kitty collar",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A decorative 'collar' made out of fur.  Complete with a little bell hanging from the front.  Don't worry, it's silent.",
         "flags" : ["FANCY"],
         "weight" : 10,
         "color" : "brown",
         "price" : 1000,
         "material" : ["fur"],
-        "symbol" : "-",
-        "warmth" : 0
+        "symbol" : "-"
     },
     {
         "type" : "ARMOR",
@@ -9124,15 +9073,13 @@
         "id" : "leather_collar",
         "name" : "leather collar",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A black leather 'collar' with a bell dangling from the front.  Don't worry, the bell is silent.",
         "flags" : ["FANCY"],
         "weight" : 10,
         "color" : "dark_gray",
         "price" : 10000,
         "material" : ["leather"],
-        "symbol" : "-",
-        "warmth" : 0
+        "symbol" : "-"
     },
     {
         "type" : "ARMOR",
@@ -9294,7 +9241,6 @@
         "id" : "tieclip",
         "name" : "tie clip",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A fancy silver tie clip, a great match for your skinny tie.",
         "weight" : 12,
         "color" : "light_gray",
@@ -9431,7 +9377,6 @@
         "id" : "collarpin",
         "name" : "collar pin",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A staple accessory for gentlemen.  Keeps your shirt collar in place and provides a more aesthetically pleasing arc to your necktie.",
         "weight" : 10,
         "color" : "light_gray",
@@ -9445,7 +9390,6 @@
         "id" : "gold_dental_grill",
         "name" : "gold dental grill",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "Fake golden teeth, worn over the teeth.  Fits horribly, but looks very shiny.",
         "weight" : 10,
         "color" : "yellow",
@@ -9462,7 +9406,6 @@
         "id" : "diamond_dental_grill",
         "name" : "diamond dental grill",
         "volume" : 0,
-        "material_thickness" : 0,
         "description" : "Fake teeth inlaid with diamonds, worn over the teeth.  Fits horribly, but looks very shiny.  For that high class gangsta rap look.",
         "weight" : 10,
         "color" : "yellow",
@@ -9690,8 +9633,7 @@
         "volume" : 1,
         "warmth" : 2,
         "flags" : ["VARSIZE", "SKINTIGHT"],
-        "coverage" : 80,
-        "material_thickness" : 0
+        "coverage" : 80
     },
     {
         "type" : "ARMOR",
@@ -10369,120 +10311,104 @@
         "id" : "judo_belt_white",
         "name" : "white belt",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A belt worn by martial arts practitioners, advertising a novice.",
         "weight" : 200,
         "to_hit" : -1,
         "color" : "white",
         "price" : 1000,
         "material" : ["cotton"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "judo_belt_yellow",
         "name" : "yellow belt",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A belt worn by martial arts practitioners, advertising a moderate novice.",
         "weight" : 200,
         "to_hit" : -1,
         "color" : "yellow",
         "price" : 1000,
         "material" : ["cotton"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "judo_belt_orange",
         "name" : "orange belt",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A belt worn by martial arts practitioners, advertising a fresh intermediate.",
         "weight" : 200,
         "to_hit" : -1,
         "color" : "light_red",
         "price" : 1000,
         "material" : ["cotton"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "judo_belt_green",
         "name" : "green belt",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A belt worn by martial arts practitioners, advertising an intermediate.",
         "weight" : 200,
         "to_hit" : -1,
         "color" : "green",
         "price" : 1000,
         "material" : ["cotton"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "judo_belt_blue",
         "name" : "blue belt",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A belt worn by martial arts practitioners, advertising a strong intermediate.",
         "weight" : 200,
         "to_hit" : -1,
         "color" : "blue",
         "price" : 1000,
         "material" : ["cotton"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "judo_belt_brown",
         "name" : "brown belt",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A belt worn by martial arts practitioners, advertising a near-master.",
         "weight" : 200,
         "to_hit" : -1,
         "color" : "brown",
         "price" : 1000,
         "material" : ["cotton"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "judo_belt_black",
         "name" : "black belt",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A belt worn by martial arts practitioners, advertising a master.",
         "weight" : 200,
         "to_hit" : -1,
         "color" : "dark_gray",
         "price" : 1000,
         "material" : ["cotton"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
         "id" : "obi_gi",
         "name" : "obi",
         "volume" : 1,
-        "material_thickness" : 0,
         "description" : "A broad, black obi belt.",
         "weight" : 200,
         "to_hit" : -1,
         "color" : "dark_gray",
         "price" : 2000,
         "material" : ["cotton"],
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
