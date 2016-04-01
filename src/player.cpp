@@ -9276,7 +9276,7 @@ bool player::consume_item( item &target )
             if( req_tool->tool ) {
                 if( !( has_amount( req_tool->id, 1 ) && has_charges( req_tool->id, req_tool->tool->charges_per_use ) ) ) {
                     add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname(1).c_str() );
-                    return false;                    
+                    return false;
                 }
                 use_charges( req_tool->id, req_tool->tool->charges_per_use );
             }
@@ -10368,7 +10368,13 @@ bool player::consume_charges( item& used, long qty )
 
     // USE_UPS never occurs on base items but is instead added by the UPS tool mod
     if( used.has_flag( "USE_UPS" ) ) {
-        use_charges( "UPS", qty );
+        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
+        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
+        if( used.charges >= qty ) {
+            used.ammo_consume( qty, pos() );
+        } else {
+            use_charges( "UPS", qty );
+        }
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     }

@@ -1286,6 +1286,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool query_yn( const char *mes, ... ) const override;
 
+        /**
+         * Has the item enough charges to invoke its use function?
+         * Also checks if UPS from this player is used instead of item charges.
+         */
+        bool has_enough_charges(const item &it, bool show_msg) const;
+
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1338,12 +1344,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use_fire(const int quantity);
 
         void react_to_felt_pain( int intensity );
-
-        /**
-         * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
-         */
-        bool has_enough_charges(const item &it, bool show_msg) const;
 
         bool can_study_recipe(const itype &book) const;
         bool try_study_recipe(const itype &book);

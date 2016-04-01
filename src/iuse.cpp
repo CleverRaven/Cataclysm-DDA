@@ -3561,12 +3561,16 @@ int iuse::circsaw_on(player *p, item *it, bool t, const tripoint& )
 int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
 {
     bool normal_language = it->type->id != "jacqueshammer";
-      // Jacqueshammers function the same as ordinary
-      // jackhammers, except they print messages in French for
-      // comic effect.
-    if (it->charges < it->type->charges_to_use()) {
+    // Jacqueshammers function the same as ordinary
+    // jackhammers, except they print messages in French for
+    // comic effect.
+
+    // use has_enough_charges to check for UPS availability
+    // p is assumed to exist for iuse cases
+    if( !p->has_enough_charges( *it, false ) ) {
         return 0;
     }
+
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, normal_language
           ? _("You can't do that while underwater.")
