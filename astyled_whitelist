@@ -121,6 +121,7 @@ src/lightmap.h
 src/line.h
 src/live_view.h
 src/lua_console.h
+src/main_menu.cpp
 src/map_iterator.h
 src/map_selector.h
 src/mapbuffer.h
