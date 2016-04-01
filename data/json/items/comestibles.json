@@ -10470,7 +10470,6 @@
         "symbol" : "!",
         "description" : "A true gentleman always finishes his cigars.",
         "category": "drugs"
-        
     },
 	{
         "type" : "GENERIC",
@@ -10482,8 +10481,7 @@
         "symbol" : "!",
         "description" : "A true gentleman always finishes his cigars. Always...",
 		"category" : "drugs",
-        "flags" : ["TABACCO","LITCIG","LIGHT_2"]
-        
+        "flags" : ["TOBACCO","LITCIG","LIGHT_2"]
     },
     {
         "type" : "COMESTIBLE",
