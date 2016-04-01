@@ -282,7 +282,8 @@ struct time_info {
 };
 
 #ifdef _MSC_VER
-time_info get_time() noexcept {
+time_info get_time() noexcept
+{
     SYSTEMTIME time {};
 
     GetLocalTime( &time );
@@ -292,7 +293,8 @@ time_info get_time() noexcept {
                      };
 }
 #else
-time_info get_time() noexcept {
+time_info get_time() noexcept
+{
     timeval tv;
     gettimeofday( &tv, nullptr );
 
