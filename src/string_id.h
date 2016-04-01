@@ -231,7 +231,7 @@ struct null_id_type {
 
 namespace
 {
-const null_id_type NULL_ID{};
+const null_id_type NULL_ID {};
 }
 
 #endif

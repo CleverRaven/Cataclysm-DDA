@@ -7737,16 +7737,6 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-ter_id find_ter_id( const ter_str_id &id, bool complain = true )
-{
-    ( void )complain; //FIXME: complain unused
-    if( !id.is_valid() ) {
-        debugmsg( "Can't find terrain %s", id.c_str() );
-        return ter_id( 0 );
-    }
-    return id.id();
-}
-
 furn_id find_furn_id( const std::string id, bool complain = true )
 {
     ( void )complain; //FIXME: complain unused
@@ -7766,7 +7756,7 @@ void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
 
 void map::draw_line_ter( const ter_str_id &type, int x1, int y1, int x2, int y2 )
 {
-    draw_line_ter( find_ter_id( type ), x1, y1, x2, y2 );
+    draw_line_ter( type.id(), x1, y1, x2, y2 );
 }
 
 void map::draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 )
@@ -7801,7 +7791,7 @@ void map::draw_fill_background( ter_id type )
 
 void map::draw_fill_background( ter_str_id &type )
 {
-    draw_fill_background( find_ter_id( type ) );
+    draw_fill_background( type.id() );
 }
 void map::draw_fill_background( ter_id( *f )() )
 {
@@ -7821,7 +7811,7 @@ void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 )
 
 void map::draw_square_ter( ter_str_id &type, int x1, int y1, int x2, int y2 )
 {
-    draw_square_ter( find_ter_id( type ), x1, y1, x2, y2 );
+    draw_square_ter( type.id(), x1, y1, x2, y2 );
 }
 
 void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
@@ -7859,7 +7849,7 @@ void map::draw_rough_circle_ter( ter_id type, int x, int y, int rad )
 
 void map::draw_rough_circle_ter( ter_str_id &type, int x, int y, int rad )
 {
-    draw_rough_circle_ter( find_ter_id( type ), x, y, rad );
+    draw_rough_circle_ter( type.id(), x, y, rad );
 }
 
 void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
@@ -7890,7 +7880,7 @@ void map::draw_circle_ter( ter_id type, int x, int y, int rad )
 
 void map::draw_circle_ter( ter_str_id &type, int x, int y, int rad )
 {
-    draw_circle_ter( find_ter_id( type ), x, y, rad );
+    draw_circle_ter( type.id(), x, y, rad );
 }
 
 void map::draw_circle_furn( furn_id type, int x, int y, int rad )

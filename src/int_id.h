@@ -46,7 +46,7 @@ class int_id
          * and std::strings to be used.
          */
         template<typename S, class =
-            typename std::enable_if< std::is_convertible<S, std::string >::value>::type >
+                 typename std::enable_if< std::is_convertible<S, std::string >::value>::type >
         explicit int_id( S && id ) : int_id( string_id<T>( std::forward<S>( id ) ) ) {}
 
         /**
