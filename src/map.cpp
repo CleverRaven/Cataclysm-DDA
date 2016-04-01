@@ -2949,13 +2949,17 @@ bool map::moppable_items_at( const tripoint &p )
 
 void map::decay_fields_and_scent( const int amount )
 {
+    const int minz = zlevels ? 0 : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     // Decay scent separately, so that later we can use field count to skip empty submaps
     tripoint tmp;
-    tmp.z = abs_sub.z; // TODO: Make this happen on all z-levels
-    for( tmp.x = 0; tmp.x < my_MAPSIZE * SEEX; tmp.x++ ) {
-        for( tmp.y = 0; tmp.y < my_MAPSIZE * SEEY; tmp.y++ ) {
-            if( g->scent( tmp ) > 0 ) {
-                g->scent( tmp )--;
+    for( tmp.z = minz; tmp.z <= maxz; tmp.z++ ) {
+        for( tmp.x = 0; tmp.x < my_MAPSIZE * SEEX; tmp.x++ ) {
+            for( tmp.y = 0; tmp.y < my_MAPSIZE * SEEY; tmp.y++ ) {
+                auto &scent = g->scent( tmp );
+                if( scent > 0 ) {
+                    scent--;
+                }
             }
         }
     }
@@ -2964,90 +2968,90 @@ void map::decay_fields_and_scent( const int amount )
     const int amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
     const int amount_gas = amount / 5; // Decay gas type fields by this
     // Coord code copied from lightmap calculations
-    // TODO: Z
-    const int smz = abs_sub.z;
-    const auto &outside_cache = get_cache_ref( smz ).outside_cache;
-    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
-        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, smz );
-            int to_proc = cur_submap->field_count;
-            if( to_proc < 1 ) {
-                if( to_proc < 0 ) {
-                    cur_submap->field_count = 0;
-                    dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
-                                   << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
-                                   << "has " << to_proc << " field_count";
-                }
-                // This submap has no fields
-                continue;
-            }
-
-            for( int sx = 0; sx < SEEX; ++sx ) {
+    for( int smz = minz; smz <= maxz; smz++ ) {
+        const auto &outside_cache = get_cache_ref( smz ).outside_cache;
+        for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+            for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+                auto const cur_submap = get_submap_at_grid( smx, smy, smz );
+                int to_proc = cur_submap->field_count;
                 if( to_proc < 1 ) {
-                    // This submap had some fields, but all got proc'd already
-                    break;
+                    if( to_proc < 0 ) {
+                        cur_submap->field_count = 0;
+                        dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
+                                       << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
+                                       << "has " << to_proc << " field_count";
+                    }
+                    // This submap has no fields
+                    continue;
                 }
 
-                for( int sy = 0; sy < SEEY; ++sy ) {
-                    const int x = sx + smx * SEEX;
-                    const int y = sy + smy * SEEY;
-
-                    field &fields = cur_submap->fld[sx][sy];
-                    if( !outside_cache[x][y] ) {
-                        to_proc -= fields.fieldCount();
-                        continue;
+                for( int sx = 0; sx < SEEX; ++sx ) {
+                    if( to_proc < 1 ) {
+                        // This submap had some fields, but all got proc'd already
+                        break;
                     }
 
-                    for( auto &fp : fields ) {
-                        to_proc--;
-                        field_entry &cur = fp.second;
-                        const field_id type = cur.getFieldType();
-                        switch( type ) {
-                            case fd_fire:
-                                cur.setFieldAge( cur.getFieldAge() + amount_fire );
-                                break;
-                            case fd_blood:
-                            case fd_bile:
-                            case fd_gibs_flesh:
-                            case fd_gibs_veggy:
-                            case fd_slime:
-                            case fd_blood_veggy:
-                            case fd_blood_insect:
-                            case fd_blood_invertebrate:
-                            case fd_gibs_insect:
-                            case fd_gibs_invertebrate:
-                                cur.setFieldAge( cur.getFieldAge() + amount_liquid );
-                                break;
-                            case fd_smoke:
-                            case fd_toxic_gas:
-                            case fd_fungicidal_gas:
-                            case fd_tear_gas:
-                            case fd_nuke_gas:
-                            case fd_cigsmoke:
-                            case fd_weedsmoke:
-                            case fd_cracksmoke:
-                            case fd_methsmoke:
-                            case fd_relax_gas:
-                            case fd_fungal_haze:
-                            case fd_hot_air1:
-                            case fd_hot_air2:
-                            case fd_hot_air3:
-                            case fd_hot_air4:
-                                cur.setFieldAge( cur.getFieldAge() + amount_gas );
-                                break;
-                            default:
-                                break;
+                    for( int sy = 0; sy < SEEY; ++sy ) {
+                        const int x = sx + smx * SEEX;
+                        const int y = sy + smy * SEEY;
+
+                        field &fields = cur_submap->fld[sx][sy];
+                        if( !outside_cache[x][y] ) {
+                            to_proc -= fields.fieldCount();
+                            continue;
+                        }
+
+                        for( auto &fp : fields ) {
+                            to_proc--;
+                            field_entry &cur = fp.second;
+                            const field_id type = cur.getFieldType();
+                            switch( type ) {
+                                case fd_fire:
+                                    cur.setFieldAge( cur.getFieldAge() + amount_fire );
+                                    break;
+                                case fd_blood:
+                                case fd_bile:
+                                case fd_gibs_flesh:
+                                case fd_gibs_veggy:
+                                case fd_slime:
+                                case fd_blood_veggy:
+                                case fd_blood_insect:
+                                case fd_blood_invertebrate:
+                                case fd_gibs_insect:
+                                case fd_gibs_invertebrate:
+                                    cur.setFieldAge( cur.getFieldAge() + amount_liquid );
+                                    break;
+                                case fd_smoke:
+                                case fd_toxic_gas:
+                                case fd_fungicidal_gas:
+                                case fd_tear_gas:
+                                case fd_nuke_gas:
+                                case fd_cigsmoke:
+                                case fd_weedsmoke:
+                                case fd_cracksmoke:
+                                case fd_methsmoke:
+                                case fd_relax_gas:
+                                case fd_fungal_haze:
+                                case fd_hot_air1:
+                                case fd_hot_air2:
+                                case fd_hot_air3:
+                                case fd_hot_air4:
+                                    cur.setFieldAge( cur.getFieldAge() + amount_gas );
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
-            }
 
-            if( to_proc > 0 ) {
-                cur_submap->field_count = cur_submap->field_count - to_proc;
-                dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
-                               << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
-                               << "has " << cur_submap->field_count - to_proc << "fields, but "
-                               << cur_submap->field_count << " field_count";
+                if( to_proc > 0 ) {
+                    cur_submap->field_count = cur_submap->field_count - to_proc;
+                    dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
+                                   << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
+                                   << "has " << cur_submap->field_count - to_proc << "fields, but "
+                                   << cur_submap->field_count << " field_count";
+                }
             }
         }
     }

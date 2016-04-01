@@ -592,6 +592,8 @@
 		<Unit filename="src/savegame_legacy.cpp" />
 		<Unit filename="src/scenario.cpp" />
 		<Unit filename="src/scenario.h" />
+		<Unit filename="src/scent.cpp" />
+		<Unit filename="src/scent.h" />
 		<Unit filename="src/sdltiles.cpp" />
 		<Unit filename="src/shadowcasting.h" />
 		<Unit filename="src/simplexnoise.cpp" />

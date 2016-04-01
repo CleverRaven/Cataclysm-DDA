@@ -49,6 +49,7 @@ src/profession.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
 src/scenario.cpp
+src/scent.cpp
 src/speech.cpp
 src/start_location.cpp
 src/submap.cpp
@@ -153,6 +154,7 @@ src/profession.h
 src/recipe_dictionary.h
 src/requirements.h
 src/rng.h
+src/scent.h
 src/shadowcasting.h
 src/skill.h
 src/sounds.h

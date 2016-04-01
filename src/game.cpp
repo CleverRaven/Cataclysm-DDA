@@ -185,6 +185,7 @@ game::game() :
     m( *map_ptr ),
     u( *u_ptr ),
     critter_tracker( new Creature_tracker() ),
+    scents( new scent_cache() ),
     weather_gen( new weather_generator() ),
     weather_precise( new w_point() ),
     w_terrain(NULL),

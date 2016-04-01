@@ -92,6 +92,7 @@ class DynamicDataLoader;
 class salvage_actor;
 class input_context;
 class map_item_stack;
+class scent_cache;
 struct WORLD;
 typedef WORLD *WORLDPTR;
 class overmap;
@@ -194,6 +195,7 @@ class game
         player &u;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
+        std::unique_ptr<scent_cache> scents;
         /**
          * Add an entry to @ref events. For further information see event.h
          * @param type Type of event.
@@ -814,8 +816,6 @@ private:
         calendar nextspawn; // The turn on which monsters will spawn next.
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-        int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
-        int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
