@@ -2329,7 +2329,7 @@ int item::price( bool practical ) const
 {
     int res = 0;
 
-    visit_items_const( [&res,&practical]( const item *e ) {
+    visit_items( [&res, practical]( const item *e ) {
         if( e->rotten() ) {
             // @todo Special case things that stay useful when rotten
             return VisitResponse::NEXT;
