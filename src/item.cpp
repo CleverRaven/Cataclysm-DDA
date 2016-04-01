@@ -5392,7 +5392,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
                 g->m.add_field( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), fd_weedsmoke, 2, 0 );
                 weed_msg( carrier );
             }
-        } else { // cig_butts
+        } else { // cig_butts,ciagr_butts,joint_roach
 			return true;
 		} 
 		

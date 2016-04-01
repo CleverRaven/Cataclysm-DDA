@@ -2343,19 +2343,7 @@
         "category": "drugs",
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
-    {
-        "type" : "GENERIC",
-        "id" : "cig_butt_lit",
-        "name" : "cigarette butt",
-        "weight" : "0",
-        "volume" : "0",
-        "color" : "dark_gray",
-        "symbol" : "!",
-        "description" : "Smelly piece of trash. You must be very desperate if you even try to smoke it.",
-        "flags" : ["TABACCO","LITCIG","LIGHT_2"],
-        "category" : "drugs"
-    },
-    {
+	{
         "type" : "COMESTIBLE",
         "id" : "cig_butt",
         "name" : "cigarette butt",
@@ -2370,6 +2358,30 @@
     },
     {
         "type" : "GENERIC",
+        "id" : "cig_butt_lit",
+        "name" : "cigarette butt",
+        "weight" : "0",
+        "volume" : "0",
+        "color" : "dark_gray",
+        "symbol" : "!",
+        "description" : "Smelly piece of trash. You must be very desperate if you even try to smoke it.",
+		"category" : "drugs",
+        "flags" : ["TABACCO","LITCIG","LIGHT_2"]
+        
+    },
+	{
+        "type" : "GENERIC",
+        "id" : "joint_roach_lit",
+        "name" : "joint roach",
+        "name_plural": "joint roaches",
+        "color" : "green",
+        "symbol" : "!",
+        "description" : "The smoked-down butt of a joint, a reminder of some good times.  Why you smoke it again ?.",
+		"category" : "drugs",
+		"flags" : ["LITCIG","LIGHT_2"]
+    },
+    {
+        "type" : "GENERIC",
         "id" : "joint_lit",
         "name" : "joint",
         "color" : "ltgreen",
@@ -2379,14 +2391,16 @@
         "flags" : [ "LITCIG", "LIGHT_4" ]
     },
     {
-        "type" : "GENERIC",
+        "type" : "COMESTIBLE",
         "id" : "joint_roach",
+		"use_action" : "SMOKING",
         "name" : "joint roach",
         "name_plural": "joint roaches",
+		"comestible_type" : "MED",
         "color" : "green",
         "symbol" : "!",
         "description" : "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
-        "category" : "other"
+        "category" : "drugs"
     },
     {
         "type":"GENERIC",

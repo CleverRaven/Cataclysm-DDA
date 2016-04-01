@@ -541,9 +541,22 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
         cig.item_counter = 120;
         p->mod_thirst(3);
         p->mod_hunger(-4);
+	} else if (it->type->id == "cigar_butt") {
+        cig = item("cigar_butt_lit", int(calendar::turn));
+        cig.item_counter = 30;
+        p->mod_thirst(3);
+        p->mod_hunger(-4);
     } else if (it->type->id == "joint") {
         cig = item("joint_lit", int(calendar::turn));
         cig.item_counter = 40;
+        p->mod_hunger(4);
+        p->mod_thirst(6);
+        if( p->get_painkiller() < 5 ) {
+            p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
+        }
+	}	else if (it->type->id == "joint_roach") {
+        cig = item("joint_roach_lit", int(calendar::turn));
+        cig.item_counter = 10;
         p->mod_hunger(4);
         p->mod_thirst(6);
         if( p->get_painkiller() < 5 ) {

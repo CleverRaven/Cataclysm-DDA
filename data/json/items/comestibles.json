@@ -10469,8 +10469,21 @@
         "color" : "dkgray",
         "symbol" : "!",
         "description" : "A true gentleman always finishes his cigars.",
-        "category": "other",
-        "flags" : ["TOBACCO"]
+        "category": "drugs"
+        
+    },
+	{
+        "type" : "GENERIC",
+        "id" : "cigar_butt_lit",
+        "name" : "cigar butt",
+        "weight" : "0",
+        "volume" : "0",
+        "color" : "dark_gray",
+        "symbol" : "!",
+        "description" : "A true gentleman always finishes his cigars. Always...",
+		"category" : "drugs",
+        "flags" : ["TABACCO","LITCIG","LIGHT_2"]
+        
     },
     {
         "type" : "COMESTIBLE",
