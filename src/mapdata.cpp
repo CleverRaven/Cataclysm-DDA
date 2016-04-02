@@ -17,7 +17,7 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 "mx_crater", "mx_collegekids"
 };
 
-ter_str_id convert_terrain_type( const ter_str_id & );
+const ter_str_id &convert_terrain_type( const ter_str_id & );
 
 namespace   // @todo This should belong to the generic_factory class
 {
@@ -25,20 +25,21 @@ namespace   // @todo This should belong to the generic_factory class
 std::vector<ter_t> terlist;
 std::map<ter_str_id, ter_id> termap;
 
-std::map<ter_str_id, ter_id>::iterator find_ter_id( const ter_str_id &tid  )
+const std::map<ter_str_id, ter_id>::iterator find_ter_id( const ter_str_id &tid  )
 {
-    auto iter = termap.find( tid );
-    if( iter == termap.end() ) {
+    const auto &iter = termap.find( tid );
+    if( iter != termap.end() ) {
         return iter;
     }
-    const ter_str_id &new_id = convert_terrain_type( tid );
-    if( new_id != tid ) {
-        iter = termap.find( new_id );
-        if( iter != termap.end() ) {
-            termap[tid] = iter->second; // So theres no need to convert anymore
-        }
+    const auto &new_id = convert_terrain_type( tid );
+    if( new_id == tid ) {
+        return iter;
     }
-    return iter;
+    const auto &conv_iter = termap.find( new_id );
+    if( conv_iter != termap.end() ) {
+        termap[tid] = conv_iter->second; // So theres no need to convert anymore
+    }
+    return conv_iter;
 }
 
 void emplace_ter( const ter_t &ter )
@@ -58,7 +59,7 @@ std::vector<furn_t> furnlist;
 std::map<std::string, furn_t> furnmap;
 
 template<>
-bool int_id<ter_t>::is_valid() const
+inline bool int_id<ter_t>::is_valid() const
 {
     return static_cast<size_t>( _id ) < terlist.size();
 }
@@ -86,7 +87,7 @@ const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
 {
-    const auto &tid = get_cid();
+    const auto tid = get_cid();
     // Since we don't delete terrain objects, we don't
     // particularly need the second condition, but
     // generic case requires it.
@@ -119,7 +120,7 @@ const ter_t &string_id<ter_t>::obj() const
 template<>
 bool string_id<ter_t>::is_valid() const
 {
-    const auto &tid = get_cid();
+    const auto tid = get_cid();
 
     if( tid.is_valid() && terlist[tid].id == *this ) {
         return true;
@@ -490,7 +491,7 @@ void load_terrain(JsonObject &jsobj)
   emplace_ter( new_terrain );
 }
 
-ter_str_id convert_terrain_type( const ter_str_id &t )
+const ter_str_id &convert_terrain_type( const ter_str_id &t )
 {
     static const std::unordered_map<ter_str_id, ter_str_id> ter_type_conversion_map = { {
         { ter_str_id( "t_wall_h" ), ter_str_id( "t_wall" ) },

@@ -176,7 +176,7 @@ class string_id
         /**
          * Assigns a new value for the cached int id.
          */
-        void set_cid( int_id<T> cid ) const {
+        void set_cid( const int_id<T> &cid ) const {
             _cid = cid.to_i();
         }
         /**

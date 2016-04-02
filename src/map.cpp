@@ -7789,7 +7789,7 @@ void map::draw_fill_background( ter_id type )
     }
 }
 
-void map::draw_fill_background( ter_str_id &type )
+void map::draw_fill_background( const ter_str_id &type )
 {
     draw_fill_background( type.id() );
 }
@@ -7809,7 +7809,7 @@ void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_square_ter( ter_str_id &type, int x1, int y1, int x2, int y2 )
+void map::draw_square_ter( const ter_str_id &type, int x1, int y1, int x2, int y2 )
 {
     draw_square_ter( type.id(), x1, y1, x2, y2 );
 }
@@ -7847,7 +7847,7 @@ void map::draw_rough_circle_ter( ter_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_rough_circle_ter( ter_str_id &type, int x, int y, int rad )
+void map::draw_rough_circle_ter( const ter_str_id &type, int x, int y, int rad )
 {
     draw_rough_circle_ter( type.id(), x, y, rad );
 }
@@ -7878,7 +7878,7 @@ void map::draw_circle_ter( ter_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_circle_ter( ter_str_id &type, int x, int y, int rad )
+void map::draw_circle_ter( const ter_str_id &type, int x, int y, int rad )
 {
     draw_circle_ter( type.id(), x, y, rad );
 }

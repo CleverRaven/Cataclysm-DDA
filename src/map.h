@@ -685,23 +685,23 @@ void draw_line_ter(const ter_str_id &type, int x1, int y1, int x2, int y2);
 void draw_line_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_line_furn(const std::string type, int x1, int y1, int x2, int y2);
 void draw_fill_background(ter_id type);
-void draw_fill_background(ter_str_id &type);
+void draw_fill_background(const ter_str_id &type);
 void draw_fill_background(ter_id (*f)());
 void draw_fill_background(const id_or_id<ter_t> & f);
 
 void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
-void draw_square_ter(ter_str_id &type, int x1, int y1, int x2, int y2);
+void draw_square_ter(const ter_str_id &type, int x1, int y1, int x2, int y2);
 void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
 void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
 void draw_rough_circle_ter(ter_id type, int x, int y, int rad);
-void draw_rough_circle_ter(ter_str_id &type, int x, int y, int rad);
+void draw_rough_circle_ter(const ter_str_id &type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
 void draw_rough_circle_furn(std::string type, int x, int y, int rad);
 void draw_circle_ter(ter_id type, double x, double y, double rad);
 void draw_circle_ter(ter_id type, int x, int y, int rad);
-void draw_circle_ter(ter_str_id &type, int x, int y, int rad);
+void draw_circle_ter(const ter_str_id &type, int x, int y, int rad);
 void draw_circle_furn(furn_id type, int x, int y, int rad);
 void draw_circle_furn(std::string type, int x, int y, int rad);
 
