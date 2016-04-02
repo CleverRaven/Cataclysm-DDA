@@ -78,16 +78,6 @@ void scent_cache::update( int minz, int maxz )
     std::fill_n( &sum_3_scent_y[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
     std::fill_n( &squares_used_y[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
 
-    bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
-
-    // for loop constants
-    /*
-    const int scentmap_minx = u.posx() - SCENT_RADIUS;
-    const int scentmap_maxx = u.posx() + SCENT_RADIUS;
-    const int scentmap_miny = u.posy() - SCENT_RADIUS;
-    const int scentmap_maxy = u.posy() + SCENT_RADIUS;
-    */
     constexpr int scentmap_minx = 0;
     constexpr int scentmap_maxx = MAPSIZE * SEEX;
     constexpr int scentmap_miny = 0;
@@ -97,10 +87,9 @@ void scent_cache::update( int minz, int maxz )
     // This is essentially a decimal number / 1000.
     constexpr int diffusivity = 100;
 
-    g->m.scent_blockers( blocks_scent, reduces_scent,
-                         scentmap_minx, scentmap_miny,
-                         scentmap_maxx, scentmap_maxy,
-                         zlev );
+    const auto &ch = g->m.get_cache_ref( zlev );
+    const auto &blocks_scent = ch.blocks_scent;
+    const auto &reduces_scent = ch.reduces_scent;
     // Sum neighbors in the y direction.
     // This way, each square gets called 3 times instead of 9 times.
     for( size_t x = scentmap_minx + 1; x < scentmap_maxx - 1; ++x ) {

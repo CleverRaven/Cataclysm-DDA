@@ -355,6 +355,7 @@ void map::on_vehicle_moved( const int smz ) {
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
     set_pathfinding_cache_dirty( smz );
+    set_scent_cache_dirty( smz );
 }
 
 void map::vehmove()
@@ -1624,6 +1625,11 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
         set_floor_cache_dirty( p.z );
     }
 
+    if( ( old_t.has_flag( TFLAG_WALL ) != new_t.has_flag( TFLAG_WALL ) ) ||
+        ( old_t.has_flag( TFLAG_REDUCE_SCENT ) != new_t.has_flag( TFLAG_REDUCE_SCENT ) ) ) {
+        set_scent_cache_dirty( p.z );
+    }
+
     // @todo Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
@@ -1836,6 +1842,11 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
         set_floor_cache_dirty( p.z );
         // It's a set, not a flag
         support_cache_dirty.insert( p );
+    }
+
+    if( ( old_t.has_flag( TFLAG_WALL ) != new_t.has_flag( TFLAG_WALL ) ) ||
+        ( old_t.has_flag( TFLAG_REDUCE_SCENT ) != new_t.has_flag( TFLAG_REDUCE_SCENT ) ) ) {
+        set_scent_cache_dirty( p.z );
     }
 
     // @todo Limit to changes that affect move cost, traps and stairs
@@ -6761,6 +6772,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_outside_cache_dirty( gridz );
     set_floor_cache_dirty( gridz );
     set_pathfinding_cache_dirty( gridz );
+    set_scent_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
     for( auto it : tmpsub->vehicles ) {
@@ -7487,6 +7499,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         build_outside_cache( z );
         build_transparency_cache( z );
         build_floor_cache( z );
+        build_scent_cache( z );
     }
 
     tripoint start( 0, 0, minz );
@@ -7959,12 +7972,12 @@ template<typename Functor>
 {
     // start and end are just two points, end can be "before" start
     // Also clip the area to map area
-    const int minx = std::max( std::min(stx, enx ), 0 );
-    const int miny = std::max( std::min(sty, eny ), 0 );
-    const int minz = std::max( std::min(stz, enz ), -OVERMAP_DEPTH );
-    const int maxx = std::min( std::max(stx, enx ), my_MAPSIZE * SEEX - 1 );
-    const int maxy = std::min( std::max(sty, eny ), my_MAPSIZE * SEEY - 1 );
-    const int maxz = std::min( std::max(stz, enz ), OVERMAP_HEIGHT );
+    const int minx = std::max( std::min( stx, enx ), 0 );
+    const int miny = std::max( std::min( sty, eny ), 0 );
+    const int minz = std::max( std::min( stz, enz ), -OVERMAP_DEPTH );
+    const int maxx = std::min( std::max( stx, enx ), my_MAPSIZE * SEEX - 1 );
+    const int maxy = std::min( std::max( sty, eny ), my_MAPSIZE * SEEY - 1 );
+    const int maxz = std::min( std::max( stz, enz ), OVERMAP_HEIGHT );
 
     // Submaps that contain the bounding points
     const int min_smx = minx / SEEX;
@@ -8013,47 +8026,51 @@ template<typename Functor>
     }
 }
 
-// @todo Currently vehicles block scent on other z-levels, this is not OK
-void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                          bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                          int minx, int miny, int maxx, int maxy, int zlev )
+void map::build_scent_cache( int zlev )
 {
-    auto reduce = TFLAG_REDUCE_SCENT;
-    auto block = TFLAG_WALL;
+    auto &ch = get_cache( zlev );
+    if( !ch.scent_cache_dirty ) {
+        return;
+    }
+
+    ch.scent_cache_dirty = false;
+
+    constexpr int minx = 0;
+    constexpr int miny = 0;
+    constexpr int maxx = MAPSIZE * SEEX;
+    constexpr int maxy = MAPSIZE * SEEY;
+
     auto fill_values = [&]( const tripoint &gp, const submap *sm, const point &lp ) {
+        constexpr auto reduce = TFLAG_REDUCE_SCENT;
+        constexpr auto block = TFLAG_WALL;
         if( sm->get_ter( lp.x, lp.y ).obj().has_flag( block ) ) {
             // We need to generate the x/y coords, because we can't get them "for free"
             const int x = ( gp.x * SEEX ) + lp.x;
             const int y = ( gp.y * SEEY ) + lp.y;
-            blocks_scent[x][y] = true;
-        } else if( sm->get_ter( lp.x, lp.y ).obj().has_flag( reduce ) || sm->get_furn( lp.x, lp.y ).obj().has_flag( reduce ) ) {
+            ch.blocks_scent[x][y] = true;
+        } else if( sm->get_ter( lp.x, lp.y ).obj().has_flag( reduce ) ||
+                   sm->get_furn( lp.x, lp.y ).obj().has_flag( reduce ) ) {
             const int x = ( gp.x * SEEX ) + lp.x;
             const int y = ( gp.y * SEEY ) + lp.y;
-            reduces_scent[x][y] = true;
+            ch.reduces_scent[x][y] = true;
         }
 
         return ITER_CONTINUE;
     };
 
-    std::fill_n( &blocks_scent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
-    std::fill_n( &reduces_scent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
+    std::fill_n( &ch.blocks_scent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
+    std::fill_n( &ch.reduces_scent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
     function_over( minx, miny, zlev, maxx, maxy, zlev, fill_values );
 
     // Now vehicles
-
-    // Currently the scentmap is limited to an area around the player rather than entire map
-    auto local_bounds = [=]( const point &coord ) {
-        return coord.x >= minx && coord.x <= maxx && coord.y >= miny && coord.y <= maxy;
-    };
-
-    auto vehs = get_vehicles();
+    auto vehs = get_vehicles( tripoint( minx, miny, zlev ), tripoint( maxx, maxy, zlev ) );
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *(wrapped_veh.v);
         auto obstacles = veh.all_parts_with_feature( VPFLAG_OBSTACLE, true );
         for( const int p : obstacles ) {
             const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
-            if( local_bounds( part_pos ) ) {
-                reduces_scent[part_pos.x][part_pos.y] = true;
+            if( inbounds( part_pos.x, part_pos.y ) ) {
+                ch.reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
 
@@ -8065,8 +8082,8 @@ void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
             }
 
             const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
-            if( local_bounds( part_pos ) ) {
-                reduces_scent[part_pos.x][part_pos.y] = true;
+            if( inbounds( part_pos.x, part_pos.y ) ) {
+                ch.reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
     }
@@ -8119,6 +8136,7 @@ level_cache::level_cache()
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     veh_in_active_range = false;
+    scent_cache_dirty = true;
     std::fill_n( &veh_exists_at[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
 }
 
