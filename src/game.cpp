@@ -12093,24 +12093,19 @@ bool game::walk_move( const tripoint &dest_loc )
     u.set_underwater(false);
 
     if( !shifting_furniture ) {
-        //Ask for EACH bad field, maybe not? Maybe say "theres X bad shit in there don't do it."
-        const field &tmpfld = m.field_at(dest_loc);
-        std::vector<const field_entry *> dangerous_fields;
-        for( auto &fld : tmpfld ) {
-            if( u.is_dangerous_field( fld.second ) ) {
-                dangerous_fields.push_back( &fld.second );
+
+        std::vector<std::string> badfields;
+        for( const auto& e : m.field_at( dest_loc ) ) {
+            // warn before moving into a dangerous field except when already standing within a similar field
+            if( u.is_dangerous_field( e.second ) && !m.field_at( u.pos() ).findField( e.first ) ) {
+                badfields.push_back( e.second.name() );
             }
         }
-
-        if( !dangerous_fields.empty() ) {
-            std::stringstream names;
-            names << dangerous_fields[0]->name();
-            for( size_t i = 1; i < dangerous_fields.size(); i++ ) {
-                names << ", ";
-                names << dangerous_fields[i]->name();
-            }
-
-            if( !query_yn( _("Really step into: %s?"), names.str().c_str() ) ) {
+        if( !badfields.empty() ) {
+            std::ostringstream tmp;
+            std::copy( badfields.begin(), badfields.end() - 1, std::ostream_iterator<std::string>( tmp, ", " ) );
+            tmp << badfields.back();
+            if( !query_yn( _("Really step into: %s?"), tmp.str().c_str() ) ) {
                 return true;
             }
         }
