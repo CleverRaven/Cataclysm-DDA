@@ -355,6 +355,7 @@ void DynamicDataLoader::unload_data()
     start_location::reset();
     scenario::reset();
     gates::reset();
+    reset_overlay_ordering();
 
     // TODO:
     //    NameGenerator::generator().clear_names();

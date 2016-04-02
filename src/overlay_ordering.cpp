@@ -19,3 +19,9 @@ void load_overlay_ordering_into_array( JsonObject &jsobj, std::map<std::string, 
         }
     }
 }
+
+void reset_overlay_ordering()
+{
+    // tileset specific overlays are cleared on new tileset load
+    base_mutation_overlay_ordering.clear();
+}

@@ -11,5 +11,6 @@ extern std::map<std::string, int> tileset_mutation_overlay_ordering;
 
 void load_overlay_ordering( JsonObject &jsobj );
 void load_overlay_ordering_into_array( JsonObject &jsobj, std::map<std::string, int> &orderarray );
+void reset_overlay_ordering();
 
 #endif
