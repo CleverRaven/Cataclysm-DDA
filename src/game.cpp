@@ -3180,6 +3180,8 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
         return false;
     }
 
+    const bool is_adjacent = square_dist( mouse_target.x, mouse_target.y, u.posx(), u.posy() ) <= 1;
+    const bool is_self = square_dist( mouse_target.x, mouse_target.y, u.posx(), u.posy() ) <= 0;
     int mouse_selected_mondex = mon_at( mouse_target );
     if (mouse_selected_mondex != -1) {
         monster &critter = critter_tracker->find(mouse_selected_mondex);
@@ -3196,25 +3198,15 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
         //TODO: Add weapon range check. This requires weapon to be reloaded.
 
         act = ACTION_FIRE;
-    } else if (std::abs(mouse_target.x - u.posx()) <= 1 && std::abs(mouse_target.y - u.posy()) <= 1 &&
-            m.close_door( tripoint( mouse_target.x, mouse_target.y, u.posz() ), !m.is_outside(u.pos()), true)) {
-        // Can only close doors when adjacent to it.
+    } else if (is_adjacent && m.close_door( tripoint( mouse_target.x, mouse_target.y, u.posz() ), !m.is_outside(u.pos()), true)) {
         act = ACTION_CLOSE;
+    } else if ( is_self ) {
+        act = ACTION_PICKUP;
+    } else if ( is_adjacent ) {
+        act = ACTION_EXAMINE;
     } else {
-        int dx = abs(u.posx() - mouse_target.x);
-        int dy = abs(u.posy() - mouse_target.y);
-        if (dx < 2 && dy < 2) {
-            if (dy == 0 && dx == 0) {
-                // Clicked on self
-                act = ACTION_PICKUP;
-            } else {
-                // Clicked adjacent tile
-                act = ACTION_EXAMINE;
-            }
-        } else {
-            add_msg(_("Nothing relevant here."));
-            return false;
-        }
+        add_msg(_("Nothing relevant here."));
+        return false;
     }
 
     return true;
