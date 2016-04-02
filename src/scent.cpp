@@ -45,7 +45,14 @@ int scent_cache::get( const tripoint &p ) const
 void scent_cache::set( const tripoint &p, int value )
 {
     if( inbounds( p ) ) {
-        scents[p.z + OVERMAP_DEPTH]->values[p.x][p.y] = value;
+        auto &layer = *scents[p.z + OVERMAP_DEPTH];
+        layer.values[p.x][p.y] = value;
+        if( value > 0 ) {
+            layer.minx = std::min( layer.minx, p.x );
+            layer.maxx = std::max( layer.maxx, p.x );
+            layer.miny = std::min( layer.miny, p.y );
+            layer.maxy = std::max( layer.maxy, p.y );
+        }
     } else {
         debugmsg( "Tried to set scent outside bounds: %d, %d, %d", p.x, p.y, p.z );
     }
@@ -71,17 +78,27 @@ void scent_cache::update( int minz, int maxz )
     }
 
     const int zlev = minz;
-    scent_array &grscent = get_layer( zlev ).values;
+    scent_layer &layer = get_layer( zlev );
+
+    if( layer.minx > layer.maxx || layer.miny > layer.maxy ) {
+        if( minz < maxz ) {
+            update( minz + 1, maxz );
+        }
+        return;
+    }
+
+    scent_array &grscent = layer.values;
     // These two matrices are transposed so that x addresses are contiguous in memory
     int sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE];  //intermediate variable
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
     std::fill_n( &sum_3_scent_y[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
     std::fill_n( &squares_used_y[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
 
-    constexpr int scentmap_minx = 0;
-    constexpr int scentmap_maxx = MAPSIZE * SEEX;
-    constexpr int scentmap_miny = 0;
-    constexpr int scentmap_maxy = MAPSIZE * SEEY;
+    // Pad the bounding box by 2, because it naturally shrinks on edges
+    int scentmap_minx = std::max( 0, layer.minx - 2 );
+    int scentmap_maxx = std::min( SEEX * MAPSIZE - 1, layer.maxx + 2 );
+    int scentmap_miny = std::max( 0, layer.miny - 2 );
+    int scentmap_maxy = std::min( SEEY * MAPSIZE - 1, layer.maxy + 2 );
 
     // Decrease this to reduce gas spread. Keep it under 125 for stability.
     // This is essentially a decimal number / 1000.
@@ -92,12 +109,12 @@ void scent_cache::update( int minz, int maxz )
     const auto &reduces_scent = ch.reduces_scent;
     // Sum neighbors in the y direction.
     // This way, each square gets called 3 times instead of 9 times.
-    for( size_t x = scentmap_minx + 1; x < scentmap_maxx - 1; ++x ) {
+    for( int x = scentmap_minx; x <= scentmap_maxx; ++x ) {
         // @todo Can be done with 2 additions per tile instead of 3 by
         // only adding/subtracting the newest/oldest value
-        for( size_t y = scentmap_miny + 1; y < scentmap_maxy - 1; ++y ) {
+        for( int y = scentmap_miny + 1; y <= scentmap_maxy - 1; ++y ) {
             // Sum of the scent val for the 3 neighboring squares that can diffuse into
-            for( size_t i = y - 1; i <= y + 1; ++i ) {
+            for( int i = y - 1; i <= y + 1; ++i ) {
                 if( !blocks_scent[x][i] ) {
                     // only 20% of scent can diffuse on REDUCE_SCENT squares
                     const int diff_mod = reduces_scent[x][i] ? 2 : 10;
@@ -108,11 +125,17 @@ void scent_cache::update( int minz, int maxz )
         }
     }
 
+    // Recalculate the bounding box
+    int new_minx = SEEX * MAPSIZE;
+    int new_maxx = 0;
+    int new_miny = SEEY * MAPSIZE;
+    int new_maxy = 0;
+
     // Rest of the scent map
-    for( size_t x = scentmap_minx + 1; x < scentmap_maxx - 1; ++x ) {
+    for( int x = scentmap_minx + 1; x <= scentmap_maxx - 1; ++x ) {
         // @todo Can be done with 2 additions per tile instead of 3 by
         // keeping accumulators for both arrays
-        for( size_t y = scentmap_miny; y < scentmap_maxy; ++y ) {
+        for( int y = scentmap_miny; y <= scentmap_maxy; ++y ) {
             if( blocks_scent[x][y] ) {
                 // This cell blocks scent
                 grscent[x][y] = 0;
@@ -141,12 +164,24 @@ void scent_cache::update( int minz, int maxz )
                                          + sum_3_scent_y[y][x + 1] )
                 ) / ( 1000 * 10 );
 
+            if( grscent[x][y] > 0 ) {
+                new_minx = std::min( new_minx, x );
+                new_maxx = std::max( new_maxx, x );
+                new_miny = std::min( new_miny, y );
+                new_maxy = std::max( new_maxy, y );
+            }
+
             if( grscent[x][y] > 10000 ) {
                 debugmsg( "Wacky scent at %d, %d, %d, (%d)", x, y, zlev, grscent[x][y] );
                 grscent[x][y] = 0; // Scent should never be higher
             }
         }
     }
+
+    layer.minx = new_minx;
+    layer.maxx = new_maxx;
+    layer.miny = new_miny;
+    layer.maxy = new_maxy;
 
     // @todo Remove, make it properly spread in 3D
     if( minz < maxz ) {
@@ -198,6 +233,12 @@ void scent_cache::shift( int dx, int dy, int zlev )
             new_scent[x][y] = std::max( 0, old_scent[x + dx][y + dy] );
         }
     }
+
+    // Force recalculation of bounding box
+    layer.minx = 0;
+    layer.maxx = MAPSIZE * SEEX;
+    layer.miny = 0;
+    layer.maxy = MAPSIZE * SEEY;
 }
 
 void scent_cache::clear()
@@ -215,4 +256,8 @@ void scent_cache::clear( int zlev )
 void scent_layer::clear()
 {
     std::fill_n( &values[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
+    minx = INT_MAX;
+    maxx = 0;
+    miny = INT_MAX;
+    maxy = 0;
 }

@@ -19,6 +19,12 @@ struct scent_layer {
 
     scent_array values;
 
+    // Bounding box
+    int minx;
+    int miny;
+    int maxx;
+    int maxy;
+
     void clear();
 };
 
