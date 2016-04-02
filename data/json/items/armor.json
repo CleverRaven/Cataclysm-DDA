@@ -9753,7 +9753,7 @@
         "material" : ["leather"],
         "volume" : 6,
         "warmth" : 10,
-        "encumbrance" : 0,
+        "encumbrance" : 20,
         "bashing" : 1,
         "flags" : ["VARSIZE", "FANCY"],
         "coverage" : 60,
