@@ -1289,7 +1289,7 @@
     "vision_day":3,
     "vision_night":3,
     "hp":40,
-    "death_function":"NORMAL",
+    "death_function":"FUNGUS",
     "special_attacks":[["FUNGUS", 200]],
     "description":"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
     "flags":["SEES", "SMELLS", "POISON", "CLIMBS"]
@@ -1790,8 +1790,8 @@
     "speed":70,
     "melee_skill":1,
     "melee_dice":2,
-    "melee_dice_sides":2,
-    "melee_cut":0,
+    "melee_dice_sides":3,
+    "melee_cut":3,
     "dodge":0,
     "armor_bash":0,
     "armor_cut":0,
@@ -2135,6 +2135,10 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "mon_zombie_swimmer_death_drops",
+    "upgrades":{
+      "into": "mon_zombie_mancroc",
+      "half_life": 14
+    },
     "hp":70,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2369,8 +2373,8 @@
     "dodge":0,
     "armor_bash":3,
     "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
+    "vision_day":7,
+    "vision_night":7,
     "death_drops": "default_zombie_death_drops",
     "hp":60,
     "death_function":["NORMAL"],
@@ -2382,7 +2386,7 @@
         }
     ],
     "description":"Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
-    "flags":["SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
+    "flags":["SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer",
@@ -2792,19 +2796,19 @@
     "color":"cyan_green",
     "size":"MEDIUM",
     "material":"flesh",
-    "diff":15,
+    "diff":16,
     "aggression":100,
     "morale":100,
-    "speed":100,
-    "melee_skill":4,
+    "speed":110,
+    "melee_skill":6,
     "melee_dice":3,
     "melee_dice_sides":6,
-    "melee_cut":1,
-    "dodge":1,
+    "melee_cut":2,
+    "dodge":3,
     "armor_bash":5,
-    "armor_cut":1,
-    "vision_day":15,
-    "vision_night":4,
+    "armor_cut":2,
+    "vision_day":25,
+    "vision_night":15,
     "death_drops": "default_zombie_death_drops",
     "hp":100,
     "death_function":["NORMAL"],
@@ -2820,8 +2824,48 @@
         },
         ["GRAB", 4]
     ],
-    "description":"A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "description":"A distorted human body with sleek muscles.  Its jaws have elongated into a ursine-like snout, dripping with foul smelling saliva.",
+    "flags":["SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_mancroc",
+    "name": "zombie snapper",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"Z",
+    "color":"ltgreen_cyan",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":16,
+    "aggression":100,
+    "morale":100,
+    "speed":100,
+    "melee_skill":4,
+    "melee_dice":3,
+    "melee_dice_sides":4,
+    "melee_cut":8,
+    "dodge":2,
+    "armor_bash":4,
+    "armor_cut":6,
+    "vision_day":25,
+    "vision_night":5,
+    "death_drops": [ "mon_zombie_swimmer_death_drops", 65 ],
+    "hp":120,
+    "death_function":["NORMAL"],
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 10,
+            "accuracy" : 5,
+            "damage_max_instance" : [
+                {"damage_type" : "stab", "amount" : 8, "armor_multiplier" : 0.3},
+                {"damage_type" : "bash", "amount" : 15, "armor_multiplier" : 0.3}
+            ]
+        },
+        ["GRAB", 20], ["GRAB_DRAG", 10]
+    ],
+    "description":"With a crocodile-like snout and rows of protuding teeth, this swimwear-clad zombie lurks in the water.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "SWIMS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
@@ -3091,7 +3135,7 @@
     },
     "upgrades":{
         "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
-        "half_life": 28
+        "half_life": 14
     },
     "hp":40,
     "death_function":["NORMAL"],
@@ -4319,6 +4363,47 @@
     "death_function":"NORMAL",
     "description":"An aggressive mutant variety of the worm snake, turned pale yellow from its underground life.  It swarms beneath the ground and is named for its habit of infesting sewer lines.",
     "flags":["SEES", "SMELLS", "WARM", "VENOM", "SWIMS", "LEATHER", "BONES"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_gator",
+    "name": "sewer gator",
+    "species":"REPTILE",
+    "default_faction":"gator",
+    "symbol":"A",
+    "color":"ltgreen",
+    "size":"LARGE",
+    "material":"flesh",
+    "diff":15,
+    "aggression":20,
+    "morale":50,
+    "speed":90,
+    "melee_skill":4,
+    "melee_dice":1,
+    "melee_dice_sides":10,
+    "melee_cut":12,
+    "dodge":2,
+    "armor_bash":6,
+    "armor_cut":8,
+    "vision_day":2,
+    "vision_night":35,
+    "hp":90,
+    "death_function":"NORMAL",
+    "special_attacks":[
+        {
+            "type" : "bite",
+            "cooldown" : 20,
+            "accuracy" : 6,
+            "damage_max_instance" : [
+                {"damage_type" : "stab", "amount" : 9, "armor_multiplier" : 0.5},
+                {"damage_type" : "bash", "amount" : 27, "armor_multiplier" : 0.5}
+            ]
+        }, ["GRAB", 30], ["GRAB_DRAG", 10]],
+    "description":"In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like its used to humans as anything other than a meal.",
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
+    "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
+    "placate_triggers":["MEAT"],
+    "fear_triggers": ["FIRE", "HURT"],
+    "categories":["WILDLIFE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_rat_king",
@@ -7084,18 +7169,18 @@
     "aggression":100,
     "morale":100,
     "speed":110,
-    "melee_skill":3,
+    "melee_skill":4,
     "melee_dice":3,
-    "melee_dice_sides":4,
+    "melee_dice_sides":6,
     "melee_cut":2,
-    "dodge":0,
-    "armor_bash":3,
+    "dodge":1,
+    "armor_bash":5,
     "armor_cut":8,
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "luminance":16,
-    "hp":300,
+    "hp":240,
     "death_function":["NORMAL"],
     "special_attacks":[["SHOCKSTORM", 15], ["SMASH", 30]],
     "special_when_hit":["ZAPBACK", 75],
