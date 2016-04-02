@@ -48,9 +48,6 @@ void live_view::show( const int x, const int y, const visibility_variables &cach
 
     hide( false ); // Clear window if it's visible
 
-    mvwprintz( *this, 0, START_COLUMN, c_white, "< " );
-    wprintz( *this, c_green, _( "Mouse View" ) );
-    wprintz( *this, c_white, " >" );
     int line = START_LINE;
 
     // TODO: Z
@@ -75,6 +72,9 @@ void live_view::show( const int x, const int y, const visibility_variables &cach
 #endif
 
     draw_border( *this );
+    mvwprintz( *this, 0, START_COLUMN, c_white, "< " );
+    wprintz( *this, c_green, _( "Mouse View" ) );
+    wprintz( *this, c_white, " >" );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
