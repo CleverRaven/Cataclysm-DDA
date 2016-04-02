@@ -8035,6 +8035,8 @@ void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
         return ITER_CONTINUE;
     };
 
+    std::fill_n( &blocks_scent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
+    std::fill_n( &reduces_scent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
     function_over( minx, miny, zlev, maxx, maxy, zlev, fill_values );
 
     // Now vehicles

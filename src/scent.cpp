@@ -10,7 +10,7 @@
 
 scent_layer::scent_layer()
 {
-    std::fill_n( &values[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 5000 );
+    clear();
 }
 
 scent_cache::scent_cache()
@@ -24,21 +24,31 @@ scent_cache::~scent_cache()
 {
 }
 
-int &scent_cache::get_internal( const tripoint &p )
+inline bool inbounds( const tripoint &p )
 {
-    return scents[p.z + OVERMAP_DEPTH]->values[p.x][p.y];
+    return p.x >= 0 && p.x < MAPSIZE * SEEX &&
+           p.y >= 0 && p.y < MAPSIZE * SEEY &&
+           p.z >= -OVERMAP_DEPTH && p.z <= OVERMAP_HEIGHT;
 }
 
-int &scent_cache::get_ref( const tripoint &p )
+
+int scent_cache::get( const tripoint &p ) const
 {
-    static int nulscent = 0;
-    if( p.x >= 0 && p.x < MAPSIZE * SEEX &&
-        p.y >= 0 && p.y < MAPSIZE * SEEY &&
-        p.z >= -OVERMAP_DEPTH && p.z <= OVERMAP_HEIGHT ) {
-        return get_internal( p );
+    if( inbounds( p ) ) {
+        return scents[p.z + OVERMAP_DEPTH]->values[p.x][p.y];
     }
 
-    return nulscent;
+    debugmsg( "Tried to get scent outside bounds: %d, %d, %d", p.x, p.y, p.z );
+    return 0;
+}
+
+void scent_cache::set( const tripoint &p, int value )
+{
+    if( inbounds( p ) ) {
+        scents[p.z + OVERMAP_DEPTH]->values[p.x][p.y] = value;
+    } else {
+        debugmsg( "Tried to set scent outside bounds: %d, %d, %d", p.x, p.y, p.z );
+    }
 }
 
 scent_layer &scent_cache::get_layer( int zlev )
@@ -171,6 +181,36 @@ void scent_cache::decay( int zlev, int amount )
     }
 }
 
+void scent_cache::shift( int dx, int dy )
+{
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        shift( dx, dy, z );
+    }
+}
+
+void scent_cache::shift( int dx, int dy, int zlev )
+{
+    scent_layer &layer = get_layer( zlev );
+    // Copy the old array
+    scent_array old_scent = layer.values;
+    layer.clear();
+
+    scent_array &new_scent = layer.values;
+
+    // Clip the area to intersection of new and shifted old
+    // We want x+dx>0 and x+dx<MAPSIZE*SEEX for all x
+    int scentmap_minx = std::max( 0, -dx );
+    int scentmap_maxx = std::min( MAPSIZE * SEEX, MAPSIZE * SEEX - dx );
+    int scentmap_miny = std::max( 0, -dy );
+    int scentmap_maxy = std::min( MAPSIZE * SEEY, MAPSIZE * SEEY - dy );
+
+    for( int x = scentmap_minx; x < scentmap_maxx; ++x ) {
+        for( int y = scentmap_miny; y < scentmap_maxy; ++y ) {
+            new_scent[x][y] = std::max( 0, old_scent[x + dx][y + dy] );
+        }
+    }
+}
+
 void scent_cache::clear()
 {
     for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
@@ -180,5 +220,10 @@ void scent_cache::clear()
 
 void scent_cache::clear( int zlev )
 {
-    std::fill_n( &get_layer( zlev ).values[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
+    get_layer( zlev ).clear();
+}
+
+void scent_layer::clear()
+{
+    std::fill_n( &values[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
 }

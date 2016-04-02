@@ -741,8 +741,10 @@ tripoint monster::scent_move()
 {
     std::vector<tripoint> smoves;
 
-    int bestsmell = 10; // Squares with smell 0 are not eligible targets.
-    int smell_threshold = 200; // Squares at or above this level are ineligible.
+    // Squares with smell below this count as 0
+    int bestsmell = 10;
+    // Squares with this or more scent overpower senses and disable scent tracking
+    int smell_threshold = 200;
     if( has_flag( MF_KEENNOSE ) ) {
         bestsmell = 1;
         smell_threshold = 400;
@@ -750,17 +752,17 @@ tripoint monster::scent_move()
 
     const bool fleeing = is_fleeing( g->u );
     if( fleeing ) {
-        bestsmell = g->scent( pos() );
+        bestsmell = g->get_scent( pos() );
     }
 
     tripoint next( -1, -1, posz() );
-    if( ( !fleeing && g->scent( pos() ) > smell_threshold ) ||
+    if( ( !fleeing && g->get_scent( pos() ) > smell_threshold ) ||
         ( fleeing && bestsmell == 0 ) ) {
         return next;
     }
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
     for( const auto &dest : g->m.points_in_radius( pos(), 1 ) ) {
-        int smell = g->scent( dest );
+        int smell = g->get_scent( dest );
         if( ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
@@ -1470,8 +1472,8 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    if( has_flag( MF_SMELLS ) && g->scent( pos() ) > 0 &&
-        g->scent( { x, y, posz() } ) > g->scent( pos() ) ) {
+    if( has_flag( MF_SMELLS ) && g->get_scent( pos() ) > 0 &&
+        g->get_scent( { x, y, posz() } ) > g->get_scent( pos() ) ) {
         return true;
     }
 

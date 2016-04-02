@@ -18,6 +18,8 @@ struct scent_layer {
     scent_layer();
 
     scent_array values;
+
+    void clear();
 };
 
 class scent_cache : public JsonSerializer, public JsonDeserializer
@@ -26,14 +28,15 @@ class scent_cache : public JsonSerializer, public JsonDeserializer
         scent_cache();
         ~scent_cache();
 
-        int &get_ref( const tripoint &p );
-        const int &get_ref( const tripoint &p ) const;
-        // No bounds checks
-        int &get_internal( const tripoint &p );
+        int get( const tripoint &p ) const;
+        void set( const tripoint &p, int value );
 
         void update( int minz, int maxz );
         // @todo `bool` mask to avoid decaying indoor scents with rain
         void decay( int zlev, int amount );
+
+        void shift( int dx, int dy );
+        void shift( int dx, int dy, int zlev );
 
         void clear();
         void clear( int zlev );

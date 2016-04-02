@@ -370,7 +370,8 @@ class game
         void nuke( const tripoint &p );
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
-        int &scent( const tripoint &p );
+        int get_scent( const tripoint &p ) const;
+        void set_scent( const tripoint &p, int val );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.

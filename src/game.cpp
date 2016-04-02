@@ -3204,9 +3204,14 @@ bool outside_scent_radius( const tripoint &p ) {
            p.y < (SEEY * MAPSIZE / 2) - SCENT_RADIUS || p.y >= (SEEY * MAPSIZE / 2) + SCENT_RADIUS;
 }
 
-int &game::scent( const tripoint &p )
+int game::get_scent( const tripoint &p ) const
 {
-    return scents->get_ref( p );
+    return scents->get( p );
+}
+
+void game::set_scent( const tripoint &p, int value )
+{
+    return scents->set( p, value );
 }
 
 void game::update_scent()
@@ -3224,7 +3229,7 @@ void game::update_scent()
 
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_active_bionic("bio_scent_mask") && !u.has_trait("DEBUG_NOSCENT") ) {
-        scent( u.pos() ) = u.scent;
+        set_scent( u.pos(), u.scent );
         overmap_buffer.set_scent( u.global_omt_location(), u.scent );
     }
 
@@ -5291,19 +5296,27 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         tripoint tmp = center;
         int &realx = tmp.x;
         int &realy = tmp.y;
-        for (realx = posx - POSX; realx <= posx + POSX; realx++) {
-            for (realy = posy - POSY; realy <= posy + POSY; realy++) {
-                if (scent(tmp) != 0) {
-                    int tempx = posx - realx;
-                    int tempy = posy - realy;
-                    if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
-                        if (mon_at(tmp) != -1) {
-                            mvwputch(w_terrain, realy + POSY - posy,
-                                     realx + POSX - posx, c_white, '?');
-                        } else {
-                            mvwputch(w_terrain, realy + POSY - posy,
-                                     realx + POSX - posx, c_magenta, '#');
-                        }
+        int minx = posx - POSX;
+        int miny = posy - POSY;
+        int maxx = posx + POSX;
+        int maxy = posy + POSY;
+        m.clip_to_bounds( minx, miny );
+        m.clip_to_bounds( maxx, maxy );
+        for( realx = minx; realx <= maxx; realx++ ) {
+            for( realy = miny; realy <= maxy; realy++ ) {
+                if( get_scent(tmp) == 0 ) {
+                    continue;
+                }
+
+                int tempx = posx - realx;
+                int tempy = posy - realy;
+                if (!(isBetween(tempx, -2, 2) && isBetween(tempy, -2, 2))) {
+                    if (mon_at(tmp) != -1) {
+                        mvwputch(w_terrain, realy + POSY - posy,
+                                 realx + POSX - posx, c_white, '?');
+                    } else {
+                        mvwputch(w_terrain, realy + POSY - posy,
+                                 realx + POSX - posx, c_magenta, '#');
                     }
                 }
             }
@@ -13388,22 +13401,7 @@ void game::update_map(int &x, int &y)
         spawn_mon(shiftx, shifty);
     }
 
-    // Shift scent
-    const int sm_shift_x = (shiftx * SEEX);
-    const int sm_shift_y = (shifty * SEEY);
-    unsigned int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    std::fill_n( &newscent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
-    tripoint tmp = u.pos();
-    for( tmp.x = sm_shift_x; tmp.x < SEEX * MAPSIZE + sm_shift_x; tmp.x++ ) {
-        for( tmp.y = sm_shift_y; tmp.y < SEEY * MAPSIZE + sm_shift_y; tmp.y++ ) {
-            newscent[tmp.x - sm_shift_x][tmp.y - sm_shift_y] = scent(tmp);
-        }
-    }
-    for( tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++ ) {
-        for( tmp.y = 0; tmp.y < SEEY * MAPSIZE; tmp.y++ ) {
-            scent(tmp) = newscent[tmp.x][tmp.y];
-        }
-    }
+    scents->shift( SEEX * shiftx, SEEY * shifty );
 
     // Make sure map cache is consistent since it may have shifted.
     m.build_map_cache( get_levz() );
@@ -14213,7 +14211,7 @@ void game::display_scent()
     draw_ter();
     for (int x = u.posx() - getmaxx(w_terrain) / 2; x <= u.posx() + getmaxx(w_terrain) / 2; x++) {
         for (int y = u.posy() - getmaxy(w_terrain) / 2; y <= u.posy() + getmaxy(w_terrain) / 2; y++) {
-            int sn = scent({x, y, u.posz()}) / (div * 2);
+            int sn = get_scent({x, y, u.posz()}) / (div * 2);
             mvwprintz(w_terrain, getmaxy(w_terrain) / 2 + y - u.posy(), getmaxx(w_terrain) / 2 + x - u.posx(),
                       sev(sn / 10), "%d",
                       sn % 10);
