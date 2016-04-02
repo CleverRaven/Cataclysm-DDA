@@ -291,6 +291,90 @@
       { "monster" : "mon_lemming", "freq" : 5, "cost_multiplier" : 1 },
       { "monster" : "mon_slug", "freq" : 3, "cost_multiplier" : 1 }
     ]
-  }
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_TRIFFID",
+    "default" : "mon_triffid",
+    "monsters" : [
+      { "monster" : "mon_triffid_young", "freq" : 75, "cost_multiplier" : 1 },
+      { "monster" : "mon_triffid", "freq" : 50, "cost_multiplier" : 3 },
+      { "monster" : "mon_fungal_fighter", "freq" : 50, "cost_multiplier" : 3 },
+      { "monster" : "mon_vinebeast", "freq" : 50, "cost_multiplier" : 3 },
+      { "monster" : "mon_triffid_queen", "freq" : 50, "cost_multiplier" : 5 },
+      { "monster" : "mon_creeper_root", "freq" : 50, "cost_multiplier" : 3 },
+      { "monster" : "mon_creeper_hub", "freq" : 5, "cost_multiplier" : 13, "starts" :  100 },
+      { "monster" : "mon_creeper_vine_pk", "freq" : 50, "cost_multiplier" : 15, "starts" :  25 },
+      { "monster" : "mon_dionaea_sprout", "freq" : 50, "cost_multiplier" : 3, "starts" :  50 },
+      { "monster" : "mon_dionaea", "freq" : 10, "cost_multiplier" : 7, "starts" :  250 },
+      { "monster" : "mon_treent", "freq" : 15, "cost_multiplier" : 10, "starts" :  75 },
+      { "monster" : "mon_treent_green", "freq" : 50, "cost_multiplier" : 7, "starts": 250 },
+      { "monster" : "mon_minecraft", "freq" : 3, "cost_multiplier" : 20, "pack_size" : [1,4], "starts" :  150 },
+      { "monster" : "mon_minecraft_charged", "freq" : 2, "cost_multiplier" : 25, "pack_size" : [1,4], "starts" :  150 },
+      { "monster" : "mon_triffid_heart", "freq" : 0, "cost_multiplier" : 0 }
+    ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_TRIFFID_PK",
+    "default" : "mon_triffid_pk",
+    "//" : "triffids need a strength boost.  this is a start.",
+    "monsters" : [
+      { "monster" : "mon_triffid", "freq" : 60, "cost_multiplier" : 1 },
+      { "monster" : "mon_triffid_pk", "freq" : 25, "cost_multiplier" : 3 },
+      { "monster" : "mon_treent", "freq" : 5, "cost_multiplier" : 10 },
+      { "monster" : "mon_treent_green", "freq" : 10, "cost_multiplier" : 7 }
+    ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_CREEPER_VINE",
+    "default" : "mon_creeper_vine_pk",
+    "//" : "Creepers gonna creep.",
+    "monsters" : [
+      { "monster" : "mon_creeper_vine_terminal", "freq" : 185, "cost_multiplier" : 0 },
+      { "monster" : "mon_creeper_vine_pk", "freq" : 50, "cost_multiplier" : 3 },
+      { "monster" : "mon_creeper_vine_terminal_pk", "freq" : 6, "cost_multiplier" : 5 },
+      { "monster" : "mon_creeper_root", "freq" : 5, "cost_multiplier" : 7 },
+      { "monster" : "mon_vinebeast", "freq" : 4, "cost_multiplier" : 10 }     
+    ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_CREEPER_VINE_PK",
+    "default" : "mon_creeper_vine_terminal_pk",
+    "//" : "Now they begin to propogate.",
+    "monsters" : [
+      { "monster" : "mon_creeper_vine_terminal", "freq" : 140, "cost_multiplier" : 0 },
+      { "monster" : "mon_creeper_vine_terminal_pk", "freq" : 50, "cost_multiplier" : 3 },
+      { "monster" : "mon_creeper_hub", "freq" : 5, "cost_multiplier" : 10 },
+      { "monster" : "mon_creeper_root", "freq" : 40, "cost_multiplier" : 5 },
+      { "monster" : "mon_vinebeast", "freq" : 15, "cost_multiplier" : 7 }
+    ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_DIONAEA",
+    "default" : "mon_dionaea",
+    "//" : "dionaea.",
+    "monsters" : [
+      { "monster" : "mon_dionaea_sprout", "freq" : 7, "cost_multiplier" : 5 },
+      { "monster" : "mon_dionaea", "freq" : 3, "cost_multiplier" : 10 }
+    ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_TANGELA",
+    "default" : "mon_vinebeast",
+    "monsters" : [
+      { "monster" : "mon_vinebeast_terminal", "freq" : 17, "cost_multiplier" : 5 },
+      { "monster" : "mon_vinebeast_pk", "freq" : 3, "cost_multiplier" : 10 }
+    ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_HISSER",
+    "default" : "mon_fungal_fighter",
+    "monsters" : [
+      { "monster" : "mon_fungal_fighter", "freq" : 70, "cost_multiplier" : 5 },
+      { "monster" : "mon_triffid_queen", "freq" : 15, "cost_multiplier" : 5 },
+      { "monster" : "mon_biollante_pk", "freq" : 7, "cost_multiplier" : 10 },
+      { "monster" : "mon_minecraft", "freq" : 5, "cost_multiplier" : 15 },
+      { "monster" : "mon_minecraft_charged", "freq" : 3, "cost_multiplier" : 20 }
+    ]
+    }
   
-  ]
+]
