@@ -479,7 +479,7 @@
         "bashing": 4,
         "ammo_type" : "components",
         "count" : 1
-        },
+    },
     {
         "type":"GENERIC",
         "id": "log",
@@ -1416,7 +1416,7 @@
         "material": "steel",
         "weight": 453,
         "volume": 1
-  },{
+    },{
     "id": "l_HFPack",
     "type": "GENERIC",
     "symbol": ")",
@@ -1430,7 +1430,7 @@
     "volume": 18,
     "to_hit": -2,
     "material": ["wood", "steel"]
-  },{
+    },{
     "id": "mn_classic_kit",
     "type": "GENERIC",
     "symbol": ")",
@@ -1444,7 +1444,7 @@
     "volume": 11,
     "to_hit": -2,
     "material": ["wood", "steel"]
-  },{
+    },{
     "id": "mn_ebr_kit",
     "type": "GENERIC",
     "symbol": ")",
@@ -1458,7 +1458,7 @@
     "volume": 11,
     "to_hit": -2,
     "material": ["plastic", "steel"]
-  },{
+    },{
     "id": "l_car_223_kit",
     "type": "GENERIC",
     "symbol": ")",
@@ -1472,7 +1472,7 @@
     "volume": 2,
     "to_hit": -2,
     "material": ["steel", "plastic"]
-  },{
+    },{
     "id": "l_mbr_223_kit",
     "type": "GENERIC",
     "symbol": ")",
@@ -1486,7 +1486,7 @@
     "volume": 3,
     "to_hit": -2,
     "material": ["steel", "plastic"]
-  },{
+    },{
     "id": "l_dsr_223_kit",
     "type": "GENERIC",
     "symbol": ")",
@@ -1500,7 +1500,7 @@
     "volume": 10,
     "to_hit": -2,
     "material": ["steel", "plastic"]
-  },{
+    },{
     "id": "l_lmg_223_kit",
     "type": "GENERIC",
     "symbol": ")",
@@ -1514,7 +1514,7 @@
     "volume": 11,
     "to_hit": -2,
     "material": ["steel", "plastic"]
-  },{
+    },{
     "type":"GENERIC",
     "id": "mobile_memory_card",
     "symbol": ",",
@@ -1527,52 +1527,52 @@
     "flags" : ["MC_MOBILE", "MC_RANDOM_STUFF", "MC_MAY_BE_ENCRYPTED", "MC_TURN_USED"],
     "weight": 5,
     "volume": 0
-  },
-  {
-    "type":"GENERIC",
-    "id": "mobile_memory_card_used",
-    "symbol": ",",
-    "color": "white",
-    "name": "SD-Memory card (clean)",
-    "name_plural": "SD-Memory cards (clean)",
-    "description": "This memory card is either unused or has been wiped clean.  You could use it to store your data, though!",
-    "price": 500,
-    "price_postapoc": 0,
-    "material": "plastic",
-    "flags" : ["MC_MOBILE", "MC_USED"],
-    "weight": 5,
-    "volume": 0
-  },
-  {
-    "type":"GENERIC",
-    "id": "mobile_memory_card_encrypted",
-    "symbol": ",",
-    "color": "white",
-    "name": "SD-Memory card (encrypted)",
-    "name_plural": "SD-Memory cards (encrypted)",
-    "description": "This memory card appears to have the firmware encryption set.  Hopefully it contains something worth encrypting.",
-    "price": 2000,
-    "price_postapoc": 0,
-    "material": "plastic",
-    "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED"],
-    "weight": 5,
-    "volume": 0
-  },
-  {
-    "type":"GENERIC",
-    "id": "mobile_memory_card_science",
-    "symbol": ",",
-    "color": "white",
-    "name": "Science SD-Memory card",
-    "name_plural": "Science SD-Memory cards",
-    "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks * Interesting *, though...",
-    "price": 10000,
-    "price_postapoc": 0,
-    "material": "plastic",
-    "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF"],
-    "weight": 5,
-    "volume": 0
-  },
+    },
+    {
+        "type":"GENERIC",
+        "id": "mobile_memory_card_used",
+        "symbol": ",",
+        "color": "white",
+        "name": "SD-Memory card (clean)",
+        "name_plural": "SD-Memory cards (clean)",
+        "description": "This memory card is either unused or has been wiped clean.  You could use it to store your data, though!",
+        "price": 500,
+        "price_postapoc": 0,
+        "material": "plastic",
+        "flags" : ["MC_MOBILE", "MC_USED"],
+        "weight": 5,
+        "volume": 0
+    },
+    {
+        "type":"GENERIC",
+        "id": "mobile_memory_card_encrypted",
+        "symbol": ",",
+        "color": "white",
+        "name": "SD-Memory card (encrypted)",
+        "name_plural": "SD-Memory cards (encrypted)",
+        "description": "This memory card appears to have the firmware encryption set.  Hopefully it contains something worth encrypting.",
+        "price": 2000,
+        "price_postapoc": 0,
+        "material": "plastic",
+        "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED"],
+        "weight": 5,
+        "volume": 0
+    },
+    {
+        "type":"GENERIC",
+        "id": "mobile_memory_card_science",
+        "symbol": ",",
+        "color": "white",
+        "name": "Science SD-Memory card",
+        "name_plural": "Science SD-Memory cards",
+        "description": "This memory card appears to be related to 'XEDRA', and is certainly encrypted.  Looks * Interesting *, though...",
+        "price": 10000,
+        "price_postapoc": 0,
+        "material": "plastic",
+        "flags" : ["MC_MOBILE", "MC_ENCRYPTED", "MC_TURN_USED", "MC_SCIENCE_STUFF"],
+        "weight": 5,
+        "volume": 0
+    },
     {
         "type":"GENERIC",
         "id": "steel_chunk",
@@ -2343,7 +2343,7 @@
         "category": "drugs",
         "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
     },
-	{
+    {
         "type" : "COMESTIBLE",
         "id" : "cig_butt",
         "name" : "cigarette butt",
@@ -2365,11 +2365,11 @@
         "color" : "dark_gray",
         "symbol" : "!",
         "description" : "Smelly piece of trash. You must be very desperate if you even try to smoke it.",
-		"category" : "drugs",
+        "category" : "drugs",
         "flags" : ["TABACCO","LITCIG","LIGHT_2"]
-        
+
     },
-	{
+    {
         "type" : "GENERIC",
         "id" : "joint_roach_lit",
         "name" : "joint roach",
@@ -2377,8 +2377,8 @@
         "color" : "green",
         "symbol" : "!",
         "description" : "The smoked-down butt of a joint, a reminder of some good times.  Why you smoke it again ?.",
-		"category" : "drugs",
-		"flags" : ["LITCIG","LIGHT_2"]
+        "category" : "drugs",
+        "flags" : ["LITCIG","LIGHT_2"]
     },
     {
         "type" : "GENERIC",
@@ -2393,10 +2393,10 @@
     {
         "type" : "COMESTIBLE",
         "id" : "joint_roach",
-		"use_action" : "SMOKING",
+        "use_action" : "SMOKING",
         "name" : "joint roach",
         "name_plural": "joint roaches",
-		"comestible_type" : "MED",
+        "comestible_type" : "MED",
         "color" : "green",
         "symbol" : "!",
         "description" : "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
@@ -2547,13 +2547,13 @@
         "id": "cerberus_laser",
         "type": "GENERIC",
         "symbol": "(",
-        "color": "magenta",
-        "name": "TX-5LR Laser Cannon",
-        "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
-        "price": 5000000,
-        "material": ["steel", "plastic"],
-        "weight": 5000,
-        "volume": 3,
-        "category": "spare_parts"
+            "color": "magenta",
+            "name": "TX-5LR Laser Cannon",
+            "description": "A laser cannon stripped from the barrel of a TX-5LR Cerberus laser turret.  Unusable as a weapon on its own without the necessary parts.",
+            "price": 5000000,
+            "material": ["steel", "plastic"],
+            "weight": 5000,
+            "volume": 3,
+            "category": "spare_parts"
     }
 ]
