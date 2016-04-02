@@ -714,11 +714,7 @@ void game::setup()
     // reset kill counts
     kills.clear();
     // Set the scent map to 0
-    for( auto &elem : grscent ) {
-        for( auto &elem_j : elem ) {
-            elem_j = 0;
-        }
-    }
+    scents->clear();
 
     remoteveh_cache_turn = INT_MIN;
     remoteveh_cache = nullptr;
@@ -3234,7 +3230,7 @@ void game::update_scent()
 
     const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
     const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
-    scents.update( minz, maxz );
+    scents->update( minz, maxz );
 }
 
 bool game::is_game_over()
@@ -13263,16 +13259,12 @@ void game::vertical_shift( const int z_after )
     u.grab_point = tripoint_zero;
     u.grab_type = OBJECT_NONE;
 
-    // Clear current scents.
-    for( auto &elem : grscent ) {
-        for( auto &elem_j : elem ) {
-            elem_j = 0;
-        }
-    }
-
     u.setz( z_after );
     const int z_before = get_levz();
     if( !m.has_zlevels() ) {
+        // Clear current scents.
+        scents->clear( z_after );
+
         m.clear_vehicle_cache( z_before );
         m.access_cache( z_before ).vehicle_list.clear();
         m.set_transparency_cache_dirty( z_before );

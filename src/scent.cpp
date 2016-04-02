@@ -1,9 +1,16 @@
 #include "scent.h"
 #include "debug.h"
+#include "enums.h"
+
+// @todo It only needs map to get scent blockers and game to get the map...
+#include "game.h"
+#include "map.h"
+
+#include <string>
 
 scent_layer::scent_layer()
 {
-    std::fill_n( &values[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
+    std::fill_n( &values[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 5000 );
 }
 
 scent_cache::scent_cache()
@@ -13,7 +20,7 @@ scent_cache::scent_cache()
     }
 }
 
-~scent_cache::scent_cache()
+scent_cache::~scent_cache()
 {
 }
 
@@ -34,10 +41,10 @@ int &scent_cache::get_ref( const tripoint &p )
     return nulscent;
 }
 
-scent_layer &get_layer( int zlev )
+scent_layer &scent_cache::get_layer( int zlev )
 {
     static scent_layer nullayer;
-    if( zlev >= -OVERMAP_DEPTH && zlev < OVERMAP_HEIGHT ) {
+    if( zlev >= -OVERMAP_DEPTH && zlev <= OVERMAP_HEIGHT ) {
         return *scents[zlev + OVERMAP_DEPTH];
     }
 
@@ -58,6 +65,8 @@ void scent_cache::update( int minz, int maxz )
     // These two matrices are transposed so that x addresses are contiguous in memory
     int sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE];  //intermediate variable
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
+    std::fill_n( &sum_3_scent_y[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
+    std::fill_n( &squares_used_y[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
 
     bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
     bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -78,10 +87,10 @@ void scent_cache::update( int minz, int maxz )
     // This is essentially a decimal number / 1000.
     constexpr int diffusivity = 100;
 
-    m.scent_blockers( blocks_scent, reduces_scent,
-                      scentmap_minx, scentmap_miny,
-                      scentmap_maxx, scentmap_maxy,
-                      zlev );
+    g->m.scent_blockers( blocks_scent, reduces_scent,
+                         scentmap_minx, scentmap_miny,
+                         scentmap_maxx, scentmap_maxy,
+                         zlev );
     // Sum neighbors in the y direction.
     // This way, each square gets called 3 times instead of 9 times.
     for( size_t x = scentmap_minx + 1; x < scentmap_maxx - 1; ++x ) {
@@ -89,8 +98,6 @@ void scent_cache::update( int minz, int maxz )
         // only adding/subtracting the newest/oldest value
         for( size_t y = scentmap_miny + 1; y < scentmap_maxy - 1; ++y ) {
             // Sum of the scent val for the 3 neighboring squares that can diffuse into
-            sum_3_scent_y[y][x] = 0;
-            squares_used_y[y][x] = 0;
             for( size_t i = y - 1; i <= y + 1; ++i ) {
                 if( !blocks_scent[x][i] ) {
                     // only 20% of scent can diffuse on REDUCE_SCENT squares
@@ -136,8 +143,6 @@ void scent_cache::update( int minz, int maxz )
                 ) / ( 1000 * 10 );
 
             if( grscent[x][y] > 10000 ) {
-                dbg( D_ERROR ) << "game:update_scent: Wacky scent at " << x << ","
-                               << y << " (" << grscent[x][y] << ")";
                 debugmsg( "Wacky scent at %d, %d, %d, (%d)", x, y, zlev, grscent[x][y] );
                 grscent[x][y] = 0; // Scent should never be higher
             }
@@ -163,6 +168,13 @@ void scent_cache::decay( int zlev, int amount )
         for( size_t y = scentmap_miny; y < scentmap_maxy; ++y ) {
             grscent[x][y] = std::max( 0, grscent[x][y] - amount );
         }
+    }
+}
+
+void scent_cache::clear()
+{
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        clear( z );
     }
 }
 
