@@ -9292,5 +9292,17 @@
         "tool_quality": 0,
         "move_cost": 1200
     }
+  },
+  {
+    "id": "syringe",
+    "type":"TOOL",
+    "name": "syringe",
+    "description": "A medical syringe.  Used for administering intravenous drugs.",
+    "symbol": ",",
+    "color": "white",
+    "material": "plastic",
+    "weight": 10,
+    "volume": 1,
+    "price": 2500
   }
 ]

@@ -585,7 +585,7 @@ bool mattack::pull_metal_weapon(monster *z)
     }
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {
-        if ( foe->weapon.made_of("iron") || foe->weapon.made_of("steel") ) {
+        if ( foe->weapon.made_of( material_id( "iron" ) ) || foe->weapon.made_of( material_id( "steel" ) ) ) {
             int wp_skill = foe->skillLevel( skill_melee );
             z->moves -= att_cost_pull;   // It takes a while
             int success = 100;
@@ -2121,9 +2121,9 @@ bool mattack::formblob(monster *z)
             } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
                 poly_keep_speed( othermon, mon_blob_large );
             }
-        } else if( (othermon.made_of("flesh") ||
-                    othermon.made_of("veggy") ||
-                    othermon.made_of("iflesh") ) &&
+        } else if( (othermon.made_of( material_id( "flesh" ) ) ||
+                    othermon.made_of( material_id( "veggy" ) ) ||
+                    othermon.made_of( material_id( "iflesh" ) ) ) &&
                    rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
             didit = blobify( *z, othermon );
         }

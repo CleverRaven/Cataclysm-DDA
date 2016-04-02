@@ -614,7 +614,7 @@ public:
  bool fac_has_job(faction_job job) const;
 
 // Interaction with the player
- void form_opinion(player *u);
+ void form_opinion( const player &u );
     std::string pick_talk_topic( const player &u );
  int  player_danger(const player &u) const; // Comparable to monsters
  int vehicle_danger(int radius) const;
@@ -636,6 +636,8 @@ public:
  bool is_defending() const; // Putting the player's safety ahead of ours
     /** Standing in one spot, moving back if removed from it. */
     bool is_guarding() const;
+    /** Trusts you a lot. */
+    bool is_minion() const;
         Attitude attitude_to( const Creature &other ) const override;
 // What happens when the player makes a request
  void told_to_help();

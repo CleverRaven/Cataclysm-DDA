@@ -401,8 +401,7 @@ void player::sort_armor()
 
         if( is_npc() && ( action == "EQUIP_ARMOR" || action == "REMOVE_ARMOR" ) ) {
             const npc &np = dynamic_cast<const npc &>( *this );
-            // Trust 5 is pretty much a minion
-            if( np.op_of_u.trust < 5 && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+            if( !np.is_minion() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
                 popup( _( "%s says: I don't trust you enough to let you do that!" ), disp_name().c_str() );
                 continue;
             }

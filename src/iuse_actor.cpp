@@ -932,20 +932,19 @@ void salvage_actor::load( JsonObject &obj )
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
         while( jarr.has_more() ) {
-            const auto material_id = jarr.next_string();
-            material_whitelist.push_back( material_id );
+            material_whitelist.push_back( material_id( jarr.next_string() ) );
         }
     } else {
         // Default to old salvageable materials
-        material_whitelist.push_back("cotton");
-        material_whitelist.push_back("leather");
-        material_whitelist.push_back("fur");
-        material_whitelist.push_back("nomex");
-        material_whitelist.push_back("kevlar");
-        material_whitelist.push_back("plastic");
-        material_whitelist.push_back("wood");
-        material_whitelist.push_back("wool");
-        material_whitelist.push_back("neoprene");
+        material_whitelist.push_back( material_id( "cotton" ) );
+        material_whitelist.push_back( material_id( "leather" ) );
+        material_whitelist.push_back( material_id( "fur" ) );
+        material_whitelist.push_back( material_id( "nomex" ) );
+        material_whitelist.push_back( material_id( "kevlar" ) );
+        material_whitelist.push_back( material_id( "plastic" ) );
+        material_whitelist.push_back( material_id( "wood" ) );
+        material_whitelist.push_back( material_id( "wool" ) );
+        material_whitelist.push_back( material_id( "neoprene" ) );
     }
 }
 
@@ -1053,7 +1052,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->skillLevel( skill_fabrication ) );
     // What material components can we get back?
-    std::vector<std::string> cut_material_components = cut->made_of();
+    std::vector<material_id> cut_material_components = cut->made_of();
     // What materials do we salvage (ids and counts).
     std::map<std::string, int> materials_salvaged;
 
@@ -1097,9 +1096,9 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // Decided to split components evenly. Since salvage will likely change
     // soon after I write this, I'll go with the one that is cleaner.
     for (auto material : cut_material_components) {
-        material_type * mt = material_type::find_material(material);
-        std::string salvaged_id = mt->salvage_id();
-        float salvage_multiplier = mt->salvage_multiplier();
+        const material_type &mt = material.obj();
+        std::string salvaged_id = mt.salvage_id();
+        float salvage_multiplier = mt.salvage_multiplier();
         materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
     }
 
@@ -1145,19 +1144,18 @@ void inscribe_actor::load( JsonObject &obj )
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
         while( jarr.has_more() ) {
-            const auto material_id = jarr.next_string();
-            material_whitelist.push_back( material_id );
+            material_whitelist.push_back( material_id( jarr.next_string() ) );
         }
     } else if( material_restricted ) {
         material_whitelist.reserve( 7 );
         // Default to old carveable materials
-        material_whitelist.push_back("wood");
-        material_whitelist.push_back("plastic");
-        material_whitelist.push_back("glass");
-        material_whitelist.push_back("chitin");
-        material_whitelist.push_back("iron");
-        material_whitelist.push_back("steel");
-        material_whitelist.push_back("silver");
+        material_whitelist.push_back( material_id( "wood" ) );
+        material_whitelist.push_back( material_id( "plastic" ) );
+        material_whitelist.push_back( material_id( "glass" ) );
+        material_whitelist.push_back( material_id( "chitin" ) );
+        material_whitelist.push_back( material_id( "iron" ) );
+        material_whitelist.push_back( material_id( "steel" ) );
+        material_whitelist.push_back( material_id( "silver" ) );
     }
 
     verb = _(obj.get_string( "verb", "Carve" ).c_str());
@@ -2026,7 +2024,7 @@ void repair_item_actor::load( JsonObject &obj )
     // Mandatory:
     JsonArray jarr = obj.get_array( "materials" );
     while( jarr.has_more() ) {
-        materials.push_back( jarr.next_string() );
+        materials.push_back( material_id( jarr.next_string() ) );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
@@ -2047,28 +2045,28 @@ void repair_item_actor::load( JsonObject &obj )
 }
 
 // TODO: This should be a property of material json, not a hardcoded hack
-const itype_id &material_component( const std::string &material_id )
+const itype_id &material_component( const material_id &id )
 {
-    static const std::map< std::string, itype_id > material_id_map {
+    static const std::map< material_id, itype_id > material_id_map {
         // Metals (welded)
-        { "kevlar", "kevlar_plate" },
-        { "plastic", "plastic_chunk" },
-        { "iron", "scrap" },
-        { "steel", "scrap" },
-        { "hardsteel", "scrap" },
-        { "aluminum", "material_aluminium_ingot" },
-        { "copper", "scrap_copper" },
+        { material_id( "kevlar" ), "kevlar_plate" },
+        { material_id( "plastic" ), "plastic_chunk" },
+        { material_id( "iron" ), "scrap" },
+        { material_id( "steel" ), "scrap" },
+        { material_id( "hardsteel" ), "scrap" },
+        { material_id( "aluminum" ), "material_aluminium_ingot" },
+        { material_id( "copper" ), "scrap_copper" },
         // Fabrics (sewn)
-        { "cotton", "rag" },
-        { "leather", "leather" },
-        { "fur", "fur" },
-        { "nomex", "nomex" },
-        { "wool", "felt_patch" },
-        { "neoprene", "neoprene" }
+        { material_id( "cotton" ), "rag" },
+        { material_id( "leather" ), "leather" },
+        { material_id( "fur" ), "fur" },
+        { material_id( "nomex" ), "nomex" },
+        { material_id( "wool" ), "felt_patch" },
+        { material_id( "neoprene" ), "neoprene" }
     };
 
     static const itype_id null_material = "";
-    const auto iter = material_id_map.find( material_id );
+    const auto iter = material_id_map.find( id );
     if( iter != material_id_map.end() ) {
         return iter->second;
     }
@@ -2132,7 +2130,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     bool print_msg, bool just_check ) const
 {
     // Entries valid for repaired items
-    std::set<std::string> valid_entries;
+    std::set<material_id> valid_entries;
     for( const auto &mat : materials ) {
         if( fix.made_of( mat ) ) {
             valid_entries.insert( mat );
@@ -2145,10 +2143,10 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             pl.add_msg_if_player( m_info, _("Your %s is not made of any of:"),
                                   fix.tname().c_str());
             for( const auto &mat_name : materials ) {
-                const auto mat = material_type::find_material( mat_name );
+                const auto &mat = mat_name.obj();
                 const auto mat_comp = material_component( mat_name );
                 pl.add_msg_if_player( m_info, _("%s (repaired using %s)"),
-                                      mat->name().c_str(), item::nname( mat_comp, 2 ).c_str() );
+                                      mat.name().c_str(), item::nname( mat_comp, 2 ).c_str() );
             }
         }
 
@@ -2257,7 +2255,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return false;
     }
 
-    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const std::string &mat ) {
+    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id &mat ) {
             return material_component( mat ) == fix.typeId();
         } ) ) {
         if( print_msg ) {

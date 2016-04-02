@@ -1863,52 +1863,35 @@ std::string rm_prefix(std::string str, char c1, char c2)
 // draw a menu-item-like string with highlighted shortcut character
 // Example: <w>ield, m<o>ve
 // returns: output length (in console cells)
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
-                      const std::string &fmt)
+size_t shortcut_print( WINDOW *w, int y, int x, nc_color text_color,
+                       nc_color shortcut_color, const std::string &fmt )
 {
-    size_t pos = fmt.find_first_of('<');
-    size_t pos2 = fmt.find_first_of('>');
-    size_t sep = std::min(fmt.find_first_of('|', pos), pos2);
-    size_t len = 0;
-    if(pos2 != std::string::npos && pos < pos2) {
-        std::string prestring = fmt.substr(0, pos);
-        std::string poststring = fmt.substr(pos2 + 1, std::string::npos);
-        std::string shortcut = fmt.substr(pos + 1, sep - pos - 1);
-        mvwprintz(w, y, x, color, "%s", prestring.c_str());
-        len = utf8_width( prestring );
-        mvwprintz(w, y, x + len, colork, "%s", shortcut.c_str());
-        len += utf8_width( shortcut );
-        mvwprintz(w, y, x + len, color, "%s", poststring.c_str());
-        len += utf8_width( poststring );
-    } else {
-        // no shortcut?
-        mvwprintz(w, y, x, color, "%s", fmt.c_str());
-        len = utf8_width( fmt );
-    }
-    return len;
+    wmove( w, y, x);
+    return shortcut_print( w, text_color, shortcut_color, fmt );
 }
 
 //same as above, from current position
-size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt)
+size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
+                       const std::string &fmt )
 {
-    size_t pos = fmt.find_first_of('<');
-    size_t pos2 = fmt.find_first_of('>');
-    size_t sep = std::min(fmt.find_first_of('|', pos), pos2);
+    size_t pos = fmt.find_first_of( '<' );
+    size_t pos_end = fmt.find_first_of( '>' );
+    size_t sep = std::min( fmt.find_first_of( '|', pos ), pos_end );
     size_t len = 0;
-    if(pos2 != std::string::npos && pos < pos2) {
-        std::string prestring = fmt.substr(0, pos);
-        std::string poststring = fmt.substr(pos2 + 1, std::string::npos);
-        std::string shortcut = fmt.substr(pos + 1, sep - pos - 1);
-        wprintz(w, color, "%s", prestring.c_str());
-        wprintz(w, colork, "%s", shortcut.c_str());
-        wprintz(w, color, "%s", poststring.c_str());
-        len = utf8_width(prestring.c_str());
-        len += utf8_width(shortcut.c_str());
-        len += utf8_width(poststring.c_str());
+    if( pos_end != std::string::npos && pos < pos_end ) {
+        std::string prestring = fmt.substr( 0, pos );
+        std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
+        std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
+        wprintz( w, text_color, "%s", prestring.c_str() );
+        wprintz( w, shortcut_color, "%s", shortcut.c_str() );
+        wprintz( w, text_color, "%s", poststring.c_str() );
+        len = utf8_width( prestring.c_str() );
+        len += utf8_width( shortcut.c_str() );
+        len += utf8_width( poststring.c_str() );
     } else {
         // no shortcut?
-        wprintz(w, color, "%s", fmt.c_str());
-        len = utf8_width(fmt.c_str());
+        wprintz( w, text_color, "%s", fmt.c_str() );
+        len = utf8_width( fmt.c_str() );
     }
     return len;
 }

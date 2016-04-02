@@ -521,52 +521,6 @@ map_selector Character::nearby( int radius, bool accessible )
     return map_selector( pos(), radius, accessible );
 }
 
-std::vector<item *> Character::items_with( const std::function<bool(const item&)>& filter )
-{
-    auto res = inv.items_with( filter );
-
-    weapon.visit_items( [&res, &filter]( item *node ) {
-        if( filter( *node ) ) {
-            res.emplace_back( node );
-        }
-        return VisitResponse::NEXT;
-    });
-
-    for( auto &e : worn ) {
-        e.visit_items( [&res, &filter]( item *node ) {
-            if( filter( *node ) ) {
-                res.emplace_back( node );
-            }
-            return VisitResponse::NEXT;
-        });
-    }
-
-    return res;
-}
-
-std::vector<const item *> Character::items_with( const std::function<bool(const item&)>& filter ) const
-{
-    auto res = inv.items_with( filter );
-
-    weapon.visit_items_const( [&res, &filter]( const item *node ) {
-        if( filter( *node ) ) {
-            res.emplace_back( node );
-        }
-        return VisitResponse::NEXT;
-    });
-
-    for( const auto &e : worn ) {
-        e.visit_items_const( [&res, &filter]( const item *node ) {
-            if( filter( *node ) ) {
-                res.emplace_back( node );
-            }
-            return VisitResponse::NEXT;
-        });
-    }
-
-    return res;
-}
-
 item& Character::i_add(item it)
 {
     itype_id item_type_id = "null";
@@ -1970,7 +1924,8 @@ int Character::throw_range( const item &it ) const
     ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
     ret -= int(tmp.volume() / 4);
-    if( has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel"))) {
+    static const std::vector<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
+    if( has_active_bionic("bio_railgun") && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
     if( ret < 1 ) {

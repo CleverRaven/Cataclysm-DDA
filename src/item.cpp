@@ -131,7 +131,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
             emplace_back( default_ammo( type->magazine->type ), calendar::turn, type->magazine->count );
         }
 
-    } else if( type->is_food() ) {
+    } else if( type->comestible ) {
         active = goes_bad() && !rotten();
 
     } else if( type->tool ) {
@@ -373,7 +373,7 @@ long item::liquid_charges( long units ) const
     if( is_ammo() ) {
         return type->ammo->def_charges * units;
     } else if( is_food() ) {
-        return dynamic_cast<const it_comest *>( type )->def_charges * units;
+        return type->comestible->def_charges * units;
     } else {
         return units;
     }
@@ -384,7 +384,7 @@ long item::liquid_units( long charges ) const
     if( is_ammo() ) {
         return charges / type->ammo->def_charges;
     } else if( is_food() ) {
-        return charges / dynamic_cast<const it_comest *>( type )->def_charges;
+        return charges / type->comestible->def_charges;
     } else {
         return charges;
     }
@@ -679,7 +679,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             insert_separation_line();
         }
 
-        const std::vector<material_type*> mat_types = made_of_types();
+        const std::vector<const material_type*> mat_types = made_of_types();
         if( !mat_types.empty() ) {
             std::string material_list;
             for( auto next_material : mat_types ) {
@@ -698,24 +698,15 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
                                           ( int( calendar::turn ) - bday ) / ( 10 * 60 ), true, "", true, true ) );
-                int maxrot = 0;
-                const item *food = NULL;
-                if( goes_bad() ) {
-                    food = this;
-                    maxrot = dynamic_cast<const it_comest *>( type )->spoils;
-                } else if( is_food_container() ) {
-                    food = &contents[0];
-                    if( food->goes_bad() ) {
-                        maxrot = dynamic_cast<const it_comest *>( food->type )->spoils;
-                    }
-                }
-                if( food != NULL && maxrot != 0 ) {
+
+                const item *food = is_food_container() ? &contents[ 0 ] : this;
+                if( food && food->goes_bad() ) {
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
                                               ( int( calendar::turn ) - food->bday ), true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
                                               ( int )food->rot, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
-                                              ( int )maxrot, true, "", true, true ) );
+                                              food->type->comestible->spoils, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
                                               ( int )food->fridge, true, "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
@@ -733,16 +724,14 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         food_item = &contents.front();
     }
     if( food_item != nullptr ) {
-        const auto food = dynamic_cast<const it_comest *>( food_item->type );
-
-        if( g->u.nutrition_for( food ) != 0 || food->quench != 0 ) {
-            info.push_back( iteminfo( "FOOD", _( "<bold>Nutrition</bold>: " ), "", g->u.nutrition_for( food ),
+        if( g->u.nutrition_for( food_item->type ) != 0 || food_item->type->comestible->quench != 0 ) {
+            info.push_back( iteminfo( "FOOD", _( "<bold>Nutrition</bold>: " ), "", g->u.nutrition_for( food_item->type ),
                                       true, "", false, true ) );
-            info.push_back( iteminfo( "FOOD", space + _( "Quench: " ), "", food->quench ) );
+            info.push_back( iteminfo( "FOOD", space + _( "Quench: " ), "", food_item->type->comestible->quench ) );
         }
 
-        if( food->fun != 0 ) {
-            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), "", food->fun ) );
+        if( food_item->type->comestible->fun ) {
+            info.push_back( iteminfo( "FOOD", _( "Enjoyability: " ), "", food_item->type->comestible->fun ) );
         }
 
         info.push_back( iteminfo( "FOOD", _( "Portions: " ), "", abs( int( food_item->charges ) ) ) );
@@ -2212,24 +2201,18 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         maintext = label(quantity);
     }
 
-    const it_comest* food_type = NULL;
     std::string tagtext = "";
     std::string modtext = "";
     ret.str("");
-    if (is_food())
-    {
-        food_type = dynamic_cast<const it_comest*>(type);
-
-        if (food_type->spoils != 0)
-        {
-            if(rotten()) {
-                ret << _(" (rotten)");
-            } else if ( is_going_bad()) {
-                ret << _(" (old)");
-            } else if ( rot < 100 ) {
-                ret << _(" (fresh)");
-            }
+    if (is_food()) {
+        if( rotten() ) {
+            ret << _(" (rotten)");
+        } else if ( is_going_bad()) {
+            ret << _(" (old)");
+        } else if( is_fresh() ) {
+            ret << _(" (fresh)");
         }
+
         if (has_flag("HOT")) {
             ret << _(" (hot)");
             }
@@ -2346,12 +2329,13 @@ int item::price( bool practical ) const
 {
     int res = 0;
 
-    visit_items_const( [&res,&practical]( const item *e ) {
-        int child = practical ? e->type->price_post : e->type->price;
-
+    visit_items( [&res, practical]( const item *e ) {
         if( e->rotten() ) {
-            child /= 10; // @todo better price here calculation?
+            // @todo Special case things that stay useful when rotten
+            return VisitResponse::NEXT;
         }
+
+        int child = practical ? e->type->price_post : e->type->price;
         if( e->damage > 0 ) {
             // maximal damage is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage ) / 10;
@@ -2400,12 +2384,12 @@ int item::weight() const
             case MS_LARGE:  ret = 120000;  break;
             case MS_HUGE:   ret = 200000;  break;
         }
-        if( made_of( "veggy" ) ) {
+        if( made_of( material_id( "veggy" ) ) ) {
             ret /= 3;
         }
-        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of( "bone" ) ) {
+        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of( material_id( "bone" ) ) ) {
             ret /= 8;
-        } else if ( made_of( "iron" ) || made_of( "steel" ) || made_of( "stone" ) ) {
+        } else if ( made_of( material_id( "iron" ) ) || made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) ) ) {
             ret *= 7;
         }
 
@@ -2716,48 +2700,20 @@ std::set<matec_id> item::get_techniques() const
     return result;
 }
 
-bool item::is_going_bad() const
+bool item::goes_bad() const
 {
-    const it_comest *comest = dynamic_cast<const it_comest *>(type);
-    if( comest != nullptr && comest->spoils > 0) {
-        return ((float)rot / (float)comest->spoils) > 0.9;
-    }
-    return false;
+    return is_food() && type->comestible->spoils;
 }
 
-bool item::rotten() const
+double item::get_relative_rot() const
 {
-    const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        return rot > comest->spoils;
-    }
-    return false;
+    return goes_bad() ? rot / double( type->comestible->spoils ) : 0;
 }
 
-bool item::has_rotten_away() const
+void item::set_relative_rot( double val )
 {
-    const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        // Twice the regular shelf life and it's gone.
-        return rot > comest->spoils * 2;
-    }
-    return false;
-}
-
-float item::get_relative_rot() const
-{
-    const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        return static_cast<float>( rot ) / comest->spoils;
-    }
-    return 0;
-}
-
-void item::set_relative_rot( float rel_rot )
-{
-    const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        rot = rel_rot * comest->spoils;
+    if( goes_bad() ) {
+        rot = type->comestible->spoils * val;
         // calc_rot uses last_rot_check (when it's not 0) instead of bday.
         // this makes sure the rotting starts from now, not from bday.
         last_rot_check = calendar::turn;
@@ -2926,10 +2882,7 @@ int item::get_warmth() const
 
 int item::brewing_time() const
 {
-    float season_mult = ( (float)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] ) / 14;
-    unsigned int b_time = dynamic_cast<const it_comest*>(type)->brewtime;
-    int ret = b_time * season_mult;
-    return ret;
+    return ( is_food() ? type->comestible->brewtime : 0 ) * ( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14.0 );
 }
 
 bool item::can_revive() const
@@ -2967,15 +2920,6 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return true;
     }
     return false;
-}
-
-bool item::goes_bad() const
-{
-    if (!is_food()) {
-        return false;
-    }
-    const auto food = dynamic_cast<const it_comest*>(type);
-    return (food->spoils != 0);
 }
 
 bool item::count_by_charges() const
@@ -3026,7 +2970,7 @@ int item::bash_resist( bool to_self ) const
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
-    const std::vector<material_type*> mat_types = made_of_types();
+    const std::vector<const material_type*> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         for (auto mat : mat_types) {
             resist += mat->bash_resist();
@@ -3072,7 +3016,7 @@ int item::cut_resist( bool to_self ) const
         eff_thickness = std::max( 1, get_thickness() - eff_damage );
     }
 
-    const std::vector<material_type*> mat_types = made_of_types();
+    const std::vector<const material_type*> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         for( auto mat : mat_types ) {
             resist += mat->cut_resist();
@@ -3102,7 +3046,7 @@ int item::acid_resist( bool to_self ) const
         return 0.0;
     }
 
-    const std::vector<material_type*> mat_types = made_of_types();
+    const std::vector<const material_type*> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
         // but such is the way of the code.
@@ -3130,7 +3074,7 @@ int item::fire_resist( bool to_self ) const
         return 0.0;
     }
 
-    const std::vector<material_type*> mat_types = made_of_types();
+    const std::vector<const material_type*> mat_types = made_of_types();
     if( !mat_types.empty() ) {
         for( auto mat : mat_types ) {
             resist += mat->fire_resist();
@@ -3211,7 +3155,7 @@ bool item::is_two_handed( const player &u ) const
     return ((weight() / 113) > u.str_cur * 4);
 }
 
-const std::vector<std::string> &item::made_of() const
+const std::vector<material_id> &item::made_of() const
 {
     if( is_corpse() ) {
         return corpse->mat;
@@ -3219,16 +3163,16 @@ const std::vector<std::string> &item::made_of() const
     return type->materials;
 }
 
-std::vector<material_type*> item::made_of_types() const
+std::vector<const material_type*> item::made_of_types() const
 {
-    std::vector<material_type*> material_types_composed_of;
+    std::vector<const material_type*> material_types_composed_of;
     for (auto mat_id : made_of()) {
-        material_types_composed_of.push_back(material_type::find_material(mat_id));
+        material_types_composed_of.push_back( &mat_id.obj() );
     }
     return material_types_composed_of;
 }
 
-bool item::made_of_any( const std::vector<std::string> &mat_idents ) const
+bool item::made_of_any( const std::vector<material_id> &mat_idents ) const
 {
     for( auto candidate_material : mat_idents ) {
         for( auto target_material : made_of() ) {
@@ -3240,7 +3184,7 @@ bool item::made_of_any( const std::vector<std::string> &mat_idents ) const
     return false;
 }
 
-bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
+bool item::only_made_of( const std::vector<material_id> &mat_idents ) const
 {
     for( auto target_material : made_of() ) {
         if( std::find( mat_idents.begin(), mat_idents.end(), target_material ) == mat_idents.end() ) {
@@ -3250,7 +3194,7 @@ bool item::only_made_of( const std::vector<std::string> &mat_idents ) const
     return true;
 }
 
-bool item::made_of( const std::string &mat_ident ) const
+bool item::made_of( const material_id &mat_ident ) const
 {
     const auto &materials = made_of();
     return std::find( materials.begin(), materials.end(), mat_ident ) != materials.end();
@@ -3334,8 +3278,9 @@ bool item::is_food(player const*u) const
     if( is_null() )
         return false;
 
-    if (type->is_food())
+    if( type->comestible ) {
         return true;
+    }
 
     if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
         return true;
@@ -3356,12 +3301,7 @@ bool item::is_food_container(player const*u) const
 
 bool item::is_food() const
 {
-    if( is_null() )
-        return false;
-
-    if (type->is_food())
-        return true;
-    return false;
+    return type->comestible != nullptr;
 }
 
 bool item::is_food_container() const
@@ -3631,17 +3571,17 @@ void item::mark_chapter_as_read( const player &u )
 const material_type &item::get_random_material() const
 {
     if( type->materials.empty() ) {
-        return *material_type::find_material( "null" );
+        return material_id( "null" ).obj();
     }
-    return *material_type::find_material( random_entry( type->materials ) );
+    return random_entry( type->materials ).obj();
 }
 
 const material_type &item::get_base_material() const
 {
     if( type->materials.empty() ) {
-        return *material_type::find_material( "null" );
+        return material_id( "null" ).obj();
     }
-    return *material_type::find_material( type->materials.front() );
+    return type->materials.front().obj();
 }
 
 bool item::operator<(const item& other) const
@@ -4692,20 +4632,20 @@ bool item::flammable() const
         return true;
     }
 
-    if( made_of("nomex") ) {
+    if( made_of( material_id( "nomex" ) ) ) {
         return false;
     }
 
-    if( made_of("paper") || made_of("powder") || made_of("plastic") ) {
+    if( made_of( material_id( "paper" ) ) || made_of( material_id( "powder" ) ) || made_of( material_id( "plastic" ) ) ) {
         return true;
     }
 
     int vol = volume();
-    if( ( made_of( "wood" ) || made_of( "veggy" ) ) && ( burnt < 1 || vol <= 10 ) ) {
+    if( ( made_of( material_id( "wood" ) ) || made_of( material_id( "veggy" ) ) ) && ( burnt < 1 || vol <= 10 ) ) {
         return true;
     }
 
-    if( ( made_of("cotton") || made_of("wool") ) && ( burnt / ( vol + 1 ) <= 1 ) ) {
+    if( ( made_of( material_id( "cotton" ) ) || made_of( material_id( "wool" ) ) ) && ( burnt / ( vol + 1 ) <= 1 ) ) {
         return true;
     }
 
@@ -4839,23 +4779,6 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid,
     return L_ERR_NONE;
 }
 
-int item::amount_of(const itype_id &it, bool used_as_tool) const
-{
-    int count = 0;
-    // Check that type matches, and (if not used as tool), it
-    // is not a pseudo item.
-    if (type->id == it && (used_as_tool || !has_flag("PSEUDO"))) {
-        if (contents.empty()) {
-            // Only use empty container
-            count++;
-        }
-    }
-    for( auto &elem : contents ) {
-        count += elem.amount_of( it, used_as_tool );
-    }
-    return count;
-}
-
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents
@@ -4917,25 +4840,6 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     liquid.charges -= amount;
 
     return true;
-}
-
-long item::charges_of(const itype_id &it) const
-{
-    long count = 0;
-
-    if ( ( typeId() == it || ( is_tool() && type->tool->subtype == it ) ) && contents.empty() ) {
-        // If we're specifically looking for a container, only say we have it if it's empty.
-        if (charges < 0) {
-            count++;
-        } else {
-            count += charges;
-        }
-    } else {
-        for( const auto &elem : contents ) {
-            count += elem.charges_of( it );
-        }
-    }
-    return count;
 }
 
 bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
@@ -5502,11 +5406,19 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {
             carrier->add_msg_if_player( m_info, _( "You need an UPS to run %s!" ), tname().c_str() );
         }
+
+        // invoking the object can convert the item to another type of item, the
+        // revert target check should be stored ahead of time
+        bool has_no_revert_target = false;
+        if( type->tool->revert_to == "null" ) {
+            has_no_revert_target = true; // reverts to nothing -> destroy the item
+        }
+
         // TODO: iuse functions should expect a nullptr as player, but many of them
         // don't and therefor will fail.
         type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
-        if( type->tool->revert_to == "null" ) {
-            return true; // reverts to nothing -> destroy the item
+        if( has_no_revert_target ) {
+            return true; // destroy after invoking, no revert target was found earlier
         }
         deactivate( carrier );
     }
@@ -5669,8 +5581,8 @@ bool item::is_soft() const
 {
     // @todo Make this a material property
     // @todo Add a SOFT flag (for chainmail and the like)
-    static const std::vector<std::string> soft_mats = {{
-        "cotton", "leather", "wool", "nomex"
+    static const std::vector<material_id> soft_mats = {{
+        material_id( "cotton" ), material_id( "leather" ), material_id( "wool" ), material_id( "nomex" )
     }};
 
     return made_of_any( soft_mats );

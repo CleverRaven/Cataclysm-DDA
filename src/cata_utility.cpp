@@ -196,7 +196,7 @@ double logarithmic_range( int min, int max, int pos )
     const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
 
     if( min >= max ) {
-        debugmsg( "%s(): Invalid interval (%d, %d).", __FUNCTION__, min, max );
+        debugmsg( "Invalid interval (%d, %d).", min, max );
         return 0.0;
     }
 

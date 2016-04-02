@@ -1423,6 +1423,10 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
 
 void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
 {
+    if (is_draw_tiles_mode()) {
+        return;
+    }
+
     int draw_x = getmaxx(w) / 2 + posx() - p.x;
     int draw_y = getmaxy(w) / 2 + posy() - p.y;
     if(inverted) {

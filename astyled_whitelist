@@ -28,6 +28,7 @@ src/itype.cpp
 src/iuse_software.cpp
 src/live_view.cpp
 src/lua_console.cpp
+src/main_menu.cpp
 src/map_selector.cpp
 src/mapsharing.cpp
 src/material.cpp

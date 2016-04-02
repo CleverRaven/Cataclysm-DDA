@@ -306,8 +306,6 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
         return;
     }
 
-    werase(ipk_target);
-
     int const maxlength = right - left;
     int line = log_from_top ? top : bottom;
 

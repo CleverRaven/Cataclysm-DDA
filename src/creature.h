@@ -6,6 +6,7 @@
 #include "effect.h"
 #include "bodypart.h"
 #include "output.h"
+#include "string_id.h"
 #include "cursesdef.h" // WINDOW
 
 #include <stdlib.h>
@@ -24,7 +25,8 @@ struct trap;
 enum m_flag : int;
 enum field_id : int;
 enum damage_type : int;
-using material_id = std::string;
+class material_type;
+using material_id = string_id<material_type>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel

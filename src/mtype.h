@@ -36,7 +36,8 @@ using species_id = string_id<species_type>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 class JsonArray;
-using material_id = std::string;
+class material_type;
+using material_id = string_id<material_type>;
 
 typedef std::string itype_id;
 
@@ -252,7 +253,7 @@ struct mtype {
         std::string sym;
         nc_color color;
         m_size size;
-        std::vector<std::string> mat;
+        std::vector<material_id> mat;
         phase_id phase;
         std::set<m_flag> flags;
         std::set<monster_trigger> anger, placate, fear;

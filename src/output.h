@@ -400,9 +400,10 @@ std::string replace_colors(std::string text);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
-                      const std::string &fmt);
-size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt);
+size_t shortcut_print( WINDOW *w, int y, int x, nc_color text_color, nc_color shortcut_color,
+                      const std::string &fmt );
+size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
+                      const std::string &fmt );
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!

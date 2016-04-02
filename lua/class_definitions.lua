@@ -180,7 +180,7 @@ classes = {
             { name = "is_wearing_on_bp", rval = "bool", args = { "string", "body_part" } },
             { name = "is_worn", rval = "bool", args = { "item" } },
             { name = "limb_color", rval = "int", args = { "body_part", "bool", "bool", "bool" } },
-            { name = "made_of", rval = "bool", args = { "string" } },
+            { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "mod_int_bonus", rval = nil, args = { "int" } },
             { name = "mod_stat", rval = nil, args = { "string", "int" } },
             { name = "move_effects", rval = "bool", args = { "bool" } },
@@ -706,7 +706,7 @@ classes = {
             { name = "natural_attack_restricted_on", rval = "bool", args = { "body_part" } },
             { name = "normalize", rval = nil, args = { } },
             { name = "num_bionics", rval = "int", args = { } },
-            { name = "nutrition_for", rval = "int", args = { "it_comest" } },
+            { name = "nutrition_for", rval = "int", args = { "itype" } },
             { name = "on_dodge", rval = nil, args = { "Creature", "int" } },
             { name = "on_hit", rval = nil, args = { "Creature" } },
             { name = "on_hit", rval = nil, args = { "Creature", "body_part" } },
@@ -1039,7 +1039,7 @@ classes = {
             { name = "liquid_units", rval = "int", args = { "int" } },
             { name = "load_info", rval = nil, args = { "string" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
-            { name = "made_of", rval = "bool", args = { "string" } },
+            { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "magazine_current", rval = "item&", args = { } },
             { name = "magazine_current", rval = "item&", args = { } },
             { name = "magazine_default", rval = "string", args = { "bool" } },
@@ -1713,7 +1713,7 @@ classes = {
             { name = "knock_back_from", rval = nil, args = { "tripoint" } },
             { name = "load_info", rval = nil, args = { "string" } },
             { name = "made_of", rval = "bool", args = { "phase_id" } },
-            { name = "made_of", rval = "bool", args = { "string" } },
+            { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "make_ally", rval = nil, args = { "monster" } },
             { name = "make_friendly", rval = nil, args = { } },
             { name = "make_fungus", rval = "bool", args = { } },
@@ -1773,6 +1773,13 @@ classes = {
     },
     martialart = {
         string_id = "matype_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
+    material_type = {
+        string_id = "material_id",
         attributes = {
         },
         functions = {
@@ -1867,7 +1874,7 @@ classes = {
             { name = "get_meat_itype", rval = "string", args = { } },
             { name = "gibType", rval = "field_id", args = { } },
             { name = "has_flag", rval = "bool", args = { "string" } },
-            { name = "made_of", rval = "bool", args = { "string" } },
+            { name = "made_of", rval = "bool", args = { "material_id" } },
             { name = "has_special_attack", rval = "bool", args = { "string" } },
             { name = "in_category", rval = "bool", args = { "string" } },
             { name = "in_species", rval = "bool", args = { "species_id" } },
@@ -1950,7 +1957,6 @@ classes = {
             { name = "has_use", rval = "bool", args = { } },
             { name = "invoke", rval = "int", args = { "player", "item", "tripoint" } },
             { name = "invoke", rval = "int", args = { "player", "item", "tripoint", "string" } },
-            { name = "is_food", rval = "bool", args = { } },
             { name = "maximum_charges", rval = "int", args = { } },
             { name = "nname", rval = "string", args = { "int" } },
             { name = "tick", rval = "int", args = { "player", "item", "tripoint" } },
@@ -1980,30 +1986,6 @@ classes = {
             { name = "on_disarmed", rval = nil, args = { "tripoint" } },
             { name = "trigger", rval = nil, args = { "tripoint", "Creature" } },
             { name = "triggered_by_item", rval = "bool", args = { "item" } },
-        }
-    },
-    it_comest = {
-        parent = "itype",
-        attributes = {
-            add = { type = "add_type", writable = true },
-            addict = { type = "int", writable = true },
-            brewtime = { type = "int", writable = true },
-            comesttype = { type = "string", writable = true },
-            def_charges = { type = "int", writable = true },
-            fun = { type = "int", writable = true },
-            healthy = { type = "int", writable = true },
-            quench = { type = "int", writable = true },
-            spoils = { type = "int", writable = true },
-            stim = { type = "int", writable = true },
-            tool = { type = "string", writable = true },
-        },
-        functions = {
-            { name = "charges_default", rval = "int", args = { } },
-            { name = "count_by_charges", rval = "bool", args = { } },
-            { name = "get_calories", rval = "int", args = { } },
-            { name = "get_item_type_string", rval = "string", args = { } },
-            { name = "get_nutrition", rval = "int", args = { } },
-            { name = "is_food", rval = "bool", args = { } },
         }
     },
     w_point = {
@@ -2253,11 +2235,6 @@ global_functions = {
         cpp_name = "item_controller->add_item_to_group",
         args = { "string", "string", "int" },
         rval = "bool"
-    },
-    get_comestible_type = {
-        cpp_name = "get_comestible_type",
-        args = { "string" },
-        rval = "it_comest&"
     },
     create_monster = {
         cpp_name = "create_monster",

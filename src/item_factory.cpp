@@ -96,7 +96,7 @@ void Item_factory::finalize() {
             obj.integral_volume = obj.volume;
         }
         // for ammo and comestibles stack size defaults to count of initial charges
-        if( obj.stack_size == 0 && ( obj.ammo || obj.is_food() ) ) {
+        if( obj.stack_size == 0 && ( obj.ammo || obj.comestible ) ) {
             obj.stack_size = obj.charges_default();
         }
         for( const auto &tag : obj.item_tags ) {
@@ -512,7 +512,7 @@ void Item_factory::check_definitions() const
         }
 
         for( auto mat_id : type->materials ) {
-            if( mat_id == "null" || !material_type::has_material(mat_id) ) {
+            if( mat_id.str() == "null" || !mat_id.is_valid() ) {
                 msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
             }
         }
@@ -535,10 +535,12 @@ void Item_factory::check_definitions() const
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
-        const it_comest *comest = dynamic_cast<const it_comest *>(type);
-        if (comest != 0) {
-            if (comest->tool != "null" && !has_template(comest->tool)) {
-                msg << string_format("invalid tool property %s", comest->tool.c_str()) << "\n";
+        if( type->comestible ) {
+            if( type->comestible->tool != "null" ) {
+                auto req_tool = find_template( type->comestible->tool );
+                if( !req_tool->tool ) {
+                    msg << string_format( "invalid tool property %s", type->comestible->tool.c_str() ) << "\n";
+                }
             }
         }
         if( type->seed ) {
@@ -1011,29 +1013,44 @@ void Item_factory::load_book( JsonObject &jo )
     load_basic_info( jo, new_item_template );
 }
 
+void Item_factory::load( islot_comestible &slot, JsonObject &jo )
+{
+    slot.comesttype = jo.get_string( "comestible_type" );
+
+    jo.read( "charges", slot.def_charges );
+    jo.read( "tool", slot.tool );
+    jo.read( "quench", slot.quench );
+    jo.read( "brew_time", slot.brewtime );
+    jo.read( "addiction_potential", slot.addict );
+    jo.read( "fun", slot.fun );
+    jo.read( "stim", slot.stim );
+    jo.read( "healthy", slot.healthy );
+
+    if( jo.read( "spoils_in", slot.spoils ) ) {
+        slot.spoils *= 600; // JSON specifies hours so convert to turns
+    }
+
+    if( jo.has_string( "addiction_type" ) ) {
+        slot.add = addiction_type( jo.get_string( "addiction_type" ) );
+    }
+
+    if( jo.has_int( "calories" ) ) {
+        if( jo.has_member( "nutrition" ) ) {
+            jo.throw_error( "cannot specify both nutrition and calories", "nutrition" );
+        }
+        slot.nutr = jo.get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+    } else {
+        jo.read( "nutrition", slot.nutr );
+    }
+}
+
 void Item_factory::load_comestible(JsonObject &jo)
 {
-    it_comest *comest_template = new it_comest();
-    comest_template->comesttype = jo.get_string( "comestible_type" );
-    comest_template->tool = jo.get_string( "tool", "null" );
-    comest_template->quench = jo.get_int( "quench", 0 );
-    comest_template->nutr = jo.get_int( "nutrition", -1 );
-    comest_template->kcal = jo.get_int( "calories", 0 );
-    comest_template->spoils = jo.get_int( "spoils_in", 0 );
-    // In json it's in hours, here it shall be in turns, as item::rot is also in turns.
-    comest_template->spoils *= 600;
-    comest_template->brewtime = jo.get_int( "brew_time", 0 );
-    comest_template->addict = jo.get_int( "addiction_potential", 0 );
-    comest_template->def_charges = jo.get_long( "charges", 0 );
-    comest_template->stim = jo.get_int( "stim", 0 );
-    comest_template->healthy = jo.get_int( "healthy", 0 );
-    comest_template->fun = jo.get_int( "fun", 0 );
-
-    comest_template->add = addiction_type( jo.get_string( "addiction_type", "none" ) );
-
-    itype *new_item_template = comest_template;
-    load_basic_info( jo, new_item_template );
-    load_slot( new_item_template->spawn, jo );
+    auto def = new itype();
+    load_slot( def->comestible, jo );
+    def->stack_size = jo.get_int( "stack_size", def->comestible->def_charges );
+    load_basic_info( jo, def );
+    load_slot( def->spawn, jo );
 }
 
 void Item_factory::load_container(JsonObject &jo)
@@ -1150,30 +1167,30 @@ void Item_factory::load_generic(JsonObject &jo)
 // Set for all items (not just food and clothing) to avoid edge cases
 void set_allergy_flags( itype &item_template )
 {
-    using material_allergy_pair = std::pair<std::string, std::string>;
+    using material_allergy_pair = std::pair<material_id, std::string>;
     static const std::vector<material_allergy_pair> all_pairs = {{
         // First allergens:
         // An item is an allergen even if it has trace amounts of allergenic material
-        std::make_pair( "hflesh", "CANNIBALISM" ),
+        std::make_pair( material_id( "hflesh" ), "CANNIBALISM" ),
 
-        std::make_pair( "hflesh", "ALLERGEN_MEAT" ),
-        std::make_pair( "iflesh", "ALLERGEN_MEAT" ),
-        std::make_pair( "flesh", "ALLERGEN_MEAT" ),
-        std::make_pair( "wheat", "ALLERGEN_WHEAT" ),
-        std::make_pair( "fruit", "ALLERGEN_FRUIT" ),
-        std::make_pair( "veggy", "ALLERGEN_VEGGY" ),
-        std::make_pair( "milk", "ALLERGEN_MILK" ),
-        std::make_pair( "egg", "ALLERGEN_EGG" ),
-        std::make_pair( "junk", "ALLERGEN_JUNK" ),
+        std::make_pair( material_id( "hflesh" ), "ALLERGEN_MEAT" ),
+        std::make_pair( material_id( "iflesh" ), "ALLERGEN_MEAT" ),
+        std::make_pair( material_id( "flesh" ), "ALLERGEN_MEAT" ),
+        std::make_pair( material_id( "wheat" ), "ALLERGEN_WHEAT" ),
+        std::make_pair( material_id( "fruit" ), "ALLERGEN_FRUIT" ),
+        std::make_pair( material_id( "veggy" ), "ALLERGEN_VEGGY" ),
+        std::make_pair( material_id( "milk" ), "ALLERGEN_MILK" ),
+        std::make_pair( material_id( "egg" ), "ALLERGEN_EGG" ),
+        std::make_pair( material_id( "junk" ), "ALLERGEN_JUNK" ),
         // Not food, but we can keep it here
-        std::make_pair( "wool", "ALLERGEN_WOOL" ),
+        std::make_pair( material_id( "wool" ), "ALLERGEN_WOOL" ),
         // Now "made of". Those flags should not be passed
-        std::make_pair( "flesh", "CARNIVORE_OK" ),
-        std::make_pair( "hflesh", "CARNIVORE_OK" ),
-        std::make_pair( "iflesh", "CARNIVORE_OK" ),
-        std::make_pair( "milk", "CARNIVORE_OK" ),
-        std::make_pair( "egg", "CARNIVORE_OK" ),
-        std::make_pair( "honey", "URSINE_HONEY" ),
+        std::make_pair( material_id( "flesh" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "hflesh" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "iflesh" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "milk" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "egg" ), "CARNIVORE_OK" ),
+        std::make_pair( material_id( "honey" ), "URSINE_HONEY" ),
     }};
 
     const auto &mats = item_template.materials;
@@ -1190,11 +1207,11 @@ void hflesh_to_flesh( itype &item_template )
 {
     auto &mats = item_template.materials;
     const auto old_size = mats.size();
-    mats.erase( std::remove( mats.begin(), mats.end(), "hflesh" ), mats.end() );
+    mats.erase( std::remove( mats.begin(), mats.end(), material_id( "hflesh" ) ), mats.end() );
     // Only add "flesh" material if not already present
     if( old_size != mats.size() &&
-        std::find( mats.begin(), mats.end(), "flesh" ) == mats.end() ) {
-        mats.push_back( "flesh" );
+        std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
+        mats.push_back( material_id( "flesh" ) );
     }
 }
 
@@ -1211,7 +1228,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "weight", new_item_template->weight );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
-    assign( jo, "price_post", new_item_template->price_post );
+    assign( jo, "price_postapoc", new_item_template->price_post );
     assign( jo, "stack_size", new_item_template->stack_size );
     assign( jo, "integral_volume", new_item_template->integral_volume );
     assign( jo, "bashing", new_item_template->melee_dam );
@@ -1245,8 +1262,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->color = color_from_string( jo.get_string( "color" ) );
     }
 
-    if( jo.has_member( "material" ) ) {
-        set_material_from_json( jo, "material", new_item_template );
+    for( auto &m : jo.get_tags( "material" ) ) {
+        new_item_template->materials.push_back( material_id( m ) );
     }
 
     if( jo.has_string( "phase" ) ) {
@@ -1396,20 +1413,6 @@ std::bitset<num_bp> Item_factory::flags_from_json(JsonObject &jo, const std::str
     }
 
     return flag;
-}
-
-void Item_factory::set_material_from_json( JsonObject& jo, std::string member,
-                                           itype *new_item_template )
-{
-    if( jo.has_array(member) ) {
-        JsonArray jarr = jo.get_array(member);
-        for( int i = 0; i < (int)jarr.size(); ++i ) {
-            std::string material_id = jarr.get_string(i);
-            new_item_template->materials.push_back( material_id );
-        }
-    } else if( jo.has_string(member) ) {
-        new_item_template->materials.push_back( jo.get_string(member) );
-    }
 }
 
 void Item_factory::reset()
@@ -1815,9 +1818,8 @@ const std::string &Item_factory::calc_category( const itype *it )
     if( it->armor ) {
         return category_id_clothing;
     }
-    if (it->is_food()) {
-        const it_comest *comest = dynamic_cast<const it_comest *>( it );
-        return (comest->comesttype == "MED" ? category_id_drugs : category_id_food);
+    if (it->comestible) {
+        return it->comestible->comesttype == "MED" ? category_id_drugs : category_id_food;
     }
     if( it->book ) {
         return category_id_books;

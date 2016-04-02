@@ -47,6 +47,7 @@
 #include "catalua.h"
 #include "npc.h"
 #include "cata_utility.h"
+#include "overlay_ordering.h"
 
 #include <map>
 
@@ -6301,9 +6302,9 @@ void player::hardcoded_effects(effect &it)
             hurtall(3, nullptr);
         }
         remove_worn_items_with( []( item &tmp ) {
-            bool burnVeggy = (tmp.made_of("veggy") || tmp.made_of("paper"));
-            bool burnFabric = ((tmp.made_of("cotton") || tmp.made_of("wool")) && one_in(10));
-            bool burnPlastic = ((tmp.made_of("plastic")) && one_in(50));
+            bool burnVeggy = (tmp.made_of( material_id( "veggy" ) ) || tmp.made_of( material_id( "paper" ) ));
+            bool burnFabric = ((tmp.made_of( material_id( "cotton" ) ) || tmp.made_of( material_id( "wool" ) )) && one_in(10));
+            bool burnPlastic = ((tmp.made_of( material_id( "plastic" ) )) && one_in(50));
             return burnVeggy || burnFabric || burnPlastic;
         } );
     } else if( id == effect_spores ) {
@@ -9188,31 +9189,6 @@ bool player::is_waterproof( const std::bitset<num_bp> &parts ) const
     return covered_with_flag("WATERPROOF", parts);
 }
 
-bool player::has_amount(const itype_id &it, int quantity) const
-{
-    if (it == "toolset")
-    {
-        return has_active_bionic("bio_tools");
-    }
-    return (amount_of(it) >= quantity);
-}
-
-int player::amount_of(const itype_id &it) const
-{
-    if (it == "toolset" && has_active_bionic("bio_tools")) {
-        return 1;
-    }
-    if (it == "apparatus") {
-        return ( has_items_with_quality("SMOKE_PIPE", 1, 1) ? 1 : 0 );
-    }
-    int quantity = weapon.amount_of(it, true);
-    for( const auto &elem : worn ) {
-        quantity += elem.amount_of( it, true );
-    }
-    quantity += inv.amount_of(it);
-    return quantity;
-}
-
 int player::amount_worn(const itype_id &id) const
 {
     int amount = 0;
@@ -9230,41 +9206,6 @@ bool player::has_charges(const itype_id &it, long quantity) const
         return has_fire(quantity);
     }
     return (charges_of(it) >= quantity);
-}
-
-long player::charges_of(const itype_id &it) const
-{
-    if (it == "toolset") {
-        if (has_active_bionic("bio_tools")) {
-            return power_level;
-        } else {
-            return 0;
-        }
-    }
-    // Handle requests for UPS charges as request for adv. UPS charges
-    // and as request for bionic UPS charges, both with their own multiplier
-    if ( it == "UPS" ) {
-        // This includes the UPS bionic (regardless of active state)
-        return charges_of( "UPS_off" );
-    }
-    // Now regular charges from all items (weapone,worn,inventory)
-    long quantity = weapon.charges_of(it);
-    for( const auto &armor : worn ) {
-        quantity += armor.charges_of(it);
-    }
-    quantity += inv.charges_of(it);
-    // Now include charges from advanced UPS if the request was UPS
-    if ( it == "UPS_off" ) {
-        // Round charges from adv. UPS down, if this reports there are N
-        // charges available, we must be able to remove at least N charges.
-        quantity += static_cast<long>( floor( charges_of( "adv_UPS_off" ) / 0.6 ) );
-    }
-    if ( power_level > 0 ) {
-        if ( it == "UPS_off" && has_active_bionic( "bio_ups" ) ) {
-            quantity += power_level * 10;
-        }
-    }
-    return quantity;
 }
 
 int  player::leak_level( std::string flag ) const
@@ -9321,41 +9262,39 @@ bool player::consume_item( item &target )
         }
         return false;
     }
-    const auto comest = dynamic_cast<const it_comest*>( to_eat->type );
 
     int amount_used = 1;
-    if (comest != NULL) {
-        if (comest->comesttype == "FOOD" || comest->comesttype == "DRINK") {
+
+    if( to_eat->is_food() ) {
+        if( to_eat->type->comestible->comesttype == "FOOD" ||
+            to_eat->type->comestible->comesttype == "DRINK") {
             if( !eat( *to_eat ) ) {
                 return false;
             }
-        } else if (comest->comesttype == "MED") {
-            if (comest->tool != "null") {
-                // Check tools
-                bool has = has_amount(comest->tool, 1);
-                // Tools with charges need to have charges, not just be present.
-                if( item::count_by_charges( comest->tool ) ) {
-                    has = has_charges(comest->tool, 1);
-                }
-                if (!has) {
-                    add_msg_if_player(m_info, _("You need a %s to consume that!"),
-                                         item::nname( comest->tool ).c_str());
+
+        } else if( to_eat->type->comestible->comesttype == "MED" ) {
+            auto req_tool = item::find_type( to_eat->type->comestible->tool );
+            if( req_tool->tool ) {
+                if( !( has_amount( req_tool->id, 1 ) && has_charges( req_tool->id, req_tool->tool->charges_per_use ) ) ) {
+                    add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname(1).c_str() );
                     return false;
                 }
-                use_charges(comest->tool, 1); // Tools like lighters get used
+                use_charges( req_tool->id, req_tool->tool->charges_per_use );
             }
-            if (comest->has_use()) {
-                //Check special use
-                amount_used = comest->invoke( this, to_eat, pos() );
+
+            if( to_eat->type->has_use() ) {
+                amount_used = to_eat->type->invoke( this, to_eat, pos() );
                 if( amount_used <= 0 ) {
                     return false;
                 }
             }
             consume_effects( *to_eat );
             moves -= 250;
+
         } else {
             debugmsg("Unknown comestible type of item: %s\n", to_eat->tname().c_str());
         }
+
     } else {
  // Consume other type of items.
         // For when bionics let you eat fuel
@@ -9386,10 +9325,10 @@ bool player::consume_item( item &target )
                 }
             }
             int charge = (to_eat->volume() + to_eat->weight()) / 9;
-            if (to_eat->made_of("leather")) {
+            if (to_eat->made_of( material_id( "leather" ) )) {
                 charge /= 4;
             }
-            if (to_eat->made_of("wood")) {
+            if (to_eat->made_of( material_id( "wood" ) )) {
                 charge /= 2;
             }
             charge_power(charge);
@@ -9570,7 +9509,7 @@ bool player::can_wear( const item& it, bool alert ) const
         return false;
     }
 
-    if( has_trait( "WOOLALLERGY" ) && ( it.made_of("wool" ) || it.item_tags.count( "wooled" ) ) ) {
+    if( has_trait( "WOOLALLERGY" ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
         if( alert ) {
             add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
         }
@@ -9590,8 +9529,8 @@ bool player::can_wear( const item& it, bool alert ) const
             }
         }
         if( it.covers(bp_head) &&
-            !it.made_of( "wool" ) && !it.made_of( "cotton" ) &&
-            !it.made_of( "nomex" ) && !it.made_of( "leather" ) &&
+            !it.made_of( material_id( "wool" ) ) && !it.made_of( material_id( "cotton" ) ) &&
+            !it.made_of( material_id( "nomex" ) ) && !it.made_of( material_id( "leather" ) ) &&
             ( has_trait( "HORNS_POINTED" ) || has_trait( "ANTENNAE" ) || has_trait( "ANTLERS" ) ) ) {
             if( alert ) {
                 add_msg_if_player( m_info, _( "You cannot wear a helmet over your %s." ),
@@ -10430,7 +10369,13 @@ bool player::consume_charges( item& used, long qty )
 
     // USE_UPS never occurs on base items but is instead added by the UPS tool mod
     if( used.has_flag( "USE_UPS" ) ) {
-        use_charges( "UPS", qty );
+        // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
+        // The usage of the item was already approved, so drain item if possible, otherwise use UPS
+        if( used.charges >= qty ) {
+            used.ammo_consume( qty, pos() );
+        } else {
+            use_charges( "UPS", qty );
+        }
     } else {
         used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     }
@@ -11551,12 +11496,12 @@ int player::get_wind_resistance(body_part bp) const
 
     for( auto &i : worn ) {
         if( i.covers(bp) ) {
-            if( i.made_of("leather") || i.made_of("plastic") || i.made_of("bone") ||
-                i.made_of("chitin") || i.made_of("nomex") ) {
+            if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) || i.made_of( material_id( "bone" ) ) ||
+                i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
                 penalty = 10; // 90% effective
-            } else if( i.made_of("cotton") ) {
+            } else if( i.made_of( material_id( "cotton" ) ) ) {
                 penalty = 30;
-            } else if( i.made_of("wool") ) {
+            } else if( i.made_of( material_id( "wool" ) ) ) {
                 penalty = 40;
             } else {
                 penalty = 1; // 99% effective
@@ -11587,7 +11532,7 @@ int player::warmth(body_part bp) const
             warmth = i.get_warmth();
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
-            if (!i.made_of("wool"))
+            if (!i.made_of( material_id( "wool" ) ))
             {
                 warmth *= 1.0 - 0.66 * body_wetness[bp] / drench_capacity[bp];
             }
@@ -13274,24 +13219,39 @@ bool player::sees_with_infrared( const Creature &critter ) const
     return g->m.sees( pos(), critter.pos(), sight_range( DAYLIGHT_LEVEL ) );
 }
 
-std::vector<std::string> player::get_overlay_ids() const {
+std::vector<std::string> player::get_overlay_ids() const
+{
     std::vector<std::string> rval;
+    std::multimap<int, std::string> mutation_sorting;
 
     // first get mutations
-    for( auto & mutation : get_mutations() ) {
-        rval.push_back("mutation_"+mutation);
+    for( auto &mutation : get_mutations() ) {
+        auto it = base_mutation_overlay_ordering.find( mutation );
+        auto it2 = tileset_mutation_overlay_ordering.find( mutation );
+        int value = 9999;
+        if( it != base_mutation_overlay_ordering.end() ) {
+            value = it->second;
+        }
+        if( it2 != tileset_mutation_overlay_ordering.end() ) {
+            value = it2->second;
+        }
+        mutation_sorting.insert( std::make_pair( value, mutation ) );
+    }
+
+    for( auto &mutorder : mutation_sorting ) {
+        rval.push_back( "mutation_" + mutorder.second );
     }
 
     // next clothing
     // TODO: worry about correct order of clothing overlays
-    for(const item& worn_item : worn) {
-        rval.push_back("worn_"+worn_item.typeId());
+    for( const item &worn_item : worn ) {
+        rval.push_back( "worn_" + worn_item.typeId() );
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
-    if(!weapon.is_null()) {
-        rval.push_back("wielded_"+weapon.typeId());
+    if( !weapon.is_null() ) {
+        rval.push_back( "wielded_" + weapon.typeId() );
     }
     return rval;
 }
@@ -13398,22 +13358,6 @@ bool player::has_item_with_flag( std::string flag ) const
     return has_item_with( [&flag]( const item & it ) {
         return it.has_flag( flag );
     } );
-}
-
-bool player::has_items_with_quality( const std::string &quality_id, int level, int amount ) const
-{
-    visit_items_const( [&quality_id, level, &amount]( const item *node ) {
-        if( node->has_quality( quality_id, level ) ) {
-            // Each suitable item decreases the require count until it reaches 0,
-            // where the requirement is fulfilled.
-            if( --amount <= 0) {
-                return VisitResponse::ABORT;
-            }
-        }
-        return VisitResponse::NEXT;
-    } );
-
-    return amount <= 0;
 }
 
 void player::on_mutation_gain( const std::string &mid )

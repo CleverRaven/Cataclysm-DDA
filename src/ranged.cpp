@@ -596,15 +596,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Rescaling to use the same units as projectile_attack
     const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
-    /*
-    // This causes crashes for some reason
-    static const std::vector<std::string> ferric = {{
-        "iron", "steel"
-    }};
-    */
-    std::vector<std::string> ferric;
-    ferric.push_back( "iron" );
-    ferric.push_back( "steel" );
+    static const std::vector<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
     bool do_railgun = has_active_bionic("bio_railgun") &&
                       thrown.made_of_any( ferric );
@@ -641,7 +633,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
-    const bool shatter = !thrown.active && thrown.made_of("glass") &&
+    const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
                          rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
 
     // Add some flags to the projectile

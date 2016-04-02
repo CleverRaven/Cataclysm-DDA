@@ -842,20 +842,22 @@ void trapfunc::lava( Creature *c, const tripoint &p )
         } else if( z != nullptr ) {
             // MATERIALS-TODO: use fire resistance
             int dam = 30;
-            if( z->made_of( "flesh" ) || z->made_of( "iflesh" ) ) {
+            if( z->made_of( material_id( "flesh" ) ) || z->made_of( material_id( "iflesh" ) ) ) {
                 dam = 50;
             }
-            if( z->made_of( "veggy" ) ) {
+            if( z->made_of( material_id( "veggy" ) ) ) {
                 dam = 80;
             }
-            if( z->made_of( "paper" ) || z->made_of( LIQUID ) || z->made_of( "powder" ) ||
-                z->made_of( "wood" )  || z->made_of( "cotton" ) || z->made_of( "wool" ) ) {
+            if( z->made_of( material_id( "paper" ) ) || z->made_of( LIQUID ) ||
+                z->made_of( material_id( "powder" ) ) ||
+                z->made_of( material_id( "wood" ) )  || z->made_of( material_id( "cotton" ) ) ||
+                z->made_of( material_id( "wool" ) ) ) {
                 dam = 200;
             }
-            if( z->made_of( "stone" ) ) {
+            if( z->made_of( material_id( "stone" ) ) ) {
                 dam = 15;
             }
-            if( z->made_of( "kevlar" ) || z->made_of( "steel" ) ) {
+            if( z->made_of( material_id( "kevlar" ) ) || z->made_of( material_id( "steel" ) ) ) {
                 dam = 5;
             }
             z->apply_damage( nullptr, bp_torso, dam );

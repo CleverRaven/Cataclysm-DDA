@@ -556,6 +556,8 @@
 		<Unit filename="src/options.h" />
 		<Unit filename="src/output.cpp" />
 		<Unit filename="src/output.h" />
+		<Unit filename="src/overlay_ordering.cpp" />
+		<Unit filename="src/overlay_ordering.h" />
 		<Unit filename="src/overmap.cpp" />
 		<Unit filename="src/overmap.h" />
 		<Unit filename="src/overmap_types.h" />

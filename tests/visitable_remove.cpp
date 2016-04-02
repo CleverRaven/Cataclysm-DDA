@@ -12,7 +12,7 @@
 template <typename T>
 static int count_items( const T& src, const itype_id& id ) {
     int n = 0;
-    src.visit_items_const( [&n,&id]( const item *e ) {
+    src.visit_items( [&n,&id]( const item *e ) {
         n += ( e->typeId() == id );
         return VisitResponse::NEXT;
     } );
@@ -213,7 +213,7 @@ TEST_CASE( "visitable_remove", "[visitable]" ) {
                 THEN( "all of the bottles remain in the players possession" ) {
                     REQUIRE( count_items( p, container_id ) == 5 );
                     AND_THEN( "all of the bottles are now empty" ) {
-                        REQUIRE( p.visit_items_const( [&container_id]( const item *e ) {
+                        REQUIRE( p.visit_items( [&container_id]( const item *e ) {
                             return ( e->typeId() != container_id || e->contents.empty() ) ?
                                 VisitResponse::NEXT : VisitResponse::ABORT;
                         } ) != VisitResponse::ABORT );

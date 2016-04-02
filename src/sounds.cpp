@@ -706,7 +706,6 @@ void sfx::do_projectile_hit( const Creature &target ) {
             material_id( "iflesh" ),
             material_id( "veggy" ),
             material_id( "bone" ),
-            material_id( "protoplasmic" ),
         };
         const bool is_fleshy = std::any_of( fleshy.begin(), fleshy.end(), [&mon]( const material_id &m ) {
             return mon.made_of( m );
@@ -715,10 +714,10 @@ void sfx::do_projectile_hit( const Creature &target ) {
         if( is_fleshy || mon.has_flag( MF_VERMIN ) ) {
             play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( "stone" ) ) {
+        } else if( mon.made_of( material_id( "stone" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( "steel" ) ) {
+        } else if( mon.made_of( material_id( "steel" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
             return;
         } else {

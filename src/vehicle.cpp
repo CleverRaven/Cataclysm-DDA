@@ -2683,11 +2683,12 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * highlighting a selected one.
  * @param w The window to draw in.
  * @param y1 The y-coordinate to start drawing at.
+ * @param max_y Draw no further than this y-coordinate.
  * @param width The width of the window.
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
  */
-int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -1*/) const
+int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, int p, int hl /*= -1*/) const
 {
     if (p < 0 || p >= (int)parts.size()) {
         return y1;
@@ -2696,6 +2697,12 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
     int y = y1;
     for (size_t i = 0; i < pl.size(); i++)
     {
+        if ( y >= max_y ) {
+            mvwprintz( win, y, 1, c_yellow, _( "More parts here..." ) );
+            ++y;
+            break;
+        }
+
         int dur = part_info (pl[i]).durability;
         int per_cond = parts[pl[i]].hp * 100 / (dur < 1? 1 : dur);
         nc_color col_cond = getDurabilityColor(per_cond);
@@ -2747,8 +2754,8 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
 
     // print the label for this location
     const std::string label = get_label(parts[p].mount.x, parts[p].mount.y);
-    if (label != "") {
-        mvwprintz(win, y + 1, 1, c_ltred, _("Label: %s"), label.c_str());
+    if (label != "" && y <= max_y) {
+        mvwprintz(win, y++, 1, c_ltred, _("Label: %s"), label.c_str());
     }
 
     return y;
@@ -4579,7 +4586,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float vpart_dens = 0;
     if( !mats.empty() ) {
         for( auto &mat_id : mats ) {
-            vpart_dens += material_type::find_material( mat_id )->density();
+            vpart_dens += mat_id.obj().density();
         }
         vpart_dens /= mats.size(); // average
     }

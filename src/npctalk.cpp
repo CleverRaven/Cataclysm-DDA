@@ -1957,8 +1957,6 @@ void dialogue::gen_responses( const std::string &topic )
             RESPONSE(_("Maybe you can teach me something as payment."));
                 SUCCESS("TALK_TRAIN");
         }
-        add_response( _("I'll take cash if you got it!"), "TALK_MISSION_REWARD",
-                      &talk_function::mission_reward_cash );
         RESPONSE(_("Glad to help.  I need no payment.  Bye!"));
             SUCCESS("TALK_DONE");
                 SUCCESS_ACTION(&talk_function::clear_mission);
@@ -3305,23 +3303,20 @@ void talk_function::clear_mission(npc *p)
 
 void talk_function::mission_reward(npc *p)
 {
- int trade_amount = p->op_of_u.owed;
- p->op_of_u.owed = 0;
- trade( *p, trade_amount, _("Reward") );
-}
+    const mission *miss = p->chatbin.mission_selected;
+    if( miss == nullptr ) {
+        debugmsg( "Called mission_reward with null mission" );
+        return;
+    }
 
-void talk_function::mission_reward_cash(npc *p)
-{
- int trade_amount = p->op_of_u.owed * .6;
- p->op_of_u.owed = 0;
- g->u.cash += trade_amount;
+    int mission_value = miss->get_value();
+    p->op_of_u.owed += mission_value;
+    trade( *p, 0, _("Reward") );
 }
 
 void talk_function::start_trade(npc *p)
 {
- int trade_amount = p->op_of_u.owed;
- p->op_of_u.owed = 0;
- trade( *p, trade_amount, _("Trade") );
+    trade( *p, 0, _("Trade") );
 }
 
 std::string talk_function::bulk_trade_inquire(npc *p, itype_id it)
@@ -3794,6 +3789,22 @@ void talk_function::set_aim_strictly_precise( npc *p )
     p->rules.aim = AIM_STRICTLY_PRECISE;
 }
 
+bool pay_npc( npc &np, int cost )
+{
+    if( np.op_of_u.owed >= cost ) {
+        np.op_of_u.owed -= cost;
+        return true;
+    }
+
+    if( g->u.cash + (unsigned long)np.op_of_u.owed >= (unsigned long)cost ) {
+        g->u.cash -= cost - np.op_of_u.owed;
+        np.op_of_u.owed = 0;
+        return true;
+    }
+
+    return trade( np, -cost, _( "Pay:" ) );
+}
+
 void talk_function::start_training( npc *p )
 {
     int cost;
@@ -3817,9 +3828,7 @@ void talk_function::start_training( npc *p )
     mission *miss = p->chatbin.mission_selected;
     if( miss != nullptr ) {
         clear_mission( p );
-    } else if( p->op_of_u.owed >= cost ) {
-        p->op_of_u.owed -= cost;
-    } else if( !trade( *p, -cost, _( "Pay for training:" ) ) ) {
+    } else if( !pay_npc( *p, cost ) ) {
         return;
     }
     g->u.assign_activity( ACT_TRAIN, time * 100, 0, 0, name );
@@ -4220,7 +4229,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         p.price *= your_adjust;
     }
 
-    long cash = cost;       // How much cash you get in the deal (negative = losing money)
+    // How much cash you get in the deal (negative = losing money)
+    long cash = cost + p.op_of_u.owed;
     bool focus_them = true; // Is the focus on them?
     bool update = true;     // Re-draw the screen?
     size_t them_off = 0, you_off = 0; // Offset from the start of the list
@@ -4287,7 +4297,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 trim_and_print(w_them, i - them_off + 1, 1, 30,
                         (ip.selected ? c_white : c_ltgray), "%c %c %s",
                         char((i -them_off) + 'a'), (ip.selected ? '+' : '-'),
-                        ip.itm->tname().c_str());
+                        ip.itm->display_name().c_str());
 
                 mvwprintz(w_them, i - them_off + 1, 35 - to_string(ip.price / 100).length(),
                         (ip.selected ? c_white : c_ltgray), "$%.2f",
@@ -4371,7 +4381,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     ch = ' ';
                 } else if( volume_left < 0 || weight_left < 0 ) {
                     // Make sure NPC doesn't go over allowed volume
-                    popup( _("The %s can't carry all that."), p.name.c_str() );
+                    popup( _("%s can't carry all that."), p.name.c_str() );
                     update = true;
                     ch = ' ';
                 }
@@ -4398,7 +4408,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         }
     } while( ch != KEY_ESCAPE && ch != '\n' && ch != 'T' );
 
-    if( ch == '\n' || ch == 'T' ) {
+    const bool traded = ch == '\n' || ch == 'T';
+    if( traded ) {
         int practice = 0;
         // This weird exchange is needed to prevent pointer bugs
         // Removing items from an inventory invalidates the pointers
@@ -4431,13 +4442,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         p.inv = their_new_inv;
 
         if( cash > (int)p.cash ) {
-            //Trade was forced, give the NPC's cash to the player.
-            p.op_of_u.owed += (cash - p.cash);
+            // Trade was forced, give the NPC's cash to the player.
+            p.op_of_u.owed = (cash - p.cash);
             g->u.cash += p.cash;
             p.cash = 0;
         } else {
             g->u.cash += cash;
-            p.cash   -= cash;
+            p.cash -= cash;
         }
 
         // TODO: Make this depend on prices
@@ -4453,10 +4464,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     delwin(w_head);
     delwin(w_you);
     delwin(w_them);
-    if (ch == '\n') {
-        return true;
-    }
-    return false;
+    return traded;
 }
 
 talk_trial::talk_trial( JsonObject jo )
@@ -4752,16 +4760,14 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     bool consuming_contents = it.is_food_container( &p );
     item &to_eat = consuming_contents ? it.contents[0] : it;
-    const auto comest = dynamic_cast<const it_comest*>( to_eat.type );
+    const auto comest = to_eat.type->comestible.get();
     if( comest == nullptr ) {
         // Don't inform the player that we don't want to eat the lighter
         return REFUSED;
     }
 
     if( ( !it.type->use_methods.empty() || comest->quench < 0 || it.poison > 0 ) &&
-        p.op_of_u.trust < 5 &&
-        !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
-        // TODO: Get some better check here
+        !p.is_minion() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         reason = _("I don't <swear> trust you enough to eat from your hand...");
         return REFUSED;
     }
@@ -4786,8 +4792,8 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
             }
             p.use_charges( comest->tool, 1 );
         }
-        if (comest->has_use()) {
-            amount_used = comest->invoke( &p, &to_eat, p.pos() );
+        if( to_eat.type->has_use() ) {
+            amount_used = to_eat.type->invoke( &p, &to_eat, p.pos() );
             if( amount_used <= 0 ) {
                 reason = _("It doesn't look like a good idea to consume this..");
                 return REFUSED;

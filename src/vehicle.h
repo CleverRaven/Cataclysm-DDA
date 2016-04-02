@@ -504,7 +504,7 @@ public:
     nc_color part_color( int p, bool exact = false ) const;
 
     // Vehicle parts description
-    int print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1) const;
+    int print_part_desc (WINDOW *win, int y1, int max_y, int width, int p, int hl = -1) const;
 
     // Get all printable fuel types
     std::vector< itype_id > get_printable_fuel_types (bool fullsize) const;

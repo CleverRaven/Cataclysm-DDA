@@ -277,6 +277,7 @@ class Item_factory
 
         void load( islot_tool &slot, JsonObject &jo );
         void load( islot_container &slot, JsonObject &jo );
+        void load( islot_comestible &slot, JsonObject &jo );
         void load( islot_armor &slot, JsonObject &jo );
         void load( islot_book &slot, JsonObject &jo );
         void load( islot_gun &slot, JsonObject &jo );
@@ -309,8 +310,6 @@ class Item_factory
         // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
         std::bitset<num_bp> flags_from_json( JsonObject &jo, const std::string &member,
                                              std::string flag_type = "" );
-
-        void set_material_from_json( JsonObject &jo, std::string member, itype *new_item );
 
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
         void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,

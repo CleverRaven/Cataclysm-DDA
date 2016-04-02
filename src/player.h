@@ -33,7 +33,6 @@ struct tool_comp;
 class vehicle;
 class start_location;
 using start_location_id = string_id<start_location>;
-struct it_comest;
 struct w_point;
 struct points_left;
 
@@ -705,7 +704,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int stomach_capacity() const;
 
         /** Handles the nutrition value for a comestible **/
-        int nutrition_for( const it_comest *comest ) const;
+        int nutrition_for( const itype *comest ) const;
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
@@ -960,12 +959,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::list<item> use_amount( itype_id it, int quantity );
         bool use_charges_if_avail( itype_id it, long quantity );// Uses up charges
         std::list<item> use_charges( itype_id it, long quantity );// Uses up charges
-        bool has_amount( const itype_id &it, int quantity ) const;
+
         bool has_charges( const itype_id &it, long quantity ) const;
-        int  amount_of( const itype_id &it ) const;
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
-        long charges_of( const itype_id &it ) const;
 
         int  leak_level( std::string flag ) const; // carried items may leak radiation or chemicals
 
@@ -973,8 +970,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( std::string flag ) const;
-        // Has amount (or more) items with at least the required quality level.
-        bool has_items_with_quality( const std::string &quality_id, int level, int amount ) const;
         // Returns max required quality in player's items, INT_MIN if player has no such items
         int max_quality( const std::string &quality_id ) const;
 
@@ -1291,6 +1286,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool query_yn( const char *mes, ... ) const override;
 
+        /**
+         * Has the item enough charges to invoke its use function?
+         * Also checks if UPS from this player is used instead of item charges.
+         */
+        bool has_enough_charges(const item &it, bool show_msg) const;
+
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1343,12 +1344,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void use_fire(const int quantity);
 
         void react_to_felt_pain( int intensity );
-
-        /**
-         * Has the item enough charges to invoke its use function?
-         * Also checks if UPS from this player is used instead of item charges.
-         */
-        bool has_enough_charges(const item &it, bool show_msg) const;
 
         bool can_study_recipe(const itype &book) const;
         bool try_study_recipe(const itype &book);
