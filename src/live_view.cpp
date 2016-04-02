@@ -5,6 +5,7 @@
 #include "map.h"
 #include "options.h"
 #include "translations.h"
+#include "catacharset.h"
 #include "vehicle.h"
 
 #include <map>
@@ -72,9 +73,15 @@ void live_view::show( const int x, const int y, const visibility_variables &cach
 #endif
 
     draw_border( *this );
-    mvwprintz( *this, 0, START_COLUMN, c_white, "< " );
-    wprintz( *this, c_green, _( "Mouse View" ) );
-    wprintz( *this, c_white, " >" );
+    static const char *title_prefix = "< ";
+    static const char *title = _( "Mouse View" );
+    static const char *title_suffix = " >";
+    static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
+    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w_live_view.get() ) - 1 );
+
+    mvwprintz( *this, 0, start_pos, c_white, title_prefix );
+    wprintz( *this, c_green, title );
+    wprintz( *this, c_white, title_suffix );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
