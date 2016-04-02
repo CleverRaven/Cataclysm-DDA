@@ -123,5 +123,20 @@
         "type" : "MONSTER_FACTION",
         "name" : "spider_cellar",
         "base_faction" : "spider"
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "mutant",
+        "by_mood" : ["small_animal", "blob", "utility_bot", "mutant_omnivore", "mutant_predator"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "mutant_omnivore",
+        "base_faction" : "mutant",
+        "neutral" : ["utility_bot", "small_animal"],
+        "by_mood" : ["mutant_predator", "mutant"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "mutant_predator",
+        "base_faction" : "mutant",
+        "by_mood" : ["mutant_omnivore", "mutant"]
     }
 ]
