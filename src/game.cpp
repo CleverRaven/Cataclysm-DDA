@@ -71,6 +71,7 @@
 #include "creature_tracker.h"
 #include "vehicle.h"
 #include "submap.h"
+#include "scent.h"
 #include "mapgen_functions.h"
 #include "clzones.h"
 #include "item_location.h"
@@ -206,7 +207,9 @@ game::game() :
     gamemode(NULL),
     user_action_counter(0),
     lookHeight(13),
-    tileset_zoom(16)
+    tileset_zoom(16),
+    player_last_position( tripoint_min ),
+    player_last_moved( calendar::turn )
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -3207,21 +3210,15 @@ bool outside_scent_radius( const tripoint &p ) {
 
 int &game::scent( const tripoint &p )
 {
-    if( outside_scent_radius( p ) ) {
-        nulscent = 0;
-        return nulscent; // Out-of-bounds - null scent
-    }
-    return grscent[p.x][p.y];
+    return scents->get_ref( p );
 }
 
 void game::update_scent()
 {
-    static tripoint player_last_position = tripoint_min;
-    static int player_last_moved = calendar::turn;
     // Stop updating scent after X turns of the player not moving.
     // Once wind is added, need to reset this on wind shifts as well.
     if( u.pos() == player_last_position ) {
-        if( player_last_moved + 1000 < calendar::turn ) {
+        if( player_last_moved + HOURS(2) < calendar::turn ) {
             return;
         }
     } else {
@@ -3229,106 +3226,15 @@ void game::update_scent()
         player_last_moved = calendar::turn;
     }
 
-    overmap_buffer.set_scent( u.global_omt_location(), u.scent );
-
-    // note: the next four intermediate matrices need to be at least
-    // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
-    // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
-
-    // These two matrices are transposed so that x addresses are contiguous in memory
-    int sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE];  //intermediate variable
-    int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
-
-    // these are for caching flag lookups
-    bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // currently only TFLAG_WALL blocks scent
-    bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
-
-
-    // for loop constants
-    const int scentmap_minx = u.posx() - SCENT_RADIUS;
-    const int scentmap_maxx = u.posx() + SCENT_RADIUS;
-    const int scentmap_miny = u.posy() - SCENT_RADIUS;
-    const int scentmap_maxy = u.posy() + SCENT_RADIUS;
-
-    const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for
-    // stability. This is essentially a decimal number * 1000.
-
     // No-scent debug mutation has to be processed here or else it takes time to start working
     if( !u.has_active_bionic("bio_scent_mask") && !u.has_trait("DEBUG_NOSCENT") ) {
-        grscent[u.posx()][u.posy()] = u.scent;
+        scent( u.pos() ) = u.scent;
+        overmap_buffer.set_scent( u.global_omt_location(), u.scent );
     }
 
-    // The new scent flag searching function. Should be wayyy faster than the old one.
-    m.scent_blockers( blocks_scent, reduces_scent,
-                      scentmap_minx, scentmap_miny, scentmap_maxx, scentmap_maxy );
-    // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
-    // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
-    // is a net performance improvement over the old code. Could probably still be better.
-    // note: this method needs an array that is one square larger on each side in the x direction
-    // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
-    // SEEX*MAPSIZE, but if that changes, this may need tweaking.
-    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
-        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
-            // remember the sum of the scent val for the 3 neighboring squares that can defuse into
-            sum_3_scent_y[y][x] = 0;
-            squares_used_y[y][x] = 0;
-            for (int i = y - 1; i <= y + 1; ++i) {
-                if (! blocks_scent[x][i]) {
-                    if (reduces_scent[x][i]) {
-                        // only 20% of scent can diffuse on REDUCE_SCENT squares
-                        sum_3_scent_y[y][x] += 2 * grscent[x][i];
-                        squares_used_y[y][x] += 2;
-                    } else {
-                        sum_3_scent_y[y][x] += 10 * grscent[x][i];
-                        squares_used_y[y][x] += 10;
-                    }
-                }
-            }
-        }
-    }
-
-    // Rest of the scent map
-    for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
-        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
-            if (! blocks_scent[x][y]) {
-                // to how many neighboring squares do we diffuse out? (include our own square
-                // since we also include our own square when diffusing in)
-                int squares_used = squares_used_y[y][x - 1]
-                                   + squares_used_y[y][x]
-                                   + squares_used_y[y][x + 1];
-
-                int this_diffusivity;
-                if (! reduces_scent[x][y]) {
-                    this_diffusivity = diffusivity;
-                } else {
-                    this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
-                }
-                int temp_scent;
-                // take the old scent and subtract what diffuses out
-                temp_scent = grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity);
-                // neighboring walls and reduce_scent squares absorb some scent
-                temp_scent -= grscent[x][y] * this_diffusivity * (90 - squares_used) / 5;
-                // we've already summed neighboring scent values in the y direction in the previous
-                // loop. Now we do it for the x direction, multiply by diffusion, and this is what
-                // diffuses into our current square.
-                grscent[x][y] =
-                    (temp_scent
-                     + this_diffusivity * (sum_3_scent_y[y][x - 1]
-                                           + sum_3_scent_y[y][x]
-                                           + sum_3_scent_y[y][x + 1])
-                    ) / (1000 * 10);
-
-                if (grscent[x][y] > 10000) {
-                    dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
-                                 << y << " (" << grscent[x][y] << ")";
-                    debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
-                    grscent[x][y] = 0; // Scent should never be higher
-                }
-            } else { // this cell blocks scent
-                grscent[x][y] = 0;
-            }
-        }
-    }
+    const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
+    const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
+    scents.update( minz, maxz );
 }
 
 bool game::is_game_over()

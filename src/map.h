@@ -983,7 +983,7 @@ void add_corpse( const tripoint &p );
      */
     void scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                          bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                         int minx, int miny, int maxx, int maxy );
+                         int minx, int miny, int maxx, int maxy, int zlev );
 
 // Computers
     computer* computer_at( const tripoint &p );

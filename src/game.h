@@ -834,6 +834,10 @@ private:
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
 
+        // Used for scent calculations
+        tripoint player_last_position;
+        int player_last_moved;
+
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
 

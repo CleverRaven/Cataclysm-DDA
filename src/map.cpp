@@ -32,6 +32,7 @@
 #include "weather.h"
 #include "item_group.h"
 #include "pathfinding.h"
+#include "scent.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -2952,16 +2953,8 @@ void map::decay_fields_and_scent( const int amount )
     const int minz = zlevels ? 0 : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     // Decay scent separately, so that later we can use field count to skip empty submaps
-    tripoint tmp;
-    for( tmp.z = minz; tmp.z <= maxz; tmp.z++ ) {
-        for( tmp.x = 0; tmp.x < my_MAPSIZE * SEEX; tmp.x++ ) {
-            for( tmp.y = 0; tmp.y < my_MAPSIZE * SEEY; tmp.y++ ) {
-                auto &scent = g->scent( tmp );
-                if( scent > 0 ) {
-                    scent--;
-                }
-            }
-        }
+    for( int smz = minz; smz <= maxz; smz++ ) {
+        g->scents->decay( smz, 1 );
     }
 
     const int amount_fire = amount / 3; // Decay fire by this much
@@ -8020,9 +8013,10 @@ template<typename Functor>
     }
 }
 
+// @todo Currently vehicles block scent on other z-levels, this is not OK
 void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
                           bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                          const int minx, const int miny, const int maxx, const int maxy )
+                          int minx, int miny, int maxx, int maxy, int zlev )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
     auto block = TFLAG_WALL;
@@ -8041,7 +8035,7 @@ void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
         return ITER_CONTINUE;
     };
 
-    function_over( minx, miny, abs_sub.z, maxx, maxy, abs_sub.z, fill_values );
+    function_over( minx, miny, zlev, maxx, maxy, zlev, fill_values );
 
     // Now vehicles
 
