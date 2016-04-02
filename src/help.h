@@ -12,7 +12,6 @@ void help_movement( WINDOW *win );
 void help_driving( WINDOW *win );
 void help_map( WINDOW *win );
 
-std::vector<std::string> text_introduction();
 std::vector<std::string> text_viewing();
 std::vector<std::string> text_hunger();
 std::vector<std::string> text_pain();
@@ -35,5 +34,7 @@ void display_help();
 void load_hint( JsonObject &jsobj );
 void clear_hints();
 std::string get_hint(); // return a random hint about the game
+
+void load_help();
 
 #endif
