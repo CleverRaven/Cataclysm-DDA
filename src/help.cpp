@@ -21,8 +21,7 @@ std::vector<std::string> hints;
 std::vector<std::string> text_intro;
 } //namespace
 
-// @todo add required category id as an input parameter
-void load_help()
+void load_help( const std::string required_category )
 {
     std::string path = FILENAMES["help_notes"].c_str();
     std::ifstream help_file( path, std::ifstream::in | std::ifstream::binary );
@@ -34,13 +33,13 @@ void load_help()
             JsonObject jo = jsin.get_object();
 
             std::string cat = jo.get_string( "category", "NONE" );
-            JsonArray sections = jo.get_array( "text" );
-            std::vector<std::string> content;
-            while( sections.has_more() ) {
-                content.push_back( _( sections.next_string().c_str() ) );
-            }
-
-            if( cat.compare( "intro" ) == 0 ) {
+            if( cat.compare( required_category ) == 0 ) {
+                JsonArray sections = jo.get_array( "text" );
+                std::vector<std::string> content;
+                while( sections.has_more() ) {
+                    content.push_back( _( sections.next_string().c_str() ) );
+                }
+                // @fixme it's temporary hardcoded assignment
                 text_intro = content;
             }
 
@@ -1022,7 +1021,7 @@ void display_help()
         switch (ch) {
         case 'a':
         case 'A':
-            load_help();
+            load_help( "intro" );
             multipage( w_help, text_intro );
             break;
 
