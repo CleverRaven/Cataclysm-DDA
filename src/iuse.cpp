@@ -552,15 +552,14 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
         p->mod_hunger(4);
         p->mod_thirst(6);
         if( p->get_painkiller() < 5 ) {
-            p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
-        }
+            p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );}
 	}	else if (it->type->id == "joint_roach") {
         cig = item("joint_roach_lit", int(calendar::turn));
         cig.item_counter = 10;
         p->mod_hunger(4);
         p->mod_thirst(6);
-        if( p->get_painkiller() < 5 ) {
-            p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
+        if( p->get_painkiller() < 4 ) {
+            p->set_painkiller( ( p->get_painkiller() + 1 ) * 2 );
         }
     } else {
         p->add_msg_if_player(m_bad,

@@ -10470,7 +10470,7 @@
         "symbol" : "!",
         "description" : "A true gentleman always finishes his cigars.",
         "category": "drugs"
-    },
+	},
 	{
         "type" : "GENERIC",
         "id" : "cigar_butt_lit",
