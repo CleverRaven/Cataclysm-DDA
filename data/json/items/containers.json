@@ -271,7 +271,7 @@
         "description": "A standard plastic jug used for milk and household cleaning chemicals.",
         "price": 0,
         "weight": 190,
-        "volume": 18,
+        "volume": 15,
         "to_hit": 1,
         "material": "plastic",
         "contains": 15,
