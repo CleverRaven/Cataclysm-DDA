@@ -32,26 +32,6 @@
     ] ]
   },
   {
-    "result": "chem_ethanol",
-    "type" : "recipe",
-    "id_suffix": "redistilled",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_FUEL",
-    "skill_used": "cooking",
-    "difficulty": 5,
-    "time": 30000,
-    "book_learn": [ [ "textbook_chemistry", 5 ], [ "brewing_cookbook", 4 ] ],
-    "qualities": [
-        { "id": "BOIL", "level": 2, "amount": 1 },
-        { "id": "BREW", "level": 2, "amount": 1 }
-     ],
-     "tools": [
-       [ [ "fire", -1 ], [ "hotplate", 30 ], [ "toolset", 30 ] ],
-       [ [ "thermometer", -1 ] ]
-     ],
-     "components": [ [ [ "denat_alcohol", 250 ] ] ]
-  },
-  {
     "result": "denat_alcohol",
     "type" : "recipe",
     "byproducts": [ "water_clean" ],
@@ -100,7 +80,7 @@
     "components": [
         [ [ "water_clean", 1 ], [ "water", 1 ] ],
         [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
-        [ [ "lye_powder", 1 ] ],
+        [ [ "lye_powder", 20 ] ],
         [ [ "cooking_oil", 2 ], [ "lard", 2 ], [ "tallow", 2 ], [ "tallow_tainted", 4 ], [ "fat", 4 ], [ "fat_tainted", 8 ] ]
     ]
   },

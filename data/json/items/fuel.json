@@ -4,7 +4,7 @@
     "type": "AMMO",
     "name": "ethanol",
     "name_plural": "ethanol",
-    "description": "Extremely pure alcohol suitable for use as a component in chemical reactions. You could also water it down and drink it, or use it as fuel in alcohol-burning stoves.",
+    "description": "Extremely pure alcohol suitable for use as a component in chemical reactions.  You could also water it down and drink it, or use it as fuel in alcohol-burning stoves.",
     "weight": 1,
     "volume": 1,
     "price": 200,

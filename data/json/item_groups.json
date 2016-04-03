@@ -2428,6 +2428,7 @@
       ["gin", 20],
       ["rum", 14],
       ["tequila", 12],
+      ["chem_ethanol", 10],
       ["triple_sec", 12],
       ["bum_wine", 20],
       ["fruit_wine", 12],
