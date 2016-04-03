@@ -3491,37 +3491,6 @@
   "components": [ [ [ "copper", 100 ] ] ]
 },{
   "type" : "recipe",
-  "result": "1st_aid",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "firstaid",
-  "difficulty": 3,
-  "time": 20000,
-  "reversible": true,
-  "decomp_learn": 2,
-  "autolearn": true,
-  "components": [
-    [
-      [ "medical_tape", 20 ],
-      [ "duct_tape", 40 ]
-    ],
-    [
-      [ "aspirin", 8 ]
-    ],
-    [
-      [ "disinfectant", 1 ],
-      [ "chem_ethanol", 7 ],
-      [ "saline", 10 ],
-      [ "thyme_oil", 1 ],
-      [ "chem_hydrogen_peroxide", 1 ]
-    ],
-    [
-      [ "bandages", 2 ],
-      [ "quikclot", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "jug_plastic",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
