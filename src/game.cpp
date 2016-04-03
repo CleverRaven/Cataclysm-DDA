@@ -1948,11 +1948,11 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
                                            mz != liveview_pos.z ) ) {
                 liveview_pos = tripoint( mx, my, mz );
                 liveview.show( liveview_pos );
-                draw_sidebar();
+                draw_sidebar_messages();
             } else if ( !are_valid_coordinates ) {
                 liveview_pos = tripoint_min;
                 liveview.hide();
-                draw_sidebar();
+                draw_sidebar_messages();
             }
         }
     } while (action == "MOUSE_MOVE"); // Freeze animation when moving the mouse
@@ -5300,6 +5300,17 @@ void game::draw_sidebar()
         wrefresh(w_status2);
     }
 
+    draw_minimap();
+    draw_pixel_minimap();
+    draw_sidebar_messages();
+}
+
+void game::draw_sidebar_messages()
+{
+    if (fullscreen) {
+        return;
+    }
+
     werase(w_messages);
     int maxlength = getmaxx(w_messages);
 
@@ -5311,13 +5322,8 @@ void game::draw_sidebar()
 
     wrefresh(w_messages);
 
-    draw_minimap();
-
-    draw_pixel_minimap();
-
     liveview.draw();
 }
-
 
 void game::draw_critter( const Creature &critter, const tripoint &center )
 {
