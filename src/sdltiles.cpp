@@ -848,6 +848,40 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             fontScaleBuffer = tilecontext->get_tile_width();
     }
     const int fontScale = tilecontext->get_tile_width();
+    //This creates a problem when map_font is different from the regular font
+    //Specifically when showing the overmap
+    //And in some instances of screen change, i.e. inventory.
+    bool oldWinCompatible = false;
+    /*
+    Let's try to keep track of different windows.
+    A number of windows are coexisting on the screen, so don't have to interfere.
+
+    g->w_terrain, g->w_minimap, g->w_HP, g->w_status, g->w_status2, g->w_messages,
+     g->w_location, and g->w_minimap, can be buffered if either of them was
+     the previous window.
+
+    g->w_overmap and g->w_omlegend are likewise.
+
+    Everything else works on strict equality because there aren't yet IDs for some of them.
+    */
+    if( g && ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status ||
+         win == g->w_status2 || win == g->w_messages || win == g->w_location ) ) {
+        if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
+             winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
+             winBuffer == g->w_messages || winBuffer == g->w_location ||
+             winBuffer == g->liveview ) {
+            oldWinCompatible = true;
+        }
+    }else if( g && ( win == g->w_overmap || win == g->w_omlegend ) ) {
+        if ( winBuffer == g->w_overmap || winBuffer == g->w_omlegend ) {
+            oldWinCompatible = true;
+        }
+    }else {
+        if( win == winBuffer ) {
+            oldWinCompatible = true;
+        }
+    }
+
     bool update = false;
     for( int j = 0; j < win->height; j++ ) {
         if( !win->line[j].touched ) {
@@ -870,41 +904,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const int fbx = win->x + i;
             const int fby = win->y + j;
             cursecell &oldcell = framebuffer[fby].chars[fbx];
-            //This creates a problem when map_font is different from the regular font
-            //Specifically when showing the overmap
-            //And in some instances of screen change, i.e. inventory.
-            bool oldWinCompatible = false;
-            /*
-            Let's try to keep track of different windows.
-            A number of windows are coexisting on the screen, so don't have to interfere.
-
-            g->w_terrain, g->w_minimap, g->w_HP, g->w_status, g->w_status2, g->w_messages,
-             g->w_location, and g->w_minimap, can be buffered if either of them was
-             the previous window.
-
-            g->w_overmap and g->w_omlegend are likewise.
-
-            Everything else works on strict equality because there aren't yet IDs for some of them.
-            */
-            if( g && ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status ||
-                 win == g->w_status2 || win == g->w_messages || win == g->w_location ) ) {
-                if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
-                     winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
-                     winBuffer == g->w_messages || winBuffer == g->w_location ||
-                     winBuffer == g->liveview ) {
-                    oldWinCompatible = true;
-                }
-            }else if( g && ( win == g->w_overmap || win == g->w_omlegend ) ) {
-                if ( winBuffer == g->w_overmap || winBuffer == g->w_omlegend ) {
-                    oldWinCompatible = true;
-                }
-            }else {
-                if( win == winBuffer ) {
-                    oldWinCompatible = true;
-                }
-            }
-
-            if (cell == oldcell && oldWinCompatible && fontScale == fontScaleBuffer) {
+            if (oldWinCompatible && cell == oldcell && fontScale == fontScaleBuffer) {
                 continue;
             }
             oldcell = cell;
