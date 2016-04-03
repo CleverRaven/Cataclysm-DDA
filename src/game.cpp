@@ -601,7 +601,6 @@ void game::init_ui()
         // Not enough room below the status bar, just use the regular lookaround area
         get_lookaround_dimensions(mouseview_w, mouseview_y, mouseview_x);
         mouseview_h = lookHeight;
-        liveview.set_compact(true);
         if (!use_narrow_sidebar()) {
             // Second status window must now take care of clearing the area to the
             // bottom of the screen.
@@ -1934,37 +1933,32 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 
 // Checks input to see if mouse was moved and handles the mouse view box accordingly.
 // Returns true if input requires breaking out into a game action.
-bool game::handle_mouseview(input_context &ctxt, std::string &action,
-                            const visibility_variables& cache)
+bool game::handle_mouseview(input_context &ctxt, std::string &action)
 {
     do {
         action = ctxt.handle_input();
         if (action == "MOUSE_MOVE") {
             int mx, my;
             if (!ctxt.get_coordinates(w_terrain, mx, my)) {
-                hide_mouseview();
+                liveview.hide();
+                draw_sidebar();
             } else {
-                liveview.show(mx, my, cache);
+                // TODO: Z
+                tripoint p( mx, my, g->get_levz() );
+                liveview.show( p );
+                draw_sidebar();
             }
         }
     } while (action == "MOUSE_MOVE"); // Freeze animation when moving the mouse
 
     if (action != "TIMEOUT" && ctxt.get_raw_input().get_first_input() != ERR) {
         // Keyboard event, break out of animation loop
-        hide_mouseview();
+        liveview.hide();
         return false;
     }
 
     // Mouse movement or un-handled key
     return true;
-}
-
-// Hides the mouse hover box and redraws what was under it
-void game::hide_mouseview()
-{
-    if (liveview.hide()) {
-        draw_sidebar(); // Redraw anything hidden by mouseview
-    }
 }
 
 #ifdef TILES
@@ -2134,7 +2128,7 @@ input_context game::get_player_input(std::string &action)
 
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
-        while( handle_mouseview(ctxt, action, cache) || uquit == QUIT_WATCH ) {
+        while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
             if( bWeatherEffect && OPTIONS["ANIMATION_RAIN"] ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -2250,7 +2244,7 @@ input_context game::get_player_input(std::string &action)
         }
         inp_mngr.set_timeout(-1);
     } else {
-        while (handle_mouseview(ctxt, action, cache)) {};
+        while (handle_mouseview(ctxt, action)) {};
     }
 
     return ctxt;
@@ -5198,9 +5192,6 @@ void game::draw_sidebar()
     if( sideStyle ) {
         werase(w_status2);
     }
-    if (!liveview.is_compact()) {
-        liveview.hide(true, false);
-    }
     u.disp_status(w_status, w_status2);
 
     WINDOW *time_window = sideStyle ? w_status2 : w_status;
@@ -5317,6 +5308,8 @@ void game::draw_sidebar()
     draw_minimap();
 
     draw_pixel_minimap();
+
+    liveview.draw();
 }
 
 

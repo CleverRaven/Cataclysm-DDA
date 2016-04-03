@@ -2,8 +2,7 @@
 #define LIVE_VIEW_H
 
 #include "output.h" //WINDOW_PTR
-
-struct visibility_variables;
+#include "enums.h"
 
 class live_view
 {
@@ -11,20 +10,16 @@ class live_view
         live_view() = default;
 
         void init( int start_x, int start_y, int width, int height );
-        void show( int x, int y, const visibility_variables &cache );
-        bool hide( bool refresh = true, bool force = false );
-        bool is_compact() const;
-        void set_compact( bool value );
+        void draw();
+        void show( const tripoint &mouse_position );
+        void hide();
     private:
         WINDOW_PTR w_live_view;
+        tripoint mouse_position;
 
         int width       = 0;
         int height      = 0;
-        int last_height = -1;
-
-        bool inuse        = false;
-        bool enabled      = false;
-        bool compact_view = false;
+        bool enabled    = false;
 
         operator WINDOW *() const {
             return w_live_view.get();

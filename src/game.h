@@ -793,10 +793,7 @@ private:
 
         // Input related
         // Handles box showing items under mouse
-        bool handle_mouseview(input_context &ctxt,
-                              std::string &action,
-                              const visibility_variables &cache);
-        void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
+        bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
         void draw_overmap();        // Draws the overmap, allows note-taking etc.
