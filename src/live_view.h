@@ -10,7 +10,8 @@ class live_view
         live_view() = default;
 
         void init( int start_x, int start_y, int width, int height );
-        void draw();
+        int draw();
+        void refresh();
         void show( const tripoint &mouse_position );
         void hide();
 

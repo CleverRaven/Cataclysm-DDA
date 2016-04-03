@@ -29,10 +29,10 @@ void live_view::init( int const start_x, int const start_y, int const w, int con
     hide();
 }
 
-void live_view::draw()
+int live_view::draw()
 {
     if( !enabled ) {
-        return;
+        return 0;
     }
 
     werase( *this );
@@ -55,8 +55,9 @@ void live_view::draw()
     g->print_all_tile_info( mouse_position, *this, START_COLUMN, line_out,
                             line_limit, false, cache );
 
+    const int new_height = std::min( height, std::max( line_out + 1, 11 ) );
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-    w_live_view->height = std::min( height, std::max( line_out + 1, 11 ) );
+    w_live_view->height = new_height;
 #endif
 
     draw_border( *this );
@@ -69,6 +70,15 @@ void live_view::draw()
     mvwprintz( *this, 0, start_pos, c_white, title_prefix );
     wprintz( *this, c_green, title );
     wprintz( *this, c_white, title_suffix );
+
+    return new_height;
+}
+
+void live_view::refresh()
+{
+    if( !enabled ) {
+        return;
+    }
 
     wrefresh( *this );
 }

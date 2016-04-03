@@ -5312,17 +5312,17 @@ void game::draw_sidebar_messages()
     }
 
     werase(w_messages);
-    int maxlength = getmaxx(w_messages);
 
-    // Print monster info and start our output below it.
-    const int topline = mon_info(w_messages) + 2;
-
+    // Print liveview or monster info and start log messages output below it.
+    int topline = liveview.draw();
+    if ( topline == 0 ) {
+        topline = mon_info(w_messages) + 2;
+    }
     int line = getmaxy(w_messages) - 1;
+    int maxlength = getmaxx(w_messages);
     Messages::display_messages(w_messages, 0, topline, maxlength, line);
-
     wrefresh(w_messages);
-
-    liveview.draw();
+    liveview.refresh();
 }
 
 void game::draw_critter( const Creature &critter, const tripoint &center )
