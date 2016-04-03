@@ -1948,48 +1948,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "disinfectant",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "cooking",
-  "skills_required": [ "firstaid", 2 ],
-  "difficulty": 4,
-  "time": 24000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["textbook_firstaid", 3] , ["manual_first_aid", 3] , ["emergency_book", 4] , ["pocket_firstaid", 2] , ["recipe_labchem", 4]],
-  "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "whiskey", 7 ],
-      [ "single_malt_whiskey", 7 ],
-      [ "vodka", 7 ],
-      [ "rum", 7 ],
-      [ "tequila", 7 ],
-      [ "gin", 7 ],
-      [ "moonshine", 7 ],
-      [ "brandy", 7 ],
-      [ "chem_ethanol", 7],
-      [ "mixed_alcohol_strong", 7 ],
-      [ "bleach", 1 ]
-    ],
-    [
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "oxy_powder", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "iodine",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
