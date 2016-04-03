@@ -87,7 +87,7 @@
     "volume": 1,
     "price": 20,
     "price_postapoc": 200,
-    "count": 500,
+    "count": 250,
     "stack_size": 250,
     "phase": "liquid",
     "container": "bottle_plastic",
