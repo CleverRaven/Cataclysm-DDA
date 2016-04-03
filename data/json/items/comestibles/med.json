@@ -80,6 +80,25 @@
         }
     },
     {
+        "id" : "brownie_weed",
+        "type" : "COMESTIBLE",
+        "name" : "special brownie",
+        "weight" : 56,
+        "color" : "brown",
+        "spoils_in" : 420,
+        "use_action" : "WEED_BROWNIE",
+        "comestible_type" : "MED",
+        "symbol" : "%",
+        "nutrition" : 20,
+        "description" : "This is definitely not how grandma used to bake them.",
+        "price" : 5000,
+        "material" : "wheat",
+        "volume" : 3,
+        "charges" : 8,
+        "flags" : [ "EATEN_HOT" ],
+        "fun" : 15
+    },
+    {
         "id" : "caffeine",
         "type" : "COMESTIBLE",
         "name" : "caffeine pill",
@@ -171,6 +190,23 @@
         }
     },
     {
+        "id" : "gummy_vitamins",
+        "type" : "COMESTIBLE",
+        "name" : "gummy vitamin",
+        "weight" : 1,
+        "color" : "magenta",
+        "use_action" : "VITAMINS",
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "nutrition" : 1,
+        "description" : "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  Take frequently to help regulate your body's health and immune functions.",
+        "price" : 500,
+        "volume" : 1,
+        "charges" : 10,
+        "stack_size" : 100,
+        "fun" : 2
+    },
+    {
         "id" : "handrolled_cig",
         "type" : "COMESTIBLE",
         "name" : "hand-rolled cigarette",
@@ -212,6 +248,25 @@
         "volume" : 1,
         "charges" : 10,
         "stack_size" : 200
+    },
+    {
+        "id" : "joint",
+        "type" : "COMESTIBLE",
+        "name" : "joint",
+        "weight" : 1,
+        "color" : "green",
+        "use_action" : "SMOKING",
+        "stim" : -10,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "healthy" : -1,
+        "quench" : -5,
+        "addiction_potential" : 5,
+        "description" : "Marijuana, cannabis, pot.  Whatever you want to call it, it's rolled up in a piece of paper and ready for smokin'.",
+        "price" : 500,
+        "charges" : 1,
+        "stack_size" : 100,
+        "fun" : 15
     },
     {   
         "id" : "mugwort_oil",
@@ -404,6 +459,21 @@
         "fun" : 5
     },
     {
+        "id" : "vitamins",
+        "type" : "COMESTIBLE",
+        "name" : "vitamin",
+        "weight" : 1,
+        "color" : "magenta",
+        "use_action" : "VITAMINS",
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "description" : "Essential dietary nutrients conveniently packaged in pill form.  Take frequently to help regulate your body's health and immune functions.",
+        "price" : 500,
+        "volume" : 1,
+        "charges" : 20,
+        "stack_size" : 100
+    },
+    {
         "id" : "weed",
         "type" : "COMESTIBLE",
         "name" : "marijuana",
@@ -418,11 +488,11 @@
                     "duration" : 90
                 },
                 {
-                    "id": "pkill1",
-                    "duration": 60
+                    "id" : "pkill1",
+                    "duration" : 60
                 }
             ],
-            "stat_adjustments": {
+            "stat_adjustments" : {
                 "hunger" : 4,
                 "thirst" : 6
             },
@@ -435,7 +505,7 @@
         "comestible_type" : "MED",
         "symbol" : "!",
         "quench" : -5,
-        "healthy" : 0,
+        "healthy" : -1,
         "addiction_potential" : 5,
         "description" : "The dried flower buds and leaves harvested from a psychoactive variety of hemp plant.  Used to reduce nausea, stimulate appetite and elevate mood.  It can be habit-forming, and adverse reactions are possible.",
         "price" : 2500,
