@@ -24,7 +24,7 @@
     "armor_stab":12,
     "armor_fire":1,
     "armor_acid":1,
-    "hp":20,
+    "hp":30,
     "special_attacks":[["FUNGUS_BRISTLE", 20], ["FUNGUS", 10]],
     "death_function":["FUNGUS", "DISINTEGRATE"],
     "flags":["SEES", "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE", "REGENERATES_10"]
