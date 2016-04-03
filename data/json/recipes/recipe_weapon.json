@@ -767,42 +767,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "molotov",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_EXPLOSIVE",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": false,
-  "autolearn": true,
-  "components": [
-    [
-      [ "rag", 1 ]
-    ],
-    [
-      [ "bottle_glass", 1 ],
-      [ "clay_canister", 1 ],
-      [ "flask_glass", 1 ]
-    ],
-    [
-      [ "whiskey", 14 ],
-      [ "single_malt_whiskey", 14 ],
-      [ "vodka", 14 ],
-      [ "rum", 14 ],
-      [ "tequila", 14 ],
-      [ "gin", 14 ],
-      [ "moonshine", 14 ],
-      [ "brandy", 14 ],
-      [ "chem_ethanol", 14],
-      [ "denat_alcohol", 14],
-      [ "mixed_alcohol_strong", 14 ],
-      [ "lamp_oil", 400 ],
-      [ "gasoline", 600 ],
-      [ "diesel", 600 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "pipebomb",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
