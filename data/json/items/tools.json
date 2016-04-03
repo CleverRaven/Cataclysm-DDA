@@ -6630,12 +6630,12 @@
     "name": "still",
     "description": "This is a still.  It's useful for creating distillation of alcohol and other, more curious substances.",
     "price": 30000,
-    "material": "aluminum",
+    "material": "copper",
     "weight": 10000,
     "volume": 40,
     "bashing": 10,
     "to_hit": -6,
-    "qualities":[["BREW", 2]]
+    "qualities":[ [ "BREW", 2 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "mold_plastic",

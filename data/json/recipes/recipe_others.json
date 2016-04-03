@@ -3914,24 +3914,6 @@
     [ ["cable", 8] ] ]
 },{
   "type" : "recipe",
-  "result": "still",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "mechanics",
-  "skills_required": ["cooking", 4],
-  "difficulty": 3,
-  "time": 200000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
-  ], "components": [ [ ["pot", 1] ],
-    [ ["hose", 2] ],
-    [ ["jerrycan_big", 1] ] ]
-},{
-  "type" : "recipe",
   "result": "popcan_stove",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
