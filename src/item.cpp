@@ -4856,35 +4856,58 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     return true;
 }
 
-bool item::use_charges(const itype_id &it, long &quantity, std::list<item> &used)
+bool item::use_charges( const std::string& what, long& qty, std::list<item>& used, const tripoint *pos )
 {
-    // First, check contents
-    for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
-        if (a->use_charges(it, quantity, used)) {
-            a = contents.erase(a);
+    std::vector<item *> del;
+
+    visit_items( [&what, &qty, &used, &pos, &del] ( item *e ) {
+        if( qty == 0 ) {
+             // found sufficient charges
+            return VisitResponse::ABORT;
+        }
+
+        if( e->is_tool() ) {
+            // for tools we also need to check if this item is a subtype of the required id
+            if( e->typeId() == what || e->type->tool->subtype == what ) {
+                int n = std::min( e->ammo_remaining(), qty );
+                qty -= n;
+
+                used.push_back( item( *e ).ammo_set( e->ammo_current(), n ) );
+                e->ammo_consume( n, pos );
+            }
+            return VisitResponse::SKIP;
+
+        } else if( e->count_by_charges() ) {
+            if( e->typeId() == what ) {
+
+                // if can supply excess charges split required off leaving remainder in-situ
+                item obj = e->split( qty );
+                if( !obj.is_null() ) {
+                    used.push_back( obj );
+                    qty = 0;
+                    return VisitResponse::ABORT;
+                }
+
+                qty -= e->charges;
+                used.push_back( *e );
+                del.push_back( e );
+            }
+            // items counted by charges are not themselves expected to be containers
+            return VisitResponse::SKIP;
+        }
+
+        // recurse through any nested containers
+        return VisitResponse::NEXT;
+    } );
+
+    bool destroy = false;
+    for( auto e : del ) {
+        if( e == this ) {
+            destroy = true; // cannot remove ourself...
         } else {
-            ++a;
+            remove_item( *e );
         }
     }
-    // Now check the item itself
-    if( !( typeId() == it || ( is_tool() && type->tool->subtype == it ) ) ||
-        quantity <= 0 || !contents.empty() ) {
-        return false;
-    }
-    if (charges <= quantity) {
-        used.push_back(*this);
-        if (charges < 0) {
-            quantity--;
-        } else {
-            quantity -= charges;
-        }
-        charges = 0;
-        return destroyed_at_zero_charges();
-    }
-    used.push_back(*this);
-    used.back().charges = quantity;
-    charges -= quantity;
-    quantity = 0;
     return false;
 }
 

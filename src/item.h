@@ -376,27 +376,16 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     int reach_range() const;
 
- /**
-  * Consume a specific amount of charges from items of a specific type.
-  * This includes this item, and any of its contents (recursively).
-  * @param it The type id, only items of this type are considered.
-  * @param quantity The number of charges that should be consumed.
-  * It will be changed for each used charge. After calling this function it
-  * may be at 0 which means all requested charges have been consumed.
-  * @param used All used charges are put into this list, the caller may need it.
-  * @return Whether this item should be deleted (in which case it returns true).
-  * Some items (those that are counted by charges) must be destroyed when
-  * their charges reach 0.
-  * This is usually does not apply to tools.
-  * Also if this function is called on a container and the function erase charges
-  * from its contents the container should not be deleted - it returns false in
-  * that case.
-  * The caller *must* check the return value and remove the item from wherever
-  * it is stored when the function returns true.
-  * Note that the item itself has no way of knowing where it is stored and can
-  * therefor not delete itself.
-  */
- bool use_charges(const itype_id &it, long &quantity, std::list<item> &used);
+    /**
+     * Consumes specified charges (or fewer) from this and any contained items
+     * @param what specific type of charge required, eg. 'battery'
+     * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
+     * @param used filled with duplicates of each item that provided consumed charges
+     * @param pos position at which the charges are being consumed (if any)
+     * @return true if this item should be deleted (count-by-charges items with no remaining charges)
+     */
+    bool use_charges( const std::string& what, long& qty, std::list<item>& used, const tripoint *pos = nullptr );
+
  /**
   * Consume a specific amount of items of a specific type.
   * This includes this item, and any of its contents (recursively).
