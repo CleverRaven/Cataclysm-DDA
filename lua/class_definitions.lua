@@ -1303,7 +1303,7 @@ classes = {
             { name = "get_signage", rval = "string", args = { "tripoint" } },
             { name = "get_ter", rval = "ter_str_id", args = { "tripoint" } },
             { name = "get_ter_harvest_season", rval = "int", args = { "tripoint" } },
-            { name = "get_ter_harvestable", rval = "ter_str_id", args = { "tripoint" } },
+            { name = "get_ter_harvestable", rval = "string", args = { "tripoint" } },
             { name = "get_ter_transforms_into", rval = "ter_id", args = { "tripoint" } },
             { name = "getabs", rval = "tripoint", args = { "tripoint" } },
             { name = "getlocal", rval = "tripoint", args = { "tripoint" } },
@@ -1425,10 +1425,9 @@ classes = {
         string_id = "ter_str_id",
 
         attributes = {
-            bloom_season = { type = "int", writable = true },
             close = { type = "ter_str_id", writable = true },
             harvest_season = { type = "int", writable = true },
-            harvestable = { type = "ter_str_id", writable = true },
+            harvestable = { type = "string", writable = true },
             name = { type = "string",  writable = false },
             open = { type = "ter_str_id", writable = true },
             roof = { type = "ter_str_id", writable = true },

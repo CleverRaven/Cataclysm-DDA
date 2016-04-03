@@ -3908,21 +3908,6 @@ void game::add_event(event_type type, int on_turn, int faction_id, const tripoin
     events.push_back(tmp);
 }
 
-struct terrain {
-    ter_id ter;
-    terrain(ter_id tid) : ter(tid) {};
-    terrain(std::string sid) : ter(t_null)
-    {
-        const ter_str_id tid( sid );
-
-        if( !tid.is_valid() ) {
-            debugmsg("terrain '%s' does not exist.", tid.c_str());
-        } else {
-            ter = tid.id();
-        }
-    };
-};
-
 bool game::event_queued(event_type type) const
 {
     for( const auto &e : events ) {
@@ -7242,7 +7227,7 @@ void game::open()
             if( tid.str().find("_locked") != std::string::npos ) {
                 add_msg(m_info, _("The door is locked!"));
                 return;
-            } else if ( !tid.obj().close.is_null() ) {
+            } else if ( tid.obj().close ) {
                 // if the following message appears unexpectedly, the prior check was for t_door_o
                 add_msg(m_info, _("That door is already open."));
                 u.moves += 100;

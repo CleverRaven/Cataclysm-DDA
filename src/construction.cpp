@@ -1404,17 +1404,24 @@ void check_constructions()
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
         c->requirements.check_consistency(display_name);
-        if (!c->pre_terrain.empty() && !c->pre_is_furniture && !ter_str_id( c->pre_terrain ).is_valid() ) {
-            debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+
+        if( !c->pre_terrain.empty() ) {
+            if( c->pre_is_furniture ) {
+                if( furnmap.count( c->pre_terrain ) == 0 ) {
+                    debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str() );
+                }
+            } else if( !ter_str_id( c->pre_terrain ).is_valid() ) {
+                debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+            }
         }
-        if (!c->pre_terrain.empty() && c->pre_is_furniture && furnmap.count(c->pre_terrain) == 0) {
-            debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
-        }
-        if (!c->post_terrain.empty() && !c->post_is_furniture && !ter_str_id( c->post_terrain ).is_valid() ) {
-            debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
-        }
-        if (!c->post_terrain.empty() && c->post_is_furniture && furnmap.count(c->post_terrain) == 0) {
-            debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+        if( !c->post_terrain.empty() ) {
+            if( c->post_is_furniture ) {
+                if( furnmap.count( c->post_terrain ) == 0 ) {
+                    debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+                }
+            } else if( !ter_str_id( c->post_terrain ).is_valid() ) {
+                debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+            }
         }
     }
 }

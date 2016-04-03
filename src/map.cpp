@@ -1687,7 +1687,7 @@ ter_str_id map::get_ter(const int x, const int y) const {
     return ter_at(x, y).id;
 }
 
-ter_str_id map::get_ter_harvestable(const int x, const int y) const {
+std::string map::get_ter_harvestable(const int x, const int y) const {
     return ter_at(x, y).harvestable;
 }
 
@@ -1754,7 +1754,7 @@ ter_str_id map::get_ter( const tripoint &p ) const {
 /*
  * Get the terrain harvestable string (what will get harvested from the terrain)
  */
-ter_str_id map::get_ter_harvestable( const tripoint &p ) const {
+std::string map::get_ter_harvestable( const tripoint &p ) const {
     return ter_at( p ).harvestable;
 }
 
@@ -3341,7 +3341,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
 
     const auto &ter_there = ter_at( p );
     const auto &roof = ter_there.roof;
-    if( roof.is_null() ) {
+    if( !roof ) {
         // No roof
         // Not acceptable if the tile is not passable
         if( !allow_air ) {
@@ -3395,7 +3395,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( !params.destroy ) {
             smash_ter = false;
             bash = nullptr;
-        } else if( bash->ter_set.is_null() && zlevels ) {
+        } else if( !bash->ter_set && zlevels ) {
             // A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
             tripoint below( p.x, p.y, p.z - 1 );
@@ -3404,7 +3404,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 smash_ter = false;
                 bash = nullptr;
             }
-        } else if( bash->ter_set.is_null() && ter( p ) == t_dirt ) {
+        } else if( !bash->ter_set && ter( p ) == t_dirt ) {
             // As above, except for no-z-levels case
             smash_ter = false;
             bash = nullptr;
@@ -3589,7 +3589,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Handle error earlier so that we can assume smash_ter is true below
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
                   ter_at(p).id.c_str() );
-    } else if( !bash->ter_set.is_null() ) {
+    } else if( bash->ter_set ) {
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash->ter_set );
     } else {
@@ -4123,12 +4123,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
     const auto &furn = furn_at( p );
     int vpart = -1;
     vehicle *veh = veh_at( p, vpart );
-    if ( !ter.open.is_null() ) {
-        if ( !ter.id.is_valid() ) {
-            debugmsg("terrain %s.open == non existant terrain '%s'\n", ter.id.c_str(), ter.open.c_str() );
-            return false;
-        }
-
+    if( ter.open ) {
         if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
             return false;
         }
@@ -4223,11 +4218,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
 {
  const auto &ter = ter_at( p );
  const auto &furn = furn_at( p );
- if ( !ter.close.is_null() ) {
-     if ( !ter.close.is_valid() ) {
-         debugmsg("terrain %s.close == non existant terrain '%s'\n", ter.id.c_str(), ter.close.c_str() );
-         return false;
-     }
+ if( ter.close ) {
      if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
          return false;
      }
@@ -7052,7 +7043,7 @@ void map::add_roofs( const int gridx, const int gridy, const int gridz )
             }
 
             const ter_t &ter_below = sub_below->ter[x][y].obj();
-            if( !ter_below.roof.is_null() ) {
+            if( ter_below.roof ) {
                 // TODO: Make roof variable a ter_id to speed this up
                 sub_here->ter[x][y] = ter_below.roof.id();
             }

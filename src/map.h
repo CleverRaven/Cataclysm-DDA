@@ -554,7 +554,7 @@ public:
 // Terrain: 2D overloads
     ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
     ter_str_id get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
-    ter_str_id get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
+    std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
     ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
     int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
     const ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
@@ -566,7 +566,7 @@ public:
 // Terrain: 3D
     ter_id ter( const tripoint &p ) const;
     ter_str_id get_ter( const tripoint &p ) const;
-    ter_str_id get_ter_harvestable( const tripoint &p ) const;
+    std::string get_ter_harvestable( const tripoint &p ) const;
     ter_id get_ter_transforms_into( const tripoint &p ) const;
     int get_ter_harvest_season( const tripoint &p ) const;
     const ter_t & ter_at( const tripoint &p ) const;

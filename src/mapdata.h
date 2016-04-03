@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "iexamine.h"
 #include "int_id.h"
+#include "trap.h"
 #include "string_id.h"
 #include "weighted_list.h"
 #include "rng.h"
@@ -252,24 +253,20 @@ struct ter_t : map_data_common_t {
     ter_str_id close; // Close action: transform into terrain with matching id
 
     std::string trap_id_str;     // String storing the id string of the trap.
-    ter_str_id harvestable;     // What will be harvested from this terrain?
+    std::string harvestable;     // What will be harvested from this terrain?
     ter_str_id transforms_into; // Transform into what terrain?
-    ter_str_id roof;            // What will be the floor above this terrain?
+    ter_str_id roof;            // What will be the floor above this terrain
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
     int harvest_season; // When will this terrain get harvested?
-    int bloom_season;   // @todo Remove the unused field
 
     ter_t() :
-        map_data_common_t(),
-        id( NULL_ID ),
         open( NULL_ID ),
         close( NULL_ID ),
-        harvestable( NULL_ID ),
         transforms_into( NULL_ID ),
         roof( NULL_ID ),
-        trap( 0 ), // @todo Replace with tr_null
+        trap( tr_null ),
         harvest_season( 0 ) {};
 
     static size_t count();

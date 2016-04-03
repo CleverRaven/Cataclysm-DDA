@@ -4,7 +4,6 @@
 #include "game_constants.h"
 #include "debug.h"
 #include "translations.h"
-#include "trap.h"
 #include "output.h"
 #include "item.h"
 #include "item_group.h"
@@ -223,7 +222,6 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     sound = j.get_string("sound", _("smash!"));
     sound_fail = j.get_string("sound_fail", _("thump!"));
 
-    ter_set = NULL_ID;
     if( isfurniture ) {
         furn_set = j.get_string("furn_set", "f_null");
     } else {
@@ -251,7 +249,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     }
     JsonObject j = jsobj.get_object(member);
     furn_set = j.get_string("furn_set", "");
-    ter_set = NULL_ID;
+
     if (!isfurniture) {
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
     }
@@ -283,6 +281,7 @@ furn_t null_furniture_t() {
 ter_t null_terrain_t() {
   ter_t new_terrain;
 
+  new_terrain.id = NULL_ID;
   new_terrain.name = _("nothing");
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
@@ -419,7 +418,7 @@ void load_terrain(JsonObject &jsobj)
   ter_t new_terrain;
 
   new_terrain.id = ter_str_id( jsobj.get_string("id") );
-  if ( new_terrain.id.is_null() ) {
+  if ( !new_terrain.id ) {
       return;
   }
   new_terrain.name = _(jsobj.get_string("name").c_str());
@@ -460,7 +459,7 @@ void load_terrain(JsonObject &jsobj)
 
   // if the terrain has something harvestable
   if (jsobj.has_member("harvestable")) {
-    new_terrain.harvestable = ter_str_id( jsobj.get_string("harvestable") ); // get the harvestable
+    new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
   }
 
   if (jsobj.has_member("transforms_into")) {
@@ -1079,7 +1078,7 @@ void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_t
         if (is_terrain && mbi.ter_set.is_empty()) { // Some tiles specify t_null explicitly
             debugmsg("bash result terrain of %s is undefined/empty", id.c_str());
         }
-        if ( !mbi.ter_set.is_null() && !mbi.ter_set.is_valid() ) {
+        if ( !mbi.ter_set.is_valid() ) {
             debugmsg("bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
         }
         if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
@@ -1099,7 +1098,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     if (is_terrain && mbi.ter_set.is_empty()) { // Some tiles specify t_null explicitly
         debugmsg("deconstruct result terrain of %s is undefined/empty", id.c_str());
     }
-    if ( !mbi.ter_set.is_null() && !mbi.ter_set.is_valid() ) {
+    if ( !mbi.ter_set.is_valid() ) {
         debugmsg("deconstruct result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
     }
     if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
@@ -1122,13 +1121,13 @@ void check_furniture_and_terrain()
     for( const ter_t& t : terlist ) {
         check_bash_items(t.bash, t.id.str(), true);
         check_decon_items(t.deconstruct, t.id.str(), true);
-        if( !t.transforms_into.is_null() && !t.transforms_into.is_valid() ) {
+        if( !t.transforms_into.is_valid() ) {
             debugmsg( "invalid transforms_into %s for %s", t.transforms_into.c_str(), t.id.c_str() );
         }
-        if( !t.open.is_null() && !t.open.is_valid() ) {
+        if( !t.open.is_valid() ) {
             debugmsg( "invalid terrain %s for opening %s", t.open.c_str(), t.id.c_str() );
         }
-        if( !t.close.is_null() && !t.close.is_valid() ) {
+        if( !t.close.is_valid() ) {
             debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
         }
     }

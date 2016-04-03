@@ -1090,14 +1090,7 @@ public:
     ter_id id;
     jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
 
-    jmapgen_terrain( const std::string &ter_name ) : jmapgen_piece(), id( 0 )
-    {
-        const ter_str_id tid( ter_name );
-        if( !tid.is_valid() ) {
-            throw std::runtime_error( "unknown terrain type" );
-        }
-        id = tid.id();
-    }
+    jmapgen_terrain( const std::string &ter_name ) : jmapgen_piece(), id( ter_id( ter_name ) ) {}
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         m.ter_set( x.get(), y.get(), id );
@@ -1124,11 +1117,7 @@ public:
         }
         jsi.read( "items", items );
         if( jsi.has_string( "floor_type" ) ) {
-            const ter_str_id tid( jsi.get_string( "floor_type" ) );
-            if( !tid.is_valid() ) {
-                jsi.throw_error( "unknown terrain type", "floor_type" );
-            }
-            floor_type = tid.id();
+            floor_type = ter_id( jsi.get_string( "floor_type" ) );
         }
         jsi.read( "overwrite", overwrite );
     }
@@ -1334,9 +1323,6 @@ bool mapgen_function_json::setup() {
 
         // something akin to mapgen fill_background.
         if ( jo.read("fill_ter", tmpval) ) {
-            if ( !tmpval.is_valid() ) {
-                jo.throw_error(string_format("  fill_ter: invalid terrain '%s'",tmpval.c_str() ));
-            }
             fill_ter = tmpval.id();
             qualifies = true;
             tmpval = NULL_ID;
@@ -1357,12 +1343,7 @@ bool mapgen_function_json::setup() {
                         pjo.throw_error( "format map key must be 1 character", key );
                     }
                     if( pjo.has_string( key ) ) {
-                        const ter_str_id tid( pjo.get_string( key ) );
-
-                        if( !tid.is_valid() ) {
-                            pjo.throw_error( "Invalid terrain", key );
-                        }
-                        format_terrain[key[0]] = tid.id();
+                        format_terrain[key[0]] = ter_id( pjo.get_string( key ) );
                     } else {
                         auto &vect = format_placings[ key[0] ];
                         ::load_place_mapings<jmapgen_terrain>( pjo, key, vect );

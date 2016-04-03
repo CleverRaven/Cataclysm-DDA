@@ -2226,7 +2226,7 @@ void iexamine::harvest_tree_shrub(player &p, const tripoint &examp)
     }
     //if the fruit is not ripe yet
     if (calendar::turn.get_season() != g->m.get_ter_harvest_season(examp)) {
-        std::string fruit = item::nname(g->m.get_ter_harvestable(examp).str(), 10);
+        std::string fruit = item::nname(g->m.get_ter_harvestable(examp), 10);
         fruit[0] = toupper(fruit[0]);
         add_msg(m_info, _("%1$s ripen in %2$s."), fruit.c_str(), season_name(g->m.get_ter_harvest_season(examp)).c_str());
         return;
@@ -2241,7 +2241,7 @@ void iexamine::harvest_tree_shrub(player &p, const tripoint &examp)
     if (g->m.has_flag("SHRUB", examp)) { // if shrub, it gives seeds. todo -> trees give seeds(?) -> trees plantable
         seeds = true;
     }
-    pick_plant(p, examp, g->m.get_ter_harvestable(examp).str(), g->m.get_ter_transforms_into(examp), seeds);
+    pick_plant(p, examp, g->m.get_ter_harvestable(examp), g->m.get_ter_transforms_into(examp), seeds);
 }
 
 void iexamine::tree_pine(player &p, const tripoint &examp)
@@ -2284,7 +2284,7 @@ void iexamine::tree_bark(player &p, const tripoint &examp)
         none( p, examp );
         return;
     }
-    g->m.spawn_item( p.pos(), g->m.get_ter_harvestable(examp).str(), rng( 1, 2 ) );
+    g->m.spawn_item( p.pos(), g->m.get_ter_harvestable(examp), rng( 1, 2 ) );
     g->m.ter_set(examp, g->m.get_ter_transforms_into(examp));
 }
 

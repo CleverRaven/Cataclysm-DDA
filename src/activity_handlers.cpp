@@ -600,7 +600,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     bool found_something = false;
 
     items_location loc;
-    ter_str_id next_ter = NULL_ID; //Just to have a default for compilers' sake
+    ter_str_id next_ter;
+
     switch( calendar::turn.get_season() ) {
     case SPRING:
         loc = "forage_spring";
