@@ -113,6 +113,19 @@
     ]
   },
   {
+    "id": "tools_medical",
+    "type": "item_group",
+    "comment": "Portable medical equipment for doctors and paramedics (excludes consumables)",
+    "items": [
+      [ "scalpel", 50 ],
+      [ "scissors", 100 ],
+      [ "stethoscope", 50 ],
+      [ "syringe", 50 ],
+      [ "thermometer", 50 ],
+      [ "vacutainer", 50 ]
+    ]
+  },
+  {
     "id": "tools_gunsmith",
     "type": "item_group",
     "//": "Tools used for working with guns and ammo",

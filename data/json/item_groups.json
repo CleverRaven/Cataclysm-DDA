@@ -3726,16 +3726,8 @@
     "type" : "item_group",
     "id" : "ambulance_equipment",
     "items":[
-      ["stethoscope", 24],
-      ["scissors", 10],
-      ["scalpel", 10],
-      ["syringe", 10],
-      ["adrenaline_injector", 6],
-      ["vacutainer", 2],
-      ["gloves_medical", 15],
-      ["mask_dust", 10],
-      ["medical_tape", 10],
-      ["smoxygen_tank", 3]
+      { "group": "tools_medical", "prob": 100 },
+      { "group": "drugs_emergency", "prob": 50 }
     ]
   },{
     "type" : "item_group",
@@ -8748,38 +8740,6 @@
       ["months_old_newspaper", 20],
       ["weeks_old_newspaper", 100],
       ["newest_newspaper", 100],
-      ["survnote", 1]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "doctorsoffice",
-    "items":[
-      ["bandages", 100],
-      ["cotton_ball", 100],
-      ["1st_aid", 50],
-      ["disinfectant", 100],
-      ["medical_gauze", 100],
-      ["medical_tape", 50],
-      ["smoxygen_tank", 20],
-      ["bfipowder", 20],
-      ["quikclot", 20],
-      ["saline", 100],
-      ["eyedrops", 20],
-      ["aspirin", 100],
-      ["dayquil", 25],
-      ["nyquil", 25],
-      ["inhaler", 50],
-      ["syringe", 100],
-      ["adrenaline_injector", 5],
-      ["vacutainer", 5],
-      ["flu_shot", 20],
-      ["vaccine_shot", 20],
-      ["gloves_medical", 100],
-      ["stethoscope", 30],
-      ["mask_dust", 60],
-      ["string_6", 50],
-      ["scissors", 20],
-      ["emergency_book", 20],
       ["survnote", 1]
     ]
   },{
