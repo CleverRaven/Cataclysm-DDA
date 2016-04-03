@@ -1,5 +1,34 @@
 [
   {
+    "id": "chem_ethanol",
+    "type": "AMMO",
+    "name": "ethanol",
+    "name_plural": "ethanol",
+    "description": "Extremely pure alcohol suitable for use as a component in chemical reactions. You could also water it down and drink it, or use it as fuel in alcohol-burning stoves.",
+    "weight": 1,
+    "volume": 1,
+    "price": 200,
+    "price_post": 50,
+    "count": 250,
+    "stack_size": 250,
+    "category": "chems",
+    "phase": "liquid",
+    "container": "bottle_glass",
+    "material": "alcohol",
+    "symbol": "~",
+    "color": "white",
+    "ammo_type": "conc_alcohol"
+  },
+  {
+    "id" : "denat_alcohol",
+    "name": "denatured alcohol",
+    "copy-from": "chem_ethanol",
+    "type": "AMMO",
+    "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
+    "price": 10,
+    "price_postapoc": 30
+  },
+  {
     "id": "diesel",
     "type": "AMMO",
     "name": "diesel",
