@@ -13,6 +13,10 @@ class live_view
         void draw();
         void show( const tripoint &mouse_position );
         void hide();
+
+        operator WINDOW *() const {
+            return w_live_view.get();
+        }
     private:
         WINDOW_PTR w_live_view;
         tripoint mouse_position;
@@ -20,10 +24,6 @@ class live_view
         int width       = 0;
         int height      = 0;
         bool enabled    = false;
-
-        operator WINDOW *() const {
-            return w_live_view.get();
-        }
 };
 
 #endif

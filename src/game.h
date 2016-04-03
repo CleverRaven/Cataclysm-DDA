@@ -142,7 +142,6 @@ class game
         std::unique_ptr<map> map_ptr;
         std::unique_ptr<player> u_ptr;
         std::unique_ptr<live_view> liveview_ptr;
-        live_view& liveview;
     public:
 
         /** Initializes the UI. */
@@ -510,6 +509,8 @@ class game
         WINDOW *w_status;
         WINDOW *w_status2;
         WINDOW *w_blackspace;
+
+        live_view& liveview;
 
         // View offset based on the driving speed (if any)
         // that has been added to u.view_offset,

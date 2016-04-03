@@ -17,6 +17,7 @@
 #include "cata_tiles.h"
 #include "get_version.h"
 #include "init.h"
+#include "live_view.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "map.h"
@@ -889,7 +890,8 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
                  win == g->w_status2 || win == g->w_messages || win == g->w_location ) ) {
                 if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
                      winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
-                     winBuffer == g->w_messages || winBuffer == g->w_location ) {
+                     winBuffer == g->w_messages || winBuffer == g->w_location ||
+                     winBuffer == g->liveview ) {
                     oldWinCompatible = true;
                 }
             }else if( g && ( win == g->w_overmap || win == g->w_omlegend ) ) {
