@@ -9,6 +9,7 @@
 #include "rng.h"
 #include "translations.h"
 #include <cmath>  // max in help_main
+#include <vector>
 
 std::vector<std::string> hints;
 
