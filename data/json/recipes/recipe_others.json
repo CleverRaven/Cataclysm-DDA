@@ -7773,7 +7773,7 @@
     ]
   ],
   "components": [
-    [ [ "chem_ethanol", 2 ] ],
+    [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
     [ [ "copper", 50 ] ],
     [ [ "acid", 1 ] ],
     [ [ "bleach", 2 ] ],
