@@ -5724,15 +5724,15 @@ void map::debug()
  getch();
 }
 
-void map::update_visibility_cache( visibility_variables &cache, const int zlev ) {
-    cache.variables_set = true; // Not used yet
-    cache.g_light_level = (int)g->light_level( zlev );
-    cache.vision_threshold = g->u.get_vision_threshold(
+void map::update_visibility_cache( const int zlev ) {
+    visibility_variables_cache.variables_set = true; // Not used yet
+    visibility_variables_cache.g_light_level = (int)g->light_level( zlev );
+    visibility_variables_cache.vision_threshold = g->u.get_vision_threshold(
         get_cache_ref(g->u.posz()).lm[g->u.posx()][g->u.posy()] );
 
-    cache.u_clairvoyance = g->u.clairvoyance();
-    cache.u_sight_impaired = g->u.sight_impaired();
-    cache.u_is_boomered = g->u.has_effect( effect_boomered);
+    visibility_variables_cache.u_clairvoyance = g->u.clairvoyance();
+    visibility_variables_cache.u_sight_impaired = g->u.sight_impaired();
+    visibility_variables_cache.u_is_boomered = g->u.has_effect( effect_boomered);
 
     int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
@@ -5745,7 +5745,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     int &y = p.y;
     for( x = 0; x < MAPSIZE * SEEX; x++ ) {
         for( y = 0; y < MAPSIZE * SEEY; y++ ) {
-            lit_level ll = apparent_light_at( p, cache );
+            lit_level ll = apparent_light_at( p, visibility_variables_cache );
             visibility_cache[x][y] = ll;
             sm_squares_seen[ x / SEEX ][ y / SEEY ] += (ll == LL_BRIGHT || ll == LL_LIT);
         }
@@ -5761,6 +5761,10 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
             }
         }
     }
+}
+
+const visibility_variables &map::get_visibility_variables_cache() const {
+    return visibility_variables_cache;
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
@@ -5877,8 +5881,8 @@ void map::draw( WINDOW* w, const tripoint &center )
 
     g->reset_light_level();
 
-    visibility_variables cache;
-    update_visibility_cache( cache, center.z );
+    update_visibility_cache( center.z );
+    const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
     const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
 

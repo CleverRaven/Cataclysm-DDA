@@ -2083,8 +2083,8 @@ input_context game::get_player_input(std::string &action)
         ctxt.register_action("QUIT");
     }
 
-    visibility_variables cache;
-    m.update_visibility_cache( cache, u.posz() );
+    m.update_visibility_cache( u.posz() );
+    const visibility_variables &cache = g->m.get_visibility_variables_cache();
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
     const auto &visibility_cache = map_cache.visibility_cache;
 
@@ -5157,8 +5157,6 @@ void game::draw()
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_z );
-    visibility_variables cache;
-    m.update_visibility_cache( cache, ter_view_z );
 
     draw_sidebar();
     draw_ter();
@@ -9019,8 +9017,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     const int old_levz = get_levz();
 
-    visibility_variables cache;
-    m.update_visibility_cache( cache, old_levz );
+    m.update_visibility_cache( old_levz );
+    const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
     do {
         if (bNewWindow) {
