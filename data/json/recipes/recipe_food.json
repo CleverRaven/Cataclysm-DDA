@@ -8748,7 +8748,7 @@
   "autolearn": true,
   "flags": ["BLIND_HARD"],
   "components": [
-    [ ["chem_ethanol", 7] ],
+    [ ["chem_ethanol", 125 ] ],
     [ ["water", 1], ["water_clean", 1] ] ]
     },{
         "type" : "recipe",
@@ -12451,7 +12451,7 @@
       [ "rum", 1 ],
       [ "tequila", 1 ],
       [ "gin", 1 ],
-      [ "chem_ethanol", 1]
+      [ "chem_ethanol", 25 ]
     ]
   ]
 },
@@ -12522,7 +12522,7 @@
       [ "tequila", 1 ],
       [ "gin", 1 ],
       [ "triple_sec", 1 ],
-      [ "chem_ethanol", 1]
+      [ "chem_ethanol", 25 ]
     ]
   ]
 },
