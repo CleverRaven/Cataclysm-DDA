@@ -1935,17 +1935,23 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 // Returns true if input requires breaking out into a game action.
 bool game::handle_mouseview(input_context &ctxt, std::string &action)
 {
+    tripoint liveview_pos{ tripoint_min };
     do {
         action = ctxt.handle_input();
         if (action == "MOUSE_MOVE") {
             int mx, my;
-            if (!ctxt.get_coordinates(w_terrain, mx, my)) {
-                liveview.hide();
+            const bool are_valid_coordinates = ctxt.get_coordinates(w_terrain, mx, my);
+            // TODO: Z
+            int mz = g->get_levz();
+            if (are_valid_coordinates && ( mx != liveview_pos.x ||
+                                           my != liveview_pos.y ||
+                                           mz != liveview_pos.z ) ) {
+                liveview_pos = tripoint( mx, my, mz );
+                liveview.show( liveview_pos );
                 draw_sidebar();
-            } else {
-                // TODO: Z
-                tripoint p( mx, my, g->get_levz() );
-                liveview.show( p );
+            } else if ( !are_valid_coordinates ) {
+                liveview_pos = tripoint_min;
+                liveview.hide();
                 draw_sidebar();
             }
         }
