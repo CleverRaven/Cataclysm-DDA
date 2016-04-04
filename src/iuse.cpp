@@ -5373,14 +5373,6 @@ int iuse::mop(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::LAW(player *p, item *it, bool, const tripoint& )
-{
-    p->add_msg_if_player(_("You pull the activating lever, readying the LAW to fire."));
-    // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
-    it->convert( "LAW" ).ammo_set( "66mm_HEAT" );
-    return it->type->charges_to_use();
-}
-
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */

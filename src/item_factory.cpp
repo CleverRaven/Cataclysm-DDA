@@ -366,7 +366,6 @@ void Item_factory::init()
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
     iuse_function_list["MOP"] = &iuse::mop;
     iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
-    iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["QUIVER"] = &iuse::quiver;
     iuse_function_list["TOWEL"] = &iuse::towel;

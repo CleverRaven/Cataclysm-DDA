@@ -5823,11 +5823,14 @@
     "weight": 2500,
     "volume": 6,
     "bashing": 6,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
     "category": "guns",
-    "use_action": "LAW"
+    "use_action": {
+        "type": "transform",
+        "msg": "You pull the activating lever, readying the LAW to fire.",
+        "target": "LAW",
+        "target_charges": 1,
+        "target_ammo": "66mm_HEAT"
+    }
   },{
     "id": "jar_meat_canned",
     "type": "GENERIC",
