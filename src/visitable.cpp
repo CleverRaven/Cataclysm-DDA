@@ -518,7 +518,7 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static long charges_of_internal( const T& self, const itype_id& id )
+static long charges_of_internal( const T& self, const itype_id& id, int limit )
 {
     long qty = 0;
 
@@ -528,31 +528,31 @@ static long charges_of_internal( const T& self, const itype_id& id )
             if( e->typeId() == id || ( e->is_tool() && e->type->tool->subtype == id ) ) {
                 qty += e->ammo_remaining(); // includes charges from any contained magazine
             }
-            return VisitResponse::SKIP;
+            return qty != limit ? VisitResponse::SKIP : VisitResponse::ABORT;
 
         } else if( e->count_by_charges() ) {
             if( e->typeId() == id ) {
                 qty += e->charges;
             }
             // items counted by charges are not themselves expected to be containers
-            return VisitResponse::SKIP;
+        return qty != limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         }
 
         // recurse through any nested containers
-        return VisitResponse::NEXT;
+        return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
     return qty;
 }
 
 template <typename T>
-long visitable<T>::charges_of( const std::string &what ) const
+long visitable<T>::charges_of( const std::string &what, int limit ) const
 {
-    return charges_of_internal( *this, what );
+    return charges_of_internal( *this, what, limit );
 }
 
 template <>
-long visitable<Character>::charges_of( const std::string &what ) const
+long visitable<Character>::charges_of( const std::string &what, int limit ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
@@ -575,7 +575,7 @@ long visitable<Character>::charges_of( const std::string &what ) const
         return qty;
     }
 
-    return charges_of_internal( *this, what );
+    return charges_of_internal( *this, what, limit );
 }
 
 template <typename T>
