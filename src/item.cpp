@@ -1251,61 +1251,34 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
     }
+
     if( is_tool() ) {
-
         if( ammo_capacity() != 0 ) {
-            std::string temp_fmt;
+            info.emplace_back( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) );
+        }
 
-            info.push_back( iteminfo( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) ) );
-
-            if( !magazine_integral() ) {
-                insert_separation_line();
-                temp_fmt += _( "<bold>Compatible magazines:</bold> " );
-                const auto compat = magazine_compatible();
-                for( auto iter = compat.cbegin(); iter != compat.cend(); ++iter ) {
-                    if( iter != compat.cbegin() ) {
-                        temp_fmt += ", ";
-                    }
-                    temp_fmt += item_controller->find_template( *iter )->nname( 1 );
+        if( !magazine_integral() ) {
+            insert_separation_line();
+            std::string tmp = _( "<bold>Compatible magazines:</bold> " );
+            const auto compat = magazine_compatible();
+            for( auto iter = compat.cbegin(); iter != compat.cend(); ++iter ) {
+                if( iter != compat.cbegin() ) {
+                    tmp += ", ";
                 }
-            } else if( has_flag( "DOUBLE_AMMO" ) ) {
-                if( ammo_type() != "NULL" ) {
-                    //~ "%s" is ammunition type. This types can't be plural.
-                    temp_fmt = ngettext( "Maximum <num> charge (doubled) of %s.",
-                                         "Maximum <num> charges (doubled) of %s.",
-                                         ammo_capacity() );
-                    temp_fmt = string_format( temp_fmt, ammo_name( ammo_type() ).c_str() );
-                } else {
-                    temp_fmt = ngettext( "Maximum <num> charge (doubled).",
-                                         "Maximum <num> charges (doubled).",
-                                         ammo_capacity() );
-                }
-            } else if( has_flag( "ATOMIC_AMMO" ) ) {
-                if( ammo_type() != "NULL" ) {
-                    //~ "%s" is ammunition type. This types can't be plural.
-                    temp_fmt = ngettext( "Maximum <num> charge of %s.",
-                                         "Maximum <num> charges of %s.",
-                                         ammo_capacity() );
-                    temp_fmt = string_format( temp_fmt, ammo_name( "plutonium" ).c_str() );
-                } else {
-                    temp_fmt = ngettext( "Maximum <num> charge.",
-                                         "Maximum <num> charges.",
-                                         ammo_capacity() );
-                }
-            } else {
-                if( ammo_type() != "NULL" ) {
-                    //~ "%s" is ammunition type. This types can't be plural.
-                    temp_fmt = ngettext( "Maximum <num> charge of %s.",
-                                         "Maximum <num> charges of %s.",
-                                         ammo_capacity() );
-                    temp_fmt = string_format( temp_fmt, ammo_name( ammo_type() ).c_str() );
-                } else {
-                    temp_fmt = ngettext( "Maximum <num> charge.",
-                                         "Maximum <num> charges.",
-                                         ammo_capacity() );
-                }
+                tmp += item_controller->find_template( *iter )->nname( 1 );
             }
-            info.push_back( iteminfo( "TOOL", "", temp_fmt, ammo_capacity() ) );
+            info.emplace_back( "TOOL", tmp );
+
+        } else if( ammo_capacity() != 0 ) {
+            std::string tmp;
+            if( ammo_type() != "NULL" ) {
+                //~ "%s" is ammunition type. This types can't be plural.
+                tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
+                tmp = string_format( tmp, ammo_name( ammo_type() ).c_str() );
+            } else {
+                tmp = ngettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
+            }
+            info.emplace_back( "TOOL", "", tmp, ammo_capacity() );
         }
     }
 
