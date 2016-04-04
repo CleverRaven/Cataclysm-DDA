@@ -4247,6 +4247,7 @@
     "id" : "pawn",
     "items":[
       { "group" : "mags_pawnshop", "prob" : 300 },
+      ["oxylamp", 50],
       ["polisher", 6],
       ["wakizashi_inferior", 30],
       ["katana_inferior", 30],
@@ -8209,6 +8210,7 @@
 "type" : "item_group",
 "id" : "antique",
         "items" : [
+      ["oxylamp", 50],
       ["cow_bell", 15],
       ["sickle", 2],
       ["scythe",2],

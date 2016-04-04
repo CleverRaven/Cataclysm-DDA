@@ -104,6 +104,7 @@
     "id": "tools_mechanic",
     "type": "item_group",
     "//": "Equipment of any size commonly used by engineers and mechanics",
+    "magazine": 100,
     "items": [
       [ "forge", 100 ],
       [ "jack", 100 ],
