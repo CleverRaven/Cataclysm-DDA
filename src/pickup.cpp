@@ -120,7 +120,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
         if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
             g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+            pseudo.ammo_consume( pseudo.ammo_required(), &g->u.pos() );
             veh->refill( ammo, pseudo.ammo_remaining() );
         }
         return DONE;
@@ -154,7 +154,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
         if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
             g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+            pseudo.ammo_consume( pseudo.ammo_required(), &g->u.pos() );
             veh->refill( ammo, pseudo.ammo_remaining() );
 
             // Evil hack incoming
@@ -179,7 +179,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
         if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
             g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+            pseudo.ammo_consume( pseudo.ammo_required(), &g->u.pos() );
             veh->refill( ammo, pseudo.ammo_remaining() );
         }
         return DONE;
