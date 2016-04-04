@@ -9,22 +9,16 @@ class live_view
     public:
         live_view() = default;
 
-        void init( int start_x, int start_y, int width, int height );
-        int draw();
+        void init();
+        int draw( WINDOW *win, int max_height );
         void refresh();
         void show( const tripoint &mouse_position );
         void hide();
 
-        operator WINDOW *() const {
-            return w_live_view.get();
-        }
     private:
-        WINDOW_PTR w_live_view;
         tripoint mouse_position;
 
-        int width       = 0;
-        int height      = 0;
-        bool enabled    = false;
+        bool enabled = false;
 };
 
 #endif

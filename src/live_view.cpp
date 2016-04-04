@@ -16,26 +16,29 @@ namespace
 
 constexpr int START_LINE = 1;
 constexpr int START_COLUMN = 1;
+constexpr int MIN_BOX_HEIGHT = 11;
 
 } //namespace
 
-void live_view::init( int const start_x, int const start_y, int const w, int const h )
+void live_view::init()
 {
-    width   = w;
-    height  = h;
-
-    w_live_view.reset( newwin( height, width, start_y, start_x ) );
-
     hide();
 }
 
-int live_view::draw()
+int live_view::draw( WINDOW *win, int const max_height )
 {
     if( !enabled ) {
         return 0;
     }
 
-    werase( *this );
+    // -1 for border. -1 because getmaxy() actually returns height, not y position.
+    const int line_limit = max_height - 2;
+    const visibility_variables &cache = g->m.get_visibility_variables_cache();
+    int line_out = START_LINE;
+    g->print_all_tile_info( mouse_position, win, START_COLUMN, line_out,
+                            line_limit, false, cache );
+
+    const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     // Because of the way the status UI is done, the live view window must
@@ -45,42 +48,25 @@ int live_view::draw()
     // window tall enough. Won't work for ncurses in Linux, but that doesn't
     // currently support the mouse. If and when it does, there'll need to
     // be a different code path here that works for ncurses.
-    w_live_view->height = height;
+    const int original_height = win->height;
+    win->height = live_view_box_height;
 #endif
 
-    // -1 for border. -1 because getmaxy() actually returns height, not y position.
-    const int line_limit = height - 2;
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
-    int line_out = START_LINE;
-    g->print_all_tile_info( mouse_position, *this, START_COLUMN, line_out,
-                            line_limit, false, cache );
-
-    const int new_height = std::min( height, std::max( line_out + 1, 11 ) );
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-    w_live_view->height = new_height;
-#endif
-
-    draw_border( *this );
+    draw_border( win );
     static const char *title_prefix = "< ";
     static const char *title = _( "Mouse View" );
     static const char *title_suffix = " >";
     static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
-    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w_live_view.get() ) - 1 );
+    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( win ) - 1 );
+    mvwprintz( win, 0, start_pos, c_white, title_prefix );
+    wprintz( win, c_green, title );
+    wprintz( win, c_white, title_suffix );
 
-    mvwprintz( *this, 0, start_pos, c_white, title_prefix );
-    wprintz( *this, c_green, title );
-    wprintz( *this, c_white, title_suffix );
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+    win->height = original_height;
+#endif
 
-    return new_height;
-}
-
-void live_view::refresh()
-{
-    if( !enabled ) {
-        return;
-    }
-
-    wrefresh( *this );
+    return live_view_box_height;
 }
 
 void live_view::hide()

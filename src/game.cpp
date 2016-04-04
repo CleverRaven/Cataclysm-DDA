@@ -180,6 +180,7 @@ game::game() :
     map_ptr( new map() ),
     u_ptr( new player() ),
     liveview_ptr( new live_view() ),
+    liveview( *liveview_ptr ),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
@@ -198,7 +199,6 @@ game::game() :
     w_status(NULL),
     w_status2(NULL),
     w_blackspace(NULL),
-    liveview( *liveview_ptr ),
     dangerous_proximity(5),
     pixel_minimap_option(0),
     safe_mode(SAFE_MODE_ON),
@@ -588,29 +588,10 @@ void game::init_ui()
     w_status = newwin(statH, statW, _y + statY, _x + statX);
     werase(w_status);
 
-    int mouseview_w = messW;
-    int mouseview_y = _y + messY;
-    int mouseview_x = _x + messX;
-    int mouseview_h;
-    if (pixel_minimap_option) {
-        mouseview_h = messHshort - 5;
-    } else {
-        mouseview_h = messHlong - 5;
-    }
-    if (mouseview_h < lookHeight) {
-        // Not enough room below the status bar, just use the regular lookaround area
-        get_lookaround_dimensions(mouseview_w, mouseview_y, mouseview_x);
-        mouseview_h = lookHeight;
-        if (!use_narrow_sidebar()) {
-            // Second status window must now take care of clearing the area to the
-            // bottom of the screen.
-            stat2H = std::max( 1, TERMY - stat2Y );
-        }
-    }
-    liveview.init(mouseview_x, mouseview_y, mouseview_w, mouseview_h);
-
     w_status2 = newwin(stat2H, stat2W, _y + stat2Y, _x + stat2X);
     werase(w_status2);
+
+    liveview.init();
 }
 
 void game::toggle_sidebar_style(void)
@@ -5314,7 +5295,7 @@ void game::draw_sidebar_messages()
     werase(w_messages);
 
     // Print liveview or monster info and start log messages output below it.
-    int topline = liveview.draw();
+    int topline = liveview.draw(w_messages, getmaxy(w_messages));
     if ( topline == 0 ) {
         topline = mon_info(w_messages) + 2;
     }
@@ -5322,7 +5303,6 @@ void game::draw_sidebar_messages()
     int maxlength = getmaxx(w_messages);
     Messages::display_messages(w_messages, 0, topline, maxlength, line);
     wrefresh(w_messages);
-    liveview.refresh();
 }
 
 void game::draw_critter( const Creature &critter, const tripoint &center )
