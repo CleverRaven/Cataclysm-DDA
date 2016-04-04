@@ -1742,7 +1742,6 @@
         "material" : "wood",
         "volume" : 1,
         "weight" : 44,
-        "phase" : "solid",
         "ammo_type" : "charcoal",
         "count" : 50,
         "stack_size" : 10
@@ -2503,7 +2502,6 @@
         "material" : "wood",
         "volume" : 1,
         "weight" : 300,
-        "phase" : "solid",
         "ammo_type" : "unfinished_char",
         "count" : 1
     },

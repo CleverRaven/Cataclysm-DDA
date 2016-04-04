@@ -59,7 +59,6 @@
         "description" : "We do not exist at the moment. Clever little human, no doubt debugging to see this? We will not permit you to join us while we are modded out.",
         "material" : "fruit",
         "volume" : 1,
-        "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4
     }
