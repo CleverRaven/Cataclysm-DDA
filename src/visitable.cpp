@@ -528,21 +528,21 @@ static long charges_of_internal( const T& self, const itype_id& id, int limit )
             if( e->typeId() == id || ( e->is_tool() && e->type->tool->subtype == id ) ) {
                 qty += e->ammo_remaining(); // includes charges from any contained magazine
             }
-            return qty != limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+            return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
 
         } else if( e->count_by_charges() ) {
             if( e->typeId() == id ) {
                 qty += e->charges;
             }
             // items counted by charges are not themselves expected to be containers
-        return qty != limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+            return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         }
 
         // recurse through any nested containers
-        return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+        return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
-    return qty;
+    return std::min( qty, long( limit ) );
 }
 
 template <typename T>
@@ -559,7 +559,7 @@ long visitable<Character>::charges_of( const std::string &what, int limit ) cons
 
     if( what == "toolset") {
         if( p && p->has_active_bionic( "bio_tools" ) ) {
-            return p->power_level;
+            return std::min( p->power_level, limit );
         } else {
             return 0;
         }
@@ -572,7 +572,7 @@ long visitable<Character>::charges_of( const std::string &what, int limit ) cons
         if ( p && p->has_active_bionic( "bio_ups" ) ) {
             qty += p->power_level * 10;
         }
-        return qty;
+        return std::min( qty, long( limit ) );
     }
 
     return charges_of_internal( *this, what, limit );

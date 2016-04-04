@@ -9079,11 +9079,9 @@ std::list<item> player::use_charges( const std::string& what, long qty )
     std::vector<item *> del;
 
     visit_items( [this, &what, &qty, &res, &del]( item *e ) {
-        std::list<item> found;
-        if( e->use_charges( what, qty, found, &pos() ) ) {
+        if( e->use_charges( what, qty, res, &pos() ) ) {
             del.push_back( e );
         }
-        res.splice( res.end(), found );
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
     } );
 

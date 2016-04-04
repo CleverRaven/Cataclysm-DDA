@@ -4908,7 +4908,7 @@ bool item::use_charges( const std::string& what, long& qty, std::list<item>& use
             remove_item( *e );
         }
     }
-    return false;
+    return destroy;
 }
 
 void item::set_snippet( const std::string &snippet_id )
