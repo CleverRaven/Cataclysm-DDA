@@ -5376,59 +5376,35 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
-    long charges_used = 0;
-    // Some tools (bombs) use charges as a countdown timer.
     if( type->tool->turns_per_charge > 0 && int( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
-        charges_used = 1;
-    }
-    if( charges_used > 0 ) {
-        // UPS charges can only be taken from a player, it does not work
-        // when the item is on the ground.
-        if( carrier != nullptr && has_flag( "USE_UPS" ) ) {
-            //With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
-            if( charges > charges_used ) {
-                charges -= charges_used;
-                charges_used = 0;
-            } else if( carrier->use_charges_if_avail( "UPS", charges_used ) ) {
-                charges_used = 0;
+        auto qty = std::max( ammo_required(), 1L );
+        qty -= ammo_consume( qty );
+
+        // for items in player possession if insufficient charges within tool try UPS
+        if( carrier && has_flag( "USE_UPS" ) ) {
+            if( carrier->use_charges_if_avail( "UPS", qty ) ) {
+                qty = 0;
             }
-        } else if( charges > 0 ) {
-            charges -= charges_used;
-            charges_used = 0;
-        }
-    }
-    // charges_used is 0 when the tool did not require charges at
-    // this turn or the required charges have been consumed.
-    // Otherwise the required charges are not available, shut the tool down.
-    if( charges_used == 0 ) {
-        // TODO: iuse functions should expect a nullptr as player, but many of them
-        // don't and therefore will fail.
-        type->tick( carrier != nullptr ? carrier : &g->u, this, pos );
-        if( charges == -1 ) {
-            // Signal that the item has destroyed itself.
-            return true;
-        }
-    } else {
-        if( carrier != nullptr && has_flag( "USE_UPS" ) && charges < charges_used ) {
-            carrier->add_msg_if_player( m_info, _( "You need an UPS to run %s!" ), tname().c_str() );
         }
 
-        // invoking the object can convert the item to another type of item, the
-        // revert target check should be stored ahead of time
-        bool has_no_revert_target = false;
-        if( type->tool->revert_to == "null" ) {
-            has_no_revert_target = true; // reverts to nothing -> destroy the item
-        }
+        // if insufficient available charges shutdown the tool
+        if( qty > 0 ) {
+            if( carrier && has_flag( "USE_UPS" ) ) {
+                carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname().c_str() );
+            }
 
-        // TODO: iuse functions should expect a nullptr as player, but many of them
-        // don't and therefor will fail.
-        type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
-        if( has_no_revert_target ) {
-            return true; // destroy after invoking, no revert target was found earlier
+            auto revert = type->tool->revert_to; // invoking the object can convert the item to another type
+            type->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+            if( revert == "null" ) {
+                return true;
+            } else {
+                deactivate( carrier );
+                return false;
+            }
         }
-        deactivate( carrier );
     }
-    // Keep the item
+
+    type->tick( carrier != nullptr ? carrier : &g->u, this, pos );
     return false;
 }
 
@@ -5479,8 +5455,8 @@ bool item::process( player *carrier, const tripoint &pos, bool activate )
         // DO NOT process this as a tool! It really isn't!
         return process_cable(carrier, pos);
     }
-    if( is_tool() && process_tool( carrier, pos ) ) {
-        return true;
+    if( is_tool() ) {
+        return process_tool( carrier, pos );
     }
     return false;
 }
