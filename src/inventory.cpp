@@ -861,28 +861,6 @@ std::list<item> inventory::use_amount(itype_id it, int _quantity)
     return ret;
 }
 
-std::list<item> inventory::use_charges(itype_id it, long quantity)
-{
-    sort();
-    std::list<item> ret;
-    for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
-        for (std::list<item>::iterator stack_iter = iter->begin();
-             stack_iter != iter->end() && quantity > 0; /* noop */) {
-            if (stack_iter->use_charges(it, quantity, ret)) {
-                stack_iter = iter->erase(stack_iter);
-            } else {
-                ++stack_iter;
-            }
-        }
-        if (iter->empty()) {
-            iter = items.erase(iter);
-        } else if (iter != items.end()) {
-            ++iter;
-        }
-    }
-    return ret;
-}
-
 bool inventory::has_tools(itype_id it, int quantity) const
 {
     return has_amount(it, quantity, true);

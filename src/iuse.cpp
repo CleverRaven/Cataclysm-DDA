@@ -573,9 +573,9 @@ int iuse::ecig(player *p, item *it, bool, const tripoint& )
     if (it->type->id == "ecig") {
         p->add_msg_if_player(m_neutral, _("You take a puff from your electronic cigarette."));
     } else if (it->type->id == "advanced_ecig") {
-        if (p->inv.has_components("nicotine_liquid", 1)) {
+        if (p->has_charges( "nicotine_liquid", 1 ) ) {
             p->add_msg_if_player(m_neutral, _("You inhale some vapor from your advanced electronic cigarette."));
-            p->inv.use_charges("nicotine_liquid", 1);
+            p->use_charges( "nicotine_liquid", 1 );
         } else {
             p->add_msg_if_player(m_info, _("You don't have any nicotine liquid!"));
             return 0;
