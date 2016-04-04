@@ -15,6 +15,6 @@
     "color": "red",
     "ammo_type" : "weldgas",
     "effects": [ "COOKOFF" ],
-    "flags": [ "NO_DROP" ]
+    "flags": [ "NO_DROP", "IRREMOVABLE" ]
   }
 ]
