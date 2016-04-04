@@ -13503,8 +13503,7 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
     for( auto bp : parts ) {
         const encumbrance_data &e = enc_data[bp];
         bool highlighted = ( selected_clothing == nullptr ) ? false :
-            ( selected_clothing->covers( static_cast<body_part>( bp ) ) ||
-              selected_clothing->covers( static_cast<body_part>( bp_aiOther[bp] ) ) );
+            ( selected_clothing->covers( static_cast<body_part>( bp ) ) );
         bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
