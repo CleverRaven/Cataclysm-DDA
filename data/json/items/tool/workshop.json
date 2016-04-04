@@ -1,0 +1,21 @@
+[
+  {
+    "id": "oxy_torch",
+    "type": "TOOL",
+    "name": "acetylene torch",
+    "description": "A compact tool kit intended for welding and cutting metal, this portable oxyacetylene torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It requires connecting to pressurised cylinders of an appropriate welding gas before use.  In addition to its metalworking uses, you can activate it in order to destroy metal barriers.",
+    "weight": 1600,
+    "volume": 4,
+    "price": 20000,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": "weldgas",
+    "charges_per_use": 4,
+    "use_action": "OXYTORCH",
+    "qualities": [ [ "WELD", 2 ] ],
+    "magazines": [
+        [ "weldgas", [ "weldtank", "tinyweldtank" ] ]
+    ]
+  }
+]
