@@ -7143,7 +7143,6 @@
     "symbol": ",",
     "color": "light_blue",
     "description" : "This is a badge that detects radiation dosage sealed in a radiation-blocking bag.  Use it to remove it from the bag.",
-    "phase" : "solid",
     "use_action": {
         "type": "transform",
         "target": "rad_badge",
@@ -8936,7 +8935,6 @@
     "price" : 5000,
     "material" : ["iron", "silver"],
     "volume" : 2,
-    "phase" : "solid",
     "bashing" : 2
   },
   {
@@ -8968,7 +8966,6 @@
     "price" : 5500,
     "material" : ["wood", "iron"],
     "volume" : 6,
-    "phase" : "solid",
     "bashing" : 4
   },
   {
@@ -9000,7 +8997,6 @@
     "price" : 7500,
     "material" : ["iron"],
     "volume" : 10,
-    "phase" : "solid",
     "bashing" : 7
   },
   {
@@ -9032,7 +9028,6 @@
     "price" : 7500,
     "material" : ["wood"],
     "volume" : 10,
-    "phase" : "solid",
     "bashing" : 5
   },
   {
@@ -9064,7 +9059,6 @@
     "price" : 7500,
     "material" : ["wood", "iron"],
     "volume" : 12,
-    "phase" : "solid",
     "bashing" : 7
   },
   {
@@ -9096,7 +9090,6 @@
     "price" : 7500,
     "material" : ["wood"],
     "volume" : 10,
-    "phase" : "solid",
     "bashing" : 5
   },
   {
@@ -9128,7 +9121,6 @@
     "price" : 1000000,
     "material" : ["gold"],
     "volume" : 10,
-    "phase" : "solid",
     "bashing" : 9
   },
   {
