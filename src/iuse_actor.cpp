@@ -55,18 +55,25 @@ iuse_actor *iuse_transform::clone() const
 
 void iuse_transform::load( JsonObject &obj )
 {
-    // Mandatory:
-    target_id = obj.get_string( "target" );
-    // Optional (default is good enough):
+    target = obj.get_string( "target" ); // required
+
     obj.read( "msg", msg_transform );
-    obj.read( "target_charges", target_charges );
-    obj.read( "container", container_id );
+    obj.read( "container", container );
+    obj.read( "target_charges", ammo_qty );
+    obj.read( "target_ammo", ammo_type );
     obj.read( "active", active );
-    obj.read( "need_fire", need_fire );
-    obj.read( "need_fire_msg", need_fire_msg );
-    obj.read( "need_charges", need_charges );
-    obj.read( "need_charges_msg", need_charges_msg );
+
     obj.read( "moves", moves );
+    moves = std::max( moves, 0 );
+
+    obj.read( "need_fire", need_fire );
+    need_fire = std::max( need_fire, 0L );
+    need_charges_msg = obj.has_string( "need_charges_msg" ) ? _( obj.get_string( "need_charges_msg" ).c_str() ) : _( "The %s is empty!" );
+
+    obj.read( "need_charges", need_charges );
+    need_charges = std::max( need_charges, 0L );
+    need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) : _( "You need a source of fire!" );
+
     obj.read( "menu_option_text", menu_option_text );
     if( !menu_option_text.empty() ) {
         menu_option_text = _( menu_option_text.c_str() );
@@ -76,60 +83,52 @@ void iuse_transform::load( JsonObject &obj )
 long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) const
 {
     if( t ) {
-        // Invoked from active item processing, do nothing.
-        return 0;
-    }
-    // We can't just check for p != nullptr, because item::process sets p = g->u
-    // Not needed here (player always has the item), but is in auto_transform
-    const bool player_has_item = p != nullptr && p->has_item( *it );
-    if( player_has_item && p->is_underwater() ) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater"));
-        return 0;
-    }
-    if( player_has_item && need_charges > 0 && it->charges < need_charges ) {
-        if (!need_charges_msg.empty()) {
-            p->add_msg_if_player(m_info, _( need_charges_msg.c_str() ), it->tname().c_str());
-        }
-        return 0;
-    }
-    if( player_has_item && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire) ) {
-        if (!need_fire_msg.empty()) {
-            p->add_msg_if_player(m_info, _( need_fire_msg.c_str() ), it->tname().c_str());
-        }
-        return 0;
-    }
-    // load this from the original item, not the transformed one.
-    const long charges_to_use = it->type->charges_to_use();
-    if( p != nullptr && !msg_transform.empty() && p->sees( pos ) ) {
-        p->add_msg_if_player(m_neutral, _( msg_transform.c_str() ), it->tname().c_str());
-    }
-    item *target;
-    if (container_id.empty()) {
-        // No container, assume simple type transformation like foo_off -> foo_on
-        target = &it->convert( target_id );
-    } else {
-        // Transform into something in a container, assume the content is
-        // "created" right now and give the content the current time as birthday
-        it->convert( container_id );
-        target = &it->emplace_back( target_id );
-    }
-    target->active = active;
-    if (target_charges > -2) {
-        // -1 is for items that can not have any charges at all.
-        target->charges = target_charges;
-    } else if( charges_to_use > 0 && target->charges >= 0 ) {
-    // Makes no sense to set the charges via this iuse and than remove some of them, you can combine
-    // both into the target_charges value.
-    // Also if the target does not use charges (item::charges == -1), don't change them at all.
-    // This allows simple transformations like "folded" <=> "unfolded", and "retracted" <=> "extended"
-    // Active item handling has gotten complicated, so having this consume charges itself
-    // instead of passing it off to the caller.
-        target->charges -= std::min(charges_to_use, target->charges);
+        return 0; // invoked from active item processing, do nothing.
     }
 
-    if( player_has_item ) {
-        p->moves -= moves;
+    bool possess = p && p->has_item( *it );
+
+    if( need_charges && it->ammo_remaining() < need_charges ) {
+        if( possess ) {
+            p->add_msg_if_player( m_info, need_charges_msg.c_str(), it->tname().c_str() );
+        }
+        return 0;
     }
+
+    if( need_fire && possess ) {
+        if( !p->use_charges_if_avail( "fire", need_fire ) ) {
+            p->add_msg_if_player( m_info, need_fire_msg.c_str(), it->tname().c_str() );
+            return 0;
+        }
+        if( p->is_underwater() ) {
+            p->add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
+            return 0;
+        }
+    }
+
+    if( p ) {
+        if( p->sees( pos ) && !msg_transform.empty() ) {
+            p->add_msg_if_player( m_neutral, _( msg_transform.c_str() ), it->tname().c_str() );
+        }
+        if( possess ) {
+            p->moves -= moves;
+        }
+    }
+
+    item *obj;
+    if( container.empty() ) {
+        obj = &it->convert( target );
+    } else {
+        it->convert( container );
+        obj = &it->emplace_back( target );
+    }
+
+    if( ammo_qty >= 0 ) {
+        obj->ammo_set( ammo_type.empty() ? obj->ammo_current() : ammo_type, ammo_qty );
+    }
+
+    obj->active = active;
+
     return 0;
 }
 
