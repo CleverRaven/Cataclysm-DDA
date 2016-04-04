@@ -41,6 +41,7 @@ ignorable = {
     "monstergroup",
     "MONSTER_WHITELIST",
     "npc",      # FIXME right now this object is unextractable
+    "overlay_order",
     "overmap_special",
     "region_overlay",
     "region_settings",
