@@ -967,22 +967,24 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
 
 void Item_factory::load( islot_tool &slot, JsonObject &jo )
 {
-    jo.read( "ammo", slot.ammo_id );
-    jo.read( "max_charges", slot.max_charges );
-    jo.read( "initial_charges", slot.def_charges );
-    jo.read( "charges_per_use", slot.charges_per_use );
-    jo.read( "turns_per_charge", slot.turns_per_charge );
-    jo.read( "revert_to", slot.revert_to );
-    jo.read( "revert_msg", slot.revert_msg );
-    jo.read( "sub", slot.subtype );
+    assign( jo, "ammo", slot.ammo_id );
+    assign( jo, "max_charges", slot.max_charges );
+    assign( jo, "initial_charges", slot.def_charges );
+    assign( jo, "charges_per_use", slot.charges_per_use );
+    assign( jo, "turns_per_charge", slot.turns_per_charge );
+    assign( jo, "revert_to", slot.revert_to );
+    assign( jo, "revert_msg", slot.revert_msg );
+    assign( jo, "sub", slot.subtype );
 }
 
 void Item_factory::load_tool(JsonObject &jo)
 {
-    auto def = new itype();
-    load_slot( def->tool, jo );
-    load_basic_info( jo, def );
-    load_slot( def->spawn, jo ); // @todo deprecate
+    auto def = load_definition( jo );
+    if( def ) {
+        load_slot( def->tool, jo );
+        load_basic_info( jo, def );
+        load_slot( def->spawn, jo ); // @todo deprecate
+    }
 }
 
 void Item_factory::load_tool_armor(JsonObject &jo)
@@ -1630,6 +1632,8 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     if( !jo.has_member( member ) ) {
         return;
     }
+
+    use_methods.clear();
     if( jo.has_array( member ) ) {
         JsonArray jarr = jo.get_array( member );
         while( jarr.has_more() ) {
