@@ -35,6 +35,7 @@
     "revert_to": "oxylamp",
     "use_action": {
         "type": "transform",
+        "menu_option_text": "Turn off",
         "msg": "The %s is extinguished",
         "target": "oxylamp"
     },
