@@ -21,7 +21,6 @@
         "color": "brown",
         "name": "heavy stick",
         "description": "A sturdy, heavy stick.  Makes a decent melee weapon, and can be cut into two by fours for crafting.",
-        "price": 0,
         "material": "wood",
         "weight": 1700,
         "volume": 5,
@@ -177,7 +176,6 @@
         "color": "light_gray",
         "name":"rock",
         "description":"A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
-        "price": 0,
         "material": "stone",
         "weight": 657,
         "volume": 1,
@@ -192,7 +190,6 @@
         "color": "light_gray",
         "name":"sharp rock",
         "description":"A rock with sharp edges, that can be used as a butchering tool, if nothing else is available.  Makes a passable melee weapon.",
-        "price": 0,
         "material": "stone",
         "weight": 500,
         "volume": 1,
@@ -208,7 +205,6 @@
         "color": "white",
         "name":"ceramic shard",
         "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
-        "price": 0,
         "material": "ceramic",
         "weight": 750,
         "volume": 1,
@@ -279,7 +275,6 @@
         "color": "green",
         "name":"fertilizer",
         "description": "A token, representing fertilization of a plant.",
-        "price": 0,
         "material": "veggy"
     },
     {
@@ -290,7 +285,6 @@
         "name": "pointy stick",
         "description": "A simple wood pole with one end sharpened.",
         "material": "wood",
-        "price": 0,
         "volume": 5,
         "weight": 900,
         "bashing": 4,
@@ -308,7 +302,6 @@
         "name": "2-by-sword",
         "description": "A two by four with a cross guard and whittled down point; not much for slashing, but much better than your bare hands.",
         "material": "wood",
-        "price": 0,
         "volume": 5,
         "weight": 600,
         "bashing": 12,
@@ -325,7 +318,6 @@
         "name": "nord",
         "description": "The nail sword, or nord for short.  This wooden sword has a dozen nails sticking at jagged angles from edge of the blade, making it much better at chopping than slashing.",
         "material": "wood",
-        "price": 0,
         "volume": 7,
         "weight": 648,
         "bashing": 12,
@@ -340,7 +332,6 @@
         "name": "crude sword",
         "description": "Several bits of thin scrap metal crudely beat into the semblance of an edge over a wooden sword.  The added weight is unbalanced, but the jagged edge offers a good bit of slashing power.",
         "material": "wood",
-        "price": 0,
         "volume": 8,
         "weight": 1100,
         "bashing": 6,
@@ -357,7 +348,6 @@
         "name": "forged sword",
         "description": "A common short sword, forged from several pieces of steel.  The pointy end is the dangerous one.",
         "material": "steel",
-        "price": 0,
         "volume": 8,
         "weight": 700,
         "bashing": 4,
@@ -379,8 +369,7 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 5,
         "bashing" : 4,
-        "price" : 2400,
-        "price_postapoc": 0
+        "price" : 2400
     },
     {
         "type":"GENERIC",
@@ -484,8 +473,7 @@
         "bashing" : 11,
         "cutting" : 8,
         "flags" : ["STAB"],
-        "price" : 18000,
-        "price_postapoc": 0
+        "price" : 18000
     },
     {
         "type":"GENERIC",
@@ -496,7 +484,6 @@
         "name_plural": "pairs of nail knuckles",
         "description": "A pair of knuckles consisting of two small squares of wood with several nails coming through them.  Useful in nasty street fights.",
         "material": "wood",
-        "price": 0,
         "volume": 1,
         "weight": 430,
         "bashing": 4,
@@ -534,8 +521,7 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 6,
         "bashing" : 10,
-        "price" : 1000,
-        "price_postapoc": 0
+        "price" : 1000
     },
     {
         "type":"GENERIC",
@@ -966,7 +952,6 @@
         "bashing" : 2,
         "cutting" : 6,
         "flags" : ["STAB"],
-        "price" : 0,
         "price_postapoc": 500
     },
     {
@@ -1019,7 +1004,6 @@
         "bashing" : 8,
         "cutting" : 16,
         "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE"],
-        "price" : 0,
         "qualities": [["BUTCHER", 12]]
     },
     {
@@ -1036,7 +1020,6 @@
         "volume" : 3,
         "cutting" : 36,
         "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE"],
-        "price" : 0,
         "qualities": [["CUT", 1], ["BUTCHER", 22]],
         "use_action": { "type": "knife" }
     },
@@ -1084,7 +1067,6 @@
         "name_plural": "pairs of steel knuckles",
         "description": "A mass of scrap metal crudely beat into shape, with folded rags underneath to protect the wearers knuckles.  A good, quick weapon - but you have to get within punching range to use it.",
         "material": "steel",
-        "price": 0,
         "volume": 1,
         "weight": 430,
         "bashing": 8,
@@ -1098,7 +1080,6 @@
         "name": "razorbar katar",
         "description": "Five pieces of rebar sharpened to cruel points and strapped to a brace fastened at wrist and forearm on both arms.  The next bub better watch out.",
         "material": "steel",
-        "price": 0,
         "volume": 2,
         "weight": 1150,
         "cutting": 16,
@@ -1115,7 +1096,6 @@
         "name_plural": "cestuses",
         "description": "A heavy metal guard that covers the fist and increases striking power, with stout padding underneath to protect the wearers hand.",
         "material": ["steel","leather"],
-        "price": 0,
         "volume": 2,
         "weight": 970,
         "bashing": 12,
@@ -1131,7 +1111,6 @@
         "category": "weapons",
         "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
         "material": "steel",
-        "price": 0,
         "weight": 320,
         "bashing": 6,
         "flags" : ["UNARMED_WEAPON", "DURABLE_MELEE"]
@@ -1334,7 +1313,6 @@
         "color": "light_cyan",
         "name": "glass shiv",
         "description": "A glass shard with wrapping at one end so it can be safely wielded.",
-        "price": 0,
         "material": ["glass", "cotton"],
         "weight": 129,
         "volume": 1,
