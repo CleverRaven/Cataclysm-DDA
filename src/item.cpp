@@ -3966,10 +3966,10 @@ long item::ammo_required() const
     return 0;
 }
 
-bool item::ammo_consume( int qty, const tripoint *pos ) {
+long item::ammo_consume( long qty, const tripoint *pos ) {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
-        return false;
+        return 0;
     }
 
     item *mag = magazine_current();
@@ -3992,33 +3992,31 @@ bool item::ammo_consume( int qty, const tripoint *pos ) {
         return res;
     }
 
-    if( qty > ammo_remaining() ) {
-        return false;
-    }
-
     if( is_magazine() ) {
+        auto need = qty;
         while( contents.size() ) {
             auto& e = *contents.rbegin();
-            if( qty >= e.charges ) {
-                qty -= e.charges;
+            if( need >= e.charges ) {
+                need -= e.charges;
                 contents.pop_back();
             } else {
-                e.charges -= qty;
+                e.charges -= need;
+                need = 0;
                 break;
             }
         }
-        return true;
-    }
+        return qty - need;
 
-    if( is_tool() || is_gun() ) {
+    } else if( is_tool() || is_gun() ) {
+        qty = std::min( qty, charges );
         charges -= qty;
         if( charges == 0 ) {
             curammo = nullptr;
         }
-        return true;
+        return qty;
     }
 
-    return false;
+    return 0;
 }
 
 const itype * item::ammo_data() const
