@@ -62,8 +62,6 @@
         "bashing": 25,
         "cutting": 1,
         "to_hit": 1,
-        "ammo": "NULL",
-        "revert_to": "null",
         "category" : "weapons"
     },
     {
@@ -1479,8 +1477,6 @@
     "bashing": 7,
     "cutting": 29,
     "to_hit": 2,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
@@ -1522,8 +1518,6 @@
     "cutting": 25,
     "flags" : ["CHOP", "SHEATH_SWORD"],
     "to_hit": 2,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category": "weapons",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
@@ -1563,8 +1557,6 @@
     "bashing": 3,
     "cutting": 24,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
@@ -1605,8 +1597,6 @@
     "bashing": 13,
     "cutting": 35,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "weapons",
     "use_action": { "type": "knife" }
   },
@@ -1684,8 +1674,6 @@
     "bashing": 3,
     "cutting": 20,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 13]]
@@ -1742,8 +1730,6 @@
     "cutting": 24,
     "flags" : ["CHOP"],
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category": "weapons",
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
@@ -1814,8 +1800,6 @@
     "bashing": 8,
     "cutting": 30,
     "to_hit": 2,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
@@ -1836,8 +1820,6 @@
     "bashing": 7,
     "cutting": 24,
     "to_hit": 2,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
@@ -1876,8 +1858,6 @@
     "bashing": 6,
     "cutting": 30,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
@@ -1898,8 +1878,6 @@
     "bashing": 5,
     "cutting": 24,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
@@ -1972,8 +1950,6 @@
     "bashing": 10,
     "cutting": 38,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
@@ -1994,8 +1970,6 @@
     "bashing": 10,
     "cutting": 30,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": [
         {
             "type": "knife"
@@ -2037,8 +2011,6 @@
     "bashing": 14,
     "cutting": 31,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
@@ -2077,8 +2049,6 @@
     "bashing": 12,
     "cutting": 25,
     "to_hit": 1,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
