@@ -381,10 +381,10 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @param what specific type of charge required, eg. 'battery'
      * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
      * @param used filled with duplicates of each item that provided consumed charges
-     * @param pos position at which the charges are being consumed (if any)
+     * @param pos position at which the charges are being consumed
      * @return true if this item should be deleted (count-by-charges items with no remaining charges)
      */
-    bool use_charges( const std::string& what, long& qty, std::list<item>& used, const tripoint *pos = nullptr );
+    bool use_charges( const std::string& what, long& qty, std::list<item>& used, const tripoint& pos );
 
  /**
   * Consume a specific amount of items of a specific type.
@@ -1104,10 +1104,10 @@ public:
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
          * @param qty maximum amount of ammo that should be consumed
-         * @param pos current location of item, if supplied used for ejecting magazines and similar effects
+         * @param pos current location of item, used for ejecting magazines and similar effects
          * @return amount of ammo consumed which will be between 0 and @ref qty
          */
-        long ammo_consume( long qty, const tripoint *pos = nullptr );
+        long ammo_consume( long qty, const tripoint& pos );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype * ammo_data() const;

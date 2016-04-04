@@ -3966,7 +3966,7 @@ long item::ammo_required() const
     return 0;
 }
 
-long item::ammo_consume( long qty, const tripoint *pos ) {
+long item::ammo_consume( long qty, const tripoint& pos ) {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
         return 0;
@@ -3981,9 +3981,7 @@ long item::ammo_consume( long qty, const tripoint *pos ) {
                     return mag == &e;
                 } ) );
             } else if ( mag->has_flag( "MAG_EJECT" ) ) {
-                if( pos ) {
-                    g->m.add_item( *pos, *mag );
-                }
+                g->m.add_item( pos, *mag );
                 contents.erase( std::remove_if( contents.begin(), contents.end(), [&mag]( const item& e ) {
                     return mag == &e;
                 } ) );
@@ -4825,7 +4823,7 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     return true;
 }
 
-bool item::use_charges( const std::string& what, long& qty, std::list<item>& used, const tripoint *pos )
+bool item::use_charges( const std::string& what, long& qty, std::list<item>& used, const tripoint& pos )
 {
     std::vector<item *> del;
 
@@ -5378,7 +5376,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 {
     if( type->tool->turns_per_charge > 0 && int( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
         auto qty = std::max( ammo_required(), 1L );
-        qty -= ammo_consume( qty );
+        qty -= ammo_consume( qty, pos );
 
         // for items in player possession if insufficient charges within tool try UPS
         if( carrier && has_flag( "USE_UPS" ) ) {

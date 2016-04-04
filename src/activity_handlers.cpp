@@ -1248,7 +1248,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     // act->values[0] is the number of charges yet to be consumed
     const long charges_used = std::min( long( act->values[0] ), it.ammo_required() );
 
-    it.ammo_consume( charges_used, &p->pos() );
+    it.ammo_consume( charges_used, p->pos() );
     act->values[0] -= int( charges_used );
 
     if( calendar::once_every(2) ) {

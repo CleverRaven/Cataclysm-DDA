@@ -9079,7 +9079,7 @@ std::list<item> player::use_charges( const std::string& what, long qty )
     std::vector<item *> del;
 
     visit_items( [this, &what, &qty, &res, &del]( item *e ) {
-        if( e->use_charges( what, qty, res, &pos() ) ) {
+        if( e->use_charges( what, qty, res, pos() ) ) {
             del.push_back( e );
         }
         return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
@@ -10347,12 +10347,12 @@ bool player::consume_charges( item& used, long qty )
         // With the new UPS system, we'll want to use any charges built up in the tool before pulling from the UPS
         // The usage of the item was already approved, so drain item if possible, otherwise use UPS
         if( used.charges >= qty ) {
-            used.ammo_consume( qty, &pos() );
+            used.ammo_consume( qty, pos() );
         } else {
             use_charges( "UPS", qty );
         }
     } else {
-        used.ammo_consume( std::min( qty, used.ammo_remaining() ), &pos() );
+        used.ammo_consume( std::min( qty, used.ammo_remaining() ), pos() );
     }
     return false;
 }
