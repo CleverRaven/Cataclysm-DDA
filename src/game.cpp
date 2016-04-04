@@ -5157,6 +5157,7 @@ void game::draw()
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
     m.build_map_cache( ter_view_z );
+    m.update_visibility_cache( ter_view_z );
 
     draw_sidebar();
     draw_ter();
