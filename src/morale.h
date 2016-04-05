@@ -19,16 +19,7 @@ struct morale_mult;
 class player_morale
 {
     public:
-        player_morale() :
-
-            covered {{}},
-        hot {{}},
-        cold {{}},
-        level( 0 ),
-               level_is_valid( false ),
-               took_prozac( false ),
-               stylish( false ),
-        super_fancy_bonus( 0 ) {};
+        player_morale();
 
         player_morale( player_morale && ) = default;
         player_morale( const player_morale & ) = default;
@@ -124,6 +115,8 @@ class player_morale
         void set_prozac( bool new_took_prozac );
         void set_stylish( bool new_stylish );
         void set_worn( const item &it, bool worn );
+        void set_mutation( const std::string &mid, bool active );
+        bool has_mutation( const std::string &mid );
 
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();
@@ -134,9 +127,44 @@ class player_morale
 
     private:
         std::vector<morale_point> points;
-        std::array<int, num_bp> covered;
-        std::array<int, num_bp> hot;
-        std::array<int, num_bp> cold;
+
+        struct body_part_data {
+            int covered;
+            int covered_fancy;
+            int hot;
+            int cold;
+
+            body_part_data() :
+                covered( 0 ),
+                covered_fancy( 0 ),
+                hot( 0 ),
+                cold( 0 ) {};
+            void mod_covered( const int delta );
+            void mod_covered_fancy( const int delta );
+        };
+        std::array<body_part_data, num_bp> body_parts;
+
+        typedef std::function<void( player_morale *morale )> mutation_handler;
+        struct mutation_data {
+            public:
+                mutation_data() = default;
+                mutation_data( mutation_handler on_gain_and_loss ) :
+                    on_gain( on_gain_and_loss ),
+                    on_loss( on_gain_and_loss ),
+                    active( false ) {};
+                mutation_data( mutation_handler on_gain, mutation_handler on_loss ) :
+                    on_gain( on_gain ),
+                    on_loss( on_loss ),
+                    active( false ) {};
+                void set_active( player_morale *sender, bool new_active );
+                bool get_active() const;
+                void clear();
+            private:
+                mutation_handler on_gain;
+                mutation_handler on_loss;
+                bool active;
+        };
+        std::map<std::string, mutation_data> mutations;
 
         // Mutability is required for lazy initialization
         mutable int level;
