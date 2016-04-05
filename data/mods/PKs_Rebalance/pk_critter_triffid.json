@@ -193,7 +193,7 @@
     "armor_stab":10,
     "hp":25,
     "special_attacks":[["VINE", 10], ["GROW_VINE", 120]],
-    "description":"A long thorned length of line the width of your wrist found tunneling through the shallow dirt.  Acts in a choatic manner.",
+    "description":"A long thorned length of line the width of your wrist found tunneling through the shallow dirt.  Acts in a chaotic manner.",
     "flags":["SMELLS", "HEARS", "GOODHEARING", "DIGS", "SWIMS", "NOHEAD", "HARDTOSHOOT", "PUSH_MON", "PLASTIC", "GRABS", "BASHES", "NOGIB"],
     "anger_triggers":["SOUND", "PLAYER_WEAK", "FRIEND_ATTACKED"]
     },{
@@ -257,7 +257,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast_pk",
-    "name": "tangala",
+    "name": "tangela",
     "species":"PLANT",
     "default_faction":"triffid",
     "symbol":"V",
@@ -493,7 +493,7 @@
             "min_mul" : 0.80, "//" : "dionaea bitch"
         },
         ["VINE", 15], ["RANGED_PULL", 3]],
-        "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving enegery for its coordinated slither along the ground.",
+        "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving energy for its coordinated slither along the ground.",
         "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "SWIMS", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD"],
         "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
         "//": "Minor concerns about their strength, but they add real meat to the triffid front lines."
@@ -554,7 +554,7 @@
     "special_when_hit":["ZAPBACK", 20],
     "starting_ammo": {  "c4": 1, "EMPbomb": 3},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
-    "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby elctronic devices. . .",
+    "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby elctronic devices...",
     "flags":["SEES", "SMELLS","KEENNOSE", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
     "//": "And these guys give them some means of taking down elctronics."
