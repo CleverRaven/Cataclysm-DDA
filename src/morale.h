@@ -124,7 +124,7 @@ class player_morale
 
         void update_stylish_bonus();
         void update_bodytemp_penalty();
-
+        void update_constrained_penalty();
     private:
         std::vector<morale_point> points;
 

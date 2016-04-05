@@ -277,6 +277,8 @@ player_morale::player_morale() :
 {
     using namespace std::placeholders;
     // Cannot use 'this' because the object is copyable
+    const mutation_data constrained( std::bind( &player_morale::update_constrained_penalty, _1 ) );
+
     mutations["OPTIMISTIC"] =
         mutation_data(
             std::bind( &player_morale::add_permanent, _1, MORALE_PERM_OPTIMIST, 4, 4, false, nullptr ),
@@ -289,6 +291,10 @@ player_morale::player_morale() :
         mutation_data(
             std::bind( &player_morale::set_stylish, _1, true ),
             std::bind( &player_morale::set_stylish, _1, false ) );
+    mutations["FLOWERS"] = constrained;
+    mutations["ROOTS"]   = constrained;
+    mutations["ROOTS2"]  = constrained;
+    mutations["ROOTS3"]  = constrained;
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
@@ -564,6 +570,7 @@ void player_morale::set_worn( const item &it, bool worn )
     if( anyhow_fancy ) {
         update_stylish_bonus();
     }
+    update_constrained_penalty();
 }
 
 void player_morale::set_prozac( bool new_took_prozac )
@@ -628,5 +635,24 @@ void player_morale::update_bodytemp_penalty()
         add( MORALE_COLD, -2, pen, 10, 5, true );
     } else if( pen > 0 ) {
         add( MORALE_HOT, -2, -pen, 10, 5, true );
+    }
+}
+
+void player_morale::update_constrained_penalty()
+{
+    int pen = 0;
+
+    if( has_mutation( "FLOWERS" ) && body_parts[bp_head].covered > 0 ) {
+        pen = 10;
+    } else if( has_mutation( "ROOTS" ) || has_mutation( "ROOTS2" ) || has_mutation( "ROOTS3" ) ) {
+        const auto foot_factor = [ this ]( body_part bp ) -> double {
+            return ( body_parts[bp].covered > 0 ) ? 0.5 : 0.0;
+        };
+        pen = 10 * ( foot_factor( bp_foot_l ) + foot_factor( bp_foot_r ) );
+    }
+    if( pen > 0 ) {
+        add_permanent( MORALE_PERM_CONSTRAINED, -pen, -pen, true );
+    } else {
+        remove( MORALE_PERM_CONSTRAINED );
     }
 }

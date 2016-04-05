@@ -566,19 +566,6 @@ void player::apply_persistent_morale()
         }
     }
 
-    // Floral folks really don't like having their flowers covered.
-    if( has_trait( "FLOWERS" ) && wearing_something_on( bp_head ) ) {
-        add_morale( MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true );
-    }
-
-    // The same applies to rooters and their feet; however, they don't take
-    // too many problems from no-footgear.
-    double shoe_factor = footwear_factor();
-    if( ( has_trait( "ROOTS" ) || has_trait( "ROOTS2" ) || has_trait( "ROOTS3" ) ) &&
-        shoe_factor ) {
-        add_morale( MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true );
-    }
-
     // Masochists get a morale bonus from pain.
     if( has_trait( "MASOCHIST" ) || has_trait( "MASOCHIST_MED" ) ||  has_trait( "CENOBITE" ) ) {
         int bonus = get_perceived_pain() / 2.5;
