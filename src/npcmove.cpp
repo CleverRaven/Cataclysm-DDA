@@ -47,12 +47,12 @@ itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
 
 // A list of alternate attack items (e.g. grenades), from least to most valuable
 #ifndef NUM_ALT_ATTACK_ITEMS
-#define NUM_ALT_ATTACK_ITEMS 18
+#define NUM_ALT_ATTACK_ITEMS 16
 itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
     "knife_combat", "spear_wood", "molotov", "pipebomb", "grenade",
-    "gasbomb", "bot_manhack", "tazer", "dynamite", "granade", "mininuke",
+    "gasbomb", "bot_manhack", "tazer", "dynamite", "mininuke",
     "molotov_lit", "pipebomb_act", "grenade_act", "gasbomb_act",
-    "dynamite_act", "granade_act", "mininuke_act"
+    "dynamite_act", "mininuke_act"
 };
 #endif
 
@@ -1112,9 +1112,7 @@ npc_action npc::long_term_goal_action()
 bool npc::alt_attack_available()
 {
     for( auto &elem : ALT_ATTACK_ITEMS ) {
-        if( ( !is_following() || rules.use_grenades ||
-              !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
-            has_amount( elem, 1 ) ) {
+        if( ( !is_following() || rules.use_grenades ) && has_amount( elem, 1 ) ) {
             return true;
         }
     }
@@ -2190,9 +2188,7 @@ void npc::alt_attack()
      * See npc.h for definition of ALT_ATTACK_ITEMS
      */
     for( auto &elem : ALT_ATTACK_ITEMS ) {
-        if( ( !is_following() || rules.use_grenades ||
-              !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
-            has_amount( elem, 1 ) ) {
+        if( ( !is_following() || rules.use_grenades ) && has_amount( elem, 1 ) ) {
             which = elem;
         }
     }
