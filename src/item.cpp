@@ -2,6 +2,8 @@
 
 #include "advanced_inv.h"
 #include "player.h"
+#include "bionics.h"
+#include "bodypart.h"
 #include "output.h"
 #include "skill.h"
 #include "game.h"
@@ -1622,6 +1624,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               _( "* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately." ) ) );
                 }
             }
+        }
+
+        if( is_bionic() ) {
+            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->id,
+                _( "This bionic is installed in the following body part(s):" ), true ) ) );
         }
 
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {

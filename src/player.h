@@ -1112,6 +1112,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int next_climate_control_check;
         bool last_climate_control_ret;
         std::string move_mode;
+        int bionic_ui_mode;
         int power_level, max_power_level;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
@@ -1162,6 +1163,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::string lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
+
+        int get_used_bionics_slots( const body_part bp ) const;
+        int get_total_bionics_slots( const body_part bp ) const;
+        int get_free_bionics_slots( const body_part bp ) const;
+        bool has_enough_slots( const body_part bp, const int slots_needed ) const;
 
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
