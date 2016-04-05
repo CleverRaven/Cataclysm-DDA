@@ -5129,7 +5129,6 @@
         "covers" : ["EYES"],
         "to_hit" : -2,
         "symbol" : "[",
-        "bashing_protection" : 0,
         "description" : "A pair of bifocal glasses for those who are both near-sighted and far-sighted.  You can use them to focus the sunlight.",
         "price" : 7900,
         "material" : ["glass", "plastic"],
@@ -7127,7 +7126,6 @@
         "price" : 5000,
         "material" : ["silver"],
         "coverage" : 0,
-        "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -7144,7 +7142,6 @@
         "price" : 5000,
         "material" : ["silver"],
         "coverage" : 0,
-        "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -7161,7 +7158,6 @@
         "price" : 5000,
         "material" : ["silver"],
         "coverage" : 0,
-        "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -7178,7 +7174,6 @@
         "price" : 5000,
         "material" : ["gold"],
         "coverage" : 0,
-        "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
@@ -7195,7 +7190,6 @@
         "price" : 10000,
         "material" : ["silver"],
         "coverage" : 0,
-        "bashing_protection" : 0,
         "symbol" : "[",
         "warmth" : 0
     },
