@@ -6635,7 +6635,7 @@
     "volume": 40,
     "bashing": 10,
     "to_hit": -6,
-    "qualities":[ [ "BREW", 2 ], [ "BOIL", 2 ] ]
+    "qualities":[ [ "DISTILL", 2 ], [ "BOIL", 2 ] ]
   },
   {
     "id": "mold_plastic",
@@ -6663,7 +6663,7 @@
     "weight": 1884,
     "volume": 11,
     "to_hit": -5,
-    "qualities":[["BREW", 1], ["CHEM", 2], ["BOIL", 1]]
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ]
   },
   {
     "id": "chemistry_set",
@@ -6682,7 +6682,7 @@
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": "HOTPLATE",
-    "qualities":[["BREW", 1], ["CHEM", 2], ["BOIL", 1]]
+    "qualities": [ [ "DISTILL", 1 ], [ "CHEM", 2 ], [ "BOIL", 1 ] ]
   },
   {
     "id": "crackpipe",

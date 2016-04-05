@@ -7505,7 +7505,9 @@
   "autolearn": false,
   "book_learn": [["adv_chemistry", 6] , ["textbook_chemistry", 6] , ["recipe_labchem", 5]],
   "qualities":[
-    {"id":"BREW","level":1,"amount":1}
+    { "id": "CONTAIN", "level": 1 },
+    { "id": "BOIL", "level": 2 },
+    { "id": "CHEM", "level": 1 }
   ], "tools": [
     [
       [ "hotplate", 40 ],
@@ -8804,7 +8806,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "COOK", "level": 2 }
   ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["strawberries", 2], ["irradiated_strawberries", 2] ],
@@ -8820,7 +8822,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "COOK", "level": 2 }
   ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["blueberries", 2], ["irradiated_blueberries", 2] ],
@@ -8836,7 +8838,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "COOK", "level": 2 }
   ], "tools":[
     [ ["fire", -1] ] ],
   "components": [ [ ["meth", 4] ],
@@ -8853,7 +8855,7 @@
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 2] ],
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "DISTILL", "level": 2 }
   ], "tools": [
     [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ]
     ],
@@ -8875,7 +8877,7 @@
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 5], [ "scots_cookbook", 5 ] ],
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "DISTILL", "level": 2 }
   ], "tools": [
     [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ]
     ],
@@ -8906,7 +8908,7 @@
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 6] ],
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "DISTILL", "level": 2 }
   ], "tools": [
     [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ]
     ],
@@ -8935,7 +8937,7 @@
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 4] ],
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "DISTILL", "level": 2 }
   ], "tools": [
     [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ]
     ],
@@ -8996,7 +8998,7 @@
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 1], ["family_cookbook", 2] ],
   "qualities":[
-    {"id":"BREW","level":1,"amount":1}
+    { "id": "COOK", "level": 2 }
   ], "tools": [
     [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ]
     ],
@@ -9037,7 +9039,7 @@
   "autolearn": true,
   "book_learn": [ ["brewing_cookbook", 2] ],
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "COOK", "level": 2 }
   ], "tools": [
     [ [ "hotplate", 2 ], [ "char_smoker", 2 ], [ "toolset", 2 ], [ "fire", -1 ] ]
     ],
@@ -9068,7 +9070,7 @@
   "autolearn": false,
   "book_learn": [ ["brewing_cookbook", 4] ],
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "COOK", "level": 2 }
   ], "tools": [
     [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ]
     ],
@@ -9204,7 +9206,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":2,"amount":1}
+    { "id": "COOK", "level": 2 }
   ], "tools":[
     [ ["fire", -1]  ] ],
   "components": [ [ ["meat_tainted", 12] ],
@@ -12504,7 +12506,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"BREW","level":1,"amount":1}
+    { "id": "COOK", "level": 2 }
   ], "tools": [
     [ 
      ["fire", -1]
