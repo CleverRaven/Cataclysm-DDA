@@ -1624,15 +1624,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( is_bionic() ) {
-            std::ostringstream desc;
-            desc << _( "This bionic is installed in the following body part(s):" );
-            for( const auto &elem : bionic_info( type->id ).occupied_bodyparts ) {
-                //~ <Bionic name> (<number of occupied slots> slots);
-                desc << string_format( _( "\n%s (%i slots);" ),
-                                       bp_asText[static_cast<size_t>( elem.first )].c_str(),
-                                       elem.second );
-            }
-            info.push_back( iteminfo( "DESCRIPTION", desc.str() ) );
+            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->id,
+                _( "This bionic is installed in the following body part(s):" ), true ) ) );
         }
 
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {
@@ -2592,7 +2585,7 @@ int item::reach_range() const
     if( is_gunmod() || !has_flag( "REACH_ATTACK" ) ) {
         return 1;
     }
-    
+
     return has_flag( "REACH3" ) ? 3 : 2;
 }
 

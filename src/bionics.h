@@ -62,5 +62,6 @@ void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 bool is_valid_bionic( std::string const &id );
 
 void bionics_install_failure( player *u, int difficulty, int success );
+std::string list_occupied_bps( std::string bio_id, std::string intro, bool one_per_line = false );
 
 #endif

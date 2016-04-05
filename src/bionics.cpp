@@ -67,6 +67,13 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
+enum bio_TAB : int {
+    BIO_TAB_ALL = 0,
+    BIO_TAB_ACTIVE,
+    BIO_TAB_PASSIVE,
+    BIO_TAB_NUMBER
+};
+
 namespace {
 typedef std::pair<body_part, size_t> cbm_pair;
 
@@ -81,19 +88,23 @@ std::string bp_category( const size_t i )
     return _( "All" );
 }
 
-void draw_background( WINDOW *win, const bool empty_list )
+void draw_background( WINDOW *win, const bool empty_list, const int selected_tab )
 {
     draw_border( win );
+    mvwprintz( win, 0, 1, c_ltred, _( " BIONICS:"  ) );
+    wprintz( win, ( selected_tab == BIO_TAB_ALL ? h_white : c_white ), _( " [ALL] " ) );
+    wprintz( win, ( selected_tab == BIO_TAB_ACTIVE ? c_yellow : c_white ), _( " [ACTIVE] " ) );
+    wprintz( win, ( selected_tab == BIO_TAB_PASSIVE ? c_yellow : c_white ), _( " [PASSIVE] " ) );
     // lines below header & above footer:
     mvwhline( win, 2, 1, 0, getmaxx( win ) - 2 );
-    mvwhline( win, getmaxy( win ) - 6, 1, 0, getmaxx( win ) - 2 );
+    mvwhline( win, getmaxy( win ) - 7, 1, 0, getmaxx( win ) - 2 );
 
     // intersections:
     wattron( win, BORDER_COLOR );
     mvwaddch( win, 2, 0, LINE_XXXO );
     mvwaddch( win, 2, getmaxx( win ) - 1, LINE_XOXX );
-    mvwaddch( win, getmaxy( win ) - 6, 0, LINE_XXXO );
-    mvwaddch( win, getmaxy( win ) - 6, getmaxx( win ) - 1, LINE_XOXX );
+    mvwaddch( win, getmaxy( win ) - 7, 0, LINE_XXXO );
+    mvwaddch( win, getmaxy( win ) - 7, getmaxx( win ) - 1, LINE_XOXX );
     wattroff( win, BORDER_COLOR );
 
     if( empty_list ) {
@@ -118,11 +129,11 @@ void draw_background( WINDOW *win, const bool empty_list )
     wrefresh( win );
 }
 
-void draw_header( WINDOW *win, const size_t tab_index, const std::string power_string,
+void draw_header( WINDOW *win, const size_t sub_tab_index, const std::string power_string,
                   const std::string help_key )
 {
     const std::array<std::string, 3> titles = {{
-        string_format( _( "Body Parts <color_yellow><< %s >></color>" ), bp_category( tab_index ).c_str() ),
+        string_format( _( "Body Parts <color_yellow><< %s >></color>" ), bp_category( sub_tab_index ).c_str() ),
         power_string,
         string_format( _( "Press '<color_yellow>%s</color>' for help" ), help_key.c_str() )
     }};
@@ -168,9 +179,12 @@ std::string power_description( std::string const &id )
 std::vector<cbm_pair> define_content( player const &u, body_part bp )
 {
     std::vector<cbm_pair> content;
-    content.emplace_back( bp , INT_MAX );
+    content.emplace_back( bp, INT_MAX );
     for( size_t i = 0; i < u.my_bionics.size(); ++i ) {
-        if( bionics[u.my_bionics[i].id].occupied_bodyparts.count( bp ) > 0 ) {
+        if( ( u.bionic_ui_mode == BIO_TAB_ALL &&
+              bionics[u.my_bionics[i].id].occupied_bodyparts.count( bp ) > 0 ) ||
+            ( u.bionic_ui_mode == BIO_TAB_ACTIVE && bionics[u.my_bionics[i].id].activated ) ||
+            ( u.bionic_ui_mode == BIO_TAB_PASSIVE && !bionics[u.my_bionics[i].id].activated ) ) {
             content.emplace_back( bp, i );
         }
     }
@@ -276,7 +290,7 @@ void player::power_bionics()
     WINDOW *w_bio_header = newwin( 1, win_w - 3, win_y + 1, win_x + 2 );
     WINDOW_PTR w_bio_header_ptr( w_bio_header );
 
-    WINDOW *w_bio_description = newwin( 4, win_w - 3, win_y + win_h - 5, win_x + 2 );
+    WINDOW *w_bio_description = newwin( 5, win_w - 3, win_y + win_h - 6, win_x + 2 );
     WINDOW_PTR w_bio_description_ptr( w_bio_description );
 
     WINDOW *w_bio_list = newwin( win_h - getmaxy( w_bio_header ) - getmaxy( w_bio_description ) -
@@ -290,6 +304,8 @@ void player::power_bionics()
     ctxt.register_action( "REMOVE" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
 
     // find and fix hotkey & invlet conflicts
     for( auto &elem : my_bionics ) {
@@ -306,8 +322,8 @@ void player::power_bionics()
         }
     }
 
-    size_t tab_count = num_bp + 1;
-    size_t tab_index = bionic_ui_mode;
+    size_t sub_tab_count = num_bp + 1;
+    size_t sub_tab_index = 0;
     int cursor = 0;
     int scroll_position = 0;
     int max_scroll_position;
@@ -319,24 +335,24 @@ void player::power_bionics()
         if( recalc ) {
 
             // bodyparts: all
-            if( tab_index == tab_count - 1 ) {
+            if( bionic_ui_mode == BIO_TAB_ALL && sub_tab_index == sub_tab_count - 1 ) {
                 content.clear();
                 for( int bp_index = 0; bp_index < num_bp; ++bp_index ) {
                     std::vector<cbm_pair> more_content = define_content( *this,
                                                          static_cast<body_part>( bp_index ) );
                     content.insert( content.end(), more_content.begin(), more_content.end() );
                 }
-                // bodypart: %tab_index%
+                // bodypart: %sub_tab_index%
             } else {
-                content = define_content( *this, static_cast<body_part>( tab_index ) );
+                content = define_content( *this, static_cast<body_part>( sub_tab_index ) );
             }
             max_scroll_position = std::max( 0, static_cast<int>( content.size() ) -
                                             getmaxy( w_bio_list ) );
             recalc = false;
         }
 
-        draw_background( w_bionics, my_bionics.empty() );
-        draw_header( w_bio_header, tab_index, string_format( _( "Power: %i/%i" ),
+        draw_background( w_bionics, my_bionics.empty(), bionic_ui_mode );
+        draw_header( w_bio_header, sub_tab_index, string_format( _( "Power: %i/%i" ),
                      int( power_level ),
                      int( max_power_level ) ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) );
@@ -400,9 +416,12 @@ void player::power_bionics()
                 }
             }
             // update content of description window
-            std::string desc = bionic_info( my_bionics[ content[cursor].second ].id ).description;
             werase( w_bio_description );
-            fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ),
+            int pos = fold_and_print( w_bio_description, 0, 0, getmaxx( w_bio_description ),
+                c_ltgray, list_occupied_bps( my_bionics[ content[cursor].second ].id,
+                _( "Installed in:" ), false ) );
+            std::string desc = bionic_info( my_bionics[ content[cursor].second ].id ).description;
+            fold_and_print( w_bio_description, pos, 0, getmaxx( w_bio_description ),
                             c_ltblue, desc );
             wrefresh( w_bio_description );
         }
@@ -444,15 +463,25 @@ void player::power_bionics()
             } while( content[cursor].second == INT_MAX );
 
         } else if( action == "LEFT" ) {
-            ( tab_index > 0 ) ? tab_index-- : tab_index = tab_count - 1;
-            bionic_ui_mode = tab_index;
+            ( sub_tab_index > 0 ) ? sub_tab_index-- : sub_tab_index = sub_tab_count - 1;
             cursor = 1;
             scroll_position = 0;
             recalc = true;
 
         } else if( action == "RIGHT" ) {
-            tab_index = ( tab_index + 1 ) % tab_count;
-            bionic_ui_mode = tab_index;
+            sub_tab_index = ( sub_tab_index + 1 ) % sub_tab_count;
+            cursor = 1;
+            scroll_position = 0;
+            recalc = true;
+
+        } else if( action == "NEXT_TAB" ) {
+            bionic_ui_mode = ( bionic_ui_mode + 1 ) % BIO_TAB_NUMBER;
+            cursor = 1;
+            scroll_position = 0;
+            recalc = true;
+
+        } else if( action == "PREV_TAB" ) {
+            ( bionic_ui_mode > BIO_TAB_ALL ) ? bionic_ui_mode-- : bionic_ui_mode = BIO_TAB_NUMBER - 1;
             cursor = 1;
             scroll_position = 0;
             recalc = true;
@@ -1804,6 +1833,20 @@ void load_bionic( JsonObject &jsobj )
     if( !result.second ) {
         debugmsg( "duplicate bionic id" );
     }
+}
+
+std::string list_occupied_bps( std::string bio_id, std::string intro, bool one_per_line )
+{
+    std::ostringstream desc;
+    desc << intro;
+    for( const auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
+        desc << ( one_per_line ? "\n" : " " );
+        //~ <Bodypart name> (<number of occupied slots> slots);
+        desc << string_format( _( "%s (%i slots);" ),
+                           bp_asText[static_cast<size_t>( elem.first )].c_str(),
+                           elem.second );
+    }
+    return desc.str();
 }
 
 void bionic::serialize( JsonOut &json ) const
