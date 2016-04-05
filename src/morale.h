@@ -2,12 +2,13 @@
 #define MORALE_H
 
 #include "json.h"
-#include <string>
 #include "calendar.h"
 #include "effect.h"
 #include "bodypart.h"
 #include "morale_types.h"
 
+#include <stdlib.h>
+#include <string>
 #include <functional>
 
 class item;
@@ -70,16 +71,17 @@ class player_morale
                     morale_type type = MORALE_NULL,
                     const itype *item_type = nullptr,
                     int bonus = 0,
+                    int max_bonus = 0,
                     int duration = MINUTES( 6 ),
                     int decay_start = MINUTES( 3 ),
-                    int age = 0 ) :
+                    bool capped = false ) :
 
                     type( type ),
                     item_type( item_type ),
-                    bonus( bonus ),
-                    duration( duration ),
-                    decay_start( decay_start ),
-                    age( age ) {};
+                    bonus( normalize_bonus( bonus, max_bonus, capped ) ),
+                    duration( std::max( duration, 0 ) ),
+                    decay_start( std::max( decay_start, 0 ) ),
+                    age( 0 ) {};
 
                 using JsonDeserializer::deserialize;
                 void deserialize( JsonIn &jsin ) override;
@@ -107,10 +109,14 @@ class player_morale
                 int age;
 
                 /**
-                * Returns either new_time or remaining time (which one is greater).
-                * Only returns new time if same_sign is true
-                */
+                 * Returns either new_time or remaining time (which one is greater).
+                 * Only returns new time if same_sign is true
+                 */
                 int pick_time( int cur_time, int new_time, bool same_sign ) const;
+                /**
+                 * Returns normalized bonus if either max_bonus != 0 or capped == true
+                 */
+                int normalize_bonus( int bonus, int max_bonus, bool capped ) const;
         };
     protected:
         morale_mult get_temper_mult() const;

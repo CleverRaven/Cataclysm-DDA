@@ -11,7 +11,6 @@
 #include "game.h"
 #include "weather.h"
 
-#include <stdlib.h>
 #include <algorithm>
 
 static const efftype_id effect_cold( "cold" );
@@ -200,6 +199,7 @@ void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new
                                        bool new_cap )
 {
     new_duration = std::max( 0, new_duration );
+    new_decay_start = std::max( 0, new_decay_start );
 
     if( new_cap || new_duration == 0 ) {
         duration = new_duration;
@@ -211,12 +211,7 @@ void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new
         decay_start = pick_time( decay_start, new_decay_start, same_sign );
     }
 
-    bonus = get_net_bonus() + new_bonus;
-
-    if( abs( bonus ) > abs( new_max_bonus ) && ( new_max_bonus != 0 || new_cap ) ) {
-        bonus = new_max_bonus;
-    }
-
+    bonus = normalize_bonus( get_net_bonus() + new_bonus, new_max_bonus, new_cap );
     age = 0; // Brand new. The assignment should stay below get_net_bonus() and pick_time().
 }
 
@@ -234,6 +229,11 @@ void player_morale::morale_point::decay( int ticks )
     }
 
     age += ticks;
+}
+
+int player_morale::morale_point::normalize_bonus( int bonus, int max_bonus, bool capped ) const
+{
+    return ( ( abs( bonus ) > abs( max_bonus ) && ( max_bonus != 0 || capped ) ) ? max_bonus : bonus );
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
@@ -256,7 +256,7 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
         }
     }
 
-    morale_point new_morale( type, item_type, bonus, duration, decay_start );
+    morale_point new_morale( type, item_type, bonus, max_bonus, duration, decay_start, capped );
 
     if( !new_morale.is_expired() ) {
         points.push_back( new_morale );
