@@ -1465,7 +1465,7 @@
     "symbol": "$",
     "color": "dark_gray",
     "name": "concrete mixer",
-    "description": "A luggable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also got a heater built in.",
+    "description": "A luggable concrete mixer.  It is still large and heavy, but it can be operated solo, and runs on batteries.  It also has a heater built in.",
     "price": 50000,
     "material": "steel",
     "weight": 9071,
