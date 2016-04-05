@@ -8,7 +8,7 @@
     "weight": 1,
     "volume": 1,
     "price": 200,
-    "price_post": 50,
+    "price_postapoc": 500,
     "count": 250,
     "stack_size": 250,
     "category": "chems",
@@ -26,7 +26,7 @@
     "type": "AMMO",
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
     "price": 10,
-    "price_postapoc": 30
+    "price_postapoc": 300
   },
   {
     "id": "diesel",
