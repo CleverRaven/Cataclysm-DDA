@@ -12453,7 +12453,7 @@
       [ "rum", 1 ],
       [ "tequila", 1 ],
       [ "gin", 1 ],
-      [ "chem_ethanol", 25 ]
+      [ "chem_ethanol", 125 ]
     ]
   ]
 },
@@ -12524,7 +12524,7 @@
       [ "tequila", 1 ],
       [ "gin", 1 ],
       [ "triple_sec", 1 ],
-      [ "chem_ethanol", 25 ]
+      [ "chem_ethanol", 125 ]
     ]
   ]
 },
