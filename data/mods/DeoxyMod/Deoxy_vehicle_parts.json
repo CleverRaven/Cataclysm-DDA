@@ -547,6 +547,22 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "hdhatch_opaque",
+        "name" : "opaque heavy duty hatch",
+        "symbol" : "+",
+        "color" : "dark_gray",
+        "broken_symbol" : "&",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 380,
+        "size" : 150,
+        "item" : "hdframe",
+        "difficulty" : 3,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE"],
+        "breaks_into": "ig_vp_hdframe"
+    },{
+        "type" : "vehicle_part",
         "id" : "fdoor",
         "name" : "foldable door",
         "symbol" : "+",

@@ -2217,6 +2217,22 @@
         "breaks_into": "ig_vp_frame"
     },{
         "type" : "vehicle_part",
+        "id" : "hatch_opaque",
+        "name" : "opaque hatch",
+        "symbol" : "+",
+        "color" : "light_gray",
+        "broken_symbol" : "&",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 130,
+        "size" : 150,
+        "item" : "frame",
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH", "OPAQUE"],
+        "breaks_into": "ig_vp_frame"
+    },{
+        "type" : "vehicle_part",
         "id" : "hdhatch",
         "name" : "heavy duty hatch",
         "symbol" : "+",
