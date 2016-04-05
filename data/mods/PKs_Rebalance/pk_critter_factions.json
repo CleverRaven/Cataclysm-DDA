@@ -21,19 +21,6 @@
         "friendly" : ["blob", "cult"],
         "neutral" : ["small_animal", "insect"],
         "by_mood" : ["ant"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "mutant",
-        "by_mood" : ["small_animal", "blob", "utility_bot", "mutant_omnivore"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "mutant_omnivore",
-        "neutral" : ["utility_bot", "small_animal"],
-        "by_mood" : ["blob", "mutant_predator", "mutant"]
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "mutant_predator",
-        "by_mood" : ["mutant_omnivore", "blob"]
     }
     
 
