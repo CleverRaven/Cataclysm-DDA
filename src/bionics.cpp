@@ -485,7 +485,7 @@ void player::power_bionics()
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
-                popup( _("Invlid bionic letter. Only those characters are valid:\n\n%s"),
+                popup( _("Invalid bionic letter. Only those characters are valid:\n\n%s"),
                        bionic_chars.get_allowed_chars().c_str() );
                 continue;
             }
