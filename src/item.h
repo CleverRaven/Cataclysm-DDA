@@ -252,14 +252,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
  // Returns the category of this item.
  const item_category &get_category() const;
 
-    /**
-     * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
-     * @param ammo if set also check item currently compatible with this specific ammo or magazine
-     * @note items currently loaded with a detachable magazine are considered reloadable
-     * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
-     */
-    bool can_reload( const itype_id& ammo = std::string() ) const;
-
     class reload_option {
         public:
             reload_option() = default;
@@ -737,7 +729,7 @@ public:
         /**
          * Is it ever possible to reload this item?
          * Only the base item is considered with any mods ignored
-         * @see item::can_reload() to check current state of base item
+         * @see player::can_reload()
          */
         bool is_reloadable() const;
 

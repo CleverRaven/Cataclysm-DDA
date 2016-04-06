@@ -740,6 +740,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_use( const item& it, bool interactive = true ) const;
 
         /**
+         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param ammo if set also check item currently compatible with this specific ammo or magazine
+         * @note items currently loaded with a detachable magazine are considered reloadable
+         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+         */
+        bool can_reload( const item& it, const itype_id& ammo = std::string() ) const;
+
+        /**
          * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
          * @param obj item to dispose of which must in the players possession
          * @param prompt optional message to display in any menu

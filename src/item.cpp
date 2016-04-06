@@ -4277,30 +4277,6 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
-bool item::can_reload( const itype_id& ammo ) const {
-    if( !is_reloadable() ) {
-        return false;
-
-    } else if( magazine_integral() ) {
-        if( !ammo.empty() ) {
-            if( ammo_data() ) {
-                if( ammo_data()->id != ammo ) {
-                    return false;
-                }
-            } else {
-                auto at = item_controller->find_template( ammo );
-                if( !at->ammo || ammo_type() != at->ammo->type ) {
-                    return false;
-                }
-            }
-        }
-        return ammo_remaining() < ammo_capacity();
-
-    } else {
-        return ammo.empty() ? true : magazine_compatible().count( ammo );
-    }
-}
-
 item::reload_option::reload_option( const player *who, const item *target, const item *parent, item_location&& ammo ) :
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
@@ -4344,7 +4320,7 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
 
     for( const auto e : opts ) {
         for( item_location& ammo : u.find_ammo( *e ) ) {
-            if( e->can_reload( ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
+            if( u.can_reload( *e, ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
                 e->has_flag( "RELOAD_AND_SHOOT" ) ) {
 
                 ammo_list.emplace_back( &u, e, this, std::move( ammo ) );
@@ -4590,8 +4566,8 @@ bool item::reload( player &u, item_location loc, long qty )
     });
     opts.push_back( obj->magazine_current() );
 
-    auto target = std::find_if( opts.begin(), opts.end(), [&ammo]( item *e ) {
-        return e && e->can_reload( ammo->typeId() );
+    auto target = std::find_if( opts.begin(), opts.end(), [&u,&ammo]( item *e ) {
+        return e && u.can_reload( *e, ammo->typeId() );
     } );
     if( target == opts.end() ) {
         return false;

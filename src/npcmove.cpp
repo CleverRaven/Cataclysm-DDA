@@ -879,9 +879,9 @@ npc_action npc::address_needs()
     return address_needs( ai_cache.danger );
 }
 
-bool wants_to_reload( const item &it )
+bool wants_to_reload( const npc& who, const item &it )
 {
-    if( !it.can_reload() ) {
+    if( !who.can_reload( it ) ) {
         return false;
     }
 
@@ -914,7 +914,7 @@ item &npc::find_reloadable()
     // TODO: Make it understand smaller and bigger magazines
     item *reloadable = nullptr;
     visit_items( [this, &reloadable]( item *node ) {
-        if( !wants_to_reload( *node ) ) {
+        if( !wants_to_reload( *this, *node ) ) {
             return VisitResponse::SKIP;
         }
         const auto it_loc = node->pick_reload_ammo( *this ).ammo;
@@ -949,7 +949,7 @@ bool npc::can_reload_current()
 
 item_location npc::find_usable_ammo( const item &weap )
 {
-    if( !weap.can_reload() ) {
+    if( !can_reload( weap ) ) {
         return item_location();
     }
 
@@ -1298,7 +1298,7 @@ bool npc::wont_hit_friend( const tripoint &tar, int weapon_index ) const
 
 bool npc::need_to_reload() const
 {
-    if( !weapon.can_reload() ) {
+    if( !can_reload( weapon ) ) {
         return false;
     }
 
