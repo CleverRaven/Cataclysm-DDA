@@ -9039,7 +9039,7 @@ void player::use_fire(const int quantity)
     }
 }
 
-std::list<item> player::use_charges( const std::string& what, long qty )
+std::list<item> player::use_charges( const itype_id& what, long qty )
 {
     std::list<item> res;
 

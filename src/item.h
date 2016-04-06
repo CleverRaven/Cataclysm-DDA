@@ -384,7 +384,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @param pos position at which the charges are being consumed
      * @return true if this item should be deleted (count-by-charges items with no remaining charges)
      */
-    bool use_charges( const std::string& what, long& qty, std::list<item>& used, const tripoint& pos );
+    bool use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos );
 
  /**
   * Consume a specific amount of items of a specific type.

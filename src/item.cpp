@@ -4823,7 +4823,7 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     return true;
 }
 
-bool item::use_charges( const std::string& what, long& qty, std::list<item>& used, const tripoint& pos )
+bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos )
 {
     std::vector<item *> del;
 

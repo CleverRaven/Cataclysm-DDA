@@ -959,7 +959,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::list<item> use_amount( itype_id it, int quantity );
         bool use_charges_if_avail( itype_id it, long quantity );// Uses up charges
 
-        std::list<item> use_charges( const std::string& what, long qty ); // Uses up charges
+        std::list<item> use_charges( const itype_id& what, long qty ); // Uses up charges
 
         bool has_charges( const itype_id &it, long quantity ) const;
         /** Returns the amount of item `type' that is currently worn */
