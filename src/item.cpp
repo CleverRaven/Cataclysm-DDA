@@ -4388,6 +4388,8 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     uimenu menu;
     menu.text = string_format( _("Reload %s" ), tname().c_str() );
     menu.return_invalid = true;
+    menu.w_width = -1;
+    menu.w_height = -1;
 
     // Construct item names
     std::vector<std::string> names;
@@ -4430,31 +4432,19 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     int w = pad( names, utf8_width( menu.text, true ), 6 );
     menu.text.insert( 0, 2, ' ' ); // add space for UI hotkeys
     menu.text += std::string( w + 2 - utf8_width( menu.text, true ), ' ' );
-    menu.w_width += w + 2;
 
     // Pad the location similarly (excludes leading "| " and trailing " ")
     w = pad( where, utf8_width( _( "| Location " ) ) - 3, 6 );
     menu.text += _("| Location " );
     menu.text += std::string( w + 3 - utf8_width( _( "| Location " ) ), ' ' );
-    menu.w_width += w + 3;
 
     menu.text += _( "| Amount  " );
-    menu.w_width += 10;
-
     menu.text += _( "| Moves   " );
-    menu.w_width += 10;
 
     // We only show ammo statistics for guns and magazines
     if( is_gun() || is_magazine() ) {
         menu.text += _( "| Damage  | Pierce  " );
-        menu.w_width += 20;
     }
-
-    menu.w_width += 6; // include space for borders
-
-    // center dialog
-    menu.w_x = std::max( ( TERMX / 2 ) - int( menu.w_width / 2 ) , 0 );
-    menu.w_y = std::max( ( TERMY / 2 ) - int( (ammo_list.size() + 3 ) / 2 ) , 0 );
 
     auto draw_row = [&]( int idx ) {
         const auto& sel = ammo_list[ idx ];
