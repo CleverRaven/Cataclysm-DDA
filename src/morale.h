@@ -29,9 +29,8 @@ class player_morale
         /** Adds morale to existing or creates one */
         void add( morale_type type, int bonus, int max_bonus = 0, int duration = MINUTES( 6 ),
                   int decay_start = MINUTES( 3 ), bool capped = false, const itype *item_type = nullptr );
-        /** Adds permanent morale to existing or creates one */
-        void add_permanent( morale_type type, int bonus, int max_bonus = 0,
-                            bool capped = false, const itype *item_type = nullptr );
+        /** Sets the new level for the permanent morale, or creates one */
+        void set_permanent( morale_type type, int bonus, const itype *item_type = nullptr );
         /** Returns bonus from specified morale */
         int has( morale_type type, const itype *item_type = nullptr ) const;
         /** Removes specified morale */

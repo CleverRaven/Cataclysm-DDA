@@ -93,7 +93,7 @@ TEST_CASE( "player_morale" )
     }
 
     GIVEN( "persistent morale" ) {
-        m.add_permanent( MORALE_PERM_MASOCHIST, 5 );
+        m.set_permanent( MORALE_PERM_MASOCHIST, 5 );
 
         CHECK( m.has( MORALE_PERM_MASOCHIST ) == 5 );
 

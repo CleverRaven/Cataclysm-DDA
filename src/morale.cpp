@@ -278,28 +278,30 @@ player_morale::player_morale() :
 {
     using namespace std::placeholders;
     // Cannot use 'this' because the object is copyable
-    const mutation_data constrained( std::bind( &player_morale::update_constrained_penalty, _1 ) );
-    const mutation_data masochist( std::bind( &player_morale::update_masochist_bonus, _1 ) );
+    const auto set_optimist       = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_OPTIMIST,
+                                    _2, nullptr );
+    const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
+                                    _2, nullptr );
+    const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
+    const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
+    const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
-    mutations["OPTIMISTIC"] =
-        mutation_data(
-            std::bind( &player_morale::add_permanent, _1, MORALE_PERM_OPTIMIST, 4, 4, false, nullptr ),
-            std::bind( &player_morale::remove, _1, MORALE_PERM_OPTIMIST, nullptr ) );
-    mutations["BADTEMPER"] =
-        mutation_data(
-            std::bind( &player_morale::add_permanent, _1, MORALE_PERM_BADTEMPER, -4, -4, false, nullptr ),
-            std::bind( &player_morale::remove, _1, MORALE_PERM_BADTEMPER, nullptr ) );
-    mutations["STYLISH"] =
-        mutation_data(
-            std::bind( &player_morale::set_stylish, _1, true ),
-            std::bind( &player_morale::set_stylish, _1, false ) );
-    mutations["FLOWERS"] = constrained;
-    mutations["ROOTS"]   = constrained;
-    mutations["ROOTS2"]  = constrained;
-    mutations["ROOTS3"]  = constrained;
-    mutations["MASOCHIST"]     = masochist;
-    mutations["MASOCHIST_MED"] = masochist;
-    mutations["CENOBITE"]      = masochist;
+    mutations["OPTIMISTIC"]    = mutation_data(
+                                     std::bind( set_optimist, _1, 4 ),
+                                     std::bind( set_optimist, _1, 0 ) );
+    mutations["BADTEMPER"]     = mutation_data(
+                                     std::bind( set_badtemper, _1, -4 ),
+                                     std::bind( set_badtemper, _1, 0 ) );
+    mutations["STYLISH"]       = mutation_data(
+                                     std::bind( set_stylish, _1, true ),
+                                     std::bind( set_stylish, _1, false ) );
+    mutations["FLOWERS"]       = mutation_data( update_constrained );
+    mutations["ROOTS"]         = mutation_data( update_constrained );
+    mutations["ROOTS2"]        = mutation_data( update_constrained );
+    mutations["ROOTS3"]        = mutation_data( update_constrained );
+    mutations["MASOCHIST"]     = mutation_data( update_masochist );
+    mutations["MASOCHIST_MED"] = mutation_data( update_masochist );
+    mutations["CENOBITE"]      = mutation_data( update_masochist );
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
@@ -330,10 +332,9 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
     }
 }
 
-void player_morale::add_permanent( morale_type type, int bonus, int max_bonus, bool capped,
-                                   const itype *item_type )
+void player_morale::set_permanent( morale_type type, int bonus, const itype *item_type )
 {
-    add( type, bonus, max_bonus, 0, 0, capped, item_type );
+    add( type, bonus, bonus, 0, 0, true, item_type );
 }
 
 int player_morale::has( morale_type type, const itype *item_type ) const
@@ -454,7 +455,7 @@ void player_morale::display( double focus_gain )
 
     const morale_mult mult = get_temper_mult();
     // Print out the morale entries.
-    for( size_t i = 0; i < points.size(); ++i ) {
+    for( size_t i = 0; i < points.size(); i++ ) {
         const std::string name = points[i].get_name();
         const int bonus = points[i].get_net_bonus( mult );
         const nc_color bonus_color = ( bonus < 0 ? c_red : c_green );
@@ -605,35 +606,35 @@ void player_morale::set_stylish( bool new_stylish )
 
 void player_morale::update_stylish_bonus()
 {
+    int bonus = 0;
+
     if( stylish ) {
         const auto bp_bonus = [ this ]( body_part bp, int bonus ) -> int {
             return (
                 body_parts[bp].covered_fancy > 0 ||
                 body_parts[opposite_body_part( bp )].covered_fancy > 0 ) ? bonus : 0;
         };
-        const int bonus =
-            std::min( super_fancy_bonus +
-                      bp_bonus( bp_torso,  6 ) +
-                      bp_bonus( bp_head,   3 ) +
-                      bp_bonus( bp_eyes,   2 ) +
-                      bp_bonus( bp_mouth,  2 ) +
-                      bp_bonus( bp_leg_l,  2 ) +
-                      bp_bonus( bp_foot_l, 1 ) +
-                      bp_bonus( bp_hand_l, 1 ), 20 );
-        add_permanent( MORALE_PERM_FANCY, bonus, bonus, true );
-    } else {
-        remove( MORALE_PERM_FANCY );
+        bonus = std::min( super_fancy_bonus +
+                          bp_bonus( bp_torso,  6 ) +
+                          bp_bonus( bp_head,   3 ) +
+                          bp_bonus( bp_eyes,   2 ) +
+                          bp_bonus( bp_mouth,  2 ) +
+                          bp_bonus( bp_leg_l,  2 ) +
+                          bp_bonus( bp_foot_l, 1 ) +
+                          bp_bonus( bp_hand_l, 1 ), 20 );
     }
+    set_permanent( MORALE_PERM_FANCY, bonus );
 }
 
 void player_morale::update_masochist_bonus()
 {
     const bool amateur_masochist = has_mutation( "MASOCHIST" );
     const bool advanced_masochist = has_mutation( "MASOCHIST_MED" ) || has_mutation( "CENOBITE" );
+    const bool any_masochist = amateur_masochist || advanced_masochist;
 
     int bonus = 0;
 
-    if( amateur_masochist || advanced_masochist ) {
+    if( any_masochist ) {
         bonus = perceived_pain / 2.5;
         if( amateur_masochist ) {
             bonus = std::min( bonus, 25 );
@@ -642,11 +643,7 @@ void player_morale::update_masochist_bonus()
             bonus = bonus / 3;
         }
     }
-    if( bonus > 0 ) {
-        add_permanent( MORALE_PERM_MASOCHIST, bonus, bonus, true );
-    } else {
-        remove( MORALE_PERM_MASOCHIST );
-    }
+    set_permanent( MORALE_PERM_MASOCHIST, bonus );
 }
 
 void player_morale::update_bodytemp_penalty()
@@ -677,19 +674,17 @@ void player_morale::update_bodytemp_penalty()
 
 void player_morale::update_constrained_penalty()
 {
+    const auto bp_pen = [ this ]( body_part bp, int pen ) -> int {
+        return ( body_parts[bp].covered > 0 ) ? pen : 0;
+    };
     int pen = 0;
 
-    if( has_mutation( "FLOWERS" ) && body_parts[bp_head].covered > 0 ) {
-        pen = 10;
-    } else if( has_mutation( "ROOTS" ) || has_mutation( "ROOTS2" ) || has_mutation( "ROOTS3" ) ) {
-        const auto foot_factor = [ this ]( body_part bp ) -> double {
-            return ( body_parts[bp].covered > 0 ) ? 0.5 : 0.0;
-        };
-        pen = 10 * ( foot_factor( bp_foot_l ) + foot_factor( bp_foot_r ) );
+    if( has_mutation( "FLOWERS" ) ) {
+        pen += bp_pen( bp_head, 10 );
     }
-    if( pen > 0 ) {
-        add_permanent( MORALE_PERM_CONSTRAINED, -pen, -pen, true );
-    } else {
-        remove( MORALE_PERM_CONSTRAINED );
+    if( has_mutation( "ROOTS" ) || has_mutation( "ROOTS2" ) || has_mutation( "ROOTS3" ) ) {
+        pen += bp_pen( bp_foot_l, 5 );
+        pen += bp_pen( bp_foot_r, 5 );
     }
+    set_permanent( MORALE_PERM_CONSTRAINED, -std::min( pen, 10 ) );
 }
