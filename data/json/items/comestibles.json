@@ -11041,7 +11041,6 @@
         "material" : "oil",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 2,
         "fun" : -4
     },
     {

@@ -93,6 +93,19 @@
     ]
   },
   {
+    "id": "gear_medical",
+    "type": "item_group",
+    "comment": "Medical equipment including consumables but not major painkillers",
+    "items": [
+      { "group": "tools_medical", "prob": 100 },
+      { "group": "drugs_heal_simple", "prob": 40 },
+      { "group": "drugs_emergency", "prob": 40 },
+      { "group": "drugs_misc", "prob": 20 },
+      { "item": "gloves_medical", "prob": 5 },
+      { "item": "mask_dust", "prob": 5 }
+    ]
+  },
+  {
     "id": "gear_soldier_sidearm",
     "type": "item_group",
     "comment": "Sidearm and appropriate holster or sheath for soldiers or other paramilitary forces.",
