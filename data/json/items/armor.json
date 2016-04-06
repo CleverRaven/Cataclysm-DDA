@@ -470,7 +470,7 @@
         "price" : 7000,
         "material" : ["kevlar", "leather"],
         "volume" : 8,
-        "warmth" : 22,
+        "warmth" : 25,
         "environmental_protection" : 2,
         "encumbrance" : 25,
         "bashing" : 1,
