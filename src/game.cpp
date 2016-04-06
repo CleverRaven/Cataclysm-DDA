@@ -11365,7 +11365,16 @@ void game::reload( int pos, bool prompt )
             if( it->ammo_remaining() > 0 && it->ammo_remaining() == it->ammo_capacity() ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname().c_str() );
                 return;
-            } // intentional fall-through
+            }
+            if( it->is_ammo_belt() ) {
+                auto linkage = it->type->magazine->linkage;
+                if( linkage != "NULL" && !g->u.has_charges( linkage, 1 ) ) {
+                    add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
+                                     item::find_type( linkage )->nname( 1 ).c_str(), it->tname().c_str() );
+                    return;
+                }
+            }
+            // intentional fall-through
 
         case HINT_CANT:
             add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );

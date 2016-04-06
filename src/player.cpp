@@ -9835,8 +9835,16 @@ bool player::can_use( const item& it, bool interactive ) const {
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
     if( !it.is_reloadable() ) {
         return false;
+    }
 
-    } else if( it.magazine_integral() ) {
+    if( it.is_ammo_belt() ) {
+        auto linkage = it.type->magazine->linkage;
+        if( linkage != "NULL" && !has_charges( linkage, 1 ) ) {
+            return false;
+        }
+    }
+
+    if( it.magazine_integral() ) {
         if( !ammo.empty() ) {
             if( it.ammo_data() ) {
                 if( it.ammo_data()->id != ammo ) {
@@ -9850,7 +9858,6 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
             }
         }
         return it.ammo_remaining() < it.ammo_capacity();
-
     } else {
         return ammo.empty() ? true : it.magazine_compatible().count( ammo );
     }

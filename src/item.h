@@ -273,6 +273,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
         private:
             long qty_ = 0;
+            long max_qty = LONG_MAX;
             const item *parent = nullptr;
     };
 
@@ -703,6 +704,7 @@ public:
  bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
  bool is_bionic() const;
  bool is_magazine() const;
+ bool is_ammo_belt() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;

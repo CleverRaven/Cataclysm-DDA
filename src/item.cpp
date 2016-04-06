@@ -3265,6 +3265,11 @@ bool item::is_magazine() const
     return type->magazine.get() != nullptr;
 }
 
+bool item::is_ammo_belt() const
+{
+    return is_magazine() && has_flag( "MAG_BELT" );
+}
+
 bool item::is_ammo() const
 {
     return type->ammo.get() != nullptr;
@@ -4280,6 +4285,9 @@ item *item::get_usable_item( const std::string &use_name )
 item::reload_option::reload_option( const player *who, const item *target, const item *parent, item_location&& ammo ) :
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
+    if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
+        max_qty = who->charges_of( this->target->type->magazine->linkage );
+    }
     qty( ( this->ammo->is_ammo() && !this->target->has_flag( "RELOAD_ONE" ) ) ? this->ammo->charges : 1L );
 }
 
@@ -4300,10 +4308,11 @@ int item::reload_option::moves() const
 void item::reload_option::qty( long val )
 {
     if( ammo->is_ammo() ) {
-        qty_ = std::max( std::min( { val, ammo->charges, target->ammo_capacity() - target->ammo_remaining() } ), 0L );
+        qty_ = std::min( { val, ammo->charges, target->ammo_capacity() - target->ammo_remaining() } );
     } else {
         qty_ = 1L; // when reloading target using a magazine
     }
+    qty_ = std::max( std::min( qty_, max_qty ), 0L );
 }
 
 // TODO: Constify the player &u
@@ -4585,6 +4594,13 @@ bool item::reload( player &u, item_location loc, long qty )
 
     if( obj->is_magazine() ) {
         qty = std::min( qty, ammo->charges );
+
+        if( obj->is_ammo_belt() && obj->type->magazine->linkage != "NULL" ) {
+            if( !u.use_charges_if_avail( obj->type->magazine->linkage, qty ) ) {
+                debugmsg( "insufficient linkages available when reloading ammo belt" );
+            }
+        }
+
         obj->contents.emplace_back( *ammo );
         obj->contents.back().charges = qty;
         ammo->charges -= qty;
