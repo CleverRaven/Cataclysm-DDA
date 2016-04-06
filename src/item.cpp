@@ -4313,6 +4313,10 @@ item::reload_option item::pick_reload_ammo( player &u ) const
         opts.push_back( magazine_current() );
     }
 
+    auto update_moves = [&u]( reload_option& sel ){
+        sel.moves = sel.ammo.obtain_cost( u, sel.qty ) + u.item_reload_cost( *sel.target, *sel.ammo, sel.qty );
+    };
+
     for( const auto e : opts ) {
         for( item_location& ammo : u.find_ammo( *e ) ) {
             if( e->can_reload( ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
@@ -4322,7 +4326,7 @@ item::reload_option item::pick_reload_ammo( player &u ) const
                 sel.target = e;
                 sel.ammo = std::move( ammo );
                 sel.qty = sel.ammo->is_ammo() ? std::max( !e->has_flag( "RELOAD_ONE" ) ? e->ammo_capacity() - e->ammo_remaining() : 1, 1L ) : 1;
-                sel.moves = sel.ammo.obtain_cost( u, sel.qty ) + u.item_reload_cost( *e, *sel.ammo, sel.qty );
+                update_moves( sel );
                 ammo_list.push_back( std::move( sel ) );
             }
         }
@@ -4448,8 +4452,8 @@ item::reload_option item::pick_reload_ammo( player &u ) const
     };
 
     struct : public uimenu_callback {
-        player *who;
         std::function<std::string( int )> draw_row;
+        std::function<void( reload_option& )> update_moves;
 
         bool key( int ch, int idx, uimenu * menu ) {
             auto& sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
@@ -4462,13 +4466,13 @@ item::reload_option item::pick_reload_ammo( player &u ) const
             switch( ch ) {
                 case KEY_LEFT:
                     sel.qty = std::max( --sel.qty, 1L );
-                    sel.moves = sel.ammo.obtain_cost( *who, sel.qty ) + who->item_reload_cost( *sel.target, *sel.ammo, sel.qty );
+                    update_moves( sel );
                     menu->entries[ idx ].txt = draw_row( idx );
                     return true;
 
                 case KEY_RIGHT:
                     sel.qty = std::min( ++sel.qty, sel.target->ammo_capacity() );
-                    sel.moves = sel.ammo.obtain_cost( *who, sel.qty ) + who->item_reload_cost( *sel.target, *sel.ammo, sel.qty );
+                    update_moves( sel );
                     menu->entries[ idx ].txt = draw_row( idx );
                     return true;
             }
@@ -4477,7 +4481,7 @@ item::reload_option item::pick_reload_ammo( player &u ) const
     } cb;
     cb.setptr( &ammo_list );
     cb.draw_row = draw_row;
-    cb.who = &u;
+    cb.update_moves = update_moves;
     menu.callback = &cb;
 
     itype_id last = uistate.lastreload[ ammo_type() ];
