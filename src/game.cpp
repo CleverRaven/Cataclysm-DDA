@@ -10889,7 +10889,7 @@ void game::plfire( bool burst, const tripoint &default_target )
                 return; // menu cancelled
             }
 
-            reload_time += opt.moves;
+            reload_time += opt.moves();
             if( !gun.reload( u, std::move( opt.ammo ), 1 ) ) {
                 return; // unable to reload
             }
@@ -11380,8 +11380,8 @@ void game::reload( int pos, bool prompt )
         std::stringstream ss;
         ss << pos;
 
-        long fetch = !opt.ammo->is_ammo_container() ? opt.qty : 1;
-        u.assign_activity( ACT_RELOAD, opt.moves, opt.qty, opt.ammo.obtain( u, fetch ), ss.str() );
+        long fetch = !opt.ammo->is_ammo_container() ? opt.qty() : 1;
+        u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty(), opt.ammo.obtain( u, fetch ), ss.str() );
 
         u.inv.restack( &u );
     }

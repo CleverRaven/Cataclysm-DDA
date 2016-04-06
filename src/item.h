@@ -260,15 +260,28 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     bool can_reload( const itype_id& ammo = std::string() ) const;
 
-    struct reload_option {
-        const item *target = nullptr;
-        item_location ammo;
-        long qty = 0;
-        int moves = 0;
+    class reload_option {
+        public:
+            reload_option() = default;
 
-        operator bool() const {
-            return target && ammo && qty > 0;
-        }
+            reload_option( const player *who, const item *target, const item *parent, item_location&& ammo );
+
+            const player *who = nullptr;
+            const item *target = nullptr;
+            item_location ammo;
+
+            long qty() const { return qty_; }
+            void qty( long val );
+
+            int moves() const;
+
+            operator bool() const {
+                return who && target && ammo && qty_ > 0;
+            }
+
+        private:
+            long qty_ = 0;
+            const item *parent = nullptr;
     };
 
     /**

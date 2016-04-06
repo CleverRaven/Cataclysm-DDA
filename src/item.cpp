@@ -4301,6 +4301,35 @@ bool item::can_reload( const itype_id& ammo ) const {
     }
 }
 
+item::reload_option::reload_option( const player *who, const item *target, const item *parent, item_location&& ammo ) :
+    who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
+{
+    qty( ( this->ammo->is_ammo() && !this->target->has_flag( "RELOAD_ONE" ) ) ? this->ammo->charges : 1L );
+}
+
+
+int item::reload_option::moves() const
+{
+    int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
+    if( parent != target ) {
+        if( parent->is_gun() ) {
+            mv += parent->type->gun->reload_time;
+        } else if( parent->is_tool() ) {
+            mv += 100;
+        }
+    }
+    return mv;
+}
+
+void item::reload_option::qty( long val )
+{
+    if( ammo->is_ammo() ) {
+        qty_ = std::max( std::min( { val, ammo->charges, target->ammo_capacity() - target->ammo_remaining() } ), 0L );
+    } else {
+        qty_ = 1L; // when reloading target using a magazine
+    }
+}
+
 // TODO: Constify the player &u
 item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
 {
@@ -4313,24 +4342,12 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
         opts.push_back( magazine_current() );
     }
 
-    auto update_moves = [this,&u]( reload_option& sel ){
-        sel.moves = sel.ammo.obtain_cost( u, sel.qty ) + u.item_reload_cost( *sel.target, *sel.ammo, sel.qty );
-        if( sel.target == magazine_current() ) {
-            sel.moves += is_gun() ? type->gun->reload_time : 100;
-        }
-    };
-
     for( const auto e : opts ) {
         for( item_location& ammo : u.find_ammo( *e ) ) {
             if( e->can_reload( ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
                 e->has_flag( "RELOAD_AND_SHOOT" ) ) {
 
-                reload_option sel;
-                sel.target = e;
-                sel.ammo = std::move( ammo );
-                sel.qty = sel.ammo->is_ammo() ? std::max( !e->has_flag( "RELOAD_ONE" ) ? e->ammo_capacity() - e->ammo_remaining() : 1, 1L ) : 1;
-                update_moves( sel );
-                ammo_list.push_back( std::move( sel ) );
+                ammo_list.emplace_back( &u, e, this, std::move( ammo ) );
             }
         }
     }
@@ -4345,7 +4362,7 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
         return lhs.ammo->ammo_remaining() > rhs.ammo->ammo_remaining();
     } );
     std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option& lhs, const reload_option& rhs ) {
-        return lhs.moves < rhs.moves;
+        return lhs.moves() < rhs.moves();
     } );
     std::stable_sort( ammo_list.begin(), ammo_list.end(), []( const reload_option& lhs, const reload_option& rhs ) {
         return ( lhs.ammo->ammo_remaining() != 0 ) > ( rhs.ammo->ammo_remaining() != 0 );
@@ -4442,8 +4459,8 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     auto draw_row = [&]( int idx ) {
         const auto& sel = ammo_list[ idx ];
         std::string row = string_format( "%s| %s |", names[ idx ].c_str(), where[ idx ].c_str() );
-        row += string_format( sel.ammo->is_ammo() ? " %-7d |" : "         |", sel.qty );
-        row += string_format( " %-7d ", sel.moves );
+        row += string_format( sel.ammo->is_ammo() ? " %-7d |" : "         |", sel.qty() );
+        row += string_format( " %-7d ", sel.moves() );
 
         if( is_gun() || is_magazine() ) {
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents[ 0 ].ammo_data() : sel.ammo->ammo_data();
@@ -4458,26 +4475,17 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
 
     struct : public uimenu_callback {
         std::function<std::string( int )> draw_row;
-        std::function<void( reload_option& )> update_moves;
 
         bool key( int ch, int idx, uimenu * menu ) {
             auto& sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
-
-            // dont allow changing of quantity when reloading using a magazine
-            if( !sel.ammo->is_ammo() ) {
-                return ( ch == KEY_LEFT || ch == KEY_RIGHT ) ? true : false;
-            }
-
             switch( ch ) {
                 case KEY_LEFT:
-                    sel.qty = std::max( --sel.qty, 1L );
-                    update_moves( sel );
+                    sel.qty( sel.qty() - 1 );
                     menu->entries[ idx ].txt = draw_row( idx );
                     return true;
 
                 case KEY_RIGHT:
-                    sel.qty = std::min( ++sel.qty, sel.target->ammo_capacity() );
-                    update_moves( sel );
+                    sel.qty( sel.qty() + 1 );
                     menu->entries[ idx ].txt = draw_row( idx );
                     return true;
             }
@@ -4486,7 +4494,6 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     } cb;
     cb.setptr( &ammo_list );
     cb.draw_row = draw_row;
-    cb.update_moves = update_moves;
     menu.callback = &cb;
 
     itype_id last = uistate.lastreload[ ammo_type() ];
