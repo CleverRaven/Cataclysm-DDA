@@ -1271,7 +1271,7 @@
     "type":"monstergroup",
     "name" : "GROUP_ZOMBIE_BRUTE",
     "default" : "mon_zombie_brute",
-    "//" : Brute upgrades
+    "//" : "Brute upgrades",
     "monsters" : [
       { "monster" : "mon_zombie_brute_grappler", "freq" : 66, "cost_multiplier" : 10 },
       { "monster" : "mon_zombie_brute_ninja", "freq" : 33, "cost_multiplier" : 10 },
