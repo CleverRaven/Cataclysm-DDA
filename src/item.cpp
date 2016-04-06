@@ -4441,7 +4441,9 @@ item::reload_option item::pick_reload_ammo( player &u ) const
 
     auto draw_row = [&]( int idx ) {
         const auto& sel = ammo_list[ idx ];
-        std::string row = string_format( "%s| %s | %-7d | %-7d ", names[ idx ].c_str(), where[ idx ].c_str(), sel.qty, sel.moves );
+        std::string row = string_format( "%s| %s |", names[ idx ].c_str(), where[ idx ].c_str() );
+        row += string_format( sel.ammo->is_ammo() ? " %-7d |" : "         |", sel.qty );
+        row += string_format( " %-7d ", sel.moves );
 
         if( is_gun() || is_magazine() ) {
             const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents[ 0 ].ammo_data() : sel.ammo->ammo_data();
