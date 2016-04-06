@@ -64,7 +64,9 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "active", active );
 
     obj.read( "moves", moves );
-    moves = std::max( moves, 0 );
+    if( moves < 0 ) {
+        obj.throw_error( "transform actor specified negative moves", "moves" );
+    }
 
     obj.read( "need_fire", need_fire );
     need_fire = std::max( need_fire, 0L );
