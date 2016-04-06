@@ -4320,9 +4320,8 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
 
     for( const auto e : opts ) {
         for( item_location& ammo : u.find_ammo( *e ) ) {
-            if( u.can_reload( *e, ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId() ) ||
-                e->has_flag( "RELOAD_AND_SHOOT" ) ) {
-
+            auto id = ammo->is_ammo_container() ? ammo->contents[0].typeId() : ammo->typeId();
+            if( u.can_reload( *e, id ) || e->has_flag( "RELOAD_AND_SHOOT" ) ) {
                 ammo_list.emplace_back( &u, e, this, std::move( ammo ) );
             }
         }
