@@ -4302,7 +4302,7 @@ bool item::can_reload( const itype_id& ammo ) const {
 }
 
 // TODO: Constify the player &u
-item::reload_option item::pick_reload_ammo( player &u ) const
+item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
 {
     std::vector<reload_option> ammo_list;
 
@@ -4355,7 +4355,7 @@ item::reload_option item::pick_reload_ammo( player &u ) const
         return std::move( ammo_list[ 0 ] );
     }
 
-    if( ammo_list.size() == 1 ) {
+    if( !prompt && ammo_list.size() == 1 ) {
         // Suppress display of reload prompt when...
         if( !is_gun() ) {
             return std::move( ammo_list[ 0 ]); // reloading tools
