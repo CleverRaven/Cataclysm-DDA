@@ -16,6 +16,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "sounds.h"
+#include "iuse_actor.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_NONE INT_MIN
@@ -1114,8 +1115,21 @@ bool npc::alt_attack_available()
     for( auto &elem : ALT_ATTACK_ITEMS ) {
         if( ( !is_following() || rules.use_grenades ||
               !( item::find_type( elem )->item_tags.count( "GRENADE" ) ) ) &&
-            has_amount( elem, 1 ) ) {
-            return true;
+                has_amount( elem, 1 ) ) {
+            item *used = nullptr;
+            invslice slice = inv.slice();
+            for (size_t i = 0; i < inv.size(); i++) {
+                if (slice[i]->front().type->id == elem) {
+                    used = &(slice[i]->front());
+                }
+            }
+            const auto use_fun = used->get_use( "iuse_transform" );
+            const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use_fun->get_actor_ptr() );
+            if (actor == nullptr || actor->need_fire <= 0) {
+                return true;
+            } else {
+                return inv.has_charges("fire", 1);
+            }
         }
     }
     return false;
