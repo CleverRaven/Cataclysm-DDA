@@ -2926,7 +2926,7 @@
         ["GRAB", 4]
     ],
     "description":"A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
-    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE" "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
