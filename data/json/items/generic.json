@@ -2333,31 +2333,41 @@
     },
     {
         "type" : "GENERIC",
+        "id" : "cigar_lit",
+        "name" : "cigar",
+        "color" : "brown",
+        "symbol" : "!",
+        "description" : "The smoke billowing from this cigar has a sweet, musty odor.",
+        "category" : "drugs",
+        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4" ]
+    },
+    {
+        "type" : "GENERIC",
+        "id" : "cigar_butt",
+        "name" : "cigar butt",
+        "color" : "dkgray",
+        "symbol" : "!",
+        "description" : "A true gentleman always finishes his cigars.",
+        "category" : "other"
+    },
+    {
+        "type" : "GENERIC",
         "id" : "cig_lit",
         "name" : "cigarette",
-        "weight" : 0,
-        "volume" : 0,
         "color" : "white",
         "symbol" : "!",
-        "to_hit" : -2,
-        "cutting" : -1,
-        "bashing" : -1,
         "description" : "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
-        "price" : 0,
         "category": "drugs",
-        "flags" : ["LITCIG", "TOBACCO", "LIGHT_4"]
+        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4" ]
     },
     {
         "type" : "GENERIC",
         "id" : "cig_butt",
         "name" : "cigarette butt",
-        "weight" : 0,
         "color" : "dark_gray",
         "symbol" : "!",
         "description" : "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
-        "price" : 0,
-        "volume" : 0,
-        "category": "other"
+        "category" : "other"
     },
     {
         "type" : "GENERIC",
@@ -2366,7 +2376,6 @@
         "color" : "ltgreen",
         "symbol" : "!",
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
-        "price" : 0,
         "category" : "drugs",
         "flags" : [ "LITCIG", "LIGHT_4" ]
     },
@@ -2374,11 +2383,10 @@
         "type" : "GENERIC",
         "id" : "joint_roach",
         "name" : "joint roach",
-        "name_plural": "joint roaches",
+        "name_plural" : "joint roaches",
         "color" : "green",
         "symbol" : "!",
         "description" : "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
-        "price" : 0,
         "category" : "other"
     },
     {

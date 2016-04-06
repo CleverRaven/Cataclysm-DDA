@@ -6399,7 +6399,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             ///\EFFECT_INT speeds up robot reprogramming
 
             ///\EFFECT_COMPUTER speeds up robot reprogramming
-            p->moves -= 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10;
+            p->moves -= std::max(100, 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10);
             ///\EFFECT_INT increases chance of successful robot reprogramming, vs difficulty
 
             ///\EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty
