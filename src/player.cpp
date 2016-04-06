@@ -9206,7 +9206,7 @@ bool player::has_charges(const itype_id &it, long quantity) const
     if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
     }
-    return (charges_of(it) >= quantity);
+    return charges_of( it, quantity ) == quantity;
 }
 
 int  player::leak_level( std::string flag ) const
