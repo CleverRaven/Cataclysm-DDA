@@ -4313,8 +4313,11 @@ item::reload_option item::pick_reload_ammo( player &u ) const
         opts.push_back( magazine_current() );
     }
 
-    auto update_moves = [&u]( reload_option& sel ){
+    auto update_moves = [this,&u]( reload_option& sel ){
         sel.moves = sel.ammo.obtain_cost( u, sel.qty ) + u.item_reload_cost( *sel.target, *sel.ammo, sel.qty );
+        if( sel.target == magazine_current() ) {
+            sel.moves += is_gun() ? type->gun->reload_time : 100;
+        }
     };
 
     for( const auto e : opts ) {
