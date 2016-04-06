@@ -1289,7 +1289,7 @@
     "vision_day":3,
     "vision_night":3,
     "hp":40,
-    "death_function":"NORMAL", "FUNGUS",
+    "death_function": ["NORMAL", "FUNGUS"],
     "special_attacks":[["FUNGUS", 200]],
     "description":"Pale, sickly gray in color, this giant ant's cracked exoskeleton is barely held together by coils of fungus erupting from every joint in its body.",
     "flags":["SEES", "SMELLS", "POISON", "CLIMBS"]
@@ -2138,7 +2138,6 @@
     "upgrades":{
       "into": "mon_zombie_mancroc",
       "half_life": 28
-      }
     },
     "hp":70,
     "death_function":["NORMAL"],
