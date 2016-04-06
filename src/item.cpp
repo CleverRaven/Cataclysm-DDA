@@ -4329,7 +4329,13 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     }
 
     if( ammo_list.empty() ) {
-        u.add_msg_if_player( m_info, _( "Out of %s!" ), is_gun() ? _("ammo") : ammo_name( ammo_type() ).c_str() );
+        if( !is_magazine() && !magazine_integral() && !magazine_current() ) {
+            u.add_msg_if_player( m_info, _( "You need a compatible magazine to reload the %s!" ), tname().c_str() );
+
+        } else {
+            auto name = ammo_data() ? ammo_data()->nname( 1 ) : ammo_name( ammo_type() );
+            u.add_msg_if_player( m_info, _( "Out of %s!" ), name.c_str() );
+        }
         return reload_option();
     }
 
