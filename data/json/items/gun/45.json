@@ -86,8 +86,7 @@
     "type": "GUN",
     "name": "L39B-45",
     "description": "After the success of the 9mm model, Leadworks LLC released an L39B chambered in .45.  It soon earned a reputation as one of the most intimidating guns on the market, for firer and target alike.",
-    "ammo": "45",
-    "ranged_damage": 1
+    "ammo": "45"
   },
   {
     "id": "l_sp_45",
@@ -95,8 +94,7 @@
     "type": "GUN",
     "name": "L39-45",
     "description": "Capitalizing on the L39B-45's reputation as one of the most intimidating pistols on the market, Leadworks LLC manufactured a semiautomatic model as well.  Locking it semi-auto reduced cost and improved performance.",
-    "ammo": "45",
-    "ranged_damage": 1
+    "ammo": "45"
   },
   {
     "id": "m1911",
