@@ -124,8 +124,10 @@ class player_morale
         void invalidate();
 
         void update_stylish_bonus();
+        void update_masochist_bonus();
         void update_bodytemp_penalty();
         void update_constrained_penalty();
+
     private:
         std::vector<morale_point> points;
 
@@ -174,6 +176,7 @@ class player_morale
         bool took_prozac;
         bool stylish;
         int super_fancy_bonus;
+        int perceived_pain;
 };
 
 #endif

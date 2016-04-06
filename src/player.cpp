@@ -565,22 +565,6 @@ void player::apply_persistent_morale()
             add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
         }
     }
-
-    // Masochists get a morale bonus from pain.
-    if( has_trait( "MASOCHIST" ) || has_trait( "MASOCHIST_MED" ) ||  has_trait( "CENOBITE" ) ) {
-        int bonus = get_perceived_pain() / 2.5;
-        // Advanced masochists really get a morale bonus from pain.
-        // (It's not capped.)
-        if( has_trait( "MASOCHIST" ) && ( bonus > 25 ) ) {
-            bonus = 25;
-        }
-        if( has_effect( effect_took_prozac ) ) {
-            bonus = int( bonus / 3 );
-        }
-        if( bonus != 0 ) {
-            add_morale( MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true );
-        }
-    }
 }
 
 void player::update_mental_focus()

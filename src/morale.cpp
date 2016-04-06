@@ -273,11 +273,13 @@ player_morale::player_morale() :
     level_is_valid( false ),
     took_prozac( false ),
     stylish( false ),
-    super_fancy_bonus( 0 )
+    super_fancy_bonus( 0 ),
+    perceived_pain( 0 )
 {
     using namespace std::placeholders;
     // Cannot use 'this' because the object is copyable
     const mutation_data constrained( std::bind( &player_morale::update_constrained_penalty, _1 ) );
+    const mutation_data masochist( std::bind( &player_morale::update_masochist_bonus, _1 ) );
 
     mutations["OPTIMISTIC"] =
         mutation_data(
@@ -295,6 +297,9 @@ player_morale::player_morale() :
     mutations["ROOTS"]   = constrained;
     mutations["ROOTS2"]  = constrained;
     mutations["ROOTS3"]  = constrained;
+    mutations["MASOCHIST"]     = masochist;
+    mutations["MASOCHIST_MED"] = masochist;
+    mutations["CENOBITE"]      = masochist;
 }
 
 void player_morale::add( morale_type type, int bonus, int max_bonus,
@@ -529,7 +534,10 @@ void player_morale::on_mutation_loss( const std::string &mid )
 
 void player_morale::on_stat_change( const std::string &stat, int value )
 {
-
+    if( stat == "perceived_pain" ) {
+        perceived_pain = value;
+        update_masochist_bonus();
+    }
 }
 
 void player_morale::on_item_wear( const item &it )
@@ -582,6 +590,7 @@ void player_morale::set_prozac( bool new_took_prozac )
 {
     if( took_prozac != new_took_prozac ) {
         took_prozac = new_took_prozac;
+        update_masochist_bonus();
         invalidate();
     }
 }
@@ -614,6 +623,29 @@ void player_morale::update_stylish_bonus()
         add_permanent( MORALE_PERM_FANCY, bonus, bonus, true );
     } else {
         remove( MORALE_PERM_FANCY );
+    }
+}
+
+void player_morale::update_masochist_bonus()
+{
+    const bool amateur_masochist = has_mutation( "MASOCHIST" );
+    const bool advanced_masochist = has_mutation( "MASOCHIST_MED" ) || has_mutation( "CENOBITE" );
+
+    int bonus = 0;
+
+    if( amateur_masochist || advanced_masochist ) {
+        bonus = perceived_pain / 2.5;
+        if( amateur_masochist ) {
+            bonus = std::min( bonus, 25 );
+        }
+        if( took_prozac ) {
+            bonus = bonus / 3;
+        }
+    }
+    if( bonus > 0 ) {
+        add_permanent( MORALE_PERM_MASOCHIST, bonus, bonus, true );
+    } else {
+        remove( MORALE_PERM_MASOCHIST );
     }
 }
 
