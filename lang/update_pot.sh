@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 oldpwd=`pwd`
 
@@ -40,7 +40,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Fix msgfmt errors
-if [ "`head -n1 lang/po/cataclysm-dda.pot`" == "# SOME DESCRIPTIVE TITLE." ]
+if [ "`head -n1 lang/po/cataclysm-dda.pot`" = "# SOME DESCRIPTIVE TITLE." ]
 then
     echo "Fixing .pot file headers..."
     package="cataclysm-dda"
