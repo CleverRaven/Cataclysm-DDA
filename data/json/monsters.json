@@ -2397,7 +2397,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_brute_grappler",
-    "name": "zombie wrestling brute",
+    "name": "zombie wrestler",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"Z",
@@ -2421,14 +2421,8 @@
     "death_drops": "default_zombie_death_drops",
     "hp":280,
     "death_function":["NORMAL"],
-    "special_attacks":[["SMASH", 30], ["BIO_OP_TAKEDOWN", 20], ["RANGED_PULL", 20], ["GRAB_DRAG", 10],
-        {
-        "type" : "bite",
-        "cooldown" : 15,
-        "no_infection_chance" : 5,
-        "min_mul" : 0.5, "//" : "stronger jaws"
-        }],
-    "description":"A slab of festering muscle the size of a well-toned bodybuilder. Seems more eager to strangle the life from you than eat you, though is probably capable of both.",
+    "special_attacks":[["SMASH", 30], ["BIO_OP_TAKEDOWN", 20], ["RANGED_PULL", 20], ["GRAB_DRAG", 10]],
+    "description":"A slab of festering muscle the size of a well-toned bodybuilder.  Seems eager to strangle the life from you.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -2908,14 +2902,14 @@
     "morale":100,
     "speed":110,
     "melee_skill":6,
-    "melee_dice":3,
+    "melee_dice":4,
     "melee_dice_sides":6,
     "melee_cut":4,
     "dodge":3,
     "armor_bash":5,
     "armor_cut":2,
-    "vision_day":25,
-    "vision_night":15,
+    "vision_day":15,
+    "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "hp":100,
     "death_function":["NORMAL"],
@@ -2932,7 +2926,7 @@
         ["GRAB", 4]
     ],
     "description":"A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE" "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
