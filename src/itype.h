@@ -364,30 +364,25 @@ struct islot_gunmod : common_firing_data {
 };
 
 struct islot_magazine {
-    /**
-     * What type of ammo this magazine can be loaded with
-     */
-    std::string type;
-    /**
-     * Capacity of magazine (in equivalent units to ammo charges)
-     */
-    int capacity;
-    /**
-     * Default amount of ammo contained by a magazine (often set for ammo belts)
-     */
-    int count;
+    /** What type of ammo this magazine can be loaded with */
+    std::string type = "NULL";
+
+    /** Capacity of magazine (in equivalent units to ammo charges) */
+    int capacity = 0;
+
+    /** Default amount of ammo contained by a magazine (often set for ammo belts) */
+    int count = 0;
+
     /**
      * How reliable this this magazine on a range of 0 to 10?
      * @see doc/GAME_BALANCE.md
      */
-    int reliability;
-    /**
-     * How long it takes to load each unit of ammo into the magazine
-     */
-    int reload_time;
-    /**
-     * For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed
-     */
+    int reliability = 0;
+
+    /** How long it takes to load each unit of ammo into the magazine */
+    int reload_time = 100;
+
+    /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
      itype_id linkage = "NULL";
 };
 

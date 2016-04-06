@@ -629,6 +629,9 @@ void Item_factory::check_definitions() const
         if( type->magazine ) {
             magazines_defined.insert( type->id );
             check_ammo_type( msg, type->magazine->type );
+            if( type->magazine->type == "NULL" ) {
+                msg << "magazine did not specify ammo type" << "\n";
+            }
             if( type->magazine->capacity < 0 ) {
                 msg << string_format("invalid capacity %i", type->magazine->capacity) << "\n";
             }
@@ -1107,19 +1110,21 @@ void Item_factory::load_gunmod(JsonObject &jo)
 
 void Item_factory::load( islot_magazine &slot, JsonObject &jo )
 {
-    slot.type = jo.get_string( "ammo_type" );
-    slot.capacity = jo.get_int( "capacity" );
-    slot.count = jo.get_int( "count", 0 );
-    slot.reliability = jo.get_int( "reliability" );
-    slot.reload_time = jo.get_int( "reload_time", 0 );
-    slot.linkage = jo.get_string( "linkage", slot.linkage );
+    assign( jo, "ammo_type", slot.type );
+    assign( jo, "capacity", slot.capacity );
+    assign( jo, "count", slot.count );
+    assign( jo, "reliability", slot.reliability );
+    assign( jo, "reload_time", slot.reload_time );
+    assign( jo, "linkage", slot.linkage );
 }
 
 void Item_factory::load_magazine(JsonObject &jo)
 {
-    itype *new_item_template = new itype();
-    load_slot( new_item_template->magazine, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->magazine, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load( islot_bionic &slot, JsonObject &jo )
