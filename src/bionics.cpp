@@ -129,11 +129,15 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     wrefresh(window);
 }
 
+const auto separator = []( std::ostringstream &s )
+{
+    return s.tellp() != 0 ? ", " : "";
+};
+
 //builds the power usage string of a given bionic
 std::string build_bionic_poweronly_string(bionic const &bio)
 {
     std::ostringstream power_desc;
-    bool hasPreviousText = false;
     if (bionics[bio.id].power_over_time > 0 && bionics[bio.id].charge_time > 0) {
         power_desc << (
             bionics[bio.id].charge_time == 1
@@ -142,29 +146,17 @@ std::string build_bionic_poweronly_string(bionic const &bio)
           : string_format(_("%d PU / %d turns"),
                 bionics[bio.id].power_over_time,
                 bionics[bio.id].charge_time));
-        hasPreviousText = true;
     }
     if (bionics[bio.id].power_activate > 0 && !bionics[bio.id].charge_time) {
-        if(hasPreviousText){
-            power_desc << ", ";
-        }
-        power_desc << string_format(_("%d PU act"),
+        power_desc << separator( power_desc ) << string_format( _( "%d PU act" ),
                         bionics[bio.id].power_activate);
-        hasPreviousText = true;
     }
     if (bionics[bio.id].power_deactivate > 0 && !bionics[bio.id].charge_time) {
-        if(hasPreviousText){
-            power_desc << ", ";
-        }
-        power_desc << string_format(_("%d PU deact"),
+        power_desc << separator( power_desc ) << string_format(_("%d PU deact"),
                         bionics[bio.id].power_deactivate);
-        hasPreviousText = true;
     }
     if (bionics[bio.id].toggled) {
-        if(hasPreviousText){
-            power_desc << ", ";
-        }
-        power_desc << (bio.powered ? _("ON") : _("OFF"));
+        power_desc << separator( power_desc ) << ( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
 
     return power_desc.str();
@@ -485,7 +477,7 @@ void player::power_bionics()
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
-                popup( _("Invlid bionic letter. Only those characters are valid:\n\n%s"),
+                popup( _("Invalid bionic letter. Only those characters are valid:\n\n%s"),
                        bionic_chars.get_allowed_chars().c_str() );
                 continue;
             }
