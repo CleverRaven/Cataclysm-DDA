@@ -5,8 +5,6 @@
 #include "translations.h"
 #include <algorithm>
 
-// Note: Functions for drawing of UI are moved to the file worldfactory.cpp.
-
 mod_ui::mod_ui( mod_manager *mman )
 {
     if( mman ) {
