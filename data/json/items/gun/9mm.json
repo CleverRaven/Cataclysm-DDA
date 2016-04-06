@@ -226,7 +226,7 @@
   {
     "id": "l_sp_9mm",
     "type": "GUN",
-    "name": "L39",
+    "name": "L39", "//": "L39s are based off the Robocop Auto-9, in turn a dolled-up Beretta 93R.",
     "description": "A semiautomatic 9mm handgun introduced in 2039, Leadworks LLC's L39 provides accurate single-shot placement in a very robust frame.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.",
     "weight": 935,
     "volume": 2,
@@ -239,7 +239,6 @@
     "skill": "pistol",
     "ammo": "9mm",
     "range": 1,
-    "ranged_damage": 0, "//": "L39s are based off the Robocop Auto-9, in turn a dolled-up Beretta 93R.",
     "dispersion": 150,
     "sight_dispersion": 90,
     "aim_speed" : 4,
