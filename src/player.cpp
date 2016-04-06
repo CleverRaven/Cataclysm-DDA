@@ -4693,10 +4693,7 @@ void player::mod_pain(int npain) {
 
 void player::set_pain(int npain)
 {
-    const int prev_pain = get_perceived_pain();
-
-    Creature::set_pain( npain );
-    react_to_felt_pain( get_perceived_pain() - prev_pain );
+    mod_perceived_pain( [ this, npain ]() { Creature::set_pain( npain ); } );
 }
 
 int player::get_perceived_pain() const
@@ -4708,6 +4705,17 @@ int player::get_perceived_pain() const
     return std::max( get_pain() - get_painkiller(), 0 );
 }
 
+void player::mod_perceived_pain( std::function<void()> modifier )
+{
+    const int prev_pain = get_perceived_pain();
+    modifier();
+    const int cur_pain = get_perceived_pain();
+    if( cur_pain != prev_pain ) {
+        react_to_felt_pain( cur_pain - prev_pain );
+        on_stat_change( "perceived_pain", cur_pain );
+    }
+}
+
 void player::mod_painkiller(int npkill)
 {
     set_painkiller( pkill + npkill );
@@ -4715,10 +4723,13 @@ void player::mod_painkiller(int npkill)
 
 void player::set_painkiller(int npkill)
 {
-    const int prev_pain = get_perceived_pain();
-
-    pkill = std::max( npkill, 0 );
-    react_to_felt_pain( get_perceived_pain() - prev_pain );
+    npkill = std::max( npkill, 0 );
+    if( pkill != npkill ) {
+        mod_perceived_pain( [ this, npkill ]() {
+            pkill = npkill;
+            on_stat_change( "pkill", pkill );
+        });
+    }
 }
 
 int player::get_painkiller() const
@@ -13355,6 +13366,11 @@ void player::on_mutation_gain( const std::string &mid )
 void player::on_mutation_loss( const std::string &mid )
 {
     morale.on_mutation_loss( mid );
+}
+
+void player::on_stat_change( const std::string &stat, int value )
+{
+    morale.on_stat_change( stat, value );
 }
 
 void player::on_item_wear( const item &it )

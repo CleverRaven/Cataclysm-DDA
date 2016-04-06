@@ -346,6 +346,10 @@ void Character::load(JsonObject &data)
         }
         return VisitResponse::NEXT;
     } );
+
+    on_stat_change( "thirst", thirst );
+    on_stat_change( "hunger", hunger );
+    on_stat_change( "fatigue", fatigue );
 }
 
 void Character::store(JsonOut &json) const
@@ -477,7 +481,8 @@ void player::load(JsonObject &data)
         remove_mutation( "MYOPIC" );
     }
 
-
+    on_stat_change( "pkill", pkill );
+    on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
 /*
@@ -2004,6 +2009,8 @@ void Creature::load( JsonObject &jsin )
     jsin.read( "underwater", underwater );
 
     fake = false; // see Creature::load
+
+    on_stat_change( "pain", pain );
 }
 
 void player_morale::morale_point::deserialize( JsonIn &jsin )

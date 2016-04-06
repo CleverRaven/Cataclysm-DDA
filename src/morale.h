@@ -47,6 +47,7 @@ class player_morale
 
         void on_mutation_gain( const std::string &mid );
         void on_mutation_loss( const std::string &mid );
+        void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );

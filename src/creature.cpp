@@ -1086,7 +1086,11 @@ void Creature::mod_pain_noresist(int npain)
 
 void Creature::set_pain(int npain)
 {
-    pain = std::max( npain, 0 );
+    npain = std::max( npain, 0 );
+    if( pain != npain ) {
+        pain = npain;
+        on_stat_change( "pain", pain );
+    }
 }
 
 int Creature::get_pain() const

@@ -1489,7 +1489,10 @@ void Character::mod_hunger(int nhunger)
 
 void Character::set_hunger(int nhunger)
 {
-    hunger = nhunger;
+    if( hunger != nhunger ) {
+        hunger = nhunger;
+        on_stat_change( "hunger", hunger );
+    }
 }
 
 int Character::get_thirst() const
@@ -1504,7 +1507,10 @@ void Character::mod_thirst(int nthirst)
 
 void Character::set_thirst(int nthirst)
 {
-    thirst = nthirst;
+    if( thirst != nthirst ) {
+        thirst = nthirst;
+        on_stat_change( "thirst", thirst );
+    }
 }
 
 int Character::get_stomach_food() const
@@ -1539,7 +1545,11 @@ void Character::mod_fatigue(int nfatigue)
 
 void Character::set_fatigue(int nfatigue)
 {
-    fatigue = std::max( nfatigue, -1000 );
+    nfatigue = std::max( nfatigue, -1000 );
+    if( fatigue != nfatigue ) {
+        fatigue = nfatigue;
+        on_stat_change( "fatigue", fatigue );
+    }
 }
 
 int Character::get_fatigue() const

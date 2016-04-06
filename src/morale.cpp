@@ -527,6 +527,11 @@ void player_morale::on_mutation_loss( const std::string &mid )
     set_mutation( mid, false );
 }
 
+void player_morale::on_stat_change( const std::string &stat, int value )
+{
+
+}
+
 void player_morale::on_item_wear( const item &it )
 {
     set_worn( it, true );
