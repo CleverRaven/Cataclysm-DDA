@@ -15,7 +15,6 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "500",
-    "ranged_damage": 8,
     "dispersion": 180,
     "sight_dispersion": 90,
     "recoil": 30,
