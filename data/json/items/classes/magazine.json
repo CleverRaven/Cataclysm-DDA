@@ -19,6 +19,6 @@
        "encumbrance": 0,
        "material_thickness": 0
     },
-    "flags": [ "NO_UNLOAD", "MAG_BELT", "MAG_DESTROY" ]
+    "flags": [ "MAG_BELT", "MAG_DESTROY" ]
   }
 ]

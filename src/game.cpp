@@ -11430,7 +11430,11 @@ void game::unload(int pos)
         }
     }
 
-    unload( *it );
+    if( unload( *it ) ) {
+        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
+            u.remove_item( *it );
+        }
+    }
 }
 
 bool add_or_drop_with_msg( player &u, item &it )
@@ -11510,15 +11514,25 @@ bool game::unload( item &it )
 
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine
+        long qty = 0;
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
             if( !add_or_drop_with_msg( u, e ) ) {
                 return false;
             }
+            qty += e.charges;
             u.moves -= u.item_reload_cost( *target, e ) / 2;
             return true;
         } ), target->contents.end() );
 
-        add_msg( _( "You unload your %s." ), target->tname().c_str() );
+        if( target->is_ammo_belt() ) {
+            if( target->type->magazine->linkage != "NULL" ) {
+                item link( target->type->magazine->linkage, calendar::turn, qty );
+                add_or_drop_with_msg( u, link );
+            }
+            add_msg( _( "You disassemble your %s."), target->tname().c_str() );
+        } else {
+            add_msg( _( "You unload your %s." ), target->tname().c_str() );
+        }
         return true;
 
     } else if( target->magazine_current() ) {
