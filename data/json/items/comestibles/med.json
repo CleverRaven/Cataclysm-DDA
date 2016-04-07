@@ -41,8 +41,7 @@
         "material" : "plastic",
         "symbol" : "!",
         "color" : "pink",
-        "use_action" : "ADRENALINE_INJECTOR",
-        "flags" : [ "SPEAR" ]
+        "use_action" : "ADRENALINE_INJECTOR"
     },
     {
         "id" : "aspirin",
