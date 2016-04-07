@@ -2035,18 +2035,27 @@ void ammobelt_actor::info( const item&, std::vector<iteminfo>& dump ) const
     dump.emplace_back( "AMMO", string_format( _( "Can be used to assemble: %s" ), name.c_str() ) );
 }
 
-long ammobelt_actor::use( player *p, item *it, bool, const tripoint& ) const
+long ammobelt_actor::use( player *p, item *, bool, const tripoint& ) const
 {
+    if( !p ) {
+        return 0;
+    }
+
     item mag( belt );
     mag.ammo_unset();
 
-    if( u.can_reload( mag, it->typeId() ) ) {
-        reload( u.get_item_position( &u.i_add( belt ) ) );
-    } else {
-        add_msg_if_player( m_info, _( "Insufficient %s to assemble %s" ),
-                           ammo_name( mag.ammo_type() ).c_str(), mag.tname().c_str() );
+    if( p->rate_action_reload( mag ) != HINT_GOOD ) {
+        p->add_msg_if_player( _( "Insufficient %s to assemble %s" ),
+                              ammo_name( mag.ammo_type() ).c_str(), mag.tname().c_str() );
+        return 0;
     }
 
+    item::reload_option opt = mag.pick_reload_ammo( *p, true );
+    if( opt ) {
+        std::stringstream ss;
+        ss << p->get_item_position( &p->i_add( mag ) );
+        p->assign_activity( ACT_RELOAD, opt.moves(), opt.qty(), opt.ammo.obtain( *p, opt.qty() ), ss.str() );
+    }
     return 0;
 }
 
