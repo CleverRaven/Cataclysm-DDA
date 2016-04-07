@@ -429,34 +429,33 @@ class wish_item_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu) override
-        {
+        virtual void select( int entnum, uimenu *menu ) override {
             const int starty = 3;
             const int startx = menu->w_width - menu->pad_right;
-            const std::string padding(menu->pad_right, ' ');
-            for(int y = 2; y < menu->w_height - 1; y++) {
-                mvwprintw(menu->window, y, startx - 1, "%s", padding.c_str());
+            const std::string padding( menu->pad_right, ' ' );
+            for( int y = 2; y < menu->w_height - 1; y++ ) {
+                mvwprintw( menu->window, y, startx - 1, "%s", padding.c_str() );
             }
-            item tmp(standard_itype_ids[entnum], calendar::turn);
+            item tmp( standard_itype_ids[entnum], calendar::turn );
             mvwhline( menu->window, 1, startx, ' ', menu->pad_right - 1 );
-            const std::string header = string_format("#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
-                                       ( incontainer ? _(" (contained)") : "" ));
-            mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
-                      header.c_str());
+            const std::string header = string_format( "#%d: %s%s", entnum, standard_itype_ids[entnum].c_str(),
+                                       ( incontainer ? _( " (contained)" ) : "" ) );
+            mvwprintz( menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
+                       header.c_str() );
 
-            fold_and_print(menu->window, starty, startx, menu->pad_right - 1, c_ltgray, tmp.info(true));
+            fold_and_print( menu->window, starty, startx, menu->pad_right - 1, c_ltgray, tmp.info( true ) );
 
-            mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
+            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
             msg.erase();
 
-            mvwprintw(menu->window, menu->w_height - 2, startx, _("[/] find, [f] container, [q]uit"));
+            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[/] find, [f] container, [q]uit" ) );
         }
 };
 
-void game::wishitem( player *p, int x, int y, int z)
+void game::wishitem( player *p, int x, int y, int z )
 {
-    if ( p == NULL && x <= 0 ) {
-        debugmsg("game::wishitem(): invalid parameters");
+    if( p == NULL && x <= 0 ) {
+        debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
     const std::vector<std::string> standard_itype_ids = item_controller->get_all_itype_ids();
@@ -470,46 +469,46 @@ void game::wishitem( player *p, int x, int y, int z)
     wish_item_callback *cb = new wish_item_callback( standard_itype_ids );
     wmenu.callback = cb;
 
-    for (size_t i = 0; i < standard_itype_ids.size(); i++) {
+    for( size_t i = 0; i < standard_itype_ids.size(); i++ ) {
         item ity( standard_itype_ids[i], 0 );
         wmenu.addentry( i, true, 0, string_format( _( "%.*s" ), wmenu.pad_right - 5,
-                                                   ity.tname( 1, false ).c_str() ) );
-        wmenu.entries[i].extratxt.txt = string_format("%c", ity.symbol());
+                        ity.tname( 1, false ).c_str() ) );
+        wmenu.entries[i].extratxt.txt = string_format( "%c", ity.symbol() );
         wmenu.entries[i].extratxt.color = ity.color();
         wmenu.entries[i].extratxt.left = 1;
     }
     do {
         wmenu.query();
-        if ( wmenu.ret >= 0 ) {
-            item granted(standard_itype_ids[wmenu.ret], calendar::turn);
+        if( wmenu.ret >= 0 ) {
+            item granted( standard_itype_ids[wmenu.ret], calendar::turn );
             prev_amount = amount;
-            if (p != NULL) {
+            if( p != NULL ) {
                 amount = std::atoi(
-                             string_input_popup(_("How many?"), 20, to_string( amount ),
-                                                granted.tname()).c_str());
+                             string_input_popup( _( "How many?" ), 20, to_string( amount ),
+                                                 granted.tname() ).c_str() );
             }
-            if (dynamic_cast<wish_item_callback *>(wmenu.callback)->incontainer) {
+            if( dynamic_cast<wish_item_callback *>( wmenu.callback )->incontainer ) {
                 granted = granted.in_its_container();
             }
-            if ( p != NULL ) {
-                for (int i = 0; i < amount; i++) {
-                    p->i_add(granted);
+            if( p != NULL ) {
+                for( int i = 0; i < amount; i++ ) {
+                    p->i_add( granted );
                 }
                 p->invalidate_crafting_inventory();
-            } else if ( x >= 0 && y >= 0 ) {
-                m.add_item_or_charges( tripoint( x, y, z ), granted);
+            } else if( x >= 0 && y >= 0 ) {
+                m.add_item_or_charges( tripoint( x, y, z ), granted );
                 wmenu.keypress = 'q';
             }
-            if ( amount > 0 ) {
-                dynamic_cast<wish_item_callback *>(wmenu.callback)->msg =
-                    _("Wish granted. Wish for more or hit 'q' to quit.");
+            if( amount > 0 ) {
+                dynamic_cast<wish_item_callback *>( wmenu.callback )->msg =
+                    _( "Wish granted. Wish for more or hit 'q' to quit." );
             }
             uistate.wishitem_selected = wmenu.ret;
-            if ( !amount ) {
+            if( !amount ) {
                 amount = prev_amount;
             }
         }
-    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    } while( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
     delete wmenu.callback;
     wmenu.callback = NULL;
     return;
@@ -518,21 +517,22 @@ void game::wishitem( player *p, int x, int y, int z)
 /*
  * Set skill on any player object; player character or NPC
  */
-void game::wishskill(player *p)
+void game::wishskill( player *p )
 {
     const int skoffset = 1;
     uimenu skmenu;
-    skmenu.text = _("Select a skill to modify");
+    skmenu.text = _( "Select a skill to modify" );
     skmenu.return_invalid = true;
-    skmenu.addentry(0, true, '1', _("Modify all skills..."));
+    skmenu.addentry( 0, true, '1', _( "Modify all skills..." ) );
 
     std::vector<int> origskills;
-    origskills.reserve(Skill::skills.size());
+    origskills.reserve( Skill::skills.size() );
 
-    for (auto const &s : Skill::skills) {
-        auto const level = static_cast<int>(p->skillLevel(s));
-        skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level, s.name().c_str() );
-        origskills.push_back(level);
+    for( auto const &s : Skill::skills ) {
+        auto const level = static_cast<int>( p->skillLevel( s ) );
+        skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
+                         s.name().c_str() );
+        origskills.push_back( level );
     }
 
     do {
@@ -540,65 +540,65 @@ void game::wishskill(player *p)
         int skill_id = -1;
         int skset = -1;
         int sksel = skmenu.selected - skoffset;
-        if ( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
-            if ( sksel >= 0 && sksel < (int)Skill::skills.size() ) {
+        if( skmenu.ret == -1 && ( skmenu.keypress == KEY_LEFT || skmenu.keypress == KEY_RIGHT ) ) {
+            if( sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
                 skill_id = sksel;
-                skset = (int)p->skillLevel( Skill::skills[skill_id] ) +
+                skset = ( int )p->skillLevel( Skill::skills[skill_id] ) +
                         ( skmenu.keypress == KEY_LEFT ? -1 : 1 );
             }
             skmenu.ret = -2;
-        } else if ( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < (int)Skill::skills.size() ) {
+        } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
             skill_id = sksel;
             uimenu sksetmenu;
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
             sksetmenu.w_y = skmenu.w_y + 2;
             sksetmenu.w_height = skmenu.w_height - 4;
             sksetmenu.return_invalid = true;
-            sksetmenu.settext( _("Set '%s' to.."), Skill::skills[skill_id].ident().c_str() );
-            int skcur = (int)p->skillLevel(Skill::skills[skill_id]);
+            sksetmenu.settext( _( "Set '%s' to.." ), Skill::skills[skill_id].ident().c_str() );
+            int skcur = ( int )p->skillLevel( Skill::skills[skill_id] );
             sksetmenu.selected = skcur;
-            for ( int i = 0; i < 21; i++ ) {
-                sksetmenu.addentry( i, true, i + 48, "%d%s", i, (skcur == i ? _(" (current)") : "") );
+            for( int i = 0; i < 21; i++ ) {
+                sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
             }
             sksetmenu.query();
             skset = sksetmenu.ret;
         }
 
-        if ( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
-            p->skillLevel( Skill::skills[skill_id] ).level(skset);
-            skmenu.textformatted[0] = string_format(_("%s set to %d             "),
-                                                    Skill::skills[skill_id].ident().c_str(),
-                                                    (int)p->skillLevel(Skill::skills[skill_id])).substr(0, skmenu.w_width - 4);
-            skmenu.entries[skill_id + skoffset].txt = string_format(_("@ %d: %s  "),
-                    (int)p->skillLevel( Skill::skills[skill_id]), Skill::skills[skill_id].ident().c_str() );
+        if( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
+            p->skillLevel( Skill::skills[skill_id] ).level( skset );
+            skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
+                                      Skill::skills[skill_id].ident().c_str(),
+                                      ( int )p->skillLevel( Skill::skills[skill_id] ) ).substr( 0, skmenu.w_width - 4 );
+            skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
+                    ( int )p->skillLevel( Skill::skills[skill_id] ), Skill::skills[skill_id].ident().c_str() );
             skmenu.entries[skill_id + skoffset].text_color =
-                ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
+                ( ( int )p->skillLevel( Skill::skills[skill_id] ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
-        } else if ( skmenu.ret == 0 && sksel == -1 ) {
-            int ret = menu(true, _("Alter all skill values"), _("Add 3"), _("Add 1"), _("Subtract 1"),
-                           _("Subtract 3"), _("set to 0"),
-                           _("Set to 5"), _("Set to 10"), _("(Reset changes)"), NULL);
-            if ( ret > 0 ) {
+        } else if( skmenu.ret == 0 && sksel == -1 ) {
+            int ret = menu( true, _( "Alter all skill values" ), _( "Add 3" ), _( "Add 1" ), _( "Subtract 1" ),
+                            _( "Subtract 3" ), _( "set to 0" ),
+                            _( "Set to 5" ), _( "Set to 10" ), _( "(Reset changes)" ), NULL );
+            if( ret > 0 ) {
                 int skmod = 0;
                 int skset = -1;
-                if (ret < 5 ) {
-                    skmod = ( ret < 3 ? ( ret == 1 ? 3 : 1 ) : ( ret == 3 ? -1 : -3 ));
-                } else if ( ret < 8 ) {
+                if( ret < 5 ) {
+                    skmod = ( ret < 3 ? ( ret == 1 ? 3 : 1 ) : ( ret == 3 ? -1 : -3 ) );
+                } else if( ret < 8 ) {
                     skset = ( ( ret - 5 ) * 5 );
                 }
-                for (size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
+                for( size_t skill_id = 0; skill_id < Skill::skills.size(); skill_id++ ) {
                     int changeto = ( skmod != 0 ? p->skillLevel( Skill::skills[skill_id] ) + skmod :
                                      ( skset != -1 ? skset : origskills[skill_id] ) );
                     p->skillLevel( Skill::skills[skill_id] ).level( changeto );
-                    skmenu.entries[skill_id + skoffset].txt = string_format(_("@ %d: %s  "),
-                            (int)p->skillLevel(Skill::skills[skill_id]),
+                    skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
+                            ( int )p->skillLevel( Skill::skills[skill_id] ),
                             Skill::skills[skill_id].ident().c_str() );
                     skmenu.entries[skill_id + skoffset].text_color =
-                        ( (int)p->skillLevel(Skill::skills[skill_id]) == origskills[skill_id] ?
+                        ( ( int )p->skillLevel( Skill::skills[skill_id] ) == origskills[skill_id] ?
                           skmenu.text_color : c_yellow );
                 }
             }
         }
-    } while ( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
-                                    skmenu.keypress != KEY_ESCAPE ) );
+    } while( skmenu.ret != -1 && ( skmenu.keypress != 'q' && skmenu.keypress != ' ' &&
+                                   skmenu.keypress != KEY_ESCAPE ) );
 }
