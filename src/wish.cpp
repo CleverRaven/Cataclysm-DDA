@@ -139,20 +139,20 @@ class wish_mutate_callback: public uimenu_callback
                 }
             }
 
-            if ( !mdata.category.empty() ) {
+            if( !mdata.category.empty() ) {
                 line2++;
-                mvwprintz(menu->window, line2, startx, c_ltgray,  _("Category:"));
-                for (auto &j : mdata.category) {
-                    mvwprintw(menu->window, line2, startx + 11, "%s", j.c_str());
+                mvwprintz( menu->window, line2, startx, c_ltgray,  _( "Category:" ) );
+                for( auto &j : mdata.category ) {
+                    mvwprintw( menu->window, line2, startx + 11, "%s", j.c_str() );
                     line2++;
                 }
             }
             line2 += 2;
 
-            mvwprintz(menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
-                      mdata.points,
-                      mdata.visibility,
-                      mdata.ugliness
+            mvwprintz( menu->window, line2, startx, c_ltgray, "pts: %d vis: %d ugly: %d",
+                       mdata.points,
+                       mdata.visibility,
+                       mdata.ugliness
                      );
             line2 += 2;
 
@@ -164,9 +164,9 @@ class wish_mutate_callback: public uimenu_callback
             }
             lastlen = line2 + 1;
 
-            mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
+            mvwprintz( menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str() );
             msg = padding;
-            mvwprintw(menu->window, menu->w_height - 2, startx, _("[/] find, [q]uit"));
+            mvwprintw( menu->window, menu->w_height - 2, startx, _( "[/] find, [q]uit" ) );
 
         };
 
@@ -203,45 +203,45 @@ void game::wishmutate( player *p )
     wmenu.callback = cb;
     do {
         wmenu.query();
-        if ( wmenu.ret >= 0 ) {
+        if( wmenu.ret >= 0 ) {
             int rc = 0;
             std::string mstr = cb->vTraits[ wmenu.ret ];
             const auto &mdata = mutation_branch::get( mstr );
             bool threshold = mdata.threshold;
             bool profession = mdata.profession;
             //Manual override for the threshold-gaining
-            if (threshold || profession) {
-                if ( p->has_trait( mstr ) ) {
+            if( threshold || profession ) {
+                if( p->has_trait( mstr ) ) {
                     do {
-                        p->remove_mutation(mstr );
+                        p->remove_mutation( mstr );
                         rc++;
-                    } while (p->has_trait( mstr ) && rc < 10);
+                    } while( p->has_trait( mstr ) && rc < 10 );
                 } else {
                     do {
-                        p->set_mutation(mstr );
+                        p->set_mutation( mstr );
                         rc++;
-                    } while (!p->has_trait( mstr ) && rc < 10);
+                    } while( !p->has_trait( mstr ) && rc < 10 );
                 }
-            } else if ( p->has_trait( mstr ) ) {
+            } else if( p->has_trait( mstr ) ) {
                 do {
-                    p->remove_mutation(mstr );
+                    p->remove_mutation( mstr );
                     rc++;
-                } while (p->has_trait( mstr ) && rc < 10);
+                } while( p->has_trait( mstr ) && rc < 10 );
             } else {
                 do {
-                    p->mutate_towards(mstr );
+                    p->mutate_towards( mstr );
                     rc++;
-                } while (!p->has_trait( mstr ) && rc < 10);
+                } while( !p->has_trait( mstr ) && rc < 10 );
             }
-            cb->msg = string_format(_("%s Mutation changes: %d"), mstr.c_str(), rc);
+            cb->msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
             uistate.wishmutate_selected = wmenu.ret;
-            if ( rc != 0 ) {
-                for ( size_t i = 0; i < cb->vTraits.size(); i++ ) {
+            if( rc != 0 ) {
+                for( size_t i = 0; i < cb->vTraits.size(); i++ ) {
                     wmenu.entries[ i ].extratxt.txt = "";
-                    if ( p->has_trait( cb->vTraits[ i ] ) ) {
+                    if( p->has_trait( cb->vTraits[ i ] ) ) {
                         wmenu.entries[ i ].text_color = c_green;
                         cb->pTraits[ cb->vTraits[ i ] ] = true;
-                        if ( p->has_base_trait( cb->vTraits[ i ] ) ) {
+                        if( p->has_base_trait( cb->vTraits[ i ] ) ) {
                             wmenu.entries[ i ].extratxt.txt = "T";
                         }
                     } else {
@@ -408,8 +408,8 @@ class wish_item_callback: public uimenu_callback
         bool incontainer;
         std::string msg;
         const std::vector<std::string> &standard_itype_ids;
-        wish_item_callback( const std::vector<std::string> &ids ) : incontainer( false ), msg( "" )
-            , standard_itype_ids( ids ) {
+        wish_item_callback( const std::vector<std::string> &ids ) :
+            incontainer( false ), msg( "" ), standard_itype_ids( ids ) {
         }
         virtual bool key( int key, int /*entnum*/, uimenu * /*menu*/ ) override {
             if( key == 'f' ) {
