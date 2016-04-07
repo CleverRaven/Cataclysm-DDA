@@ -1705,37 +1705,38 @@ void player::add_bionic( std::string const &b )
 
     int pow_up = bionics[b].capacity;
     max_power_level += pow_up;
-    if ( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
-        add_msg_if_player(m_good, _("Increased storage capacity by %i."), pow_up);
+    if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
+        add_msg_if_player( m_good, _( "Increased storage capacity by %i." ), pow_up );
         // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
         return;
     }
 
     my_bionics.push_back( bionic( b, newinv ) );
-    if ( b == "bio_tools" || b == "bio_ears" ) {
-        activate_bionic(my_bionics.size() -1);
+    if( b == "bio_tools" || b == "bio_ears" ) {
+        activate_bionic( my_bionics.size() - 1 );
     }
     recalc_sight_limits();
 }
 
-void player::remove_bionic(std::string const &b) {
+void player::remove_bionic( std::string const &b )
+{
     std::vector<bionic> new_my_bionics;
-    for(auto &i : my_bionics) {
-        if (b == i.id) {
+    for( auto &i : my_bionics ) {
+        if( b == i.id ) {
             continue;
         }
 
         // Ears and earplugs and sunglasses and blindfold go together like peanut butter and jelly.
         // Therefore, removing one, should remove the other.
-        if ((b == "bio_ears" && i.id == "bio_earplugs") ||
-            (b == "bio_earplugs" && i.id == "bio_ears")) {
+        if( ( b == "bio_ears" && i.id == "bio_earplugs" ) ||
+            ( b == "bio_earplugs" && i.id == "bio_ears" ) ) {
             continue;
-        } else if ((b == "bio_sunglasses" && i.id == "bio_blindfold") ||
-		           (b == "bio_blindfold" && i.id == "bio_sunglasses")) {
-				   continue;
+        } else if( ( b == "bio_sunglasses" && i.id == "bio_blindfold" ) ||
+                   ( b == "bio_blindfold" && i.id == "bio_sunglasses" ) ) {
+            continue;
         }
 
-        new_my_bionics.push_back(bionic(i.id, i.invlet));
+        new_my_bionics.push_back( bionic( i.id, i.invlet ) );
     }
     my_bionics = new_my_bionics;
     recalc_sight_limits();
@@ -1755,22 +1756,22 @@ std::pair<int, int> player::amount_of_storage_bionics() const
         lvl -= bionics[it.id].capacity;
     }
 
-    std::pair<int, int> results (0, 0);
-    if (lvl <= 0) {
+    std::pair<int, int> results( 0, 0 );
+    if( lvl <= 0 ) {
         return results;
     }
 
     int pow_mkI = bionics["bio_power_storage"].capacity;
     int pow_mkII = bionics["bio_power_storage_mkII"].capacity;
 
-    while (lvl >= std::min(pow_mkI, pow_mkII)) {
-        if ( one_in(2) ) {
-            if (lvl >= pow_mkI) {
+    while( lvl >= std::min( pow_mkI, pow_mkII ) ) {
+        if( one_in( 2 ) ) {
+            if( lvl >= pow_mkI ) {
                 results.first++;
                 lvl -= pow_mkI;
             }
         } else {
-            if (lvl >= pow_mkII) {
+            if( lvl >= pow_mkII ) {
                 results.second++;
                 lvl -= pow_mkII;
             }
@@ -1779,12 +1780,13 @@ std::pair<int, int> player::amount_of_storage_bionics() const
     return results;
 }
 
-bionic& player::bionic_at_index(int i)
+bionic &player::bionic_at_index( int i )
 {
     return my_bionics[i];
 }
 
-bionic* player::bionic_by_invlet( const long ch ) {
+bionic *player::bionic_by_invlet( const long ch )
+{
     for( auto &elem : my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
@@ -1794,12 +1796,13 @@ bionic* player::bionic_by_invlet( const long ch ) {
 }
 
 // Returns true if a bionic was removed.
-bool player::remove_random_bionic() {
+bool player::remove_random_bionic()
+{
     const int numb = num_bionics();
-    if (numb) {
-        int rem = rng(0, num_bionics() - 1);
+    if( numb ) {
+        int rem = rng( 0, num_bionics() - 1 );
         const auto bionic = my_bionics[rem];
-        remove_bionic(bionic.id);
+        remove_bionic( bionic.id );
         recalc_sight_limits();
     }
     return numb;
@@ -1811,54 +1814,55 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
-void load_bionic(JsonObject &jsobj)
+void load_bionic( JsonObject &jsobj )
 {
-    std::string id = jsobj.get_string("id");
-    std::string name = _(jsobj.get_string("name").c_str());
-    std::string description = _(jsobj.get_string("description").c_str());
-    int on_cost = jsobj.get_int("act_cost", 0);
+    std::string id = jsobj.get_string( "id" );
+    std::string name = _( jsobj.get_string( "name" ).c_str() );
+    std::string description = _( jsobj.get_string( "description" ).c_str() );
+    int on_cost = jsobj.get_int( "act_cost", 0 );
 
-    bool toggled = jsobj.get_bool("toggled", false);
+    bool toggled = jsobj.get_bool( "toggled", false );
     // Requires ability to toggle
-    int off_cost = jsobj.get_int("deact_cost", 0);
+    int off_cost = jsobj.get_int( "deact_cost", 0 );
 
-    int time = jsobj.get_int("time", 0);
+    int time = jsobj.get_int( "time", 0 );
     // Requires a non-zero time
-    int react_cost = jsobj.get_int("react_cost", 0);
+    int react_cost = jsobj.get_int( "react_cost", 0 );
 
-    int capacity = jsobj.get_int("capacity", 0);
+    int capacity = jsobj.get_int( "capacity", 0 );
 
-    bool faulty = jsobj.get_bool("faulty", false);
-    bool power_source = jsobj.get_bool("power_source", false);
+    bool faulty = jsobj.get_bool( "faulty", false );
+    bool power_source = jsobj.get_bool( "power_source", false );
 
-    if (faulty) {
-        faulty_bionics.push_back(id);
+    if( faulty ) {
+        faulty_bionics.push_back( id );
     }
 
-    auto const result = bionics.insert(std::make_pair(std::move(id),
-        bionic_data(std::move(name), power_source, toggled, on_cost, off_cost, react_cost, time,
-                    capacity, std::move(description), faulty)));
+    auto const result = bionics.insert( std::make_pair( std::move( id ),
+                                        bionic_data( std::move( name ), power_source, toggled,
+                                                on_cost, off_cost, react_cost, time, capacity,
+                                                std::move( description ), faulty ) ) );
 
-    if (!result.second) {
-        debugmsg("duplicate bionic id");
+    if( !result.second ) {
+        debugmsg( "duplicate bionic id" );
     }
 }
 
-void bionic::serialize(JsonOut &json) const
+void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member("id", id);
-    json.member("invlet", (int)invlet);
-    json.member("powered", powered);
-    json.member("charge", charge);
+    json.member( "id", id );
+    json.member( "invlet", ( int )invlet );
+    json.member( "powered", powered );
+    json.member( "charge", charge );
     json.end_object();
 }
 
-void bionic::deserialize(JsonIn &jsin)
+void bionic::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    id = jo.get_string("id");
-    invlet = jo.get_int("invlet");
-    powered = jo.get_bool("powered");
-    charge = jo.get_int("charge");
+    id = jo.get_string( "id" );
+    invlet = jo.get_int( "invlet" );
+    powered = jo.get_bool( "powered" );
+    charge = jo.get_int( "charge" );
 }
