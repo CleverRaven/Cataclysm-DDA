@@ -794,7 +794,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 bool special = false;
                                 //Flame type ammo removed so gasoline isn't explosive, it just burns.
                                 if( ammo_type != nullptr &&
-                                    ( !fuel->made_of("hydrocarbons") && !fuel->made_of("oil") ) ) {
+                                    ( !fuel->made_of( material_id( "hydrocarbons" ) ) && !fuel->made_of( material_id( "oil" ) ) ) ) {
                                     cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
                                               ammo_type->ammo_effects.count("COOKOFF");
                                     special = ammo_type->ammo_effects.count("FRAG") ||
@@ -847,7 +847,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     // Can't find an easy way to handle reinserting the ammo into a potentially
                                     // invalidated list and continuing iteration, so just bail out.
                                     break;
-                                } else if( fuel->made_of("paper") ) {
+                                } else if( fuel->made_of( material_id( "paper" ) ) ) {
                                     //paper items feed the fire moderately.
                                     base_burn_amt = 3;
                                     burn_amt = base_burn_amt * (max_consume - consumed);
@@ -859,7 +859,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         smoke++;    //Large paper items give chance to smoke.
                                     }
 
-                                } else if( fuel->made_of("wood") || fuel->made_of("veggy") ) {
+                                } else if( fuel->made_of( material_id( "wood" ) ) || fuel->made_of( material_id( "veggy" ) ) ) {
                                     //Wood or vegy items burn slowly.
                                     if (vol <= cur->getFieldDensity() * 10 ||
                                         cur->getFieldDensity() == 3) {
@@ -874,8 +874,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     smoke++;
 
-                                } else if( (fuel->made_of("cotton") || fuel->made_of("wool")) &&
-                                           !fuel->made_of("nomex") ) {
+                                } else if( (fuel->made_of( material_id( "cotton" ) ) || fuel->made_of( material_id( "wool" ) )) &&
+                                           !fuel->made_of( material_id( "nomex" ) ) ) {
                                     //Cotton and wool moderately quickly but don't feed the fire much.
                                     if( vol <= 5 || cur->getFieldDensity() > 1 ) {
                                         time_added += 1;
@@ -885,8 +885,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     }
                                     smoke++;
 
-                                } else if( fuel->made_of("flesh") || fuel->made_of("hflesh") ||
-                                           fuel->made_of("iflesh") ) {
+                                } else if( fuel->made_of( material_id( "flesh" ) ) || fuel->made_of( material_id( "hflesh" ) ) ||
+                                           fuel->made_of( material_id( "iflesh" ) ) ) {
                                     // Slow and smokey
                                     if( one_in( vol / 50 / cur->getFieldDensity() ) ) {
                                         time_added += 1;
@@ -900,10 +900,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                                 } else if( fuel->made_of(LIQUID) ) {
                                     // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                    if( fuel->made_of("hydrocarbons") ) {
+                                    if( fuel->made_of( material_id( "hydrocarbons" ) ) ) {
                                         time_added += 300;
                                         smoke += 6;
-                                    } else if( fuel->made_of("alcohol") && fuel->made_of().size() == 1 ) {
+                                    } else if( fuel->made_of( material_id( "alcohol" ) ) && fuel->made_of().size() == 1 ) {
                                         // Only strong alcohol for now
                                         time_added += 250;
                                         smoke += 1;
@@ -918,14 +918,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     // burn_amt will get multiplied by stack size in item::burn
                                     burn_amt = cur->getFieldDensity();
 
-                                } else if( fuel->made_of("powder") ) {
+                                } else if( fuel->made_of( material_id( "powder" ) ) ) {
                                     // Any powder will fuel the fire as 100 times much as its volume
                                     // but be immediately destroyed.
                                     time_added += vol * 100;
                                     destroyed = true;
                                     smoke += 2;
 
-                                } else if( fuel->made_of("plastic") && !fuel->made_of("nomex") ) {
+                                } else if( fuel->made_of( material_id( "plastic" ) ) && !fuel->made_of( material_id( "nomex" ) ) ) {
                                     //Smokey material, doesn't fuel well.
                                     smoke += 3;
                                     if( fuel->burnt <= cur->getFieldDensity() * 2 ||
@@ -935,7 +935,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             time_added += 1;
                                         }
                                     }
-                                } else if( !fuel->made_of("nomex") ) {
+                                } else if( !fuel->made_of( material_id( "nomex" ) ) ) {
                                     // Generic materials, like bone, wheat or fruit
                                     // Just damage and smoke, don't feed the fire
                                     int best_res = 0;
@@ -1767,13 +1767,21 @@ void map::player_in_field( player &u )
                 break;
             }
 
+            if( u.has_trait( "ACIDPROOF" ) ) {
+                // No need for warnings
+                break;
+            }
+
             const int density = cur->getFieldDensity();
             int total_damage = 0;
             // Use a helper for a bit less boilerplate
             const auto burn_part = [&]( body_part bp, const int scale ) {
                 const int damage = rng( 1, scale + density );
-                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
-                total_damage += ddi.total_damage();
+                // A bit ugly, but better than being annoyed by acid when in hazmat
+                if( u.get_armor_type( DT_ACID, bp ) < damage ) {
+                    auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
+                    total_damage += ddi.total_damage();
+                }
                 // Represents acid seeping in rather than being splashed on
                 u.add_env_effect( effect_corroding, bp, 2 + density, rng( 2, 1 + density ), bp, false, 0 );
             };
@@ -2224,17 +2232,17 @@ void map::monster_in_field( monster &z )
                 return;
             }
             // TODO: Replace the section below with proper json values
-            if ( z.made_of("flesh") || z.made_of("hflesh") || z.made_of("iflesh") ) {
+            if ( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "iflesh" ) ) ) {
                 dam += 3;
             }
-            if (z.made_of("veggy")) {
+            if (z.made_of( material_id( "veggy" ) )) {
                 dam += 12;
             }
-            if (z.made_of("paper") || z.made_of(LIQUID) || z.made_of("powder") ||
-                z.made_of("wood")  || z.made_of("cotton") || z.made_of("wool")) {
+            if (z.made_of( material_id( "paper" ) ) || z.made_of(LIQUID) || z.made_of( material_id( "powder" ) ) ||
+                z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) || z.made_of( material_id( "wool" ) )) {
                 dam += 20;
             }
-            if (z.made_of("stone") || z.made_of("kevlar") || z.made_of("steel")) {
+            if (z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) || z.made_of( material_id( "steel" ) )) {
                 dam += -20;
             }
             if (z.has_flag(MF_FLIES)) {
@@ -2270,14 +2278,14 @@ void map::monster_in_field( monster &z )
                 if (cur->getFieldDensity() == 3) {
                     z.moves -= rng(10, 20);
                 }
-                if (z.made_of("veggy")) { // Plants suffer from smoke even worse
+                if (z.made_of( material_id( "veggy" ) )) { // Plants suffer from smoke even worse
                     z.moves -= rng(1, cur->getFieldDensity() * 12);
                 }
             }
             break;
 
         case fd_tear_gas:
-            if ((z.made_of("flesh") || z.made_of("hflesh") || z.made_of("veggy") || z.made_of("iflesh")) &&
+            if ((z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) )) &&
                 !z.has_flag(MF_NO_BREATHE)) {
                 if (cur->getFieldDensity() == 3) {
                     z.add_effect( effect_stunned, rng(10, 20));
@@ -2288,7 +2296,7 @@ void map::monster_in_field( monster &z )
                 } else {
                     z.add_effect( effect_stunned, rng(1, 5));
                 }
-                if (z.made_of("veggy")) {
+                if (z.made_of( material_id( "veggy" ) )) {
                     z.moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
                     dam += cur->getFieldDensity() * rng(8, 14);
                 }
@@ -2299,7 +2307,7 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_relax_gas:
-            if ((z.made_of("flesh") || z.made_of("hflesh") || z.made_of("veggy") || z.made_of("iflesh")) &&
+            if ((z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "veggy" ) ) || z.made_of( material_id( "iflesh" ) )) &&
                 !z.has_flag(MF_NO_BREATHE)) {
                 z.add_effect( effect_stunned, rng(cur->getFieldDensity() * 4, cur->getFieldDensity() * 8));
             }
@@ -2331,7 +2339,7 @@ void map::monster_in_field( monster &z )
                     z.moves -= rng(0, 15);
                     dam += rng(0, 12);
                 }
-                if (z.made_of("veggy")) {
+                if (z.made_of( material_id( "veggy" ) )) {
                     z.moves -= rng(cur->getFieldDensity() * 5, cur->getFieldDensity() * 12);
                     dam *= cur->getFieldDensity();
                 }
@@ -2340,17 +2348,17 @@ void map::monster_in_field( monster &z )
 
             // MATERIALS-TODO: Use fire resistance
         case fd_flame_burst:
-            if (z.made_of("flesh") || z.made_of("hflesh") || z.made_of("iflesh")) {
+            if (z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "iflesh" ) )) {
                 dam += 3;
             }
-            if (z.made_of("veggy")) {
+            if (z.made_of( material_id( "veggy" ) )) {
                 dam += 12;
             }
-            if (z.made_of("paper") || z.made_of(LIQUID) || z.made_of("powder") ||
-                z.made_of("wood")  || z.made_of("cotton") || z.made_of("wool")) {
+            if (z.made_of( material_id( "paper" ) ) || z.made_of(LIQUID) || z.made_of( material_id( "powder" ) ) ||
+                z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) || z.made_of( material_id( "wool" ) )) {
                 dam += 50;
             }
-            if (z.made_of("stone") || z.made_of("kevlar") || z.made_of("steel")) {
+            if (z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) || z.made_of( material_id( "steel" ) )) {
                 dam += -25;
             }
             dam += rng(0, 8);
@@ -2393,17 +2401,17 @@ void map::monster_in_field( monster &z )
 
         case fd_incendiary:
             // MATERIALS-TODO: Use fire resistance
-            if ( z.made_of("flesh") || z.made_of("hflesh") || z.made_of("iflesh") ) {
+            if ( z.made_of( material_id( "flesh" ) ) || z.made_of( material_id( "hflesh" ) ) || z.made_of( material_id( "iflesh" ) ) ) {
                 dam += 3;
             }
-            if (z.made_of("veggy")) {
+            if (z.made_of( material_id( "veggy" ) )) {
                 dam += 12;
             }
-            if (z.made_of("paper") || z.made_of(LIQUID) || z.made_of("powder") ||
-                z.made_of("wood")  || z.made_of("cotton") || z.made_of("wool")) {
+            if (z.made_of( material_id( "paper" ) ) || z.made_of(LIQUID) || z.made_of( material_id( "powder" ) ) ||
+                z.made_of( material_id( "wood" ) )  || z.made_of( material_id( "cotton" ) ) || z.made_of( material_id( "wool" ) )) {
                 dam += 20;
             }
-            if (z.made_of("stone") || z.made_of("kevlar") || z.made_of("steel")) {
+            if (z.made_of( material_id( "stone" ) ) || z.made_of( material_id( "kevlar" ) ) || z.made_of( material_id( "steel" ) )) {
                 dam += -5;
             }
 
@@ -2412,15 +2420,15 @@ void map::monster_in_field( monster &z )
             } else if (cur->getFieldDensity() == 2) {
                 dam += rng(6, 12);
                 z.moves -= 20;
-                if (!z.made_of(LIQUID) && !z.made_of("stone") && !z.made_of("kevlar") &&
-                !z.made_of("steel") && !z.has_flag(MF_FIREY)) {
+                if (!z.made_of(LIQUID) && !z.made_of( material_id( "stone" ) ) && !z.made_of( material_id( "kevlar" ) ) &&
+                !z.made_of( material_id( "steel" ) ) && !z.has_flag(MF_FIREY)) {
                     z.add_effect( effect_onfire, rng(8, 12));
                 }
             } else if (cur->getFieldDensity() == 3) {
                 dam += rng(10, 20);
                 z.moves -= 40;
-                if (!z.made_of(LIQUID) && !z.made_of("stone") && !z.made_of("kevlar") &&
-                !z.made_of("steel") && !z.has_flag(MF_FIREY)) {
+                if (!z.made_of(LIQUID) && !z.made_of( material_id( "stone" ) ) && !z.made_of( material_id( "kevlar" ) ) &&
+                !z.made_of( material_id( "steel" ) ) && !z.has_flag(MF_FIREY)) {
                         z.add_effect( effect_onfire, rng(12, 16));
                 }
             }
@@ -2639,4 +2647,10 @@ int field::move_cost() const
         current_cost += fld.second.move_cost();
     }
     return current_cost;
+}
+
+bool field_type_dangerous( field_id id )
+{
+    const field_t &ft = fieldlist[id];
+    return ft.dangerous[0] || ft.dangerous[1] || ft.dangerous[2];
 }

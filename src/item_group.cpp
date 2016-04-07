@@ -181,30 +181,31 @@ void Item_modifier::modify(item &new_item) const
     new_item.damage = std::min( std::max( (int) rng( damage.first, damage.second ), MIN_ITEM_DAMAGE ), MAX_ITEM_DAMAGE );
 
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
-    const auto g = new_item.type->gun.get();
-    const auto t = dynamic_cast<const it_tool *>(new_item.type);
-   
+
     if(ch != -1) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
             // count_by_charges requires that charges is at least 1. It makes no sense to
             // spawn a "water (0)" item.
             new_item.charges = std::max( 1l, ch );
-        } else if(t != NULL) {
-            new_item.charges = std::min(ch, t->max_charges);
-        } else if (g == nullptr){
+        } else if( new_item.is_tool() ) {
+            const auto qty = std::min( ch, new_item.ammo_capacity() );
+            new_item.charges = qty;
+            if( new_item.ammo_type() != "NULL" && qty > 0 ) {
+                new_item.ammo_set( new_item.ammo_type(), qty );
+            }
+        } else if( !new_item.is_gun() ) {
             //not gun, food, ammo or tool. 
             new_item.charges = ch;
         }
     }
     
-    if( g != nullptr && ( ammo.get() != nullptr || ch > 0 ) ) {
+    if( new_item.is_gun() && ( ammo.get() != nullptr || ch > 0 ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
-            const auto ammoid = default_ammo( g->ammo );
-            if ( !ammoid.empty() ) {
-                new_item.set_curammo( ammoid );
+            if( new_item.ammo_type() != "NULL" ) {
                 new_item.charges = ch;
+                new_item.set_curammo( new_item.ammo_type() );
             }
         } else {
             const item am = ammo->create_single( new_item.bday );
@@ -224,6 +225,7 @@ void Item_modifier::modify(item &new_item) const
             new_item.charges = 0;
         }
     }
+
     if(container.get() != NULL) {
         item cont = container->create_single(new_item.bday);
         if (!cont.is_null()) {

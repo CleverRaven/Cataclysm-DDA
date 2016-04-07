@@ -143,15 +143,8 @@ class inventory : public visitable<inventory>
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
-        int  amount_of (itype_id it) const;
-        int  amount_of (itype_id it, bool used_as_tool) const;
-        long charges_of(itype_id it) const;
-
         std::list<item> use_amount (itype_id it, int quantity);
-        std::list<item> use_charges(itype_id it, long quantity);
 
-        bool has_amount (itype_id it, int quantity) const;
-        bool has_amount (itype_id it, int quantity, bool used_as_tool) const;
         bool has_tools (itype_id it, int quantity) const;
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
@@ -211,37 +204,6 @@ class inventory : public visitable<inventory>
             return stacks;
         }
 
-        /** Returns all items matching the filter including any within containers */
-        std::vector<item *> items_with( const std::function<bool(const item&)>& filter );
-        std::vector<const item *> items_with( const std::function<bool(const item&)>& filter ) const;
-
-        template<typename T>
-        std::list<item> remove_items_with( T filter )
-        {
-            std::list<item> result;
-            for( auto items_it = items.begin(); items_it != items.end(); ) {
-                auto &stack = *items_it;
-                for( auto stack_it = stack.begin(); stack_it != stack.end(); ) {
-                    if( filter( *stack_it ) ) {
-                        result.push_back( std::move( *stack_it ) );
-                        stack_it = stack.erase( stack_it );
-                        if( stack_it == stack.begin() && !stack.empty() ) {
-                            // preserve the invlet when removing the first item of a stack
-                            stack_it->invlet = result.back().invlet;
-                        }
-                    } else {
-                        result.splice( result.begin(), stack_it->remove_items_with( filter ) );
-                        ++stack_it;
-                    }
-                }
-                if( stack.empty() ) {
-                    items_it = items.erase( items_it );
-                } else {
-                    ++items_it;
-                }
-            }
-            return result;
-        }
     private:
         // For each item ID, store a set of "favorite" inventory letters.
         std::map<std::string, std::vector<char> > invlet_cache;

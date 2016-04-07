@@ -2078,8 +2078,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         mvwputch(w, om_half_height+1, om_half_width+1, c_ltgray, LINE_XOOX);
     }
     // Done with all drawing!
-    wrefresh(w);
     wrefresh(wbar);
+    wmove( w, om_half_height, om_half_width );
+    wrefresh(w);
 }
 
 tripoint overmap::draw_overmap()

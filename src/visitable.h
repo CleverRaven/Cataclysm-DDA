@@ -2,6 +2,7 @@
 #define VISITABLE_H
 
 #include <vector>
+#include <list>
 #include <functional>
 
 #include "enums.h"
@@ -29,14 +30,13 @@ class visitable
          *
          * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
          */
-        VisitResponse visit_items_with_parent(
-            const std::function<VisitResponse( item *, item * )> &func );
-        VisitResponse visit_items_with_parent_const(
-            const std::function<VisitResponse( const item *, const item * )> &func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func );
+        VisitResponse visit_items( const std::function<VisitResponse( const item *, const item * )> &func )
+        const;
 
         /** Lightweight version which provides only the current node */
         VisitResponse visit_items( const std::function<VisitResponse( item * )> &func );
-        VisitResponse visit_items_const( const std::function<VisitResponse( const item * )> &func ) const;
+        VisitResponse visit_items( const std::function<VisitResponse( const item * )> &func ) const;
 
         /**
          * Determine the immediate parent container (if any) for an item.
@@ -58,6 +58,45 @@ class visitable
 
         /** Returns true if any item (including those within a container) matches the filter */
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
+
+        /** Returns true if instance has amount (or more) items of at least quality level */
+        bool has_items_with_quality( const std::string &qual, int level = 1, int amount = 1 ) const;
+
+        /**
+         * Count maximum available charges from this instance and any contained items
+         * @param limit stop searching after this many charges have been found
+         */
+        long charges_of( const std::string &what, int limit = INT_MAX ) const;
+
+        /**
+         * Count items matching id including both this instance and any contained items
+         * @param pseudo whether pseudo-items (from map/vehicle tiles, bionics etc) are considered
+         * @param limit stop searching after this many matches
+         * @note items must be empty to be considered a match
+         */
+        int amount_of( const std::string &what, bool pseudo = true, int limit = INT_MAX ) const;
+
+        /** Check instance provides at least qty of an item (@see amount_of) */
+        bool has_amount( const std::string &what, int qty, bool pseudo = true ) const {
+            return amount_of( what, pseudo, qty ) == qty;
+        }
+
+        /** Returns all items (including those within a container) matching the filter */
+        std::vector<item *> items_with( const std::function<bool( const item & )> &filter );
+        std::vector<const item *> items_with( const std::function<bool( const item & )> &filter ) const;
+
+        /**
+         * Removes items contained by this instance which match the filter
+         * @note if this instance itself is an item it will not be considered by the filter
+         * @param filter a UnaryPredicate which should return true if the item is to be removed
+         * @param count maximum number of items to if unspecified unlimited. A count of zero is a no-op
+         * @return any items removed (items counted by charges are not guaranteed to be stacked)
+         */
+        std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
+                                           int count = INT_MAX );
+
+        /** Removes and returns the item which must be contained by this instance */
+        item remove_item( item &it );
 };
 
 #endif

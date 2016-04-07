@@ -14564,36 +14564,6 @@
         },
         {
           "bg": 632,
-          "fg": 1415,
-          "id": "software_medical",
-          "rotates": false
-        },
-        {
-          "bg": 632,
-          "fg": 1415,
-          "id": "software_blood_data",
-          "rotates": false
-        },
-        {
-          "bg": 632,
-          "fg": 1415,
-          "id": "software_useless",
-          "rotates": false
-        },
-        {
-          "bg": 632,
-          "fg": 1415,
-          "id": "software_hacking",
-          "rotates": false
-        },
-        {
-          "bg": 632,
-          "fg": 1415,
-          "id": "software_math",
-          "rotates": false
-        },
-        {
-          "bg": 632,
           "fg": 1582,
           "id": "usp_45",
           "rotates": false

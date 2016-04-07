@@ -36,7 +36,7 @@ void remove_from_component_lookup(recipe* r);
 
 recipe::recipe() :
     result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
-    autolearn(false), learn_by_disassembly(-1), result_mult(1)
+    autolearn_requirements(), learn_by_disassembly(), result_mult(1)
 {
 }
 
@@ -68,7 +68,6 @@ void load_recipe(JsonObject &jsobj)
     // required
     std::string result = jsobj.get_string("result");
     std::string category = jsobj.get_string("category");
-    bool autolearn = jsobj.get_bool("autolearn");
     int time = jsobj.get_int("time");
     int difficulty = jsobj.get_int( "difficulty" );
 
@@ -78,7 +77,6 @@ void load_recipe(JsonObject &jsobj)
     bool reversible = jsobj.get_bool("reversible", false);
     skill_id skill_used( jsobj.get_string("skill_used", skill_id::NULL_ID.str() ) );
     std::string id_suffix = jsobj.get_string("id_suffix", "");
-    int learn_by_disassembly = jsobj.get_int("decomp_learn", -1);
     double batch_rscale = 0.0;
     int batch_rsize = 0;
     if (jsobj.has_array( "batch_time_factors" )) {
@@ -99,6 +97,40 @@ void load_recipe(JsonObject &jsobj)
             }
         } else {
             requires_skills[jsarr.get_string(0)] = jsarr.get_int(1);
+        }
+    }
+
+    std::map<std::string, int> autolearn_requirements;
+    if( jsobj.has_array( "autolearn" ) ) {
+        JsonArray jarr = jsobj.get_array( "autolearn" );
+        while( jarr.has_more() ) {
+            JsonArray ja = jarr.next_array();
+            autolearn_requirements[ja.get_string(0)] = ja.get_int(1);
+        }
+    } else if( jsobj.has_bool( "autolearn" ) ) {
+        if( jsobj.get_bool( "autolearn" ) ) {
+            // Short definition of autolearn (equal to required skills)
+            autolearn_requirements = requires_skills;
+            if( skill_used ) {
+                autolearn_requirements[skill_used.str()] = difficulty;
+            }
+        }
+    }
+
+    std::map<std::string, int> learn_by_disassembly;
+    if( jsobj.has_int( "decomp_learn" ) ) {
+        // Short definition of decomp_learn - only the main skill
+        int val = jsobj.get_int( "decomp_learn" );
+        if( val >= 0 && !skill_used ) {
+            jsobj.throw_error( "decomp_learn specified with no skill_used" );
+        } else if( val >= 0 ) {
+            learn_by_disassembly[skill_used.str()] = val;
+        }
+    } else if( jsobj.has_array( "decomp_learn" ) ) {
+        JsonArray jarr = jsobj.get_array( "decomp_learn" );
+        while( jarr.has_more() ) {
+            JsonArray ja = jarr.next_array();
+            learn_by_disassembly[ja.get_string(0)] = ja.get_int(1);
         }
     }
 
@@ -140,9 +172,13 @@ void load_recipe(JsonObject &jsobj)
     for( const auto &elem : requires_skills ) {
         rec->required_skills[skill_id( elem.first )] = elem.second;
     }
+    for( const auto &elem : autolearn_requirements ) {
+        rec->autolearn_requirements[skill_id( elem.first )] = elem.second;
+    }
+    for( const auto &elem : learn_by_disassembly ) {
+        rec->learn_by_disassembly[skill_id( elem.first )] = elem.second;
+    }
     rec->reversible = reversible;
-    rec->autolearn = autolearn;
-    rec->learn_by_disassembly = learn_by_disassembly;
     rec->batch_rscale = batch_rscale;
     rec->batch_rsize = batch_rsize;
     rec->result_mult = result_mult;
@@ -179,7 +215,7 @@ void finalize_recipes()
                 debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident().c_str());
                 continue;
             }
-            itype *t = item::find_type( book_id );
+            const itype *t = item::find_type( book_id );
             if( !t->book ) {
                 // TODO: we could make up a book slot?
                 debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident().c_str());
@@ -197,19 +233,14 @@ void finalize_recipes()
     }
 }
 
-bool player::crafting_allowed( const std::string &rec_name )
+static bool crafting_allowed( const player &p, const recipe &rec )
 {
-    return crafting_allowed( *recipe_dict[rec_name] );
-}
-
-bool player::crafting_allowed( const recipe &rec )
-{
-    if( !has_morale_to_craft() ) {
+    if( !p.has_morale_to_craft() ) {
         add_msg( m_info, _( "Your morale is too low to craft..." ) );
         return false;
     }
 
-    if( lighting_craft_speed_multiplier( rec ) == 0.0f ) {
+    if( p.lighting_craft_speed_multiplier( rec ) == 0.0f ) {
         add_msg( m_info, _( "You can't see to craft!" ) );
         return false;
     }
@@ -217,7 +248,7 @@ bool player::crafting_allowed( const recipe &rec )
     return true;
 }
 
-float player::lighting_craft_speed_multiplier( const recipe &rec )
+float player::lighting_craft_speed_multiplier( const recipe &rec ) const
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
     float darkness = fine_detail_vision_mod() - 4.0f;
@@ -255,7 +286,7 @@ void player::craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if ( crafting_allowed( *rec ) ) {
+        if ( crafting_allowed( *this, *rec ) ) {
             make_craft( rec->ident(), batch_size );
         }
     }
@@ -275,7 +306,7 @@ void player::long_craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if ( crafting_allowed( *rec ) ) {
+        if ( crafting_allowed( *this, *rec ) ) {
             make_all_craft( rec->ident(), batch_size );
         }
     }
@@ -284,7 +315,7 @@ void player::long_craft()
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
     const recipe *making = recipe_by_name( id_to_make );
-    if( making == nullptr || !crafting_allowed( *making ) ) {
+    if( making == nullptr || !crafting_allowed( *this, *making ) ) {
         return false;
     }
 
@@ -1332,7 +1363,7 @@ bool player::disassemble( item &dis_item, int dis_pos,
             recipe_ident = fake_recipe_book;
         }
     }
-    
+
     if( recipe_ident.empty() ) {
         // No recipe exists, or the item cannot be disassembled
         if( msg_and_query ) {
@@ -1540,14 +1571,6 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     if( veh != nullptr ) {
         veh_part = veh->part_with_feature(veh_part, "CARGO");
     }
-    
-    // If we're trying to disassemble usb drive with some software in it
-    // Erase contents of the usb drive to prevent spawning of software as item in inventory
-    if ( !dis_item.contents.empty() ) {
-        if ( dis_item.contents[0].is_software() ) {
-            dis_item.contents.erase( dis_item.contents.begin() );
-        }
-    }
 
     add_msg(_("You disassemble the %s into its components."), dis_item.tname().c_str());
     // Remove any batteries, ammo and mods first
@@ -1653,8 +1676,9 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
     }
 
-    if (dis.learn_by_disassembly >= 0 && !knows_recipe(&dis)) {
-        if( !dis.skill_used || dis.learn_by_disassembly <= skillLevel(dis.skill_used)) {
+    if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
+        if( can_decomp_learn( dis ) ) {
+            // @todo: make this depend on intelligence
             if (one_in(4)) {
                 learn_recipe( &dis );
                 add_msg(m_good, _("You learned a recipe from disassembling it!"));
@@ -1711,7 +1735,7 @@ void remove_ammo(item *dis_item, player &p)
                 remove_ammo( &contents[i], p );
                 i++;
             } else {
-                p.remove_gunmod( dis_item, i );
+                p.gunmod_remove( *dis_item, contents[ i ] );
             }
             continue;
         }

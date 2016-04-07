@@ -767,41 +767,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "molotov",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_EXPLOSIVE",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": false,
-  "autolearn": true,
-  "components": [
-    [
-      [ "rag", 1 ]
-    ],
-    [
-      [ "bottle_glass", 1 ],
-      [ "clay_canister", 1 ],
-      [ "flask_glass", 1 ]
-    ],
-    [
-      [ "whiskey", 14 ],
-      [ "single_malt_whiskey", 14 ],
-      [ "vodka", 14 ],
-      [ "rum", 14 ],
-      [ "tequila", 14 ],
-      [ "gin", 14 ],
-      [ "moonshine", 14 ],
-      [ "brandy", 14 ],
-      [ "chem_ethanol", 14],
-      [ "denat_alcohol", 14],
-      [ "lamp_oil", 400 ],
-      [ "gasoline", 600 ],
-      [ "diesel", 600 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "pipebomb",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
@@ -2128,83 +2093,6 @@
     ],
     [
       [ "cable", 5 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "torch",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": false,
-  "autolearn": true,
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ],
-      [ "splinter", 1 ],
-      [ "pool_cue", 1 ],
-      [ "torch_done", 1 ]
-    ],
-    [
-      [ "gasoline", 200 ],
-      [ "diesel", 200 ],
-      [ "lamp_oil", 100 ],
-      [ "vodka", 7 ],
-      [ "rum", 7 ],
-      [ "whiskey", 7 ],
-      [ "single_malt_whiskey", 7 ],
-      [ "tequila", 7 ],
-      [ "gin", 7 ],
-      [ "moonshine", 7 ],
-      [ "brandy", 7 ],
-      [ "chem_ethanol", 7],
-      [ "denat_alcohol", 7],
-      [ "tallow", 1 ],
-      [ "tallow_tainted", 1 ]
-    ],
-    [
-      [ "rag", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "battletorch",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_BASHING",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
-    [
-      [ "bat", 1 ]
-    ],
-    [
-      [ "nomex", 5 ]
-    ],
-    [
-      [ "gasoline", 200 ],
-      [ "diesel", 200 ],
-      [ "lamp_oil", 100 ],
-      [ "vodka", 7 ],
-      [ "rum", 7 ],
-      [ "whiskey", 7 ],
-      [ "single_malt_whiskey", 7 ],
-      [ "tequila", 7 ],
-      [ "gin", 7 ],
-      [ "moonshine", 7 ],
-      [ "brandy", 7 ],
-      [ "chem_ethanol", 7],
-      [ "denat_alcohol", 7],
-      [ "tallow", 1 ],
-      [ "tallow_tainted", 1 ]
-    ],
-    [
-      [ "rag", 1 ]
     ]
   ]
 },{

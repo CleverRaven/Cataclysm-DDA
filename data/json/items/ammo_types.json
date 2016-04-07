@@ -93,7 +93,7 @@
         "type" : "ammunition_type",
         "id" : "40",
         "name" : ".40",
-        "default" : "10mm"
+        "default" : "40sw"
     },
     {
         "type" : "ammunition_type",
@@ -241,12 +241,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "laser_capacitor",
-        "name" : "charge",
-        "default" : "laser_pack"
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "plutonium",
         "name" : "plutonium",
         "default" : "plut_cell"
@@ -280,6 +274,12 @@
         "id" : "water",
         "name" : "water",
         "default" : "water"
+    },
+    {
+       "type" : "ammunition_type",
+        "id" : "weldgas",
+        "name" : "welding gas",
+        "default" : "oxyacetylene"
     },
     {
         "type" : "ammunition_type",
@@ -397,7 +397,7 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "ammo_flintlock",
+        "id" : "flintlock",
         "name" : "paper cartridge",
         "default" : "flintlock_ammo"
     },

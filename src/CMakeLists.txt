@@ -120,6 +120,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/computer.cpp
     ${CMAKE_SOURCE_DIR}/src/trap.cpp
     ${CMAKE_SOURCE_DIR}/src/game.cpp
+    ${CMAKE_SOURCE_DIR}/src/gates.cpp
     ${CMAKE_SOURCE_DIR}/src/monattack.cpp
     ${CMAKE_SOURCE_DIR}/src/effect.cpp
     ${CMAKE_SOURCE_DIR}/src/iuse_software_sokoban.cpp
@@ -303,6 +304,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/uistate.h
     ${CMAKE_SOURCE_DIR}/src/profession.h
     ${CMAKE_SOURCE_DIR}/src/path_info.h
+    ${CMAKE_SOURCE_DIR}/src/pathfinding.h
     ${CMAKE_SOURCE_DIR}/src/version.h
     ${CMAKE_SOURCE_DIR}/src/input.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h

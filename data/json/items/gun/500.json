@@ -1,6 +1,7 @@
 [
   {
     "id": "sw_500",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "S&W 500",
     "name_plural": "S&W 500",
@@ -13,17 +14,13 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "skill": "pistol",
     "ammo": "500",
     "ranged_damage": 8,
     "dispersion": 180,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 30,
     "durability": 8,
     "clip_size": 5,
-    "reload": 80,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
   }
 ]

@@ -3044,34 +3044,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "metal_tank_small",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 2000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
-    [
-      [ "welder", 50 ],
-      [ "welder_crude", 75 ],
-      [ "toolset", 75 ],
-      [ "oxy_torch", 5]
-    ]
-  ],
-  "components": [
-    [
-      [ "sheet_metal", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "it_battery_mount",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -3134,43 +3106,6 @@
     [
       [ "sheet_metal", 1 ],
       [ "scrap", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bandages",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "firstaid",
-  "difficulty": 1,
-  "time": 500,
-  "reversible": false,
-  "autolearn": true,
-  "components": [
-    [
-      [ "rag", 3 ],
-      [ "cotton_ball", 1 ],
-      [ "medical_gauze", 1 ]
-    ],
-    [
-      [ "superglue", 1 ],
-      [ "duct_tape", 5 ],
-      [ "medical_tape", 3 ]
-    ],
-    [
-      [ "vodka", 7 ],
-      [ "rum", 7 ],
-      [ "whiskey", 7 ],
-      [ "single_malt_whiskey", 7 ],
-      [ "tequila", 7 ],
-      [ "gin", 7 ],
-      [ "moonshine", 7 ],
-      [ "brandy", 7 ],
-      [ "chem_ethanol", 7],
-      [ "disinfectant", 1 ],
-      [ "saline", 5 ],
-      [ "thyme_oil", 1 ],
-      [ "chem_hydrogen_peroxide", 1 ]
     ]
   ]
 },{
@@ -3556,37 +3491,6 @@
   "components": [ [ [ "copper", 100 ] ] ]
 },{
   "type" : "recipe",
-  "result": "1st_aid",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "firstaid",
-  "difficulty": 3,
-  "time": 20000,
-  "reversible": true,
-  "decomp_learn": 2,
-  "autolearn": true,
-  "components": [
-    [
-      [ "medical_tape", 20 ],
-      [ "duct_tape", 40 ]
-    ],
-    [
-      [ "aspirin", 8 ]
-    ],
-    [
-      [ "disinfectant", 1 ],
-      [ "chem_ethanol", 7 ],
-      [ "saline", 10 ],
-      [ "thyme_oil", 1 ],
-      [ "chem_hydrogen_peroxide", 1 ]
-    ],
-    [
-      [ "bandages", 2 ],
-      [ "quikclot", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "jug_plastic",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
@@ -3932,31 +3836,13 @@
   "time": 12000,
   "reversible": true,
   "decomp_learn": 2,
-  "autolearn": false,
+  "autolearn": [[ "mechanics", 3 ], [ "electronics", 2 ]],
   "book_learn": [["manual_mechanics", 3] , ["textbook_mechanics", 2] , ["welding_book", 1]],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [ [ ["element", 3] ],
     [ ["scrap", 2] ],
     [ ["cable", 8] ] ]
-},{
-  "type" : "recipe",
-  "result": "still",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "mechanics",
-  "skills_required": ["cooking", 4],
-  "difficulty": 3,
-  "time": 200000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [["textbook_chemistry", 2] , ["adv_chemistry", 2]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
-  ], "components": [ [ ["pot", 1] ],
-    [ ["hose", 2] ],
-    [ ["metal_tank_small", 1] ] ]
 },{
   "type" : "recipe",
   "result": "popcan_stove",
@@ -5203,7 +5089,7 @@
      [ "scrap", 36 ]
     ],
     [
-     [ "metal_tank_small", 1 ]
+     [ "jerrycan_big", 1 ]
     ],
     [
      [ "pipe", 3]
@@ -5244,7 +5130,7 @@
      [ "scrap", 4 ]
     ],
     [
-     [ "metal_tank_small", 1 ]
+     [ "jerrycan_big", 1 ]
     ]
   ]
 },{
@@ -5355,7 +5241,7 @@
        [ "scrap", 72 ]
      ],
      [
-       [ "metal_tank_small", 1 ]
+       [ "jerrycan_big", 1 ]
      ],
      [
        [ "pipe", 8 ]
@@ -5398,7 +5284,7 @@
        [ "scrap", 36 ]
      ],
      [
-       [ "metal_tank_small", 1 ]
+       [ "jerrycan_big", 1 ]
      ],
      [
        [ "pipe", 4 ]
@@ -5484,7 +5370,7 @@
        [ "scrap", 60 ]
      ],
      [
-       [ "metal_tank_small", 1 ]
+       [ "jerrycan_big", 1 ]
      ],
      [
        ["pipe", 6]
@@ -6523,16 +6409,16 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 5,
+  "difficulty": 4,
   "time": 40000,
   "reversible": true,
   "autolearn": true,
   "components": [
+    [ [ "chitin_piece", 20 ] ],
     [
-     [ "chitin_piece", 40 ]
-    ],
-    [
-     [ "rope_6", 4 ]
+        [ "rope_6", 2 ],
+        [ "superglue", 2 ],
+        [ "bone_glue", 4 ]
     ]
     ]
  },{
@@ -6541,18 +6427,20 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 4,
+  "difficulty": 3,
   "time": 40000,
   "reversible": true,
   "autolearn": true,
   "components": [
     [
-     [ "bone", 25 ],
-     [ "bone_human", 25 ],
-     [ "bone_tainted", 50 ]
+        [ "bone", 25 ],
+        [ "bone_human", 25 ],
+        [ "bone_tainted", 50 ]
     ],
     [
-     [ "rope_6", 5 ]
+        [ "rope_6", 4 ],
+        [ "superglue", 2 ],
+        [ "bone_glue", 4 ]
     ]
     ]
  },{
@@ -6561,7 +6449,7 @@
   "category": "CC_OTHER",
   "subcategory": "CSC_WEAPON_PARTS",
   "skill_used": "fabrication",
-  "difficulty": 7,
+  "difficulty": 6,
   "time": 360000,
   "reversible": false,
   "autolearn": true,
@@ -7885,7 +7773,7 @@
     ]
   ],
   "components": [
-    [ [ "chem_ethanol", 2 ] ],
+    [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
     [ [ "copper", 50 ] ],
     [ [ "acid", 1 ] ],
     [ [ "bleach", 2 ] ],
@@ -7909,7 +7797,6 @@
   "components": [
     [
       [ "sewing_kit", 1 ],
-      [ "knitting_needles", 1 ],
       [ "tailors_kit", 1 ]
     ]
   ]

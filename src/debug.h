@@ -2,6 +2,12 @@
 #define DEBUG_H
 
 /**
+ * Should a debugmsg result in an exception instead of a propmt?
+ * Useful for preventing unit tests stalling waiting for keyboard input
+ */
+extern bool debug_fatal;
+
+/**
  *      debugmsg(msg, ...)
  * varg-style functions: the first argument is the format (see printf),
  * the other optional arguments must match that format.
@@ -47,15 +53,23 @@
 #define STRING2(x) #x
 #define STRING(x) STRING2(x)
 
+#if defined(__GNUC__)
+#define __FUNCTION_NAME__ __PRETTY_FUNCTION__
+#else
+#define __FUNCTION_NAME__ __func__
+#endif
+
 /**
  * Debug message of level D_ERROR and class D_MAIN, also includes the source
  * file name and line, uses varg style arguments, teh first argument must be
  * a printf style format string.
  */
-#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __VA_ARGS__)
+
+#define debugmsg(...) realDebugmsg(__FILE__, STRING(__LINE__), __FUNCTION_NAME__, __VA_ARGS__)
 
 // Don't use this, use debugmsg instead.
-void realDebugmsg( const char *name, const char *line, const char *mes, ... );
+void realDebugmsg( const char *filename, const char *line, const char *funcname, const char *mes,
+                   ... );
 
 // Enumerations                                                     {{{1
 // ---------------------------------------------------------------------

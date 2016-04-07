@@ -80,11 +80,11 @@
     "recoil": -15,
     "durability": 8,
     "burst": 10,
-    "reload": 100,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
-      [ "308", [ "falmag", "falbigmag" ] ]
+      [ "308", [ "falmag", "falbigmag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
     ],
     "flags": [ "MODE_BURST" ]
   },
@@ -110,10 +110,10 @@
     "recoil": 60,
     "durability": 8,
     "burst": 10,
-    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
-      [ "308", [ "g3mag", "g3bigmag" ] ]
+      [ "308", [ "g3mag", "g3bigmag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
     ],
     "flags": [ "MODE_BURST" ]
   },
@@ -138,7 +138,7 @@
     "recoil": 55,
     "durability": 9,
     "burst": 100,
-    "reload": 500,
+    "reload": 400,
     "ups_charges": 1,
     "magazines": [
       [ "308", [ "belt308" ] ]
@@ -161,44 +161,26 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "308",
-    "dispersion": 5,
     "sight_dispersion": 60,
     "aim_speed": 6,
     "recoil": -60,
     "durability": 8,
-    "reload": 100,
     "barrel_length": 2,
     "magazines": [
-      [ "308", [ "m14mag", "m14smallmag" ] ]
+      [ "308", [ "m14mag", "m14smallmag" ] ],
+      [ "223", [ "stanag10" ] ]
     ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ]
   },
   {
     "id": "m14ebr",
+    "copy-from": "m14a",
     "type": "GUN",
     "name": "M14 EBR-RI",
     "name_plural": "M14 EBR-RI",
     "description": "A highly modified version of the M14 rifle designed to cover both CQB and designated marksman roles.  A very powerful and versatile rifle, if somewhat heavy.",
     "weight": 4820,
-    "volume": 9,
     "price": 195000,
-    "bashing": 12,
-    "to_hit": 1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "rifle",
-    "ammo": "308",
-    "dispersion": 10,
-    "sight_dispersion": 60,
-    "aim_speed": 6,
-    "recoil": -60,
-    "durability": 8,
-    "reload": 100,
-    "barrel_length": 2,
-    "magazines": [
-      [ "308", [ "m14mag", "m14smallmag" ] ]
-    ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
@@ -223,7 +205,7 @@
     "recoil": 30,
     "durability": 6,
     "clip_size": 6,
-    "reload": 100,
+    "reload": 200,
     "barrel_length": 2,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
@@ -250,39 +232,19 @@
     "recoil": -165,
     "durability": 9,
     "clip_size": 3,
-    "reload": 100,
     "barrel_length": 3,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ]
   },
   {
     "id": "scar_h",
+    "copy-from": "scar_l",
     "type": "GUN",
     "name": "FN SCAR-H",
     "name_plural": "FN SCAR-H",
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
-    "weight": 3280,
-    "volume": 9,
-    "price": 295000,
-    "bashing": 12,
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "dark_gray",
-    "skill": "rifle",
     "ammo": "308",
-    "dispersion": 10,
-    "sight_dispersion": 60,
-    "aim_speed": 6,
-    "recoil": -60,
-    "durability": 8,
     "burst": 8,
-    "reload": 100,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "magazine_well": 1,
-    "magazines": [
-      [ "308", [ "scarhmag", "scarhbigmag" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    "magazine_well": 1
   }
 ]

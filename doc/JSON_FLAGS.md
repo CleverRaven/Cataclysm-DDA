@@ -586,8 +586,9 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```INCENDIARY``` Lights target on fire.
 - ```NAPALM``` Explosion that spreads fire.
 - ```TEARGAS``` Generates a cloud of teargas.
-- ```SMOKE``` Generates a cloud of smoke.
-- ```SMOKE_BIG``` Generates a large cloud of smoke.
+- ```SMOKE``` Generates a cloud of smoke at the target.
+- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
+- ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
 - ```TRAIL``` Creates a trail of smoke.
 - ```FLARE``` Lights the target on fire.
 - ```FLASHBANG``` Blinds and deafens nearby targets.
@@ -798,7 +799,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NO_UNWIELD``` Cannot unwield this item.
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
-- ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.

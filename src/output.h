@@ -400,9 +400,10 @@ std::string replace_colors(std::string text);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
-size_t shortcut_print(WINDOW *w, int y, int x, nc_color color, nc_color colork,
-                      const std::string &fmt);
-size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::string &fmt);
+size_t shortcut_print( WINDOW *w, int y, int x, nc_color text_color, nc_color shortcut_color,
+                      const std::string &fmt );
+size_t shortcut_print( WINDOW *w, nc_color text_color, nc_color shortcut_color,
+                      const std::string &fmt );
 
 // short visual animation (player, monster, ...) (hit, dodge, ...)
 // cTile is a UTF-8 strings, and must be a single cell wide!
@@ -412,6 +413,30 @@ std::pair<std::string, nc_color> const& get_hp_bar(int cur_hp, int max_hp, bool 
 std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
 
 std::pair<std::string, nc_color> const& get_light_level(const float light);
+
+/**
+ * @return String containing the bar. Example: "Label [********    ]".
+ * @param val Value to display. Can be unclipped.
+ * @param width Width of the entire string.
+ * @param label Label before the bar. Can be empty.
+ * @param begin Iterator over pairs <double p, char c> (see below).
+ * @param end Iterator over pairs <double p, char c> (see below).
+ * Where:
+ *    p - percentage of the entire bar which can be filled with c.
+ *    c - character to fill the segment of the bar with
+ */
+template<typename RatingIterator>
+std::string get_labeled_bar( const double val, const int width, const std::string &label,
+    RatingIterator begin, RatingIterator end );
+
+/**
+ * @return String containing the bar. Example: "Label [********    ]".
+ * @param val Value to display. Can be unclipped.
+ * @param width Width of the entire string.
+ * @param label Label before the bar. Can be empty.
+ * @param c Character to fill the bar with.
+ */
+std::string get_labeled_bar( const double val, const int width, const std::string &label, char c );
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);

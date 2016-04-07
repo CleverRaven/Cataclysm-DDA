@@ -243,10 +243,10 @@ static bool item_inscription(player *p, item *cut, std::string verb, std::string
         add_msg(m_info, _("You can't %s an item that's not solid!"), lower_verb.c_str());
         return false;
     }
-    if (carveable && !(cut->made_of("wood") || cut->made_of("plastic") ||
-                       cut->made_of("glass") || cut->made_of("chitin") ||
-                       cut->made_of("iron") || cut->made_of("steel") ||
-                       cut->made_of("silver"))) {
+    if (carveable && !(cut->made_of( material_id( "wood" ) ) || cut->made_of( material_id( "plastic" ) ) ||
+                       cut->made_of( material_id( "glass" ) ) || cut->made_of( material_id( "chitin" ) ) ||
+                       cut->made_of( material_id( "iron" ) ) || cut->made_of( material_id( "steel" ) ) ||
+                       cut->made_of( material_id( "silver" ) ))) {
         std::string lower_verb = verb;
         std::transform(lower_verb.begin(), lower_verb.end(), lower_verb.begin(), ::tolower);
         add_msg(m_info, _("You can't %1$s %2$s because of the material it is made of."),
@@ -358,16 +358,14 @@ int iuse::xanax(player *p, item *it, bool, const tripoint& )
 
 int iuse::caff(player *p, item *it, bool, const tripoint& )
 {
-    const auto food = dynamic_cast<const it_comest *> (it->type);
-    p->fatigue -= food->stim * 3;
+    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 3 );
     return it->type->charges_to_use();
 }
 
 int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(m_good, _("Wow!  This %s has a kick."), it->tname().c_str());
-    const auto food = dynamic_cast<const it_comest *> (it->type);
-    p->fatigue -= food->stim * 12;
+    p->mod_fatigue( -( it->type->comestible ? it->type->comestible->stim : 0 ) * 12 );
     p->radiation += 8;
     return it->type->charges_to_use();
 }
@@ -459,21 +457,20 @@ int alcohol(player *p, item *it, int strength)
     // Weaker characters are cheap drunks
     ///\EFFECT_STR_MAX reduces drunkenness duration
     int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
-    const auto food = dynamic_cast<const it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
         duration = STR(90, 180, 250) - (STR(6, 10, 10) * p->str_max);
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p->mod_hunger(-(abs(food->stim)));
+        p->mod_hunger( -( abs( it->type->comestible ? it->type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
-        p->stim += (abs(food->stim));
+        p->stim += abs( it->type->comestible ? it->type->comestible->stim : 0 );
     } else if (p->has_trait("TOLERANCE")) {
         duration -= STR(120, 300, 450);
     } else if (p->has_trait("LIGHTWEIGHT")) {
         duration += STR(120, 300, 450);
     }
     if (!(p->has_trait("ALCMET"))) {
-        p->pkill += STR(4, 8, 12);
+        p->mod_painkiller( STR(4, 8, 12) );
     }
     p->add_effect( effect_drunk, duration);
     return it->type->charges_to_use();
@@ -522,28 +519,27 @@ int iuse::smoking(player *p, item *it, bool, const tripoint& )
     if (it->type->id == "cig") {
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
-        p->thirst += 2;
         p->mod_hunger(-3);
+        p->mod_thirst(2);
     } else if (it->type->id == "handrolled_cig") {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
         cig = item("cig_lit", int(calendar::turn));
         cig.item_counter = 40;
-        p->thirst += 2;
+        p->mod_thirst(2);
         p->mod_hunger(-3);
     } else if (it->type->id == "cigar") {
         cig = item("cigar_lit", int(calendar::turn));
         cig.item_counter = 120;
-        p->thirst += 3;
+        p->mod_thirst(3);
         p->mod_hunger(-4);
     } else if (it->type->id == "joint") {
         cig = item("joint_lit", int(calendar::turn));
         cig.item_counter = 40;
         p->mod_hunger(4);
-        p->thirst += 6;
-        if (p->pkill < 5) {
-            p->pkill += 3;
-            p->pkill *= 2;
+        p->mod_thirst(6);
+        if( p->get_painkiller() < 5 ) {
+            p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
         }
     } else {
         p->add_msg_if_player(m_bad,
@@ -577,16 +573,16 @@ int iuse::ecig(player *p, item *it, bool, const tripoint& )
     if (it->type->id == "ecig") {
         p->add_msg_if_player(m_neutral, _("You take a puff from your electronic cigarette."));
     } else if (it->type->id == "advanced_ecig") {
-        if (p->inv.has_components("nicotine_liquid", 1)) {
+        if (p->has_charges( "nicotine_liquid", 1 ) ) {
             p->add_msg_if_player(m_neutral, _("You inhale some vapor from your advanced electronic cigarette."));
-            p->inv.use_charges("nicotine_liquid", 1);
+            p->use_charges( "nicotine_liquid", 1 );
         } else {
             p->add_msg_if_player(m_info, _("You don't have any nicotine liquid!"));
             return 0;
         }
     }
 
-    p->thirst += 1;
+    p->mod_thirst(1);
     p->mod_hunger(-1);
     p->add_effect( effect_cig, 100);
     if (p->get_effect_dur( effect_cig ) > (100 * (p->addiction_level(ADD_CIG) + 1))) {
@@ -806,10 +802,9 @@ int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
         duration = 150;
     }
     p->mod_hunger(2);
-    p->thirst += 6;
-    if (p->pkill < 5) {
-        p->pkill += 3;
-        p->pkill *= 2;
+    p->mod_thirst(6);
+    if( p->get_painkiller() < 5 ) {
+        p->set_painkiller( ( p->get_painkiller() + 3 ) * 2 );
     }
     p->add_effect( effect_weed_high, duration);
     p->moves -= 100;
@@ -861,7 +856,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         p->add_msg_if_player(m_neutral, _("You smoke your meth."));
         p->add_msg_if_player(m_good, _("The world seems to sharpen."));
-        p->fatigue -= 375;
+        p->mod_fatigue(-375);
         if (p->has_trait("TOLERANCE")) {
             duration *= 1.2;
         } else {
@@ -873,7 +868,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
         }
     } else {
         p->add_msg_if_player(_("You snort some crystal meth."));
-        p->fatigue -= 300;
+        p->mod_fatigue(-300);
     }
     if (!p->has_effect( effect_meth)) {
         duration += 600;
@@ -952,14 +947,13 @@ int iuse::fun_hallu(player *p, item *it, bool, const tripoint& )
         // NPCs hallucinating doesn't work yet!
         return 0;
     }
-    const auto comest = dynamic_cast<const it_comest *>(it->type);
 
    //Fake a normal food morale effect
     if (p->has_trait("SPIRITUAL")) {
-        p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
     } else {
-            p->add_morale(MORALE_FOOD_GOOD, 18, 36, 60, 30, false, comest);
-      }
+         p->add_morale( MORALE_FOOD_GOOD, 18, 36, 60, 30, false, it->type );
+    }
     if (!p->has_effect( effect_hallu)) {
         p->add_effect( effect_hallu, 3600);
     }
@@ -980,7 +974,7 @@ int iuse::meditate(player *p, item *it, bool, const tripoint& )
 
 int iuse::thorazine(player *p, item *it, bool, const tripoint& )
 {
-    p->fatigue += 5;
+    p->mod_fatigue(5);
     p->remove_effect( effect_hallu);
     p->remove_effect( effect_visuals);
     p->remove_effect( effect_high);
@@ -989,7 +983,7 @@ int iuse::thorazine(player *p, item *it, bool, const tripoint& )
     }
     if (one_in(50)) {  // adverse reaction
         p->add_msg_if_player(m_bad, _("You feel completely exhausted."));
-        p->fatigue += 15;
+        p->mod_fatigue(15);
     } else {
         p->add_msg_if_player(m_warning, _("You feel a bit wobbly."));
     }
@@ -1011,7 +1005,7 @@ int iuse::prozac(player *p, item *it, bool, const tripoint& )
 
 int iuse::sleep(player *p, item *it, bool, const tripoint& )
 {
-    p->fatigue += 40;
+    p->mod_fatigue(40);
     p->add_msg_if_player(m_warning, _("You feel very sleepy..."));
     return it->type->charges_to_use();
 }
@@ -1022,12 +1016,10 @@ int iuse::datura(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const auto comest = dynamic_cast<const it_comest *>(it->type);
-
     p->add_effect( effect_datura, rng(2000, 8000));
     p->add_msg_if_player(_("You eat the datura seed."));
     if (p->has_trait("SPIRITUAL")) {
-        p->add_morale(MORALE_FOOD_GOOD, 36, 72, 120, 60, false, comest);
+        p->add_morale( MORALE_FOOD_GOOD, 36, 72, 120, 60, false, it->type );
     }
     return it->type->charges_to_use();
 }
@@ -1042,7 +1034,7 @@ int iuse::flumed(player *p, item *it, bool, const tripoint& )
 int iuse::flusleep(player *p, item *it, bool, const tripoint& )
 {
     p->add_effect( effect_took_flumed, 7200);
-    p->fatigue += 30;
+    p->mod_fatigue(30);
     p->add_msg_if_player(_("You take some %s"), it->tname().c_str());
     p->add_msg_if_player(m_warning, _("You feel very sleepy..."));
     return it->type->charges_to_use();
@@ -1054,7 +1046,7 @@ int iuse::inhaler(player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(m_neutral, _("You take a puff from your inhaler."));
     if (one_in(50)) {  // adverse reaction
         p->add_msg_if_player(m_bad, _("Your heart begins to race."));
-        p->fatigue -= 10;
+        p->mod_fatigue(-10);
     }
     return it->type->charges_to_use();
 }
@@ -1069,10 +1061,10 @@ int iuse::oxygen_bottle(player *p, item *it, bool, const tripoint& )
         p->remove_effect( effect_asthma);
     } else if (p->stim < 16) {
         p->stim += 8;
-        p->pkill += 2;
+        p->mod_painkiller( 2 );
     }
     p->remove_effect( effect_winded);
-    p->pkill += 2;
+    p->mod_painkiller( 2 );
     return it->type->charges_to_use();
 }
 
@@ -1106,12 +1098,12 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         } else{
             p->add_msg_if_player(m_good, _("Oddly enough, this doesn't taste so bad."));
         }
-        const auto food = dynamic_cast<const it_comest*>(it->type);
+
         //reverses the harmful values of drinking fertilizer
-        p->mod_hunger(p->nutrition_for(food) * multiplier);
-        p->thirst -= food->quench * multiplier;
-        p->mod_healthy_mod(food->healthy * multiplier, food->healthy * multiplier);
-        p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
+        p->mod_hunger( p->nutrition_for( it->type ) * multiplier );
+        p->mod_thirst( -it->type->comestible->quench * multiplier);
+        p->mod_healthy_mod( it->type->comestible->healthy * multiplier, it->type->comestible->healthy * multiplier );
+        p->add_morale( MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, it->type );
         return it->type->charges_to_use();
     } else {
         return blech( p, it, true, pos );
@@ -1250,14 +1242,14 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
         p->mutate();
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(5);
         if (!one_in(3)) {
             p->mutate();
             p->mod_pain(2 * rng(1, 5));
             p->mod_hunger(10);
-            p->fatigue += 5;
-            p->thirst += 10;
+            p->mod_thirst(10);
+            p->mod_fatigue(5);
             if (one_in(4)) {
                 downed = true;
             }
@@ -1266,8 +1258,8 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->mutate();
             p->mod_pain(2 * rng(1, 5));
             p->mod_hunger(10);
-            p->fatigue += 5;
-            p->thirst += 10;
+            p->mod_thirst(10);
+            p->mod_fatigue(5);
             p->add_msg_player_or_npc( m_bad,
                 _("Oops.  You must've blacked out for a minute there."),
                 _("<npcname> suddenly collapses!") );
@@ -1283,8 +1275,8 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->mutate();
             p->mod_pain(2 * rng(1, 5));
             p->mod_hunger(10);
-            p->fatigue += 5;
-            p->thirst += 10;
+            p->mod_thirst(10);
+            p->mod_fatigue(5);
             if (one_in(4)) {
                 downed = true;
             }
@@ -1299,8 +1291,8 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
                 p->mutate_category(mutation_category);
                 p->mod_pain(m_category.mutagen_pain * rng(1, 5));
                 p->mod_hunger(m_category.mutagen_hunger);
-                p->fatigue += m_category.mutagen_fatigue;
-                p->thirst += m_category.mutagen_thirst;
+                p->mod_thirst(m_category.mutagen_thirst);
+                p->mod_fatigue(m_category.mutagen_fatigue);
                 break;
             }
         }
@@ -1367,7 +1359,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
                 p->add_msg_if_player(m_bad, _("You feel extremely Bugged."));
             } else {
                 p->add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
-                p->pain += 8;
+                p->mod_pain_noresist( 8 );
                 p->add_effect( effect_stunned, rng(3, 5));
             }
         } else if (p->mutation_category_level[primary] > 80) {
@@ -1375,7 +1367,7 @@ static void test_crossing_threshold(player *p, const mutation_category_trait &m_
                 p->add_msg_if_player(m_bad, _("You feel very Bugged."));
             } else {
                 p->add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
-                p->pain += 6;
+                p->mod_pain_noresist( 6 );
                 p->add_effect( effect_stunned, rng(2, 4));
             }
         } else if (p->mutation_category_level[primary] > 60) {
@@ -1435,29 +1427,29 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
         //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*.
         // Numbers may vary based on mutagen.
         p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(5);
         p->mutate();
         p->mod_pain(2 * rng(1, 3));
         p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(5);
         p->mutate();
         p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(5);
         p->mod_pain(3 * rng(1, 2));
         if (!one_in(4)) {
             p->mutate();
             p->mod_hunger(10);
-            p->fatigue += 5;
-            p->thirst += 10;
+            p->mod_thirst(10);
+            p->mod_fatigue(5);
         }
         if (!one_in(3)) {
             p->mutate();
             p->mod_hunger(10);
-            p->fatigue += 5;
-            p->thirst += 10;
+            p->mod_thirst(10);
+            p->mod_fatigue(5);
             p->add_msg_player_or_npc( m_bad,
                 _("You writhe and collapse to the ground."),
                 _("<npcname> writhes and collapses to the ground.") );
@@ -1467,8 +1459,8 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             //Jackpot! ...kinda, don't wanna go unconscious in dangerous territory
             p->mutate();
             p->mod_hunger(10);
-            p->fatigue += 5;
-            p->thirst += 10;
+            p->mod_thirst(10);
+            p->mod_fatigue(5);
             p->add_msg_player_or_npc( m_bad,
                 _("It all goes dark..."),
                 _("<npcname> suddenly falls over!") );
@@ -1504,16 +1496,16 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                     p->mutate_category(mutation_category);
                     p->mod_pain(m_category.iv_pain * rng(1, 5));
                     p->mod_hunger(m_category.iv_hunger);
-                    p->fatigue += m_category.iv_fatigue;
-                    p->thirst += m_category.iv_thirst;
+                    p->mod_thirst(m_category.iv_thirst);
+                    p->mod_fatigue(m_category.iv_fatigue);
                 }
                 for (int i=0; i < m_category.iv_additional_mutations; i++){
                     if (!one_in(m_category.iv_additional_mutations_chance)) {
                         p->mutate_category(mutation_category);
                         p->mod_pain(m_category.iv_pain * rng(1, 5));
                         p->mod_hunger(m_category.iv_hunger);
-                        p->fatigue += m_category.iv_fatigue;
-                        p->thirst += m_category.iv_thirst;
+                        p->mod_thirst(m_category.iv_thirst);
+                        p->mod_fatigue(m_category.iv_fatigue);
                     }
                 }
                 if (m_category.category == "CHIMERA"){
@@ -1627,9 +1619,9 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
             p->mod_pain(2 * num_cured); //Hurts worse as it fixes more
             p->add_msg_if_player(m_warning, _("Feels like you're on fire, but you're OK."));
         }
-        p->thirst += 2 * num_cured;
         p->mod_hunger(2 * num_cured);
-        p->fatigue += 2 * num_cured;
+        p->mod_thirst(2 * num_cured);
+        p->mod_fatigue(2 * num_cured);
     }
     return it->type->charges_to_use();
 }
@@ -1706,11 +1698,11 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
         // Gruss dich, mutation drain, missed you!
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(5);
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This berry makes you feel better all over."));
-        p->pkill += 30;
+        p->mod_painkiller(30);
         this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
@@ -1813,11 +1805,11 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
         // HELLO MY NAME IS MUTATION DRAIN YOU KILLED MY MUTAGEN PREPARE TO DIE! ;-)
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(5);
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This seed makes you feel better all over."));
-        p->pkill += 30;
+        p->mod_painkiller(30);
         this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
@@ -1917,11 +1909,11 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         // hihi! wavewave! mutation draindrain!
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(5);
     } else if (effect <= 6) { // Radiation cleanse is below
         p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
-        p->pkill += 30;
+        p->mod_painkiller(30);
         this->purifier(p, it, t, pos);
         if (effect == 6) {
             p->radiation = 0;
@@ -1983,7 +1975,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
                         pgettext("memorial_female", "Became one with the Mycus."));
         p->add_msg_if_player(m_neutral, _("The apple tastes amazing, and you finish it quickly, not even noticing the lack of any core or seeds."));
         p->add_msg_if_player(m_good, _("You feel better all over."));
-        p->pkill += 30;
+        p->mod_painkiller(30);
         this->purifier(p, it, t, pos); // Clear out some of that goo you may have floating around
         p->radiation = 0;
         p->healall(4); // Can't make you a whole new person, but not for lack of trying
@@ -2015,12 +2007,12 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         if (!one_in(3)) {
             p->mutate_category("MUTCAT_MYCUS");
             p->mod_hunger(10);
-            p->fatigue += 5;
-            p->thirst += 10;
+            p->mod_thirst(10);
+            p->mod_fatigue(5);
             p->add_morale(MORALE_MARLOSS, 25, 200); // still covers up mutation pain
         }
     } else if (p->has_trait("THRESH_MYCUS")) {
-        p->pkill += 5;
+        p->mod_painkiller(5);
         p->stim += 5;
     } else { // In case someone gets one without having been adapted first.
         // Marloss is the Mycus' method of co-opting humans.  Mycus fruit is for symbiotes' maintenance and development.
@@ -2028,8 +2020,8 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->mutate();
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(5);
         p->vomit(); // no hunger/quench benefit for you
         p->mod_healthy_mod(-8, -50);
     }
@@ -2092,13 +2084,13 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     }
 
     int pos = g->inv_for_filter( _("Enhance what?"), []( const item & itm ) {
-            return itm.made_of( "cotton" ) ||
-            itm.made_of( "leather" ) ||
-            itm.made_of( "fur" ) ||
-            itm.made_of( "nomex" ) ||
-            itm.made_of( "plastic" ) ||
-            itm.made_of( "kevlar" ) ||
-            itm.made_of( "wool" );
+            return itm.made_of( material_id( "cotton" ) ) ||
+            itm.made_of( material_id( "leather" ) ) ||
+            itm.made_of( material_id( "fur" ) ) ||
+            itm.made_of( material_id( "nomex" ) ) ||
+            itm.made_of( material_id( "plastic" ) ) ||
+            itm.made_of( material_id( "kevlar" ) ) ||
+            itm.made_of( material_id( "wool" ) );
         } );
     item *mod = &(p->i_at(pos));
     if (mod == NULL || mod->is_null()) {
@@ -2125,7 +2117,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     //translation note: add <plural> tag to keep them unique
 
     // Little helper to cut down some surplus redundancy and repetition
-    const auto add_material = [&]( const itype_id &material,
+    const auto add_material = [&]( const material_id &material,
                                    const itype_id &mat_item,
                                    const std::string &plural ) {
         if( mod->made_of( material ) ) {
@@ -2134,13 +2126,13 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         }
     };
 
-    add_material( "cotton", "rag", _( "<plural>rags" ) );
-    add_material( "leather", "leather", _( "<plural>leather" ) );
-    add_material( "fur", "fur", _( "<plural>fur" ) );
-    add_material( "nomex", "nomex", _( "<plural>Nomex" ) );
-    add_material( "plastic", "plastic_chunk", _( "<plural>plastic" ) );
-    add_material( "kevlar", "kevlar_plate", _( "<plural>Kevlar" ) );
-    add_material( "wool", "felt_patch", _( "<plural>wool" ) );
+    add_material( material_id( "cotton" ), "rag", _( "<plural>rags" ) );
+    add_material( material_id( "leather" ), "leather", _( "<plural>leather" ) );
+    add_material( material_id( "fur" ), "fur", _( "<plural>fur" ) );
+    add_material( material_id( "nomex" ), "nomex", _( "<plural>Nomex" ) );
+    add_material( material_id( "plastic" ), "plastic_chunk", _( "<plural>plastic" ) );
+    add_material( material_id( "kevlar" ), "kevlar_plate", _( "<plural>Kevlar" ) );
+    add_material( material_id( "wool" ), "felt_patch", _( "<plural>wool" ) );
     if (repair_items.empty()) {
         p->add_msg_if_player(m_info, _("Your %s is not made of fabric, leather, fur, Kevlar, wool or plastic."),
                              mod->tname().c_str());
@@ -2309,8 +2301,7 @@ void remove_battery_mods( item &modded, player &p )
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "battery";
+        return itm.is_tool() && itm.ammo_type() == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2323,8 +2314,7 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
-    if (tool->ammo_id != "battery") {
+    if( modded->ammo_type() != "battery") {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -2344,8 +2334,7 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "plutonium";
+        return itm.is_tool() && itm.ammo_type() == "plutonium";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2358,8 +2347,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
-    if (tool->ammo_id != "plutonium") {
+    if( modded->ammo_type() != "plutonium" ) {
         p->add_msg_if_player(m_info, _("That item does not use plutonium!"));
         return 0;
     }
@@ -2373,8 +2361,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "battery";
+        return itm.is_tool() && itm.ammo_type() == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2387,8 +2374,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
-    if (tool->ammo_id != "battery") {
+    if( modded->ammo_type() != "battery" ) {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -2412,8 +2398,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "battery";
+        return itm.is_tool() && itm.ammo_type() == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2426,13 +2411,12 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
     if (modded->has_flag("ATOMIC_AMMO")) {
         p->add_msg_if_player(m_info,
                              _("That item has already had its battery modified to accept plutonium cells."));
         return 0;
     }
-    if (tool->ammo_id != "battery") {
+    if( modded->ammo_type() != "battery" ) {
         p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
@@ -2452,8 +2436,7 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && tl->ammo_id == "battery";
+        return itm.is_tool() && itm.ammo_type() == "battery";
     } );
     item *modded = &( p->i_at( inventory_index ) );
 
@@ -2466,8 +2449,7 @@ int iuse::ups_battery(player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    const auto tool = dynamic_cast<const it_tool *>(modded->type);
-    if (tool->ammo_id != "battery") {
+    if( modded->ammo_type() != "battery" ) {
         p->add_msg_if_player(_("That item does not use batteries!"));
         return 0;
     }
@@ -2555,8 +2537,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
     int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
-        const auto tl = dynamic_cast<const it_tool *>(itm.type);
-        return tl != nullptr && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") ||
+        return itm.is_tool() && ( itm.has_flag("DOUBLE_AMMO") || itm.has_flag("RECHARGE") ||
                                   itm.has_flag("USE_UPS") || itm.has_flag("ATOMIC_AMMO") );
     } );
     item *modded = &( p->i_at( inventory_index ) );
@@ -2873,7 +2854,7 @@ int iuse::pack_item(player *p, item *it, bool t, const tripoint& )
 
 static int cauterize_elec(player *p, item *it)
 {
-    if (it->charges == 0) {
+    if (it->charges == 0 && it->ammo_capacity()) {
         p->add_msg_if_player(m_info, _("You need batteries to cauterize wounds."));
         return 0;
     } else if (!p->has_effect( effect_bite ) && !p->has_effect( effect_bleed ) && !p->is_underwater()) {
@@ -3384,11 +3365,18 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
     }
 }
 
-//TODO remove this?
-int iuse::dig(player *p, item *it, bool, const tripoint& )
+int iuse::dig(player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player(m_info, _("You can dig a pit via the construction menu -- hit *"));
-    return it->type->charges_to_use();
+    for( const tripoint &pt : closest_tripoints_first( 1, p->pos() ) ) {
+        if( g->m.furn_at( pt ).examine == iexamine::rubble ) {
+            p->moves -= 200;
+            p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
+            g->m.furn_set( pt, f_null );
+            return it->type->charges_to_use();
+        }
+    }
+
+    return 0;
 }
 
 void act_vehicle_siphon(vehicle *); // veh_interact.cpp
@@ -3573,12 +3561,16 @@ int iuse::circsaw_on(player *p, item *it, bool t, const tripoint& )
 int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
 {
     bool normal_language = it->type->id != "jacqueshammer";
-      // Jacqueshammers function the same as ordinary
-      // jackhammers, except they print messages in French for
-      // comic effect.
-    if (it->charges < it->type->charges_to_use()) {
+    // Jacqueshammers function the same as ordinary
+    // jackhammers, except they print messages in French for
+    // comic effect.
+
+    // use has_enough_charges to check for UPS availability
+    // p is assumed to exist for iuse cases
+    if( !p->has_enough_charges( *it, false ) ) {
         return 0;
     }
+
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, normal_language
           ? _("You can't do that while underwater.")
@@ -3926,16 +3918,14 @@ int iuse::geiger(player *p, item *it, bool t, const tripoint &pos)
         return it->type->charges_to_use();
     }
     // Otherwise, we're activating the geiger counter
-    const auto type = dynamic_cast<const it_tool *>(it->type);
-    bool is_on = (type->id == "geiger_on");
-    if (is_on) {
+    if( it->typeId() == "geiger_on" ) {
         add_msg(_("The geiger counter's SCANNING LED turns off."));
         it->convert( "geiger_off" ).active = false;
         return 0;
     }
-    std::string toggle_text = is_on ? _("Turn continuous scan off") : _("Turn continuous scan on");
+
     int ch = menu(true, _("Geiger counter:"), _("Scan yourself"), _("Scan the ground"),
-                  toggle_text.c_str(), _("Cancel"), NULL);
+                  _("Turn continuous scan on"), _("Cancel"), NULL);
     switch (ch) {
         case 1:
             p->add_msg_if_player(m_info, _("Your radiation level: %d (%d from items)"), p->radiation,
@@ -4721,7 +4711,7 @@ const std::string &get_music_description()
         _("some amazing vocals."),
         _("some pumping bass."),
         _("dramatic classical music.")
-        
+
     }};
 
     if( one_in( 50 ) ) {
@@ -4883,7 +4873,7 @@ int iuse::vibe(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("The %s's batteries are dead."), it->tname().c_str());
         return 0;
     }
-    if (p->fatigue >= DEAD_TIRED) {
+    if (p->get_fatigue() >= DEAD_TIRED) {
         p->add_msg_if_player(m_info, _("*Your* batteries are dead."));
         return 0;
     } else {
@@ -5092,9 +5082,9 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const int charges = moves / 100 * it->type->charges_to_use();
+    const int charges = moves / 100 * it->ammo_required();
 
-    if( charges > it->charges ) {
+    if( charges > it->ammo_remaining() ) {
         add_msg( m_info, _("Your torch doesn't have enough acetylene to cut that.") );
         return 0;
     }
@@ -5383,14 +5373,6 @@ int iuse::mop(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::LAW(player *p, item *it, bool, const tripoint& )
-{
-    p->add_msg_if_player(_("You pull the activating lever, readying the LAW to fire."));
-    // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
-    it->convert( "LAW" ).ammo_set( "66mm_HEAT" );
-    return it->type->charges_to_use();
-}
-
 /* MACGUFFIN FUNCTIONS
  * These functions should refer to it->associated_mission for the particulars
  */
@@ -5645,7 +5627,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 // OK, the Lovecraftian thingamajig can bring Deadened
                 // masochists & Cenobites the stimulation they've been
                 // craving ;)
-                p->pain += rng(5, 15);
+                p->mod_pain_noresist( rng(5, 15) );
                 break;
 
             case AEA_MUTATE:
@@ -5686,9 +5668,11 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_SCREAM:
-                p->add_msg_if_player(m_warning, _("Your %s screams disturbingly."), it->tname().c_str());
                 sounds::sound(p->pos(), 40, "");
-                p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
+                if (!p->is_deaf()) {
+                    p->add_msg_if_player(m_warning, _("Your %s screams disturbingly."), it->tname().c_str());
+                    p->add_morale(MORALE_SCREAM, -10, 0, 300, 5);
+                }
                 break;
 
             case AEA_DIM:
@@ -6053,25 +6037,24 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
 
 int iuse::adrenaline_injector(player *p, item *it, bool, const tripoint& )
 {
-    if( p->is_npc() && p->stim > 100 ) {
+    if( p->is_npc() && p->get_effect_dur( effect_adrenaline ) >= 300 ) {
         return 0;
     }
 
     p->moves -= 100;
-    p->add_msg_if_player(_("You inject yourself with adrenaline."));
+    p->add_msg_player_or_npc( _("You inject yourself with adrenaline."),
+                              _("<npcname> injects themselves with adrenaline.") );
 
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
-    p->add_effect( effect_adrenaline, 200);
-    if (p->has_effect( effect_adrenaline)) {
-        //Massively boost stimulant level, risking death on an extended chain
-        p->stim += 80;
+    if( p->has_effect( effect_adrenaline ) ) {
+        p->add_msg_if_player( m_bad, _("Your heart spasms!") );
+        // Note: not the mod, the health
+        p->mod_healthy( -20 );
     }
 
-    if (p->has_effect( effect_asthma)) {
-        p->remove_effect( effect_asthma);
-        p->add_msg_if_player(m_good, _("The adrenaline causes your asthma to clear."));
-    }
+    p->add_effect( effect_adrenaline, 200 );
+
     return it->type->charges_to_use();
 }
 
@@ -6084,7 +6067,7 @@ int iuse::jet_injector(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("You inject yourself with the jet injector."));
         // Intensity is 2 here because intensity = 1 is the comedown
         p->add_effect( effect_jetinjector, 200, num_bp, false, 2);
-        p->pkill += 20;
+        p->mod_painkiller(20);
         p->stim += 10;
         p->healall(20);
     }
@@ -6110,9 +6093,9 @@ int iuse::stimpack(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("You inject yourself with the stimulants."));
         // Intensity is 2 here because intensity = 1 is the comedown
         p->add_effect( effect_stimpack, 250, num_bp, false, 2);
-        p->pkill += 2;
+        p->mod_painkiller(2);
         p->stim += 20;
-        p->fatigue -= 100;
+        p->mod_fatigue(-100);
         p->stamina = p->get_stamina_max();
     }
     return it->type->charges_to_use();
@@ -6275,8 +6258,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return ( !itm.is_firearm() ) && (itm.made_of("wood") || itm.made_of("paper") ||
-                                 itm.made_of("bone") || itm.made_of("chitin") ) ;
+        return ( !itm.is_firearm() ) && (itm.made_of( material_id( "wood" ) ) || itm.made_of( material_id( "paper" ) ) ||
+                                 itm.made_of( material_id( "bone" ) ) || itm.made_of( material_id( "chitin" ) ) ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
@@ -6287,8 +6270,8 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
-    if (!(fix->made_of("wood") || fix->made_of("paper") || fix->made_of("bone") ||
-          fix->made_of("chitin"))) {
+    if (!(fix->made_of( material_id( "wood" ) ) || fix->made_of( material_id( "paper" ) ) || fix->made_of( material_id( "bone" ) ) ||
+          fix->made_of( material_id( "chitin" ) ))) {
         p->add_msg_if_player(m_info, _("That isn't made of wood, paper, bone, or chitin!"));
         return 0;
     }
@@ -6408,7 +6391,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             ///\EFFECT_INT speeds up robot reprogramming
 
             ///\EFFECT_COMPUTER speeds up robot reprogramming
-            p->moves -= 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10;
+            p->moves -= std::max(100, 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10);
             ///\EFFECT_INT increases chance of successful robot reprogramming, vs difficulty
 
             ///\EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty
@@ -7547,16 +7530,14 @@ void sendRadioSignal(player *p, std::string signal)
         if (it.has_flag("RADIO_ACTIVATION") && it.has_flag(signal)) {
             sounds::sound(p->pos(), 6, _("beep."));
 
-            auto tmp = dynamic_cast<const it_tool *>(it.type);
             if( it.has_flag("RADIO_INVOKE_PROC") ) {
                 // Invoke twice: first to transform, then later to proc
-                tmp->invoke( p, &it, p->pos() );
+                it.type->invoke( p, &it, p->pos() );
                 it.charges = 0;
                 // The type changed
-                tmp = dynamic_cast<const it_tool *>(it.type);
             }
 
-            tmp->invoke(p, &it, p->pos());
+            it.type->invoke(p, &it, p->pos());
         }
     }
 
@@ -8064,8 +8045,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                     mealtime = meal->time * 2 ;
                 }
 
-                const auto tmp = dynamic_cast<const it_tool *>(it->type);
-                const int all_charges = 50 + mealtime / (tmp->turns_per_charge * 100);
+                const int all_charges = 50 + mealtime / (it->type->tool->turns_per_charge * 100);
 
                 if (it->charges < all_charges) {
 

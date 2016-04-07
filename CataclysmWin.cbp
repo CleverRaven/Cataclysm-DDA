@@ -430,6 +430,8 @@
 		<Unit filename="src/game_constants.h" />
 		<Unit filename="src/gamemode.cpp" />
 		<Unit filename="src/gamemode.h" />
+		<Unit filename="src/gates.cpp" />
+		<Unit filename="src/gates.h" />
 		<Unit filename="src/generic_factory.h" />
 		<Unit filename="src/get_version.h" />
 		<Unit filename="src/help.cpp" />
@@ -554,6 +556,8 @@
 		<Unit filename="src/options.h" />
 		<Unit filename="src/output.cpp" />
 		<Unit filename="src/output.h" />
+		<Unit filename="src/overlay_ordering.cpp" />
+		<Unit filename="src/overlay_ordering.h" />
 		<Unit filename="src/overmap.cpp" />
 		<Unit filename="src/overmap.h" />
 		<Unit filename="src/overmap_types.h" />
@@ -562,6 +566,7 @@
 		<Unit filename="src/path_info.cpp" />
 		<Unit filename="src/path_info.h" />
 		<Unit filename="src/pathfinding.cpp" />
+		<Unit filename="src/pathfinding.h" />
 		<Unit filename="src/pickup.cpp" />
 		<Unit filename="src/pickup.h" />
 		<Unit filename="src/platform_win.h" />

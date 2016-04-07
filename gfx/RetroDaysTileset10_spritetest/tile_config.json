@@ -23414,41 +23414,6 @@
          "multitile" : false
       }, 
       { 
-         "id" : "software_blood_data", 
-         "fg" : 1223, 
-         "bg" : -1, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "software_hacking", 
-         "fg" : 1223, 
-         "bg" : -1, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "software_math", 
-         "fg" : 1223, 
-         "bg" : -1, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "software_medical", 
-         "fg" : 1223, 
-         "bg" : -1, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "software_useless", 
-         "fg" : 1223, 
-         "bg" : -1, 
-         "rotates" : false, 
-         "multitile" : false
-      },
-      { 
          "id" : "pool_ball", 
          "fg" : 1224, 
          "bg" : -1, 

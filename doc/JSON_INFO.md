@@ -14,6 +14,7 @@
 * skills.json        - skill descriptions and ID's
 * snippets.json      - flier/poster descriptions
 * mutations.json     - traits/mutations
+* mutation_ordering.json - draw order for mutation overlays in tiles mode
 * vehicle_groups.json - vehicle spawn groups
 * vehicle_parts.json - vehicle parts, does NOT affect flag effects
 
@@ -1414,7 +1415,7 @@ The id of an overmap terrain type (see overmap_terrain.json) of the starting loc
 Arbitrary flags. Mods can modify this via "add:flags" / "remove:flags". TODO: document them.
 
 ###TILE_CONFIG
-Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. Example:
+Each tileset has a tile_config.json describing how to map the contents of a sprite sheet to various tile identifiers, different orientations, etc. The ordering of the overlays used for displaying mutations can be controlled as well. The ordering can be used to override the default ordering provided in `mutation_ordering.json`. Example:
 ```JSON
   {                                             // whole file is a single object
     "tile_info": [                              // tile_info is mandatory
@@ -1499,6 +1500,55 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
           }
         ]
       }
+    ],
+    "overlay_ordering": [
+      {
+        "id" : "WINGS_BAT",                         // mutation name, in a string or array of strings
+        "order" : 1000                              // range from 0 - 9999, 9999 being the topmost layer
+      },
+      {
+        "id" : [ "PLANTSKIN", "BARK" ],             // mutation name, in a string or array of strings
+        "order" : 3500                              // order is applied to all items in the array
+      }
     ]
   }
 ```
+
+# Mutation overlay ordering
+
+The file `mutation_ordering.json` defines the order that visual mutation overlays are rendered on a character ingame. The layering value from 0 (bottom) - 9999 (top) sets the order.
+
+Example:
+```JSON
+[
+    {
+        "type" : "overlay_order",
+        "overlay_ordering" :
+        [
+        {
+            "id" : [ "BEAUTIFUL", "BEAUTIFUL2", "BEAUTIFUL3", "LARGE", "PRETTY", "RADIOACTIVE1", "RADIOACTIVE2", "RADIOACTIVE3", "REGEN" ],
+            "order" : 1000
+        },{
+            "id" : [ "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3", "TALONS" ],
+            "order" : 4500
+        },{
+            "id" : "FLOWERS",
+            "order" : 5000
+        },{
+            "id" : [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
+            "order" : 8500
+        }
+        ]
+    }
+]
+```
+
+## "id"
+(string)
+
+The internal ID of the mutation. Can be provided as a single string, or an array of strings. The order value provided will be applied to all items in the array.
+
+## "order"
+(integer)
+
+The ordering value of the mutation overlay. Values range from 0 - 9999, 9999 being the topmost drawn layer. Mutations that are not in any list will default to 9999.

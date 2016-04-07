@@ -1,15 +1,16 @@
 #ifndef ITEM_FACTORY_H
 #define ITEM_FACTORY_H
 
-#include "json.h"
-#include "iuse.h"
-#include "bodypart.h"
 #include <string>
 #include <memory>
 #include <vector>
 #include <map>
 #include <bitset>
 #include <memory>
+#include <list>
+
+#include "json.h"
+#include "itype.h"
 
 bool item_is_blacklisted( const std::string &id );
 
@@ -17,24 +18,9 @@ typedef std::string Item_tag;
 typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
 
-//For the iuse arguments
 class Item_spawn_data;
 class Item_group;
 class item;
-struct itype;
-struct islot_container;
-struct islot_armor;
-struct islot_book;
-struct islot_gun;
-struct islot_gunmod;
-struct islot_magazine;
-struct islot_variable_bigness;
-struct islot_bionic;
-struct islot_spawn;
-struct islot_ammo;
-struct islot_seed;
-struct islot_software;
-struct islot_artifact;
 class item_category;
 
 /**
@@ -159,6 +145,8 @@ class Item_factory
         void load_veh_part( JsonObject &jo );
         /*@}*/
 
+        /** called after all JSON has been read and performs any necessary cleanup tasks */
+        void finalize();
 
         /**
          * @name Item categories
@@ -191,14 +179,18 @@ class Item_factory
          * Check if an item type is known to the Item_factory.
          * @param id Item type id (@ref itype::id).
          */
-        bool has_template( const Item_tag &id ) const;
+        bool has_template( const itype_id &id ) const {
+            return m_templates.count( id );
+        }
+
         /**
          * Returns the itype with the given id.
          * This function never returns null, if the item type is unknown, a new item type is
          * generated, stored and returned.
          * @param id Item type id (@ref itype::id).
          */
-        itype *find_template( Item_tag id );
+        const itype *find_template( const itype_id &id ) const;
+
         /**
          * Add a passed in itype to the collection of item types.
          * If the item type overrides an existing type, the existing type is deleted first.
@@ -208,7 +200,6 @@ class Item_factory
 
         void load_item_blacklist( JsonObject &jo );
         void load_item_whitelist( JsonObject &jo );
-        void finialize_item_blacklist();
 
         /**
          * Load a json blob of type item option.
@@ -227,13 +218,19 @@ class Item_factory
          * @ref find_template).
          * Value is the itype instance (result of @ref find_template).
          */
-        const std::map<Item_tag, itype *> &get_all_itypes() const;
+        const std::map<const itype_id, std::unique_ptr<itype>> &get_all_itypes() const {
+            return m_templates;
+        }
         /**
          * Create a new (and currently unused) item type id.
          */
         Item_tag create_artifact_id() const;
+
     private:
-        std::map<Item_tag, itype *> m_templates;
+        std::map<std::string, std::unique_ptr<itype>> m_abstracts;
+
+        mutable std::map<const itype_id, std::unique_ptr<itype>> m_templates;
+
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
 
@@ -243,7 +240,7 @@ class Item_factory
          * @param msg Stream in which all error messages are printed.
          * @param ammo Ammo type to check.
          */
-        void check_ammo_type( std::ostream &msg, const std::string &ammo ) const;
+        bool check_ammo_type( std::ostream &msg, const ammotype &ammo ) const;
 
         typedef std::map<std::string, item_category> CategoryMap;
         // Map with all the defined item categories,
@@ -255,6 +252,12 @@ class Item_factory
         CategoryMap m_categories;
 
         void create_inital_categories();
+
+        /**
+         * Called before creating a new template and handles inheritance via copy-from
+         * May defer instantiation of the template if depends on other objects not as-yet loaded
+         */
+        itype *load_definition( JsonObject &jo );
 
         /**
          * Load the data of the slot struct. It creates the slot object (of type SlotType) and
@@ -269,9 +272,12 @@ class Item_factory
          */
         template<typename SlotType>
         void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
+
                                  const std::string &member );
 
+        void load( islot_tool &slot, JsonObject &jo );
         void load( islot_container &slot, JsonObject &jo );
+        void load( islot_comestible &slot, JsonObject &jo );
         void load( islot_armor &slot, JsonObject &jo );
         void load( islot_book &slot, JsonObject &jo );
         void load( islot_gun &slot, JsonObject &jo );
@@ -282,7 +288,6 @@ class Item_factory
         void load( islot_spawn &slot, JsonObject &jo );
         void load( islot_ammo &slot, JsonObject &jo );
         void load( islot_seed &slot, JsonObject &jo );
-        void load( islot_software &slot, JsonObject &jo );
         void load( islot_artifact &slot, JsonObject &jo );
 
         // used to add the default categories
@@ -306,18 +311,19 @@ class Item_factory
         std::bitset<num_bp> flags_from_json( JsonObject &jo, const std::string &member,
                                              std::string flag_type = "" );
 
-        void set_material_from_json( JsonObject &jo, std::string member, itype *new_item );
-
-        void set_intvar( std::string tag, unsigned int &var, int min, int max );
-
         //Currently only used to body_part stuff, bitset size might need to be increased in the future
         void set_flag_by_string( std::bitset<num_bp> &cur_flags, const std::string &new_flag,
                                  const std::string &flag_type );
         void clear();
         void init();
 
+        void finalize_item_blacklist();
+
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
+
+        /** JSON data dependent upon as-yet unparsed definitions */
+        std::list<std::string> deferred;
 };
 
 extern std::unique_ptr<Item_factory> item_controller;

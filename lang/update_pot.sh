@@ -15,7 +15,7 @@ fi
 
 # try to extract translatable strings from .json files
 echo "Extracting strings from json..."
-if ! python lang/extract_json_strings.py
+if ! lang/extract_json_strings.py
 then
     echo "Error in extract_json_strings.py. Aborting"
     cd $oldpwd

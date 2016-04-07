@@ -1,0 +1,17 @@
+[
+  {
+    "result": "molotov",
+    "type" : "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 500,
+    "autolearn": true,
+    "components": [
+      [ [ "rag", 1 ] ],
+      [ [ "bottle_glass", 1 ], [ "flask_glass", 1 ], [ "clay_canister", 1 ] ],
+      [ [ "chem_ethanol", 500 ], [ "denat_alcohol", 500 ], [ "lamp_oil", 500 ], [ "gasoline", 500 ], [ "diesel", 500 ] ]
+    ]
+  }
+]

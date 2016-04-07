@@ -376,7 +376,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             std::string material = "flesh";
             if( t.is_monster() ) {
                 const monster *m = dynamic_cast<const monster*>( &t );
-                if ( m->made_of("steel")) {
+                if ( m->made_of( material_id( "steel" ) )) {
                     material = "steel";
                 }
             }
@@ -1626,9 +1626,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
 
     // Bonus attacks!
     bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
-                       (unarmed_attack() || weapon.made_of("iron") ||
-                        weapon.made_of("steel") || weapon.made_of("silver") ||
-                        weapon.made_of("gold") || weapon.made_of("superalloy")) && one_in(3));
+                       (unarmed_attack() || weapon.made_of( material_id( "iron" ) ) ||
+                        weapon.made_of( material_id( "steel" ) ) || weapon.made_of( material_id( "silver" ) ) ||
+                        weapon.made_of( material_id( "gold" ) ) || weapon.made_of( material_id( "superalloy" ) )) && one_in(3));
 
     bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
                        !is_armed() && t.is_warm());
@@ -1687,7 +1687,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     }
 
     // Glass weapons shatter sometimes
-    if (weapon.made_of("glass") &&
+    if (weapon.made_of( material_id( "glass" ) ) &&
         ///\EFFECT_STR increases chance of breaking glass weapons (NEGATIVE)
         rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
         if (is_player()) {

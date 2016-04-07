@@ -55,8 +55,6 @@ bool stare              (monster *z);
 bool fear_paralyze      (monster *z);
 bool photograph         (monster *z);
 bool tazer              (monster *z);
-bool laser              (monster *z);
-bool rifle_tur          (monster *z); // Automated M4
 bool flamethrower       (monster *z);
 bool searchlight        (monster *z);
 bool copbot             (monster *z);

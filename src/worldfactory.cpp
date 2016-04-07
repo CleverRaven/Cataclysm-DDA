@@ -1396,14 +1396,13 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
 bool worldfactory::world_need_lua_build(std::string world_name)
 {
 #ifndef LUA
-    WORLDPTR world;
-    MOD_INFORMATION *mod_info;
+    WORLDPTR world = all_worlds[world_name];
 
-    world = all_worlds[world_name];
-
+    if( world == nullptr ) {
+        return false;
+    }
     for (std::string &mod : world->active_mod_order) {
-        mod_info = mman->mod_map[mod];
-        if ( mod_info->need_lua ) {
+        if( mman->has_mod( mod ) && mman->mod_map[mod]->need_lua ) {
             return true;
         }
     }

@@ -1,45 +1,45 @@
 [
     {
-            "type":"monstergroup",
-            "name" : "GROUP_NECROPOLIS",
-            "default" : "mon_zombie",
-            "monsters" : [
-                    { "monster" : "mon_zombie", "freq" : 10, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_1", "freq" : 90, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_2", "freq" : 10, "cost_multiplier" : 1 },
-                    { "monster" : "mon_irradiated_wanderer_3", "freq" : 1, "cost_multiplier" : 1 }
-            ]
+        "type" : "monstergroup",
+        "name" : "GROUP_NECROPOLIS",
+        "default" : "mon_zombie",
+        "monsters" : [
+            { "monster" : "mon_zombie",                "freq" : 10, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_1", "freq" : 90, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_2", "freq" : 10, "cost_multiplier" : 1 },
+            { "monster" : "mon_irradiated_wanderer_3", "freq" : 1,  "cost_multiplier" : 1 }
+        ]
     },{
-            "type" : "item_group",
-            "id" : "building_rubble",
-            "items" : [
-                ["rock", 25],
-                ["scrap", 10],
-                ["splinter", 10],
-                ["rebar", 25],
-                ["nail", 5],
-                ["glass_shard", 15],
-                ["wire", 5],
-                ["splinter", 20]
-            ]
-       },{
-            "type" : "item_group",
-            "id" : "vehicle_scrapped",
-            "items" : [
-                ["chain", 10],
-                ["steel_chunk", 30],
-                ["spring", 5],
-                ["steel_lump", 30],
-                ["steel_plate", 30],
-                ["hard_plate", 30],
-                ["frame", 20],
-                ["bearing", 5],
-                ["cu_pipe", 5],
-                ["scrap", 20],
-                ["glass_shard", 10],
-                ["wire",  5]
-            ]
-       },{
+        "type" : "item_group",
+        "id" : "building_rubble",
+        "items" : [
+            ["rock", 25],
+            ["scrap", 10],
+            ["splinter", 10],
+            ["rebar", 25],
+            ["nail", 5],
+            ["glass_shard", 15],
+            ["wire", 5],
+            ["splinter", 20]
+        ]
+    },{
+        "type" : "item_group",
+        "id" : "vehicle_scrapped",
+        "items" : [
+            ["chain", 10],
+            ["steel_chunk", 30],
+            ["spring", 5],
+            ["steel_lump", 30],
+            ["steel_plate", 30],
+            ["hard_plate", 30],
+            ["frame", 20],
+            ["bearing", 5],
+            ["cu_pipe", 5],
+            ["scrap", 20],
+            ["glass_shard", 10],
+            ["wire",  5]
+        ]
+    },{
         "type" : "mapgen",
         "om_terrain" : ["necropolis_a_1"],
         "method": "json",
@@ -872,7 +872,7 @@
                 "..ss_______,,_______ss.|",
                 "..ss_______,,_______ss.w",
                 "..ss______uuu_______ss.|",
-                "..ss_uuu___,,__uuu__ss |",
+                "..ss_uuu___,,__uuu__ss.|",
                 "..ss_______,,_______ssss",
                 "..ss_______,,________sss",
                 "..ss____________________",
@@ -12727,7 +12727,7 @@
                 { "item": "snacks", "chance": 70, "x": [ 19,22 ], "y": [ 7,7 ]}
             ],
             "terrain": {
-                "&": "t_gas_pump",
+                "&": "t_sidewalk",
                 ">": "t_stairs_down",
                 "<": "t_stairs_down",
                 "|": "t_wall",
@@ -12845,6 +12845,9 @@
                 "Y": "f_dryer",
                 "Z": "f_crate_o",
                 "z": "f_crate_c"
+            },
+            "gaspumps": {
+                "&": { }
             }
         }
     },{

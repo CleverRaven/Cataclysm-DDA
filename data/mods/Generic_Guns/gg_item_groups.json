@@ -323,41 +323,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "mil_rifles",
-    "items":[
-      ["556", 20],
-      ["556_incendiary", 10],
-      ["762_51", 20],
-      ["762_51_incendiary", 6],
-      ["m4a1", 30],
-      ["m1014", 5],
-      ["9mm", 10],
-      ["scar_h", 30],
-      ["m249", 5],
-      ["m240", 1],
-      ["m107a1", 5],
-      ["50bmg", 5],
-      ["50ss", 5],
-      ["50_incendiary", 2],
-      ["rm121aux", 1],
-      ["rm51_assault_rifle", 4],
-      ["rm88_battle_rifle", 4],
-      ["rm614_lmg", 1],
-      ["rm2000_smg", 1],
-      ["needlegun", 4],
-      ["5x50dart", 8],
-      ["5x50heavy", 4],
-      ["rm20", 1],
-      ["20x66_shot", 5],
-      ["20x66_exp", 1],
-      ["20x66_inc", 1],
-      ["20x66_flare", 2],
-      ["20x66_frag", 1],
-      ["20x66_slug", 4],
-      ["rm11b_sniper_rifle", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "spider",
     "items":[
       ["20x66_shot", 4],

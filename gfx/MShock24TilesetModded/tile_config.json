@@ -851,9 +851,21 @@
           "rotates": false
         },
         {
-          "id": "charcoal",
+          "id": "unfinished_charcoal",
           "fg": 131,
-          "bg": 506,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "coal_lump",
+          "fg": 1066,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "charcoal",
+          "fg": 1066,
+          "bg": 505,
           "rotates": false
         },
         {

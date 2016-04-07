@@ -94,6 +94,11 @@ VERSION = 0.C
 
 TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
+ifdef TILES
+APPTARGET = $(TILESTARGET)
+else
+APPTARGET = $(TARGET)
+endif
 W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 CHKJSON_BIN = chkjson
@@ -135,6 +140,7 @@ else
   LD  = $(CROSS)$(OS_LINKER)
 endif
 RC  = $(CROSS)windres
+AR  = $(CROSS)ar
 
 # Capture CXXVERSION if using MXE - used later for ICE workaround
 ifdef CROSS
@@ -467,7 +473,9 @@ else
     CXXFLAGS += $(shell ncursesw5-config --cflags)
     LDFLAGS += $(shell ncursesw5-config --libs)
   else
-    LDFLAGS += -lncurses
+    ifneq ($(TARGETSYSTEM),WINDOWS)
+      LDFLAGS += -lncurses
+    endif
   endif
 endif
 
@@ -551,7 +559,7 @@ $(TARGET): $(ODIR) $(DDIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 cataclysm.a: $(ODIR) $(DDIR) $(OBJS)
-	ar rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
+	$(AR) rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
 version:
@@ -679,7 +687,7 @@ endif
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
 
-ifdef TILES
+
 ifeq ($(NATIVE), osx)
 APPTARGETDIR=Cataclysm.app
 APPRESOURCESDIR=$(APPTARGETDIR)/Contents/Resources
@@ -694,13 +702,13 @@ appclean:
 data/osx/AppIcon.icns: data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
-app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
+app: appclean version data/osx/AppIcon.icns $(APPTARGET)
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
 	mkdir -p $(APPTARGETDIR)/Contents/MacOS
 	cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
 	mkdir -p $(APPRESOURCESDIR)
-	cp $(TILESTARGET) $(APPRESOURCESDIR)/
+	cp $(APPTARGET) $(APPRESOURCESDIR)/
 	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
 	cp data/fontdata.json $(APPDATADIR)
@@ -714,20 +722,21 @@ app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
 	# bundle libc++ to fix bad buggy version on osx 10.7
-	LIBCPP=$$(otool -L $(TILESTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
+	LIBCPP=$$(otool -L $(APPTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
 ifdef LANGUAGES
 	ditto lang/mo $(APPRESOURCESDIR)/lang/mo
 endif
 ifeq ($(LOCALIZE), 1)
-	LIBINTL=$$(otool -L $(TILESTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
+	LIBINTL=$$(otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
 endif
+ifdef LUA
+	cp -R lua $(APPRESOURCESDIR)/
+	LIBLUA=$$(otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
+endif # ifdef LUA
+ifdef TILES
 ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
-ifdef LUA
-	cp -R lua $(APPRESOURCESDIR)/
-	LIBLUA=$$(otool -L $(TILESTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
-endif # ifdef LUA
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
@@ -745,6 +754,8 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
 endif  # ifdef FRAMEWORK
 
+endif  # ifdef TILES
+
 dmgdistclean:
 	rm -f Cataclysm.dmg
 
@@ -752,7 +763,6 @@ dmgdist: app dmgdistclean
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)
-endif  # ifdef TILES
 
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)

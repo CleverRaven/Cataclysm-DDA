@@ -325,12 +325,12 @@ void veh_interact::deallocate_windows()
  */
 static int charges_per_use( const std::string &id )
 {
-    const it_tool *t = dynamic_cast<const it_tool *>( item::find_type( id ) );
-    if( t == nullptr ) {
+    const itype *pseudo = item::find_type( id );
+    if( !pseudo->tool ) {
         debugmsg( "item %s is not a tool as expected", id.c_str() );
         return 0;
     }
-    return t->charges_per_use;
+    return pseudo->tool->charges_per_use;
 }
 
 void veh_interact::cache_tool_availability()
@@ -969,7 +969,7 @@ void veh_interact::do_repair()
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
         sel_vpart_info = &sel_vehicle_part->info();
         werase (w_parts);
-        veh->print_part_desc(w_parts, 0, parts_w, cpart, need_repair[pos]);
+        veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
@@ -998,7 +998,7 @@ void veh_interact::do_repair()
             return;
         } else if (action == "QUIT") {
             werase (w_parts);
-            veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
+            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             wrefresh(w_msg);
@@ -1088,7 +1088,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         int skill_req;
         if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
             skill_req = veh->part_info(veh_part_index).difficulty;
-        } else if (is_wrenchable || is_hand_remove || is_wood) {
+        } else if (is_screwable || is_wrenchable || is_hand_remove || is_wood) {
             skill_req = 1;
         } else {
             skill_req = 2;
@@ -1106,16 +1106,14 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         } else if (is_wrenchable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color> or <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
-                           has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
                            skill_req);
         } else if (is_screwable) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>screwdriver</color> or <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and <color_%3$s>level %4$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>screwdriver</color> and <color_%2$s>level %3$d</color> mechanics skill to remove this part."),
                            has_screwdriver ? "ltgreen" : "red",
-                           has_hacksaw ? "ltgreen" : "red",
                            has_skill ? "ltgreen" : "red",
                            skill_req);
         } else if (is_hand_remove) {
@@ -1216,7 +1214,7 @@ void veh_interact::do_remove()
         sel_vpart_info = &sel_vehicle_part->info();
         //redraw list of parts
         werase (w_parts);
-        veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
+        veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, pos);
         wrefresh (w_parts);
         bool can_remove = can_remove_part(parts_here[pos], skilllevel, msg_width);
         //read input
@@ -1226,7 +1224,7 @@ void veh_interact::do_remove()
             break;
         } else if (action == "QUIT") {
             werase (w_parts);
-            veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
+            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             wrefresh(w_msg);
@@ -1445,7 +1443,7 @@ void veh_interact::move_cursor (int dx, int dy)
               special_symbol(sym));
     wrefresh (w_disp);
     werase (w_parts);
-    veh->print_part_desc (w_parts, 0, parts_w, cpart, -1);
+    veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
     wrefresh (w_parts);
 
     can_mount.clear();

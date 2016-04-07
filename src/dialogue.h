@@ -105,7 +105,6 @@ namespace talk_function {
     void mission_failure      (npc *);
     void clear_mission        (npc *);
     void mission_reward       (npc *);
-    void mission_reward_cash  (npc *);
     void mission_favor        (npc *);
     void give_equipment       (npc *);
     void give_aid             (npc *);
@@ -175,6 +174,7 @@ namespace talk_function {
     void toggle_bashing       (npc *);
     void toggle_allow_sleep   (npc *);
     void toggle_allow_complain(npc *);
+    void toggle_allow_pulp    (npc *);
 
 /*mission_companion.cpp proves a set of functions that compress all the typical mission operations into a set of hard-coded
  *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on

@@ -79,8 +79,6 @@ npc::npc()
     wanted_item_pos = no_goal_point;
     guard_pos = no_goal_point;
     goal = no_goal_point;
-    fatigue = 0;
-    thirst = 0;
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
@@ -1046,13 +1044,13 @@ void npc::starting_weapon(npc_class type)
     } else if (best->ident() == skill_archery ) {
         sel_weapon = random_item_from( type, "archery" );
     }else if (best->ident() == skill_pistol ) {
-        sel_weapon = random_item_from( type, "pistols", "pistols" );
+        sel_weapon = random_item_from( type, "pistol", "guns_pistol_common" );
     }else if (best->ident() == skill_shotgun ) {
-        sel_weapon = random_item_from( type, "shotgun", "shotguns" );
+        sel_weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
     }else if (best->ident() == skill_smg ) {
-        sel_weapon = random_item_from( type, "smg", "smg" );
+        sel_weapon = random_item_from( type, "smg", "guns_smg_common" );
     }else if (best->ident() == skill_rifle ) {
-        sel_weapon = random_item_from( type, "rifle", "rifles" );
+        sel_weapon = random_item_from( type, "rifle", "guns_rifle_common" );
     }else if (best->ident() == skill_launcher ) {
         sel_weapon = random_item_from( type, "launcher" );
     }
@@ -1077,18 +1075,20 @@ bool npc::wear_if_wanted( const item &it )
 
     // TODO: Make it depend on stuff
     static const std::array<int, num_bp> max_encumb = {{
-        19, // bp_torso - Higher if ranged?
-        30, // bp_head
-        29, // bp_eyes - Lower if using ranged?
-        19, // bp_mouth
-        19, // bp_arm_l - Split ranged/melee?
-        19, // bp_arm_r
-        29, // bp_hand_l - Lower if throwing?
-        29, // bp_hand_r
-        19, // bp_leg_l - Higher if ranged?
-        19, // bp_leg_r
-        29, // bp_foot_l
-        29, // bp_foot_r
+        30, // bp_torso - Higher if ranged?
+        100, // bp_head
+        30, // bp_eyes - Lower if using ranged?
+        30, // bp_mouth
+        30, // bp_arm_l
+        30, // bp_arm_r
+        30, // bp_hand_l - Lower if throwing?
+        30, // bp_hand_r
+        // Must be enough to allow hazmat, turnout etc.
+        30, // bp_leg_l - Higher if ranged?
+        30, // bp_leg_r
+        // Doesn't hurt much
+        50, // bp_foot_l
+        50, // bp_foot_r
     }};
 
     // Splints ignore limits, but only when being equipped on a broken part
@@ -1110,9 +1110,10 @@ bool npc::wear_if_wanted( const item &it )
         return wear_item( it, false );
     }
 
-    bool encumb_ok = true;
-    const auto new_enc = get_encumbrance( it );
-    do {
+    const int it_encumber = it.get_encumber();
+    while( !worn.empty() ) {
+        bool encumb_ok = true;
+        const auto new_enc = get_encumbrance( it );
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
         for( size_t i = 0; i < num_bp; i++ ) {
@@ -1121,8 +1122,8 @@ bool npc::wear_if_wanted( const item &it )
                 continue;
             }
 
-            if( it.get_encumber() > max_encumb[i] ) {
-                // Not a NPC-friendly item
+            if( it_encumber > max_encumb[i] ) {
+                // Not an NPC-friendly item
                 return false;
             }
 
@@ -1132,8 +1133,9 @@ bool npc::wear_if_wanted( const item &it )
             }
         }
 
-        if( encumb_ok ) {
-            return wear_item( it, false );
+        if( encumb_ok && can_wear( it, false ) ) {
+            // @todo Hazmat/power armor makes this not work due to 1 boots/headgear limit
+            return wear_item( it, true );
         }
         // Otherwise, maybe we should take off one or more items and replace them
         bool took_off = false;
@@ -1156,9 +1158,9 @@ bool npc::wear_if_wanted( const item &it )
             // Shouldn't happen, but does
             return wear_item( it, false );
         }
-    } while( !worn.empty() );
+    }
 
-    return false;
+    return worn.empty() && wear_item( it, false );
 }
 
 bool npc::wield( item& it )
@@ -1218,130 +1220,151 @@ void npc::perform_mission()
     }
 }
 
-void npc::form_opinion(player *u)
+void npc::form_opinion( const player &u )
 {
     // FEAR
-    if( u->weapon.is_gun() ) {
+    if( u.weapon.is_gun() ) {
+        // @todo Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
         }
-    } else if( u->weapon_value( u->weapon ) > 20 ) {
-        // Currently rates martial arts masters as well armed
-        // When it comes to NPCs, better go with too smart than too dumb
+    } else if( u.weapon_value( u.weapon ) > 20 ) {
         op_of_u.fear += 2;
-    } else if( u->weapon.type->id == "null" ) {
+    } else if( !u.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
         op_of_u.fear -= 3;
     }
 
     ///\EFFECT_STR increases NPC fear of the player
-    if( u->str_max >= 16 ) {
+    if( u.str_max >= 16 ) {
         op_of_u.fear += 2;
-    } else if( u->str_max >= 12 ) {
+    } else if( u.str_max >= 12 ) {
         op_of_u.fear += 1;
-    } else if( u->str_max <= 5 ) {
+    } else if( u.str_max <= 5 ) {
         op_of_u.fear -= 1;
-    } else if( u->str_max <= 3 ) {
+    } else if( u.str_max <= 3 ) {
         op_of_u.fear -= 3;
     }
 
- for (int i = 0; i < num_hp_parts; i++) {
-  if (u->hp_cur[i] <= u->hp_max[i] / 2)
-   op_of_u.fear--;
-  if (hp_cur[i] <= hp_max[i] / 2)
-   op_of_u.fear++;
- }
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( u.hp_cur[i] <= u.hp_max[i] / 2 ) {
+            op_of_u.fear--;
+        }
+        if( hp_cur[i] <= hp_max[i] / 2 ) {
+            op_of_u.fear++;
+        }
+    }
 
- if (u->has_trait("SAPIOVORE")) {
-    op_of_u.fear += 10; // Sapiovores = Scary
- }
- if (u->has_trait("PRETTY"))
-  op_of_u.fear += 1;
- else if (u->has_trait("BEAUTIFUL"))
-  op_of_u.fear += 2;
- else if (u->has_trait("BEAUTIFUL2"))
-  op_of_u.fear += 3;
- else if (u->has_trait("BEAUTIFUL3"))
-  op_of_u.fear += 4;
- else if (u->has_trait("UGLY"))
-  op_of_u.fear -= 1;
- else if (u->has_trait("DEFORMED"))
-  op_of_u.fear += 3;
- else if (u->has_trait("DEFORMED2"))
-  op_of_u.fear += 6;
- else if (u->has_trait("DEFORMED3"))
-  op_of_u.fear += 9;
- if (u->has_trait("TERRIFYING"))
-  op_of_u.fear += 6;
+    if (u.has_trait("SAPIOVORE")) {
+        op_of_u.fear += 10; // Sapiovores = Scary
+    }
 
- if (u->stim > 20)
-  op_of_u.fear++;
+    if (u.has_trait("PRETTY")) {
+        op_of_u.fear += 1;
+    } else if (u.has_trait("BEAUTIFUL")) {
+        op_of_u.fear += 2;
+    } else if (u.has_trait("BEAUTIFUL2")) {
+        op_of_u.fear += 3;
+    } else if (u.has_trait("BEAUTIFUL3")) {
+        op_of_u.fear += 4;
+    } else if (u.has_trait("UGLY")) {
+        op_of_u.fear -= 1;
+    } else if (u.has_trait("DEFORMED")) {
+        op_of_u.fear += 3;
+    } else if (u.has_trait("DEFORMED2")) {
+        op_of_u.fear += 6;
+    } else if (u.has_trait("DEFORMED3")) {
+        op_of_u.fear += 9;
+    }
 
- if (u->has_effect( effect_drunk))
-  op_of_u.fear -= 2;
+    if (u.has_trait("TERRIFYING")) {
+        op_of_u.fear += 6;
+    }
 
-// TRUST
- if (op_of_u.fear > 0)
-  op_of_u.trust -= 3;
- else
-  op_of_u.trust += 1;
+    if( u.stim > 20 ) {
+        op_of_u.fear++;
+    }
 
- if (u->weapon.is_gun())
-  op_of_u.trust -= 2;
- else if (u->unarmed_attack())
-  op_of_u.trust += 2;
+    if( u.has_effect( effect_drunk ) ) {
+        op_of_u.fear -= 2;
+    }
 
- if (u->has_effect( effect_high))
-  op_of_u.trust -= 1;
- if (u->has_effect( effect_drunk))
-  op_of_u.trust -= 2;
- if (u->stim > 20 || u->stim < -20)
-  op_of_u.trust -= 1;
- if (u->pkill > 30)
-  op_of_u.trust -= 1;
+    // TRUST
+    if( op_of_u.fear > 0 ) {
+        op_of_u.trust -= 3;
+    } else {
+        op_of_u.trust += 1;
+    }
 
- if (u->has_trait("PRETTY"))
-  op_of_u.trust += 1;
- else if (u->has_trait("BEAUTIFUL"))
-  op_of_u.trust += 3;
- else if (u->has_trait("BEAUTIFUL2"))
-  op_of_u.trust += 5;
- else if (u->has_trait("BEAUTIFUL3"))
-  op_of_u.trust += 7;
- else if (u->has_trait("UGLY"))
-  op_of_u.trust -= 1;
- else if (u->has_trait("DEFORMED"))
-  op_of_u.trust -= 3;
- else if (u->has_trait("DEFORMED2"))
-  op_of_u.trust -= 6;
- else if (u->has_trait("DEFORMED3"))
-  op_of_u.trust -= 9;
+    if( u.weapon.is_gun() ) {
+        op_of_u.trust -= 2;
+    } else if( !u.is_armed() ) {
+        op_of_u.trust += 2;
+    }
+
+    // @todo More effects
+    if( u.has_effect( effect_high ) ) {
+        op_of_u.trust -= 1;
+    }
+    if( u.has_effect( effect_drunk ) ) {
+        op_of_u.trust -= 2;
+    }
+    if( u.stim > 20 || u.stim < -20 ) {
+        op_of_u.trust -= 1;
+    }
+    if( u.get_painkiller() > 30 ) {
+        op_of_u.trust -= 1;
+    }
+
+    if (u.has_trait("PRETTY")) {
+      op_of_u.trust += 1;
+    } else if (u.has_trait("BEAUTIFUL")) {
+        op_of_u.trust += 3;
+    } else if (u.has_trait("BEAUTIFUL2")) {
+        op_of_u.trust += 5;
+    } else if (u.has_trait("BEAUTIFUL3")) {
+        op_of_u.trust += 7;
+    } else if (u.has_trait("UGLY")) {
+        op_of_u.trust -= 1;
+    } else if (u.has_trait("DEFORMED")) {
+        op_of_u.trust -= 3;
+    } else if (u.has_trait("DEFORMED2")) {
+        op_of_u.trust -= 6;
+    } else if (u.has_trait("DEFORMED3")) {
+        op_of_u.trust -= 9;
+    }
+
+    if( op_of_u.trust > 0 ) {
+        // Trust is worth a lot right now
+        op_of_u.trust /= 2;
+    }
 
     // VALUE
     op_of_u.value = 0;
-    for (int i = 0; i < num_hp_parts; i++) {
-        if (hp_cur[i] < hp_max[i] * .8) {
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( hp_cur[i] < hp_max[i] * 0.8f ) {
             op_of_u.value++;
         }
     }
     decide_needs();
-    for (auto &i : needs) {
-        if (i == need_food || i == need_drink) {
+    for( auto &i : needs ) {
+        if( i == need_food || i == need_drink ) {
             op_of_u.value += 2;
         }
     }
 
- if (op_of_u.fear < personality.bravery + 10 &&
-     op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8)
-  attitude = NPCATT_TALK;
- else if (op_of_u.fear - 2 * personality.aggression - personality.bravery < -30)
-  attitude = NPCATT_KILL;
- else if (my_fac != NULL && my_fac->likes_u < -10)
-    attitude = NPCATT_KILL;
- else
-  attitude = NPCATT_FLEE;
+    if( op_of_u.fear < personality.bravery + 10 &&
+        op_of_u.fear - personality.aggression > -10 && op_of_u.trust > -8 ) {
+        attitude = NPCATT_TALK;
+    } else if( op_of_u.fear - 2 * personality.aggression - personality.bravery < -30 ) {
+        attitude = NPCATT_KILL;
+    } else if( my_fac != nullptr && my_fac->likes_u < -10 ) {
+        attitude = NPCATT_KILL;
+    } else {
+        attitude = NPCATT_FLEE;
+    }
 
     add_msg( m_debug, "%s formed an opinion of u: %s",
              name.c_str(), npc_attitude_name( attitude ).c_str() );
@@ -1558,18 +1581,15 @@ void npc::decide_needs()
 
     needrank[need_weapon] = weapon_value( weapon );
     needrank[need_food] = 15 - get_hunger();
-    needrank[need_drink] = 15 - thirst;
+    needrank[need_drink] = 15 - get_thirst();
     invslice slice = inv.slice();
     for (auto &i : slice) {
-        const it_comest* food = NULL;
-        if (i->front().is_food()) {
-            food = dynamic_cast<const it_comest*>(i->front().type);
-        } else if (i->front().is_food_container()) {
-            food = dynamic_cast<const it_comest*>(i->front().contents[0].type);
-        }
-        if (food != NULL) {
-            needrank[need_food] += food->get_nutrition() / 4;
-            needrank[need_drink] += food->quench / 4;
+        if( i->front().is_food( )) {
+            needrank[ need_food ] += nutrition_for( i->front().type ) / 4;
+            needrank[ need_drink ] += i->front().type->comestible->quench / 4;
+        } else if( i->front().is_food_container() ) {
+            needrank[ need_food ] += nutrition_for( i->front().contents[0].type ) / 4;
+            needrank[ need_drink ] += i->front().contents[0].type->comestible->quench / 4;
         }
     }
     needs.clear();
@@ -1628,6 +1648,10 @@ bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
         return true;
     }
 
+    if( is_minion() ) {
+        return true;
+    }
+
     // TODO: Base on inventory
     return at_price - market_price <= 50;
 }
@@ -1642,6 +1666,11 @@ bool npc::wants_to_buy( const item &it, int at_price, int market_price ) const
 {
     (void)market_price;
     (void)it;
+
+    if( is_minion() ) {
+        return true;
+    }
+
     // TODO: Base on inventory
     return at_price >= 80;
 }
@@ -1656,7 +1685,7 @@ std::vector<npc::item_pricing> npc::init_selling()
         // sort them by types and values
         // allow selling some of them
         auto &it = i->front();
-        if( it.type->id == "lighter" && !found_lighter && it.ammo_remaining() >= 10 ) {
+        if( !found_lighter && it.type->id == "lighter" && it.ammo_remaining() >= 10 ) {
             found_lighter = true;
             continue;
         }
@@ -1767,14 +1796,15 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_food() ) {
-        const auto comest = dynamic_cast<const it_comest*>(it.type);
         int comestval = 0;
-        if( comest->get_nutrition() > 0 || comest->quench > 0 ) {
+        if( nutrition_for( it.type ) > 0 || it.type->comestible->quench > 0 ) {
             comestval++;
-        } if( get_hunger() > 40 ) {
-            comestval += (comest->get_nutrition() + get_hunger() - 40) / 6;
-        } if( thirst > 40 ) {
-            comestval += (comest->quench + thirst - 40) / 4;
+        }
+        if( get_hunger() > 40 ) {
+            comestval += ( nutrition_for( it.type ) + get_hunger() - 40 ) / 6;
+        }
+        if( get_thirst() > 40 ) {
+            comestval += ( it.type->comestible->quench + get_thirst() - 40 ) / 4;
         }
         if( comestval > 0 && can_eat( it ) == EDIBLE ) {
             ret += comestval;
@@ -1809,13 +1839,11 @@ int npc::value( const item &it, int market_price ) const
 
     // TODO: Artifact hunting from relevant factions
     // ALSO TODO: Bionics hunting from relevant factions
-    if( fac_has_job(FACJOB_DRUGS) && it.is_food() &&
-        (dynamic_cast<const it_comest*>(it.type))->addict >= 5 ) {
+    if( fac_has_job(FACJOB_DRUGS) && it.is_food() && it.type->comestible->addict >= 5 ) {
         ret += 10;
     }
 
-    if( fac_has_job(FACJOB_DOCTORS) && it.is_food() &&
-        dynamic_cast<const it_comest*>( it.type )->comesttype == "MED" ) {
+    if( fac_has_job(FACJOB_DOCTORS) && it.is_food() && it.type->comestible->comesttype == "MED" ) {
         ret += 10;
     }
 
@@ -1867,7 +1895,7 @@ item &npc::get_healing_item( bool bleed, bool bite, bool infect, bool first_best
 
 bool npc::has_painkiller()
 {
-    return inv.has_enough_painkiller( pain );
+    return inv.has_enough_painkiller( get_pain() );
 }
 
 bool npc::took_painkiller() const
@@ -1882,6 +1910,11 @@ bool npc::is_friend() const
      attitude == NPCATT_LEAD)
   return true;
  return false;
+}
+
+bool npc::is_minion() const
+{
+    return is_friend() && op_of_u.trust >= 5;
 }
 
 bool npc::is_following() const
@@ -2132,7 +2165,7 @@ std::string npc::opinion_text() const
   ret << _("Untrusting");
  else if (op_of_u.trust <= 2)
   ret << _("Uneasy");
- else if (op_of_u.trust <= 5)
+ else if (op_of_u.trust <= 4)
   ret << _("Trusting");
  else if (op_of_u.trust < 10)
   ret << _("Very trusting");
@@ -2195,6 +2228,14 @@ std::string npc::opinion_text() const
  return ret.str();
 }
 
+void maybe_shift( tripoint &pos, int dx, int dy )
+{
+    if( pos != tripoint_min ) {
+        pos.x += dx;
+        pos.y += dy;
+    }
+}
+
 void npc::shift(int sx, int sy)
 {
     const int shiftx = sx * SEEX;
@@ -2220,15 +2261,9 @@ void npc::shift(int sx, int sy)
         }
     }
 
-    if( wanted_item_pos != no_goal_point ) {
-        wanted_item_pos.x -= shiftx;
-        wanted_item_pos.y -= shifty;
-    }
-
-    if( last_player_seen_pos != no_goal_point ) {
-        last_player_seen_pos.x -= shiftx;
-        last_player_seen_pos.y -= shifty;
-    }
+    maybe_shift( wanted_item_pos, -shiftx, -shifty );
+    maybe_shift( last_player_seen_pos, -shiftx, -shifty );
+    maybe_shift( pulp_location, -shiftx, -shifty );
     path.clear();
 }
 
@@ -2707,4 +2742,31 @@ bool npc::dispose_item( item& obj, const std::string & )
 
     mn->action();
     return true;
+}
+
+void npc::process_turn()
+{
+    player::process_turn();
+
+    if( is_following() && calendar::once_every( HOURS(1) ) &&
+        get_hunger() < 200 && get_thirst() < 100 && op_of_u.trust < 5 ) {
+        // Friends who are well fed will like you more
+        // 24 checks per day, best case chance at trust 0 is 1 in 48 for +1 trust per 2 days
+        float trust_chance = 5 - op_of_u.trust;
+        // Penalize for bad impression
+        // TODO: Penalize for traits and actions (especially murder, unless NPC is psycho)
+        int op_penalty = std::max( 0, op_of_u.anger ) +
+                         std::max( 0, -op_of_u.value ) +
+                         std::max( 0, op_of_u.fear );
+        // Being barely hungry and thirsty, not in pain and not wounded means good care
+        int state_penalty = get_hunger() + get_thirst() + (100 - hp_percentage()) + get_pain();
+        if( x_in_y( trust_chance, 240 + 10 * op_penalty + state_penalty ) ) {
+            op_of_u.trust++;
+        }
+
+        // TODO: Similar checks for fear and anger
+    }
+
+    // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
+    // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }

@@ -666,7 +666,7 @@ std::string input_context::get_available_single_char_hotkeys(std::string request
     return requested_keys;
 }
 
-const std::string input_context::get_desc(const std::string &action_descriptor)
+const std::string input_context::get_desc(const std::string &action_descriptor, const unsigned int max_limit)
 {
     if(action_descriptor == "ANY_INPUT") {
         return "(*)"; // * for wildcard
@@ -685,6 +685,10 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
         // Only display gamepad buttons if a gamepad is available.
         if(gamepad_available() || event.type != CATA_INPUT_GAMEPAD) {
             inputs_to_show.push_back(event);
+        }
+
+        if(max_limit > 0 && inputs_to_show.size() == max_limit) {
+            break;
         }
     }
 

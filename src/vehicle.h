@@ -120,6 +120,8 @@ vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int 
 struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
+    friend visitable<vehicle_cursor>;
+
     enum : int { passenger_flag = 1 };
 
     vehicle_part( int dx = 0, int dy = 0 );
@@ -502,7 +504,7 @@ public:
     nc_color part_color( int p, bool exact = false ) const;
 
     // Vehicle parts description
-    int print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1) const;
+    int print_part_desc (WINDOW *win, int y1, int max_y, int width, int p, int hl = -1) const;
 
     // Get all printable fuel types
     std::vector< itype_id > get_printable_fuel_types (bool fullsize) const;
@@ -926,7 +928,6 @@ public:
     int velocity = 0;       // vehicle current velocity, mph * 100
     int cruise_velocity = 0; // velocity vehicle's cruise control trying to achieve
     int vertical_velocity = 0; // Only used for collisions, vehicle falls instantly
-    std::string music_id;    // what music storage device is in the stereo
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     int turn_dir;       // direction, to which vehicle is turning (player control). will rotate frame on next move
 

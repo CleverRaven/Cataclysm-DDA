@@ -22,6 +22,8 @@
 #include "weather.h"
 #include "ui.h"
 #include "map_iterator.h"
+#include "gates.h"
+#include "catalua.h"
 
 #include <math.h>
 #include <sstream>
@@ -61,8 +63,8 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Not quite as bad as the pickaxe, though
         p->mod_hunger(10);
-        p->fatigue += 15;
-        p->thirst += 10;
+        p->mod_thirst(10);
+        p->mod_fatigue(15);
         p->mod_pain(3 * rng(1, 3));
         // Mining is construction work!
         p->practice( skill_carpentry, 5 );
@@ -70,8 +72,8 @@ void activity_handlers::burrow_finish(player_activity *act, player *p)
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_hunger(5);
-        p->fatigue += 10;
-        p->thirst += 5;
+        p->mod_thirst(5);
+        p->mod_fatigue(10);
     }
     g->m.destroy( pos, true );
 }
@@ -280,7 +282,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     stomach = roll_butchery() >= 0;
 
     if( bones > 0 ) {
-        if( corpse->has_material("veggy") ) {
+        if( corpse->made_of( material_id( "veggy" ) ) ) {
             g->m.spawn_item(p->pos(), "plant_sac", bones, 0, age);
             p->add_msg_if_player(m_good, _("You harvest some fluid bladders!"));
         } else if( corpse->has_flag(MF_BONES) && corpse->has_flag(MF_POISON) ) {
@@ -299,7 +301,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( corpse->has_flag(MF_BONES) && !corpse->has_flag(MF_POISON) ) {
             g->m.spawn_item(p->pos(), "sinew", sinews, 0, age);
             p->add_msg_if_player(m_good, _("You harvest some usable sinews!"));
-        } else if( corpse->has_material("veggy") ) {
+        } else if( corpse->made_of( material_id( "veggy" ) ) ) {
             g->m.spawn_item(p->pos(), "plant_fibre", sinews, 0, age);
             p->add_msg_if_player(m_good, _("You harvest some plant fibers!"));
         }
@@ -838,12 +840,12 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
         // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
         // Betcha wish you'd opted for the J-Hammer ;P
         p->mod_hunger(15);
+        p->mod_thirst(15);
         if( p->has_trait("STOCKY_TROGLO") ) {
-            p->fatigue += 20; // Yep, dwarves can dig longer before tiring
+            p->mod_fatigue(20); // Yep, dwarves can dig longer before tiring
         } else {
-            p->fatigue += 30;
+            p->mod_fatigue(30);
         }
-        p->thirst += 15;
         p->mod_pain(2 * rng(1, 3));
         // Mining is construction work!
         p->practice( skill_carpentry, 5 );
@@ -851,8 +853,8 @@ void activity_handlers::pickaxe_finish(player_activity *act, player *p)
                g->m.ter(pos) != t_dirt && g->m.ter(pos) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_hunger(5);
-        p->fatigue += 10;
-        p->thirst += 5;
+        p->mod_thirst(5);
+        p->mod_fatigue(10);
     }
     g->m.destroy( pos, true );
     it->charges = std::max(long(0), it->charges - it->type->charges_to_use());
@@ -884,36 +886,36 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
     int moves = 0;
     int &num_corpses = act->index; // use this to collect how many corpse are pulped
-    auto corpse_pile = g->m.i_at(pos);
-    for( auto corpse = corpse_pile.begin(); corpse != corpse_pile.end(); ++corpse ) {
-        if( !corpse->is_corpse() || !corpse->get_mtype()->has_flag( MF_REVIVES )  ) {
+    auto corpse_pile = g->m.i_at( pos );
+    for( auto &corpse : corpse_pile ) {
+        if( !corpse.is_corpse() || !corpse.get_mtype()->has_flag( MF_REVIVES )  ) {
             // Don't smash non-rezing corpses
             continue;
         }
 
-        if( corpse->damage >= CORPSE_PULP_THRESHOLD ) {
+        if( corpse.damage >= CORPSE_PULP_THRESHOLD ) {
             // Deactivate already-pulped corpses that weren't properly deactivated
-            corpse->active = false;
+            corpse.active = false;
             continue;
         }
 
-        while( corpse->damage < CORPSE_PULP_THRESHOLD ) {
+        while( corpse.damage < CORPSE_PULP_THRESHOLD ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
-            if( x_in_y( pulp_power, corpse->volume() ) ) {
-                if( ++corpse->damage == CORPSE_PULP_THRESHOLD ) {
-                    corpse->active = false;
+            if( x_in_y( pulp_power, corpse.volume() ) ) {
+                if( ++corpse.damage == CORPSE_PULP_THRESHOLD ) {
+                    corpse.active = false;
                     num_corpses++;
                 }
             }
 
             // Splatter some blood around
             tripoint tmp = pos;
-            field_id type_blood = corpse->get_mtype()->bloodType();
+            field_id type_blood = corpse.get_mtype()->bloodType();
             if( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) {
                 // Make gore instead of blood this time
-                type_blood = corpse->get_mtype()->gibType();
+                type_blood = corpse.get_mtype()->gibType();
             }
-            if( type_blood != fd_null && x_in_y( pulp_power, corpse->volume() ) ) {
+            if( type_blood != fd_null && x_in_y( pulp_power, corpse.volume() ) ) {
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
@@ -938,7 +940,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
             p->mod_stat( "stamina", stamina_ratio * -40 );
 
             moves += 100 / std::max( 0.25f, stamina_ratio );
-            if( one_in( 10 ) ) {
+            if( one_in( 4 ) ) {
                 // Smashing may not be butchery, but it involves some zombie anatomy
                 p->practice( skill_survival, 2, 2 );
             }
@@ -954,12 +956,14 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
     if( num_corpses == 0 ) {
-        add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));
+        p->add_msg_if_player(m_bad, _("The corpse moved before you could finish smashing it!"));
         return;
     }
     // TODO: Factor in how long it took to do the smashing.
-    add_msg(ngettext("The corpse is thoroughly pulped.",
-                     "The corpses are thoroughly pulped.", num_corpses));
+    p->add_msg_player_or_npc( ngettext( "The corpse is thoroughly pulped.",
+                                        "The corpses are thoroughly pulped.", num_corpses ),
+                              ngettext( "<npcname> finished pulping the corpse.",
+                                        "<npcname> finished pulping the corpses.", num_corpses ) );
 }
 
 void activity_handlers::refill_vehicle_do_turn( player_activity *act, player *p )
@@ -1103,6 +1107,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
                                 new_skill_level, skill->name().c_str());
         }
 
+        lua_callback("on_skill_increased");
         act->type = ACT_NULL;
         return;
     }
@@ -1177,13 +1182,13 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
         p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
         // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
         // you pretty close to Dead Tired from a well-rested state.
-        p->fatigue += 4;
+        p->mod_fatigue(4);
     }
     if( vibrator_item.charges == 0 ) {
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
     }
-    if( p->fatigue >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
+    if( p->get_fatigue() >= DEAD_TIRED ) { // Dead Tired: different kind of relaxation needed
         act->moves_left = 0;
         add_msg(m_info, _("You're too tired to continue."));
     }
@@ -1241,10 +1246,10 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
 {
     item &it = p->i_at( act->position );
     // act->values[0] is the number of charges yet to be consumed
-    const int charges_used = std::min( act->values[0], it.type->charges_to_use() );
+    const long charges_used = std::min( long( act->values[0] ), it.ammo_required() );
 
-    it.charges -= charges_used;
-    act->values[0] -= charges_used;
+    it.ammo_consume( charges_used, p->pos() );
+    act->values[0] -= int( charges_used );
 
     if( calendar::once_every(2) ) {
         sounds::sound( act->placement, 10, _("hissssssssss!") );
@@ -1303,108 +1308,10 @@ void activity_handlers::cracking_finish( player_activity *act, player *p )
     g->m.furn_set( act->placement, f_safe_o);
 }
 
-void activity_handlers::open_gate_finish( player_activity *act, player *p )
+void activity_handlers::open_gate_finish( player_activity *act, player * )
 {
-    const tripoint &pos = act->placement;
-    const ter_id handle_type = g->m.ter( pos );
-    int examx = pos.x;
-    int examy = pos.y;
-    ter_id wall_type;
-    ter_id door_type;
-    ter_id floor_type;
-    const char *open_message;
-    const char *close_message;
-    int bash_dmg;
-
-    if (handle_type == t_gates_mech_control) {
-        wall_type = t_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        bash_dmg = 40;
-    } else if (handle_type == t_gates_control_concrete) {
-        wall_type = t_concrete_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        bash_dmg = 40;
-    } else if (handle_type == t_barndoor) {
-        wall_type = t_wall_wood;
-        door_type = t_door_metal_locked;
-        floor_type = t_dirtfloor;
-        open_message = _("The barn doors opened!");
-        close_message = _("The barn doors closed!");
-        bash_dmg = 40;
-    } else if (handle_type == t_palisade_pulley) {
-        wall_type = t_palisade;
-        door_type = t_palisade_gate;
-        floor_type = t_palisade_gate_o;
-        open_message = _("The palisade gate swings open!");
-        close_message = _("The palisade gate swings closed with a crash!");
-        bash_dmg = 30;
-    } else if (handle_type == t_gates_control_metal) {
-        wall_type = t_wall_metal;
-        door_type = t_door_metal_locked;
-        floor_type = t_metal_floor;
-        open_message = _("The door rises!");
-        close_message = _("The door slams shut!");
-        bash_dmg = 60;
-    } else {
-        return;
-    }
-
-    bool open = false;
-    bool close = false;
-
-    for (int wall_x = -1; wall_x <= 1; wall_x++) {
-        for (int wall_y = -1; wall_y <= 1; wall_y++) {
-            for (int gate_x = -1; gate_x <= 1; gate_x++) {
-                for (int gate_y = -1; gate_y <= 1; gate_y++) {
-                    if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&
-                        // make sure wall not diagonally opposite to handle
-                        (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
-                        ((wall_y != 0 && (g->m.ter(examx + wall_x, examy + wall_y) == wall_type)) ||
-                         //horizontal orientation of the gate
-                         (wall_x != 0 &&
-                          (g->m.ter(examx + wall_x, examy + wall_y) == wall_type)))) { //vertical orientation of the gate
-
-                        int cur_x = examx + wall_x + gate_x;
-                        int cur_y = examy + wall_y + gate_y;
-
-                        if (!close &&
-                            (g->m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == door_type)) {  //opening the gate...
-                            open = true;
-                            while (g->m.ter(cur_x, cur_y) == door_type) {
-                                g->m.ter_set(cur_x, cur_y, floor_type);
-                                cur_x = cur_x + gate_x;
-                                cur_y = cur_y + gate_y;
-                            }
-                        }
-
-                        if (!open &&
-                            (g->m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == floor_type)) {  //closing the gate...
-                            close = true;
-                            while (g->m.ter(cur_x, cur_y) == floor_type) {
-                                g->forced_gate_closing( tripoint( cur_x, cur_y, pos.z ), door_type, bash_dmg );
-                                cur_x = cur_x + gate_x;
-                                cur_y = cur_y + gate_y;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if (open) {
-        p->add_msg_if_player(open_message);
-    } else if (close) {
-        p->add_msg_if_player(close_message);
-    } else {
-        p->add_msg_if_player(_("Nothing happens."));
-    }
+    const tripoint pos = act->placement; // Don't use reference and don't inline, becuase act can change
+    gates::open_gate( pos );
 }
 
 enum repeat_type : int {

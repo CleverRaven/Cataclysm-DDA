@@ -20,12 +20,15 @@ src/drawing_primitives.cpp
 src/editmap.cpp
 src/explosion.cpp
 src/gamemode.cpp
+src/gates.cpp
+src/gates.h
 src/item_action.cpp
 src/item_location.cpp
 src/itype.cpp
 src/iuse_software.cpp
 src/live_view.cpp
 src/lua_console.cpp
+src/main_menu.cpp
 src/map_selector.cpp
 src/mapsharing.cpp
 src/material.cpp
@@ -140,6 +143,7 @@ src/omdata.h
 src/options.h
 src/overmap_types.h
 src/path_info.h
+src/pathfinding.h
 src/pickup.h
 src/platform_win.h
 src/player_activity.h

@@ -129,11 +129,15 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     wrefresh(window);
 }
 
+const auto separator = []( std::ostringstream &s )
+{
+    return s.tellp() != 0 ? ", " : "";
+};
+
 //builds the power usage string of a given bionic
 std::string build_bionic_poweronly_string(bionic const &bio)
 {
     std::ostringstream power_desc;
-    bool hasPreviousText = false;
     if (bionics[bio.id].power_over_time > 0 && bionics[bio.id].charge_time > 0) {
         power_desc << (
             bionics[bio.id].charge_time == 1
@@ -142,29 +146,17 @@ std::string build_bionic_poweronly_string(bionic const &bio)
           : string_format(_("%d PU / %d turns"),
                 bionics[bio.id].power_over_time,
                 bionics[bio.id].charge_time));
-        hasPreviousText = true;
     }
     if (bionics[bio.id].power_activate > 0 && !bionics[bio.id].charge_time) {
-        if(hasPreviousText){
-            power_desc << ", ";
-        }
-        power_desc << string_format(_("%d PU act"),
+        power_desc << separator( power_desc ) << string_format( _( "%d PU act" ),
                         bionics[bio.id].power_activate);
-        hasPreviousText = true;
     }
     if (bionics[bio.id].power_deactivate > 0 && !bionics[bio.id].charge_time) {
-        if(hasPreviousText){
-            power_desc << ", ";
-        }
-        power_desc << string_format(_("%d PU deact"),
+        power_desc << separator( power_desc ) << string_format(_("%d PU deact"),
                         bionics[bio.id].power_deactivate);
-        hasPreviousText = true;
     }
     if (bionics[bio.id].toggled) {
-        if(hasPreviousText){
-            power_desc << ", ";
-        }
-        power_desc << (bio.powered ? _("ON") : _("OFF"));
+        power_desc << separator( power_desc ) << ( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
 
     return power_desc.str();
@@ -485,7 +477,7 @@ void player::power_bionics()
                 continue;
             }
             if( !bionic_chars.valid( newch ) ) {
-                popup( _("Invlid bionic letter. Only those characters are valid:\n\n%s"),
+                popup( _("Invalid bionic letter. Only those characters are valid:\n\n%s"),
                        bionic_chars.get_allowed_chars().c_str() );
                 continue;
             }
@@ -657,6 +649,15 @@ void draw_exam_window(WINDOW *win, int border_line, bool examination)
     }
 }
 
+void force_comedown( effect &eff )
+{
+    if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1 ) {
+        return;
+    }
+
+    eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
+}
+
 // Why put this in a Big Switch?  Why not let bionics have pointers to
 // functions, much like monsters and items?
 //
@@ -704,10 +705,10 @@ bool player::activate_bionic(int b, bool eff_only)
 
     // On activation effects go here
     if(bio.id == "bio_painkiller") {
-        pkill += 6;
-        pain -= 2;
-        if (pkill > pain) {
-            pkill = pain;
+        mod_pain( -2 );
+        mod_painkiller( 6 );
+        if ( get_painkiller() > get_pain() ) {
+            set_painkiller( get_pain() );
         }
     } else if (bio.id == "bio_ears" && has_active_bionic("bio_earplugs")) {
         for (auto &i : my_bionics) {
@@ -889,9 +890,10 @@ bool player::activate_bionic(int b, bool eff_only)
         remove_effect( effect_took_xanax );
         remove_effect( effect_took_prozac );
         remove_effect( effect_took_flumed );
-        remove_effect( effect_adrenaline );
-        remove_effect( effect_meth );
-        pkill = 0;
+        // Purging the substance won't remove the fatigue it caused
+        force_comedown( get_effect( effect_adrenaline ) );
+        force_comedown( get_effect( effect_meth ) );
+        set_painkiller( 0 );
         stim = 0;
     } else if(bio.id == "bio_evap") {
         item water = item("water_clean", 0);
@@ -929,10 +931,12 @@ bool player::activate_bionic(int b, bool eff_only)
             radiation = 0;
         }
     } else if(bio.id == "bio_adrenaline") {
-        if (has_effect( effect_adrenaline )) {
-            add_effect( effect_adrenaline, 50);
+        if( has_effect( effect_adrenaline ) ) {
+            // Safety
+            add_msg_if_player( m_bad, _( "The bionic refuses to activate!" ) );
+            charge_power( bionics[bio.id].power_activate );
         } else {
-            add_effect( effect_adrenaline, 200);
+            add_effect( effect_adrenaline, 200 );
         }
     } else if(bio.id == "bio_blaster") {
         tmp_item = weapon;
@@ -1010,7 +1014,9 @@ bool player::activate_bionic(int b, bool eff_only)
                 }
                 for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
                     tmp_item = g->m.i_at(i, j)[k];
-                    if( (tmp_item.made_of("iron") || tmp_item.made_of("steel")) &&
+                    static const std::vector<material_id> affected_materials =
+                        { material_id( "iron" ), material_id( "steel" ) };
+                    if( tmp_item.made_of_any( affected_materials ) &&
                         tmp_item.weight() < weight_capacity() ) {
                         g->m.i_rem(i, j, k);
                         std::vector<tripoint>::iterator it;
@@ -1699,37 +1705,38 @@ void player::add_bionic( std::string const &b )
 
     int pow_up = bionics[b].capacity;
     max_power_level += pow_up;
-    if ( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
-        add_msg_if_player(m_good, _("Increased storage capacity by %i."), pow_up);
+    if( b == "bio_power_storage" || b == "bio_power_storage_mkII" ) {
+        add_msg_if_player( m_good, _( "Increased storage capacity by %i." ), pow_up );
         // Power Storage CBMs are not real bionic units, so return without adding it to my_bionics
         return;
     }
 
     my_bionics.push_back( bionic( b, newinv ) );
-    if ( b == "bio_tools" || b == "bio_ears" ) {
-        activate_bionic(my_bionics.size() -1);
+    if( b == "bio_tools" || b == "bio_ears" ) {
+        activate_bionic( my_bionics.size() - 1 );
     }
     recalc_sight_limits();
 }
 
-void player::remove_bionic(std::string const &b) {
+void player::remove_bionic( std::string const &b )
+{
     std::vector<bionic> new_my_bionics;
-    for(auto &i : my_bionics) {
-        if (b == i.id) {
+    for( auto &i : my_bionics ) {
+        if( b == i.id ) {
             continue;
         }
 
         // Ears and earplugs and sunglasses and blindfold go together like peanut butter and jelly.
         // Therefore, removing one, should remove the other.
-        if ((b == "bio_ears" && i.id == "bio_earplugs") ||
-            (b == "bio_earplugs" && i.id == "bio_ears")) {
+        if( ( b == "bio_ears" && i.id == "bio_earplugs" ) ||
+            ( b == "bio_earplugs" && i.id == "bio_ears" ) ) {
             continue;
-        } else if ((b == "bio_sunglasses" && i.id == "bio_blindfold") ||
-		           (b == "bio_blindfold" && i.id == "bio_sunglasses")) {
-				   continue;
+        } else if( ( b == "bio_sunglasses" && i.id == "bio_blindfold" ) ||
+                   ( b == "bio_blindfold" && i.id == "bio_sunglasses" ) ) {
+            continue;
         }
 
-        new_my_bionics.push_back(bionic(i.id, i.invlet));
+        new_my_bionics.push_back( bionic( i.id, i.invlet ) );
     }
     my_bionics = new_my_bionics;
     recalc_sight_limits();
@@ -1749,22 +1756,22 @@ std::pair<int, int> player::amount_of_storage_bionics() const
         lvl -= bionics[it.id].capacity;
     }
 
-    std::pair<int, int> results (0, 0);
-    if (lvl <= 0) {
+    std::pair<int, int> results( 0, 0 );
+    if( lvl <= 0 ) {
         return results;
     }
 
     int pow_mkI = bionics["bio_power_storage"].capacity;
     int pow_mkII = bionics["bio_power_storage_mkII"].capacity;
 
-    while (lvl >= std::min(pow_mkI, pow_mkII)) {
-        if ( one_in(2) ) {
-            if (lvl >= pow_mkI) {
+    while( lvl >= std::min( pow_mkI, pow_mkII ) ) {
+        if( one_in( 2 ) ) {
+            if( lvl >= pow_mkI ) {
                 results.first++;
                 lvl -= pow_mkI;
             }
         } else {
-            if (lvl >= pow_mkII) {
+            if( lvl >= pow_mkII ) {
                 results.second++;
                 lvl -= pow_mkII;
             }
@@ -1773,12 +1780,13 @@ std::pair<int, int> player::amount_of_storage_bionics() const
     return results;
 }
 
-bionic& player::bionic_at_index(int i)
+bionic &player::bionic_at_index( int i )
 {
     return my_bionics[i];
 }
 
-bionic* player::bionic_by_invlet( const long ch ) {
+bionic *player::bionic_by_invlet( const long ch )
+{
     for( auto &elem : my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
@@ -1788,12 +1796,13 @@ bionic* player::bionic_by_invlet( const long ch ) {
 }
 
 // Returns true if a bionic was removed.
-bool player::remove_random_bionic() {
+bool player::remove_random_bionic()
+{
     const int numb = num_bionics();
-    if (numb) {
-        int rem = rng(0, num_bionics() - 1);
+    if( numb ) {
+        int rem = rng( 0, num_bionics() - 1 );
         const auto bionic = my_bionics[rem];
-        remove_bionic(bionic.id);
+        remove_bionic( bionic.id );
         recalc_sight_limits();
     }
     return numb;
@@ -1805,54 +1814,55 @@ void reset_bionics()
     faulty_bionics.clear();
 }
 
-void load_bionic(JsonObject &jsobj)
+void load_bionic( JsonObject &jsobj )
 {
-    std::string id = jsobj.get_string("id");
-    std::string name = _(jsobj.get_string("name").c_str());
-    std::string description = _(jsobj.get_string("description").c_str());
-    int on_cost = jsobj.get_int("act_cost", 0);
+    std::string id = jsobj.get_string( "id" );
+    std::string name = _( jsobj.get_string( "name" ).c_str() );
+    std::string description = _( jsobj.get_string( "description" ).c_str() );
+    int on_cost = jsobj.get_int( "act_cost", 0 );
 
-    bool toggled = jsobj.get_bool("toggled", false);
+    bool toggled = jsobj.get_bool( "toggled", false );
     // Requires ability to toggle
-    int off_cost = jsobj.get_int("deact_cost", 0);
+    int off_cost = jsobj.get_int( "deact_cost", 0 );
 
-    int time = jsobj.get_int("time", 0);
+    int time = jsobj.get_int( "time", 0 );
     // Requires a non-zero time
-    int react_cost = jsobj.get_int("react_cost", 0);
+    int react_cost = jsobj.get_int( "react_cost", 0 );
 
-    int capacity = jsobj.get_int("capacity", 0);
+    int capacity = jsobj.get_int( "capacity", 0 );
 
-    bool faulty = jsobj.get_bool("faulty", false);
-    bool power_source = jsobj.get_bool("power_source", false);
+    bool faulty = jsobj.get_bool( "faulty", false );
+    bool power_source = jsobj.get_bool( "power_source", false );
 
-    if (faulty) {
-        faulty_bionics.push_back(id);
+    if( faulty ) {
+        faulty_bionics.push_back( id );
     }
 
-    auto const result = bionics.insert(std::make_pair(std::move(id),
-        bionic_data(std::move(name), power_source, toggled, on_cost, off_cost, react_cost, time,
-                    capacity, std::move(description), faulty)));
+    auto const result = bionics.insert( std::make_pair( std::move( id ),
+                                        bionic_data( std::move( name ), power_source, toggled,
+                                                on_cost, off_cost, react_cost, time, capacity,
+                                                std::move( description ), faulty ) ) );
 
-    if (!result.second) {
-        debugmsg("duplicate bionic id");
+    if( !result.second ) {
+        debugmsg( "duplicate bionic id" );
     }
 }
 
-void bionic::serialize(JsonOut &json) const
+void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member("id", id);
-    json.member("invlet", (int)invlet);
-    json.member("powered", powered);
-    json.member("charge", charge);
+    json.member( "id", id );
+    json.member( "invlet", ( int )invlet );
+    json.member( "powered", powered );
+    json.member( "charge", charge );
     json.end_object();
 }
 
-void bionic::deserialize(JsonIn &jsin)
+void bionic::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    id = jo.get_string("id");
-    invlet = jo.get_int("invlet");
-    powered = jo.get_bool("powered");
-    charge = jo.get_int("charge");
+    id = jo.get_string( "id" );
+    invlet = jo.get_int( "invlet" );
+    powered = jo.get_bool( "powered" );
+    charge = jo.get_int( "charge" );
 }

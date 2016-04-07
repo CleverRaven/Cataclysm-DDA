@@ -585,7 +585,7 @@ bool mattack::pull_metal_weapon(monster *z)
     }
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {
-        if ( foe->weapon.made_of("iron") || foe->weapon.made_of("steel") ) {
+        if ( foe->weapon.made_of( material_id( "iron" ) ) || foe->weapon.made_of( material_id( "steel" ) ) ) {
             int wp_skill = foe->skillLevel( skill_melee );
             z->moves -= att_cost_pull;   // It takes a while
             int success = 100;
@@ -2121,9 +2121,9 @@ bool mattack::formblob(monster *z)
             } else if( othermon.type->id == mon_blob && othermon.get_speed_base() >= 80 ) {
                 poly_keep_speed( othermon, mon_blob_large );
             }
-        } else if( (othermon.made_of("flesh") ||
-                    othermon.made_of("veggy") ||
-                    othermon.made_of("iflesh") ) &&
+        } else if( (othermon.made_of( material_id( "flesh" ) ) ||
+                    othermon.made_of( material_id( "veggy" ) ) ||
+                    othermon.made_of( material_id( "iflesh" ) ) ) &&
                    rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
             didit = blobify( *z, othermon );
         }
@@ -2735,108 +2735,6 @@ void mattack::taze( monster *z, Creature *target )
                                    _("The %s shocks <npcname>!"),
                                    z->name().c_str() );
     target->check_dead_state();
-}
-
-bool mattack::laser(monster *z)
-{
-    bool sunlight = g->is_in_sunlight(z->pos());
-
-    Creature *target = nullptr;
-
-    if (z->friendly != 0) {   // Attacking monsters, not the player!
-        int boo_hoo;
-        target = z->auto_find_hostile_target( 18, boo_hoo);
-        if( target == nullptr ) {// Couldn't find any targets!
-            if(boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
-                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                            boo_hoo),
-                        z->name().c_str(), boo_hoo);
-            }
-            return true;
-        }
-    } else {
-        // Not friendly; hence, firing at the player too
-        target = z->attack_target();
-        if( target == nullptr ) {
-            return true;
-        }
-        int dist = rl_dist( z->pos(), target->pos() );
-        if( dist > 18 ) {
-            return true;
-        }
-
-        if (!z->has_effect( effect_targeted )) {
-            sounds::sound(z->pos(), 6, _("beep-beep-beep!"));
-            z->add_effect( effect_targeted, 8);
-            z->moves -= 100;
-            return true;
-        }
-    }
-    npc tmp = make_fake_npc(z, 16, 8, 8, 12);
-    tmp.skillLevel( skill_rifle ).level(8);
-    tmp.skillLevel( skill_gun ).level(4);
-    z->moves -= 150;   // It takes a while
-    if (!sunlight) {
-        if (one_in(3)) {
-            if (g->u.sees( *z )) {
-                add_msg(_("The %s's barrel spins but nothing happens!"), z->name().c_str());
-            }
-        } else if (one_in(4)) {
-            sounds::sound(z->pos(), 6, _("boop-boop!"));
-        }
-        return true;
-    }
-    if (g->u.sees( *z )) {
-        add_msg(m_warning, _("The %s's barrel spins and fires!"), z->name().c_str());
-    }
-
-    tmp.weapon = item("cerberus_laser", 0);
-    tmp.weapon.set_curammo( "laser_capacitor" );
-    tmp.weapon.charges = 100;
-
-    tmp.fire_gun( target->pos(), tmp.weapon.burst_size() );
-    if (target == &g->u) {
-        z->add_effect( effect_targeted, 3);
-    }
-
-    return true;
-}
-
-bool mattack::rifle_tur(monster *z)
-{
-    Creature *target;
-    if (z->friendly != 0) {
-        // Attacking monsters, not the player!
-        int boo_hoo;
-        target = z->auto_find_hostile_target( 18, boo_hoo );
-        if( target == nullptr ) {// Couldn't find any targets!
-            if( boo_hoo > 0 && g->u.sees( *z ) ) { // because that stupid oaf was in the way!
-                add_msg(m_warning, ngettext("Pointed in your direction, the %s emits an IFF warning beep.",
-                                            "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                            boo_hoo),
-                        z->name().c_str(), boo_hoo);
-            }
-            return false;
-        }
-
-        rifle( z, target );
-    } else {
-        // (This is a bit generous: 5.56 has 38 range.)
-        // Not friendly; hence, firing at the player too
-        target = z->attack_target();
-        if( target == nullptr ) {
-            return false;
-        }
-        int dist = rl_dist( z->pos(), target->pos() );
-        if( dist > 18 ) {
-            return false;
-        }
-
-        rifle( z, target );
-    }
-
-    return true;
 }
 
 void mattack::rifle( monster *z, Creature *target )
@@ -4395,7 +4293,7 @@ bool mattack::kamikaze(monster *z)
 
     // Get the bomb type and it's data
     const auto bomb_type = item::find_type( z->ammo.begin()->first );
-    itype* act_bomb_type;
+    const itype* act_bomb_type;
     long charges;
     // Hardcoded data for charge variant items
     if (z->ammo.begin()->first == "mininuke") {
@@ -4419,8 +4317,8 @@ bool mattack::kamikaze(monster *z)
             z->disable_special("KAMIKAZE");
             return true;
         }
-        act_bomb_type = item::find_type(actor->target_id);
-        charges = actor->target_charges;
+        act_bomb_type = item::find_type( actor->target );
+        charges = actor->ammo_qty;
     }
 
     // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing

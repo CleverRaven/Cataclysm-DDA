@@ -91,8 +91,8 @@ void mdeath::normal(monster *z)
             sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume(z->pos()));
         }
         // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
-        bool leaveGibs = (z->made_of("flesh") || z->made_of("hflesh") || z->made_of("veggy") ||
-                          z->made_of("iflesh"));
+        bool leaveGibs = (z->made_of( material_id( "flesh" ) ) || z->made_of( material_id( "hflesh" ) ) || z->made_of( material_id( "veggy" ) ) ||
+                          z->made_of( material_id( "iflesh" ) ));
         if (leaveGibs) {
             make_gibs( z, gibAmount );
         }
@@ -654,7 +654,7 @@ void mdeath::detonate(monster *z)
                 add_msg(m_debug, "Invalid bomb type in detonate mondeath for %s.", z->name().c_str());
                 continue;
             }
-            dets.push_back(std::make_pair(actor->target_id, actor->target_charges));
+            dets.emplace_back( actor->target, actor->ammo_qty );
         }
     }
 

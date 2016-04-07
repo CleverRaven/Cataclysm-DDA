@@ -16,6 +16,7 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "material.h"
 
 #include <algorithm>
 
@@ -260,8 +261,6 @@ void MonsterGenerator::init_attack()
     attack_map["FEAR_PARALYZE"] = &mattack::fear_paralyze;
     attack_map["PHOTOGRAPH"] = &mattack::photograph;
     attack_map["TAZER"] = &mattack::tazer;
-    attack_map["LASER"] = &mattack::laser;
-    attack_map["RIFLE_TUR"] = &mattack::rifle_tur;
     attack_map["SEARCHLIGHT"] = &mattack::searchlight;
     attack_map["FLAMETHROWER"] = &mattack::flamethrower;
     attack_map["COPBOT"] = &mattack::copbot;
@@ -443,10 +442,7 @@ void mtype::load( JsonObject &jo )
     optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
-    // Have to overwrite the default { "hflesh" } here
-    if( !was_loaded || jo.has_member( "material" ) ) {
-        mat = { jo.get_string( "material" ) };
-    }
+    optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 
@@ -684,6 +680,11 @@ void MonsterGenerator::check_monster_definitions() const
         if (!mon->death_drops.empty() && !item_group::group_is_defined(mon->death_drops)) {
             debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
                      mon->death_drops.c_str());
+        }
+        for( auto &m : mon->mat ) {
+            if( m.str() == "null" || !m.is_valid() ) {
+                debugmsg( "monster %s has unknown material: %s", mon->id.c_str(), m.c_str() );
+            }
         }
         if( !mon->revert_to_itype.empty() && !item::type_is_defined( mon->revert_to_itype ) ) {
             debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),

@@ -114,9 +114,11 @@ void event::actualize()
         }
         // You could drop the flag, you know.
         if (g->u.has_amount("petrified_eye", 1)) {
-            add_msg(_("The eye you're carrying lets out a tortured scream!"));
             sounds::sound(g->u.pos(), 60, "");
-            g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+            if (!g->u.is_deaf()) {
+                add_msg(_("The eye you're carrying lets out a tortured scream!"));
+                g->u.add_morale(MORALE_SCREAM, -15, 0, 300, 5);
+            }
         }
         if (!one_in(25)) { // They just keep coming!
             g->add_event(EVENT_SPAWN_WYRMS, int(calendar::turn) + rng(15, 25));

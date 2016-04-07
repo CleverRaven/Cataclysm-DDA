@@ -161,7 +161,7 @@ std::string player_morale::morale_point::get_name() const
     if( item_type != nullptr ) {
         name = string_replace( name, item_name_placeholder, item_type->nname( 1 ) );
     } else if( name.find( item_name_placeholder ) != std::string::npos ) {
-        debugmsg( "%s(): Morale #%d (%s) requires item_type to be specified.", __FUNCTION__, type,
+        debugmsg( "Morale #%d (%s) requires item_type to be specified.", type,
                   name.c_str() );
     }
 
@@ -229,7 +229,7 @@ int player_morale::morale_point::pick_time( int current_time, int new_time, bool
 void player_morale::morale_point::decay( int ticks )
 {
     if( ticks < 0 ) {
-        debugmsg( "%s(): Called with negative ticks %d.", __FUNCTION__, ticks );
+        debugmsg( "The function called with negative ticks %d.", ticks );
         return;
     }
 

@@ -10,6 +10,10 @@
       { "group": "ammo_swat", "prob":  20 },
       { "group": "guns_swat", "prob":  20 },
       { "group": "mags_swat", "prob":  20 },
+      [ "l_car_223_kit", 5 ],
+      [ "l_dsr_223_kit", 5 ],
+      [ "l_lmg_223_kit", 5 ],
+      [ "l_mbr_223_kit", 5 ],
       [ "survnote", 1 ]
     ]
   },
