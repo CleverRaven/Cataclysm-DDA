@@ -40,7 +40,6 @@
     "reversible": false,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "byproducts": [ "water_clean" ],
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
@@ -80,7 +79,6 @@
     "time": 18000,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "byproducts": [ "water_clean" ],
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
@@ -96,7 +94,6 @@
     "time": 18000,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "byproducts": [ "water_clean" ],
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
@@ -112,7 +109,6 @@
     "time": 18000,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "byproducts": [ "water_clean" ],
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
@@ -144,7 +140,6 @@
     "difficulty": 2,
     "time": 18000,
     "autolearn": true,
-    "byproducts": [ "water_clean" ],
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
@@ -162,7 +157,6 @@
     "time": 18000,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "byproducts": [ "water_clean" ],
     "tools": [
       [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ]
     ],
