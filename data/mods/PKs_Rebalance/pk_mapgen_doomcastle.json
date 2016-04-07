@@ -396,7 +396,8 @@
                 "Z": { "monster": "mon_doom_sacrifice" },
                 "L": { "monster": "mon_lostsoul_mount" },
                 "z": { "monster": "mon_doom_cur" },
-                "k": { "monster": "mon_hell_knight" }
+                "k": { "monster": "mon_hell_knight" },
+                "R": { "monster": "mon_revenant" }
             },
             "place_monsters": [
                 { "monster": "GROUP_DOOM_PRIEST", "x": [ 11, 12 ], "y": [ 1 ], "chance": 33 },
@@ -567,7 +568,7 @@
                 "Z": { "monster": "mon_doom_sacrifice" },
                 "L": { "monster": "mon_lostsoul_mount" },
                 "C": { "monster": "mon_cacodemon" },
-                "R": { "monster": "mon_revenant" },
+                "R": { "monster": "mon_revenant" }
             },
             "place_monsters": [
                 { "monster": "GROUP_DOOM_HELP", "x": [ 7, 23 ], "y": [ 0, 16 ], "chance": 3, "repeat": [ 0, 2 ] },
