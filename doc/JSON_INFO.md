@@ -755,6 +755,17 @@ Every item type can have optional artifact properties (which makes it an artifac
 }
 ```
 
+###BREWING DATA
+Every item type can have optional brewing data, if the item has brewing data, it can be placed in a vat and will ferment into a different item type.
+
+Currently only vats can only accept and produce liquid items.
+```JSON
+"brewable" : {
+    "time": 3600, // Time (in turns) the fermentation will take.
+    "result": "beer" // The id of the result of the fermentation.
+}
+```
+
 #### charge_type
 (optional, default: "ARTC_NULL") How the item is recharged. For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
 - "ARTC_NULL" Never recharges!
