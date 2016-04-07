@@ -1,0 +1,31 @@
+[
+
+    {
+        "type" : "item_group",
+        "id" : "doom_corpse",
+        "items":[
+            ["corpse", 5],
+            ["meat", 1]
+      ]
+    },{
+        "type" : "item_group",
+        "id" : "doom_stimpack",
+        "items":[
+            ["bandages", 10],
+            ["1st_aid", 4],
+            ["caffeine", 4],
+            ["disinfectant", 6],
+            ["caff_gum", 1],
+            ["smoxygen_tank", 3],
+            ["codeine", 5],
+            ["aspirin", 4],
+            ["tramadol", 4],
+            ["oxycodone", 2],
+            ["morphine", 1],
+            ["quikclot", 5],
+            ["bfipowder", 4],
+            ["adrenaline_injector", 4]
+      ]
+    }
+    
+]
