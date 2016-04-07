@@ -5,11 +5,9 @@
 #include "translations.h"
 #include <algorithm>
 
-// Note: Functions for drawing of UI are moved to the file worldfactory.cpp.
-
-mod_ui::mod_ui(mod_manager *mman)
+mod_ui::mod_ui( mod_manager *mman )
 {
-    if (mman) {
+    if( mman ) {
         active_manager = mman;
         mm_tree = &active_manager->get_tree();
         set_usable_mods();
@@ -61,9 +59,9 @@ void mod_ui::set_usable_mods()
     usable_mods = ordered_mods;
 }
 
-std::string mod_ui::get_information(MOD_INFORMATION *mod)
+std::string mod_ui::get_information( MOD_INFORMATION *mod )
 {
-    if (mod == NULL) {
+    if( mod == NULL ) {
         return "";
     }
     std::string modident = mod->ident;
@@ -120,21 +118,21 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
         info << _("Dependencies: [NONE]\n");
     }
 
-    if(!description.empty()) {
-        info << string_format(_("Description: %s\n"), description.c_str());
+    if( !description.empty() ) {
+        info << string_format( _( "Description: %s\n" ), description.c_str() );
     } else {
-        info << _("Description: [NONE]\n");
+        info << _( "Description: [NONE]\n" );
     }
 
-    if (mod->_type == MT_SUPPLEMENTAL && !note.empty()) {
+    if( mod->_type == MT_SUPPLEMENTAL && !note.empty() ) {
         info << note;
     }
 
 #ifndef LUA
-    if ( mod->need_lua ) {
+    if( mod->need_lua ) {
         std::string lua_msg = "";
         lua_msg += "<color_red>";
-        lua_msg += _("This mod requires Lua but your CDDA build doesn't support it!");
+        lua_msg += _( "This mod requires Lua but your CDDA build doesn't support it!" );
         lua_msg += "</color>";
         info << lua_msg;
     }
@@ -212,10 +210,10 @@ void mod_ui::try_add(const std::string &mod_to_add,
     }
 }
 
-void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
+void mod_ui::try_rem( int selection, std::vector<std::string> &active_list )
 {
     // first make sure that what we are looking for exists in the list
-    if (selection >= (int)active_list.size()) {
+    if( selection >= ( int )active_list.size() ) {
         // trying to access an out of bounds value! quit early
         return;
     }
@@ -223,28 +221,28 @@ void mod_ui::try_rem(int selection, std::vector<std::string> &active_list)
 
     MOD_INFORMATION &mod = *active_manager->mod_map[active_list[selection]];
 
-    std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings(mod.ident);
+    std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings( mod.ident );
 
     // search through the rest of the active list for mods that depend on this one
-    if (!dependents.empty()) {
-        for (auto &i : dependents) {
-            auto rem = std::find(active_list.begin(), active_list.end(), i);
-            if (rem != active_list.end()) {
-                active_list.erase(rem);
+    if( !dependents.empty() ) {
+        for( auto &i : dependents ) {
+            auto rem = std::find( active_list.begin(), active_list.end(), i );
+            if( rem != active_list.end() ) {
+                active_list.erase( rem );
             }
         }
     }
-    std::vector<std::string>::iterator rem = std::find(active_list.begin(), active_list.end(),
-            sel_string);
-    if (rem != active_list.end()) {
-        active_list.erase(rem);
+    std::vector<std::string>::iterator rem = std::find( active_list.begin(), active_list.end(),
+            sel_string );
+    if( rem != active_list.end() ) {
+        active_list.erase( rem );
     }
 }
 
-void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> &active_list)
+void mod_ui::try_shift( char direction, int &selection, std::vector<std::string> &active_list )
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= (int)active_list.size()) {
+    if( selection < 0 || selection >= ( int )active_list.size() ) {
         return;
     }
 
@@ -255,7 +253,7 @@ void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> 
     int selshift = 0;
 
     // shift up (towards 0)
-    if (direction == '+' && can_shift_up(selection, active_list)) {
+    if( direction == '+' && can_shift_up( selection, active_list ) ) {
         // see if the mod at selection-1 is a) a core, or b) is depended on by this mod
         newsel = selection - 1;
         oldsel = selection;
@@ -263,7 +261,7 @@ void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> 
         selshift = -1;
     }
     // shift down (towards active_list.size()-1)
-    else if (direction == '-' && can_shift_down(selection, active_list)) {
+    else if( direction == '-' && can_shift_down( selection, active_list ) ) {
         newsel = selection;
         oldsel = selection + 1;
 
@@ -285,15 +283,15 @@ void mod_ui::try_shift(char direction, int &selection, std::vector<std::string> 
     selection += selshift;
 }
 
-bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
+bool mod_ui::can_shift_up( int selection, std::vector<std::string> active_list )
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= (int)active_list.size()) {
+    if( selection < 0 || selection >= ( int )active_list.size() ) {
         return false;
     }
     // dependencies of this active element
     std::vector<std::string> dependencies = mm_tree->get_dependencies_of_X_as_strings(
-            active_list[selection]);
+            active_list[selection] );
 
     int newsel;
     int oldsel;
@@ -301,7 +299,7 @@ bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
     std::string modstring;
 
     // figure out if we can move up!
-    if (selection == 0) {
+    if( selection == 0 ) {
         // can't move up, don't bother trying
         return false;
     }
@@ -312,8 +310,8 @@ bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
     modstring = active_list[newsel];
     selstring = active_list[oldsel];
 
-    if (active_manager->mod_map[modstring]->_type == MT_CORE ||
-        std::find(dependencies.begin(), dependencies.end(), modstring) != dependencies.end()) {
+    if( active_manager->mod_map[modstring]->_type == MT_CORE ||
+        std::find( dependencies.begin(), dependencies.end(), modstring ) != dependencies.end() ) {
         // can't move up due to a blocker
         return false;
     } else {
@@ -322,14 +320,14 @@ bool mod_ui::can_shift_up(int selection, std::vector<std::string> active_list)
     }
 }
 
-bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
+bool mod_ui::can_shift_down( int selection, std::vector<std::string> active_list )
 {
     // error catch for out of bounds
-    if (selection < 0 || selection >= (int)active_list.size()) {
+    if( selection < 0 || selection >= ( int )active_list.size() ) {
         return false;
     }
     std::vector<std::string> dependents = mm_tree->get_dependents_of_X_as_strings(
-            active_list[selection]);
+            active_list[selection] );
 
     int newsel;
     int oldsel;
@@ -337,7 +335,7 @@ bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
     std::string modstring;
 
     // figure out if we can move down!
-    if (selection == (int)active_list.size() - 1) {
+    if( selection == ( int )active_list.size() - 1 ) {
         // can't move down, don't bother trying
         return false;
     }
@@ -347,8 +345,8 @@ bool mod_ui::can_shift_down(int selection, std::vector<std::string> active_list)
     modstring = active_list[newsel];
     selstring = active_list[oldsel];
 
-    if (active_manager->mod_map[modstring]->_type == MT_CORE ||
-        std::find(dependents.begin(), dependents.end(), selstring) != dependents.end()) {
+    if( active_manager->mod_map[modstring]->_type == MT_CORE ||
+        std::find( dependents.begin(), dependents.end(), selstring ) != dependents.end() ) {
         // can't move down due to a blocker
         return false;
     } else {
