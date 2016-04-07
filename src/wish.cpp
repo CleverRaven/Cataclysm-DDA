@@ -251,7 +251,7 @@ void game::wishmutate( player *p )
                 }
             }
         }
-    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    } while( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
     delete cb;
     cb = NULL;
     return;
@@ -270,13 +270,10 @@ class wish_monster_callback: public uimenu_callback
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, initialize window
         std::string padding;   // ' ' x window width
-        const std::vector<const mtype*> &mtypes;
+        const std::vector<const mtype *> &mtypes;
 
-        wish_monster_callback( const std::vector<const mtype*>& mtypes )
-        : msg("")
-        , padding("")
-        , mtypes( mtypes )
-        {
+        wish_monster_callback( const std::vector<const mtype *> &mtypes )
+            : msg( "" ), padding( "" ), mtypes( mtypes ) {
             started = false;
             friendly = false;
             hallucination = false;
@@ -285,20 +282,18 @@ class wish_monster_callback: public uimenu_callback
             w_info = NULL;
         }
 
-        void setup(uimenu *menu)
-        {
-            w_info = newwin(menu->w_height - 2, menu->pad_right, 1,
-                            menu->w_x + menu->w_width - 1 - menu->pad_right);
-            padding = std::string( getmaxx(w_info), ' ' );
-            werase(w_info);
-            wrefresh(w_info);
+        void setup( uimenu *menu ) {
+            w_info = newwin( menu->w_height - 2, menu->pad_right, 1,
+                             menu->w_x + menu->w_width - 1 - menu->pad_right );
+            padding = std::string( getmaxx( w_info ), ' ' );
+            werase( w_info );
+            wrefresh( w_info );
         }
 
-        virtual bool key(int key, int entnum, uimenu *menu) override
-        {
-            (void)entnum; // unused
-            (void)menu;   // unused
-            if ( key == 'f' ) {
+        virtual bool key( int key, int entnum, uimenu *menu ) override {
+            ( void )entnum; // unused
+            ( void )menu; // unused
+            if( key == 'f' ) {
                 friendly = !friendly;
                 lastent = -2; // force tmp monster regen
                 return true;  // tell menu we handled keypress
@@ -308,59 +303,56 @@ class wish_monster_callback: public uimenu_callback
             } else if( key == 'h' ) {
                 hallucination = !hallucination;
                 return true;
-            } else if( key == 'd' && group !=0  ) {
+            } else if( key == 'd' && group != 0 ) {
                 group--;
                 return true;
             }
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu) override
-        {
-            if ( ! started ) {
+        virtual void select( int entnum, uimenu *menu ) override {
+            if( ! started ) {
                 started = true;
-                setup(menu);
+                setup( menu );
             }
-            if (entnum != lastent) {
+            if( entnum != lastent ) {
                 lastent = entnum;
                 tmp = monster( mtypes[ entnum ]->id );
-                if (friendly) {
+                if( friendly ) {
                     tmp.friendly = -1;
                 }
             }
 
-            werase(w_info);
-            wrefresh(w_info);
+            werase( w_info );
+            wrefresh( w_info );
             tmp.print_info( w_info, 2, 5, 1 );
 
-            std::string header = string_format("#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
-                                 group, (hallucination ? _(" (hallucination)") : ""));
-            mvwprintz(w_info, 0, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
-                      header.c_str());
+            std::string header = string_format( "#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
+                                                group, ( hallucination ? _( " (hallucination)" ) : "" ) );
+            mvwprintz( w_info, 0, ( getmaxx( w_info ) - header.size() ) / 2, c_cyan, "%s",
+                       header.c_str() );
 
-            mvwprintz(w_info, getmaxy(w_info) - 3, 0, c_green, "%s", msg.c_str());
+            mvwprintz( w_info, getmaxy( w_info ) - 3, 0, c_green, "%s", msg.c_str() );
             msg = padding;
-            mvwprintw(w_info, getmaxy(w_info) - 2, 0,
-                      _("[/] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [q]uit"));
+            mvwprintw( w_info, getmaxy( w_info ) - 2, 0,
+                       _( "[/] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [q]uit" ) );
         }
 
-        virtual void refresh(uimenu *menu) override
-        {
-            (void)menu; // unused
-            wrefresh(w_info);
+        virtual void refresh( uimenu *menu ) override {
+            ( void )menu; // unused
+            wrefresh( w_info );
         }
 
-        ~wish_monster_callback()
-        {
-            werase(w_info);
-            wrefresh(w_info);
-            delwin(w_info);
+        ~wish_monster_callback() {
+            werase( w_info );
+            wrefresh( w_info );
+            delwin( w_info );
         }
 };
 
 void game::wishmonster( const tripoint &p )
 {
-    std::vector<const mtype*> mtypes;
+    std::vector<const mtype *> mtypes;
 
     uimenu wmenu;
     wmenu.w_x = 0;
@@ -384,12 +376,12 @@ void game::wishmonster( const tripoint &p )
 
     do {
         wmenu.query();
-        if ( wmenu.ret >= 0 ) {
+        if( wmenu.ret >= 0 ) {
             monster mon = monster( mtypes[ wmenu.ret ]->id );
-            if (cb->friendly) {
+            if( cb->friendly ) {
                 mon.friendly = -1;
             }
-            if (cb->hallucination) {
+            if( cb->hallucination ) {
                 mon.hallucination = true;
             }
             tripoint spawn = ( p == tripoint_min ? look_around() : p );
@@ -397,14 +389,14 @@ void game::wishmonster( const tripoint &p )
                 std::vector<tripoint> spawn_points = closest_tripoints_first( cb->group, spawn );
                 for( auto spawn_point : spawn_points ) {
                     mon.spawn( spawn_point );
-                    add_zombie(mon, true);
+                    add_zombie( mon, true );
                 }
-                cb->msg = _("Monster spawned, choose another or 'q' to quit.");
+                cb->msg = _( "Monster spawned, choose another or 'q' to quit." );
                 uistate.wishmonster_selected = wmenu.ret;
                 wmenu.redraw();
             }
         }
-    } while ( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
+    } while( wmenu.keypress != 'q' && wmenu.keypress != KEY_ESCAPE && wmenu.keypress != ' ' );
     delete cb;
     cb = NULL;
     return;
@@ -416,13 +408,11 @@ class wish_item_callback: public uimenu_callback
         bool incontainer;
         std::string msg;
         const std::vector<std::string> &standard_itype_ids;
-        wish_item_callback(const std::vector<std::string> &ids) : incontainer(false), msg("")
-            , standard_itype_ids( ids )
-        {
+        wish_item_callback( const std::vector<std::string> &ids ) : incontainer( false ), msg( "" )
+            , standard_itype_ids( ids ) {
         }
-        virtual bool key(int key, int /*entnum*/, uimenu * /*menu*/) override
-        {
-            if ( key == 'f' ) {
+        virtual bool key( int key, int /*entnum*/, uimenu * /*menu*/ ) override {
+            if( key == 'f' ) {
                 incontainer = !incontainer;
                 return true;
             }
