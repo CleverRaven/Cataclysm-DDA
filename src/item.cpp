@@ -4588,7 +4588,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     obj = *target;
-    qty = std::min( qty, obj->has_flag( "RELOAD_ONE" ) ? 1 : obj->ammo_capacity() - obj->ammo_remaining() );
+    qty = std::min( qty, obj->ammo_capacity() - obj->ammo_remaining() );
 
     eject_casings( u, *obj );
 
