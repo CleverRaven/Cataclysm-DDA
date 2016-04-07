@@ -1,0 +1,46 @@
+This is a blank template for buildings made in json.
+  Copy and paste it for convenience.
+  
+
+"rows": [
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                ".": "t_pavement_y",
+                "7": "t_backboard",
+                "|": "t_chainfence_v",
+                "-": "t_chainfence_h",
+                "+": "t_chaingate_c",
+                "H": "t_pavement",
+                "R": "t_pavement"
+            },
+            "furniture": {
+                "H": "f_bench",
+                "R": "f_trashcan"
+            },
+            "toilets": {
+                "t": { }
+            }
