@@ -45,7 +45,6 @@
     "weight": 3000,
     "volume": 13,
     "bashing": 11,
-    "cutting": 0,
     "to_hit": 2,
     "dispersion": 30,
     "sight_dispersion": 60,
