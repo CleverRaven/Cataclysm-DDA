@@ -794,7 +794,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SLICE``` Deals cutting damage, with a low chance of getting stuck.
 - ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
 - ```WHIP``` Has a chance of disarming the opponent.
-- ```REACH_ATTACK```
+- ```REACH_ATTACK``` Allows to perform reach attack.
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
@@ -825,7 +825,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
-- ```PRIMITIVE_RANGED_WEAPON```
+- ```PRIMITIVE_RANGED_WEAPON``` Allows using non-gunsmith tools to repair it (but not reinforce).
 - ```NEVER_JAMS``` Never malfunctions.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
