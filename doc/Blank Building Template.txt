@@ -34,8 +34,7 @@ This is a blank template for buildings made in json.
                 "|": "t_chainfence_v",
                 "-": "t_chainfence_h",
                 "+": "t_chaingate_c",
-                "H": "t_pavement",
-                "R": "t_pavement"
+                " ": "t_pavement"
             },
             "furniture": {
                 "H": "f_bench",
