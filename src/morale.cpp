@@ -357,8 +357,14 @@ void player_morale::decay( int ticks )
 
 void player_morale::display( double focus_gain )
 {
-    // Figure out how wide the name column needs to be.
-    int source_column_width = 0;
+    const char *morale_gain_caption = _( "Total morale gain" );
+    const char *focus_gain_caption = _( "Focus gain per minute" );
+
+    // Figure out how wide the source column needs to be.
+    int source_column_width = utf8_width( focus_gain_caption );
+    if( utf8_width( morale_gain_caption ) > source_column_width ) {
+        source_column_width = utf8_width( morale_gain_caption );
+    }
     for( auto &i : points ) {
         const int length = utf8_width( i.get_name() );
         if( length > source_column_width ) {
@@ -366,7 +372,7 @@ void player_morale::display( double focus_gain )
         }
     }
 
-    const int win_w = std::min( std::max( source_column_width + 4 + 8, 32 ), FULL_SCREEN_WIDTH );
+    const int win_w = std::min( source_column_width + 4 + 8, FULL_SCREEN_WIDTH );
     const int win_h = FULL_SCREEN_HEIGHT;
     const int win_x = ( TERMX - win_w ) / 2;
     const int win_y = ( TERMY - win_h ) / 2;
@@ -431,8 +437,8 @@ void player_morale::display( double focus_gain )
     const nc_color level_color = get_value_color( get_level() );
     const nc_color gain_color = get_value_color( focus_gain );
 
-    mvwprintz( w, win_h - 3, 2, level_color, _( "Total morale gain" ) );
-    mvwprintz( w, win_h - 2, 2, gain_color,  _( "Focus gain per minute" ) );
+    mvwprintz( w, win_h - 3, 2, level_color, morale_gain_caption );
+    mvwprintz( w, win_h - 2, 2, gain_color, focus_gain_caption );
 
     if( get_level() != 0 ) {
         mvwprintz( w, win_h - 3, win_w - 8, level_color, "%+6d", get_level() );
