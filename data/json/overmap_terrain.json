@@ -6959,6 +6959,54 @@
         "see_cost" : 0,
         "mondensity" : 2,
         "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pump_station_1",
+        "name" : "pump station",
+        "rotate" : true,
+        "sym" : 80,
+        "color" : "red",
+        "known_down" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pump_station_2",
+        "name" : "pump station",
+        "rotate" : true,
+        "sym" : 80,
+        "color" : "red",
+        "known_down" : true,
+        "see_cost" : 5,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pump_station_3",
+        "name" : "sewer",
+        "rotate" : true,
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pump_station_4",
+        "name" : "sewer",
+        "rotate" : true,
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "pump_station_5",
+        "name" : "sewer",
+        "rotate" : true,
+        "sym" : 4194414,
+        "color" : "green",
+        "see_cost" : 999,
+        "mondensity" : 2
     }
 ]
 
