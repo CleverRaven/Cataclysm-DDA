@@ -78,9 +78,6 @@ struct islot_comestible
     /** turns until becomes rotten, or zero if never spoils */
     int spoils = 0; 
 
-    /** how many seasons for a brew to ferment */
-    int brewtime = 0;
-
     /** addiction potential */
     int addict = 0; 
 
@@ -102,6 +99,14 @@ struct islot_comestible
     int get_calories() const {
         return nutr * kcal_per_nutr;
     }
+};
+
+struct islot_brewable {
+    /** What is the result of fermenting this item? */
+    std::string result = "null";
+
+    /** How many turns for this brew to ferment */
+    int time = 0;
 };
 
 struct islot_container {
@@ -510,6 +515,7 @@ struct itype {
     copyable_unique_ptr<islot_container> container;
     copyable_unique_ptr<islot_tool> tool;
     copyable_unique_ptr<islot_comestible> comestible;
+    copyable_unique_ptr<islot_brewable> brewable;
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
     copyable_unique_ptr<islot_gun> gun;

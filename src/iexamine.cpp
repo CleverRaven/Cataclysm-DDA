@@ -1874,7 +1874,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
     int charges_on_ground = 0;
     auto items = g->m.i_at(examp);
     for( auto item_it = items.begin(); item_it != items.end(); ) {
-        if( !item_it->has_flag("BREW") || brew_present ) {
+        if( !item_it->is_brewable() || brew_present ) {
             // This isn't a brew or there was already another kind of brew inside,
             // so this has to be moved.
             items.push_back( *item_it );
@@ -1885,8 +1885,11 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
             brew_present = true;
         }
     }
-    if (!brew_present) {
-        std::vector<const item *> b_inv = p.all_items_with_flag( "BREW" );
+    if( !brew_present ) {
+        // @todo Allow using brews from crafting inventory
+        const auto b_inv = p.items_with( []( const item &it ) {
+            return it.is_brewable();
+        } );
         if( b_inv.empty() ) {
             add_msg(m_info, _("You have no brew to ferment."));
             return;
@@ -1946,7 +1949,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         p.moves -= 250;
     }
     if (vat_full || query_yn(_("Start fermenting cycle?"))) {
-        g->m.i_at( examp).front().bday = calendar::turn;
+        g->m.i_at( examp ).front().bday = calendar::turn;
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -1959,67 +1962,62 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
 void iexamine::fvat_full(player &p, const tripoint &examp)
 {
     bool liquid_present = false;
-    for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
-        if (!(g->m.i_at(examp)[i].made_of(LIQUID)) || liquid_present) {
-            g->m.add_item_or_charges(examp, g->m.i_at(examp)[i]);
+    auto items_here = g->m.i_at( examp );
+    for( size_t i = 0; i < items_here.size(); i++ ) {
+        if( !items_here[i].made_of( LIQUID ) || liquid_present ) {
+            g->m.add_item_or_charges(examp, items_here[i]);
             g->m.i_rem( examp, i );
             i--;
         } else {
             liquid_present = true;
         }
     }
-    if (!liquid_present) {
+    if( !liquid_present ) {
         debugmsg("fvat_full was empty or contained non-liquids only!");
         g->m.furn_set(examp, f_fvat_empty);
         return;
     }
-    item brew_i = g->m.i_at(examp)[0];
-    if (brew_i.has_flag("BREW")) { //Does the vat contain unfermented brew, or already fermented booze?
+
+    item &brew_i = items_here.front();
+    // Does the vat contain unfermented brew, or already fermented booze?
+    // @todo Allow "recursive brewing" to continue without player having to check on it
+    if( brew_i.is_brewable() ) {
+        add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
+
         int brew_time = brew_i.brewing_time();
-        int brewing_stage = 3 * ((float)(calendar::turn.get_turn() - brew_i.bday) / (brew_time));
-        add_msg(_("There's a vat full of %s set to ferment there."), brew_i.tname().c_str());
-        switch (brewing_stage) {
-        case 0:
-            add_msg(_("It's been set recently, and will take some time to ferment."));
-            break;
-        case 1:
-            add_msg(_("It is about halfway done fermenting."));
-            break;
-        case 2:
-            add_msg(_("It will be ready for bottling soon."));
-            break;
-        // More messages can be added to show progress if desired
-        default:
-            // Double-checking that the brew is actually ready
-            if( (calendar::turn.get_turn() > (brew_i.bday + brew_time) ) &&
-                g->m.furn(examp) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
-                //declare fermenting result as the brew's ID minus "brew_"
-                itype_id alcoholType = g->m.i_at(examp)[0].typeId().substr(5);
-                ///\EFFECT_COOKING >4 prevents hb_beer from turning into just beer
-                SkillLevel &cooking = p.skillLevel( skill_cooking );
-                if (alcoholType == "hb_beer" && cooking < 5) {
-                    alcoholType = alcoholType.substr(3);    //hb_beer -> beer
-                }
-                item booze(alcoholType, 0);
-                booze.charges = brew_i.charges;
-                booze.bday = brew_i.bday;
-
-                g->m.i_clear(examp);
-                g->m.add_item( examp, booze );
-                p.moves -= 500;
-
-                //low xp: you also get xp from crafting the brew
-                p.practice( skill_cooking, std::min(brew_time / 600, 72) );
-                add_msg(_("The %s is now ready for bottling."), booze.tname().c_str());
+        int progress = calendar::turn.get_turn() - brew_i.bday;
+        if( progress < brew_time ) {
+            int hours = ( brew_time - progress ) / HOURS(1);
+            if( hours < 1 ) {
+                add_msg( _( "It will finish brewing in less than an hour." ) );
+            } else {
+                add_msg( ngettext( "It will finish brewing in about %d hour.",
+                                   "It will finish brewing in about %d hours.",
+                                   hours ), hours );
             }
+            return;
         }
-    } else { //Booze is done, so bottle it!
-        item &booze = g->m.i_at(examp).front();
-        if( g->handle_liquid( booze, true, false) ) {
-            g->m.furn_set(examp, f_fvat_empty);
-            add_msg(_("You squeeze the last drops of %s from the vat."), booze.tname().c_str());
+
+        if( query_yn(_("Finish brewing?") ) ) {
+            itype_id result = brew_i.brewing_result();
+            // @todo Different age based on settings
+            item booze( result, brew_i.bday, brew_i.charges );
+
             g->m.i_clear( examp );
+            g->m.add_item( examp, booze );
+            p.moves -= 500;
+
+            p.practice( skill_cooking, std::min( brew_time / MINUTES(10), 100 ) );
+            add_msg(_("The %s is now ready for bottling."), booze.tname().c_str());
         }
+
+        return;
+    }
+
+    if( g->handle_liquid( brew_i, true, false ) ) {
+        g->m.furn_set( examp, f_fvat_empty );
+        add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.tname().c_str());
+        g->m.i_clear( examp );
     }
 }
 

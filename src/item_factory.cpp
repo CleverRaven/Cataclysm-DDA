@@ -542,6 +542,9 @@ void Item_factory::check_definitions() const
                 }
             }
         }
+        if( type->brewable != nullptr && !has_template( type->brewable->result ) ) {
+            msg << string_format( "invalid brewing result %s", type->brewable->result.c_str() ) << "\n";
+        }
         if( type->seed ) {
             if( !has_template( type->seed->fruit_id ) ) {
                 msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
@@ -1021,7 +1024,6 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     jo.read( "charges", slot.def_charges );
     jo.read( "tool", slot.tool );
     jo.read( "quench", slot.quench );
-    jo.read( "brew_time", slot.brewtime );
     jo.read( "addiction_potential", slot.addict );
     jo.read( "fun", slot.fun );
     jo.read( "stim", slot.stim );
@@ -1043,6 +1045,12 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     } else {
         jo.read( "nutrition", slot.nutr );
     }
+}
+
+void Item_factory::load( islot_brewable &slot, JsonObject &jo )
+{
+    slot.time = jo.get_int( "time" );
+    slot.result = jo.get_string( "result" );
 }
 
 void Item_factory::load_comestible(JsonObject &jo)
@@ -1339,6 +1347,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
+    load_slot_optional( new_item_template->brewable, jo, "brewable" );
     // Make sure this one is at/near the end
     // TODO: Get rid of it when it is no longer needed (unless it's desired here)
     set_allergy_flags( *new_item_template );

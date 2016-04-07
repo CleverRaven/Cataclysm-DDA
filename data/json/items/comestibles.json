@@ -992,8 +992,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 7200
+        "brewable" : {
+            "time" : 7200,
+            "result" : "whiskey"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1038,8 +1040,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 3600
+        "brewable" : {
+            "time" : 3600,
+            "result" : "vodka"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1107,8 +1111,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 7200
+        "brewable" : {
+            "time" : 7200,
+            "result" : "rum"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1201,8 +1207,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 10800
+        "brewable" : {
+            "time" : 5600,
+            "result" : "bum_wine"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1299,8 +1307,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 16200
+        "brewable" : {
+            "time" : 7200,
+            "result" : "fruit_wine"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1518,8 +1528,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 72000
+        "brewable" : {
+            "time" : 72000,
+            "result" : "mead"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1562,8 +1574,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 22000
+        "brewable" : {
+            "time" : 22000,
+            "result" : "dandelion_wine"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1607,8 +1621,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 24500
+        "brewable" : {
+            "time" : 24500,
+            "result" : "pine_wine"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1651,8 +1667,10 @@
         "charges" : 1,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 5400
+        "brewable" : {
+            "time" : 5400,
+            "result" : "hb_beer"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1697,8 +1715,10 @@
         "charges" : 7,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 3600
+        "brewable" : {
+            "time" : 3600,
+            "result" : "moonshine"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -10854,8 +10874,10 @@
         "phase" : "liquid",
         "charges" : 1,
         "fun" : -12,
-        "flags" : ["BREW"],
-        "brew_time" : 7200
+        "brewable" : {
+            "time" : 7200,
+            "result" : "milk_curdled"
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -11021,8 +11043,10 @@
         "charges" : 2,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
-        "flags" : ["BREW"],
-        "brew_time" : 42000
+        "brewable" : {
+            "time" : 4200,
+            "result" : "vinegar"
+        }
     },
     {
         "type" : "COMESTIBLE",

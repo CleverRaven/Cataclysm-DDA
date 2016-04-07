@@ -521,7 +521,11 @@ public:
     /** Turn item was put into a fridge or 0 if not in any fridge. */
     int fridge = 0;
 
- int brewing_time() const;
+    /** Turns for this item to be fully fermented. */
+    int brewing_time() const;
+    /** The result of fermenting this item. */
+    const itype_id &brewing_result() const;
+
  void detonate( const tripoint &p ) const;
 
     /**
@@ -698,6 +702,8 @@ public:
  bool is_artifact() const;
     bool is_bucket() const;
     bool is_bucket_nonempty() const;
+
+    bool is_brewable() const;
 
     /**
      * Can this item have given item/itype as content?
