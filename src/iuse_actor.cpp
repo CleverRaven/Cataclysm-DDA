@@ -2019,6 +2019,37 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
     return 0;
 }
 
+iuse_actor *ammobelt_actor::clone() const
+{
+    return new ammobelt_actor( *this );
+}
+
+void ammobelt_actor::load( JsonObject &obj )
+{
+    belt = obj.get_string( "belt" );
+}
+
+void ammobelt_actor::info( const item&, std::vector<iteminfo>& dump ) const
+{
+    std::string name = item::find_type( belt )->nname( 1 );
+    dump.emplace_back( "AMMO", string_format( _( "Can be used to assemble: %s" ), name.c_str() ) );
+}
+
+long ammobelt_actor::use( player *p, item *it, bool, const tripoint& ) const
+{
+    item mag( belt );
+    mag.ammo_unset();
+
+    if( u.can_reload( mag, it->typeId() ) ) {
+        reload( u.get_item_position( &u.i_add( belt ) ) );
+    } else {
+        add_msg_if_player( m_info, _( "Insufficient %s to assemble %s" ),
+                           ammo_name( mag.ammo_type() ).c_str(), mag.tname().c_str() );
+    }
+
+    return 0;
+}
+
 void repair_item_actor::load( JsonObject &obj )
 {
     // Mandatory:
