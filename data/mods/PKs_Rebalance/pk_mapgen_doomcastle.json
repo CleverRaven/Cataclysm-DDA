@@ -231,7 +231,8 @@
             },
             "monster": {
                 "Z": { "monster": "mon_doom_sacrifice" },
-                "L": { "monster": "mon_lostsoul_mount" }
+                "L": { "monster": "mon_lostsoul_mount" },
+                "C": { "monster": "mon_cacodemon"}
             },
             "place_monsters": [
                 { "monster": "GROUP_DOOM_PRIEST", "x": [ 3, 4 ], "y": [ 21, 22 ], "chance": 100 },
