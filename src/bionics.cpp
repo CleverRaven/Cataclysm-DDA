@@ -66,20 +66,21 @@ const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 
-namespace {
+namespace
+{
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 } //namespace
 
-bool is_valid_bionic(std::string const& id)
+bool is_valid_bionic( std::string const &id )
 {
-    return !!bionics.count(id);
+    return !!bionics.count( id );
 }
 
-bionic_data const& bionic_info(std::string const &id)
+bionic_data const &bionic_info( std::string const &id )
 {
-    auto const it = bionics.find(id);
-    if (it != bionics.end()) {
+    auto const it = bionics.find( id );
+    if( it != bionics.end() ) {
         return it->second;
     }
 
@@ -135,21 +136,21 @@ const auto separator = []( std::ostringstream &s )
 };
 
 //builds the power usage string of a given bionic
-std::string build_bionic_poweronly_string(bionic const &bio)
+std::string build_bionic_poweronly_string( bionic const &bio )
 {
     std::ostringstream power_desc;
-    if (bionics[bio.id].power_over_time > 0 && bionics[bio.id].charge_time > 0) {
+    if( bionics[bio.id].power_over_time > 0 && bionics[bio.id].charge_time > 0 ) {
         power_desc << (
-            bionics[bio.id].charge_time == 1
-          ? string_format(_("%d PU / turn"),
-                bionics[bio.id].power_over_time)
-          : string_format(_("%d PU / %d turns"),
-                bionics[bio.id].power_over_time,
-                bionics[bio.id].charge_time));
+                       bionics[bio.id].charge_time == 1
+                       ? string_format( _( "%d PU / turn" ),
+                                        bionics[bio.id].power_over_time )
+                       : string_format( _( "%d PU / %d turns" ),
+                                        bionics[bio.id].power_over_time,
+                                        bionics[bio.id].charge_time ) );
     }
-    if (bionics[bio.id].power_activate > 0 && !bionics[bio.id].charge_time) {
+    if( bionics[bio.id].power_activate > 0 && !bionics[bio.id].charge_time ) {
         power_desc << separator( power_desc ) << string_format( _( "%d PU act" ),
-                        bionics[bio.id].power_activate);
+                   bionics[bio.id].power_activate );
     }
     if (bionics[bio.id].power_deactivate > 0 && !bionics[bio.id].charge_time) {
         power_desc << separator( power_desc ) << string_format(_("%d PU deact"),
@@ -163,12 +164,12 @@ std::string build_bionic_poweronly_string(bionic const &bio)
 }
 
 //generates the string that show how much power a bionic uses
-std::string build_bionic_powerdesc_string(bionic const &bio)
+std::string build_bionic_powerdesc_string( bionic const &bio )
 {
     std::ostringstream power_desc;
-    std::string power_string = build_bionic_poweronly_string(bio);
+    std::string power_string = build_bionic_poweronly_string( bio );
     power_desc << bionics[bio.id].name;
-    if(power_string.length()>0){
+    if( power_string.length() > 0 ) {
         power_desc << ", " << power_string;
     }
     return power_desc.str();
@@ -1163,34 +1164,35 @@ bool player::activate_bionic(int b, bool eff_only)
     return true;
 }
 
-bool player::deactivate_bionic(int b, bool eff_only)
+bool player::deactivate_bionic( int b, bool eff_only )
 {
     bionic &bio = my_bionics[b];
 
     // Just do the effect, no stat changing or messages
-    if (!eff_only) {
-        if (!bio.powered) {
+    if( !eff_only ) {
+        if( !bio.powered ) {
             // It's already off!
             return false;
         }
-        if (!bionics[bio.id].toggled) {
+        if( !bionics[bio.id].toggled ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
-            add_msg(m_info, _("You can't deactivate your %s manually!"), bionics[bio.id].name.c_str());
+            add_msg( m_info, _( "You can't deactivate your %s manually!" ), bionics[bio.id].name.c_str() );
             return false;
         }
-        if (power_level < bionics[bio.id].power_deactivate) {
-            add_msg(m_info, _("You don't have the power to deactivate your %s."), bionics[bio.id].name.c_str());
+        if( power_level < bionics[bio.id].power_deactivate ) {
+            add_msg( m_info, _( "You don't have the power to deactivate your %s." ),
+                     bionics[bio.id].name.c_str() );
             return false;
         }
 
         //We can actually deactivate now, do deactivation-y things
-        charge_power(-bionics[bio.id].power_deactivate);
+        charge_power( -bionics[bio.id].power_deactivate );
         bio.powered = false;
-        add_msg(m_neutral, _("You deactivate your %s."), bionics[bio.id].name.c_str());
+        add_msg( m_neutral, _( "You deactivate your %s." ), bionics[bio.id].name.c_str() );
     }
 
     // Deactivation effects go here
-    if (bio.id == "bio_cqb") {
+    if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
         if( style_selected != matype_id( "style_none" ) ) {
             bool has_style = false;
@@ -1199,18 +1201,18 @@ bool player::deactivate_bionic(int b, bool eff_only)
                     has_style = true;
                 }
             }
-            if (!has_style) {
+            if( !has_style ) {
                 style_selected = matype_id( "style_none" );
             }
         }
-    } else if(bio.id == "bio_claws") {
-        if (weapon.type->id == "bio_claws_weapon") {
-            add_msg(m_neutral, _("You withdraw your claws."));
+    } else if( bio.id == "bio_claws" ) {
+        if( weapon.type->id == "bio_claws_weapon" ) {
+            add_msg( m_neutral, _( "You withdraw your claws." ) );
             weapon = ret_null;
         }
-    } else if(bio.id == "bio_blade") {
-        if (weapon.type->id == "bio_blade_weapon") {
-            add_msg(m_neutral, _("You retract your blade."));
+    } else if( bio.id == "bio_blade" ) {
+        if( weapon.type->id == "bio_blade_weapon" ) {
+            add_msg( m_neutral, _( "You retract your blade." ) );
             weapon = ret_null;
         }
     } else if( bio.id == "bio_remote" ) {
@@ -1229,40 +1231,40 @@ bool player::deactivate_bionic(int b, bool eff_only)
     return true;
 }
 
-void player::process_bionic(int b)
+void player::process_bionic( int b )
 {
     bionic &bio = my_bionics[b];
-    if (!bio.powered) {
+    if( !bio.powered ) {
         // Only powered bionics should be processed
         return;
     }
 
-    if (bio.charge > 0) {
+    if( bio.charge > 0 ) {
         // Units already with charge just lose charge
         bio.charge--;
     } else {
-        if (bionics[bio.id].charge_time > 0) {
+        if( bionics[bio.id].charge_time > 0 ) {
             // Try to recharge our bionic if it is made for it
-            if (bionics[bio.id].power_over_time > 0) {
-                if (power_level < bionics[bio.id].power_over_time) {
+            if( bionics[bio.id].power_over_time > 0 ) {
+                if( power_level < bionics[bio.id].power_over_time ) {
                     // No power to recharge, so deactivate
                     bio.powered = false;
-                    add_msg(m_neutral, _("Your %s powers down."), bionics[bio.id].name.c_str());
+                    add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
                     // This purposely bypasses the deactivation cost
-                    deactivate_bionic(b, true);
+                    deactivate_bionic( b, true );
                     return;
                 } else {
                     // Pay the recharging cost
-                    charge_power(-bionics[bio.id].power_over_time);
+                    charge_power( -bionics[bio.id].power_over_time );
                     // We just spent our first turn of charge, so -1 here
                     bio.charge = bionics[bio.id].charge_time - 1;
                 }
             // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
             } else {
                 bio.powered = false;
-                add_msg(m_neutral, _("Your %s powers down."), bionics[bio.id].name.c_str());
+                add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
                 // This purposely bypasses the deactivation cost
-                deactivate_bionic(b, true);
+                deactivate_bionic( b, true );
                 return;
             }
         }
@@ -1270,8 +1272,8 @@ void player::process_bionic(int b)
 
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
-        if( calendar::once_every(5) ) {
-            add_msg(m_neutral, _("Artificial night generator active!"));
+        if( calendar::once_every( 5 ) ) {
+            add_msg( m_neutral, _( "Artificial night generator active!" ) );
         }
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() == nullptr && get_value( "remote_controlling" ) == "" ) {
@@ -1309,8 +1311,8 @@ void bionics_uninstall_failure(player *u)
 }
 
 // bionic manipulation chance of success
-int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechanics,
-                     int bionic_difficulty)
+int bionic_manip_cos( int p_int, int s_electronics, int s_firstaid, int s_mechanics,
+                      int bionic_difficulty )
 {
     int pl_skill = p_int         * 4 +
                    s_electronics * 4 +
@@ -1318,29 +1320,29 @@ int bionic_manip_cos(int p_int, int s_electronics, int s_firstaid, int s_mechani
                    s_mechanics   * 1;
 
     // Medical residents have some idea what they're doing
-    if (g->u.has_trait("PROF_MED")) {
+    if( g->u.has_trait( "PROF_MED" ) ) {
         pl_skill += 3;
-        add_msg(m_neutral, _("You prep yourself to begin surgery."));
+        add_msg( m_neutral, _( "You prep yourself to begin surgery." ) );
     }
 
     // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = float (pl_skill) - std::min( float (40),
-                           float (pl_skill) - float (pl_skill) / float (10.0));
+    float adjusted_skill = float ( pl_skill ) - std::min( float ( 40 ),
+                           float ( pl_skill ) - float ( pl_skill ) / float ( 10.0 ) );
 
     // we will base chance_of_success on a ratio of skill and difficulty
     // when skill=difficulty, this gives us 1.  skill < difficulty gives a fraction.
-    float skill_difficulty_parameter = float(adjusted_skill / (4.0 * bionic_difficulty));
+    float skill_difficulty_parameter = float( adjusted_skill / ( 4.0 * bionic_difficulty ) );
 
     // when skill == difficulty, chance_of_success is 50%. Chance of success drops quickly below that
     // to reserve bionics for characters with the appropriate skill.  For more difficult bionics, the
     // curve flattens out just above 80%
-    int chance_of_success = int((100 * skill_difficulty_parameter) /
-                                (skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter)));
+    int chance_of_success = int( ( 100 * skill_difficulty_parameter ) /
+                                 ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
 
     return chance_of_success;
 }
 
-bool player::uninstall_bionic(std::string const &b_id, int skill_level)
+bool player::uninstall_bionic( std::string const &b_id, int skill_level )
 {
     // malfunctioning bionics don't have associated items and get a difficulty of 12
     int difficulty = 12;
@@ -1351,8 +1353,8 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         }
     }
 
-    if (!has_bionic(b_id)) {
-        popup(_("You don't have this bionic installed."));
+    if( !has_bionic( b_id ) ) {
+        popup( _( "You don't have this bionic installed." ) );
         return false;
     }
     //If you are paying the doctor to do it, shouldn't use your supplies
