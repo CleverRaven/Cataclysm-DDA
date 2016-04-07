@@ -4288,7 +4288,16 @@ item::reload_option::reload_option( const player *who, const item *target, const
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
         max_qty = who->charges_of( this->target->type->magazine->linkage );
     }
-    qty( ( this->ammo->is_ammo() && !this->target->has_flag( "RELOAD_ONE" ) ) ? this->ammo->charges : 1L );
+
+    if( this->ammo->is_ammo() ) {
+        qty( !this->target->has_flag( "RELOAD_ONE" ) ? this->ammo->charges : 1L );
+
+    } else if( this->ammo->is_ammo_container() ) {
+        qty( !this->target->has_flag( "RELOAD_ONE" ) ? this->ammo->contents[ 0 ].charges : 1L );
+
+    } else {
+        qty( 1L ); // when reloading target using a magazine
+    }
 }
 
 
@@ -4309,6 +4318,10 @@ void item::reload_option::qty( long val )
 {
     if( ammo->is_ammo() ) {
         qty_ = std::min( { val, ammo->charges, target->ammo_capacity() - target->ammo_remaining() } );
+
+    } else if( ammo->is_ammo_container() ) {
+        qty_ = std::min( { val, ammo->contents[ 0 ].charges, target->ammo_capacity() - target->ammo_remaining() } );
+
     } else {
         qty_ = 1L; // when reloading target using a magazine
     }
@@ -4439,7 +4452,7 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     auto draw_row = [&]( int idx ) {
         const auto& sel = ammo_list[ idx ];
         std::string row = string_format( "%s| %s |", names[ idx ].c_str(), where[ idx ].c_str() );
-        row += string_format( sel.ammo->is_ammo() ? " %-7d |" : "         |", sel.qty() );
+        row += string_format( ( sel.ammo->is_ammo() || sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
         row += string_format( " %-7d ", sel.moves() );
 
         if( is_gun() || is_magazine() ) {
