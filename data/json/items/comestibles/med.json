@@ -153,6 +153,7 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "cotton balls",
+        "name_plural" : "cotton balls",
         "description" : "Fluffy balls of clean white cotton.  Can serve as makeshift bandages in an emergency.",
         "category" : "spare_parts",
         "weight" : 180,
