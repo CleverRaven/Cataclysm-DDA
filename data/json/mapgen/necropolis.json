@@ -1147,7 +1147,7 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor",
+                "z": "t_sidewalk",
                 "]": "t_dirt"
             },
             "furniture": {
@@ -1316,7 +1316,7 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor",
+                "z": "t_sidewalk",
                 "]": "t_dirt"
             },
             "furniture": {
@@ -4477,7 +4477,7 @@
             "fill_ter": "t_floor",
             "rows": [
                 ".....|-=====-|--|---HHH-",
-                ".....|      e| r[   cccc",
+                ".....|e      | r[   cccc",
                 "..#..| EEEEE | r[       ",
                 ".....| EEEEE | r[       ",
                 ".....|zzEEEE | r[  rrrrr",
@@ -4923,6 +4923,7 @@
                 "s": "t_sidewalk",
                 "T": "t_tree",
                 "t": "t_floor",
+                "U": "t_sidewalk",
                 "u": "t_floor",
                 "V": "t_wall_glass",
                 "v": "t_window_domestic",
@@ -5080,6 +5081,7 @@
                 "s": "t_sidewalk",
                 "T": "t_tree",
                 "t": "t_floor",
+                "U": "t_sidewalk",
                 "u": "t_floor",
                 "V": "t_wall_glass",
                 "v": "t_window_domestic",
