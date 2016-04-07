@@ -30,25 +30,22 @@ class wish_mutate_callback: public uimenu_callback
         player *p;
         std::string padding;
 
-        nc_color mcolor(std::string m)
-        {
-            if ( pTraits[ m ] == true ) {
+        nc_color mcolor( std::string m ) {
+            if( pTraits[ m ] == true ) {
                 return c_green;
             }
             return c_ltgray;
         }
 
-        wish_mutate_callback() : msg("")
-        {
+        wish_mutate_callback() : msg( "" ) {
             lastlen = 0;
             started = false;
             vTraits.clear();
             pTraits.clear();
         }
-        virtual bool key(int key, int entnum, uimenu *menu) override
-        {
-            if ( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
-                if ( p->has_base_trait( vTraits[ entnum ] ) ) {
+        virtual bool key( int key, int entnum, uimenu *menu ) override {
+            if( key == 't' && p->has_trait( vTraits[ entnum ] ) ) {
+                if( p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->toggle_trait( vTraits[ entnum ] );
                     p->unset_mutation( vTraits[ entnum ] );
 
@@ -64,11 +61,10 @@ class wish_mutate_callback: public uimenu_callback
             return false;
         }
 
-        virtual void select(int entnum, uimenu *menu) override
-        {
-            if ( ! started ) {
+        virtual void select( int entnum, uimenu *menu ) override {
+            if( ! started ) {
                 started = true;
-                padding = std::string(menu->pad_right - 1, ' ');
+                padding = std::string( menu->pad_right - 1, ' ' );
                 for( auto &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.first );
                     pTraits[traits_iter.first] = ( p->has_trait( traits_iter.first ) );
@@ -77,64 +73,70 @@ class wish_mutate_callback: public uimenu_callback
             auto &mdata = mutation_branch::get( vTraits[entnum] );
 
             int startx = menu->w_width - menu->pad_right;
-            for ( int i = 2; i < lastlen; i++ ) {
-                mvwprintw(menu->window, i, startx, "%s", padding.c_str() );
+            for( int i = 2; i < lastlen; i++ ) {
+                mvwprintw( menu->window, i, startx, "%s", padding.c_str() );
             }
 
-            mvwprintw(menu->window, 3, startx,
-                      mdata.valid ? _("Valid") : _("Nonvalid"));
+            mvwprintw( menu->window, 3, startx,
+                       mdata.valid ? _( "Valid" ) : _( "Nonvalid" ) );
             int line2 = 4;
 
-            if ( !mdata.prereqs.empty() ) {
+            if( !mdata.prereqs.empty() ) {
                 line2++;
-                mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
-                for (auto &j : mdata.prereqs) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                mvwprintz( menu->window, line2, startx, c_ltgray, _( "Prereqs:" ) );
+                for( auto &j : mdata.prereqs ) {
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
+                               mutation_branch::get_name( j ).c_str() );
                     line2++;
                 }
             }
 
-            if ( !mdata.prereqs2.empty() ) {
+            if( !mdata.prereqs2.empty() ) {
                 line2++;
-                mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
-                for (auto &j : mdata.prereqs2) {
-                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                mvwprintz( menu->window, line2, startx, c_ltgray, _( "Prereqs, 2d:" ) );
+                for( auto &j : mdata.prereqs2 ) {
+                    mvwprintz( menu->window, line2, startx + 15, mcolor( j ), "%s",
+                               mutation_branch::get_name( j ).c_str() );
                     line2++;
                 }
             }
 
-            if ( !mdata.threshreq.empty() ) {
+            if( !mdata.threshreq.empty() ) {
                 line2++;
-                mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
-                for (auto &j : mdata.threshreq) {
-                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                mvwprintz( menu->window, line2, startx, c_ltgray, _( "Thresholds required:" ) );
+                for( auto &j : mdata.threshreq ) {
+                    mvwprintz( menu->window, line2, startx + 21, mcolor( j ), "%s",
+                               mutation_branch::get_name( j ).c_str() );
                     line2++;
                 }
             }
 
-            if ( !mdata.cancels.empty() ) {
+            if( !mdata.cancels.empty() ) {
                 line2++;
-                mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
-                for (auto &j : mdata.cancels) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                mvwprintz( menu->window, line2, startx, c_ltgray, _( "Cancels:" ) );
+                for( auto &j : mdata.cancels ) {
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
+                               mutation_branch::get_name( j ).c_str() );
                     line2++;
                 }
             }
 
-            if ( !mdata.replacements.empty() ) {
+            if( !mdata.replacements.empty() ) {
                 line2++;
-                mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
-                for (auto &j : mdata.replacements) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                mvwprintz( menu->window, line2, startx, c_ltgray, _( "Becomes:" ) );
+                for( auto &j : mdata.replacements ) {
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
+                               mutation_branch::get_name( j ).c_str() );
                     line2++;
                 }
             }
 
-            if ( !mdata.additions.empty() ) {
+            if( !mdata.additions.empty() ) {
                 line2++;
-                mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
-                for (auto &j : mdata.additions) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                mvwprintz( menu->window, line2, startx, c_ltgray, _( "Add-ons:" ) );
+                for( auto &j : mdata.additions ) {
+                    mvwprintz( menu->window, line2, startx + 11, mcolor( j ), "%s",
+                               mutation_branch::get_name( j ).c_str() );
                     line2++;
                 }
             }
