@@ -1,0 +1,105 @@
+[
+
+    {
+    "type" : "MONSTER",
+    "id" :"mon_sewer_fish",
+    "edit-mode" : "modify",
+    "default_faction":"mutant_predator"
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_sludge_crawler",
+    "edit-mode" : "modify",
+    "default_faction":"mutant_omnivore"
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_chud",
+    "edit-mode" : "modify",
+    "melee_skill":6,
+    "melee_dice":1,
+    "melee_dice_sides":8,
+    "melee_cut":0
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_one_eye",
+    "edit-mode" : "modify",
+    "default_faction":"mutant_omnivore",
+    "melee_skill":9,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":1
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_crawler",
+    "edit-mode" : "modify",
+    "default_faction":"mutant_predator"
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_dark_wyrm",
+    "edit-mode" : "modify",
+    "default_faction":"dark_wyrm"
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_amigara_horror",
+    "edit-mode" : "modify",
+    "default_faction":"amigara"
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_dog_thing",
+    "edit-mode" : "modify",
+    "default_faction":"mutant_predator"
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_thing",
+    "edit-mode" : "modify",
+    "default_faction":"mutant_predator"
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_human_snail",
+    "edit-mode" : "modify",
+    "default_faction": "mutant_omnivore"
+    },{
+    "type" : "MONSTER",
+    "id" :"mon_twisted_body",
+    "edit-mode" : "modify",
+    "default_faction":"twisted_body"
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_jabberwock",
+    "edit-mode" : "modify",
+        "upgrades":{
+      "into": "mon_jabberwock_pk",
+      "half_life": 28
+      }
+    },{
+        "type" : "MONSTER",
+        "id" : "mon_jabberwock_pk",
+        "name": "jabberwock",
+        "species":"ABERRATION",
+        "default_faction":"jabberwock",
+        "symbol":"J",
+        "color":"dkgray_red",
+        "size":"HUGE",
+        "material":"flesh",
+        "diff":50,
+        "aggression":100,
+        "morale":100,
+        "speed":140,
+        "melee_skill":13,
+        "melee_dice":5,
+        "melee_dice_sides":9,
+        "melee_cut":10,
+        "dodge":5,
+        "armor_bash":18,
+        "armor_cut":12,
+        "vision_day":50,
+        "vision_night":5,
+        "hp":600,
+        "death_function":"JABBERWOCKY",
+        "special_attacks":[["FLESH_GOLEM", 5], ["SMASH", 60],  ["FEAR_PARALYZE", 5]],
+        "description":"A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.  Its coming for you",
+        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS",
+                 "ATTACKMON", "LEATHER", "BONES", "POISON", "BONES", "FAT"],
+        "//" : "zombie tank will beat this guy with about 20% health.  Most because its faster and this guy cant smash as often as him.  And oc the tank has more armor."
+    }
+
+]
