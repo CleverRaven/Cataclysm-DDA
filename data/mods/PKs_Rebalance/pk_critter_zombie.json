@@ -259,7 +259,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "hp":280,
+    "hp":280
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_pk",
