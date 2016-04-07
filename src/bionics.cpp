@@ -1462,81 +1462,82 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
     return true;
 }
 
-bool player::install_bionics(const itype &type, int skill_level)
+bool player::install_bionics( const itype &type, int skill_level )
 {
     if( type.bionic.get() == nullptr ) {
-        debugmsg("Tried to install NULL bionic");
+        debugmsg( "Tried to install NULL bionic" );
         return false;
     }
     const std::string &bioid = type.bionic->bionic_id;
     if( bionics.count( bioid ) == 0 ) {
-        popup("invalid / unknown bionic id %s", bioid.c_str());
+        popup( "invalid / unknown bionic id %s", bioid.c_str() );
         return false;
     }
-    if (bioid == "bio_reactor" || bioid == "bio_advreactor") {
-        if (has_bionic("bio_furnace") && has_bionic("bio_storage")) {
-            popup(_("Your internal storage and furnace take up too much room!"));
+    if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
+        if( has_bionic( "bio_furnace" ) && has_bionic( "bio_storage" ) ) {
+            popup( _( "Your internal storage and furnace take up too much room!" ) );
             return false;
-        } else if (has_bionic("bio_furnace")) {
-            popup(_("Your internal furnace takes up too much room!"));
+        } else if( has_bionic( "bio_furnace" ) ) {
+            popup( _( "Your internal furnace takes up too much room!" ) );
             return false;
-        } else if (has_bionic("bio_storage")) {
-            popup(_("Your internal storage takes up too much room!"));
-            return false;
-        }
-    }
-    if ((bioid == "bio_furnace" ) || (bioid == "bio_storage") || (bioid == "bio_reactor") || (bioid == "bio_advreactor")) {
-        if (has_bionic("bio_reactor") || has_bionic("bio_advreactor")) {
-            popup(_("Your installed reactor leaves no room!"));
+        } else if( has_bionic( "bio_storage" ) ) {
+            popup( _( "Your internal storage takes up too much room!" ) );
             return false;
         }
     }
-    if (bioid == "bio_reactor_upgrade" ){
-        if (!has_bionic("bio_reactor")) {
-            popup(_("There is nothing to upgrade!"));
+    if( ( bioid == "bio_furnace" ) || ( bioid == "bio_storage" ) || ( bioid == "bio_reactor" ) ||
+        ( bioid == "bio_advreactor" ) ) {
+        if( has_bionic( "bio_reactor" ) || has_bionic( "bio_advreactor" ) ) {
+            popup( _( "Your installed reactor leaves no room!" ) );
+            return false;
+        }
+    }
+    if( bioid == "bio_reactor_upgrade" ) {
+        if( !has_bionic( "bio_reactor" ) ) {
+            popup( _( "There is nothing to upgrade!" ) );
             return false;
         }
     }
     if( has_bionic( bioid ) ) {
         if( !( bioid == "bio_power_storage" || bioid == "bio_power_storage_mkII" ) ) {
-            popup(_("You have already installed this bionic."));
+            popup( _( "You have already installed this bionic." ) );
             return false;
         }
     }
     const int difficult = type.bionic->difficulty;
     int chance_of_success;
-    if (skill_level != -1){
-        chance_of_success = bionic_manip_cos(skill_level,
-                                skill_level,
-                                skill_level,
-                                skill_level,
-                                difficult);
+    if( skill_level != -1 ) {
+        chance_of_success = bionic_manip_cos( skill_level,
+                                              skill_level,
+                                              skill_level,
+                                              skill_level,
+                                              difficult );
     } else {
         ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
-        chance_of_success = bionic_manip_cos(int_cur,
-                                skillLevel( skilll_electronics ),
-                                skillLevel( skilll_firstaid ),
-                                skillLevel( skilll_mechanics ),
-                                difficult);
+        chance_of_success = bionic_manip_cos( int_cur,
+                                              skillLevel( skilll_electronics ),
+                                              skillLevel( skilll_firstaid ),
+                                              skillLevel( skilll_mechanics ),
+                                              difficult );
     }
 
-    if (!query_yn(
-            _("WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?"),
-            100 - chance_of_success)) {
+    if( !query_yn(
+            _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?" ),
+            100 - chance_of_success ) ) {
         return false;
     }
 
-    practice( skilll_electronics, int((100 - chance_of_success) * 1.5) );
-    practice( skilll_firstaid, int((100 - chance_of_success) * 1.0) );
-    practice( skilll_mechanics, int((100 - chance_of_success) * 0.5) );
-    int success = chance_of_success - rng(0, 99);
-    if (success > 0) {
-        add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
-                         pgettext("memorial_female", "Installed bionic: %s."),
-                         bionics[bioid].name.c_str());
+    practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
+    practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
+    practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
+    int success = chance_of_success - rng( 0, 99 );
+    if( success > 0 ) {
+        add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
+                          pgettext( "memorial_female", "Installed bionic: %s." ),
+                          bionics[bioid].name.c_str() );
 
-        add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
-        add_bionic(bioid);
+        add_msg( m_good, _( "Successfully installed %s." ), bionics[bioid].name.c_str() );
+        add_bionic( bioid );
 
         if( bioid == "bio_eye_optic" && has_trait( "HYPEROPIC" ) ) {
             remove_mutation( "HYPEROPIC" );
@@ -1546,7 +1547,7 @@ bool player::install_bionics(const itype &type, int skill_level)
         } else if( bioid == "bio_ears" ) {
             add_bionic( "bio_earplugs" ); // automatically add the earplugs, they're part of the same bionic
         } else if( bioid == "bio_sunglasses" ) {
-			add_bionic( "bio_blindfold" ); // automatically add the Optical Dampers, they're part of the same bionic
+            add_bionic( "bio_blindfold" ); // automatically add the Optical Dampers, they're part of the same bionic
         } else if( bioid == "bio_reactor_upgrade" ) {
             remove_bionic( "bio_reactor" );
             remove_bionic( "bio_reactor_upgrade" );
@@ -1554,21 +1555,21 @@ bool player::install_bionics(const itype &type, int skill_level)
         } else if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
             add_bionic( "bio_plutdump" );
         }
-    } else{
-        add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
-                         pgettext("memorial_female", "Installed bionic: %s."),
-                         bionics[bioid].name.c_str());
-        bionics_install_failure(this, difficult, success);
+    } else {
+        add_memorial_log( pgettext( "memorial_male", "Installed bionic: %s." ),
+                          pgettext( "memorial_female", "Installed bionic: %s." ),
+                          bionics[bioid].name.c_str() );
+        bionics_install_failure( this, difficult, success );
     }
     g->refresh_all();
     return true;
 }
 
-void bionics_install_failure(player *u, int difficulty, int success)
+void bionics_install_failure( player *u, int difficulty, int success )
 {
     // "success" should be passed in as a negative integer representing how far off we
     // were for a successful install.  We use this to determine consequences for failing.
-    success = abs(success);
+    success = abs( success );
 
     // it would be better for code reuse just to pass in skill as an argument from install_bionic
     // pl_skill should be calculated the same as in install_bionics
@@ -1578,116 +1579,118 @@ void bionics_install_failure(player *u, int difficulty, int success)
                    u->skillLevel( skilll_firstaid )    * 3 +
                    u->skillLevel( skilll_mechanics )   * 1;
     // Medical residents get a substantial assist here
-    if (u->has_trait("PROF_MED")) {
+    if( u->has_trait( "PROF_MED" ) ) {
         pl_skill += 6;
     }
 
     // for failure_level calculation, shift skill down to a float between ~0.4 - 30
-    float adjusted_skill = float (pl_skill) - std::min( float (40),
-                           float (pl_skill) - float (pl_skill) / float (10.0));
+    float adjusted_skill = float ( pl_skill ) - std::min( float ( 40 ),
+                           float ( pl_skill ) - float ( pl_skill ) / float ( 10.0 ) );
 
     // failure level is decided by how far off the character was from a successful install, and
     // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
     // difficulties), only minor consequences occur.  At low skill levels, severe consequences
     // are more likely.
-    int failure_level = int(sqrt(success * 4.0 * difficulty / float (adjusted_skill)));
-    int fail_type = (failure_level > 5 ? 5 : failure_level);
+    int failure_level = int( sqrt( success * 4.0 * difficulty / float ( adjusted_skill ) ) );
+    int fail_type = ( failure_level > 5 ? 5 : failure_level );
 
-    if (fail_type <= 0) {
-        add_msg(m_neutral, _("The installation fails without incident."));
+    if( fail_type <= 0 ) {
+        add_msg( m_neutral, _( "The installation fails without incident." ) );
         return;
     }
 
-    switch (rng(1, 5)) {
-    case 1:
-        add_msg(m_neutral, _("You flub the installation."));
-        break;
-    case 2:
-        add_msg(m_neutral, _("You mess up the installation."));
-        break;
-    case 3:
-        add_msg(m_neutral, _("The installation fails."));
-        break;
-    case 4:
-        add_msg(m_neutral, _("The installation is a failure."));
-        break;
-    case 5:
-        add_msg(m_neutral, _("You screw up the installation."));
-        break;
+    switch( rng( 1, 5 ) ) {
+        case 1:
+            add_msg( m_neutral, _( "You flub the installation." ) );
+            break;
+        case 2:
+            add_msg( m_neutral, _( "You mess up the installation." ) );
+            break;
+        case 3:
+            add_msg( m_neutral, _( "The installation fails." ) );
+            break;
+        case 4:
+            add_msg( m_neutral, _( "The installation is a failure." ) );
+            break;
+        case 5:
+            add_msg( m_neutral, _( "You screw up the installation." ) );
+            break;
     }
 
-    if (u->has_trait("PROF_MED")) {
-    //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
-        add_msg(m_neutral, _("Your training helps you minimize the complications."));
-    // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
-    // Take MD and be immune to faulty bionics.
-        if (fail_type == 5) {
-            fail_type = rng(1,3);
+    if( u->has_trait( "PROF_MED" ) ) {
+        //~"Complications" is USian medical-speak for "unintended damage from a medical procedure".
+        add_msg( m_neutral, _( "Your training helps you minimize the complications." ) );
+        // In addition to the bonus, medical residents know enough OR protocol to avoid botching.
+        // Take MD and be immune to faulty bionics.
+        if( fail_type == 5 ) {
+            fail_type = rng( 1, 3 );
         }
     }
 
-    if (fail_type == 3 && u->num_bionics() == 0) {
+    if( fail_type == 3 && u->num_bionics() == 0 ) {
         fail_type = 2;    // If we have no bionics, take damage instead of losing some
     }
 
-    switch (fail_type) {
+    switch( fail_type ) {
 
-    case 1:
-        if (!(u->has_trait("NOPAIN"))) {
-            add_msg(m_bad, _("It really hurts!"));
-            u->mod_pain( rng(failure_level * 3, failure_level * 6) );
-        }
-        break;
-
-    case 2:
-        add_msg(m_bad, _("Your body is damaged!"));
-        u->hurtall(rng(failure_level, failure_level * 2), u); // you hurt yourself
-        break;
-
-    case 3:
-        if (u->num_bionics() <= failure_level && u->max_power_level == 0) {
-            add_msg(m_bad, _("All of your existing bionics are lost!"));
-        } else {
-            add_msg(m_bad, _("Some of your existing bionics are lost!"));
-        }
-        for (int i = 0; i < failure_level && u->remove_random_bionic(); i++) {
-            ;
-        }
-        break;
-
-    case 4:
-        add_msg(m_mixed, _("You do damage to your genetics, causing mutation!"));
-        while (failure_level > 0) {
-            u->mutate();
-            failure_level -= rng(1, failure_level + 2);
-        }
-        break;
-
-    case 5: {
-        add_msg(m_bad, _("The installation is faulty!"));
-        std::vector<std::string> valid;
-        std::copy_if(begin(faulty_bionics), end(faulty_bionics), std::back_inserter(valid),
-            [&](std::string const &id) { return !u->has_bionic(id); });
-
-        if (valid.empty()) { // We've got all the bad bionics!
-            if (u->max_power_level > 0) {
-                int old_power = u->max_power_level;
-                add_msg(m_bad, _("You lose power capacity!"));
-                u->max_power_level = rng(0, u->max_power_level - 25);
-                u->add_memorial_log(pgettext("memorial_male", "Lost %d units of power capacity."),
-                                      pgettext("memorial_female", "Lost %d units of power capacity."),
-                                      old_power - u->max_power_level);
+        case 1:
+            if( !( u->has_trait( "NOPAIN" ) ) ) {
+                add_msg( m_bad, _( "It really hurts!" ) );
+                u->mod_pain( rng( failure_level * 3, failure_level * 6 ) );
             }
-            // TODO: What if we can't lose power capacity?  No penalty?
-        } else {
-            const std::string& id = random_entry( valid );
-            u->add_bionic( id );
-            u->add_memorial_log(pgettext("memorial_male", "Installed bad bionic: %s."),
-                                pgettext("memorial_female", "Installed bad bionic: %s."),
-                                bionics[ id ].name.c_str());
+            break;
+
+        case 2:
+            add_msg( m_bad, _( "Your body is damaged!" ) );
+            u->hurtall( rng( failure_level, failure_level * 2 ), u ); // you hurt yourself
+            break;
+
+        case 3:
+            if( u->num_bionics() <= failure_level && u->max_power_level == 0 ) {
+                add_msg( m_bad, _( "All of your existing bionics are lost!" ) );
+            } else {
+                add_msg( m_bad, _( "Some of your existing bionics are lost!" ) );
+            }
+            for( int i = 0; i < failure_level && u->remove_random_bionic(); i++ ) {
+                ;
+            }
+            break;
+
+        case 4:
+            add_msg( m_mixed, _( "You do damage to your genetics, causing mutation!" ) );
+            while( failure_level > 0 ) {
+                u->mutate();
+                failure_level -= rng( 1, failure_level + 2 );
+            }
+            break;
+
+        case 5: {
+            add_msg( m_bad, _( "The installation is faulty!" ) );
+            std::vector<std::string> valid;
+            std::copy_if( begin( faulty_bionics ), end( faulty_bionics ), std::back_inserter( valid ),
+            [&]( std::string const & id ) {
+                return !u->has_bionic( id );
+            } );
+
+            if( valid.empty() ) { // We've got all the bad bionics!
+                if( u->max_power_level > 0 ) {
+                    int old_power = u->max_power_level;
+                    add_msg( m_bad, _( "You lose power capacity!" ) );
+                    u->max_power_level = rng( 0, u->max_power_level - 25 );
+                    u->add_memorial_log( pgettext( "memorial_male", "Lost %d units of power capacity." ),
+                                         pgettext( "memorial_female", "Lost %d units of power capacity." ),
+                                         old_power - u->max_power_level );
+                }
+                // TODO: What if we can't lose power capacity?  No penalty?
+            } else {
+                const std::string &id = random_entry( valid );
+                u->add_bionic( id );
+                u->add_memorial_log( pgettext( "memorial_male", "Installed bad bionic: %s." ),
+                                     pgettext( "memorial_female", "Installed bad bionic: %s." ),
+                                     bionics[ id ].name.c_str() );
+            }
         }
-    }
-    break;
+        break;
     }
 }
 
