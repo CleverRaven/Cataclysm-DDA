@@ -4312,7 +4312,7 @@ void item::reload_option::qty( long val )
     } else {
         qty_ = 1L; // when reloading target using a magazine
     }
-    qty_ = std::max( std::min( qty_, max_qty ), 0L );
+    qty_ = std::max( std::min( qty_, max_qty ), 1L );
 }
 
 // TODO: Constify the player &u
