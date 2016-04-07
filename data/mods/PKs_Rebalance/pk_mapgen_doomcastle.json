@@ -566,7 +566,7 @@
                 "Z": { "monster": "mon_doom_sacrifice" },
                 "L": { "monster": "mon_lostsoul_mount" },
                 "C": { "monster": "mon_cacodemon" },
- +              "R": { "monster": "mon_revenant" },
+                "R": { "monster": "mon_revenant" },
             },
             "place_monsters": [
                 { "monster": "GROUP_DOOM_HELP", "x": [ 7, 23 ], "y": [ 0, 16 ], "chance": 3, "repeat": [ 0, 2 ] },
