@@ -22,6 +22,21 @@
         "base_faction" : "doom",
         "name" : "upper_doom",
         "neutral" : ["vermin", "small_animal", "utility_bot"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "mutant",
+        "neutral" : ["vermin"],
+        "by_mood" : ["small_animal", "utility_bot", "mutant_omnivore"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "mutant_omnivore",
+        "neutral" : ["vermin", "utility_bot", "small_animal"],
+        "by_mood" : ["mutant_predator", "mutant"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "mutant_predator",
+        "neutral" : ["vermin"],
+        "by_mood" : ["mutant_omnivore"]
     }
     
 
