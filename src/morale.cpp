@@ -357,66 +357,99 @@ void player_morale::decay( int ticks )
 
 void player_morale::display( double focus_gain )
 {
-    // Create and draw the window itself.
-    WINDOW *w = newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                        ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                        ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-    draw_border( w );
-
     // Figure out how wide the name column needs to be.
-    int name_column_width = 18;
+    int source_column_width = 0;
     for( auto &i : points ) {
-        int length = utf8_width( i.get_name() );
-        if( length > name_column_width ) {
-            name_column_width = length;
-            // If it's too wide, truncate.
-            if( name_column_width >= 72 ) {
-                name_column_width = 72;
-                break;
-            }
+        const int length = utf8_width( i.get_name() );
+        if( length > source_column_width ) {
+            source_column_width = length;
         }
     }
 
-    // Header
-    mvwprintz( w, 1,  1, c_white, _( "Morale Modifiers:" ) );
-    mvwprintz( w, 2,  1, c_ltgray, _( "Name" ) );
-    mvwprintz( w, 2, name_column_width + 2, c_ltgray, _( "Value" ) );
+    const int win_w = std::min( std::max( source_column_width + 4 + 8, 32 ), FULL_SCREEN_WIDTH );
+    const int win_h = FULL_SCREEN_HEIGHT;
+    const int win_x = ( TERMX - win_w ) / 2;
+    const int win_y = ( TERMY - win_h ) / 2;
 
-    // Start printing the number right after the name column.
-    // We'll right-justify it later.
-    int number_pos = name_column_width + 1;
+    WINDOW *w = newwin( win_h, win_w, win_y, win_x );
 
-    const morale_mult mult = get_temper_mult();
-    // Print out the morale entries.
-    for( size_t i = 0; i < points.size(); i++ ) {
-        const std::string name = points[i].get_name();
-        const int bonus = points[i].get_net_bonus( mult );
-        const nc_color bonus_color = ( bonus < 0 ? c_red : c_green );
+    draw_border( w );
 
-        // Print out the name.
-        trim_and_print( w, i + 3,  1, name_column_width, bonus_color, name.c_str() );
+    mvwhline( w, 2, 0, LINE_XXXO, 1 );
+    mvwhline( w, 2, 1, 0, win_w - 2 );
+    mvwhline( w, 2, win_w - 1, LINE_XOXX, 1 );
 
-        // Print out the number, right-justified.
-        mvwprintz( w, i + 3, number_pos, bonus_color, "% 6d", bonus );
+    mvwhline( w, win_h - 4, 0, LINE_XXXO, 1 );
+    mvwhline( w, win_h - 4, 1, 0, win_w - 2 );
+    mvwhline( w, win_h - 4, win_w - 1, LINE_XOXX, 1 );
+
+    mvwprintz( w, 1, 2, c_white, _( "Morale" ) );
+
+    const auto get_value_color = []( double value ) -> nc_color {
+        if( value > 0.0 )
+        {
+            return c_green;
+        }
+        if( value < 0.0 )
+        {
+            return c_red;
+        }
+        return c_dkgray;
+    };
+
+    if( points.size() > 0 ) {
+        const char *source_column = _( "Source" );
+        const char *value_column = _( "Value" );
+
+        mvwprintz( w, 3,  2, c_ltgray, source_column );
+        mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_ltgray, value_column );
+
+        int line = 0;
+        for( size_t i = 0; i < points.size(); ++i ) {
+            static const morale_mult mult = get_temper_mult();
+
+            const std::string name = points[i].get_name();
+            const int bonus = points[i].get_net_bonus( mult );
+            const nc_color bonus_color = get_value_color( bonus );
+
+            if( bonus != 0 ) { // @todo Zero bonuses should be removed from the list
+                mvwprintz( w, line + 4, win_w - 8, bonus_color, "%+6d", bonus );
+            } else {
+                mvwprintz( w, line + 4, win_w - 3, bonus_color, "-" );
+            }
+
+            line += fold_and_print_from( w, line + 4, 2, win_w - 9, 0, bonus_color, name.c_str() );
+
+            if( line >= win_h - 8 ) {
+                break;  // This prevents overflowing (unlikely, but just in case)
+            }
+        }
+    } else {
+        fold_and_print_from( w, 3, 2, win_w - 4, 0, c_dkgray, _( "Nothing affects your morale" ) );
     }
 
-    // Print out the total morale, right-justified.
-    const nc_color level_color = ( get_level() < 0 ? c_red : c_green );
-    mvwprintz( w, 20, 1, level_color, _( "Total:" ) );
-    mvwprintz( w, 20, number_pos, level_color, "% 6d", get_level() );
+    const nc_color level_color = get_value_color( get_level() );
+    const nc_color gain_color = get_value_color( focus_gain );
 
-    // Print out the focus gain rate, right-justified.
-    const nc_color gain_color = ( focus_gain < 0 ? c_red : c_green );
-    mvwprintz( w, 22, 1, gain_color, _( "Focus gain:" ) );
-    mvwprintz( w, 22, number_pos - 3, gain_color, _( "%6.2f per minute" ), focus_gain );
+    mvwprintz( w, win_h - 3, 2, level_color, _( "Total morale gain" ) );
+    mvwprintz( w, win_h - 2, 2, gain_color,  _( "Focus gain per minute" ) );
 
-    // Make sure the changes are shown.
+    if( get_level() != 0 ) {
+        mvwprintz( w, win_h - 3, win_w - 8, level_color, "%+6d", get_level() );
+    } else {
+        mvwprintz( w, win_h - 3, win_w - 3, level_color, "-" );
+    }
+
+    if( focus_gain != 0.0 ) {
+        mvwprintz( w, win_h - 2, win_w - 8, gain_color, "%+6.2f", focus_gain );
+    } else {
+        mvwprintz( w, win_h - 2, win_w - 3, gain_color, "-" );
+    }
+
     wrefresh( w );
 
-    // Wait for any keystroke.
     getch();
 
-    // Close the window.
     werase( w );
     delwin( w );
 }
