@@ -4677,7 +4677,14 @@ void player::mod_pain(int npain) {
 
 void player::set_pain(int npain)
 {
-    mod_perceived_pain( [ this, npain ]() { Creature::set_pain( npain ); } );
+    const int prev_pain = get_perceived_pain();
+    Creature::set_pain( npain );
+    const int cur_pain = get_perceived_pain();
+
+    if( cur_pain != prev_pain ) {
+        react_to_felt_pain( cur_pain - prev_pain );
+        on_stat_change( "perceived_pain", cur_pain );
+    }
 }
 
 int player::get_perceived_pain() const
@@ -4689,17 +4696,6 @@ int player::get_perceived_pain() const
     return std::max( get_pain() - get_painkiller(), 0 );
 }
 
-void player::mod_perceived_pain( std::function<void()> modifier )
-{
-    const int prev_pain = get_perceived_pain();
-    modifier();
-    const int cur_pain = get_perceived_pain();
-    if( cur_pain != prev_pain ) {
-        react_to_felt_pain( cur_pain - prev_pain );
-        on_stat_change( "perceived_pain", cur_pain );
-    }
-}
-
 void player::mod_painkiller(int npkill)
 {
     set_painkiller( pkill + npkill );
@@ -4709,10 +4705,15 @@ void player::set_painkiller(int npkill)
 {
     npkill = std::max( npkill, 0 );
     if( pkill != npkill ) {
-        mod_perceived_pain( [ this, npkill ]() {
-            pkill = npkill;
-            on_stat_change( "pkill", pkill );
-        });
+        const int prev_pain = get_perceived_pain();
+        pkill = npkill;
+        on_stat_change( "pkill", pkill );
+        const int cur_pain = get_perceived_pain();
+
+        if( cur_pain != prev_pain ) {
+            react_to_felt_pain( cur_pain - prev_pain );
+            on_stat_change( "perceived_pain", cur_pain );
+        }
     }
 }
 

@@ -192,7 +192,7 @@ TEST_CASE( "player_morale" )
         }
     }
 
-    GIVEN( "moderate masochistic personality disorder" ) {
+    GIVEN( "masochist trait" ) {
         m.on_mutation_gain( "MASOCHIST" );
 
         CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
@@ -210,8 +210,8 @@ TEST_CASE( "player_morale" )
         }
     }
 
-    GIVEN( "fully developed masochistic personality disorder" ) {
-        m.on_mutation_gain( "MASOCHIST_MED" );
+    GIVEN( "cenobite trait" ) {
+        m.on_mutation_gain( "CENOBITE" );
 
         CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
 

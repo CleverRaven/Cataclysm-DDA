@@ -414,11 +414,7 @@ void player_morale::decay( int ticks )
 
     std::for_each( points.begin(), points.end(), do_decay );
     remove_expired();
-
-    for( int i = 0; i < ticks; ++i ) {
-        update_bodytemp_penalty();
-    }
-
+    update_bodytemp_penalty( ticks );
     invalidate();
 }
 
@@ -579,7 +575,7 @@ void player_morale::set_worn( const item &it, bool worn )
     }
 
     if( super_fancy ) {
-        super_fancy_bonus = std::max( super_fancy_bonus + 2 * sign, 0 );
+        super_fancy_bonus += 2 * sign;
     }
     if( anyhow_fancy ) {
         update_stylish_bonus();
@@ -646,29 +642,29 @@ void player_morale::update_masochist_bonus()
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
 }
 
-void player_morale::update_bodytemp_penalty()
+void player_morale::update_bodytemp_penalty( int ticks )
 {
-    const auto bp_pen = [ this ]( body_part bp, double mul ) -> int {
-        return mul * ( body_parts[bp].hot - body_parts[bp].cold );
-    };
-
-    const int pen =
-        bp_pen( bp_head,    2 ) +
-        bp_pen( bp_torso,   2 ) +
-        bp_pen( bp_mouth,   2 ) +
-        bp_pen( bp_arm_l,  .5 ) +
-        bp_pen( bp_arm_r,  .5 ) +
-        bp_pen( bp_leg_l,  .5 ) +
-        bp_pen( bp_leg_r,  .5 ) +
-        bp_pen( bp_hand_l, .5 ) +
-        bp_pen( bp_hand_r, .5 ) +
-        bp_pen( bp_foot_l, .5 ) +
-        bp_pen( bp_foot_r, .5 );
-
-    if( pen < 0 ) {
-        add( MORALE_COLD, -2, pen, 10, 5, true );
-    } else if( pen > 0 ) {
-        add( MORALE_HOT, -2, -pen, 10, 5, true );
+    for( int i = 0; i < ticks; ++i ) {
+        static const auto bp_pen = [ this ]( body_part bp, double mul ) -> int {
+            return mul * ( body_parts[bp].hot - body_parts[bp].cold );
+        };
+        const int pen =
+            bp_pen( bp_head,    2 ) +
+            bp_pen( bp_torso,   2 ) +
+            bp_pen( bp_mouth,   2 ) +
+            bp_pen( bp_arm_l,  .5 ) +
+            bp_pen( bp_arm_r,  .5 ) +
+            bp_pen( bp_leg_l,  .5 ) +
+            bp_pen( bp_leg_r,  .5 ) +
+            bp_pen( bp_hand_l, .5 ) +
+            bp_pen( bp_hand_r, .5 ) +
+            bp_pen( bp_foot_l, .5 ) +
+            bp_pen( bp_foot_r, .5 );
+        if( pen < 0 ) {
+            add( MORALE_COLD, -2, pen, 10, 5, true );
+        } else if( pen > 0 ) {
+            add( MORALE_HOT, -2, -pen, 10, 5, true );
+        }
     }
 }
 

@@ -124,7 +124,7 @@ class player_morale
 
         void update_stylish_bonus();
         void update_masochist_bonus();
-        void update_bodytemp_penalty();
+        void update_bodytemp_penalty( int ticks );
         void update_constrained_penalty();
 
     private:

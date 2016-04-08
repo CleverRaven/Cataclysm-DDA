@@ -10,7 +10,6 @@
 #include "game_constants.h"
 
 #include <unordered_set>
-#include <functional>
 #include <bitset>
 #include <array>
 
@@ -615,8 +614,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void set_pain(int npain) override;
         /** Returns perceived pain (reduced with painkillers)*/
         int get_perceived_pain() const override;
-        /** Modifies perceived pain indirectly */
-        void mod_perceived_pain( std::function<void()> modifier );
 
         void cough(bool harmful = false, int volume = 4);
 
