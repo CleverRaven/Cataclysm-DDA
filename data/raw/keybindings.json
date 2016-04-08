@@ -227,6 +227,86 @@
     },
     {
         "type" : "keybinding",
+        "id":"UP",
+        "category": "PICKUP",
+        "name":"Previous item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"k"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"UP"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_UP"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"DOWN",
+        "category": "PICKUP",
+        "name":"Next item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"j"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"DOWN"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_DOWN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"LEFT",
+        "category":"PICKUP",
+        "name":"Unmark selected item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"h"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"LEFT"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_LEFT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"RIGHT",
+        "category":"PICKUP",
+        "name":"Mark selected item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"l"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RIGHT"
+            },
+            {
+                "input_method":"gamepad",
+                "key":"JOY_RIGHT"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ADD_RULE",
         "category": "AUTO_PICKUP",
         "name": "Add rule",
