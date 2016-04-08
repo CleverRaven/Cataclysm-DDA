@@ -23,9 +23,10 @@ mod_ui::~mod_ui()
     mm_tree = NULL;
 }
 
-bool compare_mod_by_name_and_category(const MOD_INFORMATION *a, const MOD_INFORMATION *b)
+bool compare_mod_by_name_and_category( const MOD_INFORMATION *a, const MOD_INFORMATION *b )
 {
-    return ((a->category < b->category) || ((a->category == b->category) && (a->name < b->name)));
+    return ( ( a->category < b->category ) || ( ( a->category == b->category ) &&
+             ( a->name < b->name ) ) );
 }
 
 void mod_ui::set_usable_mods()
@@ -36,25 +37,25 @@ void mod_ui::set_usable_mods()
     std::vector<MOD_INFORMATION *> mods;
     for( auto &modinfo_pair : active_manager->mod_map ) {
         if( !modinfo_pair.second->obsolete ) {
-            mods.push_back(modinfo_pair.second);
+            mods.push_back( modinfo_pair.second );
         }
     }
-    std::sort(mods.begin(), mods.end(), &compare_mod_by_name_and_category);
+    std::sort( mods.begin(), mods.end(), &compare_mod_by_name_and_category );
 
     for( auto modinfo : mods ) {
-        switch(modinfo->_type) {
-        case MT_CORE:
-            available_cores.push_back(modinfo->ident);
-            break;
-        case MT_SUPPLEMENTAL:
-            available_supplementals.push_back(modinfo->ident);
-            break;
+        switch( modinfo->_type ) {
+            case MT_CORE:
+                available_cores.push_back( modinfo->ident );
+                break;
+            case MT_SUPPLEMENTAL:
+                available_supplementals.push_back( modinfo->ident );
+                break;
         }
     }
     std::vector<std::string>::iterator it = ordered_mods.begin();
-    ordered_mods.insert(it, available_supplementals.begin(), available_supplementals.end());
+    ordered_mods.insert( it, available_supplementals.begin(), available_supplementals.end() );
     it = ordered_mods.begin();
-    ordered_mods.insert(it, available_cores.begin(), available_cores.end());
+    ordered_mods.insert( it, available_cores.begin(), available_cores.end() );
 
     usable_mods = ordered_mods;
 }
@@ -65,13 +66,13 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
         return "";
     }
     std::string modident = mod->ident;
-    std::string note = (!mm_tree->is_available(modident)) ? mm_tree->get_node(
-                           modident)->s_errors() : "";
+    std::string note = ( !mm_tree->is_available( modident ) ) ? mm_tree->get_node(
+                           modident )->s_errors() : "";
 
     std::stringstream info;
 
     // color the note red!
-    if (!note.empty()) {
+    if( !note.empty() ) {
         std::stringstream newnote;
         newnote << "<color_red>" << note << "</color>";
         note = newnote.str();
@@ -80,15 +81,15 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
     std::vector<std::string> authors = mod->authors;
     std::string description = mod->description;
     std::string dependency_string = "";
-    if (!dependencies.empty()) {
+    if( !dependencies.empty() ) {
         DebugLog( D_PEDANTIC_INFO, DC_ALL ) << mod->name << " Dependencies --";
-        for (size_t i = 0; i < dependencies.size(); ++i) {
-            if (i > 0) {
+        for( size_t i = 0; i < dependencies.size(); ++i ) {
+            if( i > 0 ) {
                 //~ delimiter for mod dependency enumeration
-                dependency_string += pgettext("mod manager", ", ");
+                dependency_string += pgettext( "mod manager", ", " );
             }
             DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\t" << dependencies[i];
-            if (active_manager->mod_map.find(dependencies[i]) != active_manager->mod_map.end()) {
+            if( active_manager->mod_map.find( dependencies[i] ) != active_manager->mod_map.end() ) {
                 dependency_string += "[" + active_manager->mod_map[dependencies[i]]->name + "]";
             } else {
                 dependency_string += "[<color_red>" + dependencies[i] + "</color>]";
@@ -97,25 +98,25 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
         DebugLog( D_PEDANTIC_INFO, DC_ALL ) << "\n";
     }
     std::string author_string = "";
-    if (!authors.empty()) {
-        for (size_t i = 0; i < authors.size(); ++i) {
-            if (i > 0) {
+    if( !authors.empty() ) {
+        for( size_t i = 0; i < authors.size(); ++i ) {
+            if( i > 0 ) {
                 //~ delimiter for mod author enumeration
-                author_string += pgettext("mod manager", ", ");
+                author_string += pgettext( "mod manager", ", " );
             }
             author_string += authors[i];
         }
-        info << string_format(ngettext("Author: %s\n", "Authors: %s\n", authors.size()),
-                              author_string.c_str());
+        info << string_format( ngettext( "Author: %s\n", "Authors: %s\n", authors.size() ),
+                               author_string.c_str() );
     } else {
-        info << _("Authors: [UNKNOWN]\n");
+        info << _( "Authors: [UNKNOWN]\n" );
     }
 
-    if(!dependencies.empty()) {
-        info << string_format(ngettext("Dependency: %s\n", "Dependencies: %s\n", dependencies.size()),
-                              dependency_string.c_str());
+    if( !dependencies.empty() ) {
+        info << string_format( ngettext( "Dependency: %s\n", "Dependencies: %s\n", dependencies.size() ),
+                               dependency_string.c_str() );
     } else {
-        info << _("Dependencies: [NONE]\n");
+        info << _( "Dependencies: [NONE]\n" );
     }
 
     if( !description.empty() ) {
@@ -140,73 +141,73 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
     return info.str();
 }
 
-void mod_ui::try_add(const std::string &mod_to_add,
-                     std::vector<std::string> &active_list)
+void mod_ui::try_add( const std::string &mod_to_add,
+                      std::vector<std::string> &active_list )
 {
-    if (std::find(active_list.begin(), active_list.end(), mod_to_add) != active_list.end()) {
+    if( std::find( active_list.begin(), active_list.end(), mod_to_add ) != active_list.end() ) {
         // The same mod can not be added twice. That makes no sense.
         return;
     }
-    if( active_manager->mod_map.count(mod_to_add) == 0 ) {
-        debugmsg("Unable to load mod \"%s\".", mod_to_add.c_str());
+    if( active_manager->mod_map.count( mod_to_add ) == 0 ) {
+        debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
         return;
     }
     MOD_INFORMATION &mod = *active_manager->mod_map[mod_to_add];
     bool errs;
     try {
-        dependency_node *checknode = mm_tree->get_node(mod.ident);
-        if (!checknode) {
+        dependency_node *checknode = mm_tree->get_node( mod.ident );
+        if( !checknode ) {
             return;
         }
         errs = checknode->has_errors();
-    } catch (std::exception &e) {
+    } catch( std::exception &e ) {
         errs = true;
     }
 
-    if (errs) {
+    if( errs ) {
         // cannot add, something wrong!
         return;
     }
     // get dependencies of selection in the order that they would appear from the top of the active list
-    std::vector<std::string> dependencies = mm_tree->get_dependencies_of_X_as_strings(mod.ident);
+    std::vector<std::string> dependencies = mm_tree->get_dependencies_of_X_as_strings( mod.ident );
 
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
-    if (mod._type == MT_CORE) {
+    if( mod._type == MT_CORE ) {
         //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
-        if ((!active_list.empty()) && (active_manager->mod_map[active_list[0]]->_type == MT_CORE) &&
-            (active_list[0] != mod_to_add)) {
+        if( ( !active_list.empty() ) && ( active_manager->mod_map[active_list[0]]->_type == MT_CORE ) &&
+            ( active_list[0] != mod_to_add ) ) {
             // remove existing core
-            try_rem(0, active_list);
+            try_rem( 0, active_list );
         }
 
         // add to start of active_list if it doesn't already exist in it
-        active_list.insert(active_list.begin(), mod_to_add);
+        active_list.insert( active_list.begin(), mod_to_add );
     } else { // _type == MT_SUPPLEMENTAL
         // now check dependencies and add them as necessary
         std::vector<std::string> mods_to_add;
         bool new_core = false;
-        for (auto &i : dependencies) {
-            if(std::find(active_list.begin(), active_list.end(), i) == active_list.end()) {
-                if (active_manager->mod_map[i]->_type == MT_CORE) {
-                    mods_to_add.insert(mods_to_add.begin(), i);
+        for( auto &i : dependencies ) {
+            if( std::find( active_list.begin(), active_list.end(), i ) == active_list.end() ) {
+                if( active_manager->mod_map[i]->_type == MT_CORE ) {
+                    mods_to_add.insert( mods_to_add.begin(), i );
                     new_core = true;
                 } else {
-                    mods_to_add.push_back(i);
+                    mods_to_add.push_back( i );
                 }
             }
         }
 
-        if (new_core && !active_list.empty()) {
-            try_rem(0, active_list);
-            active_list.insert(active_list.begin(), mods_to_add[0]);
-            mods_to_add.erase(mods_to_add.begin());
+        if( new_core && !active_list.empty() ) {
+            try_rem( 0, active_list );
+            active_list.insert( active_list.begin(), mods_to_add[0] );
+            mods_to_add.erase( mods_to_add.begin() );
         }
         // now add the rest of the dependencies serially to the end
-        for (auto &i : mods_to_add) {
-            active_list.push_back(i);
+        for( auto &i : mods_to_add ) {
+            active_list.push_back( i );
         }
         // and finally add the one we are trying to add!
-        active_list.push_back(mod.ident);
+        active_list.push_back( mod.ident );
     }
 }
 
@@ -268,7 +269,7 @@ void mod_ui::try_shift( char direction, int &selection, std::vector<std::string>
         selshift = +1;
     }
 
-    if (!selshift) { // false if selshift is 0, true if selshift is +/- 1: bool(int(0)) evaluates to false and bool(int(!0)) evaluates to true
+    if( !selshift ) { // false if selshift is 0, true if selshift is +/- 1: bool(int(0)) evaluates to false and bool(int(!0)) evaluates to true
         return;
     }
 
