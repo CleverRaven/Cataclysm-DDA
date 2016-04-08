@@ -620,7 +620,7 @@ void player::serialize(JsonOut &json) const
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
-    morale.store( json );
+    morale->store( json );
 
     // mission stuff
     json.member("active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
@@ -749,7 +749,7 @@ void player::deserialize(JsonIn &jsin)
     items_identified.clear();
     data.read( "items_identified", items_identified );
 
-    morale.load( data );
+    morale->load( data );
 
     int tmpactive_mission;
     if( data.read( "active_mission", tmpactive_mission ) && tmpactive_mission != -1 ) {

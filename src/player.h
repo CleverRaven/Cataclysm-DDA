@@ -5,12 +5,12 @@
 #include "craft_command.h"
 #include "item.h"
 #include "player_activity.h"
-#include "morale.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 
 #include <unordered_set>
 #include <bitset>
+#include <memory>
 #include <array>
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
@@ -71,6 +71,18 @@ struct special_attack {
         cut = 0;
         stab = 0;
     };
+};
+
+class player_morale;
+class player_morale_ptr : public std::unique_ptr<player_morale> {
+    public:
+        player_morale_ptr() = default;
+        player_morale_ptr( const player_morale_ptr &rhs );
+        player_morale_ptr( player_morale_ptr &&rhs );
+        player_morale_ptr &operator = ( const player_morale_ptr &rhs );
+        player_morale_ptr &operator = ( player_morale_ptr &&rhs );
+
+        ~player_morale_ptr();
 };
 
 // The minimum level recoil will reach without aiming.
@@ -1137,8 +1149,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
 
-        player_morale morale;
-
         int focus_pool;
 
         void set_skill_level(const Skill* _skill, int level);
@@ -1364,6 +1374,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         tripoint cached_position;
 
         struct weighted_int_list<const char*> melee_miss_reasons;
+
+        player_morale_ptr morale;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.

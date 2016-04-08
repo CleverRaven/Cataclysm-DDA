@@ -29,6 +29,7 @@
 #include "sounds.h"
 #include "item_action.h"
 #include "mongroup.h"
+#include "morale.h"
 #include "morale_types.h"
 #include "input.h"
 #include "veh_type.h"
@@ -63,9 +64,6 @@
 #include <algorithm>
 #include <numeric>
 #include <string>
-#include <memory>
-#include <array>
-#include <bitset>
 #include <sstream>
 #include <stdlib.h>
 #include <fstream>
@@ -158,6 +156,36 @@ static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 static bool should_combine_bps( const player &, size_t, size_t );
 
 
+player_morale_ptr::player_morale_ptr( const player_morale_ptr &rhs ) :
+    std::unique_ptr<player_morale>( rhs ? new player_morale( *rhs ) : nullptr )
+{
+}
+
+player_morale_ptr::player_morale_ptr( player_morale_ptr &&rhs ) :
+    std::unique_ptr<player_morale>( rhs ? rhs.release() : nullptr )
+{
+}
+
+player_morale_ptr &player_morale_ptr::operator = ( const player_morale_ptr &rhs )
+{
+    if( this != &rhs ) {
+        reset( rhs ? new player_morale( *rhs ) : nullptr );
+    }
+    return *this;
+}
+
+player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs )
+{
+    if( this != &rhs ) {
+        reset( rhs ? rhs.release() : nullptr );
+    }
+    return *this;
+}
+
+player_morale_ptr::~player_morale_ptr()
+{
+}
+
 player::player() : Character()
 {
     id = -1; // -1 is invalid
@@ -243,6 +271,8 @@ player::player() : Character()
 
     recalc_sight_limits();
     reset_encumbrance();
+
+    morale.reset( new player_morale() );
 }
 
 player::~player()
@@ -541,7 +571,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale.decay( 1 );
+    morale->decay( 1 );
     apply_persistent_morale();
 }
 
@@ -3266,7 +3296,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
 void player::disp_morale()
 {
-    morale.display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
+    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
 static std::string print_gun_mode( const player &p )
@@ -8661,24 +8691,24 @@ void player::update_body_wetness( const w_point &weather )
 
 int player::get_morale_level() const
 {
-    return morale.get_level();
+    return morale->get_level();
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
                         int duration, int decay_start,
                         bool capped, const itype* item_type)
 {
-    morale.add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
+    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
 }
 
 int player::has_morale( morale_type type ) const
 {
-    return morale.has( type );
+    return morale->has( type );
 }
 
 void player::rem_morale(morale_type type, const itype* item_type)
 {
-    morale.remove( type, item_type );
+    morale->remove( type, item_type );
 }
 
 bool player::has_morale_to_read() const
@@ -12668,7 +12698,7 @@ int player::climbing_cost( const tripoint &from, const tripoint &to ) const
 void player::environmental_revert_effect()
 {
     addictions.clear();
-    morale.clear();
+    morale->clear();
 
     for (int part = 0; part < num_hp_parts; part++) {
         hp_cur[part] = hp_max[part];
@@ -13345,32 +13375,32 @@ bool player::has_item_with_flag( std::string flag ) const
 
 void player::on_mutation_gain( const std::string &mid )
 {
-    morale.on_mutation_gain( mid );
+    morale->on_mutation_gain( mid );
 }
 
 void player::on_mutation_loss( const std::string &mid )
 {
-    morale.on_mutation_loss( mid );
+    morale->on_mutation_loss( mid );
 }
 
 void player::on_stat_change( const std::string &stat, int value )
 {
-    morale.on_stat_change( stat, value );
+    morale->on_stat_change( stat, value );
 }
 
 void player::on_item_wear( const item &it )
 {
-    morale.on_item_wear( it );
+    morale->on_item_wear( it );
 }
 
 void player::on_item_takeoff( const item &it )
 {
-    morale.on_item_takeoff( it );
+    morale->on_item_takeoff( it );
 }
 
 void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
 {
-    morale.on_effect_int_change( eid, intensity, bp );
+    morale->on_effect_int_change( eid, intensity, bp );
 }
 
 void player::on_mission_assignment( mission &new_mission )
