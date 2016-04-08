@@ -2966,6 +2966,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
             werase(w_info);
             std::string s;
+            int multiplier = should_combine_bps( *this, line, bp_aiOther[line] ) ? 2 : 1;
             if (line == 0) {
                 const int melee_roll_pen = std::max( -encumb( bp_torso ), -80 );
                 s += string_format( _("Melee attack rolls %+d%%; "), melee_roll_pen );
@@ -2996,7 +2997,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
                 s += melee_cost_text( encumb( bp_hand_r ) / 2 );
             } else if (line == 8) { //Left Leg
-                s += run_cost_text( encumb( bp_leg_l ) * 0.15 );
+                s += run_cost_text( ( multiplier * encumb( bp_leg_l ) ) * 0.15 );
                 s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - get_skill_level( skill_swimming ) * 2 ) / 2 );
                 s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
             } else if (line == 9) { //Right Leg
