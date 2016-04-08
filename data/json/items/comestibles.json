@@ -977,28 +977,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "brew_whiskey",
-        "name" : "whiskey wort",
-        "description" : "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.",
-        "weight" : 33,
-        "color" : "brown",
-        "container" : "bottle_glass",
-        "symbol" : "~",
-        "nutrition" : 2,
-        "quench" : 4,
-        "fun" : -15,
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 7200,
-            "result" : "whiskey"
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "vodka",
         "name" : "vodka",
         "name_plural" : "vodka",
@@ -1022,28 +1000,6 @@
         "charges" : 7,
         "flags" : ["EATEN_COLD"],
         "fun" : 15
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "brew_vodka",
-        "name" : "vodka wort",
-        "description" : "Unfermented vodka.  A clean, pure spirit.",
-        "weight" : 33,
-        "color" : "light_cyan",
-        "container" : "bottle_glass",
-        "symbol" : "~",
-        "nutrition" : 2,
-        "quench" : 4,
-        "fun" : -15,
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 3600,
-            "result" : "vodka"
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1093,28 +1049,6 @@
         "phase" : "liquid",
         "charges" : 7,
         "fun" : 15
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "brew_rum",
-        "name" : "rum wort",
-        "description" : "Unfermented rum.  Sugar caramel or molasses brewed into sweet water.  Basically a saccharine soup.",
-        "weight" : 33,
-        "color" : "light_cyan",
-        "container" : "bottle_glass",
-        "symbol" : "~",
-        "nutrition" : 2,
-        "quench" : 4,
-        "fun" : -15,
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 7200,
-            "result" : "rum"
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1188,29 +1122,6 @@
         "charges" : 7,
         "flags" : ["EATEN_COLD"],
         "fun" : 10
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "brew_bum_wine",
-        "name" : "cheap wine must",
-        "description" : "Unfermented grape wine.  A hearty mix of pressed grapes, with some added brandy to fortify it.",
-        "weight" : 46,
-        "color" : "red",
-        "container" : "jug_plastic",
-        "symbol" : "~",
-        "nutrition" : 2,
-        "quench" : 6,
-        "fun" : -15,
-        "price" : 0,
-        "material" : ["fruit", "water"],
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 5600,
-            "result" : "bum_wine"
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1288,29 +1199,6 @@
         "charges" : 7,
         "flags" : ["EATEN_COLD"],
         "fun" : 2
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "brew_fruit_wine",
-        "name" : "fruit wine must",
-        "description" : "Unfermented fruit wine.  A sweet, boiled juice made from berries or fruit.",
-        "weight" : 46,
-        "color" : "light_red",
-        "container" : "bottle_glass",
-        "symbol" : "~",
-        "nutrition" : 2,
-        "quench" : 6,
-        "fun" : -10,
-        "price" : 0,
-        "material" : ["fruit", "water"],
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 7200,
-            "result" : "fruit_wine"
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1512,29 +1400,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "brew_mead",
-        "name" : "spiced mead must",
-        "description" : "Unfermented spiced mead.  A golden, sweet mixture of honey, water, and hops for some added flavor.",
-        "weight" : 38,
-        "color" : "yellow",
-        "container" : "bottle_glass",
-        "symbol" : "~",
-        "nutrition" : 4,
-        "quench" : 6,
-        "fun" : -15,
-        "price" : 0,
-        "material" : "honey",
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 72000,
-            "result" : "mead"
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "dandelion_wine",
         "name" : "dandelion wine",
         "weight" : 46,
@@ -1556,28 +1421,6 @@
         "charges" : 7,
         "flags" : ["EATEN_COLD"],
         "fun" : 16
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "brew_dandelion_wine",
-        "name" : "dandelion wine must",
-        "description" : "Unfermented dandelion wine.  A sticky mixture of water, sugar, yeast, and dandelion petals.",
-        "weight" : 38,
-        "color" : "yellow",
-        "container" : "bottle_glass",
-        "symbol" : "~",
-        "nutrition" : 4,
-        "quench" : 6,
-        "fun" : -15,
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 22000,
-            "result" : "dandelion_wine"
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1606,28 +1449,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "brew_pine_wine",
-        "name" : "pine wine must",
-        "description" : "Unfermented pine wine.  A sticky mixture of water, sugar, yeast, and pine resins.",
-        "weight" : 38,
-        "color" : "green",
-        "container" : "bottle_glass",
-        "symbol" : "~",
-        "nutrition" : 4,
-        "quench" : 6,
-        "fun" : -20,
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 24500,
-            "result" : "pine_wine"
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "hb_beer",
         "name" : "homebrew beer",
         "weight" : 249,
@@ -1649,28 +1470,6 @@
         "charges" : 1,
         "flags" : ["EATEN_COLD"],
         "fun" : 8
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "brew_hb_beer",
-        "name" : "beer wort",
-        "description" : "Unfermented homebrew beer.  A boiled and chilled mash of malted barley, spiced with some fine hops.",
-        "weight" : 249,
-        "color" : "brown",
-        "container" : "jug_plastic",
-        "symbol" : "~",
-        "nutrition" : 4,
-        "quench" : 4,
-        "fun" : -20,
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 1,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 5400,
-            "result" : "hb_beer"
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -1696,29 +1495,6 @@
         "charges" : 7,
         "flags" : ["EATEN_COLD"],
         "fun" : 12
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "brew_moonshine",
-        "name" : "moonshine mash",
-        "name_plural" : "moonshine mashes",
-        "description" : "Unfermented moonshine.  Just some water, sugar and cornmeal, like good ol' aunt's recipe.  You better believe it tastes sour.",
-        "weight" : 35,
-        "color" : "brown",
-        "container" : "jug_plastic",
-        "symbol" : "~",
-        "nutrition" : 2,
-        "quench" : -20,
-        "fun" : -35,
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 7,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 3600,
-            "result" : "moonshine"
-        }
     },
     {
         "type" : "COMESTIBLE",
@@ -10857,30 +10633,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "brew_milk_curdled",
-        "name" : "curdling milk",
-        "weight" : 236,
-        "color" : "white",
-        "spoils_in" : 672,
-        "container" : "waterskin",
-        "comestible_type" : "DRINK",
-        "symbol" : "~",
-        "quench" : 8,
-        "nutrition" : 4,
-        "description" : "Milk with vinegar and natural rennet added.  Used for making cheese if left in a fermenting vat for some time.",
-        "price" : 10,
-        "material" : "milk",
-        "volume" : 1,
-        "phase" : "liquid",
-        "charges" : 1,
-        "fun" : -12,
-        "brewable" : {
-            "time" : 7200,
-            "result" : "milk_curdled"
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "cheese_hard",
         "name" : "hard cheese",
         "name_plural" : "hard cheese",
@@ -11025,28 +10777,6 @@
         "phase" : "liquid",
         "charges" : 2,
         "fun" : -4
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "brew_vinegar",
-        "name" : "unfermented vinegar",
-        "description" : "Mixture of water, alcohol and fruit juice that will eventually become vinegar.",
-        "weight" : 127,
-        "color" : "yellow",
-        "container" : "jug_plastic",
-        "symbol" : "~",
-        "nutrition" : 4,
-        "quench" : 6,
-        "fun" : -15,
-        "price" : 0,
-        "volume" : 1,
-        "charges" : 2,
-        "phase" : "liquid",
-        "comestible_type" : "DRINK",
-        "brewable" : {
-            "time" : 4200,
-            "result" : "vinegar"
-        }
     },
     {
         "type" : "COMESTIBLE",
