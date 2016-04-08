@@ -1287,27 +1287,27 @@ void player::process_bionic( int b )
     }
 }
 
-void bionics_uninstall_failure(player *u)
+void bionics_uninstall_failure( player *u )
 {
-    switch (rng(1, 5)) {
-    case 1:
-        add_msg(m_neutral, _("You flub the removal."));
-        break;
-    case 2:
-        add_msg(m_neutral, _("You mess up the removal."));
-        break;
-    case 3:
-        add_msg(m_neutral, _("The removal fails."));
-        break;
-    case 4:
-        add_msg(m_neutral, _("The removal is a failure."));
-        break;
-    case 5:
-        add_msg(m_neutral, _("You screw up the removal."));
-        break;
+    switch( rng( 1, 5 ) ) {
+        case 1:
+            add_msg( m_neutral, _( "You flub the removal." ) );
+            break;
+        case 2:
+            add_msg( m_neutral, _( "You mess up the removal." ) );
+            break;
+        case 3:
+            add_msg( m_neutral, _( "The removal fails." ) );
+            break;
+        case 4:
+            add_msg( m_neutral, _( "The removal is a failure." ) );
+            break;
+        case 5:
+            add_msg( m_neutral, _( "You screw up the removal." ) );
+            break;
     }
-    add_msg(m_bad, _("Your body is severely damaged!"));
-    u->hurtall(rng(30, 80), u); // stop hurting yourself!
+    add_msg( m_bad, _( "Your body is severely damaged!" ) );
+    u->hurtall( rng( 30, 80 ), u ); // stop hurting yourself!
 }
 
 // bionic manipulation chance of success
@@ -1358,105 +1358,109 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
     //If you are paying the doctor to do it, shouldn't use your supplies
-    if (!(has_items_with_quality("CUT", 1, 1) && has_amount("1st_aid", 1)) && skill_level == -1) {
-        popup(_("Removing bionics requires a cutting tool and a first aid kit."));
+    if( !( has_items_with_quality( "CUT", 1, 1 ) && has_amount( "1st_aid", 1 ) ) &&
+        skill_level == -1 ) {
+        popup( _( "Removing bionics requires a cutting tool and a first aid kit." ) );
         return false;
     }
 
-    if ( b_id == "bio_blaster" ) {
-        popup(_("Removing your Fusion Blaster Arm would leave you with a useless stump."));
+    if( b_id == "bio_blaster" ) {
+        popup( _( "Removing your Fusion Blaster Arm would leave you with a useless stump." ) );
         return false;
     }
 
-    if (( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" )) {
-        if (!query_yn(_("WARNING: Removing a reactor may leave radioactive material! Remove anyway?"))) {
+    if( ( b_id == "bio_reactor" ) || ( b_id == "bio_advreactor" ) ) {
+        if( !query_yn(
+                _( "WARNING: Removing a reactor may leave radioactive material! Remove anyway?" ) ) ) {
             return false;
         }
-    } else if (b_id == "bio_plutdump") {
-        popup(_("You must remove your reactor to remove the Plutonium Purger."));
+    } else if( b_id == "bio_plutdump" ) {
+        popup( _( "You must remove your reactor to remove the Plutonium Purger." ) );
     }
 
-    if ( b_id == "bio_earplugs") {
-        popup(_("You must remove the Enhanced Hearing bionic to remove the Sound Dampeners."));
+    if( b_id == "bio_earplugs" ) {
+        popup( _( "You must remove the Enhanced Hearing bionic to remove the Sound Dampeners." ) );
         return false;
     }
 
-	if( b_id == "bio_eye_optic" ) {
-        popup(_("The Telescopic Lenses are part of your eyes now.  Removing them would leave you blind.") );
+    if( b_id == "bio_eye_optic" ) {
+        popup( _( "The Telescopic Lenses are part of your eyes now.  Removing them would leave you blind." ) );
         return false;
     }
 
-	if( b_id == "bio_blindfold" ) {
-        popup(_("You must remove the Anti-glare Compensators bionic to remove the Optical Dampers.") );
+    if( b_id == "bio_blindfold" ) {
+        popup( _( "You must remove the Anti-glare Compensators bionic to remove the Optical Dampers." ) );
         return false;
     }
 
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
-    if (skill_level != -1){
-        chance_of_success = bionic_manip_cos(skill_level,
-                                skill_level,
-                                skill_level,
-                                skill_level,
-                                difficulty + 2);
+    if( skill_level != -1 ) {
+        chance_of_success = bionic_manip_cos( skill_level,
+                                              skill_level,
+                                              skill_level,
+                                              skill_level,
+                                              difficulty + 2 );
     } else {
         ///\EFFECT_INT increases chance of success removing bionics with unspecified skil level
-        chance_of_success = bionic_manip_cos(int_cur,
-                                skillLevel( skilll_electronics ),
-                                skillLevel( skilll_firstaid ),
-                                skillLevel( skilll_mechanics ),
-                                difficulty + 2);
+        chance_of_success = bionic_manip_cos( int_cur,
+                                              skillLevel( skilll_electronics ),
+                                              skillLevel( skilll_firstaid ),
+                                              skillLevel( skilll_mechanics ),
+                                              difficulty + 2 );
     }
 
-    if (!query_yn(_("WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?"),
-                  100 - chance_of_success)) {
+    if( !query_yn(
+            _( "WARNING: %i percent chance of failure and SEVERE bodily damage! Remove anyway?" ),
+            100 - chance_of_success ) ) {
         return false;
     }
 
     // surgery is imminent, retract claws or blade if active
-    if (has_bionic("bio_claws") && skill_level == -1 ) {
-        if (weapon.type->id == "bio_claws_weapon") {
-            add_msg(m_neutral, _("You withdraw your claws."));
+    if( has_bionic( "bio_claws" ) && skill_level == -1 ) {
+        if( weapon.type->id == "bio_claws_weapon" ) {
+            add_msg( m_neutral, _( "You withdraw your claws." ) );
             weapon = ret_null;
-          }
+        }
     }
 
-    if (has_bionic("bio_blade") && skill_level == -1 ) {
-        if (weapon.type->id == "bio_blade_weapon") {
-            add_msg(m_neutral, _("You retract your blade."));
+    if( has_bionic( "bio_blade" ) && skill_level == -1 ) {
+        if( weapon.type->id == "bio_blade_weapon" ) {
+            add_msg( m_neutral, _( "You retract your blade." ) );
             weapon = ret_null;
         }
     }
 
     //If you are paying the doctor to do it, shouldn't use your supplies
-    if (skill_level == -1)
-        use_charges("1st_aid", 1);
+    if( skill_level == -1 ) {
+        use_charges( "1st_aid", 1 );
+    }
 
-    practice( skilll_electronics, int((100 - chance_of_success) * 1.5) );
-    practice( skilll_firstaid, int((100 - chance_of_success) * 1.0) );
-    practice( skilll_mechanics, int((100 - chance_of_success) * 0.5) );
+    practice( skilll_electronics, int( ( 100 - chance_of_success ) * 1.5 ) );
+    practice( skilll_firstaid, int( ( 100 - chance_of_success ) * 1.0 ) );
+    practice( skilll_mechanics, int( ( 100 - chance_of_success ) * 0.5 ) );
 
-    int success = chance_of_success - rng(1, 100);
+    int success = chance_of_success - rng( 1, 100 );
 
-    if (success > 0) {
-        add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
-                         pgettext("memorial_female", "Removed bionic: %s."),
-                         bionics[b_id].name.c_str());
+    if( success > 0 ) {
+        add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
+                          pgettext( "memorial_female", "Removed bionic: %s." ),
+                          bionics[b_id].name.c_str() );
         // until bionics can be flagged as non-removable
-        add_msg(m_neutral, _("You jiggle your parts back into their familiar places."));
-        add_msg(m_good, _("Successfully removed %s."), bionics[b_id].name.c_str());
+        add_msg( m_neutral, _( "You jiggle your parts back into their familiar places." ) );
+        add_msg( m_good, _( "Successfully removed %s." ), bionics[b_id].name.c_str() );
         // remove power bank provided by bionic
         max_power_level -= bionics[b_id].capacity;
-        remove_bionic(b_id);
-        if (b_id == "bio_reactor" || b_id == "bio_advreactor") {
-            remove_bionic("bio_plutdump");
+        remove_bionic( b_id );
+        if( b_id == "bio_reactor" || b_id == "bio_advreactor" ) {
+            remove_bionic( "bio_plutdump" );
         }
-        g->m.spawn_item(pos(), "burnt_out_bionic", 1);
+        g->m.spawn_item( pos(), "burnt_out_bionic", 1 );
     } else {
-        add_memorial_log(pgettext("memorial_male", "Removed bionic: %s."),
-                         pgettext("memorial_female", "Removed bionic: %s."),
-                         bionics[b_id].name.c_str());
-        bionics_uninstall_failure(this);
+        add_memorial_log( pgettext( "memorial_male", "Removed bionic: %s." ),
+                          pgettext( "memorial_female", "Removed bionic: %s." ),
+                          bionics[b_id].name.c_str() );
+        bionics_uninstall_failure( this );
     }
     g->refresh_all();
     return true;
