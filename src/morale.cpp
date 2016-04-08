@@ -381,6 +381,8 @@ void player_morale::display( double focus_gain )
 
     draw_border( w );
 
+    mvwprintz( w, 1, 2, c_white, _( "Morale" ) );
+
     mvwhline( w, 2, 0, LINE_XXXO, 1 );
     mvwhline( w, 2, 1, 0, win_w - 2 );
     mvwhline( w, 2, win_w - 1, LINE_XOXX, 1 );
@@ -389,25 +391,26 @@ void player_morale::display( double focus_gain )
     mvwhline( w, win_h - 4, 1, 0, win_w - 2 );
     mvwhline( w, win_h - 4, win_w - 1, LINE_XOXX, 1 );
 
-    mvwprintz( w, 1, 2, c_white, _( "Morale" ) );
-
-    const auto get_value_color = []( double value ) -> nc_color {
-        if( value > 0.0 )
+    const auto print_line = [ w ]( int y, const char *label, double value ) -> int {
+        nc_color color;
+        if( value != 0.0 )
         {
-            return c_green;
-        }
-        if( value < 0.0 )
+            const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
+            color = ( value > 0.0 ) ? c_green : c_red;
+            mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
+        } else
         {
-            return c_red;
+            color = c_dkgray;
+            mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
         }
-        return c_dkgray;
+        return fold_and_print_from( w, y, 2, getmaxx( w ) - 9, 0, color, label );
     };
 
     if( points.size() > 0 ) {
         const char *source_column = _( "Source" );
         const char *value_column = _( "Value" );
 
-        mvwprintz( w, 3,  2, c_ltgray, source_column );
+        mvwprintz( w, 3, 2, c_ltgray, source_column );
         mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_ltgray, value_column );
 
         int line = 0;
@@ -416,16 +419,8 @@ void player_morale::display( double focus_gain )
 
             const std::string name = points[i].get_name();
             const int bonus = points[i].get_net_bonus( mult );
-            const nc_color bonus_color = get_value_color( bonus );
 
-            if( bonus != 0 ) { // @todo Zero bonuses should be removed from the list
-                mvwprintz( w, line + 4, win_w - 8, bonus_color, "%+6d", bonus );
-            } else {
-                mvwprintz( w, line + 4, win_w - 3, bonus_color, "-" );
-            }
-
-            line += fold_and_print_from( w, line + 4, 2, win_w - 9, 0, bonus_color, name.c_str() );
-
+            line += print_line( 4 + line, name.c_str(), bonus );
             if( line >= win_h - 8 ) {
                 break;  // This prevents overflowing (unlikely, but just in case)
             }
@@ -434,23 +429,8 @@ void player_morale::display( double focus_gain )
         fold_and_print_from( w, 3, 2, win_w - 4, 0, c_dkgray, _( "Nothing affects your morale" ) );
     }
 
-    const nc_color level_color = get_value_color( get_level() );
-    const nc_color gain_color = get_value_color( focus_gain );
-
-    mvwprintz( w, win_h - 3, 2, level_color, morale_gain_caption );
-    mvwprintz( w, win_h - 2, 2, gain_color, focus_gain_caption );
-
-    if( get_level() != 0 ) {
-        mvwprintz( w, win_h - 3, win_w - 8, level_color, "%+6d", get_level() );
-    } else {
-        mvwprintz( w, win_h - 3, win_w - 3, level_color, "-" );
-    }
-
-    if( focus_gain != 0.0 ) {
-        mvwprintz( w, win_h - 2, win_w - 8, gain_color, "%+6.2f", focus_gain );
-    } else {
-        mvwprintz( w, win_h - 2, win_w - 3, gain_color, "-" );
-    }
+    print_line( win_h - 3, morale_gain_caption, get_level() );
+    print_line( win_h - 2, focus_gain_caption, focus_gain );
 
     wrefresh( w );
 
