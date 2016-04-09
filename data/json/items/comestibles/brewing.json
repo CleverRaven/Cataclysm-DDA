@@ -316,7 +316,7 @@
         "charges" : 1,
         "fun" : -12,
         "brewable" : {
-            "time" : 7200,
+            "time" : 2400,
             "result" : "milk_curdled"
         }
     },

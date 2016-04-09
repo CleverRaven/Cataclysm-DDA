@@ -35,11 +35,11 @@
         "batch_time_factors": [50, 4],
         "book_learn": [ ["brewing_cookbook", 5], [ "scots_cookbook", 5 ] ],
         "qualities":[ { "id": "DISTILL", "level": 2 } ],
-        "tools": [ [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "hotplate", 20 ], [ "char_smoker", 20 ], [ "toolset", 20 ], [ "fire", -1 ] ] ],
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [ [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ], [ "buckwheat", 1 ] ],
-            [ [ "sugar", 8 ] ],
+            [ [ "sugar", 4 ] ],
             [ [ "yeast", 1 ] ]
         ]
     },{
@@ -61,7 +61,7 @@
             [
                 [ "molasses", 2 ], [ "corn", 2 ], [ "cornmeal", 6 ],
                 [ "wheat", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ],
-                [ "sugar", 2 ], [ "sweet_water", 2 ], [ "sugar_beet", 1 ]
+                [ "sugar", 4 ], [ "sweet_water", 4 ], [ "sugar_beet", 1 ]
             ],
             [ [ "yeast", 1 ] ]
         ]
@@ -81,7 +81,6 @@
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [ [ "molasses", 2 ], [ "sugar_beet", 1 ] ],
-            [ [ "sugar", 1 ] ],
             [ [ "yeast", 1 ] ]
         ]
     },{
@@ -118,7 +117,7 @@
         "qualities":[ { "id": "COOK", "level": 2 } ],
         "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
         "components": [
-            [ [ "water", 4 ], [ "water_clean", 4 ] ],
+            [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [
                 [ "pear", 2 ], [ "irradiated_pear", 2 ],
                 [ "apple", 2 ], [ "irradiated_apple", 2 ],
@@ -132,7 +131,6 @@
                 [ "raspberries", 2 ], [ "irradiated_raspberries", 2 ],
                 [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ]
             ],
-            [ [ "sugar", 2 ] ],
             [ [ "yeast", 1 ] ]
         ]
     },{
@@ -152,7 +150,6 @@
             [ [ "water", 15 ], [ "water_clean", 15 ] ],
             [ [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ] ],
             [ [ "hops", 1 ] ],
-            [ [ "sugar", 1 ] ],
             [ [ "yeast", 1 ] ]
         ]
     },{
