@@ -8465,6 +8465,7 @@
 },{
   "type" : "recipe",
   "result": "vodka",
+  "id_suffix": "from_ethanol",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",

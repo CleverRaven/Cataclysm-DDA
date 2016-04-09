@@ -1105,7 +1105,7 @@
         "weight" : 46,
         "color" : "red",
         "addiction_type" : "alcohol",
-        "use_action" : "ALCOHOL",
+        "use_action" : "ALCOHOL_WEAK",
         "stim" : -2,
         "container" : "jug_plastic",
         "comestible_type" : "DRINK",
