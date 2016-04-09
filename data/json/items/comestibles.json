@@ -7872,14 +7872,11 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
-        "nutrition" : 1,
         "description" : "A powder-like mix of cultured yeast, good for baking and brewing alike.",
         "price" : 150,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 25,
-        "fun" : -10
+        "charges" : 25
     },
     {
         "type" : "COMESTIBLE",

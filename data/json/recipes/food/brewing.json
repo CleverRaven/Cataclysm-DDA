@@ -130,8 +130,7 @@
                 [ "cranberries", 6 ], [ "irradiated_cranberries", 6 ],
                 [ "raspberries", 2 ], [ "irradiated_raspberries", 2 ],
                 [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ]
-            ],
-            [ [ "yeast", 1 ] ]
+            ]
         ]
     },{
         "type" : "recipe",

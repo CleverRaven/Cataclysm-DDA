@@ -523,8 +523,8 @@ public:
 
     /** Turns for this item to be fully fermented. */
     int brewing_time() const;
-    /** The result of fermenting this item. */
-    const itype_id &brewing_result() const;
+    /** The results of fermenting this item. */
+    const std::vector<itype_id> &brewing_results() const;
 
  void detonate( const tripoint &p ) const;
 

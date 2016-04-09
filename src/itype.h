@@ -102,8 +102,8 @@ struct islot_comestible
 };
 
 struct islot_brewable {
-    /** What is the result of fermenting this item? */
-    std::string result = "null";
+    /** What are the results of fermenting this item? */
+    std::vector<std::string> results;
 
     /** How many turns for this brew to ferment */
     int time = 0;
@@ -452,7 +452,7 @@ struct islot_seed {
      * Time it takes for a seed to grow (in days, based of off a season length of 91)
      */
     int grow = 0;
-	/**
+    /**
      * Amount of harvested charges of fruits is divided by this number.
      */
     int fruit_div = 1;

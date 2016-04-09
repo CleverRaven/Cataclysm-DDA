@@ -18,7 +18,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 7200,
-            "result" : "whiskey"
+            "results" : [ "wash_whiskey", "yeast" ]
         }
     },
     {
@@ -64,7 +64,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 3600,
-            "result" : "vodka"
+            "results" : [ "wash_vodka", "yeast" ]
         }
     },
     {
@@ -110,7 +110,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 7200,
-            "result" : "wash_rum"
+            "results" : [ "wash_rum", "yeast" ]
         }
     },
     {
@@ -157,7 +157,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 7200,
-            "result" : "fruit_wine"
+            "results" : [ "fruit_wine", "yeast" ]
         }
     },
     {
@@ -180,7 +180,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 72000,
-            "result" : "mead"
+            "results" : [ "mead", "yeast" ]
         }
     },
     {
@@ -202,7 +202,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 22000,
-            "result" : "dandelion_wine"
+            "results" : [ "dandelion_wine", "yeast" ]
         }
     },
     {
@@ -224,7 +224,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 24500,
-            "result" : "pine_wine"
+            "results" : [ "pine_wine", "yeast" ]
         }
     },
     {
@@ -246,7 +246,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 5400,
-            "result" : "hb_beer"
+            "results" : [ "hb_beer", "yeast" ]
         }
     },
     {
@@ -269,7 +269,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 3600,
-            "result" : "wash_moonshine"
+            "results" : [ "wash_moonshine", "yeast" ]
         }
     },
     {
@@ -317,7 +317,7 @@
         "fun" : -12,
         "brewable" : {
             "time" : 2400,
-            "result" : "milk_curdled"
+            "results" : [ "milk_curdled" ]
         }
     },
     {
@@ -339,7 +339,7 @@
         "comestible_type" : "DRINK",
         "brewable" : {
             "time" : 4200,
-            "result" : "vinegar"
+            "results" : [ "vinegar" ]
         }
     }
 ]

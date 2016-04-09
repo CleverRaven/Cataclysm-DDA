@@ -1959,22 +1959,27 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
     }
 }
 
-void iexamine::fvat_full(player &p, const tripoint &examp)
+void iexamine::fvat_full( player &p, const tripoint &examp )
 {
-    bool liquid_present = false;
     auto items_here = g->m.i_at( examp );
+    if( items_here.empty() ) {
+        debugmsg( "fvat_full was empty!" );
+        g->m.furn_set( examp, f_fvat_empty );
+        return;
+    }
+
     for( size_t i = 0; i < items_here.size(); i++ ) {
-        if( !items_here[i].made_of( LIQUID ) || liquid_present ) {
-            g->m.add_item_or_charges(examp, items_here[i]);
+        auto &it = items_here[i];
+        if( !it.made_of( LIQUID ) ) {
+            add_msg( _("You remove %s from the vat."), it.tname().c_str() );
+            g->m.add_item_or_charges( p.pos(), it );
             g->m.i_rem( examp, i );
             i--;
-        } else {
-            liquid_present = true;
         }
     }
-    if( !liquid_present ) {
-        debugmsg("fvat_full was empty or contained non-liquids only!");
-        g->m.furn_set(examp, f_fvat_empty);
+
+    if( items_here.empty() ) {
+        g->m.furn_set( examp, f_fvat_empty );
         return;
     }
 
@@ -1999,16 +2004,20 @@ void iexamine::fvat_full(player &p, const tripoint &examp)
         }
 
         if( query_yn(_("Finish brewing?") ) ) {
-            itype_id result = brew_i.brewing_result();
-            // @todo Different age based on settings
-            item booze( result, brew_i.bday, brew_i.charges );
+            const auto results = brew_i.brewing_results();
 
             g->m.i_clear( examp );
-            g->m.add_item( examp, booze );
-            p.moves -= 500;
+            for( const auto &result : results ) {
+                // @todo Different age based on settings
+                item booze( result, brew_i.bday, brew_i.charges );
+                g->m.add_item( examp, booze );
+                if( booze.made_of( LIQUID ) ) {
+                    add_msg( _("The %s is now ready for bottling."), booze.tname().c_str() );
+                }
+            }
 
+            p.moves -= 500;
             p.practice( skill_cooking, std::min( brew_time / MINUTES(10), 100 ) );
-            add_msg(_("The %s is now ready for bottling."), booze.tname().c_str());
         }
 
         return;

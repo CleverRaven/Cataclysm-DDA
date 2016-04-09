@@ -106,7 +106,7 @@
     "comestible_type" : "DRINK",
     "brewable" : {
         "time" : 5600,
-        "result" : "bum_wine"
+        "results" : [ "bum_wine" ]
     }
   },
   {

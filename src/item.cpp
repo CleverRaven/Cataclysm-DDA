@@ -1673,9 +1673,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
             }
 
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "* The result of the fermentation will be <neutral>%s</neutral>." ),
-                                                     item::nname( brewed.brewing_result(), brewed.charges ).c_str() ) ) );
+            for( const auto &res : brewed.brewing_results() ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          string_format( _( "* Fermenting this will produce <neutral>%s</neutral>." ),
+                                                         item::nname( res, brewed.charges ).c_str() ) ) );
+            }
         }
 
         ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
@@ -2872,10 +2874,10 @@ int item::brewing_time() const
     return ( is_brewable() ? type->brewable->time : 0 ) * ( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14.0 );
 }
 
-const itype_id &item::brewing_result() const
+const std::vector<itype_id> &item::brewing_results() const
 {
-    static const itype_id nulresult( "null" );
-    return is_brewable() ? type->brewable->result : nulresult;
+    static const std::vector<itype_id> nulresult;
+    return is_brewable() ? type->brewable->results : nulresult;
 }
 
 bool item::can_revive() const

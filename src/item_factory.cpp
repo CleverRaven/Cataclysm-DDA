@@ -542,8 +542,16 @@ void Item_factory::check_definitions() const
                 }
             }
         }
-        if( type->brewable != nullptr && !has_template( type->brewable->result ) ) {
-            msg << string_format( "invalid brewing result %s", type->brewable->result.c_str() ) << "\n";
+        if( type->brewable != nullptr ) {
+            if( type->brewable->results.empty() ) {
+                msg << string_format( "empty product list" ) << "\n";
+            }
+
+            for( auto & b : type->brewable->results ) {
+                if( !has_template( b ) ) {
+                    msg << string_format( "invalid result id %s", b.c_str() ) << "\n";
+                }
+            }
         }
         if( type->seed ) {
             if( !has_template( type->seed->fruit_id ) ) {
@@ -1050,7 +1058,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
 void Item_factory::load( islot_brewable &slot, JsonObject &jo )
 {
     slot.time = jo.get_int( "time" );
-    slot.result = jo.get_string( "result" );
+    slot.results = jo.get_string_array( "results" );
 }
 
 void Item_factory::load_comestible(JsonObject &jo)
