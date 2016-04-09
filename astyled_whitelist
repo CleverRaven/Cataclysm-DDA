@@ -22,6 +22,7 @@ src/explosion.cpp
 src/gamemode.cpp
 src/gates.cpp
 src/gates.h
+src/help.cpp
 src/item_action.cpp
 src/item_location.cpp
 src/itype.cpp
