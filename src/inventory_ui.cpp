@@ -127,6 +127,8 @@ class inventory_selector
         ~inventory_selector();
 
         void remove_dropping_items( player &u ) const;
+        /** Executes the selector */
+        int execute( bool show_worn, const int position );
 
     private:
         /** All the items that should be shown in the left column */
@@ -770,30 +772,37 @@ void inventory_selector::remove_dropping_items( player &u ) const
     }
 }
 
-int game::display_slice(indexed_invslice const &slice, const std::string &title, bool show_worn, const int position)
+int inventory_selector::execute( bool show_worn, const int position )
 {
-    inventory_selector inv_s(false, false, title);
-    inv_s.make_item_list(slice);
-    inv_s.prepare_paging();
-    inv_s.select_item_by_position(position);
+    prepare_paging();
+    select_item_by_position( position );
 
-    while(true) {
-        inv_s.display(show_worn);
-        const std::string action = inv_s.ctxt.handle_input();
-        const long ch = inv_s.ctxt.get_raw_input().get_first_input();
+    while( true ) {
+        display( show_worn );
+
+        const std::string action = ctxt.handle_input();
+        const long ch = ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position( ch );
-        if (item_pos != INT_MIN) {
+
+        if( item_pos != INT_MIN ) {
             return item_pos;
-        } else if (inv_s.handle_movement(action)) {
+        } else if ( handle_movement( action ) ) {
             continue;
-        } else if (action == "CONFIRM" || action == "RIGHT") {
-            return inv_s.get_selected_item_position();
-        } else if (action == "QUIT") {
+        } else if ( action == "CONFIRM" || action == "RIGHT" ) {
+            return get_selected_item_position();
+        } else if ( action == "QUIT" ) {
             return INT_MIN;
         } else {
             return INT_MIN;
         }
     }
+}
+
+int game::display_slice(indexed_invslice const &slice, const std::string &title, bool show_worn, const int position)
+{
+    inventory_selector inv_s(false, false, title);
+    inv_s.make_item_list( slice );
+    return inv_s.execute( show_worn, position );
 }
 
 // Display current inventory.
