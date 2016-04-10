@@ -418,14 +418,7 @@ void player::power_bionics()
                 }
             }
 
-            // Scrollbar
-            if(scroll_position > 0) {
-                mvwputch(wBio, HEADER_LINE_Y, 0, c_ltgreen, '^');
-            }
-            if(scroll_position < max_scroll_position && max_scroll_position > 0) {
-                mvwputch(wBio, HEIGHT - 1 - 1,
-                        0, c_ltgreen, 'v');
-            }
+            draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
         }
         wrefresh(wBio);
 
