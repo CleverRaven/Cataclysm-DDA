@@ -148,6 +148,19 @@ indexed_invslice inventory::slice_filter()
     return stacks;
 }
 
+indexed_invslice inventory::slice_filter_by( item_filter filter )
+{
+    int i = 0;
+    indexed_invslice stacks;
+    for( auto &elem : items ) {
+        if( filter( elem.front() ) ) {
+            stacks.push_back( std::make_pair( &elem, i ) );
+        }
+        ++i;
+    }
+    return stacks;
+}
+
 indexed_invslice inventory::slice_filter_by_activation(const player &u)
 {
     int i = 0;
