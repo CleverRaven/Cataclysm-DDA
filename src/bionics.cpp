@@ -975,7 +975,7 @@ bool player::activate_bionic(int b, bool eff_only)
         }
     } else if (bio.id == "bio_hydraulics") {
         add_msg(m_good, _("Your muscles hiss as hydraulic strength fills them!"));
-        // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
+        //~ Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         sounds::sound( pos(), 19, _("HISISSS!"));
     } else if (bio.id == "bio_water_extractor") {
         bool extracted = false;
