@@ -348,7 +348,6 @@ void player::power_bionics()
                 tab_mode = TAB_PASSIVE;
             }
 
-            max_scroll_position = std::max(0, (tab_mode == TAB_ACTIVE ? active_bionic_count : passive_bionic_count) - LIST_HEIGHT);
             if(--cursor < 0) {
                 cursor = 0;
             }
@@ -361,6 +360,9 @@ void player::power_bionics()
 
         //track which list we are looking at
         std::vector<bionic*> *current_bionic_list = (tab_mode == TAB_ACTIVE ? &active : &passive);
+        max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
+                                             active_bionic_count :
+                                             passive_bionic_count ) - LIST_HEIGHT );
 
         if(redraw) {
             redraw = false;
