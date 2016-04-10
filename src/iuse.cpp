@@ -8493,12 +8493,12 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    auto filter = [&]( const item& e ) {
+    auto filter = []( const item& e ) {
         if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
             return false;
         }
         // cannot saw down barrel of gun that already has a barrel mod
-        return std::none_of( e.contents.begin(), e.contents.end(), [&]( const item& mod ) {
+        return std::none_of( e.contents.begin(), e.contents.end(), []( const item& mod ) {
             return mod.is_gunmod() && mod.type->gunmod->location == "barrel";
         });
     };
