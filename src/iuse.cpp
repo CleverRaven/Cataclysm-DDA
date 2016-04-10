@@ -6956,7 +6956,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
             p->moves -= 200;
 
-            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
             item *mc = &(p->i_at(inventory_index));
 
             if (mc == NULL || mc->is_null()) {
@@ -6986,7 +6986,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
         if (ei_decrypt == choice) {
             p->moves -= 200;
-            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
             item *mc = &(p->i_at(inventory_index));
 
             if (mc == NULL || mc->is_null()) {
@@ -7276,7 +7276,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
         p->moves -= 200;
 
-        const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+        const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
         item *mc = &(p->i_at(inventory_index));
 
         if (mc == NULL || mc->is_null()) {
@@ -7448,7 +7448,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
     if (choice == 2) {
 
         if( it->contents.empty() ) { //arming car with bomb
-            int inventory_index = g->inv_for_flag("RADIOCARITEM", _("Arm what?"), false);
+            int inventory_index = g->inv_for_flag("RADIOCARITEM", _("Arm what?"));
             item *put = &(p->i_at(inventory_index));
             if (put == NULL || put->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));

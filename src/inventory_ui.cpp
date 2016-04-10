@@ -822,17 +822,11 @@ int game::inv_activatable(std::string const &title)
     return display_slice(activatables, title);
 }
 
-int game::inv_for_liquid(const item &liquid, const std::string &title, bool const auto_choose_single)
+int game::inv_for_liquid(const item &liquid, const std::string &title)
 {
     u.inv.restack(&u);
     u.inv.sort();
     indexed_invslice reduced_inv = u.inv.slice_filter_by_capacity_for_liquid(liquid);
-    if (auto_choose_single && reduced_inv.size() == 1) {
-        std::list<item> *cont_stack = reduced_inv[0].first;
-        if (! cont_stack->empty() ) {
-            return reduced_inv[0].second;
-        }
-    }
     return display_slice(reduced_inv, title);
 }
 
@@ -1026,17 +1020,11 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int
     return inv_map_splice( sealable_filter, bucket_filter, sealable_filter, title, radius ).get_item();
 }
 
-int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)
+int game::inv_for_flag(const std::string &flag, const std::string &title)
 {
     u.inv.restack(&u);
     u.inv.sort();
     indexed_invslice reduced_inv = u.inv.slice_filter_by_flag(flag);
-    if (auto_choose_single && reduced_inv.size() == 1) {
-        std::list<item> *cont_stack = reduced_inv[0].first;
-        if (! cont_stack->empty() ) {
-            return reduced_inv[0].second;
-        }
-    }
     return display_slice(reduced_inv, title);
 }
 

@@ -10413,7 +10413,7 @@ int game::move_liquid(item &liquid)
 
     //liquid is in fact a liquid.
     const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
-    int pos = inv_for_liquid(liquid, text, false);
+    int pos = inv_for_liquid(liquid, text);
 
     //is container selected?
     item *cont = &( u.i_at( pos ) );

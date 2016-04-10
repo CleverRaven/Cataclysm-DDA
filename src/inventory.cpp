@@ -178,7 +178,7 @@ indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liqu
 
 indexed_invslice inventory::slice_filter_by_salvageability(const salvage_actor &actor)
 {
-    return slice_filter_by( [ this, &actor ]( const item &it ) {
+    return slice_filter_by( [ &actor ]( const item &it ) {
         return actor.valid_to_cut_up( &it );
     } );
 }
