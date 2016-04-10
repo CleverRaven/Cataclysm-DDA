@@ -139,13 +139,7 @@ inventory inventory::operator+ (const item &rhs)
 
 indexed_invslice inventory::slice_filter()
 {
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        stacks.push_back( std::make_pair( &elem, i ) );
-        ++i;
-    }
-    return stacks;
+    return slice_filter_by( []( const item & ) { return true; } );
 }
 
 indexed_invslice inventory::slice_filter_by( item_filter filter )
@@ -163,54 +157,30 @@ indexed_invslice inventory::slice_filter_by( item_filter filter )
 
 indexed_invslice inventory::slice_filter_by_activation(const player &u)
 {
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( has_activation( elem.front(), u ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
+    return slice_filter_by( [ this, &u ]( const item &it ) {
+        return has_activation( it, u );
+    } );
 }
 
-indexed_invslice inventory::slice_filter_by_flag(const std::string flag)
+indexed_invslice inventory::slice_filter_by_flag(const std::string &flag)
 {
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( elem.front().has_flag( flag ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
+    return slice_filter_by( [ &flag ]( const item &it ) {
+        return it.has_flag( flag );
+    } );
 }
 
 indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liquid)
 {
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( has_capacity_for_liquid( elem.front(), liquid ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
+    return slice_filter_by( [ this, &liquid ]( const item &it ) {
+        return has_capacity_for_liquid( it, liquid );
+    } );
 }
 
 indexed_invslice inventory::slice_filter_by_salvageability(const salvage_actor &actor)
 {
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( actor.valid_to_cut_up( &elem.front() ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
+    return slice_filter_by( [ this, &actor ]( const item &it ) {
+        return actor.valid_to_cut_up( &it );
+    } );
 }
 
 void inventory::unsort()

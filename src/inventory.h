@@ -81,7 +81,7 @@ class inventory : public visitable<inventory>
         indexed_invslice slice_filter_by( item_filter filter );
         indexed_invslice slice_filter_by_activation(const player &u);
         indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
-        indexed_invslice slice_filter_by_flag(const std::string flag);
+        indexed_invslice slice_filter_by_flag( const std::string &flag );
         indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
 
         void unsort(); // flags the inventory as unsorted
