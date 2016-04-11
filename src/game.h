@@ -430,7 +430,7 @@ class game
         int inv_for_flag(const std::string &flag, const std::string &title);
         int inv_for_filter(const std::string &title, item_filter filter);
         int inv_for_unequipped(std::string const &title, item_filter filter);
-        int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
+        int display_slice(indexed_invslice const&, const std::string &, int position = INT_MIN);
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,

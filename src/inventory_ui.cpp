@@ -110,7 +110,7 @@ class inventory_selector
          * ignore the action in this case). */
         bool handle_movement(const std::string &action);
         /** Update the @ref w_inv window, including wrefresh */
-        void display(bool show_worn = true) const;
+        void display() const;
         /** Returns the item positions of the currently selected entry, or ITEM_MIN
          * if no entry is selected. */
         int get_selected_item_position() const;
@@ -128,7 +128,7 @@ class inventory_selector
 
         void remove_dropping_items( player &u ) const;
         /** Executes the selector */
-        int execute( bool show_worn, const int position );
+        int execute( const int position );
 
     private:
         /** All the items that should be shown in the left column */
@@ -403,7 +403,7 @@ void inventory_selector::print_right_column() const
     }
 }
 
-void inventory_selector::display(bool show_worn) const
+void inventory_selector::display() const
 {
     const size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
     werase(w_inv);
@@ -423,9 +423,7 @@ void inventory_selector::display(bool show_worn) const
     mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str),
               msg_color, msg_str.c_str());
     print_left_column();
-    if(show_worn) {
-        print_middle_column();
-    }
+    print_middle_column();
     print_right_column();
     const size_t max_size = in_inventory ? items.size() : worn.size();
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
@@ -772,13 +770,13 @@ void inventory_selector::remove_dropping_items( player &u ) const
     }
 }
 
-int inventory_selector::execute( bool show_worn, const int position )
+int inventory_selector::execute( const int position )
 {
     prepare_paging();
     select_item_by_position( position );
 
     while( true ) {
-        display( show_worn );
+        display();
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -798,11 +796,11 @@ int inventory_selector::execute( bool show_worn, const int position )
     }
 }
 
-int game::display_slice(indexed_invslice const &slice, const std::string &title, bool show_worn, const int position)
+int game::display_slice( indexed_invslice const &slice, const std::string &title, const int position )
 {
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list( slice );
-    return inv_s.execute( show_worn, position );
+    return inv_s.execute( position );
 }
 
 // Display current inventory.
@@ -811,7 +809,7 @@ int game::inv(const std::string &title, const int position)
     u.inv.restack(&u);
     u.inv.sort();
     indexed_invslice slice = u.inv.slice_filter();
-    return display_slice(slice, title, true, position);
+    return display_slice(slice, title, position);
 }
 
 int game::inv_activatable(std::string const &title)
@@ -836,6 +834,27 @@ int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
     u.inv.sort();
     indexed_invslice reduced_inv = u.inv.slice_filter_by_salvageability( actor );
     return display_slice(reduced_inv, title);
+}
+
+int game::inv_for_flag(const std::string &flag, const std::string &title)
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    indexed_invslice reduced_inv = u.inv.slice_filter_by_flag(flag);
+    return display_slice(reduced_inv, title);
+}
+
+int game::inv_for_filter(std::string const &title, const item_filter filter)
+{
+    u.inv.restack(&u);
+    u.inv.sort();
+    indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
+    return display_slice(reduced_inv, title);
+}
+
+int game::inv_for_unequipped(std::string const &title, const item_filter filter)
+{
+    return inv_for_filter( title, filter );
 }
 
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius )
@@ -1018,30 +1037,6 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int
 
     // Buckets can only be filled when on the ground
     return inv_map_splice( sealable_filter, bucket_filter, sealable_filter, title, radius ).get_item();
-}
-
-int game::inv_for_flag(const std::string &flag, const std::string &title)
-{
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by_flag(flag);
-    return display_slice(reduced_inv, title);
-}
-
-int game::inv_for_filter(std::string const &title, const item_filter filter)
-{
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
-    return display_slice(reduced_inv, title);
-}
-
-int game::inv_for_unequipped(std::string const &title, const item_filter filter)
-{
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by(filter);
-    return display_slice(reduced_inv, title, false);
 }
 
 int inventory::num_items_at_position( int const position )
