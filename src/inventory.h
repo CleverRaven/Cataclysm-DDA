@@ -20,6 +20,8 @@ typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef std::function<bool(const item &)> item_filter;
 
+const item_filter allow_all_items = []( const item & ) { return true; };
+
 class salvage_actor;
 
 /**

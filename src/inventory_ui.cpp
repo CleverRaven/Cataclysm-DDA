@@ -134,7 +134,8 @@ class inventory_selector
          * @param c sets @ref compare
          * @param t sets @ref title
          */
-        inventory_selector( const std::string &title, selector_mode mode = SM_PLAIN );
+        inventory_selector( const std::string &title, selector_mode mode = SM_PLAIN,
+                           item_filter filter = allow_all_items );
         ~inventory_selector();
 
         void remove_dropping_items( player &u ) const;
@@ -167,6 +168,7 @@ class inventory_selector
         size_t right_column_width;
         size_t right_column_offset;
         bool inCategoryMode;
+        item_filter filter;
         selector_mode mode;
 
         bool warned_about_bionic;
@@ -464,7 +466,7 @@ void inventory_selector::display() const
     wrefresh(w_inv);
 }
 
-inventory_selector::inventory_selector( const std::string &title, selector_mode mode )
+inventory_selector::inventory_selector( const std::string &title, selector_mode mode, item_filter filter )
     : dropping()
     , first_item(NULL)
     , second_item(NULL)
@@ -479,6 +481,7 @@ inventory_selector::inventory_selector( const std::string &title, selector_mode 
     , selected_i(1) // first is the category header
     , selected_w(1) // ^^
     , inCategoryMode(false)
+    , filter(filter)
     , mode(mode)
     , warned_about_bionic(false)
     , in_inventory(true)
@@ -513,15 +516,18 @@ inventory_selector::inventory_selector( const std::string &title, selector_mode 
     ctxt.register_action("ANY_INPUT");
 
     player &u = g->u;
-    if (u.is_armed()) {
+    if (u.is_armed() && filter(u.weapon)) {
         worn.push_back(itemstack_or_category(&weapon_cat));
         worn.push_back(itemstack_or_category(&u.weapon, -1));
     }
-    if (!u.worn.empty()) {
-        worn.push_back(itemstack_or_category(&worn_cat));
-    }
     auto iter = u.worn.begin();
     for (size_t i = 0; i < u.worn.size(); i++, ++iter) {
+        if( !filter( *iter ) ) {
+            continue;
+        }
+        if( i == 0 ) {
+            worn.push_back(itemstack_or_category(&worn_cat));
+        }
         worn.push_back(itemstack_or_category(&*iter, player::worn_position_to_index(i)));
     }
 }
@@ -806,9 +812,7 @@ int inventory_selector::execute( const int position )
 // Display current inventory.
 int game::inv(const std::string &title, const int position)
 {
-    return inv_for_filter( title, []( const item & ) {
-        return true; // all
-    }, position );
+    return inv_for_filter( title, allow_all_items, position );
 }
 
 int game::inv_activatable(std::string const &title, const player &p)
@@ -844,7 +848,7 @@ int game::inv_for_filter(std::string const &title, const item_filter filter, con
     u.inv.restack(&u);
     u.inv.sort();
 
-    inventory_selector inv_s( title );
+    inventory_selector inv_s( title, SM_PLAIN, filter );
     inv_s.make_item_list( u.inv.slice_filter_by( filter ) );
 
     return inv_s.execute( position );

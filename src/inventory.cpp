@@ -129,7 +129,7 @@ inventory inventory::operator+ (const item &rhs)
 
 indexed_invslice inventory::slice_filter()
 {
-    return slice_filter_by( []( const item & ) { return true; } );
+    return slice_filter_by( allow_all_items );
 }
 
 indexed_invslice inventory::slice_filter_by( item_filter filter )
