@@ -8010,6 +8010,15 @@ void player::suffer()
     }
     if (has_trait("CHAOTIC") && one_in(7200)) { // Should be once every 12 hours
         mutate();
+        for ( auto& iter : mutation_category_traits ) {
+            mutation_category_trait m_category = iter.second;
+            if ( get_highest_category() == ("MUTCAT_" + m_category.category) ) {
+                test_crossing_threshold( m_category );
+                break;
+                //might be better to test this on the category of the new mutation, rather than only primary
+                //for more headaches
+            }
+        }
     }
     if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800)) {
         mutate();
