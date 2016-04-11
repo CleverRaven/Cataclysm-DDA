@@ -100,8 +100,8 @@
             ],
             "place_vehicles" : [
                 { "vehicle" : "pump_station_vehicles", "x" : [7,9], "y" : [4,6], "rotation" : 90, "chance" : 20  }
-            ],
-        },
+            ]
+        }
     },{
         "type" : "mapgen",
         "om_terrain" : ["pump_station_2"],
@@ -175,8 +175,8 @@
             ],
             "place_monsters" : [
                 { "monster" : "GROUP_ZOMBIE", "chance" : 3, "x" : [4,21], "y" : [0,13] }
-            ],
-        },
+            ]
+        }
     },{
         "type" : "mapgen",
         "om_terrain" : ["pump_station_3"],
@@ -221,8 +221,8 @@
             },
             "place_monsters" : [
                 { "monster" : "GROUP_SEWER", "x" : [1,22], "y" : [1,22], "density" : 0.10 }
-            ],
-        },
+            ]
+        }
     },{
         "type" : "mapgen",
         "om_terrain" : ["pump_station_4"],
@@ -265,8 +265,8 @@
             },
             "place_monsters" : [
                 { "monster" : "GROUP_SEWER", "x" : [1,22], "y" : [1,22], "density" : 0.10 }
-            ],
-        },
+            ]
+        }
     },{
         "type" : "mapgen",
         "om_terrain" : ["pump_station_5"],
@@ -322,7 +322,7 @@
             ],
             "place_monsters" : [
                 { "monster" : "GROUP_SEWER", "x" : [1,22], "y" : [1,22], "density" : 0.10 }
-            ],
-        },
+            ]
+        }
     }
 ]
