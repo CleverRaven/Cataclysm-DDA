@@ -69,6 +69,16 @@ struct itemstack_or_category {
     }
 };
 
+enum selector_mode
+{
+    /** Nothing special */
+    SM_PLAIN,
+    /** Comparing items. Allow only two items to be selected. */
+    SM_COMPARE,
+    /** Allow selecting several items for dropping. And show selected items in the right column. */
+    SM_MULTIDROP
+};
+
 class inventory_selector
 {
     public:
@@ -124,7 +134,7 @@ class inventory_selector
          * @param c sets @ref compare
          * @param t sets @ref title
          */
-        inventory_selector(bool m, bool c, const std::string &t);
+        inventory_selector( const std::string &title, selector_mode mode = SM_PLAIN );
         ~inventory_selector();
 
         void remove_dropping_items( player &u ) const;
@@ -157,11 +167,8 @@ class inventory_selector
         size_t right_column_width;
         size_t right_column_offset;
         bool inCategoryMode;
-        /** Allow selecting several items for dropping. And show selected items in the
-         * right column. */
-        const bool multidrop;
-        /** Comparing items. Allow only two items to be selected. */
-        const bool compare;
+        selector_mode mode;
+
         bool warned_about_bionic;
         bool in_inventory;
         const item_category weapon_cat;
@@ -283,7 +290,7 @@ char invlet_or_space(const item &it)
 
 std::string inventory_selector::get_drop_icon(drop_map::const_iterator dit) const
 {
-    if (!multidrop && !compare) {
+    if (mode == SM_PLAIN) {
         return "";
     } else if (dit == dropping.end()) {
         return "- ";
@@ -409,7 +416,7 @@ void inventory_selector::display() const
     const size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
-    if (multidrop) {
+    if (mode == SM_MULTIDROP) {
         mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
     }
     std::string msg_str;
@@ -430,7 +437,7 @@ void inventory_selector::display() const
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
     mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
               max_pages);
-    if (multidrop) {
+    if (mode == SM_MULTIDROP) {
         // Make copy, remove to be dropped items from that
         // copy and let the copy recalculate the volume capacity
         // (can be affected by various traits).
@@ -450,14 +457,14 @@ void inventory_selector::display() const
     } else {
         print_inv_weight_vol(g->u.weight_carried(), g->u.volume_carried(), g->u.volume_capacity());
     }
-    if (!multidrop && !compare) {
+    if (mode == SM_PLAIN) {
         mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "),
                   g->u.allocated_invlets().size(), inv_chars.size());
     }
     wrefresh(w_inv);
 }
 
-inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
+inventory_selector::inventory_selector( const std::string &title, selector_mode mode )
     : dropping()
     , first_item(NULL)
     , second_item(NULL)
@@ -466,21 +473,20 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     , worn()
     , items_per_page(TERMY - 5) // gives us 5 lines for messages/help text/status/...
     , w_inv(NULL)
-    , title(t)
+    , title(title)
     , current_page_offset_i(0)
     , current_page_offset_w(0)
     , selected_i(1) // first is the category header
     , selected_w(1) // ^^
     , inCategoryMode(false)
-    , multidrop(m)
-    , compare(c)
+    , mode(mode)
     , warned_about_bionic(false)
     , in_inventory(true)
     , weapon_cat("WEAPON", _("WEAPON:"), 0)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
 {
     w_inv = newwin(TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X);
-    if (compare || multidrop) {
+    if ( mode != SM_PLAIN ) {
         left_column_width = 40;
         left_column_offset = 0;
         middle_column_width = std::min<int>( TERMX - left_column_width - 1, 40 );
@@ -714,7 +720,7 @@ void inventory_selector::set_drop_count(int it_pos, int count, const std::list<i
 void inventory_selector::set_drop_count(int it_pos, int count, const item &it)
 {
     // "dropping" when comparing means select for comparison, valid for bionics
-    if (it_pos == -1 && g->u.weapon.has_flag("NO_UNWIELD") && !compare) {
+    if (it_pos == -1 && g->u.weapon.has_flag("NO_UNWIELD") && mode != SM_COMPARE) {
         if (!warned_about_bionic) {
             popup(_("You cannot drop your %s."), g->u.weapon.tname().c_str());
             warned_about_bionic = true;
@@ -838,7 +844,7 @@ int game::inv_for_filter(std::string const &title, const item_filter filter, con
     u.inv.restack(&u);
     u.inv.sort();
 
-    inventory_selector inv_s(false, false, title);
+    inventory_selector inv_s( title );
     inv_s.make_item_list( u.inv.slice_filter_by( filter ) );
 
     return inv_s.execute( position );
@@ -861,7 +867,7 @@ item_location game::inv_map_splice(
     item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter,
     const std::string &title, int radius )
 {
-    inventory_selector inv_s( false, false, title );
+    inventory_selector inv_s( title );
 
     // first get matching items from the inventory
     u.inv.restack( &u );
@@ -1057,7 +1063,7 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.restack(&u);
     u.inv.sort();
     const indexed_invslice stacks = u.inv.slice_filter();
-    inventory_selector inv_s(true, false, _("Multidrop:"));
+    inventory_selector inv_s( _("Multidrop:"), SM_MULTIDROP );
     inv_s.make_item_list(stacks);
     inv_s.prepare_paging();
     int count = 0;
@@ -1146,7 +1152,7 @@ void game::compare( const tripoint &offset )
     u.inv.sort();
     const indexed_invslice stacks = u.inv.slice_filter();
 
-    inventory_selector inv_s(false, true, _("Compare:"));
+    inventory_selector inv_s( _("Compare:"), SM_COMPARE );
     inv_s.make_item_list(grounditems_slice, &category_on_ground);
     inv_s.make_item_list(stacks);
     inv_s.prepare_paging();
