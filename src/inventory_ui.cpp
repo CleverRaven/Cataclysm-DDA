@@ -797,13 +797,6 @@ int inventory_selector::execute( const int position )
     }
 }
 
-int game::display_slice( indexed_invslice const &slice, const std::string &title, const int position )
-{
-    inventory_selector inv_s(false, false, title);
-    inv_s.make_item_list( slice );
-    return inv_s.execute( position );
-}
-
 // Display current inventory.
 int game::inv(const std::string &title, const int position)
 {
@@ -844,8 +837,11 @@ int game::inv_for_filter(std::string const &title, const item_filter filter, con
 {
     u.inv.restack(&u);
     u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
-    return display_slice(reduced_inv, title, position);
+
+    inventory_selector inv_s(false, false, title);
+    inv_s.make_item_list( u.inv.slice_filter_by( filter ) );
+
+    return inv_s.execute( position );
 }
 
 int game::inv_for_unequipped( std::string const &title )
