@@ -120,6 +120,27 @@
         "rotate" : false,
         "spawns" : { "group" :  "GROUP_MAYBE_ZOMBIE", "population":[0,20], "radius":[1,5] },
         "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "hell_castle",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "hell_castle_NW"},
+            { "point":[1,0,0], "overmap": "hell_castle_N"},
+            { "point":[2,0,0], "overmap": "hell_castle_NE"},
+            { "point":[0,1,0], "overmap": "hell_castle_CW"},
+            { "point":[1,1,0], "overmap": "hell_castle_C"},
+            { "point":[2,1,0], "overmap": "hell_castle_CE"},
+            { "point":[0,2,0], "overmap": "hell_castle_SW"},
+            { "point":[1,2,0], "overmap": "hell_castle_S"},
+            { "point":[2,2,0], "overmap": "hell_castle_SE"}
+        ],
+        "locations" : [ "land" ], "//":"what special locations does it spawn",
+        "city_distance" : [2, 20], "//":"how far from a city it should be",
+        "city_sizes" : [4, 16], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 1], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "spawns" : { "group" :  "GROUP_DOOM", "population":[150, 250], "radius":[25,50] }
     }
     
 ]
