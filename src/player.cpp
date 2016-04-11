@@ -13518,3 +13518,72 @@ bool player::query_yn( const char *mes, ... ) const
     va_end( ap );
     return ret;
 }
+
+void player::test_crossing_threshold( const mutation_category_trait &m_category ) {
+    // Threshold-check.  You only get to cross once!
+    if( !crossed_threshold() ) {
+        std::string mutation_category = "MUTCAT_" + m_category.category;
+        std::string mutation_thresh = "THRESH_" + m_category.category;
+        int total = 0;
+        for( auto& iter : mutation_category_traits ) {
+            total += mutation_category_level["MUTCAT_" + iter.second.category];
+        }
+        // Threshold-breaching
+        std::string primary = get_highest_category();
+        // Only if you were pushing for more in your primary category.
+        // You wanted to be more like it and less human.
+        // That said, you're required to have hit third-stage dreams first.
+        if( (mutation_category == primary) && (mutation_category_level[primary] > 50) ) {
+            // Little help for the categories that have a lot of crossover.
+            // Starting with Ursine as that's... a bear to get.  8-)
+            // Alpha is similarly eclipsed by other mutation categories.
+            // Will add others if there's serious/demonstrable need.
+            int booster = 0;
+            if( mutation_category == "MUTCAT_URSINE"  || mutation_category == "MUTCAT_ALPHA" ) {
+                booster = 50;
+            }
+            int breacher = (mutation_category_level[primary]) + booster;
+            if( x_in_y(breacher, total) ) {
+                add_msg_if_player(m_good,
+                                   _("Something strains mightily for a moment...and then..you're...FREE!"));
+                set_mutation(mutation_thresh);
+                add_memorial_log(pgettext("memorial_male", m_category.memorial_message.c_str()),
+                                    pgettext("memorial_female", m_category.memorial_message.c_str()));
+                if( mutation_category == "MUTCAT_URSINE" ) {
+                    // Manually removing Carnivore, since it tends to creep in
+                    // This is because carnivore is a prereq for the
+                    // predator-style post-threshold mutations.
+                    if( has_trait("CARNIVORE") ) {
+                        unset_mutation("CARNIVORE");
+                        add_msg_if_player(_("Your appetite for blood fades."));
+                    }
+                }
+            }
+        } else if( mutation_category_level[primary] > 100 ) {
+            //~NOPAIN is a post-Threshold trait, so you shouldn't
+            //~legitimately have it and get here!
+            if( has_trait("NOPAIN") ) {
+                add_msg_if_player(m_bad, _("You feel extremely Bugged."));
+            } else {
+                add_msg_if_player(m_bad, _("You stagger with a piercing headache!"));
+                mod_pain_noresist( 8 );
+                add_effect( effect_stunned, rng(3, 5));
+            }
+        } else if( mutation_category_level[primary] > 80 ) {
+            if( has_trait("NOPAIN") ) {
+                add_msg_if_player(m_bad, _("You feel very Bugged."));
+            } else {
+                add_msg_if_player(m_bad, _("Your head throbs with memories of your life, before all this..."));
+                mod_pain_noresist( 6 );
+                add_effect( effect_stunned, rng(2, 4));
+            }
+        } else if( mutation_category_level[primary] > 60 ) {
+            if(has_trait("NOPAIN")) {
+                add_msg_if_player(m_bad, _("You feel Bugged."));
+            } else {
+                add_msg_if_player(m_bad, _("Images of your past life flash before you."));
+                add_effect( effect_stunned, rng(2, 3));
+            }
+        }
+    }
+}
