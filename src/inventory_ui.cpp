@@ -13,6 +13,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
+#include "iuse_actor.h"
 
 #include <string>
 #include <vector>
@@ -806,55 +807,53 @@ int game::display_slice( indexed_invslice const &slice, const std::string &title
 // Display current inventory.
 int game::inv(const std::string &title, const int position)
 {
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice slice = u.inv.slice_filter();
-    return display_slice(slice, title, position);
+    return inv_for_filter( title, []( const item & ) {
+        return true; // all
+    }, position );
 }
 
-int game::inv_activatable(std::string const &title)
+int game::inv_activatable(std::string const &title, const player &p)
 {
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice activatables = u.inv.slice_filter_by_activation(u);
-    return display_slice(activatables, title);
+    return inv_for_filter( title, [ &p ]( const item &it ) {
+        return p.rate_action_use( it ) != HINT_CANT;
+    } );
 }
 
 int game::inv_for_liquid(const item &liquid, const std::string &title)
 {
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by_capacity_for_liquid(liquid);
-    return display_slice(reduced_inv, title);
+    return inv_for_filter( title, [ &liquid ]( const item &it ) {
+        return it.get_remaining_capacity_for_liquid( liquid ) > 0;
+    } );
 }
 
 int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
 {
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by_salvageability( actor );
-    return display_slice(reduced_inv, title);
+    return inv_for_filter( title, [ &actor ]( const item &it ) {
+        return actor.valid_to_cut_up( &it );
+    } );
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title)
 {
-    u.inv.restack(&u);
-    u.inv.sort();
-    indexed_invslice reduced_inv = u.inv.slice_filter_by_flag(flag);
-    return display_slice(reduced_inv, title);
+    return inv_for_filter( title, [ &flag ]( const item &it ) {
+        return it.has_flag( flag );
+    } );
 }
 
-int game::inv_for_filter(std::string const &title, const item_filter filter)
+int game::inv_for_filter(std::string const &title, const item_filter filter, const int position)
 {
     u.inv.restack(&u);
     u.inv.sort();
     indexed_invslice reduced_inv = u.inv.slice_filter_by( filter );
-    return display_slice(reduced_inv, title);
+    return display_slice(reduced_inv, title, position);
 }
 
-int game::inv_for_unequipped(std::string const &title, const item_filter filter)
+int game::inv_for_unequipped( std::string const &title )
 {
-    return inv_for_filter( title, filter );
+    return inv_for_filter( title, [ this ]( const item &it ) {
+        // TODO: Add more filter conditions like "not made of wool if allergic to it".
+        return it.is_armor() && !u.is_worn( it );
+    } );
 }
 
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius )

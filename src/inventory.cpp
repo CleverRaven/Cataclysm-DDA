@@ -127,16 +127,6 @@ inventory inventory::operator+ (const item &rhs)
     return inventory(*this) += rhs;
 }
 
-/*static*/ bool inventory::has_activation(const item &it, const player &u)
-{
-    return u.rate_action_use( it ) != HINT_CANT;
-}
-
-/*static*/ bool inventory::has_capacity_for_liquid(const item &it, const item &liquid)
-{
-    return (it.get_remaining_capacity_for_liquid(liquid) > 0);
-}
-
 indexed_invslice inventory::slice_filter()
 {
     return slice_filter_by( []( const item & ) { return true; } );
@@ -153,34 +143,6 @@ indexed_invslice inventory::slice_filter_by( item_filter filter )
         ++i;
     }
     return stacks;
-}
-
-indexed_invslice inventory::slice_filter_by_activation(const player &u)
-{
-    return slice_filter_by( [ this, &u ]( const item &it ) {
-        return has_activation( it, u );
-    } );
-}
-
-indexed_invslice inventory::slice_filter_by_flag(const std::string &flag)
-{
-    return slice_filter_by( [ &flag ]( const item &it ) {
-        return it.has_flag( flag );
-    } );
-}
-
-indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liquid)
-{
-    return slice_filter_by( [ this, &liquid ]( const item &it ) {
-        return has_capacity_for_liquid( it, liquid );
-    } );
-}
-
-indexed_invslice inventory::slice_filter_by_salvageability(const salvage_actor &actor)
-{
-    return slice_filter_by( [ &actor ]( const item &it ) {
-        return actor.valid_to_cut_up( &it );
-    } );
 }
 
 void inventory::unsort()

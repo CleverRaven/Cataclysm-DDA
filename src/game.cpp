@@ -7435,7 +7435,7 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_activatable(_("Use item:"));
+        pos = inv_activatable(_("Use item:"), u);
     }
 
     if (pos == INT_MIN) {
@@ -11295,12 +11295,7 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        auto filter = [this]( const item &it ) {
-            // TODO: Add more filter conditions like "not made of wool if allergic to it".
-            return it.is_armor() &&
-                   u.get_item_position( &it ) >= -1; // not already worn
-        };
-        pos = inv_for_filter( _("Wear item:"), filter );
+        pos = inv_for_unequipped( _("Wear item:") );
     }
 
     u.wear(pos);
