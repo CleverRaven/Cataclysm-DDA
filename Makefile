@@ -179,6 +179,9 @@ endif
 
 ifdef CLANG
   ifeq ($(NATIVE), osx)
+    USE_LIBCXX = 1
+  endif
+  ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
   endif
