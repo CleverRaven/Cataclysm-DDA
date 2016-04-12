@@ -369,7 +369,7 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 5,
         "bashing" : 4,
-        "price" : 2400
+        "price" : 2400,
     },
     {
         "type":"GENERIC",
@@ -473,7 +473,7 @@
         "bashing" : 11,
         "cutting" : 8,
         "flags" : ["STAB"],
-        "price" : 18000
+        "price" : 18000,
     },
     {
         "type":"GENERIC",
@@ -521,7 +521,7 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 6,
         "bashing" : 10,
-        "price" : 1000
+        "price" : 1000,
     },
     {
         "type":"GENERIC",
