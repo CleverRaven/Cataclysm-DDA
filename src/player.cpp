@@ -48,7 +48,6 @@
 #include "npc.h"
 #include "cata_utility.h"
 #include "overlay_ordering.h"
-#include "item_factory.h"
 
 #include <map>
 
@@ -9851,7 +9850,7 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
                     return false;
                 }
             } else {
-                auto at = item_controller->find_template( ammo );
+                auto at = item::find_type( ammo );
                 if( !at->ammo || it.ammo_type() != at->ammo->type ) {
                     return false;
                 }
