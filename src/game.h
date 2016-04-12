@@ -422,14 +422,17 @@ class game
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
         std::string list_item_downvote;
-        int inv(const std::string &title, int position = INT_MIN);
-        int inv_activatable(std::string const &title, const player &p);
-        int inv_for_liquid(const item &liquid, const std::string &title);
-        int inv_for_salvage(const std::string &title, const salvage_actor &actor );
+
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
+
+        int inv(const std::string &title, int position = INT_MIN);
+        int inv_for_activatable(std::string const &title, const player &p);
         int inv_for_flag(const std::string &flag, const std::string &title);
         int inv_for_filter(const std::string &title, item_filter filter, const int position = INT_MIN);
+        int inv_for_type(const std::string &title, const std::string &type_id);
+        int inv_for_equipped(std::string const &title);
         int inv_for_unequipped(std::string const &title);
+
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,

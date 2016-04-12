@@ -13,6 +13,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "cata_utility.h"
+#include "itype.h"
 #include "iuse_actor.h"
 
 #include <string>
@@ -815,24 +816,10 @@ int game::inv(const std::string &title, const int position)
     return inv_for_filter( title, allow_all_items, position );
 }
 
-int game::inv_activatable(std::string const &title, const player &p)
+int game::inv_for_activatable(std::string const &title, const player &p)
 {
     return inv_for_filter( title, [ &p ]( const item &it ) {
         return p.rate_action_use( it ) != HINT_CANT;
-    } );
-}
-
-int game::inv_for_liquid(const item &liquid, const std::string &title)
-{
-    return inv_for_filter( title, [ &liquid ]( const item &it ) {
-        return it.get_remaining_capacity_for_liquid( liquid ) > 0;
-    } );
-}
-
-int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
-{
-    return inv_for_filter( title, [ &actor ]( const item &it ) {
-        return actor.valid_to_cut_up( &it );
     } );
 }
 
@@ -852,6 +839,20 @@ int game::inv_for_filter(std::string const &title, const item_filter filter, con
     inv_s.make_item_list( u.inv.slice_filter_by( filter ) );
 
     return inv_s.execute( position );
+}
+
+int game::inv_for_type(const std::string &title, const std::string &type_id)
+{
+    return inv_for_filter( title, [ &type_id ]( const item &it ) {
+        return it.type->id == type_id;
+    } );
+}
+
+int game::inv_for_equipped( std::string const &title )
+{
+    return inv_for_filter( title, [ this ]( const item &it ) {
+        return u.is_worn( it );
+    } );
 }
 
 int game::inv_for_unequipped( std::string const &title )

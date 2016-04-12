@@ -7435,7 +7435,7 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_activatable(_("Use item:"), u);
+        pos = inv_for_activatable(_("Use item:"), u);
     }
 
     if (pos == INT_MIN) {
@@ -8085,8 +8085,7 @@ bool npc_menu( npc &who )
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
-        static const std::string npc_use_flag( "USE_ON_NPC" );
-        const int pos = g->inv_for_flag( _("Use which item:"), npc_use_flag );
+        const int pos = g->inv_for_flag( _("Use which item:"), "USE_ON_NPC" );
 
         if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
@@ -10400,7 +10399,9 @@ int game::move_liquid(item &liquid)
 
     //liquid is in fact a liquid.
     const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
-    int pos = inv_for_liquid(liquid, text);
+    int pos = inv_for_filter( text, [ &liquid ]( const item &it ) {
+        return it.get_remaining_capacity_for_liquid( liquid ) > 0;
+    } );
 
     //is container selected?
     item *cont = &( u.i_at( pos ) );
@@ -11291,10 +11292,7 @@ void game::wear(int pos)
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        auto filter = [this]( const item &it ) {
-            return u.get_item_position( &it ) < -1; // means item is worn.
-        };
-        pos = inv_for_filter( _("Take off item:"), filter );
+        pos = inv_for_equipped( _("Take off item:") );
     }
 
     if (pos == INT_MIN) {

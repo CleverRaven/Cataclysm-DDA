@@ -960,7 +960,10 @@ long salvage_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return 0;
     }
 
-    int inventory_index = g->inv_for_salvage( _("Cut up what?"), *this );
+    int inventory_index = g->inv_for_filter( _("Cut up what?"), [ this ]( const item &it ) {
+        return valid_to_cut_up( &it );
+    } );
+
     item *cut = &( p->i_at( inventory_index ) );
     if( !try_to_cut_up(p, cut) ) {
         // Messages should have already been displayed.

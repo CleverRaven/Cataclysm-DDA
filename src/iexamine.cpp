@@ -207,9 +207,7 @@ private:
 
     //! Prompt for a card to use (includes worn items).
     item* choose_card(char const *const msg) {
-        const int index = g->inv_for_filter(msg, [](item const& itm) {
-            return itm.type->id == "cash_card";
-        });
+        const int index = g->inv_for_type( msg, "cash_card" );
 
         if (index == INT_MIN) {
             add_msg(m_info, _("Never mind."));
@@ -385,8 +383,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         return;
     }
 
-    item *card = &p.i_at(g->inv_for_filter(_("Insert card for purchases."),
-        [](item const &i) { return i.type->id == "cash_card"; }));
+    item *card = &p.i_at(g->inv_for_type(_("Insert card for purchases."), "cash_card"));
 
     if (card->is_null()) {
         return; // player cancelled selection
