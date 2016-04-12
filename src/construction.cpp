@@ -114,6 +114,22 @@ void load_available_constructions( std::vector<std::string> &available,
     }
 }
 
+void draw_grid( WINDOW *w, const int list_width = 30 )
+{
+    draw_border( w );
+    mvwprintz( w, 0, 8, c_ltred, _(" Construction "));
+    // draw internal lines
+    mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
+    mvwhline( w, 2, 1, LINE_OXOX, list_width - 1 );
+    // draw intersections
+    mvwputch( w, 0, list_width, c_ltgray, LINE_OXXX );
+    mvwputch( w, getmaxy( w ) - 1, list_width, c_ltgray, LINE_XXOX );
+    mvwputch( w, 2, 0, c_ltgray, LINE_XXXO );
+    mvwputch( w, 2, list_width, c_ltgray, LINE_XOXX );
+
+    wrefresh( w );
+}
+
 void construction_menu()
 {
     static bool hide_unconstructable = false;
@@ -139,22 +155,7 @@ void construction_menu()
                                 (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0)};
 
     WINDOW *const w_con = w_con_ptr.get();
-
-    draw_border(w_con);
-    mvwprintz(w_con, 0, 8, c_ltred, _(" Construction "));
-
-    mvwputch(w_con,  0, 30, c_ltgray, LINE_OXXX);
-    mvwputch(w_con, iMaxY - 1, 30, c_ltgray, LINE_XXOX);
-    for( int i = 1; i < iMaxY - 1; ++i ) {
-        mvwputch(w_con, i, 30, c_ltgray, LINE_XOXO);
-    }
-    for (int i = 1; i < 30; ++i) {
-        mvwputch(w_con, 2, i, c_ltgray, LINE_OXOX);
-    }
-    mvwputch(w_con, 2, 0, c_ltgray, LINE_XXXO);
-    mvwputch(w_con, 2, 30, c_ltgray, LINE_XOXX);
-
-    wrefresh(w_con);
+    draw_grid( w_con );
 
     //tabcount needs to be increased to add more categories
     int tabcount = 9;
@@ -510,6 +511,7 @@ void construction_menu()
             exit = true;
         } else if (action == "HELP_KEYBINDINGS") {
             hotkeys = ctxt.get_available_single_char_hotkeys();
+            draw_grid( w_con );
         } else if (action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS") {
             update_info = true;
             update_cat = true;
