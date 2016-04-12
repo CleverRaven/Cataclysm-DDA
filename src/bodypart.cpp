@@ -101,6 +101,42 @@ std::string body_part_name_accusative (body_part bp)
     }
 }
 
+std::string body_part_name_as_heading(body_part bp, int number)
+{
+    switch (bp) {
+    case bp_head:
+        return _("Head");
+    case bp_eyes:
+        return _("Eyes");
+    case bp_mouth:
+        return _("Mouth");
+    case bp_torso:
+        return _("Torso");
+    case bp_arm_l:
+        return ngettext("L. Arm", "Arms", number);
+    case bp_arm_r:
+        return ngettext("R. Arm", "Arms", number);
+    case bp_hand_l:
+        return ngettext("L. Hand", "Hands", number);
+    case bp_hand_r:
+        return ngettext("R. Hand", "Hands", number);
+    case bp_leg_l:
+        return ngettext("L. Leg", "Legs", number);
+    case bp_leg_r:
+        return ngettext("R. Leg", "Legs", number);
+    case bp_foot_l:
+        return ngettext("L. Foot", "Feet", number);
+    case bp_foot_r:
+        return ngettext("R. Foot", "Feet", number);
+    case num_bp:
+        debugmsg("body_part_name_as_heading: Invalid body_part enum num_bp");
+        return "";
+    }
+
+    debugmsg("body_part_name_as_heading: Unexpected body_part enum value");
+    return "";
+}
+
 std::string encumb_text(body_part bp)
 {
     switch (bp) {
