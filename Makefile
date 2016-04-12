@@ -163,11 +163,11 @@ ifdef RELEASE
     endif
   else
     # MXE ICE Workaround
-  	ifeq (${CXXVERSION}, 4.9.3)
-	    CXXFLAGS += -O3
-  	else
-  		CXXFLAGS += -Os
-  	endif
+    ifeq (${CXXVERSION}, 4.9.3)
+      CXXFLAGS += -O3
+    else
+      CXXFLAGS += -Os
+    endif
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
