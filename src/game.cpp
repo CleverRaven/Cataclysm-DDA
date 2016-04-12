@@ -7922,16 +7922,6 @@ bool pet_menu(monster *z)
 
         item *it = &g->u.i_at(pos);
 
-        if (!it->is_armor()) {
-            add_msg(_("This is not a bag!"));
-            return true;
-        }
-
-        if( it->get_storage() <= 0 ) {
-            add_msg(_("This is not a bag!"));
-            return true;
-        }
-
         z->add_item(*it);
 
         add_msg(_("You mount the %1$s on your %2$s, ready to store gear."),
@@ -8096,16 +8086,13 @@ bool npc_menu( npc &who )
         who.body_window( precise );
     } else if( choice == use_item ) {
         static const std::string npc_use_flag( "USE_ON_NPC" );
-        const int pos = g->inv_for_filter( _("Use which item:"),[]( const item &it ) {
-            return it.has_flag( npc_use_flag );
-        } );
+        const int pos = g->inv_for_flag( _("Use which item:"), npc_use_flag );
 
-        item &used = g->u.i_at( pos );
-        if( !used.has_flag( npc_use_flag ) ) {
+        if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
             return false;
         }
-
+        item &used = g->u.i_at( pos );
         bool did_use = g->u.invoke_item( &used, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
