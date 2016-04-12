@@ -40,6 +40,7 @@ static const std::string category_id_other("other");
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
+static bool item_whitelist_is_exclusive = false;
 
 static std::set<std::string> item_options;
 
@@ -52,9 +53,8 @@ bool item_is_blacklisted(const std::string &id)
     } else if (item_blacklist.count(id) > 0) {
         return true;
     }
-    // Empty whitelist: default to enable all,
-    // Non-empty whitelist: default to disable all.
-    return !item_whitelist.empty();
+    // Return true if the whitelist mode is exclusive and the whitelist is populated.
+    return item_whitelist_is_exclusive && !item_whitelist.empty();
 }
 
 void Item_factory::finalize() {
@@ -195,6 +195,9 @@ void Item_factory::load_item_blacklist( JsonObject &json )
 
 void Item_factory::load_item_whitelist( JsonObject &json )
 {
+    if( json.has_string( "mode" ) && json.get_string( "mode" ) == "EXCLUSIVE" ) {
+        item_whitelist_is_exclusive = true;
+    }
     add_to_set( item_whitelist, json, "items" );
 }
 
@@ -1438,6 +1441,7 @@ void Item_factory::clear()
     m_templates.clear();
     item_blacklist.clear();
     item_whitelist.clear();
+    item_whitelist_is_exclusive = false;
     item_options.clear();
 }
 
