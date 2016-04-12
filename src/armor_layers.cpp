@@ -12,8 +12,6 @@
 
 namespace
 {
-void draw_mid_pane( WINDOW *win, item const &worn_item );
-
 std::string clothing_layer( item const &worn_item );
 std::vector<std::string> clothing_properties( item const &worn_item, int width );
 std::vector<std::string> clothing_flags_description( item const &worn_item );
@@ -152,6 +150,27 @@ std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
     return s;
 }
 
+void draw_grid( WINDOW *w, int left_pane_w, int mid_pane_w )
+{
+    const int win_w = getmaxx( w );
+    const int win_h = getmaxy( w );
+
+    draw_border( w );
+    mvwhline( w, 2, 1, 0, win_w - 2 );
+    mvwvline( w, 3, left_pane_w + 1, 0, win_h - 4 );
+    mvwvline( w, 3, left_pane_w + mid_pane_w + 2, 0, win_h - 4 );
+
+    // intersections
+    mvwputch( w, 2, 0, BORDER_COLOR, LINE_XXXO );
+    mvwputch( w, 2, win_w - 1, BORDER_COLOR, LINE_XOXX );
+    mvwputch( w, 2, left_pane_w + 1, BORDER_COLOR, LINE_OXXX );
+    mvwputch( w, win_h - 1, left_pane_w + 1, BORDER_COLOR, LINE_XXOX );
+    mvwputch( w, 2, left_pane_w + mid_pane_w + 2, BORDER_COLOR, LINE_OXXX );
+    mvwputch( w, win_h - 1, left_pane_w + mid_pane_w + 2, BORDER_COLOR, LINE_XXOX );
+
+    wrefresh( w );
+}
+
 void player::sort_armor()
 {
     /* Define required height of the right pane:
@@ -214,19 +233,7 @@ void player::sort_armor()
 
     // Layout window
     WINDOW *w_sort_armor = newwin( win_h, win_w, win_y, win_x );
-    draw_border( w_sort_armor );
-    mvwhline( w_sort_armor, 2, 1, 0, win_w - 2 );
-    mvwvline( w_sort_armor, 3, left_w + 1, 0, win_h - 4 );
-    mvwvline( w_sort_armor, 3, left_w + middle_w + 2, 0, win_h - 4 );
-    // intersections
-    mvwhline( w_sort_armor, 2, 0, LINE_XXXO, 1 );
-    mvwhline( w_sort_armor, 2, win_w - 1, LINE_XOXX, 1 );
-    mvwvline( w_sort_armor, 2, left_w + 1, LINE_OXXX, 1 );
-    mvwvline( w_sort_armor, win_h - 1, left_w + 1, LINE_XXOX, 1 );
-    mvwvline( w_sort_armor, 2, left_w + middle_w + 2, LINE_OXXX, 1 );
-    mvwvline( w_sort_armor, win_h - 1, left_w + middle_w + 2, LINE_XXOX, 1 );
-    wrefresh( w_sort_armor );
-
+    draw_grid( w_sort_armor, left_w, middle_w );
     // Subwindows (between lines)
     WINDOW *w_sort_cat    = newwin( 1, win_w - 4, win_y + 1, win_x + 2 );
     WINDOW *w_sort_left   = newwin( cont_h, left_w,   win_y + 3, win_x + 1 );
@@ -515,9 +522,7 @@ void player::sort_armor()
                     popup( _( "Can't put this on" ) );
                 }
             }
-            // TODO: fix up along with hack below
-            draw_border( w_sort_armor );
-            wrefresh( w_sort_armor );
+            draw_grid( w_sort_armor, left_w, middle_w );
         } else if( action == "REMOVE_ARMOR" ) {
             // query (for now)
             if( leftListIndex < ( int ) tmp_worn.size() ) {
@@ -569,9 +574,9 @@ The sum of these values is the effective encumbrance value your character has fo
                           ctxt.get_desc( "EQUIP_ARMOR" ).c_str(),
                           ctxt.get_desc( "REMOVE_ARMOR" ).c_str()
                         );
-            //TODO: refresh the window properly. Current method erases the intersection symbols
-            draw_border( w_sort_armor ); // hack to mark whole window for redrawing
-            wrefresh( w_sort_armor );
+            draw_grid( w_sort_armor, left_w, middle_w );
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            draw_grid( w_sort_armor, left_w, middle_w );
         } else if( action == "QUIT" ) {
             exit = true;
         }
