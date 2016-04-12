@@ -739,6 +739,28 @@ void invalidate_framebuffer(int x, int y, int width, int height)
     }
 }
 
+void invalidate_map_framebuffer()
+{
+    if( !g->w_terrain ) {
+        return;
+    }
+    for( int j = 0, fby = g->w_terrain->y; j < TERRAIN_WINDOW_HEIGHT; j++, fby++ ) {
+        std::fill_n( framebuffer[fby].chars.begin() + g->w_terrain->x, TERRAIN_WINDOW_WIDTH,
+                     cursecell( "" ) );
+    }
+}
+
+void invalidate_overmap_framebuffer()
+{
+    if( !g->w_overmap ) {
+        return;
+    }
+    for( int j = 0, fby = g->w_overmap->y; j < OVERMAP_WINDOW_HEIGHT; j++, fby++ ) {
+        std::fill_n( framebuffer[fby].chars.begin() + g->w_overmap->x, OVERMAP_WINDOW_WIDTH,
+                     cursecell( "" ) );
+    }
+}
+
 void reinitialize_framebuffer()
 {
     //Re-initialize the framebuffer with new values.
