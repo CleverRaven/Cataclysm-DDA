@@ -169,7 +169,25 @@ ifdef RELEASE
       OPTLEVEL = -Os
     endif
   endif
+  ifdef LTO
+    ifdef CLANG
+      # LLVM's LTO will complain if the optimization level isn't between O0 and
+      # O3 (inclusive)
+      OPTLEVEL = -O3
+    endif
+  endif
   CXXFLAGS += $(OPTLEVEL)
+
+  ifdef LTO
+    LDFLAGS += -fuse-ld=gold
+    ifdef CLANG
+      LTOFLAGS += -flto
+    else
+      LTOFLAGS += -flto=jobserver -flto-odr-type-merging
+    endif
+  endif
+  CXXFLAGS += $(LTOFLAGS)
+
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
@@ -569,11 +587,18 @@ ifeq ($(USE_XDG_DIR),1)
   DEFINES += -DUSE_XDG_DIR
 endif
 
+ifdef LTO
+  # Depending on the compiler version, LTO usually requires all the
+  # optimization flags to be specified on the link line, and requires them to
+  # match the original invocations.
+  LDFLAGS += $(CXXFLAGS)
+endif
+
 all: version $(ASTYLE) $(TARGET) $(L10N) tests
 	@
 
 $(TARGET): $(ODIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
 	$(STRIP) $(TARGET)
 endif
