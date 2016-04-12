@@ -4429,6 +4429,7 @@ int oter_id::compare(size_t pos, size_t len, const char *s, size_t n) const
 oter_id::oter_id(const std::string &v)
 {
     std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    _val = 0;
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v.c_str());
     } else {
@@ -4440,6 +4441,7 @@ oter_id::oter_id(const std::string &v)
 oter_id::oter_id(const char *v)
 {
     std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    _val = 0;
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v);
     } else {
