@@ -11370,7 +11370,7 @@ void game::reload( int pos, bool prompt )
                 auto linkage = it->type->magazine->linkage;
                 if( linkage != "NULL" && !g->u.has_charges( linkage, 1 ) ) {
                     add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
-                                     item::find_type( linkage )->nname( 1 ).c_str(), it->tname().c_str() );
+                                     item::nname( linkage, 1 ).c_str(), it->tname().c_str() );
                     return;
                 }
             }
