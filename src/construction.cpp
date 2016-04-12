@@ -34,50 +34,56 @@ static const skill_id skill_unarmed( "unarmed" );
 static const skill_id skill_throw( "throw" );
 
 // Construction functions.
-namespace construct {
-    // Checks for whether terrain mod can proceed
-    bool check_nothing(point) { return true; }
-    bool check_empty(point); // tile is empty
-    bool check_support(point); // at least two orthogonal supports
-    bool check_deconstruct(point); // either terrain or furniture must be deconstructable
-    bool check_up_OK(point); // tile is empty and you're not on the surface
-    bool check_down_OK(point); // tile is empty and you're not on z-10 already
+namespace construct
+{
+// Checks for whether terrain mod can proceed
+bool check_nothing( point )
+{
+    return true;
+}
+bool check_empty( point ); // tile is empty
+bool check_support( point ); // at least two orthogonal supports
+bool check_deconstruct( point ); // either terrain or furniture must be deconstructable
+bool check_up_OK( point ); // tile is empty and you're not on the surface
+bool check_down_OK( point ); // tile is empty and you're not on z-10 already
 
-    // Special actions to be run post-terrain-mod
-    void done_nothing(point) {}
-    void done_tree(point);
-    void done_trunk_log(point);
-    void done_trunk_plank(point);
-    void done_vehicle(point);
-    void done_deconstruct(point);
-    void done_digormine_stair(point, bool);
-    void done_dig_stair(point);
-    void done_mine_downstair(point);
-    void done_mine_upstair(point);
-    void done_window_curtains(point);
+// Special actions to be run post-terrain-mod
+void done_nothing( point ) {}
+void done_tree( point );
+void done_trunk_log( point );
+void done_trunk_plank( point );
+void done_vehicle( point );
+void done_deconstruct( point );
+void done_digormine_stair( point, bool );
+void done_dig_stair( point );
+void done_mine_downstair( point );
+void done_mine_upstair( point );
+void done_window_curtains( point );
 };
 
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const std::string &desc );
 static bool can_construct( construction const *con, int x, int y );
-static bool can_construct( construction const *con);
+static bool can_construct( construction const *con );
 static bool player_can_build( player &p, const inventory &inv, construction const *con );
 static bool player_can_build( player &p, const inventory &pinv, const std::string &desc );
-static void place_construction(const std::string &desc);
+static void place_construction( const std::string &desc );
 
 std::vector<construction> constructions;
 
-void standardize_construction_times(int const time)
+void standardize_construction_times( int const time )
 {
-    for (auto &c : constructions) {
+    for( auto &c : constructions ) {
         c.time = time;
     }
 }
 
-void remove_construction_if(std::function<bool(construction&)> pred)
+void remove_construction_if( std::function<bool( construction & )> pred )
 {
-    constructions.erase(std::remove_if(begin(constructions), end(constructions),
-        [&](construction &c) { return pred(c); }), std::end(constructions));
+    constructions.erase( std::remove_if( begin( constructions ), end( constructions ),
+    [&]( construction & c ) {
+        return pred( c );
+    } ), std::end( constructions ) );
 }
 
 std::vector<construction *> constructions_by_desc(const std::string &description)
@@ -117,7 +123,7 @@ void load_available_constructions( std::vector<std::string> &available,
 void draw_grid( WINDOW *w, const int list_width = 30 )
 {
     draw_border( w );
-    mvwprintz( w, 0, 8, c_ltred, _(" Construction "));
+    mvwprintz( w, 0, 8, c_ltred, _( " Construction " ) );
     // draw internal lines
     mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
     mvwhline( w, 2, 1, LINE_OXOX, list_width - 1 );
@@ -138,8 +144,8 @@ void construction_menu()
     std::map<std::string, std::vector<std::string>> cat_available;
     load_available_constructions( available, cat_available, hide_unconstructable );
 
-    if(available.empty()) {
-        popup(_("You can not construct anything here."));
+    if( available.empty() ) {
+        popup( _( "You can not construct anything here." ) );
         return;
     }
 
@@ -723,15 +729,15 @@ void complete_construction()
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
-    built.post_special(point(terx, tery));
+    built.post_special( point( terx, tery ) );
 }
 
-bool construct::check_empty(point p_arg)
+bool construct::check_empty( point p_arg )
 {
     tripoint p( p_arg, g->u.posz() );
-    return (g->m.has_flag( "FLAT", p ) && !g->m.has_furn( p ) &&
-            g->is_empty( p ) && g->m.tr_at( p ).is_null() &&
-            g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL);
+    return ( g->m.has_flag( "FLAT", p ) && !g->m.has_furn( p ) &&
+             g->is_empty( p ) && g->m.tr_at( p ).is_null() &&
+             g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL );
 }
 
 bool construct::check_support(point p)
@@ -756,25 +762,25 @@ bool construct::check_support(point p)
     return num_supports >= 2;
 }
 
-bool construct::check_deconstruct(point p)
+bool construct::check_deconstruct( point p )
 {
-    if (g->m.has_furn(p.x, p.y)) {
-        return g->m.furn_at(p.x, p.y).deconstruct.can_do;
+    if( g->m.has_furn( p.x, p.y ) ) {
+        return g->m.furn_at( p.x, p.y ).deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return g->m.ter_at(p.x, p.y).deconstruct.can_do;
+    return g->m.ter_at( p.x, p.y ).deconstruct.can_do;
 }
 
-bool construct::check_up_OK(point)
+bool construct::check_up_OK( point )
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return (g->get_levz() < OVERMAP_HEIGHT);
+    return ( g->get_levz() < OVERMAP_HEIGHT );
 }
 
-bool construct::check_down_OK(point)
+bool construct::check_down_OK( point )
 {
     // You're not going below -OVERMAP_DEPTH.
-    return (g->get_levz() > -OVERMAP_DEPTH);
+    return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
 void construct::done_tree(point p)
@@ -1394,8 +1400,8 @@ void check_constructions()
     }
 }
 
-int construction::print_time(WINDOW *w, int ypos, int xpos, int width,
-                             nc_color col) const
+int construction::print_time( WINDOW *w, int ypos, int xpos, int width,
+                              nc_color col ) const
 {
     std::string text = get_time_string();
     return fold_and_print( w, ypos, xpos, width, col, text );
@@ -1404,10 +1410,10 @@ int construction::print_time(WINDOW *w, int ypos, int xpos, int width,
 float construction::time_scale() const
 {
     //incorporate construction time scaling
-    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]) == 0 ) {
+    if( ACTIVE_WORLD_OPTIONS.empty() || int( ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"] ) == 0 ) {
         return calendar::season_ratio();
-    }else{
-        return 100.0 / int(ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"]);
+    } else {
+        return 100.0 / int( ACTIVE_WORLD_OPTIONS["CONSTRUCTION_SCALING"] );
     }
 }
 
@@ -1417,15 +1423,18 @@ int construction::adjusted_time() const
     int assistants = 0;
 
     for( auto &elem : g->active_npc ) {
-        if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
-            if (elem->skillLevel(skill) >= difficulty)
+        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
+            if( elem->skillLevel( skill ) >= difficulty ) {
                 assistants++;
+            }
         }
     }
-    for( int i = 0; i < assistants; i++ )
+    for( int i = 0; i < assistants; i++ ) {
         basic = basic * .75;
-    if (basic <= time * .4)
+    }
+    if( basic <= time * .4 ) {
         basic = time * .4;
+    }
 
     basic *= time_scale();
 
@@ -1457,9 +1466,9 @@ std::string construction::get_time_string() const
     return text;
 }
 
-std::vector<std::string> construction::get_folded_time_string(int width) const
+std::vector<std::string> construction::get_folded_time_string( int width ) const
 {
     std::string time_text = get_time_string();
-    std::vector<std::string> folded_time = foldstring(time_text,width);
+    std::vector<std::string> folded_time = foldstring( time_text, width );
     return folded_time;
 }
