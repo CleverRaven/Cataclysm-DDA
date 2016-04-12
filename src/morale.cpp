@@ -361,15 +361,10 @@ void player_morale::display( double focus_gain )
     const char *focus_gain_caption = _( "Focus gain per minute" );
 
     // Figure out how wide the source column needs to be.
-    int source_column_width = utf8_width( focus_gain_caption );
-    if( utf8_width( morale_gain_caption ) > source_column_width ) {
-        source_column_width = utf8_width( morale_gain_caption );
-    }
+    int source_column_width = std::max( utf8_width( morale_gain_caption ),
+                                        utf8_width( focus_gain_caption ) );
     for( auto &i : points ) {
-        const int length = utf8_width( i.get_name() );
-        if( length > source_column_width ) {
-            source_column_width = length;
-        }
+        source_column_width = std::max( utf8_width( i.get_name() ), source_column_width );
     }
 
     const int win_w = std::min( source_column_width + 4 + 8, FULL_SCREEN_WIDTH );
@@ -398,25 +393,24 @@ void player_morale::display( double focus_gain )
             const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
             color = ( value > 0.0 ) ? c_green : c_red;
             mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
-        } else
-        {
+        } else {
             color = c_dkgray;
             mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
         }
         return fold_and_print_from( w, y, 2, getmaxx( w ) - 9, 0, color, label );
     };
 
-    if( points.size() > 0 ) {
+    if( !points.empty() ) {
         const char *source_column = _( "Source" );
         const char *value_column = _( "Value" );
 
         mvwprintz( w, 3, 2, c_ltgray, source_column );
         mvwprintz( w, 3, win_w - utf8_width( value_column ) - 2, c_ltgray, value_column );
 
+        const morale_mult mult = get_temper_mult();
+
         int line = 0;
         for( size_t i = 0; i < points.size(); ++i ) {
-            static const morale_mult mult = get_temper_mult();
-
             const std::string name = points[i].get_name();
             const int bonus = points[i].get_net_bonus( mult );
 
