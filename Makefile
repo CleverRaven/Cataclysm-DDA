@@ -157,18 +157,19 @@ LDFLAGS += $(PROFILE)
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
     ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-      CXXFLAGS += -Os
+      OPTLEVEL = -Os
     else
-      CXXFLAGS += -O3
+      OPTLEVEL = -O3
     endif
   else
     # MXE ICE Workaround
     ifeq (${CXXVERSION}, 4.9.3)
-      CXXFLAGS += -O3
+      OPTLEVEL = -O3
     else
-      CXXFLAGS += -Os
+      OPTLEVEL = -Os
     endif
   endif
+  CXXFLAGS += $(OPTLEVEL)
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
@@ -197,10 +198,11 @@ endif
 
 ifndef RELEASE
   ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
-    CXXFLAGS += -Og
+    OPTLEVEL = -Og
   else
-    CXXFLAGS += -O0
+    OPTLEVEL = -O0
   endif
+  CXXFLAGS += $(OPTLEVEL)
 endif
 
 OTHERS += -std=c++11
