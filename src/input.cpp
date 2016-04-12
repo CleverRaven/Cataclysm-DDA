@@ -474,24 +474,23 @@ std::string input_manager::get_default_action_name(const std::string &action_id)
     }
 }
 
-input_manager::t_input_event_list &input_manager::get_event_list(
+input_manager::t_input_event_list &input_manager::get_or_create_event_list(
     const std::string &action_descriptor, const std::string &context)
 {
-    const t_action_contexts::iterator action_context = action_contexts.find(context);
-    if (action_context != action_contexts.end()) {
-        // A new action is created in the event that the user creates a local
-        // keymapping that masks a global one.
-        t_actions &actions = action_context->second;
-        if (actions.find(action_descriptor) == actions.end()) {
-            action_attributes &attributes = actions[action_descriptor];
-            attributes.name = get_default_action_name(action_descriptor);
-            attributes.is_user_created = true;
-        }
+    // A new context is created in the event that the user creates a local
+    // keymapping in a context that doesn't yet exist e.g. a context without
+    // any pre-existing keybindings.
+    t_actions &actions = action_contexts[context];
 
-        return actions[action_descriptor].input_events;
+    // A new action is created in the event that the user creates a local
+    // keymapping that masks a global one.
+    if (actions.find(action_descriptor) == actions.end()) {
+        action_attributes &attributes = actions[action_descriptor];
+        attributes.name = get_default_action_name(action_descriptor);
+        attributes.is_user_created = true;
     }
-    static t_input_event_list empty;
-    return empty;
+
+    return actions[action_descriptor].input_events;
 }
 
 void input_manager::remove_input_for_action(
@@ -516,7 +515,7 @@ void input_manager::remove_input_for_action(
 void input_manager::add_input_for_action(
     const std::string &action_descriptor, const std::string &context, const input_event &event)
 {
-    t_input_event_list &events = get_event_list(action_descriptor, context);
+    t_input_event_list &events = get_or_create_event_list(action_descriptor, context);
     for( auto &events_a : events ) {
         if( events_a == event ) {
             return;

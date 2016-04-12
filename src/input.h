@@ -238,8 +238,8 @@ class input_manager
 
         int input_timeout;
 
-        t_input_event_list &get_event_list( const std::string &action_descriptor,
-                                            const std::string &context );
+        t_input_event_list &get_or_create_event_list( const std::string &action_descriptor,
+                const std::string &context );
         void remove_input_for_action( const std::string &action_descriptor, const std::string &context );
         void add_input_for_action( const std::string &action_descriptor, const std::string &context,
                                    const input_event &event );
