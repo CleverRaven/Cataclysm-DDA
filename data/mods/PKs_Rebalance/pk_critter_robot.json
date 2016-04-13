@@ -30,7 +30,6 @@
     "id" : "mon_tankbot",
     "edit-mode" : "modify",
       "vision_night":10,
-      "//" : "Robots don't seem willing to use special attacks on things they cant see in 'bright' light.  Thus theyll path to something they see.  Flamethower upon contact."
     },{
     "type" : "MONSTER",
     "id" : "mon_turret_searchlight",
