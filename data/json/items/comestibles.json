@@ -8911,7 +8911,6 @@
         "container": "bottle_plastic",
         "quench": 45,
         "nutrition" : 1,
-        "charges": 1,
         "fun": 1,
         "flags" : ["EATEN_COLD"],
         "phase": "liquid"
