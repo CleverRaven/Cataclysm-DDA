@@ -8897,6 +8897,25 @@
         "fun" : 7
     },
     {
+        "id": "maple_sap",
+        "type": "COMESTIBLE",
+        "symbol": "~",
+        "color": "light_cyan",
+        "name": "maple sap",
+        "name_plural": "maple sap",
+        "description": "A water and sugar solution that has been extracted from a maple tree.",
+        "price": 50,
+        "weight": 250,
+        "volume": 1,
+        "comestible_type": "DRINK",
+        "container": "bottle_plastic",
+        "quench": 52,
+        "charges": 1,
+        "fun": 1,
+        "flags" : ["EATEN_COLD"],
+        "phase": "liquid"
+    },
+    {
         "type" : "COMESTIBLE",
         "id" : "syrup",
         "name" : "maple syrup",
