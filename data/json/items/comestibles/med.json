@@ -276,10 +276,10 @@
         "stack_size" : 100,
         "symbol" : ".",
         "color" : "brown",
-        "use_action" : "DATURA",
         "stim" : 6,
         "healthy" : -2,
         "fun" : -1,
+        "use_action" : "DATURA",
         "seed_data" : {
             "plant_name" : "datura",
             "fruit" : "datura_seed",
@@ -290,6 +290,7 @@
     {
         "id" : "dayquil",
         "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
         "name" : "non-drowsy cough syrup",
         "name_plural" : "non-drowsy cough syrup",
         "description" : "Daytime cold and flu medication.  Non-drowsy formula.  Will suppress coughing, aching, headaches and runny noses, but you'll still need lots of fluids and rest.",
@@ -301,7 +302,6 @@
         "color" : "yellow",
         "phase" : "liquid",
         "container" : "bottle_plastic",
-        "comestible_type" : "MED",
         "use_action" : "FLUMED"
     },
     {
@@ -340,22 +340,22 @@
     {
         "id" : "handrolled_cig",
         "type" : "COMESTIBLE",
-        "name" : "hand-rolled cigarette",
-        "weight" : 1,
-        "color" : "dark_gray",
-        "addiction_type" : "nicotine",
-        "use_action" : "SMOKING",
-        "stim" : 1,
         "comestible_type" : "MED",
-        "symbol" : "!",
-        "healthy" : -2,
-        "addiction_potential" : 50,
+        "name" : "hand-rolled cigarette",
         "description" : "A roll-your-own made from tobacco and rolling paper.  Stimulates mental acuity and reduces appetite.  Despite being hand crafted, it's still highly addictive and hazardous to health.",
-        "price" : 90, "//" : "Tougher to market a handrolled, could be anything in there.",
+        "weight" : 1,
         "volume" : 1,
+        "price" : 90, "//" : "Tougher to market a handrolled, could be anything in there.",
         "charges" : 1,
         "stack_size" : 60,
-        "fun" : 5
+        "symbol" : "!",
+        "color" : "dark_gray",
+        "stim" : 1,
+        "healthy" : -2,
+        "fun" : 5,
+        "addiction_potential" : 50,
+        "addiction_type" : "nicotine",
+        "use_action" : "SMOKING"   
     },
     {
         "id" : "heroin",
