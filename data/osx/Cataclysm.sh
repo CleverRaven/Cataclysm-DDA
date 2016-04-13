@@ -4,6 +4,7 @@ cd "${PWD}/../Resources/"
 
 COMMAND='
 OSREV=`uname -r | cut -d. -f1`;
+export TERMINFO=/usr/share/terminfo;
 if [ $OSREV -ge 11 ] ; then
    export DYLD_LIBRARY_PATH=./;
    export DYLD_FRAMEWORK_PATH=./;
