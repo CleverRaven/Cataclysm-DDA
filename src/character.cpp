@@ -15,6 +15,7 @@
 #include "mtype.h"
 #include "player.h"
 #include "mutation.h"
+#include "vehicle.h"
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -2001,5 +2002,33 @@ bool Character::pour_into( item &container, item &liquid )
         }
     }
 
+    return true;
+}
+
+bool Character::pour_into( vehicle &veh, item &liquid )
+{
+    // TODO: what about fuel_charges_to_amount_factor?
+    const itype_id &ftype = liquid.type->id;
+    const int fuel_cap = veh.fuel_capacity( ftype );
+    const int fuel_amnt = veh.fuel_left( ftype );
+    if( fuel_cap <= 0 ) {
+        //~ %1$s - transport name, %2$s liquid fuel name
+        add_msg( m_info, _( "The %1$s doesn't use %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+        return false;
+    } else if( fuel_amnt >= fuel_cap ) {
+        add_msg( m_info, _( "The %s is already full." ), veh.name.c_str() );
+        return false;
+    }
+    // TODO: make a proper activity instead (which would supply the per-turn amount as charges).
+    const long amt = liquid.charges;
+    // TODO: Oh, look: *this* function handles move costs. The other one doesn't. Consistency? What's that again?
+    moves -= 100;
+    liquid.charges = veh.refill( ftype, amt );
+    if( veh.fuel_left( ftype ) < fuel_cap ) {
+        add_msg( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+    } else {
+        add_msg( _( "You refill the %1$s with %2$s to its maximum." ), veh.name.c_str(),
+                 liquid.type_name().c_str() );
+    }
     return true;
 }
