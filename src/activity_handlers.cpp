@@ -975,55 +975,6 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                                         "<npcname> finished pulping the corpses.", num_corpses ) );
 }
 
-void activity_handlers::refill_vehicle_do_turn( player_activity *act, player *p )
-{
-    vehicle *veh = g->m.veh_at( act->placement );
-    if( veh == nullptr ) {  // Vehicle must've moved or something!
-        act->moves_left = 0;
-        return;
-    }
-    bool fuel_pumped = false;
-    const auto around = closest_tripoints_first( 1, p->pos() );
-    for( const auto &p : around ) {
-        if( g->m.ter( p ) == t_gas_pump ||
-            g->m.ter_at( p ).id == "t_gas_pump_a" ||
-            g->m.ter( p ) == t_diesel_pump ) {
-            auto maybe_gas = g->m.i_at( p );
-            for( auto gas = maybe_gas.begin(); gas != maybe_gas.end(); ) {
-                if( gas->type->id == "gasoline" || gas->type->id == "diesel" ) {
-                    fuel_pumped = true;
-                    int lack = std::min( veh->fuel_capacity(gas->type->id) -
-                                         veh->fuel_left(gas->type->id),  200 );
-                    if( gas->charges > lack ) {
-                        veh->refill(gas->type->id, lack);
-                        gas->charges -= lack;
-                        act->moves_left -= 100;
-                        gas++;
-                    } else {
-                        add_msg(m_bad, _("With a clang and a shudder, the pump goes silent."));
-                        veh->refill (gas->type->id, gas->charges);
-                        gas = maybe_gas.erase( gas );
-                        act->moves_left = 0;
-                    }
-
-                    break;
-                }
-            }
-
-            if( fuel_pumped ) {
-                break;
-            }
-        }
-    }
-    if( !fuel_pumped ) {
-        // Can't find any fuel, give up.
-        debugmsg("Can't find any fuel, cancelling pumping.");
-        p->cancel_activity();
-        return;
-    }
-    p->pause();
-}
-
 void activity_handlers::reload_finish( player_activity *act, player *p )
 {
     act->type = ACT_NULL;
