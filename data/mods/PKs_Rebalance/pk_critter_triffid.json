@@ -257,7 +257,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast_pk",
-    "name": "tangela",
+    "name": "tangala",
     "species":"PLANT",
     "default_faction":"triffid",
     "symbol":"V",
@@ -297,7 +297,7 @@
     "description":"A walking mass of vines.  Its body concealed in writhing vines, this deadly monster is a meter or so from being pocket-sized, but carries several deadly toxins within it.",
     "flags":["SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PUSH_MON", "VENOM", "PLASTIC", "PARALYZEVENOM"],
     "anger_triggers":["FIRE", "HURT", "FRIEND_DIED", "PLAYER_CLOSE"],
-    "//": "Tangela is pretty neat, but, by design, not exactly 'a thug', to borrow the term from the Dominions series of games.  Hes not going to slug it out well with the big guys."
+    "//": "Tangela/tangala is pretty neat, but, by design, not exactly 'a thug', to borrow the term from the Dominions series of games.  Hes not going to slug it out well with the big guys."
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_pk",
