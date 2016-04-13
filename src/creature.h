@@ -510,6 +510,7 @@ class Creature
         Creature &operator=(Creature &&) = default;
 
  protected:
+        virtual void on_stat_change( const std::string &, int ) {};
         virtual void on_effect_int_change( const efftype_id &, int, body_part ) {};
 
  public:

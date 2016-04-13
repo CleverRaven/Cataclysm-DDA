@@ -255,6 +255,11 @@ body_part mutate_to_main_part(body_part bp)
     }
 }
 
+body_part opposite_body_part( body_part bp )
+{
+    return static_cast<body_part>( bp_aiOther[bp] );
+}
+
 std::string get_body_part_id(body_part bp)
 {
     switch (bp) {

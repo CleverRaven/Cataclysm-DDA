@@ -29,6 +29,7 @@
 #include "sounds.h"
 #include "item_action.h"
 #include "mongroup.h"
+#include "morale.h"
 #include "morale_types.h"
 #include "input.h"
 #include "veh_type.h"
@@ -63,9 +64,6 @@
 #include <algorithm>
 #include <numeric>
 #include <string>
-#include <memory>
-#include <array>
-#include <bitset>
 #include <sstream>
 #include <stdlib.h>
 #include <fstream>
@@ -158,6 +156,36 @@ static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 static bool should_combine_bps( const player &, size_t, size_t );
 
 
+player_morale_ptr::player_morale_ptr( const player_morale_ptr &rhs ) :
+    std::unique_ptr<player_morale>( rhs ? new player_morale( *rhs ) : nullptr )
+{
+}
+
+player_morale_ptr::player_morale_ptr( player_morale_ptr &&rhs ) :
+    std::unique_ptr<player_morale>( rhs ? rhs.release() : nullptr )
+{
+}
+
+player_morale_ptr &player_morale_ptr::operator = ( const player_morale_ptr &rhs )
+{
+    if( this != &rhs ) {
+        reset( rhs ? new player_morale( *rhs ) : nullptr );
+    }
+    return *this;
+}
+
+player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs )
+{
+    if( this != &rhs ) {
+        reset( rhs ? rhs.release() : nullptr );
+    }
+    return *this;
+}
+
+player_morale_ptr::~player_morale_ptr()
+{
+}
+
 player::player() : Character()
 {
     id = -1; // -1 is invalid
@@ -243,6 +271,8 @@ player::player() : Character()
 
     recalc_sight_limits();
     reset_encumbrance();
+
+    morale.reset( new player_morale() );
 }
 
 player::~player()
@@ -541,7 +571,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale.decay( 1 );
+    morale->decay( 1 );
     apply_persistent_morale();
 }
 
@@ -563,35 +593,6 @@ void player::apply_persistent_morale()
         }
         if( pen > 0 ) {
             add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
-        }
-    }
-
-    // Floral folks really don't like having their flowers covered.
-    if( has_trait( "FLOWERS" ) && wearing_something_on( bp_head ) ) {
-        add_morale( MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true );
-    }
-
-    // The same applies to rooters and their feet; however, they don't take
-    // too many problems from no-footgear.
-    double shoe_factor = footwear_factor();
-    if( ( has_trait( "ROOTS" ) || has_trait( "ROOTS2" ) || has_trait( "ROOTS3" ) ) &&
-        shoe_factor ) {
-        add_morale( MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true );
-    }
-
-    // Masochists get a morale bonus from pain.
-    if( has_trait( "MASOCHIST" ) || has_trait( "MASOCHIST_MED" ) ||  has_trait( "CENOBITE" ) ) {
-        int bonus = get_perceived_pain() / 2.5;
-        // Advanced masochists really get a morale bonus from pain.
-        // (It's not capped.)
-        if( has_trait( "MASOCHIST" ) && ( bonus > 25 ) ) {
-            bonus = 25;
-        }
-        if( has_effect( effect_took_prozac ) ) {
-            bonus = int( bonus / 3 );
-        }
-        if( bonus != 0 ) {
-            add_morale( MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true );
         }
     }
 }
@@ -3295,7 +3296,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
 void player::disp_morale()
 {
-    morale.display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
+    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
 static std::string print_gun_mode( const player &p )
@@ -4707,9 +4708,13 @@ void player::mod_pain(int npain) {
 void player::set_pain(int npain)
 {
     const int prev_pain = get_perceived_pain();
-
     Creature::set_pain( npain );
-    react_to_felt_pain( get_perceived_pain() - prev_pain );
+    const int cur_pain = get_perceived_pain();
+
+    if( cur_pain != prev_pain ) {
+        react_to_felt_pain( cur_pain - prev_pain );
+        on_stat_change( "perceived_pain", cur_pain );
+    }
 }
 
 int player::get_perceived_pain() const
@@ -4728,10 +4733,18 @@ void player::mod_painkiller(int npkill)
 
 void player::set_painkiller(int npkill)
 {
-    const int prev_pain = get_perceived_pain();
+    npkill = std::max( npkill, 0 );
+    if( pkill != npkill ) {
+        const int prev_pain = get_perceived_pain();
+        pkill = npkill;
+        on_stat_change( "pkill", pkill );
+        const int cur_pain = get_perceived_pain();
 
-    pkill = std::max( npkill, 0 );
-    react_to_felt_pain( get_perceived_pain() - prev_pain );
+        if( cur_pain != prev_pain ) {
+            react_to_felt_pain( cur_pain - prev_pain );
+            on_stat_change( "perceived_pain", cur_pain );
+        }
+    }
 }
 
 int player::get_painkiller() const
@@ -8678,24 +8691,24 @@ void player::update_body_wetness( const w_point &weather )
 
 int player::get_morale_level() const
 {
-    return morale.get_level();
+    return morale->get_level();
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
                         int duration, int decay_start,
                         bool capped, const itype* item_type)
 {
-    morale.add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
+    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
 }
 
 int player::has_morale( morale_type type ) const
 {
-    return morale.has( type );
+    return morale->has( type );
 }
 
 void player::rem_morale(morale_type type, const itype* item_type)
 {
-    morale.remove( type, item_type );
+    morale->remove( type, item_type );
 }
 
 bool player::has_morale_to_read() const
@@ -12661,7 +12674,7 @@ int player::climbing_cost( const tripoint &from, const tripoint &to ) const
 void player::environmental_revert_effect()
 {
     addictions.clear();
-    morale.clear();
+    morale->clear();
 
     for (int part = 0; part < num_hp_parts; part++) {
         hp_cur[part] = hp_max[part];
@@ -13338,27 +13351,32 @@ bool player::has_item_with_flag( std::string flag ) const
 
 void player::on_mutation_gain( const std::string &mid )
 {
-    morale.on_mutation_gain( mid );
+    morale->on_mutation_gain( mid );
 }
 
 void player::on_mutation_loss( const std::string &mid )
 {
-    morale.on_mutation_loss( mid );
+    morale->on_mutation_loss( mid );
+}
+
+void player::on_stat_change( const std::string &stat, int value )
+{
+    morale->on_stat_change( stat, value );
 }
 
 void player::on_item_wear( const item &it )
 {
-    morale.on_item_wear( it );
+    morale->on_item_wear( it );
 }
 
 void player::on_item_takeoff( const item &it )
 {
-    morale.on_item_takeoff( it );
+    morale->on_item_takeoff( it );
 }
 
 void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
 {
-    morale.on_effect_int_change( eid, intensity, bp );
+    morale->on_effect_int_change( eid, intensity, bp );
 }
 
 void player::on_mission_assignment( mission &new_mission )
