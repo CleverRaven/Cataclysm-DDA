@@ -1724,6 +1724,16 @@ void remove_ammo(std::list<item> &dis_items, player &p)
     }
 }
 
+void drop_or_handle( const item &newit, player &p )
+{
+    if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
+        g->handle_all_liquid( newit );
+    } else {
+        item tmp( newit );
+        p.i_add_or_drop( tmp );
+    }
+}
+
 void remove_ammo(item *dis_item, player &p)
 {
     auto &contents = dis_item->contents;
@@ -1742,11 +1752,7 @@ void remove_ammo(item *dis_item, player &p)
         }
         item tmp = contents[i];
         contents.erase( contents.begin() + i );
-        if( tmp.made_of( LIQUID ) && &p == &g->u ) {
-            g->handle_all_liquid( tmp );
-        } else {
-            p.i_add_or_drop( tmp );
-        }
+        drop_or_handle( tmp, p );
     }
     if( dis_item->has_flag( "NO_UNLOAD" ) ) {
         return;
@@ -1754,11 +1760,7 @@ void remove_ammo(item *dis_item, player &p)
     if( dis_item->is_gun() && dis_item->ammo_current() != "null" ) {
         item ammodrop( dis_item->ammo_current(), calendar::turn );
         ammodrop.charges = dis_item->charges;
-        if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            g->handle_all_liquid( ammodrop );
-        } else {
-            p.i_add_or_drop( ammodrop, 1 );
-        }
+        drop_or_handle( ammodrop, p );
         dis_item->charges = 0;
     }
     if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL" ) {
@@ -1767,11 +1769,7 @@ void remove_ammo(item *dis_item, player &p)
         if( dis_item->ammo_type() == "plutonium" ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
-        if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            g->handle_all_liquid( ammodrop );
-        } else {
-            p.i_add_or_drop( ammodrop, 1 );
-        }
+        drop_or_handle( ammodrop, p );
         dis_item->charges = 0;
     }
 }
