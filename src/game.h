@@ -535,6 +535,19 @@ class game
         // the function set the driving offset to (0,0)
         void calc_driving_offset(vehicle *veh = NULL);
 
+        /**
+         * Consume / handle all of the liquid. The function can be used when the liquid needs
+         * to be handled and can not be put back to where it came from (e.g. when it's a newly
+         * created item from crafting).
+         * The player is forced to handle all of it, which may required them to pour it onto
+         * the ground (if they don't have enough container space available) and essentially
+         * loose the item.
+         * @return Whether any of the liquid has been consumed. `false` indicates the player has
+         * declined all options to handle the liquid (essentially canceled the action) and no
+         * charges of the liquid have been transferred.
+         * `true` indicates some charges have been transferred (but not necessarily all of them).
+         */
+        void handle_all_liquid( item liquid, int radius = 0 );
         bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
                            item *cont = NULL, int radius = 0);
 

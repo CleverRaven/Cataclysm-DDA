@@ -10311,6 +10311,13 @@ bool vehicle_near( const itype_id &ft )
     return false;
 }
 
+void game::handle_all_liquid( item liquid, const int radius )
+{
+    while( !handle_liquid( liquid, false, false, nullptr, nullptr, PICKUP_RANGE ) ) {
+        // try again
+    }
+}
+
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont, int radius)

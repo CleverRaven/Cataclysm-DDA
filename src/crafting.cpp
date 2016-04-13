@@ -899,9 +899,7 @@ void finalize_crafted_item( item &newit, float used_age_tally, int used_age_coun
 void set_item_inventory(item &newit)
 {
     if( newit.made_of( LIQUID ) ) {
-        while( !g->handle_liquid( newit, false, false, nullptr, nullptr, PICKUP_RANGE ) ) {
-            ;
-        }
+        g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         g->u.inv.assign_empty_invlet( newit );
         // We might not have space for the item
@@ -1670,9 +1668,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                 }
             }
             if (act_item.made_of(LIQUID)) {
-                while (!g->handle_liquid(act_item, false, false)) {
-                    // Try again, maybe use another container.
-                }
+                g->handle_all_liquid( act_item );
             } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
@@ -1747,9 +1743,7 @@ void remove_ammo(item *dis_item, player &p)
         item tmp = contents[i];
         contents.erase( contents.begin() + i );
         if( tmp.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( tmp, false, false ) ) {
-                // Allow selecting several containers
-            }
+            g->handle_all_liquid( tmp );
         } else {
             p.i_add_or_drop( tmp );
         }
@@ -1761,9 +1755,7 @@ void remove_ammo(item *dis_item, player &p)
         item ammodrop( dis_item->ammo_current(), calendar::turn );
         ammodrop.charges = dis_item->charges;
         if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( ammodrop, false, false ) ) {
-                // Allow selecting several containers
-            }
+            g->handle_all_liquid( ammodrop );
         } else {
             p.i_add_or_drop( ammodrop, 1 );
         }
@@ -1776,9 +1768,7 @@ void remove_ammo(item *dis_item, player &p)
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( ammodrop, false, false ) ) {
-                // Allow selecting several containers
-            }
+            g->handle_all_liquid( ammodrop );
         } else {
             p.i_add_or_drop( ammodrop, 1 );
         }
