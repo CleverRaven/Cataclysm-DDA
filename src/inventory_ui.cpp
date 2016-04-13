@@ -83,9 +83,9 @@ class inventory_selector
          * Extracts <B>slice</B> into @ref items, adding category entries.
          * For each item in the slice an entry that points to it is added to @ref items.
          * For a consecutive sequence of items of the same category a single
-         * category entry is added in front of them.
+         * category entry is added in front of them or after them depending on @ref where.
          */
-        void make_item_list(const indexed_invslice &slice, const item_category *def_cat = NULL);
+        void add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
         /** Creates the inventory screen */
         inventory_selector( player &u, const std::string &title, item_filter filter = allow_all_items );
         ~inventory_selector();
@@ -162,7 +162,6 @@ class inventory_selector
         bool in_inventory;
         const item_category weapon_cat;
         const item_category worn_cat;
-        item_filter filter;
         player &u;
 
         void print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const;
@@ -190,7 +189,7 @@ class inventory_selector
         void prepare_paging(itemstack_vector &items);
 };
 
-void inventory_selector::make_item_list(const indexed_invslice &slice, const item_category *def_cat)
+void inventory_selector::add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat)
 {
     for( const auto &scit : slice ) {
 
@@ -204,9 +203,16 @@ void inventory_selector::make_item_list(const indexed_invslice &slice, const ite
         const itemstack_or_category cat_entry(category);
         itemstack_vector::iterator cat_iter = std::find(items.begin(), items.end(), cat_entry);
         if (cat_iter == items.end()) {
-            // Category is not yet contained in the list, add it to the end
-            items.push_back(cat_entry);
-            cat_iter = items.end();
+            // Category is not yet contained in the list, add it
+            switch ( where ) {
+                case AT_BEGINNING:
+                    cat_iter = ++items.insert( items.begin(), cat_entry );
+                    break;
+                case AT_END:
+                    items.push_back( cat_entry );
+                    cat_iter = items.end();
+                    break;
+            }
         } else {
             // Category is already contained, skip all the items that belong to the
             // category to insert the current item behind them (but before the next category)
@@ -483,7 +489,6 @@ inventory_selector::inventory_selector( player &u, const std::string &title, ite
     , in_inventory(true)
     , weapon_cat("WEAPON", _("WEAPON:"), 0)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
-    , filter(filter)
     , u(u)
 {
     w_inv = newwin(TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X);
@@ -500,6 +505,8 @@ inventory_selector::inventory_selector( player &u, const std::string &title, ite
     ctxt.register_action("HELP_KEYBINDINGS");
     // For invlets
     ctxt.register_action("ANY_INPUT");
+
+    add_items( u.inv.indexed_slice_filter_by( filter ), AT_BEGINNING );
 
     if (u.is_armed() && filter(u.weapon)) {
         worn.push_back(itemstack_or_category(&weapon_cat));
@@ -761,8 +768,6 @@ void inventory_selector::remove_dropping_items( player &u ) const
 
 int inventory_selector::execute_pick( const int position )
 {
-    make_item_list( u.inv.indexed_slice_filter_by( filter ) );
-
     prepare_paging();
     select_item_by_position( position );
 
@@ -834,7 +839,6 @@ item_location inventory_selector::execute_pick_map( std::unordered_map<item *, i
 
 void inventory_selector::execute_compare()
 {
-    make_item_list( u.inv.indexed_slice_filter_by( filter ) );
     prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
@@ -906,7 +910,6 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop()
         return true;
     };
 
-    make_item_list( u.inv.indexed_slice_filter_by( filter ) );
     prepare_paging();
 
     int count = 0;
@@ -1015,7 +1018,6 @@ item_location game::inv_map_splice(
     u.inv.sort();
 
     inventory_selector inv_s( u, title, inv_filter );
-    inv_s.make_item_list( u.inv.indexed_slice_filter_by( inv_filter ) );
 
     std::list<item_category> categories;
     int rank = -1000;
@@ -1071,7 +1073,7 @@ item_location game::inv_map_splice(
             }
             std::string name = trim( std::string( _( "GROUND" ) ) + " " + direction_suffix( g->u.pos(), pos ) );
             categories.emplace_back( name, name, rank-- );
-            inv_s.make_item_list( slices.back(), &categories.back() );
+            inv_s.add_items( slices.back(), inventory_selector::AT_END, &categories.back() );
         }
 
         // finally get all matching items in vehicle cargo spaces
@@ -1110,7 +1112,7 @@ item_location game::inv_map_splice(
                 }
                 std::string name = trim( std::string( _( "VEHICLE" ) )  + " " + direction_suffix( g->u.pos(), pos ) );
                 categories.emplace_back( name, name, rank-- );
-                inv_s.make_item_list( slices.back(), &categories.back() );
+                inv_s.add_items( slices.back(), inventory_selector::AT_END, &categories.back() );
             }
         }
     }
@@ -1209,6 +1211,6 @@ void game::compare( const tripoint &offset )
 
     inventory_selector inv_s( u, _("Compare:") );
 
-    inv_s.make_item_list(grounditems_slice, &category_on_ground);
+    inv_s.add_items( grounditems_slice, inventory_selector::AT_BEGINNING, &category_on_ground );
     inv_s.execute_compare();
 }
