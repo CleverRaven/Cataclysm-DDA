@@ -49,6 +49,8 @@ const quality_id SAW_M_FINE( "SAW_M_FINE" );
 const skill_id skill_mechanics( "mechanics" );
 } // namespace
 
+void act_vehicle_siphon(vehicle* veh);
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -299,6 +301,9 @@ void veh_interact::do_main_loop()
             do_rename();
         } else if (action == "SIPHON") {
             do_siphon();
+            // Siphoning may have started a player activity. If so, we should close the
+            // vehicle dialog and continue with the activity.
+            finish = g->u.activity.type != ACT_NULL;
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
         } else if (action == "RELABEL") {
@@ -1228,7 +1233,7 @@ void veh_interact::do_siphon()
     default:
         break; // no reason, all is well
     }
-    sel_cmd = 's';
+    act_vehicle_siphon( veh );
 }
 
 /**
@@ -2384,9 +2389,6 @@ void complete_vehicle ()
             veh->part_removal_cleanup();
         }
         break;
-    case 's':
-        act_vehicle_siphon(veh);
-    break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
         if( parts.size() ) {
