@@ -467,6 +467,10 @@ class input_context
         input_manager::t_string_string_map action_name_overrides;
 
         /**
+         * Returns whether action uses the specified input
+         */
+        bool action_uses_input( const std::string &action_id, const input_event &event ) const;
+        /**
          * Return a user presentable list of actions that conflict with the
          * proposed keybinding. Returns an empty string if nothing conflicts.
          */
