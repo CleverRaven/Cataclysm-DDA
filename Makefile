@@ -727,7 +727,7 @@ ifdef LANGUAGES
 	ditto lang/mo $(APPRESOURCESDIR)/lang/mo
 endif
 ifeq ($(LOCALIZE), 1)
-	LIBINTL=$$(otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
+	LIBINTL=$$(otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBINTL | grep libiconv | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
 endif
 ifdef LUA
 	cp -R lua $(APPRESOURCESDIR)/
@@ -754,6 +754,8 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
 endif  # ifdef FRAMEWORK
 
+else # ifdef TILES
+	LIBNCURSESW=$$(otool -L $(APPTARGET) | grep libncursesw | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBNCURSESW $(APPRESOURCESDIR)/
 endif  # ifdef TILES
 
 dmgdistclean:
