@@ -182,6 +182,8 @@ class inventory_selector
         void print_middle_column() const;
         void print_right_column() const;
     public:
+        /** Returns an entry from @ref items by its invlet */
+        const itemstack_or_category *invlet_to_item_entry( long invlet ) const;
         /** Toggle item dropping for item position it_pos:
          * If count is > 0: set dropping to count
          * If the item is already marked for dropping: deactivate dropping,
@@ -228,6 +230,19 @@ void inventory_selector::make_item_list(const indexed_invslice &slice, const ite
         }
         items.insert(cat_iter, item_entry);
     }
+}
+
+const itemstack_or_category *inventory_selector::invlet_to_item_entry( long invlet ) const
+{
+    for( auto &it : items ) {
+        if( it.it == nullptr ) {
+            continue;
+        }
+        if( it.it->invlet == invlet ) {
+            return &it;
+        }
+    }
+    return nullptr;
 }
 
 void inventory_selector::prepare_paging()
@@ -899,7 +914,6 @@ item_location game::inv_map_splice(
     const char min_invlet = '0';
     const char max_invlet = '9';
     char cur_invlet = min_invlet;
-    std::vector<item_location> invlets;
 
     for( const auto &pos : closest_tripoints_first( radius, g->u.pos() ) ) {
         // second get all matching items on the map within radius
@@ -928,12 +942,7 @@ item_location game::inv_map_splice(
                         slices.back().emplace_back( &current_stack.back(), INT_MIN );
                         opts.emplace( &current_stack.back().front(), item_location( pos, &it ) );
 
-                        if( cur_invlet <= max_invlet ) {
-                            current_stack.back().front().invlet = cur_invlet++;
-                            invlets.emplace_back( pos, &it );
-                        } else {
-                            current_stack.back().front().invlet = 0;
-                        }
+                        current_stack.back().front().invlet = ( cur_invlet <= max_invlet ) ? cur_invlet++ : 0;
                     }
                 }
             }
@@ -972,12 +981,7 @@ item_location game::inv_map_splice(
                             slices.back().emplace_back( &current_stack.back(), INT_MIN );
                             opts.emplace( &current_stack.back().front(), item_location( vehicle_cursor( *veh, part ), &it ) );
 
-                            if( cur_invlet <= max_invlet ) {
-                                current_stack.back().front().invlet = cur_invlet++;
-                                invlets.emplace_back( vehicle_cursor( *veh, part ), &it );
-                            } else {
-                                current_stack.back().front().invlet = 0;
-                            }
+                            current_stack.back().front().invlet = ( cur_invlet <= max_invlet ) ? cur_invlet++ : 0;
                         }
                     }
                 }
@@ -996,17 +1000,17 @@ item_location game::inv_map_splice(
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position( ch );
 
+        const auto item_entry = ( item_pos == INT_MIN ) ? inv_s.invlet_to_item_entry( ch ) : nullptr;
+
         if( item_pos != INT_MIN ) {
             // Indexed item in inventory
             inv_s.set_to_drop( item_pos, 0 );
             return item_location( u, inv_s.first_item );
-
-        } else if( ch >= min_invlet && ch <= max_invlet ) {
-            // Indexed item on ground or in vehicle
-            if( (long)invlets.size() > ch - min_invlet ) {
-                return std::move( invlets[ch - min_invlet] );
+        } else if( item_entry != nullptr ) {
+            auto it = opts.find( const_cast<item*>( item_entry->it ) );
+            if( it != opts.end() ) {
+                return std::move( it->second );
             }
-
         } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
 
@@ -1168,11 +1172,13 @@ void game::compare( const tripoint &offset )
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position( ch );
+
+        const auto item_entry = ( item_pos == INT_MIN ) ? inv_s.invlet_to_item_entry( ch ) : nullptr;
+
         if (item_pos != INT_MIN) {
             inv_s.set_to_drop(item_pos, 0);
-        } else if (ch >= '0' && ch <= '9' && (size_t) (ch - '0') < grounditems_slice.size()) {
-            const int ip = ch - '0';
-            inv_s.set_drop_count(INT_MIN + 1 + ip, 0, grounditems_slice[ip].first->front());
+        } else if ( item_entry != nullptr ) {
+            inv_s.set_drop_count( item_entry->item_pos, 0, item_entry->slice->front() );
         } else if (inv_s.handle_movement(action)) {
             // continue with comparison below
         } else if (action == "QUIT") {
