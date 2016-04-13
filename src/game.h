@@ -597,15 +597,6 @@ class game
         bool handle_liquid(item &liquid, bool from_ground, item *source = NULL,
                            int radius = 0);
 
-        /**
-         * Try to pour the given liquid into the given container. The transferred charges are
-         * removed from the liquid item. Check the charges of afterwards to see if anything has
-         * been transferred at all.
-         * @return Whether anything has been moved at all. `false` indicates the transfer is not
-         * possible at all. `true` indicates at least some of the liquid has been moved.
-         */
-        bool pour_into( item &container, item &liquid );
-
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
         //otherwise returns sentinel -1, signifies transaction fail.
         int move_liquid(item &liquid);

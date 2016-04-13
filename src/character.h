@@ -336,6 +336,16 @@ class Character : public Creature, public visitable<Character>
         int get_item_position( const item *it ) const;
 
         item &i_add(item it);
+
+        /**
+         * Try to pour the given liquid into the given container. The transferred charges are
+         * removed from the liquid item. Check the charges of afterwards to see if anything has
+         * been transferred at all.
+         * @return Whether anything has been moved at all. `false` indicates the transfer is not
+         * possible at all. `true` indicates at least some of the liquid has been moved.
+         */
+        bool pour_into( item &container, item &liquid );
+
         /**
          * Remove a specific item from player possession. The item is compared
          * by pointer. Contents of the item are removed as well.

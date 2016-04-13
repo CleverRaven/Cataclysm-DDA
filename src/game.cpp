@@ -10471,63 +10471,11 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
 
     }
 
-    pour_into( *cont, liquid );
+    u.pour_into( *cont, liquid );
     // Result of pour_into is ignored. The player has intended to do something. Whether this
     // actually worked is not important (e.g. intended to fill a container but accidentally
     // selected the wrong item).
     // TODO: consume moves
-    return true;
-}
-
-bool game::pour_into( item &container, item &liquid )
-{
-    const auto cont = &container;
-    if(liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
-        // TODO: merge this part with game::reload
-        // for filling up chainsaws, jackhammers and flamethrowers
-
-        if( cont->ammo_type() != liquid.ammo_type() ) {
-            add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
-                    liquid.tname().c_str());
-            return false;
-        }
-
-        if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
-            add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
-                    liquid.tname().c_str());
-            return false;
-        }
-
-        if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
-            add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
-            return false;
-        }
-
-        add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
-            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
-            liquid.charges -= qty;
-            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
-            if( liquid.charges > 0 ) {
-                add_msg(_("There's some left over!"));
-            }
-
-    } else {
-        // Filling up normal containers
-        bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
-        std::string err;
-        if( !cont->fill_with( liquid, err, allow_bucket ) ) {
-            add_msg( m_info, err.c_str() );
-            return false;
-        }
-
-        u.inv.unsort();
-        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
-        if( liquid.charges > 0 ) {
-            // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
-            add_msg( _( "There's some left over!" ) );
-        }
-    }
-
     return true;
 }
 
