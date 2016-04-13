@@ -10371,7 +10371,6 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         // "canceled by the user" because we *can* not handle it.
         return false;
     }
-    const bool from_ground = source_pos != nullptr;
 
     const std::string text = string_format( _( "Container for %s" ), liquid.tname().c_str() );
     item * const cont = inv_map_for_liquid( liquid, text, radius );
@@ -10412,29 +10411,32 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } );
     }
 
-    if( !from_ground ) {
-        menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
-        actions.emplace_back( [&]() {
-            int dirx, diry;
-            const std::string liqstr = string_format( _( "Pour %s where?" ), liquid.tname().c_str() );
-            refresh_all();
-            if( !choose_adjacent( liqstr, dirx, diry ) ) {
-                return;
-            }
-            if( !m.can_put_items_ter_furn( dirx, diry ) ) {
-                add_msg( m_info, _( "You can't pour there!" ) );
-                return;
-            }
-
-            // TODO: make this an activity
-            // TODO: consume moves
-            m.add_item_or_charges( dirx, diry, liquid, 1 );
-            liquid.charges = 0;
-        } );
-        if( liquid.rotten() ) {
-            // Pre-select this one as it is the most likely one for rotten liquids
-            menu.selected = menu.entries.size() - 1;
+    menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
+    actions.emplace_back( [&]() {
+        int dirx, diry;
+        const std::string liqstr = string_format( _( "Pour %s where?" ), liquid.tname().c_str() );
+        refresh_all();
+        if( !choose_adjacent( liqstr, dirx, diry ) ) {
+            return;
         }
+        if( !m.can_put_items_ter_furn( dirx, diry ) ) {
+            add_msg( m_info, _( "You can't pour there!" ) );
+            return;
+        }
+        // TODO: 3D coordinates are the future!
+        if( source_pos != nullptr && *source_pos == tripoint( dirx, diry, get_levz() ) ) {
+            add_msg( m_info, _( "That's where you took it from!" ) );
+            return;
+        }
+
+        // TODO: make this an activity
+        // TODO: consume moves
+        m.add_item_or_charges( dirx, diry, liquid, 1 );
+        liquid.charges = 0;
+    } );
+    if( liquid.rotten() ) {
+        // Pre-select this one as it is the most likely one for rotten liquids
+        menu.selected = menu.entries.size() - 1;
     }
 
     if( menu.entries.empty() ) {
