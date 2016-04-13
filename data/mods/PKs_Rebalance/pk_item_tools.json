@@ -6,7 +6,7 @@
     "name": "pocket ball",
     "color": "light_red",
     "symbol": "o",
-    "description": "A fist-sized ball that holds the . . . erm, 'energy' of a monster, allowing you to transport them within safely.  It seems to conserve weight, however, making it largely impractical.",
+    "description": "A prototype ball from the PRM labs that holds the . . . erm, 'energy' of a monster, allowing you to transport them within safely.  It seems to conserve weight, however, making it largely impractical.",
     "price": 2000000,
     "weight": 300,
     "volume": 3,
