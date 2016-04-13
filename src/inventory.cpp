@@ -127,18 +127,13 @@ inventory inventory::operator+ (const item &rhs)
     return inventory(*this) += rhs;
 }
 
-indexed_invslice inventory::slice_filter()
-{
-    return slice_filter_by( allow_all_items );
-}
-
-indexed_invslice inventory::slice_filter_by( item_filter filter )
+indexed_invslice inventory::indexed_slice_filter_by( item_filter filter ) const
 {
     int i = 0;
     indexed_invslice stacks;
     for( auto &elem : items ) {
         if( filter( elem.front() ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
+            stacks.emplace_back( const_cast<std::list<item>*>( &elem ), i );
         }
         ++i;
     }
