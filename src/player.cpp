@@ -9469,7 +9469,7 @@ bool player::can_wear( const item& it, bool alert ) const
     if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
           ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
           ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) && 
-          !it.has_flag( "SKINTIGHT" ) ) && !it.has_flag( "BELTED" ) {
+          !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
         if( alert ) {
             add_msg_if_player( m_info, _( "You're already wearing footwear!" ) );
