@@ -78,7 +78,7 @@
             "type" : "bite",
             "cooldown" : 60
         }],
-    "description":"Even for an imp, this figure has black skin.  It attacks with fire and claw, and leads its bretheren into battle.",
+    "description":"Even for an imp, this figure has black skin.  It attacks with fire and claw, and leads its brethren into battle.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "BONES", "CLIMBS", "PUSH_MON", "GROUP_MORALE"]
     },{
     "type" : "MONSTER",
@@ -211,7 +211,7 @@
     "hp":160,
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 60], ["GRAB", 40]],
-    "description":"A towering monster vaguely reminicent of a satyr.  As a member of the ruling species of its domains, it is given administrative control.  Its plasma blasts are deadly.",
+    "description":"A towering monster vaguely reminiscent of a satyr.  As a member of the ruling species of its domains, it is given administrative control.  Its plasma blasts are deadly.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BONES", "PUSH_MON", "BLEED"]
     },{
     "type" : "MONSTER",
@@ -242,7 +242,7 @@
     "hp":200,
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 40], ["GRAB", 30], ["FLESH_GOLEM", 20]],
-    "description":"A towering monster vaguely reminicent of a satyr.  A ranking member of the ruling species of its domains, it is given command.  Its plasma blasts are deadly.",
+    "description":"A towering monster vaguely reminiscent of a satyr.  A ranking member of the ruling species of its domains, it is given command.  Its plasma blasts are deadly.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "DESTROYS", "POISON", "BONES", "PUSH_MON", "BLEED"]
     },{
     "type" : "MONSTER",
@@ -272,7 +272,7 @@
     "vision_night":3,
     "hp":250,
     "special_attacks":[["SMASH", 30], ["FLAMETHROWER", 60]],
-    "description":"A corpulent, pig-faced monster; its arms have been forcably replaced with huge flame-cannons.",
+    "description":"A corpulent, pig-faced monster; its arms have been forcibly replaced with huge flame-cannons.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "DESTROYS", "POISON", "BLEED", "NO_BREATHE", "BONES", "FAT", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -308,7 +308,7 @@
             "cooldown" : 20,
             "min_mul" : 0.8
         }],
-    "description":"A dark red sphere with wicked teeth.  Its single eye lights up as it expells plasma from its mouth.",
+    "description":"A dark red sphere with wicked teeth.  Its single eye lights up as it expels plasma from its mouth.",
     "flags":["SEES", "HEARS", "SMELLS", "FLIES", "POISON", "BLEED", "BASHES", "CHITIN", "BONES", "FAT", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -473,7 +473,7 @@
     "vision_night":3,
     "hp":5,
     "luminance":15,
-    "description":"Fastened in place with metal spikes, chains, and nails, this flaming skull is litrally a living lamp.",
+    "description":"Fastened in place with metal spikes, chains, and nails, this flaming skull is literally a living lamp.",
     "flags":["SEES", "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOGIB", "HARDTOSHOOT", "FIREY", "IMMOBILE"]
     },{
     "type" : "MONSTER",
@@ -501,7 +501,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[
         ["FEAR_PARALYZE", 10]],
-    "description":"All evidence induicates that this used to be a survivor, who was killed by torture and body reanimated. Its garments lack the weathered look of other zombies but are mutilated none-the-less.  Although it struggles to free itself, it is held fast with spikes, nails, and chains.",
+    "description":"All evidence indicates that this used to be a survivor, who was killed by torture and body reanimated. Its garments lack the weathered look of other zombies but are mutilated none-the-less.  Although it struggles to free itself, it is held fast with spikes, nails, and chains.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES"]
     }
 
