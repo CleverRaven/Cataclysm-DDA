@@ -754,6 +754,8 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
 endif  # ifdef FRAMEWORK
 
+else # ifdef TILES
+	LIBNCURSESW=$$(otool -L $(APPTARGET) | grep libncursesw | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBNCURSESW $(APPRESOURCESDIR)/
 endif  # ifdef TILES
 
 dmgdistclean:
