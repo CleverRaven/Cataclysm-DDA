@@ -10469,27 +10469,38 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
         // The user has intended to do something, but mistyped.
         return true;
 
-    } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
+    }
+
+    pour_into( *cont, liquid );
+    // Result of pour_into is ignored. The player has intended to do something. Whether this
+    // actually worked is not important (e.g. intended to fill a container but accidentally
+    // selected the wrong item).
+    // TODO: consume moves
+    return true;
+}
+
+bool game::pour_into( item &container, item &liquid )
+{
+    const auto cont = &container;
+    if(liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
+        // TODO: merge this part with game::reload
         // for filling up chainsaws, jackhammers and flamethrowers
 
         if( cont->ammo_type() != liquid.ammo_type() ) {
             add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
-            // The user has intended to do something, but mistyped.
-            return true;
+            return false;
         }
 
         if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
             add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
-            // The user has intended to do something, but mistyped.
-            return true;
+            return false;
         }
 
         if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
-            // The user has intended to do something, but mistyped.
-            return true;
+            return false;
         }
 
         add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
@@ -10499,7 +10510,6 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
             if( liquid.charges > 0 ) {
                 add_msg(_("There's some left over!"));
             }
-        return true;
 
     } else {
         // Filling up normal containers
@@ -10507,8 +10517,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
         std::string err;
         if( !cont->fill_with( liquid, err, allow_bucket ) ) {
             add_msg( m_info, err.c_str() );
-            // The user has intended to do something, but mistyped.
-            return true;
+            return false;
         }
 
         u.inv.unsort();
@@ -10517,8 +10526,9 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
             // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
             add_msg( _( "There's some left over!" ) );
         }
-        return true;
     }
+
+    return true;
 }
 
 //Move_liquid returns the amount of liquid left if we didn't move all the liquid, otherwise returns sentinel -1, signifies transaction fail.
