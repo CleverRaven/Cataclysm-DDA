@@ -28,7 +28,7 @@
     },{
         "type" : "MONSTER_FACTION",
         "name" : "mutant_omnivore",
-        "neutral" : [utility_bot", "small_animal"],
+        "neutral" : ["utility_bot", "small_animal"],
         "by_mood" : ["mutant_predator", "mutant"]
     },{
         "type" : "MONSTER_FACTION",
