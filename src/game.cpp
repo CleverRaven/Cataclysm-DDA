@@ -10441,7 +10441,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } );
     }
 
-    menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
+    menu.addentry( -1, true, 'g', _( "Pour on the ground / into an adjacent keg" ) );
     actions.emplace_back( [&]() {
         tripoint target_pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid.tname().c_str() );
@@ -10449,23 +10449,39 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         if( !choose_adjacent( liqstr, target_pos ) ) {
             return;
         }
-        // TODO: implement filling into standing tanks/kegs/ similar terrain.
-        // They have the NOITEMS flag and need special casing here.
-        if( !m.can_put_items_ter_furn( target_pos ) ) {
-            add_msg( m_info, _( "You can't pour there!" ) );
-            return;
-        }
+
         if( source_pos != nullptr && *source_pos == target_pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }
 
+        //TODO: use something like iexamine::has_keg
+        const bool has_keg = m.furn_at( target_pos ).examine == &iexamine::keg;
+        const bool can_put = m.can_put_items_ter_furn( target_pos );
+
+        if( !has_keg && !can_put ) {
+            add_msg( m_info, _( "You can't pour there!" ) );
+            return;
+        }
+
+        // One can either pour into a keg *or* on the ground. It is never possible to do both on
+        // the same square because kegs have the NOITEM flag. In other words:
+        // assert( !( has_keg && can_put ) );
+        // This allows to start the activity with only the target position as parameter.
         if( create_activity() ) {
             serialize_liquid_target( u.activity, target_pos );
             return;
         }
-        m.add_item_or_charges( target_pos, liquid, 1 );
-        liquid.charges = 0;
+
+        if( has_keg ) {
+            if( !iexamine::pour_into_keg( target_pos, liquid ) ) {
+                return;
+            }
+        } else {
+            m.add_item_or_charges( target_pos, liquid, 1 );
+            liquid.charges = 0;
+        }
+
         u.mod_moves( -100 );
     } );
     if( liquid.rotten() ) {
