@@ -2180,7 +2180,7 @@
         {
             "type" : "bite",
             "cooldown" : 10,
-            "accuracy" : 5,
+            "accuracy" : 6,
             "damage_max_instance" : [
                 {"damage_type" : "stab", "amount" : 8, "armor_multiplier" : 0.3},
                 {"damage_type" : "bash", "amount" : 16, "armor_multiplier" : 0.3}
@@ -2389,9 +2389,9 @@
     "vision_day":15,
     "vision_night":40,
     "death_drops": "default_zombie_death_drops",
-    "hp":220,
+    "hp":200,
     "death_function":["NORMAL"],
-    "special_attacks":[["SMASH", 30], ["STRETCH_ATTACK", 20], ["LONGSWIPE", 30]],
+    "special_attacks":[["SMASH", 50], ["STRETCH_ATTACK", 20], ["LONGSWIPE", 20]],
     "description":"Somehow this brute hides in the dark like some kind of boogeyman.  Very agile for such a large zombie.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY"]
     },{
