@@ -524,20 +524,6 @@ void input_manager::add_input_for_action(
     events.push_back(event);
 }
 
-void input_context::list_conflicts(const input_event &event,
-                                   const input_manager::t_actions &actions, std::ostringstream &buffer) const
-{
-    for( const auto &actions_action : actions ) {
-        const input_manager::t_input_event_list &events = actions_action.second.input_events;
-        if (std::find(events.begin(), events.end(), event) != events.end()) {
-            if (!buffer.str().empty()) {
-                buffer << _(", ");
-            }
-            buffer << get_action_name( actions_action.first );
-        }
-    }
-}
-
 std::string input_context::get_conflicts(const input_event &event) const
 {
     std::ostringstream buffer;
