@@ -35,7 +35,7 @@
     "color" : "brown",
     "covers" : ["FOOT_EITHER"],
     "coverage" : 5,
-    "encumbrance" : 3,
+    "encumbrance" : 4,
     "material_thickness" : 1,
     "flags" : ["BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
     "use_action" : {
