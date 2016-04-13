@@ -148,6 +148,35 @@
         "use_action" : "SMOKING"
     },
     {
+        "id" : "codeine",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "codeine",
+        "name_plural" : "codeine",
+        "description" : "A mild opiate used in the suppression of pain, cough, and other ailments.  While relatively weak for a narcotic, it is still addictive, with a potential for overdose.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 1200,
+        "charges" : 10,
+        "stack_size" : 200,
+        "symbol" : "!",
+        "color" : "cyan",
+        "stim" : -2,
+        "fun" : 10,
+        "addiction_potential" : 10,
+        "addiction_type" : "opiate",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some codeine.",
+            "effects" : [
+                {
+                    "id" : "pkill2",
+                    "duration" : 180
+                }
+            ]
+        }    
+    },
+    {
         "id" : "cotton_ball",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -295,7 +324,7 @@
         "name" : "joint",
         "description" : "Marijuana, cannabis, pot.  Whatever you want to call it, it's rolled up in a piece of paper and ready for smokin'.",
         "weight" : 1,
-        "volume": 1,
+        "volume" : 1,
         "price" : 500,
         "charges" : 1,
         "stack_size" : 100,
@@ -346,6 +375,39 @@
         "addiction_potential" : 20,
         "addiction_type" : "sleeping pill",
         "use_action" : "FLUSLEEP"
+    },
+    {
+        "id" : "oxycodone",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "oxycodone",
+        "description" : "A strong semi-synthetic narcotic used in the treatment of intense pain.  Highly addictive.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 55000,"//" : "Fairly controlled substance as they go.",
+        "charges" : 10,
+        "stack_size" : 200,
+        "symbol" : "!",
+        "color" : "light_green",
+        "healthy" : -1,
+        "stim" : -4,
+        "fun" : 18,
+        "addiction_potential" : 16,
+        "addiction_type" : "opiate",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some oxycodone.",
+            "effects" : [
+                {
+                    "id" : "pkill3",
+                    "duration" : 20
+                },
+                {
+                    "id" : "pkill2",
+                    "duration" : 200
+                }
+            ]
+        } 
     },
     {
         "id" : "pills_sleep",
@@ -506,6 +568,33 @@
         }
     },
     {
+        "id" : "tramadol",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "tramadol",
+        "description" : "A painkiller used to manage moderate pain.  The effects last for several hours, but are relatively subdued for an opioid.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 24500,
+        "charges" : 10,
+        "stack_size" : 200,
+        "symbol" : "!",
+        "color" : "yellow",
+        "fun" : 6,
+        "addiction_potential" : 6,
+        "addiction_type" : "opiate",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some tramadol.",
+            "effects" : [
+                {
+                    "id" : "pkill_l",
+                    "duration" : 4500
+                }
+            ]
+        } 
+    },
+    {
         "id" : "vaccine_shot",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -571,5 +660,26 @@
             "tools_needed" : { "apparatus" : -1 },
             "moves" : 40
         }
+    },
+    {
+        "id" : "xanax",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "Xanax",
+        "name_plural" : "Xanax",
+        "description" : "Anti-anxiety agent with a powerful sedative effect.  May cause dissociation and loss of memory.  It is dangerously addictive, and withdrawal from regular use should be gradual.  Its generic name is alprazolam.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 6000, "//" : "Yeah, kinda guessing at these ones, but generic is cheaper.",
+        "charges" : 10,
+        "stack_size" : 200,
+        "symbol" : "!",
+        "color" : "cyan",
+        "stim" : -4,
+        "healthy" : -2,
+        "fun" : 20,
+        "addiction_potential" : 40,
+        "addiction_type" : "sleeping pill",
+        "use_action" : "XANAX"
     }
 ]
