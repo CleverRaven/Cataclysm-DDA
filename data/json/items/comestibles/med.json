@@ -28,6 +28,24 @@
         "flags" : [ "USE_ON_NPC" ]
     },
     {
+        "id" : "adderall",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "Adderall",
+        "description" : "Medical grade amphetamine salts mixed with Dextroamphetamine salts, commonly prescribed to treat hyperactive attention deficits.  It suppresses the appetite, and is quite addictive.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 14500,
+        "charges" : 10,
+        "stack_size" : 200,
+        "symbol" : "!",
+        "color" : "light_red",
+        "stim" : 24,
+         "fun" : 10,
+        "addiction_potential" : 10,
+        "addiction_type" : "amphetamine"  
+    },
+    {
         "id" : "adrenaline_injector",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -175,6 +193,28 @@
                 }
             ]
         }    
+    },
+    {
+        "id" : "coke",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "cocaine",
+        "name_plural" : "cocaine",
+        "description" : "Crystalline extract of the coca leaf, or at least, a white powder with some of that in it.  A topical analgesic, it is more commonly used for its stimulatory properties.  Highly addictive.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 10000,
+        "charges" : 8,
+        "stack_size" : 100,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "white",
+        "stim" : 20,
+        "healthy" : -2,
+        "fun" : 25,
+        "addiction_potential" : 50,
+        "addiction_type" : "cocaine",
+        "use_action" : "COKE"
     },
     {
         "id" : "cotton_ball",
@@ -337,6 +377,29 @@
         "addiction_potential" : 5,
         "use_action" : "SMOKING"
     },
+    {
+        "id" : "meth",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "low-grade methamphetamine",
+        "name_plural" : "low-grade methamphetamine",
+        "description" : "A profoundly addictive and powerful stimulant.  While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 15000,
+        "charges" : 6,
+        "stack_size" : 100,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "light_cyan",
+        "quench" : -2,
+        "stim" : 20,
+        "healthy" : -7,
+        "fun" : 30,
+        "addiction_potential" : 50,
+        "addiction_type" : "amphetamine",
+        "use_action" : "METH"
+    },
     {   
         "id" : "mugwort_oil",
         "type" : "COMESTIBLE",
@@ -492,6 +555,24 @@
         "use_action" : "FLUSLEEP"
     },
     {
+        "id" : "prozac",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "Prozac",
+        "description" : "A common and popular antidepressant.  It will elevate mood, and can profoundly affect the action of other drugs.  It is only rarely habit-forming, though adverse reactions are not uncommon.  Its generic name is fluoxetine.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 9000, "//" : "Don't have a cite for this one.",
+        "charges" : 15,
+        "stack_size" : 200,
+        "symbol" : "!",
+        "color" : "light_green",
+        "stim" : -5,
+        "addiction_potential" : 5,
+        "addiction_type" : "amphetamine",
+        "use_action" : "PROZAC" 
+    },
+    {
         "id" : "prussian_blue",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -510,6 +591,22 @@
             "activation_message" : "You take some Prussian blue.",
             "effects" : [ { "id" : "pblue", "duration" : 3600 } ]
         }
+    },
+    {
+        "id" : "thorazine",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "Thorazine",
+        "description" : "Anti-psychotic medication.  Used to stabilize brain chemistry, it can arrest hallucinations and other symptoms of psychosis.  Carries a sedative effect.  Its generic name is chlorpromazine.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 5000,
+        "charges" : 10,
+        "stack_size" : 200,
+        "symbol" : "!",
+        "color" : "light_red",
+        "stim" : -30,
+        "use_action" : "THORAZINE"
     },
     {
         "id" : "thyme_oil",
