@@ -3157,11 +3157,13 @@ std::vector<const material_type*> item::made_of_types() const
 
 bool item::made_of_any( const std::vector<material_id> &mat_idents ) const
 {
+    const auto mats = made_of();
+    if( mats.empty() ) {
+        return false;
+    }
     for( auto candidate_material : mat_idents ) {
-        for( auto target_material : made_of() ) {
-            if( candidate_material == target_material ) {
-                return true;
-            }
+        if( std::find( mats.begin(), mats.end(), candidate_material ) != mats.end() ) {
+            return true;
         }
     }
     return false;
@@ -3169,7 +3171,11 @@ bool item::made_of_any( const std::vector<material_id> &mat_idents ) const
 
 bool item::only_made_of( const std::vector<material_id> &mat_idents ) const
 {
-    for( auto target_material : made_of() ) {
+    const auto mats = made_of();
+    if( mats.empty() ) {
+        return false;
+    }
+    for( auto target_material : mats ) {
         if( std::find( mat_idents.begin(), mat_idents.end(), target_material ) == mat_idents.end() ) {
             return false;
         }
@@ -4604,8 +4610,13 @@ bool item::burn(int amount)
 
 bool item::flammable() const
 {
+    const auto mats = made_of_types();
+    if( mats.empty() ) {
+        // Don't know how to burn down something made of nothing.
+        return false;
+    }
     int flammability = 0;
-    for( auto mat : made_of_types() ) {
+    for( auto mat : mats ) {
         flammability += mat->fire_resist();
     }
 
