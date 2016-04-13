@@ -166,6 +166,25 @@
         "use_action" : "SMOKING"
     },
     {
+        "id" : "cigar",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "cigar",
+        "description" : "Rolled, cured tobacco leaf, addictive and hazardous to health.\nA gentleman's vice, cigars set the civil man apart from the savage.",
+        "weight" : 3,
+        "volume" : 1,
+        "price" : 1000,
+        "charges" : 5,
+        "symbol" : "!",
+        "color" : "brown",
+        "stim" : 1,
+        "healthy" : -1,
+        "fun" : 15,
+        "addiction_potential" : 50,
+        "addiction_type" : "nicotine",
+        "use_action" : "SMOKING"
+    },
+    {
         "id" : "codeine",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -339,6 +358,41 @@
         "fun" : 5
     },
     {
+        "id" : "heroin",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "heroin",
+        "description" : "An extremely strong opioid narcotic derived from morphine.  Incredibly addictive, the risk of overdose is extreme, and the drug is contraindicated for nearly all medical purposes.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 14000,
+        "charges" : 4,
+        "stack_size" : 100,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "light_gray",
+        "stim" : -10,
+        "healthy" : -5,
+        "fun" : 50,
+        "addiction_potential" : 75,
+        "addiction_type" : "opiate",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You shoot up.",
+            "tools_needed" : { "syringe" : 1 },
+            "effects" : [
+                {
+                    "id" : "pkill3",
+                    "duration" : 80
+                },
+                {
+                    "id" : "pkill2",
+                    "duration" : 200
+                }
+            ]
+        }
+    },
+    {
         "id" : "iodine",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -399,6 +453,41 @@
         "addiction_potential" : 50,
         "addiction_type" : "amphetamine",
         "use_action" : "METH"
+    },
+    {
+        "id" : "morphine",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "morphine",
+        "description" : "A very strong semi-synthetic narcotic used to treat intense pain in hospital settings.  This injectable drug is very addictive.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 4000,
+        "charges" : 4,
+        "stack_size" : 100,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "light_gray",
+        "stim" : -5,
+        "healthy" : -3,
+        "fun" : 25,
+        "addiction_potential" : 25,
+        "addiction_type" : "opiate",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You shoot up.",
+            "tools_needed" : { "syringe" : 1 },
+            "effects" : [
+                {
+                    "id" : "pkill3",
+                    "duration" : 20
+                },
+                {
+                    "id" : "pkill2",
+                    "duration" : 200
+                }
+            ]
+        }
     },
     {   
         "id" : "mugwort_oil",
