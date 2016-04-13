@@ -10298,17 +10298,21 @@ void game::grab()
     refresh_all();
 }
 
-bool vehicle_near( const itype_id &ft )
+std::vector<vehicle*> nearby_vehicles_for( const itype_id &ft )
 {
+    std::vector<vehicle*> result;
     for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        vehicle *veh = g->m.veh_at( p );
+        vehicle * const veh = g->m.veh_at( p );
         // TODO: constify fuel_left and fuel_capacity
         // TODO: add a fuel_capacity_left function
+        if( std::find( result.begin(), result.end(), veh ) != result.end() ) {
+            continue;
+        }
         if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
-            return true;
+            result.push_back( veh );
         }
     }
-    return false;
+    return result;
 }
 
 void game::handle_all_liquid( item liquid, const int radius )
@@ -10367,7 +10371,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
         return false;
     }
 
-    if( vehicle_near( liquid.type->id ) && query_yn(_("Refill vehicle?")) ) {
+    if( !nearby_vehicles_for( liquid.type->id ).empty() && query_yn(_("Refill vehicle?")) ) {
         tripoint vp;
         refresh_all();
         if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
