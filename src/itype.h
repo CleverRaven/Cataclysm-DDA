@@ -67,7 +67,7 @@ struct islot_comestible
     std::string tool = "null";
 
     /** Defaults # of charges (drugs, loaf of bread? etc) */
-    long def_charges = 0;
+    long def_charges = 1;
 
     /** effect on character thirst (may be negative) */
     int quench = 0; 

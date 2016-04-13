@@ -1016,16 +1016,15 @@ void Item_factory::load_book( JsonObject &jo )
 
 void Item_factory::load( islot_comestible &slot, JsonObject &jo )
 {
-    slot.comesttype = jo.get_string( "comestible_type" );
-
-    jo.read( "charges", slot.def_charges );
-    jo.read( "tool", slot.tool );
-    jo.read( "quench", slot.quench );
-    jo.read( "brew_time", slot.brewtime );
-    jo.read( "addiction_potential", slot.addict );
-    jo.read( "fun", slot.fun );
-    jo.read( "stim", slot.stim );
-    jo.read( "healthy", slot.healthy );
+    assign( jo, "comestible_type", slot.comesttype );
+    assign( jo, "tool", slot.tool );
+    assign( jo, "charges", slot.def_charges );
+    assign( jo, "quench", slot.quench );
+    assign( jo, "brew_time", slot.brewtime );
+    assign( jo, "addiction_potential", slot.addict );
+    assign( jo, "fun", slot.fun );
+    assign( jo, "stim", slot.stim );
+    assign( jo, "healthy", slot.healthy );
 
     if( jo.read( "spoils_in", slot.spoils ) ) {
         slot.spoils *= 600; // JSON specifies hours so convert to turns
