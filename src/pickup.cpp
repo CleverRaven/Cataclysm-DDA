@@ -367,7 +367,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                 option = STASH;
             }
         }
-        if( option != STASH ) {
+        if( option == NUM_ANSWERS ) {
             //not picking up the rest so
             //update the charges for the item that gets re-added to the game map
             leftovers.charges = newit.charges;

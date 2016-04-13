@@ -27,6 +27,7 @@ MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
+bool monster_whitelist_is_exclusive = false;
 
 template<>
 const mongroup_id string_id<MonsterGroup>::NULL_ID( "GROUP_NULL" );
@@ -257,6 +258,9 @@ void MonsterGroupManager::LoadMonsterBlacklist(JsonObject &jo)
 
 void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo)
 {
+    if( jo.has_string( "mode" ) && jo.get_string( "mode" ) == "EXCLUSIVE" ) {
+        monster_whitelist_is_exclusive = true;
+    }
     add_to_set(monster_whitelist, jo, "monsters");
     add_to_set(monster_categories_whitelist, jo, "categories");
 }
@@ -280,9 +284,9 @@ bool MonsterGroupManager::monster_is_blacklisted(const mtype_id& m)
     if(monster_blacklist.count(m.str()) > 0) {
         return true;
     }
-    // Empty whitelist: default to enable all,
-    // Non-empty whitelist: default to disable all.
-    return !(monster_whitelist.empty() && monster_categories_whitelist.empty());
+    // Return true if the whitelist mode is exclusive and either whitelist is populated.
+    return monster_whitelist_is_exclusive &&
+        ( !monster_whitelist.empty() || !monster_categories_whitelist.empty() );
 }
 
 void MonsterGroupManager::FinalizeMonsterGroups()
@@ -378,6 +382,7 @@ void MonsterGroupManager::ClearMonsterGroups()
     monsterGroupMap.clear();
     monster_blacklist.clear();
     monster_whitelist.clear();
+    monster_whitelist_is_exclusive = false;
     monster_categories_blacklist.clear();
     monster_categories_whitelist.clear();
 }

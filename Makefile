@@ -199,7 +199,7 @@ ifndef RELEASE
   endif
 endif
 
-OTHERS += --std=c++11
+OTHERS += -std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
