@@ -5050,11 +5050,11 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 }
 
 template <typename Stack>
-std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity)
+std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity, const tripoint& pos )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( !a->made_of(LIQUID) && a->use_charges(type, quantity, ret) ) {
+        if( !a->made_of(LIQUID) && a->use_charges( type, quantity, ret, pos ) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -5147,7 +5147,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
             continue;
         }
 
-        std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity );
+        std::list<item> tmp = use_charges_from_stack( i_at( p ), type, quantity, p );
         ret.splice(ret.end(), tmp);
         if (quantity <= 0) {
             return ret;
@@ -5266,7 +5266,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 
         if (cargo >= 0) {
             std::list<item> tmp =
-                use_charges_from_stack( veh->get_items(cargo), type, quantity );
+                use_charges_from_stack( veh->get_items(cargo), type, quantity, p );
             ret.splice(ret.end(), tmp);
             if (quantity <= 0) {
                 return ret;

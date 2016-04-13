@@ -123,7 +123,7 @@
                 { "item": "fridge", "chance": 20, "x": [ 17,20 ], "y": [ 2,3 ] },
                 { "item": "dining", "chance": 75, "x": [ 18,19 ], "y": [ 2,3 ] },
                 { "item": "magazines", "chance": 50, "x": [ 17,17 ], "y": 5 },
-                { "item": "mischw", "chance": 50, "x": [ 17,21 ], "y": [ 19,21 ] },
+                { "item": "supplies_fuel", "chance": 100, "x": [ 17,21 ], "y": [ 19,21 ], "repeat": [1,2] },
                 { "item": "hardware", "chance": 50, "x": [ 17,21 ], "y": [ 19,21 ] },
                 { "item": "novels", "chance": 50, "x": [ 7,7 ], "y": [ 2, 3 ] },
                 { "item": "office", "chance": 50, "x": 9 , "y": [ 7,8] },

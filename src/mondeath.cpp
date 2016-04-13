@@ -654,7 +654,7 @@ void mdeath::detonate(monster *z)
                 add_msg(m_debug, "Invalid bomb type in detonate mondeath for %s.", z->name().c_str());
                 continue;
             }
-            dets.push_back(std::make_pair(actor->target_id, actor->target_charges));
+            dets.emplace_back( actor->target, actor->ammo_qty );
         }
     }
 

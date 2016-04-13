@@ -1,0 +1,86 @@
+[
+
+    {
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_NW",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_N",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_NE",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_CW",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_C",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_CE",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_SW",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_S",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hell_castle_SE",
+        "name" : "hell castle",
+        "sym" : 79,
+        "color" : "i_red",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 5
+    }
+    
+]

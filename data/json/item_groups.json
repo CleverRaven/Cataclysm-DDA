@@ -611,7 +611,6 @@
       ["yeast", 10],
       ["molasses", 5],
       ["vodka", 20],
-      ["chem_ethanol", 2],
       ["apple_cider", 50],
       ["fruit_wine", 7],
       ["brandy", 5],
@@ -804,7 +803,6 @@
       ["television", 10],
       ["clock", 10],
       ["cig", 60],
-      ["music_cd", 40],
       ["tobacco", 30],
       ["chaw", 20],
       ["cigar", 5],
@@ -3727,16 +3725,8 @@
     "type" : "item_group",
     "id" : "ambulance_equipment",
     "items":[
-      ["stethoscope", 24],
-      ["scissors", 10],
-      ["scalpel", 10],
-      ["syringe", 10],
-      ["adrenaline_injector", 6],
-      ["vacutainer", 2],
-      ["gloves_medical", 15],
-      ["mask_dust", 10],
-      ["medical_tape", 10],
-      ["smoxygen_tank", 3]
+      { "group": "tools_medical", "prob": 100 },
+      { "group": "drugs_emergency", "prob": 50 }
     ]
   },{
     "type" : "item_group",
@@ -3939,7 +3929,6 @@
       ["lighter", 50],
       ["glasses_eye", 30],
       ["contacts", 30],
-      ["music_cd", 40],
       ["radio", 100],
       ["battery", 50],
       ["umbrella", 50],
@@ -3968,7 +3957,6 @@
       ["purse", 40],
       ["mbag", 20],
       ["battery", 50],
-      ["music_cd", 45],
       ["mag_news", 35],
       ["file", 20],
       ["manual_computers", 20],
@@ -4247,6 +4235,7 @@
     "id" : "pawn",
     "items":[
       { "group" : "mags_pawnshop", "prob" : 300 },
+      ["oxylamp", 50],
       ["polisher", 6],
       ["wakizashi_inferior", 30],
       ["katana_inferior", 30],
@@ -4259,7 +4248,6 @@
       ["700nx", 1],
       ["700nx_casing", 1],
       ["moss_brownie", 5],
-      ["music_cd", 8],
       ["cop_38", 5],
       ["cigar", 5],
       ["advanced_ecig", 5],
@@ -6360,7 +6348,6 @@
       ["rock", 40],
       ["ceramic_shard", 30],
       ["pipe", 20],
-      ["music_cd", 20],
       ["many_years_old_newspaper", 1],
       ["years_old_newspaper", 2],
       ["one_year_old_newspaper", 3],
@@ -8209,6 +8196,7 @@
 "type" : "item_group",
 "id" : "antique",
         "items" : [
+      ["oxylamp", 50],
       ["cow_bell", 15],
       ["sickle", 2],
       ["scythe",2],
@@ -8753,38 +8741,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "doctorsoffice",
-    "items":[
-      ["bandages", 100],
-      ["cotton_ball", 100],
-      ["1st_aid", 50],
-      ["disinfectant", 100],
-      ["medical_gauze", 100],
-      ["medical_tape", 50],
-      ["smoxygen_tank", 20],
-      ["bfipowder", 20],
-      ["quikclot", 20],
-      ["saline", 100],
-      ["eyedrops", 20],
-      ["aspirin", 100],
-      ["dayquil", 25],
-      ["nyquil", 25],
-      ["inhaler", 50],
-      ["syringe", 100],
-      ["adrenaline_injector", 5],
-      ["vacutainer", 5],
-      ["flu_shot", 20],
-      ["vaccine_shot", 20],
-      ["gloves_medical", 100],
-      ["stethoscope", 30],
-      ["mask_dust", 60],
-      ["string_6", 50],
-      ["scissors", 20],
-      ["emergency_book", 20],
-      ["survnote", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "college_camping",
     "ammo": 50,
     "magazine": 100,
@@ -8922,7 +8878,6 @@
       ["magnifying_glass", 25],
       ["glasses_reading", 50],
       ["string_6", 25],
-      ["music_cd", 50],
       ["candle", 20],
       ["survnote", 1]
     ]

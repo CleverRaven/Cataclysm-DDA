@@ -890,7 +890,6 @@ classes = {
             { name = "aim_speed", rval = "int", args = { "int" } },
             { name = "already_used_by_player", rval = "bool", args = { "player" } },
             { name = "ammo_capacity", rval = "int", args = { } },
-            { name = "ammo_consume", rval = "bool", args = { "int", "tripoint" } },
             { name = "ammo_current", rval = "string", args = { } },
             { name = "ammo_data", rval = "itype&", args = { } },
             { name = "ammo_remaining", rval = "int", args = { } },

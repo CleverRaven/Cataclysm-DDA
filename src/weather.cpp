@@ -19,6 +19,7 @@
 #include <sstream>
 
 const efftype_id effect_glare( "glare" );
+const efftype_id effect_blind( "blind" );
 
 /**
  * \defgroup Weather "Weather and its implications."
@@ -36,7 +37,8 @@ const efftype_id effect_glare( "glare" );
 void weather_effect::glare()
 {
     if( PLAYER_OUTSIDE && g->is_in_sunlight( g->u.pos() ) && !g->u.in_sleep_state() &&
-        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.has_bionic( "bio_sunglasses" ) ) {
+        !g->u.worn_with_flag( "SUN_GLASSES" ) && !g->u.worn_with_flag( "BLIND" ) &&
+        !g->u.has_bionic( "bio_sunglasses" ) && !g->u.has_effect( effect_blind ) ) {
         if( !g->u.has_effect( effect_glare ) ) {
             if( g->u.has_trait( "CEPH_VISION" ) ) {
                 g->u.add_env_effect( effect_glare, bp_eyes, 2, 4 );

@@ -454,7 +454,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_swimmer_pk",
-    "name": "swimmimg zombie",
+    "name": "swimming zombie",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"Z",

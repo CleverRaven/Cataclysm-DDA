@@ -26,5 +26,17 @@
       [ "fertilizer_liquid", 60 ],
       [ "material_quicklime", 80 ]
     ]
+  },
+  {
+    "id": "supplies_fuel",
+    "type": "item_group",
+    "//": "Combustible fuels within their default containers",
+    "items": [
+      [ "chem_ethanol", 10 ],
+      [ "denat_alcohol", 20 ],
+      [ "diesel", 20 ],
+      [ "gasoline", 50 ],
+      [ "lamp_oil", 100 ]
+    ]
   }
 ]
