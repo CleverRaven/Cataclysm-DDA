@@ -10455,8 +10455,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             return;
         }
 
-        //TODO: use something like iexamine::has_keg
-        const bool has_keg = m.furn_at( target_pos ).examine == &iexamine::keg;
+        const bool has_keg = iexamine::has_keg( target_pos );
         const bool can_put = m.can_put_items_ter_furn( target_pos );
 
         if( !has_keg && !can_put ) {

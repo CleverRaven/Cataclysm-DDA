@@ -2001,15 +2001,22 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 }
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-static int get_keg_cap( const furn_t &furn ) {
-    if( furn.id == "f_standing_tank" )  { return 1200; } //the furniture was a "standing tank", so can hold 1200
-    else                                { return 600; } //default to old default value
+int iexamine::get_keg_capacity( const tripoint &pos ) {
+    const furn_t &furn = g->m.furn_at( pos );
+    if( furn.id == "f_standing_tank" )  { return 1200; }
+    else if( furn.id == "f_wood_keg" )  { return 600; }
     //add additional cases above
+    else                                { return 0; }
+}
+
+bool iexamine::has_keg( const tripoint &pos )
+{
+    return get_keg_capacity( pos ) > 0;
 }
 
 void iexamine::keg(player &p, const tripoint &examp)
 {
-    int keg_cap = get_keg_cap( g->m.furn_at(examp) );
+    int keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
     for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
         if (!g->m.i_at(examp)[i].made_of( LIQUID ) || liquid_present) {
@@ -2158,7 +2165,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 
 bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
 {
-    const int keg_cap = get_keg_cap( g->m.furn_at( pos ) );
+    const int keg_cap = get_keg_capacity( pos );
     if( keg_cap <= 0 ) {
         return false;
     }

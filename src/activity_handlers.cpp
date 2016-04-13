@@ -598,7 +598,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             p->pour_into( p->i_at( act.values.at( 3 ) ), liquid );
             break;
         case LTT_MAP:
-            if( g->m.furn_at( act.coords.at( 1 ) ).examine == iexamine::keg ) {
+            if( iexamine::has_keg( act.coords.at( 1 ) ) ) {
                 iexamine::pour_into_keg( act.coords.at( 1 ), liquid );
             } else {
                 g->m.add_item_or_charges( act.coords.at( 1 ), liquid );
