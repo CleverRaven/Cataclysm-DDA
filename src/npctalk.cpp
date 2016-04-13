@@ -4274,7 +4274,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             weight_left = temp.weight_capacity() - temp.weight_carried();
             mvwprintz( w_head, 3, 2, (volume_left < 0 || weight_left < 0) ? c_red : c_green,
                        _("Volume: %d, %s"), volume_left,
-                       string_format( "Weight: %.1f %s",
+                       string_format( _( "Weight: %.1f %s" ),
                                       convert_weight( weight_left ), weight_units() ).c_str() );
             mvwprintz(w_head, 3, 60,
                     (cash < 0 && (int)g->u.cash >= cash * -1) || (cash >= 0 && (int)p.cash  >= cash) ?
