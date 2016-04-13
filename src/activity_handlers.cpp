@@ -1018,41 +1018,36 @@ void activity_handlers::refill_vehicle_do_turn( player_activity *act, player *p 
 
 void activity_handlers::reload_finish( player_activity *act, player *p )
 {
-    item *reloadable = nullptr;
-    {
-        int reloadable_pos;
-        std::stringstream ss(act->name);
-        ss >> reloadable_pos;
-        reloadable = &p->i_at(reloadable_pos);
-    }
-    if( reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
-        if( reloadable->is_gun() && reloadable->has_flag("RELOAD_ONE") ) {
-            if( reloadable->ammo_type() == "bolt" ) {
-                add_msg(_("You insert a bolt into the %s."),
-                        reloadable->tname().c_str());
-            } else {
-                add_msg(_("You insert a cartridge into the %s."),
-                        reloadable->tname().c_str());
-            }
-            p->recoil = std::max(MIN_RECOIL, (MIN_RECOIL + p->recoil) / 2);
-        } else {
-            add_msg(_("You reload the %s."), reloadable->tname().c_str());
-            p->recoil = MIN_RECOIL;
-        }
-
-        // Create noise.
-        if(reloadable->is_gun()) {
-            islot_gun* gun = reloadable->type->gun.get();
-            if( gun->reload_noise_volume > 0 ) {
-
-              sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume(p->pos()));
-              sounds::ambient_sound( p->pos(), gun->reload_noise_volume, gun->reload_noise );
-            }
-        }
-    } else {
-        add_msg(m_info, _("Can't reload the %s."), reloadable->tname().c_str());
-    }
     act->type = ACT_NULL;
+
+    item *reloadable = &p->i_at( std::atoi( act->name.c_str() ) );
+    int qty = act->index;
+
+    if( !reloadable->reload( *p, item_location( *p, &p->i_at( act->position ) ), act->index ) ) {
+        add_msg( m_info, _( "Can't reload the %s." ), reloadable->tname().c_str() );
+        return;
+    }
+
+    if( reloadable->is_gun() ) {
+        p->recoil -= act->moves_total;
+
+        if( reloadable->has_flag( "RELOAD_ONE" ) ) {
+            for( int i = 0; i != qty; ++i ) {
+                if( reloadable->ammo_type() == "bolt" ) {
+                    add_msg( _( "You insert a bolt into the %s." ), reloadable->tname().c_str() );
+                } else {
+                    add_msg( _( "You insert a cartridge into the %s." ), reloadable->tname().c_str() );
+                }
+            }
+        } else {
+            add_msg( _( "You reload the %s." ), reloadable->tname().c_str() );
+        }
+
+        if( reloadable->type->gun->reload_noise_volume > 0 ) {
+            sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume( p->pos() ) );
+            sounds::ambient_sound( p->pos(), reloadable->type->gun->reload_noise_volume, reloadable->type->gun->reload_noise );
+        }
+    }
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )

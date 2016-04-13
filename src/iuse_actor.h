@@ -665,6 +665,18 @@ class bandolier_actor : public iuse_actor
         virtual void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
+class ammobelt_actor : public iuse_actor
+{
+    public:
+        itype_id belt; /** what type of belt is created with this linkage? */
+
+        virtual ~ammobelt_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
+        virtual void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
 /**
  * Repair an item
  */

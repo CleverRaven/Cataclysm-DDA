@@ -47,7 +47,7 @@
     "capacity": 200,
     "count": 100,
     "rigid": false,
-    "linkage": "ammolink",
+    "linkage": "ammolink223",
     "reliability": 6,
     "armor_data": {"covers":[ "TORSO" ], "coverage":5, "encumbrance":0, "material_thickness":0},
     "flags": [ "NO_RELOAD", "NO_UNLOAD", "MAG_DESTROY" ]
@@ -68,7 +68,7 @@
     "count": 100,
     "rigid": false,
     "reliability": 6,
-    "linkage": "ammolink",
+    "linkage": "ammolink308",
     "armor_data": {"covers":[ "TORSO" ], "coverage":5, "encumbrance":0, "material_thickness":0},
     "flags": [ "NO_RELOAD", "NO_UNLOAD", "MAG_DESTROY" ]
   },

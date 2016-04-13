@@ -9193,7 +9193,7 @@ bool player::has_charges(const itype_id &it, long quantity) const
     if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
     }
-    return (charges_of(it) >= quantity);
+    return charges_of( it, quantity ) == quantity;
 }
 
 int  player::leak_level( std::string flag ) const
@@ -9820,6 +9820,37 @@ bool player::can_use( const item& it, bool interactive ) const {
     });
 }
 
+bool player::can_reload( const item& it, const itype_id& ammo ) const {
+    if( !it.is_reloadable() ) {
+        return false;
+    }
+
+    if( it.is_ammo_belt() ) {
+        auto linkage = it.type->magazine->linkage;
+        if( linkage != "NULL" && !has_charges( linkage, 1 ) ) {
+            return false;
+        }
+    }
+
+    if( it.magazine_integral() ) {
+        if( !ammo.empty() ) {
+            if( it.ammo_data() ) {
+                if( it.ammo_data()->id != ammo ) {
+                    return false;
+                }
+            } else {
+                auto at = item::find_type( ammo );
+                if( !at->ammo || it.ammo_type() != at->ammo->type ) {
+                    return false;
+                }
+            }
+        }
+        return it.ammo_remaining() < it.ammo_capacity();
+    } else {
+        return ammo.empty() ? true : it.magazine_compatible().count( ammo );
+    }
+}
+
 bool player::dispose_item( item& obj, const std::string& prompt )
 {
     uimenu menu;
@@ -10231,7 +10262,7 @@ hint_rating player::rate_action_reload( const item &it ) const
         return res;
     }
 
-    return it.can_reload() ? HINT_GOOD : HINT_IFFY;
+    return can_reload( it ) ? HINT_GOOD : HINT_IFFY;
 }
 
 hint_rating player::rate_action_unload( const item &it ) const

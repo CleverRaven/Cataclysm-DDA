@@ -1804,6 +1804,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         addentry( 'd', pgettext("action", "drop"), rate_drop_item );
         addentry( 'U', pgettext("action", "unload"), u.rate_action_unload( oThisItem ) );
         addentry( 'r', pgettext("action", "reload"), u.rate_action_reload( oThisItem ) );
+        addentry( 'p', pgettext("action", "part reload"), u.rate_action_reload( oThisItem ) );
         addentry( 'D', pgettext("action", "disassemble"), u.rate_action_disassemble( oThisItem ) );
         addentry( '=', pgettext("action", "reassign"), HINT_GOOD );
         if( bHPR ) {
@@ -1889,6 +1890,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                 break;
             case 'r':
                 reload(pos);
+                break;
+            case 'p':
+                reload( pos, true );
                 break;
             case 'R':
                 u.read(pos);
@@ -10885,7 +10889,7 @@ void game::plfire( bool burst, const tripoint &default_target )
                 return; // menu cancelled
             }
 
-            reload_time += opt.moves;
+            reload_time += opt.moves();
             if( !gun.reload( u, std::move( opt.ammo ), 1 ) ) {
                 return; // unable to reload
             }
@@ -11340,7 +11344,7 @@ void game::change_side(int pos)
     }
 }
 
-void game::reload( int pos )
+void game::reload( int pos, bool prompt )
 {
     item *it = &u.i_at( pos );
 
@@ -11361,7 +11365,16 @@ void game::reload( int pos )
             if( it->ammo_remaining() > 0 && it->ammo_remaining() == it->ammo_capacity() ) {
                 add_msg( m_info, _( "The %s is already fully loaded!" ), it->tname().c_str() );
                 return;
-            } // intentional fall-through
+            }
+            if( it->is_ammo_belt() ) {
+                auto linkage = it->type->magazine->linkage;
+                if( linkage != "NULL" && !g->u.has_charges( linkage, 1 ) ) {
+                    add_msg( m_info, _( "You need at least one %s to reload the %s!" ),
+                                     item::nname( linkage, 1 ).c_str(), it->tname().c_str() );
+                    return;
+                }
+            }
+            // intentional fall-through
 
         case HINT_CANT:
             add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );
@@ -11371,13 +11384,13 @@ void game::reload( int pos )
             break;
     }
 
-    item::reload_option opt = it->pick_reload_ammo( u );
+    item::reload_option opt = it->pick_reload_ammo( u, prompt );
     if( opt ) {
         std::stringstream ss;
         ss << pos;
 
-        long fetch = !opt.ammo->is_ammo_container() ? opt.qty : 1;
-        u.assign_activity( ACT_RELOAD, opt.moves, opt.qty, opt.ammo.obtain( u, fetch ), ss.str() );
+        long fetch = !opt.ammo->is_ammo_container() ? opt.qty() : 1;
+        u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty(), opt.ammo.obtain( u, fetch ), ss.str() );
 
         u.inv.restack( &u );
     }
@@ -11417,7 +11430,11 @@ void game::unload(int pos)
         }
     }
 
-    unload( *it );
+    if( unload( *it ) ) {
+        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
+            u.remove_item( *it );
+        }
+    }
 }
 
 bool add_or_drop_with_msg( player &u, item &it )
@@ -11497,15 +11514,25 @@ bool game::unload( item &it )
 
     if( target->is_magazine() ) {
         // Remove all contained ammo consuming half as much time as required to load the magazine
+        long qty = 0;
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
             if( !add_or_drop_with_msg( u, e ) ) {
                 return false;
             }
+            qty += e.charges;
             u.moves -= u.item_reload_cost( *target, e ) / 2;
             return true;
         } ), target->contents.end() );
 
-        add_msg( _( "You unload your %s." ), target->tname().c_str() );
+        if( target->is_ammo_belt() ) {
+            if( target->type->magazine->linkage != "NULL" ) {
+                item link( target->type->magazine->linkage, calendar::turn, qty );
+                add_or_drop_with_msg( u, link );
+            }
+            add_msg( _( "You disassemble your %s."), target->tname().c_str() );
+        } else {
+            add_msg( _( "You unload your %s." ), target->tname().c_str() );
+        }
         return true;
 
     } else if( target->magazine_current() ) {

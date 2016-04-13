@@ -2020,6 +2020,46 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
     return 0;
 }
 
+iuse_actor *ammobelt_actor::clone() const
+{
+    return new ammobelt_actor( *this );
+}
+
+void ammobelt_actor::load( JsonObject &obj )
+{
+    belt = obj.get_string( "belt" );
+}
+
+void ammobelt_actor::info( const item&, std::vector<iteminfo>& dump ) const
+{
+    std::string name = item::find_type( belt )->nname( 1 );
+    dump.emplace_back( "AMMO", string_format( _( "Can be used to assemble: %s" ), name.c_str() ) );
+}
+
+long ammobelt_actor::use( player *p, item *, bool, const tripoint& ) const
+{
+    if( !p ) {
+        return 0;
+    }
+
+    item mag( belt );
+    mag.ammo_unset();
+
+    if( p->rate_action_reload( mag ) != HINT_GOOD ) {
+        p->add_msg_if_player( _( "Insufficient %s to assemble %s" ),
+                              ammo_name( mag.ammo_type() ).c_str(), mag.tname().c_str() );
+        return 0;
+    }
+
+    item::reload_option opt = mag.pick_reload_ammo( *p, true );
+    if( opt ) {
+        std::stringstream ss;
+        ss << p->get_item_position( &p->i_add( mag ) );
+        p->assign_activity( ACT_RELOAD, opt.moves(), opt.qty(), opt.ammo.obtain( *p, opt.qty() ), ss.str() );
+    }
+    return 0;
+}
+
 void repair_item_actor::load( JsonObject &obj )
 {
     // Mandatory:
