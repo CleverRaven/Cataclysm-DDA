@@ -84,6 +84,7 @@ src/catacharset.h
 src/catacurse.h
 src/catalua.h
 src/char_validity_check.h
+src/character.h
 src/color.h
 src/compatibility.h
 src/computer.h
