@@ -526,8 +526,8 @@ void input_manager::add_input_for_action(
 
 bool input_context::action_uses_input( const std::string &action_id, const input_event &event ) const
 {
-    const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category );
-    return std::find( attributes.input_events.begin(), attributes.input_events.end(), event ) != attributes.input_events.end();
+    const auto &events = inp_mngr.get_action_attributes( action_id, category ).input_events;
+    return std::find( events.begin(), events.end(), event ) != events.end();
 }
 
 std::string input_context::get_conflicts(const input_event &event) const
