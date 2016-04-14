@@ -46,7 +46,32 @@
         }
     },{
     "type": "effect_type",
+    "id": "stamina_regen",
+    "name": [
+        "Stamina Tonic"
+    ],
+    "int_add_val": 1,
+    "max_intensity": 5,
+        "base_mods": {
+            "stamina_min": [3],
+            "dex_mod": [1],
+            "pkill_amount": [5],
+            "fatigue_amount": [-20],
+            "thirst_amount": [15]
+        },
+    "scaling_mods": {
+            "stamina_min": [3],
+            "per_mod": [-1],
+            "pkill_amount": [5],
+            "fatigue_amount": [-10],
+            "thirst_amount": [15],
+            "vomit_chance": [66],
+            "vomit_tick": [12]
+        }
+    },{
+    "type": "effect_type",
     "id": "doom_unhealth",
+    "int_add_val": 1,
     "max_intensity": 3,
         "base_mods": {
             "h_mod_min": [-1]
