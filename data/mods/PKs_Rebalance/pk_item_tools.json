@@ -232,7 +232,7 @@
     "flags" : ["NO_RELOAD", "NO_UNLOAD"],
     "ammo": "NULL",
     "revert_to": "bottle_glass",
-    "charges": 2,
+    "charges": 3,
     "use_action" : {
     "type" : "consume_drug",
     "effects" : [
