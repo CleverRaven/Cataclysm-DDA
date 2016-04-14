@@ -28,6 +28,7 @@
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_FOOD_DRINKS",
+      "CSC_FOOD_DRY",
       "CSC_FOOD_MEAT",
       "CSC_FOOD_VEGGI",
       "CSC_FOOD_SNACK",
@@ -41,6 +42,7 @@
     "recipe_subcategories" : [
       "CSC_ALL",
       "CSC_CHEM_DRUGS",
+      "CSC_CHEM_FUEL",
       "CSC_CHEM_MUTAGEN",
       "CSC_CHEM_CHEMICALS",
       "CSC_CHEM_OTHER"

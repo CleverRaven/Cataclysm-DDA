@@ -3,6 +3,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "morale_types.h"
 #include "itype.h"
 #include "messages.h"
 #include "addiction.h"

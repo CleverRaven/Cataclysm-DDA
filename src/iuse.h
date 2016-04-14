@@ -159,7 +159,6 @@ public:
     int boltcutters         ( player*, item*, bool, const tripoint& );
     int mop                 ( player*, item*, bool, const tripoint& );
     int spray_can           ( player*, item*, bool, const tripoint& );
-    int LAW                 ( player*, item*, bool, const tripoint& );
     int heatpack            ( player*, item*, bool, const tripoint& );
     int hotplate            ( player*, item*, bool, const tripoint& );
     int quiver              ( player*, item*, bool, const tripoint& );

@@ -93,7 +93,7 @@ TEST_CASE( "player_morale" )
     }
 
     GIVEN( "persistent morale" ) {
-        m.add_permanent( MORALE_PERM_MASOCHIST, 5 );
+        m.set_permanent( MORALE_PERM_MASOCHIST, 5 );
 
         CHECK( m.has( MORALE_PERM_MASOCHIST ) == 5 );
 
@@ -188,6 +188,95 @@ TEST_CASE( "player_morale" )
             AND_WHEN( "not anymore" ) {
                 m.on_mutation_loss( "STYLISH" );
                 CHECK( m.get_level() == 0 );
+            }
+        }
+    }
+
+    GIVEN( "masochist trait" ) {
+        m.on_mutation_gain( "MASOCHIST" );
+
+        CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
+
+        WHEN( "in pain" ) {
+            m.on_stat_change( "perceived_pain", 10 );
+            CHECK( m.has( MORALE_PERM_MASOCHIST ) == 4 );
+        }
+
+        WHEN( "in an insufferable pain" ) {
+            m.on_stat_change( "perceived_pain", 120 );
+            THEN( "there's a limit" ) {
+                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 25 );
+            }
+        }
+    }
+
+    GIVEN( "cenobite trait" ) {
+        m.on_mutation_gain( "CENOBITE" );
+
+        CHECK( m.has( MORALE_PERM_MASOCHIST ) == 0 );
+
+        WHEN( "in an insufferable pain" ) {
+            m.on_stat_change( "perceived_pain", 120 );
+
+            THEN( "there's no limit" ) {
+                CHECK( m.has( MORALE_PERM_MASOCHIST ) == 48 );
+            }
+
+            AND_WHEN( "took prozac" ) {
+                m.on_effect_int_change( effect_took_prozac, 1 );
+                THEN( "it spoils all fun" ) {
+                    CHECK( m.has( MORALE_PERM_MASOCHIST ) == 16 );
+                }
+            }
+        }
+    }
+
+    GIVEN( "a humanoid plant" ) {
+        m.on_mutation_gain( "PLANT" );
+        m.on_mutation_gain( "FLOWERS" );
+        m.on_mutation_gain( "ROOTS" );
+
+        CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
+
+        WHEN( "wearing a hat" ) {
+            item hat( "tinfoil_hat", 0 );
+
+            m.on_item_wear( hat );
+            THEN( "the flowers need sunlight" ) {
+                CHECK( m.has( MORALE_PERM_CONSTRAINED ) == -10 );
+
+                AND_WHEN( "taking it off again" ) {
+                    m.on_item_takeoff( hat );
+                    CHECK( m.has( MORALE_PERM_CONSTRAINED ) == 0 );
+                }
+            }
+        }
+
+        WHEN( "wearing a legpouch" ) {
+            item legpouch( "legpouch", 0 );
+            legpouch.set_side( LEFT );
+
+            m.on_item_wear( legpouch );
+            THEN( "half of the roots are suffering" ) {
+                CHECK( m.has( MORALE_PERM_CONSTRAINED ) == -5 );
+            }
+        }
+
+        WHEN( "wearing a pair of boots" ) {
+            item boots( "boots", 0 );
+
+            m.on_item_wear( boots );
+            THEN( "all of the roots are suffering" ) {
+                CHECK( m.has( MORALE_PERM_CONSTRAINED ) == -10 );
+            }
+
+            AND_WHEN( "even more constrains" ) {
+                item hat( "tinfoil_hat", 0 );
+
+                m.on_item_wear( hat );
+                THEN( "it can't be worse" ) {
+                    CHECK( m.has( MORALE_PERM_CONSTRAINED ) == -10 );
+                }
             }
         }
     }
@@ -354,7 +443,7 @@ TEST_CASE( "player_morale" )
                 CHECK( m.get_level() == -4 );
             }
             AND_WHEN( "3 minutes have passed" ) {
-                m.decay( 10 );
+                m.decay( 3 );
                 CHECK( m.get_level() == -5 );
             }
             AND_WHEN( "an hour has passed" ) {

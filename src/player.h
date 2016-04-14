@@ -5,12 +5,12 @@
 #include "craft_command.h"
 #include "item.h"
 #include "player_activity.h"
-#include "morale.h"
 #include "weighted_list.h"
 #include "game_constants.h"
 
 #include <unordered_set>
 #include <bitset>
+#include <memory>
 #include <array>
 
 static const std::string DEFAULT_HOTKEYS("1234567890abcdefghijklmnopqrstuvwxyz");
@@ -71,6 +71,18 @@ struct special_attack {
         cut = 0;
         stab = 0;
     };
+};
+
+class player_morale;
+class player_morale_ptr : public std::unique_ptr<player_morale> {
+    public:
+        player_morale_ptr() = default;
+        player_morale_ptr( const player_morale_ptr &rhs );
+        player_morale_ptr( player_morale_ptr &&rhs );
+        player_morale_ptr &operator = ( const player_morale_ptr &rhs );
+        player_morale_ptr &operator = ( player_morale_ptr &&rhs );
+
+        ~player_morale_ptr();
 };
 
 // The minimum level recoil will reach without aiming.
@@ -740,6 +752,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool can_use( const item& it, bool interactive = true ) const;
 
         /**
+         * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
+         * @param ammo if set also check item currently compatible with this specific ammo or magazine
+         * @note items currently loaded with a detachable magazine are considered reloadable
+         * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
+         */
+        bool can_reload( const item& it, const itype_id& ammo = std::string() ) const;
+
+        /**
          * Drop, wear, stash or otherwise try to dispose of an item consuming appropriate moves
          * @param obj item to dispose of which must in the players possession
          * @param prompt optional message to display in any menu
@@ -958,7 +978,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity );
         bool use_charges_if_avail( itype_id it, long quantity );// Uses up charges
-        std::list<item> use_charges( itype_id it, long quantity );// Uses up charges
+
+        std::list<item> use_charges( const itype_id& what, long qty ); // Uses up charges
 
         bool has_charges( const itype_id &it, long quantity ) const;
         /** Returns the amount of item `type' that is currently worn */
@@ -1137,8 +1158,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::array<int, num_bp> drench_capacity;
         std::array<int, num_bp> body_wetness;
 
-        player_morale morale;
-
         int focus_pool;
 
         void set_skill_level(const Skill* _skill, int level);
@@ -1266,6 +1285,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         virtual void on_mutation_loss( const std::string &mid ) override;
         /**
+         * Called when a stat is changed
+         */
+        virtual void on_stat_change( const std::string &stat, int value ) override;
+        /**
          * Called when an item is worn
          */
         virtual void on_item_wear( const item &it ) override;
@@ -1360,6 +1383,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         tripoint cached_position;
 
         struct weighted_int_list<const char*> melee_miss_reasons;
+
+        player_morale_ptr morale;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.

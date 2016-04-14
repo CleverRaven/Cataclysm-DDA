@@ -61,6 +61,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
     public:
         /** The type of this activity. */
         activity_type type;
+        /** Total number of moves required to complete the activity */
+        int moves_total;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left;
         /** An activity specific value. */

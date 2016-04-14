@@ -573,9 +573,9 @@ int iuse::ecig(player *p, item *it, bool, const tripoint& )
     if (it->type->id == "ecig") {
         p->add_msg_if_player(m_neutral, _("You take a puff from your electronic cigarette."));
     } else if (it->type->id == "advanced_ecig") {
-        if (p->inv.has_components("nicotine_liquid", 1)) {
+        if (p->has_charges( "nicotine_liquid", 1 ) ) {
             p->add_msg_if_player(m_neutral, _("You inhale some vapor from your advanced electronic cigarette."));
-            p->inv.use_charges("nicotine_liquid", 1);
+            p->use_charges( "nicotine_liquid", 1 );
         } else {
             p->add_msg_if_player(m_info, _("You don't have any nicotine liquid!"));
             return 0;
@@ -5082,9 +5082,9 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    const int charges = moves / 100 * it->type->charges_to_use();
+    const int charges = moves / 100 * it->ammo_required();
 
-    if( charges > it->charges ) {
+    if( charges > it->ammo_remaining() ) {
         add_msg( m_info, _("Your torch doesn't have enough acetylene to cut that.") );
         return 0;
     }
@@ -5370,14 +5370,6 @@ int iuse::mop(player *p, item *it, bool, const tripoint& )
             return 0;
         }
     }
-    return it->type->charges_to_use();
-}
-
-int iuse::LAW(player *p, item *it, bool, const tripoint& )
-{
-    p->add_msg_if_player(_("You pull the activating lever, readying the LAW to fire."));
-    // When converting a tool to a gun, you need to set the current ammo type, this is usually done when a gun is reloaded.
-    it->convert( "LAW" ).ammo_set( "66mm_HEAT" );
     return it->type->charges_to_use();
 }
 
@@ -6399,7 +6391,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             ///\EFFECT_INT speeds up robot reprogramming
 
             ///\EFFECT_COMPUTER speeds up robot reprogramming
-            p->moves -= 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10;
+            p->moves -= std::max(100, 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10);
             ///\EFFECT_INT increases chance of successful robot reprogramming, vs difficulty
 
             ///\EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty
@@ -8501,13 +8493,15 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
         return 0;
     }
 
-    auto filter = [&]( const item& e ) {
+    auto filter = []( const item& e ) {
         if( !e.is_gun() || e.type->gun->barrel_length <= 0 ) {
             return false;
         }
+
+        const auto gunmods = e.gunmods();
         // cannot saw down barrel of gun that already has a barrel mod
-        return std::none_of( e.contents.begin(), e.contents.end(), [&]( const item& mod ) {
-            return mod.type->gunmod->location == "barrel";
+        return std::none_of( gunmods.begin(), gunmods.end(), []( const item *mod ) {
+            return mod->type->gunmod->location == "barrel";
         });
     };
 

@@ -104,12 +104,26 @@
     "id": "tools_mechanic",
     "type": "item_group",
     "//": "Equipment of any size commonly used by engineers and mechanics",
+    "magazine": 100,
     "items": [
       [ "forge", 100 ],
       [ "jack", 100 ],
       [ "oxy_torch", 100 ],
       [ "polisher", 100 ],
       [ "welder", 100 ]
+    ]
+  },
+  {
+    "id": "tools_medical",
+    "type": "item_group",
+    "comment": "Portable medical equipment for doctors and paramedics (excludes consumables)",
+    "items": [
+      [ "scalpel", 50 ],
+      [ "scissors", 100 ],
+      [ "stethoscope", 50 ],
+      [ "syringe", 50 ],
+      [ "thermometer", 50 ],
+      [ "vacutainer", 50 ]
     ]
   },
   {

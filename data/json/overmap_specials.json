@@ -1524,5 +1524,35 @@
         "rotate" : true,
         "extras" : "build",
         "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "pump_station",
+        "overmaps" : [
+            { "point" : [0,0,0],   "overmap" : "pump_station_1_north", "connect" : "road" },
+            { "point" : [0,1,0],   "overmap" : "pump_station_2_north" },
+            { "point" : [0,-1,-1], "overmap" : "pump_station_3_north" },
+            { "point" : [0,0,-1],  "overmap" : "pump_station_4_north" },
+            { "point" : [0,1,-1],  "overmap" : "pump_station_5_north" }
+        ],
+        "locations" : ["wilderness"],
+        "city_distance" : [1,4],
+        "city_sizes" : [4,12],
+        "occurrences" : [0,1],
+        "rotate" : true,
+        "flags" : ["CLASSIC"]
+    },{
+        "type" : "overmap_special",
+        "id" : "garage_gas",
+        "overmaps" : [
+            { "point" : [0,0,0], "overmap" : "garage_gas_1_north", "connect" : "road" },
+            { "point" : [1,0,0], "overmap" : "garage_gas_2_north", "connect" : "road" },
+            { "point" : [2,0,0], "overmap" : "garage_gas_3_north", "connect" : "road" }
+        ],
+        "locations" : ["wilderness"],
+        "city_distance" : [-1,3],
+        "city_sizes" : [4,12],
+        "occurrences" : [0,4],
+        "rotate" : true,
+        "flags" : ["CLASSIC"]
     }
 ]

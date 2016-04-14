@@ -280,7 +280,6 @@
         "description" : "An unknown, but powerful force contained within spiral and vortex stones. Can be harnessed by those with the knowledge to do so.",
         "volume" : 0,
         "weight" : 0,
-        "phase" : "solid",
         "bashing" : 1,
         "to_hit" : 0,
         "ammo_type" : "vpower",

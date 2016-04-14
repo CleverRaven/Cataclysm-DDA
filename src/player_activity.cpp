@@ -25,7 +25,8 @@ void complete_vehicle();
 
 player_activity::player_activity( activity_type t, int turns, int Index, int pos,
                                   std::string name_in ) :
-    JsonSerializer(), JsonDeserializer(), type( t ), moves_left( turns ), index( Index ),
+    JsonSerializer(), JsonDeserializer(), type( t ), moves_total( turns ), moves_left( turns ),
+    index( Index ),
     position( pos ), name( name_in ), ignore_trivial( false ), values(), str_values(),
     placement( tripoint_min ), warned_of_proximity( false ), auto_resume( false )
 {
@@ -39,7 +40,7 @@ const std::string &player_activity::get_stop_phrase() const
         _( " Stop waiting?" ), _( " Stop crafting?" ),
         _( " Stop crafting?" ), _( " Stop disassembly?" ),
         _( " Stop butchering?" ), _( " Stop salvaging?" ), _( " Stop foraging?" ),
-        _( " Stop construction?" ), _( " Stop construction?" ),
+        _( " Stop construction?" ), _( " Stop interacting with the vehicle?" ),
         _( " Stop pumping gas?" ), _( " Stop training?" ),
         _( " Stop waiting?" ), _( " Stop using first aid?" ),
         _( " Stop fishing?" ), _( " Stop mining?" ), _( " Stop burrowing?" ),

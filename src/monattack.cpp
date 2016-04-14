@@ -4317,8 +4317,8 @@ bool mattack::kamikaze(monster *z)
             z->disable_special("KAMIKAZE");
             return true;
         }
-        act_bomb_type = item::find_type(actor->target_id);
-        charges = actor->target_charges;
+        act_bomb_type = item::find_type( actor->target );
+        charges = actor->ammo_qty;
     }
 
     // HORRIBLE HACK ALERT! Remove the following code completely once we have working monster inventory processing

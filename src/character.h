@@ -484,6 +484,7 @@ class Character : public Creature, public visitable<Character>
         std::vector<bionic> my_bionics;
 
     protected:
+        virtual void on_stat_change( const std::string &, int ) override {};
         virtual void on_mutation_gain( const std::string & ) {};
         virtual void on_mutation_loss( const std::string & ) {};
         virtual void on_item_wear( const item & ) {};

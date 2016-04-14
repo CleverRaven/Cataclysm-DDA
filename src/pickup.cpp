@@ -367,7 +367,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
                 option = STASH;
             }
         }
-        if( option != STASH ) {
+        if( option == NUM_ANSWERS ) {
             //not picking up the rest so
             //update the charges for the item that gets re-added to the game map
             leftovers.charges = newit.charges;
@@ -656,10 +656,10 @@ void Pickup::pick_up( const tripoint &pos, int min )
         std::string action;
         long raw_input_char = ' ';
         input_context ctxt("PICKUP");
-        ctxt.register_action("UP", _("Previous item"));
-        ctxt.register_action("DOWN", _("Next item"));
-        ctxt.register_action("RIGHT", _("Mark selected item"));
-        ctxt.register_action("LEFT", _("Unmark selected item"));
+        ctxt.register_action("UP");
+        ctxt.register_action("DOWN");
+        ctxt.register_action("RIGHT");
+        ctxt.register_action("LEFT");
         ctxt.register_action("NEXT_TAB", _("Next page"));
         ctxt.register_action("PREV_TAB", _("Previous page"));
         ctxt.register_action("SCROLL_UP");

@@ -23,6 +23,7 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
         {"items", _("ITEM ADDITION MODS")},
         {"creatures", _("CREATURE MODS")},
+        {"misc_additions", _("MISC ADDITIONS")},
         {"buildings", _("BUILDINGS MODS")},
         {"vehicles", _("VEHICLE MODS")},
         {"rebalance", _("REBALANCING MODS")},

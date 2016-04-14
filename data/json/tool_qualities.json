@@ -57,8 +57,8 @@
         "name" : "smoking"
     },{
         "type" : "tool_quality",
-        "id" : "BREW",
-        "name" : "brewing"
+        "id" : "DISTILL",
+        "name" : "distilling"
     },{
         "type" : "tool_quality",
         "id" : "AXE",
