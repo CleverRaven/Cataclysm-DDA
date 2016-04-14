@@ -6,7 +6,7 @@
     "name": "pocket ball",
     "color": "light_red",
     "symbol": "o",
-    "description": "A prototype ball from the PRM labs that holds the . . . erm, 'energy' of a monster, allowing you to transport them within safely.  It seems to conserve weight, however, making it largely impractical.",
+    "description": "A fist-sized ball that holds the . . . erm, 'energy' of a monster, allowing you to transport them within safely.",
     "price": 2000000,
     "weight": 300,
     "volume": 3,
@@ -39,7 +39,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
+    "revert_to": "",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_manhack_missile",
@@ -70,7 +70,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
-    "revert_to": "null",
+    "revert_to": "",
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -98,7 +98,7 @@
     "turns_per_charge": 1,
     "ammo": "NULL",
     "flags": ["BOMB"],
-    "revert_to": "null",
+    "revert_to": "",
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -113,39 +113,39 @@
         }
       }
     },{
-    "type" : "COMESTIBLE",        
-    "id" : "medikit",     
-    "name" : "medikit",     
-    "weight" : 2100,       
-    "color" : "red",      
-    "comestible_type" : "MED",        
-    "symbol" : "+",       
-    "quench" : 0,     
-    "healthy" : 0,        
-    "nutrition" : 0,      
+    "type" : "COMESTIBLE",
+    "id" : "medikit",
+    "name" : "medikit",
+    "weight" : 2100,
+    "color" : "red",
+    "comestible_type" : "MED",
+    "symbol" : "+",
+    "quench" : 0,
+    "healthy" : 0,
+    "nutrition" : 0,
     "description" : "A PRM brand medikit.  Inside is are a set of IV drips along with the standard fare supplies. You must disassemble it before use.",
-    "price" : 5000000,       
-    "material" : "spess_plastic",       
-    "volume" : 12,     
-    "charges" : 2,        
-    "stack_size" : 6,     
-    "flags" : ["USE_ON_NPC"],     
+    "price" : 100000,
+    "material" : "spess_plastic",
+    "volume" : 2,
+    "charges" : 3,
+    "stack_size" : 6,
+    "flags" : ["USE_ON_NPC"],
     "fun" : 0,
     "revert_to": "",
-    "use_action" : {      
-        "type" : "heal",      
-        "limb_power" : 14,        
-        "head_power" : 10,        
-        "torso_power" : 18,       
-        "bleed" : 0.95,       
-        "bite" : 0.99,        
-        "infect" : 0.95,      
-        "move_cost" : 6000,       
-        "long_action" : true,     
-        "effects" : [     
-            {     
-                "id": "pkill1",       
-                "duration": 120       
+    "use_action" : {
+        "type" : "heal",
+        "limb_power" : 15,
+        "head_power" : 15,
+        "torso_power" : 15,
+        "bleed" : 0.95,
+        "bite" : 0.85,
+        "infect" : 0.80,
+        "move_cost" : 4000,
+        "long_action" : true,
+        "effects" : [
+            {
+                "id": "pkill1",
+                "duration": 150
             } 
         ]
     }  
@@ -167,7 +167,7 @@
     "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
     "coverage" : 10,
     "ammo": "water",
-    "revert_to": "null",
+    "revert_to": "",
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
@@ -225,7 +225,7 @@
     "material" : ["glass"],
     "flags" : ["NO_RELOAD"],
     "ammo": "water",
-    "revert_to": "null",
+    "revert_to": "",
     "max_charges": 1,
     "initial_charges": 1,
     "charges_per_use": 0,
@@ -249,7 +249,7 @@
     "color" : "cyan",
     "price" : 1000000,
     "material" : ["glass"],
-    "revert_to": "null",
+    "revert_to": "",
     "comestible_type" : "DRINK",
     "spoils_in" : 3600,
     "use_action" : {
