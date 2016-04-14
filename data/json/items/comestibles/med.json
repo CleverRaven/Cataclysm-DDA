@@ -77,6 +77,41 @@
         "use_action" : "ANTIBIOTIC"  
     },
     {
+        "id" : "antifungal",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "category" : "drugs",
+        "name" : "antifungal drug",
+        "description" : "Powerful chemical tablets designed to eliminate fungal infections in living creatures.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 1000,
+        "charges" : 5,
+        "stack_size" : 100,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "white",
+        "use_action" : "ANTIFUNGAL"   
+    },
+    {
+        "id" : "antiparasitic",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "category" : "drugs",
+        "name" : "antiparasitic drug",
+        "description" : "Broad spectrum chemical tablets designed to eliminate parasitic infestations in living creatures.  Though designed for use on pets and livestock, it will likely work on humans as well.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 3200,
+        "charges" : 5,
+        "stack_size" : 100,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "white",
+        "healthy" : -5,
+        "use_action" : "ANTIPARASITIC"    
+    },
+    {
         "id" : "aspirin",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -341,6 +376,40 @@
             "move_cost" : 300
         },
         "flags" : [ "USE_ON_NPC" ]
+    },
+    {
+        "id" : "crack",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "crack",
+        "name_plural" : "crack",
+        "description" : "Deprotonated cocaine crystals, incredibly addictive and deleterious to brain chemistry.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 72000,
+        "charges" : 4,
+        "stack_size" : 100,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "white",
+        "stim" : 40,
+        "healthy" : -2,
+        "fun" : 50,
+        "addiction_potential" : 80,
+        "addiction_type" : "crack",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You smoke your crack rocks.  Mother would be proud.",
+            "effects" : [ {
+                    "id" : "high",
+                    "duration" : 15
+                }
+            ]
+            "stat_adjustments" : {"hunger" : -10},
+            "fields_produced" : {"fd_cracksmoke" : 2},
+            "charges_needed" : { "fire" : 1 },
+            "tools_needed" : { "apparatus" : -1 }
+        }   
     },
     {   
         "id" : "datura_seed",
