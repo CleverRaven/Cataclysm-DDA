@@ -2325,14 +2325,115 @@ void iexamine::tree_maple(player &p, const tripoint &examp)
         g->m.add_item_or_charges( examp, *container, 0 );
 
         cont_loc.remove_item();
+    } else {
+        add_msg( m_info, _( "No container added. The sap will just spill on the ground." ) );
     }
 }
 
 void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 {
+    bool has_sap = false;
+    bool has_container = false;
+    int portions = 0;
 
-    return;
-    none( p, examp );
+    std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
+
+    auto items = g->m.i_at( examp );
+    for( auto &it : items ) {
+        if( it.is_bucket() || it.is_watertight_container() ) {
+            has_container = true;
+
+            if( !it.is_container_empty() && it.contents[0].type->id == "maple_sap" ) {
+                has_sap = true;
+                portions = abs( int( it.contents[0].charges ) );
+            }
+        }
+    }
+
+    enum options {
+        REMOVE_TAP,
+        ADD_CONTAINER,
+        HARVEST_SAP,
+        REMOVE_CONTAINER,
+        CANCEL,
+    };
+    uimenu selectmenu;
+    selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _("Remove tap") );
+    selectmenu.addentry( ADD_CONTAINER, !has_container, MENU_AUTOASSIGN, _("Add a container to receive the %s"), maple_sap_name.c_str() );
+    selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _("Harvest current %s (%d)"), maple_sap_name.c_str(), portions );
+    selectmenu.addentry( REMOVE_CONTAINER, has_container, MENU_AUTOASSIGN, _("Remove container") );
+    selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
+
+    selectmenu.return_invalid = true;
+    selectmenu.text = _("Select an action");
+    selectmenu.selected = 0;
+    selectmenu.query();
+
+    switch( static_cast<options>( selectmenu.ret ) ) {
+        case REMOVE_TAP: {
+            if( !p.has_items_with_quality( "HAMMER", 1, 1 ) ) {
+                add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
+                return;
+            }
+
+            std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
+            item maple_tree_spile( "maple_tree_spile", calendar::turn );
+            add_msg( _( "You remove the %s." ), spile_name.c_str() );
+            g->m.add_item_or_charges( p.pos(), maple_tree_spile );
+
+            if ( has_container ) {
+                for( auto &it : items ) {
+                    g->m.add_item_or_charges( p.pos(), it );
+                }
+            }
+            g->m.i_clear( examp );
+
+            p.moves -= 200;
+            g->m.ter_set( examp, t_tree_maple );
+
+            return;
+        }
+
+        case ADD_CONTAINER: {
+            auto cont_loc = g->inv_map_splice( []( const item &it ) { 
+                return (
+                    it.is_bucket() ||
+                    it.is_watertight_container()
+                    ) && (
+                    it.is_container_empty() || (
+                        !it.is_container_full() && 
+                        it.contents[0].type->id == "maple_sap"
+                        )
+                    );
+                }, _( "Which container:" ), 1 );
+
+            item *container = cont_loc.get_item();
+            if( container ) {
+                g->m.add_item_or_charges( examp, *container, 0 );
+
+                cont_loc.remove_item();
+            } else {
+                add_msg( m_info, _( "No container added. The sap will just spill on the ground." ) );
+            }
+
+            return;
+        }
+
+        case HARVEST_SAP:
+            return;
+
+        case REMOVE_CONTAINER: {
+            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.activity.placement = examp - p.pos();
+            g->u.activity.values.push_back( false );
+            g->u.activity.values.push_back( 0 );
+            g->u.activity.values.push_back( 0 );
+            return;
+        }
+
+        case CANCEL:
+            return;
+    }
 }
 
 void iexamine::tree_bark(player &p, const tripoint &examp)
