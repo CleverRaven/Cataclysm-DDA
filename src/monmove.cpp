@@ -484,8 +484,10 @@ void monster::move()
     //If there are. Consume them.
     if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) ) {
         if( !g->m.i_at( pos() ).empty() ) {
-            add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                     name().c_str() );
+            if( g->u.sees( *this ) ) {
+                add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
+                         name().c_str() );
+            }
             for( auto &elem : g->m.i_at( pos() ) ) {
                 hp += elem.volume(); // Yeah this means it can get more HP than normal.
             }
