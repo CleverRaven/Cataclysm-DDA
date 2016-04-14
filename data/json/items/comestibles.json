@@ -5458,15 +5458,11 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -25,
-        "healthy" : -1,
-        "nutrition" : 4,
         "description" : "Chilly P, Yo!  Not very good on its own, but it might help if you use it properly, or in meth.",
         "price" : 40,
         "material" : "powder",
         "volume" : 0,
-        "charges" : 1,
-        "fun" : -5
+        "charges" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -5479,15 +5475,11 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -25,
-        "healthy" : -1,
-        "nutrition" : 4,
         "description" : "A blend of spices meant to be used in some South Asian dishes.  Could be eaten raw, but why would you do that?",
         "price" : 40,
         "material" : "powder",
         "volume" : 0,
-        "charges" : 1,
-        "fun" : -5
+        "charges" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -7674,14 +7666,11 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -1,
-        "nutrition" : 1,
         "description" : "This enriched white flour is useful for baking.",
         "price" : 450,
         "material" : ["wheat", "powder"],
         "volume" : 1,
-        "charges" : 10,
-        "fun" : -5
+        "charges" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -7692,14 +7681,11 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -1,
-        "nutrition" : 2,
         "description" : "This yellow cornmeal is useful for baking.",
         "price" : 450,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 12,
-        "fun" : -5
+        "charges" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -8034,19 +8020,14 @@
         "name_plural" : "sugar",
         "weight" : 56,
         "color" : "white",
-        "stim" : 4,
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
-        "healthy" : -3,
-        "nutrition" : 3,
         "description" : "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
         "price" : 550,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 8,
-        "fun" : 1
+        "charges" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -8058,14 +8039,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -20,
-        "healthy" : -3,
         "description" : "Yuck!  You surely wouldn't want to eat this.  It's good for preserving meat and cooking, though.",
         "price" : 400,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 8,
-        "fun" : -12
+        "charges" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -8076,14 +8054,11 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
-        "nutrition" : 1,
         "description" : "A powder-like mix of cultured yeast, good for baking and brewing alike.",
         "price" : 150,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 25,
-        "fun" : -10
+        "charges" : 25
     },
     {
         "type" : "COMESTIBLE",
@@ -8093,13 +8068,11 @@
         "color" : "white",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "description" : "This bone meal is useful for fertilizing plants.",
         "price" : 25,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 4,
-        "fun" : -10
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8107,16 +8080,13 @@
         "name" : "tainted bone meal",
         "weight" : 112,
         "color" : "white",
-        "use_action" : "POISON",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
         "description" : "This is a grayish bone meal made from rotten bones.",
         "price" : 0,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 4,
-        "fun" : -10
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8127,14 +8097,11 @@
         "color" : "brown",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -5,
-        "nutrition" : 2,
         "description" : "This chitin powder is useful for fertilizing plants.",
         "price" : 25,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 4,
-        "fun" : -10
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -8146,13 +8113,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -1,
         "description" : "A fragrant mix of dried oregano, basil, thyme and other spices.",
         "price" : 290,
         "material" : "powder",
         "volume" : 0,
-        "charges" : 100,
-        "fun" : -1
+        "charges" : 100
     },
     {
         "type" : "COMESTIBLE",
@@ -8262,13 +8227,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -5,
         "description" : "Salt mixed with a fragrant blend of secret herbs and spices.",
         "price" : 250,
         "material" : "powder",
         "volume" : 0,
-        "charges" : 100,
-        "fun" : -5
+        "charges" : 100
     },
     {
         "type" : "COMESTIBLE",
@@ -8280,13 +8243,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -5,
         "description" : "Ground black spice berries with a pungent aroma.",
         "price" : 250,
         "material" : "powder",
         "volume" : 0,
-        "charges" : 100,
-        "fun" : -5
+        "charges" : 100
     },
     {
         "type" : "COMESTIBLE",
@@ -8298,13 +8259,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -5,
         "description" : "Ground cinnamon bark with a sweet but slightly spicy aroma.",
         "price" : 500,
         "material" : "powder",
         "volume" : 0,
-        "charges" : 100,
-        "fun" : -5
+        "charges" : 100
     },
     {
         "type" : "COMESTIBLE",
@@ -8316,14 +8275,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -2,
-        "nutrition" : 3,
         "description" : "Whole fresh eggs, dehydrated into an easy to store powder.",
         "price" : 1120,
         "material" : [ "powder", "egg" ],
         "volume" : 1,
-        "charges" : 100,
-        "fun" : -4
+        "charges" : 100
     },
     {
         "type" : "COMESTIBLE",
@@ -9358,14 +9314,11 @@
         "container" : "bag_plastic",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -1,
-        "nutrition" : 1,
         "description" : "Dehydrated milk powder.  Mix with water to make drinkable milk.",
         "price" : 1100,
         "material" : [ "powder", "milk" ],
         "volume" : 1,
-        "charges" : 10,
-        "fun" : -5
+        "charges" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -11394,15 +11347,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -4,
-        "healthy" : 1,
-        "nutrition" : 10,
         "description" : "Raw, refined protein.  While quite nutritious, it is difficult to enjoy in its pure form.",
         "price" : 1100,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 4,
-        "fun" : -4
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -11414,15 +11363,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -4,
-        "healthy" : 1,
-        "nutrition" : 10,
         "description" : "Raw, refined protein made out of people!  While quite nutritious, it is difficult to enjoy in its pure form.",
         "price" : 1100,
         "material" : [ "powder", "hflesh" ],
         "volume" : 1,
-        "charges" : 4,
-        "fun" : -4
+        "charges" : 4
     },
     {
         "type" : "COMESTIBLE",
@@ -11434,14 +11379,11 @@
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -1,
-        "nutrition" : 1,
         "description" : "Tangy yellow powder that smells strongly of lemons.  Can be mixed with water to make lemonade.",
         "price" : 10,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 15,
-        "fun" : 1
+        "charges" : 15
     },
     {
         "type" : "COMESTIBLE",
@@ -12874,15 +12816,11 @@
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : -2,
-        "healthy" : -2,
-        "nutrition" : 3,
         "description" : "Some caramel.  Still bad for your health.",
         "price" : 150,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 1,
-        "fun" : 2
+        "charges" : 1
     },
     {
         "type" : "COMESTIBLE",
