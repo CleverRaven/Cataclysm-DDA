@@ -18,7 +18,6 @@
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "tinder",
-    "revert_to": "null",
     "use_action": "HOTPLATE"
   },{
     "id": "hobo_stove_on", "//": "Dummied out due to reverting hobo stove behavior, to be consistent with existing items. -Chaosvolt",
@@ -67,7 +66,6 @@
     "cutting": -5,
     "to_hit": -1,
     "ammo": "NULL",
-    "revert_to": "null",
     "max_charges": 2000,
     "initial_charges": 2000,
     "charges_per_use": 1,
@@ -92,7 +90,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "tinder",
-    "revert_to": "null",
     "use_action": {
       "type": "transform",
       "msg": "You light the tinder.",
@@ -221,7 +218,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
     "flags": ["CHOP"]
@@ -390,7 +386,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
       "type": "delayed_transform",
       "transform_age": 28800, "//": "2 days",
@@ -421,7 +416,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
       "type": "delayed_transform",
       "transform_age": 36000, "//": "2 and a half days",
@@ -452,7 +446,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
       "type": "delayed_transform",
       "transform_age": 43200, "//": "3 days",
@@ -526,7 +519,6 @@
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "esbit",
-    "revert_to": "null",
     "use_action": "HOTPLATE"
   },{
     "id": "bottle_folding",
@@ -635,7 +627,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
   },{
@@ -657,7 +648,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "qualities": [["DIG", 2]],
     "use_action": "DIG"
   },{
@@ -673,7 +663,6 @@
     "volume": 1,
     "to_hit": -3,
     "ammo": "NULL",
-    "revert_to": "null",
     "category": "tools",
     "use_action": [
       {
@@ -713,7 +702,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null"
+    "ammo": "NULL"
   }
 ]

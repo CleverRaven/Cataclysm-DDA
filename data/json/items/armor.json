@@ -7038,7 +7038,6 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": "MEDITATE",
-        "revert_to": "null",
         "color" : "white",
         "encumbrance" : 0,
         "price" : 1000,
@@ -7068,7 +7067,6 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": "MEDITATE",
-        "revert_to": "null",
         "material_thickness" : 0,
         "flags" : ["FANCY"]
     },
@@ -7092,7 +7090,6 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": "MEDITATE",
-        "revert_to": "null",
         "material_thickness" : 0
     },
     {
@@ -7863,7 +7860,6 @@
         "symbol" : "[",
         "warmth" : 0,
         "ammo": "NULL",
-        "revert_to": "null",
         "use_action": "WEATHER_TOOL",
         "max_charges": 0,
         "initial_charges": 0,
