@@ -99,7 +99,7 @@
     "luminance":3,
     "hp":15,
     "death_function":["EXPLODE"],
-    "description":"This manhack, almost twice the size of normal manhacks, carries an incindiary explosive within its core.  It is designed to fight until its destruction and then explode rather than explode in proximitry.",
+    "description":"This manhack, almost twice the size of normal manhacks, carries an incendiary explosive within its core.  It is designed to fight until its destruction and then explode rather than explode in proximity.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
     "type" : "MONSTER",
@@ -133,7 +133,7 @@
     "luminance":3,
     "hp":15,
     "death_function":["EXPLODE"],
-    "description":"This manhack, almost twice the size of normal manhacks, carries an acid bomb within its core.  It is designed to fight until its destruction and then explode rather than explode in proximitry.",
+    "description":"This manhack, almost twice the size of normal manhacks, carries an acid bomb within its core.  It is designed to fight until its destruction and then explode rather than explode in proximity.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "HIT_AND_RUN", "NO_BREATHE", "INTERIOR_AMMO"]
     }
     
