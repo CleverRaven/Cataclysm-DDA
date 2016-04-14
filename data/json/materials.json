@@ -207,8 +207,11 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 2,
-        "density" : 5
-        },{
+        "density" : 5,
+        "vitamins" : [
+          [ "calcium", 1.0 ]
+        ]
+    },{
         "type" : "material",
         "ident" : "hflesh",
         "name" : "Human Flesh",
@@ -226,7 +229,11 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 2,
-        "density" : 5
+        "density" : 5,
+        "vitamins" : [
+          [ "vitB", 1.0 ],
+          [ "iron", 2.0 ]
+        ]
     },{
         "type" : "material",
         "ident" : "cotton",
