@@ -6,7 +6,7 @@
     "name": "pocket ball",
     "color": "light_red",
     "symbol": "o",
-    "description": "A fist-sized ball that holds the . . . erm, 'energy' of a monster, allowing you to transport them within safely.",
+    "description": "A fist-sized ball that holds the . . . erm, 'energy' of a monster, allowing you to transport them within safely.  Seems to conserve weight, making its use impractical.",
     "price": 2000000,
     "weight": 300,
     "volume": 3,
@@ -154,8 +154,8 @@
     }  
     },{
     "type" : "TOOL_ARMOR",
-    "id" : "berserker_drug",
-    "name" : "berserker stimpack",
+    "id" : "beserker_drug",
+    "name" : "beserker stimpack",
     "volume" : 2,
     "material_thickness" : 0,
     "description" : "An iv drip in a protective case.  PRM patented stimulants will push the body to its limits for a brief period, making intense combat easier.",
@@ -177,15 +177,15 @@
     "use_action" : {
     "type" : "transform",
     "move_cost" : 250,     
-    "target": "berserker_drug_act",
+    "target": "beserker_drug_act",
     "target_charges": 7,
     "active": true
     },
     "msg": "You insert the needle into your vein and your blood boils!"
     },{
     "type" : "TOOL_ARMOR",
-    "id" : "berserker_drug_act",
-    "name" : "berserker stimpack (active)",
+    "id" : "beserker_drug_act",
+    "name" : "beserker stimpack (active)",
     "volume" : 2,
     "material_thickness" : 0,
     "description" : "An iv drip in a protective case.  Inside, PRM brand chemicals are surging through the needle, providing incredible strength and agility to its user.",
@@ -222,6 +222,9 @@
     "weight" : 720,
     "to_hit" : -1,
     "comestible_type" : "MED",
+    "fun" : -5,
+    "healthy" : 0,
+    "nutrition" : 12,
     "symbol" : ")",
     "color" : "blue",
     "price" : 1000000,
