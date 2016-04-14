@@ -116,7 +116,7 @@
     "type" : "COMESTIBLE",
     "id" : "medikit",
     "name" : "medikit",
-    "weight" : 360,
+    "weight" : 400,
     "color" : "red",
     "comestible_type" : "MED",
     "symbol" : "+",
@@ -154,12 +154,12 @@
     }  
     },{
     "type" : "TOOL_ARMOR",
-    "id" : "berserker_drug",
-    "name" : "berserker stimpack",
+    "id" : "beserker_drug",
+    "name" : "beserker stimpack",
     "volume" : 2,
     "material_thickness" : 0,
     "description" : "An iv drip in a protective case.  PRM patented stimulants will push the body to its limits for a brief period, making intense combat easier.",
-    "weight" : 890,
+    "weight" : 360,
     "to_hit" : -1,
     "symbol" : "|",
     "color" : "ltgray",
@@ -167,7 +167,7 @@
     "encumbrance" : 1,
     "price" : 1000000,
     "material" : ["plastic"],
-    "flags" : ["WATER_FRIENDLY", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
+    "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
     "coverage" : 10,
     "ammo": "NULL",
     "max_charges": 0,
@@ -178,18 +178,18 @@
     "type" : "transform",
     "move_cost" : 250,     
     "target": "beserker_drug_act",
-    "target_charges": 6,
+    "target_charges": 7,
     "active": true
     },
     "msg": "You insert the needle into your vein and your blood boils!"
     },{
     "type" : "TOOL_ARMOR",
-    "id" : "berserker_drug_act",
-    "name" : "berserker stimpack (active)",
+    "id" : "beserker_drug_act",
+    "name" : "beserker stimpack (active)",
     "volume" : 2,
     "material_thickness" : 0,
     "description" : "An iv drip in a protective case.  Inside, PRM brand chemicals are surging through the needle, providing incredible strength and agility to its user.",
-    "weight" : 890,
+    "weight" : 360,
     "to_hit" : -1,
     "symbol" : "|",
     "color" : "i_dkgray",
@@ -197,12 +197,12 @@
     "encumbrance" : 1,
     "price" : 1000000,
     "material" : ["plastic"],
-    "flags" : ["WATER_FRIENDLY", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
+    "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
     "coverage" : 10,
     "ammo": "NULL",
     "revert_to": "bag_plastic",
-    "max_charges": 6,
-    "initial_charges": 6,
+    "max_charges": 7,
+    "initial_charges": 7,
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "use_action" : {
@@ -213,5 +213,34 @@
             "duration": 40
         }    
     ]}
+    },{
+    "type" : "COMESTIBLE",
+    "id" : "stamina_vial",
+    "name" : "stamina vial",
+    "volume" : 4,
+    "description" : "Containing a slew of charged organic chemicals, this 3-layer slurry might go down hard but provides a noticable endurance boost for hardcore athletes and demanding soldiers alike.  Like most PRM products it is designed for short-term use only, and may upset the body's balance.",
+    "weight" : 720,
+    "to_hit" : -1,
+    "comestible_type" : "MED",
+    "symbol" : ")",
+    "color" : "blue",
+    "price" : 1000000,
+    "material" : ["glass"],
+    "flags" : ["NO_RELOAD", "NO_UNLOAD"],
+    "ammo": "NULL",
+    "revert_to": "bottle_glass",
+    "charges": 2,
+    "use_action" : {
+    "type" : "consume_drug",
+    "effects" : [
+        {
+                "id": "doom_unhealth",
+                "duration": 10
+        },{
+                "id": "stamina_regen",
+                "duration": 150
+        }
+    ]}
     }
+
 ]
