@@ -111,6 +111,12 @@ void mutation_branch::load( JsonObject &jsobj )
     new_mut.threshold = jsobj.get_bool("threshold", false);
     new_mut.profession = jsobj.get_bool("profession", false);
 
+    auto vr = jsobj.get_array( "vitamin_rates" );
+    while( vr.has_more() ) {
+        auto pair = vr.next_array();
+        new_mut.vitamin_rates[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+    }
+
     load_mutation_mods(jsobj, "passive_mods", new_mut.mods);
     /* Not currently supported due to inability to save active mutation state
     load_mutation_mods(jsobj, "active_mods", new_mut.mods); */

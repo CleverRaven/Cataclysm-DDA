@@ -8,6 +8,7 @@
 #include "messages.h"
 #include "material.h"
 #include "addiction.h"
+#include "mutation.h"
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -82,8 +83,17 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
 
 int player::vitamin_rate( const vitamin_id& vit ) const
 {
-    const auto& v = vit.obj();
-    return v.rate();
+    int res = vit.obj().rate();
+
+    for( const auto& m : get_mutations() ) {
+        const auto& mut = mutation_branch::get( m );
+        auto iter = mut.vitamin_rates.find( vit );
+        if( iter != mut.vitamin_rates.end() ) {
+            res += iter->second;
+        }
+    }
+
+    return std::max( res, 0 );
 }
 
 int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )

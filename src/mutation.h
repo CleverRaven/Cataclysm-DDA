@@ -6,6 +6,7 @@
 #include "bodypart.h"
 #include "color.h"
 #include "string_id.h"
+#include "vitamin.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -66,6 +67,9 @@ struct mutation_branch {
     int bodytemp_min = 0;
     int bodytemp_max = 0;
     int bodytemp_sleep = 0;
+
+    /** Mutations may adjust one or more of the default vitamin usage rates */
+    std::map<vitamin_id, int> vitamin_rates;
 
     std::vector<std::string> prereqs; // Prerequisites; Only one is required
     std::vector<std::string> prereqs2; // Prerequisites; need one from here too
