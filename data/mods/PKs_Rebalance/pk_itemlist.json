@@ -12,18 +12,6 @@
             { "group": "pk_melee", "damage": [3, 4], "prob": 50}
         ]
     },{
-        "type" : "item_group",
-        "subtype": "collection",
-        "comment": "shot drops",
-        "id": "marloss_man_drops",
-        "entries":
-        [
-            { "group": "mon_zombie_survivor_death_drops", "damage": [2, 4] },
-            { "group": "bags", "damage": [2, 4], "prob": 10 },
-            { "group": "marloss_man_gear", "damage": [3, 4], "prob": 33 },
-            { "group": "marloss_man_nommies", "damage": [0, 1], "prob": 95, "count": [3, 5] }
-        ]
-    },{
     "type" : "item_group",
     "id" : "pk_melee",
     "//" : "weapons, some uncommon",
