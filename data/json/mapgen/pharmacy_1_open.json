@@ -93,16 +93,15 @@
             "toilets": {
                 "T": { }
             },
-            "place_items": [
-                { "item": "harddrugs", "chance": 55, "x": [ 10,22 ], "y": [ 19,19 ] },
-                { "item": "softdrugs", "chance": 75, "x": [ 10,22 ], "y": [ 19,19 ] },
-                { "item": "behindcounter", "chance": 50, "x": [ 1,3 ], "y": [ 7,12 ] },
-                { "item": "behindcounter", "chance": 70, "x": [ 1,1 ], "y": [ 8,11 ] },
-                { "item": "vending_drink", "chance": 80, "x": [ 1,1 ], "y": [ 3,4 ] },
-                { "item": "softdrugs", "chance": 40, "x": [ 9,10 ], "y": [ 7,11 ] },
-                { "item": "snacks", "chance": 70, "x": [ 13,19 ], "y": [ 7,8 ] },
-                { "item": "magazines", "chance": 70, "x": [ 13,19 ], "y": [ 10,11 ] },
-                { "item": "fridgesnacks", "chance": 70, "x": [ 22,22 ], "y": [ 7,11 ] }
+            "place_loot": [
+                { "group": "drugs_pharmacy", "chance": 50, "x": [ 10,22 ], "y": [ 19,19 ], "repeat": [ 2, 6 ] },
+                { "group": "behindcounter", "chance": 50, "x": [ 1,3 ], "y": [ 7,12 ] },
+                { "group": "behindcounter", "chance": 70, "x": [ 1,1 ], "y": [ 8,11 ] },
+                { "group": "vending_drink", "chance": 80, "x": [ 1,1 ], "y": [ 3,4 ], "repeat": [1,1] },
+                { "group": "softdrugs", "chance": 40, "x": [ 9,10 ], "y": [ 7,11 ], "repeat": [1,3] },
+                { "group": "snacks", "chance": 70, "x": [ 13,19 ], "y": [ 7,8 ], "repeat": [1,2] },
+                { "group": "magazines", "chance": 70, "x": [ 13,19 ], "y": [ 10,11 ], "repeat": [1,2] },
+                { "group": "fridgesnacks", "chance": 70, "x": [ 22,22 ], "y": [ 7,11 ], "repeat": [1,3] }
             ]
         }
     }
