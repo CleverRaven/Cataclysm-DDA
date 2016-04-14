@@ -244,7 +244,11 @@
                 { "point": "furniture", "id": "f_spike", "x": 13, "y": 10 },
                 { "point": "furniture", "id": "f_blade", "x": 0, "y": 21 },
                 { "point": "terrain", "id": "t_rock_floor", "x": 15, "y": 8 }
-                ]
+            ],
+            "place_items": [ 
+                { "item": "doom_lootpack", "chance": 15, "x": [ 3, 4 ], "y": [ 6, 10 ] },
+                { "item": "doom_stimpack", "chance": 75, "x": [ 3, 4 ], "y": [ 6, 10 ] }
+            ]
         }
     },
     
