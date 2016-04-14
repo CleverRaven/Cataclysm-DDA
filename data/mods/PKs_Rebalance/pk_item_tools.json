@@ -154,8 +154,8 @@
     }  
     },{
     "type" : "TOOL_ARMOR",
-    "id" : "beserker_drug",
-    "name" : "beserker stimpack",
+    "id" : "berserker_drug",
+    "name" : "berserker stimpack",
     "volume" : 2,
     "material_thickness" : 0,
     "description" : "An iv drip in a protective case.  PRM patented stimulants will push the body to its limits for a brief period, making intense combat easier.",
@@ -167,7 +167,7 @@
     "encumbrance" : 1,
     "price" : 1000000,
     "material" : ["plastic"],
-    "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
+    "flags" : ["WATER_FRIENDLY", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
     "coverage" : 10,
     "ammo": "NULL",
     "max_charges": 0,
@@ -184,8 +184,8 @@
     "msg": "You insert the needle into your vein and your blood boils!"
     },{
     "type" : "TOOL_ARMOR",
-    "id" : "beserker_drug_act",
-    "name" : "beserker stimpack (active)",
+    "id" : "berserker_drug_act",
+    "name" : "berserker stimpack (active)",
     "volume" : 2,
     "material_thickness" : 0,
     "description" : "An iv drip in a protective case.  Inside, PRM brand chemicals are surging through the needle, providing incredible strength and agility to its user.",
@@ -197,7 +197,7 @@
     "encumbrance" : 1,
     "price" : 1000000,
     "material" : ["plastic"],
-    "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
+    "flags" : ["WATER_FRIENDLY", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
     "coverage" : 10,
     "ammo": "NULL",
     "revert_to": "bag_plastic",
