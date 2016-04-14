@@ -267,7 +267,6 @@ void Item_factory::init()
     iuse_function_list["COKE"] = &iuse::coke;
     iuse_function_list["GRACK"] = &iuse::grack;
     iuse_function_list["METH"] = &iuse::meth;
-    iuse_function_list["VITAMINS"] = &iuse::vitamins;
     iuse_function_list["VACCINE"] = &iuse::vaccine;
     iuse_function_list["FLU_VACCINE"] = &iuse::flu_vaccine;
     iuse_function_list["POISON"] = &iuse::poison;
