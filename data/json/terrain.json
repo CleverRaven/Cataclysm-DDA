@@ -3177,7 +3177,7 @@
         "symbol": "7",
         "color": [ "light_green", "green", "red", "brown" ],
         "move_cost": 0,
-        "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+        "flags": [ "FLAMMABLE_ASH", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
         "examine_action": "tree_maple_tapped",
         "bash": {
             "str_min": 80, "str_max": 180,

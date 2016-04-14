@@ -8229,7 +8229,7 @@ void game::examine( const tripoint &examp )
         if( m.tr_at( examp ).is_null() && m.i_at(examp).empty() &&
             m.has_flag("CONTAINER", examp) && none) {
             add_msg(_("It is empty."));
-        } else if( veh == nullptr ) {
+        } else if( veh == nullptr && !m.has_flag( "TREE", examp ) ) {
             Pickup::pick_up( examp, 0);
         }
     }

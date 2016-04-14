@@ -2282,12 +2282,55 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
 
 void iexamine::tree_maple(player &p, const tripoint &examp)
 {
-    return;
-    none( p, examp );
+    if( !p.has_items_with_quality( "DRILL", 1, 1 ) ) {
+        add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
+        return;
+    }
+
+    if( !p.has_items_with_quality( "HAMMER", 1, 1 ) ) {
+        add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
+        return;
+    }
+
+    std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
+    std::string title = string_format( _( "Which %s:" ), spile_name.c_str() );
+
+    auto spile_loc = g->inv_map_splice( []( const item &it ) { return it.typeId() == "maple_tree_spile"; }, title, 1 );
+
+    item *spile = spile_loc.get_item();
+    if( !spile ) {
+        add_msg( m_info, _( "You need a %s to tap this maple tree." ), spile_name.c_str() );
+        return;
+    }
+
+    spile_loc.remove_item();
+
+    p.moves -= 200;
+    g->m.ter_set( examp, t_tree_maple_tapped );
+
+    auto cont_loc = g->inv_map_splice( []( const item &it ) { 
+        return (
+            it.is_bucket() ||
+            it.is_watertight_container()
+            ) && (
+            it.is_container_empty() || (
+                !it.is_container_full() && 
+                it.contents[0].type->id == "maple_sap"
+                )
+            );
+        }, _( "Which container:" ), 1 );
+
+    item *container = cont_loc.get_item();
+    if( container ) {
+        g->m.add_item_or_charges( examp, *container, 0 );
+
+        cont_loc.remove_item();
+    }
 }
 
 void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 {
+
     return;
     none( p, examp );
 }
