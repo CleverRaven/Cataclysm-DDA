@@ -77,7 +77,7 @@
         "target": "rocket_core_act",
         "target_charges": 3,
         "active": true,
-        "msg": "You make a puncture in the rocket core!"
+        "msg": "You puncture the rocket core!"
     }
     },{
     "id": "rocket_core_act",
@@ -104,7 +104,7 @@
         "type": "explosion",
         "sound_volume": 0,
         "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "no_deactivate_msg": "There's a hole in this core; it's gonna blow!",
         "explosion": {
             "emp_blast_radius": 2,
             "draw_explosion_radius": 2,
@@ -121,9 +121,9 @@
     "comestible_type" : "MED",
     "symbol" : "+",
     "quench" : 0,
-    "healthy" : -5,
+    "healthy" : 0,
     "nutrition" : 0,
-    "description" : "A PRM brand medikit.  Can be quickly applied in battlefield situations, though its designed to quickly stopgap wounds with artifical coagulants, not disinfect.",
+    "description" : "A PRM brand medikit.  Can be quickly applied in battlefield situations, though it is designed to quickly attatch to damaged tissue, not disinfect.",
     "price" : 50000,
     "material" : "spess_plastic",
     "volume" : 2,
@@ -134,19 +134,22 @@
     "revert_to": "",
     "use_action" : {
         "type" : "heal",
-        "limb_power" : 15,
-        "head_power" : 15,
-        "torso_power" : 15,
+        "limb_power" : 20,
+        "head_power" : 20,
+        "torso_power" : 20,
         "bleed" : 0.98,
-        "bite" : 0.60,
-        "infect" : 0.33,
-        "move_cost" : 3600,
+        "bite" : 0.50,
+        "infect" : 0.20,
+        "move_cost" : 3300,
         "long_action" : true,
         "effects" : [
             {
                 "id": "pkill1",
-                "duration": 150
-            } 
+                "duration": 30
+            },{
+                "id": "doom_unhealth",
+                "duration": 5
+            }
         ]
     }  
     },{
@@ -173,7 +176,7 @@
     "turns_per_charge": 0,
     "use_action" : {
     "type" : "transform",
-    "move_cost" : 200,     
+    "move_cost" : 250,     
     "target": "beserker_drug_act",
     "target_charges": 6,
     "active": true
@@ -207,84 +210,8 @@
     "effects" : [
         {
             "id": "doom_stimpack",
-            "duration": 30
+            "duration": 40
         }    
     ]}
-    },{
-    "type" : "TOOL", 
-    "id" : "health_vial",
-    "name" : "regen ration",
-    "volume" : 2,
-    "description" : "A PRM brand healing tonic, with synthetic microorganisms suspended in a mixture of equally synthetic 'typeless' compounds.  While there is almost no risk of rejection from the body, the contents must be exposed to air a half hour before use, and will spoil if left in such a state unused.",
-    "weight" : 890,
-    "to_hit" : -1,
-    "symbol" : "'",
-    "color" : "cyan",
-    "price" : 1000000,
-    "material" : ["glass"],
-    "flags" : ["NO_RELOAD"],
-    "ammo": "water",
-    "revert_to": "null",
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 0,
-    "turns_per_charge": 1,
-    "use_action" : {
-    "type" : "transform",
-    "move_cost" : 350,     
-    "target": "health_vial_prep",
-    "active": false
-    },
-    "msg": "You peel off the sealant, and watch as the tab on the ridge of the bottle turns a pale shade of pink!"
-    },{
-    "type" : "COMESTIBLE", 
-    "id" : "health_vial_prep",
-    "name" : "regen ration (prepping)",
-    "volume" : 2,
-    "description" : "This health vial has been prior exposed to air, allowing its microorganisms to propogate.  If left unsed for too long these creatures will overpopulate and starve, rendering the tonic spoiled, though such a potion might still be used.",
-    "weight" : 890,
-    "to_hit" : -1,
-    "symbol" : "'",
-    "color" : "cyan",
-    "price" : 1000000,
-    "material" : ["glass"],
-    "revert_to": "null",
-    "comestible_type" : "DRINK",
-    "spoils_in" : 3600,
-    "use_action" : {
-    "type" : "delayed_transform",
-    "transform_age" : 300,
-    "not_ready_msg" : "Drinking this now would be a waste.",
-    "move_cost" : 350,     
-    "target": "health_vial_act",
-    "target_charges": 20,
-    "active": true
-    },
-    "msg": "You drink the health vial, and feel its warmth pass into your stomach and beyond.  Better keep the bottle on you for now."
-    },{
-    "type" : "TOOL",
-    "id" : "health_vial_act",
-    "name" : "regen ration bottle",
-    "volume" : 2,
-    "description" : "This health vial will slowly replenish a set amount of health.  Keep the bottle on you until the effects pass.",
-    "weight" : 890,
-    "to_hit" : -1,
-    "symbol" : "'",
-    "color" : "cyan",
-    "price" : 1000000,
-    "material" : ["glass"],
-    "flags" : ["NO_RELOAD"],
-    "ammo": "water",
-    "revert_to": "bottle_glass",
-    "max_charges": 20,
-    "initial_charges": 20,
-    "charges_per_use": 0,
-    "turns_per_charge": 1,
-    "use_action" : "ARTIFACT",
-        "artifact_data" : {
-        "effects_activated": ["AEA_HEAL"],
-         "//" : "20 heals of 2 points each, for 40 points of health to all body parts.  Note that it can be used to tank damage."
-        }
     }
-  
 ]
