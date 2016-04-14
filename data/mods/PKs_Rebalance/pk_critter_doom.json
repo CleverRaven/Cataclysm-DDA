@@ -401,7 +401,7 @@
     "death_drops": {
         "subtype": "collection",
         "groups": [
-            [ "furvivor_pk", 95 ]
+            [ "spearmelee_pk", 95 ]
         ]
     },
     "hp":65,
