@@ -4263,7 +4263,7 @@
   "difficulty": 3,
   "time": 40000,
   "autolearn": true,
-  "batch_time_factors":[60, 3],
+  "batch_time_factors": [ 60, 3 ],
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [

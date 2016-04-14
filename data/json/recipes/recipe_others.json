@@ -2764,7 +2764,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "scrap", 2 ]
@@ -4140,7 +4140,7 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2}
   ], "tools": [
       [
       ["tongs", -1]
@@ -6623,8 +6623,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
   ], "tools": [
     [ [ "goggles_welding", -1 ] ],
     [
