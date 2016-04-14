@@ -1,0 +1,46 @@
+[
+
+    {
+     "type": "effect_type",
+    "id": "doom_stimpack",
+    "name": [
+        "stim fatigue",
+        "lingering stims",
+        "beserked"
+    ],
+    "max_intensity": 3,
+    "apply_message": "You see Red!",
+    "int_add_val": 2,
+    "decay_messages": [["You feel the stims taxing you", "bad"], ["You don't feel as badass as before.", "neutral"]],
+    "removes_effects": ["winded"],
+    "hurt_sizing": true,
+        "base_mods": {
+            "speed_mod": [-15],
+            "str_mod": [-3],
+            "dex_mod": [-4],
+            "int_mod": [-1],
+            "per_mod": [-3],
+            "stamina_min": [-4],
+            "stamina_max": [-8],
+            "stim_amount": [10],
+            "pkill_amount": [10],
+            "fatigue_amount": [-100],
+            "h_mod_amount": [-75],
+            "hurt_min": [1],
+            "hurt_chance": [10],
+            "hurt_tick": [10]
+        },
+        "scaling_mods": {
+            "speed_mod": [20],
+            "str_mod": [5],
+            "dex_mod": [4],
+            "int_mod": [-2],
+            "per_mod": [2],
+            "stamina_min": [5],
+            "pkill_min": [1],
+            "pkill_max_val": [20],
+            "pkill_tick": [30]
+        }
+    }
+    
+]
