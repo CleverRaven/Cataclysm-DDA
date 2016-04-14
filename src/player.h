@@ -723,6 +723,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::map<vitamin_id, int> vitamins_from( const item& it ) const;
         std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
 
+        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
+        int vitamin_rate( const vitamin_id& vit ) const;
+
         /**
          * Add or subtract vitamins from player storage pools
          * @param qty amount by which to adjust @ref vit (negative values are permitted)

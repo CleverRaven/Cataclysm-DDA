@@ -48,6 +48,11 @@ void vitamin::load_vitamin( JsonObject &jo )
     vit.name_ = jo.get_string( "name" );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
+    vit.rate_ = jo.get_int( "rate", 60 );
+
+    if( vit.rate_ < 0 ) {
+        jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
+    }
 
     auto def = jo.get_array( "deficiency" );
     while( def.has_more() ) {
