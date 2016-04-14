@@ -86,7 +86,7 @@ void remove_construction_if( std::function<bool( construction & )> pred )
     } ), std::end( constructions ) );
 }
 
-std::vector<construction *> constructions_by_desc(const std::string &description)
+std::vector<construction *> constructions_by_desc( const std::string &description )
 {
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
@@ -104,17 +104,17 @@ void load_available_constructions( std::vector<std::string> &available,
     cat_available.clear();
     available.clear();
     for( auto &it : constructions ) {
-        if( !hide_unconstructable || can_construct(&it) ) {
+        if( !hide_unconstructable || can_construct( &it ) ) {
             bool already_have_it = false;
-            for(auto &avail_it : available ) {
-                if (avail_it == it.description) {
+            for( auto &avail_it : available ) {
+                if( avail_it == it.description ) {
                     already_have_it = true;
                     break;
                 }
             }
-            if (!already_have_it) {
-                available.push_back(it.description);
-                cat_available[it.category].push_back(it.description);
+            if( !already_have_it ) {
+                available.push_back( it.description );
+                cat_available[it.category].push_back( it.description );
             }
         }
     }
@@ -194,20 +194,20 @@ void construction_menu()
 
     const inventory &total_inv = g->u.crafting_inventory();
 
-    input_context ctxt("CONSTRUCTION");
-    ctxt.register_action("UP", _("Move cursor up"));
-    ctxt.register_action("DOWN", _("Move cursor down"));
-    ctxt.register_action("RIGHT", _("Move tab right"));
-    ctxt.register_action("LEFT", _("Move tab left"));
-    ctxt.register_action("PAGE_UP");
-    ctxt.register_action("PAGE_DOWN");
-    ctxt.register_action("SCROLL_STAGE_UP");
-    ctxt.register_action("SCROLL_STAGE_DOWN");
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("TOGGLE_UNAVAILABLE_CONSTRUCTIONS");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("ANY_INPUT");
-    ctxt.register_action("HELP_KEYBINDINGS");
+    input_context ctxt( "CONSTRUCTION" );
+    ctxt.register_action( "UP", _( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
+    ctxt.register_action( "RIGHT", _( "Move tab right" ) );
+    ctxt.register_action( "LEFT", _( "Move tab left" ) );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_STAGE_UP" );
+    ctxt.register_action( "SCROLL_STAGE_DOWN" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::string hotkeys = ctxt.get_available_single_char_hotkeys();
 
@@ -574,10 +574,10 @@ void construction_menu()
     g->refresh_all();
 }
 
-bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
+bool player_can_build( player &p, const inventory &pinv, const std::string &desc )
 {
     // check all with the same desc to see if player can build any
-    std::vector<construction *> cons = constructions_by_desc(desc);
+    std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
         if( player_can_build( p, pinv, con ) ) {
             return true;
@@ -586,22 +586,22 @@ bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
     return false;
 }
 
-bool player_can_build(player &p, const inventory &pinv, construction const *con)
+bool player_can_build( player &p, const inventory &pinv, construction const *con )
 {
-    if (p.has_trait("DEBUG_HS")) {
+    if( p.has_trait( "DEBUG_HS" ) ) {
         return true;
     }
 
-    if (p.skillLevel(con->skill) < con->difficulty) {
+    if( p.skillLevel( con->skill ) < con->difficulty ) {
         return false;
     }
-    return con->requirements.can_make_with_inventory(pinv);
+    return con->requirements.can_make_with_inventory( pinv );
 }
 
 bool can_construct( const std::string &desc )
 {
     // check all with the same desc to see if player can build any
-    std::vector<construction *> cons = constructions_by_desc(desc);
+    std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
         if( can_construct( con ) ) {
             return true;
@@ -641,14 +641,14 @@ bool can_construct(construction const *con, int x, int y)
     return place_okay;
 }
 
-bool can_construct(construction const *con)
+bool can_construct( construction const *con )
 {
-    for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
-        for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
-            if (x == g->u.posx() && y == g->u.posy()) {
+    for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
+        for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
+            if( x == g->u.posx() && y == g->u.posy() ) {
                 y++;
             }
-            if (can_construct(con, x, y)) {
+            if( can_construct( con, x, y ) ) {
                 return true;
             }
         }
@@ -759,23 +759,23 @@ bool construct::check_empty( point p_arg )
              g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL );
 }
 
-bool construct::check_support(point p)
+bool construct::check_support( point p )
 {
     // need two or more orthogonally adjacent supports
     int num_supports = 0;
-    if (g->m.impassable(p.x, p.y)) {
+    if( g->m.impassable( p.x, p.y ) ) {
         return false;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y - 1)) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", p.x, p.y - 1 ) ) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y + 1)) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", p.x, p.y + 1 ) ) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x - 1, p.y)) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", p.x - 1, p.y ) ) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x + 1, p.y)) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", p.x + 1, p.y ) ) {
         ++num_supports;
     }
     return num_supports >= 2;
@@ -802,32 +802,32 @@ bool construct::check_down_OK( point )
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
-void construct::done_tree(point p)
+void construct::done_tree( point p )
 {
     int x = 0, y = 0;
-    while (!choose_direction(_("Press a direction for the tree to fall in:"), x, y)) {
+    while( !choose_direction( _( "Press a direction for the tree to fall in:" ), x, y ) ) {
         // try again
     }
-    x = p.x + x * 3 + rng(-1, 1);
-    y = p.y + y * 3 + rng(-1, 1);
-    std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
+    x = p.x + x * 3 + rng( -1, 1 );
+    y = p.y + y * 3 + rng( -1, 1 );
+    std::vector<point> tree = line_to( p.x, p.y, x, y, rng( 1, 8 ) );
     for( auto &elem : tree ) {
         g->m.destroy( tripoint( elem.x, elem.y, g->get_levz() ) );
         g->m.ter_set( elem.x, elem.y, t_trunk );
     }
 }
 
-void construct::done_trunk_log(point p)
+void construct::done_trunk_log( point p )
 {
-    g->m.spawn_item(p.x, p.y, "log", rng(5, 15), 0, calendar::turn);
+    g->m.spawn_item( p.x, p.y, "log", rng( 5, 15 ), 0, calendar::turn );
 }
 
-void construct::done_trunk_plank(point p)
+void construct::done_trunk_plank( point p )
 {
-    (void)p; //unused
-    int num_logs = rng(5, 15);
+    ( void )p; //unused
+    int num_logs = rng( 5, 15 );
     for( int i = 0; i < num_logs; ++i ) {
-        iuse::cut_log_into_planks( &(g->u) );
+        iuse::cut_log_into_planks( &( g->u ) );
     }
 }
 
