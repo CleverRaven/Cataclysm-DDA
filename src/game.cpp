@@ -4992,6 +4992,8 @@ faction *game::list_factions(std::string title)
                 sel--;
             }
             redraw = true;
+        } else if ( action == "HELP_KEYBINDINGS" ) {
+            redraw = true;
         } else if (action == "QUIT") {
             cur_frac = NULL;
             break;
