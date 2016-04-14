@@ -112,6 +112,26 @@ void Item_factory::finalize() {
         if( obj.gun ) {
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
         }
+
+        // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
+        if( obj.comestible && obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
+
+            auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
+
+            auto mat = obj.materials;
+            mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
+                return !m.obj().edible(); // @todo migrate inedible comestibles to appropriate alternative types
+            } ), mat.end() );
+
+            // for comestibles composed of multiple edible materials we calculate the average
+            for( const auto &v : vitamin::all() ) {
+                if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
+                    for( const auto &m : mat ) {
+                        obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -1046,6 +1066,34 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
         slot.nutr = jo.get_int( "calories" ) / islot_comestible::kcal_per_nutr;
     } else {
         jo.read( "nutrition", slot.nutr );
+    }
+
+    // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
+    if( jo.has_int( "vitamins" ) ) {
+        // convenience syntax for setting all vitamins concurrently
+        for( auto &v : vitamin::all() ) {
+            slot.vitamins[ v.first ] = jo.get_int( "vitamins" );
+        }
+    } else if( jo.has_array( "vitamins" ) ) {
+        auto vits = jo.get_array( "vitamins" );
+        while( vits.has_more() ) {
+            auto pair = vits.next_array();
+            slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+        }
+    } else if( jo.has_object( "relative" ) ) {
+        auto rel = jo.get_object( "relative" );
+        if( rel.has_int( "vitamins" ) ) {
+            // allows easy specification of 'fortified' comestibles
+            for( auto &v : vitamin::all() ) {
+                slot.vitamins[ v.first ] += rel.get_int( "vitamins" );
+            }
+        } else if( rel.has_array( "vitamins" ) ) {
+            auto vits = rel.get_array( "vitamins" );
+            while( vits.has_more() ) {
+                auto pair = vits.next_array();
+                slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] += pair.get_int( 1 );
+            }
+        }
     }
 }
 

@@ -67,26 +67,14 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
         return res;
     }
 
-    // food that is unhealthy or which player is allergic to never contains any vitamins
-    double healthy = it.type->comestible->healthy;
-    if( healthy < 0 || allergy_type( it ) != MORALE_NULL ) {
+    // food to which the player is allergic to never contains any vitamins
+    if( allergy_type( it ) != MORALE_NULL ) {
         return res;
     }
 
-    healthy = std::max( it.type->comestible->healthy, 1 ) * 10;
-
-    // don't consider the vitamin contents of inedible materials
-    // @todo migrate non-edible comestibles to appropriate alternative types
-    auto mat = it.type->materials;
-    mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
-        return !m.obj().edible();
-    } ), mat.end() );
-
-    // for comestibles composed of multiple edible materials we calculate the average
-    for( const auto &v : vitamin::all() ) {
-        for( const auto &m : mat ) {
-            res[ v.first ] += ( m.obj().vitamin( v.first ) * healthy / mat.size() );
-        }
+    // @todo bionics and mutations can affect vitamin absorption
+    for( const auto& e: it.type->comestible->vitamins ) {
+        res.emplace( e.first, e.second );
     }
 
     return res;
