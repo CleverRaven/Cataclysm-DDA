@@ -2,26 +2,40 @@
   {
     "id": "calcium",
     "type": "vitamin",
-    "name": "Calcium"
+    "name": "Calcium",
+    "min": -600,
+    "deficiency": [ [ "brittlebone", -300 ] ]
   },
   {
     "id": "iron",
     "type": "vitamin",
-    "name": "Iron"
+    "name": "Iron",
+    "min": -600,
+    "max": 200,
+    "deficiency": [ [ "anaemia", -300 ] ],
+    "excess": [ [ "hypervitaminosis", 100 ] ]
   },
   {
     "id": "vitA",
     "type": "vitamin",
-    "name": "Vitamin A"
+    "name": "Vitamin A",
+    "min": -200,
+    "max": 200,
+    "deficiency": [ [ "nightblind", -100 ] ],
+    "excess": [ [ "hypervitaminosis", 100 ] ]
   },
   {
     "id": "vitB",
     "type": "vitamin",
-    "name": "Vitamin B12"
+    "name": "Vitamin B12",
+    "min": -200,
+    "deficiency": [ [ "slowheal", -100 ] ]
   },
   {
     "id": "vitC",
     "type": "vitamin",
-    "name": "Vitamin C"
+    "name": "Vitamin C",
+    "min": -200,
+    "deficiency": [ [ "scurvy", -100 ] ]
   }
 ]

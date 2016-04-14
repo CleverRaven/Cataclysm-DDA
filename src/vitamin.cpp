@@ -24,12 +24,41 @@ const vitamin &string_id<vitamin>::obj() const
     return found->second;
 }
 
+const efftype_id &vitamin::effect( int level ) const
+{
+    for( const auto &e : deficiency_ ) {
+        if( level <= e.second ) {
+            return e.first;
+        }
+    }
+    for( const auto &e : excess_ ) {
+        if( level >= e.second ) {
+            return e.first;
+        }
+    }
+    static efftype_id null_effect = NULL_ID;
+    return null_effect;
+}
+
 void vitamin::load_vitamin( JsonObject &jo )
 {
     vitamin vit;
 
     vit.id_ = vitamin_id( jo.get_string( "id" ) );
     vit.name_ = jo.get_string( "name" );
+    vit.min_ = jo.get_int( "min" );
+    vit.max_ = jo.get_int( "max", 0 );
+
+    auto def = jo.get_array( "deficiency" );
+    while( def.has_more() ) {
+        auto e = def.next_array();
+        vit.deficiency_.emplace_back( efftype_id( e.get_string( 0 ) ), e.get_int( 1 ) );
+    }
+    auto exc = jo.get_array( "excess" );
+    while( exc.has_more() ) {
+        auto e = exc.next_array();
+        vit.excess_.emplace_back( efftype_id( e.get_string( 0 ) ), e.get_int( 1 ) );
+    }
 
     if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {
         jo.throw_error( "parsed vitamin overwrites existing definition", "id" );
