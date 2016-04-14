@@ -658,7 +658,7 @@ void player_morale::update_masochist_bonus()
 void player_morale::update_bodytemp_penalty( int ticks )
 {
     for( int i = 0; i < ticks; ++i ) {
-        static const auto bp_pen = [ this ]( body_part bp, double mul ) -> int {
+        const auto bp_pen = [ this ]( body_part bp, double mul ) -> int {
             return mul * ( body_parts[bp].hot - body_parts[bp].cold );
         };
         const int pen =
