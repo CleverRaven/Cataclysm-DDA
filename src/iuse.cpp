@@ -8249,6 +8249,13 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+int iuse::maple_tap(player *p, item *it, bool, const tripoint& )
+{
+    p->add_msg_if_player(_("Using maple tree spile."));
+
+    return it->charges;
+}
+
 int iuse::shavekit(player *p, item *it, bool, const tripoint&)
 {
     if (it->charges < it->type->charges_to_use()) {

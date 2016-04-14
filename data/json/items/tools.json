@@ -6193,6 +6193,22 @@
     }
   },
   {
+    "id": "hand_drill",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "hand drill",
+    "description": "A primitive manual drill with a single drill bit.  It is slow and it will exhaust you quickly.",
+    "price": 500,
+    "material": [ "wood", "steel" ],
+    "weight": 907,
+    "volume": 1,
+    "bashing": 3,
+    "cutting": 1,
+    "to_hit": -1,
+    "qualities": [ [ "DRILL", 1 ] ]
+  },
+  {
     "id": "cordless_drill",
     "type": "TOOL",
     "symbol": ";",

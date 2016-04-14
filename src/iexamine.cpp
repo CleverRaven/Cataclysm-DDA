@@ -2280,6 +2280,18 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     none( p, examp );
 }
 
+void iexamine::tree_maple(player &p, const tripoint &examp)
+{
+    return;
+    none( p, examp );
+}
+
+void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
+{
+    return;
+    none( p, examp );
+}
+
 void iexamine::tree_bark(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Pick %s?"), g->m.tername(examp).c_str())) {
@@ -3346,6 +3358,12 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("tree_hickory" == function_name) {
         return &iexamine::tree_hickory;
+    }
+    if ("tree_maple" == function_name) {
+        return &iexamine::tree_maple;
+    }
+    if ("tree_maple_tapped" == function_name) {
+        return &iexamine::tree_maple_tapped;
     }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;
