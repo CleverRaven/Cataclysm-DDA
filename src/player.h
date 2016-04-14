@@ -7,6 +7,7 @@
 #include "player_activity.h"
 #include "weighted_list.h"
 #include "game_constants.h"
+#include "vitamin.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -717,6 +718,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const itype *comest ) const;
+
+        /** Get vitamin contents for a comestible */
+        std::map<vitamin_id, int> vitamins_from( const item& it ) const;
+        std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
+
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
