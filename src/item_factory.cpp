@@ -1052,11 +1052,11 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
 
 void Item_factory::load_comestible(JsonObject &jo)
 {
-    auto def = new itype();
-    load_slot( def->comestible, jo );
-    def->stack_size = jo.get_int( "stack_size", def->comestible->def_charges );
-    load_basic_info( jo, def );
-    load_slot( def->spawn, jo );
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->comestible, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load_container(JsonObject &jo)
