@@ -257,7 +257,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast_pk",
-    "name": "tangala",
+    "name": "tangela",
     "species":"PLANT",
     "default_faction":"triffid",
     "symbol":"V",
@@ -493,10 +493,9 @@
             "min_mul" : 0.80, "//" : "dionaea bitch"
         },
         ["VINE", 15], ["RANGED_PULL", 3]],
-        "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving enegery for its coordinated slither along the ground.",
+        "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving energy for its coordinated slither along the ground.",
         "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD"],
-        "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
-        "//": "Minor concerns about their strength, but they add real meat to the triffid front lines."
+        "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_minecraft",
