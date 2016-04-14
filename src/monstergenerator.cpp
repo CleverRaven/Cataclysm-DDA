@@ -380,7 +380,6 @@ void MonsterGenerator::init_flags()
     flag_map["CHITIN"] = MF_CHITIN;
     flag_map["VERMIN"] = MF_VERMIN;
     flag_map["NOGIB"] = MF_NOGIB;
-    flag_map["HUNTS_VERMIN"] = MF_HUNTS_VERMIN;
     flag_map["ABSORBS"] = MF_ABSORBS;
     flag_map["LARVA"] = MF_LARVA;
     flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;

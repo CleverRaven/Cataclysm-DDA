@@ -3,15 +3,10 @@
         "type" : "MONSTER_FACTION",
         "name" : "",
         "base_faction" : "",
-        "by_mood" : [""],
-        "neutral" : ["vermin"]
+        "by_mood" : [""]
     },{
         "type" : "MONSTER_FACTION",
         "name" : "player"
-    },{
-        "type" : "MONSTER_FACTION",
-        "name" : "vermin",
-        "neutral" : [""]
     },{
         "type" : "MONSTER_FACTION",
         "name" : "zombie",

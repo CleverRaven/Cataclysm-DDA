@@ -6001,9 +6001,6 @@ int game::mon_info(WINDOW *w)
         }
         if( m != nullptr ) {
             auto &critter = *m;
-            if(critter.type->has_flag(MF_VERMIN)) {
-                continue;
-            }
 
             monster_attitude matt = critter.attitude(&u);
             if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
@@ -7670,7 +7667,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
             add_msg(_("The %1$s hits the %2$s."), door_name.c_str(), zombie(cindex).name().c_str());
         }
         monster &critter = zombie( cindex );
-        if (critter.type->size <= MS_SMALL || critter.has_flag(MF_VERMIN)) {
+        if( critter.type->size <= MS_SMALL ) {
             critter.die_in_explosion( nullptr );
         } else {
             critter.apply_damage( nullptr, bp_torso, bash_dmg );
@@ -11954,7 +11951,7 @@ bool game::plmove(int dx, int dy, int dz)
     // Check if our movement is actually an attack on a monster or npc
     int mondex = mon_at( dest_loc, true );
     int npcdex = npc_at( dest_loc );
-    // Are we displacing a monster?  If it's vermin, always.
+    // Are we displacing a monster?
 
     bool attacking = false;
     if( mondex != -1 || npcdex != -1 ){
@@ -11969,8 +11966,7 @@ bool game::plmove(int dx, int dy, int dz)
     if( mondex != -1 ) {
         monster &critter = zombie(mondex);
         if( critter.friendly == 0 &&
-            !critter.has_effect( effect_pet) &&
-            !critter.type->has_flag(MF_VERMIN) ) {
+            !critter.has_effect( effect_pet) ) {
             if (u.has_destination()) {
                 add_msg(m_warning, _("Monster in the way. Auto-move canceled."));
                 add_msg(m_info, _("Click directly on monster to attack."));
