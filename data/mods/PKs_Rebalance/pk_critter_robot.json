@@ -4,7 +4,7 @@
     "type" : "MONSTER",
     "id" : "mon_eyebot",
     "edit-mode" : "modify",
-      "vision_night":10
+      "vision_night":20
     },{
     "type" : "MONSTER",
     "id" : "mon_secubot",
@@ -14,27 +14,27 @@
     "type" : "MONSTER",
     "id" : "mon_copbot",
     "edit-mode" : "modify",
-      "vision_night":10
+      "vision_night":15
     },{
     "type" : "MONSTER",
     "id" : "mon_tripod",
     "edit-mode" : "modify",
-      "vision_night":10
+      "vision_night":30
     },{
     "type" : "MONSTER",
     "id" : "mon_chickenbot",
     "edit-mode" : "modify",
-      "vision_night":10
+      "vision_night":20
     },{
     "type" : "MONSTER",
     "id" : "mon_tankbot",
     "edit-mode" : "modify",
-      "vision_night":10,
+      "vision_night":20
     },{
     "type" : "MONSTER",
     "id" : "mon_turret_searchlight",
     "edit-mode" : "modify",
-      "vision_night":35
+      "vision_night":50
     },{
     "type" : "MONSTER",
     "id" : "mon_laserturret",
@@ -75,7 +75,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_manhack_fire",
-    "name": "reaper",
+    "name": "inferno hack",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -95,7 +95,7 @@
     "armor_cut":10,
     "vision_day":40,
     "special_attacks":[["KAMIKAZE", 0]],
-    "starting_ammo": { "grenade_inc": 1},
+    "starting_ammo": {"hell_napalm": 3},
     "luminance":3,
     "hp":15,
     "death_function":["EXPLODE"],
@@ -104,7 +104,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_manhack_acid",
-    "name": "shredder",
+    "name": "corrosive hack",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
