@@ -62,6 +62,21 @@
         "use_action" : "ADRENALINE_INJECTOR"
     },
     {
+        "id" : "antibiotics",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "antibiotic",
+        "description" : "Antibacterial medication designed to prevent or stop the spread of infection.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 9000,
+        "charges" : 15,
+        "stack_size" : 200,
+        "symbol" : "!",
+        "color" : "white",
+        "use_action" : "ANTIBIOTIC"  
+    },
+    {
         "id" : "aspirin",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -107,6 +122,32 @@
         "flags" : [ "USE_ON_NPC" ]
     },
     {
+        "id" : "bfipowder",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "antiseptic powder",
+        "name_plural" : "antiseptic powder",
+        "description" : "A powdered form of chemical disinfectant, this bismuth formic iodide cleans wounds quickly and painlessly.",
+        "weight" : 6,
+        "volume" : 1,
+        "price" : 900,
+        "charges" : 4,
+        "stack_size" : 40,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "white",
+        "container" : "bottle_plastic_small",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        },
+        "flags" : [ "USE_ON_NPC" ]
+    },
+    {
         "id" : "brownie_weed",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -124,6 +165,25 @@
         "spoils_in" : 420,
         "use_action" : "WEED_BROWNIE",
         "flags" : [ "EATEN_HOT" ]
+    },
+    {
+        "id" : "caff_gum",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "caffeinated chewing gum",
+        "description" : "Chewing gum with added caffeine.  Sugary and bad for your teeth, but it's a nice pick-me-up.",
+        "category" : "food",
+        "weight" : 3,
+        "volume" : 1,
+        "price" : 140,
+        "charges" : 10,
+        "stack_size" : 100,
+        "material" : "junk",
+        "symbol" : "*",
+        "color" : "white",
+        "stim" : 10,
+        "fun" : 1,
+        "use_action" : "CHEW"     
     },
     {
         "id" : "caffeine",
@@ -763,6 +823,32 @@
             "activation_message" : "You take some Prussian blue.",
             "effects" : [ { "id" : "pblue", "duration" : 3600 } ]
         }
+    },
+    {
+        "id" : "quikclot",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "hemostatic powder",
+        "name_plural" : "hemostatic powder",
+        "description" : "A powdered antihemorrhagic compound that reacts with blood to immediately form a gel-like substance that stops bleeding.",
+        "weight" : 5,
+        "volume" : 1,
+        "price" : 550,
+        "charges" : 6,
+        "stack_size" : 60,
+        "material" : "powder",
+        "symbol" : "!",
+        "color" : "light_gray",
+        "container" : "bag_plastic",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bleed" : 90,
+            "move_cost" : 100
+        },
+        "flags" : [ "USE_ON_NPC" ]
     },
     {
         "id" : "thorazine",
