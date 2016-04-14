@@ -657,27 +657,25 @@ void player_morale::update_masochist_bonus()
 
 void player_morale::update_bodytemp_penalty( int ticks )
 {
-    for( int i = 0; i < ticks; ++i ) {
-        static const auto bp_pen = [ this ]( body_part bp, double mul ) -> int {
-            return mul * ( body_parts[bp].hot - body_parts[bp].cold );
-        };
-        const int pen =
-            bp_pen( bp_head,    2 ) +
-            bp_pen( bp_torso,   2 ) +
-            bp_pen( bp_mouth,   2 ) +
-            bp_pen( bp_arm_l,  .5 ) +
-            bp_pen( bp_arm_r,  .5 ) +
-            bp_pen( bp_leg_l,  .5 ) +
-            bp_pen( bp_leg_r,  .5 ) +
-            bp_pen( bp_hand_l, .5 ) +
-            bp_pen( bp_hand_r, .5 ) +
-            bp_pen( bp_foot_l, .5 ) +
-            bp_pen( bp_foot_r, .5 );
-        if( pen < 0 ) {
-            add( MORALE_COLD, -2, pen, 10, 5, true );
-        } else if( pen > 0 ) {
-            add( MORALE_HOT, -2, -pen, 10, 5, true );
-        }
+    const auto bp_pen = [ this ]( body_part bp, double mul ) -> int {
+        return mul * ( body_parts[bp].hot - body_parts[bp].cold );
+    };
+    const int pen =
+        bp_pen( bp_head,    2 ) +
+        bp_pen( bp_torso,   2 ) +
+        bp_pen( bp_mouth,   2 ) +
+        bp_pen( bp_arm_l,  .5 ) +
+        bp_pen( bp_arm_r,  .5 ) +
+        bp_pen( bp_leg_l,  .5 ) +
+        bp_pen( bp_leg_r,  .5 ) +
+        bp_pen( bp_hand_l, .5 ) +
+        bp_pen( bp_hand_r, .5 ) +
+        bp_pen( bp_foot_l, .5 ) +
+        bp_pen( bp_foot_r, .5 );
+    if( pen < 0 ) {
+        add( MORALE_COLD, -2 * ticks, pen, 10, 5, true );
+    } else if( pen > 0 ) {
+        add( MORALE_HOT, -2 * ticks, -pen, 10, 5, true );
     }
 }
 
