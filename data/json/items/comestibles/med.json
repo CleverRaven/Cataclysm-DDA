@@ -543,7 +543,7 @@
             "activation_message" : "You shoot up.",
             "tools_needed" : { "syringe" : 1 },
             "effects" : [ { "id" : "pkill3", "duration" : 80 },
-            { "id" : "pkill2", "duration" : 200 } ]
+                { "id" : "pkill2", "duration" : 200 } ]
         }
     },
     {
@@ -653,7 +653,7 @@
             "activation_message" : "You shoot up.",
             "tools_needed" : { "syringe" : 1 },
             "effects" : [ { "id" : "pkill3", "duration" : 20 },
-            { "id" : "pkill2", "duration" : 200 } ]
+                { "id" : "pkill2", "duration" : 200 } ]
         }
     },
     {   
@@ -735,7 +735,7 @@
             "type" : "consume_drug",
             "activation_message" : "You take some oxycodone.",
             "effects" : [ { "id" : "pkill3", "duration" : 20 },
-            { "id" : "pkill2", "duration" : 200 } ]
+                { "id" : "pkill2", "duration" : 200 } ]
         } 
     },
     {
@@ -1029,7 +1029,7 @@
             "type" : "consume_drug",
             "activation_message" : "You smoke some weed.  Good stuff, man!",
             "effects" : [ { "id" : "weed_high", "duration" : 90 },
-            { "id" : "pkill1", "duration" : 60 } ],
+                { "id" : "pkill1", "duration" : 60 } ],
             "stat_adjustments" : { "hunger" : 4, "thirst" : 6 },
             "fields_produced" : {"fd_weedsmoke" : 2},
             "charges_needed" : { "fire" : 1 },
