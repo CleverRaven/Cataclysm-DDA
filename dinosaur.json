@@ -32,7 +32,7 @@
         "death_function":"NORMAL",
         "special_attack":["NONE"],
         "description":"A bipedal dinosaur about the size of a small cat.  Its teeth and claws look quite sharp.",
-        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "HUNTS_VERMIN", "HIT_AND_RUN", "ANIMAL", "VIS50", "BLEED", "BONES", "LEATHER"],
+        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "HIT_AND_RUN", "ANIMAL", "VIS50", "BLEED", "BONES", "LEATHER"],
         "anger_triggers":["PLAYER_WEAK", "HURT"],
         "fear_triggers":["SOUND", "PLAYER_CLOSE", "FIRE"],
         "placate_triggers":["MEAT"],
@@ -65,7 +65,7 @@
         "death_function":"NORMAL",
         "special_attack":["NONE"],
         "description":"A feathered bipedal dinosaur, standing as tall as a human.  It looks somewhat like a reptilian ostrich.",
-        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "HUNTS_VERMIN", "ANIMAL", "VIS40", "BONES", "FEATHER", "LEATHER"],
+        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "VIS40", "BONES", "FEATHER", "LEATHER"],
         "fear_triggers":["SOUND", "PLAYER_CLOSE", "FIRE"],
          "categories":["DINOSAUR"]
     },{
@@ -96,7 +96,7 @@
         "death_function":"NORMAL",
         "special_attack":["NONE"],
         "description":"It looks like a dodo, only much bigger, with longer, muscular legs and a predatory gleam in its eyes.",
-        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "HUNTS_VERMIN", "GRABS", "KEENNOSE", "VIS50", "BLEED", "BONES", "FEATHER", "LEATHER"],
+        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "GRABS", "KEENNOSE", "VIS50", "BLEED", "BONES", "FEATHER", "LEATHER"],
         "anger_triggers":["STALK", "PLAYER_WEAK", "HURT"],
         "fear_triggers":["SOUND", "FIRE"],
         "placate_triggers":["MEAT"],
@@ -324,7 +324,7 @@
         "death_function":"NORMAL",
         "special_attack":["NONE"],
         "description":"A bipedal dinosaur about the size of a chicken.  It roots around the undergrowth, scavenging on small animals and plants.",
-        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "HUNTS_VERMIN", "HIT_AND_RUN", "ANIMAL", "VIS50", "BONES"],
+        "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "HIT_AND_RUN", "ANIMAL", "VIS50", "BONES"],
         "fear_triggers":["SOUND", "PLAYER_CLOSE", "FIRE"],
         "categories":["DINOSAUR"]
     },{
@@ -355,7 +355,7 @@
         "death_function":"NORMAL",
         "special_attack":["LEAP"],
         "description":"A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands.",
-        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "HUNTS_VERMIN", "KEENNOSE", "VIS50", "BLEED", "BONES", "FEATHER", "LEATHER"],
+        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "KEENNOSE", "VIS50", "BLEED", "BONES", "FEATHER", "LEATHER"],
         "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT"],
         "fear_triggers":["SOUND", "FIRE"],
         "placate_triggers":["MEAT"],
@@ -388,7 +388,7 @@
         "death_function":"NORMAL",
         "special_attack":["LEAP"],
         "description":"A medium-sized bipedal dinosaur covered with feathers.  At the end of each foot is a large sickle-like claw.",
-        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "HUNTS_VERMIN", "KEENNOSE", "VIS50", "BLEED", "ATTACKMON", "BONES", "FEATHER", "LEATHER"],
+        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "KEENNOSE", "VIS50", "BLEED", "ATTACKMON", "BONES", "FEATHER", "LEATHER"],
         "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "HURT"],
         "fear_triggers":["SOUND", "FIRE"],
         "placate_triggers":["MEAT"],
@@ -486,7 +486,7 @@
         "death_function":"NORMAL",
         "special_attack":["NONE"],
         "description":"A small flying reptile, circling overhead looking for prey.",
-        "flags":["SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "HUNTS_VERMIN", "ANIMAL", "VIS50", "BLEED", "BONES"],
+        "flags":["SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "VIS50", "BLEED", "BONES"],
         "fear_triggers":["SOUND", "PLAYER_CLOSE", "FIRE"],
         "placate_triggers":["MEAT"],
         "categories":["DINOSAUR"]
@@ -518,7 +518,7 @@
         "death_function":"NORMAL",
         "special_attack":["BOOMER"],
         "description":"A medium dinosaur with a sticky green bile dripping from its teeth.",
-        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "HUNTS_VERMIN", "KEENNOSE", "VIS50", "BLEED", "BONES", "LEATHER"],
+        "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "KEENNOSE", "VIS50", "BLEED", "BONES", "LEATHER"],
         "anger_triggers":["PLAYER_WEAK", "HURT"],
         "fear_triggers":["SOUND", "FIRE"],
         "placate_triggers":["MEAT"],
@@ -599,8 +599,6 @@
     "monsters" : [
       { "monster" : "mon_lemming", "freq" : 50, "cost_multiplier" : 0, "pack_size" : [2,7], "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
 
-      { "monster" : "mon_mosquito", "freq" : 50, "cost_multiplier" : 0, "pack_size" : [1,7], "conditions" : ["DAWN", "DUSK", "SPRING", "SUMMER", "AUTUMN"] },
-
       { "monster" : "mon_mosquito_giant", "freq" :  5, "cost_multiplier" : 0, "pack_size" : [1,3],                 "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_mosquito_giant", "freq" : 10, "cost_multiplier" : 0, "pack_size" : [1,3],                 "conditions" : ["DAWN", "DUSK", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_mosquito_giant", "freq" :  5, "cost_multiplier" : 0, "pack_size" : [1,3], "starts" :  72, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
@@ -613,8 +611,6 @@
       { "monster" : "mon_mosquito_giant", "freq" : 10, "cost_multiplier" : 0, "pack_size" : [1,3], "starts" : 504, "conditions" : ["DAWN", "DUSK", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_mosquito_giant", "freq" :  5, "cost_multiplier" : 0, "pack_size" : [1,3], "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_mosquito_giant", "freq" : 10, "cost_multiplier" : 0, "pack_size" : [1,3], "starts" : 672, "conditions" : ["DAWN", "DUSK", "SPRING", "SUMMER", "AUTUMN"] },
-
-      { "monster" : "mon_dragonfly", "freq" : 30, "cost_multiplier" : 0, "pack_size" : [1,3] },
 
       { "monster" : "mon_dragonfly_giant", "freq" :  5, "cost_multiplier" : 0,                 "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_dragonfly_giant", "freq" :  5, "cost_multiplier" : 0, "starts" :  24, "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
@@ -666,8 +662,6 @@
       { "monster" : "mon_fly", "freq" :  2, "cost_multiplier" : 0, "starts" : 793, "conditions" : ["SPRING", "SUMMER", "AUTUMN"]        },
       { "monster" : "mon_fly", "freq" :  3, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
 
-      { "monster" : "mon_centipede", "freq" : 30, "cost_multiplier" : 0, "conditions" : ["NIGHT", "SPRING", "SUMMER", "AUTUMN"] },
-
       { "monster" : "mon_centipede_giant", "freq" :  2, "cost_multiplier" : 0,                 "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_centipede_giant", "freq" :  6, "cost_multiplier" : 0,                 "conditions" : ["NIGHT", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_centipede_giant", "freq" :  2, "cost_multiplier" : 0, "starts" :  72, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
@@ -680,9 +674,6 @@
       { "monster" : "mon_centipede_giant", "freq" :  6, "cost_multiplier" : 0, "starts" : 504, "conditions" : ["NIGHT", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_centipede_giant", "freq" :  2, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_centipede_giant", "freq" :  6, "cost_multiplier" : 0, "starts" : 672, "conditions" : ["NIGHT", "SPRING", "SUMMER", "AUTUMN"] },
-
-      { "monster" : "mon_spider_jumping", "freq" :  6, "cost_multiplier" : 2, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
-      { "monster" : "mon_spider_jumping", "freq" : 24, "cost_multiplier" : 2, "conditions" : ["DAWN", "DAY", "DUSK","SPRING", "SUMMER", "AUTUMN"] },
 
       { "monster" : "mon_spider_jumping_giant", "freq" :  1, "cost_multiplier" : 0,                 "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_spider_jumping_giant", "freq" :  3, "cost_multiplier" : 0,                 "conditions" : ["DAWN", "DAY", "DUSK", "SPRING", "SUMMER", "AUTUMN"] },
@@ -717,9 +708,6 @@
       { "monster" : "mon_spider_jumping_giant", "freq" :  1, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_spider_jumping_giant", "freq" :  3, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["DAWN", "DAY", "DUSK", "SPRING", "SUMMER", "AUTUMN"] },
 
-      { "monster" : "mon_spider_wolf", "freq" :  6, "cost_multiplier" : 2, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
-      { "monster" : "mon_spider_wolf", "freq" : 24, "cost_multiplier" : 2, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
-
       { "monster" : "mon_spider_wolf_giant", "freq" :  1, "cost_multiplier" : 0,                 "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_spider_wolf_giant", "freq" :  3, "cost_multiplier" : 0,                 "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_spider_wolf_giant", "freq" :  1, "cost_multiplier" : 0, "starts" :  24, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
@@ -752,9 +740,6 @@
       { "monster" : "mon_spider_wolf_giant", "freq" :  3, "cost_multiplier" : 0, "starts" : 720, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_spider_wolf_giant", "freq" :  1, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_spider_wolf_giant", "freq" :  3, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
-
-      { "monster" : "mon_wasp_small", "freq" :  3, "cost_multiplier" : 2, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
-      { "monster" : "mon_wasp_small", "freq" : 12, "cost_multiplier" : 2, "conditions" : ["DAWN", "DAY", "SPRING", "SUMMER", "AUTUMN"] },
 
       { "monster" : "mon_wasp", "freq" :  1, "cost_multiplier" : 0,                 "conditions" : ["SPRING", "SUMMER", "AUTUMN"]        },
       { "monster" : "mon_wasp", "freq" :  4, "cost_multiplier" : 0,                 "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
@@ -800,8 +785,6 @@
       { "monster" : "mon_dermatik"      , "freq" :  8, "cost_multiplier" : 2, "starts" : 1008, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_dermatik_larva", "freq" :  5, "cost_multiplier" : 2, "starts" : 1008, "conditions" : ["SPRING", "SUMMER", "AUTUMN"]                          },
 
-      { "monster" : "mon_slug", "freq" : 30, "cost_multiplier" : 0, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
-
       { "monster" : "mon_slug_giant", "freq" :  5, "cost_multiplier" : 0,                 "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_slug_giant", "freq" :  5, "cost_multiplier" : 0, "starts" :  72, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_slug_giant", "freq" :  5, "cost_multiplier" : 0, "starts" : 144, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
@@ -821,8 +804,6 @@
       { "monster" : "mon_sludge_crawler", "freq" : 5, "cost_multiplier" : 2, "starts" :  672, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_sludge_crawler", "freq" : 5, "cost_multiplier" : 2, "starts" :  840, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_sludge_crawler", "freq" : 5, "cost_multiplier" : 2, "starts" : 1008, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
-
-      { "monster" : "mon_frog", "freq" : 50, "cost_multiplier" : 0 },
 
       { "monster" : "mon_frog_giant", "freq" :  2, "cost_multiplier" : 0,                 "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_frog_giant", "freq" :  3, "cost_multiplier" : 0,                 "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
