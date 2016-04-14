@@ -121,7 +121,7 @@
     "comestible_type" : "MED",
     "symbol" : "+",
     "quench" : 0,
-    "healthy" : -1,
+    "healthy" : -5,
     "nutrition" : 0,
     "description" : "A PRM brand medikit.  Can be quickly applied in battlefield situations, though its designed to quickly stopgap wounds with artifical coagulants, not disinfect.",
     "price" : 50000,
@@ -166,8 +166,7 @@
     "material" : ["plastic"],
     "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
     "coverage" : 10,
-    "ammo": "water",
-    "revert_to": "null",
+    "ammo": "NULL",
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
@@ -175,7 +174,7 @@
     "use_action" : {
     "type" : "transform",
     "move_cost" : 200,     
-    "target": "beserker_drug",
+    "target": "beserker_drug_act",
     "target_charges": 6,
     "active": true
     },
@@ -197,7 +196,7 @@
     "material" : ["plastic"],
     "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
     "coverage" : 10,
-    "ammo": "water",
+    "ammo": "NULL",
     "revert_to": "bag_plastic",
     "max_charges": 6,
     "initial_charges": 6,
@@ -207,8 +206,8 @@
     "type" : "consume_drug",
     "effects" : [
         {
-            "id": "doom_stimpack",       
-            "duration": 50       
+            "id": "doom_stimpack",
+            "duration": 30
         }    
     ]}
     },{
