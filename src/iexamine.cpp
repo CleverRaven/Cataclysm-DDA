@@ -2420,6 +2420,23 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         }
 
         case HARVEST_SAP:
+            for( auto &it : items ) {
+                if( it.is_bucket() || it.is_watertight_container() ) {
+                    if( !it.is_container_empty() && it.contents[0].type->id == "maple_sap" ) {
+                        long initial_charges = it.contents[0].charges;
+                        bool emptied = g->handle_liquid( it.contents[0], false, false, NULL, NULL, PICKUP_RANGE );
+
+                        if( emptied || initial_charges != it.contents[0].charges ) {
+                            p.moves -= 100;
+                        }
+
+                        if( emptied || it.contents[0].charges <= 0 ) {
+                            it.contents.pop_back();
+                        }
+                    }
+                }
+            }
+            
             return;
 
         case REMOVE_CONTAINER: {

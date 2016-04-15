@@ -6988,7 +6988,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         if( ( it.is_bucket() || it.is_watertight_container() ) && (
             it.is_container_empty() || (
                 !it.is_container_full() && 
-                it.contents[0].type->id == "maple_sap") ) ) {
+                it.contents[0].type->id == "maple_sap" ) ) ) {
 
             item sap( "maple_sap", calendar::turn );
             const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
