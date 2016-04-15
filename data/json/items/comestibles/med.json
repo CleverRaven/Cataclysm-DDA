@@ -264,7 +264,7 @@
     {
         "id" : "chem_hydrogen_peroxide",
         "type" : "COMESTIBLE",
-        "comestible_type" : "MED"
+        "comestible_type" : "MED",
         "name" : "hydrogen peroxide",
         "name_plural" : "hydrogen peroxide",
         "description" : "Dilute hydrogen peroxide, for use as a disinfectant and for bleaching hair or textiles.  Foams a little when in contact with organic matter, but otherwise harmless.",
