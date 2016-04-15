@@ -6921,10 +6921,14 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         return;
     }
 
+    // Amount of maple sap litres produced per season per tap
+    int maple_sap_per_season = 56;
+
     // How many turns to produce 1 charge (250 ml) of sap?
     int turns_season = DAYS( calendar::season_length() );
     int producing_length = int( 0.75f * turns_season );
-    int turns_to_produce = producing_length / ( MAPLE_SAP_PER_SEASON * 4 );
+
+    int turns_to_produce = producing_length / ( maple_sap_per_season * 4 );
 
     // How long of this time_since_last_actualize have we been in the producing period (late winter, early spring)?
     int time_producing = 0;

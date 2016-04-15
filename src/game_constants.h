@@ -76,8 +76,5 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
-/** Amount of maple sap litres produced per season per tap **/
-/** Maple sap production starts at the end of winter and ends early spring **/
-#define MAPLE_SAP_PER_SEASON 56
 
 #endif
