@@ -2291,7 +2291,7 @@ item_location maple_tree_sap_container() {
                 it.contents[0].type->id == "maple_sap"
                 )
             );
-        }, _( "Which container:" ), 1 );
+        }, _( "Which container:" ), PICKUP_RANGE );
 }
 
 void iexamine::tree_maple(player &p, const tripoint &examp)
@@ -2306,18 +2306,17 @@ void iexamine::tree_maple(player &p, const tripoint &examp)
         return;
     }
 
-    std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
-    std::string title = string_format( _( "Which %s:" ), spile_name.c_str() );
+    const inventory &crafting_inv = p.crafting_inventory();
 
-    auto spile_loc = g->inv_map_splice( []( const item &it ) { return it.typeId() == "maple_tree_spile"; }, title, 1 );
-
-    item *spile = spile_loc.get_item();
-    if( !spile ) {
+    if( !crafting_inv.has_amount( "maple_tree_spile", 1 ) ) {
+        std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
         add_msg( m_info, _( "You need a %s to tap this maple tree." ), spile_name.c_str() );
         return;
     }
 
-    spile_loc.remove_item();
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "maple_tree_spile", 1 ) );
+    p.consume_items( comps );
 
     p.moves -= 200;
     g->m.ter_set( examp, t_tree_maple_tapped );
