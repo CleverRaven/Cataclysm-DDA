@@ -6991,7 +6991,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     for( auto &it : items ) {
         if( ( it.is_bucket() || it.is_watertight_container() ) && (
             it.is_container_empty() || (
-                !it.is_container_full() && 
+                !it.is_container_full( true ) && 
                 it.contents.front().type->id == "maple_sap" ) ) ) {
 
             item sap( "maple_sap", calendar::turn );

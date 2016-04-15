@@ -2287,7 +2287,7 @@ item_location maple_tree_sap_container() {
             it.is_watertight_container()
             ) && (
             it.is_container_empty() || (
-                !it.is_container_full() && 
+                !it.is_container_full( true ) && 
                 it.contents.front().type->id == "maple_sap"
                 )
             );
