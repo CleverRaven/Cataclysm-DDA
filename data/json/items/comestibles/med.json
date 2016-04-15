@@ -262,6 +262,30 @@
         "use_action" : "CHEW"   
     },
     {
+        "id" : "chem_hydrogen_peroxide",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED"
+        "name" : "hydrogen peroxide",
+        "name_plural" : "hydrogen peroxide",
+        "description" : "Dilute hydrogen peroxide, for use as a disinfectant and for bleaching hair or textiles.  Foams a little when in contact with organic matter, but otherwise harmless.",
+        "weight" : 275,
+        "volume" : 1,
+        "price" : 100,
+        "charges" : 1,
+        "symbol" : "~",
+        "color" : "white",
+        "phase" : "liquid",
+        "container" : "bottle_glass",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        }
+    },
+    {
         "id" : "cig",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -346,6 +370,23 @@
         "addiction_potential" : 50,
         "addiction_type" : "cocaine",
         "use_action" : "COKE"
+    },
+    {
+        "id" : "contacts",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "pair of contact lenses",
+        "name_plural" : "pairs of contact lenses",
+        "description" : "A pair of extended wear contacts with soft lenses designed to be discarded after a week of use.  They are a great replacement to wearing glasses and sit comfortably on the surface of the eye.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 2600,
+        "charges" : 6,
+        "stack_size" : 36,
+        "material" : "plastic",
+        "symbol" : "[",
+        "color" : "cyan",
+        "use_action" : "CONTACTS"  
     },
     {
         "id" : "cotton_ball",
@@ -447,6 +488,30 @@
         "use_action" : "FLUMED"
     },
     {
+        "id" : "disinfectant",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "disinfectant",
+        "description" : "A powerful disinfectant commonly used for contaminated wounds.",
+        "weight" : 135,
+        "volume" : 1,
+        "price" : 1500,
+        "charges" : 2,
+        "symbol" : "~",
+        "color" : "light_cyan",
+        "phase" : "liquid",
+        "container" : "bottle_plastic",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        },
+        "flags" : [ "USE_ON_NPC" ]
+    },
+    {
         "id" : "flu_shot",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -545,6 +610,29 @@
             "effects" : [ { "id" : "pkill3", "duration" : 80 },
                 { "id" : "pkill2", "duration" : 200 } ]
         }
+    },
+    {
+        "id" : "inhaler_sewergas",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "sewagas inhaler",
+        "description" : "A powerful hallucinogen with low risk of addiction.",
+        "weight" : 10,
+        "volume" : 1,
+        "price" : 500,
+        "charges" : 25,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "light_blue",
+        "stim" : -12,
+        "healthy" : -14,
+        "fun" : 4,
+        "addiction_potential" : 1,
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You use your sewer gas inhaler.",
+            "effects" : [ { "id" : "hallu", "duration" : 2600 } ]     
+        }   
     },
     {
         "id" : "iodine",
@@ -707,8 +795,8 @@
         "symbol" : "~",
         "color" : "blue",
         "phase" : "liquid",
-        "stim" : -7,
         "container" : "bottle_plastic",
+        "stim" : -7,
         "addiction_potential" : 20,
         "addiction_type" : "sleeping pill",
         "use_action" : "FLUSLEEP"
@@ -802,7 +890,6 @@
     {
         "id" : "poppysyrup",
         "type" : "COMESTIBLE",
-        "container" : "bottle_plastic",
         "comestible_type" : "MED",
         "name" : "poppy cough syrup",
         "name_plural" : "poppy cough syrup",
@@ -814,6 +901,7 @@
         "symbol" : "~",
         "color" : "magenta",
         "phase" : "liquid",
+        "container" : "bottle_plastic",
         "stim" : -3,
         "healthy" : -1,
         "addiction_potential" : 15,
@@ -883,6 +971,22 @@
             "move_cost" : 100
         },
         "flags" : [ "USE_ON_NPC" ]
+    },
+    {
+        "id" : "saline",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "saline solution",
+        "description" : "A solution of sterilized water and salt for intravenous infusion or washing contaminants from one's eyes.",
+        "weight" : 51,
+        "volume" : 1,
+        "price" : 500,
+        "charges" : 5,
+        "symbol" : "~",
+        "color" : "light_cyan",
+        "phase" : "liquid",
+        "container" : "bottle_plastic",
+        "use_action" : "EYEDROPS"    
     },
     {
         "id" : "thorazine",
