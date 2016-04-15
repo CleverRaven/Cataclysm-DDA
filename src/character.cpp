@@ -1957,3 +1957,11 @@ bool Character::made_of( const material_id &m ) const {
     static const std::vector<material_id> fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
     return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
 }
+
+bool Character::is_blind() const
+{
+    if( worn_with_flag( "BLIND" ) || has_effect( effect_blind ) ) {
+    return true;
+    }
+ return false;
+}
