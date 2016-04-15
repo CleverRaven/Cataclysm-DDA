@@ -8251,7 +8251,19 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
 
 int iuse::maple_tap(player *p, item *it, bool, const tripoint& )
 {
-    p->add_msg_if_player(_("Using maple tree spile."));
+    tripoint target;
+    std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
+
+    const std::string query = string_format( _( "Choose surrounding maple tree to use %s on?"), spile_name.c_str() );
+    if( !choose_adjacent( query, target ) ) {
+        return 0;
+    }
+
+    if( g->m.ter_at( target ).id == "t_tree_maple" ) {
+        iexamine::tree_maple( *p, target );
+    } else {
+        p->add_msg_if_player( _( "There is no untapped maple tree at that location." ) );
+    }
 
     return it->charges;
 }
