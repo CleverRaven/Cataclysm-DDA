@@ -2415,7 +2415,7 @@ void player::disp_info()
     if ((has_trait("TROGLO") && g->is_in_sunlight(pos()) &&
          g->weather == WEATHER_SUNNY && !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) ||
         (has_trait("TROGLO2") && g->is_in_sunlight(pos()) &&
-         g->weather != WEATHER_SUNNY && !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) {
+         g->weather != WEATHER_SUNNY && !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) ) {
         effect_name.push_back(_("In Sunlight"));
         effect_text.push_back(_("The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1"));
