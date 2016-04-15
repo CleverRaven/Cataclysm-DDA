@@ -11492,7 +11492,7 @@ float player::fine_detail_vision_mod() const
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if( is_blind || has_active_bionic("bio_blindfold") ||
+    if( is_blind() || has_active_bionic("bio_blindfold") ||
          ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
         return 11.0;
     }
