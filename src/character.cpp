@@ -1960,8 +1960,5 @@ bool Character::made_of( const material_id &m ) const {
 
 bool Character::is_blind() const
 {
-    if( worn_with_flag( "BLIND" ) || has_effect( effect_blind ) ) {
-    return true;
-    }
- return false;
+    return ( worn_with_flag( "BLIND" ) || has_effect( effect_blind ) );
 }
