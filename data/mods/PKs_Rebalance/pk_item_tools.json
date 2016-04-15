@@ -218,7 +218,7 @@
     "id" : "stamina_vial",
     "name" : "stamina vial",
     "volume" : 3,
-    "description" : "Containing a slew of charged organic chemicals, this 3-layer slurry might go down hard but provides a noticable endurance boost for hardcore athletes and demanding soldiers alike.  Like most PRM products it is designed for short-term use only, and may upset the body's balance.",
+    "description" : "Containing a slew of charged organic chemicals, this 3-layer slurry might go down hard but provides a noticeable endurance boost for hardcore athletes and demanding soldiers alike.  Like most PRM products it is designed for short-term use only, and may upset the body's balance.",
     "weight" : 720,
     "to_hit" : -1,
     "comestible_type" : "MED",
