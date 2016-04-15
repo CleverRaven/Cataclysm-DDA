@@ -6912,7 +6912,7 @@ void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
 
 void map::produce_sap( const tripoint &p, int time_since_last_actualize )
 {
-    if( time_since_last_actualize == 0 ) {
+    if( time_since_last_actualize <= 0 ) {
         return;
     }
 
@@ -6952,17 +6952,17 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
             current_tof < early_spring_end
         );
 
-        int non_procuding_length = int( 3.25f * turns_season );
+        int non_producing_length = int( 3.25f * turns_season );
 
         if( last_producing && current_producing ) {
-            if( time_since_last_actualize < non_procuding_length ) {
+            if( time_since_last_actualize < non_producing_length ) {
                 time_producing = time_since_last_actualize;
             } else {
-                time_producing = time_since_last_actualize - non_procuding_length;
+                time_producing = time_since_last_actualize - non_producing_length;
             }
         } else if ( !last_producing && !current_producing ) {
-            if( time_since_last_actualize > non_procuding_length ) {
-                time_producing = time_since_last_actualize - non_procuding_length;
+            if( time_since_last_actualize > non_producing_length ) {
+                time_producing = time_since_last_actualize - non_producing_length;
             }
         } else if ( last_producing && !current_producing ) {
             // We hit the end of early spring

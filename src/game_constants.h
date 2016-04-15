@@ -76,5 +76,4 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
-
 #endif
