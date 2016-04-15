@@ -270,15 +270,6 @@
     },
     {
         "type":"GENERIC",
-        "id":"fertilizer",
-        "symbol": "*",
-        "color": "green",
-        "name":"fertilizer",
-        "description": "A token, representing fertilization of a plant.",
-        "material": "veggy"
-    },
-    {
-        "type":"GENERIC",
         "id": "pointy_stick",
         "symbol" : "/",
         "color": "brown",
@@ -1259,23 +1250,6 @@
         "bashing" : 5,
         "price" : 7500,
         "price_postapoc": 300
-    },
-    {
-        "type":"GENERIC",
-        "id": "nomex",
-        "category" : "spare_parts",
-        "symbol": ",",
-        "color": "light_gray",
-        "name": "Nomex patch",
-        "name_plural": "Nomex patches",
-        "description": "A small bolt of Nomex fire-resistant fabric.",
-        "price": 4000,
-        "price_postapoc": 200,
-        "material": ["nomex"],
-        "flags": ["NO_SALVAGE"],
-        "weight": 42,
-        "volume": 1,
-        "bashing": -8
     },
     {
         "type":"GENERIC",
