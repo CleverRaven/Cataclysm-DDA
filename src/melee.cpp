@@ -381,6 +381,11 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
                 }
             }
             sfx::generate_melee_sound( pos(), t.pos(), 1, t.is_monster(), material);
+
+            if( critical_hit ) {
+                sounds::sound( pos(), 10, "", true, "critical_hit", "default");
+            }
+
             int dam = dealt_dam.total_damage();
 
             bool bashing = (d.type_damage(DT_BASH) >= 10 && !unarmed_attack());
