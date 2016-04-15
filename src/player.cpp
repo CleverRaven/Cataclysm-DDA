@@ -2413,17 +2413,19 @@ void player::disp_info()
     }
 
     if ((has_trait("TROGLO") && g->is_in_sunlight(pos()) &&
-         g->weather == WEATHER_SUNNY) ||
+         g->weather == WEATHER_SUNNY && !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) ||
         (has_trait("TROGLO2") && g->is_in_sunlight(pos()) &&
-         g->weather != WEATHER_SUNNY)) {
+         g->weather != WEATHER_SUNNY) && !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) {
         effect_name.push_back(_("In Sunlight"));
         effect_text.push_back(_("The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1"));
-    } else if (has_trait("TROGLO2") && g->is_in_sunlight(pos())) {
+    } else if (has_trait("TROGLO2") && g->is_in_sunlight(pos()) && 
+        !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) {
         effect_name.push_back(_("In Sunlight"));
         effect_text.push_back(_("The sunlight irritates you badly.\n\
 Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2"));
-    } else if (has_trait("TROGLO3") && g->is_in_sunlight(pos())) {
+    } else if (has_trait("TROGLO3") && g->is_in_sunlight(pos()) &&
+        !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) {
         effect_name.push_back(_("In Sunlight"));
         effect_text.push_back(_("The sunlight irritates you terribly.\n\
 Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
@@ -7936,7 +7938,8 @@ void player::suffer()
     }
 
     if (has_trait("SUNBURN") && g->is_in_sunlight(pos()) && one_in(10)) {
-        if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
+        if( !( ( worn_with_flag( "RAINPROOF" ) ) || ( weapon.has_flag( "RAIN_PROTECT" ) ) ||
+        worn_with_flag( "SUN_GLASSES" ) || worn_with_flag( "BLIND" ) ) ) {
         add_msg(m_bad, _("The sunlight burns your skin!"));
         if (in_sleep_state()) {
             wake_up();
@@ -7946,25 +7949,28 @@ void player::suffer()
         }
     }
 
-    if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
-        g->is_in_sunlight(pos()) && g->weather == WEATHER_SUNNY) {
+    if( ( has_trait( "TROGLO" ) || has_trait( "TROGLO2" ) ) &&
+        g->is_in_sunlight( pos() ) && g->weather == WEATHER_SUNNY &&
+        !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
-        add_miss_reason(_("The sunlight distracts you."), 1);
+        add_miss_reason( _( "The sunlight distracts you." ), 1 );
         mod_int_bonus(-1);
         mod_per_bonus(-1);
     }
-    if (has_trait("TROGLO2") && g->is_in_sunlight(pos())) {
+    if( has_trait( "TROGLO2" ) && g->is_in_sunlight( pos() ) &&
+        !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
-        add_miss_reason(_("The sunlight distracts you."), 1);
+        add_miss_reason( _( "The sunlight distracts you." ), 1 );
         mod_int_bonus(-1);
         mod_per_bonus(-1);
     }
-    if (has_trait("TROGLO3") && g->is_in_sunlight(pos())) {
+    if( has_trait( "TROGLO3" ) && g->is_in_sunlight( pos() ) && 
+        !worn_with_flag( "SUN_GLASSES" ) && !worn_with_flag( "BLIND" ) ) {
         mod_str_bonus(-4);
         mod_dex_bonus(-4);
-        add_miss_reason(_("You can't stand the sunlight!"), 4);
+        add_miss_reason( _( "You can't stand the sunlight!" ), 4 );
         mod_int_bonus(-4);
         mod_per_bonus(-4);
     }
