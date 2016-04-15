@@ -7921,16 +7921,17 @@ void player::suffer()
         }
     }
 
-    if( (has_trait("ALBINO") || has_effect( effect_datura )) &&
-        g->is_in_sunlight(pos()) && one_in(10) ) {
+    if( ( has_trait( "ALBINO" ) || has_effect( effect_datura ) ) &&
+        g->is_in_sunlight( pos() ) && one_in(10) ) {
         // Umbrellas and rain gear can also keep the sun off!
         // (No, really, I know someone who uses an umbrella when it's sunny out.)
-        if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
-            add_msg(m_bad, _("The sunlight is really irritating."));
-            if (in_sleep_state()) {
+        if( !( ( worn_with_flag( "RAINPROOF" ) ) || ( weapon.has_flag( "RAIN_PROTECT" ) ) ) || 
+        worn_with_flag( "SUN_GLASSES" ) || worn_with_flag( "BLIND" ) ) {
+            add_msg( m_bad, _( "The sunlight is really irritating." ) );
+            if( in_sleep_state() ) {
                 wake_up();
             }
-            if (one_in(10)) {
+            if( one_in(10) ) {
                 mod_pain(1);
             }
             else focus_pool --;
@@ -7938,8 +7939,7 @@ void player::suffer()
     }
 
     if (has_trait("SUNBURN") && g->is_in_sunlight(pos()) && one_in(10)) {
-        if( !( ( worn_with_flag( "RAINPROOF" ) ) || ( weapon.has_flag( "RAIN_PROTECT" ) ) ||
-        worn_with_flag( "SUN_GLASSES" ) || worn_with_flag( "BLIND" ) ) ) {
+        if( !( ( worn_with_flag( "RAINPROOF" ) ) || ( weapon.has_flag( "RAIN_PROTECT" ) ) ) ) {
         add_msg(m_bad, _("The sunlight burns your skin!"));
         if (in_sleep_state()) {
             wake_up();
