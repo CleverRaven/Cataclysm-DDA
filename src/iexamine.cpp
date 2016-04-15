@@ -2319,7 +2319,7 @@ void iexamine::tree_maple(player &p, const tripoint &examp)
     p.consume_items( comps );
 
     p.mod_moves( -200 );
-    g->m.ter_set( examp, t_tree_maple_tapped );
+    g->m.ter_set( examp, "t_tree_maple_tapped" );
 
     auto cont_loc = maple_tree_sap_container();
 

@@ -6916,8 +6916,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         return;
     }
 
-    const ter_id tid = ter( p );
-    if( tid != t_tree_maple_tapped ) {
+    if( ter_at( p ).id != "t_tree_maple_tapped" ) {
         return;
     }
 
@@ -6993,7 +6992,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         if( ( it.is_bucket() || it.is_watertight_container() ) && (
             it.is_container_empty() || (
                 !it.is_container_full() && 
-                it.contents[0].type->id == "maple_sap" ) ) ) {
+                it.contents.front().type->id == "maple_sap" ) ) ) {
 
             item sap( "maple_sap", calendar::turn );
             const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
@@ -7007,7 +7006,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
                 sap.charges = new_charges;
                 it.put_in( sap );
             } else {
-                item &existing_sap = it.contents[0];
+                item &existing_sap = it.contents.front();
 
                 existing_sap.charges += new_charges;
             }
