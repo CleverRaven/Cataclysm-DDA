@@ -10371,87 +10371,81 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
         return false;
     }
 
-    if( !nearby_vehicles_for( liquid.type->id ).empty() && query_yn(_("Refill vehicle?")) ) {
-        tripoint vp;
-        refresh_all();
-        if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
-            // Explicitly canceled
-            return false;
-        }
-        vehicle *veh = m.veh_at(vp);
-        if (veh == NULL) {
-            add_msg(m_info, _("There isn't any vehicle there."));
-            // The user has intended to do something, but mistyped.
-            return true;
-        }
-        u.pour_into( *veh, liquid );
-        return true;
-    }
-
-    // Ask to pour rotten liquid (milk!) from the get-go
-    int dirx, diry;
-    const std::string liqstr = string_format(_("Pour %s where?"), liquid.tname().c_str());
-    refresh_all();
-    if (!from_ground && liquid.rotten() &&
-        choose_adjacent(liqstr, dirx, diry)) {
-
-        if (!m.can_put_items_ter_furn(dirx, diry)) {
-            add_msg(m_info, _("You can't pour there!"));
-            // The user has intended to do something, but mistyped.
-            return true;
-        }
-        m.add_item_or_charges(dirx, diry, liquid, 1);
-        liquid.charges = 0;
-        return true;
-    }
-
-        const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
-
-        // Check for suitable containers in inventory or within radius including vehicles
-        item * const cont = inv_map_for_liquid(liquid, text, radius);
-        if (cont == NULL || cont->is_null()) {
-            // Ask the player whether they want to drink from it.
-            if (from_ground && liquid.is_food(&u)) {
-                int charges_consumed = u.drink_from_hands(liquid);
-                    liquid.charges -= charges_consumed;
-                // TODO: this case is unclear. We don't know whether the user canceled the query
-                // "drink from hands?" (action was explicitly canceled) or the query "you're full,
-                // drink anyway?" (action was aborted because of circumstances).
-                return charges_consumed > 0;
-            }
-
-            // No container selected (escaped, ...), ask to pour
-            // we asked to pour rotten already
-            if (!from_ground && !liquid.rotten() &&
-                choose_adjacent(liqstr, dirx, diry)) {
-
-                if (!m.can_put_items_ter_furn(dirx, diry)) {
-                    add_msg(m_info, _("You can't pour there!"));
-                    // The user has intended to do something, but mistyped.
-                    return true;
-                }
-                m.add_item_or_charges(dirx, diry, liquid, 1);
-                liquid.charges = 0;
-                return true;
-            }
-            add_msg(_("Never mind."));
-            // Explicitly canceled all options (container, drink, pour).
-            return false;
-        }
-
-    if (cont == source) {
-        //Source and destination are the same; abort
-        add_msg(m_info, _("That's the same container!"));
+    const std::string text = string_format( _( "Container for %s" ), liquid.tname().c_str() );
+    item * const cont = inv_map_for_liquid( liquid, text, radius );
+    if( source != nullptr && cont == source ) {
+        add_msg( m_info, _( "That's the same container!" ) );
         // The user has intended to do something, but mistyped.
         return true;
-
+    }
+    if( cont != nullptr && !cont->is_null() ) {
+        // TODO: make this an activity
+        // TODO: consume moves
+        u.pour_into( *cont, liquid );
+        return true;
     }
 
-    u.pour_into( *cont, liquid );
-    // Result of pour_into is ignored. The player has intended to do something. Whether this
-    // actually worked is not important (e.g. intended to fill a container but accidentally
-    // selected the wrong item).
-    // TODO: consume moves
+    uimenu menu;
+    menu.return_invalid = true;
+    menu.text = string_format( _( "What to do with the %s?" ), liquid.tname().c_str() );
+    std::vector<std::function<void()>> actions;
+
+    if( liquid.is_food( &u ) ) {
+        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        actions.emplace_back( [&]() {
+            // TODO: consume moves
+            u.consume_item( liquid );
+        } );
+    }
+
+    for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
+        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name.c_str() );
+        actions.emplace_back( [&, veh]() {
+            // TODO: make this an activity
+            // TODO: consume moves
+            u.pour_into( *veh, liquid );
+        } );
+    }
+
+    if( !from_ground ) {
+        menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
+        actions.emplace_back( [&]() {
+            int dirx, diry;
+            const std::string liqstr = string_format( _( "Pour %s where?" ), liquid.tname().c_str() );
+            refresh_all();
+            if( !choose_adjacent( liqstr, dirx, diry ) ) {
+                return;
+            }
+            if( !m.can_put_items_ter_furn( dirx, diry ) ) {
+                add_msg( m_info, _( "You can't pour there!" ) );
+                return;
+            }
+
+            // TODO: make this an activity
+            // TODO: consume moves
+            m.add_item_or_charges( dirx, diry, liquid, 1 );
+            liquid.charges = 0;
+        } );
+        if( liquid.rotten() ) {
+            // Pre-select this one as it is the most likely one for rotten liquids
+            menu.selected = menu.entries.size() - 1;
+        }
+    }
+
+    if( menu.entries.empty() ) {
+        return false;
+    }
+    // Has no associated action, it's there to show that cancelling is an option.
+    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+
+    menu.query();
+    const size_t chosen = static_cast<size_t>( menu.ret );
+    if( chosen >= actions.size() ) {
+        add_msg( _( "Never mind." ) );
+        // Explicitly canceled all options (container, drink, pour).
+        return false;
+    }
+    actions[chosen]();
     return true;
 }
 
