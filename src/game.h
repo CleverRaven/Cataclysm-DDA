@@ -590,6 +590,7 @@ class game
         /**
          * This may start a player activity if either \p source_pos or \p source_veh is not
          * null.
+         * The function consumes moves of the player as needed.
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates
          * the user has rejected all possible actions. But note that `true` does *not* indicate any
          * liquid was actually consumed, the user may have chosen an option that turned out to be

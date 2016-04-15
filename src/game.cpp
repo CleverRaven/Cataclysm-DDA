@@ -10406,9 +10406,8 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         // not on ground or similar. TODO: implement storing arbitrary container locations.
         if( item_index != INT_MIN && create_activity() ) {
             serialize_liquid_target( u.activity, item_index );
-        } else {
-            // TODO: consume moves
-            u.pour_into( *cont, liquid );
+        } else if( u.pour_into( *cont, liquid ) ) {
+            u.mod_moves( -100 );
         }
         return true;
     }
@@ -10421,7 +10420,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     if( liquid.is_food( &u ) ) {
         menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
-            // TODO: consume moves
+            // consume_item already consumes moves.
             u.consume_item( liquid );
         } );
     }
@@ -10436,8 +10435,9 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
                 serialize_liquid_target( u.activity, *veh );
                 return;
             }
-            // TODO: consume moves
-            u.pour_into( *veh, liquid );
+            if( u.pour_into( *veh, liquid ) ) {
+                u.mod_moves( -100 );
+            }
         } );
     }
 
@@ -10464,9 +10464,9 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             serialize_liquid_target( u.activity, target_pos );
             return;
         }
-        // TODO: consume moves
         m.add_item_or_charges( target_pos, liquid, 1 );
         liquid.charges = 0;
+        u.mod_moves( -100 );
     } );
     if( liquid.rotten() ) {
         // Pre-select this one as it is the most likely one for rotten liquids

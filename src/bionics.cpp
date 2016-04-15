@@ -355,8 +355,6 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg_if_player( m_bad,
                                _( "There was not enough moisture in the air from which to draw water!" ) );
         } else if( g->consume_liquid( water ) ) {
-            // TODO: move moves into handle_liquid
-            moves -= 100;
             charge_power(bionics["bio_evap"].power_activate);
         }
     } else if( bio.id == "bio_lighter" ) {
@@ -432,8 +430,6 @@ bool player::activate_bionic( int b, bool eff_only )
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
                     item water( "water_clean", calendar::turn, avail );
                     if( g->consume_liquid( water ) ) {
-                        // TODO: move moves to handle_liquid
-                        moves -= 100;
                         extracted = true;
                         it->set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }

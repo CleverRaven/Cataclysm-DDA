@@ -2020,8 +2020,6 @@ bool Character::pour_into( vehicle &veh, item &liquid )
         return false;
     }
     const long amt = liquid.charges;
-    // TODO: Oh, look: *this* function handles move costs. The other one doesn't. Consistency? What's that again?
-    moves -= 100;
     liquid.charges = veh.refill( ftype, amt );
     if( veh.fuel_left( ftype ) < fuel_cap ) {
         add_msg( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );

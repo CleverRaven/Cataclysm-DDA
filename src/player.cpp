@@ -5779,7 +5779,6 @@ bool player::siphon( vehicle &veh, const itype_id &desired_liquid )
     if( !g->handle_liquid( used_item, nullptr, 0, nullptr, &veh ) ) {
         return false;
     }
-    // TODO: make sure handle_liquid consumes moves.
     // TODO: maybe add the message about the siphoned amount again.
     veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
     return true;

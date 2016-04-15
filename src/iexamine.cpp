@@ -546,7 +546,6 @@ void iexamine::toilet(player &p, const tripoint &examp)
 
         (void) p; // TODO: use me
         g->handle_liquid_from_ground( water, examp );
-        // TODO: ensure that `handle_liquid` consumes moves
     }
 }
 
