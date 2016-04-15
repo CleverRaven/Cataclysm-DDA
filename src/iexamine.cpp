@@ -2346,7 +2346,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         if( it.is_bucket() || it.is_watertight_container() ) {
             has_container = true;
 
-            auto liquid = it.contents.front();
+            auto &liquid = it.contents.front();
             if( !it.is_container_empty() && liquid.type->id == "maple_sap" ) {
                 has_sap = true;
                 charges = liquid.charges;
@@ -2416,7 +2416,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         case HARVEST_SAP:
             for( auto &it : items ) {
                 if( it.is_bucket() || it.is_watertight_container() ) {
-                    auto liquid = it.contents.front();
+                    auto &liquid = it.contents.front();
                     if( !it.is_container_empty() && liquid.type->id == "maple_sap" ) {
                         long initial_charges = liquid.charges;
                         bool emptied = g->handle_liquid( liquid, false, false, NULL, NULL, PICKUP_RANGE );
