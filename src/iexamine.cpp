@@ -2288,7 +2288,7 @@ item_location maple_tree_sap_container() {
             ) && (
             it.is_container_empty() || (
                 !it.is_container_full() && 
-                it.contents[0].type->id == "maple_sap"
+                it.contents.front().type->id == "maple_sap"
                 )
             );
         }, _( "Which container:" ), PICKUP_RANGE );
@@ -2318,7 +2318,7 @@ void iexamine::tree_maple(player &p, const tripoint &examp)
     comps.push_back( item_comp( "maple_tree_spile", 1 ) );
     p.consume_items( comps );
 
-    p.moves -= 200;
+    p.mod_moves( -200 );
     g->m.ter_set( examp, t_tree_maple_tapped );
 
     auto cont_loc = maple_tree_sap_container();
@@ -2339,16 +2339,17 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
     bool has_container = false;
     long charges = 0;
 
-    std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
+    const std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
 
     auto items = g->m.i_at( examp );
     for( auto &it : items ) {
         if( it.is_bucket() || it.is_watertight_container() ) {
             has_container = true;
 
-            if( !it.is_container_empty() && it.contents[0].type->id == "maple_sap" ) {
+            auto liquid = it.contents.front();
+            if( !it.is_container_empty() && liquid.type->id == "maple_sap" ) {
                 has_sap = true;
-                charges = it.contents[0].charges;
+                charges = liquid.charges;
             }
         }
     }
@@ -2379,7 +2380,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                 return;
             }
 
-            std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
+            const std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
             item maple_tree_spile( "maple_tree_spile", calendar::turn );
             add_msg( _( "You remove the %s." ), spile_name.c_str() );
             g->m.add_item_or_charges( p.pos(), maple_tree_spile );
@@ -2391,7 +2392,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
             }
             g->m.i_clear( examp );
 
-            p.moves -= 200;
+            p.mod_moves( -200 );
             g->m.ter_set( examp, t_tree_maple );
 
             return;
@@ -2415,15 +2416,16 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         case HARVEST_SAP:
             for( auto &it : items ) {
                 if( it.is_bucket() || it.is_watertight_container() ) {
-                    if( !it.is_container_empty() && it.contents[0].type->id == "maple_sap" ) {
-                        long initial_charges = it.contents[0].charges;
-                        bool emptied = g->handle_liquid( it.contents[0], false, false, NULL, NULL, PICKUP_RANGE );
+                    auto liquid = it.contents.front();
+                    if( !it.is_container_empty() && liquid.type->id == "maple_sap" ) {
+                        long initial_charges = liquid.charges;
+                        bool emptied = g->handle_liquid( liquid, false, false, NULL, NULL, PICKUP_RANGE );
 
-                        if( emptied || initial_charges != it.contents[0].charges ) {
-                            p.moves -= 100;
+                        if( emptied || initial_charges != liquid.charges ) {
+                            p.mod_moves( -100 );
                         }
 
-                        if( emptied || it.contents[0].charges <= 0 ) {
+                        if( emptied || liquid.charges <= 0 ) {
                             it.contents.pop_back();
                         }
                     }
