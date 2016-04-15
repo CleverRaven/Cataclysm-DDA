@@ -7445,7 +7445,7 @@ void player::hardcoded_effects(effect &it)
 
         bool woke_up = false;
         int tirednessVal = rng(5, 200) + rng(0, abs(get_fatigue() * 2 * 5));
-        if (!has_effect( effect_blind ) && !worn_with_flag("BLIND") && !has_active_bionic("bio_blindfold")) {
+        if (!is_blind() && !has_active_bionic("bio_blindfold")) {
             if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
                 // So you can too sleep through noon
                 if ((tirednessVal * 1.25) < g->m.ambient_light_at(pos()) && (get_fatigue() < 10 || one_in(get_fatigue() / 2))) {
@@ -11492,7 +11492,7 @@ float player::fine_detail_vision_mod() const
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if( has_effect( effect_blind ) || worn_with_flag( "BLIND" ) || has_active_bionic("bio_blindfold") ||
+    if( is_blind() || has_active_bionic("bio_blindfold") ||
          ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
         return 11.0;
     }

@@ -9241,7 +9241,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     std::vector<map_item_stack> ret;
     std::vector<std::string> item_order;
 
-    if (u.has_effect( effect_blind) || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold")) {
+    if (u.is_blind() || u.has_active_bionic("bio_blindfold")) {
         return ret;
     }
 

@@ -364,7 +364,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if (has_effect( effect_blind ) || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold")) {
+    if (is_blind() || has_active_bionic("bio_blindfold")) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait("PER_SLIME_OK"))) ) {
         sight_max = 1;
@@ -1956,4 +1956,9 @@ bool Character::made_of( const material_id &m ) const {
     // TODO: check for mutations that change this.
     static const std::vector<material_id> fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
     return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+}
+
+bool Character::is_blind() const
+{
+    return ( worn_with_flag( "BLIND" ) || has_effect( effect_blind ) );
 }
