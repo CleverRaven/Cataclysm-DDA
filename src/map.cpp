@@ -6981,8 +6981,9 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         }
     }
 
+    long new_charges = roll_remainder( (double)time_producing / turns_to_produce );
     // Not enough time to produce 1 charge of sap
-    if( time_producing < turns_to_produce ) {
+    if( new_charges <= 0 ) {
         return;
     }
 
@@ -6997,7 +6998,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
             item sap( "maple_sap", calendar::turn );
             const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
 
-            long new_charges = std::min<long>( time_producing / turns_to_produce, capacity );
+            new_charges = std::min<long>( new_charges, capacity );
 
             if( it.is_container_empty() ) {
                 // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
