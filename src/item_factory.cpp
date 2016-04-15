@@ -399,7 +399,6 @@ void Item_factory::init()
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
     iuse_function_list["CABLE_ATTACH"]  = &iuse::cable_attach;
-    iuse_function_list["MAPLE_TAP"] = &iuse::maple_tap;
     iuse_function_list["SHAVEKIT"]  = &iuse::shavekit;
     iuse_function_list["HAIRKIT"]  = &iuse::hairkit;
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;

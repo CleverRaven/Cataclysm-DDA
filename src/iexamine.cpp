@@ -2280,6 +2280,20 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     none( p, examp );
 }
 
+item_location maple_tree_sap_container() {
+    return g->inv_map_splice( []( const item &it ) { 
+        return (
+            it.is_bucket() ||
+            it.is_watertight_container()
+            ) && (
+            it.is_container_empty() || (
+                !it.is_container_full() && 
+                it.contents[0].type->id == "maple_sap"
+                )
+            );
+        }, _( "Which container:" ), 1 );
+}
+
 void iexamine::tree_maple(player &p, const tripoint &examp)
 {
     if( !p.has_items_with_quality( "DRILL", 1, 1 ) ) {
@@ -2308,17 +2322,7 @@ void iexamine::tree_maple(player &p, const tripoint &examp)
     p.moves -= 200;
     g->m.ter_set( examp, t_tree_maple_tapped );
 
-    auto cont_loc = g->inv_map_splice( []( const item &it ) { 
-        return (
-            it.is_bucket() ||
-            it.is_watertight_container()
-            ) && (
-            it.is_container_empty() || (
-                !it.is_container_full() && 
-                it.contents[0].type->id == "maple_sap"
-                )
-            );
-        }, _( "Which container:" ), 1 );
+    auto cont_loc = maple_tree_sap_container();
 
     item *container = cont_loc.get_item();
     if( container ) {
@@ -2395,17 +2399,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         }
 
         case ADD_CONTAINER: {
-            auto cont_loc = g->inv_map_splice( []( const item &it ) { 
-                return (
-                    it.is_bucket() ||
-                    it.is_watertight_container()
-                    ) && (
-                    it.is_container_empty() || (
-                        !it.is_container_full() && 
-                        it.contents[0].type->id == "maple_sap"
-                        )
-                    );
-                }, _( "Which container:" ), 1 );
+            auto cont_loc = maple_tree_sap_container();
 
             item *container = cont_loc.get_item();
             if( container ) {
