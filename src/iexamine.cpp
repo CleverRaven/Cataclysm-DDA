@@ -2334,7 +2334,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 {
     bool has_sap = false;
     bool has_container = false;
-    int portions = 0;
+    long charges = 0;
 
     std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
 
@@ -2345,7 +2345,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
             if( !it.is_container_empty() && it.contents[0].type->id == "maple_sap" ) {
                 has_sap = true;
-                portions = abs( int( it.contents[0].charges ) );
+                charges = it.contents[0].charges;
             }
         }
     }
@@ -2360,7 +2360,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
     uimenu selectmenu;
     selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _("Remove tap") );
     selectmenu.addentry( ADD_CONTAINER, !has_container, MENU_AUTOASSIGN, _("Add a container to receive the %s"), maple_sap_name.c_str() );
-    selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _("Harvest current %s (%d)"), maple_sap_name.c_str(), portions );
+    selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _("Harvest current %s (%d)"), maple_sap_name.c_str(), charges );
     selectmenu.addentry( REMOVE_CONTAINER, has_container, MENU_AUTOASSIGN, _("Remove container") );
     selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
 

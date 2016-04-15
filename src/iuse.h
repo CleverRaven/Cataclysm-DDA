@@ -190,7 +190,6 @@ public:
     int camera              ( player*, item*, bool, const tripoint& );
     int ehandcuffs          ( player*, item*, bool, const tripoint& );
     int cable_attach        ( player*, item*, bool, const tripoint& );
-    int maple_tap           ( player*, item*, bool, const tripoint& );
     int shavekit            ( player*, item*, bool, const tripoint& );
     int hairkit             ( player*, item*, bool, const tripoint& );
     int weather_tool        ( player*, item*, bool, const tripoint& );

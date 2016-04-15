@@ -428,8 +428,7 @@
         "price": 5,
         "material": "steel",
         "weight": 11,
-        "volume": 0,
-        "use_action": "MAPLE_TAP"
+        "volume": 0
     },
     {
         "type":"GENERIC",
