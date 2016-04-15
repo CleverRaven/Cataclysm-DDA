@@ -516,6 +516,7 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "diazepam",
+        "name_plural" : "diazepam",
         "description" : "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, and panic attacks.",
         "category" : "drugs",
         "weight" : 1,
