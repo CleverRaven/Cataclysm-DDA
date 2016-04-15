@@ -11,8 +11,6 @@ CATA_LIB=../cataclysm.a
 
 ODIR := obj
 
-DDIR := .deps
-
 LDFLAGS += -L.
 
 # Allow use of any header files from cataclysm.
@@ -24,7 +22,7 @@ CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas
 
 tests: cata_test
 
-cata_test: $(ODIR) $(DDIR) $(OBJS)
+cata_test: $(ODIR) $(OBJS)
 	$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
@@ -36,9 +34,6 @@ clean:
 
 $(ODIR):
 	mkdir $(ODIR)
-
-$(DDIR):
-	@mkdir $(DDIR)
 
 $(ODIR)/%.o: %.cpp
 	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@

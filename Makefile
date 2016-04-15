@@ -119,7 +119,6 @@ ODIR = obj
 ODIRTILES = obj/tiles
 W32ODIR = objwin
 W32ODIRTILES = objwin/tiles
-DDIR = .deps
 
 OS  = $(shell uname -s)
 
@@ -559,10 +558,10 @@ endif
 all: version $(ASTYLE) $(TARGET) $(L10N) tests
 	@
 
-$(TARGET): $(ODIR) $(DDIR) $(OBJS)
+$(TARGET): $(ODIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
-cataclysm.a: $(ODIR) $(DDIR) $(OBJS)
+cataclysm.a: $(ODIR) $(OBJS)
 	$(AR) rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
@@ -577,9 +576,6 @@ json-verify:
 
 $(ODIR):
 	mkdir -p $(ODIR)
-
-$(DDIR):
-	@mkdir $(DDIR)
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
