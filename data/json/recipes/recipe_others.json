@@ -4143,28 +4143,27 @@
     {"id":"HAMMER","level":2}
   ], "tools": [
       [
-      ["tongs", -1]
+        [ "tongs", -1 ]
       ],
       [
-      ["anvil", -1]
+        [ "anvil", -1 ]
       ],
       [
-      [ "forge", 250],
-      [ "oxy_torch", 50]
+        [ "forge", 250 ],
+        [ "oxy_torch", 50 ]
       ]
+    ],
+  "components": [
+      [
+        [ "steel_lump", 2 ],
+        [ "steel_chunk", 6 ],
+        [ "scrap", 18 ]
       ],
-  "components":
-    [
-     [
-     [ "steel_lump", 2 ],
-     [ "steel_chunk", 6 ],
-     [ "scrap", 18 ]
-     ],
-     [
-      [ "2x4", 1 ],
-      [ "stick", 2 ],
-      [ "splinter", 6 ]
-     ]
+      [
+        [ "2x4", 1 ],
+        [ "stick", 2 ],
+        [ "splinter", 6 ]
+      ]
     ]
 },{
   "type" : "recipe",
