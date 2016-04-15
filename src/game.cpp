@@ -10393,7 +10393,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     };
 
-    const std::string text = string_format( _( "Container for %s" ), liquid.tname().c_str() );
+    const bool is_infinite = liquid.charges == std::numeric_limits<long>::max();
+    const std::string liquid_name = is_infinite ? liquid.tname() : liquid.display_name( liquid.charges );
+
+    const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
     item * const cont = inv_map_for_liquid( liquid, text, radius );
     if( source != nullptr && cont == source ) {
         add_msg( m_info, _( "That's the same container!" ) );
@@ -10414,7 +10417,13 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     uimenu menu;
     menu.return_invalid = true;
-    menu.text = string_format( _( "What to do with the %s?" ), liquid.tname().c_str() );
+    if( source_pos != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
+    } else if( source_veh != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
+    } else {
+        menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
+    }
     std::vector<std::function<void()>> actions;
 
     if( liquid.is_food( &u ) ) {
@@ -10444,7 +10453,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     menu.addentry( -1, true, 'g', _( "Pour on the ground / into an adjacent keg" ) );
     actions.emplace_back( [&]() {
         tripoint target_pos = u.pos();
-        const std::string liqstr = string_format( _( "Pour %s where?" ), liquid.tname().c_str() );
+        const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
         refresh_all();
         if( !choose_adjacent( liqstr, target_pos ) ) {
             return;
