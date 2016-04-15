@@ -80,9 +80,9 @@
         "id" : "antifungal",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
-        "category" : "drugs",
         "name" : "antifungal drug",
         "description" : "Powerful chemical tablets designed to eliminate fungal infections in living creatures.",
+        "category" : "drugs",
         "weight" : 1,
         "volume" : 1,
         "price" : 1000,
@@ -97,9 +97,9 @@
         "id" : "antiparasitic",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
-        "category" : "drugs",
         "name" : "antiparasitic drug",
         "description" : "Broad spectrum chemical tablets designed to eliminate parasitic infestations in living creatures.  Though designed for use on pets and livestock, it will likely work on humans as well.",
+        "category" : "drugs",
         "weight" : 1,
         "volume" : 1,
         "price" : 3200,
@@ -324,6 +324,34 @@
         "addiction_potential" : 50,
         "addiction_type" : "nicotine",
         "use_action" : "SMOKING"
+    },
+    {
+        "id" : "chloroform_rag",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "chloroform soaked rag",
+        "description" : "A debug item that lets you put NPCs (or yourself) to sleep.",
+        "weight" : 240,
+        "volume" : 1,
+        "price" : 3000,
+        "charges" : 1,
+        "stack_size" : 1,
+        "material" : "cotton",
+        "symbol" : "!",
+        "color" : "red",
+        "flags" : [ "USE_ON_NPC" ],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 1,
+            "move_cost" : 100,
+            "effects" : [
+                {
+                    "id" : "sleep",
+                    "duration" : 1000
+                }
+            ],
+            "used_up_item" : "rag"
+        }
     },
     {
         "id" : "codeine",

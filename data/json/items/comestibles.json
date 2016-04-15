@@ -13609,35 +13609,6 @@
         }
     },{
         "type" : "COMESTIBLE",
-        "id" : "chloroform_rag",
-        "name" : "chloroform soaked rag",
-        "weight" : 240,
-        "color" : "red",
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : 0,
-        "description" : "A debug item that lets you put NPCs (or yourself) to sleep.",
-        "price" : 3000,
-        "material" : "cotton",
-        "volume" : 1,
-        "charges" : 1,
-        "stack_size" : 1,
-        "flags" : ["USE_ON_NPC"],
-        "fun" : 0,
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 1,
-            "move_cost" : 100,
-            "effects" : [
-                {
-                    "id": "sleep",
-                    "duration": 1000
-                }
-            ],
-            "used_up_item" : "rag"
-        }
-},{
-        "type" : "COMESTIBLE",
         "id" : "eggnog",
         "name" : "eggnog",
         "weight" : 258,
