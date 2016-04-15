@@ -28,7 +28,9 @@ void init_global_game_state() {
     world_generator->set_active_world(NULL);
     world_generator->get_all_worlds();
     WORLDPTR test_world = world_generator->make_new_world( false );
+    assert( test_world != NULL );
     world_generator->set_active_world(test_world);
+    assert( world_generator->active_world != NULL );
 
     g->u = player();
     g->u.create(PLTYPE_NOW);
