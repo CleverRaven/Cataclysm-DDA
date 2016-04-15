@@ -2,6 +2,7 @@
 #include "catch/catch.hpp"
 
 #include "game.h"
+#include "filesystem.h"
 #include "init.h"
 #include "map.h"
 #include "morale.h"
@@ -14,6 +15,18 @@ void init_global_game_state() {
     PATH_INFO::init_base_path("");
     PATH_INFO::init_user_dir("./");
     PATH_INFO::set_standard_filenames();
+
+    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+        assert( !"Unable to make config directory. Check permissions." );
+    }
+
+    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+        assert( !"Unable to make save directory. Check permissions." );
+    }
+
+    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+        assert( !"Unable to make templates directory. Check permissions." );
+    }
 
     get_options().init();
     get_options().load();
