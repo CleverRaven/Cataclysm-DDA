@@ -3175,7 +3175,7 @@
         "id" : "t_tree_maple_tapped",
         "name": "maple tree",
         "symbol": "7",
-        "color": [ "red", "light_green", "light_green", "red" ],
+        "bgcolor": "light_cyan",
         "move_cost": 0,
         "flags": [ "FLAMMABLE_ASH", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
         "examine_action": "tree_maple_tapped",
