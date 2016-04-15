@@ -157,6 +157,22 @@
         "to_hit": -1
     },
     {
+        "type" : "GENERIC",
+        "id" : "nomex",
+        "category" : "spare_parts",
+        "symbol" : ",",
+        "color" : "light_gray",
+        "name" : "Nomex patch",
+        "name_plural" : "Nomex patches",
+        "description" : "A small bolt of Nomex fire-resistant fabric.",
+        "price" : 4000,
+        "price_postapoc" : 200,
+        "material" : ["nomex"],
+        "flags" : ["NO_SALVAGE"],
+        "weight" : 42,
+        "volume" : 1
+    },
+    {
         "type":"GENERIC",
         "id": "superglue",
         "symbol": ",",
@@ -184,6 +200,15 @@
         "volume": 1,
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
+    },
+    {
+        "type" : "GENERIC",
+        "id" : "fertilizer",
+        "symbol" : "*",
+        "color" : "green",
+        "name" : "fertilizer",
+        "description" : "A token, representing fertilization of a plant.",
+        "material" : "veggy"
     },
     {
         "type":"GENERIC",
