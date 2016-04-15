@@ -30,7 +30,8 @@ check: cata_test
 	cd .. && tests/cata_test -d yes
 
 clean:
-	rm -f *.d $(ODIR)/*.o $(ODIR)/*.d
+	rm -rf $(ODIR)
+	rm -f cata_test
 
 $(ODIR):
 	mkdir $(ODIR)
