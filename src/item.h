@@ -1327,7 +1327,6 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
-
     private:
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
