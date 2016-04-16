@@ -7077,7 +7077,7 @@
   "components": [
     [
       [ "lye_powder", 100 ],
-      [ "bleach", 2 ]
+      [ "bleach", 10 ]
     ],
     [
       [ "water_clean", 1 ],
