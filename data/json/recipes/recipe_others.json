@@ -2755,7 +2755,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "maple_tree_spile",
+  "result": "tree_spile",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_OTHER",
   "skill_used": "fabrication",

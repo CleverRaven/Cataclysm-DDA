@@ -2301,14 +2301,14 @@ void iexamine::tree_maple(player &p, const tripoint &examp)
 
     const inventory &crafting_inv = p.crafting_inventory();
 
-    if( !crafting_inv.has_amount( "maple_tree_spile", 1 ) ) {
-        std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
+    if( !crafting_inv.has_amount( "tree_spile", 1 ) ) {
+        std::string spile_name = item( "tree_spile", 0 ).tname( 1 );
         add_msg( m_info, _( "You need a %s to tap this maple tree." ), spile_name.c_str() );
         return;
     }
 
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "maple_tree_spile", 1 ) );
+    comps.push_back( item_comp( "tree_spile", 1 ) );
     p.consume_items( comps );
 
     p.mod_moves( -200 );
@@ -2373,8 +2373,8 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                 return;
             }
 
-            const std::string spile_name = item( "maple_tree_spile", 0 ).tname( 1 );
-            item maple_tree_spile( "maple_tree_spile", calendar::turn );
+            const std::string spile_name = item( "tree_spile", 0 ).tname( 1 );
+            item maple_tree_spile( "tree_spile", calendar::turn );
             add_msg( _( "You remove the %s." ), spile_name.c_str() );
             g->m.add_item_or_charges( p.pos(), maple_tree_spile );
 
