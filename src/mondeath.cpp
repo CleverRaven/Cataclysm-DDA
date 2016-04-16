@@ -57,15 +57,13 @@ void mdeath::normal(monster *z)
     if ( z->type->in_species( ZOMBIE )) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume(z->pos()));
         }
-    m_size monSize = (z->type->size);
-    bool leaveCorpse = !((z->type->has_flag(MF_VERMIN)) || (z->no_corpse_quiet));
+    m_size monSize = z->type->size;
+    bool leaveCorpse = !z->no_corpse_quiet;
 
     // leave some blood if we have to
-    if (!z->has_flag(MF_VERMIN)) {
-        field_id type_blood = z->bloodType();
-        if (type_blood != fd_null) {
-            g->m.add_field( z->pos(), type_blood, 1, 0 );
-        }
+    field_id type_blood = z->bloodType();
+    if (type_blood != fd_null) {
+        g->m.add_field( z->pos(), type_blood, 1, 0 );
     }
 
     int maxHP = z->get_hp_max();
