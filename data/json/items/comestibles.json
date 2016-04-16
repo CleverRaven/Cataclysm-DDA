@@ -8032,21 +8032,16 @@
         "id" : "sugar",
         "name" : "sugar",
         "name_plural" : "sugar",
-        "weight" : 56,
+        "weight" : 5,
         "color" : "white",
-        "stim" : 4,
         "container" : "box_small",
         "comestible_type" : "FOOD",
         "symbol" : "%",
-        "quench" : 0,
-        "healthy" : -3,
-        "nutrition" : 3,
         "description" : "Sweet, sweet sugar.  Bad for your teeth and surprisingly not very tasty on its own.",
         "price" : 550,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 8,
-        "fun" : 1
+        "charges" : 100
     },
     {
         "type" : "COMESTIBLE",

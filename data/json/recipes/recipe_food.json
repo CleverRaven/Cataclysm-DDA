@@ -742,7 +742,7 @@
       [ "vinegar", 1 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "soysauce", 1 ],
       [ "salt", 5 ],
       [ "seasoning_salt", 5 ]
@@ -2584,7 +2584,7 @@
       ["watermelon", 3]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 10 ]
     ],
     [
       [ "water", 12 ],
@@ -2779,7 +2779,7 @@
       [ "coffee_raw", 1 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
       [ "honey_glassed", 1]
@@ -2919,7 +2919,7 @@
       [ "lemon", 2 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 10 ]
     ],
     [
       [ "water_clean", 1 ]
@@ -4528,7 +4528,7 @@
       [ "egg_reptile", 2 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "syrup", 1 ],
       [ "beet_syrup", 1],
       [ "molasses", 1 ],
@@ -4596,7 +4596,7 @@
       ["carrot", 6]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "syrup", 1 ],
       [ "beet_syrup", 1],
       [ "molasses", 1 ],
@@ -4982,7 +4982,7 @@
       [ "oatmeal", 1 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "syrup", 1 ],
       [ "beet_syrup", 1],
       [ "molasses", 1 ],
@@ -5150,10 +5150,10 @@
     [
       [ "honeycomb", 1 ],
       [ "honey_bottled", 4 ],
-      [ "honey_glassed", 4],
-      [ "sugar", 4 ],
-      [ "syrup", 4 ],
-      [ "beet_syrup", 4]
+      [ "honey_glassed", 4 ],
+      [ "sugar", 20 ],
+      [ "syrup", 2 ],
+      [ "beet_syrup", 2 ]
     ],
     [
       [ "water", 1 ],
@@ -5187,10 +5187,10 @@
       [ "honeycomb", 1 ],
       [ "con_milk", 1 ],
       [ "honey_bottled", 4 ],
-      [ "honey_glassed", 4],
-      [ "sugar", 4 ],
+      [ "honey_glassed", 4 ],
+      [ "sugar", 40 ],
       [ "syrup", 4 ],
-      [ "beet_syrup", 4]
+      [ "beet_syrup", 4 ]
     ],
     [
       [ "apple", 1 ],
@@ -5642,7 +5642,7 @@
       [ "syrup", 1 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 15 ]
     ],
     [
       [ "cooking_oil", 1 ],
@@ -5692,7 +5692,7 @@
       [ "syrup", 1 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 15 ]
     ],
     [
       [ "cooking_oil", 1 ],
@@ -5801,7 +5801,7 @@
       [ "lard", 1 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 15 ]
     ],
     [
       [ "water", 1 ],
@@ -5885,7 +5885,7 @@
       ["watermelon", 1]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 5 ],
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
@@ -5920,7 +5920,7 @@
       [ "dry_rice", 1 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 15 ],
       [ "syrup", 1 ],
       [ "beet_syrup", 1],
       [ "coffee_syrup", 1 ],
@@ -6077,13 +6077,13 @@
       [ "salt", 50 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 20 ],
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1 ],
       [ "honey_glassed", 1 ],
       [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ],
-      [ "juice_pulp", 2 ]
+      [ "juice_pulp", 4 ]
     ],
     [
       [ "seasoning_italian", 20 ],
@@ -6217,7 +6217,7 @@
       ["watermelon", 1]
     ],
     [
-      [ "sugar", 2 ]
+      [ "sugar", 5 ]
     ],
     [
       [ "water", 1 ],
@@ -7202,7 +7202,7 @@
       ["watermelon", 1]
     ],
     [
-      [ "lye_powder", 50 ]
+      [ "lye_powder", 20 ]
     ],
     [
       [ "water_clean", 1 ],
@@ -8242,7 +8242,7 @@
       [ "irradiated_kiwi", 3 ]
    ],
     [
-      [ "sugar", 4 ]
+      [ "sugar", 20 ]
     ]
   ]
 },{
@@ -8329,7 +8329,7 @@
       ["watermelon", 3]
     ],
     [
-      [ "sugar", 1]
+      [ "sugar", 5 ]
     ],
     [
       ["water", 12],
@@ -8642,7 +8642,7 @@
       [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ], [ "buckwheat", 1 ]
     ],
     [
-      [ "sugar", 8 ]
+      [ "sugar", 100 ]
     ],
     [
       [ "yeast", 1 ]
@@ -8702,7 +8702,7 @@
       [ "molasses", 2 ], [ "sugar_beet", 1 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 10 ]
     ],
     [
       [ "yeast", 1 ]
@@ -8732,7 +8732,7 @@
       [ "cornmeal", 12 ], [ "buckwheat", 2 ]
     ],
     [
-      [ "sugar", 8 ]
+      [ "sugar", 100 ]
     ],
     [
       [ "yeast", 2 ]
@@ -8773,7 +8773,7 @@
       [ "strawberries", 2 ], [ "irradiated_strawberries", 2 ]
     ],
     [
-      [ "sugar", 2 ]
+      [ "sugar", 25 ]
     ],
     [
       [ "yeast", 1 ]
@@ -8838,7 +8838,7 @@
       [ "hops", 1 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 15 ]
     ],
     [
       [ "yeast", 1 ]
@@ -8894,7 +8894,7 @@
       [ "raw_dandelion", 20 ]
     ],
     [
-      [ "sugar", 1 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
+      [ "sugar", 15 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
     ],
     [
       [ "yeast", 1 ]
@@ -8923,7 +8923,7 @@
       [ "pine_bough", 10 ]
     ],
     [
-      [ "sugar", 1 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
+      [ "sugar", 15 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
     ],
     [
       [ "yeast", 1 ]
@@ -10547,7 +10547,7 @@
        [ "irradiated_kiwi", 1 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 10 ]
     ]
   ]
 },{
@@ -10695,7 +10695,7 @@
       [ "egg_reptile", 2 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 5 ]
     ],
     [
       [ "cooking_oil", 1 ],
@@ -10754,7 +10754,7 @@
       [ "sugar_beet", 2]
     ],
     [
-      [ "sugar", 2],
+      [ "sugar", 5 ],
       [ "mustard", 1],
       [ "mayonnaise", 1],
       [ "seasoning_salt", 10],
@@ -10802,7 +10802,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "honey_bottled", 1 ],
       [ "honey_glassed", 1 ],
       [ "honeycomb", 1 ]
@@ -10833,7 +10833,7 @@
   ],
   "components": [
     [
-      [ "sweet_water", 8 ]
+      [ "sweet_water", 10 ]
     ]
   ]
 },{
@@ -10849,8 +10849,11 @@
   "qualities":[ {"id":"COOK","level":2,"amount":1} ],
   "tools": [ [ [ "hotplate", 2 ], [ "char_smoker", 2 ], [ "toolset", 2 ], [ "fire", -1 ] ] ],
   "components": [
-    [ [ "sugar", 1 ] ],
-    [ [ "water_clean", 1 ] ]
+    [ [ "sugar", 10 ] ],
+    [
+        [ "water", 1 ],
+        [ "water_clean", 1 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -12091,7 +12094,7 @@
       [ "con_milk", 1 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "honey_bottled", 1 ],
       [ "honey_glassed", 1 ]
     ],
@@ -12572,7 +12575,7 @@
       [ "lard", 1 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "syrup", 1 ],
       [ "beet_syrup", 1],
       [ "molasses", 1 ],
@@ -12603,7 +12606,7 @@
         [ "honey_bottled", 5 ]
       ],
       [
-        [ "sugar", 2 ]
+        [ "sugar", 20 ]
       ]
     ]
 },{
@@ -12949,7 +12952,7 @@
       [ "milk_powder", 1 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 10 ]
     ],
     [
       [ "con_milk", 1 ]
@@ -12990,7 +12993,7 @@
       [ "milk_powder", 1 ]
     ],
     [
-      [ "sugar", 1 ]
+      [ "sugar", 10 ]
     ],
     [
       [ "con_milk", 1 ]
