@@ -6989,25 +6989,21 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     item sap( "maple_sap", calendar::turn );
 
     // Is there a proper container?
-    auto items = g->m.i_at( p );
+    auto items = i_at( p );
     for( auto &it : items ) {
         if( it.is_bucket() || it.is_watertight_container() ) {
             const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
             if( capacity > 0 ) {
                 new_charges = std::min<long>( new_charges, capacity );
 
-                if( it.is_container_empty() ) {
-                    // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
-                    sap.poison = one_in( 10 ) ? 1 : 0;
+                // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
+                sap.poison = one_in( 10 ) ? 1 : 0;
+                sap.charges = new_charges;
 
-                    sap.charges = new_charges;
-                    it.put_in( sap );
-                } else {
-                    item &existing_sap = it.contents.front();
-
-                    existing_sap.charges += new_charges;
-                }
+                std::string err;
+                it.fill_with( sap, err, true );
             }
+            // Only fill up the first container.
             break;
         }
     }

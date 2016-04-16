@@ -2282,8 +2282,8 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
 
 item_location maple_tree_sap_container() {
     const item maple_sap = item( "maple_sap", 0 );
-    return g->inv_map_splice( [&]( const item &it ) { 
-        return it.has_valid_capacity_for_liquid( maple_sap, true ) == item::LIQUID_FILL_ERROR::L_ERR_NONE;
+    return g->inv_map_splice( [&]( const item &it ) {
+        return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
     }, _( "Which container:" ), PICKUP_RANGE );
 }
 
@@ -2302,8 +2302,7 @@ void iexamine::tree_maple(player &p, const tripoint &examp)
     const inventory &crafting_inv = p.crafting_inventory();
 
     if( !crafting_inv.has_amount( "tree_spile", 1 ) ) {
-        std::string spile_name = item( "tree_spile", 0 ).tname( 1 );
-        add_msg( m_info, _( "You need a %s to tap this maple tree." ), spile_name.c_str() );
+        add_msg( m_info, _( "You need a %s to tap this maple tree." ), item::nname( "tree_spile" ).c_str() );
         return;
     }
 
@@ -2372,10 +2371,9 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                 return;
             }
 
-            const std::string spile_name = item( "tree_spile", 0 ).tname( 1 );
-            item maple_tree_spile( "tree_spile", calendar::turn );
-            add_msg( _( "You remove the %s." ), spile_name.c_str() );
-            g->m.add_item_or_charges( p.pos(), maple_tree_spile );
+            item tree_spile( "tree_spile" );
+            add_msg( _( "You remove the %s." ), tree_spile.tname( 1 ).c_str() );
+            g->m.add_item_or_charges( p.pos(), tree_spile );
 
             for( auto &it : items ) {
                 g->m.add_item_or_charges( p.pos(), it );
@@ -2405,9 +2403,9 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
         case HARVEST_SAP:
             for( auto &it : items ) {
-                if( it.is_bucket() || it.is_watertight_container() ) {
+                if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
-                    if( !it.is_container_empty() && liquid.type->id == "maple_sap" ) {
+                    if( liquid.type->id == "maple_sap" ) {
                         long initial_charges = liquid.charges;
                         bool emptied = g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
 
