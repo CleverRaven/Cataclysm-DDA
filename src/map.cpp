@@ -6989,14 +6989,9 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
     // Is there a proper container?
     auto items = g->m.i_at( p );
     for( auto &it : items ) {
-        if( ( it.is_bucket() || it.is_watertight_container() ) && (
-            it.is_container_empty() || (
-                !it.is_container_full( true ) && 
-                it.contents.front().type->id == "maple_sap" ) ) ) {
-
-            item sap( "maple_sap", calendar::turn );
-            const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
-
+        item sap( "maple_sap", calendar::turn );
+        const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
+        if( capacity > 0 ) {
             new_charges = std::min<long>( new_charges, capacity );
 
             if( it.is_container_empty() ) {

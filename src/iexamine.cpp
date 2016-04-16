@@ -2282,16 +2282,9 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
 
 item_location maple_tree_sap_container() {
     return g->inv_map_splice( []( const item &it ) { 
-        return (
-            it.is_bucket() ||
-            it.is_watertight_container()
-            ) && (
-            it.is_container_empty() || (
-                !it.is_container_full( true ) && 
-                it.contents.front().type->id == "maple_sap"
-                )
-            );
-        }, _( "Which container:" ), PICKUP_RANGE );
+        static const item maple_sap = item( "maple_sap", 0 );
+        return it.has_valid_capacity_for_liquid( maple_sap, true ) == item::LIQUID_FILL_ERROR::L_ERR_NONE;
+    }, _( "Which container:" ), PICKUP_RANGE );
 }
 
 void iexamine::tree_maple(player &p, const tripoint &examp)

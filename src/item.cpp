@@ -59,11 +59,6 @@ const efftype_id effect_cig( "cig" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_weed_high( "weed_high" );
 
-enum item::LIQUID_FILL_ERROR : int {
-    L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
-    L_ERR_NOT_SEALED, L_ERR_FULL
-};
-
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;

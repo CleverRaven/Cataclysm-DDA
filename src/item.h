@@ -1327,10 +1327,14 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
-    private:
+
         /** Helper for liquid and container related stuff. */
-        enum LIQUID_FILL_ERROR : int;
+        enum LIQUID_FILL_ERROR : int {
+            L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
+            L_ERR_NOT_SEALED, L_ERR_FULL
+        };
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const;
+    private:
         std::string name;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
