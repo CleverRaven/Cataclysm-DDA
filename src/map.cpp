@@ -6986,10 +6986,11 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         return;
     }
 
+    item sap( "maple_sap", calendar::turn );
+
     // Is there a proper container?
     auto items = g->m.i_at( p );
     for( auto &it : items ) {
-        item sap( "maple_sap", calendar::turn );
         const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
         if( capacity > 0 ) {
             new_charges = std::min<long>( new_charges, capacity );
