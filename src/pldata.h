@@ -42,8 +42,6 @@ enum hp_part : int {
     num_hp_parts
 };
 
-void realDebugmsg( const char *name, const char *line, const char *mes, ... );
-
 class addiction : public JsonSerializer, public JsonDeserializer
 {
     public:

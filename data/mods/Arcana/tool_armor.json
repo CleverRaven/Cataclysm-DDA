@@ -22,7 +22,6 @@
         "artifact_data" : {
           "effects_activated": ["AEA_PAIN", "AEA_HEAL", "AEA_HEAL", "AEA_HEAL"]
         },
-        "revert_to": "null",
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
         "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE", "NO_SALVAGE"],
         "storage" : 0,
@@ -50,7 +49,6 @@
         "charges_per_use": 0,
         "turns_per_charge": 0,
         "ammo": "essence_dull_type",
-        "revert_to": "null",
         "use_action": {
             "type": "transform",
             "msg": "The mask appears to contort into a fearsome visage, the eyeholes momentarily seeming to glow.",
@@ -126,7 +124,6 @@
         "artifact_data" : {
           "effects_activated": ["AEA_ACIDBALL"]
         },
-        "revert_to": "null",
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "flags" : ["VARSIZE", "STURDY", "NO_SALVAGE"],
         "storage" : 8,
@@ -166,7 +163,6 @@
         "artifact_data" : {
           "effects_worn": ["AEP_STEALTH", "AEP_EXTINGUISH", "AEP_SICK"]
         },
-        "revert_to": "null",
         "covers" : ["HEAD"],
         "flags" : ["VARSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "storage" : 0,
@@ -203,7 +199,6 @@
             "need_charges": 1,
             "need_charges_msg": "The mantle requires essence to bring forth the night."
         },
-        "revert_to": "null",
         "covers" : ["LEGS", "TORSO", "ARMS"],
         "flags" : ["VARSIZE", "NO_SALVAGE"],
         "storage" : 6,
@@ -267,7 +262,6 @@
         "turns_per_charge": 0,
         "ammo": "essence_type",
         "use_action" : "TAZER",
-        "revert_to": "null",
         "covers" : ["HANDS"],
         "flags" : ["VARSIZE", "STURDY", "NO_SALVAGE"],
         "storage" : 0,
@@ -304,7 +298,6 @@
         "artifact_data" : {
           "effects_worn": ["AEP_PSYSHIELD", "AEP_STR_DOWN"]
         },
-        "revert_to": "null",
         "color" : "white",
         "encumbrance" : 0,
         "price" : 30000,
@@ -312,7 +305,6 @@
         "coverage" : 0,
         "symbol" : "[",
         "warmth" : 0,
-        "phase" : "solid",
         "flags" : ["FANCY"]
     }
 ]

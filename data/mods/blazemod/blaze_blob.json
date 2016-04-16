@@ -677,7 +677,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -726,7 +725,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -755,7 +753,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -784,7 +781,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -813,7 +809,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -842,7 +837,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -871,7 +865,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -915,7 +908,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -959,7 +951,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -1003,7 +994,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -1047,7 +1037,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",
@@ -1094,7 +1083,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
     "category" : "tools",
     "use_action": {
         "type": "delayed_transform",

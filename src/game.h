@@ -24,6 +24,9 @@ extern game *g;
 
 #ifdef TILES
 extern void try_sdl_update();
+extern void invalidate_map_framebuffer();
+extern void invalidate_overmap_framebuffer();
+extern void clear_window_area( WINDOW* win );
 #endif // TILES
 
 extern bool trigdist;
@@ -73,6 +76,7 @@ enum target_mode {
 enum activity_type : int;
 enum body_part : int;
 enum weather_type : int;
+enum action_id : int;
 
 struct special_game;
 struct mtype;
@@ -107,6 +111,7 @@ class live_view;
 typedef int nc_color;
 struct w_point;
 struct explosion_data;
+struct visibility_variables;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -408,7 +413,9 @@ class game
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line, bool mouse_hover );
+        void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                                  int last_line, bool draw_terrain_indicators,
+                                  const visibility_variables &cache );
 
         std::vector<map_item_stack> find_nearby_items(int iRadius);
         void draw_item_filter_rules(WINDOW *window, int rows);
@@ -697,7 +704,7 @@ class game
         void takeoff(int pos = INT_MIN); // Remove armor  'T'
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
-        void reload(int pos);
+        void reload( int pos, bool prompt = false );
 public:
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
@@ -711,10 +718,17 @@ private:
         void print_fields_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
         void print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
         void print_trap_info( const tripoint &lp, WINDOW *w_look, const int column, int &line );
-        void print_object_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                               bool mouse_hover );
-        void handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                                    bool mouse_hover );
+        void print_creature_info( const Creature *creature, WINDOW *w_look, int column,
+                                  int &line );
+        void print_vehicle_info( const vehicle *veh, int veh_part, WINDOW *w_look,
+                                 int column, int &line, int last_line );
+        void print_visibility_info( WINDOW *w_look, int column, int &line,
+                                    visibility_type visibility );
+        void print_visibility_indicator( visibility_type visibility );
+        void print_items_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                               int last_line );
+        void print_graffiti_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                                  int last_line );
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
         input_context get_player_input(std::string &action);
@@ -751,6 +765,8 @@ private:
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
+        bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
+        bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
 
         void item_action_menu(); // Displays item action menu
 
@@ -774,6 +790,7 @@ private:
         void draw_HP();          // Draws the player's HP and Power level
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
+        void draw_sidebar_messages();
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
@@ -782,9 +799,8 @@ private:
         void quickload();        // Loads the previously saved game if it exists
 
         // Input related
-        bool handle_mouseview(input_context &ctxt,
-                              std::string &action); // Handles box showing items under mouse
-        void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
+        // Handles box showing items under mouse
+        bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
         void draw_overmap();        // Draws the overmap, allows note-taking etc.

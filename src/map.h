@@ -1414,6 +1414,8 @@ private:
 
     pathfinding_cache &get_pathfinding_cache( int zlev ) const;
 
+    visibility_variables visibility_variables_cache;
+
   public:
     const level_cache &get_cache_ref( int zlev ) const {
         return *caches[zlev + OVERMAP_DEPTH];
@@ -1423,7 +1425,8 @@ private:
 
     void update_pathfinding_cache( int zlev ) const;
 
-    void update_visibility_cache( visibility_variables &cache, int zlev );
+    void update_visibility_cache( int zlev );
+    const visibility_variables &get_visibility_variables_cache() const;
 
     // Clips the area to map bounds
     tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;

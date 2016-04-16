@@ -569,11 +569,6 @@ void iexamine::toilet(player &p, const tripoint &examp)
             // The bottling happens in handle_liquid, but delay of action
             // does not.
             p.moves -= 100;
-        } else if( !drained && initial_charges == water->charges ){
-            int charges_consumed = p.drink_from_hands( *water );
-            // Drink_from_hands handles moves, but doesn't decrease water
-            // charges.
-            water->charges -= charges_consumed;
         }
 
         if( drained || water->charges <= 0 ) {
@@ -1206,10 +1201,8 @@ void iexamine::fswitch(player &p, const tripoint &examp)
     ter_id terid = g->m.ter(examp);
     p.moves -= 100;
     tripoint tmp = examp;
-    int &x = tmp.x;
-    int &y = tmp.y;
-    for (y = examp.y; y <= examp.y + 5; y++ ) {
-        for (x = 0; x < SEEX * MAPSIZE; x++) {
+    for (tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
+        for (tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++) {
             if ( terid == t_switch_rg ) {
                 if (g->m.ter(tmp) == t_rock_red) {
                     g->m.ter_set(tmp, t_floor_red);
@@ -1241,7 +1234,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
                     g->m.ter_set(tmp, t_rock_red);
                 }
             } else if ( terid == t_switch_even ) {
-                if ((y - examp.y) % 2 == 1) {
+                if ((tmp.y - examp.y) % 2 == 1) {
                     if (g->m.ter(tmp) == t_rock_red) {
                         g->m.ter_set(tmp, t_floor_red);
                     } else if (g->m.ter(tmp) == t_floor_red) {
@@ -1763,7 +1756,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
         return;
     }
 
-    std::vector< std::string > kilnable{ "wood", "bone" };
+    static const std::vector<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
     for( auto i : items ) {
@@ -2349,7 +2342,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     return;
 }
 
-int sum_up_item_weight_by_material( map_stack &stack, const std::string &material, bool remove_items )
+int sum_up_item_weight_by_material( map_stack &stack, const material_id &material, bool remove_items )
 {
     int sum_weight = 0;
     for( auto item_it = stack.begin(); item_it != stack.end(); ) {
@@ -2386,7 +2379,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
     // check for how much steel, by weight, is in the recycler
     // only items made of STEEL are checked
     // IRON and other metals cannot be turned into STEEL for now
-    int steel_weight = sum_up_item_weight_by_material( items_on_map, "steel", false );
+    int steel_weight = sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), false );
     if (steel_weight == 0) {
         add_msg(m_info,
                 _("The recycler is currently empty.  Drop some metal items onto it and examine it again."));
@@ -2420,7 +2413,7 @@ void iexamine::recycler(player &p, const tripoint &examp)
 
     // Sum up again, this time remove the items,
     // ignore result, should be the same as before.
-    sum_up_item_weight_by_material( items_on_map, "steel", true );
+    sum_up_item_weight_by_material( items_on_map, material_id( "steel" ), true );
 
     double recover_factor = rng(6, 9) / 10.0;
     steel_weight = (int)(steel_weight * recover_factor);

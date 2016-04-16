@@ -1086,7 +1086,11 @@ void Creature::mod_pain_noresist(int npain)
 
 void Creature::set_pain(int npain)
 {
-    pain = std::max( npain, 0 );
+    npain = std::max( npain, 0 );
+    if( pain != npain ) {
+        pain = npain;
+        on_stat_change( "pain", pain );
+    }
 }
 
 int Creature::get_pain() const
@@ -1423,6 +1427,10 @@ void Creature::draw(WINDOW *w, int player_x, int player_y, bool inverted) const
 
 void Creature::draw( WINDOW *w, const tripoint &p, bool inverted ) const
 {
+    if (is_draw_tiles_mode()) {
+        return;
+    }
+
     int draw_x = getmaxx(w) / 2 + posx() - p.x;
     int draw_y = getmaxy(w) / 2 + posy() - p.y;
     if(inverted) {

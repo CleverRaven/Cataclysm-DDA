@@ -1117,8 +1117,10 @@ void game::compare()
     int &diry = dir.y;
 
     if( choose_direction(_("Compare where?"), dirx, diry ) ) {
+        refresh_all();
         compare( tripoint( dirx, diry, 0 ) );
     }
+    refresh_all();
 }
 
 void game::compare( const tripoint &offset )

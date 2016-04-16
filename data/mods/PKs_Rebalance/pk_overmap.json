@@ -1,0 +1,146 @@
+[
+
+    {
+        "type" : "overmap_special",
+        "id" : "Slime Pit",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "slimepit_down"}
+        ],
+        "locations" : [ "land" ],
+        "city_distance" : [0, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 4],
+        "rotate" : false,
+        "spawns" : { "group" : "GROUP_GOO", "population":[75,200], "radius":[3,12] }
+    },{
+        "type" : "overmap_special",
+        "id" : "Lab",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "lab_stairs", "connect":"road"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [8, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 3],
+        "rotate" : true
+    },{
+        "type" : "overmap_special",
+        "id" : "Ice Lab",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "ice_lab_stairs", "connect":"road"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [8, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 2],
+        "rotate" : true
+    },{
+        "type" : "overmap_special",
+        "id" : "Triffid Grove",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "triffid_grove"},
+            { "point":[0,0,-1], "overmap": "triffid_roots"},
+            { "point":[0,0,-2], "overmap": "triffid_roots"},
+            { "point":[0,0,-3], "overmap": "triffid_finale"}
+        ],
+        "locations" : [ "forest" ],
+        "city_distance" : [1, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 5],
+        "rotate" : true,
+        "spawns" : { "group" : "GROUP_TRIFFID", "population":[750,1600], "radius":[30,50] }
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Bloom",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fungal_bloom"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [0, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 4],
+        "rotate" : false,
+        "spawns" : { "group" : "GROUP_FUNGI", "population":[600,1200], "radius":[30,60] }
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Tower",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fungal_tower"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [5, -1],
+        "city_sizes" : [4, -1],
+        "occurrences" : [0, 2],
+        "rotate" : false,
+        "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[200,450], "radius":[8,15] }
+    },{
+        "type" : "overmap_special",
+        "id" : "Fungal Flowers",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "fungal_flowers"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [5, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 2],
+        "rotate" : false,
+        "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,150], "radius":[5,10] }
+    },{
+        "type" : "overmap_special",
+        "id" : "Anthill",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "anthill"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [5, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 15],
+        "rotate" : false,
+        "spawns" : { "group" : "GROUP_ANT", "population":[1500,2500], "radius":[15,40] }
+    },{
+        "type" : "overmap_special",
+        "id" : "LMOE Shelter",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "lmoe"},
+            { "point":[0,0,-1], "overmap": "lmoe_under"}
+        ],
+        "locations" : [ "wilderness" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 3],
+        "rotate" : false,
+        "spawns" : { "group" :  "GROUP_MAYBE_ZOMBIE", "population":[0,20], "radius":[1,5] },
+        "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "hell_castle",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "hell_castle_NW"},
+            { "point":[1,0,0], "overmap": "hell_castle_N"},
+            { "point":[2,0,0], "overmap": "hell_castle_NE"},
+            { "point":[0,1,0], "overmap": "hell_castle_CW"},
+            { "point":[1,1,0], "overmap": "hell_castle_C"},
+            { "point":[2,1,0], "overmap": "hell_castle_CE"},
+            { "point":[0,2,0], "overmap": "hell_castle_SW"},
+            { "point":[1,2,0], "overmap": "hell_castle_S"},
+            { "point":[2,2,0], "overmap": "hell_castle_SE"}
+        ],
+        "locations" : [ "land" ], "//":"what special locations does it spawn",
+        "city_distance" : [2, 20], "//":"how far from a city it should be",
+        "city_sizes" : [4, 16], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 1], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "spawns" : { "group" :  "GROUP_DOOM", "population":[150, 250], "radius":[25,50] }
+    }
+    
+]

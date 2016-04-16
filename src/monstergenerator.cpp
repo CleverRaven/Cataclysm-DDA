@@ -380,7 +380,6 @@ void MonsterGenerator::init_flags()
     flag_map["CHITIN"] = MF_CHITIN;
     flag_map["VERMIN"] = MF_VERMIN;
     flag_map["NOGIB"] = MF_NOGIB;
-    flag_map["HUNTS_VERMIN"] = MF_HUNTS_VERMIN;
     flag_map["ABSORBS"] = MF_ABSORBS;
     flag_map["LARVA"] = MF_LARVA;
     flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;
@@ -442,7 +441,7 @@ void mtype::load( JsonObject &jo )
     optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
     mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
-    optional( jo, was_loaded, "material", mat, auto_flags_reader<std::string> {} );
+    optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
     optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 
@@ -682,7 +681,7 @@ void MonsterGenerator::check_monster_definitions() const
                      mon->death_drops.c_str());
         }
         for( auto &m : mon->mat ) {
-            if( m == "null" || !material_type::has_material( m ) ) {
+            if( m.str() == "null" || !m.is_valid() ) {
                 debugmsg( "monster %s has unknown material: %s", mon->id.c_str(), m.c_str() );
             }
         }

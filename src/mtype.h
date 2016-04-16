@@ -36,7 +36,8 @@ using species_id = string_id<species_type>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 class JsonArray;
-using material_id = std::string;
+class material_type;
+using material_id = string_id<material_type>;
 
 typedef std::string itype_id;
 
@@ -123,9 +124,8 @@ enum m_flag : int {
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_CHITIN,              // May produce chitin when butchered
-    MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
+    MF_VERMIN,              // Obsolete flag labeling "nuisance" or "scenery" monsters, now used to prevent loading the same.
     MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.
-    MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
@@ -252,7 +252,7 @@ struct mtype {
         std::string sym;
         nc_color color;
         m_size size;
-        std::vector<std::string> mat;
+        std::vector<material_id> mat;
         phase_id phase;
         std::set<m_flag> flags;
         std::set<monster_trigger> anger, placate, fear;

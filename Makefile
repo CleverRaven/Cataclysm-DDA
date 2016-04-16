@@ -96,6 +96,11 @@ VERSION = 0.C
 
 TARGET = cataclysm
 TILESTARGET = cataclysm-tiles
+ifdef TILES
+APPTARGET = $(TILESTARGET)
+else
+APPTARGET = $(TARGET)
+endif
 W32TILESTARGET = cataclysm-tiles.exe
 W32TARGET = cataclysm.exe
 CHKJSON_BIN = chkjson
@@ -116,7 +121,6 @@ ODIR = obj
 ODIRTILES = obj/tiles
 W32ODIR = objwin
 W32ODIRTILES = objwin/tiles
-DDIR = .deps
 
 OS  = $(shell uname -s)
 
@@ -136,6 +140,7 @@ else
   CXX = $(CROSS)$(OS_COMPILER)
   LD  = $(CROSS)$(OS_LINKER)
 endif
+STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
@@ -163,7 +168,6 @@ ifdef RELEASE
   	else
   		CXXFLAGS += -Os
   	endif
-    LDFLAGS += -s
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
@@ -176,6 +180,9 @@ endif
 
 ifdef CLANG
   ifeq ($(NATIVE), osx)
+    USE_LIBCXX = 1
+  endif
+  ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
   endif
@@ -196,7 +203,7 @@ ifndef RELEASE
   endif
 endif
 
-OTHERS += --std=c++11
+OTHERS += -std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
@@ -364,26 +371,27 @@ endif
 ifdef LUA
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifdef MSYS2
-      LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
-      LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
-          $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
-      LUA_PKG += $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
-      LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
-      CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
-      LUA_BINARY = $(LUA_PKG)
-	else
+      LUA_USE_PKGCONFIG := 1
+    else
       # Windows expects to have lua unpacked at a specific location
-      LDFLAGS += -llua
-	endif
+      LUA_LIBS := -llua
+    endif
   else
+    LUA_USE_PKGCONFIG := 1
+  endif
+
+  ifdef LUA_USE_PKGCONFIG
+    # On unix-like systems, use pkg-config to find lua
     LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
     LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
         $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
-    LUA_PKG += $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
-    # On unix-like systems, use pkg-config to find lua
-    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
-    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
+    LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
+    LUA_LIBS := $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
+    LUA_CFLAGS := $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
   endif
+
+  LDFLAGS += $(LUA_LIBS)
+  CXXFLAGS += $(LUA_CFLAGS)
 
   CXXFLAGS += -DLUA
   LUA_DEPENDENCIES = $(LUASRC_DIR)/catabindings.cpp
@@ -562,10 +570,13 @@ endif
 all: version $(ASTYLE) $(TARGET) $(L10N) tests
 	@
 
-$(TARGET): $(ODIR) $(DDIR) $(OBJS)
+$(TARGET): $(ODIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+ifdef RELEASE
+	$(STRIP) $(TARGET)
+endif
 
-cataclysm.a: $(ODIR) $(DDIR) $(OBJS)
+cataclysm.a: $(ODIR) $(OBJS)
 	$(AR) rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
@@ -580,9 +591,6 @@ json-verify:
 
 $(ODIR):
 	mkdir -p $(ODIR)
-
-$(DDIR):
-	@mkdir $(DDIR)
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
@@ -615,7 +623,7 @@ clean: clean-tests
 	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
 	rm -f $(CHKJSON_BIN)
 
-distclean:
+distclean: clean
 	rm -rf $(BINDIST_DIR)
 	rm -rf save
 	rm -rf lang/mo
@@ -694,7 +702,7 @@ endif
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
 
-ifdef TILES
+
 ifeq ($(NATIVE), osx)
 APPTARGETDIR=Cataclysm.app
 APPRESOURCESDIR=$(APPTARGETDIR)/Contents/Resources
@@ -709,13 +717,13 @@ appclean:
 data/osx/AppIcon.icns: data/osx/AppIcon.iconset
 	iconutil -c icns $<
 
-app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
+app: appclean version data/osx/AppIcon.icns $(APPTARGET)
 	mkdir -p $(APPTARGETDIR)/Contents
 	cp data/osx/Info.plist $(APPTARGETDIR)/Contents/
 	mkdir -p $(APPTARGETDIR)/Contents/MacOS
 	cp data/osx/Cataclysm.sh $(APPTARGETDIR)/Contents/MacOS/
 	mkdir -p $(APPRESOURCESDIR)
-	cp $(TILESTARGET) $(APPRESOURCESDIR)/
+	cp $(APPTARGET) $(APPRESOURCESDIR)/
 	cp data/osx/AppIcon.icns $(APPRESOURCESDIR)/
 	mkdir -p $(APPDATADIR)
 	cp data/fontdata.json $(APPDATADIR)
@@ -729,20 +737,21 @@ app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
 	# bundle libc++ to fix bad buggy version on osx 10.7
-	LIBCPP=$$(otool -L $(TILESTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
+	LIBCPP=$$(otool -L $(APPTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
 ifdef LANGUAGES
 	ditto lang/mo $(APPRESOURCESDIR)/lang/mo
 endif
 ifeq ($(LOCALIZE), 1)
-	LIBINTL=$$(otool -L $(TILESTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
+	LIBINTL=$$(otool -L $(APPTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
 endif
+ifdef LUA
+	cp -R lua $(APPRESOURCESDIR)/
+	LIBLUA=$$(otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
+endif # ifdef LUA
+ifdef TILES
 ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
-ifdef LUA
-	cp -R lua $(APPRESOURCESDIR)/
-	LIBLUA=$$(otool -L $(TILESTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
-endif # ifdef LUA
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
@@ -760,6 +769,8 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
 endif  # ifdef FRAMEWORK
 
+endif  # ifdef TILES
+
 dmgdistclean:
 	rm -f Cataclysm.dmg
 
@@ -767,7 +778,6 @@ dmgdist: app dmgdistclean
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)
-endif  # ifdef TILES
 
 $(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)

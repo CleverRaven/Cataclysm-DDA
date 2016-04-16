@@ -120,7 +120,8 @@
                     "$": "t_fence_rope",
                     "?": "t_chainfence_posts",
                     "f": "t_floor",
-                    "s": "t_sidewalk"
+                    "s": "t_sidewalk",
+                    "^": "t_floor"
                 },
                 "furniture":{
                     "S": "f_shower",

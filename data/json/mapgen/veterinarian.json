@@ -111,7 +111,7 @@
                 "                        ",
                 " ~~~~~~~~~~~~~~~~~~~~~~ ",
                 " *--OO--OO--::--------* ",
-                " *-TccccccTy..#%.c-#R-* ",
+                " *-TccccccTy..#%.c-CR-* ",
                 " *-...........#c.d-sl-* ",
                 " *-.ccccccT...--+---+-* ",
                 " *-...........-E.#...-* ",
@@ -144,10 +144,16 @@
                 " ": "t_pavement",
                 ",": "t_pavement_y",
                 "~": "t_sidewalk",
-                "l": "t_linoleum_white"
+                "C": "t_linoleum_white",
+                "R": "t_linoleum_white",
+                "s": "t_linoleum_white",
+                "t": "t_linoleum_white",
+                "l": "t_linoleum_white",
+                "D": "t_sidewalk"
             },
             "furniture": {
                 "#": "f_counter",
+                "C": "f_counter",
                 "c": "f_chair",
                 "T": "f_table",
                 "R": "f_locker",

@@ -27,6 +27,7 @@ using mtype_id = string_id<mtype>;
 struct islot_armor;
 struct use_function;
 class material_type;
+using material_id = string_id<material_type>;
 class item_category;
 using ammotype = std::string;
 using itype_id = std::string;
@@ -251,30 +252,37 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
  // Returns the category of this item.
  const item_category &get_category() const;
 
-    /**
-     * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
-     * @param ammo if set also check item currently compatible with this specific ammo or magazine
-     * @note items currently loaded with a detachable magazine are considered reloadable
-     * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
-     */
-    bool can_reload( const itype_id& ammo = std::string() ) const;
+    class reload_option {
+        public:
+            reload_option() = default;
 
-    struct reload_option {
-        const item *target = nullptr;
-        item_location ammo;
-        long qty = 0;
-        int moves = 0;
+            reload_option( const player *who, const item *target, const item *parent, item_location&& ammo );
 
-        operator bool() const {
-            return target && ammo && qty > 0;
-        }
+            const player *who = nullptr;
+            const item *target = nullptr;
+            item_location ammo;
+
+            long qty() const { return qty_; }
+            void qty( long val );
+
+            int moves() const;
+
+            operator bool() const {
+                return who && target && ammo && qty_ > 0;
+            }
+
+        private:
+            long qty_ = 0;
+            long max_qty = LONG_MAX;
+            const item *parent = nullptr;
     };
 
     /**
      * Select suitable ammo with which to reload the item
      * @param u player inventory to search for suitable ammo.
+     * @param prompt force display of the menu even if only one choice
      */
-    reload_option pick_reload_ammo( player &u ) const;
+    reload_option pick_reload_ammo( player &u, bool prompt = false ) const;
 
     /**
      * Reload item using ammo from location returning true if sucessful
@@ -375,27 +383,16 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      */
     int reach_range() const;
 
- /**
-  * Consume a specific amount of charges from items of a specific type.
-  * This includes this item, and any of its contents (recursively).
-  * @param it The type id, only items of this type are considered.
-  * @param quantity The number of charges that should be consumed.
-  * It will be changed for each used charge. After calling this function it
-  * may be at 0 which means all requested charges have been consumed.
-  * @param used All used charges are put into this list, the caller may need it.
-  * @return Whether this item should be deleted (in which case it returns true).
-  * Some items (those that are counted by charges) must be destroyed when
-  * their charges reach 0.
-  * This is usually does not apply to tools.
-  * Also if this function is called on a container and the function erase charges
-  * from its contents the container should not be deleted - it returns false in
-  * that case.
-  * The caller *must* check the return value and remove the item from wherever
-  * it is stored when the function returns true.
-  * Note that the item itself has no way of knowing where it is stored and can
-  * therefor not delete itself.
-  */
- bool use_charges(const itype_id &it, long &quantity, std::list<item> &used);
+    /**
+     * Consumes specified charges (or fewer) from this and any contained items
+     * @param what specific type of charge required, eg. 'battery'
+     * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
+     * @param used filled with duplicates of each item that provided consumed charges
+     * @param pos position at which the charges are being consumed
+     * @return true if this item should be deleted (count-by-charges items with no remaining charges)
+     */
+    bool use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos );
+
  /**
   * Consume a specific amount of items of a specific type.
   * This includes this item, and any of its contents (recursively).
@@ -564,28 +561,28 @@ public:
      * This may return an empty vector.
      * The returned vector does not contain the null id.
      */
-    const std::vector<std::string> &made_of() const;
+    const std::vector<material_id> &made_of() const;
     /**
      * Same as @ref made_of(), but returns the @ref material_type directly.
      */
-    std::vector<material_type*> made_of_types() const;
+    std::vector<const material_type*> made_of_types() const;
     /**
-     * Check we are made of at least one of a set (e.g. true if even
+     * Check we are made of at least one of a set (e.g. true if at least
      * one item of the passed in set matches any material).
      * @param mat_idents Set of material ids.
      */
-    bool made_of_any( const std::vector<std::string> &mat_idents ) const;
+    bool made_of_any( const std::vector<material_id> &mat_idents ) const;
     /**
      * Check we are made of only the materials (e.g. false if we have
-     * one material not in the set).
+     * one material not in the set or no materials at all).
      * @param mat_idents Set of material ids.
      */
-    bool only_made_of( const std::vector<std::string> &mat_idents ) const;
+    bool only_made_of( const std::vector<material_id> &mat_idents ) const;
     /**
      * Check we are made of this material (e.g. matches at least one
      * in our set.)
      */
-    bool made_of( const std::string &mat_ident ) const;
+    bool made_of( const material_id &mat_ident ) const;
     /**
      * Are we solid, liquid, gas, plasma?
      */
@@ -696,6 +693,7 @@ public:
  bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
  bool is_bionic() const;
  bool is_magazine() const;
+ bool is_ammo_belt() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;
@@ -722,7 +720,7 @@ public:
         /**
          * Is it ever possible to reload this item?
          * Only the base item is considered with any mods ignored
-         * @see item::can_reload() to check current state of base item
+         * @see player::can_reload()
          */
         bool is_reloadable() const;
 
@@ -1110,9 +1108,15 @@ public:
         long ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
-        /** If sufficient ammo available consume it, otherwise do nothing and return false
-         *  @param pos current location of item, used for ejecting magazines and similar effects */
-        bool ammo_consume( int qty, const tripoint& pos );
+
+        /**
+         * Consume ammo (if available) and return the amount of ammo that was consumed
+         * @param qty maximum amount of ammo that should be consumed
+         * @param pos current location of item, used for ejecting magazines and similar effects
+         * @return amount of ammo consumed which will be between 0 and @ref qty
+         */
+        long ammo_consume( long qty, const tripoint& pos );
+
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype * ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */

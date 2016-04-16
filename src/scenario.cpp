@@ -305,4 +305,4 @@ const std::string &scenario::get_map_special() const
 {
     return _map_special;
 }
-// vim:ts=4:sw=4:et:tw=0:fdm=marker:fdl=0:
+// vim:ts=4:sw=4:et:tw=0:fdm=marker:

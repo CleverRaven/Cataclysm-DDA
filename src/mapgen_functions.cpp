@@ -3345,8 +3345,8 @@ void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, flo
         m->place_items("dissection", 60,  20,  11, 20,  13, false, 0);
         m->place_items("dissection", 60,  17,  14, 18,  14, false, 0);
         m->place_items("fridge", 50,  15,  2, 15,  2, false, 0);
-        m->place_items("surgery", 30,  4,  9, 11,  11, false, 0);
-        m->place_items("surgery", 30,  16,  11, 20, 4, false, 0);
+        m->place_items("gear_medical", 30,  4,  9, 11,  11, false, 0);
+        m->place_items("gear_medical", 30,  16,  11, 20, 4, false, 0);
         m->place_items("harddrugs", 60,  16,  6, 16, 9, false, 0);
         m->place_items("harddrugs", 60,  17,  9, 19, 9, false, 0);
         m->place_items("softdrugs", 60,  20,  9, 20, 7, false, 0);
@@ -5553,6 +5553,7 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         m->spawn_item(           7, SEEY * 2 - 4, "9mm");
         m->spawn_item(           7, SEEY * 2 - 4, "9mmP");
         m->spawn_item(           7, SEEY * 2 - 4, "uzi");
+        m->spawn_item(           7, SEEY * 2 - 4, "uzimag");
         m->spawn_item(SEEX * 2 - 2, SEEY + 5, "bubblewrap");
         m->spawn_item(SEEX * 2 - 2, SEEY + 6, "grenade");
         m->spawn_item(SEEX * 2 - 3, SEEY + 6, "flashlight");

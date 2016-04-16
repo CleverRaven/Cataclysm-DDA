@@ -364,7 +364,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if (has_effect( effect_blind ) || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold")) {
+    if (is_blind() || has_active_bionic("bio_blindfold")) {
         sight_max = 0;
     } else if( has_effect( effect_boomered ) && (!(has_trait("PER_SLIME_OK"))) ) {
         sight_max = 1;
@@ -1489,7 +1489,10 @@ void Character::mod_hunger(int nhunger)
 
 void Character::set_hunger(int nhunger)
 {
-    hunger = nhunger;
+    if( hunger != nhunger ) {
+        hunger = nhunger;
+        on_stat_change( "hunger", hunger );
+    }
 }
 
 int Character::get_thirst() const
@@ -1504,7 +1507,10 @@ void Character::mod_thirst(int nthirst)
 
 void Character::set_thirst(int nthirst)
 {
-    thirst = nthirst;
+    if( thirst != nthirst ) {
+        thirst = nthirst;
+        on_stat_change( "thirst", thirst );
+    }
 }
 
 int Character::get_stomach_food() const
@@ -1539,7 +1545,11 @@ void Character::mod_fatigue(int nfatigue)
 
 void Character::set_fatigue(int nfatigue)
 {
-    fatigue = std::max( nfatigue, -1000 );
+    nfatigue = std::max( nfatigue, -1000 );
+    if( fatigue != nfatigue ) {
+        fatigue = nfatigue;
+        on_stat_change( "fatigue", fatigue );
+    }
 }
 
 int Character::get_fatigue() const
@@ -1924,7 +1934,8 @@ int Character::throw_range( const item &it ) const
     ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
     ret -= int(tmp.volume() / 4);
-    if( has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel"))) {
+    static const std::vector<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
+    if( has_active_bionic("bio_railgun") && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
     if( ret < 1 ) {
@@ -1945,4 +1956,9 @@ bool Character::made_of( const material_id &m ) const {
     // TODO: check for mutations that change this.
     static const std::vector<material_id> fleshy = { material_id( "flesh" ), material_id( "hflesh" ) };
     return std::find( fleshy.begin(), fleshy.end(), m ) != fleshy.end();
+}
+
+bool Character::is_blind() const
+{
+    return ( worn_with_flag( "BLIND" ) || has_effect( effect_blind ) );
 }

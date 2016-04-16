@@ -30,8 +30,8 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
     item& mag = p.i_add( item( mag_id ) );
     CHECK( mag.is_magazine() == true );
     CHECK( mag.is_reloadable() == true );
-    CHECK( mag.can_reload() == true );
-    CHECK( mag.can_reload( ammo_id ) == true );
+    CHECK( p.can_reload( mag ) == true );
+    CHECK( p.can_reload( mag, ammo_id ) == true );
     CHECK( mag.ammo_type() == gun_ammo );
     CHECK( mag.ammo_capacity() == mag_cap );
     CHECK( mag.ammo_current() == "null" );
@@ -160,9 +160,9 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" ) 
         item& gun = p.i_add( item( gun_id ) );
         CHECK( gun.is_gun() == true );
         CHECK( gun.is_reloadable() == true );
-        CHECK( gun.can_reload() == true );
-        CHECK( gun.can_reload( mag_id ) == true );
-        CHECK( gun.can_reload( ammo_id ) == false );
+        CHECK( p.can_reload( gun ) == true );
+        CHECK( p.can_reload( gun, mag_id ) == true );
+        CHECK( p.can_reload( gun, ammo_id ) == false );
         CHECK( gun.magazine_integral() == false );
         CHECK( gun.magazine_default() == mag_id );
         CHECK( gun.magazine_compatible().count( mag_id ) == 1 );

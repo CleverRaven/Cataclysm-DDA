@@ -62,8 +62,11 @@ class visitable
         /** Returns true if instance has amount (or more) items of at least quality level */
         bool has_items_with_quality( const std::string &qual, int level = 1, int amount = 1 ) const;
 
-        /** Count maximum available charges from this instance and any contained items */
-        long charges_of( const std::string &what ) const;
+        /**
+         * Count maximum available charges from this instance and any contained items
+         * @param limit stop searching after this many charges have been found
+         */
+        long charges_of( const std::string &what, int limit = INT_MAX ) const;
 
         /**
          * Count items matching id including both this instance and any contained items

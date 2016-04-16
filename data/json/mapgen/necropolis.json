@@ -1147,7 +1147,7 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor",
+                "z": "t_sidewalk",
                 "]": "t_dirt"
             },
             "furniture": {
@@ -1316,7 +1316,7 @@
                 "Y": "t_floor",
                 "y": "t_window_boarded",
                 "Z": "t_floor",
-                "z": "t_floor",
+                "z": "t_sidewalk",
                 "]": "t_dirt"
             },
             "furniture": {
@@ -4477,7 +4477,7 @@
             "fill_ter": "t_floor",
             "rows": [
                 ".....|-=====-|--|---HHH-",
-                ".....|      e| r[   cccc",
+                ".....|e      | r[   cccc",
                 "..#..| EEEEE | r[       ",
                 ".....| EEEEE | r[       ",
                 ".....|zzEEEE | r[  rrrrr",
@@ -4923,6 +4923,7 @@
                 "s": "t_sidewalk",
                 "T": "t_tree",
                 "t": "t_floor",
+                "U": "t_sidewalk",
                 "u": "t_floor",
                 "V": "t_wall_glass",
                 "v": "t_window_domestic",
@@ -5080,6 +5081,7 @@
                 "s": "t_sidewalk",
                 "T": "t_tree",
                 "t": "t_floor",
+                "U": "t_sidewalk",
                 "u": "t_floor",
                 "V": "t_wall_glass",
                 "v": "t_window_domestic",
@@ -12763,7 +12765,7 @@
                 "b": "t_dirt",
                 "C": "t_grass",
                 "c": "t_floor",
-                "D": "t_floor",
+                "D": "t_sidewalk",
                 "d": "t_floor",
                 "E": "t_elevator",
                 "e": "t_gates_mech_control",
@@ -12958,7 +12960,7 @@
                 "K": "t_floor",
                 "k": "t_floor",
                 "L": "t_floor",
-                "l": "t_floor",
+                "l": "t_sidewalk",
                 "M": "t_dirt",
                 "m": "t_dirtmound",
                 "N": "t_sandbox",

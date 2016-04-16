@@ -6,6 +6,8 @@
 #define ANY_LENGTH 5
 #define UNKNOWN_UNICODE 0xFFFD
 
+class utf8_wrapper;
+
 // get a unicode character from a utf8 string
 uint32_t UTF8_getch( const char **src, int *srclen );
 // from wcwidth.c, return "cell" width of a unicode char
@@ -16,6 +18,7 @@ int cursorx_to_position( const char *line, int cursorx, int *prevppos = NULL, in
 int erease_utf8_by_cw( char *t, int cw, int len, int maxlen );
 int utf8_width( const char *s, const bool ignore_tags = false );
 int utf8_width( const std::string &str, const bool ignore_tags = false );
+int utf8_width( const utf8_wrapper &str, const bool ignore_tags = false );
 
 /**
  * Center text inside whole line.
@@ -25,6 +28,8 @@ int utf8_width( const std::string &str, const bool ignore_tags = false );
  * @return First char position of centered text or start_pos if text is too big.
 */
 int center_text_pos( const char *text, int start_pos, int end_pos );
+int center_text_pos( const std::string &text, int start_pos, int end_pos );
+int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos );
 std::string utf8_substr( std::string s, int start, int size = -1 );
 std::string utf32_to_utf8( uint32_t ch );
 std::string utf8_truncate( std::string s, size_t length );
@@ -73,6 +78,7 @@ class utf8_wrapper
             erase( start, _length - start );
         }
         void append( const utf8_wrapper &other );
+        utf8_wrapper &replace_all( const utf8_wrapper &search, const utf8_wrapper &replace );
         /**
          * Returns a substring based on the display width, not the number of
          * code points (as the other substr function does).
