@@ -138,6 +138,7 @@ else
   CXX = $(CROSS)$(OS_COMPILER)
   LD  = $(CROSS)$(OS_LINKER)
 endif
+STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
@@ -165,7 +166,6 @@ ifdef RELEASE
   	else
   		CXXFLAGS += -Os
   	endif
-    LDFLAGS += -s
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
@@ -560,6 +560,9 @@ all: version $(ASTYLE) $(TARGET) $(L10N) tests
 
 $(TARGET): $(ODIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+ifdef RELEASE
+	$(STRIP) $(TARGET)
+endif
 
 cataclysm.a: $(ODIR) $(OBJS)
 	$(AR) rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
