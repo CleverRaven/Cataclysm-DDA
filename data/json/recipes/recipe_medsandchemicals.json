@@ -16,7 +16,7 @@
       [ "water", 1 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ]
   ]
 },{
@@ -45,7 +45,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ]
   ]
 },{
@@ -364,7 +364,7 @@
       [ "lye_powder", 200 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ]
   ]
 },{
@@ -466,7 +466,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ],
+      [ "salt", 10 ],
       [ "saline", 5 ]
     ],
     [
@@ -496,7 +496,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ],
+      [ "salt", 10 ],
       [ "saline", 5 ]
     ],
     [
@@ -529,7 +529,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ],
+      [ "salt", 10 ],
       [ "saline", 5 ]
     ],
     [
@@ -1970,7 +1970,7 @@
   "components": [
     [
       [ "disinfectant", 2 ],
-      [ "salt", 5 ]
+      [ "salt", 50 ]
     ],
     [
       [ "aspirin", 10 ]

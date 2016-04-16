@@ -8053,7 +8053,7 @@
         "id" : "salt",
         "name" : "salt",
         "name_plural" : "salt",
-        "weight" : 56,
+        "weight" : 5,
         "color" : "white",
         "container" : "bottle_plastic_small",
         "comestible_type" : "FOOD",
@@ -8064,7 +8064,7 @@
         "price" : 400,
         "material" : "powder",
         "volume" : 1,
-        "charges" : 8,
+        "charges" : 100,
         "fun" : -12
     },
     {
@@ -8150,7 +8150,7 @@
         "description" : "A fragrant mix of dried oregano, basil, thyme and other spices.",
         "price" : 290,
         "material" : "powder",
-        "volume" : 0,
+        "volume" : 1,
         "charges" : 100,
         "fun" : -1
     },
@@ -8168,7 +8168,7 @@
         "description" : "A tasty collection of wild herbs including violet, sassafras, mint, clover, purslane, and burdock.",
         "price" : 190,
         "material" : "veggy",
-        "volume" : 0,
+        "volume" : 1,
         "charges" : 20,
         "stack_size" : 100,
         "fun" : -1
@@ -8266,7 +8266,7 @@
         "description" : "Salt mixed with a fragrant blend of secret herbs and spices.",
         "price" : 250,
         "material" : "powder",
-        "volume" : 0,
+        "volume" : 1,
         "charges" : 100,
         "fun" : -5
     },
@@ -8284,7 +8284,7 @@
         "description" : "Ground black spice berries with a pungent aroma.",
         "price" : 250,
         "material" : "powder",
-        "volume" : 0,
+        "volume" : 1,
         "charges" : 100,
         "fun" : -5
     },
@@ -8302,7 +8302,7 @@
         "description" : "Ground cinnamon bark with a sweet but slightly spicy aroma.",
         "price" : 500,
         "material" : "powder",
-        "volume" : 0,
+        "volume" : 1,
         "charges" : 100,
         "fun" : -5
     },
