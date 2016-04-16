@@ -623,7 +623,7 @@ clean: clean-tests
 	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
 	rm -f $(CHKJSON_BIN)
 
-distclean: clean
+distclean:
 	rm -rf $(BINDIST_DIR)
 	rm -rf save
 	rm -rf lang/mo
