@@ -5,59 +5,40 @@
 #include "map.h"
 #include "options.h"
 #include "translations.h"
+#include "catacharset.h"
 #include "vehicle.h"
 
 #include <map>
 #include <string>
 
-const efftype_id effect_blind( "blind" );
-
 namespace
 {
+
 constexpr int START_LINE = 1;
 constexpr int START_COLUMN = 1;
+constexpr int MIN_BOX_HEIGHT = 11;
 
 } //namespace
 
-bool live_view::is_compact() const
+void live_view::init()
 {
-    return compact_view;
-}
-
-void live_view::set_compact( bool const value )
-{
-    compact_view = value;
-}
-
-void live_view::init( int const start_x, int const start_y, int const w, int const h )
-{
-    enabled = true;
-    width   = w;
-    height  = h;
-
-    w_live_view.reset( newwin( height, width, start_y, start_x ) );
-
     hide();
 }
 
-void live_view::show( const int x, const int y, const visibility_variables &cache )
+int live_view::draw( WINDOW *win, int const max_height )
 {
-    if( !enabled || !w_live_view ) {
-        return;
+    if( !enabled ) {
+        return 0;
     }
 
-    hide( false ); // Clear window if it's visible
+    // -1 for border. -1 because getmaxy() actually returns height, not y position.
+    const int line_limit = max_height - 2;
+    const visibility_variables &cache = g->m.get_visibility_variables_cache();
+    int line_out = START_LINE;
+    g->print_all_tile_info( mouse_position, win, START_COLUMN, line_out,
+                            line_limit, false, cache );
 
-    mvwprintz( *this, 0, START_COLUMN, c_white, "< " );
-    wprintz( *this, c_green, _( "Mouse View" ) );
-    wprintz( *this, c_white, " >" );
-    int line = START_LINE;
-
-    // TODO: Z
-    tripoint p( x, y, g->get_levz() );
-
-    const int last_line = getmaxy( w_live_view.get() ) - START_LINE - 1;
-    g->print_all_tile_info( p, *this, START_COLUMN, line, last_line, false, cache );
+    const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     // Because of the way the status UI is done, the live view window must
@@ -67,49 +48,34 @@ void live_view::show( const int x, const int y, const visibility_variables &cach
     // window tall enough. Won't work for ncurses in Linux, but that doesn't
     // currently support the mouse. If and when it does, there'll need to
     // be a different code path here that works for ncurses.
-    int full_height = w_live_view->height;
-    if( line < w_live_view->height - 1 ) {
-        w_live_view->height = std::max( line + 1, 11 );
-    }
-    last_height = w_live_view->height;
+    const int original_height = win->height;
+    win->height = live_view_box_height;
 #endif
 
-    draw_border( *this );
+    draw_border( win );
+    static const char *title_prefix = "< ";
+    static const char *title = _( "Mouse View" );
+    static const char *title_suffix = " >";
+    static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
+    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( win ) - 1 );
+    mvwprintz( win, 0, start_pos, c_white, title_prefix );
+    wprintz( win, c_green, title );
+    wprintz( win, c_white, title_suffix );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-    w_live_view->height = full_height;
+    win->height = original_height;
 #endif
 
-    inuse = true;
-    wrefresh( *this );
+    return live_view_box_height;
 }
 
-bool live_view::hide( bool refresh /*= true*/, bool force /*= false*/ )
+void live_view::hide()
 {
-    if( !enabled || ( !inuse && !force ) ) {
-        return false;
-    }
+    enabled = false;
+}
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-    int full_height = w_live_view->height;
-    if( use_narrow_sidebar() && last_height > 0 ) {
-        // When using the narrow sidebar mode, the lower part of the screen
-        // is used for the message queue. Best not to obscure too much of it.
-        w_live_view->height = last_height;
-    }
-#endif
-
-    werase( *this );
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-    w_live_view->height = full_height;
-#endif
-
-    inuse = false;
-    last_height = -1;
-    if( refresh ) {
-        wrefresh( *this );
-    }
-
-    return true;
+void live_view::show( const tripoint &p )
+{
+    enabled = true;
+    mouse_position = p;
 }

@@ -255,14 +255,31 @@ def extract_scenarios(item):
     outfile = get_outfile("scenario")
     # writestr will not write string if it is None.
     name = item.get("name")
-    writestr(outfile, name)
+    writestr(outfile,
+             name,
+             context="scenario_male",
+             comment="Name for scenario '{}' for a male character".format(name))
+    writestr(outfile,
+             name,
+             context="scenario_female",
+             comment="Name for scenario '{}' for a female character".format(name))
     if name:
         msg = item.get("description")
         if msg:
-            writestr(outfile, msg, comment="Description for scenario '{}'.".format(name))
+            writestr(outfile,
+                     msg,
+                     context="scen_desc_male",
+                     comment="Description for scenario '{}' for a male character.".format(name))
+            writestr(outfile,
+                     msg,
+                     context="scen_desc_female",
+                     comment="Description for scenario '{}' for a female character.".format(name))
         msg = item.get("start_name")
         if msg:
-            writestr(outfile, msg, comment="Starting location for scenario '{}'.".format(name))
+            writestr(outfile,
+                     msg,
+                     context="start_name",
+                     comment="Starting location for scenario '{}'.".format(name))
     else:
         for f in ["description", "start_name"]:
             found = item.get(f, None)

@@ -711,7 +711,7 @@ void sfx::do_projectile_hit( const Creature &target ) {
             return mon.made_of( m );
         } );
 
-        if( is_fleshy || mon.has_flag( MF_VERMIN ) ) {
+        if( is_fleshy ) {
             play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
             return;
         } else if( mon.made_of( material_id( "stone" ) ) ) {

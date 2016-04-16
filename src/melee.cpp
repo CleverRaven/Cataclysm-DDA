@@ -1734,7 +1734,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         cutting_penalty /= 6; // Harder to get stuck
         //Get blood type.
         field_id type_blood = fd_blood;
-        if(!is_hallucination || t.has_flag(MF_VERMIN)) {
+        if( !is_hallucination ) {
             type_blood = t.bloodType();
         } else {
             type_blood = fd_null;

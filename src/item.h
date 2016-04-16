@@ -252,30 +252,37 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
  // Returns the category of this item.
  const item_category &get_category() const;
 
-    /**
-     * Whether a tool or gun is potentially reloadable (optionally considering a specific ammo)
-     * @param ammo if set also check item currently compatible with this specific ammo or magazine
-     * @note items currently loaded with a detachable magazine are considered reloadable
-     * @note items with integral magazines are reloadable if free capacity permits (+/- ammo matches)
-     */
-    bool can_reload( const itype_id& ammo = std::string() ) const;
+    class reload_option {
+        public:
+            reload_option() = default;
 
-    struct reload_option {
-        const item *target = nullptr;
-        item_location ammo;
-        long qty = 0;
-        int moves = 0;
+            reload_option( const player *who, const item *target, const item *parent, item_location&& ammo );
 
-        operator bool() const {
-            return target && ammo && qty > 0;
-        }
+            const player *who = nullptr;
+            const item *target = nullptr;
+            item_location ammo;
+
+            long qty() const { return qty_; }
+            void qty( long val );
+
+            int moves() const;
+
+            operator bool() const {
+                return who && target && ammo && qty_ > 0;
+            }
+
+        private:
+            long qty_ = 0;
+            long max_qty = LONG_MAX;
+            const item *parent = nullptr;
     };
 
     /**
      * Select suitable ammo with which to reload the item
      * @param u player inventory to search for suitable ammo.
+     * @param prompt force display of the menu even if only one choice
      */
-    reload_option pick_reload_ammo( player &u ) const;
+    reload_option pick_reload_ammo( player &u, bool prompt = false ) const;
 
     /**
      * Reload item using ammo from location returning true if sucessful
@@ -564,14 +571,14 @@ public:
      */
     std::vector<const material_type*> made_of_types() const;
     /**
-     * Check we are made of at least one of a set (e.g. true if even
+     * Check we are made of at least one of a set (e.g. true if at least
      * one item of the passed in set matches any material).
      * @param mat_idents Set of material ids.
      */
     bool made_of_any( const std::vector<material_id> &mat_idents ) const;
     /**
      * Check we are made of only the materials (e.g. false if we have
-     * one material not in the set).
+     * one material not in the set or no materials at all).
      * @param mat_idents Set of material ids.
      */
     bool only_made_of( const std::vector<material_id> &mat_idents ) const;
@@ -690,6 +697,7 @@ public:
  bool is_ammo_container() const; // does this item contain ammo? (excludes magazines)
  bool is_bionic() const;
  bool is_magazine() const;
+ bool is_ammo_belt() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;
@@ -718,7 +726,7 @@ public:
         /**
          * Is it ever possible to reload this item?
          * Only the base item is considered with any mods ignored
-         * @see item::can_reload() to check current state of base item
+         * @see player::can_reload()
          */
         bool is_reloadable() const;
 

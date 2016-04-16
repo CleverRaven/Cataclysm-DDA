@@ -238,8 +238,8 @@ class input_manager
 
         int input_timeout;
 
-        t_input_event_list &get_event_list( const std::string &action_descriptor,
-                                            const std::string &context );
+        t_input_event_list &get_or_create_event_list( const std::string &action_descriptor,
+                const std::string &context );
         void remove_input_for_action( const std::string &action_descriptor, const std::string &context );
         void add_input_for_action( const std::string &action_descriptor, const std::string &context,
                                    const input_event &event );
@@ -467,13 +467,14 @@ class input_context
         input_manager::t_string_string_map action_name_overrides;
 
         /**
+         * Returns whether action uses the specified input
+         */
+        bool action_uses_input( const std::string &action_id, const input_event &event ) const;
+        /**
          * Return a user presentable list of actions that conflict with the
          * proposed keybinding. Returns an empty string if nothing conflicts.
          */
         std::string get_conflicts( const input_event &event ) const;
-        void list_conflicts( const input_event &event, const input_manager::t_actions &actions,
-                             std::ostringstream &buffer ) const;
-
         /**
          * Clear an input_event from all conflicting keybindings that are
          * registered by this input_context.

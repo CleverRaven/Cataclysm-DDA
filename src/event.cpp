@@ -15,7 +15,6 @@
 #include <climits>
 
 const mtype_id mon_amigara_horror( "mon_amigara_horror" );
-const mtype_id mon_centipede( "mon_centipede" );
 const mtype_id mon_copbot( "mon_copbot" );
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_dermatik( "mon_dermatik" );
@@ -257,8 +256,8 @@ void event::actualize()
   } break;
 
     case EVENT_TEMPLE_SPAWN: {
-        static const std::array<mtype_id, 5> temple_monsters = { {
-            mon_sewer_snake, mon_centipede, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
+        static const std::array<mtype_id, 4> temple_monsters = { {
+            mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
         } };
         const mtype_id &montype = random_entry( temple_monsters );
         int tries = 0, x, y;

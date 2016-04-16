@@ -24,6 +24,9 @@ extern game *g;
 
 #ifdef TILES
 extern void try_sdl_update();
+extern void invalidate_map_framebuffer();
+extern void invalidate_overmap_framebuffer();
+extern void clear_window_area( WINDOW* win );
 #endif // TILES
 
 extern bool trigdist;
@@ -73,6 +76,7 @@ enum target_mode {
 enum activity_type : int;
 enum body_part : int;
 enum weather_type : int;
+enum action_id : int;
 
 struct special_game;
 struct mtype;
@@ -700,7 +704,7 @@ class game
         void takeoff(int pos = INT_MIN); // Remove armor  'T'
         void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
-        void reload(int pos);
+        void reload( int pos, bool prompt = false );
 public:
         bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
@@ -761,6 +765,8 @@ private:
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
+        bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
+        bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
 
         void item_action_menu(); // Displays item action menu
 
@@ -784,6 +790,7 @@ private:
         void draw_HP();          // Draws the player's HP and Power level
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
+        void draw_sidebar_messages();
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
@@ -793,10 +800,7 @@ private:
 
         // Input related
         // Handles box showing items under mouse
-        bool handle_mouseview(input_context &ctxt,
-                              std::string &action,
-                              const visibility_variables &cache);
-        void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
+        bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
         void draw_overmap();        // Draws the overmap, allows note-taking etc.

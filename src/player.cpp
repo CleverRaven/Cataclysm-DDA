@@ -29,6 +29,7 @@
 #include "sounds.h"
 #include "item_action.h"
 #include "mongroup.h"
+#include "morale.h"
 #include "morale_types.h"
 #include "input.h"
 #include "veh_type.h"
@@ -63,9 +64,6 @@
 #include <algorithm>
 #include <numeric>
 #include <string>
-#include <memory>
-#include <array>
-#include <bitset>
 #include <sstream>
 #include <stdlib.h>
 #include <fstream>
@@ -158,6 +156,36 @@ static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
 static bool should_combine_bps( const player &, size_t, size_t );
 
 
+player_morale_ptr::player_morale_ptr( const player_morale_ptr &rhs ) :
+    std::unique_ptr<player_morale>( rhs ? new player_morale( *rhs ) : nullptr )
+{
+}
+
+player_morale_ptr::player_morale_ptr( player_morale_ptr &&rhs ) :
+    std::unique_ptr<player_morale>( rhs ? rhs.release() : nullptr )
+{
+}
+
+player_morale_ptr &player_morale_ptr::operator = ( const player_morale_ptr &rhs )
+{
+    if( this != &rhs ) {
+        reset( rhs ? new player_morale( *rhs ) : nullptr );
+    }
+    return *this;
+}
+
+player_morale_ptr &player_morale_ptr::operator = ( player_morale_ptr &&rhs )
+{
+    if( this != &rhs ) {
+        reset( rhs ? rhs.release() : nullptr );
+    }
+    return *this;
+}
+
+player_morale_ptr::~player_morale_ptr()
+{
+}
+
 player::player() : Character()
 {
     id = -1; // -1 is invalid
@@ -243,6 +271,8 @@ player::player() : Character()
 
     recalc_sight_limits();
     reset_encumbrance();
+
+    morale.reset( new player_morale() );
 }
 
 player::~player()
@@ -541,7 +571,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale.decay( 1 );
+    morale->decay( 1 );
     apply_persistent_morale();
 }
 
@@ -563,35 +593,6 @@ void player::apply_persistent_morale()
         }
         if( pen > 0 ) {
             add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
-        }
-    }
-
-    // Floral folks really don't like having their flowers covered.
-    if( has_trait( "FLOWERS" ) && wearing_something_on( bp_head ) ) {
-        add_morale( MORALE_PERM_CONSTRAINED, -10, -10, 5, 5, true );
-    }
-
-    // The same applies to rooters and their feet; however, they don't take
-    // too many problems from no-footgear.
-    double shoe_factor = footwear_factor();
-    if( ( has_trait( "ROOTS" ) || has_trait( "ROOTS2" ) || has_trait( "ROOTS3" ) ) &&
-        shoe_factor ) {
-        add_morale( MORALE_PERM_CONSTRAINED, -10 * shoe_factor, -10 * shoe_factor, 5, 5, true );
-    }
-
-    // Masochists get a morale bonus from pain.
-    if( has_trait( "MASOCHIST" ) || has_trait( "MASOCHIST_MED" ) ||  has_trait( "CENOBITE" ) ) {
-        int bonus = get_perceived_pain() / 2.5;
-        // Advanced masochists really get a morale bonus from pain.
-        // (It's not capped.)
-        if( has_trait( "MASOCHIST" ) && ( bonus > 25 ) ) {
-            bonus = 25;
-        }
-        if( has_effect( effect_took_prozac ) ) {
-            bonus = int( bonus / 3 );
-        }
-        if( bonus != 0 ) {
-            add_morale( MORALE_PERM_MASOCHIST, bonus, bonus, 5, 5, true );
         }
     }
 }
@@ -3295,7 +3296,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
 void player::disp_morale()
 {
-    morale.display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
+    morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
 static std::string print_gun_mode( const player &p )
@@ -4707,9 +4708,13 @@ void player::mod_pain(int npain) {
 void player::set_pain(int npain)
 {
     const int prev_pain = get_perceived_pain();
-
     Creature::set_pain( npain );
-    react_to_felt_pain( get_perceived_pain() - prev_pain );
+    const int cur_pain = get_perceived_pain();
+
+    if( cur_pain != prev_pain ) {
+        react_to_felt_pain( cur_pain - prev_pain );
+        on_stat_change( "perceived_pain", cur_pain );
+    }
 }
 
 int player::get_perceived_pain() const
@@ -4728,10 +4733,18 @@ void player::mod_painkiller(int npkill)
 
 void player::set_painkiller(int npkill)
 {
-    const int prev_pain = get_perceived_pain();
+    npkill = std::max( npkill, 0 );
+    if( pkill != npkill ) {
+        const int prev_pain = get_perceived_pain();
+        pkill = npkill;
+        on_stat_change( "pkill", pkill );
+        const int cur_pain = get_perceived_pain();
 
-    pkill = std::max( npkill, 0 );
-    react_to_felt_pain( get_perceived_pain() - prev_pain );
+        if( cur_pain != prev_pain ) {
+            react_to_felt_pain( cur_pain - prev_pain );
+            on_stat_change( "perceived_pain", cur_pain );
+        }
+    }
 }
 
 int player::get_painkiller() const
@@ -7432,7 +7445,7 @@ void player::hardcoded_effects(effect &it)
 
         bool woke_up = false;
         int tirednessVal = rng(5, 200) + rng(0, abs(get_fatigue() * 2 * 5));
-        if (!has_effect( effect_blind ) && !worn_with_flag("BLIND") && !has_active_bionic("bio_blindfold")) {
+        if (!is_blind() && !has_active_bionic("bio_blindfold")) {
             if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
                 // So you can too sleep through noon
                 if ((tirednessVal * 1.25) < g->m.ambient_light_at(pos()) && (get_fatigue() < 10 || one_in(get_fatigue() / 2))) {
@@ -8678,24 +8691,24 @@ void player::update_body_wetness( const w_point &weather )
 
 int player::get_morale_level() const
 {
-    return morale.get_level();
+    return morale->get_level();
 }
 
 void player::add_morale(morale_type type, int bonus, int max_bonus,
                         int duration, int decay_start,
                         bool capped, const itype* item_type)
 {
-    morale.add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
+    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
 }
 
 int player::has_morale( morale_type type ) const
 {
-    return morale.has( type );
+    return morale->has( type );
 }
 
 void player::rem_morale(morale_type type, const itype* item_type)
 {
-    morale.remove( type, item_type );
+    morale->remove( type, item_type );
 }
 
 bool player::has_morale_to_read() const
@@ -9180,7 +9193,7 @@ bool player::has_charges(const itype_id &it, long quantity) const
     if (it == "fire" || it == "apparatus") {
         return has_fire(quantity);
     }
-    return (charges_of(it) >= quantity);
+    return charges_of( it, quantity ) == quantity;
 }
 
 int  player::leak_level( std::string flag ) const
@@ -9468,7 +9481,8 @@ bool player::can_wear( const item& it, bool alert ) const
 
     if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
           ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
-          !it.has_flag( "BELTED" ) && !it.has_flag( "SKINTIGHT" ) ) {
+          ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) && 
+          !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
         if( alert ) {
             add_msg_if_player( m_info, _( "You're already wearing footwear!" ) );
@@ -9804,6 +9818,37 @@ bool player::can_use( const item& it, bool interactive ) const {
         }
         return true;
     });
+}
+
+bool player::can_reload( const item& it, const itype_id& ammo ) const {
+    if( !it.is_reloadable() ) {
+        return false;
+    }
+
+    if( it.is_ammo_belt() ) {
+        auto linkage = it.type->magazine->linkage;
+        if( linkage != "NULL" && !has_charges( linkage, 1 ) ) {
+            return false;
+        }
+    }
+
+    if( it.magazine_integral() ) {
+        if( !ammo.empty() ) {
+            if( it.ammo_data() ) {
+                if( it.ammo_data()->id != ammo ) {
+                    return false;
+                }
+            } else {
+                auto at = item::find_type( ammo );
+                if( !at->ammo || it.ammo_type() != at->ammo->type ) {
+                    return false;
+                }
+            }
+        }
+        return it.ammo_remaining() < it.ammo_capacity();
+    } else {
+        return ammo.empty() ? true : it.magazine_compatible().count( ammo );
+    }
 }
 
 bool player::dispose_item( item& obj, const std::string& prompt )
@@ -10217,7 +10262,7 @@ hint_rating player::rate_action_reload( const item &it ) const
         return res;
     }
 
-    return it.can_reload() ? HINT_GOOD : HINT_IFFY;
+    return can_reload( it ) ? HINT_GOOD : HINT_IFFY;
 }
 
 hint_rating player::rate_action_unload( const item &it ) const
@@ -11447,7 +11492,7 @@ float player::fine_detail_vision_mod() const
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if( has_effect( effect_blind ) || worn_with_flag( "BLIND" ) || has_active_bionic("bio_blindfold") ||
+    if( is_blind() || has_active_bionic("bio_blindfold") ||
          ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
         return 11.0;
     }
@@ -12660,7 +12705,7 @@ int player::climbing_cost( const tripoint &from, const tripoint &to ) const
 void player::environmental_revert_effect()
 {
     addictions.clear();
-    morale.clear();
+    morale->clear();
 
     for (int part = 0; part < num_hp_parts; part++) {
         hp_cur[part] = hp_max[part];
@@ -13337,27 +13382,32 @@ bool player::has_item_with_flag( std::string flag ) const
 
 void player::on_mutation_gain( const std::string &mid )
 {
-    morale.on_mutation_gain( mid );
+    morale->on_mutation_gain( mid );
 }
 
 void player::on_mutation_loss( const std::string &mid )
 {
-    morale.on_mutation_loss( mid );
+    morale->on_mutation_loss( mid );
+}
+
+void player::on_stat_change( const std::string &stat, int value )
+{
+    morale->on_stat_change( stat, value );
 }
 
 void player::on_item_wear( const item &it )
 {
-    morale.on_item_wear( it );
+    morale->on_item_wear( it );
 }
 
 void player::on_item_takeoff( const item &it )
 {
-    morale.on_item_takeoff( it );
+    morale->on_item_takeoff( it );
 }
 
 void player::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
 {
-    morale.on_effect_int_change( eid, intensity, bp );
+    morale->on_effect_int_change( eid, intensity, bp );
 }
 
 void player::on_mission_assignment( mission &new_mission )
@@ -13482,7 +13532,7 @@ void player::print_encumbrance( WINDOW *win, int line, item *selected_clothing )
         bool combine = should_combine_bps( *this, bp, bp_aiOther[bp] );
         out.clear();
         // limb, and possible color highlighting
-        out = string_format( "%-7s", ( combine ? bpp_asText[bp] : bp_asText[bp] ).c_str() );
+        out = string_format( "%-7s", body_part_name_as_heading( bp_aBodyPart[bp], combine ? 2 : 1 ).c_str() );
         // Two different highlighting schemes, highlight if the line is selected as per line being set.
         // Make the text green if this part is covered by the passed in item.
         int limb_color = ( orig_line == bp ) ?

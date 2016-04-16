@@ -1430,6 +1430,33 @@ static void refresh_tiles( bool, bool, bool ) {
 }
 #endif // TILES
 
+void draw_borders_external( WINDOW *w, int horizontal_level, std::map<int, bool> &mapLines )
+{
+    draw_border( w );
+    center_print( w, 0, c_ltred, _( " OPTIONS " ) );
+    // intersections
+    mvwputch( w, horizontal_level, 0, BORDER_COLOR, LINE_XXXO ); // |-
+    mvwputch( w, horizontal_level, getmaxx( w ) - 1, BORDER_COLOR, LINE_XOXX ); // -|
+    for( auto &mapLine : mapLines ) {
+        mvwputch( w, getmaxy( w ) - 1, mapLine.first + 1, BORDER_COLOR, LINE_XXOX ); // _|_
+    }
+    wrefresh( w );
+}
+
+void draw_borders_internal( WINDOW *w, std::map<int, bool> &mapLines )
+{
+    for( int i = 0; i < getmaxx( w ); ++i ) {
+        if( mapLines[i] ) {
+            // intersection
+            mvwputch( w, 0, i, BORDER_COLOR, LINE_OXXX );
+        } else {
+            // regular line
+            mvwputch( w, 0, i, BORDER_COLOR, LINE_OXOX );
+        }
+    }
+    wrefresh( w );
+}
+
 void options_manager::show(bool ingame)
 {
     auto OPTIONS_OLD = OPTIONS;
@@ -1457,27 +1484,8 @@ void options_manager::show(bool ingame)
     WINDOW *w_options = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
-    draw_border(w_options_border);
-    mvwputch(w_options_border, iTooltipHeight + 1,  0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_options_border, iTooltipHeight + 1, 79, BORDER_COLOR, LINE_XOXX); // -|
-
-    for( auto &mapLine : mapLines ) {
-        mvwputch( w_options_border, FULL_SCREEN_HEIGHT - 1, mapLine.first + 1, BORDER_COLOR,
-                  LINE_XXOX ); // _|_
-    }
-
-    mvwprintz(w_options_border, 0, 36, c_ltred, _(" OPTIONS "));
-    wrefresh(w_options_border);
-
-    for (int i = 0; i < 78; i++) {
-        if (mapLines[i]) {
-            mvwputch(w_options_header, 0, i, BORDER_COLOR, LINE_OXXX);
-        } else {
-            mvwputch(w_options_header, 0, i, BORDER_COLOR, LINE_OXOX); // Draw header line
-        }
-    }
-
-    wrefresh(w_options_header);
+    draw_borders_external( w_options_border, iTooltipHeight + 1, mapLines );
+    draw_borders_internal( w_options_header, mapLines );
 
     int iCurrentPage = 0;
     int iLastPage = 0;
@@ -1693,6 +1701,9 @@ void options_manager::show(bool ingame)
                     }
                 }
             }
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            // keybinding screen erased the internal borders of main menu, restore it:
+            draw_borders_internal( w_options_header, mapLines );
         } else if (action == "QUIT") {
             break;
         }

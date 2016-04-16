@@ -179,6 +179,9 @@ endif
 
 ifdef CLANG
   ifeq ($(NATIVE), osx)
+    USE_LIBCXX = 1
+  endif
+  ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
     LDFLAGS += -stdlib=libc++
   endif
@@ -199,7 +202,7 @@ ifndef RELEASE
   endif
 endif
 
-OTHERS += --std=c++11
+OTHERS += -std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
@@ -366,26 +369,27 @@ endif
 ifdef LUA
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifdef MSYS2
-      LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
-      LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
-          $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
-      LUA_PKG += $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
-      LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
-      CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
-      LUA_BINARY = $(LUA_PKG)
-	else
+      LUA_USE_PKGCONFIG := 1
+    else
       # Windows expects to have lua unpacked at a specific location
-      LDFLAGS += -llua
-	endif
+      LUA_LIBS := -llua
+    endif
   else
+    LUA_USE_PKGCONFIG := 1
+  endif
+
+  ifdef LUA_USE_PKGCONFIG
+    # On unix-like systems, use pkg-config to find lua
     LUA_CANDIDATES = lua5.2 lua-5.2 lua5.1 lua-5.1 lua
     LUA_FOUND = $(firstword $(foreach lua,$(LUA_CANDIDATES),\
         $(shell if $(PKG_CONFIG) --silence-errors --exists $(lua); then echo $(lua);fi)))
-    LUA_PKG += $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
-    # On unix-like systems, use pkg-config to find lua
-    LDFLAGS += $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
-    CXXFLAGS += $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
+    LUA_PKG = $(if $(LUA_FOUND),$(LUA_FOUND),$(error "Lua not found by $(PKG_CONFIG), install it or make without 'LUA=1'"))
+    LUA_LIBS := $(shell $(PKG_CONFIG) --silence-errors --libs $(LUA_PKG))
+    LUA_CFLAGS := $(shell $(PKG_CONFIG) --silence-errors --cflags $(LUA_PKG))
   endif
+
+  LDFLAGS += $(LUA_LIBS)
+  CXXFLAGS += $(LUA_CFLAGS)
 
   CXXFLAGS += -DLUA
   LUA_DEPENDENCIES = $(LUASRC_DIR)/catabindings.cpp

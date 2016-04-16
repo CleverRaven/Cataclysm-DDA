@@ -85,8 +85,7 @@
             "items" : [
                 ["battery", 30],
                 ["radio", 30],
-                ["mp3", 30],
-                ["music_cd", 20]
+                ["mp3", 30]
             ]
     },{
             "type" : "item_group",

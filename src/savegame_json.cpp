@@ -346,6 +346,10 @@ void Character::load(JsonObject &data)
         }
         return VisitResponse::NEXT;
     } );
+
+    on_stat_change( "thirst", thirst );
+    on_stat_change( "hunger", hunger );
+    on_stat_change( "fatigue", fatigue );
 }
 
 void Character::store(JsonOut &json) const
@@ -477,7 +481,8 @@ void player::load(JsonObject &data)
         remove_mutation( "MYOPIC" );
     }
 
-
+    on_stat_change( "pkill", pkill );
+    on_stat_change( "perceived_pain", get_perceived_pain() );
 }
 
 /*
@@ -615,7 +620,7 @@ void player::serialize(JsonOut &json) const
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
-    morale.store( json );
+    morale->store( json );
 
     // mission stuff
     json.member("active_mission", active_mission == nullptr ? -1 : active_mission->get_id() );
@@ -744,7 +749,7 @@ void player::deserialize(JsonIn &jsin)
     items_identified.clear();
     data.read( "items_identified", items_identified );
 
-    morale.load( data );
+    morale->load( data );
 
     int tmpactive_mission;
     if( data.read( "active_mission", tmpactive_mission ) && tmpactive_mission != -1 ) {
@@ -2004,6 +2009,8 @@ void Creature::load( JsonObject &jsin )
     jsin.read( "underwater", underwater );
 
     fake = false; // see Creature::load
+
+    on_stat_change( "pain", pain );
 }
 
 void player_morale::morale_point::deserialize( JsonIn &jsin )

@@ -163,14 +163,6 @@
       }
     },{
     "type" : "MONSTER",
-    "id" : "mon_zombie_brute",
-    "edit-mode" : "modify",
-        "upgrades":{
-      "into_group": "GROUP_ZOMBIE_BRUTE",
-      "half_life": 28
-      }
-    },{
-    "type" : "MONSTER",
     "id" : "mon_zombie_shady",
     "edit-mode" : "modify",
         "upgrades":{
@@ -235,18 +227,8 @@
       }
     },{
     "type" : "MONSTER",
+    "edit-mode" : "modify",
     "id" : "mon_zombie_brute_ninja",
-    "name": "zombie nightstalker",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"Z",
-    "color":"dkgray_red",
-    "size":"MEDIUM",
-    "material":"flesh",
-    "diff":24,
-    "aggression":100,
-    "morale":100,
-    "speed":110,
     "melee_skill":10,
     "melee_dice":6,
     "melee_dice_sides":4,
@@ -258,22 +240,11 @@
     "vision_day":40,
     "vision_night":20,
     "death_drops": "default_zombie_death_drops",
-    "hp":220,
-    "death_function":["NORMAL"],
-    "special_attacks":[["SMASH", 30], ["STRETCH_ATTACK", 3], ["LONGSWIPE", 15]],
-    "description":"Somehow this brute hides in the dark like some kind of boogeyman.  Very agile for such a large zombie.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY"]
+    "hp":220
     },{
     "type" : "MONSTER",
+    "edit-mode" : "modify",
     "id" : "mon_zombie_brute_grappler",
-    "name": "zombie wrestling brute",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"Z",
-    "color":"red_white",
-    "size":"MEDIUM",
-    "material":"flesh",
-    "diff":24,
     "aggression":100,
     "morale":100,
     "speed":95,
@@ -288,17 +259,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
-    "hp":280,
-    "death_function":["NORMAL"],
-    "special_attacks":[["SMASH", 30], ["BIO_OP_TAKEDOWN", 20], ["RANGED_PULL", 20], ["GRAB_DRAG", 10],
-            {
-            "type" : "bite",
-            "cooldown" : 15,
-            "no_infection_chance" : 5,
-            "min_mul" : 0.5, "//" : "stronger jaws"
-        }],
-    "description":"A slab of festering muscle the size of a well-toned bodybuilder. Seems more eager to strangle the life from you than eat you, though is probably capable of both.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "hp":280
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_pk",
@@ -454,7 +415,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_swimmer_pk",
-    "name": "swimmimg zombie",
+    "name": "swimming zombie",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"Z",

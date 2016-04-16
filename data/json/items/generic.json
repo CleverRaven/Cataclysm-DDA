@@ -157,6 +157,22 @@
         "to_hit": -1
     },
     {
+        "type" : "GENERIC",
+        "id" : "nomex",
+        "category" : "spare_parts",
+        "symbol" : ",",
+        "color" : "light_gray",
+        "name" : "Nomex patch",
+        "name_plural" : "Nomex patches",
+        "description" : "A small bolt of Nomex fire-resistant fabric.",
+        "price" : 4000,
+        "price_postapoc" : 200,
+        "material" : ["nomex"],
+        "flags" : ["NO_SALVAGE"],
+        "weight" : 42,
+        "volume" : 1
+    },
+    {
         "type":"GENERIC",
         "id": "superglue",
         "symbol": ",",
@@ -184,6 +200,15 @@
         "volume": 1,
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
+    },
+    {
+        "type" : "GENERIC",
+        "id" : "fertilizer",
+        "symbol" : "*",
+        "color" : "green",
+        "name" : "fertilizer",
+        "description" : "A token, representing fertilization of a plant.",
+        "material" : "veggy"
     },
     {
         "type":"GENERIC",
@@ -2420,8 +2445,7 @@
         "rand_charges": [0,1,2,3,4,5,6,7,8,9,10,50,100,200,300,500,800,1000,1200,1400,1600,1800,2000,3000,4000,5000,6000,7000,8000,9000,10000,12000,14000,16000,18000,20000,50000,100000],
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "money",
-        "revert_to": "null"
+        "ammo": "money"
     },
     {
         "id": "gasdiscount_silver",
@@ -2441,8 +2465,7 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null"
+        "ammo": "NULL"
     },
     {
         "id": "gasdiscount_gold",
@@ -2462,8 +2485,7 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null"
+        "ammo": "NULL"
     },
     {
         "id": "gasdiscount_platinum",
@@ -2483,8 +2505,7 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null"
+        "ammo": "NULL"
     },
     {
         "type":"GENERIC",

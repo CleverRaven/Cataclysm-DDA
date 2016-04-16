@@ -2,12 +2,13 @@
 #define MORALE_H
 
 #include "json.h"
-#include <string>
 #include "calendar.h"
 #include "effect.h"
 #include "bodypart.h"
 #include "morale_types.h"
 
+#include <stdlib.h>
+#include <string>
 #include <functional>
 
 class item;
@@ -18,16 +19,7 @@ struct morale_mult;
 class player_morale
 {
     public:
-        player_morale() :
-
-            covered {{}},
-        hot {{}},
-        cold {{}},
-        level( 0 ),
-               level_is_valid( false ),
-               took_prozac( false ),
-               stylish( false ),
-        super_fancy_bonus( 0 ) {};
+        player_morale();
 
         player_morale( player_morale && ) = default;
         player_morale( const player_morale & ) = default;
@@ -37,9 +29,8 @@ class player_morale
         /** Adds morale to existing or creates one */
         void add( morale_type type, int bonus, int max_bonus = 0, int duration = MINUTES( 6 ),
                   int decay_start = MINUTES( 3 ), bool capped = false, const itype *item_type = nullptr );
-        /** Adds permanent morale to existing or creates one */
-        void add_permanent( morale_type type, int bonus, int max_bonus = 0,
-                            bool capped = false, const itype *item_type = nullptr );
+        /** Sets the new level for the permanent morale, or creates one */
+        void set_permanent( morale_type type, int bonus, const itype *item_type = nullptr );
         /** Returns bonus from specified morale */
         int has( morale_type type, const itype *item_type = nullptr ) const;
         /** Removes specified morale */
@@ -55,6 +46,7 @@ class player_morale
 
         void on_mutation_gain( const std::string &mid );
         void on_mutation_loss( const std::string &mid );
+        void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
@@ -70,16 +62,17 @@ class player_morale
                     morale_type type = MORALE_NULL,
                     const itype *item_type = nullptr,
                     int bonus = 0,
+                    int max_bonus = 0,
                     int duration = MINUTES( 6 ),
                     int decay_start = MINUTES( 3 ),
-                    int age = 0 ) :
+                    bool capped = false ) :
 
                     type( type ),
                     item_type( item_type ),
-                    bonus( bonus ),
-                    duration( duration ),
-                    decay_start( decay_start ),
-                    age( age ) {};
+                    bonus( normalize_bonus( bonus, max_bonus, capped ) ),
+                    duration( std::max( duration, 0 ) ),
+                    decay_start( std::max( decay_start, 0 ) ),
+                    age( 0 ) {};
 
                 using JsonDeserializer::deserialize;
                 void deserialize( JsonIn &jsin ) override;
@@ -107,10 +100,14 @@ class player_morale
                 int age;
 
                 /**
-                * Returns either new_time or remaining time (which one is greater).
-                * Only returns new time if same_sign is true
-                */
+                 * Returns either new_time or remaining time (which one is greater).
+                 * Only returns new time if same_sign is true
+                 */
                 int pick_time( int cur_time, int new_time, bool same_sign ) const;
+                /**
+                 * Returns normalized bonus if either max_bonus != 0 or capped == true
+                 */
+                int normalize_bonus( int bonus, int max_bonus, bool capped ) const;
         };
     protected:
         morale_mult get_temper_mult() const;
@@ -118,19 +115,58 @@ class player_morale
         void set_prozac( bool new_took_prozac );
         void set_stylish( bool new_stylish );
         void set_worn( const item &it, bool worn );
+        void set_mutation( const std::string &mid, bool active );
+        bool has_mutation( const std::string &mid );
 
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();
         void invalidate();
 
         void update_stylish_bonus();
-        void update_bodytemp_penalty();
+        void update_masochist_bonus();
+        void update_bodytemp_penalty( int ticks );
+        void update_constrained_penalty();
 
     private:
         std::vector<morale_point> points;
-        std::array<int, num_bp> covered;
-        std::array<int, num_bp> hot;
-        std::array<int, num_bp> cold;
+
+        struct body_part_data {
+            int covered;
+            int covered_fancy;
+            int hot;
+            int cold;
+
+            body_part_data() :
+                covered( 0 ),
+                covered_fancy( 0 ),
+                hot( 0 ),
+                cold( 0 ) {};
+            void mod_covered( const int delta );
+            void mod_covered_fancy( const int delta );
+        };
+        std::array<body_part_data, num_bp> body_parts;
+
+        typedef std::function<void( player_morale *morale )> mutation_handler;
+        struct mutation_data {
+            public:
+                mutation_data() = default;
+                mutation_data( mutation_handler on_gain_and_loss ) :
+                    on_gain( on_gain_and_loss ),
+                    on_loss( on_gain_and_loss ),
+                    active( false ) {};
+                mutation_data( mutation_handler on_gain, mutation_handler on_loss ) :
+                    on_gain( on_gain ),
+                    on_loss( on_loss ),
+                    active( false ) {};
+                void set_active( player_morale *sender, bool new_active );
+                bool get_active() const;
+                void clear();
+            private:
+                mutation_handler on_gain;
+                mutation_handler on_loss;
+                bool active;
+        };
+        std::map<std::string, mutation_data> mutations;
 
         // Mutability is required for lazy initialization
         mutable int level;
@@ -139,6 +175,7 @@ class player_morale
         bool took_prozac;
         bool stylish;
         int super_fancy_bonus;
+        int perceived_pain;
 };
 
 #endif
