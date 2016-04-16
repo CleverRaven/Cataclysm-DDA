@@ -1161,6 +1161,14 @@ std::vector<itype_id> caravan_items(caravan_category cat)
                   "ak47", "762_m87", "m4a1", "556", "savage_111f", "hk_g3",
                   "762_51", "hk_g80", "12mm", "plasma_rifle", "plasma"
               };
+
+        // Add the default magazine types for each gun.
+        for (unsigned i = 0, size = ret.size(); i < size; i++) {
+            item tmp(ret[i]);
+            if (tmp.is_gun() && !tmp.magazine_integral()) {
+                ret.emplace_back(tmp.magazine_default());
+            }
+        }
         break;
 
     case CARAVAN_COMPONENTS:
