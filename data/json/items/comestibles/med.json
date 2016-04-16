@@ -80,9 +80,9 @@
         "id" : "antifungal",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
-        "category" : "drugs",
         "name" : "antifungal drug",
         "description" : "Powerful chemical tablets designed to eliminate fungal infections in living creatures.",
+        "category" : "drugs",
         "weight" : 1,
         "volume" : 1,
         "price" : 1000,
@@ -97,9 +97,9 @@
         "id" : "antiparasitic",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
-        "category" : "drugs",
         "name" : "antiparasitic drug",
         "description" : "Broad spectrum chemical tablets designed to eliminate parasitic infestations in living creatures.  Though designed for use on pets and livestock, it will likely work on humans as well.",
+        "category" : "drugs",
         "weight" : 1,
         "volume" : 1,
         "price" : 3200,
@@ -262,6 +262,30 @@
         "use_action" : "CHEW"   
     },
     {
+        "id" : "chem_hydrogen_peroxide",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "hydrogen peroxide",
+        "name_plural" : "hydrogen peroxide",
+        "description" : "Dilute hydrogen peroxide, for use as a disinfectant and for bleaching hair or textiles.  Foams a little when in contact with organic matter, but otherwise harmless.",
+        "weight" : 275,
+        "volume" : 1,
+        "price" : 100,
+        "charges" : 1,
+        "symbol" : "~",
+        "color" : "white",
+        "phase" : "liquid",
+        "container" : "bottle_glass",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        }
+    },
+    {
         "id" : "cig",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -300,6 +324,34 @@
         "addiction_potential" : 50,
         "addiction_type" : "nicotine",
         "use_action" : "SMOKING"
+    },
+    {
+        "id" : "chloroform_rag",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "chloroform soaked rag",
+        "description" : "A debug item that lets you put NPCs (or yourself) to sleep.",
+        "weight" : 240,
+        "volume" : 1,
+        "price" : 3000,
+        "charges" : 1,
+        "stack_size" : 1,
+        "material" : "cotton",
+        "symbol" : "!",
+        "color" : "red",
+        "flags" : [ "USE_ON_NPC" ],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 1,
+            "move_cost" : 100,
+            "effects" : [
+                {
+                    "id" : "sleep",
+                    "duration" : 1000
+                }
+            ],
+            "used_up_item" : "rag"
+        }
     },
     {
         "id" : "codeine",
@@ -346,6 +398,23 @@
         "addiction_potential" : 50,
         "addiction_type" : "cocaine",
         "use_action" : "COKE"
+    },
+    {
+        "id" : "contacts",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "pair of contact lenses",
+        "name_plural" : "pairs of contact lenses",
+        "description" : "A pair of extended wear contacts with soft lenses designed to be discarded after a week of use.  They are a great replacement to wearing glasses and sit comfortably on the surface of the eye.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 2600,
+        "charges" : 6,
+        "stack_size" : 36,
+        "material" : "plastic",
+        "symbol" : "[",
+        "color" : "cyan",
+        "use_action" : "CONTACTS"  
     },
     {
         "id" : "cotton_ball",
@@ -447,6 +516,71 @@
         "use_action" : "FLUMED"
     },
     {
+        "id" : "disinfectant",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "disinfectant",
+        "description" : "A powerful disinfectant commonly used for contaminated wounds.",
+        "weight" : 135,
+        "volume" : 1,
+        "price" : 1500,
+        "charges" : 2,
+        "symbol" : "~",
+        "color" : "light_cyan",
+        "phase" : "liquid",
+        "container" : "bottle_plastic",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        },
+        "flags" : [ "USE_ON_NPC" ]
+    },
+    {
+        "id" : "diazepam",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "diazepam",
+        "name_plural" : "diazepam",
+        "description" : "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, and panic attacks.",
+        "category" : "drugs",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 15000,
+        "charges" : 10,
+        "stack_size" : 100,
+        "symbol" : "!",
+        "color" : "white",
+        "stim" : -8,
+        "healthy" : -1,
+        "fun" : 8,
+        "addiction_potential" : 20,
+        "addiction_type" : "diazepam",
+        "use_action" : "ANTICONVULSANT"     
+    },
+    {
+        "id" : "ecig",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "electronic cigarette",
+        "description" : "This battery-operated device vaporizes a liquid that contains flavorings and nicotine.  A less harmful alternative to traditional cigarettes, but it's still addictive.  It can't be reused once it's empty.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 3000,
+        "charges" : 40,
+        "stack_size" : 40,
+        "symbol" : "!",
+        "color" : "dark_gray",
+        "stim" : 1,
+        "fun" : 8,
+        "addiction_potential" : 50,
+        "addiction_type" : "nicotine",
+        "use_action" : "ECIG"   
+    },
+    {
         "id" : "flu_shot",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -543,8 +677,48 @@
             "activation_message" : "You shoot up.",
             "tools_needed" : { "syringe" : 1 },
             "effects" : [ { "id" : "pkill3", "duration" : 80 },
-            { "id" : "pkill2", "duration" : 200 } ]
+                { "id" : "pkill2", "duration" : 200 } ]
         }
+    },
+    {
+        "id" : "inhaler_sewergas",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "sewagas inhaler",
+        "description" : "A powerful hallucinogen with low risk of addiction.",
+        "weight" : 10,
+        "volume" : 1,
+        "price" : 500,
+        "charges" : 25,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "light_blue",
+        "stim" : -12,
+        "healthy" : -14,
+        "fun" : 4,
+        "addiction_potential" : 1,
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You use your sewer gas inhaler.",
+            "effects" : [ { "id" : "hallu", "duration" : 2600 } ]     
+        }   
+    },
+    {
+        "id" : "inhaler_stimgas",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "stimgas inhaler",
+        "description" : "A powerful stimulant with no risk of addiction.",
+        "weight" : 10,
+        "volume" : 1,
+        "price" : 750,
+        "charges" : 25,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "light_blue",
+        "stim" : 7,
+        "healthy" : -4,
+        "fun" : 6
     },
     {
         "id" : "iodine",
@@ -653,7 +827,7 @@
             "activation_message" : "You shoot up.",
             "tools_needed" : { "syringe" : 1 },
             "effects" : [ { "id" : "pkill3", "duration" : 20 },
-            { "id" : "pkill2", "duration" : 200 } ]
+                { "id" : "pkill2", "duration" : 200 } ]
         }
     },
     {   
@@ -707,8 +881,8 @@
         "symbol" : "~",
         "color" : "blue",
         "phase" : "liquid",
-        "stim" : -7,
         "container" : "bottle_plastic",
+        "stim" : -7,
         "addiction_potential" : 20,
         "addiction_type" : "sleeping pill",
         "use_action" : "FLUSLEEP"
@@ -735,7 +909,7 @@
             "type" : "consume_drug",
             "activation_message" : "You take some oxycodone.",
             "effects" : [ { "id" : "pkill3", "duration" : 20 },
-            { "id" : "pkill2", "duration" : 200 } ]
+                { "id" : "pkill2", "duration" : 200 } ]
         } 
     },
     {
@@ -802,7 +976,6 @@
     {
         "id" : "poppysyrup",
         "type" : "COMESTIBLE",
-        "container" : "bottle_plastic",
         "comestible_type" : "MED",
         "name" : "poppy cough syrup",
         "name_plural" : "poppy cough syrup",
@@ -814,6 +987,7 @@
         "symbol" : "~",
         "color" : "magenta",
         "phase" : "liquid",
+        "container" : "bottle_plastic",
         "stim" : -3,
         "healthy" : -1,
         "addiction_potential" : 15,
@@ -883,6 +1057,22 @@
             "move_cost" : 100
         },
         "flags" : [ "USE_ON_NPC" ]
+    },
+    {
+        "id" : "saline",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "saline solution",
+        "description" : "A solution of sterilized water and salt for intravenous infusion or washing contaminants from one's eyes.",
+        "weight" : 51,
+        "volume" : 1,
+        "price" : 500,
+        "charges" : 5,
+        "symbol" : "~",
+        "color" : "light_cyan",
+        "phase" : "liquid",
+        "container" : "bottle_plastic",
+        "use_action" : "EYEDROPS"    
     },
     {
         "id" : "thorazine",
@@ -1029,7 +1219,7 @@
             "type" : "consume_drug",
             "activation_message" : "You smoke some weed.  Good stuff, man!",
             "effects" : [ { "id" : "weed_high", "duration" : 90 },
-            { "id" : "pkill1", "duration" : 60 } ],
+                { "id" : "pkill1", "duration" : 60 } ],
             "stat_adjustments" : { "hunger" : 4, "thirst" : 6 },
             "fields_produced" : {"fd_weedsmoke" : 2},
             "charges_needed" : { "fire" : 1 },

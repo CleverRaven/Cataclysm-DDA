@@ -9733,58 +9733,6 @@
         }
     },
     {
-        "type" : "COMESTIBLE",
-        "id" : "disinfectant",
-        "name" : "disinfectant",
-        "weight" : 135,
-        "color" : "light_cyan",
-        "container" : "bottle_plastic",
-        "comestible_type" : "MED",
-        "symbol" : "~",
-        "quench" : 0,
-        "description" : "A powerful disinfectant commonly used for contaminated wounds.",
-        "price" : 1500,
-        "volume" : 1,
-        "phase" : "liquid",
-        "charges" : 2,
-        "flags" : ["USE_ON_NPC"],
-        "fun" : 0,
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
-            "bite" : 0.95,
-            "move_cost" : 100
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "chem_hydrogen_peroxide",
-        "name" : "hydrogen peroxide",
-        "name_plural" : "hydrogen peroxide",
-        "weight" : 275,
-        "color" : "white",
-        "container" : "bottle_glass",
-        "comestible_type" : "MED",
-        "symbol" : "~",
-        "quench" : 0,
-        "description" : "Dilute hydrogen peroxide, for use as a disinfectant and for bleaching hair or textiles.  Foams a little when in contact with organic matter, but otherwise harmless.",
-        "price" : 100,
-        "volume" : 1,
-        "phase" : "liquid",
-        "charges" : 1,
-        "fun" : 0,
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 6,
-            "head_power" : 5,
-            "torso_power" : 9,
-            "bite" : 0.95,
-            "move_cost" : 100
-        }
-    },
-    {
         "id": "mayonnaise",
         "type": "COMESTIBLE",
         "symbol": "~",
@@ -12067,25 +12015,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "contacts",
-        "name" : "pair of contact lenses",
-        "name_plural" : "pairs of contact lenses",
-        "weight" : 1,
-        "color" : "cyan",
-        "use_action" : "CONTACTS",
-        "comestible_type" : "MED",
-        "symbol" : "[",
-        "quench" : 0,
-        "description" : "A pair of extended wear contacts with soft lenses designed to be discarded after a week of use.  They are a great replacement to wearing glasses and sit comfortably on the surface of the eye.",
-        "price" : 2600,
-        "material" : "plastic",
-        "volume" : 1,
-        "charges" : 6,
-        "stack_size" : 36,
-        "fun" : 0
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "brioche",
         "name" : "brioche",
         "weight" : 96,
@@ -12103,24 +12032,6 @@
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 6
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "saline",
-        "name" : "saline solution",
-        "weight" : 51,
-        "color" : "light_cyan",
-        "use_action" : "EYEDROPS",
-        "container" : "bottle_plastic",
-        "comestible_type" : "MED",
-        "symbol" : "~",
-        "quench" : 0,
-        "description" : "A solution of sterilized water and salt for intravenous infusion or washing contaminants from one's eyes.",
-        "price" : 500,
-        "volume" : 1,
-        "phase" : "liquid",
-        "charges" : 5,
-        "fun" : 0
     },
     {
         "type" : "COMESTIBLE",
@@ -12179,48 +12090,8 @@
         "charges" : 1,
         "stack_size" : 4,
         "fun" : -12
-    },{
-        "type" : "COMESTIBLE",
-        "id" : "ecig",
-        "name" : "electronic cigarette",
-        "weight" : 1,
-        "color" : "dark_gray",
-        "addiction_type" : "nicotine",
-        "use_action" : "ECIG",
-        "stim" : 1,
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : 0,
-        "addiction_potential" : 50,
-        "description" : "This battery-operated device vaporizes a liquid that contains flavorings and nicotine.  A less harmful alternative to traditional cigarettes, but it's still addictive.  It can't be reused once it's empty.",
-        "price" : 3000,
-        "volume" : 1,
-        "charges" : 40,
-        "stack_size" : 40,
-        "fun" : 8
     },
     {
-        "type" : "COMESTIBLE",
-        "id" : "diazepam",
-        "category" : "drugs",
-        "name" : "diazepam",
-        "weight" : 1,
-        "color" : "white",
-        "addiction_type" : "diazepam",
-        "use_action" : "ANTICONVULSANT",
-        "stim" : -8,
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : 0,
-        "healthy" : -1,
-        "addiction_potential" : 20,
-        "description" : "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, and panic attacks.",
-        "price" : 15000,
-        "volume" : 1,
-        "charges" : 10,
-        "stack_size" : 100,
-        "fun" : 8
-    },{
         "type" : "COMESTIBLE",
         "id" : "veggy_salad",
         "name" : "vegetable salad",
@@ -12822,53 +12693,6 @@
         "charges" : 2,
         "flags" : ["EATEN_COLD", "MUTAGEN_WEAK"],
         "fun" : -15
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "inhaler_sewergas",
-        "name" : "sewagas inhaler",
-        "weight" : 10,
-        "color" : "light_blue",
-        "use_action" : {
-            "type" : "consume_drug",
-            "activation_message" : "You use your sewer gas inhaler.",
-            "effects" : [
-                {
-                    "id": "hallu",
-                    "duration": 2600
-                }
-            ]
-        },
-        "stim" : -12,
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : 0,
-        "healthy" : -14,
-        "addiction_potential" : 1,
-        "description" : "A powerful hallucinogen with low risk of addiction.",
-        "price" : 500,
-        "material" : "plastic",
-        "volume" : 1,
-        "charges" : 25,
-        "fun" : 4
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "inhaler_stimgas",
-        "name" : "stimgas inhaler",
-        "weight" : 10,
-        "color" : "light_blue",
-        "stim" : 7,
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : 0,
-        "healthy" : -4,
-        "description" : "A powerful stimulant with no risk of addiction.",
-        "price" : 750,
-        "material" : "plastic",
-        "volume" : 1,
-        "charges" : 25,
-        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -13784,35 +13608,6 @@
             "grow" : 91
         }
     },{
-        "type" : "COMESTIBLE",
-        "id" : "chloroform_rag",
-        "name" : "chloroform soaked rag",
-        "weight" : 240,
-        "color" : "red",
-        "comestible_type" : "MED",
-        "symbol" : "!",
-        "quench" : 0,
-        "description" : "A debug item that lets you put NPCs (or yourself) to sleep.",
-        "price" : 3000,
-        "material" : "cotton",
-        "volume" : 1,
-        "charges" : 1,
-        "stack_size" : 1,
-        "flags" : ["USE_ON_NPC"],
-        "fun" : 0,
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 1,
-            "move_cost" : 100,
-            "effects" : [
-                {
-                    "id": "sleep",
-                    "duration": 1000
-                }
-            ],
-            "used_up_item" : "rag"
-        }
-},{
         "type" : "COMESTIBLE",
         "id" : "eggnog",
         "name" : "eggnog",
