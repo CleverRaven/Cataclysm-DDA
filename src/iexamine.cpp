@@ -2189,6 +2189,7 @@ bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
         return false;
     }
 
+    add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), keg_name.c_str() );
     while( liquid.charges > 0 && drink.volume() < keg_cap ) {
         drink.charges++;
         liquid.charges--;

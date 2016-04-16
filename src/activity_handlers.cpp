@@ -602,6 +602,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 iexamine::pour_into_keg( act.coords.at( 1 ), liquid );
             } else {
                 g->m.add_item_or_charges( act.coords.at( 1 ), liquid );
+                p->add_msg_if_player( _( "You pour %1$s onto the ground." ), liquid.tname().c_str() );
                 liquid.charges = 0;
             }
             break;
