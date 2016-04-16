@@ -6916,7 +6916,7 @@ void map::produce_sap( const tripoint &p, int time_since_last_actualize )
         return;
     }
 
-    if( ter_at( p ).id != "t_tree_maple_tapped" ) {
+    if( t_tree_maple_tapped != ter( p ) ) {
         return;
     }
 
