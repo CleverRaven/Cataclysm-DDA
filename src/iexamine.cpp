@@ -2339,10 +2339,9 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
         if( it.is_bucket() || it.is_watertight_container() ) {
             has_container = true;
 
-            auto &liquid = it.contents.front();
-            if( !it.is_container_empty() && liquid.type->id == "maple_sap" ) {
+            if( !it.is_container_empty() && it.contents.front().type->id == "maple_sap" ) {
                 has_sap = true;
-                charges = liquid.charges;
+                charges = it.contents.front().charges;
             }
         }
     }
@@ -2378,10 +2377,8 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
             add_msg( _( "You remove the %s." ), spile_name.c_str() );
             g->m.add_item_or_charges( p.pos(), maple_tree_spile );
 
-            if ( has_container ) {
-                for( auto &it : items ) {
-                    g->m.add_item_or_charges( p.pos(), it );
-                }
+            for( auto &it : items ) {
+                g->m.add_item_or_charges( p.pos(), it );
             }
             g->m.i_clear( examp );
 
@@ -2419,7 +2416,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                         }
 
                         if( emptied || liquid.charges <= 0 ) {
-                            it.contents.pop_back();
+                            it.contents.clear();
                         }
                     }
                 }
