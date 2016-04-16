@@ -1094,6 +1094,13 @@ Press %s to buy everything in your cart, %s to buy nothing."),
         for (unsigned i = 0; i < items[0].size(); i++) {
             item tmp( items[0][i] , calendar::turn);
             tmp = tmp.in_its_container();
+
+            // Guns bought from the caravan should always come with an empty
+            // magazine.
+            if (tmp.is_gun() && !tmp.magazine_integral()) {
+                tmp.emplace_back(tmp.magazine_default());
+            }
+
             for (int j = 0; j < item_count[0][i]; j++) {
                 if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight())) {
                     g->u.i_add(tmp);
