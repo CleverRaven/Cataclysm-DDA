@@ -1092,7 +1092,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
         g->u.cash -= total_price;
         bool dropped_some = false;
         for (unsigned i = 0; i < items[0].size(); i++) {
-            item tmp( items[0][i] , calendar::turn);
+            item tmp(items[0][i]);
             tmp = tmp.in_its_container();
 
             // Guns bought from the caravan should always come with an empty
