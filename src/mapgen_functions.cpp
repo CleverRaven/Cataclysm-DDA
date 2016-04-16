@@ -5553,6 +5553,7 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         m->spawn_item(           7, SEEY * 2 - 4, "9mm");
         m->spawn_item(           7, SEEY * 2 - 4, "9mmP");
         m->spawn_item(           7, SEEY * 2 - 4, "uzi");
+        m->spawn_item(           7, SEEY * 2 - 4, "uzimag");
         m->spawn_item(SEEX * 2 - 2, SEEY + 5, "bubblewrap");
         m->spawn_item(SEEX * 2 - 2, SEEY + 6, "grenade");
         m->spawn_item(SEEX * 2 - 3, SEEY + 6, "flashlight");
