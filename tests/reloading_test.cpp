@@ -15,8 +15,8 @@ TEST_CASE( "reload_gun_with_integral_magazine" ) {
     dummy.remove_weapon();
 
     // TODO: inline the gun and ammo definitions so this test doesn't rely on json.
-    item &ammo = dummy.i_add( item( "9mm", 0, false ) );
-    item &gun = dummy.i_add( item( "usp_9mm", 0, false ) );
+    item &ammo = dummy.i_add( item( "40sw", 0, item::default_charges_tag{} ) );
+    item &gun = dummy.i_add( item( "sw_610", 0, false ) );
     int ammo_pos = dummy.inv.position_by_item( &ammo );
 
     REQUIRE( ammo_pos != INT_MIN );
@@ -41,8 +41,10 @@ TEST_CASE( "reload_gun_with_swappable_magazine" ) {
     dummy.remove_weapon();
 
     // TODO: inline the gun and ammo definitions so this test doesn't rely on json.
-    item &ammo = dummy.i_add( item( "9mm", 0, false ) );
+    item &ammo = dummy.i_add( item( "9mm", 0, item::default_charges_tag{} ) );
     item &gun = dummy.i_add( item( "glock_19", 0, false ) );
+    gun.emplace_back( "glockmag" );
+
     int gun_pos = dummy.inv.position_by_type( "glock_19" );
     REQUIRE( gun_pos != INT_MIN );
     // We're expecting the magazine to end up in the inventory.
