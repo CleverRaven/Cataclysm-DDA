@@ -95,7 +95,7 @@
                 { "item" : "fridge",     "chance" : 70, "x" : [21,21], "y" : [ 6, 7], "repeat" : [2,3] },
                 { "item" : "kitchen",    "chance" : 70, "x" : [21,21], "y" : [ 2, 5], "repeat" : [1,2] },
                 { "item" : "dresser",    "chance" : 70, "x" : [ 2, 2], "y" : [15,15] },
-                { "item" : "bed",        "chance" : 70, "x" : [ 2, 3], "y" : [15,16] },
+                { "item" : "bed",        "chance" : 70, "x" : [ 2, 3], "y" : [16,16] },
                 { "item" : "dresser",    "chance" : 70, "x" : [ 2, 2], "y" : [17,17] },
                 { "item" : "bed",        "chance" : 70, "x" : [ 2, 3], "y" : [18,18] },
                 { "item" : "dresser",    "chance" : 70, "x" : [ 2, 2], "y" : [19,19] },
