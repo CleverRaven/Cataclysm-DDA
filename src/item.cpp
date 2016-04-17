@@ -4,6 +4,7 @@
 #include "player.h"
 #include "output.h"
 #include "skill.h"
+#include "bionics.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -1609,6 +1610,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        if( is_bionic() ) {
+            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->id,
+                _( "This bionic is installed in the following body part(s):" ), true ) ) );
+        }
+
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This weapon needs <info>two free hands</info> to fire." ) ) );
@@ -1973,7 +1979,7 @@ nc_color item::color_in_inventory() const
         }
     } else if (is_bionic()) {
         if (!u->has_bionic(type->id)) {
-            ret = c_green; // installable bionics show as green
+            ret = u->bionic_installation_issues( type->id ).empty() ? c_green : c_red;
         }
     }
     return ret;
