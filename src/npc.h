@@ -19,7 +19,7 @@ class player;
 class field_entry;
 enum game_message_type : int;
 
-void parse_tags(std::string &phrase, const player *u, const npc *me);
+void parse_tags( std::string &phrase, const player &u, const npc &me );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
