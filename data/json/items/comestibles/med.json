@@ -32,6 +32,7 @@
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
         "name" : "Adderall",
+        "name_plural" : "Adderall",
         "description" : "Medical grade amphetamine salts mixed with Dextroamphetamine salts, commonly prescribed to treat hyperactive attention deficits.  It suppresses the appetite, and is quite addictive.",
         "weight" : 1,
         "volume" : 1,
