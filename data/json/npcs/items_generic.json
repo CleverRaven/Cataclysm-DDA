@@ -116,39 +116,10 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "npc_bashing",
-    "items":[
-      ["hammer", 20],
-      ["wrench", 20],
-      ["hammer_sledge", 20],
-      ["pipe", 20],
-      ["bat", 20],
-      ["crowbar", 20],
-      ["spear_rebar",20],
-      ["q_staff",20],
-      ["hatchet", 20],
-      ["bat_metal",20],
-      ["homewrecker",5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "npc_cutting",
-    "items":[
-      ["knife_butcher", 20],
-      ["hatchet", 20],
-      ["ax", 20],
-      ["machete", 20],
-      ["knife_combat", 20],
-      ["katana", 20]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "npc_stabbing",
     "items":[
-      ["spear_knife", 50],
-      ["spear_steel", 10],
-      ["spear_forked", 10],
-      ["spear_rebar", 5]
+      { "group": "survivor_knife", "prob": 20 },
+      { "group": "survivor_stabbing", "prob": 80 }
     ]
   },{
     "type" : "item_group",
