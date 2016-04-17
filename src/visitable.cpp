@@ -608,9 +608,9 @@ int visitable<Character>::amount_of( const std::string& what, bool pseudo, int l
         int qty = 0;
         visit_items( [&qty, &limit] ( const item *e ) {
             qty += e->has_quality( "SMOKE_PIPE", 1 );
-            return qty != limit ? VisitResponse::NEXT : VisitResponse::SKIP;
+            return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         } );
-        return qty;
+        return std::min( qty, limit );
     }
 
     return amount_of_internal( *this, what, pseudo, limit );
