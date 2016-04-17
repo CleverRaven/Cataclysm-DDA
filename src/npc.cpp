@@ -1031,13 +1031,13 @@ void npc::starting_weapon(npc_class type)
 {
     const Skill* best = best_skill();
 
-    // if NPC has no suitable skills default to bashing weapon
-    if( !best || best->ident() == skill_bashing ) {
+    // if NPC has no suitable skills default to stabbing weapon
+    if( !best || best->ident() == skill_stabbing ) {
+        weapon = random_item_from( type, "stabbing", "survivor_stabbing" );
+    } else if( best->ident() == skill_bashing ) {
         weapon = random_item_from( type, "bashing", "survivor_bashing" );
     } else if( best->ident() == skill_cutting ) {
         weapon = random_item_from( type, "cutting", "survivor_cutting" );
-    } else if( best->ident() == skill_stabbing ) {
-        weapon = random_item_from( type, "stabbing", "survivor_stabbing" );
     } else if( best->ident() == skill_throw ) {
         weapon = random_item_from( type, "throw" );
     } else if( best->ident() == skill_archery ) {
