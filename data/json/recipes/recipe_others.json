@@ -5623,7 +5623,7 @@
       [ "ammonia", 1 ]
      ],
      [
-      [ "salt", 2 ], [ "salt_water", 2 ], [ "saline", 10 ]
+      [ "salt", 20 ], [ "salt_water", 2 ], [ "saline", 10 ]
      ],
      [
       [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "saline", 10]
@@ -6725,7 +6725,7 @@
     [
       [ "salt_water", 2 ],
       [ "saline", 10 ],
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ],
     [
       [ "raw_leather", 1 ],
@@ -6791,7 +6791,7 @@
     [
       [ "salt_water", 2 ],
       [ "saline", 10 ],
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ],
     [
       [ "tallow", 1 ],
@@ -6820,7 +6820,7 @@
     [
       [ "salt_water", 2 ],
       [ "saline", 10 ],
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ],
     [
       [ "raw_fur", 1 ],
@@ -6866,7 +6866,7 @@
     [
       [ "salt_water", 2 ],
       [ "saline", 10 ],
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ],
     [
       [ "tallow", 1 ],

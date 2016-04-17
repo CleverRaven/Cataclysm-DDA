@@ -16,7 +16,7 @@
       [ "water", 1 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ]
   ]
 },{
@@ -45,7 +45,7 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ]
   ]
 },{
@@ -364,7 +364,7 @@
       [ "lye_powder", 200 ]
     ],
     [
-      [ "salt", 1 ]
+      [ "salt", 10 ]
     ]
   ]
 },{
@@ -466,7 +466,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ],
+      [ "salt", 10 ],
       [ "saline", 5 ]
     ],
     [
@@ -496,7 +496,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ],
+      [ "salt", 10 ],
       [ "saline", 5 ]
     ],
     [
@@ -529,7 +529,7 @@
   "components": [
     [
       [ "salt_water", 1 ],
-      [ "salt", 1 ],
+      [ "salt", 10 ],
       [ "saline", 5 ]
     ],
     [
@@ -1970,7 +1970,7 @@
   "components": [
     [
       [ "disinfectant", 2 ],
-      [ "salt", 5 ]
+      [ "salt", 50 ]
     ],
     [
       [ "aspirin", 10 ]
@@ -2345,7 +2345,7 @@
       [ "yeast", 1 ]
     ],
     [
-      [ "sugar", 1 ],
+      [ "sugar", 10 ],
       [ "honey_bottled", 1 ]
     ]
   ]
@@ -2365,7 +2365,7 @@
   "components": [
     [ [ "jug_plastic", 1 ], [ "jar_3l_glass", 1 ] ],
     [ [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ],
-    [ [ "gasoline", 400 ], [ "diesel", 400 ], [ "sugar", 8 ] ],
+    [ [ "gasoline", 400 ], [ "diesel", 400 ], [ "sugar", 100 ] ],
     [ [ "string_6", 1 ], [ "rag", 1] ]
   ]
 },{
@@ -2858,7 +2858,7 @@
 [ "chem_saltpetre", 50 ]
 ],
 [
-[ "sugar", 5 ]
+[ "sugar", 50 ]
 ]
 ]
 },{
