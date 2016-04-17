@@ -22,7 +22,7 @@ CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas
 
 tests: cata_test
 
-cata_test: $(ODIR) $(OBJS)
+cata_test: $(ODIR) $(OBJS) $(CATA_LIB)
 	$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 # Iterate over all the individual tests.
