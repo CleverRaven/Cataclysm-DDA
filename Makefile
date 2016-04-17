@@ -29,6 +29,8 @@
 #  make TILES=1 SOUND=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
+# Disable backtrace support, not available on all platforms
+#  make BACKTRACE=0
 # Compile localization files for specified languages
 #  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
@@ -119,7 +121,6 @@ ODIR = obj
 ODIRTILES = obj/tiles
 W32ODIR = objwin
 W32ODIRTILES = objwin/tiles
-DDIR = .deps
 
 OS  = $(shell uname -s)
 
@@ -139,6 +140,7 @@ else
   CXX = $(CROSS)$(OS_COMPILER)
   LD  = $(CROSS)$(OS_LINKER)
 endif
+STRIP = $(CROSS)strip
 RC  = $(CROSS)windres
 AR  = $(CROSS)ar
 
@@ -166,7 +168,6 @@ ifdef RELEASE
   	else
   		CXXFLAGS += -Os
   	endif
-    LDFLAGS += -s
   endif
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
@@ -302,6 +303,7 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
+  BACKTRACE = 0
   CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
@@ -484,15 +486,20 @@ else
 endif
 
 ifeq ($(TARGETSYSTEM),CYGWIN)
+  BACKTRACE = 0
   ifeq ($(LOCALIZE),1)
     # Work around Cygwin not including gettext support in glibc
     LDFLAGS += -lintl -liconv
   endif
 endif
 
-# BSDs have backtrace() and friends in a separate library
 ifeq ($(BSD), 1)
-  LDFLAGS += -lexecinfo
+  # BSDs have backtrace() and friends in a separate library
+  ifeq ($(BACKTRACE), 1)
+    LDFLAGS += -lexecinfo
+    # ...which requires the frame pointer
+    CXXFLAGS += -fno-omit-frame-pointer
+  endif
 
  # And similarly, their libcs don't have gettext built in
   ifeq ($(LOCALIZE),1)
@@ -503,6 +510,10 @@ endif
 # Global settings for Windows targets (at end)
 ifeq ($(TARGETSYSTEM),WINDOWS)
     LDFLAGS += -lgdi32 -lwinmm -limm32 -lole32 -loleaut32 -lversion
+endif
+
+ifeq ($(BACKTRACE),1)
+  DEFINES += -DBACKTRACE
 endif
 
 ifeq ($(LOCALIZE),1)
@@ -559,10 +570,13 @@ endif
 all: version $(ASTYLE) $(TARGET) $(L10N) tests
 	@
 
-$(TARGET): $(ODIR) $(DDIR) $(OBJS)
+$(TARGET): $(ODIR) $(OBJS)
 	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+ifdef RELEASE
+	$(STRIP) $(TARGET)
+endif
 
-cataclysm.a: $(ODIR) $(DDIR) $(OBJS)
+cataclysm.a: $(ODIR) $(OBJS)
 	$(AR) rcs cataclysm.a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
 .PHONY: version json-verify
@@ -577,9 +591,6 @@ json-verify:
 
 $(ODIR):
 	mkdir -p $(ODIR)
-
-$(DDIR):
-	@mkdir $(DDIR)
 
 $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@

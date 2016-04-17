@@ -2644,6 +2644,7 @@ bool game::handle_action()
                 examine( mouse_target );
             } else {
                 examine();
+                refresh_all();
             }
             break;
 

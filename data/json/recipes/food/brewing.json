@@ -39,7 +39,7 @@
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [ [ "corn", 2 ], [ "irradiated_corn", 2 ], [ "cornmeal", 6 ], [ "barley", 1 ], [ "buckwheat", 1 ] ],
-            [ [ "sugar", 4 ] ],
+            [ [ "sugar", 50 ] ],
             [ [ "yeast", 1 ] ]
         ]
     },{
@@ -61,7 +61,7 @@
             [
                 [ "molasses", 2 ], [ "corn", 2 ], [ "cornmeal", 6 ],
                 [ "wheat", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ],
-                [ "sugar", 4 ], [ "sweet_water", 4 ], [ "sugar_beet", 1 ]
+                [ "sugar", 50 ], [ "sweet_water", 4 ], [ "sugar_beet", 1 ]
             ],
             [ [ "yeast", 1 ] ]
         ]
@@ -99,7 +99,7 @@
         "components": [
             [ [ "water", 15 ], [ "water_clean", 15 ] ],
             [ [ "cornmeal", 12 ], [ "buckwheat", 2 ] ],
-            [ [ "sugar", 8 ] ],
+            [ [ "sugar", 100 ] ],
             [ [ "yeast", 2 ] ]
         ]
     },{
@@ -190,7 +190,7 @@
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [ [ "raw_dandelion", 10 ] ],
-            [ [ "sugar", 1 ], [ "honeycomb", 1 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
+            [ [ "sugar", 10 ], [ "honeycomb", 1 ], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
             [ [ "yeast", 1 ] ]
         ]
     },{
@@ -213,7 +213,7 @@
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [ [ "pine_bough", 5 ] ],
-            [ [ "sugar", 1 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
+            [ [ "sugar", 10 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2 ] ],
             [ [ "yeast", 1 ] ]
         ]
     },{

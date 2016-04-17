@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /usr/bin/env bash
 
 # regexps for default entries
 ENTRIES=( "\"to_hit\".*:[[:space:]]*0" \
