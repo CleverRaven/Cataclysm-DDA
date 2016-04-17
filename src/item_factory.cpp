@@ -1037,7 +1037,6 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     assign( jo, "tool", slot.tool );
     assign( jo, "charges", slot.def_charges );
     assign( jo, "quench", slot.quench );
-    assign( jo, "brew_time", slot.brewtime );
     assign( jo, "fun", slot.fun );
     assign( jo, "stim", slot.stim );
     assign( jo, "healthy", slot.healthy );
