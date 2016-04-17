@@ -10692,11 +10692,13 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         }
     }
     for( auto e : res ) {
-        if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-            e->contents.emplace_back( e->magazine_default(), e->bday );
-        }
-        if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
-            e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
+        if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
+            if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
+                e->contents.emplace_back( e->magazine_default(), e->bday );
+            }
+            if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
+                e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
+            }
         }
     }
     return res;
