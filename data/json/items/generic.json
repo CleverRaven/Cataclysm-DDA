@@ -2496,8 +2496,7 @@
         "max_charges": 0,
         "initial_charges": 0,
         "charges_per_use": 0,
-        "turns_per_charge": 0,
-        "ammo": "NULL"
+        "turns_per_charge": 0
     },
     {
         "id": "gasdiscount_gold",
@@ -2516,8 +2515,7 @@
         "max_charges": 0,
         "initial_charges": 0,
         "charges_per_use": 0,
-        "turns_per_charge": 0,
-        "ammo": "NULL"
+        "turns_per_charge": 0
     },
     {
         "id": "gasdiscount_platinum",
@@ -2536,8 +2534,7 @@
         "max_charges": 0,
         "initial_charges": 0,
         "charges_per_use": 0,
-        "turns_per_charge": 0,
-        "ammo": "NULL"
+        "turns_per_charge": 0
     },
     {
         "type":"GENERIC",

@@ -7036,7 +7036,6 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
         "use_action": "MEDITATE",
         "color" : "white",
         "encumbrance" : 0,
@@ -7065,7 +7064,6 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
         "use_action": "MEDITATE",
         "material_thickness" : 0,
         "flags" : ["FANCY"]
@@ -7088,7 +7086,6 @@
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
         "use_action": "MEDITATE",
         "material_thickness" : 0
     },
@@ -7859,7 +7856,6 @@
         "coverage" : 5,
         "symbol" : "[",
         "warmth" : 0,
-        "ammo": "NULL",
         "use_action": "WEATHER_TOOL",
         "max_charges": 0,
         "initial_charges": 0,

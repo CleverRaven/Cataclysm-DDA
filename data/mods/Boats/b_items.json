@@ -16,7 +16,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "use_action": {
       "type": "unfold_vehicle",
       "vehicle_name": "inflatable_boat",
@@ -42,7 +41,6 @@
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL"
+    "turns_per_charge": 0
   }
 ]
