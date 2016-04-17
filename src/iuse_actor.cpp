@@ -2055,7 +2055,13 @@ long ammobelt_actor::use( player *p, item *, bool, const tripoint& ) const
     if( opt ) {
         std::stringstream ss;
         ss << p->get_item_position( &p->i_add( mag ) );
-        p->assign_activity( ACT_RELOAD, opt.moves(), opt.qty(), opt.ammo.obtain( *p, opt.qty() ), ss.str() );
+
+        // store moves and qty locally as obtain() will invalidate the reload_option
+        int mv = opt.moves();
+        long qty = opt.qty();
+        int pos = opt.ammo.obtain( *p, qty );
+
+        p->assign_activity( ACT_RELOAD, mv, qty, pos, ss.str() );
     }
     return 0;
 }
