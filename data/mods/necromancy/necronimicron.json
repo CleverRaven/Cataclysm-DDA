@@ -16,7 +16,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "max_charges": 0,
-    "ammo": "NULL",
     "category" : "spare_parts",
     "use_action": "NONE"
   },{
@@ -36,7 +35,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "max_charges": 0,
-    "ammo": "NULL",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blob",
@@ -65,7 +63,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "max_charges": 0,
-    "ammo": "NULL",
     "category": "tools",
     "use_action": {
         "type": "place_monster",
