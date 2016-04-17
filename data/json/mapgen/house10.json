@@ -54,7 +54,8 @@
                 "r" : "t_floor",
                 "S" : "t_floor",
                 "s" : "t_sidewalk",
-                "v" : "t_window_domestic"
+                "v" : "t_window_domestic",
+                "w" : "t_window"
             },
             "furniture" : {
                 "?" : "f_sofa",
