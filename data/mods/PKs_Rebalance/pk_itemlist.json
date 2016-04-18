@@ -13,6 +13,15 @@
         ]
     },{
     "type" : "item_group",
+    "id" : "furvivor_uzi",
+    "//" : "cheap 9mm ammo",
+    "items": [
+      [ "uzimag", 4],
+      ["9mm", 1],
+      ["uzi", 5]
+    ] 
+    },{
+    "type" : "item_group",
     "id" : "pk_melee",
     "//" : "weapons, some uncommon",
     "items": [
@@ -26,15 +35,18 @@
       ["spear_copper", 3],
       ["sword_crude", 3],
       ["homewrecker", 3],
-      ["halberd_fake", 3],
+      ["makeshift_halberd", 3],
+      ["makeshift_machete", 3],
       ["javelin_iron", 3],
       ["bwirebat", 3],
-      ["machete", 3],
+      ["makeshift_crowbar", 3],
+      ["machete", 2],
       ["i_staff", 2],
       ["lajatang", 2],
       ["canister_empty", 2],
       ["sword_wood", 2],
       ["hammer_sledge", 2],
+      ["hatchet", 1],
       ["knife_butter", 1],
       ["baton-extended", 1],
       ["mace", 1],
