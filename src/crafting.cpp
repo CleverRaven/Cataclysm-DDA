@@ -990,9 +990,9 @@ comp_selection<item_comp> player::select_item_component(const std::vector<item_c
         if ( cmenu.entries.empty() ) {
             if (!(has_trait("WEB_ROPE"))) {
                 debugmsg("Attempted a recipe with no available components!");
+                selected.use_from = cancel;
+                return selected;
             }
-            selected.use_from = cancel;
-            return selected;
         }
 
         if( can_cancel ) {
