@@ -10471,6 +10471,12 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
         }
+		// From infinite source to the ground somewhere else. The target has
+		// infinite space and the liquid can not be used from there anyway.
+        if( !has_keg && is_infinite && source_pos != nullptr ) {
+            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
+            return;
+        }
 
         // One can either pour into a keg *or* on the ground. It is never possible to do both on
         // the same square because kegs have the NOITEM flag. In other words:
