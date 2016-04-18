@@ -253,7 +253,7 @@
     "hp":150,
     "death_function":"NORMAL",
     "description":"An animated mass of roots and vines, creeping along the ground with alarming speed.  The tangle is thick enough that the center from which they grow is concealed.  This one looks tough.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "PUSH_MON", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PLASTIC"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "PUSH_MON", "NOHEAD", "HARDTOSHOOT", "GRABS", "PLASTIC"]
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast_pk",
@@ -295,9 +295,9 @@
         ],
     "special_attacks":[["GROW_VINE", 30], ["VINE", 5], ["SPIT_SAP", 15]],
     "description":"A walking mass of vines.  Its body concealed in writhing vines, this deadly monster is a meter or so from being pocket-sized, but carries several deadly toxins within it.",
-    "flags":["SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "GRABS", "SWIMS", "PUSH_MON", "VENOM", "PLASTIC", "PARALYZEVENOM"],
+    "flags":["SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "GRABS", "PUSH_MON", "VENOM", "PLASTIC", "PARALYZEVENOM"],
     "anger_triggers":["FIRE", "HURT", "FRIEND_DIED", "PLAYER_CLOSE"],
-    "//": "Tangela is pretty neat, but, by design, not exactly 'a thug', to borrow the term from the Dominions series of games.  Hes not going to slug it out well with the big guys."
+    "//": "Tangela/ala is pretty neat, but, by design, not exactly 'a thug', to borrow the term from the Dominions series of games.  Hes not going to slug it out well with the big guys."
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_pk",
@@ -457,7 +457,7 @@
             "min_mul" : 0.50, "//" : "babby dionaea bitch"
         }],
         "description":"An animate plant a little under 2 meters long, this juvenille still packs a wallop with its fetid mouth.",
-        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "SWIMS", "BASHES", "PUSH_MON", "NOHEAD"],
+        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "PUSH_MON", "NOHEAD"],
         "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
         "type" : "MONSTER",
@@ -494,9 +494,8 @@
         },
         ["VINE", 15], ["RANGED_PULL", 3]],
         "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving energy for its coordinated slither along the ground.",
-        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "SWIMS", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD"],
-        "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
-        "//": "Minor concerns about their strength, but they add real meat to the triffid front lines."
+        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD"],
+        "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_minecraft",
@@ -554,7 +553,7 @@
     "special_when_hit":["ZAPBACK", 20],
     "starting_ammo": {  "c4": 1, "EMPbomb": 3},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
-    "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby elctronic devices...",
+    "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby elctronic devices. . .",
     "flags":["SEES", "SMELLS","KEENNOSE", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
     "//": "And these guys give them some means of taking down elctronics."
