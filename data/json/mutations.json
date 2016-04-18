@@ -870,8 +870,8 @@
         "type" : "mutation",
         "id" : "ALBINO",
         "name" : "Albino",
-        "points" : -2,
-        "description" : "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella when going out in the sun.",
+        "points" : -1,
+        "description" : "You lack skin pigmentation due to a genetic problem.  You sunburn extremely easily, and typically use an umbrella and a sunglagges when going out in the sun.",
         "starting_trait" : true,
         "changes_to" : ["SUNBURN"],
         "category" : ["MUTCAT_TROGLOBITE"]
