@@ -253,6 +253,10 @@ player::player() : Character()
     nv_cached = false;
     volume = 0;
 
+    for( const auto &v : vitamin::all() ) {
+        vitamin_levels[ v.first ] = 0;
+    }
+
     memorial_log.clear();
     player_stats.reset();
 

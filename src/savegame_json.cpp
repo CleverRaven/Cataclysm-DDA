@@ -753,11 +753,9 @@ void player::deserialize(JsonIn &jsin)
 
     auto vits = data.get_object( "vitamin_levels" );
     for( const auto& v : vitamin::all() ) {
-        if( vits.has_member( v.first.str() ) ) {
-            int lvl = vits.get_int( v.first.str() );
-            lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
-            vitamin_levels.emplace( v.first, lvl );
-        }
+        int lvl = vits.get_int( v.first.str(), 0 );
+        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
+        vitamin_levels[ v.first ] = lvl;
     }
 
     morale->load( data );
