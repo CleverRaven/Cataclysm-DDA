@@ -7,7 +7,6 @@
 #include "player_activity.h"
 #include "weighted_list.h"
 #include "game_constants.h"
-#include "vitamin.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -32,6 +31,8 @@ struct recipe;
 struct item_comp;
 struct tool_comp;
 class vehicle;
+class vitamin;
+using vitamin_id = string_id<vitamin>;
 class start_location;
 using start_location_id = string_id<start_location>;
 struct w_point;
