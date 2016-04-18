@@ -16,6 +16,7 @@
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
+const efftype_id effect_tapeworm( "tapeworm" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -579,8 +580,10 @@ bool player::eat( item &food, bool force )
     }
 
     for( const auto &v : this->vitamins_from( food ) ) {
+        auto qty = has_effect( effect_tapeworm ) ? v.second / 2 : v.second;
+
         // can never develop hypervitaminosis from consuming food
-        vitamin_mod( v.first, v.second );
+        vitamin_mod( v.first, qty );
     }
 
     return true;
