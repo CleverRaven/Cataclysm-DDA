@@ -1332,6 +1332,7 @@
         "type" : "COMESTIBLE",
         "id" : "irish_coffee",
         "name" : "Irish coffee",
+        "name_plural" : "Irish coffee",
         "weight" : 231,
         "color" : "brown",
         "addiction_type" : "alcohol",
