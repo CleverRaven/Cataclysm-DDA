@@ -154,6 +154,16 @@
     ]
   },
   {
+    "id" : "tools_lighting_industrial",
+    "type" : "item_group",
+    "//": "Light sources used as industrial working equipment.",
+    "items" : [
+      [ "flashlight", 100 ],
+      [ "heavy_flashlight", 40 ],
+      [ "wearable_light", 60 ]
+    ]
+  },
+  {
     "id" : "tools_survival",
     "type" : "item_group",
     "//": "Practical, small and light-weight tools for survival excluding camping gear.",

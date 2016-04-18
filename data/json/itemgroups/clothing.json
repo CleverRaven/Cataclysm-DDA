@@ -188,5 +188,15 @@
       [ "pocketwatch", 25 ],
       [ "wristwatch", 100 ]
     ]
+  },
+  {
+    "id": "clothing_work",
+    "type": "item_group",
+    "//": "Equipment, used for heavy labour.",
+    "items": [
+      [ "boots", 35 ],
+      [ "glasses_safety", 50 ],
+      [ "hat_hard", 100 ]
+    ]
   }
 ]
