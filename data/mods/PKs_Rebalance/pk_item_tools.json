@@ -1,26 +1,6 @@
 [
 
     {
-    "id": "pokeball",
-    "type": "TOOL",
-    "name": "pocket ball",
-    "color": "light_red",
-    "symbol": "o",
-    "description": "A fist-sized ball that holds the . . . erm, 'energy' of a monster, allowing you to transport them within safely.  Seems to conserve weight, making its use impractical.",
-    "price": 2000000,
-    "weight": 300,
-    "volume": 3,
-    "bashing": 3,
-    "cutting": 0,
-    "max_charges": 500,
-    "initial_charges": 100,
-    "turns_per_charge": 0,
-    "charges_per_use": 50,
-    "ammo": "battery",
-    "use_action": "CAPTURE_MONSTER_ACT",
-    "properties": [["monster_size_capacity", "HUGE"]],
-    "material": ["steel", "plastic"]
-    },{
     "id": "bot_manhack_missile",
     "type": "TOOL",
     "symbol": ",",
