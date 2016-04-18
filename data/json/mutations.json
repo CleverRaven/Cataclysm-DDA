@@ -3925,7 +3925,11 @@
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered.  You cannot eat anything besides meat.",
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT",  "GRAZER"],
         "leads_to" : ["SAPROVORE"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"],
+        "vitamin_rates": [
+            [ "VitA", -999 ],
+            [ "VitC", -999 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
