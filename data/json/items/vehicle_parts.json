@@ -1032,8 +1032,6 @@
         "initial_charges": 3,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
         "use_action": "CABLE_ATTACH",
         "flags": [ "CABLE_SPOOL" ]
     },
@@ -1055,8 +1053,6 @@
         "initial_charges": 20,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
         "use_action": "CABLE_ATTACH",
         "flags": [ "CABLE_SPOOL" ]
     },
@@ -1078,8 +1074,6 @@
         "initial_charges": 50,
         "charges_per_use": 0,
         "turns_per_charge": 0,
-        "ammo": "NULL",
-        "revert_to": "null",
         "use_action": "CABLE_ATTACH",
         "flags": [ "CABLE_SPOOL" ]
     },

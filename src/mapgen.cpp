@@ -69,7 +69,6 @@ const mtype_id mon_mi_go( "mon_mi_go" );
 const mtype_id mon_secubot( "mon_secubot" );
 const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_shoggoth( "mon_shoggoth" );
-const mtype_id mon_spider_trapdoor( "mon_spider_trapdoor" );
 const mtype_id mon_spider_web( "mon_spider_web" );
 const mtype_id mon_tankbot( "mon_tankbot" );
 const mtype_id mon_triffid( "mon_triffid" );
@@ -10103,8 +10102,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
         ter_set(rng(3, SEEX * 2 - 4), rng(3, SEEY * 2 - 4), t_slope_up);
         place_items("spider", 85, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0);
-        add_spawn(mon_spider_trapdoor, 1, rng(3, SEEX * 2 - 5), rng(3, SEEY * 2 - 4));
-
 
     } else if (terrain_type == "anthill") {
 
@@ -10695,11 +10692,13 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         }
     }
     for( auto e : res ) {
-        if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-            e->contents.emplace_back( e->magazine_default(), e->bday );
-        }
-        if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
-            e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
+        if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
+            if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
+                e->contents.emplace_back( e->magazine_default(), e->bday );
+            }
+            if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
+                e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
+            }
         }
     }
     return res;

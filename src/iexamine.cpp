@@ -1201,10 +1201,8 @@ void iexamine::fswitch(player &p, const tripoint &examp)
     ter_id terid = g->m.ter(examp);
     p.moves -= 100;
     tripoint tmp = examp;
-    int &x = tmp.x;
-    int &y = tmp.y;
-    for (y = examp.y; y <= examp.y + 5; y++ ) {
-        for (x = 0; x < SEEX * MAPSIZE; x++) {
+    for (tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
+        for (tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++) {
             if ( terid == t_switch_rg ) {
                 if (g->m.ter(tmp) == t_rock_red) {
                     g->m.ter_set(tmp, t_floor_red);
@@ -1236,7 +1234,7 @@ void iexamine::fswitch(player &p, const tripoint &examp)
                     g->m.ter_set(tmp, t_rock_red);
                 }
             } else if ( terid == t_switch_even ) {
-                if ((y - examp.y) % 2 == 1) {
+                if ((tmp.y - examp.y) % 2 == 1) {
                     if (g->m.ter(tmp) == t_rock_red) {
                         g->m.ter_set(tmp, t_floor_red);
                     } else if (g->m.ter(tmp) == t_floor_red) {

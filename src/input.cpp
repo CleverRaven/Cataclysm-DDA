@@ -524,27 +524,17 @@ void input_manager::add_input_for_action(
     events.push_back(event);
 }
 
-void input_context::list_conflicts(const input_event &event,
-                                   const input_manager::t_actions &actions, std::ostringstream &buffer) const
+bool input_context::action_uses_input( const std::string &action_id, const input_event &event ) const
 {
-    for( const auto &actions_action : actions ) {
-        const input_manager::t_input_event_list &events = actions_action.second.input_events;
-        if (std::find(events.begin(), events.end(), event) != events.end()) {
-            if (!buffer.str().empty()) {
-                buffer << _(", ");
-            }
-            buffer << get_action_name( actions_action.first );
-        }
-    }
+    const auto &events = inp_mngr.get_action_attributes( action_id, category ).input_events;
+    return std::find( events.begin(), events.end(), event ) != events.end();
 }
 
 std::string input_context::get_conflicts(const input_event &event) const
 {
     std::ostringstream buffer;
     for( const auto &elem : registered_actions ) {
-        const action_attributes &attributes = inp_mngr.get_action_attributes( elem, category );
-        if (std::find(attributes.input_events.begin(), attributes.input_events.end(),
-                      event) != attributes.input_events.end()) {
+        if( action_uses_input( elem, event ) ) {
             if (!buffer.str().empty()) {
                 buffer << _(", ");
             }
@@ -992,6 +982,13 @@ void input_context::display_help()
             } else if (status == s_add || status == s_add_global) {
                 const long newbind = popup_getkey(_("New key for %s:"), name.c_str());
                 const input_event new_event(newbind, CATA_INPUT_KEYBOARD);
+
+                if( action_uses_input( action_id, new_event ) ) {
+                    popup_getkey( _( "This key is already used for %s." ), name.c_str() );
+                    status = s_show;
+                    continue;
+                }
+
                 const std::string conflicts = get_conflicts(new_event);
                 const bool has_conflicts = !conflicts.empty();
                 bool resolve_conflicts = false;

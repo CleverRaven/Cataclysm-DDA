@@ -126,7 +126,7 @@ The syntax listed here is still valid.
 ```C++
 "name" : "cult",            // Unique ID. Must be one continuous word, use underscores when necessary
 "base_faction" : "zombie",  // Optional base faction. Relations to other factions are inherited from it and relations of other factions to this one check this
-"by_mood" : ["vermin"],     // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions
+"by_mood" : ["blob"],       // Be hostile towards this faction when angry, neutral otherwise. Default attitude to all other factions
 "neutral" : ["nether"],     // Always be neutral towards this faction
 "friendly" : ["blob"],      // Always be friendly towards this faction. By default a faction is friendly towards itself
 ```

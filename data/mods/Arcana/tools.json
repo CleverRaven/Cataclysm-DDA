@@ -16,8 +16,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": [
       "MEDITATE",
       {
@@ -45,7 +43,6 @@
     "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "offering_chalice_used",
     "use_action": {
         "type" : "consume_drug",
@@ -74,8 +71,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": "MEDITATE"
   },{
     "id": "blood_athame",
@@ -97,8 +92,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category": "weapons",
     "use_action": [
       {
@@ -133,7 +126,6 @@
     "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "revert_to": "blood_athame",
     "category": "weapons",
     "use_action" : {
@@ -170,7 +162,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "essence_dull_type",
-    "revert_to": "null",
     "use_action": [
       "MEDITATE",
       { "type": "knife" },
@@ -247,7 +238,6 @@
         "charges_per_use": 0,
         "turns_per_charge": 0,
         "ammo": "essence_dull_type",
-        "revert_to": "null",
         "use_action": [
           "MEDITATE",
           {
@@ -283,7 +273,6 @@
         "initial_charges": 1,
         "charges_per_use": 1,
         "turns_per_charge": 1,
-        "ammo": "NULL",
         "revert_to": "hexenhammer",
         "use_action": {
           "type": "explosion",
@@ -313,7 +302,6 @@
         "charges_per_use": 3,
         "turns_per_charge": 0,
         "ammo": "essence_type",
-        "revert_to": "null",
         "use_action" : "ARTIFACT",
         "artifact_data" : {
           "effects_activated": ["AEA_BUGS"]
@@ -337,8 +325,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_kreck",
@@ -368,8 +354,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blank",
@@ -399,8 +383,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_flaming_eye",
@@ -430,8 +412,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_hunting_horror",
@@ -461,8 +441,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_dark_wyrm",
@@ -492,8 +470,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_mi_go",
@@ -523,8 +499,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_jabberwock",
@@ -554,8 +528,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_flying_polyp",
@@ -585,8 +557,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_yugg",
@@ -616,8 +586,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_shoggoth",
@@ -649,7 +617,6 @@
     "turns_per_charge": 0,
     "ammo": "essence_blood_type",
     "flags" : ["DURABLE_MELEE", "CHOP", "NO_SALVAGE"],
-    "revert_to": "null",
     "category": "weapons",
     "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]],
     "use_action": [
@@ -681,7 +648,6 @@
     "initial_charges": 5,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags" : ["DURABLE_MELEE", "CHOP", "LIGHT_8", "NO_SALVAGE"],
     "revert_to": "bloodaxe",
     "category": "weapons",
@@ -717,9 +683,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
-    "revert_to": "null",
     "use_action": {
          "type": "transform",
          "target": "scroll_sun_on",
@@ -744,7 +708,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
@@ -769,9 +732,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
-    "revert_to": "null",
     "use_action": {
          "type": "transform",
          "target": "scroll_moon_on",
@@ -796,7 +757,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
@@ -821,9 +781,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
-    "revert_to": "null",
     "use_action": {
          "type": "transform",
          "target": "scroll_artiface_on",
@@ -848,7 +806,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
@@ -873,9 +830,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
-    "revert_to": "null",
     "use_action": {
          "type": "transform",
          "target": "scroll_nature_on",
@@ -900,7 +855,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
@@ -925,9 +879,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
-    "revert_to": "null",
     "use_action": {
          "type": "transform",
          "target": "scroll_destruction_on",
@@ -952,7 +904,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
@@ -977,9 +928,7 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
-    "revert_to": "null",
     "use_action": {
          "type": "transform",
          "target": "scroll_subversion_on",
@@ -1004,7 +953,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
     "use_action" : "ARTIFACT",
@@ -1032,7 +980,6 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "essence_blood_type",
-    "revert_to": "null",
     "use_action": [
       { "type": "knife" },
       {
@@ -1068,7 +1015,6 @@
     "initial_charges": 9,
     "charges_per_use": 0,
     "turns_per_charge": 300,
-    "ammo": "NULL",
     "revert_to": "stormbringer",
     "revert_msg": "The malevolent energy fades from the cursed blade, returning it to normal",
     "category" : "weapons",

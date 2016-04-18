@@ -24,6 +24,9 @@ extern game *g;
 
 #ifdef TILES
 extern void try_sdl_update();
+extern void invalidate_map_framebuffer();
+extern void invalidate_overmap_framebuffer();
+extern void clear_window_area( WINDOW* win );
 #endif // TILES
 
 extern bool trigdist;
@@ -73,6 +76,7 @@ enum target_mode {
 enum activity_type : int;
 enum body_part : int;
 enum weather_type : int;
+enum action_id : int;
 
 struct special_game;
 struct mtype;
@@ -638,7 +642,6 @@ class game
         bool save_uistate();
         void load_uistate(std::string worldname);
         // Data Initialization
-        void init_npctalk();
         void init_fields();
         void init_faction_data();
         void init_autosave();     // Initializes autosave parameters
@@ -761,6 +764,8 @@ private:
         int  mon_info(WINDOW *); // Prints a list of nearby monsters
         void handle_key_blocking_activity(); // Abort reading etc.
         bool handle_action();
+        bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
+        bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
 
         void item_action_menu(); // Displays item action menu
 
@@ -784,6 +789,7 @@ private:
         void draw_HP();          // Draws the player's HP and Power level
         /** Draws the sidebar (if it's visible), including all windows there */
         void draw_sidebar();
+        void draw_sidebar_messages();
         void draw_pixel_minimap();  // Draws the pixel minimap based on the player's current location
 
         //  int autosave_timeout();  // If autosave enabled, how long we should wait for user inaction before saving.
@@ -793,10 +799,7 @@ private:
 
         // Input related
         // Handles box showing items under mouse
-        bool handle_mouseview(input_context &ctxt,
-                              std::string &action,
-                              const visibility_variables &cache);
-        void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
+        bool handle_mouseview( input_context &ctxt, std::string &action );
 
         // On-request draw functions
         void draw_overmap();        // Draws the overmap, allows note-taking etc.

@@ -180,6 +180,9 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
+        
+        /** Returns true if the player isn't able to see */
+        bool is_blind() const;
 
         /** Bitset of all the body parts covered only with items with `flag` (or nothing) */
         std::bitset<num_bp> exclusive_flag_coverage( const std::string &flag ) const;

@@ -86,7 +86,7 @@ void remove_construction_if( std::function<bool( construction & )> pred )
     } ), std::end( constructions ) );
 }
 
-std::vector<construction *> constructions_by_desc(const std::string &description)
+std::vector<construction *> constructions_by_desc( const std::string &description )
 {
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
@@ -104,17 +104,17 @@ void load_available_constructions( std::vector<std::string> &available,
     cat_available.clear();
     available.clear();
     for( auto &it : constructions ) {
-        if( !hide_unconstructable || can_construct(&it) ) {
+        if( !hide_unconstructable || can_construct( &it ) ) {
             bool already_have_it = false;
-            for(auto &avail_it : available ) {
-                if (avail_it == it.description) {
+            for( auto &avail_it : available ) {
+                if( avail_it == it.description ) {
                     already_have_it = true;
                     break;
                 }
             }
-            if (!already_have_it) {
-                available.push_back(it.description);
-                cat_available[it.category].push_back(it.description);
+            if( !already_have_it ) {
+                available.push_back( it.description );
+                cat_available[it.category].push_back( it.description );
             }
         }
     }
@@ -194,20 +194,20 @@ void construction_menu()
 
     const inventory &total_inv = g->u.crafting_inventory();
 
-    input_context ctxt("CONSTRUCTION");
-    ctxt.register_action("UP", _("Move cursor up"));
-    ctxt.register_action("DOWN", _("Move cursor down"));
-    ctxt.register_action("RIGHT", _("Move tab right"));
-    ctxt.register_action("LEFT", _("Move tab left"));
-    ctxt.register_action("PAGE_UP");
-    ctxt.register_action("PAGE_DOWN");
-    ctxt.register_action("SCROLL_STAGE_UP");
-    ctxt.register_action("SCROLL_STAGE_DOWN");
-    ctxt.register_action("CONFIRM");
-    ctxt.register_action("TOGGLE_UNAVAILABLE_CONSTRUCTIONS");
-    ctxt.register_action("QUIT");
-    ctxt.register_action("ANY_INPUT");
-    ctxt.register_action("HELP_KEYBINDINGS");
+    input_context ctxt( "CONSTRUCTION" );
+    ctxt.register_action( "UP", _( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
+    ctxt.register_action( "RIGHT", _( "Move tab right" ) );
+    ctxt.register_action( "LEFT", _( "Move tab left" ) );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_STAGE_UP" );
+    ctxt.register_action( "SCROLL_STAGE_DOWN" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" );
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::string hotkeys = ctxt.get_available_single_char_hotkeys();
 
@@ -574,10 +574,10 @@ void construction_menu()
     g->refresh_all();
 }
 
-bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
+bool player_can_build( player &p, const inventory &pinv, const std::string &desc )
 {
     // check all with the same desc to see if player can build any
-    std::vector<construction *> cons = constructions_by_desc(desc);
+    std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
         if( player_can_build( p, pinv, con ) ) {
             return true;
@@ -586,22 +586,22 @@ bool player_can_build(player &p, const inventory &pinv, const std::string &desc)
     return false;
 }
 
-bool player_can_build(player &p, const inventory &pinv, construction const *con)
+bool player_can_build( player &p, const inventory &pinv, construction const *con )
 {
-    if (p.has_trait("DEBUG_HS")) {
+    if( p.has_trait( "DEBUG_HS" ) ) {
         return true;
     }
 
-    if (p.skillLevel(con->skill) < con->difficulty) {
+    if( p.skillLevel( con->skill ) < con->difficulty ) {
         return false;
     }
-    return con->requirements.can_make_with_inventory(pinv);
+    return con->requirements.can_make_with_inventory( pinv );
 }
 
 bool can_construct( const std::string &desc )
 {
     // check all with the same desc to see if player can build any
-    std::vector<construction *> cons = constructions_by_desc(desc);
+    std::vector<construction *> cons = constructions_by_desc( desc );
     for( auto &con : cons ) {
         if( can_construct( con ) ) {
             return true;
@@ -610,18 +610,18 @@ bool can_construct( const std::string &desc )
     return false;
 }
 
-bool can_construct(construction const *con, int x, int y)
+bool can_construct( construction const *con, int x, int y )
 {
     // see if the special pre-function checks out
-    bool place_okay = con->pre_special(point(x, y));
+    bool place_okay = con->pre_special( point( x, y ) );
     // see if the terrain type checks out
-    if (!con->pre_terrain.empty()) {
-        if (con->pre_is_furniture) {
+    if( !con->pre_terrain.empty() ) {
+        if( con->pre_is_furniture ) {
             furn_id f = furnmap[con->pre_terrain].loadid;
-            place_okay &= (g->m.furn(x, y) == f);
+            place_okay &= ( g->m.furn( x, y ) == f );
         } else {
             ter_id t = termap[con->pre_terrain].loadid;
-            place_okay &= (g->m.ter(x, y) == t);
+            place_okay &= ( g->m.ter( x, y ) == t );
         }
     }
     // see if the flags check out
@@ -629,26 +629,26 @@ bool can_construct(construction const *con, int x, int y)
         [&](std::string const& flag) { return g->m.has_flag(flag, x, y); });
 
     // make sure the construction would actually do something
-    if (!con->post_terrain.empty()) {
-        if (con->post_is_furniture) {
+    if( !con->post_terrain.empty() ) {
+        if( con->post_is_furniture ) {
             furn_id f = furnmap[con->post_terrain].loadid;
-            place_okay &= (g->m.furn(x, y) != f);
+            place_okay &= ( g->m.furn( x, y ) != f );
         } else {
             ter_id t = termap[con->post_terrain].loadid;
-            place_okay &= (g->m.ter(x, y) != t);
+            place_okay &= ( g->m.ter( x, y ) != t );
         }
     }
     return place_okay;
 }
 
-bool can_construct(construction const *con)
+bool can_construct( construction const *con )
 {
-    for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
-        for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
-            if (x == g->u.posx() && y == g->u.posy()) {
+    for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
+        for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
+            if( x == g->u.posx() && y == g->u.posy() ) {
                 y++;
             }
-            if (can_construct(con, x, y)) {
+            if( can_construct( con, x, y ) ) {
                 return true;
             }
         }
@@ -656,16 +656,16 @@ bool can_construct(construction const *con)
     return false;
 }
 
-void place_construction(const std::string &desc)
+void place_construction( const std::string &desc )
 {
     g->refresh_all();
     const inventory &total_inv = g->u.crafting_inventory();
 
-    std::vector<construction *> cons = constructions_by_desc(desc);
+    std::vector<construction *> cons = constructions_by_desc( desc );
     std::map<tripoint, construction *> valid;
-    for (int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++) {
-        for (int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++) {
-            if (x == g->u.posx() && y == g->u.posy()) {
+    for( int x = g->u.posx() - 1; x <= g->u.posx() + 1; x++ ) {
+        for( int y = g->u.posy() - 1; y <= g->u.posy() + 1; y++ ) {
+            if( x == g->u.posx() && y == g->u.posy() ) {
                 y++;
             }
             for( auto &con : cons ) {
@@ -680,21 +680,21 @@ void place_construction(const std::string &desc)
         g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
                      g->u.pos() + g->u.view_offset );
     }
-    wrefresh(g->w_terrain);
+    wrefresh( g->w_terrain );
 
     int dirx, diry;
-    if (!choose_adjacent(_("Construct where?"), dirx, diry)) {
+    if( !choose_adjacent( _( "Construct where?" ), dirx, diry ) ) {
         return;
     }
 
     tripoint choice( dirx, diry, g->u.posz() );
-    if (valid.find(choice) == valid.end()) {
-        add_msg(m_info, _("You cannot build there!"));
+    if( valid.find( choice ) == valid.end() ) {
+        add_msg( m_info, _( "You cannot build there!" ) );
         return;
     }
 
     construction *con = valid[choice];
-    g->u.assign_activity(ACT_BUILD, con->adjusted_time(), con->id);
+    g->u.assign_activity( ACT_BUILD, con->adjusted_time(), con->id );
     g->u.activity.placement =  choice;
 }
 
@@ -703,13 +703,13 @@ void complete_construction()
     player &u = g->u;
     const construction &built = constructions[u.activity.index];
 
-    u.practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
-                    (int)(built.difficulty * 1.25) );
+    u.practice( built.skill, ( int )( ( 10 + 15 * built.difficulty ) * ( 1 + built.time / 30000.0 ) ),
+                ( int )( built.difficulty * 1.25 ) );
 
 
     // Friendly NPCs gain exp from assisting or watching...
     for( auto &elem : g->active_npc ) {
-        if (rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+        if( rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
             //If the NPC can understand what you are doing, they gain more exp
             if (elem->skillLevel(built.skill) >= built.difficulty){
                 elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
@@ -724,10 +724,10 @@ void complete_construction()
         }
     }
 
-    for (const auto &it : built.requirements.get_components()) {
+    for( const auto &it : built.requirements.get_components() ) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
-        u.consume_items(it);
+        u.consume_items( it );
     }
     for( const auto &it : built.requirements.get_tools() ) {
         u.consume_tools( it );
@@ -735,11 +735,11 @@ void complete_construction()
 
     // Make the terrain change
     int terx = u.activity.placement.x, tery = u.activity.placement.y;
-    if (built.post_terrain != "") {
-        if (built.post_is_furniture) {
-            g->m.furn_set(terx, tery, built.post_terrain);
+    if( built.post_terrain != "" ) {
+        if( built.post_is_furniture ) {
+            g->m.furn_set( terx, tery, built.post_terrain );
         } else {
-            g->m.ter_set(terx, tery, built.post_terrain);
+            g->m.ter_set( terx, tery, built.post_terrain );
         }
     }
 
@@ -759,23 +759,23 @@ bool construct::check_empty( point p_arg )
              g->m.i_at( p ).empty() && g->m.veh_at( p ) == NULL );
 }
 
-bool construct::check_support(point p)
+bool construct::check_support( point p )
 {
     // need two or more orthogonally adjacent supports
     int num_supports = 0;
-    if (g->m.impassable(p.x, p.y)) {
+    if( g->m.impassable( p.x, p.y ) ) {
         return false;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y - 1)) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", p.x, p.y - 1 ) ) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y + 1)) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", p.x, p.y + 1 ) ) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x - 1, p.y)) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", p.x - 1, p.y ) ) {
         ++num_supports;
     }
-    if (g->m.has_flag("SUPPORTS_ROOF", p.x + 1, p.y)) {
+    if( g->m.has_flag( "SUPPORTS_ROOF", p.x + 1, p.y ) ) {
         ++num_supports;
     }
     return num_supports >= 2;
@@ -802,32 +802,32 @@ bool construct::check_down_OK( point )
     return ( g->get_levz() > -OVERMAP_DEPTH );
 }
 
-void construct::done_tree(point p)
+void construct::done_tree( point p )
 {
     int x = 0, y = 0;
-    while (!choose_direction(_("Press a direction for the tree to fall in:"), x, y)) {
+    while( !choose_direction( _( "Press a direction for the tree to fall in:" ), x, y ) ) {
         // try again
     }
-    x = p.x + x * 3 + rng(-1, 1);
-    y = p.y + y * 3 + rng(-1, 1);
-    std::vector<point> tree = line_to(p.x, p.y, x, y, rng(1, 8));
+    x = p.x + x * 3 + rng( -1, 1 );
+    y = p.y + y * 3 + rng( -1, 1 );
+    std::vector<point> tree = line_to( p.x, p.y, x, y, rng( 1, 8 ) );
     for( auto &elem : tree ) {
         g->m.destroy( tripoint( elem.x, elem.y, g->get_levz() ) );
         g->m.ter_set( elem.x, elem.y, t_trunk );
     }
 }
 
-void construct::done_trunk_log(point p)
+void construct::done_trunk_log( point p )
 {
-    g->m.spawn_item(p.x, p.y, "log", rng(5, 15), 0, calendar::turn);
+    g->m.spawn_item( p.x, p.y, "log", rng( 5, 15 ), 0, calendar::turn );
 }
 
-void construct::done_trunk_plank(point p)
+void construct::done_trunk_plank( point p )
 {
-    (void)p; //unused
-    int num_logs = rng(5, 15);
+    ( void )p; //unused
+    int num_logs = rng( 5, 15 );
     for( int i = 0; i < num_logs; ++i ) {
-        iuse::cut_log_into_planks( &(g->u) );
+        iuse::cut_log_into_planks( &( g->u ) );
     }
 }
 
@@ -851,17 +851,17 @@ const vpart_str_id &vpart_from_item( const std::string &item_id )
     return frame_id;
 }
 
-void construct::done_vehicle(point p)
+void construct::done_vehicle( point p )
 {
-    std::string name = string_input_popup(_("Enter new vehicle name:"), 20);
-    if(name.empty()) {
-        name = _("Car");
+    std::string name = string_input_popup( _( "Enter new vehicle name:" ), 20 );
+    if( name.empty() ) {
+        name = _( "Car" );
     }
 
-    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p.x, p.y, 270, 0, 0);
+    vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p.x, p.y, 270, 0, 0 );
 
-    if (!veh) {
-        debugmsg ("error constructing vehicle");
+    if( !veh ) {
+        debugmsg( "error constructing vehicle" );
         return;
     }
     veh->name = name;
@@ -872,22 +872,22 @@ void construct::done_vehicle(point p)
     g->m.add_vehicle_to_cache( veh );
 }
 
-void construct::done_deconstruct(point p)
+void construct::done_deconstruct( point p )
 {
     // TODO: Make this the argument
     tripoint p3( p, g->get_levz() );
-    if (g->m.has_furn(p.x, p.y)) {
-        const furn_t &f = g->m.furn_at(p.x, p.y);
-        if (!f.deconstruct.can_do) {
-            add_msg(m_info, _("That %s can not be disassembled!"), f.name.c_str());
+    if( g->m.has_furn( p.x, p.y ) ) {
+        const furn_t &f = g->m.furn_at( p.x, p.y );
+        if( !f.deconstruct.can_do ) {
+            add_msg( m_info, _( "That %s can not be disassembled!" ), f.name.c_str() );
             return;
         }
-        if (f.deconstruct.furn_set.empty()) {
-            g->m.furn_set(p.x, p.y, f_null);
+        if( f.deconstruct.furn_set.empty() ) {
+            g->m.furn_set( p.x, p.y, f_null );
         } else {
-            g->m.furn_set(p.x, p.y, f.deconstruct.furn_set);
+            g->m.furn_set( p.x, p.y, f.deconstruct.furn_set );
         }
-        add_msg(_("You disassemble the %s."), f.name.c_str());
+        add_msg( _( "You disassemble the %s." ), f.name.c_str() );
         g->m.spawn_items( p3, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
         // Hack alert.
         // Signs have cosmetics associated with them on the submap since
@@ -896,23 +896,23 @@ void construct::done_deconstruct(point p)
         // writing from the submap.
         g->m.delete_signage( p3 );
     } else {
-        const ter_t &t = g->m.ter_at(p.x, p.y);
-        if (!t.deconstruct.can_do) {
-            add_msg(_("That %s can not be disassembled!"), t.name.c_str());
+        const ter_t &t = g->m.ter_at( p.x, p.y );
+        if( !t.deconstruct.can_do ) {
+            add_msg( _( "That %s can not be disassembled!" ), t.name.c_str() );
             return;
         }
-        if (t.id == "t_console_broken")  {
-            if (g->u.skillLevel( skill_electronics ) >= 1) {
-                g->u.practice( skill_electronics, 20, 4);
+        if( t.id == "t_console_broken" )  {
+            if( g->u.skillLevel( skill_electronics ) >= 1 ) {
+                g->u.practice( skill_electronics, 20, 4 );
             }
         }
-        if (t.id == "t_console")  {
-            if (g->u.skillLevel( skill_electronics ) >= 1) {
-                g->u.practice( skill_electronics, 40, 8);
+        if( t.id == "t_console" )  {
+            if( g->u.skillLevel( skill_electronics ) >= 1 ) {
+                g->u.practice( skill_electronics, 40, 8 );
             }
         }
-        g->m.ter_set(p.x, p.y, t.deconstruct.ter_set);
-        add_msg(_("You disassemble the %s."), t.name.c_str());
+        g->m.ter_set( p.x, p.y, t.deconstruct.ter_set );
+        add_msg( _( "You disassemble the %s." ), t.name.c_str() );
         g->m.spawn_items( p3, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );
     }
 }

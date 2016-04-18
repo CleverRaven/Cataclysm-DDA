@@ -4819,6 +4819,7 @@
   },{
     "type" : "item_group",
     "id" : "mechanics",
+    "ammo" : 100,
     "items":[
       ["polisher", 15],
       ["jumper_cable", 15],

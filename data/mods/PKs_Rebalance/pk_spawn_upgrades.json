@@ -147,25 +147,6 @@
     ]
     },{
     "type":"monstergroup",
-    "name" : "GROUP_DRONE",
-    "default" : "mon_ant",
-    "monsters" : [
-      { "monster" : "mon_ant", "freq" : 15, "cost_multiplier" : 1 },
-      { "monster" : "mon_ant_terminal", "freq" : 33, "cost_multiplier" : 5 },
-      { "monster" : "mon_ant_scrib", "freq" : 2, "cost_multiplier" : 7 }
-    ]
-    },{
-    "type":"monstergroup",
-    "name" : "GROUP_SOLDIER",
-    "default" : "mon_ant_soldier",
-    "monsters" : [
-      { "monster" : "mon_ant_soldier", "freq" : 3, "cost_multiplier" : 1 },
-      { "monster" : "mon_ant_soldier_terminal", "freq" : 18, "cost_multiplier" : 5 },
-      { "monster" : "mon_ant_soldier_pk", "freq" : 3, "cost_multiplier" : 10 },
-      { "monster" : "mon_ant_kwama", "freq" : 1, "cost_multiplier" : 12 }
-    ]
-    },{
-    "type":"monstergroup",
     "name" : "GROUP_TRIFFID_PK",
     "default" : "mon_triffid_pk",
     "//" : "triffids need a strength boost.  this is a start.",
@@ -226,6 +207,25 @@
       { "monster" : "mon_biollante_pk", "freq" : 7, "cost_multiplier" : 10 },
       { "monster" : "mon_minecraft", "freq" : 5, "cost_multiplier" : 15 },
       { "monster" : "mon_minecraft_charged", "freq" : 3, "cost_multiplier" : 20 }
+    ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_DRONE",
+    "default" : "mon_ant",
+    "monsters" : [
+      { "monster" : "mon_ant", "freq" : 15, "cost_multiplier" : 1 },
+      { "monster" : "mon_ant_terminal", "freq" : 33, "cost_multiplier" : 5 },
+      { "monster" : "mon_ant_scrib", "freq" : 2, "cost_multiplier" : 7 }
+    ]
+    },{
+    "type":"monstergroup",
+    "name" : "GROUP_SOLDIER",
+    "default" : "mon_ant_soldier",
+    "monsters" : [
+      { "monster" : "mon_ant_soldier", "freq" : 3, "cost_multiplier" : 1 },
+      { "monster" : "mon_ant_soldier_terminal", "freq" : 18, "cost_multiplier" : 5 },
+      { "monster" : "mon_ant_soldier_pk", "freq" : 3, "cost_multiplier" : 10 },
+      { "monster" : "mon_ant_kwama", "freq" : 1, "cost_multiplier" : 12 }
     ]
     }
   

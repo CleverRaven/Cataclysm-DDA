@@ -1526,7 +1526,7 @@ void monster::explode()
         //Can't gib hallucinations
         return;
     }
-    if( type->has_flag( MF_NOGIB ) || type->has_flag( MF_VERMIN ) ) {
+    if( type->has_flag( MF_NOGIB ) ) {
         return;
     }
     // Send body parts and blood all over!

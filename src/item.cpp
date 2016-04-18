@@ -4629,6 +4629,7 @@ bool item::reload( player &u, item_location loc, long qty )
 
         obj->contents.emplace_back( *ammo );
         loc.remove_item();
+        return true;
 
     } else {
         obj->set_curammo( *ammo );

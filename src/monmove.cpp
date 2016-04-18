@@ -152,7 +152,7 @@ void monster::plan( const mfactions &factions )
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
     float dist = !electronic ? 1000 : 8.6f;
     bool fleeing = false;
-    bool docile = has_flag( MF_VERMIN ) || ( friendly != 0 && has_effect( effect_docile ) );
+    bool docile = friendly != 0 && has_effect( effect_docile );
     bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
     int angers_hostile_near = ( type->anger.find( MTRIG_HOSTILE_CLOSE ) != type->anger.end() ) ? 5 : 0;
     int fears_hostile_near = ( type->fear.find( MTRIG_HOSTILE_CLOSE ) != type->fear.end() ) ? 5 : 0;
@@ -484,8 +484,10 @@ void monster::move()
     //If there are. Consume them.
     if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) ) {
         if( !g->m.i_at( pos() ).empty() ) {
-            add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                     name().c_str() );
+            if( g->u.sees( *this ) ) {
+                add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
+                         name().c_str() );
+            }
             for( auto &elem : g->m.i_at( pos() ) ) {
                 hp += elem.volume(); // Yeah this means it can get more HP than normal.
             }
@@ -1123,9 +1125,6 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
             case MS_HUGE:
                 factor = 1;
                 break;
-        }
-        if( has_flag( MF_VERMIN ) ) {
-            factor *= 100;
         }
         if( one_in( factor ) ) {
             g->m.ter_set( pos(), t_dirtmound );
