@@ -93,7 +93,6 @@
                 { "point" : "terrain", "id" : "t_dirt", "x" : [ 9, 9], "y" : [ 9,10], "repeat" : [0, 1] },
                 { "point" : "terrain", "id" : "t_dirt", "x" : [10,11], "y" : [ 9, 9], "repeat" : [0, 1] },
                 { "point" : "terrain", "id" : "t_dirt", "x" : [12,23], "y" : [ 0, 4], "repeat" : [8,14] },
-                { "point" : "terrain", "id" : "t_dirt", "x" : [14,14], "y" : [14,15], "repeat" : [0, 1] },
                 { "point" : "terrain", "id" : "t_dirt", "x" : [15,23], "y" : [20,20], "repeat" : [1, 2] },
                 { "point" : "terrain", "id" : "t_dirt", "x" : [20,23], "y" : [14,19], "repeat" : [5, 8] },
                 { "point" : "terrain", "id" : "t_dirt", "x" : [21,23], "y" : [ 5,13], "repeat" : [6, 9] }
