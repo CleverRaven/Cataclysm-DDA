@@ -1411,6 +1411,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+
+        /** Current deficiency/excess quantity for each vitamin */
+        std::map<vitamin_id, int> vitamin_levels;
 };
 
 #endif

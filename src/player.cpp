@@ -253,6 +253,10 @@ player::player() : Character()
     nv_cached = false;
     volume = 0;
 
+    for( const auto &v : vitamin::all() ) {
+        vitamin_levels[ v.first ] = 0;
+    }
+
     memorial_log.clear();
     player_stats.reset();
 
@@ -5203,6 +5207,19 @@ void player::update_body( int from, int to )
         regen( thirty_mins );
         get_sick();
         mend( thirty_mins );
+    }
+
+    // every hour we deplete one unit from each vitamin pool and check for deficiencies
+    const int hours = ticks_between( from, to, HOURS( 1 ) );
+    if( hours > 0 ) {
+        for( const auto& v : vitamin::all() ) {
+            // implementation automatically supports new vitamins as they are added
+            auto lvl = vitamin_levels[ v.first ];
+            auto eff = v.second.effect( vitamin_levels[ v.first ] = std::max( --lvl, v.first.obj().min() ) );
+            if( !eff.is_null() ) {
+                add_effect( eff, 600 );
+            }
+        }
     }
 
     if( ticks_between( from, to, HOURS(6) ) ) {
