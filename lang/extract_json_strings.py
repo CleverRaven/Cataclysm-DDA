@@ -35,6 +35,7 @@ ignorable = {
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
+    "ITEM_WHITELIST",
     "monitems",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
