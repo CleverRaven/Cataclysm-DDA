@@ -5209,12 +5209,13 @@ void player::update_body( int from, int to )
         mend( thirty_mins );
     }
 
-    // every hour we deplete one unit from each vitamin pool and check for deficiencies
-    const int hours = ticks_between( from, to, HOURS( 1 ) );
-    if( hours > 0 ) {
-        for( const auto& v : vitamin::all() ) {
-            // implementation automatically supports new vitamins as they are added
-            vitamin_mod( v.first, -1 );
+    for( const auto& v : vitamin::all() ) {
+        int rate = vitamin_rate( v.first );
+        if( rate > 0 ) {
+            int qty = ticks_between( from, to, MINUTES( rate ) );
+            if( qty > 0 ) {
+                vitamin_mod( v.first, 0 - qty );
+            }
         }
     }
 

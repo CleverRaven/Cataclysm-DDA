@@ -34,6 +34,15 @@ class vitamin
             return max_;
         }
 
+        /**
+         * Usage rate of vitamin (minutes to consume unit)
+         * Lower bound is zero whereby vitamin is not required (but may still accumulate)
+         * If unspecified in JSON a default value of 60 minutes is used
+         */
+        int rate() const {
+            return rate_;
+        }
+
         /** Get applicable status effect (if any) at @ref level */
         const efftype_id &effect( int level ) const;
 
@@ -51,6 +60,7 @@ class vitamin
         std::string name_;
         int min_;
         int max_;
+        int rate_;
         std::vector<std::pair<efftype_id, int>> deficiency_;
         std::vector<std::pair<efftype_id, int>> excess_;
 };

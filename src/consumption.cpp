@@ -91,6 +91,11 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
     return res;
 }
 
+int player::vitamin_rate( const vitamin_id& vit ) const
+{
+    const auto& v = vit.obj();
+    return v.rate();
+}
 
 int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 {
@@ -100,11 +105,18 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     }
     const auto &v = it->first.obj();
 
-    it->second = std::max( std::min( it->second + qty, capped ? 0 : v.max() ), v.min() );
+    if ( qty > 0 ) {
+        // accumulations can never occur from food sources
+        it->second = std::min( it->second + qty, capped ? 0 : v.max() );
+
+    } else if ( qty < 0 ) {
+        it->second = std::max( it->second + qty, v.min() );
+    }
 
     auto eff = v.effect( it->second );
     if( !eff.is_null() ) {
-        add_effect( eff, 600 );
+        // consumption rate may vary so extend effect until next check due for this vitamin
+        add_effect( eff, ( vitamin_rate( vit ) * 10 ) - get_effect_dur( eff ) + 1 );
     }
 
     return it->second;
