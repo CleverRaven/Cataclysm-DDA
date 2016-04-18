@@ -13,15 +13,6 @@
         ]
     },{
     "type" : "item_group",
-    "id" : "furvivor_uzi",
-    "//" : "cheap 9mm ammo",
-    "items": [
-      [ "uzimag", 4],
-      ["9mm", 1],
-      ["uzi", 5]
-    ] 
-    },{
-    "type" : "item_group",
     "id" : "pk_melee",
     "//" : "weapons, some uncommon",
     "items": [
