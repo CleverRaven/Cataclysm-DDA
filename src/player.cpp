@@ -5214,11 +5214,7 @@ void player::update_body( int from, int to )
     if( hours > 0 ) {
         for( const auto& v : vitamin::all() ) {
             // implementation automatically supports new vitamins as they are added
-            auto lvl = vitamin_levels[ v.first ];
-            auto eff = v.second.effect( vitamin_levels[ v.first ] = std::max( --lvl, v.first.obj().min() ) );
-            if( !eff.is_null() ) {
-                add_effect( eff, 600 );
-            }
+            vitamin_mod( v.first, -1 );
         }
     }
 

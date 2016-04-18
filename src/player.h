@@ -723,6 +723,23 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::map<vitamin_id, int> vitamins_from( const item& it ) const;
         std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
 
+        /**
+         * Add or subtract vitamins from player storage pools
+         * @param qty amount by which to adjust @ref vit (negative values are permitted)
+         * @param capped if true prevent vitamins which can accumulate in excess from doing so
+         * @return adjusted level for the vitamin or zero if @ref vit does not exist
+         */
+        int vitamin_mod( const vitamin_id& vit, int qty, bool capped = true );
+
+        /** Returns current level for a vitamin (or zero if @ref vit) does not exist */
+        int vitamin_get( const vitamin_id& vit ) const;
+
+        /**
+         * Sets level of a vitamin or returns false if @ref vit does not exist
+         * @note status effects are still set for deficiency/excess
+         */
+        bool vitamin_set( const vitamin_id& vit, int qty );
+
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
