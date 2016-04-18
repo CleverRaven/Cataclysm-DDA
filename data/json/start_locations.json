@@ -137,5 +137,10 @@
     "ident" : "mine_finale",
     "name" : "Bottom of a mine",
     "target" : "mine_finale"
+  },{
+    "type": "start_location",
+    "ident": "prison",
+    "name": "Prison",
+    "target": "prison_b_entrance"
   }
 ]
