@@ -109,7 +109,7 @@
     "allowed_locs" : [ "prison" ],
     "start_name" : "Prison",
     "professions" : ["convict"],
-    "forced_traits": [ "PSYCHOPATH" ],
+    "forced_traits": [ "PSYCHOPATH" ]
   },{
     "type": "scenario",
     "ident" : "mutant",
