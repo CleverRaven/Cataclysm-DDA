@@ -734,6 +734,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         int vitamin_mod( const vitamin_id& vit, int qty, bool capped = true );
 
+        /** Returns current level for a vitamin (or zero if @ref vit) does not exist */
+        int vitamin_get( const vitamin_id& vit ) const;
+
+        /**
+         * Sets level of a vitamin or returns false if @ref vit does not exist
+         * @note status effects are still set for deficiency/excess
+         */
+        bool vitamin_set( const vitamin_id& vit, int qty );
+
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
