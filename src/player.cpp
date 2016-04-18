@@ -3549,12 +3549,12 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     }
     if( veh ) {
         if(utf8_width(veh->name) < getmaxx(w)) {
-            mvwprintz( w, 1, getmaxx(w) - utf8_width(veh->name), c_ltgreen, veh->name.c_str());
+            mvwprintz( w, 1, getmaxx(w) - utf8_width(veh->name), c_ltgreen, "%s", veh->name.c_str());
         } else {
             // convert to a utf8_wrapper...
-            utf8_wrapper veh_name = veh->name.c_str();
+            utf8_wrapper veh_name = veh->name;
             // ...and print a shortened version to the screen
-            mvwprintz( w, 1, 0, c_ltgreen, veh_name.shorten(getmaxx(w)).c_str());
+            mvwprintz( w, 1, 0, c_ltgreen, "%s", veh_name.shorten(getmaxx(w)).c_str());
         }
 
         veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
