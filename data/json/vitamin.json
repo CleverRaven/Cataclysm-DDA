@@ -1,0 +1,27 @@
+[
+  {
+    "id": "calcium",
+    "type": "vitamin",
+    "name": "Calcium"
+  },
+  {
+    "id": "iron",
+    "type": "vitamin",
+    "name": "Iron"
+  },
+  {
+    "id": "vitA",
+    "type": "vitamin",
+    "name": "Vitamin A"
+  },
+  {
+    "id": "vitB",
+    "type": "vitamin",
+    "name": "Vitamin B12"
+  },
+  {
+    "id": "vitC",
+    "type": "vitamin",
+    "name": "Vitamin C"
+  }
+]

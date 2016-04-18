@@ -173,6 +173,8 @@ src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h
 src/version.h
+src/vitamin.h
+src/vitamin.cpp
 src/visitable.h
 src/weather.h
 src/weighted_list.h
