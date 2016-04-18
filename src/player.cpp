@@ -2413,9 +2413,9 @@ void player::disp_info()
     }
 
     if ((has_trait("TROGLO") && g->is_in_sunlight(pos()) &&
-         g->weather == WEATHER_SUNNY ||
+         g->weather == WEATHER_SUNNY) ||
         (has_trait("TROGLO2") && g->is_in_sunlight(pos()) &&
-         g->weather != WEATHER_SUNNY )) {
+         g->weather != WEATHER_SUNNY)) {
         effect_name.push_back(_("In Sunlight"));
         effect_text.push_back(_("The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1"));
@@ -7948,27 +7948,27 @@ void player::suffer()
         }
     }
 
-    if( ( has_trait( "TROGLO" ) || has_trait( "TROGLO2" ) ) &&
-        g->is_in_sunlight( pos() ) && g->weather == WEATHER_SUNNY {
+    if((has_trait("TROGLO") || has_trait("TROGLO2")) &&
+        g->is_in_sunlight(pos()) && g->weather == WEATHER_SUNNY) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
-        add_miss_reason( _( "The sunlight distracts you." ), 1 );
+        add_miss_reason(_("The sunlight distracts you."), 1);
         mod_int_bonus(-1);
         mod_per_bonus(-1);
     }
-    if( has_trait( "TROGLO2" ) && g->is_in_sunlight( pos() ) && {
+    if (has_trait("TROGLO2") && g->is_in_sunlight(pos())) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
-        add_miss_reason( _( "The sunlight distracts you." ), 1 );
+        add_miss_reason(_("The sunlight distracts you."), 1);
         mod_int_bonus(-1);
         mod_per_bonus(-1);
     }
-    if( has_trait( "TROGLO3" ) && g->is_in_sunlight( pos() ) && {
+    if (has_trait("TROGLO3") && g->is_in_sunlight(pos())) {
         mod_str_bonus(-4);
         mod_dex_bonus(-4);
-        add_miss_reason( _( "You can't stand the sunlight!" ), 4 );
+        add_miss_reason(_("You can't stand the sunlight!"), 4);
         mod_int_bonus(-4);
-        mod_per_bonus(-4);
+        mod_per_bonus(-4); 
     }
 
     if (has_trait("SORES")) {
