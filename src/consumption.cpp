@@ -6,6 +6,7 @@
 #include "morale_types.h"
 #include "itype.h"
 #include "messages.h"
+#include "material.h"
 #include "addiction.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -51,6 +52,45 @@ int player::nutrition_for( const itype *comest ) const
 {
     return ( comest && comest->comestible ) ? comest->comestible->nutr : 0;
 }
+
+std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
+{
+    return vitamins_from( item( id ) );
+}
+
+std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
+{
+    std::map<vitamin_id, int> res;
+
+    if( !it.type->comestible ) {
+        return res;
+    }
+
+    // food that is unhealthy or which player is allergic to never contains any vitamins
+    double healthy = it.type->comestible->healthy;
+    if( healthy < 0 || allergy_type( it ) != MORALE_NULL ) {
+        return res;
+    }
+
+    healthy = std::max( it.type->comestible->healthy, 1 ) * 10;
+
+    // don't consider the vitamin contents of inedible materials
+    // @todo migrate non-edible comestibles to appropriate alternative types
+    auto mat = it.type->materials;
+    mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
+        return !m.obj().edible();
+    } ), mat.end() );
+
+    // for comestibles composed of multiple edible materials we calculate the average
+    for( const auto &v : vitamin::all() ) {
+        for( const auto &m : mat ) {
+            res[ v.first ] += ( m.obj().vitamin( v.first ) * healthy / mat.size() );
+        }
+    }
+
+    return res;
+}
+
 
 float player::metabolic_rate_base() const
 {
