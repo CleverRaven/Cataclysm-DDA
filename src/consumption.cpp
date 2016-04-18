@@ -74,19 +74,19 @@ std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
     }
 
     // @todo bionics and mutations can affect vitamin absorption
-    for( const auto& e: it.type->comestible->vitamins ) {
+    for( const auto &e : it.type->comestible->vitamins ) {
         res.emplace( e.first, e.second );
     }
 
     return res;
 }
 
-int player::vitamin_rate( const vitamin_id& vit ) const
+int player::vitamin_rate( const vitamin_id &vit ) const
 {
     int res = vit.obj().rate();
 
-    for( const auto& m : get_mutations() ) {
-        const auto& mut = mutation_branch::get( m );
+    for( const auto &m : get_mutations() ) {
+        const auto &mut = mutation_branch::get( m );
         auto iter = mut.vitamin_rates.find( vit );
         if( iter != mut.vitamin_rates.end() ) {
             res += iter->second;
@@ -104,11 +104,11 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     }
     const auto &v = it->first.obj();
 
-    if ( qty > 0 ) {
+    if( qty > 0 ) {
         // accumulations can never occur from food sources
         it->second = std::min( it->second + qty, capped ? 0 : v.max() );
 
-    } else if ( qty < 0 ) {
+    } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
     }
 
@@ -121,13 +121,13 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     return it->second;
 }
 
-int player::vitamin_get( const vitamin_id& vit ) const
+int player::vitamin_get( const vitamin_id &vit ) const
 {
-    const auto& v = vitamin_levels.find( vit );
+    const auto &v = vitamin_levels.find( vit );
     return v != vitamin_levels.end() ? v->second : 0;
 }
 
-bool player::vitamin_set( const vitamin_id& vit, int qty )
+bool player::vitamin_set( const vitamin_id &vit, int qty )
 {
     auto v = vitamin_levels.find( vit );
     if( v == vitamin_levels.end() ) {
