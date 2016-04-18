@@ -6,12 +6,13 @@
 #include "bodypart.h"
 #include "color.h"
 #include "string_id.h"
-#include "vitamin.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <unordered_map>
 
+class vitamin;
+using vitamin_id = string_id<vitamin>;
 class martialart;
 using matype_id = string_id<martialart>;
 struct dream;

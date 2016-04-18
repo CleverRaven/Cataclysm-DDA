@@ -14,6 +14,7 @@
 #include "mapdata.h"
 #include "debug.h"
 #include "field.h"
+#include "vitamin.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min

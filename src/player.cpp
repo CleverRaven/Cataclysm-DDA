@@ -49,6 +49,7 @@
 #include "npc.h"
 #include "cata_utility.h"
 #include "overlay_ordering.h"
+#include "vitamin.h"
 
 #include <map>
 
