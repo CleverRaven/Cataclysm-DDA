@@ -134,8 +134,7 @@
       ["rm451_flamethrower", 5],
       ["m3_carlgustav", 5],
       ["portal", 5],
-      ["teleporter", 5],
-      ["pokeball", 5]
+      ["teleporter", 5]
     ]
     },{
         "type" : "item_group",
