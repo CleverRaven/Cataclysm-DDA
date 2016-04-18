@@ -531,6 +531,11 @@ bool player::eat( item &food, bool force )
         vomit();
     }
 
+    for( const auto &v : this->vitamins_from( food ) ) {
+        // can never develop hypervitaminosis from consuming food
+        vitamin_levels[ v.first ] = std::min( vitamin_levels[ v.first ] + v.second, 0 );
+    }
+
     return true;
 }
 
