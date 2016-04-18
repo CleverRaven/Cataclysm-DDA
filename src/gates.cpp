@@ -7,7 +7,6 @@
 #include "json.h"
 
 #include <string>
-#include <ctime>
 
 namespace
 {

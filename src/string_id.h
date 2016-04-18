@@ -3,8 +3,6 @@
 
 #include <string>
 #include <type_traits>
-#include <memory>
-#include "debug.h"
 
 template<typename T>
 class int_id;
