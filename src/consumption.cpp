@@ -57,7 +57,7 @@ int player::nutrition_for( const itype *comest ) const
 
 std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
 {
-    return vitamins_from( item( item::find_type( id ) ) );
+    return vitamins_from( item( id ) );
 }
 
 std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
