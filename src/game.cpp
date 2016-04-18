@@ -8395,8 +8395,8 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     } else {
         mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
                   m.move_cost(lp) * 50);
-        float rawll = std::max(1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at(lp) + 1.0);
-        const auto ll = get_light_level(rawll);
+
+        const auto ll = get_light_level(std::max(1.0, LIGHT_AMBIENT_LIT - m.ambient_light_at(lp) + 1.0));
         mvwprintw(w_look, ++line, column, _("Lighting: "));
         wprintz(w_look, ll.second, ll.first.c_str());
     }
