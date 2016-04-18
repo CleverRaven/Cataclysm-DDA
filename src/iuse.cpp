@@ -885,13 +885,6 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::vitamins(player *p, item *it, bool, const tripoint& )
-{
-    p->add_msg_if_player(_("You take some vitamins."));
-    p->mod_healthy_mod(50, 50);
-    return it->type->charges_to_use();
-}
-
 int iuse::vaccine(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You inject the vaccine."));

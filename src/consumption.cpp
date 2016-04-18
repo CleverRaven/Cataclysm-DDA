@@ -6,7 +6,9 @@
 #include "morale_types.h"
 #include "itype.h"
 #include "messages.h"
+#include "material.h"
 #include "addiction.h"
+#include "mutation.h"
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -15,6 +17,7 @@
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
+const efftype_id effect_tapeworm( "tapeworm" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -50,6 +53,89 @@ int player::stomach_capacity() const
 int player::nutrition_for( const itype *comest ) const
 {
     return ( comest && comest->comestible ) ? comest->comestible->nutr : 0;
+}
+
+std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
+{
+    return vitamins_from( item( id ) );
+}
+
+std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
+{
+    std::map<vitamin_id, int> res;
+
+    if( !it.type->comestible ) {
+        return res;
+    }
+
+    // food to which the player is allergic to never contains any vitamins
+    if( allergy_type( it ) != MORALE_NULL ) {
+        return res;
+    }
+
+    // @todo bionics and mutations can affect vitamin absorption
+    for( const auto& e: it.type->comestible->vitamins ) {
+        res.emplace( e.first, e.second );
+    }
+
+    return res;
+}
+
+int player::vitamin_rate( const vitamin_id& vit ) const
+{
+    int res = vit.obj().rate();
+
+    for( const auto& m : get_mutations() ) {
+        const auto& mut = mutation_branch::get( m );
+        auto iter = mut.vitamin_rates.find( vit );
+        if( iter != mut.vitamin_rates.end() ) {
+            res += iter->second;
+        }
+    }
+
+    return std::max( res, 0 );
+}
+
+int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
+{
+    auto it = vitamin_levels.find( vit );
+    if( it == vitamin_levels.end() ) {
+        return 0;
+    }
+    const auto &v = it->first.obj();
+
+    if ( qty > 0 ) {
+        // accumulations can never occur from food sources
+        it->second = std::min( it->second + qty, capped ? 0 : v.max() );
+
+    } else if ( qty < 0 ) {
+        it->second = std::max( it->second + qty, v.min() );
+    }
+
+    auto eff = v.effect( it->second );
+    if( !eff.is_null() ) {
+        // consumption rate may vary so extend effect until next check due for this vitamin
+        add_effect( eff, ( vitamin_rate( vit ) * 10 ) - get_effect_dur( eff ) + 1 );
+    }
+
+    return it->second;
+}
+
+int player::vitamin_get( const vitamin_id& vit ) const
+{
+    const auto& v = vitamin_levels.find( vit );
+    return v != vitamin_levels.end() ? v->second : 0;
+}
+
+bool player::vitamin_set( const vitamin_id& vit, int qty )
+{
+    auto v = vitamin_levels.find( vit );
+    if( v == vitamin_levels.end() ) {
+        return false;
+    }
+    vitamin_mod( vit, qty - v->second, false );
+
+    return true;
 }
 
 float player::metabolic_rate_base() const
@@ -160,6 +246,13 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     if( comest == nullptr ) {
         maybe_print( m_info, _( "That doesn't look edible." ) );
         return INEDIBLE;
+    }
+
+    for( const auto &m : food.type->materials ) {
+        if( !m.obj().edible() ) {
+            maybe_print( m_info, _( "That doesn't look edible in it's current form." ) );
+            return INEDIBLE;
+        }
     }
 
     if( comest->tool != "null" ) {
@@ -480,6 +573,13 @@ bool player::eat( item &food, bool force )
 
     if( will_vomit ) {
         vomit();
+    }
+
+    for( const auto &v : this->vitamins_from( food ) ) {
+        auto qty = has_effect( effect_tapeworm ) ? v.second / 2 : v.second;
+
+        // can never develop hypervitaminosis from consuming food
+        vitamin_mod( v.first, qty );
     }
 
     return true;

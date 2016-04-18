@@ -70,6 +70,13 @@ void material_type::load_material( JsonObject &jsobj )
     mat._fire_resist = jsobj.get_int( "fire_resist" );
     mat._chip_resist = jsobj.get_int( "chip_resist" );
     mat._density = jsobj.get_int( "density" );
+    mat._edible = jsobj.get_bool( "edible", false );
+
+    auto arr = jsobj.get_array( "vitamins" );
+    while( arr.has_more() ) {
+        auto pair = arr.next_array();
+        mat._vitamins.emplace( vitamin_id( pair.get_string( 0 ) ), pair.get_float( 1 ) );
+    }
 
     JsonArray jsarr = jsobj.get_array( "dmg_adj" );
     mat._dmg_adj[0] = _( jsarr.next_string().c_str() );
@@ -189,4 +196,9 @@ int material_type::chip_resist() const
 int material_type::density() const
 {
     return _density;
+}
+
+bool material_type::edible() const
+{
+    return _edible;
 }

@@ -620,6 +620,8 @@ void player::serialize(JsonOut &json) const
     // Player only, books they have read at least once.
     json.member( "items_identified", items_identified );
 
+    json.member( "vitamin_levels", vitamin_levels );
+
     morale->store( json );
 
     // mission stuff
@@ -748,6 +750,13 @@ void player::deserialize(JsonIn &jsin)
 
     items_identified.clear();
     data.read( "items_identified", items_identified );
+
+    auto vits = data.get_object( "vitamin_levels" );
+    for( const auto& v : vitamin::all() ) {
+        int lvl = vits.get_int( v.first.str(), 0 );
+        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
+        vitamin_levels[ v.first ] = lvl;
+    }
 
     morale->load( data );
 

@@ -4346,39 +4346,36 @@ void game::debug()
                         smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
                         smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
                         smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
+
+                        const auto& vits = vitamin::all();
+                        for( const auto& v : vits ) {
+                            smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
+                        }
+
                         smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                         smenu.selected = 0;
                         smenu.query();
-                        int cur;
-                        bool valid = false;
+
                         switch( smenu.ret ) {
                             case 0:
-                                cur = p.get_hunger();
-                                valid = true;
+                                p.set_hunger( query_int( "Set hunger to? Currently: %d", p.get_hunger() ) );
                                 break;
+
                             case 1:
-                                cur = p.get_thirst();
-                                valid = true;
+                                p.set_thirst( query_int( "Set thirst to? Currently: %d", p.get_thirst() ) );
                                 break;
+
                             case 2:
-                                cur = p.get_fatigue();
-                                valid = true;
+                                p.set_fatigue( query_int( "Set fatigue to? Currently: %d", p.get_fatigue() ) );
                                 break;
+
                             default:
-                                break;
-                        }
-                        if( valid ) {
-                            int value = query_int( "Set the value to? Currently: %d", cur );
-                            switch( smenu.ret ) {
-                                case 0:
-                                    p.set_hunger( value );
-                                    break;
-                                case 1:
-                                    p.set_thirst( value );
-                                    break;
-                                case 2:
-                                    p.set_fatigue( value );
-                            }
+                                if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
+                                    auto iter = std::next( vits.begin(), smenu.ret - 3 );
+                                    p.vitamin_set( iter->first, query_int( "Set %s to? Currently: %d",
+                                                                           iter->second.name().c_str(),
+                                                                           p.vitamin_get( iter->first ) ) );
+                                }
                         }
 
                     }
