@@ -162,6 +162,15 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return INEDIBLE;
     }
 
+    if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
+        for( const auto &m : food.type->materials ) {
+            if( !m.obj().edible() ) {
+                maybe_print( m_info, _( "That doesn't look edible in it's current form." ) );
+                return INEDIBLE;
+            }
+        }
+    }
+
     if( comest->tool != "null" ) {
         bool has = has_amount( comest->tool, 1 );
         if( item::count_by_charges( comest->tool ) ) {

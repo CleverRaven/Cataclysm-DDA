@@ -37,6 +37,7 @@
         "fire_resist" : 1,
         "chip_resist" : 2,
         "density" : 4,
+        "edible": true,
         "vitamins": [
           [ "vitA", 1.0 ],
           [ "vitC", 0.5 ]
@@ -60,6 +61,7 @@
         "fire_resist" : 1,
         "chip_resist" : 1,
         "density" : 4,
+        "edible": true,
         "vitamins" : [
             [ "vitC", 2.0 ]
         ]
@@ -81,7 +83,8 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "wheat",
@@ -101,6 +104,7 @@
         "fire_resist" : 0,
         "chip_resist" : 1,
         "density" : 4,
+        "edible": true,
         "vitamins": [
           [ "vitB", 1.0 ]
         ]
@@ -122,7 +126,8 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 2,
-        "density" : 4
+        "density" : 4,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "flesh",
@@ -142,6 +147,7 @@
         "fire_resist" : 1,
         "chip_resist" : 2,
         "density" : 5,
+        "edible": true,
         "vitamins" : [
           [ "vitB", 1.0 ],
           [ "iron", 2.0 ]
@@ -183,7 +189,8 @@
         "elec_resist" : 0,
         "fire_resist" : 1,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "milk",
@@ -203,6 +210,7 @@
         "fire_resist" : 1,
         "chip_resist" : 0,
         "density" : 1,
+        "edible": true,
         "vitamins" : [
           [ "vitB", 0.5 ],
           [ "calcium", 1.0 ]
@@ -226,6 +234,7 @@
         "fire_resist" : 1,
         "chip_resist" : 2,
         "density" : 5,
+        "edible": true,
         "vitamins" : [
           [ "calcium", 1.0 ]
         ]
@@ -248,6 +257,7 @@
         "fire_resist" : 1,
         "chip_resist" : 2,
         "density" : 5,
+        "edible": true,
         "vitamins" : [
           [ "vitB", 1.0 ],
           [ "iron", 2.0 ]
@@ -758,6 +768,7 @@
         "fire_resist" : 1,
         "chip_resist" : 1,
         "density" : 3,
+        "edible": true,
         "vitamins" : [
           [ "vitA", 0.5 ],
           [ "vitB", 0.5 ],
@@ -820,7 +831,8 @@
         "elec_resist" : 0,
         "fire_resist" : 0,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "oil",
@@ -839,7 +851,8 @@
         "elec_resist" : 0,
         "fire_resist" : 0,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "hydrocarbons",
