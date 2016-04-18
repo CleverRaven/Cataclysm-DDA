@@ -2,7 +2,7 @@
 #define VITAMIN_H
 
 #include "json.h"
-#include "string_id.h"
+#include "effect.h"
 
 class vitamin;
 using vitamin_id = string_id<vitamin>;
@@ -24,6 +24,19 @@ class vitamin
             return name_;
         }
 
+        /** Lower bound for deficiency of this vitamin */
+        int min() const {
+            return min_;
+        }
+
+        /** Upper bound for any accumulation of this vitamin */
+        int max() const {
+            return max_;
+        }
+
+        /** Get applicable status effect (if any) at @ref level */
+        const efftype_id &effect( int level ) const;
+
         /** Load vitamin from JSON definition */
         static void load_vitamin( JsonObject &jo );
 
@@ -36,6 +49,10 @@ class vitamin
     private:
         vitamin_id id_;
         std::string name_;
+        int min_;
+        int max_;
+        std::vector<std::pair<efftype_id, int>> deficiency_;
+        std::vector<std::pair<efftype_id, int>> excess_;
 };
 
 #endif
