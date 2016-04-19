@@ -12,7 +12,7 @@
     "price": 5000,
     "bashing": 8,
     "to_hit": -2,
-    "qualities": [ ["JACK", 3 ] ]
+    "qualities": [ ["JACK", 6 ] ]
   },
   {
     "id": "jack_small",
@@ -27,7 +27,7 @@
     "price": 5000,
     "bashing": 4,
     "to_hit": -2,
-    "qualities": [ ["JACK", 1 ] ]
+    "qualities": [ ["JACK", 2 ] ]
   },
   {
     "id": "oxy_torch",
