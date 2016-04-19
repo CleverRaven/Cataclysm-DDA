@@ -12,7 +12,6 @@
     "volume": 86,
     "bashing": 10,
     "to_hit": -5,
-    "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
@@ -38,7 +37,6 @@
     "bashing": 0,
     "cutting": 6,
     "to_hit": -1,
-    "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0

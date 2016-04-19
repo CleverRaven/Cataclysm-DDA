@@ -2493,7 +2493,6 @@
         "weight": 6,
         "volume": 0,
         "to_hit": -3,
-        "max_charges": 0,
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0
@@ -2512,7 +2511,6 @@
         "weight": 6,
         "volume": 0,
         "to_hit": -3,
-        "max_charges": 0,
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0
@@ -2531,7 +2529,6 @@
         "weight": 6,
         "volume": 0,
         "to_hit": -3,
-        "max_charges": 0,
         "initial_charges": 0,
         "charges_per_use": 0,
         "turns_per_charge": 0

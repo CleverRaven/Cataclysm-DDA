@@ -15,7 +15,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "max_charges": 0,
     "category" : "spare_parts",
     "use_action": "NONE"
   },{
@@ -34,7 +33,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "max_charges": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blob",
@@ -62,7 +60,6 @@
     "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "max_charges": 0,
     "category": "tools",
     "use_action": {
         "type": "place_monster",
