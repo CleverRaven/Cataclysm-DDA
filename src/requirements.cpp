@@ -391,7 +391,7 @@ bool requirement_data::has_comps( const inventory &crafting_inv,
 
 bool quality_requirement::has( const inventory &crafting_inv, int ) const
 {
-    return crafting_inv.has_items_with_quality( type, level, count );
+    return crafting_inv.has_quality( type, level, count );
 }
 
 std::string quality_requirement::get_color( bool, const inventory &, int ) const
@@ -541,7 +541,7 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
         }
         // This item can be used for the quality requirement, same as above for specific
         // tools applies.
-        if( !crafting_inv.has_items_with_quality( qr->type, qr->level, qr->count + abs( comp.count ) ) ) {
+        if( !crafting_inv.has_quality( qr->type, qr->level, qr->count + abs( comp.count ) ) ) {
             comp.available = a_insufficent;
         }
     }

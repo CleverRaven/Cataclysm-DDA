@@ -72,7 +72,7 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
 }
 
 template <typename T>
-bool visitable<T>::has_items_with_quality( const std::string &qual, int level, int qty ) const
+bool visitable<T>::has_quality( const std::string &qual, int level, int qty ) const
 {
     visit_items( [&qual, level, &qty]( const item *e ) {
         if( e->get_quality( qual ) >= level ) {

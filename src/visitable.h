@@ -60,7 +60,7 @@ class visitable
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
 
         /** Returns true if instance has amount (or more) items of at least quality level */
-        bool has_items_with_quality( const std::string &qual, int level = 1, int amount = 1 ) const;
+        bool has_quality( const std::string &qual, int level = 1, int qty = 1 ) const;
 
         /**
          * Count maximum available charges from this instance and any contained items
