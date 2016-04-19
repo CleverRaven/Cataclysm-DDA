@@ -387,7 +387,7 @@ void veh_interact::cache_tool_availability()
 
     max_lift = std::max( { g->u.max_quality( "LIFT" ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( "LIFT" ),
-                           vehicle_selector(g->u.pos(), 1 ).max_quality( "LIFT" ) } ) * 1000000;
+                           vehicle_selector(g->u.pos(), 1, *veh ).max_quality( "LIFT" ) } ) * 1000000;
 }
 
 /**

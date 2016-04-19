@@ -34,6 +34,14 @@ class vehicle_selector : public visitable<vehicle_selector>
          */
         vehicle_selector( const tripoint &pos, int radius = 0 );
 
+        /**
+         *  Constructs vehicle_selector used for querying items located on vehicle tiles
+         *  @param pos map position at which to start each query which may or may not contain vehicle
+         *  @param radius number of adjacent tiles to include (searching from pos outwards)
+         *  @param ignore don't include this vehicle as part of the selection
+         */
+        vehicle_selector( const tripoint &pos, int radius, const vehicle &ignore );
+
         // similar to item_location you are not supposed to store this class between turns
         vehicle_selector( const vehicle_selector &that ) = delete;
         vehicle_selector &operator=( const vehicle_selector & ) = delete;

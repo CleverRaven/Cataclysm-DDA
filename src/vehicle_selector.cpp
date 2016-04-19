@@ -14,3 +14,14 @@ vehicle_selector::vehicle_selector( const tripoint &pos, int radius )
         }
     }
 }
+
+vehicle_selector::vehicle_selector( const tripoint &pos, int radius, const vehicle &ignore )
+{
+    for( const auto &e : closest_tripoints_first( radius, pos ) ) {
+        int part = -1;
+        vehicle *veh = g->m.veh_at( e, part );
+        if( veh && veh != &ignore && part >= 0 ) {
+            data.emplace_back( *veh, part );
+        }
+    }
+}
