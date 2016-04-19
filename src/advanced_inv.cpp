@@ -1601,10 +1601,10 @@ void advanced_inventory::display()
             recalc = true;
         } else if( action == "SORT" ) {
             if( show_sort_menu( spane ) ) {
-                redraw = true;
                 recalc = true;
                 uistate.adv_inv_sort[src] = spane.sortby;
             }
+            redraw = true;
         } else if( action == "FILTER" ) {
             long key = 0;
             int spos = -1;
