@@ -6817,6 +6817,8 @@ void vehicle_part::properties_from_item( const item &used_item )
     const vpart_info &vpinfo = info();
     if( used_item.is_var_veh_part() ) {
         bigness = used_item.bigness;
+    } else if( used_item.is_engine() ) {
+        bigness = used_item.get_var( "engine_displacement", -1 );
     }
     // item damage is 0,1,2,3, or 4. part hp is 1..durability.
     // assuming it rusts. other item materials disintegrate at different rates...
@@ -6843,6 +6845,8 @@ item vehicle_part::properties_to_item() const
     item tmp( vpinfo.item, calendar::turn );
     if( tmp.is_var_veh_part() ) {
         tmp.bigness = bigness;
+    } else if( tmp.is_engine() ) {
+        tmp.set_var( "engine_displacement", bigness );
     }
     // tools go unloaded to prevent user from exploiting this to
     // refill their (otherwise not refillable) tools
