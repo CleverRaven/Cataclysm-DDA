@@ -653,7 +653,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
 
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    bool has_digging_tool = p.has_items_with_quality( "DIG", 2, 1 );
+    bool has_digging_tool = p.has_quality( "DIG", 2 );
     if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
@@ -680,7 +680,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 void iexamine::crate(player &p, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_items_with_quality( "PRY", 1, 1 );
+    bool has_prying_tool = p.crafting_inventory().has_quality( "PRY", 1 );
     if( !has_prying_tool ) {
         add_msg( m_info, _("If only you had a crowbar...") );
         return;
@@ -1362,7 +1362,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
         return;
     }
 
-    if( !p.has_items_with_quality( "DIG", 1, 1 ) ) {
+    if( !p.has_quality( "DIG" ) ) {
         none( p, examp );
         add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
         return;
@@ -2263,7 +2263,7 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     if( !( p.skillLevel( skill_survival ) > 0 ) ) {
         return;
     }
-    if( !p.has_items_with_quality( "DIG", 1, 1 ) ) {
+    if( !p.has_quality( "DIG" ) ) {
         add_msg(m_info, _("You have no tool to dig with..."));
         return;
     }

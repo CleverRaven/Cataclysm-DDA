@@ -340,12 +340,12 @@ void veh_interact::cache_tool_availability()
     int charges = charges_per_use( "welder" );
     int charges_oxy = charges_per_use( "oxy_torch" );
     int charges_crude = charges_per_use( "welder_crude" );
-    has_screwdriver = crafting_inv.has_items_with_quality( "SCREW", 1, 1 );
-    has_wrench = crafting_inv.has_items_with_quality( "WRENCH", 1, 1 );
-    has_hammer = crafting_inv.has_items_with_quality( "HAMMER", 1, 1 );
+    has_screwdriver = crafting_inv.has_quality( "SCREW" );
+    has_wrench = crafting_inv.has_quality( "WRENCH" );
+    has_hammer = crafting_inv.has_quality( "HAMMER" );
     has_nailgun = crafting_inv.has_tools("nailgun", 1);
-    has_goggles = (g->u.has_bionic("bio_sunglasses") || crafting_inv.has_items_with_quality( "GLARE", 2, 1 ));
-    has_hacksaw = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) ||
+    has_goggles = (g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( "GLARE", 2 ));
+    has_hacksaw = crafting_inv.has_quality( "SAW_M_FINE" ) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                    crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
                   (crafting_inv.has_tools("oxy_torch", 1) &&
@@ -2325,9 +2325,9 @@ void complete_vehicle ()
     int welder_oxy_charges = charges_per_use( "oxy_torch" );
     int welder_crude_charges = charges_per_use( "welder_crude" );
     const inventory &crafting_inv = g->u.crafting_inventory();
-    const bool has_goggles = g->u.has_bionic("bio_sunglasses") || crafting_inv.has_items_with_quality( "GLARE", 2, 1 );
-    const bool has_screwdriver = crafting_inv.has_items_with_quality( "SCREW", 1, 1 );
-    const bool has_wrench = crafting_inv.has_items_with_quality( "WRENCH", 1, 1 );
+    const bool has_goggles = g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( "GLARE", 2 );
+    const bool has_screwdriver = crafting_inv.has_quality( "SCREW" );
+    const bool has_wrench = crafting_inv.has_quality( "WRENCH" );
 
 
 
@@ -2462,14 +2462,14 @@ void complete_vehicle ()
     case 'o':
         // Only parts that use charges
         if (!(is_wrenchable && has_wrench) && !(is_screwable && has_screwdriver) && !is_hand_remove && !is_wheel){
-            if( !crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 ) && (is_wood && !crafting_inv.has_items_with_quality("HAMMER", 1, 1))) {
+            if( !crafting_inv.has_quality( "SAW_M_FINE" ) && ( is_wood && !crafting_inv.has_quality( "HAMMER") ) ) {
                 tools.push_back(tool_comp("circsaw_off", 20));
                 tools.push_back(tool_comp("oxy_torch", 10));
                 g->u.consume_tools(tools);
             }
         }
         // Nails survive if pulled out with pliers or a claw hammer. TODO: implement PLY tool quality and random chance based on skill/quality
-        /*if(is_wood && crafting_inv.has_items_with_quality("HAMMER", 1, 1)) {
+        /*if( is_wood && crafting_inv.has_quality( "HAMMER" ) ) {
             item return_nails("nail");
             return_nails.charges = 10;
             g->m.add_item_or_charges( g->u.posx, g->u.posy, return_nails );
