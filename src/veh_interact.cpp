@@ -473,7 +473,7 @@ task_reason veh_interact::cant_do (char mode)
     case 'c': // change tire
         valid_target = wheel != NULL;
         ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
-        has_tools = has_wrench && ( g->u.can_lift( *veh ) || has_jack ) && has_wheel;
+        has_tools = has_wrench && has_wheel && ( g->u.can_lift( *veh ) || has_jack );
         break;
     case 'a': // relabel
         valid_target = cpart >= 0;
