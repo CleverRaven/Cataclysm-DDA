@@ -12,7 +12,6 @@
     "volume": 0,
     "bashing": 0,
     "to_hit": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "spare_parts",
@@ -30,7 +29,6 @@
     "volume": 1,
     "bashing": 0,
     "to_hit": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
@@ -57,7 +55,6 @@
     "volume": 15,
     "bashing": 0,
     "to_hit": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "category": "tools",
