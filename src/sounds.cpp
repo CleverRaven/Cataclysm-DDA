@@ -1000,7 +1000,7 @@ void sfx::play_panic_music() { }
 void sfx::play_wilderness_music() { }
 void sfx::play_outskirts_music() { }
 void sfx::play_city_music() { }
-int sfx::play_special_music(std::string) { }
+int sfx::play_special_music(std::string) { return -1; }
 /*@}*/
 
 #endif // ifdef SDL_SOUND
