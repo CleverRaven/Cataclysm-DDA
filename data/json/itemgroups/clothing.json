@@ -190,13 +190,88 @@
     ]
   },
   {
-    "id": "clothing_work",
+    "id": "clothing_technician",
     "type": "item_group",
-    "//": "Equipment, used for heavy labour.",
+    "subtype": "distribution",
     "items": [
-      [ "boots", 35 ],
-      [ "glasses_safety", 50 ],
-      [ "hat_hard", 100 ]
+      { "collection": [
+        { "item": "technician_shirt_blue" },
+        { "item": "technician_pants_blue" }
+      ], "prob": 50 },
+      { "collection": [
+        { "item": "technician_shirt_ltblue" },
+        { "item": "technician_pants_ltblue" }
+      ], "prob": 30 },
+      { "collection": [
+        { "item": "technician_shirt_gray" },
+        { "item": "technician_pants_gray" }
+      ], "prob": 20 }
+    ]
+  },
+  {
+    "id": "clothing_work_boots",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "boots", "prob": 70 },
+      { "item": "boots_hiking", "prob": 10 },
+      { "item": "boots_steel", "prob": 20 }
+    ]
+  },
+  {
+    "id": "clothing_work_glasses",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "glasses_safety", "prob": 85 },
+      { "item": "goggles_welding", "prob": 15 }
+    ]
+  },
+  {
+    "id": "clothing_work_gloves",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_leather", "prob": 30 },
+      { "item": "gloves_rubber", "prob": 10 },
+      { "item": "gloves_work", "prob": 60 }
+    ]
+  },
+  {
+    "id": "clothing_work_hat",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hat_hard", "prob": 85 },
+      { "item": "hat_hard_hooded", "prob": 15 }
+    ]
+  },
+  {
+    "id": "clothing_work_mask",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mask_dust", "prob": 90 },
+      { "item": "mask_filter", "prob": 10 }
+    ]
+  },
+  {
+    "id": "clothing_work_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Equipment used for heavy labour",
+    "items": [
+      { "group": "clothing_work_boots" },
+      { "group": "clothing_work_glasses", "prob": 60 },
+      { "group": "clothing_work_gloves", "prob": 75 },
+      { "group": "clothing_work_hat", "prob": 60 },
+      { "group": "clothing_work_mask", "prob": 40 },
+      { "item": "ear_plugs", "prob": 15 },
+      { "item": "tool_belt", "prob": 20 },
+      { "distribution": [
+        { "group": "clothing_technician", "prob": 40 },
+        { "item": "jumpsuit", "prob": 60 }
+      ] }
     ]
   }
 ]
