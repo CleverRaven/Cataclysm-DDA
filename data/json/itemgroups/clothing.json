@@ -190,25 +190,6 @@
     ]
   },
   {
-    "id": "clothing_technician",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [
-      { "collection": [
-        { "item": "technician_shirt_blue" },
-        { "item": "technician_pants_blue" }
-      ], "prob": 50 },
-      { "collection": [
-        { "item": "technician_shirt_ltblue" },
-        { "item": "technician_pants_ltblue" }
-      ], "prob": 30 },
-      { "collection": [
-        { "item": "technician_shirt_gray" },
-        { "item": "technician_pants_gray" }
-      ], "prob": 20 }
-    ]
-  },
-  {
     "id": "clothing_work_boots",
     "type": "item_group",
     "subtype": "distribution",
@@ -222,8 +203,8 @@
     "id": "clothing_work_glasses",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [,
-      { "item": "clothing_glasses", "prob": 10 }
+    "entries": [
+      { "group": "clothing_glasses", "prob": 10 },
       { "item": "glasses_safety", "prob": 75 },
       { "item": "goggles_welding", "prob": 15 }
     ]
@@ -272,7 +253,18 @@
       { "item": "ear_plugs", "prob": 15 },
       { "item": "tool_belt", "prob": 20 },
       { "distribution": [
-        { "group": "clothing_technician", "prob": 40 },
+        { "collection": [
+          { "item": "technician_shirt_blue" },
+          { "item": "technician_pants_blue" }
+        ], "prob": 25 },
+        { "collection": [
+          { "item": "technician_shirt_ltblue" },
+          { "item": "technician_pants_ltblue" }
+        ], "prob": 10 },
+        { "collection": [
+          { "item": "technician_shirt_gray" },
+          { "item": "technician_pants_gray" }
+        ], "prob": 5 },
         { "item": "jumpsuit", "prob": 60 }
       ] }
     ]
