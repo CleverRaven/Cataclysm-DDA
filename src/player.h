@@ -1185,8 +1185,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_used_bionics_slots( const body_part bp ) const;
         int get_total_bionics_slots( const body_part bp ) const;
         int get_free_bionics_slots( const body_part bp ) const;
-        bool has_enough_slots( const body_part bp, const int slots_needed ) const;
-        std::map<body_part, int> bionic_installation_issues( std::string bioid );
+        std::map<body_part, int> bionic_installation_issues( const std::string &bioid );
 
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;

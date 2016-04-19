@@ -1612,7 +1612,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( is_bionic() ) {
             info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->id,
-                _( "This bionic is installed in the following body part(s):" ), true ) ) );
+                _( "This bionic is installed in the following body part(s):" ) ) ) );
         }
 
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {

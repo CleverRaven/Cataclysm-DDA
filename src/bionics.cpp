@@ -1523,7 +1523,7 @@ bool player::install_bionics( const itype &type, int skill_level )
                                               difficult );
     }
 
-    std::map<body_part, int> issues = bionic_installation_issues( bioid );
+    const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
     // show all requirements which are not satisfied
     if( !issues.empty() ) {
         std::string detailed_info;
@@ -1709,12 +1709,16 @@ void bionics_install_failure( player *u, int difficulty, int success )
     }
 }
 
-std::string list_occupied_bps( std::string bio_id, std::string intro, bool one_per_line )
+std::string list_occupied_bps( const std::string &bio_id, const std::string &intro,
+                               const bool each_bp_on_new_line )
 {
+    if( bionic_info( bio_id ).occupied_bodyparts.empty() ) {
+    return "";
+    }
     std::ostringstream desc;
     desc << intro;
     for( const auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
-        desc << ( one_per_line ? "\n" : " " );
+        desc << ( each_bp_on_new_line ? "\n" : " " );
         //~ <Bodypart name> (<number of occupied slots> slots);
         desc << string_format( _( "%s (%i slots);" ),
                            body_part_name_as_heading( elem.first, 1 ).c_str(),
@@ -1736,13 +1740,13 @@ int player::get_used_bionics_slots( const body_part bp ) const
     return used_slots;
 }
 
-std::map<body_part, int> player::bionic_installation_issues( std::string bioid )
+std::map<body_part, int> player::bionic_installation_issues( const std::string &bioid )
 {
     std::map<body_part, int> issues;
-    for( auto& elem : bionics[ bioid ].occupied_bodyparts ) {
-        if( !has_enough_slots( elem.first, elem.second ) ) {
-            issues.emplace( elem.first, (int)elem.second -
-                            get_free_bionics_slots( elem.first ) );
+    for( auto &elem : bionics[ bioid ].occupied_bodyparts ) {
+        const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
+        if( lacked_slots > 0 ) {
+            issues.emplace( elem.first, lacked_slots );
         }
     }
     return issues;
@@ -1789,11 +1793,6 @@ int player::get_total_bionics_slots( const body_part bp ) const
 int player::get_free_bionics_slots( const body_part bp ) const
 {
     return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
-}
-
-bool player::has_enough_slots( const body_part bp, const int slots_needed ) const
-{
-    return( get_free_bionics_slots( bp ) >= slots_needed );
 }
 
 void player::add_bionic( std::string const &b )
@@ -1949,8 +1948,6 @@ void load_bionic( JsonObject &jsobj )
             occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
                                         ja.get_int( 1 ) );
         }
-    } else {
-        occupied_bodyparts.emplace( bp_torso, 0 );
     }
 
     if( faulty ) {

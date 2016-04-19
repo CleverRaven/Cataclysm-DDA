@@ -57,9 +57,10 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
 };
 
 void draw_exam_window( WINDOW *win, int border_line, bool examination );
-std::string list_occupied_bps( std::string bio_id, std::string intro, bool one_per_line = false );
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 bool is_valid_bionic( std::string const &id );
+std::string list_occupied_bps( const std::string &bio_id, const std::string &intro,
+                               const bool each_bp_on_new_line = true );
 
 #endif
