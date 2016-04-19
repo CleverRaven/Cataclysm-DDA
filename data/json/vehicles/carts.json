@@ -221,5 +221,15 @@
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "seat"}
         ]
+    },{
+        "type" : "vehicle",
+        "id" : "engine_crane",
+        "name" : "engine crane",
+        "blueprint" : "#",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "folding_frame"},
+            {"x": 0, "y": 0, "part": "wheel_caster"},
+            {"x": 0, "y": 0, "part": "crane_small"}
+        ]
     }
 ]
