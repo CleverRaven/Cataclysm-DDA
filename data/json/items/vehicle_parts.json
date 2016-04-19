@@ -1268,17 +1268,5 @@
         "category": "veh_parts",
         "price":3500,
         "volume":29
-    },{
-        "id":"cantilever_small",
-        "type":"GENERIC",
-        "category": "veh_parts",
-        "name": "cantilever arm",
-        "description": "A small steel cantilever which when attached to a frame could be used for lifting.",
-        "price": 4900,
-        "weight": 8600,
-        "volume": 8,
-        "material": "steel",
-        "symbol": "&",
-        "color": "dark_gray"
     }
 ]
