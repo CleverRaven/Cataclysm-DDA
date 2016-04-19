@@ -149,8 +149,6 @@ class inventory : public visitable<inventory>
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
 
-        bool has_items_with_quality(std::string id, int level, int amount) const;
-
         // Returns max required quality in player's items, INT_MIN if player has no such items
         int max_quality( const std::string &quality_id ) const;
 
