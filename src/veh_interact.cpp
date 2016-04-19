@@ -396,7 +396,6 @@ task_reason veh_interact::cant_do (char mode)
     bool part_free = true;
     bool has_skill = true;
     bool pass_checks = false; // Used in refill only
-    bool has_str = false;
 
     switch (mode) {
     case 'i': // install mode
@@ -455,8 +454,7 @@ task_reason veh_interact::cant_do (char mode)
     case 'c': // change tire
         valid_target = wheel != NULL;
         ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
-        has_str = g->u.get_str() >= int(veh->total_mass() / TIRE_CHANGE_STR_MOD);
-        has_tools = has_wrench && (has_jack || has_str) && has_wheel;
+        has_tools = has_wrench && ( g->u.can_lift( *veh ) || has_jack ) && has_wheel;
         break;
     case 'a': // relabel
         valid_target = cpart >= 0;
@@ -559,9 +557,7 @@ bool veh_interact::can_install_part(int msg_width){
     bool is_screwable = sel_vpart_info->has_flag("TOOL_SCREWDRIVER");
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
-    const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
-    ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
-    const bool has_str = g->u.get_str() >= needed_strength;
+
     std::string engine_string = "";
     std::string steering_string = "";
     std::string tire_string = "";
@@ -588,8 +584,8 @@ bool veh_interact::can_install_part(int msg_width){
         tire_string = string_format(
                             _("  You also need either a <color_%1$s>jack</color> or <color_%2$s>%3$d</color> strength to install tire."),
                             has_jack ? "ltgreen" : "red",
-                            has_str ? "ltgreen" : "red",
-                            needed_strength);
+                            g->u.can_lift( *veh ) ? "ltgreen" : "red",
+                            veh->lift_strength() );
     }
 
     if (is_hand_remove) {
@@ -667,8 +663,11 @@ bool veh_interact::can_install_part(int msg_width){
 
     if(!has_comps || !has_skill || !has_skill2 || !has_skill3) {
         return false; //Bail early on easy conditions
-    } else if (is_wheel && (!(has_jack || has_str))) {
+
+    } else if( is_wheel && !( g->u.can_lift( *veh ) || has_jack ) ) {
+        ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
         return false;
+
     } else if(is_hand_remove) {
         return true;
     } else if(is_wrenchable) {
@@ -1082,9 +1081,6 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                                 (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
         bool is_screwable = veh->part_flag(veh_part_index, "TOOL_SCREWDRIVER");
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
-        const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
-        ///\EFFECT_STR allows removing tires on heavier vehicles without a jack
-        const bool has_str = g->u.get_str() >= needed_strength;
 
         int skill_req;
         if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
@@ -1127,8 +1123,8 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            _("You need a <color_%1$s>wrench</color>, either a <color_%2$s>jack</color> or <color_%3$s>%4$d</color> strength and <color_%5$s>level %6$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_jack ? "ltgreen" : "red",
-                           has_str ? "ltgreen" : "red",
-                           needed_strength,
+                           g->u.can_lift( *veh ) ? "ltgreen" : "red",
+                           veh->lift_strength(),
                            has_skill ? "ltgreen" : "red",
                            skill_req);
         } else {
@@ -1143,9 +1139,14 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
         if (g->u.has_trait("DEBUG_HS")) {
             return true;
         }
+
+        if( is_wheel && !( g->u.can_lift( *veh ) || has_jack ) ) {
+            ///\EFFECT_STR allows removing tires on heavier vehicles without a jack
+            return false;
+        }
+
         //check if have all necessary materials
-        if (has_skill && ((is_wheel && has_wrench && (has_jack || has_str)) ||
-                            (is_wrenchable && (has_wrench || has_hacksaw)) ||
+        if (has_skill && (  (is_wrenchable && (has_wrench || has_hacksaw)) ||
                             (is_hand_remove) ||
                             (is_wood && has_hammer) ||
                             (is_screwable && (has_screwdriver || has_hacksaw)) ||
@@ -1279,21 +1280,20 @@ void veh_interact::do_tirechange()
     display_mode('c');
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
-    const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
-    ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
-    const bool has_str = g->u.get_str() >= needed_strength;
+
     switch( reason ) {
     case INVALID_TARGET:
         mvwprintz(w_msg, 0, 1, c_ltred, _("There is no wheel to change here."));
         wrefresh (w_msg);
         return;
     case LACK_TOOLS:
+        ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("To change a wheel you need a <color_%1$s>wrench</color> and either a <color_%2$s>jack</color> or <color_%3$s>%4$d</color> strength."),
                        has_wrench ? "ltgreen" : "red",
                        has_jack ? "ltgreen" : "red",
-                       has_str ? "ltgreen" : "red",
-                       needed_strength);
+                       g->u.can_lift( *veh ) ? "ltgreen" : "red",
+                       veh->lift_strength() );
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
@@ -1310,20 +1310,22 @@ void veh_interact::do_tirechange()
         sel_vpart_info = wheel_types[pos];
         bool is_wheel = sel_vpart_info->has_flag("WHEEL");
         display_list (pos, wheel_types);
-        itype_id itm = sel_vpart_info->item;
-        bool has_comps = crafting_inv.has_components(itm, 1);
-        bool has_tools = (has_jack || has_str) && has_wrench;
+        bool has_comps = crafting_inv.has_components( sel_vpart_info->item, 1 );
         werase (w_msg);
         wrefresh (w_msg);
+
         const std::string action = main_context.handle_input();
-        if ((action == "TIRE_CHANGE" || action == "CONFIRM") && has_comps && has_tools && is_wheel) {
+        if( ( action == "TIRE_CHANGE" || action == "CONFIRM" ) &&
+            is_wheel && has_comps && has_wrench && ( g->u.can_lift( *veh ) || has_jack ) ) {
             sel_cmd = 'c';
             return;
+
         } else if (action == "QUIT") {
             werase (w_list);
             wrefresh (w_list);
             werase (w_msg);
             break;
+
         } else {
             move_in_list(pos, action, wheel_types.size());
         }

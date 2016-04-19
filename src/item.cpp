@@ -2491,6 +2491,11 @@ int item::volume( bool integral ) const
     return ret;
 }
 
+int item::lift_strength() const
+{
+    return weight() / STR_LIFT_FACTOR + ( weight() % STR_LIFT_FACTOR != 0 );
+}
+
 int item::attack_time() const
 {
     int ret = 65 + 4 * volume() + weight() / 60;
