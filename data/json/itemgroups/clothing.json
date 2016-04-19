@@ -213,17 +213,18 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "boots", "prob": 70 },
+      { "item": "boots", "prob": 60 },
       { "item": "boots_hiking", "prob": 10 },
-      { "item": "boots_steel", "prob": 20 }
+      { "item": "boots_steel", "prob": 30 }
     ]
   },
   {
     "id": "clothing_work_glasses",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
-      { "item": "glasses_safety", "prob": 85 },
+    "entries": [,
+      { "item": "clothing_glasses", "prob": 10 }
+      { "item": "glasses_safety", "prob": 75 },
       { "item": "goggles_welding", "prob": 15 }
     ]
   },
@@ -242,8 +243,10 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "hat_hard", "prob": 85 },
-      { "item": "hat_hard_hooded", "prob": 15 }
+      { "item": "hat_hard", "prob": 60 },
+      { "item": "hat_hard_hooded", "prob": 15 },
+      { "item": "miner_hat", "prob": 10 },
+      { "item": "wearable_light", "prob": 15 }
     ]
   },
   {
