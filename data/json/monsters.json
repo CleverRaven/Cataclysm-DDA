@@ -2398,7 +2398,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 20], ["SHOCKSTORM", 15]],
     "special_when_hit":["ZAPBACK", 75],
-    "description":"A human body now swollen to the size of six men, with arms as wide as a trash can.",
+    "description":"A human body now swollen to the size of six men, with arms as wide as a trash can. If that weren't enough, it's glowing with electric arcs spiderwebbing across its skin.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "POISON", "ELECTRIC", "CBM_SUBS", "ATTACKMON", "LEATHER", "NO_BREATHE", "REVIVES", "BONES", "FAT", "PUSH_MON"]
     },{
     "type" : "MONSTER",
