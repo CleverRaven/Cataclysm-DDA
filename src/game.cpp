@@ -11410,7 +11410,7 @@ void game::reload( int pos, bool prompt )
         // store moves and qty locally as obtain() will invalidate the reload_option
         int mv = opt.moves();
         long qty = opt.qty();
-        int pos = opt.ammo.obtain( u, opt.ammo->is_ammo_container() ? qty : 1 );
+        int pos = opt.ammo.obtain( u, !opt.ammo->is_ammo_container() ? qty : 1 );
 
         u.assign_activity( ACT_RELOAD, mv, qty, pos, ss.str() );
 
