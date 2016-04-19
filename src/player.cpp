@@ -3565,9 +3565,9 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         }
 
         if( has_turrets ) {
-            mvwprintz( w, 3, sideStyle ? 16 : 25, col_indf1, "Gun:" );
+            mvwprintz( w, 3, sideStyle ? 16 : 25, col_indf1, _( "Gun:" ) );
             wprintz( w, veh->turret_mode ? c_ltred : c_ltblue,
-                     veh->turret_mode ? "auto" : "off " );
+                     veh->turret_mode ? _( "auto" ) : _( "off " ) );
         }
 
         //
