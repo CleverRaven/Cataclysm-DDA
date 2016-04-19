@@ -952,6 +952,26 @@ void sfx::do_obstacle() {
     }
 }
 
+void sfx::play_panic_music() {
+    play_music( "dying" );
+}
+
+void sfx::play_wilderness_music() {
+    play_music( "wilderness" );
+}
+
+void sfx::play_outskirts_music() {
+    play_music( "outskirts" );
+}
+
+void sfx::play_city_music() {
+    play_music( "city" );
+}
+
+int sfx::play_special_music( std::string playlist ) {
+    return play_music_int( playlist );
+}
+
 #else // ifdef SDL_SOUND
 
 /** Dummy implementations for builds without sound */
@@ -976,6 +996,12 @@ void sfx::stop_sound_effect_fade( int, int ) { }
 void sfx::do_player_death_hurt( const player &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle() { }
+void sfx::play_panic_music() { }
+void sfx::play_wilderness_music() { }
+void sfx::play_outskirts_music() { }
+void sfx::play_city_music() { }
+void sfx::play_special_music(std::string) { }
+void sfx::play_fallback_music() { }
 /*@}*/
 
 #endif // ifdef SDL_SOUND

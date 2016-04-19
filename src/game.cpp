@@ -83,6 +83,7 @@
 #include "pathfinding.h"
 #include "gates.h"
 #include "item_factory.h"
+#include "overmapbuffer.h"
 
 #include <map>
 #include <set>
@@ -1472,6 +1473,27 @@ bool game::do_turn()
     sfx::remove_hearing_loss();
     sfx::do_danger_music();
     sfx::do_fatigue();
+
+    if( u.hp_percentage() <= .20 || u.get_perceived_pain() >= 50) {
+        sfx::play_panic_music();
+    } else {
+        const oter_id &omt_pos = overmap_buffer.ter( u.global_omt_location() );
+        std::string tername = otermap[omt_pos].name;
+
+        if( sfx::play_special_music( tername ) >= 0) {
+        } else {
+            const auto wild_fctr = overmap_buffer.closest_city( u.global_sm_location() );
+            const auto &nearest_city = *wild_fctr.city;
+            const int city_dist = wild_fctr.distance - nearest_city.s;
+            if( !wild_fctr || city_dist > nearest_city.s + 4 ) {
+                sfx::play_wilderness_music();
+            } else if( city_dist >= nearest_city.s ) {
+                sfx::play_outskirts_music();
+            } else {
+                sfx::play_city_music();
+            }
+        }
+    }
 
     return false;
 }
