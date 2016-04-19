@@ -379,14 +379,17 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 );
 
-    int qual_jack = ceil( double( veh->total_mass() * 1000 ) / TOOL_LIFT_FACTOR );
-    has_jack = g->u.has_quality( "JACK", qual_jack ) ||
-               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( "JACK", qual_jack ) ||
-               vehicle_selector( g->u.pos(), 1, *veh ).has_quality( "JACK", qual_jack );
-
     max_lift = std::max( { g->u.max_quality( "LIFT" ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( "LIFT" ),
                            vehicle_selector(g->u.pos(), 1, *veh ).max_quality( "LIFT" ) } );
+
+    double qual = double( veh->total_mass() * 1000 ) / TOOL_LIFT_FACTOR;
+
+    // when lifting vehicles to change wheels lever action reduces the workload
+    has_jack = max_lift >= ceil( qual / 3 ) ||
+               g->u.has_quality( "JACK", ceil( qual ) ) ||
+               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( "JACK", ceil( qual ) ) ||
+               vehicle_selector( g->u.pos(), 1, *veh ).has_quality( "JACK", ceil( qual ) );
 }
 
 /**
@@ -568,6 +571,7 @@ bool veh_interact::can_install_part(int msg_width){
     ///\EFFECT_STR allows installing heavier parts without lifting equipment
     bool can_lift = is_wheel ? g->u.can_lift( *veh ) : g->u.can_lift( item( itm ) );
     bool has_aid = is_wheel ? has_jack : item( itm ).weight() < max_lift;
+    int req_str = is_wheel ? veh->lift_strength() : item( itm ).lift_strength();
 
     ///\EFFECT_MECHANICS determines which vehicle parts can be installed
     bool has_skill = g->u.skillLevel( skill_mechanics ) >= sel_vpart_info->difficulty;
@@ -619,13 +623,8 @@ bool veh_interact::can_install_part(int msg_width){
                               status_color( has_skill3 ), dif_steering );
     }
 
-    if( is_wheel ) {
-        msg += string_format( _("  You also need either a <color_%1$s>suitable jack</color> or <color_%2$s>%3$d</color> strength."),
-                              status_color( has_aid ), status_color( can_lift ), veh->lift_strength() );
-    } else {
-        msg += string_format( _("  You also need either <color_%1$s>lifting equipment</color> or <color_%2$s>%3$d</color> strength."),
-                              status_color( has_aid ), status_color( can_lift ), item( itm ).lift_strength() );
-    }
+    msg += string_format( _("  You also need either <color_%1$s>lifting equipment</color> or <color_%2$s>%3$d</color> strength." ),
+                          status_color( has_aid ), status_color( can_lift ), req_str );
 
     werase (w_msg);
     fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, msg );
