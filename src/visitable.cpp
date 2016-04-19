@@ -75,7 +75,7 @@ template <typename T>
 bool visitable<T>::has_items_with_quality( const std::string &qual, int level, int qty ) const
 {
     visit_items( [&qual, level, &qty]( const item *e ) {
-        if( e->has_quality( qual, level ) ) {
+        if( e->get_quality( qual ) >= level ) {
             if( --qty == 0 ) {
                 return VisitResponse::ABORT; // found sufficient items
             }
@@ -615,7 +615,7 @@ int visitable<Character>::amount_of( const std::string& what, bool pseudo, int l
     if( what == "apparatus" && pseudo ) {
         int qty = 0;
         visit_items( [&qty, &limit] ( const item *e ) {
-            qty += e->has_quality( "SMOKE_PIPE", 1 );
+            qty += e->get_quality( "SMOKE_PIPE" ) >= 1;
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         } );
         return std::min( qty, limit );

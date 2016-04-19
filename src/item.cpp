@@ -2653,19 +2653,6 @@ int item::get_quality( const std::string &quality_id ) const
     return return_quality;
 }
 
-bool item::has_quality( std::string quality_id ) const
-{
-    return has_quality( quality_id, 1 );
-}
-
-bool item::has_quality( std::string quality_id, int quality_value ) const
-{
-    if( get_quality( quality_id ) >= quality_value ) {
-        return true;
-    }
-    return false;
-}
-
 bool item::has_technique( const matec_id & tech ) const
 {
     return type->techniques.count( tech ) > 0 || techniques.count( tech ) > 0;
