@@ -62,6 +62,9 @@ class visitable
         /** Returns true if instance has amount (or more) items of at least quality level */
         bool has_quality( const std::string &qual, int level = 1, int qty = 1 ) const;
 
+        /** Return maximum tool quality level that can be provided by this instance */
+        int max_quality( const std::string &qual ) const;
+
         /**
          * Count maximum available charges from this instance and any contained items
          * @param limit stop searching after this many charges have been found

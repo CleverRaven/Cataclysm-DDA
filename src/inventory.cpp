@@ -876,17 +876,6 @@ bool inventory::has_charges(itype_id it, long quantity) const
     return (charges_of(it) >= quantity);
 }
 
-int inventory::max_quality( const std::string &quality_id ) const
-{
-    int result = INT_MIN;
-    for( const auto &elem : items ) {
-        for( const auto &cur_item : elem ) {
-            result = std::max( result, cur_item.get_quality( quality_id ) );
-        }
-    }
-    return result;
-}
-
 int inventory::leak_level(std::string flag) const
 {
     int ret = 0;
