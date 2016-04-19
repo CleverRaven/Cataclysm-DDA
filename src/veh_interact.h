@@ -91,6 +91,8 @@ class veh_interact
         inventory crafting_inv;
         input_context main_context;
 
+        int max_lift; // weight limit (in grams) of any avilable lifting equipment
+
         int part_at( int dx, int dy );
         void move_cursor( int dx, int dy );
         task_reason cant_do( char mode );
