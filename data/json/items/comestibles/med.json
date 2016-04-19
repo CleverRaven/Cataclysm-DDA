@@ -642,7 +642,7 @@
         "description" : "A roll-your-own made from tobacco and rolling paper.  Stimulates mental acuity and reduces appetite.  Despite being hand crafted, it's still highly addictive and hazardous to health.",
         "weight" : 1,
         "volume" : 1,
-        "price" : 90, "//" : "Tougher to market a handrolled, could be anything in there.",
+        "price" : 90, "//" : "Tougher to market a hand rolled, could be anything in there.",
         "charges" : 1,
         "stack_size" : 60,
         "symbol" : "!",
