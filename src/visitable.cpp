@@ -138,6 +138,86 @@ bool visitable<vehicle_cursor>::has_quality( const std::string &qual, int level,
 }
 
 template <typename T>
+static int max_quality_internal( const T& self, const std::string &qual )
+{
+    int res = 0;
+    self.visit_items( [&res,&qual]( const item *e ) {
+        res = std::max( res, e->get_quality( qual ) );
+        return VisitResponse::NEXT;
+    } );
+    return res;
+}
+
+static int max_quality_from_vpart( const vehicle& veh, int part, const std::string& qual )
+{
+    int res = 0;
+
+    auto pos = veh.parts[ part ].mount;
+    for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
+
+        // only unbroken parts can provide tool qualities
+        if( veh.parts[ n ].hp > 0 ) {
+            auto tq = veh.part_info( n ).qualities;
+            auto iter = tq.find( qual );
+
+            // does the part provide this quality?
+            if( iter != tq.end() ) {
+                res = std::max( res, iter->second );
+            }
+        }
+    }
+    return res;
+}
+
+template <typename T>
+int visitable<T>::max_quality( const std::string &qual ) const
+{
+    return max_quality_internal( *this, qual );
+}
+
+template<>
+int visitable<Character>::max_quality( const std::string &qual ) const
+{
+    int res = 0;
+
+    auto self = static_cast<const Character *>( this );
+
+    if( self->has_bionic( "bio_tools" ) ) {
+        res = std::max( res, item( "toolset" ).get_quality( qual ) );
+    }
+
+    if( qual == "BUTCHER" ) {
+        if( self->has_bionic( "bio_razor" ) || self->has_trait( "CLAWS_ST" ) ) {
+            res = std::max( res, 8 );
+        } else if( self->has_trait( "TALONS" ) || self->has_trait( "MANDIBLES" ) ||
+                   self->has_trait( "CLAWS" ) || self->has_trait( "CLAWS_RETRACT" ) ||
+                   self->has_trait( "CLAWS_RAT" ) ) {
+            res = std::max( res, 4 );
+        }
+    }
+
+    return std::max( res, max_quality_internal( *this, qual ) );
+}
+
+template <>
+int visitable<vehicle_selector>::max_quality( const std::string &qual ) const
+{
+    int res = 0;
+    for( const auto& cursor : static_cast<const vehicle_selector &>( *this ) ) {
+        res = std::max( res, max_quality_from_vpart( cursor.veh, cursor.part, qual ) );
+    }
+    return std::max( res, max_quality_internal( *this, qual ) );
+}
+
+template <>
+int visitable<vehicle_cursor>::max_quality( const std::string &qual ) const
+{
+    auto self = static_cast<const vehicle_cursor *>( this );
+    return std::max( max_quality_from_vpart( self->veh, self->part, qual ),
+                     max_quality_internal( *this, qual ) );
+}
+
+template <typename T>
 std::vector<item *> visitable<T>::items_with( const std::function<bool( const item & )> &filter )
 {
     std::vector<item *> res;

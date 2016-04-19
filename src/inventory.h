@@ -149,9 +149,6 @@ class inventory : public visitable<inventory>
         bool has_components (itype_id it, int quantity) const;
         bool has_charges(itype_id it, long quantity) const;
 
-        // Returns max required quality in player's items, INT_MIN if player has no such items
-        int max_quality( const std::string &quality_id ) const;
-
         static int num_items_at_position( int position );
 
         int leak_level(std::string flag) const; // level of leaked bad stuff from items
