@@ -379,15 +379,14 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 );
 
-    int qual_jack = ceil( veh->total_mass() / 1000.0 );
-
+    int qual_jack = ceil( double( veh->total_mass() * 1000 ) / TOOL_LIFT_FACTOR );
     has_jack = g->u.has_quality( "JACK", qual_jack ) ||
                map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( "JACK", qual_jack ) ||
-               vehicle_selector( g->u.pos(), 1 ).has_quality( "JACK", qual_jack );
+               vehicle_selector( g->u.pos(), 1, *veh ).has_quality( "JACK", qual_jack );
 
     max_lift = std::max( { g->u.max_quality( "LIFT" ),
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( "LIFT" ),
-                           vehicle_selector(g->u.pos(), 1, *veh ).max_quality( "LIFT" ) } ) * 1000000;
+                           vehicle_selector(g->u.pos(), 1, *veh ).max_quality( "LIFT" ) } );
 }
 
 /**
@@ -564,8 +563,15 @@ bool veh_interact::can_install_part(int msg_width){
     bool drive_conflict = is_drive_conflict(msg_width);
 
     bool has_comps = crafting_inv.has_components(itm, 1);
+
+    ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
+    ///\EFFECT_STR allows installing heavier parts without lifting equipment
+    bool can_lift = is_wheel ? g->u.can_lift( *veh ) : g->u.can_lift( item( itm ) );
+    bool has_aid = is_wheel ? has_jack : item( itm ).weight() < max_lift;
+
     ///\EFFECT_MECHANICS determines which vehicle parts can be installed
     bool has_skill = g->u.skillLevel( skill_mechanics ) >= sel_vpart_info->difficulty;
+
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel( skill_mechanics ) >= dif_eng);
     bool has_skill3 = g->u.skillLevel(skill_mechanics) >= dif_steering;
@@ -613,33 +619,22 @@ bool veh_interact::can_install_part(int msg_width){
                               status_color( has_skill3 ), dif_steering );
     }
 
-    if (is_wheel) {
+    if( is_wheel ) {
         msg += string_format( _("  You also need either a <color_%1$s>suitable jack</color> or <color_%2$s>%3$d</color> strength."),
-                              status_color( has_jack ), status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
+                              status_color( has_aid ), status_color( can_lift ), veh->lift_strength() );
     } else {
         msg += string_format( _("  You also need either <color_%1$s>lifting equipment</color> or <color_%2$s>%3$d</color> strength."),
-                              status_color( item( itm ).weight() < max_lift ), status_color( g->u.can_lift( item( itm ) ) ), item( itm ).lift_strength() );
+                              status_color( has_aid ), status_color( can_lift ), item( itm ).lift_strength() );
     }
 
     werase (w_msg);
     fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, msg );
     wrefresh (w_msg);
 
-    if( is_wheel ) {
-        if( !( g->u.can_lift( *veh ) || has_jack ) ) {
-            ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
-            return false;
-        }
-    } else {
-        item tmp( itm );
-        if( !g->u.can_lift( tmp ) && tmp.weight() >= max_lift ) {
-            ///\EFFECT_STR allows installing heavier parts without lifting equipment
-            return false;
-        }
-    }
-
-    if(!has_comps || !has_skill || !has_skill2 || !has_skill3) {
-        return false; //Bail early on easy conditions
+    if( !has_comps || !has_skill || !has_skill2 || !has_skill3 ) {
+        return false;
+    } else if( !can_lift && !has_aid ) {
+        return false;
     } else if(is_hand_remove) {
         return true;
     } else if(is_wrenchable) {
