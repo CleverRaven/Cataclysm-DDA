@@ -12097,7 +12097,7 @@ bool game::plmove(int dx, int dy, int dz)
     }
 
     // Invalid move
-    const bool waste_moves = u.has_effect( effect_blind ) || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold") || u.has_effect( effect_stunned );
+    const bool waste_moves = u.is_blind() || u.has_active_bionic("bio_blindfold") || u.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != u.posz() ) {
         std::string obtacle_name;
         int part;
