@@ -239,9 +239,12 @@ VisitResponse visitable<vehicle_cursor>::visit_items(
 {
     auto self = static_cast<vehicle_cursor *>( this );
 
-    for( auto &e : self->veh.get_items( self->part ) ) {
-        if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
-            return VisitResponse::ABORT;
+    int idx = self->veh.part_with_feature( self->part, "CARGO" );
+    if( idx >= 0 ) {
+        for( auto &e : self->veh.get_items( idx ) ) {
+            if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
+            }
         }
     }
     return VisitResponse::NEXT;
@@ -474,7 +477,12 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         return res; // nothing to do
     }
 
-    vehicle_part& part = cur->veh.parts[ cur->part ];
+    int idx = cur->veh.part_with_feature( cur->part, "CARGO" );
+    if( idx < 0 ) {
+        return res;
+    }
+
+    vehicle_part& part = cur->veh.parts[ idx ];
     for( auto iter = part.items.begin(); iter != part.items.end(); ) {
         if( filter( *iter ) ) {
             // check for presence in the active items cache
