@@ -467,8 +467,6 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /*@}*/
 
     int get_quality( const std::string &quality_id ) const;
-    bool has_quality( std::string quality_id ) const;
-    bool has_quality( std::string quality_id, int quality_value ) const;
     bool count_by_charges() const;
     bool craft_has_charges();
 
