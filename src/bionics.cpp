@@ -464,10 +464,12 @@ void player::power_bionics()
             }
             ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue,
                                     bionics[( *current_bionic_list )[cursor]->id].description ) + 1;
+
+            const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( w_description );
             ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
                                     list_occupied_bps( ( *current_bionic_list )[cursor]->id,
                                     _( "This bionic occupies the following body parts:" ),
-                                    ( getmaxy( w_description ) > ypos + ( int )num_bp + 1 ) ).c_str() );
+                                    each_bp_on_new_line ).c_str() );
             wrefresh( w_description );
         }
 
@@ -1729,7 +1731,7 @@ int player::get_used_bionics_slots( const body_part bp ) const
         if( search != bionics[bio.id].occupied_bodyparts.end() ) {
             used_slots += search->second;
         }
-     }
+    }
 
     return used_slots;
 }
@@ -1778,7 +1780,8 @@ int player::get_total_bionics_slots( const body_part bp ) const
         return 7;
 
     case num_bp:
-        return INT_MAX;
+        debugmsg( "number of slots for incorrect bodypart is requested!" );
+        return 0;
     }
     return 0;
 }
@@ -1938,9 +1941,8 @@ void load_bionic( JsonObject &jsobj )
     bool faulty = jsobj.get_bool( "faulty", false );
     bool power_source = jsobj.get_bool( "power_source", false );
 
-    JsonArray jsarr;
     std::map<body_part, size_t> occupied_bodyparts;
-    jsarr = jsobj.get_array( "occupied_bodyparts" );
+    JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     if( !jsarr.empty() ) {
         while( jsarr.has_more() ) {
             JsonArray ja = jsarr.next_array();
