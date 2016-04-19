@@ -632,7 +632,7 @@ bool veh_interact::can_install_part(int msg_width){
         }
     } else {
         item tmp( itm );
-        if( !g->u.can_lift( tmp ) || tmp.weight() >= max_lift ) {
+        if( !g->u.can_lift( tmp ) && tmp.weight() >= max_lift ) {
             ///\EFFECT_STR allows installing heavier parts without lifting equipment
             return false;
         }
