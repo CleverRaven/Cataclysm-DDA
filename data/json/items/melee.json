@@ -1657,6 +1657,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "nodachi",
+    "name_plural": "nodachi",
     "description": "This is a dull, cheaply made replica of a huge, curved, two-handed sword from Japan.  It is surprisingly light for its size.",
     "price": 15000,
     "price_postapoc": 0,
