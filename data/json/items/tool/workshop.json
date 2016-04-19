@@ -1,5 +1,35 @@
 [
   {
+    "id": "jack",
+    "type": "TOOL",
+    "name": "bottle jack",
+    "description": "A portable hydraulic bottle jack rated to lift 3 metric tonnes.",
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "weight": 11974,
+    "volume": 6,
+    "price": 5000,
+    "bashing": 8,
+    "to_hit": -2,
+    "qualities": [ ["JACK", 3 ] ]
+  },
+  {
+    "id": "jack_small",
+    "type": "TOOL",
+    "name": "scissor jack",
+    "description": "A small scissor jack rated to lift one metric tonne.",
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "weight": 1200,
+    "volume": 3,
+    "price": 5000,
+    "bashing": 4,
+    "to_hit": -2,
+    "qualities": [ ["JACK", 1 ] ]
+  },
+  {
     "id": "oxy_torch",
     "type": "TOOL",
     "name": "acetylene torch",

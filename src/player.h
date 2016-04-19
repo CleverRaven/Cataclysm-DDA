@@ -727,6 +727,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void rooted_message() const;
         void rooted();
 
+        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
+        template <typename T>
+        bool can_lift( const T& obj ) const {
+            // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+            return get_str() >= obj.lift_strength();
+        }
+
         /** Check player capable of wearing an item.
           * @param alert display reason for any failure */
         bool can_wear( const item& it, bool alert = true ) const;
@@ -991,8 +998,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( std::string flag ) const;
-        // Returns max required quality in player's items, INT_MIN if player has no such items
-        int max_quality( const std::string &quality_id ) const;
 
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**

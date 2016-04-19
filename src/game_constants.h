@@ -76,4 +76,7 @@
 /** Amount by which to charge an item for each unit of plutonium cell */
 #define PLUTONIUM_CHARGES 500
 
+///\EFFECT_STR allows lifting of heavier objects */
+#define STR_LIFT_FACTOR 10000 // 10kg/STR
+
 #endif

@@ -190,6 +190,12 @@ void vpart_info::load( JsonObject &jo )
         next_part.breaks_into_group = "EMPTY_GROUP";
     }
 
+    auto qual = jo.get_array( "qualities" );
+    while( qual.has_more() ) {
+        auto pair = qual.next_array();
+        next_part.qualities[ pair.get_string( 0 ) ] = pair.get_int( 1 );
+    }
+
     //Calculate and cache z-ordering based off of location
     // list_order is used when inspecting the vehicle
     if(next_part.location == "on_roof") {

@@ -859,6 +859,9 @@ public:
 
     const std::string disp_name();
 
+    /** Required strength to be able to successfully lift the vehicle unaided by equipment */
+    int lift_strength() const;
+
     // config values
     std::string name;   // vehicle name
     /**

@@ -35,8 +35,7 @@ typedef std::string itype_id;
 typedef std::string ammotype;
 
 enum bigness_property_aspect : int {
-    BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
-    BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
+    BIGNESS_WHEEL_DIAMETER      // wheel size in inches, including tire
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
@@ -284,6 +283,12 @@ struct common_firing_data : common_ranged_data {
     int loudness = 0;
 };
 
+struct islot_engine
+{
+    /** for combustion engines the range of possible engine displacements (cc) */
+    std::pair<int, int> displacement = { -1, -1 };
+};
+
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_firing_data {
     /**
@@ -423,7 +428,7 @@ struct islot_variable_bigness {
     /**
      * What the bigness actually represent see @ref bigness_property_aspect
      */
-    bigness_property_aspect bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
+    bigness_property_aspect bigness_aspect = BIGNESS_WHEEL_DIAMETER;
 };
 
 struct islot_bionic {
@@ -507,6 +512,7 @@ struct itype {
     copyable_unique_ptr<islot_comestible> comestible;
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
+    copyable_unique_ptr<islot_engine> engine;
     copyable_unique_ptr<islot_gun> gun;
     copyable_unique_ptr<islot_gunmod> gunmod;
     copyable_unique_ptr<islot_magazine> magazine;
