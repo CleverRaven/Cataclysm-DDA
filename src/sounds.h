@@ -88,6 +88,6 @@ void play_city_music();
 int play_special_music( std::string );
 }
 
-int play_music_int(std::string);
+int play_music_int( std::string );
 
 #endif
