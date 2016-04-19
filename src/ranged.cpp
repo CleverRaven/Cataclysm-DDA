@@ -117,7 +117,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
 
-    const bool stream = proj_effects.count("FLAME") > 0 ||
+    const bool stream = proj_effects.count("STREAM") > 0 ||
+                        proj_effects.count("STREAM_BIG") ||
                         proj_effects.count("JET") > 0;
     const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
     const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
