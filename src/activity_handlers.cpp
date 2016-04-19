@@ -1028,26 +1028,26 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         return;
     }
 
+    std::string msg = _( "You reload the %s." );
+
     if( reloadable->is_gun() ) {
         p->recoil -= act->moves_total;
 
         if( reloadable->has_flag( "RELOAD_ONE" ) ) {
             for( int i = 0; i != qty; ++i ) {
                 if( reloadable->ammo_type() == "bolt" ) {
-                    add_msg( _( "You insert a bolt into the %s." ), reloadable->tname().c_str() );
+                    msg = _( "You insert a bolt into the %s." );
                 } else {
-                    add_msg( _( "You insert a cartridge into the %s." ), reloadable->tname().c_str() );
+                    msg = _( "You insert a cartridge into the %s." );
                 }
             }
-        } else {
-            add_msg( _( "You reload the %s." ), reloadable->tname().c_str() );
         }
-
         if( reloadable->type->gun->reload_noise_volume > 0 ) {
             sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable->type->gun->reload_noise_volume, reloadable->type->gun->reload_noise );
         }
     }
+    add_msg( msg.c_str(), reloadable->tname().c_str() );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
