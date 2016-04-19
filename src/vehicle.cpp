@@ -660,6 +660,13 @@ const std::string vehicle::disp_name()
     return string_format( _("the %s"), name.c_str() );
 }
 
+
+int vehicle::lift_strength() const
+{
+    int mass = total_mass() * 1000;
+    return mass / STR_LIFT_FACTOR + ( mass % STR_LIFT_FACTOR != 0 );
+}
+
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors

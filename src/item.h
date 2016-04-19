@@ -335,6 +335,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /* Volume of an item or of a single unit for charged items multipled by 1000 */
     int precise_unit_volume() const;
 
+    /** Required strength to be able to successfully lift the item unaided by equipment */
+    int lift_strength() const;
+
     /**
      * @name Melee
      *
