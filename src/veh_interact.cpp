@@ -30,6 +30,13 @@
 #define ISNAN std::isnan
 #endif
 
+static inline const char * status_color( bool status )
+{
+    static const char *good = "ltgreen";
+    static const char *bad = "red";
+    return status ? good : bad;
+}
+
 static const std::string repair_hotkeys("r1234567890");
 
 const skill_id skill_mechanics( "mechanics" );
@@ -363,7 +370,6 @@ void veh_interact::cache_tool_availability()
                      (crafting_inv.has_tools("toolbox", 1) &&
                       crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
     has_nails = crafting_inv.has_charges("nail", NAILS_USED);
-    has_jack = crafting_inv.has_tools("jack", 1);
     has_siphon = crafting_inv.has_tools("hose", 1);
 
     has_wheel = crafting_inv.has_components( "wheel", 1 ) ||
@@ -372,6 +378,16 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_bicycle", 1 ) ||
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 );
+
+    int qual_jack = ceil( veh->total_mass() / 1000.0 );
+
+    has_jack = g->u.has_quality( "JACK", qual_jack ) ||
+               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( "JACK", qual_jack ) ||
+               vehicle_selector( g->u.pos(), 1 ).has_quality( "JACK", qual_jack );
+
+    max_lift = std::max( { g->u.max_quality( "LIFT" ),
+                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( "LIFT" ),
+                           vehicle_selector(g->u.pos(), 1 ).max_quality( "LIFT" ) } ) * 1000000;
 }
 
 /**
@@ -558,116 +574,72 @@ bool veh_interact::can_install_part(int msg_width){
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
 
-    std::string engine_string = "";
-    std::string steering_string = "";
-    std::string tire_string = "";
-
     if (drive_conflict) {
         return false; // No, you cannot has twin pedal power
     }
 
-    if (engines && is_engine) { // already has engine
-        engine_string = string_format(
-                            _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines."),
-                            has_skill2 ? "ltgreen" : "red",
-                            dif_eng);
+    std::string msg = string_format( _( "Needs <color_%1$s>%2$s</color>" ), status_color( has_comps ), item::nname( itm ).c_str() );
+
+    if( is_hand_remove ) {
+        // no other tool requirements
+
+    } else if( is_wrenchable ) {
+        msg += string_format( _( ", a <color_%3$s>wrench</color> or <color_%4$s>duct tape</color>" ),
+                              status_color( has_wrench ), status_color( has_duct_tape ) );
+
+    } else if( is_screwable ) {
+        msg += string_format( _( ", a <color_%3$s>screwdriver</color> or <color_%4$s>duct tape</color>"),
+                              status_color( has_screwdriver ), status_color( has_duct_tape ) );
+
+    } else if( is_wood ) {
+        msg += string_format( _( ", either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>" ),
+                              status_color( has_nails ), status_color( has_hammer || has_nailgun ), status_color( has_duct_tape ) );
+
+    } else {
+        msg += string_format( _( ", a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>" ),
+                              status_color( has_wrench ), status_color( has_welder ), status_color( has_goggles ), status_color( has_duct_tape ) );
     }
 
-    if (dif_steering > 0) {
-        steering_string = string_format(
-                            _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional steering axles."),
-                            has_skill3 ? "ltgreen" : "red",
-                            dif_steering);
+
+    msg += string_format( _( " and level <color_%1$s>%2$d</color> skill in mechanics." ), status_color( has_skill ), sel_vpart_info->difficulty );
+
+    if( engines && is_engine ) { // already has engine
+        msg += string_format( _( "  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines." ),
+                              status_color( has_skill2 ), dif_eng );
+    }
+
+    if( dif_steering > 0 ) {
+        msg += string_format( _( "  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional steering axles." ),
+                              status_color( has_skill3 ), dif_steering );
     }
 
     if (is_wheel) {
-        tire_string = string_format(
-                            _("  You also need either a <color_%1$s>jack</color> or <color_%2$s>%3$d</color> strength to install tire."),
-                            has_jack ? "ltgreen" : "red",
-                            g->u.can_lift( *veh ) ? "ltgreen" : "red",
-                            veh->lift_strength() );
+        msg += string_format( _("  You also need either a <color_%1$s>suitable jack</color> or <color_%2$s>%3$d</color> strength."),
+                              status_color( has_jack ), status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
+    } else {
+        msg += string_format( _("  You also need either <color_%1$s>lifting equipment</color> or <color_%2$s>%3$d</color> strength."),
+                              status_color( item( itm ).weight() < max_lift ), status_color( g->u.can_lift( item( itm ) ) ), item( itm ).lift_strength() );
     }
 
-    if (is_hand_remove) {
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s%6$s%7$s"),
-                        has_comps ? "ltgreen" : "red",
-                        item::nname( itm ).c_str(),
-                        has_skill ? "ltgreen" : "red",
-                        sel_vpart_info->difficulty,
-                        engine_string.c_str(),
-                        steering_string.c_str(),
-                        tire_string.c_str());
-        wrefresh (w_msg);
-    } else if (is_wrenchable){
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> or <color_%4$s>duct tape</color> and level <color_%5$s>%6$d</color> skill in mechanics.%7$s%8$s%9$s"),
-                        has_comps ? "ltgreen" : "red",
-                        item::nname( itm ).c_str(),
-                        has_wrench ? "ltgreen" : "red",
-                        has_duct_tape ? "ltgreen" : "red",
-                        has_skill ? "ltgreen" : "red",
-                        sel_vpart_info->difficulty,
-                        engine_string.c_str(),
-                        steering_string.c_str(),
-                        tire_string.c_str());
-        wrefresh (w_msg);
-    } else if (is_screwable){
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>screwdriver</color> or <color_%4$s>duct tape</color> and level <color_%5$s>%6$d</color> skill in mechanics.%7$s%8$s%9$s"),
-                        has_comps ? "ltgreen" : "red",
-                        item::nname( itm ).c_str(),
-                        has_screwdriver ? "ltgreen" : "red",
-                        has_duct_tape ? "ltgreen" : "red",
-                        has_skill ? "ltgreen" : "red",
-                        sel_vpart_info->difficulty,
-                        engine_string.c_str(),
-                        steering_string.c_str(),
-                        tire_string.c_str());
-        wrefresh (w_msg);
-    } else if (is_wood) {
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s%10$s"),
-                        has_comps ? "ltgreen" : "red",
-                        item::nname( itm ).c_str(),
-                        has_nails ? "ltgreen" : "red",
-                        (has_hammer || has_nailgun) ? "ltgreen" : "red",
-                        has_duct_tape ? "ltgreen" : "red",
-                        has_skill ? "ltgreen" : "red",
-                        sel_vpart_info->difficulty,
-                        engine_string.c_str(),
-                        steering_string.c_str(),
-                        tire_string.c_str());
-        wrefresh (w_msg);
+    werase (w_msg);
+    fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, msg );
+    wrefresh (w_msg);
+
+    if( is_wheel ) {
+        if( !( g->u.can_lift( *veh ) || has_jack ) ) {
+            ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
+            return false;
+        }
     } else {
-        werase (w_msg);
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s%10$s%11$s"),
-                        has_comps ? "ltgreen" : "red",
-                        item::nname( itm ).c_str(),
-                        has_wrench ? "ltgreen" : "red",
-                        has_welder ? "ltgreen" : "red",
-                        has_goggles ? "ltgreen" : "red",
-                        has_duct_tape ? "ltgreen" : "red",
-                        has_skill ? "ltgreen" : "red",
-                        sel_vpart_info->difficulty,
-                        engine_string.c_str(),
-                        steering_string.c_str(),
-                        tire_string.c_str());
-        wrefresh (w_msg);
+        item tmp( itm );
+        if( !g->u.can_lift( tmp ) || tmp.weight() >= max_lift ) {
+            ///\EFFECT_STR allows installing heavier parts without lifting equipment
+            return false;
+        }
     }
 
     if(!has_comps || !has_skill || !has_skill2 || !has_skill3) {
         return false; //Bail early on easy conditions
-
-    } else if( is_wheel && !( g->u.can_lift( *veh ) || has_jack ) ) {
-        ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
-        return false;
-
     } else if(is_hand_remove) {
         return true;
     } else if(is_wrenchable) {
@@ -1120,7 +1092,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                            skill_req);
         } else if (is_wheel) {
             fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                           _("You need a <color_%1$s>wrench</color>, either a <color_%2$s>jack</color> or <color_%3$s>%4$d</color> strength and <color_%5$s>level %6$d</color> mechanics skill to remove this part."),
+                           _("You need a <color_%1$s>wrench</color>, either a <color_%2$s>suitable jack</color> or <color_%3$s>%4$d</color> strength and <color_%5$s>level %6$d</color> mechanics skill to remove this part."),
                            has_wrench ? "ltgreen" : "red",
                            has_jack ? "ltgreen" : "red",
                            g->u.can_lift( *veh ) ? "ltgreen" : "red",
@@ -1289,7 +1261,7 @@ void veh_interact::do_tirechange()
     case LACK_TOOLS:
         ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("To change a wheel you need a <color_%1$s>wrench</color> and either a <color_%2$s>jack</color> or <color_%3$s>%4$d</color> strength."),
+                       _("To change a wheel you need a <color_%1$s>wrench</color> and either a <color_%2$s>suitable jack</color> or <color_%3$s>%4$d</color> strength."),
                        has_wrench ? "ltgreen" : "red",
                        has_jack ? "ltgreen" : "red",
                        g->u.can_lift( *veh ) ? "ltgreen" : "red",
