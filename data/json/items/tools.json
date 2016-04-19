@@ -7379,7 +7379,7 @@
     "volume": 0,
     "cutting": 12,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
+    "use_action": ["CROWBAR", { "type": "knife" } ],
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
