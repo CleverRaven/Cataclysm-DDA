@@ -94,6 +94,10 @@ struct vpart_info {
         int difficulty;     // installation difficulty (mechanics requirement)
         std::string location;   //Where in the vehicle this part goes
         std::string breaks_into_group;
+
+        /** Tool qualities this vehicle part can provide when installed */
+        std::map<std::string, int> qualities;
+
     private:
         std::set<std::string> flags;    // flags
         std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp

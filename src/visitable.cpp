@@ -9,6 +9,7 @@
 #include "map.h"
 #include "submap.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include "game.h"
 #include "itype.h"
 #include "player.h"
@@ -72,9 +73,9 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
 }
 
 template <typename T>
-bool visitable<T>::has_quality( const std::string &qual, int level, int qty ) const
+static bool has_quality_internal( const T& self, const std::string &qual, int level, int qty )
 {
-    visit_items( [&qual, level, &qty]( const item *e ) {
+    self.visit_items( [&qual, level, &qty]( const item *e ) {
         if( e->get_quality( qual ) >= level ) {
             if( --qty == 0 ) {
                 return VisitResponse::ABORT; // found sufficient items
@@ -83,6 +84,57 @@ bool visitable<T>::has_quality( const std::string &qual, int level, int qty ) co
         return VisitResponse::NEXT;
     } );
     return qty == 0;
+}
+
+static bool has_quality_from_vpart( const vehicle& veh, int part, const std::string& qual, int level, int limit )
+{
+    int qty = 0;
+
+    auto pos = veh.parts[ part ].mount;
+    for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
+
+        // only unbroken parts can provide tool qualities
+        if( veh.parts[ n ].hp > 0 ) {
+            auto tq = veh.part_info( n ).qualities;
+            auto iter = tq.find( qual );
+
+            // does the part provide this quality?
+            if( iter != tq.end() && iter->second >= level ) {
+                qty += iter->second;
+                if( qty >= limit ) {
+                    break;
+                }
+            }
+        }
+    }
+    return std::min( qty, limit );
+}
+
+template <typename T>
+bool visitable<T>::has_quality( const std::string &qual, int level, int qty ) const
+{
+    return has_quality_internal( *this, qual, level, qty );
+}
+
+template <>
+bool visitable<vehicle_selector>::has_quality( const std::string &qual, int level, int qty ) const
+{
+    for( const auto& cursor : static_cast<const vehicle_selector &>( *this ) ) {
+        qty -= has_quality_from_vpart( cursor.veh, cursor.part, qual, level, qty );
+        if( qty <= 0 ) {
+            return true;
+        }
+    }
+    return has_quality_internal( *this, qual, level, qty );
+}
+
+template <>
+bool visitable<vehicle_cursor>::has_quality( const std::string &qual, int level, int qty ) const
+{
+    auto self = static_cast<const vehicle_cursor *>( this );
+
+    qty -= has_quality_from_vpart( self->veh, self->part, qual, level, qty );
+    return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty );
 }
 
 template <typename T>
