@@ -17,6 +17,7 @@
 #include "ui.h"
 #include "itype.h"
 #include "cata_utility.h"
+#include "vehicle_selector.h"
 
 #include <cmath>
 #include <list>
