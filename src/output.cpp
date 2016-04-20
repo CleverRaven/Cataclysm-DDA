@@ -1956,7 +1956,7 @@ std::pair<std::string, nc_color> const& get_light_level(const float light)
     using pair_t = std::pair<std::string, nc_color>;
     static std::array<pair_t, 6> const strings {{
         pair_t {_("unknown"), c_pink},
-        pair_t {_("brightly"), c_yellow},
+        pair_t {_("bright"), c_yellow},
         pair_t {_("cloudy"), c_white},
         pair_t {_("shady"), c_ltgray},
         pair_t {_("dark"), c_dkgray},
