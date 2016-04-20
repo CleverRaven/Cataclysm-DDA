@@ -660,6 +660,13 @@ const std::string vehicle::disp_name()
     return string_format( _("the %s"), name.c_str() );
 }
 
+
+int vehicle::lift_strength() const
+{
+    int mass = total_mass() * 1000;
+    return mass / STR_LIFT_FACTOR + ( mass % STR_LIFT_FACTOR != 0 );
+}
+
 void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
@@ -837,7 +844,7 @@ bool vehicle::interact_vehicle_locked()
     if (is_locked){
         const inventory &crafting_inv = g->u.crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
-        if( crafting_inv.has_items_with_quality( "SCREW", 1, 1 ) ) {
+        if( crafting_inv.has_quality( "SCREW" ) ) {
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring

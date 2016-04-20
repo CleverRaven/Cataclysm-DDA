@@ -607,7 +607,6 @@ classes = {
             { name = "has_identified", rval = "bool", args = { "string" } },
             { name = "has_item", rval = "bool", args = { "item" } },
             { name = "has_item_with_flag", rval = "bool", args = { "string" } },
-            { name = "has_items_with_quality", rval = "bool", args = { "string", "int", "int" } },
             { name = "has_lower_trait", rval = "bool", args = { "string" } },
             { name = "has_mabuff", rval = "bool", args = { "mabuff_id" } },
             { name = "has_martialart", rval = "bool", args = { "matype_id" } },

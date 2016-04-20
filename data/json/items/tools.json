@@ -7209,19 +7209,6 @@
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
   {
-    "id": "jack",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "jack",
-    "description": "This is a common hydraulic jack, used when changing tires.",
-    "price": 5000,
-    "material": "steel",
-    "weight": 11974,
-    "volume": 5,
-    "bashing": 8
-  },
-  {
     "id": "scythe",
     "type": "TOOL",
     "symbol": "/",

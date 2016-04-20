@@ -108,6 +108,7 @@
     "items": [
       [ "forge", 100 ],
       [ "jack", 100 ],
+      [ "jack_small", 100 ],
       [ "oxy_torch", 100 ],
       [ "polisher", 100 ],
       [ "welder", 100 ]

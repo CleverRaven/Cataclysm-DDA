@@ -6116,42 +6116,22 @@ __________           f  \n",
             place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
             if (t_west == "public_works" && t_north == "public_works") {
                 rotate(1);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 2, 0, 90);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 2, 0, 90);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 2, 0 }, 90, 0 ,0 );
                 }
             } else if (t_east == "public_works" && t_north == "public_works") {
                 rotate(2);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 23, 10, 270);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 23, 10, 270);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 23, 10 }, 270, 0, 0 );
                 }
             } else if (t_east == "public_works" && t_south == "public_works") {
                 rotate(3);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 10, 23, 0);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 10, 23, 0);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 10, 23 }, 0, 0, 0 );
                 }
             } else {
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                  if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 0, 10, 90);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 0, 10, 90);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 0, 10 }, 90, 0, 0 );
                 }
             }
         }

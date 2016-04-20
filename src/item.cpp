@@ -2510,6 +2510,11 @@ int item::volume( bool integral ) const
     return ret;
 }
 
+int item::lift_strength() const
+{
+    return weight() / STR_LIFT_FACTOR + ( weight() % STR_LIFT_FACTOR != 0 );
+}
+
 int item::attack_time() const
 {
     int ret = 65 + 4 * volume() + weight() / 60;
@@ -2670,19 +2675,6 @@ int item::get_quality( const std::string &quality_id ) const
     }
 
     return return_quality;
-}
-
-bool item::has_quality( std::string quality_id ) const
-{
-    return has_quality( quality_id, 1 );
-}
-
-bool item::has_quality( std::string quality_id, int quality_value ) const
-{
-    if( get_quality( quality_id ) >= quality_value ) {
-        return true;
-    }
-    return false;
 }
 
 bool item::has_technique( const matec_id & tech ) const
