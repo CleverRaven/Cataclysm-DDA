@@ -17,7 +17,8 @@ vehicle_selector::vehicle_selector( const tripoint &pos, int radius, bool access
     }
 }
 
-vehicle_selector::vehicle_selector( const tripoint &pos, int radius, bool accessible, const vehicle &ignore )
+vehicle_selector::vehicle_selector( const tripoint &pos, int radius, bool accessible,
+                                    const vehicle &ignore )
 {
     for( const auto &e : closest_tripoints_first( radius, pos ) ) {
         if( !accessible || g->m.clear_path( pos, e, radius, 1, 100 ) ) {
