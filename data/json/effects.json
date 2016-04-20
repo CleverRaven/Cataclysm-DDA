@@ -1530,7 +1530,7 @@
         "name": [ "Anaemia" ],
         "desc": [ "A lack of iron in your diet has made you anaemic." ],
         "apply_message": "You feel tired and listless",
-        "remove_message": "You nolonger feel anaemic",
+        "remove_message": "You no longer feel anaemic",
         "rating": "bad"
     },
     {
