@@ -384,13 +384,11 @@ void veh_interact::cache_tool_availability()
                            vehicle_selector(g->u.pos(), 1, *veh ).max_quality( "LIFT" ) } );
 
     // cap JACK requirements at 6000kg to support arbritrarily large vehicles
-    double qual = double( std::min( veh->total_mass(), 6000 ) * 1000 ) / TOOL_LIFT_FACTOR;
+    double qual = ceil( double( std::min( veh->total_mass(), 6000 ) * 1000 ) / TOOL_LIFT_FACTOR );
 
-    // when lifting vehicles to change wheels lever action reduces the workload
-    has_jack = max_lift >= ceil( qual / 3 ) ||
-               g->u.has_quality( "JACK", ceil( qual ) ) ||
-               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( "JACK", ceil( qual ) ) ||
-               vehicle_selector( g->u.pos(), 1, *veh ).has_quality( "JACK", ceil( qual ) );
+    has_jack = g->u.has_quality( "JACK", qual ) ||
+               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( "JACK", qual ) ||
+               vehicle_selector( g->u.pos(), 1, *veh ).has_quality( "JACK",  qual );
 }
 
 /**

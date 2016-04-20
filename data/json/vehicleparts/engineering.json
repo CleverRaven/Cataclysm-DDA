@@ -11,7 +11,7 @@
     "broken_color": "light_blue",
     "difficulty": 5,
     "durability": 200,
-    "qualities": [ [ "LIFT", 4 ] ],
+    "qualities": [ [ "LIFT", 4 ], [ "JACK", 12 ] ],
     "flags" : [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [
         { "item": "pipe", "count": [ 8, 32 ] },
@@ -31,7 +31,7 @@
     "folded_volume": 12,
     "difficulty": 2,
     "durability": 100,
-    "qualities": [ [ "LIFT", 1 ] ],
+    "qualities": [ [ "LIFT", 1 ], [ "JACK", 3 ] ],
     "flags" : [ "TOOL_WRENCH", "PROTRUSION", "OBSTACLE", "FOLDABLE" ],
     "breaks_into": [
         { "item": "pipe", "count": [ 2, 8 ] },
