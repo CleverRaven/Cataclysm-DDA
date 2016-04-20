@@ -46,7 +46,7 @@
     "color": "light_gray",
     "phase": "liquid",
     "container": "bottle_plastic",
-    "calories": 400,
+    "calories": 100,
     "quench": 40,
     "healthy": 2,
     "fun": -1,
@@ -68,7 +68,7 @@
     "symbol": "%",
     "color": "white",
     "container": "bottle_plastic_small",
-    "calories": 400,
+    "calories": 100,
     "vitamins": 0
   },
   {
@@ -82,7 +82,7 @@
         "weight": 1.2,
         "price": 2.0
     },
-    "relative": { "calories": 100 },
+    "relative": { "calories": 50 },
     "healthy": 4,
     "fun": 4,
     "vitamins": [ [ "vitC", 20 ] ]
