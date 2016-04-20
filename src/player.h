@@ -731,6 +731,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         template <typename T>
         bool can_lift( const T& obj ) const {
             // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+            int str = get_str();
+            if( has_trait( "STRONGBACK" ) ) {
+                str *= 1.35;
+            } else if( has_trait( "BADBACK" ) ) {
+                str /= 1.35;
+            }
             return get_str() >= obj.lift_strength();
         }
 

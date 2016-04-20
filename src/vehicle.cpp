@@ -663,7 +663,8 @@ const std::string vehicle::disp_name()
 
 int vehicle::lift_strength() const
 {
-    int mass = total_mass() * 1000;
+    // easier to lever up a vehicle to change a wheel than to carry the entire weight
+    int mass = total_mass() * 1000 / 2;
     return mass / STR_LIFT_FACTOR + ( mass % STR_LIFT_FACTOR != 0 );
 }
 

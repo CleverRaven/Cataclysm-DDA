@@ -77,7 +77,7 @@
 #define PLUTONIUM_CHARGES 500
 
 ///\EFFECT_STR allows lifting of heavier objects */
-#define STR_LIFT_FACTOR 10000 // 10kg/STR
+#define STR_LIFT_FACTOR 5000 // 5kg/STR
 
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500000 // 500kg/level
