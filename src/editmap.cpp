@@ -703,7 +703,7 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
     alts["_v"] = "_h";
     alts["_vertical"] = "_horizontal";
     alts["_v_alarm"] = "_h_alarm";
-    const std::string tersid = sel_ter.obj().id;
+    const std::string tersid = sel_ter.obj().id.str();
     const int sidlen = tersid.size();
     for( std::map<std::string, std::string>::const_iterator it = alts.begin(); it != alts.end();
          ++it ) {
@@ -712,8 +712,10 @@ ter_id get_alt_ter( bool isvert, ter_id sel_ter )
         const int slen = suffix.size();
         if( sidlen > slen && tersid.substr( sidlen - slen, slen ) == suffix ) {
             const std::string terasid = tersid.substr( 0, sidlen - slen ) + asuffix;
-            if( termap.find( terasid ) != termap.end() ) {
-                return termap[terasid].loadid;
+            const ter_str_id tid( terasid );
+
+            if( tid.is_valid() ) {
+                return tid.id();
             }
         }
     }
@@ -774,8 +776,8 @@ int editmap::edit_ter()
 
     const int xmin = 3; // left margin
     int xmax = pickw - xmin;
-    int tymax = int( termap.size() / xmax );
-    if( termap.size() % xmax != 0 ) {
+    int tymax = int( ter_t::count() / xmax );
+    if( ter_t::count() % xmax != 0 ) {
         tymax++;
     }
     int fymax = int( furnmap.size() / xmax );
@@ -815,8 +817,8 @@ int editmap::edit_ter()
         int cur_t = 0;
         int tstart = 2;
         // draw icon grid
-        for( int y = tstart; y < pickh && cur_t < ( int ) termap.size(); y += 2 ) {
-            for( int x = xmin; x < pickw && cur_t < ( int ) termap.size(); x++, cur_t++ ) {
+        for( int y = tstart; y < pickh && cur_t < ( int ) ter_t::count(); y += 2 ) {
+            for( int x = xmin; x < pickw && cur_t < ( int ) ter_t::count(); x++, cur_t++ ) {
                 const ter_id tid( cur_t );
                 const ter_t &ttype = tid.obj();
                 mvwputch( w_pickter, y, x, ( ter_frn_mode == 0 ? ttype.color() : c_dkgray ) , ttype.symbol() );
@@ -855,7 +857,7 @@ int editmap::edit_ter()
                 mvwaddch( w_pickter, 0, i, LINE_OXOX );
             }
 
-            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.loadid.to_i(),
+            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pttype.id.c_str(), pttype.id.id().to_i(),
                        pttype.name.c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pttype.movecost );
             std::string extras = "";
@@ -946,20 +948,20 @@ int editmap::edit_ter()
         lastsel_frn = sel_frn;
         if( ter_frn_mode == 0 ) {
             if( action == "LEFT" ) {
-                increment( sel_ter, -1, termap.size() );
+                increment( sel_ter, -1, ter_t::count() );
             } else if( action == "RIGHT" ) {
-                increment( sel_ter, +1, termap.size() );
+                increment( sel_ter, +1, ter_t::count() );
             } else if( action == "UP" ) {
-                if( would_overflow( sel_ter, -xmax, termap.size() ) ) {
+                if( would_overflow( sel_ter, -xmax, ter_t::count() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 } else {
-                    increment( sel_ter, -xmax, termap.size() );
+                    increment( sel_ter, -xmax, ter_t::count() );
                 }
             } else if( action == "DOWN" ) {
-                if( would_overflow( sel_ter, +xmax, termap.size() ) ) {
+                if( would_overflow( sel_ter, +xmax, ter_t::count() ) ) {
                     ter_frn_mode = ( ter_frn_mode == 0 ? 1 : 0 );
                 } else {
-                    increment( sel_ter, +xmax, termap.size() );
+                    increment( sel_ter, +xmax, ter_t::count() );
                 }
             } else if( action == "CONFIRM" || action == "CONFIRM_QUIT" ) {
                 bool isvert = false;

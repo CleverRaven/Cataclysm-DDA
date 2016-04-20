@@ -2619,7 +2619,7 @@ void iexamine::curtains(player &p, const tripoint &examp)
         p.add_msg_if_player( _("You carefully peek through the curtains.") );
     } else if( choice == 2 ) {
         // Mr. Gorbachev, tear down those curtains!
-        g->m.ter_set( examp, "t_window_no_curtains" );
+        g->m.ter_set( examp, t_window_no_curtains );
         g->m.spawn_item( p.pos(), "nail", 1, 4 );
         g->m.spawn_item( p.pos(), "sheet", 2 );
         g->m.spawn_item( p.pos(), "stick" );
@@ -2703,7 +2703,7 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
     int &j = tmp.y;
     for (i = center.x - radius; i <= center.x + radius; i++) {
         for (j = center.y - radius; j <= center.y + radius; j++) {
-            if (g->m.ter_at(tmp).id != "t_gas_tank") {
+            if (g->m.ter_at(tmp).id.str() != "t_gas_tank") {
                 continue;
             }
 
@@ -2851,7 +2851,7 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
             liq_d.charges = amount;
 
             ter_t backup_pump = g->m.ter_at(dst);
-            g->m.ter_set( dst, "t_null");
+            g->m.ter_set( dst, NULL_ID );
             g->m.add_item_or_charges(dst, liq_d);
             g->m.ter_set(dst, backup_pump.id);
 
@@ -2881,7 +2881,7 @@ static long fromPumpFuel(const tripoint &dst, const tripoint &src)
 
             // add the charges to the destination
             ter_t backup_tank = g->m.ter_at(dst);
-            g->m.ter_set(dst, "t_null");
+            g->m.ter_set(dst, NULL_ID);
             g->m.add_item_or_charges(dst, liq_d);
             g->m.ter_set(dst, backup_tank.id);
 
@@ -2906,9 +2906,9 @@ static void turnOnSelectedPump(const tripoint &p, int number)
         for (j = p.y - radius; j <= p.y + radius; j++) {
             if ((g->m.ter_at(tmp).id == "t_gas_pump" || g->m.ter_at(tmp).id == "t_gas_pump_a") ) {
                 if (number == k++) {
-                    g->m.ter_set(tmp, "t_gas_pump_a");
+                    g->m.ter_set(tmp, ter_str_id( "t_gas_pump_a" ) );
                 } else {
-                    g->m.ter_set(tmp, "t_gas_pump");
+                    g->m.ter_set(tmp, ter_str_id( "t_gas_pump" ) );
                 }
             }
         }

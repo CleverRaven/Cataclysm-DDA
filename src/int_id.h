@@ -41,6 +41,15 @@ class int_id
         int_id( const string_id<T> &id );
 
         /**
+         * Forwarding constructor, forwards any parameter to the string_id
+         * constructor to create the int id. This allows plain C-strings,
+         * and std::strings to be used.
+         */
+        template<typename S, class =
+                 typename std::enable_if< std::is_convertible<S, std::string >::value>::type >
+        explicit int_id( S && id ) : int_id( string_id<T>( std::forward<S>( id ) ) ) {}
+
+        /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
          */
         bool operator<( const This &rhs ) const {
@@ -78,6 +87,12 @@ class int_id
         // If you don't implement them, but use them, you'll get a linker error.
         const string_id<T> &id() const;
         const T &obj() const;
+
+        /**
+         * Returns whether this id is valid, that means whether it refers to an existing object.
+         */
+        bool is_valid() const;
+
     private:
         int _id;
 };
