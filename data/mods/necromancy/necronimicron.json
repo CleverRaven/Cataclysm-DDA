@@ -11,7 +11,6 @@
     "weight": 100,
     "volume": 0,
     "bashing": 0,
-    "to_hit": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "spare_parts",
@@ -28,7 +27,6 @@
     "weight": 1000,
     "volume": 1,
     "bashing": 0,
-    "to_hit": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
@@ -54,7 +52,6 @@
     "weight": 10000,
     "volume": 15,
     "bashing": 0,
-    "to_hit": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "category": "tools",
@@ -91,7 +88,6 @@
     "weight": 1,
     "volume": 1,
     "bashing": 0,
-    "to_hit": 0,
     "tool" : "syringe",
     "category": "drugs"
   },{
@@ -101,7 +97,6 @@
     "max_level" : 5,
     "description" : "A thick book containing research notes of a mad scientist.  It describes various methods of reanimating and controlling the dead.  There's a lot of gory details and technical language mixed in, so it's not easy to read.",
     "weight" : 2330,
-    "to_hit" : 0,
     "color" : "dark_gray",
     "intelligence" : 14,
     "symbol" : "?",

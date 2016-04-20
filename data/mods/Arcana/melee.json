@@ -25,7 +25,6 @@
         "material": "paper",
         "weight": 415,
         "volume": 1,
-        "bashing": 0,
-        "to_hit": 0
+        "bashing": 0
     }
 ]
