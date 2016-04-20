@@ -1167,8 +1167,10 @@ void Item_factory::load_veh_part(JsonObject &jo)
 
 void Item_factory::load_generic(JsonObject &jo)
 {
-    itype *new_item_template = new itype();
-    load_basic_info(jo, new_item_template);
+    auto def = load_definition( jo );
+    if( def ) {
+        load_basic_info( jo, def );
+    }
 }
 
 // Adds allergy flags to items with allergenic materials
