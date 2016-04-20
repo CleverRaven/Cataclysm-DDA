@@ -701,7 +701,7 @@
         "weight" : 10,
         "volume" : 1,
         "price" : 5000,
-        "charges" : 25,
+        "charges" : 100,
         "material" : "plastic",
         "symbol" : "!",
         "color" : "light_blue",
