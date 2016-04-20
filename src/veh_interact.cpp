@@ -593,19 +593,19 @@ bool veh_interact::can_install_part(int msg_width){
         // no other tool requirements
 
     } else if( is_wrenchable ) {
-        msg += string_format( _( ", a <color_%3$s>wrench</color> or <color_%4$s>duct tape</color>" ),
+        msg += string_format( _( ", a <color_%1$s>wrench</color> or <color_%2$s>duct tape</color>" ),
                               status_color( has_wrench ), status_color( has_duct_tape ) );
 
     } else if( is_screwable ) {
-        msg += string_format( _( ", a <color_%3$s>screwdriver</color> or <color_%4$s>duct tape</color>"),
+        msg += string_format( _( ", a <color_%1$s>screwdriver</color> or <color_%2$s>duct tape</color>"),
                               status_color( has_screwdriver ), status_color( has_duct_tape ) );
 
     } else if( is_wood ) {
-        msg += string_format( _( ", either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>" ),
+        msg += string_format( _( ", either <color_%1$s>nails</color> and <color_%2$s>something to drive them</color> or <color_%3$s>duct tape</color>" ),
                               status_color( has_nails ), status_color( has_hammer || has_nailgun ), status_color( has_duct_tape ) );
 
     } else {
-        msg += string_format( _( ", a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>" ),
+        msg += string_format( _( ", a <color_%1$s>wrench</color>, either a <color_%2$s>powered welder</color> (and <color_%3$s>welding goggles</color>) or <color_%4$s>duct tape</color>" ),
                               status_color( has_wrench ), status_color( has_welder ), status_color( has_goggles ), status_color( has_duct_tape ) );
     }
 
