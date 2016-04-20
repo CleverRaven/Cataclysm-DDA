@@ -6347,25 +6347,6 @@
     }
   },
   {
-    "id": "medical_gauze",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "white",
-    "name": "medical gauze",
-    "description": "This is decent sized piece of cotton, sterilized and sealed.  It's designed for medical purposes.",
-    "price": 350,
-    "material": "cotton",
-    "weight": 90,
-    "volume": 0,
-    "category" : "drugs",
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 0,
-            "bleed" : 0.5,
-            "move_cost" : 200
-        }
-  },
-  {
     "id": "talking_doll",
     "type": "TOOL",
     "symbol": "|",
@@ -7382,43 +7363,6 @@
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
-  },
-  {
-    "id": "inhaler",
-    "type": "TOOL",
-    "symbol": "!",
-    "color": "light_blue",
-    "name": "inhaler",
-    "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
-    "price": 5000,
-    "material": "plastic",
-    "weight": 10,
-    "volume": 0,
-    "to_hit": -4,
-    "max_charges": 100,
-    "initial_charges": 100,
-    "charges_per_use": 1,
-    "category": "drugs",
-    "use_action": "INHALER"
-  },
-  {
-    "id": "eyedrops",
-    "type": "TOOL",
-    "symbol": "!",
-    "color": "light_blue",
-    "name": "saline eye drop",
-    "name_plural": "saline eye drops",
-    "description": "Sterile saline eye drops.  Can be used to treat dry eyes, or to wash out contaminants.",
-    "price": 300,
-    "material": "plastic",
-    "weight": 18,
-    "volume": 0,
-    "to_hit": -4,
-    "max_charges": 10,
-    "initial_charges": 10,
-    "charges_per_use": 1,
-    "category": "drugs",
-    "use_action": "EYEDROPS"
   },
   {
     "id": "cow_bell",

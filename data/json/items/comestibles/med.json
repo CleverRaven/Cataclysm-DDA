@@ -83,7 +83,6 @@
         "comestible_type" : "MED",
         "name" : "antifungal drug",
         "description" : "Powerful chemical tablets designed to eliminate fungal infections in living creatures.",
-        "category" : "drugs",
         "weight" : 1,
         "volume" : 1,
         "price" : 1000,
@@ -100,7 +99,6 @@
         "comestible_type" : "MED",
         "name" : "antiparasitic drug",
         "description" : "Broad spectrum chemical tablets designed to eliminate parasitic infestations in living creatures.  Though designed for use on pets and livestock, it will likely work on humans as well.",
-        "category" : "drugs",
         "weight" : 1,
         "volume" : 1,
         "price" : 3200,
@@ -547,7 +545,6 @@
         "name" : "diazepam",
         "name_plural" : "diazepam",
         "description" : "A strong benzodiazepine drug used to treat muscle spasms, anxiety, seizures, and panic attacks.",
-        "category" : "drugs",
         "weight" : 1,
         "volume" : 1,
         "price" : 15000,
@@ -580,6 +577,20 @@
         "addiction_potential" : 50,
         "addiction_type" : "nicotine",
         "use_action" : "ECIG"   
+    },
+    {
+        "id" : "eyedrops",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "saline eye drop",
+        "name_plural" : "saline eye drops",
+        "description" : "Sterile saline eye drops.  Can be used to treat dry eyes, or to wash out contaminants.",
+        "weight" : 18,
+        "price" : 300,
+        "charges" : 10,
+        "symbol" : "!",
+        "color" : "light_blue",
+        "use_action" : "EYEDROPS"
     },
     {
         "id" : "flu_shot",
@@ -682,6 +693,22 @@
         }
     },
     {
+        "id" : "inhaler",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "inhaler",
+        "description" : "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
+        "weight" : 10,
+        "volume" : 1,
+        "price" : 5000,
+        "charges" : 100,
+        "material" : "plastic",
+        "symbol" : "!",
+        "color" : "light_blue",
+        "stim" : 2,
+        "use_action" : "INHALER"
+    },
+    {
         "id" : "inhaler_sewergas",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -780,6 +807,25 @@
             "activation_message" : "You eat the pink tablet.",
             "effects" : [ { "id" : "hallu", "duration" : 3600  } ]
         }   
+    },
+    {
+        "id" : "medical_gauze",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "medical gauze",
+        "description" : "This is decent sized piece of cotton, sterilized and sealed.  It's designed for medical purposes.",
+        "weight" : 90,
+        "price" : 350,
+        "charges" : 1,
+        "material" : "cotton",
+        "symbol" : ",",
+        "color" : "white",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200
+        }
     },
     {
         "id" : "meth",
