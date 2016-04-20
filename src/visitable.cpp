@@ -141,7 +141,7 @@ bool visitable<vehicle_cursor>::has_quality( const std::string &qual, int level,
 template <typename T>
 static int max_quality_internal( const T& self, const std::string &qual )
 {
-    int res = 0;
+    int res = INT_MIN;
     self.visit_items( [&res,&qual]( const item *e ) {
         res = std::max( res, e->get_quality( qual ) );
         return VisitResponse::NEXT;
@@ -151,7 +151,7 @@ static int max_quality_internal( const T& self, const std::string &qual )
 
 static int max_quality_from_vpart( const vehicle& veh, int part, const std::string& qual )
 {
-    int res = 0;
+    int res = INT_MIN;
 
     auto pos = veh.parts[ part ].mount;
     for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
@@ -179,7 +179,7 @@ int visitable<T>::max_quality( const std::string &qual ) const
 template<>
 int visitable<Character>::max_quality( const std::string &qual ) const
 {
-    int res = 0;
+    int res = INT_MIN;
 
     auto self = static_cast<const Character *>( this );
 
@@ -211,7 +211,7 @@ int visitable<vehicle_cursor>::max_quality( const std::string &qual ) const
 template <>
 int visitable<vehicle_selector>::max_quality( const std::string &qual ) const
 {
-    int res = 0;
+    int res = INT_MIN;
     for( const auto &e : static_cast<const vehicle_selector &>( *this ) ) {
         res = std::max( res, e.max_quality( qual ) );
     }

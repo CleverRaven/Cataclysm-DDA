@@ -62,7 +62,7 @@ class visitable
         /** Returns true if instance has amount (or more) items of at least quality level */
         bool has_quality( const std::string &qual, int level = 1, int qty = 1 ) const;
 
-        /** Return maximum tool quality level that can be provided by this instance */
+        /** Return maximum tool quality level provided by instance or INT_MIN if not found */
         int max_quality( const std::string &qual ) const;
 
         /**
