@@ -12099,19 +12099,19 @@ bool game::plmove(int dx, int dy, int dz)
     // Invalid move
     const bool waste_moves = u.is_blind() || u.has_active_bionic("bio_blindfold") || u.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != u.posz() ) {
-        std::string obtacle_name;
+        std::string obstacle_name;
         int part;
         vehicle *veh = m.veh_at( dest_loc, part );
         if( veh != nullptr ) {
-            // redefine variable as id of obtacle part
+            // redefine variable as id of obstacle part
             part = veh->obstacle_at_part( part );
             if( part > 0 ) {
-                obtacle_name = veh->parts[part].info().name;
+                obstacle_name = veh->parts[part].info().name;
             }
         } else {
-            obtacle_name = m.name( dest_loc );
+            obstacle_name = m.name( dest_loc );
         }
-        add_msg( _( "You bump into a %s!" ), obtacle_name.c_str() );
+        add_msg( _( "You bump into a %s!" ), obstacle_name.c_str() );
         // Only lose movement if we're blind
         if( waste_moves ) {
             u.moves -= 100;
