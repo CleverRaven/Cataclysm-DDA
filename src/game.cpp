@@ -3757,6 +3757,20 @@ void game::dump_stats( const std::string& what )
                 << veh_empty.total_mass() << "\t"
                 << veh_fueled.total_mass() << std::endl;
         }
+    } else if( what == "VPART" ) {
+        std::cout
+            << "Name" << "\t"
+            << "Location" << "\t"
+            << "Weight" << "\t"
+            << "Size" << std::endl;
+
+        for( const auto e : vpart_info::get_all() ) {
+            std::cout
+                << e->name << "\t"
+                << e->location << "\t"
+                << ceil( item( e->item ).weight() / 1000.0 ) << "\t"
+                << e->size << std::endl;
+        }
     }
 }
 
