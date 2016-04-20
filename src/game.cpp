@@ -3743,6 +3743,20 @@ void game::dump_stats( const std::string& what )
                 dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
             }
         }
+    } else if( what == "VEHICLE" ) {
+        std::cout
+            << "Name" << "\t"
+            << "Weight (empty)" << "\t"
+            << "Weight (fueled)" << std::endl;
+
+        for( auto& e : vehicle_prototype::get_all() ) {
+            auto veh_empty = vehicle( e, 0, 0 );
+            auto veh_fueled = vehicle( e, 100, 0 );
+            std::cout
+                << veh_empty.name << "\t"
+                << veh_empty.total_mass() << "\t"
+                << veh_fueled.total_mass() << std::endl;
+        }
     }
 }
 
