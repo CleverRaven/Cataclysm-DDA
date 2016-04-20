@@ -4,16 +4,52 @@
         "playlists":
         [
             {
-                "id" : "title",
+                "id" : "menu",
                 "shuffle" : false,
                 "files" : [
                     {
-                        "file": "Dark_Days_Ahead_demo_2.wav",
-                        "volume": 128
-                    },
+                        "file": "menu.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "wilderness",
+                "shuffle" : false,
+                "files" : [
                     {
-                        "file": "cataclysmthemeREV6.wav",
-                        "volume": 90
+                        "file": "wilderness.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "outskirts",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "outskirts.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "city",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "city.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "science lab",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "lab.wav",
+                        "volume": 100
                     }
                 ]
             }
