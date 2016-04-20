@@ -35,6 +35,7 @@ static const std::string category_id_mods("mods");
 static const std::string category_id_magazines("magazines");
 static const std::string category_id_cbm("bionics");
 static const std::string category_id_mutagen("mutagen");
+static const std::string category_id_veh_parts("veh_parts");
 static const std::string category_id_other("other");
 
 typedef std::set<std::string> t_string_set;
@@ -86,6 +87,10 @@ void Item_factory::finalize() {
 
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
+
+        if( !obj.category ) {
+            obj.category = get_category( calc_category( &obj ) );
+        }
 
         // use pre-cataclysm price as default if post-cataclysm price unspecified
         if( obj.price_post < 0 ) {
@@ -461,7 +466,8 @@ void Item_factory::create_inital_categories()
     add_category(category_id_mods, -13, _("MODS"));
     add_category(category_id_cbm, -12, _("BIONICS"));
     add_category(category_id_mutagen, -11, _("MUTAGEN"));
-    add_category(category_id_other, -10, _("OTHER"));
+    add_category(category_id_veh_parts, -10, _("VEHICLE PARTS"));
+    add_category(category_id_other, -9, _("OTHER"));
 }
 
 void Item_factory::add_category(const std::string &id, int sort_rank, const std::string &name)
@@ -1330,10 +1336,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     set_use_methods_from_json( jo, "use_action", new_item_template->use_methods );
 
-    if (jo.has_member("category")) {
-        new_item_template->category = get_category(jo.get_string("category"));
-    } else {
-        new_item_template->category = get_category(calc_category(new_item_template));
+    if( jo.has_member( "category" ) ) {
+        new_item_template->category = get_category( jo.get_string( "category" ) );
     }
 
     load_slot_optional( new_item_template->container, jo, "container_data" );
