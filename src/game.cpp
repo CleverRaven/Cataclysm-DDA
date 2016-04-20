@@ -7435,7 +7435,7 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_activatable(_("Use item:"), u);
+        pos = inv_for_activatable( _( "Use item:" ), u );
     }
 
     if (pos == INT_MIN) {

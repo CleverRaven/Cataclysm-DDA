@@ -14,7 +14,6 @@
 #include "vehicle_selector.h"
 #include "cata_utility.h"
 #include "itype.h"
-#include "iuse_actor.h"
 
 #include <string>
 #include <vector>
@@ -85,7 +84,7 @@ class inventory_selector
          * For a consecutive sequence of items of the same category a single
          * category entry is added in front of them or after them depending on @ref where.
          */
-        void add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
+        void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
         /** Creates the inventory screen */
         inventory_selector( player &u, const std::string &title, item_filter filter = allow_all_items );
         ~inventory_selector();
@@ -301,12 +300,12 @@ char invlet_or_space(const item &it)
 void inventory_selector::print_column(const itemstack_vector &items, size_t y, size_t w,
                                       size_t selected, size_t current_page_offset, selector_mode mode) const
 {
-    const auto get_drop_icon = [ this, mode ]( drop_map::const_iterator dit ) -> std::string {
-        if (mode == SM_PICK) {
+    const auto get_drop_icon = [ this, mode ]( const drop_map::const_iterator &dit ) -> std::string {
+        if( mode == SM_PICK ) {
             return "";
-        } else if (dit == dropping.end()) {
+        } else if( dit == dropping.end() ) {
             return "- ";
-        } else if (dit->second == -1) {
+        } else if( dit->second == -1 ) {
             return "+ ";
         } else {
             return "# ";
@@ -508,7 +507,7 @@ inventory_selector::inventory_selector( player &u, const std::string &title, ite
 
     add_items( u.inv.indexed_slice_filter_by( filter ), AT_BEGINNING );
 
-    if (u.is_armed() && filter(u.weapon)) {
+    if( u.is_armed() && filter( u.weapon ) ) {
         worn.push_back(itemstack_or_category(&weapon_cat));
         worn.push_back(itemstack_or_category(&u.weapon, -1));
     }
@@ -518,7 +517,7 @@ inventory_selector::inventory_selector( player &u, const std::string &title, ite
             continue;
         }
         if( i == 0 ) {
-            worn.push_back(itemstack_or_category(&worn_cat));
+            worn.push_back( itemstack_or_category( &worn_cat ) );
         }
         worn.push_back(itemstack_or_category(&*iter, player::worn_position_to_index(i)));
     }
@@ -851,21 +850,21 @@ void inventory_selector::execute_compare()
 
         const auto item_entry = ( item_pos == INT_MIN ) ? invlet_to_item_entry( ch ) : nullptr;
 
-        if (item_pos != INT_MIN) {
-            set_to_drop(item_pos, 0);
-        } else if ( item_entry != nullptr ) {
+        if( item_pos != INT_MIN ) {
+            set_to_drop( item_pos, 0 );
+        } else if( item_entry != nullptr ) {
             set_drop_count( item_entry->item_pos, 0, item_entry->slice->front() );
-        } else if (handle_movement(action)) {
+        } else if( handle_movement( action ) ) {
             // continue with comparison below
-        } else if (action == "QUIT") {
+        } else if( action == "QUIT" ) {
             break;
-        } else if (action == "RIGHT") {
-            set_selected_to_drop(0);
+        } else if(action == "RIGHT") {
+            set_selected_to_drop( 0 );
         }
         if (second_item != NULL) {
             std::vector<iteminfo> vItemLastCh, vItemCh;
             std::string sItemLastCh, sItemCh, sItemTn;
-            first_item->info(true, vItemCh);
+            first_item->info( true, vItemCh );
             sItemCh = first_item->tname();
             sItemTn = first_item->type_name();
             second_item->info(true, vItemLastCh);
@@ -873,21 +872,21 @@ void inventory_selector::execute_compare()
 
             int iScrollPos = 0;
             int iScrollPosLast = 0;
-            int ch = (int)' ';
+            int ch = ( int ) ' ';
             do {
-                draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               sItemLastCh, sItemTn, vItemLastCh, vItemCh, iScrollPosLast, true); //without getch()
-                ch = draw_item_info((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
-                                    0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos);
+                draw_item_info( 0, ( TERMX - VIEW_OFFSET_X * 2 ) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
+                               sItemLastCh, sItemTn, vItemLastCh, vItemCh, iScrollPosLast, true ); //without getch()
+                ch = draw_item_info( ( TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2 ) / 2,
+                                    0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos );
 
-                if ( ch == KEY_PPAGE ) {
+                if( ch == KEY_PPAGE ) {
                     iScrollPos--;
                     iScrollPosLast--;
-                } else if ( ch == KEY_NPAGE ) {
+                } else if( ch == KEY_NPAGE ) {
                     iScrollPos++;
                     iScrollPosLast++;
                 }
-            } while (ch == KEY_PPAGE || ch == KEY_NPAGE);
+            } while ( ch == KEY_PPAGE || ch == KEY_NPAGE );
 
             dropping = prev_droppings;
             second_item = NULL;
@@ -900,9 +899,9 @@ void inventory_selector::execute_compare()
 std::list<std::pair<int, int>> inventory_selector::execute_multidrop()
 {
     const auto can_drop = [ this ]( int item_pos ) -> bool {
-        if( item_pos == -1 && u.weapon.has_flag("NO_UNWIELD") ) {
-            if (!warned_about_bionic) {
-                popup(_("You cannot drop your %s."), u.weapon.tname().c_str());
+        if( item_pos == -1 && u.weapon.has_flag( "NO_UNWIELD" ) ) {
+            if( !warned_about_bionic ) {
+                popup( _( "You cannot drop your %s." ), u.weapon.tname().c_str() );
                 warned_about_bionic = true;
             }
             return false;
@@ -920,25 +919,26 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop()
         const long ch = ctxt.get_raw_input().get_first_input();
         const int item_pos = u.invlet_to_position( ch );
 
-        if (ch >= '0' && ch <= '9') {
-            count = std::max( 0, count * 10 + ((char)ch - '0') );
-        } else if (item_pos != INT_MIN) {
+        if( ch >= '0' && ch <= '9' ) {
+            count *= 10;
+            count += ch - '0';
+        } else if( item_pos != INT_MIN ) {
             if( can_drop( item_pos ) ) {
-                set_to_drop(item_pos, count);
+                set_to_drop( item_pos, count );
             }
             count = 0;
-        } else if (handle_movement(action)) {
+        } else if( handle_movement( action ) ) {
             count = 0;
             continue;
-        } else if (action == "CONFIRM") {
-            break;
-        } else if (action == "QUIT") {
-            return std::list<std::pair<int, int> >();
-        } else if (action == "RIGHT") {
+        } else if( action == "RIGHT" ) {
             if( can_drop( get_selected_item_position() ) ) {
-                set_selected_to_drop(count);
+                set_selected_to_drop( count );
             }
             count = 0;
+        } else if( action == "CONFIRM" ) {
+            break;
+        } else if( action == "QUIT" ) {
+            return std::list<std::pair<int, int> >();
         }
     }
 
@@ -956,26 +956,26 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop()
 }
 
 // Display current inventory.
-int game::inv(const std::string &title, const int position)
+int game::inv( const std::string &title, const int position )
 {
     return inv_for_filter( title, allow_all_items, position );
 }
 
-int game::inv_for_activatable(std::string const &title, const player &p)
+int game::inv_for_activatable( const std::string &title, const player &p )
 {
     return inv_for_filter( title, [ &p ]( const item &it ) {
         return p.rate_action_use( it ) != HINT_CANT;
     } );
 }
 
-int game::inv_for_flag(const std::string &flag, const std::string &title)
+int game::inv_for_flag( const std::string &flag, const std::string &title )
 {
     return inv_for_filter( title, [ &flag ]( const item &it ) {
         return it.has_flag( flag );
     } );
 }
 
-int game::inv_for_filter(std::string const &title, const item_filter filter, const int position)
+int game::inv_for_filter( const std::string &title, const item_filter filter, const int position )
 {
     u.inv.restack( &u );
     u.inv.sort();
@@ -983,21 +983,21 @@ int game::inv_for_filter(std::string const &title, const item_filter filter, con
     return inventory_selector( u, title, filter ).execute_pick( position );
 }
 
-int game::inv_for_type(const std::string &title, const std::string &type_id)
+int game::inv_for_id(const std::string &title, const std::string &id)
 {
-    return inv_for_filter( title, [ &type_id ]( const item &it ) {
-        return it.type->id == type_id;
+    return inv_for_filter( title, [ &id ]( const item &it ) {
+        return it.type->id == id;
     } );
 }
 
-int game::inv_for_equipped( std::string const &title )
+int game::inv_for_equipped( const std::string &title )
 {
     return inv_for_filter( title, [ this ]( const item &it ) {
         return u.is_worn( it );
     } );
 }
 
-int game::inv_for_unequipped( std::string const &title )
+int game::inv_for_unequipped( const std::string &title )
 {
     return inv_for_filter( title, [ this ]( const item &it ) {
         // TODO: Add more filter conditions like "not made of wool if allergic to it".

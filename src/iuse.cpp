@@ -4962,7 +4962,7 @@ int iuse::lumber(player *p, item *it, bool, const tripoint& )
     }
 
     // If the player is not standing on a log, check inventory
-    int pos = g->inv_for_type( _("Cut up what?"), "log" );
+    int pos = g->inv_for_id( _("Cut up what?"), "log" );
 
     item* cut = &( p->i_at( pos ) );
 
@@ -4971,7 +4971,7 @@ int iuse::lumber(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     p->i_rem( cut );
-    cut_log_into_planks(p);
+    cut_log_into_planks( p );
     return it->type->charges_to_use();
 }
 

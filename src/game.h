@@ -425,13 +425,13 @@ class game
 
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
 
-        int inv(const std::string &title, int position = INT_MIN);
-        int inv_for_activatable(std::string const &title, const player &p);
-        int inv_for_flag(const std::string &flag, const std::string &title);
-        int inv_for_filter(const std::string &title, item_filter filter, const int position = INT_MIN);
-        int inv_for_type(const std::string &title, const std::string &type_id);
-        int inv_for_equipped(std::string const &title);
-        int inv_for_unequipped(std::string const &title);
+        int inv( const std::string &title, int position = INT_MIN );
+        int inv_for_activatable( const std::string &title, const player &p );
+        int inv_for_flag( const std::string &flag, const std::string &title );
+        int inv_for_filter( const std::string &title, item_filter filter, const int position = INT_MIN );
+        int inv_for_id( const std::string &title, const std::string &id );
+        int inv_for_equipped( const std::string &title );
+        int inv_for_unequipped( const std::string &title );
 
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
