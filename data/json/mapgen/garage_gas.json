@@ -3,7 +3,7 @@
         "type" : "mapgen",
         "om_terrain" : ["garage_gas_1"],
         "method" : "json",
-        "weight" : 250, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight" : 250,
         "object" : {
             "fill_ter" : "t_floor",
             "rows" : [
@@ -71,7 +71,7 @@
         "type" : "mapgen",
         "om_terrain" : ["garage_gas_2"],
         "method" : "json",
-        "weight" : 250, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight" : 250,
         "object" : {
             "fill_ter" : "t_floor",
             "rows" : [
@@ -163,7 +163,7 @@
         "type" : "mapgen",
         "om_terrain" : ["garage_gas_3"],
         "method" : "json",
-        "weight" : 250, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "weight" : 250,
         "object" : {
             "fill_ter" : "t_floor",
             "rows" : [
