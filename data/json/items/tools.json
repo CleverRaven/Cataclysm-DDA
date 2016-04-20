@@ -334,7 +334,6 @@
     "name" : "honey scraper",
     "description" : "A sharp, knife-like tool used in harvesting honey from beehives.  Makes a passable melee weapon.",
     "weight" : 580,
-    "to_hit" : 0,
     "color" : "dark_gray",
     "symbol" : ",",
     "material" : ["steel"],
@@ -2887,7 +2886,6 @@
       "volume" : 1,
       "weight" : 150,
       "bashing" : 2,
-      "to_hit" : 0,
       "max_charges": 5,
       "initial_charges": 5,
       "charges_per_use": 1,
@@ -7695,8 +7693,7 @@
     "material" : "steel",
     "weight" : 1,
     "volume" : 0,
-    "cutting" : 3,
-    "to_hit" : 0
+    "cutting" : 3
   },{
     "type" : "GENERIC",
     "id" : "fishing_hook_bone",
@@ -7708,8 +7705,7 @@
     "material" : "bone",
     "weight" : 1,
     "volume" : 0,
-    "cutting" : 3,
-    "to_hit" : 0
+    "cutting" : 3
   },{
     "id": "toolset",
     "type": "TOOL",
@@ -8770,7 +8766,6 @@
     "category" : "tools",
     "weight" : 250,
     "color" : "light_gray",
-    "to_hit" : 0,
     "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
