@@ -1059,13 +1059,26 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
     }
 
+    bool got_calories = false;
+
     if( jo.has_int( "calories" ) ) {
-        if( jo.has_member( "nutrition" ) ) {
-            jo.throw_error( "cannot specify both nutrition and calories", "nutrition" );
-        }
         slot.nutr = jo.get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+        got_calories = true;
+
+    } else if( jo.get_object( "relative" ).has_int( "calories" ) ) {
+        slot.nutr += jo.get_object( "relative" ).get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+        got_calories = true;
+
+    } else if( jo.get_object( "proportional" ).has_float( "calories" ) ) {
+        slot.nutr *= jo.get_object( "proportional" ).get_float( "calories" );
+        got_calories = true;
+
     } else {
         jo.read( "nutrition", slot.nutr );
+    }
+
+    if( jo.has_member( "nutrition" ) && got_calories ) {
+        jo.throw_error( "cannot specify both nutrition and calories", "nutrition" );
     }
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
