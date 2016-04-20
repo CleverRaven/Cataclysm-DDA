@@ -248,7 +248,10 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return INEDIBLE;
     }
 
-    if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
+    const bool edible    = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
+    const bool drinkable = comest->comesttype == "DRINK" && !food.has_flag( "USE_EAT_VERB" );
+
+    if( edible || drinkable ) {
         for( const auto &m : food.type->materials ) {
             if( !m.obj().edible() ) {
                 maybe_print( m_info, _( "That doesn't look edible in its current form." ) );
@@ -281,7 +284,6 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return INEDIBLE_MUTATION;
     }
 
-    const bool drinkable = comest->comesttype == "DRINK" && !food.has_flag( "USE_EAT_VERB" );
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( "PROBOSCIS" ) && !drinkable ) {
         maybe_print( m_info, _( "Ugh, you can't drink that!" ) );
@@ -346,14 +348,12 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     }
 
     const bool saprophage = has_trait( "SAPROPHAGE" );
-    // The item is solid food
-    const bool chew = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
     if( spoiled ) {
         if( !saprophage && !has_trait( "SAPROVORE" ) &&
             !maybe_query( _( "This %s smells awful!  Eat it?" ) ) ) {
             return ROTTEN;
         }
-    } else if( saprophage && chew && !food.has_flag( "FERTILIZER" ) &&
+    } else if( saprophage && edible && !food.has_flag( "FERTILIZER" ) &&
                !maybe_query( _( "Really eat that %s?  Your stomach won't be happy." ) ) ) {
         // Note: We're allowing all non-solid "food". This includes drugs
         // Hardcoding fertilizer for now - should be a separate flag later
