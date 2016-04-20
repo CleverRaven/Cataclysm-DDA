@@ -195,7 +195,20 @@
             ["tractor_plow", 1000],
             ["tractor_seed", 1000],
             ["tractor_reaper", 1000],
-            ["autotractor", 1000]
+            ["autotractor", 1000],
+            ["excavator", 500]
+        ]
+    },
+    {
+        "id": "industrial_vehicles",
+        "type": "vehicle_group",
+        "//": "Industrial and construction vehicles found at public works depot and similar locations",
+        "vehicles": [
+            [ "autosweeper", 20 ],
+            [ "excavator", 120 ],
+            [ "flatbed_truck", 40 ],
+            [ "pickup", 20 ],
+            [ "road_roller", 80 ]
         ]
     }
 ]
