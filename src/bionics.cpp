@@ -1743,6 +1743,9 @@ int player::get_used_bionics_slots( const body_part bp ) const
 std::map<body_part, int> player::bionic_installation_issues( const std::string &bioid )
 {
     std::map<body_part, int> issues;
+    if( !has_trait( "DEBUG_CBM_SLOTS" ) ) {
+        return issues;
+    }
     for( auto &elem : bionics[ bioid ].occupied_bodyparts ) {
         const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
         if( lacked_slots > 0 ) {
