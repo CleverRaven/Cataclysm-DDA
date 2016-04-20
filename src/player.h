@@ -1182,6 +1182,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
+        int get_used_bionics_slots( const body_part bp ) const;
+        int get_total_bionics_slots( const body_part bp ) const;
+        int get_free_bionics_slots( const body_part bp ) const;
+        std::map<body_part, int> bionic_installation_issues( const std::string &bioid );
+
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
         //Log an event, to be later written to the memorial file
