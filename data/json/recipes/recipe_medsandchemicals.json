@@ -2473,7 +2473,7 @@
       [ "toolset", 10 ],
       [ "hotplate", 10 ]
     ],
-    [ [ "inhaler", 100 ] ]
+    [ [ "inhaler", 25 ] ]
   ],
   "components": [
     [ [ "sewage", 1 ] ],
