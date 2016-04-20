@@ -14,7 +14,6 @@
     "bashing": 2,
     "to_hit": -1,
     "max_charges": 50,
-    "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "tinder",
@@ -35,7 +34,6 @@
     "bashing": 2,
     "to_hit": -1,
     "max_charges": 50,
-    "initial_charges": 0,
     "charges_per_use": 1,
     "turns_per_charge": 300,
     "ammo": "tinder",
@@ -85,7 +83,6 @@
     "volume": 2,
     "to_hit": 0,
     "max_charges": 100,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "tinder",
@@ -111,7 +108,6 @@
     "volume": 2,
     "to_hit": 0,
     "max_charges": 100,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 600,
     "ammo": "tinder",
@@ -212,8 +208,6 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": { "type": "knife" },
@@ -379,8 +373,6 @@
     "volume": 7,
     "bashing": 1,
     "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
@@ -408,8 +400,6 @@
     "volume": 14,
     "bashing": 2,
     "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
@@ -437,8 +427,6 @@
     "volume": 21,
     "bashing": 3,
     "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
@@ -617,8 +605,6 @@
     "cutting": 8,
     "flags" : ["CHOP"],
     "to_hit": 0,
-    "max_charges": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "qualities": [["AXE", 2]],
@@ -637,8 +623,6 @@
     "bashing": 15,
     "cutting": 1,
     "to_hit": 0,
-    "max_charges": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "qualities": [["DIG", 2]],
@@ -671,8 +655,6 @@
         "need_sunlight": true
       }
     ],
-    "max_charges": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "flags": ["THERMOMETER", "LENS"]
@@ -690,8 +672,6 @@
     "volume": 4,
     "bashing": 3,
     "to_hit": -4,
-    "max_charges": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0
   }

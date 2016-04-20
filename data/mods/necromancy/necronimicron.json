@@ -12,10 +12,8 @@
     "volume": 0,
     "bashing": 0,
     "to_hit": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "max_charges": 0,
     "category" : "spare_parts",
     "use_action": "NONE"
   },{
@@ -31,10 +29,8 @@
     "volume": 1,
     "bashing": 0,
     "to_hit": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "max_charges": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blob",
@@ -59,10 +55,8 @@
     "volume": 15,
     "bashing": 0,
     "to_hit": 0,
-    "initial_charges": 0,
     "charges_per_use": 0,
     "turns_per_charge": 0,
-    "max_charges": 0,
     "category": "tools",
     "use_action": {
         "type": "place_monster",
