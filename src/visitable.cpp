@@ -73,20 +73,22 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
 }
 
 template <typename T>
-static bool has_quality_internal( const T& self, const std::string &qual, int level, int qty )
+static int has_quality_internal( const T& self, const std::string &qual, int level, int limit )
 {
-    self.visit_items( [&qual, level, &qty]( const item *e ) {
+    int qty = 0;
+
+    self.visit_items( [&qual, level, &limit, &qty]( const item *e ) {
         if( e->get_quality( qual ) >= level ) {
-            if( --qty == 0 ) {
+            if( ++qty >= limit ) {
                 return VisitResponse::ABORT; // found sufficient items
             }
         }
         return VisitResponse::NEXT;
     } );
-    return qty == 0;
+    return std::min( qty, limit );
 }
 
-static bool has_quality_from_vpart( const vehicle& veh, int part, const std::string& qual, int level, int limit )
+static int has_quality_from_vpart( const vehicle& veh, int part, const std::string& qual, int level, int limit )
 {
     int qty = 0;
 
@@ -100,8 +102,7 @@ static bool has_quality_from_vpart( const vehicle& veh, int part, const std::str
 
             // does the part provide this quality?
             if( iter != tq.end() && iter->second >= level ) {
-                qty += iter->second;
-                if( qty >= limit ) {
+                if( ++qty >= limit ) {
                     break;
                 }
             }
@@ -113,7 +114,7 @@ static bool has_quality_from_vpart( const vehicle& veh, int part, const std::str
 template <typename T>
 bool visitable<T>::has_quality( const std::string &qual, int level, int qty ) const
 {
-    return has_quality_internal( *this, qual, level, qty );
+    return has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
 template <>
@@ -125,7 +126,7 @@ bool visitable<vehicle_selector>::has_quality( const std::string &qual, int leve
             return true;
         }
     }
-    return has_quality_internal( *this, qual, level, qty );
+    return has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
 template <>
@@ -134,7 +135,7 @@ bool visitable<vehicle_cursor>::has_quality( const std::string &qual, int level,
     auto self = static_cast<const vehicle_cursor *>( this );
 
     qty -= has_quality_from_vpart( self->veh, self->part, qual, level, qty );
-    return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty );
+    return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
 template <typename T>
@@ -200,21 +201,21 @@ int visitable<Character>::max_quality( const std::string &qual ) const
 }
 
 template <>
-int visitable<vehicle_selector>::max_quality( const std::string &qual ) const
-{
-    int res = 0;
-    for( const auto& cursor : static_cast<const vehicle_selector &>( *this ) ) {
-        res = std::max( res, max_quality_from_vpart( cursor.veh, cursor.part, qual ) );
-    }
-    return std::max( res, max_quality_internal( *this, qual ) );
-}
-
-template <>
 int visitable<vehicle_cursor>::max_quality( const std::string &qual ) const
 {
     auto self = static_cast<const vehicle_cursor *>( this );
     return std::max( max_quality_from_vpart( self->veh, self->part, qual ),
                      max_quality_internal( *this, qual ) );
+}
+
+template <>
+int visitable<vehicle_selector>::max_quality( const std::string &qual ) const
+{
+    int res = 0;
+    for( const auto &e : static_cast<const vehicle_selector &>( *this ) ) {
+        res = std::max( res, e.max_quality( qual ) );
+    }
+    return res;
 }
 
 template <typename T>
