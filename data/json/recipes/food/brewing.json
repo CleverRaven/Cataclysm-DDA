@@ -34,7 +34,7 @@
         "time": 25000,
         "batch_time_factors": [50, 4],
         "book_learn": [ ["brewing_cookbook", 5], [ "scots_cookbook", 5 ] ],
-        "qualities":[ { "id": "DISTILL", "level": 2 } ],
+        "qualities":[ { "id": "COOK", "level": 2 } ],
         "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
@@ -54,7 +54,7 @@
         "batch_time_factors": [50, 4],
         "autolearn": [ [ "cooking", 6 ] ],
         "book_learn": [ ["brewing_cookbook", 6] ],
-        "qualities":[ { "id": "DISTILL", "level": 2 } ],
+        "qualities":[ { "id": "COOK", "level": 2 } ],
         "tools": [ [ [ "hotplate", 6 ], [ "char_smoker", 6 ], [ "toolset", 6 ], [ "fire", -1 ] ] ],
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
@@ -166,7 +166,6 @@
         "components": [
             [ [ "water", 3 ], [ "water_clean", 3 ] ],
             [ [ "honey_bottled", 10 ], [ "honeycomb", 2 ], [ "honey_glassed", 10 ] ],
-            [ [ "hops", 1 ] ],
             [ [ "yeast", 1 ] ]
         ]
     },{
@@ -184,7 +183,7 @@
             ["textbook_survival", 3], ["manual_survival", 3]
         ],
         "qualities":[
-            { "id":"CUT","level":1 },
+            { "id": "CUT", "level" : 1 },
             { "id": "COOK", "level": 2 }
         ],
         "components": [
@@ -207,7 +206,7 @@
         "autolearn": false,
         "book_learn": [ ["survival_book", 3] , ["textbook_survival", 3] , ["manual_survival", 3] ],
         "qualities":[
-            { "id":"CUT","level":1 },
+            { "id": "CUT", "level" : 1 },
             { "id": "COOK", "level": 2 }
         ],
         "components": [
