@@ -251,7 +251,7 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
         for( const auto &m : food.type->materials ) {
             if( !m.obj().edible() ) {
-                maybe_print( m_info, _( "That doesn't look edible in it's current form." ) );
+                maybe_print( m_info, _( "That doesn't look edible in its current form." ) );
                 return INEDIBLE;
             }
         }
