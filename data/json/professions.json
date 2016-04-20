@@ -4531,6 +4531,59 @@
         }
     },
     {
+        "type": "profession",
+        "ident": "camper",
+        "name": "Camper",
+        "description": "You always enjoyed hiking and camping in the wilderness before everything fell apart, so it was a no-brainer to grab your bag and run when the sirens sounded.  The world may be ruined, but you're prepared to make a home wherever you may find yourself.",
+        "points": 6,
+        "skills": [
+            {
+                "level": 1,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "swimming"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "tshirt",
+                "jeans",
+                "jacket_windbreaker",
+                "boots_hiking",
+                "gloves_light",
+                "hat_cotton",
+                "knit_scarf",
+                "backpack",
+                "ref_lighter",
+                "hatchet",
+                "e_tool",
+                "tent_kit",
+                "rollmat",
+                "sleeping_bag",
+                "knife_swissarmy",
+                "mess_kit",
+                "gasoline_lantern",
+                "canteen",
+                "granola",
+                "pur_tablets",
+                "1st_aid"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
             "type": "profession",
             "ident": "poor_student",
             "name": "Poor Student",
