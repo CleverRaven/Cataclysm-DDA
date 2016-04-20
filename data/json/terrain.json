@@ -3156,9 +3156,29 @@
         "id" : "t_tree_maple",
         "name": "maple tree",
         "symbol": "7",
-        "color": "red",
+        "color": [ "red", "light_green", "light_green", "red" ],
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+        "examine_action": "tree_maple",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_maple_tapped",
+        "name": "maple tree",
+        "symbol": "7",
+        "color": [ "red", "light_green", "light_green", "red" ],
+        "move_cost": 0,
+        "flags": [ "FLAMMABLE_ASH", "SEALED", "PLACE_ITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "LIQUIDCONT" ],
+        "examine_action": "tree_maple_tapped",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",

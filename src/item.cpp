@@ -3428,12 +3428,12 @@ bool item::is_container_empty() const
     return contents.empty();
 }
 
-bool item::is_container_full() const
+bool item::is_container_full( bool allow_bucket ) const
 {
     if( is_container_empty() ) {
         return false;
     }
-    return get_remaining_capacity_for_liquid( contents[0] ) == 0;
+    return get_remaining_capacity_for_liquid( contents[0], allow_bucket ) == 0;
 }
 
 bool item::is_salvageable() const

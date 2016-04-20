@@ -423,8 +423,11 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     bool is_sealable_container() const;
     /** Whether this item has no contents at all. */
     bool is_container_empty() const;
-    /** Whether this item has no more free capacity for its current content. */
-    bool is_container_full() const;
+    /**
+     * Whether this item has no more free capacity for its current content.
+     * @param allow_bucket Allow filling non-sealable containers
+     */
+    bool is_container_full( bool allow_bucket = false ) const;
     /**
      * Fill item with liquid up to its capacity. This works for guns and tools that accept
      * liquid ammo.

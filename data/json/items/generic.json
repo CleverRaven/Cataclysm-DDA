@@ -445,6 +445,18 @@
     },
     {
         "type":"GENERIC",
+        "id": "tree_spile",
+        "symbol": ".",
+        "color": "light_gray",
+        "name": "tree spile",
+        "description": "A hollow metal cylinder which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
+        "price": 5,
+        "material": "steel",
+        "weight": 11,
+        "volume": 0
+    },
+    {
+        "type":"GENERIC",
         "id": "wire",
         "symbol": ";",
         "color": "light_gray",

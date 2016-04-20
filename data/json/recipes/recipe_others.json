@@ -2755,6 +2755,23 @@
   ]
 },{
   "type" : "recipe",
+  "result": "tree_spile",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1}
+  ], "components": [
+    [
+      [ "scrap", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "crude_picklock",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -4111,6 +4128,42 @@
       [ "2x4", 1 ],
       [ "stick", 2 ]
      ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "hand_drill",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 140000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2}
+  ], "tools": [
+      [
+        [ "tongs", -1 ]
+      ],
+      [
+        [ "anvil", -1 ]
+      ],
+      [
+        [ "forge", 250 ],
+        [ "oxy_torch", 50 ]
+      ]
+    ],
+  "components": [
+      [
+        [ "steel_lump", 2 ],
+        [ "steel_chunk", 6 ],
+        [ "scrap", 18 ]
+      ],
+      [
+        [ "2x4", 1 ],
+        [ "stick", 2 ],
+        [ "splinter", 6 ]
+      ]
     ]
 },{
   "type" : "recipe",
@@ -6513,6 +6566,35 @@
     ],
     [
       [ "duct_tape", 50 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bucket",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2},
+    {"id":"SAW_M","level":1}
+  ], "tools": [
+    [ [ "goggles_welding", -1 ] ],
+    [
+      [ "welder", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ],
+      [ "oxy_torch", 3 ]
+    ]
+    ],
+    "components": [
+    [ ["sheet_metal", 3 ] ],
+    [
+      ["steel_chunk", 3 ],
+      ["scrap", 9 ]
     ]
   ]
 },{

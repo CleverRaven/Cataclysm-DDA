@@ -6901,6 +6901,105 @@ void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
     }
 }
 
+void map::produce_sap( const tripoint &p, int time_since_last_actualize )
+{
+    if( time_since_last_actualize <= 0 ) {
+        return;
+    }
+
+    if( t_tree_maple_tapped != ter( p ) ) {
+        return;
+    }
+
+    // Amount of maple sap litres produced per season per tap
+    static const int maple_sap_per_season = 56;
+
+    // How many turns to produce 1 charge (250 ml) of sap?
+    const int turns_season = DAYS( calendar::season_length() );
+    const int producing_length = int( 0.75f * turns_season );
+
+    const int turns_to_produce = producing_length / ( maple_sap_per_season * 4 );
+
+    // How long of this time_since_last_actualize have we been in the producing period (late winter, early spring)?
+    int time_producing = 0;
+
+    if( time_since_last_actualize >= calendar::year_turns() ) {
+        time_producing = producing_length;
+    } else {
+        // We are only procuding sap on the intersection with the sap producing season.
+        int early_spring_end = int( 0.5f * turns_season );
+        int late_winter_start = int( 3.75f * turns_season );
+
+        calendar last_actualize = calendar::turn - time_since_last_actualize;
+        int last_actualize_tof = last_actualize.turn_of_year();
+        bool last_producing = (
+            last_actualize_tof >= late_winter_start ||
+            last_actualize_tof < early_spring_end
+        );
+        int current_tof = calendar::turn.turn_of_year();
+        bool current_producing = (
+            current_tof >= late_winter_start ||
+            current_tof < early_spring_end
+        );
+
+        int non_producing_length = int( 3.25f * turns_season );
+
+        if( last_producing && current_producing ) {
+            if( time_since_last_actualize < non_producing_length ) {
+                time_producing = time_since_last_actualize;
+            } else {
+                time_producing = time_since_last_actualize - non_producing_length;
+            }
+        } else if ( !last_producing && !current_producing ) {
+            if( time_since_last_actualize > non_producing_length ) {
+                time_producing = time_since_last_actualize - non_producing_length;
+            }
+        } else if ( last_producing && !current_producing ) {
+            // We hit the end of early spring
+            if( last_actualize_tof < early_spring_end ) {
+                time_producing = early_spring_end - last_actualize_tof;
+            } else {
+                time_producing = calendar::year_turns() - last_actualize_tof + early_spring_end;
+            }
+        } else if ( !last_producing && current_producing ) {
+            // We hit the start of late winter
+            if( current_tof >= late_winter_start ) {
+                time_producing = current_tof - late_winter_start;
+            } else {
+                time_producing = int( 0.25f * turns_season ) + current_tof;
+            }
+        }
+    }
+
+    long new_charges = roll_remainder( (double)time_producing / turns_to_produce );
+    // Not enough time to produce 1 charge of sap
+    if( new_charges <= 0 ) {
+        return;
+    }
+
+    item sap( "maple_sap", calendar::turn );
+
+    // Is there a proper container?
+    auto items = i_at( p );
+    for( auto &it : items ) {
+        if( it.is_bucket() || it.is_watertight_container() ) {
+            const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
+            if( capacity > 0 ) {
+                new_charges = std::min<long>( new_charges, capacity );
+
+                // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
+                sap.poison = one_in( 10 ) ? 1 : 0;
+                sap.charges = new_charges;
+
+                std::string err;
+                it.fill_with( sap, err, true );
+            }
+            // Only fill up the first container.
+            break;
+        }
+    }
+}
+
 void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
 {
     const int rads = get_radiation( p );
@@ -6985,6 +7084,8 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
             grow_plant( pnt );
 
             restock_fruits( pnt, time_since_last_actualize );
+
+            produce_sap( pnt, time_since_last_actualize );
 
             rad_scorch( pnt, time_since_last_actualize );
         }

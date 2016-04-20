@@ -2278,6 +2278,162 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     none( p, examp );
 }
 
+item_location maple_tree_sap_container() {
+    const item maple_sap = item( "maple_sap", 0 );
+    return g->inv_map_splice( [&]( const item &it ) {
+        return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
+    }, _( "Which container:" ), PICKUP_RANGE );
+}
+
+void iexamine::tree_maple(player &p, const tripoint &examp)
+{
+    if( !p.has_items_with_quality( "DRILL", 1, 1 ) ) {
+        add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
+        return;
+    }
+
+    if( !p.has_items_with_quality( "HAMMER", 1, 1 ) ) {
+        add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
+        return;
+    }
+
+    const inventory &crafting_inv = p.crafting_inventory();
+
+    if( !crafting_inv.has_amount( "tree_spile", 1 ) ) {
+        add_msg( m_info, _( "You need a %s to tap this maple tree." ), item::nname( "tree_spile" ).c_str() );
+        return;
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "tree_spile", 1 ) );
+    p.consume_items( comps );
+
+    p.mod_moves( -200 );
+    g->m.ter_set( examp, t_tree_maple_tapped );
+
+    auto cont_loc = maple_tree_sap_container();
+
+    item *container = cont_loc.get_item();
+    if( container ) {
+        g->m.add_item_or_charges( examp, *container, 0 );
+
+        cont_loc.remove_item();
+    } else {
+        add_msg( m_info, _( "No container added. The sap will just spill on the ground." ) );
+    }
+}
+
+void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
+{
+    bool has_sap = false;
+    bool has_container = false;
+    long charges = 0;
+
+    const std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
+
+    auto items = g->m.i_at( examp );
+    for( auto &it : items ) {
+        if( it.is_bucket() || it.is_watertight_container() ) {
+            has_container = true;
+
+            if( !it.is_container_empty() && it.contents.front().type->id == "maple_sap" ) {
+                has_sap = true;
+                charges = it.contents.front().charges;
+            }
+        }
+    }
+
+    enum options {
+        REMOVE_TAP,
+        ADD_CONTAINER,
+        HARVEST_SAP,
+        REMOVE_CONTAINER,
+        CANCEL,
+    };
+    uimenu selectmenu;
+    selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _("Remove tap") );
+    selectmenu.addentry( ADD_CONTAINER, !has_container, MENU_AUTOASSIGN, _("Add a container to receive the %s"), maple_sap_name.c_str() );
+    selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _("Harvest current %s (%d)"), maple_sap_name.c_str(), charges );
+    selectmenu.addentry( REMOVE_CONTAINER, has_container, MENU_AUTOASSIGN, _("Remove container") );
+    selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
+
+    selectmenu.return_invalid = true;
+    selectmenu.text = _("Select an action");
+    selectmenu.selected = 0;
+    selectmenu.query();
+
+    switch( static_cast<options>( selectmenu.ret ) ) {
+        case REMOVE_TAP: {
+            if( !p.has_items_with_quality( "HAMMER", 1, 1 ) ) {
+                add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
+                return;
+            }
+
+            item tree_spile( "tree_spile" );
+            add_msg( _( "You remove the %s." ), tree_spile.tname( 1 ).c_str() );
+            g->m.add_item_or_charges( p.pos(), tree_spile );
+
+            for( auto &it : items ) {
+                g->m.add_item_or_charges( p.pos(), it );
+            }
+            g->m.i_clear( examp );
+
+            p.mod_moves( -200 );
+            g->m.ter_set( examp, t_tree_maple );
+
+            return;
+        }
+
+        case ADD_CONTAINER: {
+            auto cont_loc = maple_tree_sap_container();
+
+            item *container = cont_loc.get_item();
+            if( container ) {
+                g->m.add_item_or_charges( examp, *container, 0 );
+
+                cont_loc.remove_item();
+            } else {
+                add_msg( m_info, _( "No container added. The sap will just spill on the ground." ) );
+            }
+
+            return;
+        }
+
+        case HARVEST_SAP:
+            for( auto &it : items ) {
+                if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
+                    auto &liquid = it.contents.front();
+                    if( liquid.type->id == "maple_sap" ) {
+                        long initial_charges = liquid.charges;
+                        bool emptied = g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
+
+                        if( emptied || initial_charges != liquid.charges ) {
+                            p.mod_moves( -100 );
+                        }
+
+                        if( emptied || liquid.charges <= 0 ) {
+                            it.contents.clear();
+                        }
+                    }
+                }
+            }
+            
+            return;
+
+        case REMOVE_CONTAINER: {
+            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.activity.placement = examp - p.pos();
+            g->u.activity.values.push_back( false );
+            g->u.activity.values.push_back( 0 );
+            g->u.activity.values.push_back( 0 );
+            return;
+        }
+
+        case CANCEL:
+            return;
+    }
+}
+
 void iexamine::tree_bark(player &p, const tripoint &examp)
 {
     if(!query_yn(_("Pick %s?"), g->m.tername(examp).c_str())) {
@@ -3344,6 +3500,12 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("tree_hickory" == function_name) {
         return &iexamine::tree_hickory;
+    }
+    if ( "tree_maple" == function_name ) {
+        return &iexamine::tree_maple;
+    }
+    if ( "tree_maple_tapped" == function_name ) {
+        return &iexamine::tree_maple_tapped;
     }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;

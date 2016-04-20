@@ -1197,6 +1197,12 @@ protected:
          */
         void restock_fruits( const tripoint &p, int time_since_last_actualize );
         /**
+         * Produce sap on tapped maple trees
+         * @param time_since_last_actualize Time (in turns) since this function has been
+         * called the last time.
+         */
+        void produce_sap( const tripoint &p, int time_since_last_actualize );
+        /**
          * Radiation-related plant (and fungus?) death.
          */
         void rad_scorch( const tripoint &p, int time_since_last_actualize );

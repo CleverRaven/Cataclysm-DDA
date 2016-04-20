@@ -4256,6 +4256,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "syrup",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 40000,
+  "autolearn": true,
+  "batch_time_factors": [ 60, 3 ],
+  "qualities":[
+    {"id":"BOIL","level":2}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "maple_sap", 35 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "beet_syrup",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
