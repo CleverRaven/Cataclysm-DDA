@@ -286,7 +286,6 @@ ter_t null_terrain_t() {
   new_terrain.symbol_.fill( ' ' );
   new_terrain.color_.fill( c_white );
   new_terrain.movecost = 2;
-  new_terrain.trap_id_str = "";
   new_terrain.transparent = true;
   new_terrain.set_flag("TRANSPARENT");
   new_terrain.set_flag("DIGGABLE");
