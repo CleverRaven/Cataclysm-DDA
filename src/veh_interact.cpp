@@ -569,7 +569,7 @@ bool veh_interact::can_install_part(int msg_width){
     ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
     ///\EFFECT_STR allows installing heavier parts without lifting equipment
     bool can_lift = is_wheel ? g->u.can_lift( *veh ) : g->u.can_lift( item( itm ) );
-    bool has_aid = is_wheel ? has_jack : item( itm ).weight() < max_lift;
+    bool has_aid = is_wheel ? has_jack : item( itm ).weight() < max_lift * TOOL_LIFT_FACTOR;
     int req_str = is_wheel ? veh->lift_strength() : item( itm ).lift_strength();
 
     ///\EFFECT_MECHANICS determines which vehicle parts can be installed
