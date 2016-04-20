@@ -3,7 +3,7 @@
         "type" : "recipe",
         "result": "brandy",
         "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_DRINKS",
+        "subcategory": "CSC_FOOD_BREW",
         "skill_used": "cooking",
         "difficulty": 3,
         "time": 30000,
@@ -14,7 +14,7 @@
             { "id": "BOIL", "level": 2 },
             { "id": "DISTILL", "level": 2 }
         ],
-        "tools": [ [ [ "hotplate", 10 ], [ "char_smoker", 10 ], [ "toolset", 10 ], [ "fire", -1 ] ] ],
+        "tools": [ [ [ "hotplate", 21 ], [ "char_smoker", 21 ], [ "toolset", 21 ], [ "fire", -1 ] ] ],
         "components": [ [
             [ "fruit_wine", 21 ], [ "bum_wine", 21 ],
             [ "dandelion_wine", 21 ], [ "pine_wine", 21 ],
@@ -27,7 +27,7 @@
         "type" : "recipe",
         "id_suffix": "from_wash",
         "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_DRINKS",
+        "subcategory": "CSC_FOOD_BREW",
         "skill_used": "cooking",
         "difficulty": 5,
         "time": 30000,
@@ -39,7 +39,7 @@
             { "id": "DISTILL", "level": 2 }
         ],
         "tools": [
-            [ [ "fire", -1 ], [ "hotplate", 10 ], [ "toolset", 10 ] ]
+            [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
         ],
         "components": [ [ [ "wash_vodka", 21 ] ] ]
     },
@@ -47,7 +47,7 @@
         "type" : "recipe",
         "result": "rum",
         "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_DRINKS",
+        "subcategory": "CSC_FOOD_BREW",
         "skill_used": "cooking",
         "difficulty": 5,
         "time": 30000,
@@ -58,14 +58,14 @@
             { "id": "DISTILL", "level": 2 }
         ],
         "tools": [
-            [ [ "fire", -1 ], [ "hotplate", 10 ], [ "toolset", 10 ] ]
+            [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
         ],
         "components": [ [ [ "wash_rum", 21 ] ] ]
     },{
         "type" : "recipe",
         "result": "moonshine",
         "category": "CC_FOOD",
-        "subcategory": "CSC_FOOD_DRINKS",
+        "subcategory": "CSC_FOOD_BREW",
         "skill_used": "cooking",
         "difficulty": 2,
         "time": 30000,
@@ -76,7 +76,7 @@
             { "id": "DISTILL", "level": 1 }
         ],
         "tools": [
-            [ [ "fire", -1 ], [ "hotplate", 10 ], [ "toolset", 10 ] ]
+            [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
         ],
         "components": [ [ [ "wash_moonshine", 21 ] ] ]
     }
