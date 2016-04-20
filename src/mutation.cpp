@@ -14,6 +14,7 @@
 #include "mapdata.h"
 #include "debug.h"
 #include "field.h"
+#include "vitamin.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -46,6 +47,17 @@ bool Character::has_base_trait(const std::string &b) const
     return my_traits.find( b ) != my_traits.end();
 }
 
+void update_vitamins( Character &ch ) {
+    // mutations may affect vitamin consumption rates so we may need to extend any
+    // current status effects resulting from vitamin levels
+    player *p = dynamic_cast<player *>( &ch );
+    if( p ) {
+        for( const auto& v : vitamin::all() ) {
+            p->vitamin_mod( v.first, 0 );
+        }
+    }
+}
+
 void Character::toggle_trait(const std::string &flag)
 {
     const auto titer = my_traits.find( flag );
@@ -64,6 +76,7 @@ void Character::toggle_trait(const std::string &flag)
     }
     recalc_sight_limits();
     reset_encumbrance();
+    update_vitamins( *this );
 }
 
 void Character::set_mutation(const std::string &flag)
@@ -76,6 +89,7 @@ void Character::set_mutation(const std::string &flag)
     }
     recalc_sight_limits();
     reset_encumbrance();
+    update_vitamins( *this );
 }
 
 void Character::unset_mutation(const std::string &flag)
@@ -88,6 +102,7 @@ void Character::unset_mutation(const std::string &flag)
     }
     recalc_sight_limits();
     reset_encumbrance();
+    update_vitamins( *this );
 }
 
 int Character::get_mod(std::string mut, std::string arg) const

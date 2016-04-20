@@ -753,6 +753,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
         }
+
+        std::string vits;
+        for( const auto &v : g->u.vitamins_from( *food_item ) ) {
+            if( v.second != 0 ) {
+                if( !vits.empty() ) {
+                    vits += ", ";
+                }
+                vits += string_format( "%s (%i)", v.first.obj().name().c_str(), v.second );
+            }
+        }
+        if( !vits.empty() ) {
+            info.emplace_back( "FOOD", _( "Vitamins: " ), vits.c_str() );
+        }
     }
 
     if( is_magazine() && !has_flag( "NO_RELOAD" ) ) {

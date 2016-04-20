@@ -349,6 +349,21 @@ void consume_drug_iuse::load( JsonObject &obj )
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
     obj.read( "moves", moves);
+
+    auto arr = obj.get_array( "vitamins" );
+    while( arr.has_more() ) {
+        auto vit = arr.next_array();
+        auto lo = vit.get_int ( 1 );
+        auto hi = vit.size() >= 3 ? vit.get_int( 2 ) : lo;
+        vitamins.emplace( vitamin_id( vit.get_string( 0 ) ), std::make_pair( lo, hi ) );
+    }
+}
+
+void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
+{
+    if( tools_needed.count( "syringe" ) ) {
+        dump.emplace_back( "TOOL", _( "You need a syringe to inject this drug" ) );
+    }
 }
 
 long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
@@ -395,6 +410,12 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
             g->m.add_field({p->posx() + int(rng(-2, 2)), p->posy() + int(rng(-2, 2)), p->posz()}, fid, field->second, 0);
         }
     }
+
+    // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
+    for( const auto& v : vitamins ) {
+        p->vitamin_mod( v.first, rng( v.second.first ,v.second.second ), false );
+    }
+
     // Output message.
     p->add_msg_if_player( _(activation_message.c_str()) );
     // Consume charges.

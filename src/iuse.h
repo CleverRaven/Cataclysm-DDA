@@ -47,7 +47,6 @@ public:
     int coke                ( player*, item*, bool, const tripoint& );
     int grack               ( player*, item*, bool, const tripoint& );
     int meth                ( player*, item*, bool, const tripoint& );
-    int vitamins            ( player*, item*, bool, const tripoint& );
     int vaccine             ( player*, item*, bool, const tripoint& );
     int flu_vaccine         ( player*, item*, bool, const tripoint& );
     int poison              ( player*, item*, bool, const tripoint& );

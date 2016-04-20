@@ -1,5 +1,17 @@
 [
   {
+    "id": "drugs_analgesic",
+    "type" : "item_group",
+    "//" : "Painkillers balanced according to rarity excluding illicit drugs",
+    "items": [
+      [ "aspirin", 150 ],
+      [ "codeine", 30 ],
+      [ "tramadol", 30 ],
+      [ "morphine", 5 ],
+      [ "oxycodone", 20 ]
+    ]
+  },
+  {
     "id" : "drugs_heal_simple",
     "type" : "item_group",
     "//" : "Common healing items found almost everywhere",
@@ -36,6 +48,34 @@
       [ "flu_shot", 50 ],
       [ "nyquil", 50 ],
       [ "vaccine_shot", 50 ]
+    ]
+  },
+  {
+    "id": "drugs_pharmacy",
+    "type": "item_group",
+    "//" : "Drugs stocked by a pharmacy including prescription medications",
+    "items": [
+      { "group": "drugs_analgesic", "prob": 100 },
+      { "group": "drugs_heal_simple", "prob": 100 },
+      { "group": "drugs_misc", "prob": 100 },
+      { "group": "drugs_rare", "prob": 100 }
+    ]
+  },
+  {
+    "id": "drugs_rare",
+    "type": "item_group",
+    "//": "Rare and/or valuable drugs excluding painkillers",
+    "items": [
+      [ "adderall", 100 ],
+      [ "antibiotics", 100 ],
+      [ "antifungal", 100 ],
+      [ "antiparasitic", 100 ],
+      [ "diazepam", 100 ],
+      [ "inj_vitb", 100 ],
+      [ "inj_iron", 100 ],
+      [ "prozac", 100 ],
+      [ "thorazine", 100 ],
+      [ "xanax", 100 ]
     ]
   },
   {

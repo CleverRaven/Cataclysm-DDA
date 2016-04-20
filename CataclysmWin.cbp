@@ -634,6 +634,8 @@
 		<Unit filename="src/vehicle_selector.cpp" />
 		<Unit filename="src/vehicle_selector.h" />
 		<Unit filename="src/version.cpp" />
+		<Unit filename="src/vitamin.cpp" />
+		<Unit filename="src/vitamin.h" />
 		<Unit filename="src/visitable.cpp" />
 		<Unit filename="src/visitable.h" />
 		<Unit filename="src/wcwidth.h" />

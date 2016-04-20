@@ -49,6 +49,7 @@
 #include "npc.h"
 #include "cata_utility.h"
 #include "overlay_ordering.h"
+#include "vitamin.h"
 
 #include <map>
 
@@ -252,6 +253,10 @@ player::player() : Character()
     }
     nv_cached = false;
     volume = 0;
+
+    for( const auto &v : vitamin::all() ) {
+        vitamin_levels[ v.first ] = 0;
+    }
 
     memorial_log.clear();
     player_stats.reset();
@@ -5203,6 +5208,16 @@ void player::update_body( int from, int to )
         regen( thirty_mins );
         get_sick();
         mend( thirty_mins );
+    }
+
+    for( const auto& v : vitamin::all() ) {
+        int rate = vitamin_rate( v.first );
+        if( rate > 0 ) {
+            int qty = ticks_between( from, to, MINUTES( rate ) );
+            if( qty > 0 ) {
+                vitamin_mod( v.first, 0 - qty );
+            }
+        }
     }
 
     if( ticks_between( from, to, HOURS(6) ) ) {

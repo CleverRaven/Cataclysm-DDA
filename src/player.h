@@ -31,6 +31,8 @@ struct recipe;
 struct item_comp;
 struct tool_comp;
 class vehicle;
+class vitamin;
+using vitamin_id = string_id<vitamin>;
 class start_location;
 using start_location_id = string_id<start_location>;
 struct w_point;
@@ -717,6 +719,31 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const itype *comest ) const;
+
+        /** Get vitamin contents for a comestible */
+        std::map<vitamin_id, int> vitamins_from( const item& it ) const;
+        std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
+
+        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
+        int vitamin_rate( const vitamin_id& vit ) const;
+
+        /**
+         * Add or subtract vitamins from player storage pools
+         * @param qty amount by which to adjust @ref vit (negative values are permitted)
+         * @param capped if true prevent vitamins which can accumulate in excess from doing so
+         * @return adjusted level for the vitamin or zero if @ref vit does not exist
+         */
+        int vitamin_mod( const vitamin_id& vit, int qty, bool capped = true );
+
+        /** Returns current level for a vitamin (or zero if @ref vit) does not exist */
+        int vitamin_get( const vitamin_id& vit ) const;
+
+        /**
+         * Sets level of a vitamin or returns false if @ref vit does not exist
+         * @note status effects are still set for deficiency/excess
+         */
+        bool vitamin_set( const vitamin_id& vit, int qty );
+
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
@@ -1410,6 +1437,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+
+        /** Current deficiency/excess quantity for each vitamin */
+        std::map<vitamin_id, int> vitamin_levels;
 };
 
 #endif

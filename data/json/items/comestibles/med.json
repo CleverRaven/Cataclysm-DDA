@@ -629,23 +629,6 @@
         "use_action" : "CHEW"
     },
     {
-        "id" : "gummy_vitamins",
-        "type" : "COMESTIBLE",
-        "comestible_type" : "MED",
-        "name" : "gummy vitamin",
-        "description" : "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  Take frequently to help regulate your body's health and immune functions.",
-        "weight" : 1,
-        "volume" : 1,
-        "price" : 500,
-        "charges" : 10,
-        "stack_size" : 100,
-        "symbol" : "!",
-        "color" : "magenta",
-        "nutrition" : 1,
-        "fun" : 2,
-        "use_action" : "VITAMINS"
-    },
-    {
         "id" : "handrolled_cig",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
@@ -1232,16 +1215,69 @@
         "id" : "vitamins",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
-        "name" : "vitamin",
-        "description" : "Essential dietary nutrients conveniently packaged in pill form.  Take frequently to help regulate your body's health and immune functions.",
+        "name" : "multivitamin",
+        "description" : "Essential dietary nutrients conveniently packaged in pill form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
         "weight" : 1,
         "volume" : 1,
         "price" : 500,
+        "price_postapoc": 5000,
         "charges" : 20,
-        "stack_size" : 100,
+        "stack_size" : 20,
         "symbol" : "!",
         "color" : "magenta",
-        "use_action" : "VITAMINS"
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some multivitamins.",
+            "vitamins": [
+                [ "calcium", 25, 50 ],
+                [ "iron", 25, 50 ],
+                [ "vitA", 25, 50 ],
+                [ "vitB", 25, 50 ],
+                [ "vitC", 25, 50 ]
+            ]
+        }
+    },
+    {
+        "id" : "inj_vitb",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "injectable vitamin B",
+        "description" : "Small vials of pale yellow liquid containing soluble vitamin B for injection.",
+        "weight" : 40,
+        "volume" : 1,
+        "price" : 150,
+        "price_postapoc": 1500,
+        "charges" : 2,
+        "stack_size" : 10,
+        "symbol" : "!",
+        "color" : "magenta",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You inject some vitamin B.",
+            "tools_needed" : { "syringe" : -1 },
+            "vitamins": [ [ "vitB", 100 ] ]
+        }
+    },
+    {
+        "id" : "inj_iron",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "injectable iron",
+        "description" : "Small vials of dark yellow liquid containing soluble iron for injection.",
+        "weight" : 40,
+        "volume" : 1,
+        "price" : 2000,
+        "price_postapoc": 2500,
+        "charges" : 2,
+        "stack_size" : 10,
+        "symbol" : "!",
+        "color" : "magenta",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You inject some iron.",
+            "tools_needed" : { "syringe" : -1 },
+            "vitamins": [ [ "iron", 100 ] ]
+        }
     },
     {
         "id" : "weed",

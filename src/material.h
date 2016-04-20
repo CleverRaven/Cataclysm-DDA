@@ -8,6 +8,7 @@
 #include "enums.h"
 #include "json.h"
 #include "string_id.h"
+#include "vitamin.h"
 
 class material_type;
 using material_id = string_id<material_type>;
@@ -29,6 +30,9 @@ class material_type
         int _fire_resist;
         int _chip_resist;       // Resistance to physical damage of the item itself
         int _density;   // relative to "powder", which is 1
+        bool _edible;
+
+        std::map<vitamin_id, double> _vitamins;
 
     public:
         material_type();
@@ -54,6 +58,12 @@ class material_type
         int fire_resist() const;
         int chip_resist() const;
         int density() const;
+        bool edible() const;
+
+        double vitamin( const vitamin_id &id ) const {
+            auto iter = _vitamins.find( id );
+            return iter != _vitamins.end() ? iter->second : 0;
+        }
 };
 
 #endif
