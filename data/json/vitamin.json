@@ -12,7 +12,7 @@
     "name": "Iron",
     "min": -600,
     "max": 200,
-    "deficiency": [ [ "anaemia", -300 ] ],
+    "deficiency": [ [ "anemia", -300 ] ],
     "excess": [ [ "hypervitaminosis", 100 ] ]
   },
   {

@@ -1526,11 +1526,11 @@
     },
     {
         "type": "effect_type",
-        "id": "anaemia",
-        "name": [ "Anaemia" ],
-        "desc": [ "A lack of iron in your diet has made you anaemic." ],
+        "id": "anemia",
+        "name": [ "Anemia" ],
+        "desc": [ "A lack of iron in your diet has made you anemic." ],
         "apply_message": "You feel tired and listless",
-        "remove_message": "You no longer feel anaemic",
+        "remove_message": "You no longer feel anemic",
         "rating": "bad"
     },
     {
