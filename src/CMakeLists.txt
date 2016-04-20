@@ -164,6 +164,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/mattack_actors.cpp
     ${CMAKE_SOURCE_DIR}/src/consumption.cpp
     ${CMAKE_SOURCE_DIR}/src/bonuses.cpp
+    ${CMAKE_SOURCE_DIR}/src/vitamin.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
@@ -316,6 +317,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/drawing_primitives.h
     ${CMAKE_SOURCE_DIR}/src/mattack_actors.h
     ${CMAKE_SOURCE_DIR}/src/bonuses.h
+    ${CMAKE_SOURCE_DIR}/src/vitamin.h
 )
 
 # Get GIT version strings

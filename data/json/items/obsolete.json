@@ -447,5 +447,21 @@
     "material" : "steel",
     "volume" : 1,
     "weight" : 5
-  }
+  },
+    {
+        "id" : "gummy_vitamins",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "name" : "gummy vitamin",
+        "description" : "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  Take frequently to help regulate your body's health and immune functions.",
+        "weight" : 1,
+        "volume" : 1,
+        "price" : 500,
+        "charges" : 10,
+        "stack_size" : 100,
+        "symbol" : "!",
+        "color" : "magenta",
+        "nutrition" : 1,
+        "fun" : 2
+    }
 ]

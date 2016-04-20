@@ -1030,35 +1030,27 @@ const Skill* npc::best_skill() const
 void npc::starting_weapon(npc_class type)
 {
     const Skill* best = best_skill();
-    item sel_weapon;
-    if( best == nullptr ) {
-        // Fall through to random weapon
-    } else if (best->ident() == skill_bashing ) {
-        sel_weapon = random_item_from( type, "bashing" );
-    } else if (best->ident() == skill_cutting ) {
-        sel_weapon = random_item_from( type, "cutting" );
-    } else if (best->ident() == skill_stabbing ) {
-        sel_weapon = random_item_from( type, "stabbing" );
-    } else if (best->ident() == skill_throw ) {
-        sel_weapon = random_item_from( type, "throw" );
-    } else if (best->ident() == skill_archery ) {
-        sel_weapon = random_item_from( type, "archery" );
-    }else if (best->ident() == skill_pistol ) {
-        sel_weapon = random_item_from( type, "pistol", "guns_pistol_common" );
-    }else if (best->ident() == skill_shotgun ) {
-        sel_weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
-    }else if (best->ident() == skill_smg ) {
-        sel_weapon = random_item_from( type, "smg", "guns_smg_common" );
-    }else if (best->ident() == skill_rifle ) {
-        sel_weapon = random_item_from( type, "rifle", "guns_rifle_common" );
-    }else if (best->ident() == skill_launcher ) {
-        sel_weapon = random_item_from( type, "launcher" );
-    }
 
-    if (sel_weapon.is_null()){
-        sel_weapon = random_item_from( type, "weapon_random" );
+    // if NPC has no suitable skills default to stabbing weapon
+    if( !best || best->ident() == skill_stabbing ) {
+        weapon = random_item_from( type, "stabbing", "survivor_stabbing" );
+    } else if( best->ident() == skill_bashing ) {
+        weapon = random_item_from( type, "bashing", "survivor_bashing" );
+    } else if( best->ident() == skill_cutting ) {
+        weapon = random_item_from( type, "cutting", "survivor_cutting" );
+    } else if( best->ident() == skill_throw ) {
+        weapon = random_item_from( type, "throw" );
+    } else if( best->ident() == skill_archery ) {
+        weapon = random_item_from( type, "archery" );
+    } else if( best->ident() == skill_pistol ) {
+        weapon = random_item_from( type, "pistol", "guns_pistol_common" );
+    } else if( best->ident() == skill_shotgun ) {
+        weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
+    } else if( best->ident() == skill_smg ) {
+        weapon = random_item_from( type, "smg", "guns_smg_common" );
+    } else if( best->ident() == skill_rifle ) {
+        weapon = random_item_from( type, "rifle", "guns_rifle_common" );
     }
-    weapon = sel_weapon;
 
     if( weapon.is_gun() ) {
         weapon.ammo_set( default_ammo( weapon.type->gun->ammo ) );
@@ -1625,7 +1617,7 @@ void npc::say( const std::string line, ... ) const
     va_start(ap, line);
     std::string formatted_line = vstring_format(line, ap);
     va_end(ap);
-    parse_tags(formatted_line, &(g->u), this);
+    parse_tags( formatted_line, g->u, *this );
     if (g->u.sees( *this )) {
         add_msg(_("%1$s says: \"%2$s\""), name.c_str(), formatted_line.c_str());
         sounds::sound(pos(), 16, "");

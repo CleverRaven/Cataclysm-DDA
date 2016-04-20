@@ -876,41 +876,6 @@ bool inventory::has_charges(itype_id it, long quantity) const
     return (charges_of(it) >= quantity);
 }
 
-bool inventory::has_items_with_quality(std::string id, int level, int amount) const
-{
-    int found = 0;
-    for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
-            if( !elem_stack_iter.contents.empty() && elem_stack_iter.is_container() ) {
-                continue;
-            }
-            if( elem_stack_iter.has_quality( id, level ) ) {
-                if( elem_stack_iter.count_by_charges() ) {
-                    found += elem_stack_iter.charges;
-                } else {
-                    found++;
-                }
-            }
-        }
-    }
-    if(found >= amount) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-int inventory::max_quality( const std::string &quality_id ) const
-{
-    int result = INT_MIN;
-    for( const auto &elem : items ) {
-        for( const auto &cur_item : elem ) {
-            result = std::max( result, cur_item.get_quality( quality_id ) );
-        }
-    }
-    return result;
-}
-
 int inventory::leak_level(std::string flag) const
 {
     int ret = 0;

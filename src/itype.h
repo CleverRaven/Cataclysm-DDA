@@ -8,6 +8,7 @@
 #include "bodypart.h" // body_part::num_bp
 #include "string_id.h"
 #include "explosion.h"
+#include "vitamin.h"
 
 #include <string>
 #include <vector>
@@ -92,6 +93,9 @@ struct islot_comestible
 
     /** @todo add documentation */
     int healthy = 0;
+
+    /** vitamins potentially provided by this comestible (if any) */
+    std::map<vitamin_id, int> vitamins;
 
     /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
     static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );

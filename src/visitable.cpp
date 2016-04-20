@@ -9,6 +9,7 @@
 #include "map.h"
 #include "submap.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include "game.h"
 #include "itype.h"
 #include "player.h"
@@ -72,17 +73,149 @@ bool visitable<T>::has_item_with( const std::function<bool( const item & )> &fil
 }
 
 template <typename T>
-bool visitable<T>::has_items_with_quality( const std::string &qual, int level, int qty ) const
+static int has_quality_internal( const T& self, const std::string &qual, int level, int limit )
 {
-    visit_items( [&qual, level, &qty]( const item *e ) {
-        if( e->has_quality( qual, level ) ) {
-            if( --qty == 0 ) {
+    int qty = 0;
+
+    self.visit_items( [&qual, level, &limit, &qty]( const item *e ) {
+        if( e->get_quality( qual ) >= level ) {
+            if( ++qty >= limit ) {
                 return VisitResponse::ABORT; // found sufficient items
             }
         }
         return VisitResponse::NEXT;
     } );
-    return qty == 0;
+    return std::min( qty, limit );
+}
+
+static int has_quality_from_vpart( const vehicle& veh, int part, const std::string& qual, int level, int limit )
+{
+    int qty = 0;
+
+    auto pos = veh.parts[ part ].mount;
+    for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
+
+        // only unbroken parts can provide tool qualities
+        if( veh.parts[ n ].hp > 0 ) {
+            auto tq = veh.part_info( n ).qualities;
+            auto iter = tq.find( qual );
+
+            // does the part provide this quality?
+            if( iter != tq.end() && iter->second >= level ) {
+                if( ++qty >= limit ) {
+                    break;
+                }
+            }
+        }
+    }
+    return std::min( qty, limit );
+}
+
+template <typename T>
+bool visitable<T>::has_quality( const std::string &qual, int level, int qty ) const
+{
+    return has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+template <>
+bool visitable<vehicle_selector>::has_quality( const std::string &qual, int level, int qty ) const
+{
+    for( const auto& cursor : static_cast<const vehicle_selector &>( *this ) ) {
+        qty -= has_quality_from_vpart( cursor.veh, cursor.part, qual, level, qty );
+        if( qty <= 0 ) {
+            return true;
+        }
+    }
+    return has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+template <>
+bool visitable<vehicle_cursor>::has_quality( const std::string &qual, int level, int qty ) const
+{
+    auto self = static_cast<const vehicle_cursor *>( this );
+
+    qty -= has_quality_from_vpart( self->veh, self->part, qual, level, qty );
+    return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
+template <typename T>
+static int max_quality_internal( const T& self, const std::string &qual )
+{
+    int res = INT_MIN;
+    self.visit_items( [&res,&qual]( const item *e ) {
+        res = std::max( res, e->get_quality( qual ) );
+        return VisitResponse::NEXT;
+    } );
+    return res;
+}
+
+static int max_quality_from_vpart( const vehicle& veh, int part, const std::string& qual )
+{
+    int res = INT_MIN;
+
+    auto pos = veh.parts[ part ].mount;
+    for( const auto &n : veh.parts_at_relative( pos.x, pos.y ) ) {
+
+        // only unbroken parts can provide tool qualities
+        if( veh.parts[ n ].hp > 0 ) {
+            auto tq = veh.part_info( n ).qualities;
+            auto iter = tq.find( qual );
+
+            // does the part provide this quality?
+            if( iter != tq.end() ) {
+                res = std::max( res, iter->second );
+            }
+        }
+    }
+    return res;
+}
+
+template <typename T>
+int visitable<T>::max_quality( const std::string &qual ) const
+{
+    return max_quality_internal( *this, qual );
+}
+
+template<>
+int visitable<Character>::max_quality( const std::string &qual ) const
+{
+    int res = INT_MIN;
+
+    auto self = static_cast<const Character *>( this );
+
+    if( self->has_bionic( "bio_tools" ) ) {
+        res = std::max( res, item( "toolset" ).get_quality( qual ) );
+    }
+
+    if( qual == "BUTCHER" ) {
+        if( self->has_bionic( "bio_razor" ) || self->has_trait( "CLAWS_ST" ) ) {
+            res = std::max( res, 8 );
+        } else if( self->has_trait( "TALONS" ) || self->has_trait( "MANDIBLES" ) ||
+                   self->has_trait( "CLAWS" ) || self->has_trait( "CLAWS_RETRACT" ) ||
+                   self->has_trait( "CLAWS_RAT" ) ) {
+            res = std::max( res, 4 );
+        }
+    }
+
+    return std::max( res, max_quality_internal( *this, qual ) );
+}
+
+template <>
+int visitable<vehicle_cursor>::max_quality( const std::string &qual ) const
+{
+    auto self = static_cast<const vehicle_cursor *>( this );
+    return std::max( max_quality_from_vpart( self->veh, self->part, qual ),
+                     max_quality_internal( *this, qual ) );
+}
+
+template <>
+int visitable<vehicle_selector>::max_quality( const std::string &qual ) const
+{
+    int res = INT_MIN;
+    for( const auto &e : static_cast<const vehicle_selector &>( *this ) ) {
+        res = std::max( res, e.max_quality( qual ) );
+    }
+    return res;
 }
 
 template <typename T>
@@ -239,9 +372,12 @@ VisitResponse visitable<vehicle_cursor>::visit_items(
 {
     auto self = static_cast<vehicle_cursor *>( this );
 
-    for( auto &e : self->veh.get_items( self->part ) ) {
-        if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
-            return VisitResponse::ABORT;
+    int idx = self->veh.part_with_feature( self->part, "CARGO" );
+    if( idx >= 0 ) {
+        for( auto &e : self->veh.get_items( idx ) ) {
+            if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+                return VisitResponse::ABORT;
+            }
         }
     }
     return VisitResponse::NEXT;
@@ -474,7 +610,12 @@ std::list<item> visitable<vehicle_cursor>::remove_items_with( const
         return res; // nothing to do
     }
 
-    vehicle_part& part = cur->veh.parts[ cur->part ];
+    int idx = cur->veh.part_with_feature( cur->part, "CARGO" );
+    if( idx < 0 ) {
+        return res;
+    }
+
+    vehicle_part& part = cur->veh.parts[ idx ];
     for( auto iter = part.items.begin(); iter != part.items.end(); ) {
         if( filter( *iter ) ) {
             // check for presence in the active items cache
@@ -607,7 +748,7 @@ int visitable<Character>::amount_of( const std::string& what, bool pseudo, int l
     if( what == "apparatus" && pseudo ) {
         int qty = 0;
         visit_items( [&qty, &limit] ( const item *e ) {
-            qty += e->has_quality( "SMOKE_PIPE", 1 );
+            qty += e->get_quality( "SMOKE_PIPE" ) >= 1;
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         } );
         return std::min( qty, limit );

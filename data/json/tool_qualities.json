@@ -95,5 +95,13 @@
         "type" : "tool_quality",
         "id" : "PRY",
         "name" : "prying"
+    },{
+        "type" : "tool_quality",
+        "id" : "LIFT",
+        "name" : "lifting"
+    },{
+        "type" : "tool_quality",
+        "id" : "JACK",
+        "name" : "jacking"
     }
 ]

@@ -2698,7 +2698,7 @@ void overmap::place_forest()
                 cities.begin(),
                 cities.end(),
                 [&](const city &c) {
-                    return 
+                    return
                         // is this city too close?
                         trig_dist(forx, fory, c.x, c.y) - fors / 2 < c.s &&
                         // occasionally accept near a city if we've been failing
@@ -2706,7 +2706,7 @@ void overmap::place_forest()
                 }
             );
             if(iter == cities.end()) { // every city was too close
-                break; 
+                break;
             }
         } while( tries-- );
 
@@ -2878,7 +2878,7 @@ void overmap::place_cities()
     const double omts_per_city = (op_city_size*2+1) * (op_city_size*2+1) * 3 / 4;
 
     // how many cities on this overmap?
-    const int NUM_CITIES = 
+    const int NUM_CITIES =
         roll_remainder(omts_per_overmap * city_map_coverage_ratio / omts_per_city);
 
     // place a seed for NUM_CITIES cities, and maybe one more
@@ -4458,7 +4458,7 @@ const char *oter_id::c_str() const
 
 void groundcover_extra::setup()   // fixme return bool for failure
 {
-    default_ter = terfind( default_ter_str );
+    default_ter = ter_id( default_ter_str );
 
     ter_furn_id tf_id;
     int wtotal = 0;
@@ -4471,8 +4471,9 @@ void groundcover_extra::setup()   // fixme return bool for failure
         if ( it->second < 0.0001 ) {
             continue;
         }
-        if ( termap.find( it->first ) != termap.end() ) {
-            tf_id.ter = termap[ it->first ].loadid;
+        const ter_str_id tid( it->first );
+        if( tid.is_valid() ) {
+            tf_id.ter = tid.id();
         } else if ( furnmap.find( it->first ) != furnmap.end() ) {
             tf_id.furn = furnmap[ it->first ].loadid;
         } else {
@@ -4490,8 +4491,10 @@ void groundcover_extra::setup()   // fixme return bool for failure
         if ( it->second < 0.0001 ) {
             continue;
         }
-        if ( termap.find( it->first ) != termap.end() ) {
-            tf_id.ter = termap[ it->first ].loadid;
+        const ter_str_id tid( it->first );
+
+        if( tid.is_valid() ) {
+            tf_id.ter = tid.id();
         } else if ( furnmap.find( it->first ) != furnmap.end() ) {
             tf_id.furn = furnmap[ it->first ].loadid;
         } else {
@@ -4529,8 +4532,11 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
 void regional_settings::setup()
 {
     if ( default_groundcover_str != NULL ) {
-        default_groundcover.primary = terfind(default_groundcover_str->primary_str);
-        default_groundcover.secondary = terfind(default_groundcover_str->secondary_str);
+        const ter_str_id primary( default_groundcover_str->primary_str );
+        const ter_str_id secondary( default_groundcover_str->secondary_str );
+
+        default_groundcover.primary = primary.id();
+        default_groundcover.secondary = secondary.id();
         field_coverage.setup();
         city_spec.shops.apply(&setup_oter);
         city_spec.parks.apply(&setup_oter);

@@ -235,7 +235,6 @@ void game::load_static_data()
     init_mapgen_builtin_functions();
     init_fields();
     init_savedata_translation_tables();
-    init_npctalk();
     init_artifacts();
     init_faction_data();
 
@@ -3744,6 +3743,34 @@ void game::dump_stats( const std::string& what )
                 dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
             }
         }
+    } else if( what == "VEHICLE" ) {
+        std::cout
+            << "Name" << "\t"
+            << "Weight (empty)" << "\t"
+            << "Weight (fueled)" << std::endl;
+
+        for( auto& e : vehicle_prototype::get_all() ) {
+            auto veh_empty = vehicle( e, 0, 0 );
+            auto veh_fueled = vehicle( e, 100, 0 );
+            std::cout
+                << veh_empty.name << "\t"
+                << veh_empty.total_mass() << "\t"
+                << veh_fueled.total_mass() << std::endl;
+        }
+    } else if( what == "VPART" ) {
+        std::cout
+            << "Name" << "\t"
+            << "Location" << "\t"
+            << "Weight" << "\t"
+            << "Size" << std::endl;
+
+        for( const auto e : vpart_info::get_all() ) {
+            std::cout
+                << e->name << "\t"
+                << e->location << "\t"
+                << ceil( item( e->item ).weight() / 1000.0 ) << "\t"
+                << e->size << std::endl;
+        }
     }
 }
 
@@ -3908,20 +3935,6 @@ void game::add_event(event_type type, int on_turn, int faction_id, const tripoin
     event tmp( type, on_turn, faction_id, center );
     events.push_back(tmp);
 }
-
-struct terrain {
-    ter_id ter;
-    terrain(ter_id tid) : ter(tid) {};
-    terrain(std::string sid)
-    {
-        ter = t_null;
-        if (termap.find(sid) == termap.end()) {
-            debugmsg("terrain '%s' does not exist.", sid.c_str());
-        } else {
-            ter = termap[sid].loadid;
-        }
-    };
-};
 
 bool game::event_queued(event_type type) const
 {
@@ -4347,39 +4360,36 @@ void game::debug()
                         smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
                         smenu.addentry( 1, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
                         smenu.addentry( 2, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
+
+                        const auto& vits = vitamin::all();
+                        for( const auto& v : vits ) {
+                            smenu.addentry( -1, true, 0, "%s: %d", v.second.name().c_str(), p.vitamin_get( v.first ) );
+                        }
+
                         smenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                         smenu.selected = 0;
                         smenu.query();
-                        int cur;
-                        bool valid = false;
+
                         switch( smenu.ret ) {
                             case 0:
-                                cur = p.get_hunger();
-                                valid = true;
+                                p.set_hunger( query_int( "Set hunger to? Currently: %d", p.get_hunger() ) );
                                 break;
+
                             case 1:
-                                cur = p.get_thirst();
-                                valid = true;
+                                p.set_thirst( query_int( "Set thirst to? Currently: %d", p.get_thirst() ) );
                                 break;
+
                             case 2:
-                                cur = p.get_fatigue();
-                                valid = true;
+                                p.set_fatigue( query_int( "Set fatigue to? Currently: %d", p.get_fatigue() ) );
                                 break;
+
                             default:
-                                break;
-                        }
-                        if( valid ) {
-                            int value = query_int( "Set the value to? Currently: %d", cur );
-                            switch( smenu.ret ) {
-                                case 0:
-                                    p.set_hunger( value );
-                                    break;
-                                case 1:
-                                    p.set_thirst( value );
-                                    break;
-                                case 2:
-                                    p.set_fatigue( value );
-                            }
+                                if( smenu.ret > 2 && smenu.ret < static_cast<int>( vits.size() + 3 ) ) {
+                                    auto iter = std::next( vits.begin(), smenu.ret - 3 );
+                                    p.vitamin_set( iter->first, query_int( "Set %s to? Currently: %d",
+                                                                           iter->second.name().c_str(),
+                                                                           p.vitamin_get( iter->first ) ) );
+                                }
                         }
 
                     }
@@ -7236,12 +7246,13 @@ void game::open()
     bool didit = m.open_door( openp, !m.is_outside( u.pos() ) );
 
     if (!didit) {
-        const std::string terid = m.get_ter( openp );
-        if (terid.find("t_door") != std::string::npos) {
-            if (terid.find("_locked") != std::string::npos) {
+        const ter_str_id tid = m.get_ter( openp );
+
+        if( tid.str().find("t_door") != std::string::npos ) {
+            if( tid.str().find("_locked") != std::string::npos ) {
                 add_msg(m_info, _("The door is locked!"));
                 return;
-            } else if (!termap[terid].close.empty() && termap[terid].close != "t_null") {
+            } else if ( tid.obj().close ) {
                 // if the following message appears unexpectedly, the prior check was for t_door_o
                 add_msg(m_info, _("That door is already open."));
                 u.moves += 100;
@@ -8396,6 +8407,10 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     } else {
         mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
                   m.move_cost(lp) * 50);
+
+        const auto ll = get_light_level(std::max(1.0, LIGHT_AMBIENT_LIT - m.ambient_light_at(lp) + 1.0));
+        mvwprintw(w_look, ++line, column, _("Lighting: "));
+        wprintz(w_look, ll.second, ll.first.c_str());
     }
 
     std::string signage = m.get_signage( lp );
@@ -11408,8 +11423,12 @@ void game::reload( int pos, bool prompt )
         std::stringstream ss;
         ss << pos;
 
-        long fetch = !opt.ammo->is_ammo_container() ? opt.qty() : 1;
-        u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty(), opt.ammo.obtain( u, fetch ), ss.str() );
+        // store moves and qty locally as obtain() will invalidate the reload_option
+        int mv = opt.moves();
+        long qty = opt.qty();
+        int pos = opt.ammo.obtain( u, !opt.ammo->is_ammo_container() ? qty : 1 );
+
+        u.assign_activity( ACT_RELOAD, mv, qty, pos, ss.str() );
 
         u.inv.restack( &u );
     }
@@ -11582,8 +11601,9 @@ bool game::unload( item &it )
         item ammo( target->ammo_current(), calendar::turn, qty );
 
         if( ammo.made_of( LIQUID ) ) {
-            add_or_drop_with_msg( u, ammo );
-            qty -= ammo.charges;
+            if( !add_or_drop_with_msg( u, ammo ) ) {
+                qty -= ammo.charges; // only handled part (or none) of the liquid
+            }
             if( qty <= 0 ) {
                 return false; // no liquid was moved
             }
@@ -12093,10 +12113,22 @@ bool game::plmove(int dx, int dy, int dz)
     }
 
     // Invalid move
-    const bool waste_moves = u.has_effect( effect_blind ) || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold") || u.has_effect( effect_stunned );
+    const bool waste_moves = u.is_blind() || u.has_active_bionic("bio_blindfold") || u.has_effect( effect_stunned );
     if( waste_moves || dest_loc.z != u.posz() ) {
+        std::string obstacle_name;
+        int part;
+        vehicle *veh = m.veh_at( dest_loc, part );
+        if( veh != nullptr ) {
+            // redefine variable as id of obstacle part
+            part = veh->obstacle_at_part( part );
+            if( part > 0 ) {
+                obstacle_name = veh->parts[part].info().name;
+            }
+        } else {
+            obstacle_name = m.name( dest_loc );
+        }
+        add_msg( _( "You bump into a %s!" ), obstacle_name.c_str() );
         // Only lose movement if we're blind
-        add_msg(_("You bump into a %s!"), m.name(dest_loc).c_str());
         if( waste_moves ) {
             u.moves -= 100;
         }

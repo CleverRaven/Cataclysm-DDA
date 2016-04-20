@@ -7,6 +7,7 @@
 #include "input.h"
 #include "item.h"
 #include "bionics.h"
+#include "bodypart.h"
 #include "line.h"
 #include "json.h"
 #include "messages.h"
@@ -91,17 +92,20 @@ bionic_data const &bionic_info( std::string const &id )
 
     debugmsg("bad bionic id");
 
-    static bionic_data const null_value {"bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false};
+    static bionic_data const null_value {
+        "bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false, {{bp_torso, 0}}
+    };
     return null_value;
 }
 
 void bionics_install_failure( player *u, int difficulty, int success );
 
 bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
-                         int ct, int cap, std::string desc, bool fault
+                         int ct, int cap, std::string desc, bool fault, std::map<body_part, size_t> bps
 ) : name(std::move(nname)), description(std::move(desc)), power_activate(pac),
     power_deactivate(pad), power_over_time(pot), charge_time(ct), capacity(cap), faulty(fault),
-    power_source(ps), activated(tog || pac || ct), toggled(tog)
+    power_source( ps ), activated( tog || pac || ct ), toggled( tog ),
+    occupied_bodyparts( std::move( bps ) )
 {
 }
 
@@ -459,7 +463,13 @@ void player::power_bionics()
                                         power_only_desc.str() );
             }
             ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue,
-                                    bionics[( *current_bionic_list )[cursor]->id].description );
+                                    bionics[( *current_bionic_list )[cursor]->id].description ) + 1;
+
+            const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( w_description );
+            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
+                                    list_occupied_bps( ( *current_bionic_list )[cursor]->id,
+                                    _( "This bionic occupies the following body parts:" ),
+                                    each_bp_on_new_line ).c_str() );
             wrefresh( w_description );
         }
 
@@ -1365,7 +1375,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
     //If you are paying the doctor to do it, shouldn't use your supplies
-    if( !( has_items_with_quality( "CUT", 1, 1 ) && has_amount( "1st_aid", 1 ) ) &&
+    if( !( has_quality( "CUT" ) && has_amount( "1st_aid", 1 ) ) &&
         skill_level == -1 ) {
         popup( _( "Removing bionics requires a cutting tool and a first aid kit." ) );
         return false;
@@ -1484,25 +1494,6 @@ bool player::install_bionics( const itype &type, int skill_level )
         popup( "invalid / unknown bionic id %s", bioid.c_str() );
         return false;
     }
-    if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
-        if( has_bionic( "bio_furnace" ) && has_bionic( "bio_storage" ) ) {
-            popup( _( "Your internal storage and furnace take up too much room!" ) );
-            return false;
-        } else if( has_bionic( "bio_furnace" ) ) {
-            popup( _( "Your internal furnace takes up too much room!" ) );
-            return false;
-        } else if( has_bionic( "bio_storage" ) ) {
-            popup( _( "Your internal storage takes up too much room!" ) );
-            return false;
-        }
-    }
-    if( ( bioid == "bio_furnace" ) || ( bioid == "bio_storage" ) || ( bioid == "bio_reactor" ) ||
-        ( bioid == "bio_advreactor" ) ) {
-        if( has_bionic( "bio_reactor" ) || has_bionic( "bio_advreactor" ) ) {
-            popup( _( "Your installed reactor leaves no room!" ) );
-            return false;
-        }
-    }
     if( bioid == "bio_reactor_upgrade" ) {
         if( !has_bionic( "bio_reactor" ) ) {
             popup( _( "There is nothing to upgrade!" ) );
@@ -1532,9 +1523,22 @@ bool player::install_bionics( const itype &type, int skill_level )
                                               difficult );
     }
 
-    if( !query_yn(
-            _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?" ),
-            100 - chance_of_success ) ) {
+    const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
+    // show all requirements which are not satisfied
+    if( !issues.empty() ) {
+        std::string detailed_info;
+        for( auto& elem : issues ) {
+            //~ <Body part name>: <number of slots> more slot(s) needed.
+            detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
+                                            body_part_name_as_heading( elem.first, 1 ).c_str(),
+                                            elem.second );
+        }
+        popup( _( "Not enough space for bionic installation!%s" ), detailed_info.c_str() );
+        return false;
+    }
+
+    if( !query_yn( _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                   ( 100 - int( chance_of_success ) ) ) ) {
         return false;
     }
 
@@ -1705,6 +1709,95 @@ void bionics_install_failure( player *u, int difficulty, int success )
     }
 }
 
+std::string list_occupied_bps( const std::string &bio_id, const std::string &intro,
+                               const bool each_bp_on_new_line )
+{
+    if( bionic_info( bio_id ).occupied_bodyparts.empty() ) {
+    return "";
+    }
+    std::ostringstream desc;
+    desc << intro;
+    for( const auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
+        desc << ( each_bp_on_new_line ? "\n" : " " );
+        //~ <Bodypart name> (<number of occupied slots> slots);
+        desc << string_format( _( "%s (%i slots);" ),
+                           body_part_name_as_heading( elem.first, 1 ).c_str(),
+                           elem.second );
+    }
+    return desc.str();
+}
+
+int player::get_used_bionics_slots( const body_part bp ) const
+{
+    int used_slots = 0;
+    for( auto &bio : my_bionics ) {
+        auto search = bionics[bio.id].occupied_bodyparts.find( bp );
+        if( search != bionics[bio.id].occupied_bodyparts.end() ) {
+            used_slots += search->second;
+        }
+    }
+
+    return used_slots;
+}
+
+std::map<body_part, int> player::bionic_installation_issues( const std::string &bioid )
+{
+    std::map<body_part, int> issues;
+    if( !has_trait( "DEBUG_CBM_SLOTS" ) ) {
+        return issues;
+    }
+    for( auto &elem : bionics[ bioid ].occupied_bodyparts ) {
+        const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
+        if( lacked_slots > 0 ) {
+            issues.emplace( elem.first, lacked_slots );
+        }
+    }
+    return issues;
+}
+
+int player::get_total_bionics_slots( const body_part bp ) const
+{
+    switch( bp ) {
+    case bp_torso:
+        return 80;
+
+    case bp_head:
+        return 18;
+
+    case bp_eyes:
+        return 4;
+
+    case bp_mouth:
+        return 4;
+
+    case bp_arm_l:
+    case bp_arm_r:
+        return 20;
+
+    case bp_hand_l:
+    case bp_hand_r:
+        return 5;
+
+    case bp_leg_l:
+    case bp_leg_r:
+        return 30;
+
+    case bp_foot_l:
+    case bp_foot_r:
+        return 7;
+
+    case num_bp:
+        debugmsg( "number of slots for incorrect bodypart is requested!" );
+        return 0;
+    }
+    return 0;
+}
+
+int player::get_free_bionics_slots( const body_part bp ) const
+{
+    return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
+}
+
 void player::add_bionic( std::string const &b )
 {
     if( has_bionic( b ) ) {
@@ -1850,6 +1943,16 @@ void load_bionic( JsonObject &jsobj )
     bool faulty = jsobj.get_bool( "faulty", false );
     bool power_source = jsobj.get_bool( "power_source", false );
 
+    std::map<body_part, size_t> occupied_bodyparts;
+    JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
+    if( !jsarr.empty() ) {
+        while( jsarr.has_more() ) {
+            JsonArray ja = jsarr.next_array();
+            occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+        }
+    }
+
     if( faulty ) {
         faulty_bionics.push_back( id );
     }
@@ -1857,7 +1960,8 @@ void load_bionic( JsonObject &jsobj )
     auto const result = bionics.insert( std::make_pair( std::move( id ),
                                         bionic_data( std::move( name ), power_source, toggled,
                                                 on_cost, off_cost, react_cost, time, capacity,
-                                                std::move( description ), faulty ) ) );
+                                                std::move( description ), faulty,
+                                                std::move( occupied_bodyparts ) ) ) );
 
     if( !result.second ) {
         debugmsg( "duplicate bionic id" );

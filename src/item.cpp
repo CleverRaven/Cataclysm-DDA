@@ -4,6 +4,7 @@
 #include "player.h"
 #include "output.h"
 #include "skill.h"
+#include "bionics.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -751,6 +752,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                            ( g->u.has_bionic( "bio_scent_vision" ) || g->u.has_trait( "CARNIVORE" ) ||
                                              g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
             info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
+        }
+
+        std::string vits;
+        for( const auto &v : g->u.vitamins_from( *food_item ) ) {
+            if( v.second != 0 ) {
+                if( !vits.empty() ) {
+                    vits += ", ";
+                }
+                vits += string_format( "%s (%i)", v.first.obj().name().c_str(), v.second );
+            }
+        }
+        if( !vits.empty() ) {
+            info.emplace_back( "FOOD", _( "Vitamins: " ), vits.c_str() );
         }
     }
 
@@ -1609,6 +1623,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        if( is_bionic() ) {
+            info.push_back( iteminfo( "DESCRIPTION", list_occupied_bps( type->id,
+                _( "This bionic is installed in the following body part(s):" ) ) ) );
+        }
+
         if( is_gun() && has_flag( "FIRE_TWOHAND" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This weapon needs <info>two free hands</info> to fire." ) ) );
@@ -1979,7 +1998,7 @@ nc_color item::color_in_inventory() const
         }
     } else if (is_bionic()) {
         if (!u->has_bionic(type->id)) {
-            ret = c_green; // installable bionics show as green
+            ret = u->bionic_installation_issues( type->id ).empty() ? c_green : c_red;
         }
     }
     return ret;
@@ -2497,6 +2516,11 @@ int item::volume( bool integral ) const
     return ret;
 }
 
+int item::lift_strength() const
+{
+    return weight() / STR_LIFT_FACTOR + ( weight() % STR_LIFT_FACTOR != 0 );
+}
+
 int item::attack_time() const
 {
     int ret = 65 + 4 * volume() + weight() / 60;
@@ -2657,19 +2681,6 @@ int item::get_quality( const std::string &quality_id ) const
     }
 
     return return_quality;
-}
-
-bool item::has_quality( std::string quality_id ) const
-{
-    return has_quality( quality_id, 1 );
-}
-
-bool item::has_quality( std::string quality_id, int quality_value ) const
-{
-    if( get_quality( quality_id ) >= quality_value ) {
-        return true;
-    }
-    return false;
 }
 
 bool item::has_technique( const matec_id & tech ) const

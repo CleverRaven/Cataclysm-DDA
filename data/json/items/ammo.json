@@ -13,8 +13,7 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "battery",
-        "count" : 100,
-        "effects" : ["NEVER_MISFIRES"]
+        "count" : 100
     },
     {
         "type" : "AMMO",

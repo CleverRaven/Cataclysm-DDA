@@ -49,6 +49,7 @@
 #include "npc.h"
 #include "cata_utility.h"
 #include "overlay_ordering.h"
+#include "vitamin.h"
 
 #include <map>
 
@@ -252,6 +253,10 @@ player::player() : Character()
     }
     nv_cached = false;
     volume = 0;
+
+    for( const auto &v : vitamin::all() ) {
+        vitamin_levels[ v.first ] = 0;
+    }
 
     memorial_log.clear();
     player_stats.reset();
@@ -3565,9 +3570,9 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         }
 
         if( has_turrets ) {
-            mvwprintz( w, 3, sideStyle ? 16 : 25, col_indf1, "Gun:" );
+            mvwprintz( w, 3, sideStyle ? 16 : 25, col_indf1, _( "Gun:" ) );
             wprintz( w, veh->turret_mode ? c_ltred : c_ltblue,
-                     veh->turret_mode ? "auto" : "off " );
+                     veh->turret_mode ? _( "auto" ) : _( "off " ) );
         }
 
         //
@@ -5203,6 +5208,16 @@ void player::update_body( int from, int to )
         regen( thirty_mins );
         get_sick();
         mend( thirty_mins );
+    }
+
+    for( const auto& v : vitamin::all() ) {
+        int rate = vitamin_rate( v.first );
+        if( rate > 0 ) {
+            int qty = ticks_between( from, to, MINUTES( rate ) );
+            if( qty > 0 ) {
+                vitamin_mod( v.first, 0 - qty );
+            }
+        }
     }
 
     if( ticks_between( from, to, HOURS(6) ) ) {
@@ -9103,30 +9118,6 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     }
 
     return res;
-}
-
-int player::max_quality( const std::string &quality_id ) const
-{
-    int result = INT_MIN;
-    if( has_bionic( "bio_tools" ) ) {
-        item tmp( "toolset", 0 );
-        result = std::max( result, tmp.get_quality( quality_id ) );
-    }
-    if( quality_id == "BUTCHER" ) {
-        if( has_bionic( "bio_razor" ) || has_trait( "CLAWS_ST" ) ){
-            result = std::max( result, 8 );
-        } else if( has_trait( "TALONS" ) || has_trait( "MANDIBLES" ) || has_trait( "CLAWS" ) ||
-                   has_trait( "CLAWS_RETRACT" ) || has_trait( "CLAWS_RAT" ) ) {
-            result = std::max( result, 4 );
-        }
-    }
-
-    result = std::max( result, inv.max_quality( quality_id ) );
-    result = std::max( result, weapon.get_quality( quality_id ) );
-    for( const auto &elem : worn ) {
-        result = std::max( result, elem.get_quality( quality_id ) );
-    }
-    return result;
 }
 
 item* player::pick_usb()

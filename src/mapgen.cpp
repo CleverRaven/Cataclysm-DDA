@@ -531,10 +531,12 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
             std::string tmpid = pjo.get_string("id");
             switch( tmpop ) {
                 case JMAPGEN_SETMAP_TER: {
-                    if ( termap.find( tmpid ) == termap.end() ) {
+                    const ter_str_id tid( tmpid );
+
+                    if( !tid.is_valid() ) {
                         pjo.throw_error( "no such terrain", "id" );
                     }
-                    tmp_i.val = termap[ tmpid ].loadid;
+                    tmp_i.val = tid.id();
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
                     if ( furnmap.find( tmpid ) == furnmap.end() ) {
@@ -1086,24 +1088,9 @@ public:
 class jmapgen_terrain : public jmapgen_piece {
 public:
     ter_id id;
-    jmapgen_terrain( JsonObject &jsi ) : jmapgen_piece()
-    , id( 0 )
-    {
-        const auto iter = termap.find( jsi.get_string( "ter" ) );
-        if( iter == termap.end() ) {
-            jsi.throw_error( "unknown terrain type", "ter" );
-        }
-        id = iter->second.loadid;
-    }
-    jmapgen_terrain( const std::string &tid ) : jmapgen_piece()
-    , id( 0 )
-    {
-        const auto iter = termap.find( tid );
-        if( iter == termap.end() ) {
-            throw std::runtime_error( "unknown terrain type" );
-        }
-        id = iter->second.loadid;
-    }
+    jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
+
+    jmapgen_terrain( const std::string &ter_name ) : jmapgen_piece(), id( ter_id( ter_name ) ) {}
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         m.ter_set( x.get(), y.get(), id );
@@ -1130,11 +1117,7 @@ public:
         }
         jsi.read( "items", items );
         if( jsi.has_string( "floor_type" ) ) {
-            const auto iter = termap.find( jsi.get_string( "floor_type" ) );
-            if( iter == termap.end() ) {
-                jsi.throw_error( "unknown terrain type", "floor_type" );
-            }
-            floor_type = iter->second.loadid;
+            floor_type = ter_id( jsi.get_string( "floor_type" ) );
         }
         jsi.read( "overwrite", overwrite );
     }
@@ -1332,7 +1315,7 @@ bool mapgen_function_json::setup() {
         }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
-        std::string tmpval = "";
+        ter_str_id tmpval;
         JsonArray parray;
         JsonArray sparray;
         JsonObject pjo;
@@ -1340,12 +1323,9 @@ bool mapgen_function_json::setup() {
 
         // something akin to mapgen fill_background.
         if ( jo.read("fill_ter", tmpval) ) {
-            if ( termap.find( tmpval ) == termap.end() ) {
-                jo.throw_error(string_format("  fill_ter: invalid terrain '%s'",tmpval.c_str() ));
-            }
-            fill_ter = termap[ tmpval ].loadid;
+            fill_ter = tmpval.id();
             qualifies = true;
-            tmpval = "";
+            tmpval = NULL_ID;
         }
 
         format.resize( mapgensize * mapgensize );
@@ -1363,12 +1343,7 @@ bool mapgen_function_json::setup() {
                         pjo.throw_error( "format map key must be 1 character", key );
                     }
                     if( pjo.has_string( key ) ) {
-                        const auto tmpval = pjo.get_string( key );
-                        const auto iter = termap.find( tmpval );
-                        if( iter == termap.end() ) {
-                            pjo.throw_error( "Invalid terrain", key );
-                        }
-                        format_terrain[key[0]] = iter->second.loadid;
+                        format_terrain[key[0]] = ter_id( pjo.get_string( key ) );
                     } else {
                         auto &vect = format_placings[ key[0] ];
                         ::load_place_mapings<jmapgen_terrain>( pjo, key, vect );
@@ -6141,42 +6116,22 @@ __________           f  \n",
             place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
             if (t_west == "public_works" && t_north == "public_works") {
                 rotate(1);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 2, 0, 90);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 2, 0, 90);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 2, 0 }, 90, 0 ,0 );
                 }
             } else if (t_east == "public_works" && t_north == "public_works") {
                 rotate(2);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 23, 10, 270);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 23, 10, 270);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 23, 10 }, 270, 0, 0 );
                 }
             } else if (t_east == "public_works" && t_south == "public_works") {
                 rotate(3);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 10, 23, 0);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 10, 23, 0);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 10, 23 }, 0, 0, 0 );
                 }
             } else {
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                  if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 0, 10, 90);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 0, 10, 90);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 0, 10 }, 90, 0, 0 );
                 }
             }
         }
@@ -10692,11 +10647,13 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
         }
     }
     for( auto e : res ) {
-        if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
-            e->contents.emplace_back( e->magazine_default(), e->bday );
-        }
-        if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
-            e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
+        if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
+            if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
+                e->contents.emplace_back( e->magazine_default(), e->bday );
+            }
+            if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
+                e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
+            }
         }
     }
     return res;

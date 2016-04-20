@@ -869,7 +869,7 @@ void sfx::do_footstep() {
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         int heard_volume = sfx::get_heard_volume( g->u.pos() );
-        const auto terrain = g->m.ter_at( g->u.pos() ).id;
+        const auto terrain = g->m.ter_at( g->u.pos() ).id.str();
         static std::set<ter_type> const grass = {
             ter_type( "t_grass" ),
             ter_type( "t_shrub" ),
@@ -936,7 +936,7 @@ void sfx::do_footstep() {
 
 void sfx::do_obstacle() {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
-    const auto terrain = g->m.ter_at( g->u.pos() ).id;
+    const auto terrain = g->m.ter_at( g->u.pos() ).id.str();
     static std::set<ter_type> const water = {
         ter_type( "t_water_sh" ),
         ter_type( "t_water_dp" ),

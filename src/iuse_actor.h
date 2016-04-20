@@ -7,6 +7,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "explosion.h"
+#include "vitamin.h"
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -228,6 +229,10 @@ class consume_drug_iuse : public iuse_actor
         std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
+
+        /** Modify player @vitamin_levels by random amount between min (first) and max (second) */
+        std::map<vitamin_id, std::pair<int,int>> vitamins;
+
         /** How many move points this action takes. */
         int moves;
 
@@ -236,6 +241,7 @@ class consume_drug_iuse : public iuse_actor
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
+        virtual void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**

@@ -104,10 +104,11 @@
     "id": "tools_mechanic",
     "type": "item_group",
     "//": "Equipment of any size commonly used by engineers and mechanics",
-    "magazine": 100,
+    "ammo": 100,
     "items": [
       [ "forge", 100 ],
       [ "jack", 100 ],
+      [ "jack_small", 100 ],
       [ "oxy_torch", 100 ],
       [ "polisher", 100 ],
       [ "welder", 100 ]
@@ -151,6 +152,16 @@
       [ "heavy_flashlight", 30 ],
       [ "oil_lamp", 10 ],
       [ "wearable_light", 15 ]
+    ]
+  },
+  {
+    "id" : "tools_lighting_industrial",
+    "type" : "item_group",
+    "//": "Light sources used as industrial working equipment.",
+    "items" : [
+      [ "flashlight", 100 ],
+      [ "heavy_flashlight", 40 ],
+      [ "wearable_light", 60 ]
     ]
   },
   {

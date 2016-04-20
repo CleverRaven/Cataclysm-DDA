@@ -3925,7 +3925,11 @@
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered.  You cannot eat anything besides meat.",
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT",  "GRAZER"],
         "leads_to" : ["SAPROVORE"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"],
+        "vitamin_rates": [
+            [ "VitA", -999 ],
+            [ "VitC", -999 ]
+        ]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
@@ -4806,6 +4810,14 @@
         "valid" : false,
         "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
         "threshold" : true
+    },{
+      "type" : "mutation",
+      "id" : "DEBUG_CBM_SLOTS",
+      "name" : "Debug CBM Slots Limits",
+      "points" : 99,
+      "valid" : false,
+      "description" : "Limitate the number of bionics which you're able to install in your body.",
+      "threshold" : true
     },{
         "type" : "mutation",
         "id" : "DEBUG_MIND_CONTROL",

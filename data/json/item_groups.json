@@ -1558,7 +1558,6 @@
       ["saline", 25],
       ["contacts", 10],
       ["vitamins", 75],
-      ["gummy_vitamins", 25],
       ["aspirin", 85],
       ["caffeine", 25],
       ["pills_sleep", 15],
@@ -4710,7 +4709,6 @@
       ["1st_aid", 35],
       ["saline", 10],
       ["vitamins", 75],
-      ["gummy_vitamins", 25],
       ["iodine", 5],
       ["prussian_blue", 5],
       ["dayquil", 70],
@@ -4821,6 +4819,7 @@
   },{
     "type" : "item_group",
     "id" : "mechanics",
+    "ammo" : 100,
     "items":[
       ["polisher", 15],
       ["jumper_cable", 15],
@@ -8539,22 +8538,6 @@
       { "item": "mushroom_poison", "prob": 3, "count-min": 1, "count-max": 3 },
       { "item": "mushroom_morel", "prob": 2, "count-min": 1, "count-max": 4 },
       { "item": "mushroom_magic", "prob": 1, "count-min": 1, "count-max": 3 }
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "technician_shirts",
-    "items":[
-      ["technician_shirt_blue", 20],
-      ["technician_shirt_ltblue", 15],
-      ["technician_shirt_gray", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "technician_pants",
-    "items":[
-      ["technician_pants_blue", 20],
-      ["technician_pants_ltblue", 15],
-      ["technician_pants_gray", 10]
     ]
   },{
     "type" : "item_group",

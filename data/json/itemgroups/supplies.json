@@ -8,6 +8,7 @@
       [ "antenna", 40 ],
       [ "battery", 100 ],
       [ "cable", 60 ],
+      [ "power_supply", 20 ],
       [ "processor", 20 ],
       [ "solar_cell", 10 ],
       [ "solder_wire", 60 ],

@@ -885,13 +885,6 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::vitamins(player *p, item *it, bool, const tripoint& )
-{
-    p->add_msg_if_player(_("You take some vitamins."));
-    p->mod_healthy_mod(50, 50);
-    return it->type->charges_to_use();
-}
-
 int iuse::vaccine(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You inject the vaccine."));
@@ -3731,7 +3724,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
         type = tr_bubblewrap;
         practice = 2;
     } else if (it->type->id == "beartrap") {
-        buried = (p->has_items_with_quality( "DIG", 3, 1 ) &&
+        buried = (p->has_quality( "DIG", 3 ) &&
                   g->m.has_flag("DIGGABLE", posx, posy) &&
                   query_yn(_("Bury the beartrap?")));
         type = (buried ? tr_beartrap_buried : tr_beartrap);
@@ -3841,7 +3834,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
             return 0;
         }
     } else if (it->type->id == "landmine") {
-        buried = (p->has_items_with_quality( "DIG", 3, 1 ) &&
+        buried = (p->has_quality( "DIG", 3 ) &&
                   g->m.has_flag("DIGGABLE", posx, posy) &&
                   query_yn(_("Bury the land mine?")));
         type = (buried ? tr_landmine_buried : tr_landmine);
@@ -3859,7 +3852,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     }
 
     if( buried ) {
-        if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+        if( !p->has_quality( "DIG" ) ) {
             p->add_msg_if_player( m_info, _( "You need a digging tool." ));
             return 0;
         } else if( !g->m.has_flag( "DIGGABLE", posx, posy ) ) {
@@ -8091,7 +8084,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 has_tools = false;
             }
 
-            if( !cinv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
+            if( !cinv.has_quality( "SCREW_FINE" ) ) {
                 p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SCREW_FINE" ).c_str() );
                 has_tools = false;
             }
@@ -8155,7 +8148,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         }
         auto veh = g->m.veh_at( posp );
         auto ter = g->m.ter_at( posp );
-        if( veh == nullptr && ter.id != "t_chainfence_h" && ter.id != "t_chainfence_v") {
+        if( veh == nullptr && ter.id.id() != t_chainfence_h && ter.id.id() != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
