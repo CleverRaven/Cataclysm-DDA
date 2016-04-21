@@ -5234,11 +5234,11 @@
         "healthy" : -1,
         "nutrition" : 2,
         "description" : "Delicious lollipop in a maple leaf shape.  One lick and you'll be hooked.",
-        "price" : 225,
+        "price" : 800,
         "material" : "junk",
         "volume" : 0,
-        "charges" : 2,
-        "fun" : 8
+        "charges" : 3,
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -5255,11 +5255,11 @@
         "healthy" : -1,
         "nutrition" : 1,
         "description" : "This golden, translucent leaf candy is made with pure maple syrup and melt slowly as you savor the taste of real maple.",
-        "price" : 250,
+        "price" : 600,
         "material" : "junk",
         "volume" : 0,
-        "charges" : 3,
-        "fun" : 6
+        "charges" : 2,
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -5275,12 +5275,12 @@
         "healthy" : -1,
         "nutrition" : 4,
         "description" : "Also known as sugar on snow, this overboiled maple syrup is a thick liquid with an intense sugary flavor.  It is usually served on clean snow as it slowly harden with the cold.  People with diabetes should avoid it.",
-        "price" : 600,
+        "price" : 3600,
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
-        "fun" : 14
+        "charges" : 5,
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -8750,7 +8750,7 @@
         "id" : "syrup",
         "name" : "maple syrup",
         "name_plural" : "maple syrup",
-        "weight" : 28,
+        "weight" : 334,
         "color" : "brown",
         "container" : "bottle_glass",
         "comestible_type" : "FOOD",
@@ -8762,8 +8762,8 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 7,
-        "fun" : 6
+        "charges" : 5,
+        "fun" : 3
     },
     {
         "type" : "COMESTIBLE",

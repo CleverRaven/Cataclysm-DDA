@@ -4268,6 +4268,9 @@
     {"id":"BOIL","level":2}
   ], "tools": [
     [
+      ["rag", -1]
+    ],
+    [
       [ "hotplate", 8 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
@@ -4276,6 +4279,89 @@
   "components": [
     [
       [ "maple_sap", 35 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "maple_lollipop",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BOIL","level":2}
+  ], "tools": [
+    [
+      [ "thermometer", -1 ]
+    ],
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "syrup", 2 ]
+    ],
+    [
+      [ "skewer_bone", 1 ],
+      [ "skewer", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "maple_candy",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 30000,
+  "autolearn": true,
+  "qualities":[
+    {"id":"BOIL","level":2}
+  ], "tools": [
+    [
+      [ "thermometer", -1 ]
+    ],
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "syrup", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "maple_taffy",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 30000,
+  "autolearn": true,
+  "batch_time_factors": [ 60, 3 ],
+  "qualities":[
+    {"id":"BOIL","level":2}
+  ], "tools": [
+    [
+      [ "thermometer", -1 ]
+    ],
+    [
+      [ "hotplate", 8 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "syrup", 10 ]
     ]
   ]
 },{
@@ -5213,7 +5299,7 @@
       [ "honey_bottled", 4 ],
       [ "honey_glassed", 4 ],
       [ "sugar", 40 ],
-      [ "syrup", 4 ],
+      [ "syrup", 2 ],
       [ "beet_syrup", 4 ]
     ],
     [
@@ -7221,7 +7307,7 @@
       ["raspberries", 2],
       ["rootbeer", 6],
       ["strawberries", 2],
-      ["syrup", 4],
+      ["syrup", 2],
       ["beet_syrup", 4],
       ["watermelon", 1]
     ],
