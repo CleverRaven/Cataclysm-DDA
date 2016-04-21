@@ -8675,7 +8675,7 @@
         "weight": 250,
         "volume": 1,
         "comestible_type": "DRINK",
-        "container": "bottle_plastic",
+        "container": "bucket",
         "quench": 45,
         "nutrition" : 1,
         "fun": 1,
