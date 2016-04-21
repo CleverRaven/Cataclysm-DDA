@@ -180,11 +180,6 @@ public:
      * aspect, ...
      */
     item properties_to_item() const;
-    /**
-     * Set members of this vehicle part from properties of the item.
-     * It includes hp, fuel, bigness, ...
-     */
-    void properties_from_item( const item &used_item );
 };
 
 /**
