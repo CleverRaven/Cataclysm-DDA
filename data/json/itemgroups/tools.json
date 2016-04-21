@@ -19,6 +19,7 @@
       { "group": "tools_common", "prob": 100 },
       [ "circsaw_off", 100 ],
       [ "cordless_drill", 100 ],
+      [ "hand_drill", 20 ],
       [ "nailgun", 100 ]
     ]
   },
