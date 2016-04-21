@@ -57,6 +57,7 @@
     "//": "Portable tools for earthworking or farming",
     "items": [
       [ "ax", 80 ],
+      [ "bucket", 40 ],
       [ "chainsaw_off", 30 ],
       [ "elec_chainsaw_off", 30 ],
       [ "g_shovel", 40 ],

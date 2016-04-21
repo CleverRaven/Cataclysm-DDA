@@ -74,6 +74,7 @@
             ["matches",       45],
             ["rolling_paper", 10],
             ["bottle_glass",  70],
+            ["bucket",         5],
             ["can_drink",     65],
             ["wrapper",       50],
             ["ceramic_plate", 40],
