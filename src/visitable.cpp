@@ -79,7 +79,8 @@ static int has_quality_internal( const T& self, const std::string &qual, int lev
 
     self.visit_items( [&qual, level, &limit, &qty]( const item *e ) {
         if( e->get_quality( qual ) >= level ) {
-            if( ++qty >= limit ) {
+            qty += e->count_by_charges() ? e->charges : 1;
+            if( qty >= limit ) {
                 return VisitResponse::ABORT; // found sufficient items
             }
         }
