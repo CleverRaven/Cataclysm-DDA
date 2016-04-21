@@ -4351,9 +4351,6 @@
     {"id":"BOIL","level":2}
   ], "tools": [
     [
-      [ "thermometer", -1 ]
-    ],
-    [
       [ "hotplate", 8 ],
       [ "toolset", 8 ],
       [ "fire", -1 ]
