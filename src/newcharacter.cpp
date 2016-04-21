@@ -243,9 +243,9 @@ void player::randomize( const bool random_scenario, points_left &points )
     }
     if( random_scenario ) {
         std::vector<const scenario *> scenarios;
-        for( const scenario *const scenptr : scenario::get_all() ) {
-            if (!scenptr->has_flag("CHALLENGE")) {
-                scenarios.emplace_back( scenptr );
+        for( const auto &scen : scenario::get_all() ) {
+            if (!scen.has_flag("CHALLENGE")) {
+                scenarios.emplace_back( &scen );
             }
         }
         g->scen = random_entry( scenarios );
@@ -342,7 +342,7 @@ void player::randomize( const bool random_scenario, points_left &points )
         case 2:
         case 3:
         case 4:
-            if( allow_traits ) {            
+            if( allow_traits ) {
                 rn = random_good_trait();
                 auto &mdata = mutation_branch::get( rn );
                 if( !has_trait(rn) && points.trait_points_left() >= mdata.points &&
@@ -1307,13 +1307,13 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
     do {
         if (recalc_profs) {
             sorted_profs.clear();
-            for( const profession *const profptr : profession::get_all() ) {
-                if ((g->scen->profsize() == 0 && profptr->has_flag("SCEN_ONLY") == false) ||
-                    g->scen->profquery( profptr->ident() ) ) {
-                    if (!lcmatch(profptr->gender_appropriate_name(u->male), filterstring)) {
+            for( const auto &prof : profession::get_all() ) {
+                if ((g->scen->profsize() == 0 && prof.has_flag("SCEN_ONLY") == false) ||
+                    g->scen->profquery( prof.ident() ) ) {
+                    if (!lcmatch(prof.gender_appropriate_name(u->male), filterstring)) {
                         continue;
                     }
-                    sorted_profs.push_back(profptr);
+                    sorted_profs.push_back(&prof);
                 }
             }
             profs_length = sorted_profs.size();
@@ -1595,8 +1595,8 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 
     std::map<skill_id, int> prof_skills;
     const auto &pskills = u->prof->skills();
-    
-    std::copy( pskills.begin(), pskills.end(), 
+
+    std::copy( pskills.begin(), pskills.end(),
                std::inserter( prof_skills, prof_skills.begin() ) );
 
     do {
@@ -1843,11 +1843,11 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
     do {
         if (recalc_scens) {
             sorted_scens.clear();
-            for( const scenario *const scenptr : scenario::get_all() ) {
-                if (!lcmatch(scenptr->gender_appropriate_name(u->male), filterstring)) {
+            for( const auto &scen : scenario::get_all() ) {
+                if (!lcmatch(scen.gender_appropriate_name(u->male), filterstring)) {
                     continue;
                 }
-                sorted_scens.push_back( scenptr );
+                sorted_scens.push_back( &scen );
             }
             scens_length = sorted_scens.size();
             if (scens_length == 0) {
@@ -2128,10 +2128,10 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
     uimenu select_location;
     select_location.text = _("Select a starting location.");
     int offset = 0;
-    for( const start_location *const loc : start_location::get_all() ) {
-        if (g->scen->allowed_start(loc->ident()) || g->scen->has_flag("ALL_STARTS")) {
-            select_location.entries.push_back( uimenu_entry( loc->name() ) );
-            if( loc->ident() == u->start_location ) {
+    for( const auto &loc : start_location::get_all() ) {
+        if (g->scen->allowed_start(loc.ident()) || g->scen->has_flag("ALL_STARTS")) {
+            select_location.entries.push_back( uimenu_entry( loc.name() ) );
+            if( loc.ident() == u->start_location ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2344,9 +2344,9 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
         } else if ( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
-            for( const start_location *const loc : start_location::get_all() ) {
-                if( loc->name() == select_location.entries[ select_location.selected ].txt ) {
-                    u->start_location = loc->ident();
+            for( const auto &loc : start_location::get_all() ) {
+                if( loc.name() == select_location.entries[ select_location.selected ].txt ) {
+                    u->start_location = loc.ident();
                 }
             }
             werase(select_location.window);

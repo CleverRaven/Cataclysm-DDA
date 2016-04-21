@@ -2727,8 +2727,8 @@ void cata_tiles::do_tile_loading_report() {
     //TODO: exclude fake items from Item_factory::init_old()
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
     auto mtypes = MonsterGenerator::generator().get_all_mtypes();
-    lr_generic( mtypes.begin(), mtypes.end(), []( std::vector<const mtype *>::iterator m ) {
-        return ( *m )->id.str();
+    lr_generic( mtypes.begin(), mtypes.end(), []( const std::vector<mtype>::iterator &m ) {
+        return ( *m ).id.str();
     }, "Monsters", "" );
     tile_loading_report<vpart_info>(vpart_info::get_all().size(), "Vehicle Parts", "vp_");
     tile_loading_report<trap>(trap::count(), "Traps", "");

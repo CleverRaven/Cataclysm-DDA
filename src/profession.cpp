@@ -171,7 +171,7 @@ const profession *profession::weighted_random()
     }
 }
 
-std::vector<const profession *> profession::get_all()
+const std::vector<profession> &profession::get_all()
 {
     return all_profs.get_all();
 }

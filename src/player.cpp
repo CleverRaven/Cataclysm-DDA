@@ -2038,12 +2038,12 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     // map <name, sym> to kill count
     for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-        if( g->kill_count( type->id ) > 0 ) {
+        if( g->kill_count( type.id ) > 0 ) {
             kill_counts[std::tuple<std::string,std::string>(
-                type->nname(),
-                type->sym
-            )] += g->kill_count( type->id );
-            total_kills += g->kill_count( type->id );
+                type.nname(),
+                type.sym
+            )] += g->kill_count( type.id );
+            total_kills += g->kill_count( type.id );
         }
     }
 
@@ -9472,7 +9472,7 @@ bool player::can_wear( const item& it, bool alert ) const
 
     if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
           ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
-          ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) && 
+          ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) &&
           !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
         if( alert ) {

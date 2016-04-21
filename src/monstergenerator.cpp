@@ -576,7 +576,7 @@ void species_type::load( JsonObject &jo )
     optional( jo, was_loaded, "fear_triggers", fear_trig, trigger_reader );
 }
 
-std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const
+const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
 {
     return mon_templates->get_all();
 }

@@ -1111,8 +1111,8 @@ bool game::cleanup_at_end()
         int iTotalKills = 0;
 
         for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-            if( kill_count( type->id ) > 0 ) {
-                iTotalKills += kill_count( type->id );
+            if( kill_count( type.id ) > 0 ) {
+                iTotalKills += kill_count( type.id );
             }
         }
 

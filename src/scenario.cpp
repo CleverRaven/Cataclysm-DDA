@@ -129,7 +129,7 @@ const scenario *scenario::weighted_random()
     }
 }
 
-std::vector<const scenario *> scenario::get_all()
+const std::vector<scenario> &scenario::get_all()
 {
     return all_scenarios.get_all();
 }

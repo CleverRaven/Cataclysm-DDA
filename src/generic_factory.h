@@ -198,22 +198,14 @@ class generic_factory
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
          * This returns a reference and is therefor quite fast, but you can also
-         * use @ref get_all, which returns a copy of this data with raw pointers.
-         * You should prefer `get_all` as it exposes a more stable interface.
+         * use @ref get_all. You should prefer @ref get_all as it exposes a more
+         * stable interface.
          */
         const std::unordered_map<string_id<T>, T> &all_ref() const {
             return data;
         }
-        std::vector<const T *> get_all() const {
-            std::vector<const T *> result;
-            result.reserve( data.size() );
-
-            using pair = typename std::unordered_map<string_id<T>, T>::value_type;
-            std::transform( data.begin(), data.end(), back_inserter( result ), []( const pair & p ) {
-                return &p.second;
-            } );
-
-            return result;
+        const std::vector<T> &get_all() const {
+            return list;
         }
         /**
          * @name `string_id` interface functions
