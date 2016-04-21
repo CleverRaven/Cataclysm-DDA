@@ -2770,7 +2770,7 @@
             [ "mon_zombie_grenadier", 100]
         ]
     },
-    "starting_ammo" : {"bot_grenade_hack":10, "bot_flashbang_hack":3, "bot_gasbomb_hack":3, "bot_c4_hack":2},
+    "starting_ammo" : {"bot_grenade_hack":8, "bot_flashbang_hack":3, "bot_gasbomb_hack":3, "bot_c4_hack":2, "mon_manhack_acid":2, "mon_manhack_fire":2},
     "hp":100,
     "death_function":["DETONATE"],
     "special_attacks":[["GRENADIER", 6]],
@@ -2806,7 +2806,7 @@
             [ "mon_zombie_grenadier_elite", 100]
         ]
     },
-    "starting_ammo" : {"bot_grenade_hack":20, "bot_flashbang_hack":10, "bot_gasbomb_hack":10, "bot_c4_hack":10, "bot_mininuke_hack":1},
+    "starting_ammo" : {"bot_grenade_hack":20, "bot_flashbang_hack":10, "bot_gasbomb_hack":10, "bot_c4_hack":10, "mon_manhack_acid":5, "mon_manhack_fire":5, "bot_mininuke_hack":1},
     "hp":100,
     "death_function":["DETONATE"],
     "special_attacks":[["GRENADIER_ELITE", 3]],
@@ -6033,6 +6033,80 @@
     "hp":10,
     "death_function":"BROKEN_AMMO",
     "description":"An automated kamikaze drone, this fist-sized robot appears to have a grenade inside.",
+    "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_manhack_fire",
+    "name": "firebomb hack",
+    "species":"ROBOT",
+    "default_faction":"defense_bot",
+    "symbol":"e",
+    "color":"i_ltgreen",
+    "size":"TINY",
+    "material":"steel",
+    "diff":10,
+    "aggression":100,
+    "morale":100,
+    "speed":250,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":6,
+    "armor_bash":0,
+    "armor_cut":4,
+    "vision_day":40,
+    "revert_to_itype": "bot_manhack_fire",
+    "special_attacks":[["KAMIKAZE", 0]],
+    "starting_ammo": {"manhack_firebomb": 1},
+    "death_drops": {
+        "subtype": "collection",
+        "//": "80% chance of an item from group robots",
+        "groups": [
+            [ "robots", 80 ]
+        ]
+    },
+    "luminance":5,
+    "hp":10,
+    "death_function":"BROKEN_AMMO",
+    "description":"This manhack carries an incendiary explosive within its core.",
+    "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_manhack_acid",
+    "name": "acidbomb hack",
+    "species":"ROBOT",
+    "default_faction":"defense_bot",
+    "symbol":"e",
+    "color":"i_green",
+    "size":"TINY",
+    "material":"steel",
+    "diff":10,
+    "aggression":100,
+    "morale":100,
+    "speed":250,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":6,
+    "armor_bash":0,
+    "armor_cut":4,
+    "vision_day":40,
+    "revert_to_itype": "bot_manhack_acid",
+    "special_attacks":[["KAMIKAZE", 0]],
+    "starting_ammo": { "manhack_acidbomb": 1},
+    "death_drops": {
+        "subtype": "collection",
+        "//": "80% chance of an item from group robots",
+        "groups": [
+            [ "robots", 80 ]
+        ]
+    },
+    "luminance":5,
+    "hp":10,
+    "death_function":"BROKEN_AMMO",
+    "description":"This manhack carries an acid bomb within its core.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
     "type" : "MONSTER",
