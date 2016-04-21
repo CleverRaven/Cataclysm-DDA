@@ -2,6 +2,7 @@
 #define H_GENERIC_FACTORY
 
 #include "string_id.h"
+#include "int_id.h"
 
 #include <string>
 #include <unordered_map>
@@ -107,7 +108,8 @@ template<typename T>
 class generic_factory
 {
     protected:
-        std::unordered_map< string_id<T>, T> data;
+        std::vector<T> list;
+        std::unordered_map<string_id<T>, T> data;
 
         std::string type_name;
         std::string id_member_name;
@@ -191,6 +193,7 @@ class generic_factory
          */
         void reset() {
             data.clear();
+            list.clear();
         }
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
