@@ -61,6 +61,7 @@
       [ "chainsaw_off", 30 ],
       [ "elec_chainsaw_off", 30 ],
       [ "g_shovel", 40 ],
+      [ "hand_drill", 20 ],
       [ "hoe", 60 ],
       [ "pickaxe", 80 ],
       [ "pitchfork", 60 ],

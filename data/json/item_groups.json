@@ -8338,6 +8338,7 @@
       ["distaff_spindle", 2],
       ["carding_paddles", 2],
       ["scythe", 40],
+      ["tree_spile", 40],
       ["material_quicklime", 30],
       ["pitchfork", 40],
       ["v_plow_item",41],
