@@ -3501,7 +3501,7 @@
       ],
     "components": [
       [
-        [ "grenade_inc", 1 ], ["gasoline", 600], ["diesel", 600]
+        "gasoline", 600], ["diesel", 600], [ "grenade_inc", 1 ]
       ],
       [
         [ "processor", 1 ]
