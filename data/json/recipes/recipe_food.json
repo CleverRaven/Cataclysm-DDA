@@ -2781,8 +2781,9 @@
     [
       [ "sugar", 10 ],
       [ "honeycomb", 1 ],
-      [ "honey_bottled", 1],
-      [ "honey_glassed", 1]
+      [ "honey_bottled", 1 ],
+      [ "honey_glassed", 1 ],
+      [ "syrup", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -5296,7 +5297,7 @@
       [ "honey_bottled", 4 ],
       [ "honey_glassed", 4 ],
       [ "sugar", 40 ],
-      [ "syrup", 2 ],
+      [ "syrup", 3 ],
       [ "beet_syrup", 4 ]
     ],
     [
@@ -8995,13 +8996,18 @@
   ],
   "components": [
     [
-      [ "water", 3 ], [ "water_clean", 3 ]
+      [ "water", 3 ],
+      [ "water_clean", 3 ]
     ],
     [
       [ "raw_dandelion", 20 ]
     ],
     [
-      [ "sugar", 15 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
+      [ "sugar", 15 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 2 ],
+      [ "honey_glassed", 2 ],
+      [ "syrup", 1 ]
     ],
     [
       [ "yeast", 1 ]
@@ -9024,13 +9030,18 @@
   ],
   "components": [
     [
-      [ "water", 3 ], [ "water_clean", 3 ]
+      [ "water", 3 ],
+      [ "water_clean", 3 ]
     ],
     [
       [ "pine_bough", 10 ]
     ],
     [
-      [ "sugar", 15 ], [ "honeycomb", 1], [ "honey_bottled", 2 ], [ "honey_glassed", 2]
+      [ "sugar", 15 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 2 ],
+      [ "honey_glassed", 2 ],
+      [ "syrup", 1 ]
     ],
     [
       [ "yeast", 1 ]
@@ -10148,6 +10159,33 @@
   ]
 },{
   "type" : "recipe",
+   "result": "sandwich_pbm",
+   "category": "CC_FOOD",
+   "subcategory": "CSC_FOOD_VEGGI",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 4000,
+   "reversible": false,
+   "autolearn": true,
+   "qualities" : [
+     {"id":"CUT","level":1,"amount":1}
+   ],
+  "components": [
+    [
+      [ "flatbread", 2 ],
+      [ "bread", 2 ],
+      [ "cornbread", 2 ],
+      [ "wastebread", 2 ]
+    ],
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "peanutbutter", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
    "result": "sandwich_human",
    "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -10912,7 +10950,8 @@
       [ "sugar", 10 ],
       [ "honey_bottled", 1 ],
       [ "honey_glassed", 1 ],
-      [ "honeycomb", 1 ]
+      [ "honeycomb", 1 ],
+      [ "syrup", 1 ]
     ]
   ]
 },{
@@ -12203,7 +12242,8 @@
     [
       [ "sugar", 10 ],
       [ "honey_bottled", 1 ],
-      [ "honey_glassed", 1 ]
+      [ "honey_glassed", 1 ],
+      [ "syrup", 1 ]
     ],
     [
       [ "pepper", 10 ]
