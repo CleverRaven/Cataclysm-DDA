@@ -145,6 +145,10 @@ item::item( const itype *type, int turn, int qty ) : type( type )
         set_var( "magazine_converted", true );
     }
 
+    if( type->engine ) {
+        set_var( "engine_displacement", rng( type->engine->displacement.first, type->engine->displacement.second ) );
+    }
+
     if( type->variable_bigness ) {
         bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
     }
@@ -2129,12 +2133,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string vehtext = "";
-    if( is_var_veh_part() ) {
+    if( is_engine() ) {
+        int cc = get_var( "engine_displacement", -1 );
+        if( cc > 0 ) {
+            vehtext = rmp_format( _( "<veh_adj>%4.2fL " ), cc / 100.0f );
+        }
+
+    } else if( is_var_veh_part() ) {
         switch( type->variable_bigness->bigness_aspect ) {
-            case BIGNESS_ENGINE_DISPLACEMENT:
-                //~ liters, e.g. 3.21-Liter V8 engine
-                vehtext = rmp_format( _( "<veh_adj>%4.2f-Liter " ), bigness / 100.0f );
-                break;
             case BIGNESS_WHEEL_DIAMETER:
                 //~ inches, e.g. 20" wheel
                 vehtext = rmp_format( _( "<veh_adj>%d\" " ), bigness );
@@ -3438,6 +3444,11 @@ bool item::is_bucket() const
 bool item::is_bucket_nonempty() const
 {
     return is_bucket() && !is_container_empty();
+}
+
+bool item::is_engine() const
+{
+    return type->engine.get() != nullptr;
 }
 
 bool item::is_container_empty() const

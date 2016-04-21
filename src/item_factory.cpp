@@ -920,6 +920,29 @@ void Item_factory::load_ammo(JsonObject &jo)
     }
 }
 
+void Item_factory::load( islot_engine &slot, JsonObject &jo )
+{
+    if( jo.has_array( "displacement" ) ) {
+        auto arr = jo.get_array( "displacement" );
+        if( arr.get_int( 0 ) > arr.get_int( 1 ) ) {
+            jo.throw_error( "incorrect ordering for engine displacement" );
+        }
+        slot.displacement = std::make_pair( arr.get_int( 0 ), arr.get_int( 1 ) );
+
+    } else if( jo.has_int( "displacement" ) ) {
+        slot.displacement = std::make_pair( jo.get_int( 0 ), jo.get_int( 0 ) );
+    }
+}
+
+void Item_factory::load_engine( JsonObject &jo )
+{
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->engine, jo );
+        load_basic_info( jo, def );
+    }
+}
+
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     if( jo.has_string( "skill" ) ) {
@@ -1234,8 +1257,6 @@ void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
     const std::string big_aspect = jo.get_string( "bigness-aspect" );
     if( big_aspect == "WHEEL_DIAMETER" ) {
         slot.bigness_aspect = BIGNESS_WHEEL_DIAMETER;
-    } else if( big_aspect == "ENGINE_DISPLACEMENT" ) {
-        slot.bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
     } else {
         jo.throw_error( "invalid bigness-aspect", "bigness-aspect" );
     }

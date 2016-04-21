@@ -716,6 +716,7 @@ public:
     bool is_bucket_nonempty() const;
 
     bool is_brewable() const;
+    bool is_engine() const;
 
     /**
      * Can this item have given item/itype as content?
