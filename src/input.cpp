@@ -893,9 +893,7 @@ void input_context::display_help()
         werase(w_help);
         draw_border(w_help);
         draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size() - display_height, 8);
-        mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
-                  c_ltred, " %s ", _("Keybindings"));
-
+        center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print(w_help, 1, 2, legwidth, c_white, legend.str());
 
         for (size_t i = 0; i + scroll_offset < org_registered_actions.size() && i < display_height; i++) {

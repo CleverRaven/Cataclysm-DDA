@@ -669,7 +669,7 @@ void color_manager::show_gui()
         }
     }
 
-    mvwprintz(w_colors_border, 0, 32, c_ltred, _(" COLOR MANAGER "));
+    center_print( w_colors_border, 0, c_ltred, _( " COLOR MANAGER " ) );
     wrefresh(w_colors_border);
 
     int tmpx = 0;
