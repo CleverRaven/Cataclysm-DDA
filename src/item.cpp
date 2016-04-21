@@ -1670,16 +1670,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) ) );
         }
 
-        if( ( is_food() && has_flag( "BREW" ) ) || ( is_food_container() &&
-                contents[0].has_flag( "BREW" ) ) ) {
-            int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
-            if( btime <= 28800 )
+        if( is_brewable() || ( !contents.empty() && contents[0].is_brewable() ) ) {
+            const item &brewed = !is_brewable() ? contents[0] : *this;
+            int btime = brewed.brewing_time();
+            if( btime <= HOURS(48) )
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( ngettext( "* Once set in a vat, this will ferment in around %d hour.",
-                                                  "* Once set in a vat, this will ferment in around %d hours.", btime / 100 ),
-                                                  btime / 600 ) ) );
+                                                  "* Once set in a vat, this will ferment in around %d hours.", btime / HOURS(1) ),
+                                                  btime / HOURS(1) ) ) );
             else {
-                btime = 0.5 + btime / 7200; //Round down to 12-hour intervals
+                btime = 0.5 + btime / HOURS(48); //Round down to 12-hour intervals
                 if( btime % 2 == 1 ) {
                     info.push_back( iteminfo( "DESCRIPTION",
                                               string_format( _( "* Once set in a vat, this will ferment in around %d and a half days." ),
@@ -1690,6 +1690,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                                       "* Once set in a vat, this will ferment in around %d days.", btime / 2 ),
                                                       btime / 2 ) ) );
                 }
+            }
+
+            for( const auto &res : brewed.brewing_results() ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          string_format( _( "* Fermenting this will produce <neutral>%s</neutral>." ),
+                                                         item::nname( res, brewed.charges ).c_str() ) ) );
             }
         }
 
@@ -2876,7 +2882,13 @@ int item::get_warmth() const
 
 int item::brewing_time() const
 {
-    return ( is_food() ? type->comestible->brewtime : 0 ) * ( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14.0 );
+    return ( is_brewable() ? type->brewable->time : 0 ) * ( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14.0 );
+}
+
+const std::vector<itype_id> &item::brewing_results() const
+{
+    static const std::vector<itype_id> nulresult;
+    return is_brewable() ? type->brewable->results : nulresult;
 }
 
 bool item::can_revive() const
@@ -3307,6 +3319,11 @@ bool item::is_food_container(player const*u) const
 bool item::is_food() const
 {
     return type->comestible != nullptr;
+}
+
+bool item::is_brewable() const
+{
+    return type->brewable != nullptr;
 }
 
 bool item::is_food_container() const
