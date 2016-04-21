@@ -149,6 +149,7 @@
         "density" : 5,
         "edible": true,
         "vitamins" : [
+          [ "calcium", 0.1 ],
           [ "vitB", 1.0 ],
           [ "iron", 2.0 ]
         ]
@@ -213,7 +214,7 @@
         "edible": true,
         "vitamins" : [
           [ "vitB", 0.5 ],
-          [ "calcium", 1.0 ]
+          [ "calcium", 1.5 ]
         ]
     },{
         "type" : "material",
@@ -259,6 +260,7 @@
         "density" : 5,
         "edible": true,
         "vitamins" : [
+          [ "calcium", 0.1 ],
           [ "vitB", 1.0 ],
           [ "iron", 2.0 ]
         ]
