@@ -164,7 +164,7 @@
         "type" : "COMESTIBLE",
         "id" : "brew_mead",
         "name" : "spiced mead must",
-        "description" : "Unfermented spiced mead.  A golden, sweet mixture of honey, water, and hops for some added flavor.",
+        "description" : "Unfermented spiced mead.  Dilluted honey and yeast.",
         "weight" : 38,
         "color" : "yellow",
         "container" : "bottle_glass",
