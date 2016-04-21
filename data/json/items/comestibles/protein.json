@@ -93,6 +93,6 @@
     "type": "COMESTIBLE",
     "name": "fortified protein shake",
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
-    "relative": { "vitamins": 5 }
+    "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitA", 5 ], [ "vitB", 5 ], [ "vitC", 5 ] ] }
   }
 ]
