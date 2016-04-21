@@ -1,0 +1,59 @@
+[
+  {
+    "abstract": "flesh",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "meat/fish",
+    "material": "flesh",
+    "symbol": "%",
+    "color": "red",
+    "vitamins": [
+      [ "calcium", 1 ],
+      [ "iron", 20 ],
+      [ "vitB", 10 ]
+    ]
+  },
+  {
+    "id": "fish",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": "fillet of fish",
+    "name_plural": "fillets of fish",
+    "description": "Freshly caught fish.  Makes a passable meal raw.",
+    "weight": 200,
+    "volume": 1,
+    "price": 500,
+    "spoils_in": 12,
+    "calories": 200,
+    "use_action": "RAW_FISH"
+  },
+  {
+    "id": "meat",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": "chunk of meat",
+    "name_plural": "chunks of meat",
+    "description": "Freshly butchered meat.  You could eat it raw, but cooking it is better.",
+    "weight": 200,
+    "volume": 1,
+    "price": 500,
+    "spoils_in": 24,
+    "calories": 250,
+    "healthy": -1,
+    "fun": -10,
+    "use_action": "RAW_MEAT"
+  },
+  {
+    "id": "offal",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "offal",
+    "name_plural": "offal",
+    "description": "The internal organs and entrails.  Unappealing to eat but filled with essential vitamins.",
+    "proportional": { "calories": 0.5 },
+    "relative": {
+        "vitamins": [ [ "vitA", 5 ] ],
+        "fun": -5
+    }
+  }
+]
