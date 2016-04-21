@@ -2287,12 +2287,12 @@ item_location maple_tree_sap_container() {
 
 void iexamine::tree_maple(player &p, const tripoint &examp)
 {
-    if( !p.has_items_with_quality( "DRILL", 1, 1 ) ) {
+    if( !p.has_quality( "DRILL" ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_items_with_quality( "HAMMER", 1, 1 ) ) {
+    if( !p.has_quality( "HAMMER" ) ) {
         add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
     }
@@ -2364,7 +2364,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
     switch( static_cast<options>( selectmenu.ret ) ) {
         case REMOVE_TAP: {
-            if( !p.has_items_with_quality( "HAMMER", 1, 1 ) ) {
+            if( !p.has_quality( "HAMMER" ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
