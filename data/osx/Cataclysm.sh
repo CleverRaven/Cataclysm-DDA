@@ -13,7 +13,7 @@ else
 fi;'
 
 if [ -f "cataclysm" ] ; then
-    osascript -e 'tell application "Terminal" to activate do script "cd '`pwd`';'"${COMMAND}"'./cataclysm;exit;"'
+    osascript -e 'tell application "Terminal.app" to activate do script "cd '`pwd`';'"${COMMAND}"'./cataclysm;exit;"'
 else
     eval "${COMMAND}"
     ./cataclysm-tiles
