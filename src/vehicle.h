@@ -126,7 +126,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part(); /** DefaultConstructible */
 
-    vehicle_part( const vpart_str_id &sid, int dx, int dy, const item *it );
+    vehicle_part( const vpart_str_id& str, int dx, int dy, const item *it );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
@@ -164,7 +164,6 @@ public:
 private:
     std::list<item> items; // inventory
 public:
-    void set_id( const vpart_str_id & str );
     const vpart_str_id &get_id() const;
     const vpart_info &info() const;
 
