@@ -39,6 +39,7 @@
         "density" : 4,
         "edible": true,
         "vitamins": [
+          [ "calcium", 0.1 ],
           [ "vitA", 1.0 ],
           [ "vitC", 0.5 ]
         ]
