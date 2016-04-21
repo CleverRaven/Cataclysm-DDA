@@ -6784,17 +6784,11 @@ void vehicle::update_time( const calendar &update_to )
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
-vehicle_part::vehicle_part( int const dx, int const dy )
-: id( NULL_ID )
-, mount( dx, dy )
-, precalc( { { point( -1, -1 ), point( -1, -1 ) } } )
-, amount( 0 )
-{
-}
+vehicle_part::vehicle_part()
+    : id( NULL_ID ), mount( 0, 0 ) {}
 
-vehicle_part::vehicle_part( const vpart_str_id &sid, int const dx, int const dy,
-                            const item *const it )
-: vehicle_part( dx, dy )
+vehicle_part::vehicle_part( const vpart_str_id &sid, int const dx, int const dy, const item *const it )
+    : id( NULL_ID ), mount( dx, dy )
 {
     set_id( sid );
     if( it != nullptr ) {
