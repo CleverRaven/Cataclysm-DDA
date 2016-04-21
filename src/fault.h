@@ -1,0 +1,71 @@
+#ifndef FAULT_H
+#define FAULT_H
+
+#include "string_id.h"
+#include "json.h"
+
+class fault;
+using fault_id = string_id<fault>;
+
+class Skill;
+using skill_id = string_id<Skill>;
+
+using quality_id = std::string;
+
+using itype_id = std::string;
+
+class fault
+{
+    public:
+        fault() : id_( fault_id( "null" ) ) {}
+
+        const fault_id &id() const {
+            return id_;
+        }
+
+        bool is_null() const {
+            return id_ == fault_id( "null" );
+        }
+
+        const std::string &name() const {
+            return name_;
+        }
+
+        const std::string &description() const {
+            return description_;
+        }
+
+        const std::map<skill_id, int> &skills() const {
+            return skills_;
+        }
+
+        const std::map<quality_id, int> &qualities() const {
+            return qualities_;
+        }
+
+        const std::map<itype_id, int> &parts() const {
+            return parts_;
+        }
+
+        /** Load fault from JSON definition */
+        static void load_fault( JsonObject &jo );
+
+        /** Get all currently loaded faults */
+        static const std::map<fault_id, fault> &all();
+
+        /** Clear all loaded faults (invalidating any pointers) */
+        static void reset();
+
+        /** Checks all loaded from JSON are valid */
+        static void check_consistency();
+
+    private:
+        fault_id id_;
+        std::string name_;
+        std::string description_;
+        std::map<skill_id, int> skills_;
+        std::map<quality_id, int> qualities_;
+        std::map<itype_id, int> parts_;
+};
+
+#endif

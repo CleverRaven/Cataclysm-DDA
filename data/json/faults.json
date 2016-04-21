@@ -1,0 +1,64 @@
+[
+  {
+    "id": "fault_engine_belt_drive",
+    "type": "fault",
+    "name": "drive belt",
+    "description": "Required for operation of an attached alternator.",
+    "skills": [ [ "mechanics", 2 ] ],
+    "qualities": [ [ "WRENCH" ] ],
+    "parts": [ [ "drivebelt" ] ]
+  },
+  {
+    "id": "fault_engine_glow_plug",
+    "type": "fault",
+    "name": "glow plugs",
+    "description": "Required to start the vehicle in low ambient tmperatures.",
+    "skills": [ [ "mechanics", 4 ] ],
+    "qualities": [ [ "WRENCH_FINE" ] ],
+    "parts": [ [ "glowplug" ] ]
+  },
+  {
+    "id": "fault_engine_immobiliser",
+    "type": "fault",
+    "name": "immobiliser",
+    "description": "Prevents starting of the vehicle without the appropriate key.",
+    "qualities": [ [ "SCREW_FINE" ] ],
+    "skills": [ [ "mechanics", 2 ], [ "electronics", 5 ] ]
+  },
+  {
+    "id": "fault_engine_pump_diesel",
+    "type": "fault",
+    "name": "fuel pump",
+    "description": "Required to pump and pressurise diesel from a vehicles tank.",
+    "skills": [ [ "mechanics", 4 ] ],
+    "qualities": [ [ "WRENCH_FINE" ] ],
+    "parts": [ [ "pump_complex" ] ]
+  },
+  {
+    "id": "fault_engine_pump_fuel",
+    "type": "fault",
+    "name": "fuel pump",
+    "description": "Required to pump gasoline from a vehicles tank.",
+    "skills": [ [ "mechanics", 4 ] ],
+    "qualities": [ [ "WRENCH_FINE" ] ],
+    "parts": [ [ "pump_simple" ] ]
+  },
+  {
+    "id": "fault_engine_pump_water",
+    "type": "fault",
+    "name": "water pump",
+    "description": "Required to pump water to an external radiator or heatsink.",
+    "skills": [ [ "mechanics", 4 ] ],
+    "qualities": [ [ "WRENCH_FINE" ] ],
+    "parts": [ [ "pump_simple" ] ]
+  },
+  {
+    "id": "fault_engine_starter",
+    "type": "fault",
+    "name": "starter motor",
+    "description": "Required to initially start the engine.",
+    "skills": [ [ "mechanics", 3 ] ],
+    "qualities": [ [ "WRENCH_FINE" ] ],
+    "parts": [ [ "motor_small" ] ]
+  }
+]
