@@ -869,11 +869,14 @@ typename std::enable_if<std::is_same<T, std::string>::value, bool>::type assign(
 }
 
 template <typename T>
-typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, T& val ) {
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    JsonObject &jo, const std::string& name, std::set<T>& val ) {
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags( name );
+        val.clear();
+        for( const auto &e : jo.get_tags( name ) ) {
+            val.emplace( e );
+        }
         return true;
     }
 
@@ -889,7 +892,7 @@ typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::ty
     auto del = jo.get_object( "delete" );
     if( del.has_string( name ) || del.has_array( name ) ) {
         for( const auto& e : del.get_tags( name ) ) {
-            val.erase( e );
+            val.erase( T( e ) );
         }
         res = true;
     }
