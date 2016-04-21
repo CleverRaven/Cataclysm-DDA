@@ -2545,6 +2545,7 @@
         "friendly_msg": "The firebomb hack flies from your hand and surveys the area!",
         "place_randomly": true,
         "moves": 60
+      }
     },
     {
     "id": "manhack_firebomb",
