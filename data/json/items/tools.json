@@ -2442,7 +2442,85 @@
     "turns_per_charge": 1,
     "category": "weapons",
     "use_action": "PIPEBOMB_ACT"
-  },
+  },{
+    "type" : "recipe",
+    "result": "bot_manhack_acid",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "mechanics",
+    "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+    "difficulty": 7,
+    "time": 8000,
+    "reversible": true,
+    "decomp_learn": 7,
+    "autolearn": false,
+    "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+    "qualities" : [
+      {"id":"SCREW","level":1,"amount":1}
+    ], "tools": [
+      [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+      ]
+      ],
+    "components": [
+      [
+        [ "acidbomb", 1 ]
+      ],
+      [
+        [ "processor", 1 ]
+      ],
+      [
+        [ "RAM", 1 ]
+      ],
+      [
+        [ "power_supply", 1 ],
+        [ "plut_cell", 1 ]
+      ],
+      [
+        [ "scrap", 2 ]
+      ]
+      ]
+    },{
+    "type" : "recipe",
+    "result": "bot_manhack_fire",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "mechanics",
+    "skills_required": [[ "electronics", 5 ], [ "computer", 5 ]],
+    "difficulty": 7,
+    "time": 8000,
+    "reversible": true,
+    "decomp_learn": 7,
+    "autolearn": false,
+    "book_learn": [[ "recipe_lab_elec", 6 ] , [ "textbook_robots", 7]],
+    "qualities" : [
+      {"id":"SCREW","level":1,"amount":1}
+    ], "tools": [
+      [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+      ]
+      ],
+    "components": [
+      [
+        [ "grenade_inc", 1 ], ["gasoline", 600], ["diesel", 600]
+      ],
+      [
+        [ "processor", 1 ]
+      ],
+      [
+        [ "RAM", 1 ]
+      ],
+      [
+        [ "power_supply", 1 ],
+        [ "plut_cell", 1 ]
+      ],
+      [
+        [ "scrap", 2 ]
+      ]
+      ]
+    }
   {
     "id": "grenade",
     "type": "TOOL",
