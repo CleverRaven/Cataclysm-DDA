@@ -1658,15 +1658,15 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
 // engines provide, whilst alternators consume.
 int vehicle::part_power(int const index, bool const at_full_hp) const
 {
-    if( !part_flag(index, VPFLAG_ENGINE) &&
-        !part_flag(index, VPFLAG_ALTERNATOR) ) {
-       return 0; // not an engine.
+    const vehicle_part& vp = parts[ index ];
+
+    if( !vp.has_flag( VPFLAG_ENGINE ) || !vp.has_flag( VPFLAG_ALTERNATOR ) ) {
+       return 0;
     }
-    int pwr;
-    if( part_flag (index, VPFLAG_VARIABLE_SIZE) ) { // example: 2.42-L V-twin engine
-       pwr = parts[index].bigness;
-    } else { // example: foot crank
-       pwr = part_info(index).power;
+
+    int pwr = vp.base.engine_displacement();
+    if( pwr == 0 ) {
+        pwr = vp.info().power;
     }
 
     if (part_info(index).fuel_type == fuel_type_muscle) {
@@ -2704,13 +2704,13 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         int per_cond = parts[pl[i]].hp * 100 / (dur < 1? 1 : dur);
         nc_color col_cond = getDurabilityColor(per_cond);
 
+        const vehicle_part& vp = parts[ pl [ i ] ];
+
         std::string partname;
-        // part bigness, if that's relevant.
-        if (part_flag(pl[i], "VARIABLE_SIZE") && part_flag(pl[i], "ENGINE")) {
-            //~ 2.8-Liter engine
-            partname = string_format(_("%4.2f-Liter %s"),
-                                     (float)(parts[pl[i]].bigness) / 100,
-                                     part_info(pl[i]).name.c_str());
+        if( vp.base.engine_displacement() > 0 ) {
+            //~ 2.8L engine
+            partname = string_format( _( "%2.1fL %s" ), vp.base.engine_displacement() / 100.0, vp.info().name.c_str() );
+
         } else if (part_flag(pl[i], "VARIABLE_SIZE") && part_flag(pl[i], "WHEEL")) {
             //~ 14" wheel
             partname = string_format(_("%d\" %s"),
@@ -6789,8 +6789,6 @@ vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy,
 
     if( base.is_var_veh_part() ) {
         bigness = base.bigness;
-    } else if( base.is_engine() ) {
-        bigness = base.get_var( "engine_displacement", -1 );
     }
 
     // item damage is [ 0..MAX_ITEM_DAMAGE ] whereas part hp is [ 1..durability ]

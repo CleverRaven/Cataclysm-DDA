@@ -922,16 +922,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_engine &slot, JsonObject &jo )
 {
-    if( jo.has_array( "displacement" ) ) {
-        auto arr = jo.get_array( "displacement" );
-        if( arr.get_int( 0 ) > arr.get_int( 1 ) ) {
-            jo.throw_error( "incorrect ordering for engine displacement" );
-        }
-        slot.displacement = std::make_pair( arr.get_int( 0 ), arr.get_int( 1 ) );
-
-    } else if( jo.has_int( "displacement" ) ) {
-        slot.displacement = std::make_pair( jo.get_int( 0 ), jo.get_int( 0 ) );
-    }
+    assign( jo, "displacement", slot.displacement );
 }
 
 void Item_factory::load_engine( JsonObject &jo )
