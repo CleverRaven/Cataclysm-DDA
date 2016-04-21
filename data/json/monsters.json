@@ -2770,7 +2770,7 @@
             [ "mon_zombie_grenadier", 100]
         ]
     },
-    "starting_ammo" : {"bot_grenade_hack":8, "bot_flashbang_hack":3, "bot_gasbomb_hack":3, "bot_c4_hack":2, "mon_manhack_acid":2, "mon_manhack_fire":2},
+    "starting_ammo" : {"bot_grenade_hack":8, "bot_flashbang_hack":3, "bot_gasbomb_hack":3, "bot_c4_hack":2, "bot_manhack_acid":2, "bot_manhack_fire":2},
     "hp":100,
     "death_function":["DETONATE"],
     "special_attacks":[["GRENADIER", 6]],
@@ -2806,7 +2806,7 @@
             [ "mon_zombie_grenadier_elite", 100]
         ]
     },
-    "starting_ammo" : {"bot_grenade_hack":20, "bot_flashbang_hack":10, "bot_gasbomb_hack":10, "bot_c4_hack":10, "mon_manhack_acid":5, "mon_manhack_fire":5, "bot_mininuke_hack":1},
+    "starting_ammo" : {"bot_grenade_hack":20, "bot_flashbang_hack":10, "bot_gasbomb_hack":10, "bot_c4_hack":10, "bot_manhack_acid":5, "bot_manhack_fire":5, "bot_mininuke_hack":1},
     "hp":100,
     "death_function":["DETONATE"],
     "special_attacks":[["GRENADIER_ELITE", 3]],
@@ -6000,7 +6000,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_grenade_hack",
-    "name": "grenade hack",
+    "name": "grenade drone",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -6037,7 +6037,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_manhack_fire",
-    "name": "firebomb hack",
+    "name": "firebomb drone",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -6069,12 +6069,12 @@
     "luminance":5,
     "hp":10,
     "death_function":"BROKEN_AMMO",
-    "description":"This manhack carries an incendiary explosive within its core.",
+    "description":"This drone carries an incendiary explosive within its core.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
     "type" : "MONSTER",
     "id" : "mon_manhack_acid",
-    "name": "acidbomb hack",
+    "name": "acidbomb drone",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -6106,12 +6106,12 @@
     "luminance":5,
     "hp":10,
     "death_function":"BROKEN_AMMO",
-    "description":"This manhack carries an acid bomb within its core.",
+    "description":"This drone carries an acid bomb within its core.",
     "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
     "type" : "MONSTER",
     "id" : "mon_mininuke_hack",
-    "name": "mininuke hack",
+    "name": "mininuke drone",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -6148,7 +6148,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_gasbomb_hack",
-    "name": "tear gas hack",
+    "name": "tear gas drone",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -6185,7 +6185,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_EMP_hack",
-    "name": "EMP hack",
+    "name": "EMP drone",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -6222,7 +6222,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_c4_hack",
-    "name": "C-4 hack",
+    "name": "C-4 drone",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
@@ -6259,7 +6259,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_flashbang_hack",
-    "name": "flashbang hack",
+    "name": "flashbang drone",
     "species":"ROBOT",
     "default_faction":"defense_bot",
     "symbol":"e",
