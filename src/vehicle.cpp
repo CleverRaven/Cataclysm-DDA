@@ -325,8 +325,7 @@ void vehicle::add_missing_frames()
             }
             if( !found ) {
                 // Install missing frame
-                item tmp( frame_part.item );
-                parts.emplace_back( frame_part.id, next_x, next_y, &tmp );
+                parts.emplace_back( frame_part.id, next_x, next_y, item( frame_part.item ) );
             }
         }
 
@@ -2104,21 +2103,19 @@ int vehicle::install_part (int dx, int dy, const vpart_str_id &id, int hp, bool 
     if (!force && !can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
     }
-    item tmp(id.obj().item, 0);
-    vehicle_part new_part(id, dx, dy, &tmp);
+    vehicle_part new_part( id, dx, dy, item( id.obj().item ) );
     if (hp >= 0) {
         new_part.hp = hp;
     }
     return install_part(dx, dy, new_part);
 }
 
-int vehicle::install_part (int dx, int dy, const vpart_str_id &id, const item &used_item)
+int vehicle::install_part( int dx, int dy, const vpart_str_id &id, item&& obj )
 {
     if (!can_mount (dx, dy, id)) {
         return -1;  // no money -- no ski!
     }
-    vehicle_part new_part(id, dx, dy, &used_item);
-    return install_part(dx, dy, new_part);
+    return install_part(dx, dy, vehicle_part( id, dx, dy, std::move( obj ) ) );
 }
 
 int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
@@ -6778,14 +6775,12 @@ void vehicle::update_time( const calendar &update_to )
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
 vehicle_part::vehicle_part()
-    : id( NULL_ID ), mount( 0, 0 ) {}
+    : mount( 0, 0 ), id( NULL_ID ) {}
 
-vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy, const item *const it )
-    : id( str ), mount( dx, dy )
+vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy, item&& it )
+    : mount( dx, dy ), id( str ), base( std::move( it ) )
 {
-    if( it != nullptr ) {
-        properties_from_item( *it );
-    }
+    properties_from_item( it );
 }
 
 const vpart_str_id &vehicle_part::get_id() const

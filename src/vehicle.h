@@ -126,14 +126,11 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     vehicle_part(); /** DefaultConstructible */
 
-    vehicle_part( const vpart_str_id& str, int dx, int dy, const item *it );
+    vehicle_part( const vpart_str_id& str, int dx, int dy, item&& it );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
-
-private:
-    vpart_id id;         // id in map of parts (vehicle_part_types key)
 
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */
@@ -161,8 +158,12 @@ public:
     // Two coord pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
     std::pair<tripoint, tripoint> target;
+
 private:
+    vpart_id id;         // id in map of parts (vehicle_part_types key)
+    item base;
     std::list<item> items; // inventory
+
 public:
     const vpart_str_id &get_id() const;
     const vpart_info &info() const;
@@ -420,8 +421,9 @@ public:
     int install_part (int dx, int dy, const vpart_str_id &id, int hp = -1, bool force = false);
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
-    // install an item to vehicle as a vehicle part.
-    int install_part (int dx, int dy, const vpart_str_id &id, const item &item_used);
+
+    /** install item @ref obj to vehicle as a vehicle part */
+    int install_part( int dx, int dy, const vpart_str_id& id, item&& obj );
 
     bool remove_part (int p);
     void part_removal_cleanup ();
