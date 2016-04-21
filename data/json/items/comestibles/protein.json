@@ -50,7 +50,7 @@
     "quench": 40,
     "healthy": 2,
     "fun": -1,
-    "vitamins": 0,
+    "vitamins": [],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -69,7 +69,7 @@
     "color": "white",
     "container": "bottle_plastic_small",
     "calories": 100,
-    "vitamins": 0
+    "vitamins": []
   },
   {
     "id": "protein_shake",

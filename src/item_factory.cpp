@@ -1082,17 +1082,19 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     }
 
     // any specification of vitamins suppresses use of material defaults @see Item_factory::finalize
-    if( jo.has_int( "vitamins" ) ) {
-        // convenience syntax for setting all vitamins concurrently
-        for( auto &v : vitamin::all() ) {
-            slot.vitamins[ v.first ] = jo.get_int( "vitamins" );
-        }
-    } else if( jo.has_array( "vitamins" ) ) {
+    if( jo.has_array( "vitamins" ) ) {
         auto vits = jo.get_array( "vitamins" );
-        while( vits.has_more() ) {
-            auto pair = vits.next_array();
-            slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+        if( vits.empty() ) {
+            for( auto &v : vitamin::all() ) {
+                slot.vitamins[ v.first ] = 0;
+            }
+        } else {
+            while( vits.has_more() ) {
+                auto pair = vits.next_array();
+                slot.vitamins[ vitamin_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+            }
         }
+
     } else if( jo.has_object( "relative" ) ) {
         auto rel = jo.get_object( "relative" );
         if( rel.has_int( "vitamins" ) ) {
