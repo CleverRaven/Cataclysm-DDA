@@ -746,7 +746,7 @@ ifeq ($(LOCALIZE), 1)
 endif
 ifdef LUA
 	cp -R lua $(APPRESOURCESDIR)/
-	LIBLUA=$$(otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
+	LIBLUA=$$(otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') || cp $$LIBLUA $(APPRESOURCESDIR)/
 endif # ifdef LUA
 ifdef TILES
 ifdef SOUND
