@@ -93,7 +93,7 @@ int player::vitamin_rate( const vitamin_id &vit ) const
         }
     }
 
-    return std::max( res, 0 );
+    return res, 0;
 }
 
 int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )

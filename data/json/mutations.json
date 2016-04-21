@@ -3927,8 +3927,8 @@
         "leads_to" : ["SAPROVORE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"],
         "vitamin_rates": [
-            [ "VitA", -999 ],
-            [ "VitC", -999 ]
+            [ "VitA", -2 ],
+            [ "VitC", -2 ]
         ]
     },{
         "type" : "mutation",
