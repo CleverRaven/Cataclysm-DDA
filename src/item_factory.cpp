@@ -562,6 +562,13 @@ void Item_factory::check_definitions() const
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
+
+        for( const auto& f : type->faults ) {
+            if( !f.is_valid() ) {
+                msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
+            }
+        }
+
         if( type->comestible ) {
             if( type->comestible->tool != "null" ) {
                 auto req_tool = find_template( type->comestible->tool );
@@ -1433,6 +1440,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     if( jo.has_member( "category" ) ) {
         new_item_template->category = get_category( jo.get_string( "category" ) );
     }
+
+    assign( jo, "faults", new_item_template->faults );
 
     load_slot_optional( new_item_template->container, jo, "container_data" );
     load_slot_optional( new_item_template->armor, jo, "armor_data" );

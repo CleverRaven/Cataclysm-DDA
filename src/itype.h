@@ -34,6 +34,8 @@ class material_type;
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
 typedef std::string ammotype;
+class fault;
+using fault_id = string_id<fault>;
 
 enum bigness_property_aspect : int {
     BIGNESS_WHEEL_DIAMETER      // wheel size in inches, including tire
@@ -601,6 +603,9 @@ public:
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well = 0;
+
+    /** What faults (if any) can occur with instances of this type */
+    std::set<fault_id> faults;
 
     std::string get_item_type_string() const
     {
