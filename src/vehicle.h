@@ -135,6 +135,15 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
 
+    /** Current faults affecting this part (if any) */
+    const std::set<fault_id>& faults() const;
+
+    /** Faults which could potentially occur with this part (if any) */
+    const std::set<fault_id>& faults_potential() const;
+
+    /** Try to set fault returning false if specified fault cannot occur with this item */
+    bool fault_set( const fault_id &f );
+
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */
     point mount;
