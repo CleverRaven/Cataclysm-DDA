@@ -570,6 +570,17 @@ void Item_factory::check_definitions() const
                 }
             }
         }
+        if( type->brewable != nullptr ) {
+            if( type->brewable->results.empty() ) {
+                msg << string_format( "empty product list" ) << "\n";
+            }
+
+            for( auto & b : type->brewable->results ) {
+                if( !has_template( b ) ) {
+                    msg << string_format( "invalid result id %s", b.c_str() ) << "\n";
+                }
+            }
+        }
         if( type->seed ) {
             if( !has_template( type->seed->fruit_id ) ) {
                 msg << string_format( "invalid fruit id %s", type->seed->fruit_id.c_str() ) << "\n";
@@ -1051,8 +1062,6 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     assign( jo, "tool", slot.tool );
     assign( jo, "charges", slot.def_charges );
     assign( jo, "quench", slot.quench );
-    assign( jo, "brew_time", slot.brewtime );
-    assign( jo, "addiction_potential", slot.addict );
     assign( jo, "fun", slot.fun );
     assign( jo, "stim", slot.stim );
     assign( jo, "healthy", slot.healthy );
@@ -1116,6 +1125,12 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
             }
         }
     }
+}
+
+void Item_factory::load( islot_brewable &slot, JsonObject &jo )
+{
+    slot.time = jo.get_int( "time" );
+    slot.results = jo.get_string_array( "results" );
 }
 
 void Item_factory::load_comestible(JsonObject &jo)
@@ -1417,6 +1432,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
+    load_slot_optional( new_item_template->brewable, jo, "brewable" );
     // Make sure this one is at/near the end
     // TODO: Get rid of it when it is no longer needed (unless it's desired here)
     set_allergy_flags( *new_item_template );
