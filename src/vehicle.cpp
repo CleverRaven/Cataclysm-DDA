@@ -6811,18 +6811,10 @@ const vpart_str_id &vehicle_part::get_id() const
 
 item vehicle_part::properties_to_item() const
 {
+    item tmp = base;
+
     const vpart_info &vpinfo = info();
-    item tmp( vpinfo.item, calendar::turn );
-    if( tmp.is_var_veh_part() ) {
-        tmp.bigness = bigness;
-    } else if( tmp.is_engine() ) {
-        tmp.set_var( "engine_displacement", bigness );
-    }
-    // tools go unloaded to prevent user from exploiting this to
-    // refill their (otherwise not refillable) tools
-    if( tmp.is_tool() || tmp.is_gun() ) {
-        tmp.charges = 0;
-    }
+
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     if( tmp.has_flag("CABLE_SPOOL") ) {
@@ -6842,20 +6834,11 @@ item vehicle_part::properties_to_item() const
     // this is very lossy.
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
-    // Transfer fuel back to tank, but not to gun or it'll crash
-    if( !tmp.is_gun() && !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "null" && amount > 0 ) {
-        const itype_id &desired_liquid = vpinfo.fuel_type;
-        const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
-        if( desired_liquid == fuel_type_battery ) {
-            tmp.charges = amount / fuel_per_charge;
-        } else {
-            item liquid( desired_liquid, calendar::turn );
-            liquid.charges = amount / fuel_per_charge;
-            if( liquid.charges > 0 ) {
-                tmp.put_in( liquid );
-            }
-        }
+
+    if( vpinfo.fuel_type == fuel_type_battery ) {
+        tmp.charges = amount;
     }
+
     return tmp;
 }
 
