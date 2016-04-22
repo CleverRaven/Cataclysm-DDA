@@ -111,6 +111,11 @@ class string_id
         const std::string &str() const {
             return _id;
         }
+
+        explicit operator std::string() const {
+            return _id;
+        }
+
         // Those are optional, you need to implement them on your own if you want to use them.
         // If you don't implement them, but use them, you'll get a linker error.
         /**
