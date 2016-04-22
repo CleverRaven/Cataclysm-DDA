@@ -1090,17 +1090,21 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
             return true;
         }
 
-        if( is_wheel && !( g->u.can_lift( *veh ) || has_jack ) ) {
-            ///\EFFECT_STR allows removing tires on heavier vehicles without a jack
+        if( !has_skill ) {
             return false;
         }
 
+        if( is_wheel ) {
+            ///\EFFECT_STR allows removing tires on heavier vehicles without a jack
+            return has_wrench && ( g->u.can_lift( *veh ) || has_jack );
+        }
+
         //check if have all necessary materials
-        if (has_skill && (  (is_wrenchable && (has_wrench || has_hacksaw)) ||
-                            (is_hand_remove) ||
-                            (is_wood && has_hammer) ||
-                            (is_screwable && (has_screwdriver || has_hacksaw)) ||
-                            ((!is_wheel) && has_wrench && has_hacksaw) )) {
+        if( ( is_wrenchable && ( has_wrench || has_hacksaw) ) ||
+            ( is_hand_remove ) ||
+            ( is_wood && has_hammer ) ||
+            ( is_screwable && ( has_screwdriver || has_hacksaw ) ) ||
+            ( has_wrench && has_hacksaw ) ) {
             return true;
         }
     } else {

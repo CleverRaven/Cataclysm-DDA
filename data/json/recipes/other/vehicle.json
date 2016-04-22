@@ -12,7 +12,7 @@
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 2 }
+      { "id": "WRENCH_FINE", "level": 1 }
     ],
     "tools": [
       [ [ "goggles_welding", -1 ] ],
@@ -37,7 +37,7 @@
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 2 }
+      { "id": "WRENCH", "level": 1 }
     ],
     "tools": [
       [ [ "goggles_welding", -1 ] ],
