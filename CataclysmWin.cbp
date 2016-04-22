@@ -328,6 +328,11 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 		</Linker>
+		<ExtraCommands>
+			<Add before="cmd /c git --version || echo &apos;git&apos; command not found!" />
+			<Add before='cmd /c for /F &quot;tokens=*&quot; %%i in (&apos;git describe --tags --always --dirty&apos;) do echo #define VERSION &quot;%%i&quot; &gt;  src/version.h' />
+			<Mode after="always" />
+		</ExtraCommands>
 		<Unit filename="src/action.cpp" />
 		<Unit filename="src/action.h" />
 		<Unit filename="src/active_item_cache.cpp" />
