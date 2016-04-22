@@ -8606,7 +8606,7 @@
         "id" : "syrup",
         "name" : "maple syrup",
         "name_plural" : "maple syrup",
-        "weight" : 334,
+        "weight" : 67,
         "color" : "brown",
         "container" : "bottle_glass",
         "comestible_type" : "FOOD",
