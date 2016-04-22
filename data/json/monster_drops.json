@@ -88,7 +88,9 @@
                 { "group": "radio", "prob": 2 },
                 { "group": "textbooks", "prob": 3 }
             ] },
-            { "item": "cash_card" }
+            { "item": "cash_card" },
+            { "item": "bot_manhack_acid", "prob": 5 },
+            { "item": "bot_manhack", "prob": 10 }
         ]
     },
     {
@@ -100,7 +102,9 @@
             { "item": "chestrig", "damage": [1, 4] },
             { "item": "bot_grenade_hack", "count": [0, 3] },
             { "item": "bot_flashbang_hack", "prob": 50},
-            { "item": "bot_gasbomb_hack", "prob": 50}
+            { "item": "bot_gasbomb_hack", "prob": 50},
+            { "item": "bot_manhack_acid", "prob": 30 },
+            { "item": "bot_manhack_fire", "prob": 30 }
         ]
     },
     {
@@ -115,7 +119,9 @@
             { "item": "bot_flashbang_hack", "count": [1, 2], "prob": 50},
             { "item": "bot_gasbomb_hack", "count": [1, 2], "prob": 50},
             { "item": "bot_c4_hack", "count": [1, 2], "prob": 20},
-            { "item": "bot_mininuke_hack", "prob": 1}
+            { "item": "bot_mininuke_hack", "prob": 1},
+            { "item": "bot_manhack_acid", "prob": 50 },
+            { "item": "bot_manhack_fire", "prob": 50 }
         ]
     },
     {
