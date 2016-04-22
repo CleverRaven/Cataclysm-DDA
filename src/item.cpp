@@ -33,6 +33,7 @@
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "input.h"
+#include "fault.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -423,6 +424,9 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     if( item_tags != rhs.item_tags ) {
+        return false;
+    }
+    if( faults != rhs.faults ) {
         return false;
     }
     if( techniques != rhs.techniques ) {
@@ -1699,6 +1703,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        for( const auto &e : faults ) {
+            info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>Faulty %s</bad>.  %s" ), e.obj().name().c_str(), e.obj().description().c_str() ) );
+        }
+
         ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
         if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_bash() > 0 ||
                             damage_cut() > 0 || type->m_to_hit > 0 ) ) ) {
@@ -2131,6 +2139,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
                 damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
             }
         }
+    }
+
+    if( !faults.empty() ) {
+        damtext.insert( 0, _( "faulty " ) );
     }
 
     std::string vehtext = "";
@@ -3447,6 +3459,11 @@ bool item::is_bucket_nonempty() const
 bool item::is_engine() const
 {
     return type->engine.get() != nullptr;
+}
+
+bool item::is_faulty() const
+{
+    return !faults.empty();
 }
 
 bool item::is_container_empty() const

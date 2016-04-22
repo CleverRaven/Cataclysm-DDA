@@ -6,6 +6,7 @@
 // can load from json
 #include "effect.h"
 #include "vitamin.h"
+#include "fault.h"
 #include "material.h"
 #include "bionics.h"
 #include "profession.h"
@@ -100,6 +101,7 @@ void DynamicDataLoader::initialize()
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
+    type_function_map["fault"] = new StaticFunctionAccessor(&fault::load_fault);
     type_function_map["vitamin"] = new StaticFunctionAccessor(&vitamin::load_vitamin);
     type_function_map["material"] = new StaticFunctionAccessor(&material_type::load_material);
     type_function_map["bionic"] = new StaticFunctionAccessor(&load_bionic);
@@ -321,6 +323,7 @@ void init_names()
 void DynamicDataLoader::unload_data()
 {
     vitamin::reset();
+    fault::reset();
     material_type::reset();
     profession::reset();
     Skill::reset();
@@ -389,6 +392,7 @@ void DynamicDataLoader::finalize_loaded_data()
 void DynamicDataLoader::check_consistency()
 {
     item_controller->check_definitions();
+    fault::check_consistency();
     vpart_info::check();
     MonsterGenerator::generator().check_monster_definitions();
     MonsterGroupManager::check_group_definitions();
