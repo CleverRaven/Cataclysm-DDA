@@ -1534,7 +1534,8 @@ void vehicle_part::deserialize(JsonIn &jsin)
             data.throw_error( "bad vehicle part", "id" );
         }
     }
-    set_id(pid);
+    id = pid;
+
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );

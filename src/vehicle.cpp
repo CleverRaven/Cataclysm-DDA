@@ -323,17 +323,10 @@ void vehicle::add_missing_frames()
                     break;
                 }
             }
-            if(!found) {
-                //No frame here! Install one.
-                vehicle_part new_part;
-                new_part.set_id( frame_part.id );
-                new_part.mount.x = next_x;
-                new_part.mount.y = next_y;
-                new_part.hp = frame_part.durability;
-                new_part.amount = 0;
-                new_part.blood = 0;
-                new_part.bigness = 0;
-                parts.push_back (new_part);
+            if( !found ) {
+                // Install missing frame
+                item tmp( frame_part.item );
+                parts.emplace_back( frame_part.id, next_x, next_y, &tmp );
             }
         }
 
@@ -381,7 +374,7 @@ void vehicle::add_steerable_wheels()
 
     // Now convert the wheels to their new types.
     for (auto &wheel : wheels) {
-        parts[wheel.first].set_id(wheel.second);
+        parts[ wheel.first ].id = wheel.second;
     }
 }
 
@@ -6784,27 +6777,15 @@ void vehicle::update_time( const calendar &update_to )
 /*-----------------------------------------------------------------------------
  *                              VEHICLE_PART
  *-----------------------------------------------------------------------------*/
-vehicle_part::vehicle_part( int const dx, int const dy )
-: id( NULL_ID )
-, mount( dx, dy )
-, precalc( { { point( -1, -1 ), point( -1, -1 ) } } )
-, amount( 0 )
-{
-}
+vehicle_part::vehicle_part()
+    : id( NULL_ID ), mount( 0, 0 ) {}
 
-vehicle_part::vehicle_part( const vpart_str_id &sid, int const dx, int const dy,
-                            const item *const it )
-: vehicle_part( dx, dy )
+vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy, const item *const it )
+    : id( str ), mount( dx, dy )
 {
-    set_id( sid );
     if( it != nullptr ) {
         properties_from_item( *it );
     }
-}
-
-void vehicle_part::set_id( const vpart_str_id & str )
-{
-    id = str;
 }
 
 const vpart_str_id &vehicle_part::get_id() const

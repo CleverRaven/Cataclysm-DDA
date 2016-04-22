@@ -124,8 +124,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     enum : int { passenger_flag = 1 };
 
-    vehicle_part( int dx = 0, int dy = 0 );
-    vehicle_part( const vpart_str_id &sid, int dx = 0, int dy = 0, const item *it = nullptr );
+    vehicle_part(); /** DefaultConstructible */
+
+    vehicle_part( const vpart_str_id& str, int dx, int dy, const item *it );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
@@ -133,9 +134,14 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
 private:
     vpart_id id;         // id in map of parts (vehicle_part_types key)
+
 public:
-    point mount;                  // mount point: x is on the forward/backward axis, y is on the left/right axis
-    std::array<point, 2> precalc; // mount translated to face.dir [0] and turn_dir [1]
+    /** mount point: x is on the forward/backward axis, y is on the left/right axis */
+    point mount;
+
+    /** mount translated to face.dir [0] and turn_dir [1] */
+    std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
+
     int hp           = 0;         // current durability, if 0, then broken
     int blood        = 0;         // how much blood covers part (in turns).
     int bigness      = 0;         // size of engine, wheel radius, translates to item properties.
@@ -158,7 +164,6 @@ public:
 private:
     std::list<item> items; // inventory
 public:
-    void set_id( const vpart_str_id & str );
     const vpart_str_id &get_id() const;
     const vpart_info &info() const;
 
