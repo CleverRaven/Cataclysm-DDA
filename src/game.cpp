@@ -1777,6 +1777,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         addentry( 'U', pgettext("action", "unload"), u.rate_action_unload( oThisItem ) );
         addentry( 'r', pgettext("action", "reload"), u.rate_action_reload( oThisItem ) );
         addentry( 'p', pgettext("action", "part reload"), u.rate_action_reload( oThisItem ) );
+        addentry( 'm', pgettext("action", "mend"), u.rate_action_mend( oThisItem ) );
         addentry( 'D', pgettext("action", "disassemble"), u.rate_action_disassemble( oThisItem ) );
         addentry( '=', pgettext("action", "reassign"), HINT_GOOD );
         if( bHPR ) {
@@ -1865,6 +1866,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                 break;
             case 'p':
                 reload( pos, true );
+                break;
+            case 'm':
+                mend( pos );
                 break;
             case 'R':
                 u.read(pos);
@@ -2758,6 +2762,10 @@ bool game::handle_action()
 
         case ACTION_UNLOAD:
             unload();
+            break;
+
+        case ACTION_MEND:
+            mend();
             break;
 
         case ACTION_THROW:
@@ -11472,6 +11480,22 @@ void game::unload(int pos)
         if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
             u.remove_item( *it );
         }
+    }
+}
+
+void game::mend( int pos )
+{
+    if( pos == INT_MIN ) {
+        if( u.is_armed() ) {
+            pos = -1;
+        } else {
+            add_msg(m_info, _( "You're not wielding anything." ) );
+        }
+    }
+
+    item& obj = g->u.i_at( pos );
+    if( g->u.has_item( obj ) ) {
+        g->u.mend_item( item_location( g->u, &obj ) );
     }
 }
 

@@ -808,6 +808,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual bool dispose_item( item& obj, const std::string& prompt = std::string() );
 
         /**
+         * Attempt to mend an item (fix any current faults)
+         * @param interactive if true prompts player when multiple faults, otherwise mends the first
+         */
+        void mend_item( item_location&& obj, bool interactive = true );
+
+        /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
          * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
          * @param factor base move cost per unit volume before considering any other modifiers
@@ -920,6 +926,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;
+        hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
         /** Returns warmth provided by armor, etc. */
