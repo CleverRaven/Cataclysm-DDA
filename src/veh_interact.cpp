@@ -2444,7 +2444,7 @@ void complete_vehicle ()
 
         broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
-            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), veh->parts[vehicle_part].properties_to_item() );
+            g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             // simple tasks won't train mechanics
             if(type != SEL_JACK && !is_hand_remove) {
                 g->u.practice( skill_mechanics, (is_wood || is_wrenchable || is_screwable) ? 15 : 30);
