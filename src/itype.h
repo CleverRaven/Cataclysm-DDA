@@ -294,8 +294,8 @@ struct common_firing_data : common_ranged_data {
 
 struct islot_engine
 {
-    /** for combustion engines the range of possible engine displacements (cc) */
-    std::pair<int, int> displacement = { -1, -1 };
+    /** for combustion engines the displacement (cc) */
+    int displacement = 0;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?

@@ -2721,7 +2721,7 @@
         "item" : "1cyl_combustion",
         "difficulty" : 2,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE", "TOOL_WRENCH"],
+        "flags" : ["ENGINE", "TOOL_WRENCH"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [5, 10]},
             {"item": "steel_chunk", "count": [5, 10]},
@@ -2742,7 +2742,7 @@
         "item" : "v2_combustion",
         "difficulty" : 2,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [10, 20]},
             {"item": "steel_chunk", "count": [10, 20]},
@@ -2762,7 +2762,7 @@
         "item" : "i4_combustion",
         "difficulty" : 2,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [20, 30]},
             {"item": "steel_chunk", "count": [20, 30]},
@@ -2783,7 +2783,7 @@
         "item" : "v6_combustion",
         "difficulty" : 3,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [30, 40]},
             {"item": "steel_chunk", "count": [30, 40]},
@@ -2804,7 +2804,7 @@
         "item" : "v8_combustion",
         "difficulty" : 3,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [40, 50]},
             {"item": "steel_chunk", "count": [40, 50]},
@@ -2825,7 +2825,7 @@
         "item" : "v12_combustion",
         "difficulty" : 6,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [45, 58]},
             {"item": "steel_chunk", "count": [45, 58]},
@@ -2846,7 +2846,7 @@
         "item" : "v6_diesel",
         "difficulty" : 4,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [30, 40]},
             {"item": "steel_chunk", "count": [30, 40]},
@@ -2867,7 +2867,7 @@
         "item" : "v8_diesel",
         "difficulty" : 4,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [30, 40]},
             {"item": "steel_chunk", "count": [30, 40]},
@@ -2888,7 +2888,7 @@
         "item" : "i6_diesel",
         "difficulty" : 4,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [30, 40]},
             {"item": "steel_chunk", "count": [30, 40]},
@@ -5101,7 +5101,7 @@
         "item" : "1cyl_combustion_small",
         "difficulty" : 2,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "VARIABLE_SIZE"],
+        "flags" : ["ENGINE"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [2, 4]},
             {"item": "steel_chunk", "count": [2, 4]},

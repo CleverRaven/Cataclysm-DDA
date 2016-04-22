@@ -145,10 +145,6 @@ item::item( const itype *type, int turn, int qty ) : type( type )
         set_var( "magazine_converted", true );
     }
 
-    if( type->engine ) {
-        set_var( "engine_displacement", rng( type->engine->displacement.first, type->engine->displacement.second ) );
-    }
-
     if( type->variable_bigness ) {
         bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
     }
@@ -1908,6 +1904,11 @@ int item::get_free_mod_locations( const std::string &location ) const
     return result;
 }
 
+int item::engine_displacement() const
+{
+    return type->engine ? type->engine->displacement : 0;
+}
+
 char item::symbol() const
 {
     if( is_null() )
@@ -2133,11 +2134,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
 
     std::string vehtext = "";
-    if( is_engine() ) {
-        int cc = get_var( "engine_displacement", -1 );
-        if( cc > 0 ) {
-            vehtext = rmp_format( _( "<veh_adj>%4.2fL " ), cc / 100.0f );
-        }
+    if( is_engine() && engine_displacement() > 0 ) {
+        vehtext = rmp_format( _( "<veh_adj>%2.1fL " ), engine_displacement() / 100.0f );
 
     } else if( is_var_veh_part() ) {
         switch( type->variable_bigness->bigness_aspect ) {
