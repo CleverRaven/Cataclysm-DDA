@@ -551,8 +551,10 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
             if( part_flag( p, VPFLAG_ENGINE ) ) {
                 // If possible set an engine fault rather than destroying the engine outright
-                if( !parts[ p ].faults_potential().empty() ) {
-                    parts[ p ].fault_set( random_entry( parts[ p ].faults_potential() ) );
+                if( one_in( 2 ) && !parts[ p ].faults_potential().empty() ) {
+                    do {
+                        parts[ p ].fault_set( random_entry( parts[ p ].faults_potential() ) );
+                    } while( one_in( 2 ) );
                 } else {
                     parts[ p ].hp = 0;
                 }
