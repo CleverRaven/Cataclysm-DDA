@@ -972,6 +972,30 @@ int sfx::play_special_music( std::string playlist ) {
     return play_music_int( playlist );
 }
 
+int sfx::consider( bool is_night, int monsters) {
+    if( is_night ) {
+        if( monsters == 0 ) {
+            return play_special_music( "n_nomon" );
+        } else if( monsters <= 10 ) {
+            return play_special_music( "n_lowmon" );
+        } else if( monsters <= 40 ) {
+            return play_special_music( "n_medmon" );
+        } else {
+            return play_special_music( "n_horde" );
+        }
+    } else {
+        if( monsters == 0 ) {
+            return play_special_music( "d_nomon" );
+        } else if( monsters <= 10 ) {
+            return play_special_music( "d_lowmon" );
+        } else if( monsters <=40 ) {
+            return play_special_music( "d_medmon" );
+        } else {
+            return play_special_music( "d_horde" );
+        }
+    }
+}
+
 #else // ifdef SDL_SOUND
 
 /** Dummy implementations for builds without sound */
@@ -1000,7 +1024,8 @@ void sfx::play_panic_music() { }
 void sfx::play_wilderness_music() { }
 void sfx::play_outskirts_music() { }
 void sfx::play_city_music() { }
-int sfx::play_special_music(std::string) { return -1; }
+int sfx::play_special_music( std::string ) { return -1; }
+int sfx::consider( bool, int ) { return 0; }
 /*@}*/
 
 #endif // ifdef SDL_SOUND
