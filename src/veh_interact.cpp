@@ -2287,8 +2287,6 @@ void complete_vehicle ()
     bool broken;
     int replaced_wheel;
     std::vector<int> parts;
-    int dd = 2;
-    double dmg = 1.0;
 
     const vpart_info &vpinfo = part_id.obj();
     bool is_wheel = vpinfo.has_flag("WHEEL");
@@ -2376,32 +2374,41 @@ void complete_vehicle ()
             g->u.practice( skill_mechanics, vpinfo.difficulty * 5 + ((is_wood || is_wrenchable || is_screwable) ? 20 : 40) );
         }
         break;
-    case 'r':
+
+    case 'r': {
         veh->last_repair_turn = calendar::turn;
-        if (veh->parts[vehicle_part].hp <= 0) {
-            veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
-            veh->parts[ vehicle_part ].properties_from_item( consume_vpart_item (veh->parts[ vehicle_part ].get_id() ) );
-            dd = 0;
-            veh->insides_dirty = true;
+        double dmg = 1.0;
+
+        std::string name = veh->part_info( vehicle_part ).name;
+
+        if( veh->parts[vehicle_part].hp <= 0 ) {
+            // replacing a broken part
+            veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
+            veh->remove_part( vehicle_part );
+            veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
+            g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty ) * 5 + 20 ) );
+
         } else {
-            dmg = 1.1 - double(veh->parts[vehicle_part].hp) / veh->part_info(vehicle_part).durability;
+            // repairing a damaged part
+            dmg = 1.1 - veh->parts[ vehicle_part ].hp / veh->part_info( vehicle_part ).durability;
+            veh->parts[ vehicle_part ].hp = veh->part_info(vehicle_part).durability;
+            g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty + 2 ) * 5 + 20 ) * dmg );
         }
-        if (has_goggles) {
-            // Need welding goggles to use any of these tools,
-            // without the goggles one _must_ use the duct tape
-            tools.push_back(tool_comp("welder", int(welder_charges * dmg)));
-            tools.push_back(tool_comp("oxy_torch", int(welder_oxy_charges * dmg)));
-            tools.push_back(tool_comp("welder_crude", int(welder_crude_charges * dmg)));
-            tools.push_back(tool_comp("toolset", int(welder_crude_charges * dmg)));
+
+        if( has_goggles ) {
+            tools.emplace_back( "welder", welder_charges * dmg );
+            tools.emplace_back( "oxy_torch", welder_oxy_charges * dmg );
+            tools.emplace_back( "welder_crude", welder_crude_charges * dmg );
+            tools.emplace_back( "toolset", welder_crude_charges * dmg );
         }
-        tools.push_back(tool_comp("duct_tape", int(DUCT_TAPE_USED * dmg)));
-        tools.push_back(tool_comp("toolbox", int(DUCT_TAPE_USED * dmg)));
-        g->u.consume_tools(tools, 1, repair_hotkeys);
-        veh->parts[vehicle_part].hp = veh->part_info(vehicle_part).durability;
-        add_msg (m_good, _("You repair the %1$s's %2$s."),
-                 veh->name.c_str(), veh->part_info(vehicle_part).name.c_str());
-        g->u.practice( skill_mechanics, int(((veh->part_info(vehicle_part).difficulty + dd) * 5 + 20)*dmg) );
+        tools.emplace_back( "duct_tape", DUCT_TAPE_USED * dmg );
+        tools.emplace_back( "toolbox", DUCT_TAPE_USED * dmg );
+
+        g->u.consume_tools( tools, 1, repair_hotkeys );
+        add_msg( m_good, _( "You repair the %1$s's %2$s." ), veh->name.c_str(), name.c_str() );
         break;
+    }
+
     case 'f':
         if (!g->pl_refill_vehicle(*veh, vehicle_part, true)) {
             debugmsg ("complete_vehicle refill broken");

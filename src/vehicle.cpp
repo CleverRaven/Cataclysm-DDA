@@ -6777,42 +6777,36 @@ void vehicle::update_time( const calendar &update_to )
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( NULL_ID ) {}
 
-vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy, item&& it )
-    : mount( dx, dy ), id( str ), base( std::move( it ) )
+vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy, item&& obj )
+    : mount( dx, dy ), id( str ), base( std::move( obj ) )
 {
-    properties_from_item( it );
+    const vpart_info& vp = id.obj();
+
+    if( base.typeId() != vp.item ) {
+        debugmsg( "incorrect vehicle part item, expected: %s, received: %s",
+                  vp.item.c_str(), base.typeId().c_str() );
+    }
+
+    if( base.is_var_veh_part() ) {
+        bigness = base.bigness;
+    } else if( base.is_engine() ) {
+        bigness = base.get_var( "engine_displacement", -1 );
+    }
+
+    // item damage is [ 0..MAX_ITEM_DAMAGE ] whereas part hp is [ 1..durability ]
+    int health = ( MAX_ITEM_DAMAGE + 1 ) - base.damage;
+    health *= vp.durability; // [ 0, durability ]
+    health /= ( MAX_ITEM_DAMAGE + 1 );
+    hp = std::max( 1, health );
+
+    if( vp.fuel_type == fuel_type_battery ) {
+        amount = base.charges;
+    }
 }
 
 const vpart_str_id &vehicle_part::get_id() const
 {
     return id.id();
-}
-
-void vehicle_part::properties_from_item( const item &used_item )
-{
-    const vpart_info &vpinfo = info();
-    if( used_item.is_var_veh_part() ) {
-        bigness = used_item.bigness;
-    } else if( used_item.is_engine() ) {
-        bigness = used_item.get_var( "engine_displacement", -1 );
-    }
-    // item damage is 0,1,2,3, or 4. part hp is 1..durability.
-    // assuming it rusts. other item materials disintegrate at different rates...
-    int health = 5 - used_item.damage;
-    health *= vpinfo.durability; //[0,dur]
-    health /= 5;
-    hp = std::max( 1, health );
-    // Transfer fuel from item to tank
-    const itype_id &desired_liquid = vpinfo.fuel_type;
-    const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
-    if( used_item.charges > 0 && desired_liquid == fuel_type_battery ) {
-        amount = std::min<int>( used_item.charges * fuel_per_charge, vpinfo.size );
-    } else if( !used_item.contents.empty() ) {
-        const item &liquid = used_item.contents[0];
-        if( liquid.type->id == desired_liquid ) {
-            amount = std::min<int>( liquid.charges * fuel_per_charge, vpinfo.size );
-        }
-    }
 }
 
 item vehicle_part::properties_to_item() const
