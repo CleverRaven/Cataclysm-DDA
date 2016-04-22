@@ -4398,7 +4398,9 @@
       [ "meat", 2 ]
     ],
     [
-      [ "cooking_oil", 1 ]
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
     ],
     [
       ["veggy", 1],
@@ -4436,7 +4438,6 @@
     [
       [ "garlic", 1 ],
       [ "seed_garlic", 6 ],
-      [ "thyme", 2 ],
       [ "wild_herbs", 10 ],
       [ "mustard", 1 ]
     ]
@@ -5421,7 +5422,7 @@
       [ "honey_bottled", 4 ],
       [ "honey_glassed", 4 ],
       [ "sugar", 40 ],
-      [ "syrup", 3 ],
+      [ "syrup", 4 ],
       [ "beet_syrup", 4 ]
     ],
     [
@@ -6313,6 +6314,7 @@
       [ "honeycomb", 1 ],
       [ "honey_bottled", 1 ],
       [ "honey_glassed", 1 ],
+      [ "syrup", 1 ],
       [ "rehydrated_fruit", 1 ],
       [ "dry_fruit", 1 ],
       [ "juice_pulp", 4 ]
@@ -6449,7 +6451,8 @@
       ["watermelon", 1]
     ],
     [
-      [ "sugar", 5 ]
+      [ "sugar", 5 ],
+      [ "syrup", 1 ]
     ],
     [
       [ "water", 1 ],
