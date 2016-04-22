@@ -727,6 +727,9 @@ public:
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
+        /** Is item derived from a zombie? */
+        bool is_tainted() const;
+
         /**
          * Is this item flexible enough to be worn on body parts like antlers?
          */
