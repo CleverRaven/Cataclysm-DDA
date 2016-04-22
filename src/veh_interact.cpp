@@ -2284,7 +2284,6 @@ void complete_vehicle ()
 
 
     int partnum;
-    item used_item;
     bool broken;
     int replaced_wheel;
     std::vector<int> parts;
@@ -2333,8 +2332,7 @@ void complete_vehicle ()
             g->u.consume_tools(tools);
         }
 
-        used_item = consume_vpart_item (part_id);
-        partnum = veh->install_part (dx, dy, part_id, used_item);
+        partnum = veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
         if(partnum < 0) {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
         }
@@ -2382,8 +2380,7 @@ void complete_vehicle ()
         veh->last_repair_turn = calendar::turn;
         if (veh->parts[vehicle_part].hp <= 0) {
             veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
-            used_item = consume_vpart_item (veh->parts[vehicle_part].get_id());
-            veh->parts[vehicle_part].properties_from_item( used_item );
+            veh->parts[ vehicle_part ].properties_from_item( consume_vpart_item (veh->parts[ vehicle_part ].get_id() ) );
             dd = 0;
             veh->insides_dirty = true;
         } else {
@@ -2441,8 +2438,7 @@ void complete_vehicle ()
 
         broken = veh->parts[vehicle_part].hp <= 0;
         if (!broken) {
-            used_item = veh->parts[vehicle_part].properties_to_item();
-            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), used_item);
+            g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             // simple tasks won't train mechanics
             if(type != SEL_JACK && !is_hand_remove) {
                 g->u.practice( skill_mechanics, (is_wood || is_wrenchable || is_screwable) ? 15 : 30);
@@ -2486,8 +2482,8 @@ void complete_vehicle ()
             veh->part_removal_cleanup();
             add_msg( _("You replace one of the %1$s's tires with a %2$s."),
                      veh->name.c_str(), vpinfo.name.c_str() );
-            used_item = consume_vpart_item( part_id );
-            partnum = veh->install_part( dx, dy, part_id, used_item );
+
+            partnum = veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
             if( partnum < 0 ) {
                 debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
             }
