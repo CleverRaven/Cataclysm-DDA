@@ -10,6 +10,7 @@
     "relative": {
         "weight": -500,
         "volume": -2,
+        "bashing": -2,
         "range": -6,
         "ranged_damage": -2,
         "dispersion": 30,
@@ -29,6 +30,7 @@
   },
   {
     "id": "mosin91_30",
+    "copy-from": "rifle_base",
     "type": "GUN",
     "name": "Mosin-Nagant 1891/30",
     "name_plural": "Mosin-Nagant 1891/30",
@@ -36,20 +38,15 @@
     "weight": 4000,
     "volume": 12,
     "price": 19000,
-    "bashing": 12,
-    "to_hit": -1,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "skill": "rifle",
     "ammo": "762R",
     "range": 3,
-    "sight_dispersion": 60,
-    "aim_speed": 6,
     "recoil": 75,
-    "durability": 10,
     "clip_size": 5,
     "barrel_length": 4,
+    "relative": {
+        "durability": 1
+    },
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
   },

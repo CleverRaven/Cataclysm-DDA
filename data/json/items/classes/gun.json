@@ -1,9 +1,21 @@
 [
   {
+    "abstract": "gun_base",
+    "type": "GUN",
+    "name": "base gun",
+    "symbol": "(",
+    "color": "dark_gray",
+    "durability": 8
+  },
+  {
     "abstract": "pistol_base",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "base pistol",
     "skill": "pistol",
+    "bashing": 5,
+    "to_hit": -3,
+    "sight_dispersion": 60,
     "aim_speed": 4
   },
   {
@@ -16,23 +28,74 @@
   },
   {
     "abstract": "rifle_base",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "base rifle",
+    "bashing": 12,
+    "to_hit": -1,
     "skill": "rifle",
+    "sight_dispersion": 60,
     "aim_speed": 8
   },
   {
+    "abstract": "rifle_carbine",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "rifle carbine",
+    "relative": {
+      "basing": -2,
+      "aim_speed": -2
+    }
+  },
+  {
+    "abstract": "rifle_machine",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "machine gun",
+    "relative": {
+        "recoil": -200
+    }
+  },
+  {
+    "abstract": "rifle_pipe",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "rifle carbine",
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "proportional": { "reload": 4.0 },
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ] }
+  },
+  {
     "abstract": "shotgun_base",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "base shotgun",
+    "bashing": 12,
+    "to_hit": -1,
     "skill": "shotgun",
+    "sight_dispersion": 90,
     "aim_speed": 6
   },
   {
     "abstract": "smg_base",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "base SMG",
+    "bashing": 8,
+    "to_hit": -2,
     "skill": "smg",
+    "sight_dispersion": 60,
     "aim_speed": 6
+  },
+  {
+    "abstract": "smg_compact",
+    "copy-from": "smg_base",
+    "type": "GUN",
+    "name": "base SMG",
+    "relative": {
+      "basing": -2,
+      "aim_speed": -2
+    }
   }
 ]
