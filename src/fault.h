@@ -2,6 +2,7 @@
 #define FAULT_H
 
 #include "string_id.h"
+#include "requirements.h"
 #include "json.h"
 
 class fault;
@@ -9,10 +10,6 @@ using fault_id = string_id<fault>;
 
 class Skill;
 using skill_id = string_id<Skill>;
-
-using quality_id = std::string;
-
-using itype_id = std::string;
 
 class fault
 {
@@ -39,12 +36,8 @@ class fault
             return skills_;
         }
 
-        const std::map<quality_id, int> &qualities() const {
-            return qualities_;
-        }
-
-        const std::map<itype_id, int> &parts() const {
-            return parts_;
+        const requirement_data &requirements() const {
+            return requirements_;
         }
 
         /** Load fault from JSON definition */
@@ -64,8 +57,7 @@ class fault
         std::string name_;
         std::string description_;
         std::map<skill_id, int> skills_;
-        std::map<quality_id, int> qualities_;
-        std::map<itype_id, int> parts_;
+        requirement_data requirements_;
 };
 
 #endif
