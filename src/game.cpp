@@ -3766,7 +3766,7 @@ void game::dump_stats( const std::string& what )
 
         for( const auto e : vpart_info::get_all() ) {
             std::cout
-                << e->name << "\t"
+                << e->name() << "\t"
                 << e->location << "\t"
                 << ceil( item( e->item ).weight() / 1000.0 ) << "\t"
                 << e->size << std::endl;
@@ -7224,7 +7224,7 @@ void game::open()
                 // curtains as well.
                 int outside_openable = veh->next_part_to_open(vpart, true);
                 if (outside_openable == -1) {
-                    const char *name = veh->part_info(openable).name.c_str();
+                    const char *name = veh->part_info( openable ).name().c_str();
                     add_msg(m_info, _("That %s can only opened from the inside."), name);
                     u.moves += 100;
                 } else {
@@ -7235,7 +7235,7 @@ void game::open()
             // If there are any OPENABLE parts here, they must be already open
             int already_open = veh->part_with_feature(vpart, "OPENABLE");
             if (already_open >= 0) {
-                const char *name = veh->part_info(already_open).name.c_str();
+                const char *name = veh->part_info( already_open ).name().c_str();
                 add_msg(m_info, _("That %s is already open."), name);
             }
             u.moves += 100;
@@ -7292,7 +7292,7 @@ void game::close( const tripoint &closep )
                 add_msg(m_info, _("There's some buffoon in the way!"));
                 return;
             }
-            const char *name = veh->part_info(openable).name.c_str();
+            const char *name = veh->part_info(openable).name().c_str();
             if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.pos());
                 if (!in_veh || in_veh != veh) {
@@ -10602,7 +10602,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                              "You put your %1$s in the %2$s's %3$s.", dropcount),
                     dropped[0].tname(dropcount).c_str(),
                     veh->name.c_str(),
-                    veh->part_info(veh_part).name.c_str());
+                    veh->part_info( veh_part ).name().c_str() );
         } else if (can_move_there) {
             add_msg(ngettext("You drop your %1$s on the %2$s.",
                              "You drop your %1$s on the %2$s.", dropcount),
@@ -10617,7 +10617,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
     } else {
         if (to_veh) {
             add_msg(_("You put several items in the %1$s's %2$s."),
-                    veh->name.c_str(), veh->part_info(veh_part).name.c_str());
+                    veh->name.c_str(), veh->part_info( veh_part ).name().c_str() );
         } else if (can_move_there) {
             add_msg(_("You drop several items on the %s."),
                     m.name(dir).c_str());
@@ -12099,7 +12099,7 @@ bool game::plmove(int dx, int dy, int dz)
         } else {
             veh1->open(dpart);
             add_msg(_("You open the %1$s's %2$s."), veh1->name.c_str(),
-                    veh1->part_info(dpart).name.c_str());
+                    veh1->part_info( dpart ).name().c_str() );
         }
 
         u.moves -= 100;
@@ -12122,7 +12122,7 @@ bool game::plmove(int dx, int dy, int dz)
             // redefine variable as id of obstacle part
             part = veh->obstacle_at_part( part );
             if( part > 0 ) {
-                obstacle_name = veh->parts[part].info().name;
+                obstacle_name = veh->parts[ part ].name();
             }
         } else {
             obstacle_name = m.name( dest_loc );
@@ -12310,7 +12310,7 @@ bool game::walk_move( const tripoint &dest_loc )
     const int mcost_no_veh = m.move_cost_ter_furn( dest_loc );
     if( (!u.has_trait("PARKOUR") && mcost_total > 2) || mcost_total > 4 ) {
         if( veh1 != nullptr && mcost_no_veh == 2 ) {
-            add_msg(m_warning, _("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
+            add_msg( m_warning, _( "Moving past this %s is slow!" ), veh1->part_info( vpart1 ).name().c_str() );
         } else {
             add_msg(m_warning, _("Moving past this %s is slow!"), m.name(dest_loc).c_str());
             sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume(u.pos()) );

@@ -2709,7 +2709,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "engine_1cyl",
-        "name" : "1-cylinder engine",
         "symbol" : "*",
         "color" : "light_red",
         "broken_symbol" : "#",
@@ -2730,7 +2729,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "engine_vtwin",
-        "name" : "V-twin engine",
         "symbol" : "*",
         "color" : "light_red",
         "broken_symbol" : "#",
@@ -2751,7 +2749,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "engine_inline4",
-        "name" : "Inline-4 engine",
         "symbol" : "*", "color": "light_red",
         "broken_symbol" : "#",
         "broken_color" : "red",
@@ -2771,7 +2768,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "engine_v6",
-        "name" : "V6 engine",
         "symbol" : "*",
         "color" : "light_red",
         "broken_symbol" : "#",
@@ -2792,7 +2788,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "engine_v8",
-        "name" : "V8 engine",
         "symbol" : "*",
         "color" : "light_red",
         "broken_symbol" : "#",
@@ -2813,7 +2808,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "engine_v12",
-        "name" : "V12 Engine",
         "symbol" : "*",
         "color" : "light_red",
         "broken_symbol" : "#",
@@ -2834,7 +2828,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "diesel_engine_v6",
-        "name" : "V6 diesel engine",
         "symbol" : "*",
         "color" : "light_gray",
         "broken_symbol" : "#",
@@ -2855,7 +2848,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "diesel_engine_v8",
-        "name" : "V8 diesel engine",
         "symbol" : "*",
         "color" : "light_gray",
         "broken_symbol" : "#",
@@ -2876,7 +2868,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "diesel_engine_i6",
-        "name" : "straight-6 diesel engine",
         "symbol" : "*",
         "color" : "light_gray",
         "broken_symbol" : "#",
@@ -5089,7 +5080,6 @@
     },{
         "type" : "vehicle_part",
         "id" : "engine_1cyl_small",
-        "name" : "1-cylinder engine",
         "symbol" : "*",
         "color" : "light_red",
         "broken_symbol" : "#",
