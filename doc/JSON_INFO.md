@@ -482,6 +482,18 @@ Mods can modify this via "add:traits" and "remove:traits".
     [ "9mm", [ "glockmag" ] ]     // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
+"explode_in_fire" : true,         // Should the item explode if set on fire
+"explosion": {                    // Physical explosion data
+    "power" : 10,                 // Measure of explosion power, affects damage and range
+    "distance_factor" : 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "fire" : true,                // Should the explosion leave fire
+    "shrapnel" : {
+        "count" : 10,             // Number of shrapnel pieces
+        "mass" : 10,              // Mass of shrapnel pieces. Affects armor piercing and terrain smashing.
+        "recovery" : 10,          // Percentage chance to drop an item at landing point.
+        "drop" : "nail"           // Which item to drop at landing point.
+    }
+},
 ```
 
 ###AMMO
@@ -881,12 +893,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "sound_volume": 0, // Volume of a sound the item makes every turn.
     "sound_msg": "Tick.", // Message describing sound the item makes every turn.
     "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
-    "explosion_power": 12, // Power of the resulting explosion.
-    "explosion_shrapnel": 28, // abritrary measure of quantity shrapnel emitted affecting number of hits (legacy field)
-    "explosion_fire" : 33, // Power of flames produced by explosion.
-    "shrapnel": { // optional
-      "count": 28, // abritrary measure of quantity shrapnel emitted affecting number of hits
-      "mass": 10 // determines how readily terrain constrains shrapnel and also caps pierce damage
+    "explosion": { // Optional: physical explosion data
+        // Specified like `"explosion"` field in generic items
     }
     "draw_explosion_radius" : 5, // How large to draw the radius of the explosion.
     "draw_explosion_color" : "ltblue", // The color to use when drawing the explosion.
