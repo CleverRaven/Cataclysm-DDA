@@ -43,17 +43,16 @@
     "ammo": "8x40mm",
     "ranged_damage": 10,
     "range": 20,
-    "aim_speed" : 10,
+    "aim_speed" : 8,
     "recoil": 125,
     "durability": 9,
     "barrel_length" : 3,
     "burst": 2,
-    "default_mods": ["rifle_scope"],
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
       [ "8x40mm", ["8x40_10_mag", "8x40_25_mag"] ]
     ],
-    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"]
+    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS", "ZOOM" ]
   },
   {
     "id": "rm2000_smg",
