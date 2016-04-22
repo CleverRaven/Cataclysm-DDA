@@ -132,6 +132,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
 
+    /** Translated name of a part inclusive of any current status effects */
+    std::string name() const;
+
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */
     point mount;

@@ -962,8 +962,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
     add_msg(m_bad, _("The %1$s's %2$s collides with %3$s's %4$s."),
-                   veh.name.c_str(),  veh.part_info(c.part).name.c_str(),
-                   veh2.name.c_str(), veh2.part_info(c.target_part).name.c_str());
+                   veh.name.c_str(),  veh.part_info(c.part).name().c_str(),
+                   veh2.name.c_str(), veh2.part_info(c.target_part).name().c_str());
 
     const bool vertical = veh.smz != veh2.smz;
 
@@ -1224,7 +1224,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     const int seat_part = veh->part_with_feature( part, VPFLAG_BOARDABLE );
     if( seat_part < 0 ) {
         debugmsg( "map::board_vehicle: boarding %s (not boardable)",
-                  veh->part_info(part).name.c_str() );
+                  veh->parts[ part ].name().c_str() );
         return;
     }
     if( veh->parts[seat_part].has_flag( vehicle_part::passenger_flag ) ) {
@@ -1270,7 +1270,7 @@ void map::unboard_vehicle( const tripoint &p )
     const int seat_part = veh->part_with_feature( part, VPFLAG_BOARDABLE, false );
     if( seat_part < 0 ) {
         debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-                  veh->part_info(part).name.c_str());
+                  veh->parts[ part ].name().c_str() );
         return;
     }
     passenger = veh->get_passenger(seat_part);

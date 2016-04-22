@@ -684,7 +684,7 @@ void vehicle::control_doors() {
             doors_with_motors.push_back(door);
             locations.push_back(tripoint(global_pos() + parts[p].precalc[0], smz));
             const char *actname = parts[door].open ? _("Close") : _("Open");
-            pmenu.addentry(val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info(door).name.c_str());
+            pmenu.addentry(val, true, MENU_AUTOASSIGN, "%s %s", actname, parts[ door ].name().c_str() );
         }
     }
 
@@ -747,7 +747,7 @@ int vehicle::select_engine() {
     std::string name;
     tmenu.text = _("Toggle which?");
     for( size_t e = 0; e < engines.size(); ++e ) {
-        name = part_info(engines[e]).name;
+        name = parts[ engines[ e ] ].name();
         tmenu.addentry( e, true, -1, "[%s] %s",
                         ((parts[engines[e]].enabled) ? "x" : " ") , name.c_str() );
     }
@@ -1470,12 +1470,13 @@ bool vehicle::start_engine( const int e )
     if( !is_engine_on( e ) ) { return false; }
 
     const vpart_info &einfo = part_info( engines[e] );
+    const vehicle_part &eng = parts[ engines[ e ] ];
 
     if( !fuel_left( einfo.fuel_type ) ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             add_msg( _("The %s's mechanism is out of reach!"), name.c_str() );
         } else {
-            add_msg( _("Looks like the %1$s is out of %2$s."), einfo.name.c_str(),
+            add_msg( _("Looks like the %1$s is out of %2$s."), eng.name().c_str(),
                 item::nname( einfo.fuel_type ).c_str() );
         }
         return false;
@@ -1499,7 +1500,7 @@ bool vehicle::start_engine( const int e )
         if( engine_power >= 50 ) {
             const int penalty = ((engine_power * dmg) / 2) + ((engine_power * cold_factor) / 5);
             if( discharge_battery( (engine_power + penalty) / 10, true ) != 0 ) {
-                add_msg( _("The %s makes a rapid clicking sound."), einfo.name.c_str() );
+                add_msg( _("The %s makes a rapid clicking sound."), eng.name().c_str() );
                 return false;
             }
         }
@@ -1507,9 +1508,9 @@ bool vehicle::start_engine( const int e )
         // Damaged engines have a chance of failing to start
         if( x_in_y( dmg * 100, 120 - (20 * cold_factor) ) ) {
             if( one_in( 2 ) ) {
-                add_msg( _("The %s makes a deep clunking sound."), einfo.name.c_str() );
+                add_msg( _("The %s makes a deep clunking sound."), eng.name().c_str() );
             } else {
-                add_msg( _("The %s makes a terrible clanking sound."), einfo.name.c_str() );
+                add_msg( _("The %s makes a terrible clanking sound."), eng.name().c_str() );
             }
             return false;
         }
@@ -2706,19 +2707,8 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 
         const vehicle_part& vp = parts[ pl [ i ] ];
 
-        std::string partname;
-        if( vp.base.engine_displacement() > 0 ) {
-            //~ 2.8L engine
-            partname = string_format( _( "%2.1fL %s" ), vp.base.engine_displacement() / 100.0, vp.info().name.c_str() );
+        std::string partname = vp.name();
 
-        } else if (part_flag(pl[i], "VARIABLE_SIZE") && part_flag(pl[i], "WHEEL")) {
-            //~ 14" wheel
-            partname = string_format(_("%d\" %s"),
-                                     parts[pl[i]].bigness,
-                                     part_info(pl[i]).name.c_str());
-        } else {
-            partname = part_info(pl[i]).name;
-        }
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ), max_volume( pl[i] ) );
@@ -4746,11 +4736,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( turns_stunned > 0 ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s and stuns it!"),
-                         name.c_str(), part_info(ret.part).name.c_str(), ret.target_name.c_str());
+                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
             } else {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - NPC or monster
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s!"),
-                         name.c_str(), part_info(ret.part).name.c_str(), ret.target_name.c_str());
+                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
             }
         }
 
@@ -4764,11 +4754,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( snd.length() > 0 ) {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name, 4$s - sound message
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s with a %4$s"),
-                         name.c_str(), part_info(ret.part).name.c_str(), ret.target_name.c_str(), snd.c_str());
+                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str(), snd.c_str());
             } else {
                 //~ 1$s - vehicle name, 2$s - part name, 3$s - collision object name
                 add_msg (m_warning, _("Your %1$s's %2$s rams into %3$s."),
-                         name.c_str(), part_info(ret.part).name.c_str(), ret.target_name.c_str());
+                         name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
             }
         }
 
@@ -4879,10 +4869,10 @@ void vehicle::handle_trap( const tripoint &p, int part )
     if( g->u.sees(p) ) {
         if( g->u.knows_trap( p ) ) {
             add_msg(m_bad, _("The %1$s's %s runs over %2$s."), name.c_str(),
-                    part_info(part).name.c_str(), tr.name.c_str() );
+                    parts[ part ].name().c_str(), tr.name.c_str() );
         } else {
             add_msg(m_bad, _("The %1$s's %2$s runs over something."), name.c_str(),
-                    part_info(part).name.c_str() );
+                    parts[ part ].name().c_str() );
         }
     }
     if (noise > 0) {
@@ -5138,7 +5128,7 @@ void vehicle::gain_moves()
             }
             bool success = fire_turret( p, false );
             if( !success && parts[p].target.first != parts[p].target.second ) {
-                add_msg( m_bad, _("%s failed to fire! It isn't loaded and/or powered."), part_info( p ).name.c_str() );
+                add_msg( m_bad, _("%s failed to fire! It isn't loaded and/or powered."), parts[ p ].name().c_str() );
             }
             // Clear manual target
             parts[p].target.second = parts[p].target.first;
@@ -5653,14 +5643,14 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                             //Tearing off a broken part - break it up
                             if(g->u.sees( pos )) {
                                 add_msg(m_bad, _("The %s's %s breaks into pieces!"), name.c_str(),
-                                        part_info(parts_in_square[index]).name.c_str());
+                                        parts[ parts_in_square[ index ] ].name().c_str() );
                             }
                             break_part_into_pieces(parts_in_square[index], pos.x, pos.y, true);
                         } else {
                             //Intact (but possibly damaged) part - remove it in one piece
                             if(g->u.sees( pos )) {
                                 add_msg(m_bad, _("The %1$s's %2$s is torn off!"), name.c_str(),
-                                        part_info(parts_in_square[index]).name.c_str());
+                                        parts[ parts_in_square[ index ] ].name().c_str() );
                             }
                             item part_as_item = parts[parts_in_square[index]].properties_to_item();
                             tripoint dest( pos, smz );
@@ -5676,7 +5666,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                 if(can_unmount(p)) {
                     if(g->u.sees( pos )) {
                         add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
-                                name.c_str(), part_info(p).name.c_str());
+                                name.c_str(), parts[ p ].name().c_str() );
                     }
                     break_part_into_pieces(p, pos.x, pos.y, true);
                     remove_part(p);
@@ -5685,7 +5675,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                 //Just break it off
                 if(g->u.sees( pos )) {
                     add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
-                                    name.c_str(), part_info(p).name.c_str());
+                                    name.c_str(), parts[ p ].name().c_str() );
                 }
                 break_part_into_pieces(p, pos.x, pos.y, true);
                 remove_part(p);
@@ -6020,7 +6010,7 @@ void vehicle::control_turrets() {
             } else {
                 sym = 'x';
             }
-            pmenu.addentry( i, true, MENU_AUTOASSIGN, "[%c] %s", sym, part_info( p ).name.c_str() );
+            pmenu.addentry( i, true, MENU_AUTOASSIGN, "[%c] %s", sym, parts[ p ].name().c_str() );
         }
 
         pmenu.addentry( turrets.size(), true, 'q', _("Finish") );
@@ -6073,7 +6063,7 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     }
 
     if( only_manual_modes ) {
-        const char *name = part_info( p ).name.c_str();
+        const char *name = parts[ p ].name().c_str();
         if( tr.mode < -1 ) {
             add_msg( m_info, _("Setting turret %s to burst mode."), name );
         } else if( tr.mode == -1 ) {
@@ -6326,7 +6316,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
     npc tmp;
     tmp.set_fake( true );
     tmp.add_effect( effect_on_roof, 1 );
-    tmp.name = rmp_format(_("<veh_player>The %s"), part_info(p).name.c_str());
+    tmp.name = rmp_format( _( "<veh_player>The %s" ), parts[ p ].name().c_str() );
     tmp.skillLevel( gun.gun_skill() ).level( 8 );
     tmp.skillLevel( skill_id( "gun" ) ).level(4);
     tmp.recoil = abs(velocity) / 100 / 4;
@@ -6379,7 +6369,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
 
     // notify player if player can see the shot
     if( g->u.sees( pos ) ) {
-        add_msg(_("The %1$s fires its %2$s!"), name.c_str(), part_info(p).name.c_str());
+        add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), parts[ p ].name().c_str() );
     }
     // Spawn a fake UPS to power any turreted weapons that need electricity.
     item tmp_ups( "fake_UPS", 0 );
@@ -6469,7 +6459,7 @@ void vehicle::open(int part_index)
 {
   if(!part_info(part_index).has_flag("OPENABLE")) {
     debugmsg("Attempted to open non-openable part %d (%s) on a %s!", part_index,
-               parts[part_index].info().name.c_str(), name.c_str());
+               parts[ part_index ].name().c_str(), name.c_str());
   } else {
     open_or_close(part_index, true);
   }
@@ -6484,7 +6474,7 @@ void vehicle::close(int part_index)
 {
   if(!part_info(part_index).has_flag("OPENABLE")) {
     debugmsg("Attempted to close non-closeable part %d (%s) on a %s!", part_index,
-               parts[part_index].info().name.c_str(), name.c_str());
+               parts[ part_index ].name().c_str(), name.c_str());
   } else {
     open_or_close(part_index, false);
   }
@@ -6838,6 +6828,18 @@ item vehicle_part::properties_to_item() const
     }
 
     return tmp;
+}
+
+std::string vehicle_part::name() const {
+    if( base.engine_displacement() > 0 ) {
+        //~ 2.8L engine
+        return string_format( _( "%2.1fL %s" ), base.engine_displacement() / 100.0, info().name().c_str() );
+    } else if( has_flag( VPFLAG_VARIABLE_SIZE ) && has_flag( VPFLAG_WHEEL ) ) {
+        //~ 14" wheel
+        return string_format( _( "%d\" %s" ), bigness, info().name().c_str() );
+    } else {
+        return info().name();
+    }
 }
 
 const vpart_info &vehicle_part::info() const

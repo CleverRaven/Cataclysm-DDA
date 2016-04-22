@@ -65,7 +65,7 @@ veh_interact::veh_interact ()
 
     // Only build the shapes map and the wheel list once
     for( auto vp : vpart_info::get_all() ) {
-        vpart_shapes[vp->name+vp->item].push_back( vp );
+        vpart_shapes[ vp->name() + vp->item ].push_back( vp );
         if( vp->has_flag( "WHEEL" ) ) {
             wheel_types.push_back( vp );
         }
@@ -797,13 +797,13 @@ void veh_interact::do_install()
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
-                const auto &shapes = vpart_shapes[sel_vpart_info->name+sel_vpart_info->item];
+                const auto &shapes = vpart_shapes[ sel_vpart_info->name() + sel_vpart_info->item ];
                 int selected_shape = -1;
                 if ( shapes.size() > 1 ) { // more than one shape available, display selection
                     std::vector<uimenu_entry> shape_ui_entries;
                     for ( size_t i = 0; i < shapes.size(); i++ ) {
                         uimenu_entry entry = uimenu_entry( i, true, UIMENU_INVALID,
-                                                           shapes[i]->name );
+                                                           shapes[i]->name() );
                         entry.extratxt.left = 1;
                         entry.extratxt.sym = special_symbol( shapes[i]->sym );
                         entry.extratxt.color = shapes[i]->color;
@@ -1022,7 +1022,7 @@ void veh_interact::do_refill()
             const vpart_info &vpinfo = ptanks[entry_num]->info();
             fuel_choose.addentry(entry_num, true, -1, "%s -> %s",
                                  item::nname(vpinfo.fuel_type).c_str(),
-                                 vpinfo.name.c_str());
+                                 ptanks[ entry_num ]->name().c_str());
         }
         fuel_choose.addentry(entry_num, true, 'q', _("Cancel"));
         fuel_choose.query();
@@ -1404,7 +1404,7 @@ void veh_interact::move_cursor (int dx, int dy)
         for( auto vp : vpart_info::get_all() ) {
             if( veh->can_mount( vdx, vdy, vp->id ) ) {
                 const vpart_info &vpi = *vp;
-                if ( vpi.id != vpart_shapes[vpi.name+vpi.item][0]->id )
+                if ( vpi.id != vpart_shapes[ vpi.name()+ vpi.item][0]->id )
                     continue; // only add first shape to install list
                 if (can_currently_install(vpi)) {
                     can_mount.insert( can_mount.begin() + divider_index++, &vpi );
@@ -1680,7 +1680,7 @@ void veh_interact::display_stats()
         vehicle_part part = veh->parts[mostDamagedPart];
         int damagepercent = 100 * part.hp / info.durability;
         nc_color damagecolor = getDurabilityColor(damagepercent);
-        partName = info.name;
+        partName = veh->parts[mostDamagedPart].name();
         const auto hoff = fold_and_print(w_stats, y[6], x[6], w[6], damagecolor, partName);
         // If fold_and_print did write on the next line(s), shift the following entries,
         // hoff == 1 is already implied and expected - one line is consumed at least.
@@ -1828,7 +1828,7 @@ void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list,
         const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
         nc_color col = can_currently_install( info ) ? c_white : c_dkgray;
-        mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, info.name.c_str());
+        mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, info.name().c_str());
         mvwputch (w_list, y, 1, info.color, special_symbol(info.sym));
     }
     wrefresh (w_list);
@@ -1882,8 +1882,7 @@ void veh_interact::display_details( const vpart_info *part )
     bool small_mode = column_width < 20 ? true : false;
 
     // line 0: part name
-    fold_and_print(w_details, line, col_1, details_w, c_ltgreen,
-                   part->name);
+    fold_and_print( w_details, line, col_1, details_w, c_ltgreen, part->name() );
 
     // line 1: (column 1) durability   (column 2) damage mod
     fold_and_print(w_details, line+1, col_1, column_width, c_white,
@@ -2098,10 +2097,10 @@ item consume_vpart_item( const vpart_str_id &vpid )
             const vpart_info &info = vpid.obj();
             if( candidate ) {
                 // In inventory.
-                options.push_back(info.name);
+                options.emplace_back( info.name() );
             } else {
                 // Nearby.
-                options.push_back(info.name + _(" (nearby)"));
+                options.emplace_back( info.name() + _(" (nearby)" ) );
             }
         }
         selection = menu_vec(false, _("Use which gizmo?"), options);
@@ -2367,8 +2366,8 @@ void complete_vehicle ()
             veh->parts[partnum].direction = dir;
         }
 
-        add_msg (m_good, _("You install a %1$s into the %2$s."),
-                 vpinfo.name.c_str(), veh->name.c_str());
+        add_msg( m_good, _("You install a %1$s into the %2$s." ), veh->parts[ partnum ].name().c_str(), veh->name.c_str() );
+
         // easy parts don't train
         if (!is_hand_remove) {
             g->u.practice( skill_mechanics, vpinfo.difficulty * 5 + ((is_wood || is_wrenchable || is_screwable) ? 20 : 40) );
@@ -2379,7 +2378,7 @@ void complete_vehicle ()
         veh->last_repair_turn = calendar::turn;
         double dmg = 1.0;
 
-        std::string name = veh->part_info( vehicle_part ).name;
+        std::string name = veh->parts[ vehicle_part ].name();
 
         if( veh->parts[vehicle_part].hp <= 0 ) {
             // replacing a broken part
@@ -2459,13 +2458,11 @@ void complete_vehicle ()
             g->m.destroy_vehicle (veh);
         } else {
             if (broken) {
-                add_msg(_("You remove the broken %1$s from the %2$s."),
-                        veh->part_info(vehicle_part).name.c_str(),
-                        veh->name.c_str());
+                add_msg( _( "You remove the broken %1$s from the %2$s." ),
+                         veh->parts[ vehicle_part ].name().c_str(), veh->name.c_str() );
             } else {
-                add_msg(_("You remove the %1$s from the %2$s."),
-                        veh->part_info(vehicle_part).name.c_str(),
-                        veh->name.c_str());
+                add_msg( _( "You remove the %1$s from the %2$s." ),
+                         veh->parts[ vehicle_part ].name().c_str(), veh->name.c_str() );
             }
             veh->remove_part (vehicle_part);
             veh->part_removal_cleanup();
@@ -2487,9 +2484,6 @@ void complete_vehicle ()
             removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
-            add_msg( _("You replace one of the %1$s's tires with a %2$s."),
-                     veh->name.c_str(), vpinfo.name.c_str() );
-
             partnum = veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
             if( partnum < 0 ) {
                 debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
@@ -2498,6 +2492,8 @@ void complete_vehicle ()
             if ( !broken ) {
                 g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
             }
+            add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
+                     veh->name.c_str(), veh->parts[ partnum ].name().c_str() );
         }
         break;
     }
