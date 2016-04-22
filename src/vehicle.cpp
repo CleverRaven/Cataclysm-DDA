@@ -548,9 +548,19 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             } else {
                 parts[p].hp= part_info(p).durability;
             }
-            if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
+
+            if( part_flag( p, VPFLAG_ENGINE ) ) {
+                // If possible set an engine fault rather than destroying the engine outright
+                if( one_in( 2 ) && !parts[ p ].faults_potential().empty() ) {
+                    do {
+                        parts[ p ].fault_set( random_entry( parts[ p ].faults_potential() ) );
+                    } while( one_in( 2 ) );
+                } else {
+                    parts[ p ].hp = 0;
+                }
+
+            } else if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
                 (destroyControls && (part_flag(p, "CONTROLS") || part_flag(p, "SECURITY"))) ||
-                (destroyEngine && part_flag(p, "ENGINE")) ||
                 (destroyTires && part_flag(p, VPFLAG_WHEEL)) ||
                 (destroyAlarm && part_flag(p, "SECURITY"))) {
                 parts[p].hp = 0;
@@ -6831,15 +6841,39 @@ item vehicle_part::properties_to_item() const
 }
 
 std::string vehicle_part::name() const {
+    auto res = info().name();
+
     if( base.engine_displacement() > 0 ) {
-        //~ 2.8L engine
-        return string_format( _( "%2.1fL %s" ), base.engine_displacement() / 100.0, info().name().c_str() );
+        res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
+
     } else if( has_flag( VPFLAG_VARIABLE_SIZE ) && has_flag( VPFLAG_WHEEL ) ) {
-        //~ 14" wheel
-        return string_format( _( "%d\" %s" ), bigness, info().name().c_str() );
-    } else {
-        return info().name();
+        res.insert( 0, string_format( _( "%d\"" ), bigness ) );
     }
+
+    if( base.is_faulty() ) {
+        res += ( _( " (faulty)" ) );
+    }
+
+    return res;
+}
+
+const std::set<fault_id>& vehicle_part::faults() const
+{
+    return base.faults;
+}
+
+const std::set<fault_id>& vehicle_part::faults_potential() const
+{
+    return base.type->faults;
+}
+
+bool vehicle_part::fault_set( const fault_id &f )
+{
+    if( !faults_potential().count( f ) ) {
+        return false;
+    }
+    base.faults.insert( f );
+    return true;
 }
 
 const vpart_info &vehicle_part::info() const
