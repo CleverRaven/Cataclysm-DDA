@@ -97,6 +97,9 @@ struct islot_comestible
     /** @todo add documentation */
     int healthy = 0;
 
+    /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
+    int parasites = 0;
+
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
 

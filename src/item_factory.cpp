@@ -266,11 +266,6 @@ void Item_factory::init()
 {
     //Populate the iuse functions
     iuse_function_list["NONE"] = use_function();
-    iuse_function_list["RAW_MEAT"] = &iuse::raw_meat;
-    iuse_function_list["RAW_FAT"] = &iuse::raw_fat;
-    iuse_function_list["RAW_BONE"] = &iuse::raw_bone;
-    iuse_function_list["RAW_FISH"] = &iuse::raw_fish;
-    iuse_function_list["RAW_WILDVEG"] = &iuse::raw_wildveg;
     iuse_function_list["SEWAGE"] = &iuse::sewage;
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
@@ -1056,6 +1051,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     assign( jo, "fun", slot.fun );
     assign( jo, "stim", slot.stim );
     assign( jo, "healthy", slot.healthy );
+    assign( jo, "parasites", slot.parasites );
 
     if( jo.read( "spoils_in", slot.spoils ) ) {
         slot.spoils *= 600; // JSON specifies hours so convert to turns
