@@ -562,6 +562,13 @@ void Item_factory::check_definitions() const
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
+
+        for( const auto& f : type->faults ) {
+            if( !f.is_valid() ) {
+                msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
+            }
+        }
+
         if( type->comestible ) {
             if( type->comestible->tool != "null" ) {
                 auto req_tool = find_template( type->comestible->tool );
@@ -869,11 +876,11 @@ typename std::enable_if<std::is_same<T, std::string>::value, bool>::type assign(
 }
 
 template <typename T>
-typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, T& val ) {
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    JsonObject &jo, const std::string& name, std::set<T>& val ) {
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags( name );
+        val = jo.get_tags<T>( name );
         return true;
     }
 
@@ -881,14 +888,14 @@ typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::ty
 
     auto add = jo.get_object( "extend" );
     if( add.has_string( name ) || add.has_array( name ) ) {
-        auto tags = add.get_tags( name );
+        auto tags = add.get_tags<T>( name );
         val.insert( tags.begin(), tags.end() );
         res = true;
     }
 
     auto del = jo.get_object( "delete" );
     if( del.has_string( name ) || del.has_array( name ) ) {
-        for( const auto& e : del.get_tags( name ) ) {
+        for( const auto& e : del.get_tags<T>( name ) ) {
             val.erase( e );
         }
         res = true;
@@ -916,6 +923,20 @@ void Item_factory::load_ammo(JsonObject &jo)
     auto def = load_definition( jo );
     if( def) {
         load_slot( def->ammo, jo );
+        load_basic_info( jo, def );
+    }
+}
+
+void Item_factory::load( islot_engine &slot, JsonObject &jo )
+{
+    assign( jo, "displacement", slot.displacement );
+}
+
+void Item_factory::load_engine( JsonObject &jo )
+{
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->engine, jo );
         load_basic_info( jo, def );
     }
 }
@@ -1234,8 +1255,6 @@ void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
     const std::string big_aspect = jo.get_string( "bigness-aspect" );
     if( big_aspect == "WHEEL_DIAMETER" ) {
         slot.bigness_aspect = BIGNESS_WHEEL_DIAMETER;
-    } else if( big_aspect == "ENGINE_DISPLACEMENT" ) {
-        slot.bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
     } else {
         jo.throw_error( "invalid bigness-aspect", "bigness-aspect" );
     }
@@ -1421,6 +1440,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     if( jo.has_member( "category" ) ) {
         new_item_template->category = get_category( jo.get_string( "category" ) );
     }
+
+    assign( jo, "faults", new_item_template->faults );
 
     load_slot_optional( new_item_template->container, jo, "container_data" );
     load_slot_optional( new_item_template->armor, jo, "armor_data" );

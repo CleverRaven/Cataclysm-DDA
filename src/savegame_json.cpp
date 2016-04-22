@@ -1439,6 +1439,7 @@ void item::io( Archive& archive )
     archive.io( "rot", rot, 0 );
     archive.io( "last_rot_check", last_rot_check, 0 );
     archive.io( "techniques", techniques, io::empty_default_tag() );
+    archive.io( "faults", faults, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
     archive.io( "components", components, io::empty_default_tag() );
@@ -1534,11 +1535,22 @@ void vehicle_part::deserialize(JsonIn &jsin)
             data.throw_error( "bad vehicle part", "id" );
         }
     }
-    set_id(pid);
+    id = pid;
+
+    if( data.has_object( "base" ) ) {
+        data.read("base", base);
+    } else {
+        // handle legacy format which didn't include the base item
+        base = item( id.obj().item );
+    }
+
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );
     data.read("amount", amount );
+    data.read("open", open );
+    data.read("direction", direction );
+    data.read("mode", mode );
     data.read("blood", blood );
     data.read("bigness", bigness );
     data.read("enabled", enabled );
@@ -1558,10 +1570,14 @@ void vehicle_part::serialize(JsonOut &json) const
     json.start_object();
     // TODO: the json classes should automatically convert the int-id to the string-id and the inverse
     json.member("id", id.id().str());
+    json.member("base", base);
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
     json.member("hp", hp);
     json.member("amount", amount);
+    json.member("open", open );
+    json.member("direction", direction );
+    json.member("mode", mode );
     json.member("blood", blood);
     json.member("bigness", bigness);
     json.member("enabled", enabled);

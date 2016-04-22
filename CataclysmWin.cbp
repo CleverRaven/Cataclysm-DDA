@@ -421,6 +421,8 @@
 		<Unit filename="src/event.h" />
 		<Unit filename="src/faction.cpp" />
 		<Unit filename="src/faction.h" />
+		<Unit filename="src/fault.cpp" />
+		<Unit filename="src/fault.h" />
 		<Unit filename="src/field.cpp" />
 		<Unit filename="src/field.h" />
 		<Unit filename="src/filesystem.cpp" />
