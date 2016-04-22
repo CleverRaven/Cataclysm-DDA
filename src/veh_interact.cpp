@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "cata_utility.h"
 #include "vehicle_selector.h"
+#include "fault.h"
 
 #include <cmath>
 #include <list>
@@ -936,31 +937,51 @@ void veh_interact::do_repair()
         werase (w_parts);
         veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, need_repair[pos]);
         wrefresh (w_parts);
-        werase (w_msg);
-        bool has_comps = true;
-        int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
+
+        const itype_id itm = sel_vpart_info->item;
+        bool has_comps = crafting_inv.has_components( itm, 1 );
+
         ///\EFFECT_MECHANICS determines which vehicle parts can be replaced
+        int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
         bool has_skill = g->u.skillLevel( skill_mechanics ) >= dif;
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                       _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
-                       has_skill ? "ltgreen" : "red",
-                       dif);
-        if (sel_vehicle_part->hp <= 0) {
-            itype_id itm = sel_vpart_info->item;
-            has_comps = crafting_inv.has_components(itm, 1);
-            fold_and_print(w_msg, 1, 1, msg_width - 2, c_ltgray,
-                           _("You also need a <color_%1$s>wrench</color> and <color_%2$s>%3$s</color> to replace broken one."),
-                           has_wrench ? "ltgreen" : "red",
-                           has_comps ? "ltgreen" : "red",
-                           item::nname( itm ).c_str());
+
+        werase( w_list );
+        int y = 1;
+        if( sel_vehicle_part->hp <= 0 ) {
+            y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray,
+                                 _( "This part is <color_red>destroyed</color>:" ) ) + 1;
+            y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray,
+                                 _( "You need level <color_%1$s>%2$d</color> skill in mechanics "
+                                    "plus a <color_%3$s>wrench</color> and <color_%3$s>%4$s</color> to replace it." ),
+                                    status_color( has_skill ), dif, status_color( has_wrench ),
+                                    status_color( has_comps ), item::nname( itm ).c_str() );
+
+        } else {
+            y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray,
+                                 _( "This part is <color_red>damaged</color>:" ) ) + 1;
+            y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray,
+                                 _( "You need level <color_%1$s>%2$d</color> skill in mechanics to repair it." ),
+                                 status_color( has_skill ), dif ) + 1;
+
+            if( !sel_vehicle_part->faults().empty() ) {
+                y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray, "---" ) + 1;
+                y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray,
+                                     _( "This part is <color_red>faulty</color>:" ) ) + 1;
+
+                for( const auto& e : sel_vehicle_part->faults() ) {
+                    y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_red, e.obj().name() );
+                    y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, e.obj().description() );
+                    y++;
+                }
+            }
         }
-        wrefresh (w_msg);
+        wrefresh( w_list );
+
         const std::string action = main_context.handle_input();
-        if ((action == "REPAIR" || action == "CONFIRM") &&
-            has_comps &&
-            (sel_vehicle_part->hp > 0 || has_wrench) && has_skill) {
+        if( ( action == "REPAIR" || action == "CONFIRM" ) &&
+            has_skill && ( sel_vehicle_part->hp > 0 || ( has_wrench && has_comps ) ) ) {
             sel_cmd = 'r';
-            return;
+            break;
         } else if (action == "QUIT") {
             werase (w_parts);
             veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
@@ -972,6 +993,8 @@ void veh_interact::do_repair()
             move_in_list(pos, action, need_repair.size());
         }
     }
+    werase( w_list );
+    wrefresh( w_list );
 }
 
 /**
@@ -1425,7 +1448,7 @@ void veh_interact::move_cursor (int dx, int dy)
         for (size_t i = 0; i < parts_here.size(); i++) {
             int p = parts_here[i];
             const vpart_info &vpinfo = veh->part_info( p );
-            if (veh->parts[p].hp < vpinfo.durability) {
+            if( veh->parts[ p ].hp < vpinfo.durability || !veh->parts[ p ].faults().empty() ) {
                 need_repair.push_back (i);
             }
             if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < vpinfo.size) {
