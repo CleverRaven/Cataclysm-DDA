@@ -316,6 +316,15 @@ Mods can modify this via "add:traits" and "remove:traits".
 "time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
+"autolearn" : [              // Automatically learned upon gaining listed skills
+    [ "survival", 2 ],
+    [ "fabrication", 3 ]
+],
+"decomp_learn" : 4,          // Can be learned by disassembling an item of same type as result at this level of the skill_used
+"decomp_learn" : [           // Can be learned by disassembling an item of same type as result at specified levels of skills
+    [ "survival", 1 ],
+    [ "fabrication", 2 ]
+],
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
