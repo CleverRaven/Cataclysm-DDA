@@ -71,19 +71,19 @@ struct islot_comestible
     long def_charges = 1;
 
     /** effect on character thirst (may be negative) */
-    int quench = 0; 
+    int quench = 0;
 
     /** effect on character nutrition (may be negative) */
     int nutr = 0;
 
     /** turns until becomes rotten, or zero if never spoils */
-    int spoils = 0; 
+    int spoils = 0;
 
     /** how many seasons for a brew to ferment */
     int brewtime = 0;
 
     /** addiction potential */
-    int addict = 0; 
+    int addict = 0;
 
     /** effects of addiction */
     add_type add = ADD_NULL;
@@ -161,7 +161,7 @@ struct islot_armor {
     /**
      * How much storage this items provides when worn.
      */
-    unsigned char storage = 0;
+    unsigned int storage = 0;
     /**
      * Whether this is a power armor item.
      */

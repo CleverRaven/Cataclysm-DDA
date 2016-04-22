@@ -264,13 +264,13 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
     wprintz(w_inv, c_ltgray, "/%-6.1f", convert_weight(g->u.weight_capacity()));
 
     // Print volume
-    mvwprintw(w_inv, 0, 61, _("Volume: "));
+    mvwprintw(w_inv, 0, 61, _("Volume (%s): "), volume_units());
     if (vol_carried > vol_capacity) {
-        wprintz(w_inv, c_red, "%3d", vol_carried);
+        wprintz(w_inv, c_red, "%.1f", convert_volume( vol_carried ) );
     } else {
-        wprintz(w_inv, c_ltgray, "%3d", vol_carried);
+        wprintz(w_inv, c_ltgray, "%.1f", convert_volume( vol_carried ) );
     }
-    wprintw(w_inv, "/%-3d", vol_capacity);
+    wprintw(w_inv, "/%-.1f", convert_volume( vol_capacity ) );
 }
 
 char invlet_or_space(const item &it)

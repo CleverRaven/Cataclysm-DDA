@@ -920,6 +920,14 @@ void options_manager::init()
                                          "lbs,kg", "lbs"
                                         );
 
+    optionNames["fl_oz"] = _("fl oz");
+    optionNames["gallon"] = _("gal");
+    optionNames["liter"] = _("ltr");
+    OPTIONS["USE_METRIC_VOLUME"] = cOpt("interface", _("Volume units"),
+                                        _("Switch between fluid ounce, gallon and liter."),
+                                        "fl_oz,gallon,liter", "fl_oz"
+                                       );
+
     //~ 12h time, e.g. 11:59pm
     optionNames["12h"] = _("12h");
     //~ Military time, e.g. 2359

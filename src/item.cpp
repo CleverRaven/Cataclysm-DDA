@@ -626,8 +626,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                             ( double )price_postapoc / 100, false, "$", true, true ) );
         }
 
-        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
-                                  true ) );
+        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
+                                  string_format( "<num> %s", volume_units() ),
+                                  convert_volume( volume() ), false, "", false, true ) );
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                   string_format( "<num> %s", weight_units() ),
@@ -1139,7 +1140,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       get_encumber(), true, "", false, true ) );
         }
 
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), "", get_storage() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), "", convert_volume( get_storage() ), false ) );
 
         info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), true, "",
                                   false ) );
@@ -2138,7 +2139,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string burntext = "";
     if (with_prefix && !made_of(LIQUID)) {
-        if (volume() >= 4 && burnt >= volume() * 2) {
+        if (convert_volume( volume() ) >= 1 && burnt >= convert_volume( volume() ) * 2) {
             burntext = rm_prefix(_("<burnt_adj>badly burnt "));
         } else if (burnt > 0) {
             burntext = rm_prefix(_("<burnt_adj>burnt "));
@@ -2431,9 +2432,9 @@ int item::weight() const
 int item::precise_unit_volume() const
 {
     if( count_by_charges() || made_of( LIQUID ) ) {
-        return get_var( "volume", type->volume ) * 1000 / type->stack_size;
+        return get_var( "volume", type->volume ) / type->stack_size;
     }
-    return volume() * 1000;
+    return volume();
 }
 
 int item::volume( bool integral ) const
@@ -2444,11 +2445,11 @@ int item::volume( bool integral ) const
 
     if( is_corpse() ) {
         switch( corpse->size ) {
-            case MS_TINY:    return    3;
-            case MS_SMALL:   return  120;
-            case MS_MEDIUM:  return  250;
-            case MS_LARGE:   return  370;
-            case MS_HUGE:    return 3500;
+            case MS_TINY:    return    750;
+            case MS_SMALL:   return  30000;
+            case MS_MEDIUM:  return  62500;
+            case MS_LARGE:   return  92500;
+            case MS_HUGE:    return 875000;
         }
         debugmsg( "unknown monster size for corpse" );
         return 0;
@@ -2482,7 +2483,7 @@ int item::volume( bool integral ) const
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", type->volume - type->gun->barrel_length );
-            if     ( tmpvol <=  3 ) ; // intentional NOP
+            if     ( tmpvol <=  7 ) ; // intentional NOP
             else if( tmpvol <=  5 ) ret -= 2;
             else if( tmpvol <=  6 ) ret -= 3;
             else if( tmpvol <=  8 ) ret -= 4;

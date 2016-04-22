@@ -252,6 +252,19 @@ const char *weight_units()
     return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
 }
 
+const char *volume_units()
+{
+    const std::string unit = OPTIONS["USE_METRIC_VOLUME"].getValue();
+
+    if ( unit == "liter" ) {
+        return _("ltr");
+    } else if ( unit == "gallon" ) {
+        return _("gal");
+    }
+
+    return _("fl oz");
+}
+
 /**
 * Convert internal velocity units to units defined by user
 */
@@ -271,6 +284,23 @@ double convert_velocity( int velocity, const units_type vel_units )
                 ret *= 0.447f;
                 break;
         }
+    }
+    return ret;
+}
+
+/**
+* Convert volume in milliliters to units defined by user (fl_oz, gallon or liter)
+*/
+double convert_volume( int volume )
+{
+    double ret;
+    ret = double( volume );
+    if( OPTIONS["USE_METRIC_VOLUME"] == "liter" ) {
+        ret /= 1000;
+    } else if( OPTIONS["USE_METRIC_VOLUME"] == "gallon" ) {
+        ret *= 0.00026417;
+    } else {
+        ret *= 0.0338135;
     }
     return ret;
 }

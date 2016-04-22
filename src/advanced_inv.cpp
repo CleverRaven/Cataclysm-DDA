@@ -228,8 +228,8 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         int hrightcol = columns -
                         to_string( convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
                         to_string( convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
-                        to_string( g->u.volume_carried() ).length() - 1 - //"xxx/"
-                        to_string( g->u.volume_capacity() ).length() - 1; //"xxx|"
+                        to_string( convert_volume( g->u.volume_carried() ) ).length() - 1 - //"xxx/"
+                        to_string( convert_volume( g->u.volume_capacity() ) ).length() - 1; //"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if( g->u.weight_carried() > g->u.weight_capacity() ) {
             color = c_red;
@@ -241,14 +241,14 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             color = c_ltgreen;
         }
-        wprintz( window, color, "%d", g->u.volume_carried() );
-        wprintz( window, c_ltgray, "/%d ", g->u.volume_capacity() );
+        wprintz( window, color, "%.1f", convert_volume( g->u.volume_carried() ) );
+        wprintz( window, c_ltgray, "/%.1f ", convert_volume( g->u.volume_capacity() ) );
     } else { //print square's current and total weight + volume
         std::string head;
         if( pane.get_area() == AIM_ALL ) {
-            head = string_format( "%3.1f %3d",
+            head = string_format( "%.1f %.1f",
                                   convert_weight( squares[pane.get_area()].weight ),
-                                  squares[pane.get_area()].volume );
+                                  convert_volume( squares[pane.get_area()].volume ) );
         } else {
             int maxvolume = 0;
             auto &s = squares[pane.get_area()];
@@ -259,7 +259,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %3d/%3d", convert_weight( s.weight ), s.volume, maxvolume );
+            head = string_format( "%.1f %.1f/%.1f", convert_weight( s.weight ),
+                                                    convert_volume( s.volume ),
+                                                    convert_volume( maxvolume ) );
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
     }
@@ -363,11 +365,11 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         //print volume column
         int it_vol = sitem.volume;
         print_color = ( it_vol > 0 ) ? thiscolor : thiscolordark;
-        if( it_vol > 9999 ) {
-            it_vol = 9999;
+        if( it_vol > 9999999 ) {
+            it_vol = 9999999;
             print_color = selected ? hilite( c_red ) : c_red;
         }
-        mvwprintz( window, 6 + x, vol_startpos, print_color, "%4d", it_vol );
+        mvwprintz( window, 6 + x, vol_startpos, print_color, "%.1f", convert_volume( it_vol ) );
 
         if( active && sitem.autopickup ) {
             mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ), "%s",
@@ -2017,7 +2019,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     advanced_inv_area &p = squares[destarea];
     const bool by_charges = it.count_by_charges();
     const int unitvolume = it.precise_unit_volume();
-    const int free_volume = 1000 * p.free_volume( panes[dest].in_vehicle() );
+    const int free_volume = p.free_volume( panes[dest].in_vehicle() );
     // default to move all, unless if being equipped
     const long input_amount = by_charges ? it.charges :
             (action == "MOVE_SINGLE_ITEM") ? 1 : sitem.stacks;
