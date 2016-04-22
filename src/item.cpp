@@ -426,7 +426,7 @@ bool item::stacks_with( const item &rhs ) const
     if( item_tags != rhs.item_tags ) {
         return false;
     }
-    if( faults != faults ) {
+    if( faults != rhs.faults ) {
         return false;
     }
     if( techniques != rhs.techniques ) {
