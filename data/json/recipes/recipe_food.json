@@ -4374,14 +4374,14 @@
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 5,
-  "time": 30000,
+  "time": 45000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_maple", 5 ]],
   "qualities":[
-    {"id":"BUTCHER","level":20,"amount":1},
-    {"id":"COOK","level":3,"amount":1},
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"BUTCHER","level":20},
+    {"id":"COOK","level":3},
+    {"id":"CUT","level":1}
   ], "tools": [
     [
       [ "hotplate", 4 ],
@@ -4396,6 +4396,9 @@
     ],
     [
       [ "meat", 2 ]
+    ],
+    [
+      [ "cooking_oil", 1 ]
     ],
     [
       ["veggy", 1],
@@ -4434,7 +4437,53 @@
       [ "garlic", 1 ],
       [ "seed_garlic", 6 ],
       [ "thyme", 2 ],
-      [ "wild_herbs", 10 ]
+      [ "wild_herbs", 10 ],
+      [ "mustard", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "maple_sausage",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_maple", 4 ]],
+  "batch_time_factors": [ 83, 3 ],
+  "qualities" : [
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":1}
+  ],
+  "tools" : [
+    [
+      [ "char_smoker", 20 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "syrup", 1 ]
+    ],
+    [
+      [ "meat", 2 ],
+      [ "rehydrated_meat", 4 ],
+      [ "meat_canned", 4 ],
+      [ "can_chicken", 4 ]
+    ],
+    [
+      [ "fat", 2 ],
+      [ "tallow", 2 ],
+      [ "lard", 2 ]
+    ],
+    [
+      [ "salt", 10 ],
+      [ "soysauce", 1 ],
+      [ "seasoning_italian", 10 ],
+      [ "wild_herbs", 10 ],
+      [ "seasoning_salt", 10 ],
+      [ "pepper", 10 ]
     ]
   ]
 },{
@@ -6534,6 +6583,45 @@
       [ "human_flesh", 1],
       [ "rehydrated_hflesh", 2 ],
       [ "dry_hflesh", 2 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pie_maple",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_SNACK",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+     {"id":"BOIL","level":2},
+     {"id":"COOK","level":2}
+  ],
+  "tools": [
+    [
+      [ "hotplate", 6 ],
+      [ "char_smoker", 6 ],
+      [ "toolset", 6 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "flour", 2 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ],
+      [ "con_milk", 1 ]
+    ],
+    [
+      [ "syrup", 5 ]
     ],
     [
       [ "water", 1 ],

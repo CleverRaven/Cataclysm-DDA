@@ -5054,7 +5054,7 @@
         "material" : "junk",
         "volume" : 0,
         "charges" : 3,
-        "fun" : 6
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -5075,7 +5075,7 @@
         "material" : "junk",
         "volume" : 0,
         "charges" : 2,
-        "fun" : 8
+        "fun" : 10
     },
     {
         "type" : "COMESTIBLE",
@@ -5096,7 +5096,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "fun" : 8
+        "fun" : 12
     },
     {
         "type" : "COMESTIBLE",
@@ -5110,13 +5110,33 @@
         "quench" : 3,
         "healthy" : 2,
         "nutrition" : 65,
-        "description" : "A tender piece of meat perfectly seasoned with a thin maple syrup glaze with its veggie accompaniments.  A gourmet dish that is both healty, sweet and delicious.",
+        "description" : "A tender piece of meat perfectly seasoned with a thin maple syrup glaze and its veggie accompaniments.  A gourmet dish that is both healthy, sweet and delicious.",
         "price" : 4000,
         "material" : ["flesh", "veggy"],
         "volume" : 4,
         "charges" : 4,
         "flags" : ["EATEN_HOT"],
         "fun" : 18
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "maple_sausage",
+        "name" : "maple breakfast sausage",
+        "name_plural" : "maple breakfast sausages",
+        "weight" : 220,
+        "color" : "brown",
+        "spoils_in" : 240,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 0,
+        "nutrition" : 38,
+        "description" : "A sweet and delicious sausage usually served for breakfast.",
+        "price" : 2400,
+        "material" : "flesh",
+        "volume" : 2,
+        "charges" : 4,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -8599,7 +8619,7 @@
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 5,
-        "fun" : 3
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -8743,6 +8763,28 @@
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "pie_maple",
+        "name" : "maple pie",
+        "weight" : 252,
+        "color" : "brown",
+        "spoils_in" : 72,
+        "stim" : 2,
+        "container" : "box_small",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 4,
+        "healthy" : -1,
+        "nutrition" : 16,
+        "description" : "A sweet and delicious baked pie with pur maple syrup.",
+        "price" : 1850,
+        "material" : ["wheat", "milk"],
+        "volume" : 5,
+        "charges" : 6,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
