@@ -15,7 +15,6 @@
         "to_hit" : -1,
         "max_charges": 30,
         "charges_per_use": 15,
-        "turns_per_charge": 0,
         "ammo": "essence_dull_type",
         "use_action" : "ARTIFACT",
         "artifact_data" : {
@@ -43,7 +42,6 @@
         "weight" : 210,
         "volume": 4,
         "max_charges": 12,
-        "turns_per_charge": 0,
         "ammo": "essence_dull_type",
         "use_action": {
             "type": "transform",
@@ -110,7 +108,6 @@
         "to_hit" : -5,
         "max_charges": 16,
         "charges_per_use": 4,
-        "turns_per_charge": 0,
         "ammo": "essence_blood_type",
         "use_action" : "ARTIFACT",
         "artifact_data" : {
@@ -139,7 +136,6 @@
         "to_hit" : -1,
         "max_charges": 6,
         "charges_per_use": 2,
-        "turns_per_charge": 0,
         "ammo": "essence_blood_type",
         "use_action" : {
             "type" : "consume_drug",
@@ -179,7 +175,6 @@
         "to_hit" : -5,
         "max_charges": 20,
         "charges_per_use": 1,
-        "turns_per_charge": 0,
         "ammo": "essence_type",
         "use_action": {
             "type": "transform",
@@ -246,7 +241,6 @@
         "to_hit" : -2,
         "max_charges": 4,
         "charges_per_use": 1,
-        "turns_per_charge": 0,
         "ammo": "essence_type",
         "use_action" : "TAZER",
         "covers" : ["HANDS"],
@@ -268,7 +262,6 @@
         "weight" : 10,
         "max_charges": 8,
         "charges_per_use": 8,
-        "turns_per_charge": 0,
         "ammo": "essence_type",
         "use_action" : {
             "type" : "consume_drug",

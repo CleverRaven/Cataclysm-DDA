@@ -15,7 +15,6 @@
     "to_hit": -1,
     "max_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "tinder",
     "use_action": "HOTPLATE"
   },{
@@ -66,7 +65,6 @@
     "max_charges": 2000,
     "initial_charges": 2000,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "use_action": {
       "type": "extended_firestarter"
     }
@@ -82,7 +80,6 @@
     "weight": 500,
     "volume": 2,
     "max_charges": 100,
-    "turns_per_charge": 0,
     "ammo": "tinder",
     "use_action": {
       "type": "transform",
@@ -202,7 +199,6 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
     "flags": ["CHOP"]
@@ -366,7 +362,6 @@
     "volume": 7,
     "bashing": 1,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "use_action": {
       "type": "delayed_transform",
       "transform_age": 28800, "//": "2 days",
@@ -392,7 +387,6 @@
     "volume": 14,
     "bashing": 2,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "use_action": {
       "type": "delayed_transform",
       "transform_age": 36000, "//": "2 and a half days",
@@ -418,7 +412,6 @@
     "volume": 21,
     "bashing": 3,
     "to_hit": -1,
-    "turns_per_charge": 0,
     "use_action": {
       "type": "delayed_transform",
       "transform_age": 43200, "//": "3 days",
@@ -489,7 +482,6 @@
     "max_charges": 50,
     "initial_charges": 50,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "esbit",
     "use_action": "HOTPLATE"
   },{
@@ -593,7 +585,6 @@
     "bashing": 11,
     "cutting": 8,
     "flags" : ["CHOP"],
-    "turns_per_charge": 0,
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
   },{
@@ -609,7 +600,6 @@
     "volume": 16,
     "bashing": 15,
     "cutting": 1,
-    "turns_per_charge": 0,
     "qualities": [["DIG", 2]],
     "use_action": "DIG"
   },{
@@ -640,7 +630,6 @@
         "need_sunlight": true
       }
     ],
-    "turns_per_charge": 0,
     "flags": ["THERMOMETER", "LENS"]
   },{
     "id": "mortar_pestle",
@@ -655,7 +644,6 @@
     "weight": 1632,
     "volume": 4,
     "bashing": 3,
-    "to_hit": -4,
-    "turns_per_charge": 0
+    "to_hit": -4
   }
 ]

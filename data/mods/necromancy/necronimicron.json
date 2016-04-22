@@ -11,7 +11,6 @@
     "weight": 100,
     "volume": 0,
     "bashing": 0,
-    "turns_per_charge": 0,
     "category" : "spare_parts",
     "use_action": "NONE"
   },{
@@ -26,7 +25,6 @@
     "weight": 1000,
     "volume": 1,
     "bashing": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blob",
@@ -50,7 +48,6 @@
     "weight": 10000,
     "volume": 15,
     "bashing": 0,
-    "turns_per_charge": 0,
     "category": "tools",
     "use_action": {
         "type": "place_monster",

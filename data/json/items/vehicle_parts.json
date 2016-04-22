@@ -958,7 +958,6 @@
         "price": 1,
         "max_charges": 3,
         "initial_charges": 3,
-        "turns_per_charge": 0,
         "use_action": "CABLE_ATTACH",
         "flags": [ "CABLE_SPOOL" ]
     },
@@ -978,7 +977,6 @@
         "price": 1,
         "max_charges": 20,
         "initial_charges": 20,
-        "turns_per_charge": 0,
         "use_action": "CABLE_ATTACH",
         "flags": [ "CABLE_SPOOL" ]
     },
@@ -998,7 +996,6 @@
         "price": 1,
         "max_charges": 50,
         "initial_charges": 50,
-        "turns_per_charge": 0,
         "use_action": "CABLE_ATTACH",
         "flags": [ "CABLE_SPOOL" ]
     },
