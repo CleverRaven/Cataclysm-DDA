@@ -146,12 +146,10 @@ public:
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
-    union {
-        int amount;    // amount of fuel for tank/charge in battery
-        int open;      // door is open
-        int direction; // direction the part is facing
-        int mode;      // turret mode
-    };
+    int amount = 0;               // amount of fuel for tank/charge in battery
+    bool open = false;            // door is open
+    int direction = 0;            // direction the part is facing
+    int mode = 0;                 // turret mode
 
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
