@@ -6849,7 +6849,7 @@ std::string vehicle_part::name() const {
     }
 
     if( base.is_faulty() ) {
-        res += ( _( "(faulty)" ) );
+        res += ( _( " (faulty)" ) );
     }
 
     return res;
