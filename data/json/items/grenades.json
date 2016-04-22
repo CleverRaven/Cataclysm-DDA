@@ -11,7 +11,6 @@
     "material": ["steel", "plastic"],
     "symbol": "*",
     "color": "green",
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
         "type": "transform",
@@ -39,7 +38,6 @@
     "color": "green",
     "initial_charges": 5,
     "max_charges": 5,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "use_action": {
         "type": "explosion",

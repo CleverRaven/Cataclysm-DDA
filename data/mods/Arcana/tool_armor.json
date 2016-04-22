@@ -43,7 +43,6 @@
         "weight" : 210,
         "volume": 4,
         "max_charges": 12,
-        "charges_per_use": 0,
         "turns_per_charge": 0,
         "ammo": "essence_dull_type",
         "use_action": {
@@ -75,7 +74,6 @@
         "weight" : 210,
         "volume": 4,
         "max_charges": 12,
-        "charges_per_use": 0,
         "turns_per_charge": 50,
         "ammo": "essence_dull_type",
         "revert_to": "somen_clairvoyance",
@@ -213,7 +211,6 @@
         "volume": 19,
         "to_hit" : -5,
         "max_charges": 20,
-        "charges_per_use": 0,
         "turns_per_charge": 5,
         "ammo": "essence_type",
         "use_action": {

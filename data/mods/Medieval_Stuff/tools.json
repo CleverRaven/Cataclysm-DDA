@@ -15,7 +15,6 @@
     "bashing": 17,
     "cutting": 42,
     "to_hit": 2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": [
         {
@@ -40,7 +39,6 @@
         "bashing": 8,
         "cutting": 20,
         "to_hit": 2,
-        "charges_per_use": 0,
         "turns_per_charge": 0,
         "category": "weapons",
         "flags": ["SHEATH_SWORD", "DURABLE_MELEE"],
@@ -65,7 +63,6 @@
     "cutting": 19,
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },
@@ -88,7 +85,6 @@
     "cutting": 26,
     "flags" : ["SLICE", "DURABLE_MELEE"],
     "to_hit": 2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category": "weapons",
     "use_action": { "type": "knife" },

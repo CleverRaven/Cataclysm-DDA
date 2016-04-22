@@ -672,7 +672,6 @@
     "volume": 50,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -717,7 +716,6 @@
     "volume": 14,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -742,7 +740,6 @@
     "volume": 16,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -767,7 +764,6 @@
     "volume": 20,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -792,7 +788,6 @@
     "volume": 28,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -817,7 +812,6 @@
     "volume": 24,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -842,7 +836,6 @@
     "volume": 40,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -882,7 +875,6 @@
     "volume": 10,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -922,7 +914,6 @@
     "volume": 20,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -962,7 +953,6 @@
     "volume": 10,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -1002,7 +992,6 @@
     "volume": 100,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {
@@ -1045,7 +1034,6 @@
     "volume": 20,
     "bashing": 0,
     "to_hit": -2,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "category" : "tools",
     "use_action": {

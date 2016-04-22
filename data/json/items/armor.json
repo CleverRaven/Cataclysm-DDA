@@ -7032,7 +7032,6 @@
         "material_thickness" : 0,
         "description" : "A small relic from a forgotten saint.  As extraordinary as the world has become it may have some power yet.",
         "weight" : 50,
-        "charges_per_use": 0,
         "turns_per_charge": 0,
         "use_action": "MEDITATE",
         "color" : "white",
@@ -7058,7 +7057,6 @@
         "encumbrance" : 0,
         "coverage" : 0,
         "warmth" : 0,
-        "charges_per_use": 0,
         "turns_per_charge": 0,
         "use_action": "MEDITATE",
         "material_thickness" : 0,
@@ -7078,7 +7076,6 @@
         "encumbrance" : 0,
         "coverage" : 0,
         "warmth" : 0,
-        "charges_per_use": 0,
         "turns_per_charge": 0,
         "use_action": "MEDITATE",
         "material_thickness" : 0
@@ -7851,7 +7848,6 @@
         "symbol" : "[",
         "warmth" : 0,
         "use_action": "WEATHER_TOOL",
-        "charges_per_use": 0,
         "turns_per_charge": 0
     },
     {

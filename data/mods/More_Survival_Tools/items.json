@@ -82,7 +82,6 @@
     "weight": 500,
     "volume": 2,
     "max_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "tinder",
     "use_action": {
@@ -106,7 +105,6 @@
     "weight": 500,
     "volume": 2,
     "max_charges": 100,
-    "charges_per_use": 0,
     "turns_per_charge": 600,
     "ammo": "tinder",
     "revert_to": "tinderbox",
@@ -204,7 +202,6 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
@@ -369,7 +366,6 @@
     "volume": 7,
     "bashing": 1,
     "to_hit": -1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
       "type": "delayed_transform",
@@ -396,7 +392,6 @@
     "volume": 14,
     "bashing": 2,
     "to_hit": -1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
       "type": "delayed_transform",
@@ -423,7 +418,6 @@
     "volume": 21,
     "bashing": 3,
     "to_hit": -1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "use_action": {
       "type": "delayed_transform",
@@ -599,7 +593,6 @@
     "bashing": 11,
     "cutting": 8,
     "flags" : ["CHOP"],
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "qualities": [["AXE", 2]],
     "use_action": "LUMBER"
@@ -616,7 +609,6 @@
     "volume": 16,
     "bashing": 15,
     "cutting": 1,
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "qualities": [["DIG", 2]],
     "use_action": "DIG"
@@ -648,7 +640,6 @@
         "need_sunlight": true
       }
     ],
-    "charges_per_use": 0,
     "turns_per_charge": 0,
     "flags": ["THERMOMETER", "LENS"]
   },{
@@ -665,7 +656,6 @@
     "volume": 4,
     "bashing": 3,
     "to_hit": -4,
-    "charges_per_use": 0,
     "turns_per_charge": 0
   }
 ]
