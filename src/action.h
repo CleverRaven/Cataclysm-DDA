@@ -64,6 +64,7 @@ enum action_id : int {
     ACTION_PICK_STYLE,
     ACTION_RELOAD,
     ACTION_UNLOAD,
+    ACTION_MEND,
     ACTION_THROW,
     ACTION_FIRE,
     ACTION_FIRE_BURST,
