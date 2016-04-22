@@ -138,6 +138,7 @@ class Item_factory
         void load_book( JsonObject &jo );
         void load_comestible( JsonObject &jo );
         void load_container( JsonObject &jo );
+        void load_engine( JsonObject &jo );
         void load_gunmod( JsonObject &jo );
         void load_magazine( JsonObject &jo );
         void load_generic( JsonObject &jo );
@@ -281,6 +282,7 @@ class Item_factory
         void load( islot_brewable &slot, JsonObject &jo );
         void load( islot_armor &slot, JsonObject &jo );
         void load( islot_book &slot, JsonObject &jo );
+        void load( islot_engine &slot, JsonObject &jo );
         void load( islot_gun &slot, JsonObject &jo );
         void load( islot_gunmod &slot, JsonObject &jo );
         void load( islot_magazine &slot, JsonObject &jo );
