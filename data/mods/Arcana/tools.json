@@ -12,8 +12,6 @@
     "volume": 4,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": [
       "MEDITATE",
       {
@@ -63,8 +61,6 @@
     "volume": 4,
     "bashing": 6,
     "to_hit": -1,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": "MEDITATE"
   },{
     "id": "blood_athame",
@@ -82,8 +78,6 @@
     "cutting": 14,
     "flags" : ["STAB", "SHEATH_KNIFE"],
     "to_hit": 2,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "category": "weapons",
     "use_action": [
       {
@@ -148,8 +142,6 @@
     "cutting": 35,
     "to_hit": 2,
     "max_charges": 10,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "essence_dull_type",
     "use_action": [
       "MEDITATE",
@@ -181,7 +173,6 @@
     "cutting": 40,
     "to_hit": 2,
     "max_charges": 10,
-    "charges_per_use": 0,
     "turns_per_charge": 150,
     "ammo": "essence_dull_type",
     "revert_to": "sun_sword",
@@ -222,8 +213,6 @@
         "cutting" : 20,
         "price" : 52000,
         "max_charges": 1,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
         "ammo": "essence_dull_type",
         "use_action": [
           "MEDITATE",
@@ -286,7 +275,6 @@
         "price" : 17000,
         "max_charges": 9,
         "charges_per_use": 3,
-        "turns_per_charge": 0,
         "ammo": "essence_type",
         "use_action" : "ARTIFACT",
         "artifact_data" : {
@@ -307,8 +295,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_kreck",
@@ -334,8 +320,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_blank",
@@ -361,8 +345,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_flaming_eye",
@@ -388,8 +370,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_hunting_horror",
@@ -415,8 +395,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_dark_wyrm",
@@ -442,8 +420,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_mi_go",
@@ -469,8 +445,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_jabberwock",
@@ -496,8 +470,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_flying_polyp",
@@ -523,8 +495,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_yugg",
@@ -550,8 +520,6 @@
     "volume": 1,
     "bashing": 1,
     "to_hit": -3,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_shoggoth",
@@ -579,7 +547,6 @@
     "to_hit": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "turns_per_charge": 0,
     "ammo": "essence_blood_type",
     "flags" : ["DURABLE_MELEE", "CHOP", "NO_SALVAGE"],
     "category": "weapons",
@@ -611,7 +578,6 @@
     "to_hit": 1,
     "max_charges": 5,
     "initial_charges": 5,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags" : ["DURABLE_MELEE", "CHOP", "LIGHT_8", "NO_SALVAGE"],
     "revert_to": "bloodaxe",
@@ -643,8 +609,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -665,7 +629,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -686,8 +649,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -708,7 +669,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -729,8 +689,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -751,7 +709,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -772,8 +729,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -794,7 +749,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -815,8 +769,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -837,7 +789,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -858,8 +809,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -880,7 +829,6 @@
     "weight": 415,
     "volume": 1,
     "bashing": 0,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -905,8 +853,6 @@
     "cutting": 40,
     "to_hit": 1,
     "max_charges": 9,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "ammo": "essence_blood_type",
     "use_action": [
       { "type": "knife" },
@@ -941,7 +887,6 @@
     "to_hit": 1,
     "max_charges": 9,
     "initial_charges": 9,
-    "charges_per_use": 0,
     "turns_per_charge": 300,
     "revert_to": "stormbringer",
     "revert_msg": "The malevolent energy fades from the cursed blade, returning it to normal",
