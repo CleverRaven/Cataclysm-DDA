@@ -8143,6 +8143,21 @@
     "flags": ["HYGROMETER"]
   },
   {
+    "id": "hydrometer",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_blue",
+    "name": "hydrometer",
+    "name_plural": "hydrometers",
+    "description": "An instrument that measures the specific gravity (relative density) of liquids-the ratio of the density of the liquid to the density of water.  It make the production of maple syrup easier and more efficient.",
+    "price": 300,
+    "material": "glass",
+    "weight": 50,
+    "volume": 1,
+    "to_hit": -3,
+    "category": "tools"
+  },
+  {
     "id": "barometer",
     "type": "TOOL",
     "symbol": ";",
