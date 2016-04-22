@@ -33,11 +33,10 @@
     "name": "cooked fish",
     "name_plural": "cooked fish",
     "description": "Freshly cooked fish.  Very nutritious.",
-    "proportional": {
-        "parasites": 0.1,
-        "price": 1.5
-    },
-    "flags": [ "COOKED", "EATEN_HOT" ]
+    "proportional": { "price": 1.5 },
+    "spoils_in": 24,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "id": "hstomach",
@@ -75,10 +74,8 @@
     "type": "COMESTIBLE",
     "name": "cooked creep",
     "description": "A freshly cooked slice of some unpleasant person.  Tastes great.",
-    "proportional": {
-        "parasites": 0.1,
-        "price": 1.5
-    },
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
     "healthy": 0,
     "fun": 0,
     "flags": [ "EATEN_HOT" ]
@@ -104,10 +101,8 @@
     "type": "COMESTIBLE",
     "name": "cooked meat",
     "description": "Freshly cooked meat.  Very nutritious.",
-    "proportional": {
-        "parasites": 0.1,
-        "price": 1.5
-    },
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
     "healthy": 0,
     "fun": 0,
     "flags": [ "EATEN_HOT" ]
