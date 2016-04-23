@@ -861,7 +861,7 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
         p.get_weapon_dispersion( weapon, false );
     const double range = rl_dist( p.pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
-    const double hit_rating = missed_by / std::max( double( p.get_speed() ) / 80., 1.0 );
+    const double hit_rating = missed_by;
     const double confidence = 1 / hit_rating;
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
