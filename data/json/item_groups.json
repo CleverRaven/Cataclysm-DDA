@@ -3334,6 +3334,7 @@
     "type" : "item_group",
     "id" : "cop_evidence",
     "items":[
+      ["lwfeed", 30],
       ["crackpipe", 8],
       ["weed", 10],
       ["joint", 10],
@@ -3367,8 +3368,6 @@
       ["file", 5],
       ["RPG", 1],
       ["RPG-7_ammo", 1],
-      ["cx4", 2],
-      ["ksub2000", 2],
       ["clown_suit", 2],
       ["clownshoes", 2],
       ["bondage_suit", 1],
@@ -3379,8 +3378,7 @@
       ["pie_human", 5],
       ["bobburger", 5],
       ["cheeseburgerhuman", 5],
-      ["survnote", 5],
-      ["sten", 2]
+      ["survnote", 5]
     ]
   },{
     "type" : "item_group",
@@ -4488,6 +4486,7 @@
       ["elbow_pads", 10],
       ["cu_pipe", 5],
       ["e_tool", 5],
+      ["lwfeed", 40],
       ["knife_trench", 7],
       ["sm_extinguisher", 10],
       ["switchblade", 6],
@@ -6479,6 +6478,7 @@
       ["ax", 8],
       ["bee_sting", 5],
       ["chitin_piece", 10],
+      ["lwfeed", 40],
       ["vest", 15],
       ["mask_gas", 10],
       ["goggles_nv", 1],
