@@ -1043,6 +1043,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Check whether the player has a gun that uses the given type of ammo.
          */
         bool has_gun_for_ammo( const ammotype &at ) const;
+        bool has_magazine_for_ammo( const ammotype &at ) const;
+        bool has_magazine_for_gun( const item &gun ) const;
+        bool has_gun_for_magazine( const itype_id &mag_id ) const;
+        bool has_ammo( const ammotype &at ) const;
 
         bool has_weapon() const override;
 

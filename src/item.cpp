@@ -1945,10 +1945,6 @@ nc_color item::color_in_inventory() const
         ret = c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
         ret = c_yellow;
-    } else if (is_gun()) { // Guns are green if you are carrying ammo for them
-        ammotype amtype = ammo_type();
-        if (u->get_ammo(amtype).size() > 0)
-            ret = c_green;
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
         const item &to_color = is_food() ? *this : contents[0];
@@ -1986,14 +1982,40 @@ nc_color item::color_in_inventory() const
             case NO_TOOL:
                 break;
         }
-    } else if (is_ammo()) { // Likewise, ammo is green if you have guns that use it
+    } else if( is_gun() ) {
+        // Guns are green if you are carrying ammo for them
+        // Yellow if you have ammo but no mags
+        // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
-        if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
+        bool has_ammo = u->has_ammo( amtype );
+        bool has_mag = u->has_magazine_for_gun( *this );
+        if( has_ammo && has_mag ) {
             ret = c_green;
-        } else {
-            if (u->has_gun_for_ammo(amtype)) {
-                ret = c_green;
-            }
+        } else if( has_ammo || has_mag ) {
+            ret = c_yellow;
+        }
+    } else if( is_ammo() ) {
+        // Likewise, ammo is green if you have guns that use it
+        // Yellow if you have the gun but no mags
+        // Gun with integrated mag counts as both
+        ammotype amtype = ammo_type();
+        bool has_gun = u->has_gun_for_ammo( amtype );
+        bool has_mag = u->has_magazine_for_ammo( amtype );
+        if( has_gun && has_mag ) {
+            ret = c_green;
+        } else if( has_gun || has_mag ) {
+            ret = c_yellow;
+        }
+    } else if( is_magazine() ) {
+        // Magazines are green if you have guns and ammo for them
+        // Yellow if you have one but not the other
+        ammotype amtype = ammo_type();
+        bool has_gun = u->has_gun_for_magazine( typeId() );
+        bool has_ammo = u->has_ammo( amtype );
+        if( has_gun && has_ammo ) {
+            ret = c_green;
+        } else if( has_gun || has_ammo ) {
+            ret = c_yellow;
         }
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
