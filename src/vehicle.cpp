@@ -3061,13 +3061,14 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
+        // @todo Allow NPCs to power those
         vehicle *veh = g->m.veh_at( g->u.pos(), part_under_player );
         bool player_controlling = player_in_control(g->u);
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
-        if (veh == this && player_controlling && part_under_player >= 0) {
+        if( veh == this && player_controlling && part_under_player >= 0 ) {
             int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
-            if (p >= 0 && part_info(p).fuel_type == fuel_type_muscle) {
+            if( p >= 0 && part_info(p).fuel_type == fuel_type_muscle && is_part_on( p ) ) {
                 fl += 10;
             }
         }
