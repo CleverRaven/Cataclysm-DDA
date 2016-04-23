@@ -548,6 +548,14 @@ class game
          * `true` indicates some charges have been transferred (but not necessarily all of them).
          */
         void handle_all_liquid( item liquid, int radius = 0 );
+        /**
+         * @return Whether the user has handled the liquid (at least part of it). `false` indicates
+         * the user has rejected all possible actions. But note that `true` does *not* indicate any
+         * liquid was actually consumed, the user may have chosen an option that turned out to be
+         * invalid (chose to fill into a full/unsuitable container).
+         * Basically `false` indicates the user does not *want* to handle the liquid, `true`
+         * indicates they want to handle it.
+         */
         bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
                            item *cont = NULL, int radius = 0);
 

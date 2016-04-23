@@ -10313,18 +10313,21 @@ bool vehicle_near( const itype_id &ft )
 
 void game::handle_all_liquid( item liquid, const int radius )
 {
-    while( !handle_liquid( liquid, false, false, nullptr, nullptr, PICKUP_RANGE ) ) {
-        // try again
+    while( liquid.charges > 0l ) {
+        // handle_liquid allows to pour onto the ground, which will handle all the liquid and
+        // set charges to 0. This allows terminating the loop.
+        // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
+        handle_liquid( liquid, false, false, nullptr, nullptr, radius );
     }
 }
 
-// Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont, int radius)
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg("Tried to handle_liquid a non-liquid!");
+        // "canceled by the user" because we *can* not handle it.
         return false;
     }
 
@@ -10332,12 +10335,14 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         tripoint vp;
         refresh_all();
         if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
+            // Explicitly canceled
             return false;
         }
         vehicle *veh = m.veh_at(vp);
         if (veh == NULL) {
             add_msg(m_info, _("There isn't any vehicle there."));
-            return false;
+            // The user has intended to do something, but mistyped.
+            return true;
         }
         const itype_id &ftype = liquid.type->id;
         int fuel_cap = veh->fuel_capacity(ftype);
@@ -10346,11 +10351,13 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             //~ %1$s - transport name, %2$s liquid fuel name
             add_msg(m_info, _("The %1$s doesn't use %2$s."),
                     veh->name.c_str(), liquid.type_name().c_str());
-            return false;
+            // The user has intended to do something, but mistyped.
+            return true;
         } else if (fuel_amnt >= fuel_cap) {
             add_msg(m_info, _("The %s is already full."),
                     veh->name.c_str());
-            return false;
+            // The user has intended to do something, but mistyped.
+            return true;
         }
         const int amt = infinite ? INT_MAX : liquid.charges;
         u.moves -= 100;
@@ -10362,8 +10369,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             add_msg(_("You refill the %1$s with %2$s to its maximum."),
                     veh->name.c_str(), liquid.type_name().c_str());
         }
-        // infinite: always handled all, to prevent loops
-        return infinite || liquid.charges == 0;
+        return true;
     }
 
     // Ask to pour rotten liquid (milk!) from the get-go
@@ -10375,9 +10381,11 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
         if (!m.can_put_items_ter_furn(dirx, diry)) {
             add_msg(m_info, _("You can't pour there!"));
-            return false;
+            // The user has intended to do something, but mistyped.
+            return true;
         }
         m.add_item_or_charges(dirx, diry, liquid, 1);
+        liquid.charges = 0;
         return true;
     }
 
@@ -10393,9 +10401,10 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
                 if (!infinite) {
                     liquid.charges -= charges_consumed;
                 }
-                if ( charges_consumed > 0 ) {
-                    return liquid.charges <= 0;
-                }
+                // TODO: this case is unclear. We don't know whether the user canceled the query
+                // "drink from hands?" (action was explicitly canceled) or the query "you're full,
+                // drink anyway?" (action was aborted because of circumstances).
+                return charges_consumed > 0;
             }
 
             // No container selected (escaped, ...), ask to pour
@@ -10405,12 +10414,15 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
                 if (!m.can_put_items_ter_furn(dirx, diry)) {
                     add_msg(m_info, _("You can't pour there!"));
-                    return false;
+                    // The user has intended to do something, but mistyped.
+                    return true;
                 }
                 m.add_item_or_charges(dirx, diry, liquid, 1);
+                liquid.charges = 0;
                 return true;
             }
             add_msg(_("Never mind."));
+            // Explicitly canceled all options (container, drink, pour).
             return false;
         }
     }
@@ -10418,7 +10430,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (cont == source) {
         //Source and destination are the same; abort
         add_msg(m_info, _("That's the same container!"));
-        return false;
+        // The user has intended to do something, but mistyped.
+        return true;
 
     } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
         // for filling up chainsaws, jackhammers and flamethrowers
@@ -10426,18 +10439,21 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         if( cont->ammo_type() != liquid.ammo_type() ) {
             add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
-            return false;
+            // The user has intended to do something, but mistyped.
+            return true;
         }
 
         if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
             add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
                     liquid.tname().c_str());
-            return false;
+            // The user has intended to do something, but mistyped.
+            return true;
         }
 
         if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
             add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
-            return false;
+            // The user has intended to do something, but mistyped.
+            return true;
         }
 
         add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
@@ -10449,7 +10465,6 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
             if( liquid.charges > 0 ) {
                 add_msg(_("There's some left over!"));
-                return false;
             }
         }
         return true;
@@ -10460,7 +10475,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         std::string err;
         if( !cont->fill_with( liquid, err, allow_bucket ) ) {
             add_msg( m_info, err.c_str() );
-            return false;
+            // The user has intended to do something, but mistyped.
+            return true;
         }
 
         u.inv.unsort();
@@ -10468,10 +10484,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         if( !infinite && liquid.charges > 0 ) {
             add_msg( _( "There's some left over!" ) );
         }
-        return infinite || liquid.charges <= 0;
+        return true;
     }
-
-    return false;
 }
 
 //Move_liquid returns the amount of liquid left if we didn't move all the liquid, otherwise returns sentinel -1, signifies transaction fail.
@@ -11519,7 +11533,10 @@ void game::mend( int pos )
 bool add_or_drop_with_msg( player &u, item &it )
 {
     if( it.made_of( LIQUID ) ) {
-        return g->handle_liquid( it, false, false, nullptr, nullptr, 1 );
+        while( it.charges > 0 && g->handle_liquid( it, false, false, nullptr, nullptr, 1 ) ) {
+            // try again
+        }
+        return it.charges <= 0;
     }
     if( !u.can_pickVolume( it.volume() ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),

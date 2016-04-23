@@ -82,7 +82,8 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                 }
             } else {
                 p.moves -= 300;
-                if( g->handle_liquid( *item_it, true, false ) ) {
+                g->handle_liquid( *item_it, true, false );
+                if( item_it->charges <= 0 ) {
                     add_msg(_("With a clang and a shudder, the %s pump goes silent."),
                             item_it->type_name().c_str() );
                     items.erase( item_it );
@@ -552,14 +553,14 @@ void iexamine::toilet(player &p, const tripoint &examp)
 
         // First try handling/bottling, then try drinking, but only try
         // drinking if we don't handle or bottle.
-        bool drained = g->handle_liquid( *water, true, false );
-        if( drained || initial_charges != water->charges ) {
+        const bool handled = g->handle_liquid( *water, true, false );
+        if( handled || initial_charges != water->charges ) {
             // The bottling happens in handle_liquid, but delay of action
             // does not.
             p.moves -= 100;
         }
 
-        if( drained || water->charges <= 0 ) {
+        if( water->charges <= 0 ) {
             items.erase( water );
         }
     }
@@ -2009,7 +2010,8 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    if( g->handle_liquid( brew_i, true, false ) ) {
+    g->handle_liquid( brew_i, true, false );
+    if( brew_i.charges <= 0 ) {
         g->m.furn_set( examp, f_fvat_empty );
         add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.tname().c_str());
         g->m.i_clear( examp );
@@ -2117,7 +2119,8 @@ void iexamine::keg(player &p, const tripoint &examp)
 
         switch( static_cast<options>( selectmenu.ret ) ) {
         case FILL_CONTAINER:
-            if( g->handle_liquid(*drink, true, false) ) {
+            g->handle_liquid( *drink, true, false );
+            if( drink->charges <= 0 ) {
                 add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink->tname().c_str(),
                         g->m.name(examp).c_str());
                 g->m.i_clear( examp );
@@ -2400,13 +2403,13 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                     auto &liquid = it.contents.front();
                     if( liquid.type->id == "maple_sap" ) {
                         long initial_charges = liquid.charges;
-                        bool emptied = g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
+                        g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
 
-                        if( emptied || initial_charges != liquid.charges ) {
+                        if( initial_charges != liquid.charges ) {
                             p.mod_moves( -100 );
                         }
 
-                        if( emptied || liquid.charges <= 0 ) {
+                        if( liquid.charges <= 0 ) {
                             it.contents.clear();
                         }
                     }
