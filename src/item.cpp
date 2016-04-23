@@ -1704,7 +1704,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         for( const auto &e : faults ) {
-            info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>Faulty %s</bad>.  %s" ), e.obj().name().c_str(), e.obj().description().c_str() ) );
+            //~ %1$s is the name of a fault and %2$s is the description of the fault
+            info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>Faulty %1$s</bad>.  %2$s" ),
+                               e.obj().name().c_str(), e.obj().description().c_str() ) );
         }
 
         ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons

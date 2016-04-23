@@ -9950,7 +9950,7 @@ void player::mend_item( item_location&& obj, bool interactive )
             auto comps = reqs.get_folded_components_list( w, c_white, inv );
 
             std::ostringstream descr;
-            descr << "<color_white>Skills:</color>\n";
+            descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
             }
 
