@@ -33,6 +33,7 @@
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "input.h"
+#include "fault.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -423,6 +424,9 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     if( item_tags != rhs.item_tags ) {
+        return false;
+    }
+    if( faults != rhs.faults ) {
         return false;
     }
     if( techniques != rhs.techniques ) {
@@ -1699,6 +1703,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        for( const auto &e : faults ) {
+            //~ %1$s is the name of a fault and %2$s is the description of the fault
+            info.emplace_back( "DESCRIPTION", string_format( _( "* <bad>Faulty %1$s</bad>.  %2$s" ),
+                               e.obj().name().c_str(), e.obj().description().c_str() ) );
+        }
+
         ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
         if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_bash() > 0 ||
                             damage_cut() > 0 || type->m_to_hit > 0 ) ) ) {
@@ -1902,6 +1912,11 @@ int item::get_free_mod_locations( const std::string &location ) const
         }
     }
     return result;
+}
+
+int item::engine_displacement() const
+{
+    return type->engine ? type->engine->displacement : 0;
 }
 
 char item::symbol() const
@@ -2128,13 +2143,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         }
     }
 
+    if( !faults.empty() ) {
+        damtext.insert( 0, _( "faulty " ) );
+    }
+
     std::string vehtext = "";
-    if( is_var_veh_part() ) {
+    if( is_engine() && engine_displacement() > 0 ) {
+        vehtext = rmp_format( _( "<veh_adj>%2.1fL " ), engine_displacement() / 100.0f );
+
+    } else if( is_var_veh_part() ) {
         switch( type->variable_bigness->bigness_aspect ) {
-            case BIGNESS_ENGINE_DISPLACEMENT:
-                //~ liters, e.g. 3.21-Liter V8 engine
-                vehtext = rmp_format( _( "<veh_adj>%4.2f-Liter " ), bigness / 100.0f );
-                break;
             case BIGNESS_WHEEL_DIAMETER:
                 //~ inches, e.g. 20" wheel
                 vehtext = rmp_format( _( "<veh_adj>%d\" " ), bigness );
@@ -3438,6 +3456,16 @@ bool item::is_bucket() const
 bool item::is_bucket_nonempty() const
 {
     return is_bucket() && !is_container_empty();
+}
+
+bool item::is_engine() const
+{
+    return type->engine.get() != nullptr;
+}
+
+bool item::is_faulty() const
+{
+    return is_engine() ? !faults.empty() : false;
 }
 
 bool item::is_container_empty() const

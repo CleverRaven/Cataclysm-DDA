@@ -562,6 +562,15 @@ void Item_factory::check_definitions() const
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
+
+        if( type->engine ) {
+            for( const auto& f : type->engine->faults ) {
+                if( !f.is_valid() ) {
+                    msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
+                }
+            }
+        }
+
         if( type->comestible ) {
             if( type->comestible->tool != "null" ) {
                 auto req_tool = find_template( type->comestible->tool );
@@ -863,17 +872,17 @@ typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
 }
 
 template <typename T>
-typename std::enable_if<std::is_same<T, std::string>::value, bool>::type assign(
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     JsonObject &jo, const std::string& name, T& val ) {
     return jo.read( name, val );
 }
 
 template <typename T>
-typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, T& val ) {
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+    JsonObject &jo, const std::string& name, std::set<T>& val ) {
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags( name );
+        val = jo.get_tags<T>( name );
         return true;
     }
 
@@ -881,14 +890,14 @@ typename std::enable_if<std::is_same<T, std::set<std::string>>::value, bool>::ty
 
     auto add = jo.get_object( "extend" );
     if( add.has_string( name ) || add.has_array( name ) ) {
-        auto tags = add.get_tags( name );
+        auto tags = add.get_tags<T>( name );
         val.insert( tags.begin(), tags.end() );
         res = true;
     }
 
     auto del = jo.get_object( "delete" );
     if( del.has_string( name ) || del.has_array( name ) ) {
-        for( const auto& e : del.get_tags( name ) ) {
+        for( const auto& e : del.get_tags<T>( name ) ) {
             val.erase( e );
         }
         res = true;
@@ -916,6 +925,21 @@ void Item_factory::load_ammo(JsonObject &jo)
     auto def = load_definition( jo );
     if( def) {
         load_slot( def->ammo, jo );
+        load_basic_info( jo, def );
+    }
+}
+
+void Item_factory::load( islot_engine &slot, JsonObject &jo )
+{
+    assign( jo, "displacement", slot.displacement );
+    assign( jo, "faults", slot.faults );
+}
+
+void Item_factory::load_engine( JsonObject &jo )
+{
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->engine, jo );
         load_basic_info( jo, def );
     }
 }
@@ -1039,21 +1063,24 @@ void Item_factory::load_tool_armor(JsonObject &jo)
 
 void Item_factory::load( islot_book &slot, JsonObject &jo )
 {
-    slot.level = jo.get_int( "max_level" );
-    slot.req = jo.get_int( "required_level" );
-    slot.fun = jo.get_int( "fun" );
-    slot.intel = jo.get_int( "intelligence" );
-    slot.time = jo.get_int( "time" );
-    slot.skill = skill_id( jo.get_string( "skill" ) );
-    slot.chapters = jo.get_int( "chapters", -1 );
+    assign( jo, "max_level", slot.level );
+    assign( jo, "required_level", slot.level );
+    assign( jo, "fun", slot.fun );
+    assign( jo, "intelligence", slot.intel );
+    assign( jo, "time", slot.time );
+    assign( jo, "skill", slot.skill );
+    assign( jo, "chapters", slot.chapters );
+
     set_use_methods_from_json( jo, "use_action", slot.use_methods );
 }
 
 void Item_factory::load_book( JsonObject &jo )
 {
-    itype *new_item_template = new itype();
-    load_slot( new_item_template->book, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->book, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load( islot_comestible &slot, JsonObject &jo )
@@ -1234,8 +1261,6 @@ void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
     const std::string big_aspect = jo.get_string( "bigness-aspect" );
     if( big_aspect == "WHEEL_DIAMETER" ) {
         slot.bigness_aspect = BIGNESS_WHEEL_DIAMETER;
-    } else if( big_aspect == "ENGINE_DISPLACEMENT" ) {
-        slot.bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
     } else {
         jo.throw_error( "invalid bigness-aspect", "bigness-aspect" );
     }

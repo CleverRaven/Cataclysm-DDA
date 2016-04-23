@@ -102,6 +102,8 @@ src/editmap.h
 src/event.h
 src/explosion.h
 src/faction.h
+src/fault.h
+src/fault.cpp
 src/filesystem.h
 src/game_constants.h
 src/generic_factory.h

@@ -205,6 +205,8 @@ std::string action_ident( action_id act )
             return "reload";
         case ACTION_UNLOAD:
             return "unload";
+        case ACTION_MEND:
+            return "mend";
         case ACTION_THROW:
             return "throw";
         case ACTION_FIRE:

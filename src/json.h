@@ -665,8 +665,11 @@ class JsonObject
         std::vector<std::string> get_string_array(const std::string &name);
         // get_object returns empty object if not found
         JsonObject get_object(const std::string &name);
+
         // get_tags returns empty set if none found
-        std::set<std::string> get_tags(const std::string &name);
+        template <typename T = std::string>
+        std::set<T> get_tags( const std::string &name );
+
         // TODO: some sort of get_map(), maybe
 
         // type checking
@@ -869,6 +872,31 @@ class JsonArray
             return jsin->read(t);
         }
 };
+
+template <typename T>
+std::set<T> JsonObject::get_tags( const std::string &name )
+{
+    std::set<T> res;
+    int pos = positions[ name ];
+    if ( pos <= start ) {
+        return res;
+    }
+    jsin->seek( pos );
+
+    // allow single string as tag
+    if( jsin->test_string() ) {
+        res.insert( T( jsin->get_string() ) );
+        return res;
+    }
+
+    // otherwise assume it's an array and error if it isn't.
+    JsonArray jsarr = jsin->get_array();
+    while( jsarr.has_more() ) {
+        res.insert( T( jsarr.next_string() ) );
+    }
+
+    return res;
+}
 
 
 /* JsonSerializer

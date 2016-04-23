@@ -4234,6 +4234,7 @@
     "id" : "pawn",
     "items":[
       { "group" : "mags_pawnshop", "prob" : 300 },
+      ["mag_fieldrepair", 50],
       ["oxylamp", 50],
       ["polisher", 6],
       ["wakizashi_inferior", 30],
@@ -4610,6 +4611,7 @@
       ["bolt_steel", 7],
       ["crossbow", 2],
       ["mag_guns", 20],
+      ["mag_fieldrepair", 100],
       ["manual_brawl", 30],
       ["manual_melee", 12],
       ["manual_cutting", 12],
@@ -4821,6 +4823,7 @@
     "id" : "mechanics",
     "ammo" : 100,
     "items":[
+      { "group": "supplies_spares_vehicle", "prob": 200 },
       ["polisher", 15],
       ["jumper_cable", 15],
       ["jumper_cable_heavy", 5],
@@ -8645,6 +8648,7 @@
       ["mil_mess_kit", 50],
       ["flashlight", 50],
       ["heavy_flashlight", 10],
+      ["mag_fieldrepair", 20],
       ["mag_comic", 20],
       ["mag_guns", 20]
     ]

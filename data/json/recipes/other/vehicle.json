@@ -48,5 +48,21 @@
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
       [ [ "wire", 8 ] ]
     ]
+  },
+  {
+    "result": "drivebelt_makeshift",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
+    "time": 2000,
+    "book_learn": [ [ "mag_fieldrepair", 1 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_6", 1 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ]
   }
 ]
