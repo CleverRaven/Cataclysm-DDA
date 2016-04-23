@@ -10332,6 +10332,22 @@ bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const
     return true;
 }
 
+bool game::handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius )
+{
+    // TODO: not all code paths on handle_liquid consume move points, fix that.
+    handle_liquid( *in_container, false, false, &container, nullptr, radius );
+    if( in_container->charges > 0 ) {
+        return false;
+    }
+    container.contents.erase( in_container );
+    return true;
+}
+
+bool game::handle_liquid_from_container( item &container, int radius )
+{
+    return handle_liquid_from_container( container.contents.begin(), container, radius );
+}
+
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont, int radius)
 {

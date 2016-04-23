@@ -2389,16 +2389,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                 if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
                     if( liquid.type->id == "maple_sap" ) {
-                        long initial_charges = liquid.charges;
-                        g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
-
-                        if( initial_charges != liquid.charges ) {
-                            p.mod_moves( -100 );
-                        }
-
-                        if( liquid.charges <= 0 ) {
-                            it.contents.clear();
-                        }
+                        g->handle_liquid_from_container( it, PICKUP_RANGE );
                     }
                 }
             }

@@ -561,6 +561,20 @@ class game
         bool handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, int radius = 0 );
 
         /**
+         * Handle liquid from inside a container item. The function also handles consuming move points.
+         * @param in_container Iterator to the liquid. Must be valid and point to an
+         * item in the @ref item::contents of the container.
+         * @return Whether the item has been removed (which implies it was handled completely).
+         * The iterator is invalidated in that case. Otherwise the item remains but may have
+         * fewer charges.
+         */
+        bool handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius = 0 );
+        /**
+         * Shortcut to the above: handles the first item in the container.
+         */
+        bool handle_liquid_from_container( item &container, int radius = 0 );
+
+        /**
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates
          * the user has rejected all possible actions. But note that `true` does *not* indicate any
          * liquid was actually consumed, the user may have chosen an option that turned out to be
