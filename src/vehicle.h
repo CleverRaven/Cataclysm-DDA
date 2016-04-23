@@ -836,8 +836,6 @@ public:
     bool is_part_on(int p) const;
     //returns whether the engine uses specified fuel type
     bool is_engine_type(int e, const itype_id &ft) const;
-    //returns whether there is an active engine at vehicle coordinates
-    bool is_active_engine_at(int x, int y) const;
     //returns whether the alternator is operational
     bool is_alternator_on(int a) const;
     //mark engine as on or off

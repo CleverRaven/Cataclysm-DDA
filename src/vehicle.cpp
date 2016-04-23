@@ -51,6 +51,14 @@ static const itype_id fuel_type_water("water_clean");
 static const itype_id fuel_type_muscle("muscle");
 static const std::string part_location_structure("structure");
 
+static const fault_id fault_belt( "fault_engine_belt_drive" );
+static const fault_id fault_diesel( "fault_engine_pump_diesel" );
+static const fault_id fault_glowplug( "fault_engine_glow_plug" );
+static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
+static const fault_id fault_pump( "fault_engine_pump_fuel" );
+static const fault_id fault_starter( "fault_engine_starter" );
+
+
 const skill_id skill_mechanics( "mechanics" );
 
 const efftype_id effect_on_roof( "on_roof" );
@@ -612,6 +620,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         //sets the vehicle to locked, if there is no key and an alarm part exists
         if (part_flag(p, "SECURITY") && (has_no_key) && parts[p].hp > 0) {
             is_locked = true;
+
+            if( one_in( 2 ) ) {
+                // if vehicle has immobiliser 50% chance to add additional fault
+                parts[ p ].fault_set( fault_immobiliser );
+            }
         }
     }
 
@@ -811,22 +824,17 @@ bool vehicle::is_part_on(int const p) const
     return parts[p].enabled;
 }
 
-bool vehicle::is_active_engine_at(int const x, int const y) const
-{
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_on(e) &&
-            parts[engines[e]].mount.x == x &&
-            parts[engines[e]].mount.y == y ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool vehicle::is_alternator_on(int const a) const
 {
-    return (parts[alternators[a]].hp > 0) && is_active_engine_at(
-        parts[alternators[a]].mount.x, parts[alternators[a]].mount.y );
+    auto alt = parts[ alternators [ a ] ];
+    if( alt.hp <= 0 ) {
+        return false;
+    }
+
+    return std::any_of( engines.begin(), engines.end(), [this,&alt]( int idx ) {
+        auto& eng = parts [ idx ];
+        return eng.enabled && eng.mount == alt.mount && !eng.faults().count( fault_belt );
+    } );
 }
 
 bool vehicle::has_security_working() const
@@ -1461,7 +1469,12 @@ double vehicle::engine_cold_factor( const int e )
 {
     if( !is_engine_type( e, fuel_type_diesel ) ) { return 0.0; }
 
-    return 1.0 - (std::max( 0, std::min( 40, g->get_temperature() ) ) / 40.0);
+    int eff_temp = g->get_temperature();
+    if( !parts[ engines[ e ] ].faults().count( fault_glowplug ) ) {
+        eff_temp = std::min( eff_temp, 20 );
+    }
+
+    return 1.0 - (std::max( 0, std::min( 30, eff_temp ) ) / 30.0);
 }
 
 int vehicle::engine_start_time( const int e )
@@ -1470,9 +1483,12 @@ int vehicle::engine_start_time( const int e )
         !fuel_left( part_info( engines[e] ).fuel_type ) ) { return 0; }
 
     const double dmg = 1.0 - ((double)parts[engines[e]].hp / part_info( engines[e] ).durability);
-    const double cold_factor = engine_cold_factor( e );
 
-    return 100 + (part_power( engines[e], true ) / 16) + (100 * dmg) + (40 * cold_factor);
+    // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
+    // diesel engines with working glow plugs always start with f = 0.6 (or better)
+    const int cold = ( 1 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) ) ) * 100;
+
+    return ( part_power( engines[ e ], true ) / 16 ) + ( 100 * dmg ) + cold;
 }
 
 bool vehicle::start_engine( const int e )
@@ -1505,25 +1521,35 @@ bool vehicle::start_engine( const int e )
         }
     }
 
-    if( einfo.fuel_type == fuel_type_gasoline || einfo.fuel_type == fuel_type_diesel ) {
-        // Small engines can be started without a battery (pull start or kick start)
-        if( engine_power >= 50 ) {
-            const int penalty = ((engine_power * dmg) / 2) + ((engine_power * cold_factor) / 5);
-            if( discharge_battery( (engine_power + penalty) / 10, true ) != 0 ) {
-                add_msg( _("The %s makes a rapid clicking sound."), eng.name().c_str() );
-                return false;
-            }
-        }
+    // Immobilisers need removing before the vehicle can be started
+    if( eng.faults().count( fault_immobiliser ) ) {
+        add_msg( _( "The %s makes a long beeping sound." ), eng.name().c_str() );
+        return false;
+    }
 
-        // Damaged engines have a chance of failing to start
-        if( x_in_y( dmg * 100, 120 - (20 * cold_factor) ) ) {
-            if( one_in( 2 ) ) {
-                add_msg( _("The %s makes a deep clunking sound."), eng.name().c_str() );
-            } else {
-                add_msg( _("The %s makes a terrible clanking sound."), eng.name().c_str() );
-            }
+    // Engine with starter motors can fail on both battery and starter motor
+    if( eng.faults_potential().count( fault_starter ) ) {
+        if( eng.faults().count( fault_starter ) ) {
+            add_msg( _( "The %s makes a single clicking sound." ), eng.name().c_str() );
             return false;
         }
+        const int penalty = ( engine_power * dmg / 2 ) + ( engine_power * cold_factor / 5 );
+        if( discharge_battery( ( engine_power + penalty ) / 10, true ) != 0 ) {
+            add_msg( _( "The %s makes a rapid clicking sound." ), eng.name().c_str() );
+            return false;
+        }
+    }
+
+    // Engines always fail to start with faulty fuel pumps
+    if( eng.faults().count( fault_pump ) || eng.faults().count( fault_diesel ) ) {
+        add_msg( _( "The %s quickly stutters out." ), eng.name().c_str() );
+        return false;
+    }
+
+    // Damaged engines have a chance of failing to start
+    if( x_in_y( dmg * 100, 120 ) ) {
+        add_msg( _( "The %s makes a terrible clanking sound." ), eng.name().c_str() );
+        return false;
     }
 
     return true;
