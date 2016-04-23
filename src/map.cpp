@@ -3939,7 +3939,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             //Greatly weakens power of bullets
             dam -= 40;
-            if (dam <= 0) {
+            if( dam <= 0 && g->u.sees( p ) ) {
                 add_msg(_("The shot is stopped by the reinforced glass wall!"));
             } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
