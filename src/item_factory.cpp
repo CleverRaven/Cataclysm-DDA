@@ -1185,6 +1185,18 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
     slot.ups_charges = jo.get_int( "ups_charges", slot.ups_charges );
     slot.install_time = jo.get_int( "install_time", slot.install_time );
+
+    JsonArray mags = jo.get_array( "magazine_adaptor" );
+    while( mags.has_more() ) {
+        JsonArray arr = mags.next_array();
+
+        ammotype ammo = arr.get_string( 0 ); // an ammo type (eg. 9mm)
+        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+
+        while( compat.has_more() ) {
+            slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
+        }
+    }
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)

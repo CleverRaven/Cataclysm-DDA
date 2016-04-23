@@ -4151,6 +4151,14 @@ itype_id item::magazine_default( bool conversion ) const
 
 std::set<itype_id> item::magazine_compatible( bool conversion ) const
 {
+    // gunmods that define magazine_adaptor may override the items usual magazines
+    for( const auto m : gunmods() ) {
+        if( !m->type->gunmod->magazine_adaptor.empty() ) {
+            auto mags = m->type->gunmod->magazine_adaptor.find( ammo_type( conversion ) );
+            return mags != m->type->gunmod->magazine_adaptor.end() ? mags->second : std::set<itype_id>();
+        }
+    }
+
     auto mags = type->magazines.find( ammo_type( conversion ) );
     return mags != type->magazines.end() ? mags->second : std::set<itype_id>();
 }
@@ -4234,8 +4242,9 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
         msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
 
-    } else if( effects && mod.type->gunmod->ammo_modifier != "NULL" && ( ammo_remaining() > 0 || magazine_current() ) ) {
-        msg = string_format( _( "Unload your %s before trying to modify the ammo type." ), tname().c_str() );
+    } else if( effects && ( mod.type->gunmod->ammo_modifier != "NULL" || !mod.type->gunmod->magazine_adaptor.empty() )
+                       && ( ammo_remaining() > 0 || magazine_current() ) ) {
+        msg = string_format( _( "You must unload your %s before installing this mod." ), tname().c_str() );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         msg = string_format( _( "That %s cannot be attached to a %s" ), mod.tname().c_str(), _( gun_type().c_str() ) );

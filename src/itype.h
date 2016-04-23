@@ -370,6 +370,8 @@ struct islot_gunmod : common_firing_data {
     /** Increases base gun UPS consumption by this many charges per shot */
     int ups_charges = 0;
 
+    /** If non-empty replaces the compatible magazines for the base gun */
+    std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 };
 
 struct islot_magazine {
