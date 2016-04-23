@@ -3465,7 +3465,7 @@ bool item::is_engine() const
 
 bool item::is_faulty() const
 {
-    return !faults.empty();
+    return is_engine() ? !faults.empty() : false;
 }
 
 bool item::is_container_empty() const

@@ -139,7 +139,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     const std::set<fault_id>& faults() const;
 
     /** Faults which could potentially occur with this part (if any) */
-    const std::set<fault_id>& faults_potential() const;
+    std::set<fault_id> faults_potential() const;
 
     /** Try to set fault returning false if specified fault cannot occur with this item */
     bool fault_set( const fault_id &f );

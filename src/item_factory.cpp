@@ -563,9 +563,11 @@ void Item_factory::check_definitions() const
             msg << string_format( "invalid container property %s", type->default_container.c_str() ) << "\n";
         }
 
-        for( const auto& f : type->faults ) {
-            if( !f.is_valid() ) {
-                msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
+        if( type->engine ) {
+            for( const auto& f : type->engine->faults ) {
+                if( !f.is_valid() ) {
+                    msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
+                }
             }
         }
 
@@ -930,6 +932,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 void Item_factory::load( islot_engine &slot, JsonObject &jo )
 {
     assign( jo, "displacement", slot.displacement );
+    assign( jo, "faults", slot.faults );
 }
 
 void Item_factory::load_engine( JsonObject &jo )
@@ -1443,8 +1446,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     if( jo.has_member( "category" ) ) {
         new_item_template->category = get_category( jo.get_string( "category" ) );
     }
-
-    assign( jo, "faults", new_item_template->faults );
 
     load_slot_optional( new_item_template->container, jo, "container_data" );
     load_slot_optional( new_item_template->armor, jo, "armor_data" );

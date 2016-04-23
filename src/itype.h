@@ -298,6 +298,9 @@ struct islot_engine
 {
     /** for combustion engines the displacement (cc) */
     int displacement = 0;
+
+    /** What faults (if any) can occur */
+    std::set<fault_id> faults;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
@@ -603,9 +606,6 @@ public:
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
     int magazine_well = 0;
-
-    /** What faults (if any) can occur with instances of this type */
-    std::set<fault_id> faults;
 
     std::string get_item_type_string() const
     {
