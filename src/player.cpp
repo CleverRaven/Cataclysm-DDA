@@ -9980,7 +9980,7 @@ void player::mend_item( item_location&& obj, bool interactive )
     if( sel >= 0 ) {
         if( !faults[ sel ].second ) {
             if( interactive ) {
-                add_msg( m_info, _( "You are unable to currently mend the %s." ), obj->tname().c_str() );
+                add_msg( m_info, _( "You are currently unable to mend the %s." ), obj->tname().c_str() );
             }
             return;
         }
