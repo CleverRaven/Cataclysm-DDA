@@ -10317,14 +10317,14 @@ void game::handle_all_liquid( item liquid, const int radius )
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
-        handle_liquid( liquid, false, false, nullptr, radius );
+        handle_liquid( liquid, false, nullptr, radius );
     }
 }
 
 bool game::consume_liquid( item &liquid, const int radius )
 {
     const auto original_charges = liquid.charges;
-    while( liquid.charges > 0 && handle_liquid( liquid, false, false, nullptr, radius ) ) {
+    while( liquid.charges > 0 && handle_liquid( liquid, false, nullptr, radius ) ) {
         // try again with the remaining charges
     }
     return original_charges != liquid.charges;
@@ -10333,7 +10333,7 @@ bool game::consume_liquid( item &liquid, const int radius )
 bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, const int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
-    handle_liquid( *on_ground, true, false, nullptr, radius );
+    handle_liquid( *on_ground, true, nullptr, radius );
     if( on_ground->charges > 0 ) {
         return false;
     }
@@ -10344,7 +10344,7 @@ bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const
 bool game::handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
-    handle_liquid( *in_container, false, false, &container, radius );
+    handle_liquid( *in_container, false, &container, radius );
     if( in_container->charges > 0 ) {
         return false;
     }
@@ -10357,7 +10357,7 @@ bool game::handle_liquid_from_container( item &container, int radius )
     return handle_liquid_from_container( container.contents.begin(), container, radius );
 }
 
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
+bool game::handle_liquid(item &liquid, bool from_ground, item *source,
                          int radius)
 {
     if( !liquid.made_of(LIQUID) ) {
@@ -10395,7 +10395,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // The user has intended to do something, but mistyped.
             return true;
         }
-        const int amt = infinite ? INT_MAX : liquid.charges;
+        const int amt = liquid.charges;
         u.moves -= 100;
         liquid.charges = veh->refill(ftype, amt);
         if (veh->fuel_left(ftype) < fuel_cap) {
@@ -10433,9 +10433,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             // Ask the player whether they want to drink from it.
             if (from_ground && liquid.is_food(&u)) {
                 int charges_consumed = u.drink_from_hands(liquid);
-                if (!infinite) {
                     liquid.charges -= charges_consumed;
-                }
                 // TODO: this case is unclear. We don't know whether the user canceled the query
                 // "drink from hands?" (action was explicitly canceled) or the query "you're full,
                 // drink anyway?" (action was aborted because of circumstances).
@@ -10491,16 +10489,12 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         }
 
         add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
-        if (infinite) {
-            cont->ammo_set( liquid.typeId() ); // fill to capacity
-        } else {
             auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
             liquid.charges -= qty;
             cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
             if( liquid.charges > 0 ) {
                 add_msg(_("There's some left over!"));
             }
-        }
         return true;
 
     } else {
@@ -10515,7 +10509,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
 
         u.inv.unsort();
         add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
-        if( !infinite && liquid.charges > 0 ) {
+        if( liquid.charges > 0 ) {
+            // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
             add_msg( _( "There's some left over!" ) );
         }
         return true;

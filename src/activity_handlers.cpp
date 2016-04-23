@@ -505,7 +505,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     // Fill up 10 charges per time
     water.charges = 10;
 
-    if( !g->handle_liquid( water, true, true, NULL ) ) {
+    if( !g->handle_liquid( water, true, NULL ) ) {
         // canceled
         act->moves_left = 0;
     }

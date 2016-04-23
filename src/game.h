@@ -594,7 +594,7 @@ class game
          * Basically `false` indicates the user does not *want* to handle the liquid, `true`
          * indicates they want to handle it.
          */
-        bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
+        bool handle_liquid(item &liquid, bool from_ground, item *source = NULL,
                            int radius = 0);
 
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
