@@ -1695,11 +1695,12 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
 // engines provide, whilst alternators consume.
 int vehicle::part_power(int const index, bool const at_full_hp) const
 {
-    const vehicle_part& vp = parts[ index ];
-
-    if( !vp.has_flag( VPFLAG_ENGINE ) || !vp.has_flag( VPFLAG_ALTERNATOR ) ) {
-       return 0;
+    if( !part_flag(index, VPFLAG_ENGINE) &&
+        !part_flag(index, VPFLAG_ALTERNATOR) ) {
+       return 0; // not an engine.
     }
+
+    const vehicle_part& vp = parts[ index ];
 
     int pwr = vp.base.engine_displacement();
     if( pwr == 0 ) {
