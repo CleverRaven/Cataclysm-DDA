@@ -53,6 +53,7 @@
 #include "fault.h"
 
 #include <map>
+#include <iterator>
 
 #ifdef TILES
 #include "SDL2/SDL.h"
