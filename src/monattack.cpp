@@ -400,6 +400,7 @@ bool mattack::acid(monster *z)
     proj.speed = 10;
     proj.impact.add_damage( DT_ACID, 5 ); // Mostly just for momentum
     proj.range = 10;
+    proj.proj_effects.insert( "NO_OVERSHOOT" );
     auto dealt = z->projectile_attack( proj, target->pos(), 5400 );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
