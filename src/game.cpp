@@ -10321,6 +10321,17 @@ void game::handle_all_liquid( item liquid, const int radius )
     }
 }
 
+bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, const int radius )
+{
+    // TODO: not all code paths on handle_liquid consume move points, fix that.
+    handle_liquid( *on_ground, true, false, nullptr, nullptr, radius );
+    if( on_ground->charges > 0 ) {
+        return false;
+    }
+    m.i_at( pos ).erase( on_ground );
+    return true;
+}
+
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
                          item *cont, int radius)
 {

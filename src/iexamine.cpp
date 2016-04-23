@@ -81,12 +81,10 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                     items.erase( item_it );
                 }
             } else {
-                p.moves -= 300;
-                g->handle_liquid( *item_it, true, false );
-                if( item_it->charges <= 0 ) {
+                const std::string name = item_it->type_name();
+                if( g->handle_liquid_from_ground( item_it, examp ) ) {
                     add_msg(_("With a clang and a shudder, the %s pump goes silent."),
-                            item_it->type_name().c_str() );
-                    items.erase( item_it );
+                            name.c_str() );
                 }
             }
             return;
@@ -547,22 +545,12 @@ void iexamine::toilet(player &p, const tripoint &examp)
     if( water == items.end() ) {
         add_msg(m_info, _("This toilet is empty."));
     } else {
-        int initial_charges = water->charges;
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in(3) ? 0 : rng(1, 3);
 
-        // First try handling/bottling, then try drinking, but only try
-        // drinking if we don't handle or bottle.
-        const bool handled = g->handle_liquid( *water, true, false );
-        if( handled || initial_charges != water->charges ) {
-            // The bottling happens in handle_liquid, but delay of action
-            // does not.
-            p.moves -= 100;
-        }
-
-        if( water->charges <= 0 ) {
-            items.erase( water );
-        }
+        (void) p; // TODO: use me
+        g->handle_liquid_from_ground( water, examp );
+        // TODO: ensure that `handle_liquid` consumes moves
     }
 }
 
@@ -2010,11 +1998,10 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    g->handle_liquid( brew_i, true, false );
-    if( brew_i.charges <= 0 ) {
+    const std::string booze_name = g->m.i_at( examp ).front().tname();
+    if( g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
-        add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.tname().c_str());
-        g->m.i_clear( examp );
+        add_msg(_("You squeeze the last drops of %s from the vat."), booze_name.c_str());
     }
 }
 
@@ -2117,13 +2104,13 @@ void iexamine::keg(player &p, const tripoint &examp)
         selectmenu.selected = 0;
         selectmenu.query();
 
+        const auto drink_name = drink->tname();
+
         switch( static_cast<options>( selectmenu.ret ) ) {
         case FILL_CONTAINER:
-            g->handle_liquid( *drink, true, false );
-            if( drink->charges <= 0 ) {
-                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink->tname().c_str(),
+            if( g->handle_liquid_from_ground( drink, examp ) ) {
+                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink_name.c_str(),
                         g->m.name(examp).c_str());
-                g->m.i_clear( examp );
             }
             return;
 

@@ -548,6 +548,18 @@ class game
          * `true` indicates some charges have been transferred (but not necessarily all of them).
          */
         void handle_all_liquid( item liquid, int radius = 0 );
+
+        /**
+         * Handle finite liquid from ground. The function also handles consuming move points.
+         * @param on_ground Iterator to the item on the ground. Must be valid and point to an
+         * item in the stack at `m.i_at(pos)`
+         * @param pos The position of the item on the map.
+         * @return Whether the item has been removed (which implies it was handled completely).
+         * The iterator is invalidated in that case. Otherwise the item remains but may have
+         * fewer charges.
+         */
+        bool handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, int radius = 0 );
+
         /**
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates
          * the user has rejected all possible actions. But note that `true` does *not* indicate any
