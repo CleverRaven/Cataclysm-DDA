@@ -4183,5 +4183,28 @@
         [ [ "gunpowder", 8 ] ],
         [ [ "copper", 10 ] ]
     ]
-}
+},{
+    "type" : "recipe",
+    "result": "vibrator",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": 5400,
+    "reversible": true,
+    "autolearn": true,
+    "qualities" : [
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "components": [
+    [[ "cable", 12 ]],
+    [[ "amplifier", 1 ]],
+    [[ "scrap", 2 ]],
+    [[ "spring", 1 ]],
+    [[ "material_aluminium_ingot", 1 ]]
+    ]
+    }
 ]
