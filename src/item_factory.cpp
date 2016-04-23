@@ -863,7 +863,7 @@ typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
 }
 
 template <typename T>
-typename std::enable_if<std::is_same<T, std::string>::value, bool>::type assign(
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     JsonObject &jo, const std::string& name, T& val ) {
     return jo.read( name, val );
 }
@@ -922,10 +922,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    if( jo.has_string( "skill" ) ) {
-        slot.skill_used = skill_id( jo.get_string( "skill" ) );
-    }
-
+    assign( jo, "skill", slot.skill_used );
     assign( jo, "ammo", slot.ammo );
     assign( jo, "range", slot.range );
     assign( jo, "ranged_damage", slot.damage );

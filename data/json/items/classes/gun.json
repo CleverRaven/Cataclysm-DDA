@@ -19,7 +19,28 @@
     "type": "GUN",
     "name": "base rifle",
     "skill": "rifle",
-    "aim_speed": 8
+    "aim_speed": 8,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+  },
+  {
+    "abstract": "rifle_manual",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "rifles with manual actions",
+    "//": "Manual actions exclude the magazine location preventing installation of belt-feed adaptors",
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+  },
+  {
+    "abstract": "rifle_semi",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "semi-automatic rifle"
+  },
+  {
+    "abstract": "rifle_auto",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "fully automatic rifle"
   },
   {
     "abstract": "shotgun_base",
