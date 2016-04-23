@@ -87,6 +87,29 @@
     "use_action": "UPS_BATTERY"
   },
   {
+    "type" : "COMESTIBLE",
+    "id" : "brew_bum_wine",
+    "name" : "cheap wine must",
+    "description" : "Unfermented grape wine.  A hearty mix of pressed grapes, with some added brandy to fortify it.",
+    "weight" : 46,
+    "color" : "red",
+    "container" : "jug_plastic",
+    "symbol" : "~",
+    "nutrition" : 2,
+    "quench" : 6,
+    "fun" : -15,
+    "price" : 0,
+    "material" : ["fruit", "water"],
+    "volume" : 1,
+    "charges" : 7,
+    "phase" : "liquid",
+    "comestible_type" : "DRINK",
+    "brewable" : {
+        "time" : 5600,
+        "results" : [ "bum_wine" ]
+    }
+  },
+  {
     "id": "saiga_sawn",
     "type": "GUN",
     "symbol": "(",

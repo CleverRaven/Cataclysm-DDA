@@ -423,8 +423,11 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     bool is_sealable_container() const;
     /** Whether this item has no contents at all. */
     bool is_container_empty() const;
-    /** Whether this item has no more free capacity for its current content. */
-    bool is_container_full() const;
+    /**
+     * Whether this item has no more free capacity for its current content.
+     * @param allow_bucket Allow filling non-sealable containers
+     */
+    bool is_container_full( bool allow_bucket = false ) const;
     /**
      * Fill item with liquid up to its capacity. This works for guns and tools that accept
      * liquid ammo.
@@ -529,7 +532,11 @@ public:
     /** Turn item was put into a fridge or 0 if not in any fridge. */
     int fridge = 0;
 
- int brewing_time() const;
+    /** Turns for this item to be fully fermented. */
+    int brewing_time() const;
+    /** The results of fermenting this item. */
+    const std::vector<itype_id> &brewing_results() const;
+
  void detonate( const tripoint &p ) const;
 
     /**
@@ -707,6 +714,8 @@ public:
  bool is_artifact() const;
     bool is_bucket() const;
     bool is_bucket_nonempty() const;
+
+    bool is_brewable() const;
 
     /**
      * Can this item have given item/itype as content?

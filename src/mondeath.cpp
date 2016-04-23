@@ -234,6 +234,11 @@ void mdeath::triffid_heart(monster *z)
 
 void mdeath::fungus(monster *z)
 {
+    // If the fungus died from anti-fungal poison, don't pouf
+    if( g->m.get_field_strength( z->pos(), fd_fungicidal_gas ) ) {
+        return;
+    }
+
     //~ the sound of a fungus dying
     sounds::sound(z->pos(), 10, _("Pouf!"));
 
@@ -356,7 +361,7 @@ void mdeath::guilt(monster *z)
 void mdeath::blobsplit(monster *z)
 {
     int speed = z->get_speed() - rng(30, 50);
-    g->m.spawn_item(z->pos(), "slime_scrap", 1, 0, calendar::turn, rng(1, 4));
+    g->m.spawn_item(z->pos(), "slime_scrap", 1, 0, calendar::turn);
     if( z->get_speed() <= 0) {
         if (g->u.sees(*z)) {
             //  TODO:  Add vermin-tagged tiny versions of the splattered blob  :)

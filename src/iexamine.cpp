@@ -1872,7 +1872,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
     int charges_on_ground = 0;
     auto items = g->m.i_at(examp);
     for( auto item_it = items.begin(); item_it != items.end(); ) {
-        if( !item_it->has_flag("BREW") || brew_present ) {
+        if( !item_it->is_brewable() || brew_present ) {
             // This isn't a brew or there was already another kind of brew inside,
             // so this has to be moved.
             items.push_back( *item_it );
@@ -1883,8 +1883,11 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
             brew_present = true;
         }
     }
-    if (!brew_present) {
-        std::vector<const item *> b_inv = p.all_items_with_flag( "BREW" );
+    if( !brew_present ) {
+        // @todo Allow using brews from crafting inventory
+        const auto b_inv = p.items_with( []( const item &it ) {
+            return it.is_brewable();
+        } );
         if( b_inv.empty() ) {
             add_msg(m_info, _("You have no brew to ferment."));
             return;
@@ -1944,7 +1947,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         p.moves -= 250;
     }
     if (vat_full || query_yn(_("Start fermenting cycle?"))) {
-        g->m.i_at( examp).front().bday = calendar::turn;
+        g->m.i_at( examp ).front().bday = calendar::turn;
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -1954,70 +1957,74 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
     }
 }
 
-void iexamine::fvat_full(player &p, const tripoint &examp)
+void iexamine::fvat_full( player &p, const tripoint &examp )
 {
-    bool liquid_present = false;
-    for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
-        if (!(g->m.i_at(examp)[i].made_of(LIQUID)) || liquid_present) {
-            g->m.add_item_or_charges(examp, g->m.i_at(examp)[i]);
-            g->m.i_rem( examp, i );
-            i--;
-        } else {
-            liquid_present = true;
-        }
-    }
-    if (!liquid_present) {
-        debugmsg("fvat_full was empty or contained non-liquids only!");
-        g->m.furn_set(examp, f_fvat_empty);
+    auto items_here = g->m.i_at( examp );
+    if( items_here.empty() ) {
+        debugmsg( "fvat_full was empty!" );
+        g->m.furn_set( examp, f_fvat_empty );
         return;
     }
-    item brew_i = g->m.i_at(examp)[0];
-    if (brew_i.has_flag("BREW")) { //Does the vat contain unfermented brew, or already fermented booze?
+
+    for( size_t i = 0; i < items_here.size(); i++ ) {
+        auto &it = items_here[i];
+        if( !it.made_of( LIQUID ) ) {
+            add_msg( _("You remove %s from the vat."), it.tname().c_str() );
+            g->m.add_item_or_charges( p.pos(), it );
+            g->m.i_rem( examp, i );
+            i--;
+        }
+    }
+
+    if( items_here.empty() ) {
+        g->m.furn_set( examp, f_fvat_empty );
+        return;
+    }
+
+    item &brew_i = items_here.front();
+    // Does the vat contain unfermented brew, or already fermented booze?
+    // @todo Allow "recursive brewing" to continue without player having to check on it
+    if( brew_i.is_brewable() ) {
+        add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
+
         int brew_time = brew_i.brewing_time();
-        int brewing_stage = 3 * ((float)(calendar::turn.get_turn() - brew_i.bday) / (brew_time));
-        add_msg(_("There's a vat full of %s set to ferment there."), brew_i.tname().c_str());
-        switch (brewing_stage) {
-        case 0:
-            add_msg(_("It's been set recently, and will take some time to ferment."));
-            break;
-        case 1:
-            add_msg(_("It is about halfway done fermenting."));
-            break;
-        case 2:
-            add_msg(_("It will be ready for bottling soon."));
-            break;
-        // More messages can be added to show progress if desired
-        default:
-            // Double-checking that the brew is actually ready
-            if( (calendar::turn.get_turn() > (brew_i.bday + brew_time) ) &&
-                g->m.furn(examp) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
-                //declare fermenting result as the brew's ID minus "brew_"
-                itype_id alcoholType = g->m.i_at(examp)[0].typeId().substr(5);
-                ///\EFFECT_COOKING >4 prevents hb_beer from turning into just beer
-                SkillLevel &cooking = p.skillLevel( skill_cooking );
-                if (alcoholType == "hb_beer" && cooking < 5) {
-                    alcoholType = alcoholType.substr(3);    //hb_beer -> beer
-                }
-                item booze(alcoholType, 0);
-                booze.charges = brew_i.charges;
-                booze.bday = brew_i.bday;
-
-                g->m.i_clear(examp);
-                g->m.add_item( examp, booze );
-                p.moves -= 500;
-
-                //low xp: you also get xp from crafting the brew
-                p.practice( skill_cooking, std::min(brew_time / 600, 72) );
-                add_msg(_("The %s is now ready for bottling."), booze.tname().c_str());
+        int progress = calendar::turn.get_turn() - brew_i.bday;
+        if( progress < brew_time ) {
+            int hours = ( brew_time - progress ) / HOURS(1);
+            if( hours < 1 ) {
+                add_msg( _( "It will finish brewing in less than an hour." ) );
+            } else {
+                add_msg( ngettext( "It will finish brewing in about %d hour.",
+                                   "It will finish brewing in about %d hours.",
+                                   hours ), hours );
             }
+            return;
         }
-    } else { //Booze is done, so bottle it!
-        item &booze = g->m.i_at(examp).front();
-        if( g->handle_liquid( booze, true, false) ) {
-            g->m.furn_set(examp, f_fvat_empty);
-            add_msg(_("You squeeze the last drops of %s from the vat."), booze.tname().c_str());
+
+        if( query_yn(_("Finish brewing?") ) ) {
+            const auto results = brew_i.brewing_results();
+
             g->m.i_clear( examp );
+            for( const auto &result : results ) {
+                // @todo Different age based on settings
+                item booze( result, brew_i.bday, brew_i.charges );
+                g->m.add_item( examp, booze );
+                if( booze.made_of( LIQUID ) ) {
+                    add_msg( _("The %s is now ready for bottling."), booze.tname().c_str() );
+                }
+            }
+
+            p.moves -= 500;
+            p.practice( skill_cooking, std::min( brew_time / MINUTES(10), 100 ) );
         }
+
+        return;
+    }
+
+    if( g->handle_liquid( brew_i, true, false ) ) {
+        g->m.furn_set( examp, f_fvat_empty );
+        add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.tname().c_str());
+        g->m.i_clear( examp );
     }
 }
 
@@ -2276,6 +2283,162 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     p.moves -= 2000 / ( p.skillLevel( skill_survival ) + 1 ) + 100;
     return;
     none( p, examp );
+}
+
+item_location maple_tree_sap_container() {
+    const item maple_sap = item( "maple_sap", 0 );
+    return g->inv_map_splice( [&]( const item &it ) {
+        return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
+    }, _( "Which container:" ), PICKUP_RANGE );
+}
+
+void iexamine::tree_maple(player &p, const tripoint &examp)
+{
+    if( !p.has_quality( "DRILL" ) ) {
+        add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
+        return;
+    }
+
+    if( !p.has_quality( "HAMMER" ) ) {
+        add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
+        return;
+    }
+
+    const inventory &crafting_inv = p.crafting_inventory();
+
+    if( !crafting_inv.has_amount( "tree_spile", 1 ) ) {
+        add_msg( m_info, _( "You need a %s to tap this maple tree." ), item::nname( "tree_spile" ).c_str() );
+        return;
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "tree_spile", 1 ) );
+    p.consume_items( comps );
+
+    p.mod_moves( -200 );
+    g->m.ter_set( examp, t_tree_maple_tapped );
+
+    auto cont_loc = maple_tree_sap_container();
+
+    item *container = cont_loc.get_item();
+    if( container ) {
+        g->m.add_item_or_charges( examp, *container, 0 );
+
+        cont_loc.remove_item();
+    } else {
+        add_msg( m_info, _( "No container added. The sap will just spill on the ground." ) );
+    }
+}
+
+void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
+{
+    bool has_sap = false;
+    bool has_container = false;
+    long charges = 0;
+
+    const std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
+
+    auto items = g->m.i_at( examp );
+    for( auto &it : items ) {
+        if( it.is_bucket() || it.is_watertight_container() ) {
+            has_container = true;
+
+            if( !it.is_container_empty() && it.contents.front().type->id == "maple_sap" ) {
+                has_sap = true;
+                charges = it.contents.front().charges;
+            }
+        }
+    }
+
+    enum options {
+        REMOVE_TAP,
+        ADD_CONTAINER,
+        HARVEST_SAP,
+        REMOVE_CONTAINER,
+        CANCEL,
+    };
+    uimenu selectmenu;
+    selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _("Remove tap") );
+    selectmenu.addentry( ADD_CONTAINER, !has_container, MENU_AUTOASSIGN, _("Add a container to receive the %s"), maple_sap_name.c_str() );
+    selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _("Harvest current %s (%d)"), maple_sap_name.c_str(), charges );
+    selectmenu.addentry( REMOVE_CONTAINER, has_container, MENU_AUTOASSIGN, _("Remove container") );
+    selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
+
+    selectmenu.return_invalid = true;
+    selectmenu.text = _("Select an action");
+    selectmenu.selected = 0;
+    selectmenu.query();
+
+    switch( static_cast<options>( selectmenu.ret ) ) {
+        case REMOVE_TAP: {
+            if( !p.has_quality( "HAMMER" ) ) {
+                add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
+                return;
+            }
+
+            item tree_spile( "tree_spile" );
+            add_msg( _( "You remove the %s." ), tree_spile.tname( 1 ).c_str() );
+            g->m.add_item_or_charges( p.pos(), tree_spile );
+
+            for( auto &it : items ) {
+                g->m.add_item_or_charges( p.pos(), it );
+            }
+            g->m.i_clear( examp );
+
+            p.mod_moves( -200 );
+            g->m.ter_set( examp, t_tree_maple );
+
+            return;
+        }
+
+        case ADD_CONTAINER: {
+            auto cont_loc = maple_tree_sap_container();
+
+            item *container = cont_loc.get_item();
+            if( container ) {
+                g->m.add_item_or_charges( examp, *container, 0 );
+
+                cont_loc.remove_item();
+            } else {
+                add_msg( m_info, _( "No container added. The sap will just spill on the ground." ) );
+            }
+
+            return;
+        }
+
+        case HARVEST_SAP:
+            for( auto &it : items ) {
+                if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
+                    auto &liquid = it.contents.front();
+                    if( liquid.type->id == "maple_sap" ) {
+                        long initial_charges = liquid.charges;
+                        bool emptied = g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
+
+                        if( emptied || initial_charges != liquid.charges ) {
+                            p.mod_moves( -100 );
+                        }
+
+                        if( emptied || liquid.charges <= 0 ) {
+                            it.contents.clear();
+                        }
+                    }
+                }
+            }
+            
+            return;
+
+        case REMOVE_CONTAINER: {
+            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.activity.placement = examp - p.pos();
+            g->u.activity.values.push_back( false );
+            g->u.activity.values.push_back( 0 );
+            g->u.activity.values.push_back( 0 );
+            return;
+        }
+
+        case CANCEL:
+            return;
+    }
 }
 
 void iexamine::tree_bark(player &p, const tripoint &examp)
@@ -3344,6 +3507,12 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("tree_hickory" == function_name) {
         return &iexamine::tree_hickory;
+    }
+    if ( "tree_maple" == function_name ) {
+        return &iexamine::tree_maple;
+    }
+    if ( "tree_maple_tapped" == function_name ) {
+        return &iexamine::tree_maple_tapped;
     }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;

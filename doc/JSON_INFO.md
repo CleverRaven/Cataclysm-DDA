@@ -316,6 +316,15 @@ Mods can modify this via "add:traits" and "remove:traits".
 "time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
+"autolearn" : [              // Automatically learned upon gaining listed skills
+    [ "survival", 2 ],
+    [ "fabrication", 3 ]
+],
+"decomp_learn" : 4,          // Can be learned by disassembling an item of same type as result at this level of the skill_used
+"decomp_learn" : [           // Can be learned by disassembling an item of same type as result at specified levels of skills
+    [ "survival", 1 ],
+    [ "fabrication", 2 ]
+],
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -482,6 +491,18 @@ Mods can modify this via "add:traits" and "remove:traits".
     [ "9mm", [ "glockmag" ] ]     // The first magazine specified for each ammo type is the default
     [ "45", [ "m1911mag", "m1911bigmag" ] ],
 ],
+"explode_in_fire" : true,         // Should the item explode if set on fire
+"explosion": {                    // Physical explosion data
+    "power" : 10,                 // Measure of explosion power, affects damage and range
+    "distance_factor" : 0.9,      // How much power is retained per traveled tile of explosion. Must be lower than 1 and higher than 0.
+    "fire" : true,                // Should the explosion leave fire
+    "shrapnel" : {
+        "count" : 10,             // Number of shrapnel pieces
+        "mass" : 10,              // Mass of shrapnel pieces. Affects armor piercing and terrain smashing.
+        "recovery" : 10,          // Percentage chance to drop an item at landing point.
+        "drop" : "nail"           // Which item to drop at landing point.
+    }
+},
 ```
 
 ###AMMO
@@ -755,6 +776,17 @@ Every item type can have optional artifact properties (which makes it an artifac
 }
 ```
 
+###BREWING DATA
+Every item type can have optional brewing data, if the item has brewing data, it can be placed in a vat and will ferment into a different item type.
+
+Currently only vats can only accept and produce liquid items.
+```JSON
+"brewable" : {
+    "time": 3600, // Time (in turns) the fermentation will take.
+    "result": "beer" // The id of the result of the fermentation.
+}
+```
+
 #### charge_type
 (optional, default: "ARTC_NULL") How the item is recharged. For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
 - "ARTC_NULL" Never recharges!
@@ -870,12 +902,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "sound_volume": 0, // Volume of a sound the item makes every turn.
     "sound_msg": "Tick.", // Message describing sound the item makes every turn.
     "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.", // Message to display if the player tries to activate the item, prevents activation from succeeding if defined.
-    "explosion_power": 12, // Power of the resulting explosion.
-    "explosion_shrapnel": 28, // abritrary measure of quantity shrapnel emitted affecting number of hits (legacy field)
-    "explosion_fire" : 33, // Power of flames produced by explosion.
-    "shrapnel": { // optional
-      "count": 28, // abritrary measure of quantity shrapnel emitted affecting number of hits
-      "mass": 10 // determines how readily terrain constrains shrapnel and also caps pierce damage
+    "explosion": { // Optional: physical explosion data
+        // Specified like `"explosion"` field in generic items
     }
     "draw_explosion_radius" : 5, // How large to draw the radius of the explosion.
     "draw_explosion_color" : "ltblue", // The color to use when drawing the explosion.
