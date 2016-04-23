@@ -559,12 +559,12 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
             if( part_flag( p, VPFLAG_ENGINE ) ) {
                 // If possible set an engine fault rather than destroying the engine outright
-                if( one_in( 2 ) && !parts[ p ].faults_potential().empty() ) {
+                if( destroyEngine && parts[ p ].faults_potential().empty() ) {
+                    parts[ p ].hp = 0;
+                } else if( destroyEngine || one_in( 3 ) ) {
                     do {
                         parts[ p ].fault_set( random_entry( parts[ p ].faults_potential() ) );
-                    } while( one_in( 2 ) );
-                } else {
-                    parts[ p ].hp = 0;
+                    } while( one_in( 3 ) );
                 }
 
             } else if ((destroySeats && (part_flag(p, "SEAT") || part_flag(p, "SEATBELT"))) ||
