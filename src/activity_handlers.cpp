@@ -1474,7 +1474,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const std::string title = string_format(
-                                      _( "%s\nSuccess chance %.1f\nDamage chance %.1f" ),
+                                      _( "%s\nSuccess chance: %.1f%%\nDamage chance: %.1f%%" ),
                                       repair_item_actor::action_description( action_type ).c_str(),
                                       100.0f * chance.first, 100.0f * chance.second );
         repeat_type answer = repeat_menu( title, repeat );
