@@ -39,5 +39,17 @@
       [ "gasoline", 50 ],
       [ "lamp_oil", 100 ]
     ]
+  },
+  {
+    "id": "supplies_spares_vehicle",
+    "type": "item_group",
+    "//": "Spare parts for crafting or mending vehicle parts",
+    "items": [
+      [ "drivebelt", 200 ],
+      [ "glowplug", 10 ],
+      [ "motor_small", 20 ],
+      [ "pump_complex", 10 ],
+      [ "well_pump", 50 ]
+    ]
   }
 ]

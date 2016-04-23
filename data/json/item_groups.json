@@ -4821,6 +4821,7 @@
     "id" : "mechanics",
     "ammo" : 100,
     "items":[
+      { "group": "supplies_spares_vehicle", "prob": 200 },
       ["polisher", 15],
       ["jumper_cable", 15],
       ["jumper_cable_heavy", 5],
