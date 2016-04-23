@@ -536,6 +536,10 @@ class game
         void calc_driving_offset(vehicle *veh = NULL);
 
         /**
+         * @name Liquid handling
+         */
+        /**@{*/
+        /**
          * Consume / handle all of the liquid. The function can be used when the liquid needs
          * to be handled and can not be put back to where it came from (e.g. when it's a newly
          * created item from crafting).
@@ -591,6 +595,12 @@ class game
          * This may start a player activity if either \p source_pos or \p source_veh is not
          * null.
          * The function consumes moves of the player as needed.
+         * Supply one of the source parameters to prevent the player from pouring the liquid back
+         * into that "container". If no source parameter is given, the liquid must not be in a
+         * container at all (e.g. freshly crafted, or already removed from the container).
+         * @param source The container that currently contains the liquid.
+         * @param source_pos The source of the liquid when it's from the map.
+         * @param source_veh The vehicle that currently contains the liquid in its tank.
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates
          * the user has rejected all possible actions. But note that `true` does *not* indicate any
          * liquid was actually consumed, the user may have chosen an option that turned out to be
@@ -601,6 +611,7 @@ class game
         bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
                             const tripoint *source_pos = nullptr,
                             const vehicle *source_veh = nullptr );
+        /**@}*/
 
         void open_gate( const tripoint &p );
 
