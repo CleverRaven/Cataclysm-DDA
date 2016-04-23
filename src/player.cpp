@@ -5220,6 +5220,13 @@ void player::update_body( int from, int to )
             if( qty > 0 ) {
                 vitamin_mod( v.first, 0 - qty );
             }
+
+        } else if ( rate < 0 ) {
+            // mutations can result in vitamins being generated (but never accumulated)
+            int qty = ticks_between( from, to, MINUTES( std::abs( rate ) ) );
+            if( qty > 0 ) {
+                vitamin_mod( v.first, qty );
+            }
         }
     }
 

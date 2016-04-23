@@ -54,9 +54,9 @@
     "flags": [ "EATEN_COLD" ]
   },
   {
-    "type": "COMESTIBLE",
     "id": "protein_powder",
-    "comestible_type" : "FOOD",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
     "name": "protein powder",
     "name_plural": "servings of protein powder",
     "description": "Raw, refined protein.  While quite nutritious, it is difficult to enjoy in its pure form.",

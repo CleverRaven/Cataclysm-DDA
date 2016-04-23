@@ -47,6 +47,9 @@ static std::set<std::string> item_options;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
+static void set_allergy_flags( itype &item_template );
+static void hflesh_to_flesh( itype &item_template );
+
 bool item_is_blacklisted(const std::string &id)
 {
     if (item_whitelist.count(id) > 0) {
@@ -117,6 +120,9 @@ void Item_factory::finalize() {
         if( obj.gun ) {
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
         }
+
+        set_allergy_flags( *e.second );
+        hflesh_to_flesh( *e.second );
 
         // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
         if( obj.comestible && obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
@@ -266,11 +272,6 @@ void Item_factory::init()
 {
     //Populate the iuse functions
     iuse_function_list["NONE"] = use_function();
-    iuse_function_list["RAW_MEAT"] = &iuse::raw_meat;
-    iuse_function_list["RAW_FAT"] = &iuse::raw_fat;
-    iuse_function_list["RAW_BONE"] = &iuse::raw_bone;
-    iuse_function_list["RAW_FISH"] = &iuse::raw_fish;
-    iuse_function_list["RAW_WILDVEG"] = &iuse::raw_wildveg;
     iuse_function_list["SEWAGE"] = &iuse::sewage;
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
@@ -1092,6 +1093,7 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo )
     assign( jo, "fun", slot.fun );
     assign( jo, "stim", slot.stim );
     assign( jo, "healthy", slot.healthy );
+    assign( jo, "parasites", slot.parasites );
 
     if( jo.read( "spoils_in", slot.spoils ) ) {
         slot.spoils *= 600; // JSON specifies hours so convert to turns
@@ -1283,7 +1285,7 @@ void Item_factory::load_generic(JsonObject &jo)
 
 // Adds allergy flags to items with allergenic materials
 // Set for all items (not just food and clothing) to avoid edge cases
-void set_allergy_flags( itype &item_template )
+static void set_allergy_flags( itype &item_template )
 {
     using material_allergy_pair = std::pair<material_id, std::string>;
     static const std::vector<material_allergy_pair> all_pairs = {{
@@ -1458,10 +1460,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
     load_slot_optional( new_item_template->brewable, jo, "brewable" );
-    // Make sure this one is at/near the end
-    // TODO: Get rid of it when it is no longer needed (unless it's desired here)
-    set_allergy_flags( *new_item_template );
-    hflesh_to_flesh( *new_item_template );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)

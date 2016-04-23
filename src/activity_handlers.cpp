@@ -472,11 +472,17 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( meat == "null" ) {
             return;
         }
-        item tmpitem(meat, age);
-        tmpitem.set_mtype( corpse );
-        while ( pieces > 0 ) {
-            pieces--;
-            g->m.add_item_or_charges(p->pos(), tmpitem);
+
+        item chunk( meat, age );
+        chunk.set_mtype( corpse );
+
+        // for now don't drop non-tainted parts overhaul of taint system to not require excessive item duplication
+        item parts( chunk.is_tainted() || chunk.has_flag( "CANNIBALISM" ) ? meat : "offal", age );
+        parts.set_mtype( corpse );
+
+        g->m.add_item_or_charges( p->pos(), chunk );
+        for( int i = 1; i <= pieces; ++i ) {
+            g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
         }
     }
 

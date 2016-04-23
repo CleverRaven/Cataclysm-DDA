@@ -1652,26 +1652,28 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>." ) ) );
         }
 
-        if( is_food() && has_flag( "CANNIBALISM" ) ) {
-            if( !g->u.has_trait_flag( "CANNIBAL" ) ) {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This food contains <bad>human flesh</bad>." ) ) );
-            } else {
-                info.push_back( iteminfo( "DESCRIPTION",
-                                          _( "* This food contains <good>human flesh</good>." ) ) );
+        if( is_food() ) {
+            if( has_flag( "CANNIBALISM" ) ) {
+                if( !g->u.has_trait_flag( "CANNIBAL" ) ) {
+                    info.emplace_back( "DESCRIPTION", _( "* This food contains <bad>human flesh</bad>." ) );
+                } else {
+                    info.emplace_back( "DESCRIPTION", _( "* This food contains <good>human flesh</good>." ) );
+                }
             }
-        }
 
-        ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
-        if( is_food() && has_flag( "HIDDEN_POISON" ) && g->u.skillLevel( skill_survival ).level() >= 3 ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) ) );
-        }
+            if( is_tainted() ) {
+                info.emplace_back( "DESCRIPTION", _( "* This food is <bad>tainted</bad> and will poison you." ) );
+            }
 
-        ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
-        if( is_food() && has_flag( "HIDDEN_HALLU" ) && g->u.skillLevel( skill_survival ).level() >= 5 ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) ) );
+            ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
+            if( has_flag( "HIDDEN_POISON" ) && g->u.skillLevel( skill_survival ).level() >= 3 ) {
+                info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) );
+            }
+
+            ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
+            if( has_flag( "HIDDEN_HALLU" ) && g->u.skillLevel( skill_survival ).level() >= 5 ) {
+                info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) );
+            }
         }
 
         if( is_brewable() || ( !contents.empty() && contents[0].is_brewable() ) ) {
@@ -5679,6 +5681,11 @@ bool item::is_dangerous() const
     return std::any_of( contents.begin(), contents.end(), []( const item &it ) {
         return it.is_dangerous();
     } );
+}
+
+bool item::is_tainted() const
+{
+    return corpse && corpse->has_flag( MF_POISON );
 }
 
 bool item::is_soft() const

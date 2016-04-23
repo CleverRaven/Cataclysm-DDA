@@ -1520,8 +1520,8 @@
         "id": "brittlebone",
         "name": [ "Brittle bones" ],
         "desc": [ "A lack of calcium in your diet has made your bones brittle." ],
-        "apply_message": "Your bones have become brittle",
-        "remove_message": "Your bones regain their usual strength",
+        "apply_message": "Your bones have become brittle.",
+        "remove_message": "Your bones regain their usual strength.",
         "rating": "bad"
     },
     {
@@ -1529,8 +1529,8 @@
         "id": "anemia",
         "name": [ "Anemia" ],
         "desc": [ "A lack of iron in your diet has made you anemic." ],
-        "apply_message": "You feel tired and listless",
-        "remove_message": "You no longer feel anemic",
+        "apply_message": "You feel tired and listless.",
+        "remove_message": "You no longer feel anemic.",
         "rating": "bad"
     },
     {
@@ -1538,8 +1538,8 @@
         "id": "nightblind",
         "name": [ "Night blindness" ],
         "desc": [ "A lack of vitamin A in your diet has affected your vision." ],
-        "apply_message": "You struggle to make out the finer details",
-        "remove_message": "Your normal visual accuity returns",
+        "apply_message": "You struggle to make out the finer details.",
+        "remove_message": "Your normal visual accuity returns.",
         "rating": "bad"
     },
     {
@@ -1547,8 +1547,8 @@
         "id": "slowheal",
         "name": [ "Slow healing" ],
         "desc": [ "A lack of vitamin B12 in your diet has affected your ability to heal." ],
-        "apply_message": "Simple wounds concern you more than usual",
-        "remove_message": "Your wounds now heal normally",
+        "apply_message": "Simple wounds concern you more than usual.",
+        "remove_message": "Your wounds now heal normally.",
         "rating": "bad"
     },
     {
@@ -1556,8 +1556,8 @@
         "id": "scurvy",
         "name": [ "Scurvy" ],
         "desc": [ "A lack of vitamin C in your diet has resulted in you developing scurvy." ],
-        "apply_message": "You have contracted scurvy",
-        "remove_message": "Your scurvy has resolved",
+        "apply_message": "You have contracted scurvy.",
+        "remove_message": "Your scurvy has resolved.",
         "rating": "bad"
     },
     {
@@ -1565,8 +1565,8 @@
         "id": "hypervitaminosis",
         "name": [ "Hypervitaminosis" ],
         "desc": [ "An excess of vitamins has badly affected your metabolism." ],
-        "apply_message": "Your metabolism becomes unstable",
-        "remove_message": "Your metabolism becomes more stable",
+        "apply_message": "Your metabolism becomes unstable.",
+        "remove_message": "Your metabolism becomes more stable.",
         "rating": "bad"
     }
 ]

@@ -2436,6 +2436,10 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
+    if( food->parasites ) {
+        return 0.0;
+    }
+
     int nutr = food->nutr;
     int quench = food->quench;
 
