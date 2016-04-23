@@ -6314,8 +6314,7 @@
     [ [ "screwdriver_set", 1 ] ],
     [ [ "hacksaw", 1 ] ],
     [ [ "wrench", 1 ] ],
-    [ [ "saw", 1 ] ],
-    [ [ "misc_repairkit", 1 ] ]
+    [ [ "saw", 1 ] ]
   ]
   },{
   "type" : "recipe",
