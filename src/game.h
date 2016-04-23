@@ -550,6 +550,18 @@ class game
         void handle_all_liquid( item liquid, int radius = 0 );
 
         /**
+         * Consume / handle as much of the liquid as possible in varying ways. This function can
+         * be used when the action can be canceled, which implies the liquid can be put back
+         * to wherever it came from and is *not* lost if the player cancels the action.
+         * It returns when all liquid has been handled or if the player has explicitly canceled
+         * the action (use the charges count to distinguish).
+         * @return Whether any of the liquid has been consumed. `false` indicates the player has
+         * declined all options to handle the liquid and no charges of the liquid have been transferred.
+         * `true` indicates some charges have been transferred (but not necessarily all of them).
+         */
+        bool consume_liquid( item &liquid, int radius = 0 );
+
+        /**
          * Handle finite liquid from ground. The function also handles consuming move points.
          * @param on_ground Iterator to the item on the ground. Must be valid and point to an
          * item in the stack at `m.i_at(pos)`

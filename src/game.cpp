@@ -10321,6 +10321,15 @@ void game::handle_all_liquid( item liquid, const int radius )
     }
 }
 
+bool game::consume_liquid( item &liquid, const int radius )
+{
+    const auto original_charges = liquid.charges;
+    while( liquid.charges > 0 && handle_liquid( liquid, false, false, nullptr, nullptr, radius ) ) {
+        // try again with the remaining charges
+    }
+    return original_charges != liquid.charges;
+}
+
 bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, const int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
@@ -11560,9 +11569,7 @@ void game::mend( int pos )
 bool add_or_drop_with_msg( player &u, item &it )
 {
     if( it.made_of( LIQUID ) ) {
-        while( it.charges > 0 && g->handle_liquid( it, false, false, nullptr, nullptr, 1 ) ) {
-            // try again
-        }
+        g->consume_liquid( it, 1 );
         return it.charges <= 0;
     }
     if( !u.can_pickVolume( it.volume() ) ) {
