@@ -1015,7 +1015,7 @@
     }
   },
   {
-        "type":"GENERIC",
+        "type":"ENGINE",
         "id" : "bengine",
         "name" : "blob grinder",
         "description": "A spherical blob the size of a large truck tire.  The outer layer has compacted itself into a solid shell; offering great resilience.  It rolls around in its harness, crushing anything unfortunate enough to be nearby.  It seems you can lead its movements by baiting it with a trickle of food.",
@@ -1027,10 +1027,8 @@
         "volume" : 100,
         "bashing" : 9,
         "price" : 500,
-        "min-bigness": 300,
-        "max-bigness": 500,
-        "category": "veh_parts",
-        "bigness-aspect": "ENGINE_DISPLACEMENT"
+        "displacement": 400,
+        "category": "veh_parts"
     },
   {
     "id": "bwheelgrow",
