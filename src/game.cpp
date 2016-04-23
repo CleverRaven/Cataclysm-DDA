@@ -10321,14 +10321,14 @@ void game::handle_all_liquid( item liquid, const int radius )
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
-        handle_liquid( liquid, false, nullptr, radius );
+        handle_liquid( liquid, nullptr, radius );
     }
 }
 
 bool game::consume_liquid( item &liquid, const int radius )
 {
     const auto original_charges = liquid.charges;
-    while( liquid.charges > 0 && handle_liquid( liquid, false, nullptr, radius ) ) {
+    while( liquid.charges > 0 && handle_liquid( liquid, nullptr, radius ) ) {
         // try again with the remaining charges
     }
     return original_charges != liquid.charges;
@@ -10337,7 +10337,7 @@ bool game::consume_liquid( item &liquid, const int radius )
 bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, const int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
-    handle_liquid( *on_ground, true, nullptr, radius );
+    handle_liquid( *on_ground, nullptr, radius, &pos );
     if( on_ground->charges > 0 ) {
         return false;
     }
@@ -10348,7 +10348,7 @@ bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const
 bool game::handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
-    handle_liquid( *in_container, false, &container, radius );
+    handle_liquid( *in_container, &container, radius );
     if( in_container->charges > 0 ) {
         return false;
     }
@@ -10361,8 +10361,9 @@ bool game::handle_liquid_from_container( item &container, int radius )
     return handle_liquid_from_container( container.contents.begin(), container, radius );
 }
 
-bool game::handle_liquid(item &liquid, bool from_ground, item *source,
-                         int radius, const vehicle * const source_veh )
+bool game::handle_liquid( item &liquid, item * const source, const int radius,
+                          const tripoint * const source_pos,
+                          const vehicle * const source_veh )
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -10370,6 +10371,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, item *source,
         // "canceled by the user" because we *can* not handle it.
         return false;
     }
+    const bool from_ground = source_pos != nullptr;
 
     const std::string text = string_format( _( "Container for %s" ), liquid.tname().c_str() );
     item * const cont = inv_map_for_liquid( liquid, text, radius );

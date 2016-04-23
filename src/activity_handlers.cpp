@@ -505,7 +505,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     // Fill up 10 charges per time
     water.charges = 10;
 
-    if( !g->handle_liquid( water, true, NULL ) ) {
+    tripoint pos = p->pos(); // dummy. TODO: store the original position in the activity.
+    if( !g->handle_liquid( water, nullptr, 0, &pos ) ) {
         // canceled
         act->moves_left = 0;
     }

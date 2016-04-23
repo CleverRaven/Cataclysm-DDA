@@ -594,8 +594,9 @@ class game
          * Basically `false` indicates the user does not *want* to handle the liquid, `true`
          * indicates they want to handle it.
          */
-        bool handle_liquid(item &liquid, bool from_ground, item *source = NULL,
-                           int radius = 0, const vehicle *source_veh = nullptr);
+        bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
+                            const tripoint *source_pos = nullptr,
+                            const vehicle *source_veh = nullptr );
 
         void open_gate( const tripoint &p );
 
