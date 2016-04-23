@@ -870,7 +870,7 @@ typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
 }
 
 template <typename T>
-typename std::enable_if<std::is_same<T, std::string>::value, bool>::type assign(
+typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
     JsonObject &jo, const std::string& name, T& val ) {
     return jo.read( name, val );
 }
@@ -1060,21 +1060,24 @@ void Item_factory::load_tool_armor(JsonObject &jo)
 
 void Item_factory::load( islot_book &slot, JsonObject &jo )
 {
-    slot.level = jo.get_int( "max_level" );
-    slot.req = jo.get_int( "required_level" );
-    slot.fun = jo.get_int( "fun" );
-    slot.intel = jo.get_int( "intelligence" );
-    slot.time = jo.get_int( "time" );
-    slot.skill = skill_id( jo.get_string( "skill" ) );
-    slot.chapters = jo.get_int( "chapters", -1 );
+    assign( jo, "max_level", slot.level );
+    assign( jo, "required_level", slot.level );
+    assign( jo, "fun", slot.fun );
+    assign( jo, "intelligence", slot.intel );
+    assign( jo, "time", slot.time );
+    assign( jo, "skill", slot.skill );
+    assign( jo, "chapters", slot.chapters );
+
     set_use_methods_from_json( jo, "use_action", slot.use_methods );
 }
 
 void Item_factory::load_book( JsonObject &jo )
 {
-    itype *new_item_template = new itype();
-    load_slot( new_item_template->book, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->book, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load( islot_comestible &slot, JsonObject &jo )
