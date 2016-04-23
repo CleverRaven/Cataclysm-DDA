@@ -104,6 +104,10 @@ const my_class &string_id<my_class>::obj() const
 
 \endcode
 */
+
+template<typename T>
+class string_id_reader;
+
 template<typename T>
 class generic_factory
 {
@@ -113,6 +117,7 @@ class generic_factory
 
         std::string type_name;
         std::string id_member_name;
+        std::string alias_member_name;
 
         T &load_override( const string_id<T> &id, JsonObject &jo ) {
             T obj;
@@ -121,7 +126,25 @@ class generic_factory
             obj.load( jo );
             obj.was_loaded = true;
 
-            return insert( obj );
+            T &inserted_obj = insert( obj );
+
+            if( !alias_member_name.empty() && jo.has_member( alias_member_name ) ) {
+                const int_id<T> i_id = map[id];
+                std::vector<string_id<T>> aliases;
+
+                mandatory( jo, obj.was_loaded, alias_member_name, aliases, string_id_reader<T>{} );
+
+                for( const auto &alias : aliases ) {
+                    const auto iter = map.find( alias );
+
+                    if( iter != map.end() ) {
+                        jo.throw_error( "duplicate " + type_name + " alias \"" + alias.str() + "\" in \"" + id.str() + "\"" );
+                    }
+                    map[alias] = i_id;
+                }
+            }
+
+            return inserted_obj;
         }
 
         bool find_id( const string_id<T> &id, int_id<T> &result ) const {
@@ -143,6 +166,22 @@ class generic_factory
             return dummy;
         }
 
+        void remove_aliases( const string_id<T> &id ) {
+            static int_id<T> i_id;
+            if( !find_id( id, i_id ) ) {
+                return;
+            }
+            auto iter = map.begin();
+            const auto end = map.end();
+            for( ; iter != end; ) {
+                if( iter->second == i_id && iter->first != id ) {
+                    map.erase( iter++ );
+                } else {
+                    ++iter;
+                }
+            }
+        }
+
     public:
         /**
          * @param type_name A string used in debug messages as the name of `T`,
@@ -150,8 +189,10 @@ class generic_factory
          * @param id_member_name The name of the JSON member that contains the id of the
          * loaded object.
          */
-        generic_factory( const std::string &type_name, const std::string &id_member_name = "id" )
-            : type_name( type_name ), id_member_name( id_member_name ) {
+        generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
+                         const std::string &alias_member_name = "" )
+            : type_name( type_name ), id_member_name( id_member_name ),
+            alias_member_name( alias_member_name ) {
         }
         /**
          * Load an object of type T with the data from the given JSON object.
@@ -172,6 +213,7 @@ class generic_factory
             // existing objects.
             const std::string mode = jo.get_string( "edit-mode", "create" );
             if( mode == "override" ) {
+                remove_aliases( id );
                 return load_override( id, jo );
 
             } else if( mode == "modify" ) {
@@ -777,6 +819,18 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
                 jin.error( "invalid enumeration value: \"" + flag + "\"" );
                 throw; // ^^ throws already
             }
+        }
+};
+
+/**
+ * Loads string_id from JSON
+ */
+template<typename T>
+class string_id_reader : public generic_typed_reader<string_id_reader<T>>
+{
+    public:
+        string_id<T> get_next( JsonIn &jin ) const {
+            return string_id<T>( jin.get_string() );
         }
 };
 
