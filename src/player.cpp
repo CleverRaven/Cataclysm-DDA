@@ -77,6 +77,7 @@ const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
+const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_swimming( "swimming" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_unarmed( "unarmed" );
@@ -9944,7 +9945,7 @@ void player::mend_item( item_location&& obj, bool interactive )
 
         int w = 80;
 
-        for( const auto& f : faults ) {
+        for( auto& f : faults ) {
             auto reqs = f.first->requirements();
             auto tools = reqs.get_folded_tools_list( w, c_white, inv );
             auto comps = reqs.get_folded_components_list( w, c_white, inv );
@@ -9952,6 +9953,10 @@ void player::mend_item( item_location&& obj, bool interactive )
             std::ostringstream descr;
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
+                bool hasSkill = skillLevel( skill_mechanics ) >= e.second;
+                f.second -= !hasSkill;
+                descr << string_format( "> <color_%1$s>%2$s %3$i</color>\n", hasSkill ? "c_green" : "c_red",
+                                        _( e.first.obj().name().c_str() ), e.second );
             }
 
             std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
