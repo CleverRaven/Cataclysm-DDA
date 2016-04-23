@@ -4,7 +4,8 @@
     "type": "GUN",
     "name": "base pistol",
     "skill": "pistol",
-    "aim_speed": 4
+    "aim_speed": 4,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
   },
   {
     "abstract": "pistol_revolver",
@@ -12,7 +13,9 @@
     "type": "GUN",
     "name": "revolver",
     "proportional": { "reload": 0.7 },
-    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] }
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ] },
+    "//": "Revolvers exclude the muzzle location preventing installation of suppressors",
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
   },
   {
     "abstract": "rifle_base",
