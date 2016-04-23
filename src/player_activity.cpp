@@ -127,6 +127,7 @@ bool player_activity::is_suspendable() const
         case ACT_ATM:
         case ACT_START_ENGINES:
         case ACT_GUNMOD_ADD:
+        case ACT_FILL_LIQUID:
             return false;
         default:
             return true;

@@ -563,6 +563,7 @@ class game
 
         /**
          * Handle finite liquid from ground. The function also handles consuming move points.
+         * This may start a player activity.
          * @param on_ground Iterator to the item on the ground. Must be valid and point to an
          * item in the stack at `m.i_at(pos)`
          * @param pos The position of the item on the map.
@@ -587,6 +588,8 @@ class game
         bool handle_liquid_from_container( item &container, int radius = 0 );
 
         /**
+         * This may start a player activity if either \p source_pos or \p source_veh is not
+         * null.
          * @return Whether the user has handled the liquid (at least part of it). `false` indicates
          * the user has rejected all possible actions. But note that `true` does *not* indicate any
          * liquid was actually consumed, the user may have chosen an option that turned out to be

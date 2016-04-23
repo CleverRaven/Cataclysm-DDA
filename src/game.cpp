@@ -10361,6 +10361,13 @@ bool game::handle_liquid_from_container( item &container, int radius )
     return handle_liquid_from_container( container.contents.begin(), container, radius );
 }
 
+extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
+extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
+
+extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
+extern void serialize_liquid_target( player_activity &act, int container_item_pos );
+extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
+
 bool game::handle_liquid( item &liquid, item * const source, const int radius,
                           const tripoint * const source_pos,
                           const vehicle * const source_veh )
@@ -10372,6 +10379,20 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         return false;
     }
 
+    const auto create_activity = [&]() {
+        if( source_veh != nullptr ) {
+            u.assign_activity( ACT_FILL_LIQUID, INT_MAX );
+            serialize_liquid_source( u.activity, *source_veh, liquid.typeId() );
+            return true;
+        } else if( source_pos != nullptr ) {
+            u.assign_activity( ACT_FILL_LIQUID, INT_MAX );
+            serialize_liquid_source( u.activity, *source_pos, liquid );
+            return true;
+        } else {
+            return false;
+        }
+    };
+
     const std::string text = string_format( _( "Container for %s" ), liquid.tname().c_str() );
     item * const cont = inv_map_for_liquid( liquid, text, radius );
     if( source != nullptr && cont == source ) {
@@ -10380,9 +10401,15 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         return true;
     }
     if( cont != nullptr && !cont->is_null() ) {
-        // TODO: make this an activity
-        // TODO: consume moves
-        u.pour_into( *cont, liquid );
+        const int item_index = u.get_item_position( cont );
+        // Currently activities can only store item position in the players inventory,
+        // not on ground or similar. TODO: implement storing arbitrary container locations.
+        if( item_index != INT_MIN && create_activity() ) {
+            serialize_liquid_target( u.activity, item_index );
+        } else {
+            // TODO: consume moves
+            u.pour_into( *cont, liquid );
+        }
         return true;
     }
 
@@ -10405,7 +10432,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
         menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name.c_str() );
         actions.emplace_back( [&, veh]() {
-            // TODO: make this an activity
+            if( create_activity() ) {
+                serialize_liquid_target( u.activity, *veh );
+                return;
+            }
             // TODO: consume moves
             u.pour_into( *veh, liquid );
         } );
@@ -10419,6 +10449,8 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         if( !choose_adjacent( liqstr, dirx, diry ) ) {
             return;
         }
+        // TODO: implement filling into standing tanks/kegs/ similar terrain.
+        // They have the NOITEMS flag and need special casing here.
         if( !m.can_put_items_ter_furn( dirx, diry ) ) {
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
@@ -10429,7 +10461,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             return;
         }
 
-        // TODO: make this an activity
+        if( create_activity() ) {
+            serialize_liquid_target( u.activity, tripoint( dirx, diry, get_levz() ) );
+            return;
+        }
         // TODO: consume moves
         m.add_item_or_charges( dirx, diry, liquid, 1 );
         liquid.charges = 0;

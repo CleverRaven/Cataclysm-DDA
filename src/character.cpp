@@ -2019,7 +2019,6 @@ bool Character::pour_into( vehicle &veh, item &liquid )
         add_msg( m_info, _( "The %s is already full." ), veh.name.c_str() );
         return false;
     }
-    // TODO: make a proper activity instead (which would supply the per-turn amount as charges).
     const long amt = liquid.charges;
     // TODO: Oh, look: *this* function handles move costs. The other one doesn't. Consistency? What's that again?
     moves -= 100;

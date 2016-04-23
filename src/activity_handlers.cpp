@@ -495,20 +495,154 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, };
+
+// All serialize_liquid_source functions should add the same number of elements to the vectors of
+// the activity. This makes it easier to distinguish the values of the source and the values of the target.
+void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype )
 {
-    //Filling a container takes time, not speed
-    act->moves_left -= 100;
+    act.values.push_back( LST_VEHICLE );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( veh.global_pos3() );
+    act.str_values.push_back( ftype );
+}
 
-    item water = item(act->str_values[0], act->values[1]);
-    water.poison = act->values[0];
-    // Fill up 10 charges per time
-    water.charges = 10;
+void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
+{
+    const auto stack = g->m.i_at( pos );
+    // Need to store the *index* of the item on the ground, but it may be a virtual item from
+    // an infinite liquid source.
+    const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item &i ) { return &i == &liquid; } );
+    if( iter == stack.end() ) {
+        act.values.push_back( LST_INFINITE_MAP );
+        act.values.push_back( 0 ); // dummy
+    } else {
+        act.values.push_back( LST_MAP_ITEM );
+        act.values.push_back( std::distance( stack.begin(), iter ) );
+    }
+    act.coords.push_back( pos );
+    act.str_values.push_back( liquid.serialize() );
+}
 
-    tripoint pos = p->pos(); // dummy. TODO: store the original position in the activity.
-    if( !g->handle_liquid( water, nullptr, 0, &pos ) ) {
-        // canceled
-        act->moves_left = 0;
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, };
+
+void serialize_liquid_target( player_activity &act, const vehicle &veh )
+{
+    act.values.push_back( LTT_VEHICLE );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( veh.global_pos3() );
+}
+
+void serialize_liquid_target( player_activity &act, int container_item_pos )
+{
+    act.values.push_back( LTT_CONTAINER );
+    act.values.push_back( container_item_pos );
+    act.coords.push_back( tripoint() ); // dummy
+}
+
+void serialize_liquid_target( player_activity &act, const tripoint &pos )
+{
+    act.values.push_back( LTT_MAP );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( pos );
+}
+
+void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
+{
+    player_activity &act = *act_;
+    try {
+        // 1. Gather the source item.
+        vehicle *source_veh = nullptr;
+        const tripoint source_pos = act.coords.at( 0 );
+        map_stack source_stack = g->m.i_at( source_pos );
+        std::list<item>::iterator on_ground;
+        item liquid;
+        const auto source_type = static_cast<liquid_source_type>( act.values.at( 0 ) );
+        switch( source_type ) {
+        case LST_VEHICLE:
+            source_veh = g->m.veh_at( source_pos );
+            if( source_veh == nullptr ) {
+                throw std::runtime_error( "could not find source vehicle for liquid transfer" );
+            }
+            liquid = item( act.str_values.at( 0 ), calendar::turn, source_veh->fuel_left( act.str_values.at( 0 ) ) );
+            break;
+        case LST_INFINITE_MAP:
+            liquid.deserialize( act.str_values.at( 0 ) );
+            liquid.charges = std::numeric_limits<long>::max();
+            break;
+        case LST_MAP_ITEM:
+            if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {
+                throw std::runtime_error( "could not find source item on ground for liquid transfer" );
+            }
+            on_ground = source_stack.begin();
+            std::advance( on_ground, act.values.at( 1 ) );
+            liquid = *on_ground;
+        }
+
+        // TODO: should be more for gasoline / diesel
+        const long charges_per_turn = 10;
+        const long source_charges = liquid.charges;
+        liquid.charges = std::min( charges_per_turn, liquid.charges );
+        const long original_charges = liquid.charges;
+
+        // 2. Transfer charges.
+        switch( static_cast<liquid_target_type>( act.values.at( 2 ) ) ) {
+        case LTT_VEHICLE:
+            if( auto veh = g->m.veh_at( act.coords.at( 1 ) ) ) {
+                p->pour_into( *veh, liquid );
+            } else {
+                throw std::runtime_error( "could not find target vehicle for liquid transfer" );
+            }
+            break;
+        case LTT_CONTAINER:
+            p->pour_into( p->i_at( act.values.at( 3 ) ), liquid );
+            break;
+        case LTT_MAP:
+            g->m.add_item_or_charges( act.coords.at( 1 ), liquid );
+            liquid.charges = 0;
+            break;
+        }
+
+        const long removed_charges = original_charges - liquid.charges;
+        if( removed_charges == 0 ) {
+            // Nothing has been transferred, target must be full.
+            act.type = ACT_NULL;
+            return;
+        }
+
+        // 3. Remove charges from source.
+        switch( source_type ) {
+        case LST_VEHICLE:
+            source_veh->drain( liquid.typeId(), removed_charges );
+            if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
+                act.type = ACT_NULL;
+            }
+            break;
+        case LST_MAP_ITEM:
+            on_ground->charges -= removed_charges;
+            if( on_ground->charges <= 0 ) {
+                source_stack.erase( on_ground );
+                if( g->m.ter_at( source_pos ).examine == &iexamine::gaspump ) {
+                    add_msg( _( "With a clang and a shudder, the %s pump goes silent."),
+                             liquid.type_name( 1 ).c_str() );
+                }
+                act.type = ACT_NULL;
+            }
+            break;
+        case LST_INFINITE_MAP:
+            // nothing, the liquid source is infinite
+            break;
+        }
+
+        if( removed_charges < original_charges ) {
+            // Transferred less than the available charges -> target must be full
+            act.type = ACT_NULL;
+        }
+
+    } catch( const std::runtime_error &err ) {
+        debugmsg( "error in activity data: \"%s\"", err.what() );
+        act.type = ACT_NULL;
+        return;
     }
 
     p->rooted();

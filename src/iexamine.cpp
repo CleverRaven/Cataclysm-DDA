@@ -81,11 +81,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                     items.erase( item_it );
                 }
             } else {
-                const std::string name = item_it->type_name();
-                if( g->handle_liquid_from_ground( item_it, examp ) ) {
-                    add_msg(_("With a clang and a shudder, the %s pump goes silent."),
-                            name.c_str() );
-                }
+                g->handle_liquid_from_ground( item_it, examp );
             }
             return;
         }
@@ -2648,10 +2644,8 @@ void iexamine::trap(player &p, const tripoint &examp)
 void iexamine::water_source(player &p, const tripoint &examp)
 {
     item water = g->m.water_from( examp );
-    p.assign_activity(ACT_FILL_LIQUID, -1, -1);
-    p.activity.str_values.push_back(water.typeId());
-    p.activity.values.push_back(water.poison);
-    p.activity.values.push_back(water.bday);
+    (void) p; // TODO: use me
+    g->handle_liquid( water, nullptr, 0, &examp );
 }
 
 const itype * furn_t::crafting_pseudo_item_type() const

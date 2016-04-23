@@ -4729,11 +4729,11 @@ item &map::add_item_at( const tripoint &p,
 item map::water_from(const tripoint &p)
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        item ret( "salt_water", 0 );
+        item ret( "salt_water", 0, std::numeric_limits<long>::max() );
         return ret;
     }
 
-    item ret( "water", 0 );
+    item ret( "water", 0, std::numeric_limits<long>::max() );
     if( ter( p ) == t_water_sh && one_in( 3 ) ) {
         ret.poison = rng(1, 4);
     } else if( ter( p ) == t_water_dp && one_in( 4 ) ) {
