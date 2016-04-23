@@ -109,19 +109,38 @@ class generic_factory
 {
     protected:
         std::vector<T> list;
-        std::unordered_map<string_id<T>, T> data;
+        std::unordered_map<string_id<T>, int_id<T>> map;
 
         std::string type_name;
         std::string id_member_name;
 
         T &load_override( const string_id<T> &id, JsonObject &jo ) {
             T obj;
+
             obj.id = id;
             obj.load( jo );
             obj.was_loaded = true;
-            T &result = data[id];
-            result = std::move( obj );
-            return result;
+
+            return insert( obj );
+        }
+
+        bool find_id( const string_id<T> &id, int_id<T> &result ) const {
+            result = id.get_cid();
+            if( is_valid( result ) && list[result].id == id ) {
+                return true;
+            }
+            const auto iter = map.find( id );
+            if( iter == map.end() ) {
+                return false;
+            }
+            result = iter->second;
+            id.set_cid( result );
+            return true;
+        }
+
+        const T &dummy_obj() const {
+            static const T dummy;
+            return dummy;
         }
 
     public:
@@ -146,8 +165,8 @@ class generic_factory
          */
         T &load( JsonObject &jo ) {
             const string_id<T> id( jo.get_string( id_member_name ) );
-            const auto iter = data.find( id );
-            const bool exists = iter != data.end();
+            const auto iter = map.find( id );
+            const bool exists = iter != map.end();
 
             // "create" is the default, so the game catches accidental re-definitions of
             // existing objects.
@@ -160,9 +179,9 @@ class generic_factory
                     jo.throw_error( "missing definition of " + type_name + " \"" + id.str() + "\" to be modified",
                                     id_member_name );
                 }
-                iter->second.load( jo );
-                return iter->second;
-
+                T &obj = list[iter->second];
+                obj.load( jo );
+                return obj;
             } else if( mode == "create" ) {
                 if( exists ) {
                     jo.throw_error( "duplicated definition of " + type_name + " \"" + id.str() + "\"", id_member_name );
@@ -177,33 +196,53 @@ class generic_factory
         /**
          * Add an object to the factory, without loading from JSON.
          * The new object replaces any existing object of the same id.
+         * The function returns the actual object reference.
          */
-        void insert( const T &obj ) {
-            data[obj.id] = std::move( obj );
+        T &insert( const T &obj ) {
+            const auto iter = map.find( obj.id );
+            if( iter != map.end() ) {
+                T &result = list[iter->second];
+                result = std::move( obj );
+                result.id.set_cid( iter->second );
+                return result;
+            }
+
+            const int_id<T> cid( list.size() );
+            list.push_back( std::move( obj ) );
+
+            T &result = list.back();
+            result.id.set_cid( cid );
+            map[result.id] = cid;
+            return result;
         }
         /**
          * Returns the number of loaded objects.
          */
         size_t size() const {
-            return data.size();
+            return list.size();
+        }
+        /**
+         * Returns whether factory is empty.
+         */
+        bool empty() const {
+            return list.empty();
         }
         /**
          * Removes all loaded objects.
          * Postcondition: `size() == 0`
          */
         void reset() {
-            data.clear();
             list.clear();
+            map.clear();
         }
         /**
          * Returns all the loaded objects. It can be used to iterate over them.
-         * This returns a reference and therefore is quite fast.
          */
         const std::vector<T> &get_all() const {
             return list;
         }
         /**
-         * @name `string_id` interface functions
+         * @name `string_id/int_id` interface functions
          *
          * The functions here are supposed to be used by the id classes, they have the
          * same behavior as described in the id classes and can be used directly by
@@ -213,25 +252,63 @@ class generic_factory
         /**
          * Returns the object with the given id.
          * The input id should be valid, otherwise a debug message is issued.
+         * This function can be used to implement @ref int_id::obj().
+         * Note: If the id was valid, the returned object can be modified (after
+         * casting the const away).
+         */
+        const T &obj( const int_id<T> &id ) const {
+            if( !is_valid( id ) ) {
+                debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id );
+                return dummy_obj();
+            }
+            return list[id];
+        }
+        /**
+         * Returns the object with the given id.
+         * The input id should be valid, otherwise a debug message is issued.
          * This function can be used to implement @ref string_id::obj().
          * Note: If the id was valid, the returned object can be modified (after
          * casting the const away).
          */
-        const T &obj( const string_id<T> &sid ) const {
-            const auto iter = data.find( sid );
-            if( iter == data.end() ) {
-                debugmsg( "invalid %s id \"%s\"", type_name.c_str(), sid.c_str() );
-                static const T dummy{};
-                return dummy;
+        const T &obj( const string_id<T> &id ) const {
+            static int_id<T> i_id;
+            if( !find_id( id, i_id ) ) {
+                debugmsg( "invalid %s id \"%s\"", type_name.c_str(), id.c_str() );
+                return dummy_obj();
             }
-            return iter->second;
+            return list[i_id];
+        }
+        /**
+         * Checks whether the factory contains an object with the given id.
+         * This function can be used to implement @ref int_id::is_valid().
+         */
+        inline bool is_valid( const int_id<T> &id ) const {
+            return static_cast<size_t>( id ) < list.size();
         }
         /**
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref string_id::is_valid().
          */
-        bool is_valid( const string_id<T> &sid ) const {
-            return data.count( sid ) > 0;
+        bool is_valid( const string_id<T> &id ) const {
+            static int_id<T> dummy;
+            return find_id( id, dummy );
+        }
+        /**
+         * Converts string_id<T> to int_id<T>. Returns null_id on failure.
+         */
+        int_id<T> convert( const string_id<T> &id, const int_id<T> &null_id ) const {
+            static int_id<T> result;
+            if( find_id( id, result ) ) {
+                return result;
+            }
+            debugmsg( "invalid %s id \"%s\"", type_name.c_str(), id.c_str() );
+            return null_id;
+        }
+        /**
+         * Converts int_id<T> to string_id<T>. Returns null_id on failure.
+         */
+        const string_id<T> &convert( const int_id<T> &id ) const {
+            return obj( id ).id;
         }
         /**@}*/
 };
