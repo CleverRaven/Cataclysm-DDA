@@ -20,6 +20,17 @@
     "price": 1200
   },
   {
+    "id": "drivebelt_makeshift",
+    "copy-from": "spare_part",
+    "type": "GENERIC",
+    "name": "makeshift drive belt",
+    "description": "An improvised belt useful for repairing engines or other industrial equipment when no better alternative is available.",
+    "material": [ "cotton", "leather" ],
+    "weight": 1250,
+    "volume": 3,
+    "price": 200
+  },
+  {
     "id": "glowplug",
     "copy-from": "spare_part",
     "type":"GENERIC",
@@ -31,17 +42,6 @@
     "price": 2300
   },
   {
-    "id": "well_pump",
-    "copy-from": "spare_part",
-    "type":"GENERIC",
-    "name": "mechanical pump",
-    "description": "An simple cast iron mechanical impeller pump.  It's not good for much of anything on its own.",
-    "material": "iron",
-    "weight": 2400,
-    "volume": 4,
-    "price": 1800
-  },
-  {
     "id": "pump_complex",
     "copy-from": "spare_part",
     "type":"GENERIC",
@@ -51,5 +51,16 @@
     "weight": 2800,
     "volume": 5,
     "price": 28900
+  },
+  {
+    "id": "well_pump",
+    "copy-from": "spare_part",
+    "type":"GENERIC",
+    "name": "mechanical pump",
+    "description": "An simple cast iron mechanical impeller pump.  It's not good for much of anything on its own.",
+    "material": "iron",
+    "weight": 2400,
+    "volume": 4,
+    "price": 1800
   }
 ]

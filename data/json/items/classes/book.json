@@ -1,0 +1,17 @@
+[
+  {
+    "abstract": "book_magazine",
+    "type": "BOOK",
+    "name": "Readable magazine",
+    "weight": 70,
+    "volume": 1,
+    "material": "paper",
+    "symbol": "?",
+    "color": "pink",
+    "required_level": 0,
+    "max_level": 1,
+    "intelligence": 5,
+    "time": 8,
+    "fun": 1
+  }
+]

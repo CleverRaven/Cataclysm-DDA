@@ -1,0 +1,11 @@
+[
+  {
+    "id": "mag_fieldrepair",
+    "copy-from": "book_magazine",
+    "type": "BOOK",
+    "name": "army improvised field repairs",
+    "name_plural": "army improvised field repairs",
+    "description": "A compact manual with faded print detailing a number of improvised field repairs that can be made to vehicles.",
+    "skill": "mechanics"
+  }
+]

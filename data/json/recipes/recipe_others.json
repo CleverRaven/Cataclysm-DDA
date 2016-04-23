@@ -5957,7 +5957,7 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["textbook_fabrication", 5] , ["manual_fabrication", 5], ["manual_carpentry", 5], ["textbook_carpentry", 4]],
+  "book_learn": [ [ "textbook_fabrication", 4 ] , [ "manual_fabrication", 4 ] ],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},

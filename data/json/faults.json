@@ -7,7 +7,7 @@
     "skills": [ [ "mechanics", 2 ] ],
     "requirements": {
       "qualities": [ { "id": "WRENCH", "level": 1 } ],
-      "components": [ [ [ "drivebelt", 1 ], [ "leather_belt", 1 ] ] ]
+      "components": [ [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ] ]
     }
   },
   {
