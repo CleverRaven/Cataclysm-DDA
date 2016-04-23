@@ -4200,11 +4200,12 @@
     {"id":"SAW_M","level":1,"amount":1}
     ],
     "components": [
-    [[ "cable", 12 ]],
+    [[ "cable", 8 ]],
     [[ "amplifier", 1 ]],
     [[ "scrap", 2 ]],
     [[ "spring", 1 ]],
-    [[ "material_aluminium_ingot", 1 ]]
+    [[ "material_aluminium_ingot", 1 ]],
+    [[ "plastic_chunk", 2 ]]
     ]
     }
 ]
