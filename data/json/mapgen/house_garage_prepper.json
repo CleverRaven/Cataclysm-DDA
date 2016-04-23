@@ -105,7 +105,7 @@
                 { "group" : "bed",            "chance" : 95, "x" : [13,14], "y" : [20,21], "repeat" : [1,3] },
                 { "group" : "bedroom",        "chance" : 85, "x" : [ 6,21], "y" : [13,20], "repeat" : [1,4] },
                 { "group" : "livingroom",     "chance" : 90, "x" : [ 1,12], "y" : [ 2, 6], "repeat" : [1,5] },
-                { "group" : "guns_common",    "chance" : 75, "x" : [12,12], "y" : [21,21], "magazine" : 100, "ammo" : 100 },
+                { "group" : "guns_survival",  "chance" : 80, "x" : [12,12], "y" : [21,21], "magazine" : 100, "ammo" : 100 },
                 { "group" : "dresser",        "chance" : 90, "x" : [21,21], "y" : [21,21], "repeat" : [1,4] },
                 { "group" : "kitchen",        "chance" : 90, "x" : [ 6, 7], "y" : [ 5, 6], "repeat" : [1,6] },
                 { "group" : "cannedfood",     "chance" : 90, "x" : [11,14], "y" : [13,13], "repeat" : [1,5] },

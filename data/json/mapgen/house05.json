@@ -86,7 +86,7 @@
                 { "group" : "dresser",              "chance" : 85, "x" : [ 2, 2], "y" : [17,17], "repeat" : [1,3] },
                 { "group" : "bedroom",              "chance" : 80, "x" : [12,21], "y" : [17,21], "repeat" : [1,4] },
                 { "group" : "consumer_electronics", "chance" : 50, "x" : [12,21], "y" : [17,21], "repeat" : [1,3] },
-                { "group" : "homeguns",             "chance" :  5, "x" : [ 1,10], "y" : [17,21] },
+                { "group" : "guns_pistol_common",   "chance" :  5, "x" : [ 2, 2], "y" : [17,17], "magazine" : 100, "ammo" : 90 },
                 { "group" : "dresser",              "chance" : 85, "x" : [21,21], "y" : [21,21], "repeat" : [1,3] },
                 { "group" : "novels",               "chance" : 80, "x" : [ 8, 8], "y" : [ 3, 5], "repeat" : [1,3] },
                 { "group" : "novels",               "chance" : 80, "x" : [13,13], "y" : [10,12], "repeat" : [1,4] },
