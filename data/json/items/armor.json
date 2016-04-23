@@ -5562,7 +5562,7 @@
         "material" : ["plastic"],
         "volume" : 11,
         "warmth" : 6,
-        "encumbrance" : 12,
+        "encumbrance" : 13,
         "bashing" : 6,
         "flags" : ["WATERPROOF"],
         "coverage" : 80,
