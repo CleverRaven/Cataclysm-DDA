@@ -595,7 +595,7 @@ class game
          * indicates they want to handle it.
          */
         bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
-                           item *cont = NULL, int radius = 0);
+                           int radius = 0);
 
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
         //otherwise returns sentinel -1, signifies transaction fail.
