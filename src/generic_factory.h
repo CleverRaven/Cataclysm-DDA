@@ -132,13 +132,14 @@ class generic_factory
                 const int_id<T> i_id = map[id];
                 std::vector<string_id<T>> aliases;
 
-                mandatory( jo, obj.was_loaded, alias_member_name, aliases, string_id_reader<T>{} );
+                mandatory( jo, obj.was_loaded, alias_member_name, aliases, string_id_reader<T> {} );
 
                 for( const auto &alias : aliases ) {
                     const auto iter = map.find( alias );
 
                     if( iter != map.end() ) {
-                        jo.throw_error( "duplicate " + type_name + " alias \"" + alias.str() + "\" in \"" + id.str() + "\"" );
+                        jo.throw_error( "duplicate " + type_name + " alias \"" + alias.str() + "\" in \"" + id.str() +
+                                        "\"" );
                     }
                     map[alias] = i_id;
                 }
@@ -191,8 +192,9 @@ class generic_factory
          */
         generic_factory( const std::string &type_name, const std::string &id_member_name = "id",
                          const std::string &alias_member_name = "" )
-            : type_name( type_name ), id_member_name( id_member_name ),
-            alias_member_name( alias_member_name ) {
+            : type_name( type_name ),
+              id_member_name( id_member_name ),
+              alias_member_name( alias_member_name ) {
         }
         /**
          * Load an object of type T with the data from the given JSON object.
