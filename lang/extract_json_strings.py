@@ -61,6 +61,9 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
+    "fault",
+    "vitamin",
+    "ENGINE",
     "AMMO",
     "ammunition_type",
     "ARMOR",
