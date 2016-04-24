@@ -870,21 +870,11 @@ class jmapgen_loot : public jmapgen_piece {
                 }
 
                 for( auto &e: spawn ) {
-                    bool spawn_ammo = rng( 0, 99 ) < ammo.get();
-                    bool spawn_mags = rng( 0, 99 ) < magazine.get() || spawn_ammo;
-
-                    if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
+                    if( rng( 0, 99 ) < magazine.get() && !e.magazine_integral() && !e.magazine_current() ) {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
-                    if( spawn_ammo && e.ammo_remaining() == 0 ) {
-                        if( e.magazine_current() ) {
-                            item tmp( default_ammo( e.ammo_type() ), e.bday );
-                            tmp.charges = e.ammo_capacity();
-                            e.magazine_current()->contents.push_back( tmp );
-                        } else {
-                            e.set_curammo( default_ammo( e.ammo_type() ) ) ;
-                            e.charges = e.ammo_capacity();
-                        }
+                    if( rng( 0, 99 ) < ammo.get() && e.ammo_remaining() == 0 ) {
+                        e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
                     }
                 }
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );

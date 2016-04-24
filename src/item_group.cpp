@@ -346,19 +346,12 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     }
 
     for( auto& e : result ) {
-        bool spawn_ammo = rng( 0, 99 ) < with_ammo;
-        bool spawn_mags = rng( 0, 99 ) < with_magazine || spawn_ammo;
-
-        if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
-            e.contents.emplace_back( e.magazine_default(), e.bday );
-        }
-        if( spawn_ammo && e.ammo_capacity() > 0 && e.ammo_remaining() == 0 ) {
-            itype_id ammo = default_ammo( e.ammo_type() );
-            if( e.magazine_current() ) {
-                e.magazine_current()->contents.emplace_back( ammo, e.bday, e.ammo_capacity() );
-            } else {
-                e.set_curammo( ammo );
-                e.charges = e.ammo_capacity();
+        for( auto &e: spawn ) {
+            if( rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
+                e.contents.emplace_back( e.magazine_default(), e.bday );
+            }
+            if( rng( 0, 99 ) < with_ammo && e.ammo_remaining() == 0 ) {
+                e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
             }
         }
     }
