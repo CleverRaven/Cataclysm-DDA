@@ -5118,11 +5118,13 @@ void vehicle::place_spawn_items()
                     if( broken ) {
                         e.damage = rng( 1, MAX_ITEM_DAMAGE );
                     }
-                    if( rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
-                        e.contents.emplace_back( e.magazine_default(), e.bday );
-                    }
-                    if( rng( 0, 99 ) < spawn.with_ammo && e.ammo_type() != "NULL" && e.ammo_remaining() == 0 ) {
-                        e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                    if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
+                        if( rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
+                            e.contents.emplace_back( e.magazine_default(), e.bday );
+                        }
+                        if( rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0 ) {
+                            e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                        }
                     }
                     add_item( part, e);
                 }

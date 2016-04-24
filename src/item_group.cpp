@@ -344,7 +344,7 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
     }
 
     for( auto& e : result ) {
-        for( auto &e: spawn ) {
+        if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
             if( rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
                 e.contents.emplace_back( e.magazine_default(), e.bday );
             }
