@@ -1482,16 +1482,7 @@ bool game::do_turn()
         if( sfx::play_special_music( tername ) >= 0) {
         } else if( sfx::consider() >= 0 ) {
         } else {
-            const auto wild_fctr = overmap_buffer.closest_city( u.global_sm_location() );
-            const auto &nearest_city = *wild_fctr.city;
-            const int city_dist = wild_fctr.distance - nearest_city.s;
-            if( !wild_fctr || city_dist > nearest_city.s + 4 ) {
-                sfx::play_wilderness_music();
-            } else if( city_dist >= nearest_city.s ) {
-                sfx::play_outskirts_music();
-            } else {
-                sfx::play_city_music();
-            }
+            sfx::play_city_distance_music();
         }
     }
     return false;

@@ -20,6 +20,7 @@
 #include "time.h"
 #include "mapdata.h"
 #include "itype.h"
+#include "overmap.h"
 #include <chrono>
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
@@ -956,18 +957,6 @@ void sfx::play_panic_music() {
     play_music( "panic" );
 }
 
-void sfx::play_wilderness_music() {
-    play_music( "wilderness" );
-}
-
-void sfx::play_outskirts_music() {
-    play_music( "outskirts" );
-}
-
-void sfx::play_city_music() {
-    play_music( "city" );
-}
-
 int sfx::play_special_music( std::string playlist ) {
     return play_music_int( playlist );
 }
@@ -1011,6 +1000,19 @@ int sfx::consider() {
     return -1;
 }
 
+void sfx::play_city_distance_music() {
+    const auto wild_fctr = overmap_buffer.closest_city( g->u.global_sm_location() );
+    const auto &nearest_city = *wild_fctr.city;
+    const int city_dist = wild_fctr.distance - nearest_city.s;
+    if( !wild_fctr || city_dist > nearest_city.s + 6 ) {
+        play_music( "wilderness" );
+    } else if( city_dist >= nearest_city.s + 1 ) {
+        play_music( "outskirts" );
+    } else {
+        play_music( "city" );
+    }
+}
+
 #else // ifdef SDL_SOUND
 
 /** Dummy implementations for builds without sound */
@@ -1036,11 +1038,9 @@ void sfx::do_player_death_hurt( const player &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle() { }
 void sfx::play_panic_music() { }
-void sfx::play_wilderness_music() { }
-void sfx::play_outskirts_music() { }
-void sfx::play_city_music() { }
 int sfx::play_special_music( std::string ) { return -1; }
 int sfx::consider() { return 0; }
+void sfx::play_city_distance_music() { }
 /*@}*/
 
 #endif // ifdef SDL_SOUND
