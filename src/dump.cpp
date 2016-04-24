@@ -42,6 +42,40 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             }
         }
 
+    } else if( what == "EDIBLE" ) {
+        header = {
+            "Name", "Volume", "Weight", "Stack", "Calories", "Quench", "Healthy"
+        };
+        for( const auto& v : vitamin::all() ) {
+             header.emplace_back( v.second.name() );
+        }
+        auto dump = [&rows]( const item& obj ) {
+            std::vector<std::string> r;
+            r.emplace_back( obj.tname( false ) );
+            r.emplace_back( std::to_string( obj.volume() ) );
+            r.emplace_back( std::to_string( obj.weight() ) );
+            r.emplace_back( std::to_string( obj.type->stack_size ) );
+            r.emplace_back( std::to_string( obj.type->comestible->get_calories() ) );
+            r.emplace_back( std::to_string( obj.type->comestible->quench ) );
+            r.emplace_back( std::to_string( obj.type->comestible->healthy ) );
+            auto vits = g->u.vitamins_from( obj );
+            for( const auto& v : vitamin::all() ) {
+                 r.emplace_back( std::to_string( vits[ v.first ] ) );
+            }
+            rows.emplace_back( r );
+        };
+        for( auto& e : item_controller->get_all_itypes() ) {
+            if( e.second->comestible &&
+                ( e.second->comestible->comesttype == "FOOD" ||
+                  e.second->comestible->comesttype == "DRINK" ) ) {
+
+                item food( e.first, calendar::turn, item::solitary_tag {} );
+                if( g->u.can_eat( food, false, true ) == EDIBLE ) {
+                    dump( food );
+                }
+            }
+        }
+
     } else if( what == "GUN" ) {
         header = {
             "Name", "Ammo", "Volume", "Weight", "Capacity",
