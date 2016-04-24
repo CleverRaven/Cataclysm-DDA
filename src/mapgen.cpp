@@ -860,7 +860,7 @@ class jmapgen_loot : public jmapgen_piece {
                 jsi.throw_error( "ammo chance out of range", "ammo" );
             }
             if( magazine < 0 || magazine > 100 ) {
-                jsi.throw_error( "ammo chance out of range", "ammo" );
+                jsi.throw_error( "magazine chance out of range", "magazine" );
             }
         }
 
