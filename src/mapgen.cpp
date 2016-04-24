@@ -835,10 +835,7 @@ public:
     }
 };
 
-/**
- * Place items from an item group.
- * see @ref map::place_loot
- */
+/** Place items from an item group */
 class jmapgen_loot : public jmapgen_piece {
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
