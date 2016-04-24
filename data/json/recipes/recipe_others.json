@@ -3462,7 +3462,10 @@
       ],
     "components": [
       [
-        [ "acidbomb", 1 ]
+        [ "acidbomb", 2 ]
+      ],
+      [
+      [ "gunpowder", 25 ], [ "incendiary", 50 ], ["gasoline", 200], ["diesel", 200], [ "denat_alcohol", 7 ], [ "chem_ethanol", 7 ] 
       ],
       [
         [ "processor", 1 ]
@@ -3501,7 +3504,10 @@
       ],
     "components": [
       [
-        ["gasoline", 600], ["diesel", 600], [ "grenade_inc", 1 ]
+      [ "grenade_inc", 1 ]
+      ],
+      [
+      [ "gunpowder", 25 ], [ "incendiary", 50 ], ["gasoline", 200], ["diesel", 200], [ "denat_alcohol", 7 ], [ "chem_ethanol", 7 ] 
       ],
       [
         [ "processor", 1 ]
