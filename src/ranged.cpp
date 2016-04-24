@@ -1021,7 +1021,6 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     }
 
     const tripoint old_offset = u.view_offset;
-    u.view_offset += p - u.pos();
     do {
         ret = g->m.find_clear_path( from, p );
 
