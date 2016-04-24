@@ -477,7 +477,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         chunk.set_mtype( corpse );
 
         // for now don't drop non-tainted parts overhaul of taint system to not require excessive item duplication
-        item parts( chunk.is_tainted() || chunk.made_of( material_id( "hflesh" ) ) ? meat : "offal", age );
+        item parts( chunk.is_tainted() || chunk.has_flag( "CANNIBALISM" ) ? meat : "offal", age );
         parts.set_mtype( corpse );
 
         g->m.add_item_or_charges( p->pos(), chunk );
