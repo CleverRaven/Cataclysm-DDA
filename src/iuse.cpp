@@ -8138,13 +8138,13 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             const vpart_str_id vpid( it->typeId() );
 
             point vcoords = g->m.veh_part_coordinates( source_local );
-            vehicle_part source_part( vpid, vcoords.x, vcoords.y, std::move( item( *it ) ) );
+            vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates( target_local );
-            vehicle_part target_part( vpid, vcoords.x, vcoords.y, std::move( item( *it ) ) );
+            vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
