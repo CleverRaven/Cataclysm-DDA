@@ -120,18 +120,18 @@ void load_available_constructions( std::vector<std::string> &available,
     }
 }
 
-void draw_grid( WINDOW *w, const int list_width = 30 )
+void draw_grid( WINDOW *w, const int list_width )
 {
     draw_border( w );
-    mvwprintz( w, 0, 8, c_ltred, _( " Construction " ) );
+    mvwprintz( w, 0, 2, c_ltred, _( " Construction " ) );
     // draw internal lines
-    mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
-    mvwhline( w, 2, 1, LINE_OXOX, list_width - 1 );
+    mvwvline( w, 1, list_width + 1, LINE_XOXO, getmaxy( w ) - 2 );
+    mvwhline( w, 2, 1, LINE_OXOX, list_width + 1 );
     // draw intersections
-    mvwputch( w, 0, list_width, c_ltgray, LINE_OXXX );
-    mvwputch( w, getmaxy( w ) - 1, list_width, c_ltgray, LINE_XXOX );
+    mvwputch( w, 0, list_width + 1, c_ltgray, LINE_OXXX );
+    mvwputch( w, getmaxy( w ) - 1, list_width + 1, c_ltgray, LINE_XXOX );
     mvwputch( w, 2, 0, c_ltgray, LINE_XXXO );
-    mvwputch( w, 2, list_width, c_ltgray, LINE_XOXX );
+    mvwputch( w, 2, list_width + 1, c_ltgray, LINE_XOXX );
 
     wrefresh( w );
 }
@@ -157,15 +157,22 @@ void construction_menu()
         w_height = FULL_SCREEN_HEIGHT;
     }
 
-    WINDOW_PTR w_con_ptr {newwin( w_height, FULL_SCREEN_WIDTH, ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0,
-                                  ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 )};
-
+    const int w_width = FULL_SCREEN_WIDTH;
+    const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
+    const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
+    WINDOW_PTR w_con_ptr {newwin( w_height, w_width, w_y0, w_x0 )};
     WINDOW *const w_con = w_con_ptr.get();
-    draw_grid( w_con );
+
+    const int w_list_width = 28;
+    const int w_list_height = w_height - 4;
+    const int w_list_x0 = 1;
+    WINDOW_PTR w_list_ptr {newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 )};
+    WINDOW *const w_list = w_list_ptr.get();
+
+    draw_grid( w_con, w_list_width + w_list_x0 );
 
     //tabcount needs to be increased to add more categories
     int tabcount = 9;
-    //Must be 24 or less characters
     std::string construct_cat[] = {_( "All" ), _( "Constructions" ), _( "Furniture" ),
                                    _( "Digging and Mining" ), _( "Repairing" ),
                                    _( "Reinforcing" ), _( "Decorative" ),
@@ -250,19 +257,11 @@ void construction_menu()
                 constructs = cat_available[category_name];
             }
         }
-        // Erase existing tab selection
-        for( int j = 1; j < 30; j++ ) {
-            mvwputch( w_con, 1, j, c_black, ' ' );
-        }
-        //Print new tab listing
+        // Erase existing tab selection & list of constructions
+        mvwhline( w_con, 1, 1, 'x', w_list_width );
+        werase( w_list );
+        // Print new tab listing
         mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex].c_str() );
-
-        // Erase existing list of constructions
-        for( int i = 3; i < w_height - 1; i++ ) {
-            for( int j = 1; j < 30; j++ ) {
-                mvwputch( w_con, i, j, c_black, ' ' );
-            }
-        }
         // Determine where in the master list to start printing
         calcStartPos( offset, select, w_height - 4, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
@@ -296,38 +295,35 @@ void construction_menu()
             if( current == select ) {
                 col = hilite( col );
             }
-            // print construction name with limited length.
-            // limit(28) = 30(column len) - 2(letter + ' ').
-            // If we run out of hotkeys, just stop assigning them.
-            mvwprintz( w_con, 3 + i, 1, col, "%c %s",
-                       ( current < ( int )hotkeys.size() ) ? hotkeys[current] : ' ',
-                       utf8_truncate( con_name.c_str(), 27 ).c_str() );
+            trim_and_print( w_list, i, 1, w_list_width - 1, col, con_name.c_str() );
         }
 
         if( update_info ) {
             update_info = false;
             // Clear out lines for tools & materials
             for( int i = 1; i < w_height - 1; i++ ) {
-                for( int j = 31; j < 79; j++ ) {
-                    mvwputch( w_con, i, j, c_black, ' ' );
+                for( int j = ( w_list_width + w_list_x0 + 2 ); j < w_width - 1; j++ ) {
+                    mvwputch( w_con, i, j, c_red, 'x' );
                 }
             }
 
             //leave room for top and bottom UI text
             int available_buffer_height = w_height - 5 - 3;
-            int available_window_width = FULL_SCREEN_WIDTH - 31 - 1;
+            int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
 
             if( !constructs.empty() ) {
                 std::string current_desc = constructs[select];
                 // Print instructions for toggling recipe hiding.
-                mvwprintz( w_con, w_height - 3, 31, c_white, _( "Press %s to toggle unavailable constructions." ),
+                mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
+                           _( "Press %s to toggle unavailable constructions." ),
                            ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
-                mvwprintz( w_con, w_height - 2, 31, c_white, _( "Press %s to view and edit key-bindings." ),
+                mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
+                           _( "Press %s to view and edit key-bindings." ),
                            ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
 
                 // Print construction name
-                mvwprintz( w_con, 1, 31, c_white, "%s", current_desc.c_str() );
+                mvwprintz( w_con, 1, ( w_list_width + w_list_x0 + 2 ), c_white, "%s", current_desc.c_str() );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -450,12 +446,12 @@ void construction_menu()
                 }
                 if( current_construct_breakpoint > 0 ) {
                     // Print previous stage indicator if breakpoint is past the beginning
-                    mvwprintz( w_con, 2, 31, c_white, _( "^ [P]revious stage(s)" ) );
+                    mvwprintz( w_con, 2, ( w_list_width + w_list_x0 + 2 ), c_white, _( "^ [P]revious stage(s)" ) );
                 }
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    mvwprintz( w_con, w_height - 4, 31, c_white, _( "v [N]ext stage(s)" ) );
+                    mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
                 }
                 // Leave room for above/below indicators
                 int ypos = 3;
@@ -466,13 +462,14 @@ void construction_menu()
                     if( ypos > available_buffer_height + 3 ) {
                         break;
                     }
-                    print_colored_text( w_con, ypos++, 31, stored_color, color_stage, full_construct_buffer[i] );
+                    print_colored_text( w_con, ypos++, ( w_list_width + w_list_x0 + 2 ), stored_color, color_stage, full_construct_buffer[i] );
                 }
             }
         } // Finished updating
 
-        draw_scrollbar( w_con, select, w_height - 4, constructs.size(), 3 );
+        draw_scrollbar( w_con, select, w_list_height, constructs.size(), 3 );
         wrefresh( w_con );
+        wrefresh( w_list );
 
         const std::string action = ctxt.handle_input();
         const long raw_input_char = ctxt.get_raw_input().get_first_input();
@@ -536,7 +533,7 @@ void construction_menu()
             exit = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             hotkeys = ctxt.get_available_single_char_hotkeys();
-            draw_grid( w_con );
+            draw_grid( w_con, w_list_width + w_list_x0 );
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
             update_info = true;
             update_cat = true;
@@ -561,15 +558,14 @@ void construction_menu()
                 } else {
                     popup( _( "You can't build that!" ) );
                     select = chosen;
-                    for( int i = 1; i < w_height - 1; i++ ) {
-                        mvwputch( w_con, i, 30, c_ltgray, LINE_XOXO );
-                    }
+                    draw_grid( w_con, w_list_width + w_list_x0 );
                     update_info = true;
                 }
             }
         }
     } while( !exit );
 
+    w_list_ptr.reset();
     w_con_ptr.reset();
     g->refresh_all();
 }
