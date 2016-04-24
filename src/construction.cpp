@@ -125,15 +125,45 @@ void draw_grid( WINDOW *w, const int list_width )
     draw_border( w );
     mvwprintz( w, 0, 2, c_ltred, _( " Construction " ) );
     // draw internal lines
-    mvwvline( w, 1, list_width + 1, LINE_XOXO, getmaxy( w ) - 2 );
-    mvwhline( w, 2, 1, LINE_OXOX, list_width + 1 );
+    mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
+    mvwhline( w, 2, 1, LINE_OXOX, list_width );
     // draw intersections
-    mvwputch( w, 0, list_width + 1, c_ltgray, LINE_OXXX );
-    mvwputch( w, getmaxy( w ) - 1, list_width + 1, c_ltgray, LINE_XXOX );
+    mvwputch( w, 0, list_width, c_ltgray, LINE_OXXX );
+    mvwputch( w, getmaxy( w ) - 1, list_width, c_ltgray, LINE_XXOX );
     mvwputch( w, 2, 0, c_ltgray, LINE_XXXO );
-    mvwputch( w, 2, list_width + 1, c_ltgray, LINE_XOXX );
+    mvwputch( w, 2, list_width, c_ltgray, LINE_XOXX );
 
     wrefresh( w );
+}
+
+nc_color construction_color( std::string &con_name, bool highlight )
+{
+    nc_color col = c_dkgray;
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        col = c_white;
+    } else if( can_construct( con_name ) ) {
+        construction *con_first = NULL;
+        std::vector<construction *> cons = constructions_by_desc( con_name );
+        const inventory &total_inv = g->u.crafting_inventory();
+        for( auto &con : cons ) {
+            if( con->requirements.can_make_with_inventory( total_inv ) ) {
+                con_first = con;
+                break;
+            }
+        }
+        if( con_first != NULL ) {
+            int pskill = g->u.skillLevel( con_first->skill );
+            int diff = con_first->difficulty;
+            if( pskill < diff ) {
+                col = c_red;
+            } else if( pskill == diff ) {
+                col = c_ltblue;
+            } else {
+                col = c_white;
+            }
+        }
+    }
+    return highlight ? hilite( col ) : col;
 }
 
 void construction_menu()
@@ -157,13 +187,13 @@ void construction_menu()
         w_height = FULL_SCREEN_HEIGHT;
     }
 
-    const int w_width = FULL_SCREEN_WIDTH;
+    const int w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3);
     const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
     const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
     WINDOW_PTR w_con_ptr {newwin( w_height, w_width, w_y0, w_x0 )};
     WINDOW *const w_con = w_con_ptr.get();
 
-    const int w_list_width = 28;
+    const int w_list_width = int( .375 * w_width );
     const int w_list_height = w_height - 4;
     const int w_list_x0 = 1;
     WINDOW_PTR w_list_ptr {newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 )};
@@ -258,53 +288,27 @@ void construction_menu()
             }
         }
         // Erase existing tab selection & list of constructions
-        mvwhline( w_con, 1, 1, 'x', w_list_width );
+        mvwhline( w_con, 1, 1, ' ', w_list_width );
         werase( w_list );
         // Print new tab listing
         mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex].c_str() );
         // Determine where in the master list to start printing
-        calcStartPos( offset, select, w_height - 4, constructs.size() );
+        calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        for( size_t i = 0; ( int )i < w_height - 4 && ( i + offset ) < constructs.size(); i++ ) {
+        for( size_t i = 0; ( int )i < w_list_height && ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             std::string con_name = constructs[current];
-            nc_color col = c_dkgray;
-            if( g->u.has_trait( "DEBUG_HS" ) ) {
-                col = c_white;
-            } else if( can_construct( con_name ) ) {
-                construction *con_first = NULL;
-                std::vector<construction *> cons = constructions_by_desc( con_name );
-                for( auto &con : cons ) {
-                    if( con->requirements.can_make_with_inventory( total_inv ) ) {
-                        con_first = con;
-                        break;
-                    }
-                }
-                if( con_first != NULL ) {
-                    int pskill = g->u.skillLevel( con_first->skill );
-                    int diff = con_first->difficulty;
-                    if( pskill < diff ) {
-                        col = c_red;
-                    } else if( pskill == diff ) {
-                        col = c_ltblue;
-                    } else {
-                        col = c_white;
-                    }
-                }
-            }
-            if( current == select ) {
-                col = hilite( col );
-            }
-            trim_and_print( w_list, i, 1, w_list_width - 1, col, con_name.c_str() );
+            bool highlight = ( current == select );
+            trim_and_print( w_list, i, 1, w_list_width - 1,
+                            construction_color( con_name, highlight ), con_name.c_str() );
         }
 
         if( update_info ) {
             update_info = false;
             // Clear out lines for tools & materials
+            const int pos_x = ( w_list_width + w_list_x0 + 2 );
             for( int i = 1; i < w_height - 1; i++ ) {
-                for( int j = ( w_list_width + w_list_x0 + 2 ); j < w_width - 1; j++ ) {
-                    mvwputch( w_con, i, j, c_red, 'x' );
-                }
+                mvwhline( w_con, i, pos_x, ' ', w_width - pos_x - 1 );
             }
 
             //leave room for top and bottom UI text
