@@ -9,7 +9,7 @@
 #include "vehicle.h"
 #include "veh_type.h"
 
-void game::dump_stats( const std::string& what )
+void game::dump_stats( const std::string& what, dump_mode mode )
 {
     load_core_data();
     DynamicDataLoader::get_instance().finalize_loaded_data();
@@ -121,11 +121,37 @@ void game::dump_stats( const std::string& what )
 
     rows.erase( std::unique( rows.begin(), rows.end() ), rows.end() );
 
-    rows.insert( rows.begin(), header );
-    for( const auto& r : rows ) {
-        if( !r.empty() ) {
-            std::copy( r.begin(), r.end() - 1, std::ostream_iterator<std::string>( std::cout, "\t" ) );
-            std::cout << r.back() << "\n";
-        }
+    switch( mode ) {
+        case dump_mode::TSV:
+            rows.insert( rows.begin(), header );
+            for( const auto& r : rows ) {
+                std::copy( r.begin(), r.end() - 1, std::ostream_iterator<std::string>( std::cout, "\t" ) );
+                std::cout << r.back() << "\n";
+            }
+            break;
+
+        case dump_mode::HTML:
+            std::cout << "<table>";
+
+            std::cout << "<thead>";
+            std::cout << "<tr>";
+            for( const auto& col : header ) {
+                std::cout << "<th>" << col << "</th>";
+            }
+            std::cout << "</tr>";
+            std::cout << "</thead>";
+
+            std::cout << "<tdata>";
+            for( const auto& r : rows ) {
+                std::cout << "<tr>";
+                for( const auto& col : r ) {
+                    std::cout << "<td>" << col << "</td>";
+                }
+                std::cout << "</tr>";
+            }
+            std::cout << "</tdata>";
+
+            std::cout << "</table>";
+            break;
     }
 }

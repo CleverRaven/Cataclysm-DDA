@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
     bool verifyexit = false;
     bool check_all_mods = false;
     std::string dump;
+    dump_mode dmode = dump_mode::TSV;
 
     // Set default file paths
 #ifdef PREFIX
@@ -112,14 +113,25 @@ int main(int argc, char *argv[])
                 }
             },
             {
-                "--dump-stats", "<what>",
+                "--dump-stats", "<what> [mode = TSV]",
                 "Dumps item stats",
                 section_default,
-                [&dump](int n, const char *params[]) -> int {
-                    if(n != 1 ) {
+                [&dump,&dmode](int n, const char *params[]) -> int {
+                    if( n < 1 ) {
                         return -1;
                     }
                     dump = params[ 0 ];
+                    if( n == 2 ) {
+                        if( !strcmp( params[ 1 ], "TSV" ) ) {
+                            dmode = dump_mode::TSV;
+                            return 0;
+                        } else if( !strcmp( params[ 1 ], "HTML" ) ) {
+                            dmode = dump_mode::HTML;
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
                     return 0;
                 }
             },
@@ -404,7 +416,7 @@ int main(int argc, char *argv[])
             exit_handler(0);
         }
         if( ! dump.empty() ) {
-            g->dump_stats( dump );
+            g->dump_stats( dump, dmode );
             exit_handler( 0 );
         }
         if (check_all_mods) {
