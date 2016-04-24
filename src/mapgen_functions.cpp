@@ -1859,6 +1859,8 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
     int pos_y1 = 0;
 
     if (type == room_backyard) { //processing it separately
+        m->furn_set(x1 + 2, y1, f_chair);
+        m->furn_set(x1 + 2, y1 + 1, f_table);
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
                 if ((i == x1) || (i == x2)) {
@@ -1867,9 +1869,9 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
                     m->ter_set(i, j, t_fence_h);
                 } else {
                     m->ter_set( i, j, t_grass);
-                    if (one_in(35)) {
+                    if (one_in(35) && !m->has_furn(i ,j)) {
                         m->ter_set(i, j, t_tree_young);
-                    } else if (one_in(35)) {
+                    } else if (one_in(35) && !m->has_furn(i ,j)) {
                         m->ter_set(i, j, t_tree);
                     } else if (one_in(25)) {
                         m->ter_set(i, j, t_dirt);
@@ -1878,8 +1880,6 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
             }
         }
         m->ter_set((x1 + x2) / 2, y2, t_fencegate_c);
-        m->furn_set(x1 + 2, y1, f_chair);
-        m->furn_set(x1 + 2, y1 + 1, f_table);
         return;
     }
 
@@ -3532,6 +3532,7 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
         //place items
         m->place_items("mechanics", 90, 1, yard_wdth + 1, 1, yard_wdth + 7, true, 0);
         m->place_items("mechanics", 90, 4, SEEY * 2 - 5, 15, SEEY * 2 - 5, true, 0);
+        m->place_items("clothing_work_set", 40, SEEX * 2 - 6, SEEY * 2 - 5, SEEX * 2 - 4, SEEY * 2 - 5, true, 0);
 
         // rotate garage
 
@@ -3553,7 +3554,7 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
             tdx = -td;
         } else if (terrain_type == "s_garage_west") {
             m->rotate(3);
-            vx = SEEX * 2 - yard_wdth - 10, vy = SEEY * 2 - 8;
+            vx = SEEX * 2 - yard_wdth - 9, vy = SEEY * 2 - 8;
             theta = 180;
             tdy = -td;
         }
