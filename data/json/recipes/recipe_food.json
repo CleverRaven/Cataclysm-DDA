@@ -4229,37 +4229,6 @@
 },{
   "type" : "recipe",
   "result": "syrup",
-  "id_suffix": "with_instrument",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_DRINKS",
-  "skill_used": "cooking",
-  "difficulty": 3,
-  "time": 60000,
-  "autolearn": true,
-  "batch_time_factors": [ 60, 3 ],
-  "qualities":[
-    {"id":"BOIL","level":2}
-  ], "tools": [
-    [
-      [ "rag", -1 ]
-    ],
-    [
-      [ "hydrometer", -1 ]
-    ],
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "maple_sap", 35 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "syrup",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -4286,38 +4255,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "maple_lollipop",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_SNACK",
-  "skill_used": "cooking",
-  "difficulty": 5,
-  "time": 30000,
-  "autolearn": false,
-  "book_learn": [[ "cookbook_maple", 5 ]],
-  "qualities":[
-    {"id":"BOIL","level":2}
-  ], "tools": [
-    [
-      [ "thermometer", -1 ]
-    ],
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "syrup", 2 ]
-    ],
-    [
-      [ "splinter", 1 ],
-      [ "skewer_bone", 1 ],
-      [ "skewer", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "maple_candy",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_SNACK",
@@ -4325,7 +4262,7 @@
   "difficulty": 5,
   "time": 30000,
   "autolearn": false,
-  "book_learn": [[ "cookbook_maple", 5 ]],
+  "book_learn": [[ "family_cookbook", 5 ]],
   "qualities":[
     {"id":"BOIL","level":2}
   ], "tools": [
@@ -4345,31 +4282,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "maple_taffy",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_SNACK",
-  "skill_used": "cooking",
-  "difficulty": 4,
-  "time": 30000,
-  "autolearn": true,
-  "batch_time_factors": [ 60, 3 ],
-  "qualities":[
-    {"id":"BOIL","level":2}
-  ], "tools": [
-    [
-      [ "hotplate", 8 ],
-      [ "toolset", 8 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "syrup", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "maple_tenderloin",
+  "result": "glazed_tenderloin",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
@@ -4377,7 +4290,7 @@
   "time": 45000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_maple", 5 ]],
+  "book_learn": [[ "family_cookbook", 5 ]],
   "qualities":[
     {"id":"BUTCHER","level":20},
     {"id":"COOK","level":3},
@@ -4392,7 +4305,13 @@
   ],
   "components": [
     [
-      [ "syrup", 2 ]
+      [ "sugar", 20 ],
+      [ "syrup", 2 ],
+      [ "beet_syrup", 2 ],
+      [ "molasses", 2 ],
+      [ "honeycomb", 1 ],
+      [ "honey_bottled", 2],
+      [ "honey_glassed", 2]
     ],
     [
       [ "meat", 2 ]
@@ -4434,17 +4353,11 @@
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
       [ "pepper", 10 ]
-    ],
-    [
-      [ "garlic", 1 ],
-      [ "seed_garlic", 6 ],
-      [ "wild_herbs", 10 ],
-      [ "mustard", 1 ]
     ]
   ]
 },{
   "type" : "recipe",
-  "result": "maple_sausage",
+  "result": "sweet_sausage",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
@@ -4452,7 +4365,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "cookbook_maple", 4 ]],
+  "book_learn": [[ "family_cookbook", 4 ]],
   "batch_time_factors": [ 83, 3 ],
   "qualities" : [
     {"id":"CUT","level":1},
@@ -4469,9 +4382,9 @@
     ],
     [
       [ "meat", 2 ],
-      [ "rehydrated_meat", 4 ],
-      [ "meat_canned", 4 ],
-      [ "can_chicken", 4 ]
+      [ "rehydrated_meat", 2 ],
+      [ "meat_canned", 2 ],
+      [ "can_chicken", 2 ]
     ],
     [
       [ "fat", 2 ],
@@ -5358,7 +5271,7 @@
   "time": 48000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [ ["family_cookbook", 5], ["survival_book", 3] , ["textbook_survival", 3], [ "cookbook_maple", 5 ] ],
+  "book_learn": [ ["family_cookbook", 5], ["survival_book", 3] , ["textbook_survival", 3] ],
   "qualities":[
     {"id":"COOK","level":3,"amount":1},
     {"id":"BOIL","level":2,"amount":1}
@@ -12499,7 +12412,7 @@
   "time": 20000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [ [ "family_cookbook", 6 ], [ "scots_cookbook", 2 ], [ "cookbook_maple", 3 ] ],
+  "book_learn": [ [ "family_cookbook", 6 ], [ "scots_cookbook", 2 ] ],
   "batch_time_factors":[50, 4],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1},

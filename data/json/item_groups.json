@@ -7,9 +7,7 @@
       ["candy", 60],
       ["candy2", 60],
       ["candy3", 60],
-      ["maple_lollipop", 10],
       ["maple_candy", 10],
-      ["maple_taffy", 4],
       ["toastem", 10],
       ["toastem2", 10],
       ["toastem3", 12],
@@ -395,7 +393,7 @@
       ["wine_cabernet", 10],
       ["wine_noir", 2],
       ["syrup", 20],
-      ["maple_sausage", 2],
+      ["sweet_sausage", 2],
       ["coffee_syrup", 10],
       ["roasted_coffee_bean", 10],
       ["bacon", 25],
@@ -537,7 +535,6 @@
       ["dry_rice", 40],
       ["survnote", 1],
       ["cookbook_sushi", 5],
-      ["cookbook_maple", 5],
       ["scots_cookbook", 6]
     ]
   },{
@@ -1147,7 +1144,6 @@
       ["candy", 80],
       ["candy2", 80],
       ["candy3", 80],
-      ["maple_lollipop", 5],
       ["maple_candy", 5],
       ["powder_candy", 60],
       ["neccowafers", 80],
@@ -1205,9 +1201,7 @@
       ["candy", 80],
       ["candy2", 80],
       ["candy3", 80],
-      ["maple_lollipop", 10],
       ["maple_candy", 10],
-      ["maple_taffy", 5],
       ["powder_candy", 60],
       ["neccowafers", 80],
       ["maltballs", 80],
@@ -1336,7 +1330,6 @@
       ["candy", 80],
       ["candy2", 80],
       ["candy3", 80],
-      ["maple_lollipop", 2],
       ["maple_candy", 2],
       ["powder_candy", 60],
       ["mintpatties", 60],
@@ -1430,9 +1423,7 @@
       ["candy", 80],
       ["candy2", 80],
       ["candy3", 80],
-      ["maple_lollipop", 20],
       ["maple_candy", 20],
-      ["maple_taffy", 5],
       ["cookies", 80],
       ["pepper", 10],
       ["cinnamon", 15],
@@ -3207,7 +3198,6 @@
       ["mag_fabrication", 30],
       ["mag_tailor", 25],
       ["cookbook_sushi", 15],
-      ["cookbook_maple", 15],
       ["survnote", 1],
       ["scots_cookbook", 8]
     ]
@@ -3939,7 +3929,6 @@
       ["candy", 100],
       ["candy2", 100],
       ["candy3", 100],
-      ["maple_lollipop", 5],
       ["maple_candy", 5],
       ["powder_candy", 60],
       ["neccowafers", 60],
@@ -4053,7 +4042,6 @@
       ["candy", 60],
       ["candy2", 60],
       ["candy3", 60],
-      ["maple_lollipop", 2],
       ["maple_candy", 2],
       ["powder_candy", 40],
       ["neccowafers", 60],
@@ -5043,7 +5031,6 @@
       ["briefcase", 5],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["hydrometer", 3],
       ["barometer", 3],
       ["chem_sulphur", 10],
       ["chem_aluminium_powder", 10],
@@ -5438,7 +5425,6 @@
       ["magnifying_glass", 2],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["hydrometer", 3],
       ["barometer", 3]
     ]
   },{
@@ -6371,7 +6357,6 @@
       ["bio_meteorologist", 3],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["hydrometer", 1],
       ["barometer", 3],
       ["remotevehcontrol", 10]
     ]
@@ -7144,7 +7129,6 @@
       ["camera", 3],
       ["thermometer", 3],
       ["hygrometer", 3],
-      ["hydrometer", 3],
       ["barometer", 3],
       ["camera_pro", 1],
       ["electrohack", 3],
@@ -8120,7 +8104,6 @@
       ["candy", 45],
       ["candy2", 45],
       ["candy3", 45],
-      ["maple_lollipop", 5],
       ["maple_candy", 5],
       ["toastem", 45],
       ["toastem2", 45],

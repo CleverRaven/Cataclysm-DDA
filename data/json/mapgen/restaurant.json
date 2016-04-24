@@ -23,7 +23,7 @@
             ["macaroni_cooked",  5],
             ["lasagne",          5],
             ["spaghetti_pesto",  5],
-            ["maple_tenderloin", 5]
+            ["glazed_tenderloin",5]
         ]
     },
     {
@@ -67,7 +67,7 @@
             ["sauce_red",      8],
             ["sausage",       10],
             ["syrup",         10],
-            ["maple_sausage",  2],
+            ["sweet_sausage",  2],
             ["soup_meat",     10]
         ]
     },

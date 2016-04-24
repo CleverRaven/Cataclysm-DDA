@@ -8143,20 +8143,6 @@
     "flags": ["HYGROMETER"]
   },
   {
-    "id": "hydrometer",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_blue",
-    "name": "hydrometer",
-    "name_plural": "hydrometers",
-    "description": "An instrument that measures the specific gravity (relative density) of liquids-the ratio of the density of the liquid to the density of water.",
-    "price": 300,
-    "material": "plastic",
-    "weight": 50,
-    "volume": 1,
-    "category": "tools"
-  },
-  {
     "id": "barometer",
     "type": "TOOL",
     "symbol": ";",
