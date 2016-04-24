@@ -965,12 +965,15 @@ int sfx::consider() {
     bool is_night = calendar::turn.is_night();
         
     int hostiles = 0;
-    for( auto &number : g->u.get_hostile_creatures() ) {
-        hostiles++;
+    for( auto &critter : g->u.get_visible_creatures( 40 ) ) {
+        if( g->u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+            hostiles++;
+        }
     }
-
-    if( hostiles == prev_hostiles ) {
+    if( hostiles == prev_hostiles && hostiles > 1 ) {
         return 0;
+    } else if( hostiles == prev_hostiles && hostiles <=1 ) {
+        return -1;
     }
 
     if( is_night ) {
@@ -1004,9 +1007,9 @@ void sfx::play_city_distance_music() {
     const auto wild_fctr = overmap_buffer.closest_city( g->u.global_sm_location() );
     const auto &nearest_city = *wild_fctr.city;
     const int city_dist = wild_fctr.distance - nearest_city.s;
-    if( !wild_fctr || city_dist > nearest_city.s + 6 ) {
+    if( !wild_fctr || city_dist > nearest_city.s + 8 ) {
         play_music( "wilderness" );
-    } else if( city_dist >= nearest_city.s + 1 ) {
+    } else if( city_dist >= nearest_city.s + 4 ) {
         play_music( "outskirts" );
     } else {
         play_music( "city" );
