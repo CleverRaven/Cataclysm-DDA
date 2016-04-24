@@ -841,24 +841,30 @@ class jmapgen_loot : public jmapgen_piece {
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
         , group( jsi.get_string( "group", std::string() ) )
         , name( jsi.get_string( "item", std::string() ) )
-        , chance( jsi, "chance", 100, 100 )
-        , ammo( jsi, "ammo", 0, 0 )
-        , magazine( jsi, "magazine", 0, 0 )
+        , chance( jsi.get_int( "chance", 100 ) )
+        , ammo( jsi.get_int( "ammo", 0 ) )
+        , magazine( jsi.get_int( "magazine", 0 ) )
         {
             if( group.empty() == name.empty() ) {
                 jsi.throw_error( "must provide either item or group" );
             }
-
             if( !group.empty() && !item_group::group_is_defined( group ) ) {
                 jsi.throw_error( "no such item group", "group" );
             }
             if( !name.empty() && !item_controller->has_template( name ) ) {
                 jsi.throw_error( "no such item", "item" );
             }
+            if( ammo < 0 || ammo > 100 ) {
+                jsi.throw_error( "ammo chance out of range", "ammo" );
+            }
+            if( magazine < 0 || magazine > 100 ) {
+                jsi.throw_error( "ammo chance out of range", "ammo" );
+            }
         }
+
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
-            if( rng( 0, 99 ) < chance.get() * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
+            if( rng( 0, 99 ) < chance * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
                 std::vector<item> spawn;
                 if( group.empty() ) {
                     spawn.emplace_back( name, calendar::turn );
@@ -867,10 +873,10 @@ class jmapgen_loot : public jmapgen_piece {
                 }
 
                 for( auto &e: spawn ) {
-                    if( rng( 0, 99 ) < magazine.get() && !e.magazine_integral() && !e.magazine_current() ) {
+                    if( rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current() ) {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
-                    if( rng( 0, 99 ) < ammo.get() && e.ammo_remaining() == 0 ) {
+                    if( rng( 0, 99 ) < ammo && e.ammo_remaining() == 0 ) {
                         e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
                     }
                 }
@@ -881,9 +887,9 @@ class jmapgen_loot : public jmapgen_piece {
     private:
         const std::string group;
         const std::string name;
-        const jmapgen_int chance;
-        const jmapgen_int ammo;
-        const jmapgen_int magazine;
+        const int chance;
+        const int ammo;
+        const int magazine;
 };
 
 /**
