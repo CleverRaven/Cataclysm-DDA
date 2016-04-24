@@ -5261,7 +5261,6 @@ void player::get_sick()
     const int checks_per_year = 2 * 24 * 365;
 
     // Health is in the range [-200,200].
-    // A character who takes vitamins every 6 hours will have ~50 health.
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow(2.0f, get_healthy() / 50.0f);
 
@@ -5287,9 +5286,7 @@ void player::get_sick()
 void player::update_health(int external_modifiers)
 {
     if( has_artifact_with( AEP_SICK ) ) {
-        // Carrying a sickness artifact makes your health 50 points worse on
-        // average.  This is the negative equivalent of eating vitamins every
-        // 6 hours.
+        // Carrying a sickness artifact makes your health 50 points worse on average
         external_modifiers -= 50;
     }
     Character::update_health( external_modifiers );
@@ -5938,7 +5935,7 @@ void player::print_health() const
             message = _("You feel cruddy. Maybe you should consider eating a bit healthier.");
             break;
         case 1:
-            message = _("You get up with a bit of a scratch in your throat. Might be time for some vitamins.");
+            message = _("You get up with a bit of a scratch in your throat.");
             break;
         case 2:
             message = _("You stretch, but your muscles don't seem to be doing so good today.");
@@ -8195,7 +8192,6 @@ void player::suffer()
 
     if( !radiogenic && radiation > 0 ) {
         // Even if you heal the radiation itself, the damage is done.
-        // Until you heal it with vitamins...
         const int hmod = get_healthy_mod();
         if( hmod > 200 - radiation ) {
             set_healthy_mod( std::max( -200, 200 - radiation ) );
