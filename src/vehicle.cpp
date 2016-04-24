@@ -5693,8 +5693,8 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                             item part_as_item = parts[parts_in_square[index]].properties_to_item();
                             tripoint dest( pos, smz );
                             g->m.add_item_or_charges( dest, part_as_item, true );
-                            remove_part(parts_in_square[index]);
                         }
+                        remove_part( parts_in_square[index] );
                     }
                 }
                 /* After clearing the frame, remove it if normally legal to do
