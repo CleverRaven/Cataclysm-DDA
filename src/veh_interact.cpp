@@ -2333,7 +2333,7 @@ void complete_vehicle ()
             g->u.consume_tools(tools);
         }
 
-        partnum = veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
+        partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
         if(partnum < 0) {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
         }
@@ -2388,7 +2388,7 @@ void complete_vehicle ()
             // replacing a broken part
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
-            veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
+            veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
             g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty ) * 5 + 20 ) );
 
         } else {
@@ -2488,7 +2488,7 @@ void complete_vehicle ()
             removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
-            partnum = veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
+            partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
             if( partnum < 0 ) {
                 debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
             }
