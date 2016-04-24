@@ -1,6 +1,7 @@
 #include "game.h"
 
 #include <iostream>
+#include <iterator>
 
 #include "init.h"
 #include "item_factory.h"
@@ -13,35 +14,55 @@ void game::dump_stats( const std::string& what )
     load_core_data();
     DynamicDataLoader::get_instance().finalize_loaded_data();
 
-    if( what == "GUN" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Ammo" << "\t"
-            << "Volume" << "\t"
-            << "Weight" << "\t"
-            << "Capacity" << "\t"
-            << "Range" << "\t"
-            << "Dispersion" << "\t"
-            << "Recoil" << "\t"
-            << "Damage" << "\t"
-            << "Pierce" << std::endl;
+    std::vector<std::string> header;
+    std::vector<std::vector<std::string>> rows;
 
-        auto dump = []( const item& gun ) {
-            std::cout
-                << gun.tname( false ) << "\t"
-                << ( gun.ammo_type() != "NULL" ? gun.ammo_type() : "" ) << "\t"
-                << gun.volume() << "\t"
-                << gun.weight() << "\t"
-                << gun.ammo_capacity() << "\t"
-                << gun.gun_range() << "\t"
-                << gun.gun_dispersion() << "\t"
-                << gun.gun_recoil() << "\t"
-                << gun.gun_damage() << "\t"
-                << gun.gun_pierce() << std::endl;
+    if( what == "AMMO" ) {
+        header = {
+            "Name", "Ammo", "Volume", "Weight", "Stack",
+            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
         };
-
+        auto dump = [&rows]( const item& obj ) {
+            std::vector<std::string> r;
+            r.emplace_back( obj.tname( false ) );
+            r.emplace_back( obj.type->ammo->type );
+            r.emplace_back( std::to_string( obj.volume() ) );
+            r.emplace_back( std::to_string( obj.weight() ) );
+            r.emplace_back( std::to_string( obj.type->stack_size ) );
+            r.emplace_back( std::to_string( obj.type->ammo->range ) );
+            r.emplace_back( std::to_string( obj.type->ammo->dispersion ) );
+            r.emplace_back( std::to_string( obj.type->ammo->recoil ) );
+            r.emplace_back( std::to_string( obj.type->ammo->damage ) );
+            r.emplace_back( std::to_string( obj.type->ammo->pierce ) );
+            rows.emplace_back( r );
+        };
         for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->gun.get() ) {
+            if( e.second->ammo ) {
+                dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
+            }
+        }
+
+    } else if( what == "GUN" ) {
+        header = {
+            "Name", "Ammo", "Volume", "Weight", "Capacity",
+            "Range", "Dispersion", "Recoil", "Damage", "Pierce"
+        };
+        auto dump = [&rows]( const item& obj ) {
+            std::vector<std::string> r;
+            r.emplace_back( obj.tname( false ) );
+            r.emplace_back( obj.ammo_type() != "NULL" ? obj.ammo_type() : "" );
+            r.emplace_back( std::to_string( obj.volume() ) );
+            r.emplace_back( std::to_string( obj.weight() ) );
+            r.emplace_back( std::to_string( obj.ammo_capacity() ) );
+            r.emplace_back( std::to_string( obj.gun_range() ) );
+            r.emplace_back( std::to_string( obj.gun_dispersion() ) );
+            r.emplace_back( std::to_string( obj.gun_recoil() ) );
+            r.emplace_back( std::to_string( obj.gun_damage() ) );
+            r.emplace_back( std::to_string( obj.gun_pierce() ) );
+            rows.emplace_back( r );
+        };
+        for( auto& e : item_controller->get_all_itypes() ) {
+            if( e.second->gun ) {
                 item gun( e.first );
                 if( gun.is_reloadable() ) {
                     gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
@@ -54,65 +75,57 @@ void game::dump_stats( const std::string& what )
                 }
             }
         }
-    } else if( what == "AMMO" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Ammo" << "\t"
-            << "Volume" << "\t"
-            << "Weight" << "\t"
-            << "Stack" << "\t"
-            << "Range" << "\t"
-            << "Dispersion" << "\t"
-            << "Recoil" << "\t"
-            << "Damage" << "\t"
-            << "Pierce" << std::endl;
 
-        auto dump = []( const item& ammo ) {
-            std::cout
-                << ammo.tname( false ) << "\t"
-                << ammo.type->ammo->type << "\t"
-                << ammo.volume() << "\t"
-                << ammo.weight() << "\t"
-                << ammo.type->stack_size << "\t"
-                << ammo.type->ammo->range << "\t"
-                << ammo.type->ammo->dispersion << "\t"
-                << ammo.type->ammo->recoil << "\t"
-                << ammo.type->ammo->damage << "\t"
-                << ammo.type->ammo->pierce << std::endl;
-        };
-
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->ammo.get() ) {
-                dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
-            }
-        }
     } else if( what == "VEHICLE" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Weight (empty)" << "\t"
-            << "Weight (fueled)" << std::endl;
+        header = {
+            "Name", "Weight (empty)", "Weight (fueled)"
+        };
+        auto dump = [&rows]( const vproto_id& obj ) {
+            auto veh_empty = vehicle( obj, 0, 0 );
+            auto veh_fueled = vehicle( obj, 100, 0 );
 
+            std::vector<std::string> r;
+            r.emplace_back( veh_empty.name );
+            r.emplace_back( std::to_string( veh_empty.total_mass() ) );
+            r.emplace_back( std::to_string( veh_fueled.total_mass() ) );
+            rows.emplace_back( r );
+        };
         for( auto& e : vehicle_prototype::get_all() ) {
-            auto veh_empty = vehicle( e, 0, 0 );
-            auto veh_fueled = vehicle( e, 100, 0 );
-            std::cout
-                << veh_empty.name << "\t"
-                << veh_empty.total_mass() << "\t"
-                << veh_fueled.total_mass() << std::endl;
+            dump( e );
         }
-    } else if( what == "VPART" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Location" << "\t"
-            << "Weight" << "\t"
-            << "Size" << std::endl;
 
+    } else if( what == "VPART" ) {
+        header = {
+            "Name", "Location", "Weight", "Size"
+        };
+        auto dump = [&rows]( const vpart_info *obj ) {
+            std::vector<std::string> r;
+            r.emplace_back( obj->name() );
+            r.emplace_back( obj->location );
+            r.emplace_back( std::to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
+            r.emplace_back( std::to_string( obj->size ) );
+            rows.emplace_back( r );
+        };
         for( const auto e : vpart_info::get_all() ) {
-            std::cout
-                << e->name() << "\t"
-                << e->location << "\t"
-                << ceil( item( e->item ).weight() / 1000.0 ) << "\t"
-                << e->size << std::endl;
+            dump( e );
+        }
+    }
+
+    rows.erase( std::remove_if( rows.begin(), rows.end(), []( const std::vector<std::string>& e ) {
+        return e.empty();
+    } ), rows.end() );
+
+    std::sort( rows.begin(), rows.end(), []( const std::vector<std::string>& lhs, const std::vector<std::string>& rhs ) {
+        return lhs[ 0 ] < rhs[ 0 ];
+    } );
+
+    rows.erase( std::unique( rows.begin(), rows.end() ), rows.end() );
+
+    rows.insert( rows.begin(), header );
+    for( const auto& r : rows ) {
+        if( !r.empty() ) {
+            std::copy( r.begin(), r.end() - 1, std::ostream_iterator<std::string>( std::cout, "\t" ) );
+            std::cout << r.back() << "\n";
         }
     }
 }
