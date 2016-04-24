@@ -66,7 +66,7 @@
                     "..|------|-++-| H H P|u.",
                     "..|dT~T~L|C  C| H H  |fu",
                     "..|d~~~~~+   C| H H  ofu",
-                    "..|dT~T~T|C  C|      |fu",
+                    "..|dT~T~i|C  C|      |fu",
                     "..|------|-++-|-o--o-|u.",
                     ".........u.,,.u........."
                 ],
@@ -84,6 +84,7 @@
                     "T": "t_linoleum_white",
                     "d": "t_linoleum_white",
                     "L": "t_linoleum_white",
+                    "i": "t_linoleum_white",
                     "-": "t_wall",
                     "|": "t_wall",
                     "o": "t_window",
@@ -102,22 +103,23 @@
                     "T": "f_table",
                     "d": "f_rack",
                     "L": "f_locker",
+                    "i": "f_sink",
                     "a": "f_dahlia",
                     "f": "f_dandelion"
                 },
                 "place_items": [
-                    { "item": "cleaning", "chance": 70, "x": 3, "y": [ 19, 20 ] },
-                    { "item": "dissection", "chance": 70, "x": 3, "y": 21 },
-                    { "item": "church", "chance": 70, "x": [ 16, 18 ], "y": [ 14, 20 ] },
-                    { "item": "lab_torso", "chance": 70, "x": 8, "y": 19 },
-                    { "item": "bionics_common", "chance": 50, "x": 8, "y": 19 }
+                    { "item": "cleaning", "chance": 50, "x": 3, "y": [ 19, 20 ] },
+                    { "item": "dissection", "chance": 50, "x": 3, "y": 21 },
+                    { "item": "church", "chance": 50, "x": [ 16, 18 ], "y": [ 14, 20 ] },
+                    { "item": "lab_torso", "chance": 50, "x": 8, "y": 19 },
+                    { "item": "bionics_common", "chance": 20, "x": 8, "y": 19 }
                 ],
                 "place_loot": [
-                    { "group": "corpse_male", "chance": 70, "x": 4, "y": 19 },
-                    { "group": "corpse_male", "chance": 70, "x": 4, "y": 21 },
-                    { "group": "corpse_female", "chance": 70, "x": 6, "y": 19 },
-                    { "group": "corpse_female", "chance": 70, "x": 6, "y": 21 },
-                    { "group": "corpse_viewing", "chance": 70, "x": 20, "y": 17 }
+                    { "group": "corpse_male", "chance": 50, "x": 4, "y": 19 },
+                    { "group": "corpse_male", "chance": 50, "x": 4, "y": 21 },
+                    { "group": "corpse_female", "chance": 50, "x": 6, "y": 19 },
+                    { "group": "corpse_female", "chance": 50, "x": 6, "y": 21 },
+                    { "group": "corpse_viewing", "chance": 50, "x": 20, "y": 17 }
                 ],
                 "place_signs": [
                     { "x": 15, "y": 11, "signage": "The mortuary name followed by a hastily written message that reads: 'I am not liable if your loved ones will not stay dead.'" }
