@@ -131,6 +131,7 @@
     "weight": 72,
     "volume": 1,
     "price": 200,
+    "spoils_in": 8,
     "calories": 40,
     "quench": 1,
     "healthy": -1,
