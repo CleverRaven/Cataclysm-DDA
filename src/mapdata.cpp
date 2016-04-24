@@ -2,6 +2,7 @@
 #include "color.h"
 #include "init.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "debug.h"
 #include "translations.h"
 #include "output.h"
@@ -16,41 +17,10 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 "mx_crater", "mx_collegekids"
 };
 
-const ter_str_id &convert_terrain_type( const ter_str_id & );
-
-namespace   // @todo This should belong to the generic_factory class
+namespace
 {
 
-std::vector<ter_t> terlist;
-std::map<ter_str_id, ter_id> termap;
-
-const std::map<ter_str_id, ter_id>::iterator find_ter_id( const ter_str_id &tid  )
-{
-    const auto &iter = termap.find( tid );
-    if( iter != termap.end() ) {
-        return iter;
-    }
-    const auto &new_id = convert_terrain_type( tid );
-    if( new_id == tid ) {
-        return iter;
-    }
-    const auto &conv_iter = termap.find( new_id );
-    if( conv_iter != termap.end() ) {
-        termap[tid] = conv_iter->second; // So theres no need to convert anymore
-    }
-    return conv_iter;
-}
-
-void emplace_ter( const ter_t &ter )
-{
-    // It's going to be generic_factory's responsibility,
-    // I leave it without additional checks for now
-    const ter_id cid = ter_id( terlist.size() );
-
-    terlist.push_back( ter );
-    termap[ter.id] = cid;
-    ter.id.set_cid( cid );
-}
+generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
 
 }
 
@@ -60,24 +30,19 @@ std::map<std::string, furn_t> furnmap;
 template<>
 inline bool int_id<ter_t>::is_valid() const
 {
-    return static_cast<size_t>( _id ) < terlist.size();
+    return terrain_data.is_valid( *this );
 }
 
 template<>
 const ter_t &int_id<ter_t>::obj() const
 {
-    if( !is_valid() ) {
-        debugmsg( "invalid terrain id %d", _id );
-        static const ter_t dummy{};
-        return dummy;
-    }
-    return terlist[_id];
+    return terrain_data.obj( *this );
 }
 
 template<>
 const string_id<ter_t> &int_id<ter_t>::id() const
 {
-    return obj().id;
+    return terrain_data.convert( *this );
 }
 
 template<>
@@ -86,23 +51,7 @@ const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
 {
-    const auto tid = get_cid();
-    // Since we don't delete terrain objects, we don't
-    // particularly need the second condition, but
-    // generic case requires it.
-    // The idea: add a boolean flag 'deletion_occurred'.
-    // If it's false, we don't need to waste CPU time
-    // on string comparison, otherwise we make sure
-    if( tid.is_valid() && terlist[tid].id == *this ) {
-        return tid;
-    }
-    const auto &iter = find_ter_id( *this );
-    if( iter != termap.end() ) {
-        set_cid( iter->second );
-        return iter->second;
-    }
-    debugmsg( "can't find terrain %s", c_str() );
-    return t_null;
+    return terrain_data.convert( *this, t_null );
 }
 
 template<>
@@ -113,23 +62,13 @@ int_id<ter_t>::int_id( const string_id<ter_t> &id ) : _id( id.id() )
 template<>
 const ter_t &string_id<ter_t>::obj() const
 {
-    return id().obj();
+    return terrain_data.obj( *this );
 }
 
 template<>
 bool string_id<ter_t>::is_valid() const
 {
-    const auto tid = get_cid();
-
-    if( tid.is_valid() && terlist[tid].id == *this ) {
-        return true;
-    }
-    const auto &iter = find_ter_id( *this );
-    if( iter != termap.end() ) {
-        set_cid( iter->second );
-        return true;
-    }
-    return false;
+    return terrain_data.is_valid( *this );
 }
 
 template<>
@@ -411,55 +350,10 @@ void load_furniture(JsonObject &jsobj)
 
 void load_terrain(JsonObject &jsobj)
 {
-    if ( terlist.empty() ) { // todo@ This shouldn't live here
-        emplace_ter( null_terrain_t() );
+    if( terrain_data.empty() ) { // todo@ This shouldn't live here
+        terrain_data.insert( null_terrain_t() );
     }
-    ter_t new_terrain;
-
-    new_terrain.id = ter_str_id( jsobj.get_string("id") );
-    if ( !new_terrain.id ) {
-        return;
-    }
-    new_terrain.load( jsobj );
-    emplace_ter( new_terrain );
-}
-
-const ter_str_id &convert_terrain_type( const ter_str_id &t )
-{
-    static const std::unordered_map<ter_str_id, ter_str_id> ter_type_conversion_map = { {
-        { ter_str_id( "t_wall_h" ), ter_str_id( "t_wall" ) },
-        { ter_str_id( "t_wall_v" ), ter_str_id( "t_wall" ) },
-        { ter_str_id( "t_concrete_h" ), ter_str_id( "t_concrete_wall" ) },
-        { ter_str_id( "t_concrete_v" ), ter_str_id( "t_concrete_wall" ) },
-        { ter_str_id( "t_wall_metal_h" ), ter_str_id( "t_wall_metal" ) },
-        { ter_str_id( "t_wall_metal_v" ), ter_str_id( "t_wall_metal" ) },
-        { ter_str_id( "t_wall_glass_h" ), ter_str_id( "t_wall_glass" ) },
-        { ter_str_id( "t_wall_glass_v" ), ter_str_id( "t_wall_glass" ) },
-        { ter_str_id( "t_wall_glass_h_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
-        { ter_str_id( "t_wall_glass_v_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
-        { ter_str_id( "t_reinforced_glass_h" ), ter_str_id( "t_reinforced_glass" ) },
-        { ter_str_id( "t_reinforced_glass_v" ), ter_str_id( "t_reinforced_glass" ) },
-        { ter_str_id( "t_fungus_wall_h" ), ter_str_id( "t_fungus_wall" ) },
-        { ter_str_id( "t_fungus_wall_v" ), ter_str_id( "t_fungus_wall" ) },
-        { ter_str_id( "t_wall_h_r" ), ter_str_id( "t_wall_r" ) },
-        { ter_str_id( "t_wall_v_r" ), ter_str_id( "t_wall_r" ) },
-        { ter_str_id( "t_wall_h_w" ), ter_str_id( "t_wall_w" ) },
-        { ter_str_id( "t_wall_v_w" ), ter_str_id( "t_wall_w" ) },
-        { ter_str_id( "t_wall_h_b" ), ter_str_id( "t_wall_b" ) },
-        { ter_str_id( "t_wall_v_b" ), ter_str_id( "t_wall_b" ) },
-        { ter_str_id( "t_wall_h_g" ), ter_str_id( "t_wall_g" ) },
-        { ter_str_id( "t_wall_v_g" ), ter_str_id( "t_wall_g" ) },
-        { ter_str_id( "t_wall_h_y" ), ter_str_id( "t_wall_y" ) },
-        { ter_str_id( "t_wall_v_y" ), ter_str_id( "t_wall_y" ) },
-        { ter_str_id( "t_wall_h_p" ), ter_str_id( "t_wall_p" ) },
-        { ter_str_id( "t_wall_v_p" ), ter_str_id( "t_wall_p" ) },
-    } };
-
-    const auto iter = ter_type_conversion_map.find( t );
-    if( iter == ter_type_conversion_map.end() ) {
-        return t;
-    }
-    return iter->second;
+    terrain_data.load( jsobj );
 }
 
 void map_data_common_t::set_flag( const std::string &flag )
@@ -846,19 +740,20 @@ void set_ter_ids() {
     t_guardrail_bg_dp           = ter_id( "t_guardrail_bg_dp" );
     t_improvised_shelter        = ter_id( "t_improvised_shelter" );
 
-    for( auto &elem : terlist ) {
-        if( elem.trap_id_str.empty() ) {
-            elem.trap = tr_null;
+    for( auto &elem : terrain_data.get_all() ) {
+        ter_t &ter = const_cast<ter_t&>( elem );
+        if( ter.trap_id_str.empty() ) {
+            ter.trap = tr_null;
         } else {
-            elem.trap = trap_str_id( elem.trap_id_str );
+            ter.trap = trap_str_id( ter.trap_id_str );
         }
     }
 }
 
 void reset_furn_ter()
 {
-    termap.clear();
-    terlist.clear();
+    terrain_data.reset();
+
     furnmap.clear();
     furnlist.clear();
 }
@@ -1001,7 +896,7 @@ void set_furn_ids() {
 
 size_t ter_t::count()
 {
-    return termap.size();
+    return terrain_data.size();
 }
 
 void ter_t::load( JsonObject &jo )
@@ -1118,7 +1013,7 @@ void check_furniture_and_terrain()
             debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
         }
     }
-    for( const ter_t& t : terlist ) {
+    for( const ter_t& t : terrain_data.get_all() ) {
         check_bash_items(t.bash, t.id.str(), true);
         check_decon_items(t.deconstruct, t.id.str(), true);
         if( !t.transforms_into.is_valid() ) {
