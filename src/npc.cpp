@@ -1618,12 +1618,17 @@ void npc::say( const std::string line, ... ) const
     std::string formatted_line = vstring_format(line, ap);
     va_end(ap);
     parse_tags( formatted_line, g->u, *this );
-    if (g->u.sees( *this )) {
+    const bool sees = g->u.sees( *this );
+    const bool deaf = g->u.is_deaf();
+    if( sees && !deaf ) {
         add_msg(_("%1$s says: \"%2$s\""), name.c_str(), formatted_line.c_str());
         sounds::sound(pos(), 16, "");
-    } else {
+    } else if( !sees ) {
         std::string sound = string_format(_("%1$s saying \"%2$s\""), name.c_str(), formatted_line.c_str());
         sounds::sound(pos(), 16, sound);
+    } else {
+        add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name.c_str() );
+        sounds::sound(pos(), 16, "");
     }
 }
 
