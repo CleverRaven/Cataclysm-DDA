@@ -953,7 +953,7 @@ void sfx::do_obstacle() {
 }
 
 void sfx::play_panic_music() {
-    play_music( "dying" );
+    play_music( "panic" );
 }
 
 void sfx::play_wilderness_music() {
@@ -972,28 +972,43 @@ int sfx::play_special_music( std::string playlist ) {
     return play_music_int( playlist );
 }
 
-int sfx::consider( bool is_night, int monsters) {
+int sfx::consider() {
+    bool is_night = calendar::turn.is_night();
+        
+    int hostiles = 0;
+    for( auto &number : g->u.get_hostile_creatures() ) {
+        hostiles++;
+    }
+
+    if( hostiles == prev_hostiles ) {
+        return 0;
+    }
+
     if( is_night ) {
-        if( monsters == 0 ) {
-            return play_special_music( "n_nomon" );
-        } else if( monsters <= 10 ) {
+        if( hostiles <= 10 && hostiles >= 2 ) {
+            prev_hostiles = hostiles;
             return play_special_music( "n_lowmon" );
-        } else if( monsters <= 40 ) {
+        } else if( hostiles <= 20 && hostiles > 10 ) {
+            prev_hostiles = hostiles;
             return play_special_music( "n_medmon" );
-        } else {
+        } else if( hostiles > 20 ){
+            prev_hostiles = hostiles;
             return play_special_music( "n_horde" );
         }
     } else {
-        if( monsters == 0 ) {
-            return play_special_music( "d_nomon" );
-        } else if( monsters <= 10 ) {
+        if( hostiles <= 10 && hostiles >= 2 ) {
+            prev_hostiles = hostiles;
             return play_special_music( "d_lowmon" );
-        } else if( monsters <=40 ) {
+        } else if( hostiles <= 20 && hostiles > 10 ) {
+            prev_hostiles = hostiles;
             return play_special_music( "d_medmon" );
-        } else {
+        } else if( hostiles > 20 ) {
+            prev_hostiles = hostiles;
             return play_special_music( "d_horde" );
-        }
+        } 
     }
+    prev_hostiles = hostiles;
+    return -1;
 }
 
 #else // ifdef SDL_SOUND
@@ -1025,7 +1040,7 @@ void sfx::play_wilderness_music() { }
 void sfx::play_outskirts_music() { }
 void sfx::play_city_music() { }
 int sfx::play_special_music( std::string ) { return -1; }
-int sfx::consider( bool, int ) { return 0; }
+int sfx::consider() { return 0; }
 /*@}*/
 
 #endif // ifdef SDL_SOUND

@@ -86,7 +86,7 @@ void play_wilderness_music();
 void play_outskirts_music();
 void play_city_music();
 int play_special_music( std::string );
-int consider( bool, int );
+int consider();
 }
 
 int play_music_int( std::string );

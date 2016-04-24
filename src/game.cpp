@@ -1471,7 +1471,6 @@ bool game::do_turn()
         u.update_morale();
     }
     sfx::remove_hearing_loss();
-    sfx::do_danger_music();
     sfx::do_fatigue();
 
     if( u.hp_percentage() <= .20 || u.get_perceived_pain() >= 50) {
@@ -1481,37 +1480,20 @@ bool game::do_turn()
         std::string tername = otermap[omt_pos].name;
 
         if( sfx::play_special_music( tername ) >= 0) {
+        } else if( sfx::consider() >= 0 ) {
         } else {
-            // Get time of day
-            bool is_night = calendar::turn.is_night();
-
-            // Get weather
-            //char* weather = weather_data(weather).name.c_str();
-            
-            // Get # of hostile monsters nearby
-            int monsters = 0;
-            for( auto &creature : g->u.get_visible_creatures( 40 ) ) {
-                if( g->u.attitude_to( *creature ) == Creature::A_HOSTILE ) {
-                    monsters++;
-                }
-            }
-            // Combine previous values into a single whole
-            if( sfx::consider( is_night, monsters ) >= 0 ) {
+            const auto wild_fctr = overmap_buffer.closest_city( u.global_sm_location() );
+            const auto &nearest_city = *wild_fctr.city;
+            const int city_dist = wild_fctr.distance - nearest_city.s;
+            if( !wild_fctr || city_dist > nearest_city.s + 4 ) {
+                sfx::play_wilderness_music();
+            } else if( city_dist >= nearest_city.s ) {
+                sfx::play_outskirts_music();
             } else {
-                const auto wild_fctr = overmap_buffer.closest_city( u.global_sm_location() );
-                const auto &nearest_city = *wild_fctr.city;
-                const int city_dist = wild_fctr.distance - nearest_city.s;
-                if( !wild_fctr || city_dist > nearest_city.s + 4 ) {
-                    sfx::play_wilderness_music();
-                } else if( city_dist >= nearest_city.s ) {
-                    sfx::play_outskirts_music();
-                } else {
-                    sfx::play_city_music();
-                }
+                sfx::play_city_music();
             }
         }
     }
-
     return false;
 }
 
