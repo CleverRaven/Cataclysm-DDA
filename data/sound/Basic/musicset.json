@@ -4,7 +4,7 @@
         "playlists":
         [
             {
-                "id" : "menu",
+                "id" : "title",
                 "shuffle" : false,
                 "files" : [
                     {
@@ -49,6 +49,86 @@
                 "files" : [
                     {
                         "file": "lab.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "n_nomon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "n_nomon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "n_lowmon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "n_lowmon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "n_medmon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "n_medmon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "n_horde",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "n_horde.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_nomon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_nomon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_lowmon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_lowmon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_medmon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_medmon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_horde",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_horde.wav",
                         "volume": 100
                     }
                 ]
