@@ -3914,7 +3914,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     bool passed = false;
     for( const auto& location : special.locations ) {
         // check each location, if one returns true, then return true, else return false
-        // never, always, water, land, forest, wilderness, by_hiway
+        // never, always, water, land, forest, field, wilderness, by_hiway
         // false, true,   river, !river, forest, forest/field, special
         std::list<std::string> allowed_terrains;
         std::list<std::string> disallowed_terrains;
@@ -3930,6 +3930,8 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
             disallowed_terrains.push_back("road");
         } else if(location == "forest") {
             allowed_terrains.push_back("forest");
+        } else if(location == "field") {
+            allowed_terrains.push_back("field");
         } else if(location == "wilderness") {
             allowed_terrains.push_back("forest");
             allowed_terrains.push_back("field");
