@@ -38,7 +38,7 @@ bool list_items_match( const item *item, std::string sPattern )
 
         std::string namepat = pat;
         std::transform( namepat.begin(), namepat.end(), namepat.begin(), tolower );
-        if( lcmatch( item->tname(), namepat ) ) {
+        if( lcmatch( remove_color_tags( item->tname() ), namepat ) ) {
             return !exclude;
         }
 
