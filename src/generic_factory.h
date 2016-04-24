@@ -135,9 +135,7 @@ class generic_factory
                 mandatory( jo, obj.was_loaded, alias_member_name, aliases, string_id_reader<T> {} );
 
                 for( const auto &alias : aliases ) {
-                    const auto iter = map.find( alias );
-
-                    if( iter != map.end() ) {
+                    if( map.count( alias ) > 0 ) {
                         jo.throw_error( "duplicate " + type_name + " alias \"" + alias.str() + "\" in \"" + id.str() +
                                         "\"" );
                     }
@@ -162,13 +160,8 @@ class generic_factory
             return true;
         }
 
-        const T &dummy_obj() const {
-            static const T dummy;
-            return dummy;
-        }
-
         void remove_aliases( const string_id<T> &id ) {
-            static int_id<T> i_id;
+            int_id<T> i_id;
             if( !find_id( id, i_id ) ) {
                 return;
             }
@@ -182,6 +175,8 @@ class generic_factory
                 }
             }
         }
+
+        const T dummy_obj;
 
     public:
         /**
@@ -303,7 +298,7 @@ class generic_factory
         const T &obj( const int_id<T> &id ) const {
             if( !is_valid( id ) ) {
                 debugmsg( "invalid %s id \"%d\"", type_name.c_str(), id );
-                return dummy_obj();
+                return dummy_obj;
             }
             return list[id];
         }
@@ -315,10 +310,10 @@ class generic_factory
          * casting the const away).
          */
         const T &obj( const string_id<T> &id ) const {
-            static int_id<T> i_id;
+            int_id<T> i_id;
             if( !find_id( id, i_id ) ) {
                 debugmsg( "invalid %s id \"%s\"", type_name.c_str(), id.c_str() );
-                return dummy_obj();
+                return dummy_obj;
             }
             return list[i_id];
         }
@@ -326,7 +321,7 @@ class generic_factory
          * Checks whether the factory contains an object with the given id.
          * This function can be used to implement @ref int_id::is_valid().
          */
-        inline bool is_valid( const int_id<T> &id ) const {
+        bool is_valid( const int_id<T> &id ) const {
             return static_cast<size_t>( id ) < list.size();
         }
         /**
@@ -334,14 +329,14 @@ class generic_factory
          * This function can be used to implement @ref string_id::is_valid().
          */
         bool is_valid( const string_id<T> &id ) const {
-            static int_id<T> dummy;
+            int_id<T> dummy;
             return find_id( id, dummy );
         }
         /**
          * Converts string_id<T> to int_id<T>. Returns null_id on failure.
          */
         int_id<T> convert( const string_id<T> &id, const int_id<T> &null_id ) const {
-            static int_id<T> result;
+            int_id<T> result;
             if( find_id( id, result ) ) {
                 return result;
             }
