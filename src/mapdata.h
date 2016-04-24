@@ -270,6 +270,10 @@ struct ter_t : map_data_common_t {
         harvest_season( 0 ) {};
 
     static size_t count();
+
+    bool was_loaded = false;
+
+    void load( JsonObject &jo );
 };
 
 void set_ter_ids();

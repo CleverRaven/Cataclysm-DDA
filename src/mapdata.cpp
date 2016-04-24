@@ -411,82 +411,17 @@ void load_furniture(JsonObject &jsobj)
 
 void load_terrain(JsonObject &jsobj)
 {
-  if ( terlist.empty() ) { // todo@ This shouldn't live here
-      emplace_ter( null_terrain_t() );
-  }
-  ter_t new_terrain;
-
-  new_terrain.id = ter_str_id( jsobj.get_string("id") );
-  if ( !new_terrain.id ) {
-      return;
-  }
-  new_terrain.name = _(jsobj.get_string("name").c_str());
-
-    new_terrain.load_symbol( jsobj );
-
-  new_terrain.movecost = jsobj.get_int("move_cost");
-
-  if(jsobj.has_member("trap")) {
-      // Store the string representation of the trap id.
-      // Overwrites the trap field in set_trap_ids() once ids are assigned..
-      new_terrain.trap_id_str = jsobj.get_string("trap");
-  }
-  new_terrain.trap = tr_null;
-  new_terrain.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
-
-  new_terrain.transparent = false;
-    new_terrain.connect_group = TERCONN_NONE;
-
-    for( auto & flag : jsobj.get_string_array( "flags" ) ) {
-        new_terrain.set_flag( flag );
+    if ( terlist.empty() ) { // todo@ This shouldn't live here
+        emplace_ter( null_terrain_t() );
     }
+    ter_t new_terrain;
 
-    // connect_group is initialised to none, then terrain flags are set, then finally
-    // connections from JSON are set. This is so that wall flags can set wall connections
-    // but can be overridden by explicit connections in JSON.
-    if(jsobj.has_member("connects_to")) {
-    new_terrain.set_connects( jsobj.get_string("connects_to") );
+    new_terrain.id = ter_str_id( jsobj.get_string("id") );
+    if ( !new_terrain.id ) {
+        return;
     }
-
-  if(jsobj.has_member("examine_action")) {
-    std::string function_name = jsobj.get_string("examine_action");
-    new_terrain.examine = iexamine_function_from_string(function_name);
-  } else {
-    // if not specified, default to no action
-    new_terrain.examine = iexamine_function_from_string("none");
-  }
-
-  // if the terrain has something harvestable
-  if (jsobj.has_member("harvestable")) {
-    new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
-  }
-
-  if (jsobj.has_member("transforms_into")) {
-    new_terrain.transforms_into = ter_str_id( jsobj.get_string("transforms_into") ); // get the terrain to transform into later on
-  }
-
-  if (jsobj.has_member("roof")) {
-    new_terrain.roof = ter_str_id( jsobj.get_string("roof") ); // Get the terrain to create above this one if there would be open air otherwise
-  }
-
-  if (jsobj.has_member("harvest_season")) {
-    //get the harvest season
-    if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} // convert the season to int for calendar compare
-    else if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
-    else if (jsobj.get_string("harvest_season") == "AUTUMN") {new_terrain.harvest_season = 2;}
-    else {new_terrain.harvest_season = 3;}
-  }
-
-  if ( jsobj.has_member("open") ) {
-      new_terrain.open = ter_str_id( jsobj.get_string("open") );
-  }
-  if ( jsobj.has_member("close") ) {
-      new_terrain.close = ter_str_id( jsobj.get_string("close") );
-  }
-  new_terrain.bash.load(jsobj, "bash", false);
-  new_terrain.deconstruct.load(jsobj, "deconstruct", false);
-
-  emplace_ter( new_terrain );
+    new_terrain.load( jsobj );
+    emplace_ter( new_terrain );
 }
 
 const ter_str_id &convert_terrain_type( const ter_str_id &t )
@@ -1067,6 +1002,71 @@ void set_furn_ids() {
 size_t ter_t::count()
 {
     return termap.size();
+}
+
+void ter_t::load( JsonObject &jo )
+{
+    name = _( jo.get_string( "name" ).c_str() );
+
+    load_symbol( jo );
+
+    movecost = jo.get_int("move_cost");
+    if( jo.has_member( "trap" ) ) {
+        // Store the string representation of the trap id.
+        // Overwrites the trap field in set_trap_ids() once ids are assigned..
+        trap_id_str = jo.get_string( "trap" );
+    }
+    trap = tr_null;
+    max_volume = jo.get_int( "max_volume", MAX_VOLUME_IN_SQUARE );
+    transparent = false;
+    connect_group = TERCONN_NONE;
+
+    for( auto &flag : jo.get_string_array( "flags" ) ) {
+        set_flag( flag );
+    }
+    // connect_group is initialised to none, then terrain flags are set, then finally
+    // connections from JSON are set. This is so that wall flags can set wall connections
+    // but can be overridden by explicit connections in JSON.
+    if( jo.has_member( "connects_to" ) ) {
+        set_connects( jo.get_string( "connects_to" ) );
+    }
+    if( jo.has_member( "examine_action" ) ) {
+        const std::string function_name = jo.get_string( "examine_action" );
+        examine = iexamine_function_from_string( function_name );
+    } else {
+        // if not specified, default to no action
+        examine = iexamine_function_from_string( "none" );
+    }
+    // if the terrain has something harvestable
+    if( jo.has_member( "harvestable" ) ) {
+        harvestable = jo.get_string( "harvestable" ); // get the harvestable
+    }
+    if( jo.has_member( "transforms_into" ) ) {
+        transforms_into = ter_str_id( jo.get_string( "transforms_into" ) ); // get the terrain to transform into later on
+    }
+    if( jo.has_member( "roof" ) ) {
+        roof = ter_str_id( jo.get_string( "roof" ) ); // Get the terrain to create above this one if there would be open air otherwise
+    }
+    if( jo.has_member("harvest_season")) {
+        const std::string season = jo.get_string( "harvest_season" );
+        if ( season == "SPRING" ) {
+            harvest_season = 0;
+        } else if( season == "SUMMER") {
+            harvest_season = 1;
+        } else if( season == "AUTUMN") {
+            harvest_season = 2;
+        } else {
+            harvest_season = 3;
+        }
+    }
+    if( jo.has_member( "open" ) ) {
+        open = ter_str_id( jo.get_string( "open" ) );
+    }
+    if( jo.has_member( "close" ) ) {
+        close = ter_str_id( jo.get_string( "close" ) );
+    }
+    bash.load( jo, "bash", false );
+    deconstruct.load( jo, "deconstruct", false );
 }
 
 void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
