@@ -142,7 +142,7 @@ nc_color construction_color( std::string &con_name, bool highlight )
     if( g->u.has_trait( "DEBUG_HS" ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
-        construction *con_first = NULL;
+        construction *con_first = nullptr;
         std::vector<construction *> cons = constructions_by_desc( con_name );
         const inventory &total_inv = g->u.crafting_inventory();
         for( auto &con : cons ) {
@@ -151,7 +151,7 @@ nc_color construction_color( std::string &con_name, bool highlight )
                 break;
             }
         }
-        if( con_first != NULL ) {
+        if( con_first != nullptr ) {
             int pskill = g->u.skillLevel( con_first->skill );
             int diff = con_first->difficulty;
             if( pskill < diff ) {
