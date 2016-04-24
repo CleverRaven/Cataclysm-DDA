@@ -945,11 +945,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     assign( jo, "ammo_effects", slot.ammo_effects );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
+        slot.valid_mod_locations.clear();
         JsonArray jarr = jo.get_array( "valid_mod_locations" );
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
-            slot.valid_mod_locations.insert( std::pair<std::string, int>( curr.get_string( 0 ),
-                                             curr.get_int( 1 ) ) );
+            slot.valid_mod_locations.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
         }
     }
 }
