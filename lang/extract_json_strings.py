@@ -608,6 +608,10 @@ def extract(item, infilename):
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
             wrote = True
+    if "mod_targets" in item:
+        for target in item["mod_targets"]:
+            writestr(outfile, target, **kwargs)
+            wrote = True
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:
             writestr(outfile, mod_loc[0], **kwargs)
