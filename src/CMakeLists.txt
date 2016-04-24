@@ -166,6 +166,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/bonuses.cpp
     ${CMAKE_SOURCE_DIR}/src/vitamin.cpp
     ${CMAKE_SOURCE_DIR}/src/fault.cpp
+    ${CMAKE_SOURCE_DIR}/src/dump.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
