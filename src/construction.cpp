@@ -149,15 +149,15 @@ void construction_menu()
         return;
     }
 
-    int iMaxY = TERMY;
-    if( ( int )available.size() + 2 < iMaxY ) {
-        iMaxY = available.size() + 2;
+    int w_height = TERMY;
+    if( ( int )available.size() + 2 < w_height ) {
+        w_height = available.size() + 2;
     }
-    if( iMaxY < FULL_SCREEN_HEIGHT ) {
-        iMaxY = FULL_SCREEN_HEIGHT;
+    if( w_height < FULL_SCREEN_HEIGHT ) {
+        w_height = FULL_SCREEN_HEIGHT;
     }
 
-    WINDOW_PTR w_con_ptr {newwin( iMaxY, FULL_SCREEN_WIDTH, ( TERMY > iMaxY ) ? ( TERMY - iMaxY ) / 2 : 0,
+    WINDOW_PTR w_con_ptr {newwin( w_height, FULL_SCREEN_WIDTH, ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0,
                                   ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 )};
 
     WINDOW *const w_con = w_con_ptr.get();
@@ -258,15 +258,15 @@ void construction_menu()
         mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex].c_str() );
 
         // Erase existing list of constructions
-        for( int i = 3; i < iMaxY - 1; i++ ) {
+        for( int i = 3; i < w_height - 1; i++ ) {
             for( int j = 1; j < 30; j++ ) {
                 mvwputch( w_con, i, j, c_black, ' ' );
             }
         }
         // Determine where in the master list to start printing
-        calcStartPos( offset, select, iMaxY - 4, constructs.size() );
+        calcStartPos( offset, select, w_height - 4, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        for( size_t i = 0; ( int )i < iMaxY - 4 && ( i + offset ) < constructs.size(); i++ ) {
+        for( size_t i = 0; ( int )i < w_height - 4 && ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             std::string con_name = constructs[current];
             nc_color col = c_dkgray;
@@ -307,23 +307,23 @@ void construction_menu()
         if( update_info ) {
             update_info = false;
             // Clear out lines for tools & materials
-            for( int i = 1; i < iMaxY - 1; i++ ) {
+            for( int i = 1; i < w_height - 1; i++ ) {
                 for( int j = 31; j < 79; j++ ) {
                     mvwputch( w_con, i, j, c_black, ' ' );
                 }
             }
 
             //leave room for top and bottom UI text
-            int available_buffer_height = iMaxY - 5 - 3;
+            int available_buffer_height = w_height - 5 - 3;
             int available_window_width = FULL_SCREEN_WIDTH - 31 - 1;
             nc_color color_stage = c_white;
 
             if( !constructs.empty() ) {
                 std::string current_desc = constructs[select];
                 // Print instructions for toggling recipe hiding.
-                mvwprintz( w_con, iMaxY - 3, 31, c_white, _( "Press %s to toggle unavailable constructions." ),
+                mvwprintz( w_con, w_height - 3, 31, c_white, _( "Press %s to toggle unavailable constructions." ),
                            ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
-                mvwprintz( w_con, iMaxY - 2, 31, c_white, _( "Press %s to view and edit key-bindings." ),
+                mvwprintz( w_con, w_height - 2, 31, c_white, _( "Press %s to view and edit key-bindings." ),
                            ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
 
                 // Print construction name
@@ -455,7 +455,7 @@ void construction_menu()
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    mvwprintz( w_con, iMaxY - 4, 31, c_white, _( "v [N]ext stage(s)" ) );
+                    mvwprintz( w_con, w_height - 4, 31, c_white, _( "v [N]ext stage(s)" ) );
                 }
                 // Leave room for above/below indicators
                 int ypos = 3;
@@ -471,7 +471,7 @@ void construction_menu()
             }
         } // Finished updating
 
-        draw_scrollbar( w_con, select, iMaxY - 4, constructs.size(), 3 );
+        draw_scrollbar( w_con, select, w_height - 4, constructs.size(), 3 );
         wrefresh( w_con );
 
         const std::string action = ctxt.handle_input();
@@ -561,7 +561,7 @@ void construction_menu()
                 } else {
                     popup( _( "You can't build that!" ) );
                     select = chosen;
-                    for( int i = 1; i < iMaxY - 1; i++ ) {
+                    for( int i = 1; i < w_height - 1; i++ ) {
                         mvwputch( w_con, i, 30, c_ltgray, LINE_XOXO );
                     }
                     update_info = true;
