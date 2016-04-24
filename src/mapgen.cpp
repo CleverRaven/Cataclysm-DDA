@@ -837,6 +837,8 @@ public:
 
 /** Place items from an item group */
 class jmapgen_loot : public jmapgen_piece {
+    friend jmapgen_objects;
+
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
         , group( jsi.get_string( "group", std::string() ) )
@@ -864,7 +866,7 @@ class jmapgen_loot : public jmapgen_piece {
 
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
-            if( rng( 0, 99 ) < chance * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
+            if( rng( 0, 99 ) < chance ) {
                 std::vector<item> spawn;
                 if( group.empty() ) {
                     spawn.emplace_back( name, calendar::turn );
@@ -887,7 +889,7 @@ class jmapgen_loot : public jmapgen_piece {
     private:
         const std::string group;
         const std::string name;
-        const int chance;
+        int chance;
         const int ammo;
         const int magazine;
 };
@@ -1133,6 +1135,31 @@ void jmapgen_objects::load_objects( JsonArray parray )
         const jmapgen_place where( jsi );
         std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
         add(where, what);
+    }
+}
+
+template<>
+void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
+{
+    while( parray.has_more() ) {
+        auto jsi = parray.next_object();
+        jmapgen_place where( jsi );
+
+        auto loot = new jmapgen_loot( jsi );
+        auto rate = ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ];
+
+        if( where.repeat.valmax != 1 ) {
+            // if loot can repeat scale according to rate
+            where.repeat.val *= rate;
+            where.repeat.valmax *= rate;
+
+        } else if( loot->chance != 100 ) {
+            // otherwise except where chance is 100% scale probability
+            loot->chance = std::min( int( loot->chance * rate ), 100 );
+        }
+
+        std::shared_ptr<jmapgen_piece> ptr( loot );
+        add( where, ptr );
     }
 }
 
