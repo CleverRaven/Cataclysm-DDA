@@ -954,11 +954,12 @@ int iuse::flusleep(player *p, item *it, bool, const tripoint& )
 
 int iuse::inhaler(player *p, item *it, bool, const tripoint& )
 {
-    p->remove_effect( effect_asthma);
-    p->add_msg_if_player(m_neutral, _("You take a puff from your inhaler."));
-    if (one_in(50)) {  // adverse reaction
-        p->add_msg_if_player(m_bad, _("Your heart begins to race."));
-        p->mod_fatigue(-10);
+    p->add_msg_if_player( m_neutral, _( "You take a puff from your inhaler." ) );
+    if( !p->remove_effect( effect_asthma) ) {
+        p->mod_fatigue( -3 ); // if we don't have asthma can be used as stimulant
+        if( one_in( 20 ) ) {   // with a small but significant risk of adverse reaction
+            p->add_effect( effect_shakes, 10 * rng( 2, 5 ) );
+        }
     }
     return it->type->charges_to_use();
 }
