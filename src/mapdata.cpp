@@ -17,6 +17,9 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 "mx_crater", "mx_collegekids"
 };
 
+template<>
+const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
+
 namespace
 {
 
@@ -44,9 +47,6 @@ const string_id<ter_t> &int_id<ter_t>::id() const
 {
     return terrain_data.convert( *this );
 }
-
-template<>
-const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
 
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
