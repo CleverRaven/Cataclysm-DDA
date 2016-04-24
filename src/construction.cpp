@@ -299,8 +299,11 @@ void construction_menu()
             int current = i + offset;
             std::string con_name = constructs[current];
             bool highlight = ( current == select );
-            trim_and_print( w_list, i, 1, w_list_width - 1,
-                            construction_color( con_name, highlight ), con_name.c_str() );
+
+            trim_and_print( w_list, i, 0, w_list_width,
+                            construction_color( con_name, highlight ), "%c %s",
+                            ( current < ( int )hotkeys.size() ) ? hotkeys[current] : ' ',
+                            con_name.c_str() );
         }
 
         if( update_info ) {
