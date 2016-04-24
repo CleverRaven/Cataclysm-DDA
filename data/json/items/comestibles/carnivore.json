@@ -97,7 +97,7 @@
   },
   {
     "id": "meat_cooked",
-    "copy-from": "flesh",
+    "copy-from": "meat",
     "type": "COMESTIBLE",
     "name": "cooked meat",
     "description": "Freshly cooked meat.  Very nutritious.",
