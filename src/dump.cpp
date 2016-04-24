@@ -81,7 +81,20 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             "Name", "Ammo", "Volume", "Weight", "Capacity",
             "Range", "Dispersion", "Recoil", "Damage", "Pierce"
         };
-        auto dump = [&rows]( const item& obj ) {
+        std::set<std::string> locations;
+        for( const auto& e : item_controller->get_all_itypes() ) {
+            if( e.second->gun ) {
+                std::transform( e.second->gun->valid_mod_locations.begin(),
+                                e.second->gun->valid_mod_locations.end(),
+                                std::inserter( locations, locations.begin() ),
+                                []( const std::pair<std::string, int>& e ) { return e.first; } );
+            }
+        }
+        for( const auto &e : locations ) {
+            header.emplace_back( e );
+        }
+
+        auto dump = [&rows,&locations]( const item& obj ) {
             std::vector<std::string> r;
             r.emplace_back( obj.tname( false ) );
             r.emplace_back( obj.ammo_type() != "NULL" ? obj.ammo_type() : "" );
@@ -93,9 +106,12 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             r.emplace_back( std::to_string( obj.gun_recoil() ) );
             r.emplace_back( std::to_string( obj.gun_damage() ) );
             r.emplace_back( std::to_string( obj.gun_pierce() ) );
+            for( const auto &e : locations ) {
+                r.emplace_back( std::to_string( obj.type->gun->valid_mod_locations[ e ] ) );
+            }
             rows.emplace_back( r );
         };
-        for( auto& e : item_controller->get_all_itypes() ) {
+        for( const auto& e : item_controller->get_all_itypes() ) {
             if( e.second->gun ) {
                 item gun( e.first );
                 if( gun.is_reloadable() ) {
