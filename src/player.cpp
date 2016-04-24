@@ -150,6 +150,8 @@ const efftype_id effect_winded( "winded" );
 
 const matype_id style_none( "style_none" );
 
+const vitamin_id vitamin_iron( "iron" );
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
 
@@ -6445,6 +6447,9 @@ void player::hardcoded_effects(effect &it)
             }
         }
     } else if( id == effect_bleed ) {
+        // Prolonged haemorrhage is a significant risk for developing anaemia
+        vitamin_mod( vitamin_iron, rng( -1, -4 ) );
+
         // Presuming that during the first-aid process you're putting pressure
         // on the wound or otherwise suppressing the flow. (Kits contain either
         // quikclot or bandages per the recipe.)
