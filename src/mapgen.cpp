@@ -1150,12 +1150,12 @@ void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
-            where.repeat.val *= rate;
-            where.repeat.valmax *= rate;
+            where.repeat.val = std::max( int( where.repeat.val * rate ), 1 );
+            where.repeat.valmax = std::max( int( where.repeat.valmax * rate ), 1 );
 
         } else if( loot->chance != 100 ) {
             // otherwise except where chance is 100% scale probability
-            loot->chance = std::min( int( loot->chance * rate ), 100 );
+            loot->chance = std::max( std::min( int( loot->chance * rate ), 100 ), 1 );
         }
 
         std::shared_ptr<jmapgen_piece> ptr( loot );
