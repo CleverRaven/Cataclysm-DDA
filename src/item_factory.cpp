@@ -1693,8 +1693,8 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
         jsobj.throw_error("unknown item group type", "subtype");
     }
 
-    ig->with_ammo = jsobj.get_int( "ammo", ig->with_ammo );
-    ig->with_magazine= jsobj.get_int( "magazine", ig->with_magazine );
+    assign( jsobj, "ammo", ig->with_ammo );
+    assign( jsobj, "magazine", ig->with_magazine );
 
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");
