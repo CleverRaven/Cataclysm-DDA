@@ -86,15 +86,15 @@ class inventory_selector
          */
         void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
         /** Creates the inventory screen */
-        inventory_selector( player &u, const std::string &title, item_filter filter = allow_all_items );
+        inventory_selector( player &u, item_filter filter = allow_all_items );
         ~inventory_selector();
 
         /** Executes the selector */
-        int execute_pick( const int position );
+        int execute_pick( const std::string &title, const int position );
         // @todo opts should not be passed here. Temporary solution for further refactoring
-        item_location execute_pick_map( std::unordered_map<item *, item_location> &opts );
-        void execute_compare();
-        std::list<std::pair<int, int>> execute_multidrop();
+        item_location execute_pick_map( const std::string &title, std::unordered_map<item *, item_location> &opts );
+        void execute_compare( const std::string &title );
+        std::list<std::pair<int, int>> execute_multidrop( const std::string &title );
 
     private:
         typedef std::vector<itemstack_or_category> itemstack_vector;
@@ -132,7 +132,7 @@ class inventory_selector
          * ignore the action in this case). */
         bool handle_movement(const std::string &action);
         /** Update the @ref w_inv window, including wrefresh */
-        void display( selector_mode mode ) const;
+        void display( const std::string &title, selector_mode mode ) const;
         /** Returns the item positions of the currently selected entry, or ITEM_MIN
          * if no entry is selected. */
         int get_selected_item_position() const;
@@ -147,7 +147,6 @@ class inventory_selector
         /** Number of rows that we have for printing the @ref items */
         size_t items_per_page;
         WINDOW *w_inv;
-        const std::string title;
         /** Index of the first entry in @ref items on the currently shown page */
         size_t current_page_offset_i;
         /** Index of the first entry in @ref worn on the currently shown page */
@@ -408,7 +407,7 @@ void inventory_selector::print_right_column( size_t right_column_width, size_t r
     }
 }
 
-void inventory_selector::display( selector_mode mode ) const
+void inventory_selector::display( const std::string &title, selector_mode mode ) const
 {
     const size_t left_column_width = ( mode == SM_PICK ) ? TERMX / 2 : 40; // Do we really need this difference?
     const size_t left_column_offset = 1;
@@ -469,7 +468,7 @@ void inventory_selector::display( selector_mode mode ) const
     wrefresh(w_inv);
 }
 
-inventory_selector::inventory_selector( player &u, const std::string &title, item_filter filter )
+inventory_selector::inventory_selector( player &u, item_filter filter )
     : dropping()
     , first_item(NULL)
     , second_item(NULL)
@@ -478,7 +477,6 @@ inventory_selector::inventory_selector( player &u, const std::string &title, ite
     , worn()
     , items_per_page(TERMY - 5) // gives us 5 lines for messages/help text/status/...
     , w_inv(NULL)
-    , title(title)
     , current_page_offset_i(0)
     , current_page_offset_w(0)
     , selected_i(1) // first is the category header
@@ -765,13 +763,13 @@ void inventory_selector::remove_dropping_items( player &u ) const
     }
 }
 
-int inventory_selector::execute_pick( const int position )
+int inventory_selector::execute_pick( const std::string &title, const int position )
 {
     prepare_paging();
     select_item_by_position( position );
 
     while( true ) {
-        display( SM_PICK );
+        display( title, SM_PICK );
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -791,12 +789,12 @@ int inventory_selector::execute_pick( const int position )
     }
 }
 
-item_location inventory_selector::execute_pick_map( std::unordered_map<item *, item_location> &opts )
+item_location inventory_selector::execute_pick_map( const std::string &title, std::unordered_map<item *, item_location> &opts )
 {
     prepare_paging();
 
     while( true ) {
-        display( SM_PICK );
+        display( title, SM_PICK );
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -836,13 +834,13 @@ item_location inventory_selector::execute_pick_map( std::unordered_map<item *, i
     }
 }
 
-void inventory_selector::execute_compare()
+void inventory_selector::execute_compare( const std::string &title )
 {
     prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
     while(true) {
-        display( SM_COMPARE );
+        display( title, SM_COMPARE );
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -896,7 +894,7 @@ void inventory_selector::execute_compare()
     }
 }
 
-std::list<std::pair<int, int>> inventory_selector::execute_multidrop()
+std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std::string &title )
 {
     const auto can_drop = [ this ]( int item_pos ) -> bool {
         if( item_pos == -1 && u.weapon.has_flag( "NO_UNWIELD" ) ) {
@@ -913,7 +911,7 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop()
 
     int count = 0;
     while( true ) {
-        display( SM_MULTIDROP );
+        display( title, SM_MULTIDROP );
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
@@ -981,7 +979,7 @@ int game::inv_for_filter( const std::string &title, const item_filter filter, co
     u.inv.restack( &u );
     u.inv.sort();
 
-    return inventory_selector( u, title, filter ).execute_pick( position );
+    return inventory_selector( u, filter ).execute_pick( title, position );
 }
 
 int game::inv_for_id(const std::string &title, const std::string &id)
@@ -1018,7 +1016,7 @@ item_location game::inv_map_splice(
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_selector inv_s( u, title, inv_filter );
+    inventory_selector inv_s( u, inv_filter );
 
     std::list<item_category> categories;
     int rank = -1000;
@@ -1118,7 +1116,7 @@ item_location game::inv_map_splice(
         }
     }
 
-    return inv_s.execute_pick_map( opts );
+    return inv_s.execute_pick_map( title, opts );
 }
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int radius)
@@ -1158,7 +1156,7 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.restack(&u);
     u.inv.sort();
 
-    return inventory_selector( u, _( "Multidrop:" ) ).execute_multidrop();
+    return inventory_selector( u ).execute_multidrop( _( "Multidrop:" ) );
 }
 
 void game::compare()
@@ -1210,8 +1208,8 @@ void game::compare( const tripoint &offset )
     u.inv.restack(&u);
     u.inv.sort();
 
-    inventory_selector inv_s( u, _("Compare:") );
+    inventory_selector inv_s( u );
 
     inv_s.add_items( grounditems_slice, inventory_selector::AT_BEGINNING, &category_on_ground );
-    inv_s.execute_compare();
+    inv_s.execute_compare( _("Compare:") );
 }
