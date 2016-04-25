@@ -680,11 +680,6 @@ int curses_start_color(void)
             jsin.start_array();
             // find type and dispatch each object until array close
             while (!jsin.end_array()) {
-                jsin.eat_whitespace();
-                char ch = jsin.peek();
-                if (ch != '{') {
-                    jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
-                }
                 JsonObject jo = jsin.get_object();
                 load_colors(jo);
                 jo.finish();

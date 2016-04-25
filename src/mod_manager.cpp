@@ -417,7 +417,6 @@ void mod_manager::load_mod_info(std::string info_file_path)
             jsin.start_array();
             // find type and dispatch each object until array close
             while (!jsin.end_array()) {
-                jsin.eat_whitespace();
                 JsonObject jo = jsin.get_object();
                 load_modfile(jo, main_path);
                 jo.finish();

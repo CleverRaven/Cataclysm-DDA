@@ -1312,11 +1312,6 @@ bool mapgen_function_json::setup() {
     std::istringstream iss( jdata );
     try {
         JsonIn jsin(iss);
-        jsin.eat_whitespace();
-        char ch = jsin.peek();
-        if ( ch != '{' ) {
-            jsin.error( "Bad json" );
-        }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
         ter_str_id tmpval;
