@@ -8,6 +8,7 @@
 #include "player.h"
 #include "translations.h"
 
+#include <algorithm> //std::min
 #include <sstream>
 
 // '!' and '=' are uses as default bindings in the menu

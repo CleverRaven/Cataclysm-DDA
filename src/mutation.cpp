@@ -9,16 +9,10 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "options.h"
-#include "catacharset.h"
-#include "input.h"
 #include "mapdata.h"
 #include "debug.h"
 #include "field.h"
 #include "vitamin.h"
-
-#include <math.h>    //sqrt
-#include <algorithm> //std::min
-#include <sstream>
 
 bool Character::has_trait(const std::string &b) const
 {
