@@ -1029,7 +1029,5 @@ void check_furniture_and_terrain()
             debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
         }
     }
-    for( const ter_t& t : terrain_data.get_all() ) {
-        t.check();
-    }
+    terrain_data.check();
 }

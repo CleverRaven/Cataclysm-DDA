@@ -35,6 +35,9 @@ can be by it to implement its interface.
   - a `was_loaded` member of type `bool`, which must have the value `false` before
     the first call to `load`.
 
+  The type can also have:
+  - a 'check()' function (to run `generic_factory::check()` on all objects)
+
   Those things must be visible from the factory, you may have to add this class as
   friend if necessary.
 
@@ -253,6 +256,14 @@ class generic_factory
             result.id.set_cid( cid );
             map[result.id] = cid;
             return result;
+        }
+        /**
+         * Checks loaded/inserted objects for consistency
+         */
+        void check() const {
+            for( const T &obj : list ) {
+                obj.check();
+            }
         }
         /**
          * Returns the number of loaded objects.
