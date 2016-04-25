@@ -37,7 +37,7 @@
         "addiction_potential" : 2,
         "addiction_type" : "mutagen",
         "use_action" : "MUTAGEN",
-        "flags" : [ "MUTAGEN_BEAST" ]   
+        "flags" : [ "MUTAGEN_BEAST" ]
     },
     {
         "id" : "mutagen_cattle",
