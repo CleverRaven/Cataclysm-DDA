@@ -1,0 +1,11 @@
+[
+    {
+        "type" : "mutation",
+        "id" : "SQUEAMISH",
+        "name" : "Squeamish",
+        "points" : 5,
+        "starting_trait" : true, 
+        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses.",
+        "threshold" : true
+    }
+] 
