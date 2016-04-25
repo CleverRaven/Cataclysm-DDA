@@ -648,24 +648,6 @@ void player::power_bionics()
     }
 }
 
-void draw_exam_window( WINDOW *win, int border_line, bool examination )
-{
-    int width = getmaxx( win );
-    if( examination ) {
-        for( int i = 1; i < width - 1; i++ ) {
-            mvwputch( win, border_line, i, BORDER_COLOR, LINE_OXOX ); // Draw line above description
-        }
-        mvwputch( win, border_line, 0, BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( win, border_line, width - 1, BORDER_COLOR, LINE_XOXX ); // -|
-    } else {
-        for( int i = 1; i < width - 1; i++ ) {
-            mvwprintz( win, border_line, i, c_black, " " ); // Erase line
-        }
-        mvwputch( win, border_line, 0, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( win, border_line, width, BORDER_COLOR, LINE_XOXO ); // |
-    }
-}
-
 void force_comedown( effect &eff )
 {
     if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1 ) {

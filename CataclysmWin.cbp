@@ -545,6 +545,7 @@
 		<Unit filename="src/mutation.cpp" />
 		<Unit filename="src/mutation.h" />
 		<Unit filename="src/mutation_data.cpp" />
+		<Unit filename="src/mutation_ui.cpp" />
 		<Unit filename="src/name.cpp" />
 		<Unit filename="src/name.h" />
 		<Unit filename="src/newcharacter.cpp" />
