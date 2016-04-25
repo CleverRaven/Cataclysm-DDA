@@ -920,6 +920,7 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop()
         const int item_pos = u.invlet_to_position( ch );
 
         if( ch >= '0' && ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
             count += ch - '0';
         } else if( item_pos != INT_MIN ) {
