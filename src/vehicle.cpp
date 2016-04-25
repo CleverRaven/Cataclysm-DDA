@@ -30,7 +30,6 @@
 #include "weather.h"
 #include "map_iterator.h"
 
-#include <fstream>
 #include <sstream>
 #include <stdlib.h>
 #include <set>
@@ -291,7 +290,7 @@ bool vehicle::remote_controlled(player const &p) const
     return false;
 }
 
-void vehicle::load (std::ifstream &stin)
+void vehicle::load (std::istream &stin)
 {
     std::string type;
     getline(stin, type);
@@ -385,7 +384,7 @@ void vehicle::add_steerable_wheels()
     }
 }
 
-void vehicle::save (std::ofstream &stout)
+void vehicle::save (std::ostream &stout)
 {
     serialize(stout);
     stout << std::endl;

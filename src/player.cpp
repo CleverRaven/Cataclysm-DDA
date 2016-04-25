@@ -1927,7 +1927,7 @@ std::string player::save_info() const
     return dump.str();
 }
 
-void player::memorial( std::ofstream &memorial_file, std::string epitaph )
+void player::memorial( std::ostream &memorial_file, std::string epitaph )
 {
     //Size of indents in the memorial file
     const std::string indent = "  ";
@@ -2234,7 +2234,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
  * entry lines begin with a pipe (|).
  * @param fin The ifstream to read the memorial entries from.
  */
-void player::load_memorial_file(std::ifstream &fin)
+void player::load_memorial_file(std::istream &fin)
 {
   std::string entry;
   memorial_log.clear();
