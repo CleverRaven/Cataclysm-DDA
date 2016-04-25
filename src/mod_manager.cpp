@@ -67,17 +67,14 @@ static void load_obsolete_mods( const std::string path )
     }
     try {
         JsonIn jsin( infile );
-        jsin.eat_whitespace();
-        char ch = jsin.peek();
-        if( ch == '[' ) {
+        if( jsin.test_array() ) {
             jsin.start_array();
             // find type and dispatch each object until array close
             while (!jsin.end_array()) {
                 obsolete_mod_list.insert( jsin.get_string() );
             }
         } else {
-            // not an object or an array?
-            jsin.error( string_format( "expected array, but found '%c'", ch ) );
+            jsin.error( "expected array" );
         }
     } catch( const JsonError &e ) {
         debugmsg("%s", e.c_str());
@@ -411,14 +408,12 @@ void mod_manager::load_mod_info(std::string info_file_path)
     const std::string main_path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
     try {
         JsonIn jsin(iss);
-        jsin.eat_whitespace();
-        char ch = jsin.peek();
-        if (ch == '{') {
+        if( jsin.test_object() ) {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
             load_modfile(jo, main_path);
             jo.finish();
-        } else if (ch == '[') {
+        } else if( jsin.test_array() ) {
             jsin.start_array();
             // find type and dispatch each object until array close
             while (!jsin.end_array()) {
@@ -429,7 +424,7 @@ void mod_manager::load_mod_info(std::string info_file_path)
             }
         } else {
             // not an object or an array?
-            jsin.error( string_format( "expected array, but found '%c'", ch ) );
+            jsin.error( "expected array or object" );
         }
     } catch( const JsonError &e ) {
         debugmsg("%s", e.c_str());

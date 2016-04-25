@@ -235,11 +235,7 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
 
 void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
 {
-    char ch;
-    jsin.eat_whitespace();
-    // examine first non-whitespace char
-    ch = jsin.peek();
-    if (ch == '{') {
+    if( jsin.test_object() ) {
         // find type and dispatch single object
         JsonObject jo = jsin.get_object();
         load_object(jo);
@@ -249,7 +245,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         if (jsin.good()) {
             jsin.error( string_format( "expected single-object file but found '%c'", jsin.peek() ) );
         }
-    } else if (ch == '[') {
+    } else if( jsin.test_array() ) {
         jsin.start_array();
         // find type and dispatch each object until array close
         while (!jsin.end_array()) {
@@ -264,7 +260,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         }
     } else {
         // not an object or an array?
-        jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
+        jsin.error( "expected object or array" );
     }
 }
 
