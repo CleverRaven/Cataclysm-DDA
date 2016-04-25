@@ -43,6 +43,7 @@ src/monfaction.cpp
 src/monmove.cpp
 src/morale.cpp
 src/mtype.cpp
+src/mutation_ui.cpp
 src/name.cpp
 src/pathfinding.cpp
 src/player_activity.cpp
