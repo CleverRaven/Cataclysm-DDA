@@ -45,6 +45,7 @@ const skill_id skill_driving( "driving" );
 const skill_id skill_traps( "traps" );
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
@@ -4710,6 +4711,16 @@ item &map::add_item_at( const tripoint &p,
 
     if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
+    }
+    
+    // The piece of code below is intended to work with the "Squeamish" mod
+    // If monster is zombie, then all its clothing and armor will have FILTHY flag on its death
+    for ( int i = 0; i < g->num_zombies(); i++ ) {
+        if( i != -1 ) {
+            if( g->u.has_trait( "SQUEAMISH" ) && new_item.is_armor() && g->zombie( i ).type->in_species( ZOMBIE ) ) {
+            new_item.item_tags.insert( "FILTHY" );
+            }
+        }
     }
 
     int lx, ly;
