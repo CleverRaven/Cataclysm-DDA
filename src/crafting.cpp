@@ -1302,7 +1302,7 @@ bool query_disassemble(const item &dis_item)
 bool player::disassemble(int dis_pos)
 {
     if (dis_pos == INT_MAX) {
-        dis_pos = g->inv(_("Disassemble item:"));
+        dis_pos = g->inv_for_all( _( "Disassemble item:" ) );
     }
     item &dis_item = i_at(dis_pos);
     if( !has_item( dis_item ) ) {

@@ -207,7 +207,7 @@ private:
 
     //! Prompt for a card to use (includes worn items).
     item* choose_card(char const *const msg) {
-        const int index = g->inv_for_id( msg, "cash_card" );
+        const int index = g->inv_for_id( itype_id( "cash_card" ), msg );
 
         if (index == INT_MIN) {
             add_msg(m_info, _("Never mind."));
@@ -383,7 +383,7 @@ void iexamine::vending(player &p, const tripoint &examp)
         return;
     }
 
-    item *card = &p.i_at(g->inv_for_id(_("Insert card for purchases."), "cash_card"));
+    item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
 
     if (card->is_null()) {
         return; // player cancelled selection
@@ -3008,17 +3008,15 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
         int pos;
         item *cashcard;
 
-        pos = g->inv(_("Insert card."));
+        pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
         cashcard = &(p.i_at(pos));
 
-        if (cashcard->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (cashcard->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
         if (cashcard->charges < pricePerUnit) {
             popup(str_to_illiterate_str(
                       _("Not enough money, please refill your cash card.")).c_str()); //or ride on a solar car, ha ha ha
@@ -3089,17 +3087,14 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
         int pos;
         item *cashcard;
 
-        pos = g->inv(_("Insert card."));
-        cashcard = &(p.i_at(pos));
+        pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
 
-        if (cashcard->is_null()) {
-            popup(_("You do not have that item!"));
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
             return;
         }
-        if (cashcard->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
+
+        cashcard = &(p.i_at(pos));
         // Ok, we have a cash card. Now we need to know what's left in the pump.
         tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = fromPumpFuel( pTank, pGasPump );

@@ -1271,7 +1271,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
     }
 
-    int pos = g->inv( _("Inscribe which item?") );
+    int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
     if( item_inscription( cut ) ) {

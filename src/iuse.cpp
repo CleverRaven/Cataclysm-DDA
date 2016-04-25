@@ -283,7 +283,7 @@ static bool inscribe_item(player *p, std::string verb, std::string gerund, bool 
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,
     //but might need to be reworked for some European languages that have more verb forms
-    int pos = g->inv(string_format(_("%s on what?"), verb.c_str()));
+    int pos = g->inv_for_all(string_format(_("%s on what?"), verb.c_str()));
     item *cut = &(p->i_at(pos));
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
@@ -2300,9 +2300,7 @@ void remove_battery_mods( item &modded, player &p )
 
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( itype_id( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -2324,9 +2322,7 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 
 int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "plutonium";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( itype_id( "plutonium" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -2342,9 +2338,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 
 int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( itype_id( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -2369,9 +2363,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 
 int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( itype_id( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -2397,9 +2389,7 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 }
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( itype_id( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -4962,7 +4952,7 @@ int iuse::lumber(player *p, item *it, bool, const tripoint& )
     }
 
     // If the player is not standing on a log, check inventory
-    int pos = g->inv_for_id( _("Cut up what?"), "log" );
+    int pos = g->inv_for_id( itype_id( "log" ), _( "Cut up what?" ) );
 
     item* cut = &( p->i_at( pos ) );
 
@@ -6127,7 +6117,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
     }
-    int inventory_index = g->inv(_("Select the firearm to repair"));
+    int inventory_index = g->inv_for_all(_("Select the firearm to repair"));
     item *fix = &(p->i_at(inventory_index));
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));

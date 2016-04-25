@@ -90,7 +90,7 @@ class inventory_selector
         ~inventory_selector();
 
         /** Executes the selector */
-        int execute_pick( const std::string &title, const int position );
+        int execute_pick( const std::string &title, const int position = INT_MIN );
         // @todo opts should not be passed here. Temporary solution for further refactoring
         item_location execute_pick_map( const std::string &title, std::unordered_map<item *, item_location> &opts );
         void execute_compare( const std::string &title );
@@ -955,12 +955,28 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
 }
 
 // Display current inventory.
-int game::inv( const std::string &title, const int position )
+int game::inv( const int position )
 {
-    return inv_for_filter( title, allow_all_items, position );
+    u.inv.restack( &u );
+    u.inv.sort();
+
+    return inventory_selector( u ).execute_pick( _( "Inventory:" ), position );
 }
 
-int game::inv_for_activatable( const std::string &title, const player &p )
+int game::inv_for_filter( const std::string &title, item_filter filter )
+{
+    u.inv.restack( &u );
+    u.inv.sort();
+
+    return inventory_selector( u, filter ).execute_pick( title );
+}
+
+int game::inv_for_all( const std::string &title )
+{
+    return inv_for_filter( title, allow_all_items );
+}
+
+int game::inv_for_activatables( const player &p, const std::string &title )
 {
     return inv_for_filter( title, [ &p ]( const item &it ) {
         return p.rate_action_use( it ) != HINT_CANT;
@@ -974,18 +990,17 @@ int game::inv_for_flag( const std::string &flag, const std::string &title )
     } );
 }
 
-int game::inv_for_filter( const std::string &title, const item_filter filter, const int position )
-{
-    u.inv.restack( &u );
-    u.inv.sort();
-
-    return inventory_selector( u, filter ).execute_pick( title, position );
-}
-
-int game::inv_for_id(const std::string &title, const std::string &id)
+int game::inv_for_id( const itype_id &id, const std::string &title )
 {
     return inv_for_filter( title, [ &id ]( const item &it ) {
         return it.type->id == id;
+    } );
+}
+
+int game::inv_for_tools_powered_by( const itype_id &battery_id, const std::string &title )
+{
+    return inv_for_filter( title, [ &battery_id ]( const item & it ) {
+        return it.is_tool() && it.ammo_type() == battery_id;
     } );
 }
 

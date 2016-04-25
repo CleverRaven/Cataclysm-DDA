@@ -2771,7 +2771,7 @@ bool game::handle_action()
             int cMenu = ' ';
             int position = INT_MIN;
             do {
-                position = inv(_("Inventory:"), position);
+                position = inv( position );
                 cMenu = inventory_item_menu(position);
             } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
                      cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
@@ -7435,7 +7435,7 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_activatable( _( "Use item:" ), u );
+        pos = inv_for_activatables( u, _( "Use item:" ) );
     }
 
     if (pos == INT_MIN) {
@@ -10606,7 +10606,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 void game::reassign_item( int pos )
 {
     if( pos == INT_MIN ) {
-        pos = inv( _( "Reassign item:" ) );
+        pos = inv_for_all( _( "Reassign item:" ) );
     }
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
@@ -10661,7 +10661,7 @@ void game::plthrow(int pos)
     }
 
     if (pos == INT_MIN) {
-        pos = inv(_("Throw item:"));
+        pos = inv_for_all( _( "Throw item:" ) );
         refresh_all();
     }
 
@@ -11556,7 +11556,7 @@ void game::wield( int pos )
         return;
     }
     if( pos == INT_MIN ) {
-        pos = inv( _( "Wield item:" ) );
+        pos = inv_for_all( _( "Wield item:" ) );
     }
 
     if( pos == INT_MIN ) {
@@ -14011,7 +14011,7 @@ void game::gameover()
     erase();
     gamemode->game_over();
     mvprintw(0, 35, _("GAME OVER"));
-    inv(_("Inventory:"));
+    inv();
 }
 
 bool game::game_quit()
