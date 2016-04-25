@@ -85,6 +85,12 @@ class inventory_selector
          * category entry is added in front of them or after them depending on @ref where.
          */
         void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
+        /**
+         * Checks the selector for emptiness (absence of available items).
+         */
+        bool empty() const {
+            return items.empty() && worn.empty();
+        }
         /** Creates the inventory screen */
         inventory_selector( player &u, item_filter filter = allow_all_items );
         ~inventory_selector();
