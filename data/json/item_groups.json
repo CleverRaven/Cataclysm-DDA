@@ -5610,6 +5610,8 @@
       ["bot_gasbomb_hack", 2],
       ["bot_turret", 2],
       ["bot_rifleturret", 2],
+      ["bot_manhack_acid", 1],
+      ["bot_manhack_fire", 1],
       ["556", 2],
       ["9mm", 2]
     ]
