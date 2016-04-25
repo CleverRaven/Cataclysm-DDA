@@ -884,7 +884,7 @@ int inventory::leak_level(std::string flag) const
         for( const auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.has_flag( flag ) ) {
                 if( elem_stack_iter.has_flag( "LEAK_ALWAYS" ) ) {
-                    ret += elem_stack_iter.volume();
+                    ret += elem_stack_iter.volume() * 0.004;
                 } else if( elem_stack_iter.has_flag( "LEAK_DAM" ) && elem_stack_iter.damage > 0 ) {
                     ret += elem_stack_iter.damage;
                 }

@@ -903,7 +903,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
 
         while( corpse.damage < CORPSE_PULP_THRESHOLD ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
-            if( x_in_y( pulp_power, corpse.volume() ) ) {
+            if( x_in_y( pulp_power, corpse.volume() * 0.004 ) ) {
                 if( ++corpse.damage == CORPSE_PULP_THRESHOLD ) {
                     corpse.active = false;
                     num_corpses++;
@@ -917,7 +917,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 // Make gore instead of blood this time
                 type_blood = corpse.get_mtype()->gibType();
             }
-            if( type_blood != fd_null && x_in_y( pulp_power, corpse.volume() ) ) {
+            if( type_blood != fd_null && x_in_y( pulp_power, corpse.volume() * 0.004 ) ) {
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );

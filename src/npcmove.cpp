@@ -1239,7 +1239,7 @@ int npc::confident_throw_range( const item &thrown ) const
     ///\EFFECT_STR_NPC increases throwing confidence of heavy items
     deviation += std::min( ( thrown.weight() / 100 ) - str_cur, 0 );
 
-    deviation += thrown.volume() / 4;
+    deviation += thrown.volume() * 0.001;
 
     deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
 
@@ -1943,7 +1943,7 @@ void npc::drop_items(int weight, int volume)
         int dVolume = (volume <= 0 ? -1 : volume - volume_dropped);
         int index;
         // Which is more important, weight or volume?
-        if (dWeight > dVolume) {
+        if (dWeight > dVolume * 0.004) {
             index = rWgt[0].index;
             rWgt.erase(rWgt.begin());
             // Fix the rest of those indices.

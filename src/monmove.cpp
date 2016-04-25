@@ -489,7 +489,7 @@ void monster::move()
                          name().c_str() );
             }
             for( auto &elem : g->m.i_at( pos() ) ) {
-                hp += elem.volume(); // Yeah this means it can get more HP than normal.
+                hp += elem.volume() * 0.004; // Yeah this means it can get more HP than normal.
             }
             g->m.i_clear( pos() );
         }

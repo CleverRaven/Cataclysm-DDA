@@ -7344,17 +7344,17 @@ void game::close( const tripoint &closep )
             }
             for( auto &elem : items_in_way ) {
                 // Don't even count tiny items.
-                if( elem.volume() < 1 ) {
+                if( elem.volume() < 250 ) {
                     continue;
                 }
-                if( elem.volume() > 10 ) {
+                if( elem.volume() > 2500 ) {
                     add_msg( m_info, _( "There's a %s in the way that is too big to just nudge out "
                                         "of the way." ),
                              elem.tname().c_str() );
                     return;
                 }
                 total_item_volume += elem.volume();
-                if (total_item_volume > 10) {
+                if (total_item_volume > 2500) {
                     add_msg(m_info, _("There is too much stuff in the way."));
                     return;
                 }
@@ -7434,16 +7434,16 @@ void game::smash()
             u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
         if (u.weapon.made_of( material_id( "glass" ) ) &&
-            rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
+            rng(0, u.weapon.volume() + 750) < u.weapon.volume()) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.pos(), elem );
             }
             sounds::sound(u.pos(), 24, "");
-            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, u.weapon.volume() ) ) );
-            if (u.weapon.volume() > 20) {
+            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, u.weapon.volume() * 0.004 ) ) );
+            if (u.weapon.volume() > 5000) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * 0.004 * 0.5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();

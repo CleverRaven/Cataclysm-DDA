@@ -256,6 +256,7 @@ const char *volume_units()
 {
     const std::string unit = OPTIONS["USE_METRIC_VOLUME"].getValue();
 
+    //~ volume unit short name (liter, gallon, fluid ounce)
     if ( unit == "liter" ) {
         return _("ltr");
     } else if ( unit == "gallon" ) {
@@ -296,7 +297,7 @@ double convert_volume( int volume )
     double ret;
     ret = double( volume );
     if( OPTIONS["USE_METRIC_VOLUME"] == "liter" ) {
-        ret /= 1000;
+        ret *= 0.001;
     } else if( OPTIONS["USE_METRIC_VOLUME"] == "gallon" ) {
         ret *= 0.00026417;
     } else {

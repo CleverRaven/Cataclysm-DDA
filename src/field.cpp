@@ -783,7 +783,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 // more than max_consume items
                                 destroyed = false;
                                 // Used to feed the fire based on volume of item burnt.
-                                vol = fuel->volume();
+                                vol = fuel->volume() * 0.004;
                                 const islot_ammo *ammo_type = nullptr; //Special case if its ammo.
 
                                 if( fuel->is_ammo() ) {

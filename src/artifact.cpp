@@ -811,7 +811,7 @@ std::string new_artifact()
                 if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume)) {
                     art->volume += modinfo->volume;
                 } else {
-                    art->volume = 1;
+                    art->volume = 250;
                 }
 
                 if (modinfo->weight >= 0 || art->weight > abs(modinfo->weight)) {
@@ -841,7 +841,7 @@ std::string new_artifact()
                 }
                 art->armor->warmth += modinfo->warmth;
 
-                if (modinfo->storage > 0 || art->armor->storage > abs(modinfo->storage)) {
+                if (modinfo->storage > 0 || (int)art->armor->storage > abs(modinfo->storage)) {
                     art->armor->storage += modinfo->storage;
                 } else {
                     art->armor->storage = 0;

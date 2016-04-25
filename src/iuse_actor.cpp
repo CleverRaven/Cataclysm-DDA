@@ -2227,8 +2227,8 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     //  otherwise number is related to size of item
     // Round up if checking, but roll if actually consuming
     const int items_needed = std::max<int>( 1, just_check ?
-        ceil( fix.volume() * cost_scaling ) :
-        divide_roll_remainder( fix.volume() * cost_scaling, 1.0f ) );
+        ceil( fix.volume() * 0.004 * cost_scaling ) :
+        divide_roll_remainder( fix.volume() * 0.004 * cost_scaling, 1.0f ) );
 
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {

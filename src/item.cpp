@@ -2141,7 +2141,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string burntext = "";
     if (with_prefix && !made_of(LIQUID)) {
-        if (convert_volume( volume() ) >= 1 && burnt >= convert_volume( volume() ) * 2) {
+        if ( volume() * 0.004 >= 1 && burnt >= volume() * 0.008) {
             burntext = rm_prefix(_("<burnt_adj>badly burnt "));
         } else if (burnt > 0) {
             burntext = rm_prefix(_("<burnt_adj>burnt "));
@@ -2461,19 +2461,19 @@ int item::volume( bool integral ) const
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ceil( ret * double( charges ) / type->stack_size );
+        ret = ceil( ret * double( charges ) / type->stack_size ) * 250; //TODO?!
     }
 
     // Non-rigid items add the volume of the content
     if( !type->rigid ) {
         for( auto &elem : contents ) {
-            ret += elem.volume();
+            ret += elem.volume() * 0.004;
         }
     }
 
     // Some magazines sit (partly) flush with the item so add less extra volume
     if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->volume() - type->magazine_well, 0 );
+        ret += std::max( (int)(magazine_current()->volume() * 0.004) - type->magazine_well, 0 ) * 250;
     }
 
     if (is_gun()) {
@@ -2484,30 +2484,30 @@ int item::volume( bool integral ) const
         // @todo implement stock_length property for guns
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume", type->volume - type->gun->barrel_length );
-            if     ( tmpvol <=  7 ) ; // intentional NOP
-            else if( tmpvol <=  5 ) ret -= 2;
-            else if( tmpvol <=  6 ) ret -= 3;
-            else if( tmpvol <=  8 ) ret -= 4;
-            else if( tmpvol <= 11 ) ret -= 5;
-            else if( tmpvol <= 16 ) ret -= 6;
-            else                    ret -= 7;
+            int tmpvol = get_var( "volume", type->volume * 0.004 - type->gun->barrel_length );
+            if     ( tmpvol <=  3 ) ; // intentional NOP
+            else if( tmpvol <=  5 ) ret -= 500;
+            else if( tmpvol <=  6 ) ret -= 750;
+            else if( tmpvol <=  8 ) ret -= 1000;
+            else if( tmpvol <= 11 ) ret -= 1250;
+            else if( tmpvol <= 16 ) ret -= 1500;
+            else                    ret -= 1750;
         }
 
         if( gunmod_find( "barrel_small" ) ) {
-            ret -= type->gun->barrel_length;
+            ret -= type->gun->barrel_length * 250;
         }
     }
 
     // Battery mods also add volume
     if( has_flag("ATOMIC_AMMO") ) {
-        ret += 1;
+        ret += 250;
     }
 
     if( has_flag("DOUBLE_AMMO") ) {
         // Batteries have volume 1 per 100 charges
         // TODO: De-hardcode this
-        ret += type->maximum_charges() / 100;
+        ret += type->maximum_charges() * 2.5;
     }
 
     return ret;
@@ -2520,7 +2520,7 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + 4 * volume() + weight() / 60;
+    int ret = 65 + 4 * volume() * 0.004 + weight() / 60;
     return ret;
 }
 
@@ -2784,7 +2784,7 @@ int item::get_encumber() const
     const auto t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (eg. shoulder strap) as special case
-        return is_gun() ? volume() / 3 : 0;
+        return is_gun() ? volume() * 0.004 / 3 : 0;
     }
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
@@ -2792,7 +2792,7 @@ int item::get_encumber() const
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
         for( const auto &e : contents ) {
-            encumber += e.volume();
+            encumber += e.volume() * 0.004;
         }
     }
 
@@ -2896,7 +2896,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return false;
     }
     int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
-    age_in_hours -= int((float)burnt / volume() * 24);
+    age_in_hours -= int((float)burnt / (volume() * 0.004) * 24);
     if( damage > 0 ) {
         age_in_hours /= (damage + 1);
     }
@@ -4667,7 +4667,7 @@ bool item::burn(int amount)
 
     if( !count_by_charges() ) {
         burnt += amount;
-        return burnt >= volume() * 3;
+        return burnt >= volume() * 0.012;
     }
 
     amount *= rng( type->stack_size / 2, type->stack_size );
@@ -4703,7 +4703,7 @@ bool item::flammable() const
         return true;
     }
 
-    int vol = volume();
+    int vol = volume() * 0.004;
     if( ( made_of( material_id( "wood" ) ) || made_of( material_id( "veggy" ) ) ) && ( burnt < 1 || vol <= 10 ) ) {
         return true;
     }
@@ -5289,7 +5289,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     }
 
     active = false;
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
+    if( rng( 0, volume() * 0.004 ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
                 if( corpse->in_species( ROBOT ) ) {

@@ -3270,7 +3270,7 @@ void map::smash_items(const tripoint &p, const int power)
         }
 
         // The volume check here pretty much only influences corpses and very large items
-        const float volume_factor = std::max<float>( 40, i->volume() );
+        const float volume_factor = std::max<float>( 40, i->volume() * 0.004 );
         float damage_chance = 10.0f * power / volume_factor;
         // Example:
         // Power 40 (just below C4 epicenter) vs two-by-four

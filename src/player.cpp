@@ -584,7 +584,7 @@ void player::apply_persistent_morale()
 {
     // Hoarders get a morale penalty if they're not carrying a full inventory.
     if( has_trait( "HOARDER" ) ) {
-        int pen = int( ( volume_capacity() - volume_carried() ) / 2 );
+        int pen = int( ( volume_capacity() - volume_carried() ) * 0.002 );
         if( pen > 70 ) {
             pen = 70;
         }
@@ -1290,10 +1290,10 @@ int player::floor_item_warmth( const tripoint &pos )
         }
         // Items that are big enough and covers the torso are used to keep warm.
         // Smaller items don't do as good a job
-        if( elem.volume() > 1 &&
+        if( elem.volume() > 250 &&
             ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
               elem.covers( bp_leg_r ) ) ) {
-            item_warmth += 60 * elem.get_warmth() * elem.volume() / 10;
+            item_warmth += 60 * elem.get_warmth() * elem.volume() * 0.0004;
         }
     }
 
@@ -1765,7 +1765,7 @@ int player::swim_speed() const
     ret += (80 - get_skill_level( skill_swimming ) * 3) * (encumb(bp_torso) / 10);
     if (get_skill_level( skill_swimming ) < 10) {
         for (auto &i : worn) {
-            ret += (i.volume() * (10 - get_skill_level( skill_swimming ))) / 2;
+            ret += (i.volume() * 0.004 * (10 - get_skill_level( skill_swimming ))) / 2;
         }
     }
     ///\EFFECT_STR increases swim speed
@@ -4411,7 +4411,7 @@ void player::on_dodge( Creature *source, int difficulty )
 
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
-        recoil += std::max( weapon.volume() - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
+        recoil += std::max( (int)(weapon.volume() * 0.004) - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
     }
 
     // Even if we are not to train still call practice to prevent skill rust
@@ -9303,7 +9303,7 @@ bool player::consume_item( item &target )
                     return false;
                 }
             }
-            int charge = (to_eat->volume() + to_eat->weight()) / 9;
+            int charge = (to_eat->volume() * 0.004 + to_eat->weight()) / 9;
             if (to_eat->made_of( material_id( "leather" ) )) {
                 charge /= 4;
             }
@@ -9472,7 +9472,7 @@ bool player::can_wear( const item& it, bool alert ) const
 
     if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
           ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
-          ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) && 
+          ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) &&
           !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
         if( alert ) {
@@ -9914,7 +9914,7 @@ bool player::dispose_item( item& obj, const std::string& prompt )
 }
 
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
-    int mv = std::max( 1, it.volume() * factor );
+    int mv = std::max( 1, (int)(it.volume() * 0.004) * factor );
 
     // For single handed items use the least encumbered hand
     if( it.is_two_handed( *this ) ) {
@@ -11451,7 +11451,7 @@ std::string player::is_snuggling() const
     for( auto candidate = begin; candidate != end; ++candidate ) {
         if( !candidate->is_armor() ) {
             continue;
-        } else if( candidate->volume() > 1 &&
+        } else if( candidate->volume() > 250 &&
                    ( candidate->covers( bp_torso ) || candidate->covers( bp_leg_l ) ||
                      candidate->covers( bp_leg_r ) ) ) {
             floor_armor = &*candidate;
@@ -11569,7 +11569,7 @@ int player::bonus_item_warmth(body_part bp) const
     int ret = 0;
 
     // If the player is not wielding anything big, check if hands can be put in pockets
-    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 2 ) {
+    if( ( bp == bp_hand_l || bp == bp_hand_r ) && weapon.volume() < 500 ) {
         ret += bestwarmth( worn, "POCKETS" );
     }
 
@@ -13329,7 +13329,7 @@ float player::power_rating() const
 {
     int ret = 2;
     // Small guns can be easily hidden from view
-    if( weapon.volume() <= 1 ) {
+    if( weapon.volume() <= 250 ) {
         ret = 2;
     } else if( weapon.is_gun() ) {
         ret = 4;
