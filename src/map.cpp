@@ -4713,16 +4713,6 @@ item &map::add_item_at( const tripoint &p,
         new_item.active = true;
     }
     
-    // The piece of code below is intended to work with the "Squeamish" mod
-    // If monster is zombie, then all its clothing and armor will have FILTHY flag on its death
-    for ( int i = 0; i < g->num_zombies(); i++ ) {
-        if( i != -1 ) {
-            if( g->u.has_trait( "SQUEAMISH" ) && new_item.is_armor() && g->zombie( i ).type->in_species( ZOMBIE ) ) {
-            new_item.item_tags.insert( "FILTHY" );
-            }
-        }
-    }
-
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
