@@ -1001,6 +1001,22 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     }
 }
 
+void ter_t::check() const
+{
+    check_bash_items( bash, id.str(), true );
+    check_decon_items( deconstruct, id.str(), true );
+
+    if( !transforms_into.is_valid() ) {
+        debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
+    }
+    if( !open.is_valid() ) {
+        debugmsg( "invalid terrain %s for opening %s", open.c_str(), id.c_str() );
+    }
+    if( !close.is_valid() ) {
+        debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
+    }
+}
+
 void check_furniture_and_terrain()
 {
     for( const furn_t& f : furnlist ) {
@@ -1014,16 +1030,6 @@ void check_furniture_and_terrain()
         }
     }
     for( const ter_t& t : terrain_data.get_all() ) {
-        check_bash_items(t.bash, t.id.str(), true);
-        check_decon_items(t.deconstruct, t.id.str(), true);
-        if( !t.transforms_into.is_valid() ) {
-            debugmsg( "invalid transforms_into %s for %s", t.transforms_into.c_str(), t.id.c_str() );
-        }
-        if( !t.open.is_valid() ) {
-            debugmsg( "invalid terrain %s for opening %s", t.open.c_str(), t.id.c_str() );
-        }
-        if( !t.close.is_valid() ) {
-            debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
-        }
+        t.check();
     }
 }

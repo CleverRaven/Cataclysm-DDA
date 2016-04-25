@@ -274,6 +274,7 @@ struct ter_t : map_data_common_t {
     bool was_loaded = false;
 
     void load( JsonObject &jo );
+    void check() const;
 };
 
 void set_ter_ids();
