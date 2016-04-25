@@ -116,9 +116,10 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     }
 
     auto eff = v.effect( it->second );
-    if( !eff.is_null() ) {
+    if( !eff.first.is_null() ) {
         // consumption rate may vary so extend effect until next check due for this vitamin
-        add_effect( eff, ( std::abs( vitamin_rate( vit ) ) * MINUTES( 1 ) ) - get_effect_dur( eff ) + 1 );
+        add_effect( eff.first, ( std::abs( vitamin_rate( vit ) ) * MINUTES( 1 ) ) - get_effect_dur( eff.first ) + 1,
+                    num_bp, false, eff.second );
     }
 
     return it->second;

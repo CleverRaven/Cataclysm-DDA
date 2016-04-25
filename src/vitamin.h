@@ -43,8 +43,8 @@ class vitamin
             return rate_;
         }
 
-        /** Get applicable status effect (if any) at @ref level */
-        const efftype_id &effect( int level ) const;
+        /** Get applicable status effect and intensity (if any) at @ref level */
+        const std::pair<efftype_id, int> &effect( int level ) const;
 
         /** Load vitamin from JSON definition */
         static void load_vitamin( JsonObject &jo );
@@ -61,8 +61,8 @@ class vitamin
         int min_;
         int max_;
         int rate_;
-        std::vector<std::pair<efftype_id, int>> deficiency_;
-        std::vector<std::pair<efftype_id, int>> excess_;
+        std::vector<std::pair<int, std::pair<efftype_id, int>>> deficiency_;
+        std::vector<std::pair<int, std::pair<efftype_id, int>>> excess_;
 };
 
 #endif

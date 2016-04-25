@@ -4,7 +4,10 @@
     "type": "vitamin",
     "name": "Calcium",
     "min": -600,
-    "deficiency": [ [ "brittlebone", -300 ] ]
+    "deficiency": [
+      [ -250, "brittlebone", 1 ],
+      [ -300, "brittlebone", 2 ]
+    ]
   },
   {
     "id": "iron",
@@ -12,8 +15,11 @@
     "name": "Iron",
     "min": -600,
     "max": 200,
-    "deficiency": [ [ "anemia", -300 ] ],
-    "excess": [ [ "hypervitaminosis", 100 ] ]
+    "deficiency": [
+      [ -250, "anemia", 1 ],
+      [ -300, "anemia", 2 ]
+    ],
+    "excess": [ [ 100, "hypervitaminosis", 1 ] ]
   },
   {
     "id": "vitA",
@@ -21,21 +27,30 @@
     "name": "Vitamin A",
     "min": -200,
     "max": 200,
-    "deficiency": [ [ "nightblind", -100 ] ],
-    "excess": [ [ "hypervitaminosis", 100 ] ]
+    "deficiency": [
+      [ -100, "nightblind", 1 ],
+      [ -150, "nightblind", 2 ]
+    ],
+    "excess": [ [ 100, "hypervitaminosis", 1 ] ]
   },
   {
     "id": "vitB",
     "type": "vitamin",
     "name": "Vitamin B12",
     "min": -200,
-    "deficiency": [ [ "slowheal", -100 ] ]
+    "deficiency": [
+      [ -100, "slowheal", 1 ],
+      [ -150, "slowheal", 2 ]
+    ]
   },
   {
     "id": "vitC",
     "type": "vitamin",
     "name": "Vitamin C",
     "min": -200,
-    "deficiency": [ [ "scurvy", -100 ] ]
+    "deficiency": [
+      [ -100, "scurvy", 1 ],
+      [ -150, "scurvy", 2 ]
+    ]
   }
 ]
