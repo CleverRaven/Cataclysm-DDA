@@ -2,7 +2,7 @@
 #define MAPDATA_H
 
 #include "game_constants.h"
-#include "color.h"
+#include "calendar.h"
 #include "enums.h"
 #include "iexamine.h"
 #include "int_id.h"
@@ -259,7 +259,7 @@ struct ter_t : map_data_common_t {
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
-    int harvest_season; // When will this terrain get harvested?
+    season_type harvest_season; // When will this terrain get harvested?
 
     ter_t() :
         open( NULL_ID ),
@@ -267,7 +267,7 @@ struct ter_t : map_data_common_t {
         transforms_into( NULL_ID ),
         roof( NULL_ID ),
         trap( tr_null ),
-        harvest_season( 0 ) {};
+        harvest_season( season_type::AUTUMN ) {};
 
     static size_t count();
 

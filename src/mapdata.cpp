@@ -8,7 +8,6 @@
 #include "output.h"
 #include "item.h"
 #include "item_group.h"
-#include "calendar.h"
 
 #include <unordered_map>
 
@@ -937,16 +936,16 @@ void ter_t::load( JsonObject &jo )
     if( jo.has_member("harvest_season") ) {
         const std::string season = jo.get_string( "harvest_season" );
 
-        if ( season == "SPRING" ) {
-            harvest_season = 0;
+        if( season == "SPRING" ) {
+            harvest_season = season_type::SPRING;
         } else if( season == "SUMMER" ) {
-            harvest_season = 1;
+            harvest_season = season_type::SUMMER;
         } else if( season == "AUTUMN" ) {
-            harvest_season = 2;
+            harvest_season = season_type::AUTUMN;
         } else if( season == "WINTER" ) {
-            harvest_season = 3;
+            harvest_season = season_type::WINTER;
         } else {
-            harvest_season = 3;
+            harvest_season = season_type::AUTUMN;
             debugmsg( "Invalid harvest season \"%s\" in \"%s\".", season.c_str(), id.c_str() );
         }
     }

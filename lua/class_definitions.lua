@@ -1425,7 +1425,7 @@ classes = {
 
         attributes = {
             close = { type = "ter_str_id", writable = true },
-            harvest_season = { type = "int", writable = true },
+            harvest_season = { type = "season_type", writable = true },
             harvestable = { type = "string", writable = true },
             name = { type = "string",  writable = false },
             open = { type = "ter_str_id", writable = true },
