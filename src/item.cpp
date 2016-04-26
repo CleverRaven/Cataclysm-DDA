@@ -640,8 +640,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.emplace_back( "BASE", string_format( _( "Stacks in groups of <stat>%1$d</stat>" ), type->stack_size ) );
             } else {
                 //~ %1$d is stack size and %2$d is base volume with both guaranteed to be > 1
-                info.emplace_back( "BASE", string_format( _( "Stack of <stat>%1$d</stat> consumes <stat>%2$d</stat> volume" ),
-                                   type->stack_size, type->volume ) );
+                info.emplace_back( "BASE", string_format( _( "Stack of <stat>%d</stat> consumes <stat>%.2f</stat> volume" ),
+                                   type->stack_size, convert_volume( type->volume ) ) );
             }
         }
 
@@ -2461,13 +2461,13 @@ int item::volume( bool integral ) const
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ceil( ret * double( charges ) / type->stack_size );
+        ret *= ceil( double( charges ) / type->stack_size );
     }
 
     // Non-rigid items add the volume of the content
     if( !type->rigid ) {
         for( auto &elem : contents ) {
-            ret += elem.volume() * 0.004;
+            ret += elem.volume();
         }
     }
 
