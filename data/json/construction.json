@@ -503,7 +503,7 @@
         "post_terrain" : "t_window_empty"
     },{
         "type" : "construction",
-        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
@@ -514,7 +514,7 @@
         "post_terrain" : "t_window_taped"
     },{
         "type" : "construction",
-        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
@@ -525,7 +525,7 @@
         "post_terrain" : "t_window_domestic_taped"
     },{
         "type" : "construction",
-        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
@@ -536,7 +536,7 @@
         "post_terrain" : "t_window_alarm_taped"
     },{
         "type" : "construction",
-        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
@@ -1402,7 +1402,7 @@
         "post_terrain" : "f_crate_o"
     },{
         "type" : "construction",
-        "description" : "Build Bulletin board",
+        "description" : "Build Bulletin Board",
         "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
