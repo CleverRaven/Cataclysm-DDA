@@ -199,11 +199,11 @@ void player::sort_armor()
     * + 7 - ASSUMPTION: max possible number of flags @ item
     * + 13 - warmth & enc block
     */
-    int req_mid_h = 3 + 1 + 8 + 7 + 13;
+    const int req_mid_h = 3 + 1 + 8 + 7 + 13;
 
     const int win_h = std::min( TERMY, std::max( FULL_SCREEN_HEIGHT,
                                 std::max( req_right_h, req_mid_h ) ) );
-    const int win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 3;
+    const int win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) * 3 / 4;
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
 
@@ -343,7 +343,7 @@ void player::sort_armor()
         }
 
         // Items stats
-        if( leftListSize ) {
+        if( leftListSize > 0 ) {
             draw_mid_pane( w_sort_middle, *tmp_worn[leftListIndex] );
         } else {
             mvwprintz( w_sort_middle, 0, 1, c_white, _( "Nothing to see here!" ) );
