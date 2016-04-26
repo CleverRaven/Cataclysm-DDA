@@ -321,13 +321,10 @@ void player::sort_armor()
                 mvwprintz( w_sort_left, drawindex + 1, 0, c_yellow, ">>" );
             }
 
-            if( itemindex == selected ) {
-                mvwprintz( w_sort_left, drawindex + 1, 3, dam_color[int( tmp_worn[itemindex]->damage + 1 )],
-                           tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            } else {
-                mvwprintz( w_sort_left, drawindex + 1, 2, dam_color[int( tmp_worn[itemindex]->damage + 1 )],
-                           tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            }
+            const int offset_x = ( itemindex == selected ) ? 3 : 2;
+            trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
+                            dam_color[int( tmp_worn[itemindex]->damage + 1 )],
+                            tmp_worn[itemindex]->type_name( 1 ).c_str() );
             mvwprintz( w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d",
                        tmp_worn[itemindex]->get_storage() );
         }
@@ -346,7 +343,8 @@ void player::sort_armor()
         if( leftListSize > 0 ) {
             draw_mid_pane( w_sort_middle, *tmp_worn[leftListIndex] );
         } else {
-            mvwprintz( w_sort_middle, 0, 1, c_white, _( "Nothing to see here!" ) );
+            fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
+                            _( "Nothing to see here!" ) );
         }
 
         mvwprintz( w_encumb, 0, 1, c_white, _( "Encumbrance and Warmth" ) );
@@ -358,7 +356,6 @@ void player::sort_armor()
                    _( "Encumbrance" ) );
 
         // Right list
-
         rightListSize = 0;
         for( int cover = 0, pos = 1; cover < num_bp; cover++ ) {
             bool combined = false;
@@ -374,8 +371,8 @@ void player::sort_armor()
             rightListSize++;
             for( auto &elem : items_cover_bp( *this, cover ) ) {
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
-                    mvwprintz( w_sort_right, pos, 2, dam_color[elem.damage + 1],
-                               elem.name.c_str() );
+                    trim_and_print( w_sort_right, pos, 2, right_w - 4, dam_color[elem.damage + 1],
+                                    elem.name.c_str() );
                     mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
                                elem.encumber );
                     pos++;
