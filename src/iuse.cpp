@@ -2811,7 +2811,7 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
         return !itm.contents.empty() &&
                ( itm.contents[0].type->id == "water" ||
                  itm.contents[0].type->id == "salt_water" );
-    }, _( "Purify what?" ), 1 );
+    }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     item *target = loc.get_item();
     if( target == nullptr ) {
@@ -2824,10 +2824,6 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
     }
 
     item *pure = &target->contents[0];
-    if (pure->type->id != "water" && pure->type->id != "salt_water") {
-        p->add_msg_if_player(m_info, _("You can only purify water."));
-        return 0;
-    }
     if (pure->charges > it->charges) {
         p->add_msg_if_player(m_info,
                              _("You don't have enough charges in your purifier to purify all of the water."));
@@ -5722,25 +5718,20 @@ static bool heat_item(player *p)
    auto loc = g->inv_map_splice( []( const item & itm ) {
         return (itm.is_food() && itm.has_flag("EATEN_HOT")) ||
             (itm.is_food_container() && itm.contents[0].has_flag("EATEN_HOT"));
-    }, _( "Heat up what?" ), 1 );
+    }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
     if( heat == nullptr ) {
-        add_msg(m_info, _("You do not have that item!"));
+        add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if ((target->is_food()) && (target->has_flag("EATEN_HOT"))) {
-        p->moves -= 300;
-        add_msg(_("You heat up the food."));
-        target->item_tags.insert("HOT");
-        target->active = true;
-        target->item_counter = 600; // sets the hot food flag for 60 minutes
-        return true;
-    }
-    add_msg(m_info, _("You can't heat that up!"));
-    return false;
+    p->mod_moves( -300 );
+    add_msg( _( "You heat up the food." ) );
+    target->item_tags.insert( "HOT" );
+    target->active = true;
+    target->item_counter = 600; // sets the hot food flag for 60 minutes
+    return true;
 }
 
 int iuse::heatpack(player *p, item *it, bool, const tripoint& )
@@ -8416,7 +8407,7 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
         });
     };
 
-    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter );
+    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter, _( "You don't have guns with long barrels." ) );
 
     if( pos == INT_MIN ) {
         p->add_msg_if_player( _( "Never mind." ) );

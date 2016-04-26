@@ -4822,7 +4822,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 {
-    const int inv_pos = g->inv_for_all( _( "Offer what?" ) );
+    const int inv_pos = g->inv_for_all( _( "Offer what?" ), _( "You have no items to offer." ) );
     item &given = g->u.i_at( inv_pos );
     if( given.is_null() ) {
         return _("Changed your mind?");

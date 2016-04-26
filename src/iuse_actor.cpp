@@ -2107,14 +2107,12 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( !could_repair( *p, *it, true ) ) {
         return 0;
     }
-
-    int pos = g->inv_for_filter( _("Repair what?"), [this, it]( const item &itm ) {
+    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
         return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
-    } );
+    }, string_format( _( "You have no items that could be repaired with a %s." ), it->type->nname( 1 ).c_str() ) );
 
-    item &fix = p->i_at( pos );
-    if( fix.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
+    if( pos == INT_MIN ) {
+        p->add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
 

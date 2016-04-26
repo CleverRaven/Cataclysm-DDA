@@ -427,8 +427,8 @@ class game
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
 
         int inv( int position = INT_MIN );
-        int inv_for_filter( const std::string &title, item_filter filter );
-        int inv_for_all( const std::string &title );
+        int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
+        int inv_for_all( const std::string &title, const std::string &none_message = "" );
         int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
         int inv_for_id( const itype_id &id, const std::string &title );
@@ -449,8 +449,10 @@ class game
                                       item_filter ground_filter,
                                       item_filter vehicle_filter,
                                       const std::string &title,
-                                      int radius = 0 );
-        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0 );
+                                      int radius = 0,
+                                      const std::string &none_message = "" );
+        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+                                      const std::string &none_message = "" );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();

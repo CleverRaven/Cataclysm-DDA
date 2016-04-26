@@ -3004,11 +3004,9 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     }
 
     if (buy_gas == choice) {
-
-        int pos;
         item *cashcard;
 
-        pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -3084,10 +3082,9 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     }
 
     if (refund == choice) {
-        int pos;
         item *cashcard;
 
-        pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );

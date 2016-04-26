@@ -10661,7 +10661,7 @@ void game::plthrow(int pos)
     }
 
     if (pos == INT_MIN) {
-        pos = inv_for_all( _( "Throw item:" ) );
+        pos = inv_for_all( _( "Throw item:" ), _( "You don't have any items to throw." ) );
         refresh_all();
     }
 
@@ -11258,7 +11258,7 @@ void game::eat(int pos)
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
-    }, _( "Consume item:" ), 1 );
+    }, _( "Consume item:" ), 1, _( "You have nothing to consume." ) );
 
     item *it = item_loc.get_item();
     if( !it ) {
@@ -11283,7 +11283,7 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_unequipped( _("Wear item:") );
+        pos = inv_for_unequipped( _( "Wear item:" ) );
     }
 
     u.wear(pos);
@@ -11292,32 +11292,27 @@ void game::wear(int pos)
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_equipped( _("Take off item:") );
+        pos = inv_for_equipped( _( "Take off item:" ) );
     }
-
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
         return;
     }
-
     u.takeoff( pos );
 }
 
 void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_filter(_("Change side for item:"),
-                             [&](const item &it) { return u.is_worn(it) && it.is_sided(); });
+        pos = inv_for_filter( _( "Change side for item:" ), [&]( const item &it ) {
+            return u.is_worn(it) && it.is_sided();
+        }, _( "You don't have sided items worn." ) );
     }
-
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
         return;
     }
-
-    if (!u.change_side(pos)) {
-        add_msg(m_info, _("Invalid selection."));
-    }
+    u.change_side(pos);
 }
 
 void game::reload( int pos )
@@ -11383,7 +11378,7 @@ void game::unload(int pos)
     if( pos == INT_MIN ) {
         it = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item:" ), 1 ).get_item();
+        }, _( "Unload item:" ), 1, _( "You have nothing to unload." ) ).get_item();
 
         if( it == nullptr ) {
             add_msg( _("Never mind.") );
@@ -11556,7 +11551,7 @@ void game::wield( int pos )
         return;
     }
     if( pos == INT_MIN ) {
-        pos = inv_for_all( _( "Wield item:" ) );
+        pos = inv_for_all( _( "Wield item:" ), _( "You have nothing to wield." ) );
     }
 
     if( pos == INT_MIN ) {
@@ -11579,7 +11574,8 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1 );
+    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1,
+                                _( "You have nothing to read." ) );
 
     item *book = loc.get_item();
     if( !book ) {

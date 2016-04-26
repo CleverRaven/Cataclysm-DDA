@@ -969,24 +969,33 @@ int game::inv( const int position )
     return inventory_selector( u ).execute_pick( _( "Inventory:" ), position );
 }
 
-int game::inv_for_filter( const std::string &title, item_filter filter )
+int game::inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message )
 {
     u.inv.restack( &u );
     u.inv.sort();
 
-    return inventory_selector( u, filter ).execute_pick( title );
+    inventory_selector inv_s( u, filter );
+
+    if( inv_s.empty() ) {
+        const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item." ) : none_message;
+        popup_getkey( msg.c_str() );
+        return INT_MIN;
+    }
+
+    return inv_s.execute_pick( title );
 }
 
-int game::inv_for_all( const std::string &title )
+int game::inv_for_all( const std::string &title, const std::string &none_message )
 {
-    return inv_for_filter( title, allow_all_items );
+    const std::string msg = ( none_message.empty() ) ? _( "Your inventory is empty." ) : none_message;
+    return inv_for_filter( title, allow_all_items, msg );
 }
 
 int game::inv_for_activatables( const player &p, const std::string &title )
 {
     return inv_for_filter( title, [ &p ]( const item &it ) {
         return p.rate_action_use( it ) != HINT_CANT;
-    } );
+    }, _( "You don't have any items you can use." ) );
 }
 
 int game::inv_for_flag( const std::string &flag, const std::string &title )
@@ -1000,21 +1009,21 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
 {
     return inv_for_filter( title, [ &id ]( const item &it ) {
         return it.type->id == id;
-    } );
+    }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 
 int game::inv_for_tools_powered_by( const itype_id &battery_id, const std::string &title )
 {
     return inv_for_filter( title, [ &battery_id ]( const item & it ) {
         return it.is_tool() && it.ammo_type() == battery_id;
-    } );
+    }, string_format( _( "You don't have %s-powered tools." ), item::nname( battery_id ).c_str() ) );
 }
 
 int game::inv_for_equipped( const std::string &title )
 {
     return inv_for_filter( title, [ this ]( const item &it ) {
         return u.is_worn( it );
-    } );
+    }, _( "You don't wear anything." ) );
 }
 
 int game::inv_for_unequipped( const std::string &title )
@@ -1022,17 +1031,18 @@ int game::inv_for_unequipped( const std::string &title )
     return inv_for_filter( title, [ this ]( const item &it ) {
         // TODO: Add more filter conditions like "not made of wool if allergic to it".
         return it.is_armor() && !u.is_worn( it );
-    } );
+    }, _( "You don't have any items to wear." ) );
 }
 
-item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius )
+item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius,
+                                    const std::string &none_message )
 {
-    return inv_map_splice( filter, filter, filter, title, radius );
+    return inv_map_splice( filter, filter, filter, title, radius, none_message );
 }
 
 item_location game::inv_map_splice(
     item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter,
-    const std::string &title, int radius )
+    const std::string &title, int radius, const std::string &none_message )
 {
     u.inv.restack( &u );
     u.inv.sort();
@@ -1137,6 +1147,11 @@ item_location game::inv_map_splice(
         }
     }
 
+    if( inv_s.empty() ) {
+        const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item at hand." ) : none_message;
+        popup_getkey( msg.c_str() );
+        return item_location();
+    }
     return inv_s.execute_pick_map( title, opts );
 }
 
@@ -1151,7 +1166,9 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int
     };
 
     // Buckets can only be filled when on the ground
-    return inv_map_splice( sealable_filter, bucket_filter, sealable_filter, title, radius ).get_item();
+    return inv_map_splice( sealable_filter, bucket_filter, sealable_filter, title, radius,
+                           string_format( _( "You don't have a suitable container for carrying %s." ),
+                           liquid.type->nname( 1 ).c_str() ) ).get_item();
 }
 
 int inventory::num_items_at_position( int const position )
@@ -1174,10 +1191,16 @@ int inventory::num_items_at_position( int const position )
 
 std::list<std::pair<int, int>> game::multidrop()
 {
-    u.inv.restack(&u);
+    u.inv.restack( &u );
     u.inv.sort();
 
-    return inventory_selector( u ).execute_multidrop( _( "Multidrop:" ) );
+    inventory_selector inv_s( u );
+
+    if( inv_s.empty() ) {
+        popup_getkey( _( "You have nothing to drop." ) );
+        return std::list<std::pair<int, int> >();
+    }
+    return inv_s.execute_multidrop( _( "Multidrop:" ) );
 }
 
 void game::compare()
@@ -1232,5 +1255,9 @@ void game::compare( const tripoint &offset )
     inventory_selector inv_s( u );
 
     inv_s.add_items( grounditems_slice, inventory_selector::AT_BEGINNING, &category_on_ground );
-    inv_s.execute_compare( _("Compare:") );
+    if( inv_s.empty() ) {
+        popup_getkey( _( "There are no items to compare." ) );
+        return;
+    }
+    inv_s.execute_compare( _( "Compare:" ) );
 }
