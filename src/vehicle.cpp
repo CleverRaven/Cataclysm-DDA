@@ -2732,7 +2732,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         }
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format(_(" (vol: %.1f/%.1f)"),
+            partname += string_format(_(" (vol: %.2f/%.2f)"),
                                       convert_volume( stored_volume( pl[i] ) ),
                                       convert_volume( max_volume( pl[i] ) ) );
         }

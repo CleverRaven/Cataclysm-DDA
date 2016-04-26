@@ -56,9 +56,8 @@ struct iteminfo {
         std::string sType; //Itemtype
         std::string sName; //Main item text
         std::string sFmt; //Text between main item and value
-        std::string sValue; //Set to "-999" if no compare value is present
-        double dValue; //Stores double value of sValue for value comparisons
-        bool is_int; //Sets if sValue should be treated as int or single decimal double
+        double dValue; //Stores value
+        std::string sFormat; //Sets the display format
         std::string sPlus; //number +
         bool bNewLine; //New line at the end
         bool bLowerIsBetter; //Lower values are better (red <-> green)
@@ -68,7 +67,7 @@ struct iteminfo {
         // if the value should be an int instead of a double, text after number,
         // if there should be a newline after this item, if lower values are better
         iteminfo(std::string Type, std::string Name, std::string Fmt = "", double Value = -999,
-                 bool _is_int = true, std::string Plus = "", bool NewLine = true,
+                 std::string Format = "%.0f", std::string Plus = "", bool NewLine = true,
                  bool LowerIsBetter = false, bool DrawName = true);
 };
 

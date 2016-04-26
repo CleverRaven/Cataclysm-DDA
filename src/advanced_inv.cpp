@@ -241,12 +241,12 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         } else {
             color = c_ltgreen;
         }
-        wprintz( window, color, "%.1f", convert_volume( g->u.volume_carried() ) );
-        wprintz( window, c_ltgray, "/%.1f ", convert_volume( g->u.volume_capacity() ) );
+        wprintz( window, color, "%.2f", convert_volume( g->u.volume_carried() ) );
+        wprintz( window, c_ltgray, "/%.2f ", convert_volume( g->u.volume_capacity() ) );
     } else { //print square's current and total weight + volume
         std::string head;
         if( pane.get_area() == AIM_ALL ) {
-            head = string_format( "%.1f %.1f",
+            head = string_format( "%.1f %.2f",
                                   convert_weight( squares[pane.get_area()].weight ),
                                   convert_volume( squares[pane.get_area()].volume ) );
         } else {
@@ -259,7 +259,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%.1f %.1f/%.1f", convert_weight( s.weight ),
+            head = string_format( "%.1f %.2f/%.2f", convert_weight( s.weight ),
                                                     convert_volume( s.volume ),
                                                     convert_volume( maxvolume ) );
         }
@@ -369,7 +369,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             it_vol = 9999999;
             print_color = selected ? hilite( c_red ) : c_red;
         }
-        mvwprintz( window, 6 + x, vol_startpos, print_color, "%.1f", convert_volume( it_vol ) );
+        mvwprintz( window, 6 + x, vol_startpos, print_color, "%.2f", convert_volume( it_vol ) );
 
         if( active && sitem.autopickup ) {
             mvwprintz( window, 6 + x, 1, magenta_background( it.color_in_inventory() ), "%s",

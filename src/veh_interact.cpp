@@ -1623,7 +1623,7 @@ void veh_interact::display_stats()
                     _( "Mass: <color_ltblue>%5.0f</color> %s" ),
                     convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
     fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
-                    _( "Cargo Volume: <color_ltgray>%.1f/%.1f</color> %s" ),
+                    _( "Cargo Volume: <color_ltgray>%.2f/%.2f</color> %s" ),
                     convert_volume(total_cargo - free_cargo), convert_volume(total_cargo), volume_units());
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:"));
@@ -1903,7 +1903,7 @@ void veh_interact::display_details( const vpart_info *part )
                    weight_units());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
-                       "%s: <color_ltgray>%.1f</color> %s",
+                       "%s: <color_ltgray>%.2f</color> %s",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
                        convert_volume( part->folded_volume ),
                        volume_units() );

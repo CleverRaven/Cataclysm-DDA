@@ -2840,28 +2840,28 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
 void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
-        dump.emplace_back( "TOOL", _( "<bold>Base healing:</bold> " ), "", -999, true, "", true );
-        dump.emplace_back( "TOOL", _( "Head: " ), "", head_power, true, "", false );
-        dump.emplace_back( "TOOL", _( "  Torso: " ), "", torso_power, true, "", false );
-        dump.emplace_back( "TOOL", _( "  Limbs: " ), "", limb_power, true, "", true );
+        dump.emplace_back( "TOOL", _( "<bold>Base healing:</bold> " ), "", -999, "%.0f", "", true );
+        dump.emplace_back( "TOOL", _( "Head: " ), "", head_power, "%.0f", "", false );
+        dump.emplace_back( "TOOL", _( "  Torso: " ), "", torso_power, "%.0f", "", false );
+        dump.emplace_back( "TOOL", _( "  Limbs: " ), "", limb_power, "%.0f", "", true );
         if( g != nullptr ) {
-            dump.emplace_back( "TOOL", _( "<bold>Actual healing:</bold> " ), "", -999, true, "", true );
-            dump.emplace_back( "TOOL", _( "Head: " ), "", get_heal_value( g->u, hp_head ), true, "", false );
-            dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "", false );
-            dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Actual healing:</bold> " ), "", -999, "%.0f", "", true );
+            dump.emplace_back( "TOOL", _( "Head: " ), "", get_heal_value( g->u, hp_head ), "%.0f", "", false );
+            dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), "%.0f", "", false );
+            dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), "%.0f", "", true );
         }
     }
 
     if( bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
-        dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, true, "", true );
+        dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, "%.0f", "", true );
         if( bleed > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Bleeding</bold>:" ), "", (int)(bleed * 100), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Bleeding</bold>:" ), "", (int)(bleed * 100), "%.0f", "", true );
         }
         if( bite > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Bite</bold>:" ), "", (int)(bite * 100), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Bite</bold>:" ), "", (int)(bite * 100), "%.0f", "", true );
         }
         if( infect > 0.0f ) {
-            dump.emplace_back( "TOOL", _( "<bold>Infection</bold>:" ), "", (int)(infect * 100), true, "", true );
+            dump.emplace_back( "TOOL", _( "<bold>Infection</bold>:" ), "", (int)(infect * 100), "%.0f", "", true );
         }
     }
 
