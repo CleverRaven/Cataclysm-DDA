@@ -297,7 +297,13 @@ def extract_mapgen(item):
             for special in item["object"][objkey]:
                 for speckey in special:
                     if speckey == "signage":
-                        writestr(outfile, special[speckey])
+                        writestr(outfile, special[speckey], comment="Sign")
+        import sys
+        if objkey == "signs":
+            obj = item["object"][objkey]
+            for k in obj.keys():
+                sign = obj[k].get("signage", None)
+                writestr(outfile, sign, comment="Sign")
 
 def extract_recipes(item):
     outfile = get_outfile("recipe")
