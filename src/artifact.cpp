@@ -1219,8 +1219,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
 
 bool save_artifacts( const std::string &path )
 {
-    try {
-        ofstream_wrapper_exclusive fout( path );
+    return write_to_file_exclusive( path, [&]( std::ostream &fout ) {
         JsonOut json( fout );
         json.start_array();
         for( auto & p : item_controller->get_all_itypes() ) {
@@ -1233,13 +1232,7 @@ bool save_artifacts( const std::string &path )
             }
         }
         json.end_array();
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save artifacts to %s" ), path.c_str(), err.what() );
-        return false;
-    }
+    }, _( "artifact file" ) );
 }
 
 template<typename E>

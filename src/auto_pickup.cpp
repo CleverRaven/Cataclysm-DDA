@@ -693,7 +693,6 @@ bool auto_pickup::save(const bool bCharacter)
     bChar = bCharacter;
     auto savefile = FILENAMES["autopickup"];
 
-    try {
         if (bCharacter) {
             savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
             std::ifstream fin;
@@ -706,7 +705,7 @@ bool auto_pickup::save(const bool bCharacter)
             fin.close();
         }
 
-        ofstream_wrapper fout( savefile );
+    return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );
         serialize(jout);
 
@@ -714,14 +713,7 @@ bool auto_pickup::save(const bool bCharacter)
             merge_vector();
             create_rules();
         }
-
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save autopickup to %s: %s" ), savefile.c_str(), err.what() );
-        return false;
-    }
+    }, _( "autopickup configuration" ) );
 }
 
 void auto_pickup::load_character()

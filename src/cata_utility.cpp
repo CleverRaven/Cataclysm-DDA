@@ -8,6 +8,7 @@
 #include "translations.h"
 #include "debug.h"
 #include "mapsharing.h"
+#include "output.h"
 
 #include <algorithm>
 
@@ -335,6 +336,23 @@ void ofstream_wrapper::close()
     }
 }
 
+bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
+                    const char *const fail_message )
+{
+    try {
+        ofstream_wrapper fout( path );
+        writer( fout.stream() );
+        fout.close();
+        return true;
+
+    } catch( const std::exception &err ) {
+        if( fail_message ) {
+            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
+        }
+        return false;
+    }
+}
+
 ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path )
     : path( path )
 {
@@ -356,5 +374,22 @@ void ofstream_wrapper_exclusive::close()
     fclose_exclusive( file_stream, path.c_str() );
     if( file_stream.fail() ) {
         throw std::runtime_error( "writing to file failed" );
+    }
+}
+
+bool write_to_file_exclusive( const std::string &path,
+                              const std::function<void( std::ostream & )> &writer, const char *const fail_message )
+{
+    try {
+        ofstream_wrapper_exclusive fout( path );
+        writer( fout.stream() );
+        fout.close();
+        return true;
+
+    } catch( const std::exception &err ) {
+        if( fail_message ) {
+            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message, path.c_str(), err.what() );
+        }
+        return false;
     }
 }

@@ -266,8 +266,7 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
 
     if (!is_conversion) {
         const auto savefile = world->world_path + "/" + FILENAMES["worldoptions"];
-        try {
-            ofstream_wrapper fout( savefile );
+        const bool saved = write_to_file( savefile, [&]( std::ostream &fout ) {
             JsonOut jout( fout );
 
             jout.start_array();
@@ -286,9 +285,8 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
             }
 
             jout.end_array();
-            fout.close();
-        } catch( const std::exception &err ) {
-            popup( _( "Failed to save the world file %s: %s - check file permissions." ), savefile.c_str(), err.what() );
+        }, _( "world data" ) );
+        if( !saved ) {
             return false;
         }
     }

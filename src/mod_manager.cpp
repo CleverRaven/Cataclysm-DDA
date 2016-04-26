@@ -302,10 +302,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 bool mod_manager::set_default_mods(const t_mod_list &mods)
 {
     default_mods = mods;
-    const std::string path = FILENAMES["mods-user-default"];
-
-    try {
-        ofstream_wrapper fout( path );
+    return write_to_file( FILENAMES["mods-user-default"], [&]( std::ostream &fout ) {
         JsonOut json( fout, true ); // pretty-print
         json.start_object();
         json.member("type", "MOD_INFO");
@@ -313,12 +310,7 @@ bool mod_manager::set_default_mods(const t_mod_list &mods)
         json.member("dependencies");
         json.write(mods);
         json.end_object();
-        fout.close();
-        return true;
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to write default mods to %s: %s"), path.c_str(), err.what() );
-        return false;
-    }
+    }, _( "list of default mods" ) );
 }
 
 bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
@@ -468,14 +460,10 @@ void mod_manager::save_mods_list(WORLDPTR world) const
         remove_file(path);
         return;
     }
-    try {
-        ofstream_wrapper fout( path );
+    write_to_file( path, [&]( std::ostream &fout ) {
         JsonOut json( fout, true ); // pretty-print
         json.write(world->active_mod_order);
-        fout.close();
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save the mods list to %s: %s"), path.c_str(), err.what() );
-    }
+    }, _( "list of mods" ) );
 }
 
 void mod_manager::load_mods_list(WORLDPTR world) const

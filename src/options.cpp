@@ -1828,18 +1828,10 @@ bool options_manager::save(bool ingame)
     message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
     fov_3d = OPTIONS["FOV_3D"];
 
-    try {
-        ofstream_wrapper fout( savefile );
+    return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );
         serialize(jout);
-
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save options to %s: %s" ), savefile.c_str(), err.what() );
-        return false;
-    }
+    }, _( "options" ) );
 }
 
 void options_manager::load()

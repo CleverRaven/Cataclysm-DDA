@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <functional>
 
 class item;
 class Creature;
@@ -121,6 +122,15 @@ class ofstream_wrapper
 };
 
 /**
+ * Open a file for writing, calls the writer on that stream. If the writer throws, or if the file
+ * could not be opened or if any I/O error happens, the function shows a popup containing the
+ * \p fail_message, the error text and the path.
+ * @return Whether saving succeeded (no error was caught).
+ */
+bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
+                    const char *fail_message );
+
+/**
  * Same as ofstream_wrapper, but uses exclusive I/O (@ref fopen_exclusive).
  * The interface intentionally matches ofstream_wrapper. One should be able to use
  * one instead of the other.
@@ -144,5 +154,9 @@ class ofstream_wrapper_exclusive
 
         void close();
 };
+
+/** See @ref write_to_file, but uses the exclusive I/O functions. */
+bool write_to_file_exclusive( const std::string &path,
+                              const std::function<void( std::ostream & )> &writer,  const char *fail_message );
 
 #endif // CAT_UTILITY_H

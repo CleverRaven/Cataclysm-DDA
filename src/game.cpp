@@ -3590,16 +3590,9 @@ bool game::save_factions_missions_npcs()
     }
 
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
-    try {
-        ofstream_wrapper_exclusive fout( masterfile );
+    return write_to_file_exclusive( masterfile, [&]( std::ostream &fout ) {
         serialize_master(fout);
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save factions to %s: %s" ), masterfile.c_str(), err.what() );
-        return false;
-    }
+    }, _( "factions data" ) );
 }
 
 bool game::save_artifacts()
@@ -3624,50 +3617,26 @@ bool game::save_maps()
 bool game::save_uistate()
 {
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
-    try {
-        ofstream_wrapper_exclusive fout( savefile );
-        fout.stream() << uistate.serialize();
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save uistate to %s: %s" ), savefile.c_str(), err.what() );
-        return false;
-    }
+    return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
+        fout << uistate.serialize();
+    }, _( "uistate data" ) );
 }
 
 bool game::save_player_data()
 {
     const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
 
-    try {
-        ofstream_wrapper fout( playerfile + ".sav" );
+    const bool saved_data = write_to_file( playerfile + ".sav", [&]( std::ostream &fout ) {
         serialize(fout);
-        fout.close();
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save player data to %s: %s" ), ( playerfile + ".sav" ).c_str(), err.what() );
-        return false;
-    }
-
-    try {
-        ofstream_wrapper fout( playerfile + ".weather" );
+    }, _( "player data" ) );
+    const bool saved_weather = write_to_file( playerfile + ".weather", [&]( std::ostream &fout ) {
         save_weather(fout);
-        fout.close();
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save weather state to %s: %s" ), ( playerfile + ".weather" ).c_str(), err.what() );
-        return false;
-    }
+    }, _( "weather state" ) );
+    const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream &fout ) {
+        fout << u.dump_memorial();
+    }, _( "player memorial" ) );
 
-    try {
-        ofstream_wrapper fout( playerfile + ".log" );
-        fout.stream() << u.dump_memorial();
-        fout.close();
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save player memorial to %s: %s" ), ( playerfile + ".log" ).c_str(), err.what() );
-        return false;
-    }
-
-    return true;
+    return saved_data && saved_weather && saved_log;
 }
 
 void game::dump_stats( const std::string& what )
@@ -3920,13 +3889,9 @@ void game::write_memorial_file(std::string sLastWords)
     memorial_file_path << ".txt";
 
     const std::string path_string = memorial_file_path.str();
-    try {
-        ofstream_wrapper fout( path_string );
+    write_to_file( memorial_file_path.str(), [&]( std::ostream &fout ) {
         u.memorial( fout, sLastWords );
-        fout.close();
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to write the memorial data to %s: %s" ), path_string.c_str(), err.what() );
-    }
+    }, _( "player memorial" ) );
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id)

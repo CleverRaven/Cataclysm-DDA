@@ -909,16 +909,9 @@ bool color_manager::save_custom()
 {
     const auto savefile = FILENAMES["custom_colors"];
 
-    try {
-        ofstream_wrapper_exclusive fout( savefile );
-        fout.stream() << serialize();
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save custom colors to %s: %s" ), savefile.c_str(), err.what() );
-        return false;
-    }
+    return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
+        fout << serialize();
+    }, _( "custom colors" ) );
 }
 
 void color_manager::load_custom(const std::string &sPath)

@@ -180,16 +180,9 @@ bool zone_manager::save_zones()
     std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
                                g->u.name ) + ".zones.json";
 
-    try {
-        ofstream_wrapper_exclusive fout( savefile );
-        fout.stream() << serialize();
-        fout.close();
-        return true;
-
-    } catch( const std::exception &err ) {
-        popup( _( "Failed to save zones to %s: %s" ), savefile.c_str(), err.what() );
-        return false;
-    }
+    return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
+        fout << serialize();
+    }, _( "zones date" ) );
 }
 
 void zone_manager::load_zones()
