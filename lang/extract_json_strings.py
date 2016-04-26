@@ -298,7 +298,6 @@ def extract_mapgen(item):
                 for speckey in special:
                     if speckey == "signage":
                         writestr(outfile, special[speckey], comment="Sign")
-        import sys
         if objkey == "signs":
             obj = item["object"][objkey]
             for k in obj.keys():
