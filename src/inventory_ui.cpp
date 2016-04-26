@@ -538,6 +538,9 @@ inventory_selector::~inventory_selector()
 
 bool inventory_selector::handle_movement(const std::string &action)
 {
+    if( empty() ) {
+        return false;
+    }
     const itemstack_vector &items = in_inventory ? this->items : this->worn;
     size_t &selected = in_inventory ? selected_i : selected_w;
     size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
