@@ -18,14 +18,14 @@ std::vector<std::string> clothing_flags_description( item const &worn_item );
 
 void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
 {
-    mvwprintz( w_sort_middle, 0, 1, c_white, worn_item.type_name( 1 ).c_str() );
     int middle_w = getmaxx( w_sort_middle );
+    size_t i = fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
+                               worn_item.type_name( 1 ) ) - 1;
     std::vector<std::string> props = clothing_properties( worn_item, middle_w - 3 );
-    size_t i;
-    for( i = 0; i < props.size(); ++i ) {
-        // headers are green, info is gray
-        nc_color c = ( props[i][0] == '[' ? c_green : c_ltgray );
-        mvwprintz( w_sort_middle, i + 1, 2, c, props[i].c_str() );
+    for( auto &iter : props ) {
+        // [headers] are green, info is gray
+        nc_color color = ( iter[0] == '[' ? c_green : c_ltgray );
+        mvwprintz( w_sort_middle, ++i, 2, color, iter.c_str() );
     }
 
     i += 2;
