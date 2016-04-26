@@ -30,13 +30,12 @@ void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
 
     i += 2;
     i += fold_and_print( w_sort_middle, i, 0, middle_w, c_ltblue,
-                         "%s", clothing_layer( worn_item ).c_str() );
+                         clothing_layer( worn_item ) );
 
     std::vector<std::string> desc = clothing_flags_description( worn_item );
     if( !desc.empty() ) {
         for( size_t j = 0; j < desc.size(); ++j ) {
-            i += -1 + fold_and_print( w_sort_middle, i + j, 0, middle_w,
-                                      c_ltblue, "%s", desc[j].c_str() );
+            i += -1 + fold_and_print( w_sort_middle, i + j, 0, middle_w, c_ltblue, desc[j] );
         }
     }
 }
