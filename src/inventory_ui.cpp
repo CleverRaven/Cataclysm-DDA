@@ -471,6 +471,9 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     } else {
         print_inv_weight_vol(u.weight_carried(), u.volume_carried(), u.volume_capacity());
     }
+    if( empty() ) {
+        mvwprintw(w_inv, 2, 0, _( "Your inventory is empty." ) );
+    }
     wrefresh(w_inv);
 }
 
