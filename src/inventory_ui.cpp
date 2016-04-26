@@ -162,7 +162,6 @@ class inventory_selector
         /** Index of the currently selected entry of @ref worn */
         size_t selected_w;
         bool inCategoryMode;
-        bool warned_about_bionic;
         bool in_inventory;
         const item_category weapon_cat;
         const item_category worn_cat;
@@ -491,7 +490,6 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     , selected_i(1) // first is the category header
     , selected_w(1) // ^^
     , inCategoryMode(false)
-    , warned_about_bionic(false)
     , in_inventory(true)
     , weapon_cat("WEAPON", _("WEAPON:"), 0)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
@@ -908,17 +906,6 @@ void inventory_selector::execute_compare( const std::string &title )
 
 std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std::string &title )
 {
-    const auto can_drop = [ this ]( int item_pos ) -> bool {
-        if( item_pos == -1 && u.weapon.has_flag( "NO_UNWIELD" ) ) {
-            if( !warned_about_bionic ) {
-                popup( _( "You cannot drop your %s." ), u.weapon.tname().c_str() );
-                warned_about_bionic = true;
-            }
-            return false;
-        }
-        return true;
-    };
-
     prepare_paging();
 
     int count = 0;
@@ -934,17 +921,13 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
             count *= 10;
             count += ch - '0';
         } else if( item_pos != INT_MIN ) {
-            if( can_drop( item_pos ) ) {
-                set_to_drop( item_pos, count );
-            }
+            set_to_drop( item_pos, count );
             count = 0;
         } else if( handle_movement( action ) ) {
             count = 0;
             continue;
         } else if( action == "RIGHT" ) {
-            if( can_drop( get_selected_item_position() ) ) {
-                set_selected_to_drop( count );
-            }
+            set_selected_to_drop( count );
             count = 0;
         } else if( action == "CONFIRM" ) {
             break;
@@ -1200,8 +1183,9 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_selector inv_s( u );
-
+    inventory_selector inv_s( u, []( const item &it ) -> bool {
+        return !it.has_flag( "NO_UNWIELD" );
+    } );
     if( inv_s.empty() ) {
         popup_getkey( _( "You have nothing to drop." ) );
         return std::list<std::pair<int, int> >();
