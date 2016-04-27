@@ -1531,7 +1531,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving)." ) ) );
             }
-            //The piece of code below is intended to work with the "Squeamish" mod
             if( has_flag( "FILTHY" ) && g->u.has_trait( "SQUEAMISH" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
@@ -2258,7 +2257,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (fits)");
     }
     
-    //The piece of code below is intended to work with the "Squeamish" mod
     if( has_flag( "FILTHY" ) && g->u.has_trait( "SQUEAMISH" ) ) {
         ret << _(" (filthy)" );
     }
