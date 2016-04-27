@@ -9502,7 +9502,7 @@ bool player::can_wear( const item& it, bool alert ) const
         return false;
     }
     
-    if( has_trait( "SQUEAMISH" ) && it.has_flag( "FILTHY" ) ) {
+    if( it.is_disgusted_by( g->u ) ) {
         if( alert ) {
             add_msg_if_player( m_info, _( "You can't wear that, it's filthy!" ) );
         }
