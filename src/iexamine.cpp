@@ -1858,7 +1858,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
 
     item result( "charcoal", calendar::turn.get_turn() );
-    result.charges = total_volume * 0.004 * char_type->ammo->def_charges / char_type->volume;
+    result.charges = total_volume * 0.004 * char_type->ammo->def_charges / (char_type->volume * 0.004);
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
 }
@@ -1933,7 +1933,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         for (int i = 0; i < charges_held && !vat_full; i++) {
             p.use_charges(brew_type, 1);
             brew.charges++;
-            if ( ( brew.count_by_charges() ? brew.volume() : brew.volume() * 0.004 * brew.charges ) >= 100 ) {
+            if ( ( brew.count_by_charges() ? brew.volume() * 0.004 : brew.volume() * 0.004 * brew.charges ) >= 100 ) {
                 vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
             }
         }
