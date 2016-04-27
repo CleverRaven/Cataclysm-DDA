@@ -1710,9 +1710,6 @@ void monster::drop_items_on_death()
         return;
     }
     const auto dropped = g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
-    
-    // The piece of code below is intended to work with the "Squeamish" mod
-    // If monster is zombie, then all its clothing and armor will have FILTHY flag on its death
     if( !type->in_species( ZOMBIE ) ) {
         return;
     }
