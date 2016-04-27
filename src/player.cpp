@@ -9502,8 +9502,6 @@ bool player::can_wear( const item& it, bool alert ) const
         return false;
     }
     
-    //The piece of code below is intended to work with the "Squeamish" mod
-    //Character with Squeamish trait can't wear filthy clothing
     if( has_trait( "SQUEAMISH" ) && it.has_flag( "FILTHY" ) ) {
         if( alert ) {
             add_msg_if_player( m_info, _( "You can't wear that, it's filthy!" ) );
