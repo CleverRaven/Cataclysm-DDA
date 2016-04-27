@@ -645,6 +645,9 @@ public:
      * for other players. The player is identified by its id.
      */
     void mark_as_used_by_player(const player &p);
+    /** Marks the item as filthy, so characters with squeamish trait can't wear it. 
+    */
+    bool is_disgusted_by( const player &p ) const;
     /**
      * This is called once each turn. It's usually only useful for active items,
      * but can be called for inactive items without problems.
