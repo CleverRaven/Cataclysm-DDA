@@ -2409,6 +2409,12 @@ bool game::handle_action()
         }
     }
 
+    // quit prompt check (ACTION_QUIT only grabs 'Q')
+    if(uquit == QUIT_WATCH && action == "QUIT") {
+        uquit = QUIT_DIED;
+        return false;
+    }
+
     if( act == ACTION_NULL ) {
         add_msg(m_info, _("Unknown command: '%c'"), (int)ctxt.get_raw_input().get_first_input());
         return false;
@@ -2421,12 +2427,6 @@ bool game::handle_action()
     int soffsetr = 0 - soffset;
 
     int before_action_moves = u.moves;
-
-    // quit prompt check (ACTION_QUIT only grabs 'Q')
-    if(uquit == QUIT_WATCH && action == "QUIT") {
-        uquit = QUIT_DIED;
-        return false;
-    }
 
     // Use to track if auto-move should be canceled due to a failed
     // move or obstacle
