@@ -5829,3 +5829,7 @@ bool item_category::operator!=( const item_category &rhs ) const
 {
     return !( *this == rhs );
 }
+
+bool item::is_disgusted_by( const player &p ) const {
+    return has_flag( "FILTHY" ) && p.has_trait( "SQUEAMISH" );
+}
