@@ -1531,7 +1531,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving)." ) ) );
             }
-            if( has_flag( "FILTHY" ) && g->u.has_trait( "SQUEAMISH" ) ) {
+            if( is_disgusted_by( g->u ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
             }
@@ -2257,7 +2257,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (fits)");
     }
     
-    if( has_flag( "FILTHY" ) && g->u.has_trait( "SQUEAMISH" ) ) {
+    if( is_disgusted_by( g->u ) ) {
         ret << _(" (filthy)" );
     }
 
