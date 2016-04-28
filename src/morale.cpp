@@ -236,16 +236,6 @@ int player_morale::morale_point::normalize_bonus( int bonus, int max_bonus, bool
     return ( ( abs( bonus ) > abs( max_bonus ) && ( max_bonus != 0 || capped ) ) ? max_bonus : bonus );
 }
 
-void player_morale::body_part_data::mod_covered( const int delta )
-{
-    covered = std::max( covered + delta, 0 );
-}
-
-void player_morale::body_part_data::mod_covered_fancy( const int delta )
-{
-    covered_fancy = std::max( covered_fancy + delta, 0 );
-}
-
 bool player_morale::mutation_data::get_active() const
 {
     return active;
@@ -273,7 +263,6 @@ player_morale::player_morale() :
     level_is_valid( false ),
     took_prozac( false ),
     stylish( false ),
-    super_fancy_bonus( 0 ),
     perceived_pain( 0 )
 {
     using namespace std::placeholders;
@@ -508,7 +497,7 @@ void player_morale::clear()
     }
     took_prozac = false;
     stylish = false;
-    super_fancy_bonus = 0;
+    super_fancy_items.clear();
 
     invalidate();
 }
@@ -573,24 +562,34 @@ void player_morale::on_effect_int_change( const efftype_id &eid, int intensity, 
 
 void player_morale::set_worn( const item &it, bool worn )
 {
-    const bool just_fancy = it.has_flag( "FANCY" );
+    const bool fancy = it.has_flag( "FANCY" );
     const bool super_fancy = it.has_flag( "SUPER_FANCY" );
-    const bool anyhow_fancy = just_fancy || super_fancy;
     const int sign = ( worn ) ? 1 : -1;
 
     for( int i = 0; i < num_bp; ++i ) {
         if( it.covers( static_cast<body_part>( i ) ) ) {
-            body_parts[i].mod_covered( sign );
-            if( anyhow_fancy ) {
-                body_parts[i].mod_covered_fancy( sign );
+            if( fancy || super_fancy ) {
+                body_parts[i].fancy += sign;
             }
+            body_parts[i].covered += sign;
         }
     }
-
     if( super_fancy ) {
-        super_fancy_bonus += 2 * sign;
+        const auto &id = it.type->id;
+        const auto iter = super_fancy_items.find( id );
+
+        if( iter != super_fancy_items.end() ) {
+            iter->second += sign;
+            if( iter->second == 0 ) {
+                super_fancy_items.erase( iter );
+            }
+        } else if( worn ) {
+            super_fancy_items[id] = 1;
+        } else {
+            debugmsg( "Tried to take off \"%s\" which isn't worn.", id.c_str() );
+        }
     }
-    if( anyhow_fancy ) {
+    if( fancy || super_fancy ) {
         update_stylish_bonus();
     }
     update_constrained_penalty();
@@ -620,10 +619,10 @@ void player_morale::update_stylish_bonus()
     if( stylish ) {
         const auto bp_bonus = [ this ]( body_part bp, int bonus ) -> int {
             return (
-                body_parts[bp].covered_fancy > 0 ||
-                body_parts[opposite_body_part( bp )].covered_fancy > 0 ) ? bonus : 0;
+                body_parts[bp].fancy > 0 ||
+                body_parts[opposite_body_part( bp )].fancy > 0 ) ? bonus : 0;
         };
-        bonus = std::min( super_fancy_bonus +
+        bonus = std::min( int( 2 * super_fancy_items.size() ) +
                           bp_bonus( bp_torso,  6 ) +
                           bp_bonus( bp_head,   3 ) +
                           bp_bonus( bp_eyes,   2 ) +
