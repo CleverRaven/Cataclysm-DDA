@@ -2760,11 +2760,11 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         } else {
             left_sym = "-"; right_sym = "-";
         }
-
-        mvwprintz(win, y, 1, (int)i == hl? hilite(c_ltgray) : c_ltgray, "%s", left_sym.c_str());
-        mvwprintz(win, y, 2, (int)i == hl? hilite(col_cond) : col_cond, "%s", partname.c_str());
-        mvwprintz(win, y, 2 + utf8_width(partname), (int)i == hl? hilite(c_ltgray) : c_ltgray, "%s", right_sym.c_str());
-//         mvwprintz(win, y, 3 + utf8_width(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
+        nc_color sym_color = ( int )i == hl ? hilite( c_ltgray ) : c_ltgray;
+        mvwprintz( win, y, 1, sym_color, "%s", left_sym.c_str() );
+        trim_and_print( win, y, 2, getmaxx( win ) - 4,
+                        ( int )i == hl ? hilite( col_cond ) : col_cond, "%s", partname.c_str() );
+        wprintz( win, sym_color, "%s", right_sym.c_str() );
 
         if (i == 0 && is_inside(pl[i])) {
             //~ indicates that a vehicle part is inside
