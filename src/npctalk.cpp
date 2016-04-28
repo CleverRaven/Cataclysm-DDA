@@ -1410,11 +1410,8 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r, const Skill *skill )
+talk_response &dialogue::add_response( const std::string &text, const std::string &r, const skill_id &skill )
 {
-    if( skill == nullptr ) {
-        debugmsg( "tried to select null skill" );
-    }
     talk_response &result = add_response( text, r );
     result.skill = skill;
     return result;
@@ -2208,7 +2205,7 @@ void dialogue::gen_responses( const std::string &topic )
                     add_response( resume.str(), "TALK_TRAIN_START", style );
                 } else {
                     resume << skillt.obj().name();
-                    add_response( resume.str(), "TALK_TRAIN_START", &skillt.obj() ); // TODO: should be a const reference not a pointer
+                    add_response( resume.str(), "TALK_TRAIN_START", skillt );
                 }
             }
             std::vector<matype_id> styles = p->styles_offered_to(g->u);
@@ -2223,7 +2220,7 @@ void dialogue::gen_responses( const std::string &topic )
                 //~Skill name: current level -> next level (cost in cent)
                 std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained.obj().name().c_str(),
                       cur_level, cur_level + 1, cost / 100 );
-                add_response( text, "TALK_TRAIN_START", &trained.obj() );
+                add_response( text, "TALK_TRAIN_START", trained );
             }
             for( auto & style_id : styles ) {
                 auto &style = style_id.obj();
@@ -3430,11 +3427,11 @@ void talk_function::start_training( npc *p )
     int cost;
     int time;
     std::string name;
-    if( p->chatbin.skill != nullptr ) {
-        const Skill *skill = p->chatbin.skill;
-        cost = calc_skill_training_cost( skill->ident() );
-        time = calc_skill_training_time( skill->ident() );
-        name = skill->ident().str();
+    if( p->chatbin.skill ) {
+        auto &skill = p->chatbin.skill->ident();
+        cost = calc_skill_training_cost( skill );
+        time = calc_skill_training_time( skill );
+        name = skill.str();
     } else if( p->chatbin.style.is_valid() ) {
         auto &ma_style_id = p->chatbin.style;
         cost = calc_ma_style_training_cost( ma_style_id );
@@ -3745,8 +3742,8 @@ std::string dialogue::opt( const std::string &topic )
         beta->chatbin.mission_selected = chosen.mission_selected;
     }
 
-    if( chosen.skill != NULL) {
-        beta->chatbin.skill = chosen.skill;
+    if( chosen.skill ) {
+        beta->chatbin.skill = &chosen.skill.obj();
     }
 
     if( !chosen.style.str().empty()) {
