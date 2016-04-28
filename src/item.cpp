@@ -1531,7 +1531,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving)." ) ) );
             }
-            if( is_disgusted_by( g->u ) ) {
+            if( is_disgusting_for( g->u ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
             }
@@ -2257,7 +2257,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (fits)");
     }
     
-    if( is_disgusted_by( g->u ) ) {
+    if( is_disgusting_for( g->u ) ) {
         ret << _(" (filthy)" );
     }
 
@@ -5830,6 +5830,6 @@ bool item_category::operator!=( const item_category &rhs ) const
     return !( *this == rhs );
 }
 
-bool item::is_disgusted_by( const player &p ) const {
+bool item::is_disgusting_for( const player &p ) const {
     return has_flag( "FILTHY" ) && p.has_trait( "SQUEAMISH" );
 }
