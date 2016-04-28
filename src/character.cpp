@@ -913,7 +913,7 @@ SkillLevel& Character::get_skill_level(const skill_id &ident)
         none.level( 0 );
         return none;
     }
-    return _skills[&ident.obj()];
+    return _skills[ident];
 }
 
 SkillLevel const& Character::get_skill_level(const skill_id &ident) const
@@ -923,7 +923,7 @@ SkillLevel const& Character::get_skill_level(const skill_id &ident) const
         return none;
     }
 
-    const auto iter = _skills.find( &ident.obj() );
+    const auto iter = _skills.find( ident );
     if( iter != _skills.end() ) {
         return iter->second;
     }

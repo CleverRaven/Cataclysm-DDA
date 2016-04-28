@@ -1007,11 +1007,11 @@ skill_id npc::best_skill() const
     skill_id highest_skill( NULL_ID );
 
     for (auto const &p : _skills) {
-        if (p.first->is_combat_skill()) {
+        if (p.first.obj().is_combat_skill()) {
             int const level = p.second;
             if( level > highest_level ) {
                 highest_level = level;
-                highest_skill = p.first->ident();
+                highest_skill = p.first;
             }
         }
     }

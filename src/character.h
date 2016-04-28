@@ -543,7 +543,7 @@ class Character : public Creature, public visitable<Character>
         void load(JsonObject &jsin);
 
         // --------------- Values ---------------
-        std::map<const Skill*, SkillLevel> _skills;
+        std::map<skill_id, SkillLevel> _skills;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
