@@ -12666,16 +12666,6 @@ nc_color encumb_color(int level)
  return c_red;
 }
 
-void player::set_skill_level(const Skill* _skill, int level)
-{
-    skillLevel(_skill).level(level);
-}
-
-void player::set_skill_level(Skill const &_skill, int level)
-{
-    set_skill_level(&_skill, level);
-}
-
 void player::set_skill_level(const skill_id &ident, int level)
 {
     skillLevel(ident).level(level);
