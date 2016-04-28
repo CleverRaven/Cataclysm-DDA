@@ -948,11 +948,12 @@ void npc_favor::deserialize(JsonIn &jsin)
     type = npc_favor_type(jo.get_int("type"));
     jo.read("value", value);
     jo.read("itype_id", item_id);
-    skill = NULL;
     if (jo.has_int("skill_id")) {
-        skill = Skill::from_legacy_int( jo.get_int("skill_id") );
+        skill = Skill::from_legacy_int( jo.get_int("skill_id") )->ident();
     } else if (jo.has_string("skill_id")) {
-        skill = &skill_id( jo.get_string("skill_id") ).obj();
+        skill = skill_id( jo.get_string("skill_id") );
+    } else {
+        skill = skill_id( NULL_ID );
     }
 }
 
@@ -962,9 +963,7 @@ void npc_favor::serialize(JsonOut &json) const
     json.member("type", (int)type);
     json.member("value", value);
     json.member("itype_id", (std::string)item_id);
-    if (skill != NULL) {
-        json.member("skill_id", skill->ident());
-    }
+    json.member( "skill_id", skill );
     json.end_object();
 }
 

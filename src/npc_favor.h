@@ -16,13 +16,13 @@ struct npc_favor : public JsonSerializer, public JsonDeserializer {
     npc_favor_type type;
     int value;
     itype_id item_id;
-    const Skill *skill;
+    skill_id skill;
 
     npc_favor() {
         type = FAVOR_NULL;
         value = 0;
         item_id = "null";
-        skill = NULL;
+        skill = skill_id( NULL_ID );
     };
 
     using JsonSerializer::serialize;
