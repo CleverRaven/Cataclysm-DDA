@@ -331,7 +331,7 @@ void Character::load(JsonObject &data)
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
             if( pmap.has_object( skill.ident().str() ) ) {
-                pmap.read( skill.ident().str(), skillLevel( &skill ) );
+                pmap.read( skill.ident().str(), skillLevel( skill.ident() ) );
             } else {
                 debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
             }
@@ -396,7 +396,7 @@ void Character::store(JsonOut &json) const
     json.member( "skills" );
     json.start_object();
     for( auto const &skill : Skill::skills ) {
-        json.member( skill.ident().str(), get_skill_level(skill) );
+        json.member( skill.ident().str(), get_skill_level( skill.ident() ) );
     }
     json.end_object();
 }

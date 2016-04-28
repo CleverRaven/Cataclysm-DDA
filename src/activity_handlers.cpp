@@ -1098,8 +1098,8 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
         const Skill *skill = &sk.obj();
-        int new_skill_level = p->skillLevel(skill) + 1;
-        p->skillLevel(skill).level(new_skill_level);
+        int new_skill_level = p->skillLevel( sk ) + 1;
+        p->skillLevel( sk ).level(new_skill_level);
         add_msg(m_good, _("You finish training %s to level %d."),
                 skill->name().c_str(),
                 new_skill_level);

@@ -1517,12 +1517,12 @@ void game::rustCheck()
         }
 
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
-        int oldSkillLevel = u.skillLevel(aSkill);
+        int oldSkillLevel = u.skillLevel(aSkill.ident());
 
-        if (u.skillLevel(aSkill).rust(charged_bio_mem)) {
+        if (u.skillLevel(aSkill.ident()).rust(charged_bio_mem)) {
             u.charge_power(-25);
         }
-        int newSkill = u.skillLevel(aSkill);
+        int newSkill = u.skillLevel(aSkill.ident());
         if (newSkill < oldSkillLevel) {
             add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
                     aSkill.name().c_str(), newSkill);

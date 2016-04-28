@@ -1605,7 +1605,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
-        int cost = std::max(1, (u->skillLevel(currentSkill) + 1) / 2);
+        int cost = std::max(1, (u->skillLevel(currentSkill->ident()) + 1) / 2);
         mvwprintz(w, 3, 31, points.skill_points_left() >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
@@ -1696,7 +1696,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             const Skill* thisSkill = sorted_skills[i];
             // Clear the line
             mvwprintz(w, base_y + i, 2, c_ltgray, "                            ");
-            if (u->skillLevel(thisSkill) == 0) {
+            if (u->skillLevel(thisSkill->ident()) == 0) {
                 mvwprintz(w, base_y + i, 2,
                           (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
             } else {
@@ -1704,7 +1704,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                           (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), _("%s"),
                           thisSkill->name().c_str());
                 wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                        " (%d)", int(u->skillLevel(thisSkill)));
+                        " (%d)", int(u->skillLevel(thisSkill->ident())));
             }
             for( auto &prof_skill : u->prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
@@ -1733,7 +1733,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             }
             currentSkill = sorted_skills[cur_pos];
         } else if (action == "LEFT") {
-            SkillLevel &level = u->skillLevel(currentSkill);
+            SkillLevel &level = u->skillLevel(currentSkill->ident());
             if (level) {
                 if (level == 2) {  // lower 2->0 for 1 point
                     level.level(0);
@@ -1744,7 +1744,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                 }
             }
         } else if (action == "RIGHT") {
-            SkillLevel &level = u->skillLevel(currentSkill);
+            SkillLevel &level = u->skillLevel(currentSkill->ident());
             if (level <= 19) {
                 if (level == 0) {  // raise 0->2 for 1 point
                     level.level(2);
@@ -2191,8 +2191,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             mvwprintz(w_skills, 0, 0, COL_HEADER, _("Skills:"));
 
             auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
-                int const level_a = u->skillLevel(a).exercised_level();
-                int const level_b = u->skillLevel(b).exercised_level();
+                int const level_a = u->skillLevel(a.ident()).exercised_level();
+                int const level_b = u->skillLevel(b.ident()).exercised_level();
                 return level_a > level_b || (level_a == level_b && a.name() < b.name());
             });
 
@@ -2200,7 +2200,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             bool has_skills = false;
             profession::StartingSkillList list_skills = u->prof->skills();
             for( auto &elem : skillslist ) {
-                int level = int( u->skillLevel( elem ) );
+                int level = int( u->skillLevel( elem->ident() ) );
                 profession::StartingSkillList::iterator i = list_skills.begin();
                 while (i != list_skills.end()) {
                     if( i->first == ( elem )->ident() ) {
@@ -2404,7 +2404,7 @@ void Character::empty_traits()
 void Character::empty_skills()
 {
     for( auto &skill : Skill::skills ) {
-        SkillLevel &level = skillLevel( skill );
+        SkillLevel &level = skillLevel( skill.ident() );
         level.level(0);
     }
 }

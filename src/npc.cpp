@@ -1504,7 +1504,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
     std::vector<skill_id> ret;
     for (auto const &skill : Skill::skills) {
-        if (p.get_skill_level(skill) < get_skill_level(skill)) {
+        if (p.get_skill_level(skill.ident()) < get_skill_level(skill.ident())) {
             ret.push_back( skill.ident() );
         }
     }
