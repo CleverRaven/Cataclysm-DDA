@@ -580,9 +580,9 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
             while (i < experience){
                 y = rng(0,100);
                 if (y < 60){
-                    const Skill* best = elem->best_skill();
-                    if (best != nullptr){
-                        popup("%s", best->name().c_str());
+                    const skill_id best = elem->best_skill();
+                    if( best ) {
+                        popup( "%s", best.obj().name().c_str() );
                         elem->practice(best, 10);
                     } else {
                         elem->practice( skill_melee, 10);
@@ -628,9 +628,9 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     }
     npc* att = random_entry( attacker );
     npc* def = random_entry( defender );
-    const Skill* best = att->best_skill();
+    const skill_id best = att->best_skill();
     int best_score = 1;
-    if (best != nullptr){
+    if( best ) {
         best_score = att->skillLevel(best);
     }
     ///\EFFECT_DODGE_NPC increases avoidance of random attacks
@@ -649,8 +649,8 @@ int talk_function::combat_score(std::vector<npc *> group)
     int score = 0;
     for( auto *elem : group ) {
         if (elem->hp_cur[hp_torso] != 0){
-            const Skill* best = elem->best_skill();
-            if (best != nullptr){
+            const skill_id best = elem->best_skill();
+            if( best ) {
                 score += elem->skillLevel(best);
             } else {
                 score += 1;

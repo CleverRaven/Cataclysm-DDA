@@ -587,8 +587,7 @@ public:
      * See @ref npc_chatbin::add_new_mission
      */
     void add_new_mission( mission *miss );
-
- const Skill* best_skill() const;
+    skill_id best_skill() const;
  void starting_weapon(npc_class type);
 
 // Save & load

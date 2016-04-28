@@ -1001,54 +1001,46 @@ void npc::place_on_map()
     position.y += y;
 }
 
-const Skill* npc::best_skill() const
+skill_id npc::best_skill() const
 {
-    int highest = std::numeric_limits<int>::min();
+    int highest_level = std::numeric_limits<int>::min();
+    skill_id highest_skill( NULL_ID );
 
     for (auto const &p : _skills) {
         if (p.first->is_combat_skill()) {
             int const level = p.second;
-            if (level > highest) {
-                highest = level;
+            if( level > highest_level ) {
+                highest_level = level;
+                highest_skill = p.first->ident();
             }
         }
     }
 
-    if (highest == 0) {
-        return nullptr; // no skills
-    }
-
-    for (auto const &p : _skills) {
-        if (p.second == highest && p.first->is_combat_skill()) {
-            return p.first;
-        }
-    }
-
-    return nullptr;
+    return highest_skill;
 }
 
 void npc::starting_weapon(npc_class type)
 {
-    const Skill* best = best_skill();
+    const skill_id best = best_skill();
 
     // if NPC has no suitable skills default to stabbing weapon
-    if( !best || best->ident() == skill_stabbing ) {
+    if( !best || best == skill_stabbing ) {
         weapon = random_item_from( type, "stabbing", "survivor_stabbing" );
-    } else if( best->ident() == skill_bashing ) {
+    } else if( best == skill_bashing ) {
         weapon = random_item_from( type, "bashing", "survivor_bashing" );
-    } else if( best->ident() == skill_cutting ) {
+    } else if( best == skill_cutting ) {
         weapon = random_item_from( type, "cutting", "survivor_cutting" );
-    } else if( best->ident() == skill_throw ) {
+    } else if( best == skill_throw ) {
         weapon = random_item_from( type, "throw" );
-    } else if( best->ident() == skill_archery ) {
+    } else if( best == skill_archery ) {
         weapon = random_item_from( type, "archery" );
-    } else if( best->ident() == skill_pistol ) {
+    } else if( best == skill_pistol ) {
         weapon = random_item_from( type, "pistol", "guns_pistol_common" );
-    } else if( best->ident() == skill_shotgun ) {
+    } else if( best == skill_shotgun ) {
         weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
-    } else if( best->ident() == skill_smg ) {
+    } else if( best == skill_smg ) {
         weapon = random_item_from( type, "smg", "guns_smg_common" );
-    } else if( best->ident() == skill_rifle ) {
+    } else if( best == skill_rifle ) {
         weapon = random_item_from( type, "rifle", "guns_rifle_common" );
     }
 
