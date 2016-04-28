@@ -768,7 +768,7 @@ void npc::randomize_from_faction(faction *fac)
   int_max += rng(0, 2);
   for( auto const &skill : Skill::skills ) {
    if (one_in(3))
-       boost_skill_level( &skill, rng( 2, 4 ) );
+       boost_skill_level( skill.ident(), rng( 2, 4 ) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {

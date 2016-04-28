@@ -12671,11 +12671,6 @@ void player::set_skill_level(const skill_id &ident, int level)
     skillLevel(ident).level(level);
 }
 
-void player::boost_skill_level(const Skill* _skill, int level)
-{
-    skillLevel(_skill).level(level+skillLevel(_skill));
-}
-
 void player::boost_skill_level(const skill_id &ident, int level)
 {
     skillLevel(ident).level(level+skillLevel(ident));
