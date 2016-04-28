@@ -1831,9 +1831,10 @@ void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list,
     for (size_t i = page * lines_per_page; i < (page + 1) * lines_per_page && i < list.size(); i++) {
         const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
+        mvwputch( w_list, y, 1, info.color, special_symbol( info.sym ) );
         nc_color col = can_currently_install( info ) ? c_white : c_dkgray;
-        mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, info.name().c_str());
-        mvwputch (w_list, y, 1, info.color, special_symbol(info.sym));
+        trim_and_print( w_list, y, 3, getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
+                        info.name().c_str() );
     }
     wrefresh (w_list);
 }
