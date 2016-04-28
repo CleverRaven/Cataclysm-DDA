@@ -835,33 +835,38 @@ public:
     }
 };
 
-/**
- * Place items from an item group.
- * see @ref map::place_loot
- */
+/** Place items from an item group */
 class jmapgen_loot : public jmapgen_piece {
+    friend jmapgen_objects;
+
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
         , group( jsi.get_string( "group", std::string() ) )
         , name( jsi.get_string( "item", std::string() ) )
-        , chance( jsi, "chance", 100, 100 )
-        , ammo( jsi, "ammo", 0, 0 )
-        , magazine( jsi, "magazine", 0, 0 )
+        , chance( jsi.get_int( "chance", 100 ) )
+        , ammo( jsi.get_int( "ammo", 0 ) )
+        , magazine( jsi.get_int( "magazine", 0 ) )
         {
             if( group.empty() == name.empty() ) {
                 jsi.throw_error( "must provide either item or group" );
             }
-
             if( !group.empty() && !item_group::group_is_defined( group ) ) {
                 jsi.throw_error( "no such item group", "group" );
             }
             if( !name.empty() && !item_controller->has_template( name ) ) {
                 jsi.throw_error( "no such item", "item" );
             }
+            if( ammo < 0 || ammo > 100 ) {
+                jsi.throw_error( "ammo chance out of range", "ammo" );
+            }
+            if( magazine < 0 || magazine > 100 ) {
+                jsi.throw_error( "magazine chance out of range", "magazine" );
+            }
         }
+
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
-            if( rng( 0, 99 ) < chance.get() * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
+            if( rng( 0, 99 ) < chance ) {
                 std::vector<item> spawn;
                 if( group.empty() ) {
                     spawn.emplace_back( name, calendar::turn );
@@ -870,21 +875,11 @@ class jmapgen_loot : public jmapgen_piece {
                 }
 
                 for( auto &e: spawn ) {
-                    bool spawn_ammo = rng( 0, 99 ) < ammo.get();
-                    bool spawn_mags = rng( 0, 99 ) < magazine.get() || spawn_ammo;
-
-                    if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
+                    if( rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current() ) {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
-                    if( spawn_ammo && e.ammo_remaining() == 0 ) {
-                        if( e.magazine_current() ) {
-                            item tmp( default_ammo( e.ammo_type() ), e.bday );
-                            tmp.charges = e.ammo_capacity();
-                            e.magazine_current()->contents.push_back( tmp );
-                        } else {
-                            e.set_curammo( default_ammo( e.ammo_type() ) ) ;
-                            e.charges = e.ammo_capacity();
-                        }
+                    if( rng( 0, 99 ) < ammo && e.ammo_remaining() == 0 ) {
+                        e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
                     }
                 }
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
@@ -894,9 +889,9 @@ class jmapgen_loot : public jmapgen_piece {
     private:
         const std::string group;
         const std::string name;
-        const jmapgen_int chance;
-        const jmapgen_int ammo;
-        const jmapgen_int magazine;
+        int chance;
+        const int ammo;
+        const int magazine;
 };
 
 /**
@@ -1140,6 +1135,31 @@ void jmapgen_objects::load_objects( JsonArray parray )
         const jmapgen_place where( jsi );
         std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
         add(where, what);
+    }
+}
+
+template<>
+void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
+{
+    while( parray.has_more() ) {
+        auto jsi = parray.next_object();
+        jmapgen_place where( jsi );
+
+        auto loot = new jmapgen_loot( jsi );
+        auto rate = ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ];
+
+        if( where.repeat.valmax != 1 ) {
+            // if loot can repeat scale according to rate
+            where.repeat.val = std::max( int( where.repeat.val * rate ), 1 );
+            where.repeat.valmax = std::max( int( where.repeat.valmax * rate ), 1 );
+
+        } else if( loot->chance != 100 ) {
+            // otherwise except where chance is 100% scale probability
+            loot->chance = std::max( std::min( int( loot->chance * rate ), 100 ), 1 );
+        }
+
+        std::shared_ptr<jmapgen_piece> ptr( loot );
+        add( where, ptr );
     }
 }
 
@@ -10651,7 +10671,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
                 e->contents.emplace_back( e->magazine_default(), e->bday );
             }
-            if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
+            if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
             }
         }

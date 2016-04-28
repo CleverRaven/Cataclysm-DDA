@@ -253,9 +253,9 @@ class Item_group : public Item_spawn_data
         virtual bool has_item(const Item_tag &itemid) const override;
 
         /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
-        int with_ammo;
+        int with_ammo = 0;
         /** Chance [0-100%] for items to spawn with their default magazine (if any) */
-        int with_magazine;
+        int with_magazine = 0;
 
     protected:
         /**
