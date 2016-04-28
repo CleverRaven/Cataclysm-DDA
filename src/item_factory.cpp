@@ -947,10 +947,7 @@ void Item_factory::load_engine( JsonObject &jo )
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    if( jo.has_string( "skill" ) ) {
-        slot.skill_used = skill_id( jo.get_string( "skill" ) );
-    }
-
+    assign( jo, "skill", slot.skill_used );
     assign( jo, "ammo", slot.ammo );
     assign( jo, "range", slot.range );
     assign( jo, "ranged_damage", slot.damage );
@@ -973,11 +970,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     assign( jo, "ammo_effects", slot.ammo_effects );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
+        slot.valid_mod_locations.clear();
         JsonArray jarr = jo.get_array( "valid_mod_locations" );
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
-            slot.valid_mod_locations.insert( std::pair<std::string, int>( curr.get_string( 0 ),
-                                             curr.get_int( 1 ) ) );
+            slot.valid_mod_locations.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
         }
     }
 }
@@ -1214,6 +1211,18 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
     slot.ups_charges = jo.get_int( "ups_charges", slot.ups_charges );
     slot.install_time = jo.get_int( "install_time", slot.install_time );
+
+    JsonArray mags = jo.get_array( "magazine_adaptor" );
+    while( mags.has_more() ) {
+        JsonArray arr = mags.next_array();
+
+        ammotype ammo = arr.get_string( 0 ); // an ammo type (eg. 9mm)
+        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+
+        while( compat.has_more() ) {
+            slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
+        }
+    }
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
