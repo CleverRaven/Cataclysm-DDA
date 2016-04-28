@@ -1011,7 +1011,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
             return _("Shall we resume?");
         }
-        std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+        std::vector<skill_id> trainable = p->skills_offered_to(g->u);
         std::vector<matype_id> styles = p->styles_offered_to(g->u);
         if (trainable.empty() && styles.empty()) {
             return _("Sorry, but it doesn't seem I have anything to teach you.");
@@ -2212,18 +2212,18 @@ void dialogue::gen_responses( const std::string &topic )
                 }
             }
             std::vector<matype_id> styles = p->styles_offered_to(g->u);
-            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+            std::vector<skill_id> trainable = p->skills_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 add_response_none( _("Oh, okay.") );
                 return;
             }
             for( auto & trained : trainable ) {
-                const int cost = calc_skill_training_cost( trained );
+                const int cost = calc_skill_training_cost( &trained.obj() );
                 const int cur_level = g->u.skillLevel( trained );
                 //~Skill name: current level -> next level (cost in cent)
-                std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained->name().c_str(),
+                std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained.obj().name().c_str(),
                       cur_level, cur_level + 1, cost / 100 );
-                add_response( text, "TALK_TRAIN_START", trained );
+                add_response( text, "TALK_TRAIN_START", &trained.obj() );
             }
             for( auto & style_id : styles ) {
                 auto &style = style_id.obj();

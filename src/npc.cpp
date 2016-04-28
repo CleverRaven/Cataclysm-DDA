@@ -1500,12 +1500,12 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<const Skill*> npc::skills_offered_to(const player &p)
+std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
-    std::vector<const Skill*> ret;
+    std::vector<skill_id> ret;
     for (auto const &skill : Skill::skills) {
         if (p.get_skill_level(skill) < get_skill_level(skill)) {
-            ret.push_back(&skill);
+            ret.push_back( skill.ident() );
         }
     }
     return ret;

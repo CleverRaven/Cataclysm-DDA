@@ -622,7 +622,11 @@ public:
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
- std::vector<const Skill*> skills_offered_to(const player &p); // Skills that're higher
+    /**
+     * @return Skills of which this NPC has a higher level than the given player. In other
+     * words: skills this NPC could teach the player.
+     */
+    std::vector<skill_id> skills_offered_to( const player &p ) const;
     /**
      * Martial art styles that we known, but the player p doesn't.
      */
