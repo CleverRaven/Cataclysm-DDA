@@ -12307,9 +12307,10 @@ int player::adjust_for_focus(int amount) const
     return ret;
 }
 
-void player::practice( const Skill* s, int amount, int cap )
+void player::practice( const skill_id &id, int amount, int cap )
 {
-    SkillLevel& level = skillLevel(s);
+    SkillLevel &level = skillLevel( id );
+    const Skill &skill = id.obj();
     // Double amount, but only if level.exercise isn't a small negative number?
     if (level.exercise() < 0) {
         if (amount >= -level.exercise()) {
@@ -12327,65 +12328,65 @@ void player::practice( const Skill* s, int amount, int cap )
 
     bool isSavant = has_trait("SAVANT");
 
-    const Skill* savantSkill = NULL;
+    skill_id savantSkill( NULL_ID );
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
         for( auto const &skill : Skill::skills ) {
-            if( skillLevel( skill ) > savantSkillLevel ) {
-                savantSkill = &skill;
-                savantSkillLevel = skillLevel( skill );
+            if( skillLevel( skill.ident() ) > savantSkillLevel ) {
+                savantSkill = skill.ident();
+                savantSkillLevel = skillLevel( skill.ident() );
             }
         }
     }
 
     amount = adjust_for_focus(amount);
 
-    if (has_trait("PACIFIST") && s->is_combat_skill()) {
+    if (has_trait("PACIFIST") && skill.is_combat_skill()) {
         if(!one_in(3)) {
           amount = 0;
         }
     }
-    if (has_trait("PRED2") && s->is_combat_skill()) {
+    if (has_trait("PRED2") && skill.is_combat_skill()) {
         if(one_in(3)) {
           amount *= 2;
         }
     }
-    if (has_trait("PRED3") && s->is_combat_skill()) {
+    if (has_trait("PRED3") && skill.is_combat_skill()) {
         amount *= 2;
     }
 
-    if (has_trait("PRED4") && s->is_combat_skill()) {
+    if (has_trait("PRED4") && skill.is_combat_skill()) {
         amount *= 3;
     }
 
-    if (isSavant && s != savantSkill) {
+    if (isSavant && id != savantSkill ) {
         amount /= 2;
     }
 
 
 
-    if (get_skill_level(s) > cap) { //blunt grinding cap implementation for crafting
+    if (get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
-        int curLevel = get_skill_level(s);
+        int curLevel = get_skill_level( id );
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
-            add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
-                    s->name().c_str(), curLevel);
+            add_msg(m_info, _("This task is too simple to train your %skill beyond %d."),
+                    skill.name().c_str(), curLevel);
         }
     }
 
     if (amount > 0 && level.isTraining()) {
-        int oldLevel = get_skill_level(s);
-        skillLevel(s).train(amount);
-        int newLevel = get_skill_level(s);
+        int oldLevel = get_skill_level( id );
+        skillLevel( id ).train(amount);
+        int newLevel = get_skill_level( id );
         if (is_player() && newLevel > oldLevel) {
-            add_msg(m_good, _("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
+            add_msg(m_good, _("Your skill in %skill has increased to %d!"), skill.name().c_str(), newLevel);
             lua_callback("on_skill_increased");
         }
         if(is_player() && newLevel > cap) {
             //inform player immediately that the current recipe can't be used to train further
-            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
-                    s->name().c_str());
+            add_msg(m_info, _("You feel that %skill tasks of this level are becoming trivial."),
+                    skill.name().c_str());
         }
 
 
@@ -12394,17 +12395,12 @@ void player::practice( const Skill* s, int amount, int cap )
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
         if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") &&
-                                                          s->is_combat_skill()))) {
+                                                          skill.is_combat_skill()))) {
             focus_pool--;
         }
     }
 
-    skillLevel(s).practice();
-}
-
-void player::practice( const skill_id &s, int amount, int cap )
-{
-    practice( &s.obj(), amount, cap );
+    skillLevel( id ).practice();
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
