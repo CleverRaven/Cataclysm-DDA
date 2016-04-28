@@ -402,7 +402,7 @@ void player::randomize( const bool random_scenario, points_left &points )
         case 7:
         case 8:
         case 9:
-            const Skill* aSkill = Skill::random_skill();
+            const skill_id aSkill = Skill::random_skill();
             int level = skillLevel(aSkill);
 
             if (level < points.skill_points_left() && level < MAX_SKILL && (level <= 10 || loops > 10000)) {

@@ -121,9 +121,9 @@ skill_id Skill::random_skill_with_tag( const std::string &tag)
     return random_entry( valid )->ident();
 }
 
-const Skill* Skill::random_skill()
+skill_id Skill::random_skill()
 {
-    return &skills[rng( 0, skills.size() - 1 )];
+    return skills[rng( 0, skills.size() - 1 )].ident();
 }
 
 size_t Skill::skill_count()
