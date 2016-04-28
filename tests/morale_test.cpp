@@ -325,7 +325,7 @@ TEST_CASE( "player_morale" )
             }
             AND_WHEN( "an hour has passed" ) {
                 m.decay( 60 );
-                CHECK( m.get_level() == -6 );
+                CHECK( m.get_level() == -10 );
             }
         }
 
@@ -362,6 +362,23 @@ TEST_CASE( "player_morale" )
                 m.decay( 60 );
                 CHECK( m.get_level() == -20 );
             }
+            AND_WHEN( "warmed up afterwards" ) {
+                m.on_effect_int_change( effect_cold, 0, bp_torso );
+                m.on_effect_int_change( effect_cold, 0, bp_head );
+                m.on_effect_int_change( effect_cold, 0, bp_eyes );
+                m.on_effect_int_change( effect_cold, 0, bp_mouth );
+                m.on_effect_int_change( effect_cold, 0, bp_arm_l );
+                m.on_effect_int_change( effect_cold, 0, bp_arm_r );
+                m.on_effect_int_change( effect_cold, 0, bp_leg_l );
+                m.on_effect_int_change( effect_cold, 0, bp_leg_r );
+                m.on_effect_int_change( effect_cold, 0, bp_hand_l );
+                m.on_effect_int_change( effect_cold, 0, bp_hand_r );
+                m.on_effect_int_change( effect_cold, 0, bp_foot_l );
+                m.on_effect_int_change( effect_cold, 0, bp_foot_r );
+
+                m.decay( 10 );
+                CHECK( m.get_level() == 0 );
+            }
         }
 
         WHEN( "warm" ) {
@@ -395,7 +412,7 @@ TEST_CASE( "player_morale" )
             }
             AND_WHEN( "an hour has passed" ) {
                 m.decay( 60 );
-                CHECK( m.get_level() == -6 );
+                CHECK( m.get_level() == -10 );
             }
         }
 
@@ -432,35 +449,22 @@ TEST_CASE( "player_morale" )
                 m.decay( 60 );
                 CHECK( m.get_level() == -20 );
             }
-        }
+            AND_WHEN( "cooled afterwards" ) {
+                m.on_effect_int_change( effect_hot, 0, bp_torso );
+                m.on_effect_int_change( effect_hot, 0, bp_head );
+                m.on_effect_int_change( effect_hot, 0, bp_eyes );
+                m.on_effect_int_change( effect_hot, 0, bp_mouth );
+                m.on_effect_int_change( effect_hot, 0, bp_arm_l );
+                m.on_effect_int_change( effect_hot, 0, bp_arm_r );
+                m.on_effect_int_change( effect_hot, 0, bp_leg_l );
+                m.on_effect_int_change( effect_hot, 0, bp_leg_r );
+                m.on_effect_int_change( effect_hot, 0, bp_hand_l );
+                m.on_effect_int_change( effect_hot, 0, bp_hand_r );
+                m.on_effect_int_change( effect_hot, 0, bp_foot_l );
+                m.on_effect_int_change( effect_hot, 0, bp_foot_r );
 
-        WHEN( "mixed" ) {
-            // TODO: Awfully low penalty for such conditions. Something has to be done about that.
-            // I think the penalties should be calculated independently for 'hot' and 'cold' effects.
-            m.on_effect_int_change( effect_hot, 3,  bp_torso );
-            m.on_effect_int_change( effect_cold, 2, bp_head );
-            m.on_effect_int_change( effect_cold, 3, bp_mouth );
-            m.on_effect_int_change( effect_cold, 3, bp_hand_l );
-            m.on_effect_int_change( effect_hot, 1,  bp_leg_r );
-
-            AND_WHEN( "no time has passed" ) {
+                m.decay( 10 );
                 CHECK( m.get_level() == 0 );
-            }
-            AND_WHEN( "1 minute has passed" ) {
-                m.decay( 1 );
-                CHECK( m.get_level() == -2 );
-            }
-            AND_WHEN( "2 minutes have passed" ) {
-                m.decay( 2 );
-                CHECK( m.get_level() == -4 );
-            }
-            AND_WHEN( "3 minutes have passed" ) {
-                m.decay( 3 );
-                CHECK( m.get_level() == -5 );
-            }
-            AND_WHEN( "an hour has passed" ) {
-                m.decay( 60 );
-                CHECK( m.get_level() == -5 );
             }
         }
     }
