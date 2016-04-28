@@ -178,6 +178,18 @@ TEST_CASE( "player_morale" )
                 m.on_item_takeoff( dress_wedding );
                 CHECK( m.get_level() == 0 );
             }
+            AND_WHEN( "wearing yet another wedding gown" ) {
+                m.on_item_wear( dress_wedding );
+                THEN( "it adds nothing" ) {
+                    CHECK( m.get_level() == 19 );
+
+                    AND_WHEN( "taking it off" ) {
+                        THEN( "your fanciness remains the same" ) {
+                            CHECK( m.get_level() == 19 );
+                        }
+                    }
+                }
+            }
             AND_WHEN( "tries to be even fancier" ) {
                 item watch( "sf_watch", 0 );
                 m.on_item_wear( watch );
