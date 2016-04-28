@@ -2,12 +2,12 @@
 #include "color.h"
 #include "init.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "debug.h"
 #include "translations.h"
 #include "output.h"
 #include "item.h"
 #include "item_group.h"
-#include "calendar.h"
 
 #include <unordered_map>
 
@@ -16,41 +16,13 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 "mx_crater", "mx_collegekids"
 };
 
-const ter_str_id &convert_terrain_type( const ter_str_id & );
+template<>
+const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
 
-namespace   // @todo This should belong to the generic_factory class
+namespace
 {
 
-std::vector<ter_t> terlist;
-std::map<ter_str_id, ter_id> termap;
-
-const std::map<ter_str_id, ter_id>::iterator find_ter_id( const ter_str_id &tid  )
-{
-    const auto &iter = termap.find( tid );
-    if( iter != termap.end() ) {
-        return iter;
-    }
-    const auto &new_id = convert_terrain_type( tid );
-    if( new_id == tid ) {
-        return iter;
-    }
-    const auto &conv_iter = termap.find( new_id );
-    if( conv_iter != termap.end() ) {
-        termap[tid] = conv_iter->second; // So theres no need to convert anymore
-    }
-    return conv_iter;
-}
-
-void emplace_ter( const ter_t &ter )
-{
-    // It's going to be generic_factory's responsibility,
-    // I leave it without additional checks for now
-    const ter_id cid = ter_id( terlist.size() );
-
-    terlist.push_back( ter );
-    termap[ter.id] = cid;
-    ter.id.set_cid( cid );
-}
+generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
 
 }
 
@@ -60,49 +32,25 @@ std::map<std::string, furn_t> furnmap;
 template<>
 inline bool int_id<ter_t>::is_valid() const
 {
-    return static_cast<size_t>( _id ) < terlist.size();
+    return terrain_data.is_valid( *this );
 }
 
 template<>
 const ter_t &int_id<ter_t>::obj() const
 {
-    if( !is_valid() ) {
-        debugmsg( "invalid terrain id %d", _id );
-        static const ter_t dummy{};
-        return dummy;
-    }
-    return terlist[_id];
+    return terrain_data.obj( *this );
 }
 
 template<>
 const string_id<ter_t> &int_id<ter_t>::id() const
 {
-    return obj().id;
+    return terrain_data.convert( *this );
 }
-
-template<>
-const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
 
 template<>
 int_id<ter_t> string_id<ter_t>::id() const
 {
-    const auto tid = get_cid();
-    // Since we don't delete terrain objects, we don't
-    // particularly need the second condition, but
-    // generic case requires it.
-    // The idea: add a boolean flag 'deletion_occurred'.
-    // If it's false, we don't need to waste CPU time
-    // on string comparison, otherwise we make sure
-    if( tid.is_valid() && terlist[tid].id == *this ) {
-        return tid;
-    }
-    const auto &iter = find_ter_id( *this );
-    if( iter != termap.end() ) {
-        set_cid( iter->second );
-        return iter->second;
-    }
-    debugmsg( "can't find terrain %s", c_str() );
-    return t_null;
+    return terrain_data.convert( *this, t_null );
 }
 
 template<>
@@ -113,23 +61,13 @@ int_id<ter_t>::int_id( const string_id<ter_t> &id ) : _id( id.id() )
 template<>
 const ter_t &string_id<ter_t>::obj() const
 {
-    return id().obj();
+    return terrain_data.obj( *this );
 }
 
 template<>
 bool string_id<ter_t>::is_valid() const
 {
-    const auto tid = get_cid();
-
-    if( tid.is_valid() && terlist[tid].id == *this ) {
-        return true;
-    }
-    const auto &iter = find_ter_id( *this );
-    if( iter != termap.end() ) {
-        set_cid( iter->second );
-        return true;
-    }
-    return false;
+    return terrain_data.is_valid( *this );
 }
 
 template<>
@@ -411,120 +349,10 @@ void load_furniture(JsonObject &jsobj)
 
 void load_terrain(JsonObject &jsobj)
 {
-  if ( terlist.empty() ) { // todo@ This shouldn't live here
-      emplace_ter( null_terrain_t() );
-  }
-  ter_t new_terrain;
-
-  new_terrain.id = ter_str_id( jsobj.get_string("id") );
-  if ( !new_terrain.id ) {
-      return;
-  }
-  new_terrain.name = _(jsobj.get_string("name").c_str());
-
-    new_terrain.load_symbol( jsobj );
-
-  new_terrain.movecost = jsobj.get_int("move_cost");
-
-  if(jsobj.has_member("trap")) {
-      // Store the string representation of the trap id.
-      // Overwrites the trap field in set_trap_ids() once ids are assigned..
-      new_terrain.trap_id_str = jsobj.get_string("trap");
-  }
-  new_terrain.trap = tr_null;
-  new_terrain.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
-
-  new_terrain.transparent = false;
-    new_terrain.connect_group = TERCONN_NONE;
-
-    for( auto & flag : jsobj.get_string_array( "flags" ) ) {
-        new_terrain.set_flag( flag );
+    if( terrain_data.empty() ) { // todo@ This shouldn't live here
+        terrain_data.insert( null_terrain_t() );
     }
-
-    // connect_group is initialised to none, then terrain flags are set, then finally
-    // connections from JSON are set. This is so that wall flags can set wall connections
-    // but can be overridden by explicit connections in JSON.
-    if(jsobj.has_member("connects_to")) {
-    new_terrain.set_connects( jsobj.get_string("connects_to") );
-    }
-
-  if(jsobj.has_member("examine_action")) {
-    std::string function_name = jsobj.get_string("examine_action");
-    new_terrain.examine = iexamine_function_from_string(function_name);
-  } else {
-    // if not specified, default to no action
-    new_terrain.examine = iexamine_function_from_string("none");
-  }
-
-  // if the terrain has something harvestable
-  if (jsobj.has_member("harvestable")) {
-    new_terrain.harvestable = jsobj.get_string("harvestable"); // get the harvestable
-  }
-
-  if (jsobj.has_member("transforms_into")) {
-    new_terrain.transforms_into = ter_str_id( jsobj.get_string("transforms_into") ); // get the terrain to transform into later on
-  }
-
-  if (jsobj.has_member("roof")) {
-    new_terrain.roof = ter_str_id( jsobj.get_string("roof") ); // Get the terrain to create above this one if there would be open air otherwise
-  }
-
-  if (jsobj.has_member("harvest_season")) {
-    //get the harvest season
-    if (jsobj.get_string("harvest_season") == "SPRING") {new_terrain.harvest_season = 0;} // convert the season to int for calendar compare
-    else if (jsobj.get_string("harvest_season") == "SUMMER") {new_terrain.harvest_season = 1;}
-    else if (jsobj.get_string("harvest_season") == "AUTUMN") {new_terrain.harvest_season = 2;}
-    else {new_terrain.harvest_season = 3;}
-  }
-
-  if ( jsobj.has_member("open") ) {
-      new_terrain.open = ter_str_id( jsobj.get_string("open") );
-  }
-  if ( jsobj.has_member("close") ) {
-      new_terrain.close = ter_str_id( jsobj.get_string("close") );
-  }
-  new_terrain.bash.load(jsobj, "bash", false);
-  new_terrain.deconstruct.load(jsobj, "deconstruct", false);
-
-  emplace_ter( new_terrain );
-}
-
-const ter_str_id &convert_terrain_type( const ter_str_id &t )
-{
-    static const std::unordered_map<ter_str_id, ter_str_id> ter_type_conversion_map = { {
-        { ter_str_id( "t_wall_h" ), ter_str_id( "t_wall" ) },
-        { ter_str_id( "t_wall_v" ), ter_str_id( "t_wall" ) },
-        { ter_str_id( "t_concrete_h" ), ter_str_id( "t_concrete_wall" ) },
-        { ter_str_id( "t_concrete_v" ), ter_str_id( "t_concrete_wall" ) },
-        { ter_str_id( "t_wall_metal_h" ), ter_str_id( "t_wall_metal" ) },
-        { ter_str_id( "t_wall_metal_v" ), ter_str_id( "t_wall_metal" ) },
-        { ter_str_id( "t_wall_glass_h" ), ter_str_id( "t_wall_glass" ) },
-        { ter_str_id( "t_wall_glass_v" ), ter_str_id( "t_wall_glass" ) },
-        { ter_str_id( "t_wall_glass_h_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
-        { ter_str_id( "t_wall_glass_v_alarm" ), ter_str_id( "t_wall_glass_alarm" ) },
-        { ter_str_id( "t_reinforced_glass_h" ), ter_str_id( "t_reinforced_glass" ) },
-        { ter_str_id( "t_reinforced_glass_v" ), ter_str_id( "t_reinforced_glass" ) },
-        { ter_str_id( "t_fungus_wall_h" ), ter_str_id( "t_fungus_wall" ) },
-        { ter_str_id( "t_fungus_wall_v" ), ter_str_id( "t_fungus_wall" ) },
-        { ter_str_id( "t_wall_h_r" ), ter_str_id( "t_wall_r" ) },
-        { ter_str_id( "t_wall_v_r" ), ter_str_id( "t_wall_r" ) },
-        { ter_str_id( "t_wall_h_w" ), ter_str_id( "t_wall_w" ) },
-        { ter_str_id( "t_wall_v_w" ), ter_str_id( "t_wall_w" ) },
-        { ter_str_id( "t_wall_h_b" ), ter_str_id( "t_wall_b" ) },
-        { ter_str_id( "t_wall_v_b" ), ter_str_id( "t_wall_b" ) },
-        { ter_str_id( "t_wall_h_g" ), ter_str_id( "t_wall_g" ) },
-        { ter_str_id( "t_wall_v_g" ), ter_str_id( "t_wall_g" ) },
-        { ter_str_id( "t_wall_h_y" ), ter_str_id( "t_wall_y" ) },
-        { ter_str_id( "t_wall_v_y" ), ter_str_id( "t_wall_y" ) },
-        { ter_str_id( "t_wall_h_p" ), ter_str_id( "t_wall_p" ) },
-        { ter_str_id( "t_wall_v_p" ), ter_str_id( "t_wall_p" ) },
-    } };
-
-    const auto iter = ter_type_conversion_map.find( t );
-    if( iter == ter_type_conversion_map.end() ) {
-        return t;
-    }
-    return iter->second;
+    terrain_data.load( jsobj );
 }
 
 void map_data_common_t::set_flag( const std::string &flag )
@@ -911,19 +739,20 @@ void set_ter_ids() {
     t_guardrail_bg_dp           = ter_id( "t_guardrail_bg_dp" );
     t_improvised_shelter        = ter_id( "t_improvised_shelter" );
 
-    for( auto &elem : terlist ) {
-        if( elem.trap_id_str.empty() ) {
-            elem.trap = tr_null;
+    for( auto &elem : terrain_data.get_all() ) {
+        ter_t &ter = const_cast<ter_t&>( elem );
+        if( ter.trap_id_str.empty() ) {
+            ter.trap = tr_null;
         } else {
-            elem.trap = trap_str_id( elem.trap_id_str );
+            ter.trap = trap_str_id( ter.trap_id_str );
         }
     }
 }
 
 void reset_furn_ter()
 {
-    termap.clear();
-    terlist.clear();
+    terrain_data.reset();
+
     furnmap.clear();
     furnlist.clear();
 }
@@ -1066,7 +895,63 @@ void set_furn_ids() {
 
 size_t ter_t::count()
 {
-    return termap.size();
+    return terrain_data.size();
+}
+
+void ter_t::load( JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "move_cost", movecost );
+    optional( jo, was_loaded, "max_volume", max_volume, MAX_VOLUME_IN_SQUARE );
+    optional( jo, was_loaded, "trap", trap_id_str );
+
+    load_symbol( jo );
+
+    trap = tr_null;
+    transparent = false;
+    connect_group = TERCONN_NONE;
+
+    for( auto &flag : jo.get_string_array( "flags" ) ) {
+        set_flag( flag );
+    }
+    // connect_group is initialised to none, then terrain flags are set, then finally
+    // connections from JSON are set. This is so that wall flags can set wall connections
+    // but can be overridden by explicit connections in JSON.
+    if( jo.has_member( "connects_to" ) ) {
+        set_connects( jo.get_string( "connects_to" ) );
+    }
+
+    if( jo.has_member( "examine_action" ) ) {
+        examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
+    } else {
+        examine = iexamine_function_from_string( "none" );
+    }
+
+    optional( jo, was_loaded, "harvestable", harvestable );
+    optional( jo, was_loaded, "open", open, NULL_ID );
+    optional( jo, was_loaded, "close", close, NULL_ID );
+    optional( jo, was_loaded, "transforms_into", transforms_into, NULL_ID );
+    optional( jo, was_loaded, "roof", roof, NULL_ID );
+
+    if( jo.has_member("harvest_season") ) {
+        const std::string season = jo.get_string( "harvest_season" );
+
+        if( season == "SPRING" ) {
+            harvest_season = season_type::SPRING;
+        } else if( season == "SUMMER" ) {
+            harvest_season = season_type::SUMMER;
+        } else if( season == "AUTUMN" ) {
+            harvest_season = season_type::AUTUMN;
+        } else if( season == "WINTER" ) {
+            harvest_season = season_type::WINTER;
+        } else {
+            harvest_season = season_type::AUTUMN;
+            debugmsg( "Invalid harvest season \"%s\" in \"%s\".", season.c_str(), id.c_str() );
+        }
+    }
+
+    bash.load( jo, "bash", false );
+    deconstruct.load( jo, "deconstruct", false );
 }
 
 void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
@@ -1106,6 +991,22 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     }
 }
 
+void ter_t::check() const
+{
+    check_bash_items( bash, id.str(), true );
+    check_decon_items( deconstruct, id.str(), true );
+
+    if( !transforms_into.is_valid() ) {
+        debugmsg( "invalid transforms_into %s for %s", transforms_into.c_str(), id.c_str() );
+    }
+    if( !open.is_valid() ) {
+        debugmsg( "invalid terrain %s for opening %s", open.c_str(), id.c_str() );
+    }
+    if( !close.is_valid() ) {
+        debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
+    }
+}
+
 void check_furniture_and_terrain()
 {
     for( const furn_t& f : furnlist ) {
@@ -1118,17 +1019,5 @@ void check_furniture_and_terrain()
             debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
         }
     }
-    for( const ter_t& t : terlist ) {
-        check_bash_items(t.bash, t.id.str(), true);
-        check_decon_items(t.deconstruct, t.id.str(), true);
-        if( !t.transforms_into.is_valid() ) {
-            debugmsg( "invalid transforms_into %s for %s", t.transforms_into.c_str(), t.id.c_str() );
-        }
-        if( !t.open.is_valid() ) {
-            debugmsg( "invalid terrain %s for opening %s", t.open.c_str(), t.id.c_str() );
-        }
-        if( !t.close.is_valid() ) {
-            debugmsg( "invalid terrain %s for closing %s", t.close.c_str(), t.id.c_str() );
-        }
-    }
+    terrain_data.check();
 }

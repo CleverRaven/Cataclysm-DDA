@@ -158,11 +158,11 @@ const profession *profession::weighted_random()
         return generic();
     }
 
-    const auto &map = all_profs.all_ref();
+    const auto &list = all_profs.get_all();
     while( true ) {
-        auto iter = map.begin();
-        std::advance( iter, rng( 0, map.size() - 1 ) );
-        const profession &prof = iter->second;
+        auto iter = list.begin();
+        std::advance( iter, rng( 0, list.size() - 1 ) );
+        const profession &prof = *iter;
 
         if( x_in_y( 2, abs( prof.point_cost() ) + 2 ) && !prof.has_flag( "SCEN_ONLY" ) ) {
             return &prof;
@@ -171,7 +171,7 @@ const profession *profession::weighted_random()
     }
 }
 
-std::vector<const profession *> profession::get_all()
+const std::vector<profession> &profession::get_all()
 {
     return all_profs.get_all();
 }
@@ -183,8 +183,8 @@ void profession::reset()
 
 void profession::check_definitions()
 {
-    for( auto &pair : all_profs.all_ref() ) {
-        pair.second.check_definition();
+    for( const auto &prof : all_profs.get_all() ) {
+        prof.check_definition();
     }
 }
 

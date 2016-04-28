@@ -17,9 +17,9 @@ using gate_id = string_id<gate_data>;
 struct gate_data {
 
     gate_data() :
-        wall( NULL_ID ),
-        door( NULL_ID ),
-        floor( NULL_ID ),
+        wall(),
+        door(),
+        floor(),
         moves( 0 ),
         bash_dmg( 0 ),
         was_loaded( false ) {};
