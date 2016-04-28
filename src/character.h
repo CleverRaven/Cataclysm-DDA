@@ -407,6 +407,7 @@ class Character : public Creature, public visitable<Character>
         /** for serialization */
         SkillLevel const& get_skill_level(const skill_id &ident) const;
         void set_skill_level( const skill_id &ident, int level );
+        void boost_skill_level( const skill_id &ident, int delta );
 
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
 

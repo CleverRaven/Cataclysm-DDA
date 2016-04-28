@@ -937,6 +937,11 @@ void Character::set_skill_level( const skill_id &ident, const int level )
     get_skill_level( ident ).level( level );
 }
 
+void Character::boost_skill_level( const skill_id &ident, const int delta )
+{
+    set_skill_level( ident, delta + get_skill_level( ident ) );
+}
+
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const
 {
     return std::all_of( req.begin(), req.end(), [this]( const std::pair<skill_id, int> &pr ) {

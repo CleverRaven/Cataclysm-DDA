@@ -1204,8 +1204,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int focus_pool;
 
-        void boost_skill_level(const skill_id &ident, int level);
-
         std::map<std::string, const recipe *> learned_recipes;
 
         std::vector<matype_id> ma_styles;

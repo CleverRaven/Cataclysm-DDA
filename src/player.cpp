@@ -12666,11 +12666,6 @@ nc_color encumb_color(int level)
  return c_red;
 }
 
-void player::boost_skill_level(const skill_id &ident, int level)
-{
-    get_skill_level(ident).level(level+get_skill_level(ident));
-}
-
 int player::get_melee() const
 {
     return get_skill_level( skill_id( "melee" ) );
