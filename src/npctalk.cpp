@@ -173,12 +173,12 @@ const std::string &talk_trial::name() const
 
 /** Time (in turns) and cost (in cent) for training: */
 // TODO: maybe move this function into the skill class? Or into the NPC class?
-static int calc_skill_training_time( const Skill *skill )
+static int calc_skill_training_time( const skill_id &skill )
 {
     return MINUTES( 10 ) + MINUTES( 5 ) * g->u.skillLevel( skill );
 }
 
-static int calc_skill_training_cost( const Skill *skill )
+static int calc_skill_training_cost( const skill_id &skill )
 {
     return 1000 * ( 1 + g->u.get_skill_level( skill ) ) * ( 1 + g->u.get_skill_level( skill ) );
 }
@@ -2218,7 +2218,7 @@ void dialogue::gen_responses( const std::string &topic )
                 return;
             }
             for( auto & trained : trainable ) {
-                const int cost = calc_skill_training_cost( &trained.obj() );
+                const int cost = calc_skill_training_cost( trained );
                 const int cur_level = g->u.skillLevel( trained );
                 //~Skill name: current level -> next level (cost in cent)
                 std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained.obj().name().c_str(),
@@ -3432,8 +3432,8 @@ void talk_function::start_training( npc *p )
     std::string name;
     if( p->chatbin.skill != nullptr ) {
         const Skill *skill = p->chatbin.skill;
-        cost = calc_skill_training_cost( skill );
-        time = calc_skill_training_time( skill );
+        cost = calc_skill_training_cost( skill->ident() );
+        time = calc_skill_training_time( skill->ident() );
         name = skill->ident().str();
     } else if( p->chatbin.style.is_valid() ) {
         auto &ma_style_id = p->chatbin.style;
