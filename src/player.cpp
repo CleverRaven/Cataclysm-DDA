@@ -5494,9 +5494,8 @@ void player::suffer()
         // Microreactor CBM and supporting bionics
         if (has_bionic( bio_reactor ) || has_bionic( bio_advreactor ) ) {
             //first do the filtering of plutonium from storage to reactor
-            int plut_trans;
-            plut_trans = 0;
             if (tank_plut > 0) {
+                int plut_trans;
                 if (has_active_bionic( bio_plut_filter ) ) {
                     plut_trans = tank_plut * 0.025;
                 } else {
