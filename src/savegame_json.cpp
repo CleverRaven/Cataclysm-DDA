@@ -856,9 +856,7 @@ void npc_chatbin::serialize(JsonOut &json) const
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
-    if ( skill ) {
-        json.member("skill", skill->ident() );
-    }
+    json.member( "skill", skill );
     json.member( "missions", mission::to_uid_vector( missions ) );
     json.member( "missions_assigned", mission::to_uid_vector( missions_assigned ) );
     json.end_object();
@@ -877,9 +875,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
         data.read("first_topic", first_topic);
     }
 
-    if ( data.read("skill", skill_ident) ) {
-        skill = &skill_id( skill_ident ).obj();
-    }
+    data.read( "skill", skill );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );

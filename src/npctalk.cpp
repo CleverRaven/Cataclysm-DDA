@@ -3428,7 +3428,7 @@ void talk_function::start_training( npc *p )
     int time;
     std::string name;
     if( p->chatbin.skill ) {
-        auto &skill = p->chatbin.skill->ident();
+        auto &skill = p->chatbin.skill;
         cost = calc_skill_training_cost( skill );
         time = calc_skill_training_time( skill );
         name = skill.str();
@@ -3743,7 +3743,7 @@ std::string dialogue::opt( const std::string &topic )
     }
 
     if( chosen.skill ) {
-        beta->chatbin.skill = &chosen.skill.obj();
+        beta->chatbin.skill = chosen.skill;
     }
 
     if( !chosen.style.str().empty()) {

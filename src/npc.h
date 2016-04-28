@@ -522,7 +522,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     /**
      * The skill this NPC offers to train.
      */
-    const Skill* skill = nullptr;
+    skill_id skill = skill_id( NULL_ID );
     /**
      * The martial art style this NPC offers to train.
      */
