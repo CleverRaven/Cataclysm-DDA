@@ -106,7 +106,7 @@ const Skill *Skill::from_legacy_int( const int legacy_id )
     return &skills.front(); // return a non-null pointer because callers might not expect a nullptr
 }
 
-const Skill* Skill::random_skill_with_tag(const std::string& tag)
+skill_id Skill::random_skill_with_tag( const std::string &tag)
 {
     std::vector<Skill const*> valid;
     for (auto const &s : skills) {
@@ -116,9 +116,9 @@ const Skill* Skill::random_skill_with_tag(const std::string& tag)
     }
     if( valid.empty() ) {
         debugmsg( "could not find a skill with the %s tag", tag.c_str() );
-        return &skills.front();
+        return skills.front().ident();
     }
-    return random_entry( valid );
+    return random_entry( valid )->ident();
 }
 
 const Skill* Skill::random_skill()
