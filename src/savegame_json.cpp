@@ -331,7 +331,7 @@ void Character::load(JsonObject &data)
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
             if( pmap.has_object( skill.ident().str() ) ) {
-                pmap.read( skill.ident().str(), skillLevel( skill.ident() ) );
+                pmap.read( skill.ident().str(), get_skill_level( skill.ident() ) );
             } else {
                 debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
             }

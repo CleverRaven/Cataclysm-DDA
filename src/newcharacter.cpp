@@ -1733,7 +1733,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             }
             currentSkill = sorted_skills[cur_pos];
         } else if (action == "LEFT") {
-            SkillLevel &level = u->skillLevel(currentSkill->ident());
+            SkillLevel &level = u->get_skill_level(currentSkill->ident());
             if (level) {
                 if (level == 2) {  // lower 2->0 for 1 point
                     level.level(0);
@@ -1744,7 +1744,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                 }
             }
         } else if (action == "RIGHT") {
-            SkillLevel &level = u->skillLevel(currentSkill->ident());
+            SkillLevel &level = u->get_skill_level(currentSkill->ident());
             if (level <= 19) {
                 if (level == 0) {  // raise 0->2 for 1 point
                     level.level(2);
@@ -2404,7 +2404,7 @@ void Character::empty_traits()
 void Character::empty_skills()
 {
     for( auto &skill : Skill::skills ) {
-        SkillLevel &level = skillLevel( skill.ident() );
+        SkillLevel &level = get_skill_level( skill.ident() );
         level.level(0);
     }
 }

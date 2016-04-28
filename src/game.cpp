@@ -1519,7 +1519,7 @@ void game::rustCheck()
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
         int oldSkillLevel = u.get_skill_level(aSkill.ident());
 
-        if (u.skillLevel(aSkill.ident()).rust(charged_bio_mem)) {
+        if (u.get_skill_level(aSkill.ident()).rust(charged_bio_mem)) {
             u.charge_power(-25);
         }
         int newSkill = u.get_skill_level(aSkill.ident());

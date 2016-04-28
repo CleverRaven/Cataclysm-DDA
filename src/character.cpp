@@ -906,7 +906,7 @@ bool Character::worn_with_flag( std::string flag ) const
     return false;
 }
 
-SkillLevel& Character::skillLevel(const skill_id &ident)
+SkillLevel& Character::get_skill_level(const skill_id &ident)
 {
     if( !ident ) {
         static SkillLevel none;

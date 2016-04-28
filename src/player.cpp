@@ -3265,7 +3265,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 line = 0;
                 curtab++;
             } else if (action == "CONFIRM") {
-                skillLevel(selectedSkill->ident()).toggleTraining();
+                get_skill_level(selectedSkill->ident()).toggleTraining();
             } else if (action == "QUIT") {
                 done = true;
             }
@@ -11126,7 +11126,7 @@ void player::do_read( item *book )
 
     if( skill && get_skill_level( skill ) < reading->level &&
         get_skill_level( skill ).can_train() ) {
-        auto &skill_level = skillLevel( skill );
+        auto &skill_level = get_skill_level( skill );
         int originalSkillLevel = skill_level;
         ///\EFFECT_INT increases reading speed
         int min_ex = reading->time / 10 + int_cur / 4;
@@ -12309,7 +12309,7 @@ int player::adjust_for_focus(int amount) const
 
 void player::practice( const skill_id &id, int amount, int cap )
 {
-    SkillLevel &level = skillLevel( id );
+    SkillLevel &level = get_skill_level( id );
     const Skill &skill = id.obj();
     // Double amount, but only if level.exercise isn't a small negative number?
     if (level.exercise() < 0) {
@@ -12377,7 +12377,7 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     if (amount > 0 && level.isTraining()) {
         int oldLevel = get_skill_level( id );
-        skillLevel( id ).train(amount);
+        get_skill_level( id ).train(amount);
         int newLevel = get_skill_level( id );
         if (is_player() && newLevel > oldLevel) {
             add_msg(m_good, _("Your skill in %skill has increased to %d!"), skill.name().c_str(), newLevel);
@@ -12400,7 +12400,7 @@ void player::practice( const skill_id &id, int amount, int cap )
         }
     }
 
-    skillLevel( id ).practice();
+    get_skill_level( id ).practice();
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
@@ -12668,12 +12668,12 @@ nc_color encumb_color(int level)
 
 void player::set_skill_level(const skill_id &ident, int level)
 {
-    skillLevel(ident).level(level);
+    get_skill_level(ident).level(level);
 }
 
 void player::boost_skill_level(const skill_id &ident, int level)
 {
-    skillLevel(ident).level(level+get_skill_level(ident));
+    get_skill_level(ident).level(level+get_skill_level(ident));
 }
 
 int player::get_melee() const

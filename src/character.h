@@ -402,7 +402,7 @@ class Character : public Creature, public visitable<Character>
         bool worn_with_flag( std::string flag ) const;
 
         // --------------- Skill Stuff ---------------
-        SkillLevel &skillLevel(const skill_id &ident);
+        SkillLevel &get_skill_level( const skill_id &ident );
 
         /** for serialization */
         SkillLevel const& get_skill_level(const skill_id &ident) const;
