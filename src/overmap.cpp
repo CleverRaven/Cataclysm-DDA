@@ -1680,7 +1680,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     bool csee = false;
     oter_id ccur_ter = "";
     // sight_points is hoisted for speed reasons.
-    int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    const int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
 
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);
@@ -1783,7 +1783,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 ter_color = c_dkgray;
                 ter_sym   = '#';
                 // All cases below assume that see is true.
-            } else if (blink && overmap_buffer.has_npc(omx, omy, z)) {
+            } else if (blink && los && overmap_buffer.has_npc(omx, omy, z)) {
                 // Display NPCs only when player can see the location
                 ter_color = c_pink;
                 ter_sym   = '@';
@@ -1947,7 +1947,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     for( const auto &npc : overmap_buffer.get_npcs_near_omt(cursx, cursy, z, 0) ) {
-        if( !npc->marked_for_death ) {
+        const bool npc_in_overmap_los = g->u.overmap_los( npc->global_omt_location(), sight_points );
+        if( npc_in_overmap_los && !npc->marked_for_death ) {
             corner_text.emplace_back( npc->name );
         }
     }
