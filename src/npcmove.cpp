@@ -1565,7 +1565,7 @@ void npc::move_to_next()
     }
 
     move_to( path[0] );
-    if( pos() == path[0] ) { // Move was successful
+    if( !path.empty() && pos() == path[0] ) { // Move was successful
         path.erase( path.begin() );
     }
 }
