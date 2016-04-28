@@ -56,7 +56,6 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     void deserialize( JsonIn &jsin ) override;
 };
 
-void draw_exam_window( WINDOW *win, int border_line, bool examination );
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 bool is_valid_bionic( std::string const &id );

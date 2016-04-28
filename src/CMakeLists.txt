@@ -20,6 +20,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/main_menu.cpp
     ${CMAKE_SOURCE_DIR}/src/savegame_legacy.cpp
     ${CMAKE_SOURCE_DIR}/src/mutation_data.cpp
+    ${CMAKE_SOURCE_DIR}/src/mutation_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/posix_time.cpp
     ${CMAKE_SOURCE_DIR}/src/tutorial.cpp
     ${CMAKE_SOURCE_DIR}/src/catacharset.cpp
