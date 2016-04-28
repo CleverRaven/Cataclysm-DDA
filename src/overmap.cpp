@@ -2062,7 +2062,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                   _(" - Toggle Explored")).c_str());
         mvwprintz(wbar, 23, 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
-        fold_and_print(wbar, 24, 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
+        fold_and_print(wbar, 24, 1, 27, c_magenta, (inp_ctxt->get_desc("QUIT") +
                        _(" - Return to game")).c_str());
     }
     point omt(cursx, cursy);
@@ -2438,10 +2438,6 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         } else if (action == "ANY_INPUT") {
             if (uistate.overmap_blinking) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
-            }
-            input_event e = ictxt.get_raw_input();
-            if(e.type == CATA_INPUT_KEYBOARD && e.get_first_input() == 'm') {
-                action = "QUIT";
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
