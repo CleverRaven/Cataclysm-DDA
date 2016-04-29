@@ -305,15 +305,15 @@ void npc::talk_to_u()
     d.win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT) / 2 : 0,
                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH) / 2 : 0);
-    draw_border(d.win);
-    mvwvline(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 1, LINE_XOXO, FULL_SCREEN_HEIGHT - 1);
-    mvwputch(d.win, 0, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_OXXX);
-    mvwputch(d.win, FULL_SCREEN_HEIGHT - 1, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_XXOX);
-    mvwprintz(d.win, 1,  1, c_white, _("Dialogue with %s"), name.c_str());
-    mvwprintz(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 3, c_white, _("Your response:"));
 
     // Main dialogue loop
     do {
+        draw_border(d.win);
+        mvwvline(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 1, LINE_XOXO, FULL_SCREEN_HEIGHT - 1);
+        mvwputch(d.win, 0, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_OXXX);
+        mvwputch(d.win, FULL_SCREEN_HEIGHT - 1, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_XXOX);
+        mvwprintz(d.win, 1,  1, c_white, _("Dialogue with %s"), name.c_str());
+        mvwprintz(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 3, c_white, _("Your response:"));
         const std::string next = d.opt(d.topic_stack.back());
         if (next == "TALK_NONE") {
             int cat = topic_category(d.topic_stack.back());
