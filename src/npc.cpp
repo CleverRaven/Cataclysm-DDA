@@ -100,7 +100,7 @@ npc::npc()
     companion_mission = "";
     companion_mission_time = 0;
     for( auto &skill : Skill::skills ) {
-        set_skill_level( skill, 0 );
+        set_skill_level( skill.ident(), 0 );
     }
 
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
@@ -243,7 +243,7 @@ void npc::randomize(npc_class type)
    {
     level = dice(4, 2) - rng(1, 4);
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   break;
 
@@ -254,7 +254,7 @@ void npc::randomize(npc_class type)
    {
     level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
 
   boost_skill_level( skill_mechanics, rng(0, 1));
@@ -275,7 +275,7 @@ void npc::randomize(npc_class type)
    {
     level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_speech, rng(1, 5));
   boost_skill_level( skill_barter, rng(2, 4));
@@ -292,7 +292,7 @@ void npc::randomize(npc_class type)
    {
     level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_speech, rng(1, 5));
   boost_skill_level( skill_barter, rng(2, 4));
@@ -309,7 +309,7 @@ void npc::randomize(npc_class type)
    {
     level = 0;
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_gun, rng(1, 3));
   boost_skill_level( skill_pistol, rng(1, 3));
@@ -331,7 +331,7 @@ void npc::randomize(npc_class type)
    {
     level = 0;
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_barter, rng(2, 5));
   boost_skill_level( skill_gun, rng(2, 4));
@@ -354,7 +354,7 @@ void npc::randomize(npc_class type)
    {
     level--;
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   int_max -= rng(0, 2);
   str_max += rng(0, 2);
@@ -375,7 +375,7 @@ void npc::randomize(npc_class type)
    {
     level = dice(2, 2) - rng(1, 2);
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_electronics, rng(1, 4));
   boost_skill_level( skill_computer, rng(3, 6));
@@ -394,7 +394,7 @@ void npc::randomize(npc_class type)
    {
     level = dice(3, 2) - rng(1, 3);
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_firstaid, rng(2, 6));
   str_max -= rng(0, 2);
@@ -413,7 +413,7 @@ void npc::randomize(npc_class type)
    {
     level = dice(2, 2) - 2 + (rng(0, 1) * rng(0, 1));
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_mechanics, rng(0, 2));
   boost_skill_level( skill_electronics, rng(0, 2));
@@ -432,7 +432,7 @@ void npc::randomize(npc_class type)
    {
     level = dice(2, 2) - rng(1, 2);
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_dodge, rng(2, 4));
   boost_skill_level( skill_melee, rng(1, 4));
@@ -453,7 +453,7 @@ void npc::randomize(npc_class type)
    {
     level = 0;
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_gun, rng(1, 3));
   boost_skill_level( skill_pistol, rng(1, 3));
@@ -472,7 +472,7 @@ void npc::randomize(npc_class type)
    {
     level = 0;
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_computer, rng(0, 3));
   boost_skill_level( skill_electronics, rng(0, 3));
@@ -501,7 +501,7 @@ void npc::randomize(npc_class type)
    {
     level--;
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_gun, rng(2, 4));
   boost_skill_level(Skill::random_skill_with_tag("gun_type"), rng(3, 5));
@@ -516,7 +516,7 @@ void npc::randomize(npc_class type)
    {
     level--;
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   str_max += rng(2, 4);
   dex_max += rng(0, 2);
@@ -537,7 +537,7 @@ void npc::randomize(npc_class type)
    {
     level--;
    }
-   set_skill_level( skill, level );
+   set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_gun, rng(2, 4));
   boost_skill_level( skill_pistol, rng(2, 5));
@@ -768,7 +768,7 @@ void npc::randomize_from_faction(faction *fac)
   int_max += rng(0, 2);
   for( auto const &skill : Skill::skills ) {
    if (one_in(3))
-       boost_skill_level( &skill, rng( 2, 4 ) );
+       boost_skill_level( skill.ident(), rng( 2, 4 ) );
   }
  }
  if (fac->has_value(FACVAL_ROBOTS)) {
@@ -1001,54 +1001,46 @@ void npc::place_on_map()
     position.y += y;
 }
 
-const Skill* npc::best_skill() const
+skill_id npc::best_skill() const
 {
-    int highest = std::numeric_limits<int>::min();
+    int highest_level = std::numeric_limits<int>::min();
+    skill_id highest_skill( NULL_ID );
 
     for (auto const &p : _skills) {
-        if (p.first->is_combat_skill()) {
+        if (p.first.obj().is_combat_skill()) {
             int const level = p.second;
-            if (level > highest) {
-                highest = level;
+            if( level > highest_level ) {
+                highest_level = level;
+                highest_skill = p.first;
             }
         }
     }
 
-    if (highest == 0) {
-        return nullptr; // no skills
-    }
-
-    for (auto const &p : _skills) {
-        if (p.second == highest && p.first->is_combat_skill()) {
-            return p.first;
-        }
-    }
-
-    return nullptr;
+    return highest_skill;
 }
 
 void npc::starting_weapon(npc_class type)
 {
-    const Skill* best = best_skill();
+    const skill_id best = best_skill();
 
     // if NPC has no suitable skills default to stabbing weapon
-    if( !best || best->ident() == skill_stabbing ) {
+    if( !best || best == skill_stabbing ) {
         weapon = random_item_from( type, "stabbing", "survivor_stabbing" );
-    } else if( best->ident() == skill_bashing ) {
+    } else if( best == skill_bashing ) {
         weapon = random_item_from( type, "bashing", "survivor_bashing" );
-    } else if( best->ident() == skill_cutting ) {
+    } else if( best == skill_cutting ) {
         weapon = random_item_from( type, "cutting", "survivor_cutting" );
-    } else if( best->ident() == skill_throw ) {
+    } else if( best == skill_throw ) {
         weapon = random_item_from( type, "throw" );
-    } else if( best->ident() == skill_archery ) {
+    } else if( best == skill_archery ) {
         weapon = random_item_from( type, "archery" );
-    } else if( best->ident() == skill_pistol ) {
+    } else if( best == skill_pistol ) {
         weapon = random_item_from( type, "pistol", "guns_pistol_common" );
-    } else if( best->ident() == skill_shotgun ) {
+    } else if( best == skill_shotgun ) {
         weapon = random_item_from( type, "shotgun", "guns_shotgun_common" );
-    } else if( best->ident() == skill_smg ) {
+    } else if( best == skill_smg ) {
         weapon = random_item_from( type, "smg", "guns_smg_common" );
-    } else if( best->ident() == skill_rifle ) {
+    } else if( best == skill_rifle ) {
         weapon = random_item_from( type, "rifle", "guns_rifle_common" );
     }
 
@@ -1508,12 +1500,12 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<const Skill*> npc::skills_offered_to(const player &p)
+std::vector<skill_id> npc::skills_offered_to( const player &p ) const
 {
-    std::vector<const Skill*> ret;
+    std::vector<skill_id> ret;
     for (auto const &skill : Skill::skills) {
-        if (p.get_skill_level(skill) < get_skill_level(skill)) {
-            ret.push_back(&skill);
+        if (p.get_skill_level(skill.ident()) < get_skill_level(skill.ident())) {
+            ret.push_back( skill.ident() );
         }
     }
     return ret;

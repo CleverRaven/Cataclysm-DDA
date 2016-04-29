@@ -252,7 +252,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             break;
     }
 
-    const int skill_level = p->skillLevel( skill_survival );
+    const int skill_level = p->get_skill_level( skill_survival );
 
     auto roll_butchery = [&]() {
         double skill_shift = 0.0;
@@ -587,11 +587,11 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     int sSkillLevel = 0;
     int fishChance = 20;
     if( it.has_flag("FISH_POOR") ) {
-        sSkillLevel = p->skillLevel( skill_survival ) + dice(1, 6);
+        sSkillLevel = p->get_skill_level( skill_survival ) + dice(1, 6);
         fishChance = dice(1, 20);
     } else if( it.has_flag("FISH_GOOD") ) {
         // Much better chances with a good fishing implement.
-        sSkillLevel = p->skillLevel( skill_survival ) * 1.5 + dice(1, 6) + 3;
+        sSkillLevel = p->get_skill_level( skill_survival ) * 1.5 + dice(1, 6) + 3;
         fishChance = dice(1, 20);
     }
     ///\EFFECT_SURVIVAL increases chance of fishing success
@@ -634,7 +634,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     ///\EFFECT_SURVIVAL increases forage success chance
 
     ///\EFFECT_PER slightly increases forage success chance
-    if( veggy_chance < p->skillLevel( skill_survival ) * 3 + p->per_cur - 2 ) {
+    if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
@@ -657,7 +657,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = p->int_cur / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - p->skillLevel( skill_survival ) );
+    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
 }
@@ -1098,17 +1098,17 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
-        const Skill *skill = &sk.obj();
-        int new_skill_level = p->skillLevel(skill) + 1;
-        p->skillLevel(skill).level(new_skill_level);
+        const Skill &skill = sk.obj();
+        int new_skill_level = p->get_skill_level( sk ) + 1;
+        p->set_skill_level( sk, new_skill_level );
         add_msg(m_good, _("You finish training %s to level %d."),
-                skill->name().c_str(),
+                skill.name().c_str(),
                 new_skill_level);
         if( new_skill_level % 4 == 0 ) {
             //~ %d is skill level %s is skill name
             p->add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
                                 pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                                new_skill_level, skill->name().c_str());
+                                new_skill_level, skill.name().c_str());
         }
 
         lua_callback("on_skill_increased");

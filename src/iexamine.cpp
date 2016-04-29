@@ -641,7 +641,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
             case HACK_UNABLE:
                 add_msg(
                     m_info,
-                    p.skillLevel( skill_computer ) > 0 ?
+                    p.get_skill_level( skill_computer ) > 0 ?
                         _("Looks like you need a %s, or a tool to hack it with.") :
                         _("Looks like you need a %s."),
                     item::nname( card_type ).c_str()
@@ -1007,7 +1007,7 @@ void iexamine::safe(player &p, const tripoint &examp)
         ///\EFFECT_PER speeds up safe cracking
 
         ///\EFFECT_MECHANICS speeds up safe cracking
-        int moves = std::max(MINUTES(150) + (p.skillLevel( skill_mechanics ) - 3) * MINUTES(-20) +
+        int moves = std::max(MINUTES(150) + (p.get_skill_level( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p.get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
          p.assign_activity( ACT_CRACKING, moves );
@@ -1037,11 +1037,11 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     ///\EFFECT_DEX speeds up lock picking gun safe
 
     ///\EFFECT_MECHANICS speeds up lock picking gun safe
-    p.moves -= (1000 - (pick_quality * 100)) - (p.dex_cur + p.skillLevel( skill_mechanics )) * 5;
+    p.moves -= (1000 - (pick_quality * 100)) - (p.dex_cur + p.get_skill_level( skill_mechanics )) * 5;
     ///\EFFECT_DEX increases chance of lock picking gun safe
 
     ///\EFFECT_MECHANICS increases chance of lock picking gun safe
-    int pick_roll = (dice(2, p.skillLevel( skill_mechanics )) + dice(2, p.dex_cur)) * pick_quality;
+    int pick_roll = (dice(2, p.get_skill_level( skill_mechanics )) + dice(2, p.dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
         p.practice( skill_mechanics, 1);
@@ -1077,7 +1077,7 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
         case HACK_UNABLE:
             add_msg(
                 m_info,
-                p.skillLevel( skill_computer ) > 0 ?
+                p.get_skill_level( skill_computer ) > 0 ?
                     _("You can't hack this gun safe without a hacking tool.") :
                     _("This electronic safe looks too complicated to open.")
             );
@@ -1661,7 +1661,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             g->m.i_clear(examp);
             g->m.furn_set(examp, f_null);
 
-            int skillLevel = p.skillLevel( skill_survival );
+            int skillLevel = p.get_skill_level( skill_survival );
             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
@@ -1778,7 +1778,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     }
 
     ///\EFFECT_CARPENTRY decreases loss when firing a kiln
-    SkillLevel &skill = p.skillLevel( skill_carpentry );
+    const SkillLevel &skill = p.get_skill_level( skill_carpentry );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -2198,7 +2198,7 @@ void pick_plant(player &p, const tripoint &examp,
         return;
     }
 
-    SkillLevel &survival = p.skillLevel( skill_survival );
+    const SkillLevel &survival = p.get_skill_level( skill_survival );
     if (survival < 1) {
         p.practice( skill_survival, rng(5, 12) );
     } else if (survival < 6) {
@@ -2267,7 +2267,7 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
     harvest_tree_shrub( p, examp );
     ///\EFFECT_SURVIVAL >0 allows digging up hickory root
-    if( !( p.skillLevel( skill_survival ) > 0 ) ) {
+    if( !( p.get_skill_level( skill_survival ) > 0 ) ) {
         return;
     }
     if( !p.has_quality( "DIG" ) ) {
@@ -2280,7 +2280,7 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     g->m.spawn_item(p.pos(), "hickory_root", rng(1,4) );
     g->m.ter_set(examp, t_tree_hickory_dead);
     ///\EFFECT_SURVIVAL speeds up hickory root digging
-    p.moves -= 2000 / ( p.skillLevel( skill_survival ) + 1 ) + 100;
+    p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
     return;
     none( p, examp );
 }
@@ -2424,7 +2424,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                     }
                 }
             }
-            
+
             return;
 
         case REMOVE_CONTAINER: {
@@ -2497,7 +2497,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
 
     add_msg( _("You forage through the %s."), g->m.tername( examp ).c_str() );
     ///\EFFECT_SURVIVAL speeds up foraging
-    int move_cost = 100000 / ( 2 * p.skillLevel( skill_survival ) + 5 );
+    int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
@@ -3574,7 +3574,7 @@ hack_result iexamine::hack_attempt( player &p ) {
     p.moves -= 500;
     p.practice( skill_computer, 20 );
     ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    int success = rng( p.skillLevel( skill_computer ) / 4 - 2, p.skillLevel( skill_computer ) * 2 );
+    int success = rng( p.get_skill_level( skill_computer ) / 4 - 2, p.get_skill_level( skill_computer ) * 2 );
     success += rng( -3, 3 );
     if( using_fingerhack ) {
         p.charge_power( -25 );

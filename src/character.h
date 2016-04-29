@@ -180,7 +180,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Returns true if the character is wearing active power */
         bool is_wearing_active_power_armor() const;
-        
+
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
 
@@ -402,14 +402,12 @@ class Character : public Creature, public visitable<Character>
         bool worn_with_flag( std::string flag ) const;
 
         // --------------- Skill Stuff ---------------
-        SkillLevel &skillLevel(const Skill* _skill);
-        SkillLevel &skillLevel(Skill const &_skill);
-        SkillLevel &skillLevel(const skill_id &ident);
+        SkillLevel &get_skill_level( const skill_id &ident );
 
         /** for serialization */
-        SkillLevel const& get_skill_level(const Skill* _skill) const;
-        SkillLevel const& get_skill_level(const Skill &_skill) const;
         SkillLevel const& get_skill_level(const skill_id &ident) const;
+        void set_skill_level( const skill_id &ident, int level );
+        void boost_skill_level( const skill_id &ident, int delta );
 
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
 
@@ -545,7 +543,7 @@ class Character : public Creature, public visitable<Character>
         void load(JsonObject &jsin);
 
         // --------------- Values ---------------
-        std::map<const Skill*, SkillLevel> _skills;
+        std::map<skill_id, SkillLevel> _skills;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;

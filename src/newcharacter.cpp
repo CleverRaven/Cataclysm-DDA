@@ -402,12 +402,12 @@ void player::randomize( const bool random_scenario, points_left &points )
         case 7:
         case 8:
         case 9:
-            const Skill* aSkill = Skill::random_skill();
-            int level = skillLevel(aSkill);
+            const skill_id aSkill = Skill::random_skill();
+            int level = get_skill_level(aSkill);
 
             if (level < points.skill_points_left() && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
                 points.skill_points -= level + 1;
-                skillLevel(aSkill).level(level + 2);
+                set_skill_level( aSkill, level + 2 );
             }
             break;
         }
@@ -1567,6 +1567,15 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
     return retval;
 }
 
+/**
+ * @return The skill points to consume when a skill is increased (by one level) from the
+ * current level.
+ */
+static int skill_increment_cost( const Character &u, const skill_id &skill )
+{
+    return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
+}
+
 tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 {
     draw_tabs(w, _("SKILLS"));
@@ -1605,7 +1614,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
-        int cost = std::max(1, (u->skillLevel(currentSkill) + 1) / 2);
+        const int cost = skill_increment_cost( *u, currentSkill->ident() );
         mvwprintz(w, 3, 31, points.skill_points_left() >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
@@ -1696,7 +1705,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             const Skill* thisSkill = sorted_skills[i];
             // Clear the line
             mvwprintz(w, base_y + i, 2, c_ltgray, "                            ");
-            if (u->skillLevel(thisSkill) == 0) {
+            if (u->get_skill_level(thisSkill->ident()) == 0) {
                 mvwprintz(w, base_y + i, 2,
                           (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
             } else {
@@ -1704,7 +1713,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                           (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), _("%s"),
                           thisSkill->name().c_str());
                 wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                        " (%d)", int(u->skillLevel(thisSkill)));
+                        " (%d)", int(u->get_skill_level(thisSkill->ident())));
             }
             for( auto &prof_skill : u->prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
@@ -1733,26 +1742,15 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             }
             currentSkill = sorted_skills[cur_pos];
         } else if (action == "LEFT") {
-            SkillLevel &level = u->skillLevel(currentSkill);
-            if (level) {
-                if (level == 2) {  // lower 2->0 for 1 point
-                    level.level(0);
-                    points.skill_points += 1;
-                } else {
-                    level.level(level - 1);
-                    points.skill_points += (level + 1) / 2;
-                }
+            if( u->get_skill_level( currentSkill->ident() ) > 0 ) {
+                u->boost_skill_level( currentSkill->ident(), -1 );
+                // Done *after* the decrementing to get the original cost for incrementing back.
+                points.skill_points += skill_increment_cost( *u, currentSkill->ident() );
             }
         } else if (action == "RIGHT") {
-            SkillLevel &level = u->skillLevel(currentSkill);
-            if (level <= 19) {
-                if (level == 0) {  // raise 0->2 for 1 point
-                    level.level(2);
-                    points.skill_points -= 1;
-                } else {
-                    points.skill_points -= (level + 1) / 2;
-                    level.level(level + 1);
-                }
+            if( u->get_skill_level( currentSkill->ident() ) < MAX_SKILL ) {
+                points.skill_points -= skill_increment_cost( *u, currentSkill->ident() );
+                u->boost_skill_level( currentSkill->ident(), +1 );
             }
         } else if (action == "SCROLL_DOWN") {
             selected++;
@@ -2191,8 +2189,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             mvwprintz(w_skills, 0, 0, COL_HEADER, _("Skills:"));
 
             auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
-                int const level_a = u->skillLevel(a).exercised_level();
-                int const level_b = u->skillLevel(b).exercised_level();
+                int const level_a = u->get_skill_level(a.ident()).exercised_level();
+                int const level_b = u->get_skill_level(b.ident()).exercised_level();
                 return level_a > level_b || (level_a == level_b && a.name() < b.name());
             });
 
@@ -2200,7 +2198,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             bool has_skills = false;
             profession::StartingSkillList list_skills = u->prof->skills();
             for( auto &elem : skillslist ) {
-                int level = int( u->skillLevel( elem ) );
+                int level = u->get_skill_level( elem->ident() );
                 profession::StartingSkillList::iterator i = list_skills.begin();
                 while (i != list_skills.end()) {
                     if( i->first == ( elem )->ident() ) {
@@ -2403,9 +2401,8 @@ void Character::empty_traits()
 
 void Character::empty_skills()
 {
-    for( auto &skill : Skill::skills ) {
-        SkillLevel &level = skillLevel( skill );
-        level.level(0);
+    for( auto &sk : _skills ) {
+        sk.second.level( 0 );
     }
 }
 void Character::add_traits()

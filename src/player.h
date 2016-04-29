@@ -965,7 +965,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_wind_resistance(body_part bp) const;
 
         int adjust_for_focus(int amount) const;
-        void practice( const Skill* s, int amount, int cap = 99 );
         void practice( const skill_id &s, int amount, int cap = 99 );
 
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
@@ -1204,13 +1203,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::array<int, num_bp> body_wetness;
 
         int focus_pool;
-
-        void set_skill_level(const Skill* _skill, int level);
-        void set_skill_level(Skill const &_skill, int level);
-        void set_skill_level(const skill_id &ident, int level);
-
-        void boost_skill_level(const Skill* _skill, int level);
-        void boost_skill_level(const skill_id &ident, int level);
 
         std::map<std::string, const recipe *> learned_recipes;
 

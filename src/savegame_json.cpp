@@ -331,7 +331,7 @@ void Character::load(JsonObject &data)
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
             if( pmap.has_object( skill.ident().str() ) ) {
-                pmap.read( skill.ident().str(), skillLevel( &skill ) );
+                pmap.read( skill.ident().str(), get_skill_level( skill.ident() ) );
             } else {
                 debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
             }
@@ -396,7 +396,7 @@ void Character::store(JsonOut &json) const
     json.member( "skills" );
     json.start_object();
     for( auto const &skill : Skill::skills ) {
-        json.member( skill.ident().str(), get_skill_level(skill) );
+        json.member( skill.ident().str(), get_skill_level( skill.ident() ) );
     }
     json.end_object();
 }
@@ -856,9 +856,7 @@ void npc_chatbin::serialize(JsonOut &json) const
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
-    if ( skill ) {
-        json.member("skill", skill->ident() );
-    }
+    json.member( "skill", skill );
     json.member( "missions", mission::to_uid_vector( missions ) );
     json.member( "missions_assigned", mission::to_uid_vector( missions_assigned ) );
     json.end_object();
@@ -877,9 +875,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
         data.read("first_topic", first_topic);
     }
 
-    if ( data.read("skill", skill_ident) ) {
-        skill = &skill_id( skill_ident ).obj();
-    }
+    data.read( "skill", skill );
 
     std::vector<int> tmpmissions;
     data.read( "missions", tmpmissions );
@@ -952,11 +948,12 @@ void npc_favor::deserialize(JsonIn &jsin)
     type = npc_favor_type(jo.get_int("type"));
     jo.read("value", value);
     jo.read("itype_id", item_id);
-    skill = NULL;
     if (jo.has_int("skill_id")) {
         skill = Skill::from_legacy_int( jo.get_int("skill_id") );
     } else if (jo.has_string("skill_id")) {
-        skill = &skill_id( jo.get_string("skill_id") ).obj();
+        skill = skill_id( jo.get_string("skill_id") );
+    } else {
+        skill = skill_id( NULL_ID );
     }
 }
 
@@ -966,9 +963,7 @@ void npc_favor::serialize(JsonOut &json) const
     json.member("type", (int)type);
     json.member("value", value);
     json.member("itype_id", (std::string)item_id);
-    if (skill != NULL) {
-        json.member("skill_id", skill->ident());
-    }
+    json.member( "skill_id", skill );
     json.end_object();
 }
 

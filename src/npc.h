@@ -522,7 +522,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     /**
      * The skill this NPC offers to train.
      */
-    const Skill* skill = nullptr;
+    skill_id skill = skill_id( NULL_ID );
     /**
      * The martial art style this NPC offers to train.
      */
@@ -587,8 +587,7 @@ public:
      * See @ref npc_chatbin::add_new_mission
      */
     void add_new_mission( mission *miss );
-
- const Skill* best_skill() const;
+    skill_id best_skill() const;
  void starting_weapon(npc_class type);
 
 // Save & load
@@ -623,7 +622,11 @@ public:
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
- std::vector<const Skill*> skills_offered_to(const player &p); // Skills that're higher
+    /**
+     * @return Skills of which this NPC has a higher level than the given player. In other
+     * words: skills this NPC could teach the player.
+     */
+    std::vector<skill_id> skills_offered_to( const player &p ) const;
     /**
      * Martial art styles that we known, but the player p doesn't.
      */

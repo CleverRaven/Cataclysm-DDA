@@ -533,10 +533,10 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     newmon.init_from_item( *it );
     int skill_offset = 0;
     if( skill1 ) {
-        skill_offset += p->skillLevel( skill1 ) / 2;
+        skill_offset += p->get_skill_level( skill1 ) / 2;
     }
     if( skill2 ) {
-        skill_offset += p->skillLevel( skill2 );
+        skill_offset += p->get_skill_level( skill2 );
     }
     ///\EFFECT_INT increases chance of a placed turret being friendly
     if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
@@ -691,11 +691,11 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     ///\EFFECT_DEX speeds up door lock picking
 
     ///\EFFECT_MECHANICS speeds up door lock picking
-    p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( skill_mechanics ) ) * 5);
+    p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->get_skill_level( skill_mechanics ) ) * 5);
     ///\EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes
 
     ///\EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes
-    int pick_roll = ( dice( 2, p->skillLevel( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
+    int pick_roll = ( dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
         p->practice( skill_mechanics, 1 );
@@ -1072,7 +1072,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     int count = cut->volume();
     // Chance of us losing a material component to entropy.
     ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
-    int entropy_threshold = std::max(5, 10 - p->skillLevel( skill_fabrication ) );
+    int entropy_threshold = std::max(5, 10 - p->get_skill_level( skill_fabrication ) );
     // What material components can we get back?
     std::vector<material_id> cut_material_components = cut->made_of();
     // What materials do we salvage (ids and counts).
@@ -1446,7 +1446,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
     ///\EFFECT_SURVIVAL increases tolerance for enzlavement
-    if( p->get_morale_level() <= ( 15 * ( tolerance_level - p->skillLevel( skill_survival ) ) ) - 150 ) {
+    if( p->get_morale_level() <= ( 15 * ( tolerance_level - p->get_skill_level( skill_survival ) ) ) - 150 ) {
         add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
     }
@@ -1475,10 +1475,10 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
         ///\EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement
-        int moraleMalus = -50 * (5.0 / (float) p->skillLevel( skill_survival ));
-        int maxMalus = -250 * (5.0 / (float)p->skillLevel( skill_survival ));
-        int duration = 300 * (5.0 / (float)p->skillLevel( skill_survival ));
-        int decayDelay = 30 * (5.0 / (float)p->skillLevel( skill_survival ));
+        int moraleMalus = -50 * (5.0 / (float) p->get_skill_level( skill_survival ));
+        int maxMalus = -250 * (5.0 / (float)p->get_skill_level( skill_survival ));
+        int duration = 300 * (5.0 / (float)p->get_skill_level( skill_survival ));
+        int decayDelay = 30 * (5.0 / (float)p->get_skill_level( skill_survival ));
 
         if (p->has_trait("PACIFIST")) {
             moraleMalus *= 5;
@@ -1508,13 +1508,13 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     ///\EFFECT_SURVIVAL increases chance of success for enzlavement
 
     ///\EFFECT_FIRSTAID increases chance of success for enzlavement
-    int skills = p->skillLevel( skill_survival ) + p->skillLevel( skill_firstaid ) + (p->dex_cur / 2);
+    int skills = p->get_skill_level( skill_survival ) + p->get_skill_level( skill_firstaid ) + (p->dex_cur / 2);
     skills *= 2;
 
     int success = rng(0, skills) - rng(0, difficulty);
 
     ///\EFFECT_FIRSTAID speeds up enzlavement
-    const int moves = difficulty * 1200 / p->skillLevel( skill_firstaid );
+    const int moves = difficulty * 1200 / p->get_skill_level( skill_firstaid );
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(success);
@@ -2593,7 +2593,7 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
     if( long_action ) {
         // A hack: long action healing on NPCs isn't done yet.
         // So just heal at start and paralyze the player for 5 minutes.
-        cost /= (p->skillLevel( skill_firstaid ) + 1);
+        cost /= (p->get_skill_level( skill_firstaid ) + 1);
     }
 
     // NPCs can use first aid now, but they can't perform long actions

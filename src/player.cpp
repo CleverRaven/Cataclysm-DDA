@@ -245,7 +245,7 @@ player::player() : Character()
     empty_traits();
 
     for( auto &skill : Skill::skills ) {
-        skillLevel( skill ).level( 0 );
+        set_skill_level( skill.ident(), 0 );
     }
 
     for( int i = 0; i < num_bp; i++ ) {
@@ -2066,7 +2066,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Skills
     memorial_file << _( "Skills:" ) << "\n";
     for( auto &skill : Skill::skills ) {
-        SkillLevel next_skill_level = get_skill_level( skill );
+        SkillLevel next_skill_level = get_skill_level( skill.ident() );
         memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
                       << next_skill_level.exercise() << "%)\n";
     }
@@ -2663,13 +2663,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
     auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
-        int const level_a = get_skill_level(a).exercised_level();
-        int const level_b = get_skill_level(b).exercised_level();
+        int const level_a = get_skill_level( a.ident() ).exercised_level();
+        int const level_b = get_skill_level( b.ident() ).exercised_level();
         return level_a > level_b || (level_a == level_b && a.name() < b.name());
     });
 
     for( auto &elem : skillslist ) {
-        SkillLevel level = get_skill_level( elem );
+        SkillLevel level = get_skill_level( elem->ident() );
 
         // Default to not training and not rusting
         nc_color text_color = c_blue;
@@ -3189,7 +3189,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
             for (unsigned i = min; i < max; i++) {
                 const Skill* aSkill = skillslist[i];
-                SkillLevel level = get_skill_level(aSkill);
+                SkillLevel level = get_skill_level(aSkill->ident());
 
                 const bool can_train = level.can_train();
                 const bool training = level.isTraining();
@@ -3244,7 +3244,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
                 for (size_t i = 0; i < skillslist.size() && i < size_t(skill_win_size_y); i++) {
                     const Skill* thisSkill = skillslist[i];
-                    SkillLevel level = get_skill_level(thisSkill);
+                    SkillLevel level = get_skill_level(thisSkill->ident());
                     bool can_train = level.can_train();
                     bool isLearning = level.isTraining();
                     bool rusting = level.isRusting();
@@ -3265,7 +3265,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 line = 0;
                 curtab++;
             } else if (action == "CONFIRM") {
-                skillLevel(selectedSkill).toggleTraining();
+                get_skill_level(selectedSkill->ident()).toggleTraining();
             } else if (action == "QUIT") {
                 done = true;
             }
@@ -9964,7 +9964,7 @@ void player::mend_item( item_location&& obj, bool interactive )
             std::ostringstream descr;
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
-                bool hasSkill = skillLevel( skill_mechanics ) >= e.second;
+                bool hasSkill = get_skill_level( skill_mechanics ) >= e.second;
                 f.second -= !hasSkill;
                 descr << string_format( "> <color_%1$s>%2$s %3$i</color>\n", hasSkill ? "c_green" : "c_red",
                                         _( e.first.obj().name().c_str() ), e.second );
@@ -11133,7 +11133,7 @@ void player::do_read( item *book )
 
     if( skill && get_skill_level( skill ) < reading->level &&
         get_skill_level( skill ).can_train() ) {
-        auto &skill_level = skillLevel( skill );
+        auto &skill_level = get_skill_level( skill );
         int originalSkillLevel = skill_level;
         ///\EFFECT_INT increases reading speed
         int min_ex = reading->time / 10 + int_cur / 4;
@@ -12314,9 +12314,10 @@ int player::adjust_for_focus(int amount) const
     return ret;
 }
 
-void player::practice( const Skill* s, int amount, int cap )
+void player::practice( const skill_id &id, int amount, int cap )
 {
-    SkillLevel& level = skillLevel(s);
+    SkillLevel &level = get_skill_level( id );
+    const Skill &skill = id.obj();
     // Double amount, but only if level.exercise isn't a small negative number?
     if (level.exercise() < 0) {
         if (amount >= -level.exercise()) {
@@ -12334,65 +12335,65 @@ void player::practice( const Skill* s, int amount, int cap )
 
     bool isSavant = has_trait("SAVANT");
 
-    const Skill* savantSkill = NULL;
+    skill_id savantSkill( NULL_ID );
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
         for( auto const &skill : Skill::skills ) {
-            if( skillLevel( skill ) > savantSkillLevel ) {
-                savantSkill = &skill;
-                savantSkillLevel = skillLevel( skill );
+            if( get_skill_level( skill.ident() ) > savantSkillLevel ) {
+                savantSkill = skill.ident();
+                savantSkillLevel = get_skill_level( skill.ident() );
             }
         }
     }
 
     amount = adjust_for_focus(amount);
 
-    if (has_trait("PACIFIST") && s->is_combat_skill()) {
+    if (has_trait("PACIFIST") && skill.is_combat_skill()) {
         if(!one_in(3)) {
           amount = 0;
         }
     }
-    if (has_trait("PRED2") && s->is_combat_skill()) {
+    if (has_trait("PRED2") && skill.is_combat_skill()) {
         if(one_in(3)) {
           amount *= 2;
         }
     }
-    if (has_trait("PRED3") && s->is_combat_skill()) {
+    if (has_trait("PRED3") && skill.is_combat_skill()) {
         amount *= 2;
     }
 
-    if (has_trait("PRED4") && s->is_combat_skill()) {
+    if (has_trait("PRED4") && skill.is_combat_skill()) {
         amount *= 3;
     }
 
-    if (isSavant && s != savantSkill) {
+    if (isSavant && id != savantSkill ) {
         amount /= 2;
     }
 
 
 
-    if (get_skill_level(s) > cap) { //blunt grinding cap implementation for crafting
+    if (get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
-        int curLevel = get_skill_level(s);
+        int curLevel = get_skill_level( id );
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
             add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
-                    s->name().c_str(), curLevel);
+                    skill.name().c_str(), curLevel);
         }
     }
 
     if (amount > 0 && level.isTraining()) {
-        int oldLevel = get_skill_level(s);
-        skillLevel(s).train(amount);
-        int newLevel = get_skill_level(s);
+        int oldLevel = get_skill_level( id );
+        get_skill_level( id ).train(amount);
+        int newLevel = get_skill_level( id );
         if (is_player() && newLevel > oldLevel) {
-            add_msg(m_good, _("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
+            add_msg(m_good, _("Your skill in %s has increased to %d!"), skill.name().c_str(), newLevel);
             lua_callback("on_skill_increased");
         }
         if(is_player() && newLevel > cap) {
             //inform player immediately that the current recipe can't be used to train further
             add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
-                    s->name().c_str());
+                    skill.name().c_str());
         }
 
 
@@ -12401,17 +12402,12 @@ void player::practice( const Skill* s, int amount, int cap )
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
         if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") &&
-                                                          s->is_combat_skill()))) {
+                                                          skill.is_combat_skill()))) {
             focus_pool--;
         }
     }
 
-    skillLevel(s).practice();
-}
-
-void player::practice( const skill_id &s, int amount, int cap )
-{
-    practice( &s.obj(), amount, cap );
+    get_skill_level( id ).practice();
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
@@ -12675,31 +12671,6 @@ nc_color encumb_color(int level)
  if (level < 70)
   return c_ltred;
  return c_red;
-}
-
-void player::set_skill_level(const Skill* _skill, int level)
-{
-    skillLevel(_skill).level(level);
-}
-
-void player::set_skill_level(Skill const &_skill, int level)
-{
-    set_skill_level(&_skill, level);
-}
-
-void player::set_skill_level(const skill_id &ident, int level)
-{
-    skillLevel(ident).level(level);
-}
-
-void player::boost_skill_level(const Skill* _skill, int level)
-{
-    skillLevel(_skill).level(level+skillLevel(_skill));
-}
-
-void player::boost_skill_level(const skill_id &ident, int level)
-{
-    skillLevel(ident).level(level+skillLevel(ident));
 }
 
 int player::get_melee() const

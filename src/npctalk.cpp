@@ -173,12 +173,12 @@ const std::string &talk_trial::name() const
 
 /** Time (in turns) and cost (in cent) for training: */
 // TODO: maybe move this function into the skill class? Or into the NPC class?
-static int calc_skill_training_time( const Skill *skill )
+static int calc_skill_training_time( const skill_id &skill )
 {
-    return MINUTES( 10 ) + MINUTES( 5 ) * g->u.skillLevel( skill );
+    return MINUTES( 10 ) + MINUTES( 5 ) * g->u.get_skill_level( skill );
 }
 
-static int calc_skill_training_cost( const Skill *skill )
+static int calc_skill_training_cost( const skill_id &skill )
 {
     return 1000 * ( 1 + g->u.get_skill_level( skill ) ) * ( 1 + g->u.get_skill_level( skill ) );
 }
@@ -1011,7 +1011,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
             return _("Shall we resume?");
         }
-        std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+        std::vector<skill_id> trainable = p->skills_offered_to(g->u);
         std::vector<matype_id> styles = p->styles_offered_to(g->u);
         if (trainable.empty() && styles.empty()) {
             return _("Sorry, but it doesn't seem I have anything to teach you.");
@@ -1410,11 +1410,8 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r, const Skill *skill )
+talk_response &dialogue::add_response( const std::string &text, const std::string &r, const skill_id &skill )
 {
-    if( skill == nullptr ) {
-        debugmsg( "tried to select null skill" );
-    }
     talk_response &result = add_response( text, r );
     result.skill = skill;
     return result;
@@ -2208,20 +2205,20 @@ void dialogue::gen_responses( const std::string &topic )
                     add_response( resume.str(), "TALK_TRAIN_START", style );
                 } else {
                     resume << skillt.obj().name();
-                    add_response( resume.str(), "TALK_TRAIN_START", &skillt.obj() ); // TODO: should be a const reference not a pointer
+                    add_response( resume.str(), "TALK_TRAIN_START", skillt );
                 }
             }
             std::vector<matype_id> styles = p->styles_offered_to(g->u);
-            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+            std::vector<skill_id> trainable = p->skills_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 add_response_none( _("Oh, okay.") );
                 return;
             }
             for( auto & trained : trainable ) {
                 const int cost = calc_skill_training_cost( trained );
-                const int cur_level = g->u.skillLevel( trained );
+                const int cur_level = g->u.get_skill_level( trained );
                 //~Skill name: current level -> next level (cost in cent)
-                std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained->name().c_str(),
+                std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained.obj().name().c_str(),
                       cur_level, cur_level + 1, cost / 100 );
                 add_response( text, "TALK_TRAIN_START", trained );
             }
@@ -3430,11 +3427,11 @@ void talk_function::start_training( npc *p )
     int cost;
     int time;
     std::string name;
-    if( p->chatbin.skill != nullptr ) {
-        const Skill *skill = p->chatbin.skill;
+    if( p->chatbin.skill ) {
+        auto &skill = p->chatbin.skill;
         cost = calc_skill_training_cost( skill );
         time = calc_skill_training_time( skill );
-        name = skill->ident().str();
+        name = skill.str();
     } else if( p->chatbin.style.is_valid() ) {
         auto &ma_style_id = p->chatbin.style;
         cost = calc_ma_style_training_cost( ma_style_id );
@@ -3745,7 +3742,7 @@ std::string dialogue::opt( const std::string &topic )
         beta->chatbin.mission_selected = chosen.mission_selected;
     }
 
-    if( chosen.skill != NULL) {
+    if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
     }
 
@@ -3834,7 +3831,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
     ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-    double their_adjust = (price_adjustment(p.skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
+    double their_adjust = (price_adjustment(p.get_skill_level( skill_barter ) - g->u.get_skill_level( skill_barter )) +
                               (p.int_cur - g->u.int_cur) / 20.0);
     if( their_adjust < 1.0 )
         their_adjust = 1.0;
@@ -3844,7 +3841,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p.skillLevel( skill_barter )) +
+    double your_adjust = (price_adjustment(g->u.get_skill_level( skill_barter ) - p.get_skill_level( skill_barter )) +
                              (g->u.int_cur - p.int_cur) / 20.0);
     if( your_adjust < 1.0 )
         your_adjust = 1.0;

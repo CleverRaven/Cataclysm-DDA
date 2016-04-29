@@ -1517,12 +1517,12 @@ void game::rustCheck()
         }
 
         bool charged_bio_mem = u.has_active_bionic("bio_memory") && u.power_level > 25;
-        int oldSkillLevel = u.skillLevel(aSkill);
+        int oldSkillLevel = u.get_skill_level(aSkill.ident());
 
-        if (u.skillLevel(aSkill).rust(charged_bio_mem)) {
+        if (u.get_skill_level(aSkill.ident()).rust(charged_bio_mem)) {
             u.charge_power(-25);
         }
-        int newSkill = u.skillLevel(aSkill);
+        int newSkill = u.get_skill_level(aSkill.ident());
         if (newSkill < oldSkillLevel) {
             add_msg(m_bad, _("Your skill in %s has reduced to %d!"),
                     aSkill.name().c_str(), newSkill);
@@ -7442,7 +7442,7 @@ void game::smash()
         const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
         u.mod_stat("stamina", mod_sta);
 
-        if (u.skillLevel( skill_melee ) == 0) {
+        if (u.get_skill_level( skill_melee ) == 0) {
             u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
         if (u.weapon.made_of( material_id( "glass" ) ) &&
@@ -7580,7 +7580,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.exec(&veh);
     if (vehint.sel_cmd != ' ') {
         int time = 200;
-        int skill = u.skillLevel( skill_id( "mechanics" ) );
+        int skill = u.get_skill_level( skill_id( "mechanics" ) );
         int diff = 1;
         if (vehint.sel_vpart_info != NULL) {
             diff = vehint.sel_vpart_info->difficulty + 3;
@@ -11819,7 +11819,7 @@ void game::pldrive(int x, int y)
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
-        if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel( skill_driving ) * 2) {
+        if (rng(0, veh->velocity) < u.dex_cur + u.get_skill_level( skill_driving ) * 2) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
             u.practice( skill_driving, veh->velocity / 5 );
             veh->velocity = int(veh->forward_velocity());
@@ -12331,7 +12331,7 @@ bool game::walk_move( const tripoint &dest_loc )
     ///\EFFECT_STR increases recoil recovery speed
 
     ///\EFFECT_GUN inreases recoil recovery speed
-    u.recoil -= int(u.str_cur / 2) + u.skillLevel( skill_id( "gun" ) );
+    u.recoil -= int(u.str_cur / 2) + u.get_skill_level( skill_id( "gun" ) );
     u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
     u.recoil = int(u.recoil / 2);
     const int mcost_total = m.move_cost( dest_loc );
@@ -13222,11 +13222,11 @@ void game::vertical_move(int movez, bool force)
         ///\EFFECT_DEX increases chance of moving past monsters on stairs
 
         ///\EFFECT_DODGE increases chance of moving past monsters on stairs
-        int dexroll = dice(6, u.dex_cur + u.skillLevel( skill_dodge ) * 2);
+        int dexroll = dice(6, u.dex_cur + u.get_skill_level( skill_dodge ) * 2);
         ///\EFFECT_STR increases chance of moving past monsters on stairs
 
         ///\EFFECT_MELEE increases chance of moving past monsters on stairs
-        int strroll = dice(3, u.str_cur + u.skillLevel( skill_melee ) * 1.5);
+        int strroll = dice(3, u.str_cur + u.get_skill_level( skill_melee ) * 1.5);
         if (coming_to_stairs.size() > 4) {
             add_msg(_("The are a lot of them on the %s!"), m.tername(u.pos()).c_str());
             dexroll /= 4;
@@ -13476,7 +13476,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
     if( u.has_trait( "WEB_RAPPEL" ) ) {
         if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
             rope_ladder = true;
-            if ((rng(4, 8)) < u.skillLevel( skill_dodge )) {
+            if ((rng(4, 8)) < u.get_skill_level( skill_dodge )) {
                 add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
             } else {
                 add_msg(_("You securely web up and work your way down, lowering yourself safely."));

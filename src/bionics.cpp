@@ -1403,9 +1403,9 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
     } else {
         ///\EFFECT_INT increases chance of success removing bionics with unspecified skil level
         chance_of_success = bionic_manip_cos( int_cur,
-                                              skillLevel( skilll_electronics ),
-                                              skillLevel( skilll_firstaid ),
-                                              skillLevel( skilll_mechanics ),
+                                              get_skill_level( skilll_electronics ),
+                                              get_skill_level( skilll_firstaid ),
+                                              get_skill_level( skilll_mechanics ),
                                               difficulty + 2 );
     }
 
@@ -1499,9 +1499,9 @@ bool player::install_bionics( const itype &type, int skill_level )
     } else {
         ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
-                                              skillLevel( skilll_electronics ),
-                                              skillLevel( skilll_firstaid ),
-                                              skillLevel( skilll_mechanics ),
+                                              get_skill_level( skilll_electronics ),
+                                              get_skill_level( skilll_firstaid ),
+                                              get_skill_level( skilll_mechanics ),
                                               difficult );
     }
 
@@ -1572,9 +1572,9 @@ void bionics_install_failure( player *u, int difficulty, int success )
     // pl_skill should be calculated the same as in install_bionics
     ///\EFFECT_INT randomly decreases severity of bionics installation failure
     int pl_skill = u->int_cur * 4 +
-                   u->skillLevel( skilll_electronics ) * 4 +
-                   u->skillLevel( skilll_firstaid )    * 3 +
-                   u->skillLevel( skilll_mechanics )   * 1;
+                   u->get_skill_level( skilll_electronics ) * 4 +
+                   u->get_skill_level( skilll_firstaid )    * 3 +
+                   u->get_skill_level( skilll_mechanics )   * 1;
     // Medical residents get a substantial assist here
     if( u->has_trait( "PROF_MED" ) ) {
         pl_skill += 6;
