@@ -1019,7 +1019,7 @@ int game::inv_for_unequipped( const std::string &title )
 {
     return inv_for_filter( title, [ this ]( const item &it ) {
         // TODO: Add more filter conditions like "not made of wool if allergic to it".
-        return u.can_wear( it );
+        return u.can_wear( it, false );
     }, _( "You don't have any items to wear." ) );
 }
 
@@ -1184,7 +1184,7 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.sort();
 
     inventory_selector inv_s( u, [ this ]( const item &it ) -> bool {
-        return u.can_unwield( it );
+        return u.can_unwield( it, false );
     } );
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
