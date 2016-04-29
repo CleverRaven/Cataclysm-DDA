@@ -358,7 +358,7 @@ ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path 
 {
     fopen_exclusive( file_stream, path.c_str(), std::ios::binary );
     if( !file_stream.is_open() ) {
-        throw std::runtime_error( "opening file failed" );
+        throw std::runtime_error( _( "opening file failed" ) );
     }
 }
 
@@ -373,7 +373,7 @@ void ofstream_wrapper_exclusive::close()
 {
     fclose_exclusive( file_stream, path.c_str() );
     if( file_stream.fail() ) {
-        throw std::runtime_error( "writing to file failed" );
+        throw std::runtime_error( _( "writing to file failed" ) );
     }
 }
 
