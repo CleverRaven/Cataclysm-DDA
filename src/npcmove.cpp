@@ -1993,7 +1993,7 @@ void npc::drop_items(int weight, int volume)
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_following() && !rules.allow_pulp ) {
+    if( ( is_following() && !rules.allow_pulp ) || in_vehicle ) {
         return false;
     }
 
