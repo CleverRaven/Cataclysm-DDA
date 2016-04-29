@@ -1742,15 +1742,13 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             }
             currentSkill = sorted_skills[cur_pos];
         } else if (action == "LEFT") {
-            SkillLevel &level = u->get_skill_level(currentSkill->ident());
-            if (level) {
+            if( u->get_skill_level( currentSkill->ident() ) > 0 ) {
                 boost_skill_level( currentSkill->ident(), -1 );
                 // Done *after* the decrementing to get the original cost for incrementing back.
                 points.skill_points += skill_increment_cost( *u, currentSkill->ident() );
             }
         } else if (action == "RIGHT") {
-            SkillLevel &level = u->get_skill_level(currentSkill->ident());
-            if( level < MAX_SKILL ) {
+            if( u->get_skill_level( currentSkill->ident() ) < MAX_SKILL ) {
                 points.skill_points -= skill_increment_cost( *u, currentSkill->ident() );
                 boost_skill_level( currentSkill->ident(), +1 );
             }
