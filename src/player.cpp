@@ -12370,7 +12370,7 @@ void player::practice( const skill_id &id, int amount, int cap )
         amount = 0;
         int curLevel = get_skill_level( id );
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
-            add_msg(m_info, _("This task is too simple to train your %skill beyond %d."),
+            add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
                     skill.name().c_str(), curLevel);
         }
     }
@@ -12380,12 +12380,12 @@ void player::practice( const skill_id &id, int amount, int cap )
         get_skill_level( id ).train(amount);
         int newLevel = get_skill_level( id );
         if (is_player() && newLevel > oldLevel) {
-            add_msg(m_good, _("Your skill in %skill has increased to %d!"), skill.name().c_str(), newLevel);
+            add_msg(m_good, _("Your skill in %s has increased to %d!"), skill.name().c_str(), newLevel);
             lua_callback("on_skill_increased");
         }
         if(is_player() && newLevel > cap) {
             //inform player immediately that the current recipe can't be used to train further
-            add_msg(m_info, _("You feel that %skill tasks of this level are becoming trivial."),
+            add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
                     skill.name().c_str());
         }
 
