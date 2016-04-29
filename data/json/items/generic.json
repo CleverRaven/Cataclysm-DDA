@@ -187,7 +187,7 @@
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
     },
-    { 
+    {
         "type":"GENERIC",
         "id": "bone_glue",
         "symbol": ",",
@@ -655,7 +655,7 @@
         "bashing": 4,
         "to_hit": -3
     },
-    { 
+    {
         "type":"GENERIC",
         "id": "largebroketent",
         "symbol": ";",

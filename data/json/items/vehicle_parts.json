@@ -1105,7 +1105,7 @@
         "category" : "veh_parts",
         "price": 3500
     },
-    {  
+    {
         "type":"GENERIC",
         "id":"v_scoop_item",
         "name":"vehicle scoop",

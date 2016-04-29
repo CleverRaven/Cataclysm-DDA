@@ -2051,7 +2051,7 @@
         "encumbrance" : 30,
         "bashing" : 12,
         "coverage" : 20,
-        "material_thickness" : 4    
+        "material_thickness" : 4
     },
     {
         "id": "powered_earmuffs",
@@ -2115,4 +2115,4 @@
         "coverage" : 10,
         "material_thickness" : 2
     }
-]    
+]

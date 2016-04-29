@@ -47,7 +47,7 @@
     "dispersion" : 0,
     "recoil" : 0
    },
-  { 
+  {
     "type" : "AMMO",
     "id" : "material_cement",
     "category" : "spare_parts",

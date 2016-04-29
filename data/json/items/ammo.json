@@ -393,7 +393,6 @@
         "stack_size" : 100,
         "count" : 20
     },
-
     {   "type" : "AMMO",
         "id" : "9x18mm",
         "price" : 2600,
@@ -506,7 +505,6 @@
         "stack_size" : 30,
         "effects" : ["COOKOFF"]
     },
-
     {   "type" : "AMMO",
         "id" : "laser_pack",
         "price" : 80000,

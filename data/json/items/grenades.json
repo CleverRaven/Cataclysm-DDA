@@ -23,7 +23,6 @@
     "flags": [ "BOMB" ]
   },
   {
-
     "id": "nail_bomb_act",
     "type": "TOOL",
     "name": "active nail bomb",
