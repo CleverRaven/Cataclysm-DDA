@@ -2403,9 +2403,8 @@ void Character::empty_traits()
 
 void Character::empty_skills()
 {
-    for( auto &skill : Skill::skills ) {
-        SkillLevel &level = get_skill_level( skill.ident() );
-        level.level(0);
+    for( auto &sk : _skills ) {
+        sk.second.level( 0 );
     }
 }
 void Character::add_traits()
