@@ -1039,6 +1039,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
     if( reloadable->is_gun() ) {
         p->recoil -= act->moves_total;
+        p->recoil = std::max( MIN_RECOIL, p->recoil );
 
         if( reloadable->has_flag( "RELOAD_ONE" ) ) {
             for( int i = 0; i != qty; ++i ) {

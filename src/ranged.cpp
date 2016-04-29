@@ -163,7 +163,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
 
-    if( range < proj_arg.range ) {
+    // If we were targetting a tile rather than a monster, don't overshoot
+    // Unless the target was a wall, then we are aiming high enough to overshoot
+    const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
+                              ( g->critter_at( target_arg ) == nullptr && g->m.passable( target_arg ) );
+
+    if( !no_overshoot && range < proj_arg.range ) {
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
                                                                     proj_arg.range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
@@ -856,7 +861,7 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
         p.get_weapon_dispersion( weapon, false );
     const double range = rl_dist( p.pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
-    const double hit_rating = missed_by / std::max( double( p.get_speed() ) / 80., 1.0 );
+    const double hit_rating = missed_by;
     const double confidence = 1 / hit_rating;
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
