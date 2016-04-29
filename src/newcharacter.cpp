@@ -1754,7 +1754,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             }
         } else if (action == "RIGHT") {
             SkillLevel &level = u->get_skill_level(currentSkill->ident());
-            if (level <= 19) {
+            if( level < MAX_SKILL ) {
                 points.skill_points -= skill_increment_cost( *u, currentSkill->ident() );
                 if (level == 0) {  // raise 0->2 for 1 point
                     level.level(2);
