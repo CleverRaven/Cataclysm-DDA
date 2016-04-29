@@ -45,6 +45,7 @@ const skill_id skill_driving( "driving" );
 const skill_id skill_traps( "traps" );
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
@@ -4711,7 +4712,7 @@ item &map::add_item_at( const tripoint &p,
     if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
     }
-
+    
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
