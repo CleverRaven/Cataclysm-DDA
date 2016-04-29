@@ -11,7 +11,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "components": [
-      [ [ "medical_tape", 20 ] ],
+      [ [ "medical_tape", 20 ], ["duct_tape", 40] ],
       [ [ "aspirin", 10 ], [ "codeine", 2 ] ],
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "disinfectant", 1 ], [ "thyme_oil", 1 ], [ "bfipowder", 1 ] ],
       [ [ "saline", 10 ], [ "eyedrops", 20 ] ],
