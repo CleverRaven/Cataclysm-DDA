@@ -653,7 +653,7 @@ void color_manager::show_gui()
                                    1 + iOffsetX);
     WINDOW_PTR w_colorsptr( w_colors );
 
-    draw_border(w_colors_border);
+    draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
     mvwputch(w_colors_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_colors_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
@@ -668,8 +668,6 @@ void color_manager::show_gui()
             mvwputch(w_colors_header, 3, iCol, c_ltgray, LINE_XOXO);
         }
     }
-
-    center_print( w_colors_border, 0, c_ltred, _( " COLOR MANAGER " ) );
     wrefresh(w_colors_border);
 
     int tmpx = 0;

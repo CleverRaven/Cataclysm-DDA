@@ -522,12 +522,15 @@ void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, c
     wattroff(w, FG);
 }
 
-void draw_border(WINDOW *w, nc_color FG)
+void draw_border( WINDOW *w, nc_color border_color, std::string title, nc_color title_color )
 {
-    wattron(w, FG);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wattroff(w, FG);
+    wattron( w, border_color );
+    wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wattroff( w, border_color );
+    if( !title.empty() ) {
+        center_print( w, 0, title_color, title.c_str() );
+    }
 }
 
 void draw_tabs(WINDOW *w, int active_tab, ...)
