@@ -65,7 +65,6 @@
         "vision_night":3,
         "death_drops": {
             "subtype": "collection",
-            "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
             "groups": [
                 [ "default_zombie_clothes", 100 ],
                 [ "child_items", 65 ]
@@ -107,7 +106,6 @@
         "vision_night":3,
         "death_drops": {
             "subtype": "collection",
-            "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
             "groups": [
                 [ "default_zombie_clothes", 100 ],
                 [ "child_items", 65 ]
@@ -122,7 +120,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_sproglodyte",
-        "name": "sproglodyte",
+        "name": "skippy",
         "species":"ZOMBIE",
         "default_faction":"zombie",
         "symbol":"z",
@@ -144,7 +142,6 @@
         "vision_night":30,
         "death_drops": {
             "subtype": "collection",
-            "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
             "groups": [
                 [ "default_zombie_clothes", 100 ],
                 [ "child_items", 65 ]
@@ -187,7 +184,6 @@
         "vision_night":3,
         "death_drops": {
             "subtype": "collection",
-            "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
             "groups": [
                 [ "default_zombie_clothes", 100 ],
                 [ "child_items", 65 ]
@@ -224,7 +220,6 @@
         "vision_night":30,
         "death_drops": {
             "subtype": "collection",
-            "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
             "groups": [
                 [ "default_zombie_clothes", 100 ],
                 [ "child_items", 65 ]
@@ -239,7 +234,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_snotgobbler",
-        "name": "snotgobbler",
+        "name": "snot",
         "species":"ZOMBIE",
         "default_faction":"zombie",
         "symbol":"z",
@@ -261,7 +256,6 @@
         "vision_night":3,
         "death_drops": {
             "subtype": "collection",
-            "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
             "groups": [
                 [ "default_zombie_clothes", 100 ],
                 [ "child_items", 65 ]
