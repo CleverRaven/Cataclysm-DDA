@@ -403,11 +403,11 @@ void player::randomize( const bool random_scenario, points_left &points )
         case 8:
         case 9:
             const skill_id aSkill = Skill::random_skill();
-            int level = skillLevel(aSkill);
+            int level = get_skill_level(aSkill);
 
             if (level < points.skill_points_left() && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
                 points.skill_points -= level + 1;
-                skillLevel(aSkill).level(level + 2);
+                set_skill_level( aSkill, level + 2 );
             }
             break;
         }
@@ -1605,7 +1605,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
-        int cost = std::max(1, (u->skillLevel(currentSkill->ident()) + 1) / 2);
+        int cost = std::max(1, (u->get_skill_level(currentSkill->ident()) + 1) / 2);
         mvwprintz(w, 3, 31, points.skill_points_left() >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
@@ -1696,7 +1696,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             const Skill* thisSkill = sorted_skills[i];
             // Clear the line
             mvwprintz(w, base_y + i, 2, c_ltgray, "                            ");
-            if (u->skillLevel(thisSkill->ident()) == 0) {
+            if (u->get_skill_level(thisSkill->ident()) == 0) {
                 mvwprintz(w, base_y + i, 2,
                           (i == cur_pos ? h_ltgray : c_ltgray), thisSkill->name().c_str());
             } else {
@@ -1704,7 +1704,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                           (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED), _("%s"),
                           thisSkill->name().c_str());
                 wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
-                        " (%d)", int(u->skillLevel(thisSkill->ident())));
+                        " (%d)", int(u->get_skill_level(thisSkill->ident())));
             }
             for( auto &prof_skill : u->prof->skills() ) {
                 if( prof_skill.first == thisSkill->ident() ) {
@@ -2191,8 +2191,8 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             mvwprintz(w_skills, 0, 0, COL_HEADER, _("Skills:"));
 
             auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
-                int const level_a = u->skillLevel(a.ident()).exercised_level();
-                int const level_b = u->skillLevel(b.ident()).exercised_level();
+                int const level_a = u->get_skill_level(a.ident()).exercised_level();
+                int const level_b = u->get_skill_level(b.ident()).exercised_level();
                 return level_a > level_b || (level_a == level_b && a.name() < b.name());
             });
 
@@ -2200,7 +2200,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             bool has_skills = false;
             profession::StartingSkillList list_skills = u->prof->skills();
             for( auto &elem : skillslist ) {
-                int level = int( u->skillLevel( elem->ident() ) );
+                int level = u->get_skill_level( elem->ident() );
                 profession::StartingSkillList::iterator i = list_skills.begin();
                 while (i != list_skills.end()) {
                     if( i->first == ( elem )->ident() ) {

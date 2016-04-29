@@ -1666,12 +1666,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
 
             ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
-            if( has_flag( "HIDDEN_POISON" ) && g->u.skillLevel( skill_survival ).level() >= 3 ) {
+            if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ).level() >= 3 ) {
                 info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) );
             }
 
             ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
-            if( has_flag( "HIDDEN_HALLU" ) && g->u.skillLevel( skill_survival ).level() >= 5 ) {
+            if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ).level() >= 5 ) {
                 info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) );
             }
         }
@@ -2069,9 +2069,9 @@ void item::on_wield( player &p, int mv )
     if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
-            d /= std::max( (float)p.skillLevel( gun_skill() ),  1.0f );
+            d /= std::max( (float)p.get_skill_level( gun_skill() ),  1.0f );
         } else if( is_weap() ) {
-            d /= std::max( (float)p.skillLevel( weap_skill() ), 1.0f );
+            d /= std::max( (float)p.get_skill_level( weap_skill() ), 1.0f );
         }
 
         int penalty = get_var( "volume", type->volume ) * d;
@@ -4615,7 +4615,7 @@ bool item::reload( player &u, item_location loc, long qty )
 
     // Chance to fail pulling an arrow at lower levels
     if( container && container->type->can_use( "QUIVER" ) ) {
-        int archery = u.skillLevel( skill_id( "archery" ) );
+        int archery = u.get_skill_level( skill_id( "archery" ) );
         ///\EFFECT_ARCHERY increases reliability of pulling arrows from a quiver
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;

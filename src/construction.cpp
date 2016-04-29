@@ -282,7 +282,7 @@ void construction_menu()
                     }
                 }
                 if( con_first != NULL ) {
-                    int pskill = g->u.skillLevel( con_first->skill );
+                    int pskill = g->u.get_skill_level( con_first->skill );
                     int diff = con_first->difficulty;
                     if( pskill < diff ) {
                         col = c_red;
@@ -385,7 +385,7 @@ void construction_menu()
 
                         current_line.str( "" );
                         // display required skill and difficulty
-                        int pskill = g->u.skillLevel( current_con->skill );
+                        int pskill = g->u.get_skill_level( current_con->skill );
                         int diff = ( current_con->difficulty > 0 ) ? current_con->difficulty : 0;
 
                         current_line << "<color_" << string_from_color( ( pskill >= diff ? c_white : c_red ) ) << ">" <<
@@ -592,7 +592,7 @@ bool player_can_build( player &p, const inventory &pinv, construction const *con
         return true;
     }
 
-    if( p.skillLevel( con->skill ) < con->difficulty ) {
+    if( p.get_skill_level( con->skill ) < con->difficulty ) {
         return false;
     }
     return con->requirements.can_make_with_inventory( pinv );
@@ -711,7 +711,7 @@ void complete_construction()
     for( auto &elem : g->active_npc ) {
         if( rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
             //If the NPC can understand what you are doing, they gain more exp
-            if (elem->skillLevel(built.skill) >= built.difficulty){
+            if (elem->get_skill_level(built.skill) >= built.difficulty){
                 elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
                                     (int)(built.difficulty * 1.25) );
                 add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
@@ -902,12 +902,12 @@ void construct::done_deconstruct( point p )
             return;
         }
         if( t.id == "t_console_broken" )  {
-            if( g->u.skillLevel( skill_electronics ) >= 1 ) {
+            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 20, 4 );
             }
         }
         if( t.id == "t_console" )  {
-            if( g->u.skillLevel( skill_electronics ) >= 1 ) {
+            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 40, 8 );
             }
         }
@@ -1062,7 +1062,7 @@ void construct::done_digormine_stair( point p, bool dig )
                                    pgettext( "memorial_female", "Mined into lava." ) );
 
         // Now to see if you go swimming.  Same idea as the sinkhole.
-        if( ( ( g->u.skillLevel( skill_carpentry ) ) + ( g->u.per_cur ) ) > ( ( g->u.str_cur ) + ( rng( 5,
+        if( ( ( g->u.get_skill_level( skill_carpentry ) ) + ( g->u.per_cur ) ) > ( ( g->u.str_cur ) + ( rng( 5,
                 10 ) ) ) ) {
             add_msg( _( "You avoid collapsing the rock underneath you." ) );
             add_msg( _( "Lashing your lumber together, you make a stable platform." ) );
@@ -1073,12 +1073,12 @@ void construct::done_digormine_stair( point p, bool dig )
             add_msg( _( "Your timbers plummet into the lava!" ) );
             if( g->u.has_amount( "grapnel", 1 ) ) {
                 add_msg( _( "You desperately throw your grappling hook!" ) );
-                int throwroll = rng( g->u.skillLevel( skill_throw ),
-                                     g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur );
+                int throwroll = rng( g->u.get_skill_level( skill_throw ),
+                                     g->u.get_skill_level( skill_throw ) + g->u.str_cur + g->u.dex_cur );
                 if( throwroll >= 9 ) { // Little tougher here than in a sinkhole
                     add_msg( _( "The grappling hook catches something!" ) );
-                    if( rng( g->u.skillLevel( skill_unarmed ),
-                             g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                    if( rng( g->u.get_skill_level( skill_unarmed ),
+                             g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
                         if( !catch_with_rope( p ) ) {
                             g->u.use_amount( "grapnel", 1 );
                             g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
@@ -1101,17 +1101,17 @@ void construct::done_digormine_stair( point p, bool dig )
                 }
             } else if( g->u.has_trait( "WEB_ROPE" ) ) {
                 // There are downsides to using one's own product...
-                int webroll = rng( g->u.skillLevel( skill_carpentry ),
-                                   g->u.skillLevel( skill_carpentry ) + g->u.per_cur + g->u.int_cur );
+                int webroll = rng( g->u.get_skill_level( skill_carpentry ),
+                                   g->u.get_skill_level( skill_carpentry ) + g->u.per_cur + g->u.int_cur );
                 if( webroll >= 11 ) {
                     add_msg( _( "Luckily, you'd attached a web..." ) );
                     // Bigger you are, the larger the strain
-                    int stickroll = rng( g->u.skillLevel( skill_carpentry ),
-                                         g->u.skillLevel( skill_carpentry ) + g->u.dex_cur - g->u.str_cur );
+                    int stickroll = rng( g->u.get_skill_level( skill_carpentry ),
+                                         g->u.get_skill_level( skill_carpentry ) + g->u.dex_cur - g->u.str_cur );
                     if( stickroll >= 8 ) {
                         add_msg( _( "Your web holds firm!" ) );
-                        if( rng( g->u.skillLevel( skill_unarmed ),
-                                 g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                        if( rng( g->u.get_skill_level( skill_unarmed ),
+                                 g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
                             if( !catch_with_rope( p ) ) {
                                 g->vertical_move( -1, true );
                             }
@@ -1129,12 +1129,12 @@ void construct::done_digormine_stair( point p, bool dig )
                 // You have a rope because you needed one to construct
                 // (You aren't charged it here because you lose it at end/construction)
                 add_msg( _( "You desperately throw your rope!" ) );
-                int throwroll = rng( g->u.skillLevel( skill_throw ),
-                                     g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur );
+                int throwroll = rng( g->u.get_skill_level( skill_throw ),
+                                     g->u.get_skill_level( skill_throw ) + g->u.str_cur + g->u.dex_cur );
                 if( throwroll >= 11 ) { // No hook, so good luck with that
                     add_msg( _( "The rope snags and holds!" ) );
-                    if( rng( g->u.skillLevel( skill_unarmed ),
-                             g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                    if( rng( g->u.get_skill_level( skill_unarmed ),
+                             g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
                         if( !catch_with_rope( p ) ) {
                             g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
                             g->vertical_move( -1, true );
@@ -1450,7 +1450,7 @@ int construction::adjusted_time() const
 
     for( auto &elem : g->active_npc ) {
         if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
-            if( elem->skillLevel( skill ) >= difficulty ) {
+            if( elem->get_skill_level( skill ) >= difficulty ) {
                 assistants++;
             }
         }

@@ -586,7 +586,7 @@ bool mattack::pull_metal_weapon(monster *z)
     player *foe = dynamic_cast< player* >( target );
     if( foe != nullptr ) {
         if ( foe->weapon.made_of( material_id( "iron" ) ) || foe->weapon.made_of( material_id( "steel" ) ) ) {
-            int wp_skill = foe->skillLevel( skill_melee );
+            int wp_skill = foe->get_skill_level( skill_melee );
             z->moves -= att_cost_pull;   // It takes a while
             int success = 100;
             ///\EFFECT_STR increases resistance to pull_metal_weapon special attack
@@ -1929,14 +1929,14 @@ bool mattack::dermatik(monster *z)
     ///\EFFECT_MELEE increases chance to deflect dermatik attack
 
     ///\EFFECT_UNARMED increases chance to deflect dermatik attack
-    int swat_skill = ( foe->skillLevel( skill_melee ) + foe->skillLevel( skill_unarmed ) * 2) / 3;
+    int swat_skill = ( foe->get_skill_level( skill_melee ) + foe->get_skill_level( skill_unarmed ) * 2) / 3;
     int player_swat = dice(swat_skill, 10);
     if( foe->has_trait("TAIL_CATTLE") ) {
         target->add_msg_if_player(_("You swat at the %s with your tail!"), z->name().c_str());
         ///\EFFECT_DEX increases chance of deflecting dermatik attack with TAIL_CATTLE
 
         ///\EFFECT_UNARMED increases chance of deflecting dermatik attack with TAIL_CATTLE
-        player_swat += ( ( foe->dex_cur + foe->skillLevel( skill_unarmed ) ) / 2 );
+        player_swat += ( ( foe->dex_cur + foe->get_skill_level( skill_unarmed ) ) / 2 );
     }
     if( player_swat > dodge_roll ) {
         target->add_msg_if_player(_("The %s lands on you, but you swat it off."), z->name().c_str());
@@ -2747,8 +2747,8 @@ void mattack::rifle( monster *z, Creature *target )
     }
 
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel( skill_rifle ).level(8);
-    tmp.skillLevel( skill_gun ).level(6);
+    tmp.set_skill_level( skill_rifle, 8 );
+    tmp.set_skill_level( skill_gun, 6 );
 
     if( target == &g->u ) {
         if (!z->has_effect( effect_targeted )) {
@@ -2803,8 +2803,8 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
         }
     }
     npc tmp = make_fake_npc(z, 16, 10, 8, 12);
-    tmp.skillLevel( skill_launcher ).level(8);
-    tmp.skillLevel( skill_gun ).level(6);
+    tmp.set_skill_level( skill_launcher, 8 );
+    tmp.set_skill_level( skill_gun, 6 );
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -2865,8 +2865,8 @@ void mattack::tankgun( monster *z, Creature *target )
     // kevingranade KA101: yes, but make it really inaccurate
     // Sure thing.
     npc tmp = make_fake_npc(z, 12, 8, 8, 8);
-    tmp.skillLevel( skill_launcher ).level(1);
-    tmp.skillLevel( skill_gun ).level(1);
+    tmp.set_skill_level( skill_launcher, 1 );
+    tmp.set_skill_level( skill_gun, 1 );
     z->moves -= 150;   // It takes a while
 
     if (z->ammo[ammo_type] <= 0) {
@@ -3964,7 +3964,7 @@ bool mattack::thrown_by_judo(monster *z)
         ///\EFFECT_DEX increases chance judo-throwing a monster
 
         ///\EFFECT_UNARMED increases chance of judo-throwing monster, vs their melee skill
-        if ( ((foe->dex_cur + foe->skillLevel( skill_unarmed )) > (z->type->melee_skill + rng(0, 3))) ) {
+        if ( ((foe->dex_cur + foe->get_skill_level( skill_unarmed )) > (z->type->melee_skill + rng(0, 3))) ) {
             target->add_msg_if_player( m_good, _("but you grab its arm and flip it to the ground!") );
 
             // most of the time, when not isolated

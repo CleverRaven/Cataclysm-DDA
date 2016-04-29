@@ -175,7 +175,7 @@ const std::string &talk_trial::name() const
 // TODO: maybe move this function into the skill class? Or into the NPC class?
 static int calc_skill_training_time( const skill_id &skill )
 {
-    return MINUTES( 10 ) + MINUTES( 5 ) * g->u.skillLevel( skill );
+    return MINUTES( 10 ) + MINUTES( 5 ) * g->u.get_skill_level( skill );
 }
 
 static int calc_skill_training_cost( const skill_id &skill )
@@ -2216,7 +2216,7 @@ void dialogue::gen_responses( const std::string &topic )
             }
             for( auto & trained : trainable ) {
                 const int cost = calc_skill_training_cost( trained );
-                const int cur_level = g->u.skillLevel( trained );
+                const int cur_level = g->u.get_skill_level( trained );
                 //~Skill name: current level -> next level (cost in cent)
                 std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained.obj().name().c_str(),
                       cur_level, cur_level + 1, cost / 100 );
@@ -3831,7 +3831,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
     ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-    double their_adjust = (price_adjustment(p.skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
+    double their_adjust = (price_adjustment(p.get_skill_level( skill_barter ) - g->u.get_skill_level( skill_barter )) +
                               (p.int_cur - g->u.int_cur) / 20.0);
     if( their_adjust < 1.0 )
         their_adjust = 1.0;
@@ -3841,7 +3841,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p.skillLevel( skill_barter )) +
+    double your_adjust = (price_adjustment(g->u.get_skill_level( skill_barter ) - p.get_skill_level( skill_barter )) +
                              (g->u.int_cur - p.int_cur) / 20.0);
     if( your_adjust < 1.0 )
         your_adjust = 1.0;

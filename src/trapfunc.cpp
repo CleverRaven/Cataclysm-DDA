@@ -892,8 +892,8 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
     ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
     ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-    const int roll = rng( p->skillLevel( skill_throw ),
-                          p->skillLevel( skill_throw ) + p->str_cur + p->dex_cur );
+    const int roll = rng( p->get_skill_level( skill_throw ),
+                          p->get_skill_level( skill_throw ) + p->str_cur + p->dex_cur );
     if( roll < diff ) {
         p->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
         p->use_amount( itemname, 1 );

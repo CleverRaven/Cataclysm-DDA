@@ -245,7 +245,7 @@ player::player() : Character()
     empty_traits();
 
     for( auto &skill : Skill::skills ) {
-        skillLevel( skill.ident() ).level( 0 );
+        set_skill_level( skill.ident(), 0 );
     }
 
     for( int i = 0; i < num_bp; i++ ) {
@@ -9957,7 +9957,7 @@ void player::mend_item( item_location&& obj, bool interactive )
             std::ostringstream descr;
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
-                bool hasSkill = skillLevel( skill_mechanics ) >= e.second;
+                bool hasSkill = get_skill_level( skill_mechanics ) >= e.second;
                 f.second -= !hasSkill;
                 descr << string_format( "> <color_%1$s>%2$s %3$i</color>\n", hasSkill ? "c_green" : "c_red",
                                         _( e.first.obj().name().c_str() ), e.second );
@@ -12333,9 +12333,9 @@ void player::practice( const skill_id &id, int amount, int cap )
 
     if (isSavant) {
         for( auto const &skill : Skill::skills ) {
-            if( skillLevel( skill.ident() ) > savantSkillLevel ) {
+            if( get_skill_level( skill.ident() ) > savantSkillLevel ) {
                 savantSkill = skill.ident();
-                savantSkillLevel = skillLevel( skill.ident() );
+                savantSkillLevel = get_skill_level( skill.ident() );
             }
         }
     }
@@ -12673,7 +12673,7 @@ void player::set_skill_level(const skill_id &ident, int level)
 
 void player::boost_skill_level(const skill_id &ident, int level)
 {
-    skillLevel(ident).level(level+skillLevel(ident));
+    skillLevel(ident).level(level+get_skill_level(ident));
 }
 
 int player::get_melee() const
