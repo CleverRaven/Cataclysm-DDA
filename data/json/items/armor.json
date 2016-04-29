@@ -3240,8 +3240,6 @@
         "coverage" : 65,
         "material_thickness" : 1
     },
-
-
     {
         "type" : "ARMOR",
         "id" : "chestwrap",
@@ -5362,7 +5360,7 @@
         "flags" : ["SUN_GLASSES"],
         "coverage" : 50,
         "material_thickness" : 1
-    },   
+    },
     {   "type" : "ARMOR",
         "id" : "hat_sombrero",
         "name" : "sombrero",
@@ -6787,7 +6785,6 @@
         "flags" : ["FANCY"]
     },
     {
-
         "type" : "ARMOR",
         "id" : "fc_hairpin",
         "name" : "fancy hairpin",

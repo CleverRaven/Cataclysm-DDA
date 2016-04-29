@@ -37,7 +37,7 @@
         "range": -4,
         "dispersion": 10,
         "recoil": 20
-    },        
+    },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {

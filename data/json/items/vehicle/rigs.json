@@ -2,7 +2,7 @@
   {
     "abstract": "vehicle_rig",
     "type": "GENERIC",
-    "category": "veh_parts",  
+    "category": "veh_parts",
     "name": "vehicle crafting rig",
     "weight": 40000,
     "volume": 80,

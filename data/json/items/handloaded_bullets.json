@@ -236,7 +236,7 @@
         "stack_size" : 4,
         "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
     },
-    {  
+    {
         "type" : "AMMO",
         "id" : "reloaded_5x50dart",
         "price" : 125,

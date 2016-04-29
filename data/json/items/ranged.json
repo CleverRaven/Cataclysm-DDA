@@ -907,8 +907,6 @@
     "loudness" : 40,
     "valid_mod_locations": [[ "accessories", 4],[ "grip", 1 ],[ "stock", 1 ]]
   },
-
-
   {
     "id": "flamethrower_crude",
     "type": "GUN",
@@ -1021,7 +1019,6 @@
     "reload": 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
-
   {
     "id": "rebar_rifle",
     "type": "GUN",
@@ -1515,7 +1512,7 @@
     "color": "brown",
     "name": "combination gun",
     "description": "A break action firearm comprised of a .30-06 barrel over a 12 gauge smooth bore.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
-    "price": 259500, 
+    "price": 259500,
     "material": ["steel", "wood"],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "rifle",
@@ -1537,7 +1534,6 @@
     "built_in_mods" : ["combination_gun_shotgun"],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ], [ "underbarrel", 1 ]]
   },
-
   {
     "id": "surv_rocket_launcher",
     "type": "GUN",
@@ -1633,7 +1629,7 @@
   "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
   "price": 750000,
   "material": ["hardsteel", "wood"],
-  "flags": ["MODE_BURST", "RELOAD_EJECT"], 
+  "flags": ["MODE_BURST", "RELOAD_EJECT"],
   "skill": "shotgun",
   "ammo": "shot",
   "weight": 22000,

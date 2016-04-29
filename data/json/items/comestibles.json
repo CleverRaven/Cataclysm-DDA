@@ -4500,7 +4500,7 @@
         "material" : ["veggy", "wheat"],
         "volume" : 1,
         "charges" : 3,
-        "flags" : ["EATEN_COLD"],        
+        "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
     {
@@ -5207,7 +5207,6 @@
             "grow" : 120
         }
     },
-
     {
         "type" : "COMESTIBLE",
         "id" : "buckwheat",
@@ -12317,7 +12316,7 @@
             "fruit": "thyme",
             "grow" : 91
         }
-    },{   
+    },{
         "type" : "COMESTIBLE",
         "id" : "seed_canola",
         "category": "other",
@@ -12428,7 +12427,7 @@
         "bashing" : -8,
         "charges" : 1,
         "price" : 0
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_dogbane",
         "category": "other",
@@ -12468,7 +12467,7 @@
        "bashing" : -8,
        "charges" : 1,
        "price" : 0
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_bee_balm",
         "category": "other",
@@ -12532,7 +12531,7 @@
        "bashing" : -8,
        "charges" : 1,
        "price" : 0
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_mugwort",
         "category": "other",
@@ -12553,7 +12552,7 @@
             "fruit": "mugwort",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_buckwheat",
         "category": "other",
@@ -12575,7 +12574,7 @@
             "byproducts": [ "withered" ],
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_wild_herbs",
         "category": "other",
@@ -12596,7 +12595,7 @@
             "fruit": "wild_herbs",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_veggy_wild",
         "category": "other",
@@ -12618,7 +12617,7 @@
             "byproducts": [ "withered" ],
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_raw_dandelion",
         "category": "other",
@@ -12639,7 +12638,7 @@
             "fruit": "raw_dandelion",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_rhubarb",
         "category": "other",
@@ -12661,7 +12660,7 @@
             "byproducts": [ "withered" ],
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom",
         "category": "other",
@@ -12682,7 +12681,7 @@
             "fruit": "mushroom",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_morel",
         "category": "other",
@@ -12703,7 +12702,7 @@
             "fruit": "mushroom_morel",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_magic",
         "category": "other",

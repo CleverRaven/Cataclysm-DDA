@@ -146,7 +146,7 @@
       ["45", [ "mac10mag" ] ],
       [ "9mm", [ "tec9mag" ] ]
     ],
-    "flags": "MODE_BURST"    
+    "flags": "MODE_BURST"
   },
   {
     "id": "surv_hand_cannon",
