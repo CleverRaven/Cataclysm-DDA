@@ -2366,7 +2366,7 @@ void dialogue::gen_responses( const std::string &topic )
                 SUCCESS("TALK_DENY_TRAIN");
             }
         }
-        add_response( _("Let's trade items."), "TALK_NONE", &talk_function::start_trade );
+        add_response( _("Let's trade items."), "TALK_FRIEND", &talk_function::start_trade );
         if (p->is_following() && g->m.camp_at( g->u.pos() )) {
             add_response( _("Wait at this base."), "TALK_DONE", &talk_function::assign_base );
         }
