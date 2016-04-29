@@ -2838,7 +2838,7 @@ int topic_category( const std::string &topic )
     static const std::unordered_set<std::string> topic_8 = { {
         "TALK_AIM_RULES",
     } };
-    if( topic_7.count( topic ) > 0 ) {
+    if( topic_8.count( topic ) > 0 ) {
         return 8;
     }
     static const std::unordered_set<std::string> topic_99 = { {
