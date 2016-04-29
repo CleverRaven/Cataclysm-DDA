@@ -2342,7 +2342,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("I need you to come with me."), "TALK_FRIEND", &talk_function::stop_guard );
             add_response_done( _("See you around.") );
 
-    } else if( topic == "TALK_FRIEND" ) {
+    } else if( topic == "TALK_FRIEND" || topic == "TALK_GIVE_ITEM" || topic == "TALK_USE_ITEM" ) {
         if( p->is_following() ) {
             add_response( _("Combat commands..."), "TALK_COMBAT_COMMANDS" );
         }
@@ -2363,7 +2363,7 @@ void dialogue::gen_responses( const std::string &topic )
                 SUCCESS("TALK_DENY_TRAIN");
             }
         }
-        add_response( _("Let's trade items."), "TALK_NONE", &talk_function::start_trade );
+        add_response( _("Let's trade items."), "TALK_FRIEND", &talk_function::start_trade );
         if (p->is_following() && g->m.camp_at( g->u.pos() )) {
             add_response( _("Wait at this base."), "TALK_DONE", &talk_function::assign_base );
         }
@@ -2835,8 +2835,14 @@ int topic_category( const std::string &topic )
     static const std::unordered_set<std::string> topic_8 = { {
         "TALK_AIM_RULES",
     } };
-    if( topic_7.count( topic ) > 0 ) {
+    if( topic_8.count( topic ) > 0 ) {
         return 8;
+    }
+    static const std::unordered_set<std::string> topic_9 = { {
+        "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM",
+    } };
+    if( topic_9.count( topic ) > 0 ) {
+        return 9;
     }
     static const std::unordered_set<std::string> topic_99 = { {
         "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
