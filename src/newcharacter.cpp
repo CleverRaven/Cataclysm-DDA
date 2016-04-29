@@ -1567,6 +1567,15 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
     return retval;
 }
 
+/**
+ * @return The skill points to consume when a skill is increased (by one level) from the
+ * current level.
+ */
+static int skill_increment_cost( const Character &u, const skill_id &skill )
+{
+    return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
+}
+
 tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 {
     draw_tabs(w, _("SKILLS"));
@@ -1605,7 +1614,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
-        int cost = std::max(1, (u->get_skill_level(currentSkill->ident()) + 1) / 2);
+        const int cost = skill_increment_cost( *u, currentSkill->ident() );
         mvwprintz(w, 3, 31, points.skill_points_left() >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
@@ -1737,20 +1746,19 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             if (level) {
                 if (level == 2) {  // lower 2->0 for 1 point
                     level.level(0);
-                    points.skill_points += 1;
                 } else {
                     level.level(level - 1);
-                    points.skill_points += (level + 1) / 2;
                 }
+                // Done *after* the decrementing to get the original cost for incrementing back.
+                points.skill_points += skill_increment_cost( *u, currentSkill->ident() );
             }
         } else if (action == "RIGHT") {
             SkillLevel &level = u->get_skill_level(currentSkill->ident());
             if (level <= 19) {
+                points.skill_points -= skill_increment_cost( *u, currentSkill->ident() );
                 if (level == 0) {  // raise 0->2 for 1 point
                     level.level(2);
-                    points.skill_points -= 1;
                 } else {
-                    points.skill_points -= (level + 1) / 2;
                     level.level(level + 1);
                 }
             }
