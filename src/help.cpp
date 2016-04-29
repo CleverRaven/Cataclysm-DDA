@@ -1000,8 +1000,7 @@ void display_help()
     bool needs_refresh = true;
     do {
         if( needs_refresh ) {
-            draw_border( w_help_border );
-            center_print( w_help_border, 0, c_ltred, _( " HELP " ) );
+            draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
             wrefresh( w_help_border );
             help_main( w_help );
             refresh();

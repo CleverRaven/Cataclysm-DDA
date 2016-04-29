@@ -1432,8 +1432,7 @@ static void refresh_tiles( bool, bool, bool ) {
 
 void draw_borders_external( WINDOW *w, int horizontal_level, std::map<int, bool> &mapLines )
 {
-    draw_border( w );
-    center_print( w, 0, c_ltred, _( " OPTIONS " ) );
+    draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
     // intersections
     mvwputch( w, horizontal_level, 0, BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, horizontal_level, getmaxx( w ) - 1, BORDER_COLOR, LINE_XOXX ); // -|

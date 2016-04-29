@@ -437,7 +437,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     WINDOW *w_worlds        = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                      iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
-    draw_border(w_worlds_border);
+    draw_border( w_worlds_border, BORDER_COLOR, _( " WORLD SELECTION " ) );
     mvwputch(w_worlds_border, 4, 0, BORDER_COLOR, LINE_XXXO); // |-
     mvwputch(w_worlds_border, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
@@ -446,7 +446,6 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                   LINE_XXOX ); // _|_
     }
 
-    center_print(w_worlds_border, 0, c_ltred, _(" WORLD SELECTION "));
     wrefresh(w_worlds_border);
 
     for (int i = 0; i < 78; i++) {
