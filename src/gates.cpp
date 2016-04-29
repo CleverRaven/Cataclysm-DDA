@@ -17,18 +17,15 @@ using gate_id = string_id<gate_data>;
 struct gate_data {
 
     gate_data() :
-        wall(),
-        door(),
-        floor(),
         moves( 0 ),
         bash_dmg( 0 ),
         was_loaded( false ) {};
 
     gate_id id;
 
-    ter_str_id wall;
     ter_str_id door;
     ter_str_id floor;
+    std::vector<ter_str_id> walls;
 
     std::string pull_message;
     std::string open_message;
@@ -40,6 +37,7 @@ struct gate_data {
     bool was_loaded;
 
     void load( JsonObject &jo );
+    bool is_suitable_wall( const tripoint &pos ) const;
 };
 
 gate_id get_gate_id( const tripoint &pos )
@@ -47,15 +45,15 @@ gate_id get_gate_id( const tripoint &pos )
     return gate_id( g->m.get_ter( pos ).str() );
 }
 
-generic_factory<gate_data> gates_data( "gate type", "handle" );
+generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );
 
 }
 
 void gate_data::load( JsonObject &jo )
 {
-    mandatory( jo, was_loaded, "wall", wall );
     mandatory( jo, was_loaded, "door", door );
     mandatory( jo, was_loaded, "floor", floor );
+    mandatory( jo, was_loaded, "walls", walls, string_id_reader<ter_t> {} );
 
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
@@ -68,6 +66,15 @@ void gate_data::load( JsonObject &jo )
 
     optional( jo, was_loaded, "moves", moves, 0 );
     optional( jo, was_loaded, "bashing_damage", bash_dmg, 0 );
+}
+
+bool gate_data::is_suitable_wall( const tripoint &pos ) const
+{
+    const auto wid = g->m.ter( pos );
+    const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
+        return wall.id() == wid;
+    } );
+    return iter != walls.end();
 }
 
 void gates::load_gates( JsonObject &jo )
@@ -110,7 +117,7 @@ void gates::open_gate( const tripoint &pos )
         static const tripoint dir[4] = { { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 } };
         const tripoint wall_pos = pos + dir[i];
 
-        if( g->m.ter( wall_pos ) != gate.wall.id() ) {
+        if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
