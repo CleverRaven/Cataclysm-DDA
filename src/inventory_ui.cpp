@@ -967,7 +967,7 @@ int game::inv_for_filter( const std::string &title, item_filter filter, const st
 
     if( inv_s.empty() ) {
         const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item." ) : none_message;
-        popup_getkey( msg.c_str() );
+        popup( msg, PF_GET_KEY );
         return INT_MIN;
     }
 
@@ -1138,7 +1138,7 @@ item_location game::inv_map_splice(
 
     if( inv_s.empty() ) {
         const std::string msg = ( none_message.empty() ) ? _( "You don't have the necessary item at hand." ) : none_message;
-        popup_getkey( msg.c_str() );
+        popup( msg, PF_GET_KEY );
         return item_location();
     }
     return inv_s.execute_pick_map( title, opts );
@@ -1187,7 +1187,7 @@ std::list<std::pair<int, int>> game::multidrop()
         return u.can_unwield( it );
     } );
     if( inv_s.empty() ) {
-        popup_getkey( _( "You have nothing to drop." ) );
+        popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
         return std::list<std::pair<int, int> >();
     }
     return inv_s.execute_multidrop( _( "Multidrop:" ) );
@@ -1246,7 +1246,7 @@ void game::compare( const tripoint &offset )
 
     inv_s.add_items( grounditems_slice, inventory_selector::AT_BEGINNING, &category_on_ground );
     if( inv_s.empty() ) {
-        popup_getkey( _( "There are no items to compare." ) );
+        popup( std::string( _( "There are no items to compare." ) ), PF_GET_KEY );
         return;
     }
     inv_s.execute_compare( _( "Compare:" ) );
