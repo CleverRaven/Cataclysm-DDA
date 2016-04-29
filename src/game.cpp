@@ -8085,7 +8085,7 @@ bool npc_menu( npc &who )
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
-        const int pos = g->inv_for_flag( _("Use which item:"), "USE_ON_NPC" );
+        const int pos = g->inv_for_flag( "USE_ON_NPC", _("Use which item:") );
 
         if( pos == INT_MIN ) {
             add_msg( _("Never mind") );

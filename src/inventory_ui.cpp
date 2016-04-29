@@ -1001,11 +1001,11 @@ int game::inv_for_id( const itype_id &id, const std::string &title )
     }, string_format( _( "You don't have a %s." ), item::nname( id ).c_str() ) );
 }
 
-int game::inv_for_tools_powered_by( const itype_id &battery_id, const std::string &title )
+int game::inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title )
 {
     return inv_for_filter( title, [ &battery_id ]( const item & it ) {
         return it.is_tool() && it.ammo_type() == battery_id;
-    }, string_format( _( "You don't have %s-powered tools." ), item::nname( battery_id ).c_str() ) );
+    }, string_format( _( "You don't have %s-powered tools." ), ammo_name( battery_id ).c_str() ) );
 }
 
 int game::inv_for_equipped( const std::string &title )
@@ -1019,7 +1019,7 @@ int game::inv_for_unequipped( const std::string &title )
 {
     return inv_for_filter( title, [ this ]( const item &it ) {
         // TODO: Add more filter conditions like "not made of wool if allergic to it".
-        return it.is_armor() && !u.is_worn( it );
+        return u.can_wear( it );
     }, _( "You don't have any items to wear." ) );
 }
 
@@ -1157,7 +1157,7 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int
     // Buckets can only be filled when on the ground
     return inv_map_splice( sealable_filter, bucket_filter, sealable_filter, title, radius,
                            string_format( _( "You don't have a suitable container for carrying %s." ),
-                           liquid.type->nname( 1 ).c_str() ) ).get_item();
+                           liquid.type_name( 1 ).c_str() ) ).get_item();
 }
 
 int inventory::num_items_at_position( int const position )
@@ -1183,8 +1183,8 @@ std::list<std::pair<int, int>> game::multidrop()
     u.inv.restack( &u );
     u.inv.sort();
 
-    inventory_selector inv_s( u, []( const item &it ) -> bool {
-        return !it.has_flag( "NO_UNWIELD" );
+    inventory_selector inv_s( u, [ this ]( const item &it ) -> bool {
+        return u.can_unwield( it );
     } );
     if( inv_s.empty() ) {
         popup_getkey( _( "You have nothing to drop." ) );

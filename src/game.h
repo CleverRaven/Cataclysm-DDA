@@ -78,6 +78,7 @@ struct special_game;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using itype_id = std::string;
+using ammotype = std::string;
 class mission;
 class map;
 class Creature;
@@ -432,7 +433,7 @@ class game
         int inv_for_activatables( const player &p, const std::string &title );
         int inv_for_flag( const std::string &flag, const std::string &title );
         int inv_for_id( const itype_id &id, const std::string &title );
-        int inv_for_tools_powered_by( const itype_id &battery_id, const std::string &title );
+        int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
         int inv_for_equipped( const std::string &title );
         int inv_for_unequipped( const std::string &title );
 

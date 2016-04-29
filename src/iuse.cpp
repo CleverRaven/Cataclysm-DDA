@@ -2300,7 +2300,7 @@ void remove_battery_mods( item &modded, player &p )
 
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_tools_powered_by( itype_id( "battery" ), _( "Modify what?" ) );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -2322,7 +2322,7 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 
 int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_tools_powered_by( itype_id( "plutonium" ), _( "Modify what?" ) );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "plutonium" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -2338,7 +2338,7 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 
 int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_tools_powered_by( itype_id( "battery" ), _( "Modify what?" ) );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -2363,7 +2363,7 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 
 int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_tools_powered_by( itype_id( "battery" ), _( "Modify what?" ) );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
@@ -2389,7 +2389,7 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 }
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_tools_powered_by( itype_id( "battery" ), _( "Modify what?" ) );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
