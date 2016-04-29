@@ -1744,11 +1744,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         } else if (action == "LEFT") {
             SkillLevel &level = u->get_skill_level(currentSkill->ident());
             if (level) {
-                if (level == 2) {  // lower 2->0 for 1 point
-                    level.level(0);
-                } else {
-                    level.level(level - 1);
-                }
+                boost_skill_level( currentSkill->ident(), -1 );
                 // Done *after* the decrementing to get the original cost for incrementing back.
                 points.skill_points += skill_increment_cost( *u, currentSkill->ident() );
             }
@@ -1756,11 +1752,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             SkillLevel &level = u->get_skill_level(currentSkill->ident());
             if( level < MAX_SKILL ) {
                 points.skill_points -= skill_increment_cost( *u, currentSkill->ident() );
-                if (level == 0) {  // raise 0->2 for 1 point
-                    level.level(2);
-                } else {
-                    level.level(level + 1);
-                }
+                boost_skill_level( currentSkill->ident(), +1 );
             }
         } else if (action == "SCROLL_DOWN") {
             selected++;
