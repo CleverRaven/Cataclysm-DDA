@@ -15,25 +15,15 @@
 const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
-void draw_exam_window( WINDOW *win, int border_line, bool examination )
+void draw_exam_window( WINDOW *win, const int border_y )
 {
     int width = getmaxx( win );
-    if( examination ) {
-        for( int i = 1; i < width - 1; i++ ) {
-            mvwputch( win, border_line, i, BORDER_COLOR, LINE_OXOX ); // Draw line above description
-        }
-        mvwputch( win, border_line, 0, BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( win, border_line, width - 1, BORDER_COLOR, LINE_XOXX ); // -|
-    } else {
-        for( int i = 1; i < width - 1; i++ ) {
-            mvwprintz( win, border_line, i, c_black, " " ); // Erase line
-        }
-        mvwputch( win, border_line, 0, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( win, border_line, width, BORDER_COLOR, LINE_XOXO ); // |
-    }
+    mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
+    whline( win, LINE_OXOX, width - 2 );
+    mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );
 }
 
-void show_mutations_titlebar( WINDOW *window, player *p, std::string menu_mode )
+void show_mutations_titlebar( WINDOW *window, std::string &menu_mode )
 {
     werase( window );
 
@@ -41,12 +31,8 @@ void show_mutations_titlebar( WINDOW *window, player *p, std::string menu_mode )
     int cap_offset = utf8_width( caption ) + 1;
     mvwprintz( window, 0,  0, c_blue, "%s", caption.c_str() );
 
-    std::stringstream pwr;
-    pwr << string_format( _( "Power: %d/%d" ), int( p->power_level ), int( p->max_power_level ) );
-    int pwr_length = utf8_width( pwr.str() ) + 1;
-
     std::string desc;
-    int desc_length = getmaxx( window ) - cap_offset - pwr_length;
+    int desc_length = getmaxx( window ) - cap_offset;
 
     if( menu_mode == "reassigning" ) {
         desc = _( "Reassigning.\nSelect a mutation to reassign or press SPACE to cancel." );
@@ -134,7 +120,6 @@ void player::power_mutations()
     ctxt.register_action( "TOGGLE_EXAMINE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-
     bool redraw = true;
     std::string menu_mode = "activating";
 
@@ -159,7 +144,9 @@ void player::power_mutations()
             mvwprintz( wBio, HEADER_LINE_Y + 1, 2, c_ltblue, _( "Passive:" ) );
             mvwprintz( wBio, HEADER_LINE_Y + 1, second_column, c_ltblue, _( "Active:" ) );
 
-            draw_exam_window( wBio, DESCRIPTION_LINE_Y, menu_mode == "examining" );
+            if( menu_mode == "examining" ) {
+                draw_exam_window( wBio, DESCRIPTION_LINE_Y );
+            }
             nc_color type;
             if( passive.empty() ) {
                 mvwprintz( wBio, list_start_y, 2, c_ltgray, _( "None" ) );
@@ -223,7 +210,7 @@ void player::power_mutations()
             }
         }
         wrefresh( wBio );
-        show_mutations_titlebar( w_title, this, menu_mode );
+        show_mutations_titlebar( w_title, menu_mode );
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
         if( menu_mode == "reassigning" ) {
@@ -267,7 +254,6 @@ void player::power_mutations()
         } else if( action == "TOGGLE_EXAMINE" ) { // switches between activation and examination
             menu_mode = menu_mode == "activating" ? "examining" : "activating";
             werase( w_description );
-            draw_exam_window( wBio, DESCRIPTION_LINE_Y, false );
             redraw = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
@@ -319,7 +305,7 @@ You cannot activate %s!  To read a description of \
                 }
             }
             if( menu_mode == "examining" ) { // Describing mutations, not activating them!
-                draw_exam_window( wBio, DESCRIPTION_LINE_Y, true );
+                draw_exam_window( wBio, DESCRIPTION_LINE_Y );
                 // Clear the lines first
                 werase( w_description );
                 fold_and_print( w_description, 0, 0, WIDTH - 2, c_ltblue, mut_data.description );
