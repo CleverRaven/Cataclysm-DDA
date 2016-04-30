@@ -113,6 +113,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/faction.cpp
     ${CMAKE_SOURCE_DIR}/src/wish.cpp
     ${CMAKE_SOURCE_DIR}/src/bionics.cpp
+    ${CMAKE_SOURCE_DIR}/src/bionics_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/missiondef.cpp
     ${CMAKE_SOURCE_DIR}/src/wincurse.cpp
     ${CMAKE_SOURCE_DIR}/src/worldfactory.cpp

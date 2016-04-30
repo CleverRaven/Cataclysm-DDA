@@ -2,8 +2,9 @@
 #define BIONICS_H
 
 #include "json.h"
-#include "output.h" // WINDOW
 #include <string>
+
+class player;
 
 struct bionic_data {
     bionic_data() = default;
@@ -59,6 +60,7 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
 void reset_bionics();
 void load_bionic( JsonObject &jsobj ); // load a bionic from JSON
 bool is_valid_bionic( std::string const &id );
+char get_free_invlet( player &p );
 std::string list_occupied_bps( const std::string &bio_id, const std::string &intro,
                                const bool each_bp_on_new_line = true );
 
