@@ -2602,7 +2602,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5], ["textbook_armschina", 5]],
-  "qualities" : 
+  "qualities" :
     [
       {"id":"CONTAIN","level":1,"amount":1}
     ],
@@ -2663,7 +2663,7 @@
 "reversible": false,
 "autolearn": false,
 "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ] , ["textbook_chemistry", 7]],
-"qualities" : 
+"qualities" :
 [
 {"id":"CONTAIN","level":1,"amount":1}
 ],
@@ -2852,14 +2852,14 @@
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1},
     {"id":"BOIL","level":2,"amount":1}
-  ], 
+  ],
   "tools": [
     [
       [ "hotplate", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
-  ], 
+  ],
   "components": [
     [ [ "cooking_oil", 2 ] ],
     [ [ "thyme", 2 ] ]

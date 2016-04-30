@@ -515,7 +515,6 @@
       [ "seasoning_salt", 10 ],
       [ "pepper", 15 ]
     ]
-
   ]
 },{
   "type" : "recipe",
@@ -3125,7 +3124,7 @@
         [ "fish", 2 ],
         [ "fish_cooked", 2 ],
         [ "can_tuna", 2 ],
-        [ "can_sardine", 2 ], 
+        [ "can_sardine", 2 ],
         [ "can_clams", 2]
     ],
     [
@@ -4112,7 +4111,7 @@
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 2 ], 
+      [ "bacon", 2 ],
       [ "irradiated_onion", 1 ],
       [ "onion", 1 ]
     ],
@@ -4517,7 +4516,7 @@
       [ "can_salmon", 1 ],
       [ "can_tuna", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 2 ], 
+      [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
@@ -4670,7 +4669,7 @@
       [ "can_salmon", 1 ],
       [ "can_tuna", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 2 ], 
+      [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
@@ -4820,7 +4819,7 @@
       [ "can_salmon", 1 ],
       [ "can_tuna", 1 ],
       [ "sausage", 2 ],
-      [ "bacon", 2 ], 
+      [ "bacon", 2 ],
       [ "powder_eggs", 10 ],
       [ "egg_bird", 2 ],
       [ "egg_reptile", 2 ]
@@ -4987,7 +4986,7 @@
       [ "honey_bottled", 1],
       [ "honey_glassed", 1],
       [ "jam_strawberries", 1 ],
-      [ "jam_blueberries", 1 ], 
+      [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
       [ "irradiated_strawberries", 1 ],
       [ "strawberries", 1 ],
@@ -5240,7 +5239,7 @@
       [ "jam_fruit", 1 ],
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
-      [ "can_peach", 1], 
+      [ "can_peach", 1],
       [ "chocolate", 1 ],
       [ "candy", 3 ],
       [ "candy2", 3 ],
@@ -5336,7 +5335,7 @@
       [ "egg_reptile", 2 ]
     ],
     [
-      [ "bacon", 2 ], 
+      [ "bacon", 2 ],
       [ "meat_cooked", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 2 ],
@@ -5489,7 +5488,7 @@
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
       ["jam_blueberries", 1],
-      ["can_peach", 1], 
+      ["can_peach", 1],
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["lemon", 1],
@@ -5734,7 +5733,7 @@
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
       ["jam_blueberries", 1],
-      ["can_peach", 1], 
+      ["can_peach", 1],
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["lemon", 1],
@@ -5970,7 +5969,7 @@
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
       ["jam_blueberries", 1],
-      ["can_peach", 1], 
+      ["can_peach", 1],
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["lemon", 1],
@@ -7094,7 +7093,7 @@
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
     {"id":"BOIL","level":2,"amount":1}
-  ], 
+  ],
   "tools": [
     [
       [ "hotplate", 50 ],
@@ -7105,7 +7104,7 @@
   ],
   "components": [
     [
-      [ "hickory_root", 10 ] 
+      [ "hickory_root", 10 ]
     ],
     [
       [ "water_clean", 1 ],
@@ -7935,7 +7934,7 @@
       [ "garlic", 1 ],
       [ "salt_water", 1 ],
       [ "salt", 15 ]
-    ] 
+    ]
   ]
 },{
   "type" : "recipe",
@@ -9103,7 +9102,7 @@
     [
       [ "tortilla_corn", 2 ]
     ]
-  ]  
+  ]
 },{
   "type" : "recipe",
    "result" : "hotdogs_campfire",
@@ -11498,7 +11497,7 @@
     [
       [ "cucumber", 1 ],
       [ "irradiated_cucumber", 1 ]
-    ],   
+    ],
     [
       [ "mayonnaise", 1 ],
       [ "mustard", 1 ],
@@ -11929,9 +11928,9 @@
   "qualities":[
     { "id": "COOK", "level": 2 }
   ], "tools": [
-    [ 
+    [
      ["fire", -1]
-    ] 
+    ]
   ],
   "components": [
     [
@@ -12411,14 +12410,14 @@
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1},
     {"id":"BOIL","level":2,"amount":1}
-  ], 
+  ],
   "tools": [
     [ [ "hotplate", 10 ],
       [ "char_smoker", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
-  ], 
+  ],
   "components": [
     [ [ "cooking_oil", 2 ] ],
     [ [ "mugwort", 2 ] ]

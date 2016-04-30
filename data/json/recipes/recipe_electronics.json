@@ -74,7 +74,7 @@
     [ [ "motor_small", 1 ] ],
     [ [ "power_supply", 1 ] ],
     [ [ "cable", 5 ] ],
-    [ 
+    [
       [ "scrap", 1 ],
       [ "steel_chunk", 1 ]
     ]
