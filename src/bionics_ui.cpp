@@ -12,7 +12,8 @@
 #include <sstream>
 
 // '!', '-' and '=' are uses as default bindings in the menu
-const invlet_wrapper bionic_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}");
+const invlet_wrapper
+bionic_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
 namespace
 {
@@ -250,7 +251,9 @@ void player::power_bionics()
     // drawing the bionics starts with bionic[scroll_position]
     const int list_start_y = HEADER_LINE_Y;// - scroll_position;
     int half_list_view_location = LIST_HEIGHT / 2;
-    int max_scroll_position = std::max(0, ( tab_mode == TAB_ACTIVE ? active_bionic_count : passive_bionic_count ) - LIST_HEIGHT );
+    int max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
+                                        active_bionic_count :
+                                        passive_bionic_count ) - LIST_HEIGHT );
 
     input_context ctxt( "BIONICS" );
     ctxt.register_updown();
@@ -402,8 +405,8 @@ void player::power_bionics()
             const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( w_description );
             ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
                                     list_occupied_bps( ( *current_bionic_list )[cursor]->id,
-                                    _( "This bionic occupies the following body parts:" ),
-                                    each_bp_on_new_line ).c_str() );
+                                            _( "This bionic occupies the following body parts:" ),
+                                            each_bp_on_new_line ).c_str() );
             wrefresh( w_description );
         }
 
@@ -543,8 +546,9 @@ void player::power_bionics()
                     redraw = true;
                     continue;
                 } else {
-                    popup(_("You can not activate %s!\n"
-                            "To read a description of %s, press '!', then '%c'."), bio_data.name.c_str(), bio_data.name.c_str(), tmp->invlet);
+                    popup( _( "You can not activate %s!\n"
+                              "To read a description of %s, press '!', then '%c'." ), bio_data.name.c_str(),
+                           bio_data.name.c_str(), tmp->invlet );
                     redraw = true;
                 }
             } else if( menu_mode == "examining" ) { // Describing bionics, allow user to jump to description key
