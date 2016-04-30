@@ -12550,11 +12550,6 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
     } );
 }
 
-bool player::has_ammo( const ammotype &at ) const
-{
-    return !get_ammo( at ).empty();
-}
-
 bool player::has_magazine_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [&at]( const item & it ) {
@@ -12562,25 +12557,6 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
                ( it.is_gun() && it.magazine_integral() && it.ammo_type() == at ) ||
                ( it.is_gun() && it.magazine_current() != nullptr &&
                  it.magazine_current()->ammo_type() == at );
-    } );
-}
-
-bool player::has_magazine_for_gun( const item &gun ) const
-{
-    if( gun.magazine_integral() || gun.magazine_current() != nullptr ) {
-        return true;
-    }
-
-    const auto &compatible = gun.magazine_compatible();
-    return has_item_with( [&compatible]( const item & it ) {
-        return it.is_magazine() && compatible.count( it.typeId() ) > 0;
-    } );
-}
-
-bool player::has_gun_for_magazine( const itype_id &mag_id ) const
-{
-    return has_item_with( [&mag_id]( const item & it ) {
-        return it.is_gun() && it.magazine_compatible().count( mag_id ) > 0;
     } );
 }
 

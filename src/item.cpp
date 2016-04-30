@@ -1987,12 +1987,12 @@ nc_color item::color_in_inventory() const
         // Yellow if you have ammo but no mags
         // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
-        bool has_ammo = u->has_ammo( amtype );
-        bool has_mag = u->has_magazine_for_gun( *this );
+        bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
+        bool has_mag = magazine_integral() || !u->find_ammo( *this, true, -1 ).empty();
         if( has_ammo && has_mag ) {
             ret = c_green;
         } else if( has_ammo || has_mag ) {
-            ret = c_yellow;
+            ret = c_ltred;
         }
     } else if( is_ammo() ) {
         // Likewise, ammo is green if you have guns that use it
@@ -2004,18 +2004,20 @@ nc_color item::color_in_inventory() const
         if( has_gun && has_mag ) {
             ret = c_green;
         } else if( has_gun || has_mag ) {
-            ret = c_yellow;
+            ret = c_ltred;
         }
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
         // Yellow if you have one but not the other
         ammotype amtype = ammo_type();
-        bool has_gun = u->has_gun_for_magazine( typeId() );
-        bool has_ammo = u->has_ammo( amtype );
+        bool has_gun = u->has_item_with( [this]( const item & it ) {
+            return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
+        } );
+        bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
         if( has_gun && has_ammo ) {
             ret = c_green;
         } else if( has_gun || has_ammo ) {
-            ret = c_yellow;
+            ret = c_ltred;
         }
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
