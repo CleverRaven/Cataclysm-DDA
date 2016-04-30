@@ -544,6 +544,11 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
             }
         }
+
+        if( type->sym == 0 ) {
+            msg << "symbol not defined" << "\n";
+        }
+
         for( const auto &_a : type->techniques ) {
             if( !_a.is_valid() ) {
                 msg << string_format( "unknown technique %s", _a.c_str() ) << "\n";

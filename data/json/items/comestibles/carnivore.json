@@ -29,6 +29,7 @@
   },
   {
     "id": "fish_cooked",
+    "copy-fom": "fish",
     "type": "COMESTIBLE",
     "name": "cooked fish",
     "name_plural": "cooked fish",
