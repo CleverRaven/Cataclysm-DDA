@@ -442,3 +442,24 @@ damage_instance load_damage_instance( JsonArray &jarr )
     return di;
 }
 
+std::array<float, NUM_DT> load_damage_array( JsonObject &jo )
+{
+    std::array<float, NUM_DT> ret;
+    float init_val = jo.get_float( "all", 0.0f );
+
+    float phys = jo.get_float( "physical", init_val );
+    ret[ DT_BASH ] = jo.get_float( "bash", phys );
+    ret[ DT_CUT ] = jo.get_float( "cut", phys );
+    ret[ DT_STAB ] = jo.get_float( "stab", phys );
+
+    float non_phys = jo.get_float( "non_physical", init_val );
+    ret[ DT_BIOLOGICAL ] = jo.get_float( "biological", non_phys );
+    ret[ DT_ACID ] = jo.get_float( "acid", non_phys );
+    ret[ DT_HEAT ] = jo.get_float( "heat", non_phys );
+    ret[ DT_COLD ] = jo.get_float( "cold", non_phys );
+    ret[ DT_ELECTRIC ] = jo.get_float( "electric", non_phys );
+
+    // DT_TRUE should never be resisted
+    ret[ DT_TRUE ] = 0.0f;
+    return ret;
+}

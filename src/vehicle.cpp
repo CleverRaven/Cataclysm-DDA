@@ -5602,11 +5602,12 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
     int pdm = random_entry( pl );
     int dres;
     if( parm < 0 ) {
-        // not covered by armor -- damage part
+        // Not covered by armor -- damage part
         dres = damage_direct( pdm, dmg, type );
     } else {
-        // covered by armor -- damage armor first
-        // half damage for internal part(over parts not covered)
+        // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
+        int protection = part_info( parm ).damage_reduction[ type ];
+        // Parts on roof aren't protected
         bool overhead = part_flag( pdm, "ROOF" ) || part_info( pdm ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
         // completely, therefor the other indes (pdm) becames
@@ -5615,11 +5616,11 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         // as removing a part only changes indizes after the
         // removed part.
         if( parm < pdm ) {
-            damage_direct( pdm, overhead ? dmg : dmg / 2, type );
+            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
             dres = damage_direct( parm, dmg, type );
         } else {
             dres = damage_direct( parm, dmg, type );
-            damage_direct( pdm, overhead ? dmg : dmg / 2, type );
+            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
         }
     }
 
@@ -5769,7 +5770,6 @@ int vehicle::break_off( int p, int dmg )
 
 bool vehicle::explode_fuel( int p, damage_type type )
 {
-add_msg("exploding");
     const itype_id &ft = part_info(p).fuel_type;
     struct fuel_explosion {
         // TODO: Move the values below to jsons
@@ -5800,7 +5800,6 @@ add_msg("exploding");
     }
 
     int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
-add_msg("explosion chance: %d", explosion_chance);
     if( one_in( explosion_chance ) ) {
         g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
             pgettext("memorial_female", "The fuel tank of the %s exploded!"),
@@ -5820,11 +5819,15 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     }
 
     int tsh = std::min( 20, part_info(p).durability / 10 );
-    if( dmg < tsh && type != DT_HEAT && type != DT_TRUE ) {
-add_msg("%d < %d && %d != %d && %d != %d", dmg, tsh, type, DT_HEAT, type, DT_TRUE );
+    if( dmg < tsh && type != DT_TRUE ) {
+        if( type == DT_HEAT && part_flag( p, "FUEL_TANK" ) ) {
+            explode_fuel( p, type );
+        }
+
         return dmg;
     }
 
+    dmg -= part_info( p ).damage_reduction[ type ];
     int dres = dmg - parts[p].hp;
     int last_hp = parts[p].hp;
     parts[p].hp -= dmg;
