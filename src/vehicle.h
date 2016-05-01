@@ -121,6 +121,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
     friend visitable<vehicle_cursor>;
+    friend item_location;
 
     enum : int { passenger_flag = 1 };
 
@@ -434,6 +435,12 @@ public:
 
     bool remove_part (int p);
     void part_removal_cleanup ();
+
+    /** Get handle for base item of part */
+    item_location part_base( int p );
+
+    /** Get index of part with matching base item or INT_MIN if not found */
+    int find_part( const item& it ) const;
 
     /**
      * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have

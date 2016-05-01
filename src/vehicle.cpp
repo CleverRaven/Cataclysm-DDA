@@ -29,6 +29,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "map_iterator.h"
+#include "vehicle_selector.h"
 
 #include <fstream>
 #include <sstream>
@@ -2306,6 +2307,19 @@ void vehicle::part_removal_cleanup() {
     }
     shift_if_needed();
     refresh(); // Rebuild cached indices
+}
+
+item_location vehicle::part_base( int p )
+{
+    return item_location( vehicle_cursor( *this, p ), &parts[ p ].base );
+}
+
+int vehicle::find_part( const item& it ) const
+{
+    auto idx = std::find_if( parts.begin(), parts.end(), [&it]( const vehicle_part& e ) {
+        return &e.base == &it;
+    } );
+    return idx != parts.end() ? std::distance( parts.begin(), idx ) : INT_MIN;
 }
 
 /**

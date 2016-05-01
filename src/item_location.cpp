@@ -243,7 +243,7 @@ class item_location::item_on_vehicle : public item_location::impl
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : cur( cur ) {
-            if( !cur.has_item( *which ) ) {
+            if( !( cur.has_item( *which ) || &cur.veh.parts[ cur.part ].base == which ) ) {
                 debugmsg( "Cannot locate item on vehicle: %s", cur.veh.name.c_str() );
             } else {
                 what = which;
@@ -306,8 +306,12 @@ class item_location::item_on_vehicle : public item_location::impl
         void remove_item() override {
             if( what == nullptr ) {
                 return;
+            } else if( &cur.veh.parts[ cur.part ].base == what ) {
+                cur.veh.remove_part( cur.part );
+            } else {
+                cur.veh.remove_item( cur.part, what );
             }
-            cur.veh.remove_item( cur.part, what );
+            what = nullptr;
         }
 };
 
