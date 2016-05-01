@@ -58,6 +58,7 @@ static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
+static const fault_id fault_filter_air( "fault_engine_filter_air" );
 static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 const skill_id skill_mechanics( "mechanics" );
@@ -3192,8 +3193,12 @@ int vehicle::basic_consumption(const itype_id &ftype) const
                 part_epower( engines[e] ) >= 0 ) {
                 // Electric engine - use epower instead
                 fcon -= epower_to_power( part_epower( engines[e] ) );
+
             } else if( !is_engine_type( e, fuel_type_muscle ) ) {
                 fcon += part_power( engines[e] );
+                if( parts[ e ].faults().count( fault_filter_air ) ) {
+                    fcon *= 2;
+                }
             }
         }
     }
@@ -3326,20 +3331,20 @@ int vehicle::safe_velocity(bool const fueled) const
     return (int) (pwrs * k_dynamics() * k_mass()) * 80;
 }
 
-void vehicle::spew_smoke( double joules, int part )
+void vehicle::spew_smoke( double joules, int part, int density )
 {
-    if( rng(1, 100000) > joules ) {
+    if( rng( 1, 10000 ) > joules ) {
         return;
     }
     point p = parts[part].mount;
-    int smoke = int(std::max(joules / 10000 , 1.0));
+    density = std::max( joules / 10000, double( density ) );
     // Move back from engine/muffler til we find an open space
     while( relative_parts.find(p) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate(p);
     tripoint dest( global_x() + q.x, global_y() + q.y, smz );
-    g->m.add_field( dest, fd_smoke, smoke, 0 );
+    g->m.adjust_field_strength( dest, fd_smoke, density );
 }
 
 /**
@@ -3366,6 +3371,8 @@ void vehicle::noise_and_smoke( double load, double time )
         }
     }
 
+    bool bad_filter = false;
+
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
         if( is_engine_on(e) &&
@@ -3386,8 +3393,14 @@ void vehicle::noise_and_smoke( double load, double time )
                     }
                 }
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
+
+                if( parts[ p ].base.faults.count( fault_filter_air ) ) {
+                    bad_filter = true;
+                    j *= j;
+                }
+
                 if( (exhaust_part == -1) && engine_on ) {
-                    spew_smoke( j, p );
+                    spew_smoke( j, p, bad_filter ? MAX_FIELD_DENSITY : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3405,7 +3418,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
     if( (exhaust_part != -1) && engine_on &&
         has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
-        spew_smoke( mufflesmoke, exhaust_part );
+        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
     }
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );

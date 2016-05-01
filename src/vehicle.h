@@ -638,7 +638,7 @@ public:
     int safe_velocity (bool fueled = true) const;
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
-    void spew_smoke( double joules, int part );
+    void spew_smoke( double joules, int part, int density = 1 );
 
     // Loop through engines and generate noise and smoke for each one
     void noise_and_smoke( double load, double time = 6.0 );

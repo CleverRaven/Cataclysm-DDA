@@ -47,6 +47,18 @@
     }
   },
   {
+    "id": "fault_engine_filter_air",
+    "type": "fault",
+    "name": "air filter",
+    "description": "An expired filter reduces fuel efficiency and increases smoke production.",
+    "time": 30000,
+    "skills": [ [ "mechanics", 1 ] ],
+    "requirements": {
+      "qualities": [ { "id": "SCREW", "level": 1 } ],
+      "components": [ [ [ "filter", 1 ], [ "filter_makeshift", 1 ] ] ]
+    }
+  },
+  {
     "id": "fault_engine_filter_fuel",
     "type": "fault",
     "name": "fuel filter",
