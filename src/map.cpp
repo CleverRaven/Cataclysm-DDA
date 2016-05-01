@@ -5584,10 +5584,7 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
         return false;
     }
 
-    if( density > 3) {
-        density = 3;
-    }
-
+    density = std::min( density, MAX_FIELD_DENSITY );
     if( density <= 0) {
         return false;
     }

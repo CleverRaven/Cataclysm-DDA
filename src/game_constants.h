@@ -82,4 +82,7 @@
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500000 // 500kg/level
 
+/** Maximum density of a map field */
+#define MAX_FIELD_DENSITY 3
+
 #endif

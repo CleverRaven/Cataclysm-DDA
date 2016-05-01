@@ -1,6 +1,7 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include "game_constants.h"
 #include "color.h"
 
 #include <vector>
@@ -17,26 +18,31 @@ struct field_t {
     // internal ident, used for tileset and for serializing,
     // should be the same as the entry in field_id below (e.g. "fd_fire").
     std::string id;
- std::string name[3]; //The display name of the given density (ie: light smoke, smoke, heavy smoke)
+
+     /** Display name for field at given density (eg. light smoke, smoke, heavy smoke) */
+     std::string name[ MAX_FIELD_DENSITY ];
+
  char sym; //The symbol to draw for this field. Note that some are reserved like * and %. You will have to check the draw function for specifics.
  int priority; //Inferior numbers have lower priority. 0 is "ground" (splatter), 2 is "on the ground", 4 is "above the ground" (fire), 6 is reserved for furniture, and 8 is "in the air" (smoke).
- nc_color color[3]; //The color the field will be drawn as on the screen, by density.
 
- /*
- If true, does not invoke a check to block line of sight. If false, may block line of sight.
- Note that this does nothing by itself. You must go to the code block in lightmap.cpp and modify
- transparancy code there with a case statement as well!
- */
- bool transparent[3];
+     /** Color the field will be drawn as on the screen at a given density */
+     nc_color color[ MAX_FIELD_DENSITY ];
 
- //Dangerous tiles ask you before you step in them.
- bool dangerous[3];
+     /**
+      * If false this field may block line of sight.
+      * @warning this does nothing by itself. You must go to the code block in lightmap.cpp and modify
+      * transparancy code there with a case statement as well!
+     **/
+     bool transparent[ MAX_FIELD_DENSITY ];
+
+     /** Where tile is dangerous (prompt before moving into) at given density */
+     bool dangerous[ MAX_FIELD_DENSITY ];
 
  //Controls, albeit randomly, how long a field of a given type will last before going down in density.
  int halflife; // In turns
 
- //cost of moving into and out of this field
- int move_cost[3];
+     /** cost of moving into and out of this field at given density */
+    int move_cost[ MAX_FIELD_DENSITY ];
 };
 
 //The master list of id's for a field, corresponding to the fieldlist array.
