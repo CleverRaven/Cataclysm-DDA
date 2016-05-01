@@ -179,8 +179,16 @@
     "vision_night":5,
     "hp":120,
     "death_function":["NORMAL"],
-    "special_attacks":[["RANGED_PULL", 20]],
-    "description":"A gaunt figure with translucent flesh, this backbone of the demonic army sports a salvo of homing rockets on each shoulder.  Its punch is easily more powerful than any humans.",
+    "special_attacks":[["RANGED_PULL", 20], ["GRENADIER", 40], ["GRENADIER_ELITE", 40]],
+    "starting_ammo" : {"bot_manhack_missile": 16},
+    "death_drops": {
+        "subtype": "collection",
+        "//": "Sometimes drops its manhacks.  Sometimes it drops grenade-style bombs.",
+        "groups": [
+            [ "revenant_death_drops", 75]
+        ]
+    },
+    "description":"A gaunt figure with translucent flesh, this backbone of the demonic army sports a salvo of homing rockets on each shoulder.  Its punch can crack human bones.",
     "flags":["SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "BASHES", "GROUP_BASH"]
     },{
     "type" : "MONSTER",
@@ -390,6 +398,12 @@
     "dodge":3,
     "armor_bash":6,
     "armor_cut":6,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "spearmelee_pk", 95 ]
+        ]
+    },
     "hp":65,
     "death_function":["NORMAL"],
     "description":"A tortured slave; a living survivor, beaten, starved, wearing tattered rags and wielding a crude weapon.  They look hungry enough to eat anything.",
