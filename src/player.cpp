@@ -9986,7 +9986,6 @@ void player::mend_item( item_location&& obj, bool interactive )
         sel = menu.ret;
     }
 
-    // @todo convert this in to a long activity
     if( sel >= 0 ) {
         if( !faults[ sel ].second ) {
             if( interactive ) {
@@ -9995,16 +9994,25 @@ void player::mend_item( item_location&& obj, bool interactive )
             return;
         }
 
-        const auto& reqs = faults[ sel ].first->requirements();
-        for( const auto& e : reqs.get_components() ) {
-            consume_items( e );
-        }
-        for( const auto& e : reqs.get_tools() ) {
-            consume_tools( e );
-        }
-        invalidate_crafting_inventory();
+        int pos = INT_MIN;
 
-        obj->faults.erase( faults[ sel ].first->id() );
+        switch( obj.where() ) {
+            case item_location::type::character:
+                pos = get_item_position( &*obj );
+                break;
+
+            case item_location::type::vehicle:
+                pos = g->m.veh_at( obj.position() )->find_part( *obj );
+
+            default:
+                debugmsg( "unsupported item location type %i", static_cast<int>( obj.where() ) );
+                return;
+        }
+        assign_activity( ACT_MEND_ITEM, faults[ sel ].first->time(),
+                         static_cast<int>( obj.where() ), pos,
+                         faults[ sel ].first->id().str() );
+
+        activity.placement = obj.position();
     }
 }
 
