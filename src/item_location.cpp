@@ -21,6 +21,8 @@ class item_location::impl
 
     public:
         virtual ~impl() = default;
+        virtual type where() const = 0;
+        virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
         virtual int obtain( Character &ch, long qty ) = 0;
         virtual int obtain_cost( const Character &ch, long qty ) const = 0;
@@ -42,6 +44,14 @@ class item_location::item_on_map : public item_location::impl
             } else {
                 what = which;
             }
+        }
+
+        type where() const override {
+            return type::map;
+        }
+
+        tripoint position() const override {
+            return cur;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -110,6 +120,14 @@ class item_location::item_on_person : public item_location::impl
             } else {
                 what = which;
             }
+        }
+
+        type where() const override {
+            return type::character;
+        }
+
+        tripoint position() const override {
+            return who.pos();
         }
 
         std::string describe( const Character *ch ) const override {
@@ -232,6 +250,14 @@ class item_location::item_on_vehicle : public item_location::impl
             }
         }
 
+        type where() const override {
+            return type::vehicle;
+        }
+
+        tripoint position() const override {
+            return cur.veh.global_part_pos3( cur.part );
+        }
+
         std::string describe( const Character *ch ) const override {
             std::string res = cur.veh.parts[ cur.part ].name();
             if( ch ) {
@@ -335,6 +361,16 @@ item *item_location::operator->()
 const item *item_location::operator->() const
 {
     return ptr->what;
+}
+
+item_location::type item_location::where() const
+{
+    return ptr ? ptr->where() : type::invalid;
+}
+
+tripoint item_location::position() const
+{
+    return ptr ? ptr->position() : tripoint();
 }
 
 std::string item_location::describe( const Character *ch ) const
