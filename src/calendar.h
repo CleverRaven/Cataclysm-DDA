@@ -154,6 +154,8 @@ class calendar
             return day + season_length() * season;
         }
 
+        static std::string print_duration( int turns );
+
         /** Returns the current time in a string according to the options set */
         std::string print_time( bool just_hour = false ) const;
         /** Returns the period a calendar has been running in word form; i.e. "1 second", "2 days". */
