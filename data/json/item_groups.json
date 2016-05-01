@@ -702,7 +702,7 @@
       ["protein_shake", 10],
       ["fries", 8],
       ["cheese_fries", 6],
-      ["onion_rings", 8]  
+      ["onion_rings", 8]
     ]
   },{
     "type" : "item_group",
@@ -957,7 +957,7 @@
       ["vibrator", 5],
       ["tux", 1],
       ["gown", 1],
-      ["long_glove_white", 1],      
+      ["long_glove_white", 1],
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["corset", 15],
@@ -1031,7 +1031,7 @@
       ["panties", 70],
       ["boy_shorts", 25],
       ["gown", 1],
-      ["long_glove_white", 1],      
+      ["long_glove_white", 1],
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["tshirt", 80],
@@ -2467,7 +2467,7 @@
       ["belgian_ale", 10],
       ["imperial_stout", 4],
       ["single_malt_whiskey", 2],
-      ["survnote", 1]  
+      ["survnote", 1]
     ]
   },{
     "type" : "item_group",
@@ -2665,7 +2665,7 @@
       ["tophat", 30],
       ["tux", 50],
       ["gown", 50],
-      ["long_glove_white", 30]    
+      ["long_glove_white", 30]
     ]
   },{
     "type" : "item_group",
@@ -2958,7 +2958,7 @@
       ["army_top", 20],
       ["tux", 1],
       ["gown", 1],
-      ["long_glove_white", 1],      
+      ["long_glove_white", 1],
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["porkpie", 5],
@@ -8503,7 +8503,7 @@
 "id" : "forage_spring",
 "subtype": "distribution",
 "entries" : [
-      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },      
+      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
       { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
@@ -8521,7 +8521,7 @@
 "id" : "forage_summer",
 "subtype": "distribution",
 "entries" : [
-      { "item": "veggy_wild", "prob": 50, "count-min": 1, "count-max": 2 },      
+      { "item": "veggy_wild", "prob": 50, "count-min": 1, "count-max": 2 },
       { "group": "forage_mushroom", "prob": 25 },
       { "item": "egg_bird", "prob": 5, "count-min": 2, "count-max": 5 },
       { "item": "egg_reptile", "prob": 5, "count-min": 1, "count-max": 3 },
@@ -8543,7 +8543,7 @@
 "entries" : [
       { "group": "forage_mushroom", "prob": 50 },
       { "item": "wild_herbs", "prob": 10 },
-      { "item": "acorns", "prob": 100, "count-min": 2, "count-max": 3 },      
+      { "item": "acorns", "prob": 100, "count-min": 2, "count-max": 3 },
       { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
       { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
       { "item": "garlic", "prob": 1 },
@@ -8962,4 +8962,3 @@
     ]
   }
 ]
-

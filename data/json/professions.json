@@ -1,6 +1,5 @@
 [
     {
-
             "type": "profession",
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
@@ -319,7 +318,6 @@
                 "name": "mechanics"
             }
         ],
-
         "items": {
             "both": [
                 "dress_shirt",
@@ -449,8 +447,6 @@
                 "honeycomb",
                 "honey_bottled",
                 "honey_bottled"
-
-
             ],
             "male": [
                 "boxer_briefs"
@@ -477,7 +473,6 @@
                 "name": "throw"
             }
         ],
-
         "items": {
             "both": [
                 "tank_top",
@@ -1628,7 +1623,6 @@
                 "name": "mechanics"
             }
         ],
-
         "items": {
             "both": [
                 "jeans",
@@ -3431,7 +3425,6 @@
             ]
         }
     },
-
    {
         "type": "profession",
         "ident": "archaeologist",
@@ -3570,7 +3563,6 @@
             ]
         }
     },
-
     {
         "type": "profession",
         "ident": "farmer",
@@ -3665,7 +3657,6 @@
                 "name": "archery"
             }
         ],
-
         "items": {
             "both": [
                 "survivor_vest",
@@ -3719,7 +3710,6 @@
                 "name": "rifle"
             }
         ],
-
         "items": {
             "both": [
                 "pants_army",
@@ -3773,7 +3763,6 @@
                 "name": "firstaid"
             }
         ],
-
         "items": {
             "both": [
                 "socks",
@@ -4068,7 +4057,6 @@
             ]
         }
     },{
-
         "type": "profession",
         "ident": "drone_op",
         "name": "Drone Operator",
@@ -4101,7 +4089,6 @@
         }
     },
     {
-
             "type": "profession",
             "ident": "elementary_student",
             "name": "Elementary Student",
@@ -4297,7 +4284,6 @@
         }
     },
     {
-
             "type": "profession",
             "ident": "bionic_student",
             "name": "Bionic Student",

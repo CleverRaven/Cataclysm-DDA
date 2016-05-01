@@ -36,25 +36,17 @@
             ],
             "terrain": {
                 ".": "t_pavement",
-
                 "Q": "t_pavement",
-
                 "P": "t_pavement",
-
                 "-": "t_chainfence_h",
                 "|": "t_chainfence_v",
                 "+": "t_chaingate_l",
-
                 "&": "t_atm",
                 "1": "t_pavement",
                 "2": "t_pavement",
-
                 "5": "t_gas_pump",
                 "s": "t_little_column",
-
-
                 "9": "t_pavement"
-
             },
             "furniture": {
                 "9": "f_aut_gas_console"
