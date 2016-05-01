@@ -4726,6 +4726,22 @@ bool item::burn(int amount)
         return false;
     }
 
+    if( is_corpse() ) {
+        const mtype *mt = get_mtype();
+        if( active && mt != nullptr && burnt + amount > mt->hp &&
+            !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
+            corpse = &get_mtype()->burn_into.obj();
+            // Delay rezing
+            bday = calendar::turn;
+            burnt = 0;
+            return false;
+        }
+
+        if( burnt + amount > mt->hp ) {
+            active = false;
+        }
+    }
+
     if( !count_by_charges() ) {
         burnt += amount;
         return burnt >= volume() * 3;

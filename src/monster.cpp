@@ -72,6 +72,7 @@ const mtype_id mon_zombie_master( "mon_zombie_master" );
 const mtype_id mon_zombie_necro( "mon_zombie_necro" );
 const mtype_id mon_zombie_rot( "mon_zombie_rot" );
 const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
+const mtype_id mon_zombie_scorched( "mon_zombie_scorched" );
 const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
 const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
@@ -1742,13 +1743,19 @@ void monster::process_effects()
             const efftype_id &id = _effect_it.second.get_id();
             // MATERIALS-TODO: use fire resistance
             if( id == effect_onfire ) {
-                if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ))
-                    apply_damage( nullptr, bp_torso, rng( 3, 8 ) );
-                if (made_of( material_id( "veggy" ) ))
-                    apply_damage( nullptr, bp_torso, rng( 10, 20 ) );
-                if (made_of( material_id( "paper" ) ) || made_of( material_id( "powder" ) ) || made_of( material_id( "wood" ) ) || made_of( material_id( "cotton" ) ) ||
-                    made_of( material_id( "wool" ) ))
-                    apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
+                int dam = 0;
+                if( made_of( material_id( "veggy" ) ) ) {
+                    dam = rng( 10, 20 );
+                } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
+                    dam = rng( 5, 10 );
+                }
+
+                dam -= get_armor_type( DT_HEAT, bp_torso );
+                if( dam > 0 ) {
+                    apply_damage( nullptr, bp_torso, dam );
+                } else {
+                    it.set_duration( 0 );
+                }
             }
         }
     }
@@ -1953,14 +1960,21 @@ bool monster::is_dead() const
 void monster::init_from_item( const item &itm )
 {
     if( itm.typeId() == "corpse" ) {
+        set_speed_base( get_speed_base() * 0.8 );
         const int burnt_penalty = itm.burnt;
-        set_speed_base( static_cast<int>( get_speed_base() * 0.8 ) - ( burnt_penalty / 2 ) );
-        hp = static_cast<int>( hp * 0.7 ) - burnt_penalty;
+        hp = static_cast<int>( hp * 0.7 );
         if( itm.damage > 0 ) {
             set_speed_base( speed_base / ( itm.damage + 1 ) );
             hp /= itm.damage + 1;
         }
-        hp = std::max( 1, hp ); // Otherwise burned monsters will rez with <= 0 hp
+
+        hp -= burnt_penalty;
+
+        // HP can be 0 or less, in this case revive_corpse will just deactivate the corpse
+        if( hp > 0 && type->has_flag( "REVIVES_HEALTHY" ) ) {
+            hp = type->hp;
+            set_speed_base( type->speed );
+        }
     } else {
         // must be a robot
         const int damfac = 5 - std::max<int>( 0, itm.damage ); // 5 (no damage) ... 1 (max damage)
@@ -2131,5 +2145,13 @@ void monster::on_load()
 
     const int heal_amount = divide_roll_remainder( regen * dt, 1.0 );
     const int healed = heal( heal_amount );
-    add_msg( m_debug, "on_load() by %s, %d turns, healed %d", name().c_str(), dt, healed );
+    int healed_speed = 0;
+    if( healed < heal_amount && get_speed_base() < type->speed ) {
+        int old_speed = get_speed_base();
+        set_speed_base( std::min( get_speed_base() + heal_amount - healed, type->speed ) );
+        healed_speed = get_speed_base() - old_speed;
+    }
+
+    add_msg( m_debug, "on_load() by %s, %d turns, healed %d hp, %d speed",
+             name().c_str(), dt, healed, healed_speed );
 }
