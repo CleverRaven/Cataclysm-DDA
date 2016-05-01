@@ -32,6 +32,10 @@ class fault
             return description_;
         }
 
+        int time() const {
+            return time_;
+        }
+
         const std::map<skill_id, int> &skills() const {
             return skills_;
         }
@@ -56,6 +60,7 @@ class fault
         fault_id id_;
         std::string name_;
         std::string description_;
+        int time_;
         std::map<skill_id, int> skills_;
         requirement_data requirements_;
 };
