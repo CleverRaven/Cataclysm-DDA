@@ -817,9 +817,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
          * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
          * @param factor base move cost per unit volume before considering any other modifiers
+         * @param qty if specified limits maximum obtained charges
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST) const;
+        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST, int qty = -1 ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
