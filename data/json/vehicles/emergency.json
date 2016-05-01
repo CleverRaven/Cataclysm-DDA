@@ -179,7 +179,7 @@
         ],
         "items" : [
             { "x": -2, "y": 1, "chance": 75, "item_groups": [ "guns_cop" ], "magazine": 100, "ammo": 50 }
-        ]            
+        ]
     },{
         "type" : "vehicle",
         "id" : "truck_swat",

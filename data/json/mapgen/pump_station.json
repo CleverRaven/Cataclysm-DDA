@@ -47,7 +47,7 @@
                 "...|rr|  |s|c  |s| |rr|.",
                 "...|  *  |s|  P|s| |--|.",
                 "...|rr|  |s|---|s|    |.",
-                "...|--|  |ssssssz|    w." 
+                "...|--|  |ssssssz|    w."
             ],
             "terrain" : {
                 "|" : "t_wall",
@@ -133,7 +133,7 @@
                 "........................",
                 "........................",
                 "........................",
-                "........................" 
+                "........................"
             ],
             "terrain" : {
                 "|" : "t_wall",
@@ -208,7 +208,7 @@
                 "RRRR~x2RRRRRRRRRRRRRRRRR",
                 "RRRR~x2RRRRRRRRRRRRRRRRR",
                 "RRRR~x2RRRRRRRRRRRRRRRRR",
-                "RRRR~x2RRRRRRRRRRRRRRRRR" 
+                "RRRR~x2RRRRRRRRRRRRRRRRR"
             ],
             "terrain" : {
                 "2" : "t_sewage_pipe",
@@ -254,7 +254,7 @@
                 "RRRR~x2RRRRRRRRRRRRRRRRR",
                 "RRRR~x2RRRRRRRRRRRRRRRRR",
                 "RRRR~x2RRRRRRRRRRRRRRRRR",
-                "RRRR~x2RRRRRRRRRRRRRRRRR" 
+                "RRRR~x2RRRRRRRRRRRRRRRRR"
             ],
             "terrain" : {
                 "2" : "t_sewage_pipe",
@@ -298,7 +298,7 @@
                 "RRRRRRRRRRRRRRRRRRRRRRRR",
                 "RRRRRRRRRRRRRRRRRRRRRRRR",
                 "RRRRRRRRRRRRRRRRRRRRRRRR",
-                "RRRRRRRRRRRRRRRRRRRRRRRR" 
+                "RRRRRRRRRRRRRRRRRRRRRRRR"
             ],
             "terrain" : {
                 "2" : "t_sewage_pipe",

@@ -10,9 +10,7 @@
         { "group": "clothing_soldier_set", "prob": 65, "damage-min": 1, "damage-max": 4 },
         { "group": "clothing_soldier_winter_set", "prob": 35, "damage-min": 1, "damage-max": 4 }
       ] },
-
       { "group": "gear_soldier_sidearm", "prob": 30, "damage-min": 1, "damage-max": 4 },
-
       { "collection": [
         { "distribution": [
           { "group": "guns_rifle_milspec", "prob": 75, "damage-min": 1, "damage-max": 4 },
@@ -33,7 +31,6 @@
           ], "prob": 100 }
         ], "prob": 30 }
       ], "prob": 20 },
-
       { "distribution": [
         { "item": "LAW_Packed", "prob": 20 },
         { "item": "e_tool", "prob": 100 },
@@ -41,12 +38,9 @@
         { "item": "two_way_radio", "prob": 50 },
         { "item": "c4", "prob": 10 }
       ], "prob": 20 },
-
       { "item": "grenade", "prob": 5 },
-
       { "group": "drugs_soldier", "prob": 20 },
       { "group": "mil_food", "prob": 15 },
-
       { "item": "id_military", "prob": 5 },
       { "item": "cash_card" },
       { "group": "misc_smoking", "prob": 30 }

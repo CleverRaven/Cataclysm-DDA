@@ -1124,7 +1124,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 14,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", 
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM",
                   "ORGANIC", "MOUNTABLE", "SHORT"],
         "examine_action": "crate",
         "deconstruct": {
@@ -2555,7 +2555,7 @@
             "sound": "smash!",
             "sound_fail": "thump.",
             "items": [
-                { "item": "rock", "count": [1, 6] }              
+                { "item": "rock", "count": [1, 6] }
             ]
         }
       },{

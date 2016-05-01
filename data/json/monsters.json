@@ -3073,12 +3073,12 @@
     "armor_cut":4,
     "armor_stab":10,
     "vision_day":30,
-    "vision_night":3, 
+    "vision_night":3,
     "hp":100,
     "death_function":"BLOBSPLIT",
     "special_attacks":[["STRETCH_BITE", 10], ["STRETCH_ATTACK", 5]],
     "description":"Black hollow eyes survey the surroundings as the zombie stretches and bends in ways that whoever the original body belonged to never could.  The only thing that seems solid, on this flexible black-veined body, is the rows of sharp black teeth.  You get the feeling that the only human thing remaining is the skin, worn as one would wear clothes.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE"]   
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_child",
@@ -6662,7 +6662,7 @@
     "vision_night":3,
     "death_drops": "mon_zombie_armored_death_drops",
     "hp":120,
-    "death_function":["NORMAL"], 
+    "death_function":["NORMAL"],
     "description":"Despite being encased in a what was once a nigh-impenetrable suit of power armor, something still managed to kill this soldier.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
