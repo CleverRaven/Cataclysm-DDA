@@ -7578,6 +7578,13 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.ddx = cx;
     vehint.ddy = cy;
     vehint.exec(&veh);
+
+    if( vehint.sel_cmd == 'm' ) {
+        refresh_all();
+        g->u.mend_item( veh.part_base( veh.index_of_part( vehint.sel_vehicle_part ) ) );
+        return;
+    }
+
     if (vehint.sel_cmd != ' ') {
         int time = 200;
         int skill = u.get_skill_level( skill_id( "mechanics" ) );

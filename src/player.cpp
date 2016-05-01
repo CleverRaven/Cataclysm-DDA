@@ -10003,6 +10003,7 @@ void player::mend_item( item_location&& obj, bool interactive )
 
             case item_location::type::vehicle:
                 pos = g->m.veh_at( obj.position() )->find_part( *obj );
+                break;
 
             default:
                 debugmsg( "unsupported item location type %i", static_cast<int>( obj.where() ) );

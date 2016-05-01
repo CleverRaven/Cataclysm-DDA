@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "cata_utility.h"
 #include "vehicle_selector.h"
+#include "fault.h"
 
 #include <cmath>
 #include <list>
@@ -75,6 +76,7 @@ veh_interact::veh_interact ()
     main_context.register_action("QUIT");
     main_context.register_action("INSTALL");
     main_context.register_action("REPAIR");
+    main_context.register_action("MEND");
     main_context.register_action("REFILL");
     main_context.register_action("REMOVE");
     main_context.register_action("RENAME");
@@ -283,6 +285,8 @@ void veh_interact::do_main_loop()
             do_install();
         } else if (action == "REPAIR") {
             do_repair();
+        } else if (action == "MEND") {
+            do_mend();
         } else if (action == "REFILL") {
             do_refill();
         } else if (action == "REMOVE") {
@@ -425,6 +429,13 @@ task_reason veh_interact::cant_do (char mode)
         enough_morale = g->u.has_morale_to_craft();
         valid_target = !need_repair.empty() && cpart >= 0;
         has_tools = (has_welder && has_goggles) || has_duct_tape;
+        break;
+    case 'm': // mend mode
+        enough_morale = g->u.has_morale_to_craft();
+        valid_target = cpart >= 0 && std::any_of( parts_here.begin(), parts_here.end(), [this]( int e ) {
+            return !veh->parts[ e ].faults().empty();
+        } );
+        has_tools = true; // checked later
         break;
     case 'f': // refill mode
         if (!ptanks.empty()) {
@@ -972,6 +983,79 @@ void veh_interact::do_repair()
             move_in_list(pos, action, need_repair.size());
         }
     }
+}
+
+void veh_interact::do_mend()
+{
+    display_mode( 'm' );
+    werase( w_msg );
+
+    switch( cant_do( 'm' ) ) {
+        case LOW_MORALE:
+            mvwprintz( w_msg, 0, 1, c_ltred, _( "Your morale is too low to mend..." ) );
+            wrefresh( w_msg );
+            return;
+
+        case INVALID_TARGET:
+            mvwprintz( w_msg, 0, 1, c_ltred, _( "No faulty parts here." ) );
+            wrefresh( w_msg );
+            return;
+
+        case MOVING_VEHICLE:
+            mvwprintz( w_msg, 0, 1, c_ltgray, _( "You can't mend stuff while driving." ) );
+            wrefresh( w_msg );
+            return;
+
+        default:
+            break;
+    }
+
+    std::vector<int> opts;
+    std::copy_if( parts_here.begin(), parts_here.end(), std::back_inserter( opts ), [this]( int e ) {
+        return !veh->parts[ e ].faults().empty();
+    } );
+
+    mvwprintz( w_mode, 0, 1, c_ltgray, _( "Choose a part here to mend:" ) );
+    wrefresh( w_mode );
+    int pos = 0;
+    while ( true ) {
+        sel_vehicle_part = &veh->parts[ opts[ pos ] ];
+        sel_vpart_info = &sel_vehicle_part->info();
+        werase( w_parts );
+        int idx = std::distance( parts_here.begin(), std::find( parts_here.begin(), parts_here.end(), opts[ pos ] ) );
+        veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, idx );
+        wrefresh( w_parts );
+
+        werase( w_list );
+        int y = 0;
+        for( const auto& e : sel_vehicle_part->faults() ) {
+            y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray,
+                                 _( "* <color_red>Faulty %1$s</color>" ), e.obj().name().c_str() );
+            y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, e.obj().description() );
+            y++;
+        }
+        wrefresh( w_list );
+
+        const std::string action = main_context.handle_input();
+        if( ( action == "MEND" || action == "CONFIRM" ) ) {
+            sel_cmd = 'm';
+            return;
+
+        } else if( action == "QUIT" ) {
+            werase( w_parts );
+            veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1 );
+            wrefresh( w_parts );
+            werase( w_msg );
+            wrefresh( w_msg );
+            werase( w_list );
+            wrefresh( w_list );
+            break;
+
+        } else {
+            move_in_list( pos, action, opts.size() );
+        }
+    }
+
 }
 
 /**
@@ -1773,6 +1857,7 @@ void veh_interact::display_mode(char mode)
         const std::array<std::string, 9> actions = { {
             { _("<i>nstall") },
             { _("<r>epair") },
+            { _("<m>end" ) },
             { _("re<f>ill") },
             { _("rem<o>ve") },
             { _("<s>iphon") },
@@ -1784,6 +1869,7 @@ void veh_interact::display_mode(char mode)
         const std::array<bool, std::tuple_size<decltype(actions)>::value> enabled = { {
             !cant_do('i'),
             !cant_do('r'),
+            !cant_do('m'),
             !cant_do('f'),
             !cant_do('o'),
             !cant_do('s'),
