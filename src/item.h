@@ -725,6 +725,9 @@ public:
 
     bool is_faulty() const;
 
+    /** What faults can potentially occur with this item? */
+    std::set<fault_id> faults_potential() const;
+
     /**
      * Can this item have given item/itype as content?
      *

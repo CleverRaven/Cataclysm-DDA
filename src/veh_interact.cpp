@@ -433,7 +433,9 @@ task_reason veh_interact::cant_do (char mode)
     case 'm': // mend mode
         enough_morale = g->u.has_morale_to_craft();
         valid_target = cpart >= 0 && std::any_of( parts_here.begin(), parts_here.end(), [this]( int e ) {
-            return !veh->parts[ e ].faults().empty();
+            return g->u.has_trait( "DEBUG_HS" ) ?
+                !veh->parts[ e ].faults_potential().empty() :
+                !veh->parts[ e ].faults().empty();
         } );
         has_tools = true; // checked later
         break;
@@ -1012,6 +1014,9 @@ void veh_interact::do_mend()
 
     std::vector<int> opts;
     std::copy_if( parts_here.begin(), parts_here.end(), std::back_inserter( opts ), [this]( int e ) {
+        if( g->u.has_trait( "DEBUG_HS" ) ) {
+            return !veh->parts[ e ].faults_potential().empty();
+        }
         return !veh->parts[ e ].faults().empty();
     } );
 
