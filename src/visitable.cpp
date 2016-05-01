@@ -188,7 +188,8 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
         res = std::max( res, item( "toolset" ).get_quality( qual ) );
     }
 
-    if( qual == "BUTCHER" ) {
+    static const quality_id BUTCHER( "BUTCHER" );
+    if( qual == BUTCHER ) {
         if( self->has_bionic( "bio_razor" ) || self->has_trait( "CLAWS_ST" ) ) {
             res = std::max( res, 8 );
         } else if( self->has_trait( "TALONS" ) || self->has_trait( "MANDIBLES" ) ||
@@ -749,7 +750,7 @@ int visitable<Character>::amount_of( const std::string& what, bool pseudo, int l
     if( what == "apparatus" && pseudo ) {
         int qty = 0;
         visit_items( [&qty, &limit] ( const item *e ) {
-            qty += e->get_quality( "SMOKE_PIPE" ) >= 1;
+            qty += e->get_quality( quality_id( "SMOKE_PIPE" ) ) >= 1;
             return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
         } );
         return std::min( qty, limit );

@@ -605,14 +605,14 @@ const requirement_data requirement_data::disassembly_requirements() const
             if( type == "welder" ||
                 type == "welder_crude" ||
                 type == "oxy_torch" ) {
-                new_qualities.push_back( quality_requirement( "SAW_M_FINE", 1, 1 ) );
+                new_qualities.emplace_back( quality_id( "SAW_M_FINE" ), 1, 1 );
                 replaced = true;
                 break;
             }
 
             if( type == "sewing_kit" ||
                 type == "mold_plastic" ) {
-                new_qualities.push_back( quality_requirement( "CUT", 1, 1 ) );
+                new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
                 replaced = true;
                 break;
             }
