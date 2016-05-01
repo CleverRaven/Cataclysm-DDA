@@ -12,40 +12,37 @@
 #include "calendar.h"
 #include <cmath>
 #include <algorithm>
+#include "generic_factory.h"
 
 namespace {
-std::map<quality_id, quality> qualities;
+generic_factory<quality> quality_factory( "tool quality" );
 } // namespace
 
 void quality::reset()
 {
-    qualities.clear();
+    quality_factory.reset();
+}
+
+void quality::load_static( JsonObject &jo )
+{
+    quality_factory.load( jo );
 }
 
 void quality::load( JsonObject &jo )
 {
-    quality qual;
-    qual.id = quality_id( jo.get_string( "id" ) );
-    qual.name = _( jo.get_string( "name" ).c_str() );
-    qualities[qual.id] = qual;
+    mandatory( jo, was_loaded, "name", name, translated_string_reader );
 }
 
 template<>
 const quality &string_id<quality>::obj() const
 {
-    const auto iter = qualities.find( *this );
-    if( iter == qualities.end() ) {
-        debugmsg( "invalid quality id %s", c_str() );
-        static const quality dummy{};
-        return dummy;
-    }
-    return iter->second;
+    return quality_factory.obj( *this );
 }
 
 template<>
 bool string_id<quality>::is_valid() const
 {
-    return qualities.count( *this ) > 0;
+    return quality_factory.is_valid( *this );
 }
 
 std::string quality_requirement::to_string( int ) const

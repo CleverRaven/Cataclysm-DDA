@@ -25,12 +25,15 @@ enum available_status {
 };
 
 struct quality {
+    bool was_loaded = false;
     quality_id id;
     // Translated name
     std::string name;
 
+    void load( JsonObject &jo );
+
     static void reset();
-    static void load( JsonObject &jo );
+    static void load_static( JsonObject &jo );
 };
 
 struct component {
