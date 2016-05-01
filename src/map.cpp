@@ -1734,13 +1734,6 @@ int map::get_ter_harvest_season(const int x, const int y) const {
     return get_ter_harvest_season( tripoint( x, y, abs_sub.z ) );
 }
 
-void map::ter_set(const int x, const int y, const ter_str_id &new_terrain) {
-    if ( !new_terrain.is_valid() ) {
-        return;
-    }
-    ter_set(x, y, new_terrain.id() );
-}
-
 void map::ter_set(const int x, const int y, const ter_id new_terrain) {
     ter_set( tripoint( x, y, abs_sub.z ), new_terrain );
 }
@@ -1796,14 +1789,6 @@ int map::get_ter_harvest_season( const tripoint &p ) const {
 /*
  * set terrain via string; this works for -any- terrain id
  */
-void map::ter_set( const tripoint &p, const ter_str_id &new_terrain) {
-    if( !new_terrain.is_valid() ) {
-        return;
-    }
-
-    ter_set( p, new_terrain.id() );
-}
-
 void map::ter_set( const tripoint &p, const ter_id new_terrain )
 {
     if( !inbounds( p ) ) {
@@ -7917,11 +7902,6 @@ void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_line_ter( const ter_str_id &type, int x1, int y1, int x2, int y2 )
-{
-    draw_line_ter( type.id(), x1, y1, x2, y2 );
-}
-
 void map::draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 )
 {
     draw_line( [this, type]( int x, int y ) {
@@ -7952,10 +7932,6 @@ void map::draw_fill_background( ter_id type )
     }
 }
 
-void map::draw_fill_background( const ter_str_id &type )
-{
-    draw_fill_background( type.id() );
-}
 void map::draw_fill_background( ter_id( *f )() )
 {
     draw_square_ter( f, 0, 0, SEEX * my_MAPSIZE - 1, SEEY * my_MAPSIZE - 1 );
@@ -7970,11 +7946,6 @@ void map::draw_square_ter( ter_id type, int x1, int y1, int x2, int y2 )
     draw_square( [this, type]( int x, int y ) {
         this->ter_set( x, y, type );
     }, x1, y1, x2, y2 );
-}
-
-void map::draw_square_ter( const ter_str_id &type, int x1, int y1, int x2, int y2 )
-{
-    draw_square_ter( type.id(), x1, y1, x2, y2 );
 }
 
 void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
@@ -8010,11 +7981,6 @@ void map::draw_rough_circle_ter( ter_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_rough_circle_ter( const ter_str_id &type, int x, int y, int rad )
-{
-    draw_rough_circle_ter( type.id(), x, y, rad );
-}
-
 void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
 {
     draw_rough_circle( [this, type]( int x, int y ) {
@@ -8039,11 +8005,6 @@ void map::draw_circle_ter( ter_id type, int x, int y, int rad )
     draw_circle( [this, type]( int x, int y ) {
         this->ter_set( x, y, type );
     }, x, y, rad );
-}
-
-void map::draw_circle_ter( const ter_str_id &type, int x, int y, int rad )
-{
-    draw_circle_ter( type.id(), x, y, rad );
 }
 
 void map::draw_circle_furn( furn_id type, int x, int y, int rad )
