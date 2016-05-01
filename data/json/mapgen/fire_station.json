@@ -139,7 +139,6 @@
                 ],
                 "place_vehicles": [
                     { "vehicle": "fire_engine", "x": 12, "y": 13, "rotation": 270, "chance": 30 }
-
                 ]
             }
         } ]

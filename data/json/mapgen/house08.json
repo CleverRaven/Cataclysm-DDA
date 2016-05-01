@@ -6,7 +6,7 @@
         "weight" : 300,
         "object" : {
             "fill_ter" : "t_floor",
-            "rows" : [ 
+            "rows" : [
                 ".###....................",
                 ".#---v----v;v----------.",
                 ".#|hk   | oooo       hv.",

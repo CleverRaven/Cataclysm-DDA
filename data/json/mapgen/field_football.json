@@ -25,7 +25,6 @@
         [ "cell_phone", 50 ],
         [ "mp3", 50 ],
         [ "inhaler", 10 ]
-        
     ]
     },{
     "type": "vehicle_group",
@@ -600,7 +599,6 @@
                 { "point": "terrain", "id": "t_dirt", "x": 9, "y": [ 18, 23 ], "repeat": [ 1, 2 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 10, 20 ], "y": [ 19, 23 ], "repeat": [ 13, 19 ] },
                 { "point": "terrain", "id": "t_dirt", "x": [ 21, 23 ], "y": 23, "repeat": [ 0, 1 ] }
-                
             ]
         }
     },{
