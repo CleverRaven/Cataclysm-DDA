@@ -10408,7 +10408,7 @@ hint_rating player::rate_action_mend( const item &it ) const
     if( !it.faults.empty() ) {
         return HINT_GOOD;
     }
-    return !it.type->engine || it.type->engine->faults.empty() ? HINT_CANT : HINT_IFFY;
+    return it.faults_potential().empty() ? HINT_CANT : HINT_IFFY;
 }
 
 hint_rating player::rate_action_disassemble( const item &it )

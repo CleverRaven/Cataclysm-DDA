@@ -6910,7 +6910,7 @@ const std::set<fault_id>& vehicle_part::faults() const
 
 std::set<fault_id> vehicle_part::faults_potential() const
 {
-    return base.type->engine ? base.type->engine->faults : std::set<fault_id>();
+    return base.faults_potential();
 }
 
 bool vehicle_part::fault_set( const fault_id &f )
