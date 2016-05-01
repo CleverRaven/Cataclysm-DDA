@@ -197,7 +197,7 @@ void vpart_info::load( JsonObject &jo )
     auto qual = jo.get_array( "qualities" );
     while( qual.has_more() ) {
         auto pair = qual.next_array();
-        next_part.qualities[ pair.get_string( 0 ) ] = pair.get_int( 1 );
+        next_part.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
     }
 
     //Calculate and cache z-ordering based off of location

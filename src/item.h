@@ -37,7 +37,8 @@ class Skill;
 using skill_id = string_id<Skill>;
 class fault;
 using fault_id = string_id<fault>;
-using quality_id = std::string;
+struct quality;
+using quality_id = string_id<quality>;
 
 enum damage_type : int;
 

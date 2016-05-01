@@ -20,7 +20,8 @@ using vproto_id = string_id<vehicle_prototype>;
 class vehicle;
 class JsonObject;
 struct vehicle_item_spawn;
-using quality_id = std::string;
+struct quality;
+using quality_id = string_id<quality>;
 typedef int nc_color;
 
 // bitmask backing store of -certian- vpart_info.flags, ones that

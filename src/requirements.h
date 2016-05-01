@@ -7,6 +7,7 @@
 #include <memory>
 #include "color.h"
 #include "output.h"
+#include "string_id.h"
 
 class JsonObject;
 class JsonArray;
@@ -14,8 +15,8 @@ class inventory;
 
 // Denotes the id of an item type
 typedef std::string itype_id;
-// Denotes the id of an item quality
-typedef std::string quality_id;
+struct quality;
+using quality_id = string_id<quality>;
 
 enum available_status {
     a_true = +1, // yes, it's available
@@ -207,8 +208,8 @@ struct requirement_data {
         static bool any_marked_available( const std::vector<T> &comps );
         template<typename T>
         static void load_obj_list( JsonArray &jsarr, std::vector< std::vector<T> > &objs );
-        template<typename T>
-        static const T *find_by_type( const std::vector< std::vector<T> > &vec, const std::string &type );
+        template<typename T, typename ID>
+        static const T *find_by_type( const std::vector< std::vector<T> > &vec, const ID &type );
 };
 
 #endif

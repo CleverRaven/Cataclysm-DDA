@@ -23,7 +23,7 @@ void quality::reset()
 void quality::load( JsonObject &jo )
 {
     quality qual;
-    qual.id = jo.get_string( "id" );
+    qual.id = quality_id( jo.get_string( "id" ) );
     qual.name = _( jo.get_string( "name" ).c_str() );
     qualities[qual.id] = qual;
 }
@@ -34,7 +34,7 @@ std::string quality::get_name( const quality_id &id )
     if( a != qualities.end() ) {
         return a->second.name;
     }
-    return id;
+    return id.str();
 }
 
 bool quality::has( const quality_id &id )
@@ -75,7 +75,7 @@ std::string item_comp::to_string( int batch ) const
 void quality_requirement::load( JsonArray &jsarr )
 {
     JsonObject quality_data = jsarr.next_object();
-    type = quality_data.get_string( "id" );
+    type = quality_id( quality_data.get_string( "id" ) );
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
     if( count <= 0 ) {
@@ -470,9 +470,9 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, i
     return has_one ? "dkgray" : "red";
 }
 
-template<typename T>
+template<typename T, typename ID>
 const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &vec,
-        const std::string &type )
+        const ID &type )
 {
     for( const auto &list : vec ) {
         for( const auto &comp : list ) {

@@ -7,9 +7,11 @@
 #include <string>
 
 #include "enums.h"
+#include "string_id.h"
 
 class item;
-using quality_id = std::string;
+struct quality;
+using quality_id = string_id<quality>;
 
 enum class VisitResponse {
     ABORT, // Stop processing after this node

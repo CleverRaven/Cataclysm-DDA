@@ -1493,7 +1493,7 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()) {
             JsonArray curr = jarr.next_array();
-            const auto quali = std::pair<std::string, int>(curr.get_string(0), curr.get_int(1));
+            const auto quali = std::pair<quality_id, int>(quality_id(curr.get_string(0)), curr.get_int(1));
             if( new_item_template->qualities.count( quali.first ) > 0 ) {
                 curr.throw_error( "Duplicated quality", 0 );
             }
