@@ -9962,6 +9962,8 @@ void player::mend_item( item_location&& obj, bool interactive )
             auto comps = reqs.get_folded_components_list( w, c_white, inv );
 
             std::ostringstream descr;
+            descr << _( "<color_white>Time required:</color>\n" );
+            descr << "> " << calendar::print_duration( f.first->time() / 100 ) << "\n";
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
                 bool hasSkill = get_skill_level( skill_mechanics ) >= e.second;
