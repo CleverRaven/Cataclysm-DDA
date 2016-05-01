@@ -58,7 +58,7 @@ static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
-
+static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -3227,8 +3227,9 @@ int vehicle::total_power(bool const fueled) const
 
 int vehicle::acceleration(bool const fueled) const
 {
-    if ((engine_on && has_engine_type_not(fuel_type_muscle, true)) || skidding) {
-        return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+    if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
+        return safe_velocity( fueled ) * k_mass() / ( 1 + strain () ) / 10;
+
     } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
         int mass = total_mass();
@@ -3306,6 +3307,10 @@ int vehicle::safe_velocity(bool const fueled) const
                 m2c = 45;
             }
 
+            if( parts[ engines[ e ] ].faults().count( fault_filter_fuel ) ) {
+                m2c *= 0.6;
+            }
+
             pwrs += part_power(engines[e]) * m2c / 100;
             cnt++;
         }
@@ -3370,10 +3375,15 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-                const double dmg = 1.0 - ((double)parts[p].hp / part_info( p ).durability);
-                if( is_engine_type( e, fuel_type_gasoline ) && dmg > 0.75 &&
-                        one_in( 200 - (150 * dmg) ) ) {
-                    backfire( e );
+
+                if( is_engine_type( e, fuel_type_gasoline ) ) {
+                    double dmg = 1.0 - double( parts[p].hp ) / part_info( p ).durability;
+                    if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
+                        dmg = 1.0;
+                    }
+                    if( dmg > 0.75 && one_in( 200 - ( 150 * dmg ) ) ) {
+                        backfire( e );
+                    }
                 }
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
                 if( (exhaust_part == -1) && engine_on ) {

@@ -46,6 +46,7 @@
     "//": "Spare parts for crafting or mending vehicle parts",
     "items": [
       [ "drivebelt", 200 ],
+      [ "filter", 100 ],
       [ "glowplug", 10 ],
       [ "motor_small", 20 ],
       [ "pump_complex", 10 ],
