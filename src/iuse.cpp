@@ -8007,7 +8007,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             static const quality_id SCREW_FINE( "SCREW_FINE" );
             if( !cinv.has_quality( SCREW_FINE ) ) {
-                p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( SCREW_FINE ).c_str() );
+                p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), SCREW_FINE.obj().name.c_str() );
                 has_tools = false;
             }
 

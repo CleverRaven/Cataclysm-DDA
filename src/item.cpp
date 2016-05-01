@@ -1325,7 +1325,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     for( const auto &quality : type->qualities ) {
         const auto desc = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
                                          quality.second,
-                                         quality::get_name( quality.first ).c_str() );
+                                         quality.first.obj().name.c_str() );
         info.push_back( iteminfo( "QUALITIES", "", desc ) );
     }
     bool intro = false; // Did we print the "Contains items with qualities" line
@@ -1338,7 +1338,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
             const auto desc = string_format( space + _( "Level %1$d %2$s quality." ),
                                              quality.second,
-                                             quality::get_name( quality.first ).c_str() );
+                                             quality.first.obj().name.c_str() );
             info.push_back( iteminfo( "QUALITIES", "", desc ) );
         }
     }

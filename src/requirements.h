@@ -31,7 +31,6 @@ struct quality {
 
     static void reset();
     static void load( JsonObject &jo );
-    static std::string get_name( const quality_id &id );
 };
 
 struct component {

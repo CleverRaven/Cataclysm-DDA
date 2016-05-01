@@ -30,13 +30,16 @@ void quality::load( JsonObject &jo )
     qualities[qual.id] = qual;
 }
 
-std::string quality::get_name( const quality_id &id )
+template<>
+const quality &string_id<quality>::obj() const
 {
-    const auto a = qualities.find( id );
-    if( a != qualities.end() ) {
-        return a->second.name;
+    const auto iter = qualities.find( *this );
+    if( iter == qualities.end() ) {
+        debugmsg( "invalid quality id %s", c_str() );
+        static const quality dummy{};
+        return dummy;
     }
-    return id.str();
+    return iter->second;
 }
 
 template<>
@@ -49,7 +52,7 @@ std::string quality_requirement::to_string( int ) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
                                     "%d tools with %s of %d or more.", count ),
-                          count, quality::get_name( type ).c_str(), level );
+                          count, type.obj().name.c_str(), level );
 }
 
 bool tool_comp::by_charges() const
