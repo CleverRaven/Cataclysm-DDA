@@ -91,6 +91,10 @@ void Item_factory::finalize() {
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
 
+        if( obj.engine && item_options.count( "no_faults" ) ) {
+            obj.engine->faults.clear();
+        }
+
         if( !obj.category ) {
             obj.category = get_category( calc_category( &obj ) );
         }
