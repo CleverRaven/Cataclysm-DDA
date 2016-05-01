@@ -54,17 +54,13 @@ void show_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
-    std::string caption = _( "BIONICS -" );
-    int cap_offset = utf8_width( caption ) + 1;
-    mvwprintz( window, 0,  0, c_blue, "%s", caption.c_str() );
-
     std::stringstream pwr;
     pwr << string_format( _( "Power: %i/%i" ), int( p->power_level ), int( p->max_power_level ) );
     int pwr_length = utf8_width( pwr.str() ) + 1;
     mvwprintz( window, 0, getmaxx( window ) - pwr_length, c_white, "%s", pwr.str().c_str() );
 
     std::string desc;
-    int desc_length = getmaxx( window ) - cap_offset - pwr_length;
+    int desc_length = getmaxx( window ) - pwr_length;
 
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -75,7 +71,7 @@ void show_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
     } else if( mode == EXAMINING ) {
         desc = _( "<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
-    fold_and_print( window, 0, cap_offset, desc_length, c_white, desc );
+    fold_and_print( window, 0, 1, desc_length, c_white, desc );
 
     wrefresh( window );
 }
@@ -317,7 +313,7 @@ void player::power_bionics()
             redraw = false;
 
             werase( wBio );
-            draw_border( wBio );
+            draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
             // Draw symbols to connect additional lines to border
             mvwputch( wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO ); // |-
             mvwputch( wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
