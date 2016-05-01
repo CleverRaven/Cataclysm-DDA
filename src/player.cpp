@@ -10046,10 +10046,12 @@ int player::item_store_cost( const item& it, const item& /* container */, bool e
 int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
 {
     if( ammo.is_ammo() ) {
-        if( qty <= 0 ) {
-            qty = it.has_flag( "RELOAD_ONE") ? it.ammo_capacity() - it.ammo_remaining() : 1;
-        }
-        qty = std::min( ammo.charges, qty );
+        qty = std::max( std::min( ammo.charges, qty ), 1L );
+    } else if( ammo.is_magazine() ) {
+        qty = 1;
+    } else {
+        debugmsg( "cannot determine reload cost as %s is neither ammo or magazine", ammo.tname().c_str() );
+        return 0;
     }
 
     int mv = item_handling_cost( ammo );
@@ -10069,13 +10071,9 @@ int player::item_reload_cost( const item& it, const item& ammo, long qty ) const
     ///\EFFECT_SHOTGUN decreases time taken to reload a shotgun
     ///\EFFECT_LAUNCHER decreases time taken to reload a launcher
 
+    int cost = ( it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time ) * qty;
+
     skill_id sk = it.is_gun() ? it.type->gun->skill_used : skill_gun;
-    int cost = it.is_gun() ? it.type->gun->reload_time : it.type->magazine->reload_time;
-
-    if( it.is_magazine() )  {
-        cost *= qty; // for magazines reload time is per round
-    }
-
     mv += cost / ( 1 + std::min( double( get_skill_level( sk ) ) * 0.075, 0.75 ) );
 
     if( it.has_flag( "STR_RELOAD" ) ) {

@@ -11582,11 +11582,12 @@ bool game::unload( item &it )
         // Remove all contained ammo consuming half as much time as required to load the magazine
         long qty = 0;
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&]( item& e ) {
+            int mv = u.item_reload_cost( *target, e, e.charges ) / 2;
             if( !add_or_drop_with_msg( u, e ) ) {
                 return false;
             }
             qty += e.charges;
-            u.moves -= u.item_reload_cost( *target, e ) / 2;
+            u.moves -= mv;
             return true;
         } ), target->contents.end() );
 
@@ -11606,7 +11607,7 @@ bool game::unload( item &it )
             return false;
         }
         // Eject magazine consuming half as much time as required to insert it
-        u.moves -= u.item_reload_cost( *target, *target->magazine_current() ) / 2;
+        u.moves -= u.item_reload_cost( *target, *target->magazine_current(), -1 ) / 2;
 
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&target]( const item& e ) {
             return target->magazine_current() == &e;

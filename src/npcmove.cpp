@@ -1306,7 +1306,7 @@ bool npc::need_to_reload() const
 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
-    int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ), calendar::turn ) );
+    int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ) ), gun.ammo_capacity() );
     const float turns_til_reloaded = (float)rltime / get_speed();
 
     Creature *target = current_target();
