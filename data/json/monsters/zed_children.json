@@ -120,7 +120,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_sproglodyte",
-        "name": "skippy",
+        "name": "sproglodyte",
         "species":"ZOMBIE",
         "default_faction":"zombie",
         "symbol":"z",
@@ -234,7 +234,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_zombie_snotgobbler",
-        "name": "snot",
+        "name": "snotgobbler",
         "species":"ZOMBIE",
         "default_faction":"zombie",
         "symbol":"z",
