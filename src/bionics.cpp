@@ -78,7 +78,7 @@ bionic_data const &bionic_info( std::string const &id )
         return it->second;
     }
 
-    debugmsg("bad bionic id");
+    debugmsg( "bad bionic id" );
 
     static bionic_data const null_value {
         "bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false, {{bp_torso, 0}}
@@ -150,174 +150,178 @@ bool player::activate_bionic( int b, bool eff_only )
     int &dirx = dirp.x;
     int &diry = dirp.y;
     item tmp_item;
-    w_point const weatherPoint = g->weather_gen->get_weather( global_square_location(), calendar::turn );
+    w_point const weatherPoint = g->weather_gen->get_weather( global_square_location(),
+                                 calendar::turn );
 
     // On activation effects go here
-    if(bio.id == "bio_painkiller") {
+    if( bio.id == "bio_painkiller" ) {
         mod_pain( -2 );
         mod_painkiller( 6 );
-        if ( get_painkiller() > get_pain() ) {
+        if( get_painkiller() > get_pain() ) {
             set_painkiller( get_pain() );
         }
-    } else if (bio.id == "bio_ears" && has_active_bionic("bio_earplugs")) {
-        for (auto &i : my_bionics) {
-            if (i.id == "bio_earplugs") {
+    } else if( bio.id == "bio_ears" && has_active_bionic( "bio_earplugs" ) ) {
+        for( auto &i : my_bionics ) {
+            if( i.id == "bio_earplugs" ) {
                 i.powered = false;
-                add_msg(m_info, _("Your %s automatically turn off."), bionics[i.id].name.c_str());
+                add_msg( m_info, _( "Your %s automatically turn off." ), bionics[i.id].name.c_str() );
             }
         }
-    } else if (bio.id == "bio_earplugs" && has_active_bionic("bio_ears")) {
-        for (auto &i : my_bionics) {
-            if (i.id == "bio_ears") {
+    } else if( bio.id == "bio_earplugs" && has_active_bionic( "bio_ears" ) ) {
+        for( auto &i : my_bionics ) {
+            if( i.id == "bio_ears" ) {
                 i.powered = false;
-                add_msg(m_info, _("Your %s automatically turns off."), bionics[i.id].name.c_str());
+                add_msg( m_info, _( "Your %s automatically turns off." ), bionics[i.id].name.c_str() );
             }
         }
-    } else if (bio.id == "bio_tools") {
+    } else if( bio.id == "bio_tools" ) {
         invalidate_crafting_inventory();
-    } else if (bio.id == "bio_cqb") {
-        if (!pick_style()) {
+    } else if( bio.id == "bio_cqb" ) {
+        if( !pick_style() ) {
             bio.powered = false;
-            add_msg(m_info, _("You change your mind and turn it off."));
+            add_msg( m_info, _( "You change your mind and turn it off." ) );
             return false;
         }
-    } else if (bio.id == "bio_nanobots") {
+    } else if( bio.id == "bio_nanobots" ) {
         remove_effect( effect_bleed );
-        healall(4);
-    } else if (bio.id == "bio_resonator") {
+        healall( 4 );
+    } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, _("VRRRRMP!"));
-        for (int i = posx() - 1; i <= posx() + 1; i++) {
-            for (int j = posy() - 1; j <= posy() + 1; j++) {
+        sounds::sound( pos(), 30, _( "VRRRRMP!" ) );
+        for( int i = posx() - 1; i <= posx() + 1; i++ ) {
+            for( int j = posy() - 1; j <= posy() + 1; j++ ) {
                 tripoint bashpoint( i, j, posz() );
                 g->m.bash( bashpoint, 110 );
                 g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
                 g->m.bash( bashpoint, 110 );
             }
         }
-    } else if (bio.id == "bio_time_freeze") {
+    } else if( bio.id == "bio_time_freeze" ) {
         moves += power_level;
         power_level = 0;
-        add_msg(m_good, _("Your speed suddenly increases!"));
-        if (one_in(3)) {
-            add_msg(m_bad, _("Your muscles tear with the strain."));
+        add_msg( m_good, _( "Your speed suddenly increases!" ) );
+        if( one_in( 3 ) ) {
+            add_msg( m_bad, _( "Your muscles tear with the strain." ) );
             apply_damage( nullptr, bp_arm_l, rng( 5, 10 ) );
             apply_damage( nullptr, bp_arm_r, rng( 5, 10 ) );
             apply_damage( nullptr, bp_leg_l, rng( 7, 12 ) );
             apply_damage( nullptr, bp_leg_r, rng( 7, 12 ) );
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
-        if (one_in(5)) {
+        if( one_in( 5 ) ) {
             add_effect( effect_teleglow, rng( 50, 400 ) );
         }
-    } else if (bio.id == "bio_teleport") {
+    } else if( bio.id == "bio_teleport" ) {
         g->teleport();
         add_effect( effect_teleglow, 300 );
         // TODO: More stuff here (and bio_blood_filter)
-    } else if(bio.id == "bio_blood_anal") {
-        WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0),
-                10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
-        draw_border(w);
-        if (has_effect( effect_fungus )) {
-            bad.push_back(_("Fungal Parasite"));
+    } else if( bio.id == "bio_blood_anal" ) {
+        WINDOW *w = newwin( 20, 40, 3 + ( ( TERMY > 25 ) ? ( TERMY - 25 ) / 2 : 0 ),
+                            10 + ( ( TERMX > 80 ) ? ( TERMX - 80 ) / 2 : 0 ) );
+        draw_border( w );
+        if( has_effect( effect_fungus ) ) {
+            bad.push_back( _( "Fungal Parasite" ) );
         }
-        if (has_effect( effect_dermatik )) {
-            bad.push_back(_("Insect Parasite"));
+        if( has_effect( effect_dermatik ) ) {
+            bad.push_back( _( "Insect Parasite" ) );
         }
-        if (has_effect( effect_stung )) {
-            bad.push_back(_("Stung"));
+        if( has_effect( effect_stung ) ) {
+            bad.push_back( _( "Stung" ) );
         }
-        if (has_effect( effect_poison )) {
-            bad.push_back(_("Poison"));
+        if( has_effect( effect_poison ) ) {
+            bad.push_back( _( "Poison" ) );
         }
-        if (radiation > 0) {
-            bad.push_back(_("Irradiated"));
+        if( radiation > 0 ) {
+            bad.push_back( _( "Irradiated" ) );
         }
-        if (has_effect( effect_pkill1 )) {
-            good.push_back(_("Minor Painkiller"));
+        if( has_effect( effect_pkill1 ) ) {
+            good.push_back( _( "Minor Painkiller" ) );
         }
-        if (has_effect( effect_pkill2 )) {
-            good.push_back(_("Moderate Painkiller"));
+        if( has_effect( effect_pkill2 ) ) {
+            good.push_back( _( "Moderate Painkiller" ) );
         }
-        if (has_effect( effect_pkill3 )) {
-            good.push_back(_("Heavy Painkiller"));
+        if( has_effect( effect_pkill3 ) ) {
+            good.push_back( _( "Heavy Painkiller" ) );
         }
-        if (has_effect( effect_pkill_l )) {
-            good.push_back(_("Slow-Release Painkiller"));
+        if( has_effect( effect_pkill_l ) ) {
+            good.push_back( _( "Slow-Release Painkiller" ) );
         }
-        if (has_effect( effect_drunk )) {
-            good.push_back(_("Alcohol"));
+        if( has_effect( effect_drunk ) ) {
+            good.push_back( _( "Alcohol" ) );
         }
-        if (has_effect( effect_cig )) {
-            good.push_back(_("Nicotine"));
+        if( has_effect( effect_cig ) ) {
+            good.push_back( _( "Nicotine" ) );
         }
-        if (has_effect( effect_meth )) {
-            good.push_back(_("Methamphetamines"));
+        if( has_effect( effect_meth ) ) {
+            good.push_back( _( "Methamphetamines" ) );
         }
-        if (has_effect( effect_high )) {
-            good.push_back(_("Intoxicant: Other"));
+        if( has_effect( effect_high ) ) {
+            good.push_back( _( "Intoxicant: Other" ) );
         }
-        if (has_effect( effect_weed_high )) {
-            good.push_back(_("THC Intoxication"));
+        if( has_effect( effect_weed_high ) ) {
+            good.push_back( _( "THC Intoxication" ) );
         }
-        if (has_effect( effect_hallu ) || has_effect( effect_visuals )) {
-            bad.push_back(_("Hallucinations"));
+        if( has_effect( effect_hallu ) || has_effect( effect_visuals ) ) {
+            bad.push_back( _( "Hallucinations" ) );
         }
-        if (has_effect( effect_pblue )) {
-            good.push_back(_("Prussian Blue"));
+        if( has_effect( effect_pblue ) ) {
+            good.push_back( _( "Prussian Blue" ) );
         }
-        if (has_effect( effect_iodine )) {
-            good.push_back(_("Potassium Iodide"));
+        if( has_effect( effect_iodine ) ) {
+            good.push_back( _( "Potassium Iodide" ) );
         }
-        if (has_effect( effect_datura )) {
-            good.push_back(_("Anticholinergic Tropane Alkaloids"));
+        if( has_effect( effect_datura ) ) {
+            good.push_back( _( "Anticholinergic Tropane Alkaloids" ) );
         }
-        if (has_effect( effect_took_xanax )) {
-            good.push_back(_("Xanax"));
+        if( has_effect( effect_took_xanax ) ) {
+            good.push_back( _( "Xanax" ) );
         }
-        if (has_effect( effect_took_prozac )) {
-            good.push_back(_("Prozac"));
+        if( has_effect( effect_took_prozac ) ) {
+            good.push_back( _( "Prozac" ) );
         }
-        if (has_effect( effect_took_flumed )) {
-            good.push_back(_("Antihistamines"));
+        if( has_effect( effect_took_flumed ) ) {
+            good.push_back( _( "Antihistamines" ) );
         }
-        if (has_effect( effect_adrenaline )) {
-            good.push_back(_("Adrenaline Spike"));
+        if( has_effect( effect_adrenaline ) ) {
+            good.push_back( _( "Adrenaline Spike" ) );
         }
-        if (has_effect( effect_adrenaline_mycus )) {
-            good.push_back(_("Mycal Spike"));
+        if( has_effect( effect_adrenaline_mycus ) ) {
+            good.push_back( _( "Mycal Spike" ) );
         }
-        if (has_effect( effect_tapeworm )) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
-            good.push_back(_("Intestinal Parasite"));
+        if( has_effect(
+                effect_tapeworm ) ) { // This little guy is immune to the blood filter though, as he lives in your bowels.
+            good.push_back( _( "Intestinal Parasite" ) );
         }
-        if (has_effect( effect_bloodworms )) {
-            good.push_back(_("Hemolytic Parasites"));
+        if( has_effect( effect_bloodworms ) ) {
+            good.push_back( _( "Hemolytic Parasites" ) );
         }
-        if (has_effect( effect_brainworms )) {  // These little guys are immune to the blood filter too, as they live in your brain.
-            good.push_back(_("Intracranial Parasite"));
+        if( has_effect(
+                effect_brainworms ) ) { // These little guys are immune to the blood filter too, as they live in your brain.
+            good.push_back( _( "Intracranial Parasite" ) );
         }
-        if (has_effect( effect_paincysts )) {  // These little guys are immune to the blood filter too, as they live in your muscles.
-            good.push_back(_("Intramuscular Parasites"));
+        if( has_effect(
+                effect_paincysts ) ) { // These little guys are immune to the blood filter too, as they live in your muscles.
+            good.push_back( _( "Intramuscular Parasites" ) );
         }
-        if (has_effect( effect_tetanus )) {  // Tetanus infection.
-            good.push_back(_("Clostridium Tetani Infection"));
+        if( has_effect( effect_tetanus ) ) { // Tetanus infection.
+            good.push_back( _( "Clostridium Tetani Infection" ) );
         }
-        if (good.empty() && bad.empty()) {
-            mvwprintz(w, 1, 1, c_white, _("No effects."));
+        if( good.empty() && bad.empty() ) {
+            mvwprintz( w, 1, 1, c_white, _( "No effects." ) );
         } else {
-            for (unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
-                if (line <= bad.size()) {
-                    mvwprintz(w, line, 1, c_red, "%s", bad[line - 1].c_str());
+            for( unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++ ) {
+                if( line <= bad.size() ) {
+                    mvwprintz( w, line, 1, c_red, "%s", bad[line - 1].c_str() );
                 } else {
-                    mvwprintz(w, line, 1, c_green, "%s", good[line - 1 - bad.size()].c_str());
+                    mvwprintz( w, line, 1, c_green, "%s", good[line - 1 - bad.size()].c_str() );
                 }
             }
         }
-        wrefresh(w);
+        wrefresh( w );
         refresh();
         getch();
-        delwin(w);
-    } else if(bio.id == "bio_blood_filter") {
+        delwin( w );
+    } else if( bio.id == "bio_blood_filter" ) {
         remove_effect( effect_fungus );
         remove_effect( effect_dermatik );
         remove_effect( effect_bloodworms );
@@ -344,42 +348,43 @@ bool player::activate_bionic( int b, bool eff_only )
         force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );
         stim = 0;
-    } else if(bio.id == "bio_evap") {
-        item water = item("water_clean", 0);
+    } else if( bio.id == "bio_evap" ) {
+        item water = item( "water_clean", 0 );
         int humidity = weatherPoint.humidity;
-        int water_charges = (humidity * 3.0) / 100.0 + 0.5;
+        int water_charges = ( humidity * 3.0 ) / 100.0 + 0.5;
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
         water.charges = water_charges;
-        if (water_charges == 0) {
-            add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
-        } else if (g->handle_liquid(water, true, false)) {
+        if( water_charges == 0 ) {
+            add_msg_if_player( m_bad,
+                               _( "There was not enough moisture in the air from which to draw water!" ) );
+        } else if( g->handle_liquid( water, true, false ) ) {
             moves -= 100;
         } else {
             water.charges -= drink_from_hands( water );
             if( water.charges == water_charges ) {
-                charge_power(bionics["bio_evap"].power_activate);
+                charge_power( bionics["bio_evap"].power_activate );
             }
         }
-    } else if(bio.id == "bio_lighter") {
+    } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
-        if(!choose_adjacent(_("Start a fire where?"), dirp) ||
-           (!g->m.add_field(dirp, fd_fire, 1, 0))) {
-            add_msg_if_player(m_info, _("You can't light a fire there."));
-            charge_power(bionics["bio_lighter"].power_activate);
+        if( !choose_adjacent( _( "Start a fire where?" ), dirp ) ||
+            ( !g->m.add_field( dirp, fd_fire, 1, 0 ) ) ) {
+            add_msg_if_player( m_info, _( "You can't light a fire there." ) );
+            charge_power( bionics["bio_lighter"].power_activate );
         }
-    } else if(bio.id == "bio_leukocyte") {
-        set_healthy(std::min(100, get_healthy() + 2));
-        mod_healthy_mod(20, 100);
-    } else if(bio.id == "bio_geiger") {
-        add_msg(m_info, _("Your radiation level: %d"), radiation);
-    } else if(bio.id == "bio_radscrubber") {
-        if (radiation > 4) {
+    } else if( bio.id == "bio_leukocyte" ) {
+        set_healthy( std::min( 100, get_healthy() + 2 ) );
+        mod_healthy_mod( 20, 100 );
+    } else if( bio.id == "bio_geiger" ) {
+        add_msg( m_info, _( "Your radiation level: %d" ), radiation );
+    } else if( bio.id == "bio_radscrubber" ) {
+        if( radiation > 4 ) {
             radiation -= 5;
         } else {
             radiation = 0;
         }
-    } else if(bio.id == "bio_adrenaline") {
+    } else if( bio.id == "bio_adrenaline" ) {
         if( has_effect( effect_adrenaline ) ) {
             // Safety
             add_msg_if_player( m_bad, _( "The bionic refuses to activate!" ) );
@@ -387,31 +392,31 @@ bool player::activate_bionic( int b, bool eff_only )
         } else {
             add_effect( effect_adrenaline, 200 );
         }
-    } else if(bio.id == "bio_blaster") {
+    } else if( bio.id == "bio_blaster" ) {
         tmp_item = weapon;
-        weapon = item("bio_blaster_gun", 0);
+        weapon = item( "bio_blaster_gun", 0 );
         g->refresh_all();
-        g->plfire(false);
-        if(weapon.charges == 1) { // not fired
-            charge_power(bionics[bio.id].power_activate);
+        g->plfire( false );
+        if( weapon.charges == 1 ) { // not fired
+            charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
-    } else if (bio.id == "bio_laser") {
+    } else if( bio.id == "bio_laser" ) {
         tmp_item = weapon;
-        weapon = item("bio_laser_gun", 0);
+        weapon = item( "bio_laser_gun", 0 );
         g->refresh_all();
-        g->plfire(false);
-        if(weapon.charges == 1) { // not fired
-            charge_power(bionics[bio.id].power_activate);
+        g->plfire( false );
+        if( weapon.charges == 1 ) { // not fired
+            charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
-    } else if(bio.id == "bio_chain_lightning") {
+    } else if( bio.id == "bio_chain_lightning" ) {
         tmp_item = weapon;
-        weapon = item("bio_lightning", 0);
+        weapon = item( "bio_lightning", 0 );
         g->refresh_all();
-        g->plfire(false);
-        if(weapon.charges == 1) { // not fired
-            charge_power(bionics[bio.id].power_activate);
+        g->plfire( false );
+        if( weapon.charges == 1 ) { // not fired
+            charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_emp") {
@@ -1144,7 +1149,7 @@ std::string list_occupied_bps( const std::string &bio_id, const std::string &int
                                const bool each_bp_on_new_line )
 {
     if( bionic_info( bio_id ).occupied_bodyparts.empty() ) {
-    return "";
+        return "";
     }
     std::ostringstream desc;
     desc << intro;
