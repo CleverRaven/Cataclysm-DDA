@@ -288,6 +288,11 @@ void vpart_info::check()
         if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
         }
+        for( auto &q : part.qualities ) {
+            if( !q.first.is_valid() ) {
+                debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
+            }
+        }
     }
 }
 
