@@ -3,10 +3,20 @@
 
 #include <string>
 
-// Convert minutes, hours, days to turns
-#define MINUTES(x) ((x) * 10)
-#define HOURS(x)   ((x) * 600)
-#define DAYS(x)    ((x) * 14400)
+constexpr int MINUTES( int n )
+{
+    return n * 10;
+}
+
+constexpr int HOURS( int n )
+{
+    return n * 600;
+}
+
+constexpr int DAYS( int n )
+{
+    return n * 14400;
+}
 
 // How much light the moon provides per quater
 #define MOONLIGHT_PER_QUATER 2.25
