@@ -2256,7 +2256,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (has_flag("FIT")) {
         ret << _(" (fits)");
     }
-    
+
     if( is_disgusting_for( g->u ) ) {
         ret << _(" (filthy)" );
     }
@@ -2696,16 +2696,16 @@ long item::get_property_long( const std::string& prop, long def ) const
     return def;
 }
 
-int item::get_quality( const std::string &quality_id ) const
+int item::get_quality( const std::string &id ) const
 {
     int return_quality = INT_MIN;
     for( const auto &quality : type->qualities ) {
-        if( quality.first == quality_id ) {
+        if( quality.first == id ) {
             return_quality = quality.second;
         }
     }
     for( auto &itm : contents ) {
-        return_quality = std::max( return_quality, itm.get_quality( quality_id ) );
+        return_quality = std::max( return_quality, itm.get_quality( id ) );
     }
 
     return return_quality;
