@@ -7579,9 +7579,8 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.ddy = cy;
     vehint.exec(&veh);
 
-    if( vehint.sel_cmd == 'm' ) {
+    if( vehint.sel_cmd == 'q' ) {
         refresh_all();
-        g->u.mend_item( veh.part_base( veh.index_of_part( vehint.sel_vehicle_part ) ) );
         return;
     }
 

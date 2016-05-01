@@ -1038,7 +1038,8 @@ void veh_interact::do_mend()
 
         const std::string action = main_context.handle_input();
         if( ( action == "MEND" || action == "CONFIRM" ) ) {
-            sel_cmd = 'm';
+            g->u.mend_item( veh->part_base( opts[ pos ] ) );
+            sel_cmd = 'q';
             return;
 
         } else if( action == "QUIT" ) {
