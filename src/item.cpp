@@ -2696,7 +2696,7 @@ long item::get_property_long( const std::string& prop, long def ) const
     return def;
 }
 
-int item::get_quality( const std::string &id ) const
+int item::get_quality( const quality_id &id ) const
 {
     int return_quality = INT_MIN;
     for( const auto &quality : type->qualities ) {

@@ -28,7 +28,7 @@ void quality::load( JsonObject &jo )
     qualities[qual.id] = qual;
 }
 
-std::string quality::get_name( const std::string &id )
+std::string quality::get_name( const quality_id &id )
 {
     const auto a = qualities.find( id );
     if( a != qualities.end() ) {
@@ -37,7 +37,7 @@ std::string quality::get_name( const std::string &id )
     return id;
 }
 
-bool quality::has( const std::string &id )
+bool quality::has( const quality_id &id )
 {
     return qualities.count( id ) > 0;
 }

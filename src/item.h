@@ -37,6 +37,7 @@ class Skill;
 using skill_id = string_id<Skill>;
 class fault;
 using fault_id = string_id<fault>;
+using quality_id = std::string;
 
 enum damage_type : int;
 
@@ -474,7 +475,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     void add_rain_to_container(bool acid, int charges = 1);
     /*@}*/
 
-    int get_quality( const std::string &id ) const;
+    int get_quality( const quality_id &id ) const;
     bool count_by_charges() const;
     bool craft_has_charges();
 
