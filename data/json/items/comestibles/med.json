@@ -1171,6 +1171,27 @@
         }
     },
     {
+        "id" : "gummy_vitamins",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "MED",
+        "copy-from": "vitamins",
+        "name" : "gummy vitamin",
+        "description" : "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
+        "fun" : 2,
+        "charges" : 20,
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You eat the gummy vitamin.",
+            "vitamins": [
+                [ "calcium", 20, 40 ],
+                [ "iron", 20, 40 ],
+                [ "vitA", 20, 40 ],
+                [ "vitB", 20, 40 ],
+                [ "vitC", 20, 40 ]
+            ]
+        }
+    },
+    {
         "id" : "inj_vitb",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
