@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "output.h"
 #include "worldfactory.h"
+#include "cata_utility.h"
 #include "path_info.h"
 #include "translations.h"
 
@@ -301,29 +302,23 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 bool mod_manager::set_default_mods(const t_mod_list &mods)
 {
     default_mods = mods;
-    std::ofstream stream(FILENAMES["mods-user-default"].c_str(), std::ios::out | std::ios::binary);
-    if(!stream) {
-        popup(_("Can not open %s for writing"), FILENAMES["mods-user-default"].c_str());
-        return false;
-    }
+    const std::string path = FILENAMES["mods-user-default"];
+
     try {
-        stream.exceptions(std::ios::failbit | std::ios::badbit);
-        JsonOut json(stream, true); // pretty-print
+        ofstream_wrapper fout( path );
+        JsonOut json( fout, true ); // pretty-print
         json.start_object();
         json.member("type", "MOD_INFO");
         json.member("ident", "user:default");
         json.member("dependencies");
         json.write(mods);
         json.end_object();
+        fout.close();
         return true;
-    } catch(std::ios::failure &) {
-        // this might happen and indicates an I/O-error
-        popup(_("Failed to write default mods to %s"), FILENAMES["mods-user-default"].c_str());
-    } catch( const JsonError &e ) {
-        // this should not happen, it comes from json-serialization
-        debugmsg("%s", e.c_str());
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to write default mods to %s: %s"), path.c_str(), err.what() );
+        return false;
     }
-    return false;
 }
 
 bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
@@ -473,19 +468,13 @@ void mod_manager::save_mods_list(WORLDPTR world) const
         remove_file(path);
         return;
     }
-    std::ofstream mods_list_file(path.c_str(), std::ios::out | std::ios::binary);
-    if(!mods_list_file) {
-        popup(_("Can not open %s for writing"), path.c_str());
-    }
     try {
-        mods_list_file.exceptions(std::ios::failbit | std::ios::badbit);
-        JsonOut json(mods_list_file, true); // pretty-print
+        ofstream_wrapper fout( path );
+        JsonOut json( fout, true ); // pretty-print
         json.write(world->active_mod_order);
-    } catch(std::ios::failure &) {
-        // this might happen and indicates an I/O-error
-        popup(_("Failed to write to %s"), path.c_str());
-    } catch( const JsonError &e ) {
-        popup( _( "Failed to write list of mods to %s: %s" ), path.c_str(), e.c_str() );
+        fout.close();
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to save the mods list to %s: %s"), path.c_str(), err.what() );
     }
 }
 

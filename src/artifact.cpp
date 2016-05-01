@@ -4,7 +4,7 @@
 #include "item_factory.h"
 #include "debug.h"
 #include "json.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "rng.h"
 #include "translations.h"
 
@@ -1219,15 +1219,8 @@ void it_artifact_armor::deserialize(JsonObject &jo)
 
 bool save_artifacts( const std::string &path )
 {
-    std::ofstream fout;
     try {
-        fout.exceptions( std::ios::badbit | std::ios::failbit );
-
-        fopen_exclusive( fout, path.c_str(), std::ofstream::trunc );
-        if( !fout.is_open() ) {
-            return true; // trick game into thinking it was saved
-        }
-
+        ofstream_wrapper_exclusive fout( path );
         JsonOut json( fout );
         json.start_array();
         for( auto & p : item_controller->get_all_itypes() ) {
@@ -1240,14 +1233,11 @@ bool save_artifacts( const std::string &path )
             }
         }
         json.end_array();
-        fclose_exclusive( fout, path.c_str() );
-
+        fout.close();
         return true;
-    } catch( std::ios::failure & ) {
-        if( fout.is_open() ) {
-            fclose_exclusive( fout, path.c_str() );
-        }
-        popup( _( "Failed to save artifacts to %s" ), path.c_str() );
+
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to save artifacts to %s" ), path.c_str(), err.what() );
         return false;
     }
 }

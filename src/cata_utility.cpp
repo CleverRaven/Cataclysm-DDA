@@ -7,6 +7,7 @@
 #include "creature.h"
 #include "translations.h"
 #include "debug.h"
+#include "mapsharing.h"
 
 #include <algorithm>
 
@@ -314,4 +315,46 @@ float multi_lerp( const std::vector<std::pair<float, float>> &points, float x )
 
     // Linear interpolation of values at relevant thresholds
     return ( t * points[i].second ) + ( ( 1 - t ) * points[i - 1].second );
+}
+
+ofstream_wrapper::ofstream_wrapper( const std::string &path )
+{
+    file_stream.open( path.c_str(), std::ios::binary );
+    if( !file_stream.is_open() ) {
+        throw std::runtime_error( "opening file failed" );
+    }
+}
+
+ofstream_wrapper::~ofstream_wrapper() = default;
+
+void ofstream_wrapper::close()
+{
+    file_stream.close();
+    if( file_stream.fail() ) {
+        throw std::runtime_error( "writing to file failed" );
+    }
+}
+
+ofstream_wrapper_exclusive::ofstream_wrapper_exclusive( const std::string &path )
+    : path( path )
+{
+    fopen_exclusive( file_stream, path.c_str(), std::ios::binary );
+    if( !file_stream.is_open() ) {
+        throw std::runtime_error( "opening file failed" );
+    }
+}
+
+ofstream_wrapper_exclusive::~ofstream_wrapper_exclusive()
+{
+    if( file_stream.is_open() ) {
+        fclose_exclusive( file_stream, path.c_str() );
+    }
+}
+
+void ofstream_wrapper_exclusive::close()
+{
+    fclose_exclusive( file_stream, path.c_str() );
+    if( file_stream.fail() ) {
+        throw std::runtime_error( "writing to file failed" );
+    }
 }

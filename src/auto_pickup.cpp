@@ -6,6 +6,7 @@
 #include "item_factory.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "cata_utility.h"
 #include "path_info.h"
 #include "filesystem.h"
 #include "input.h"
@@ -705,15 +706,7 @@ bool auto_pickup::save(const bool bCharacter)
             fin.close();
         }
 
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fout.open(savefile.c_str());
-
-        if(!fout.is_open()) {
-            return true; //trick game into thinking it was saved
-        }
-
+        ofstream_wrapper fout( savefile );
         JsonOut jout( fout, true );
         serialize(jout);
 
@@ -725,12 +718,10 @@ bool auto_pickup::save(const bool bCharacter)
         fout.close();
         return true;
 
-    } catch(std::ios::failure &) {
-        popup(_("Failed to save autopickup to %s"), savefile.c_str());
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to save autopickup to %s: %s" ), savefile.c_str(), err.what() );
         return false;
     }
-
-    return false;
 }
 
 void auto_pickup::load_character()

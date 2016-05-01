@@ -7,7 +7,7 @@
 #include "input.h"
 #include "worldfactory.h"
 #include "path_info.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "filesystem.h"
 #include "ui.h"
 #include "translations.h"
@@ -910,24 +910,15 @@ bool color_manager::save_custom()
     const auto savefile = FILENAMES["custom_colors"];
 
     try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fopen_exclusive(fout, savefile.c_str());
-        if(!fout.is_open()) {
-            return true; //trick game into thinking it was saved
-        }
-
-        fout << serialize();
-        fclose_exclusive(fout, savefile.c_str());
+        ofstream_wrapper_exclusive fout( savefile );
+        fout.stream() << serialize();
+        fout.close();
         return true;
 
-    } catch(std::ios::failure &) {
-        popup(_("Failed to save custom colors to %s"), savefile.c_str());
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to save custom colors to %s: %s" ), savefile.c_str(), err.what() );
         return false;
     }
-
-    return false;
 }
 
 void color_manager::load_custom(const std::string &sPath)

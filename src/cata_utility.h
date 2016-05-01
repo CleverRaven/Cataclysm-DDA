@@ -4,6 +4,7 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include <fstream>
 
 class item;
 class Creature;
@@ -87,6 +88,61 @@ class list_circularizer
         T &cur() const {
             return ( *_list )[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
         }
+};
+
+/**
+ * Wrapper around @ref std::ofstream that handles error checking and throws on
+ * errors. Use like a normal ofstream: the stream is opened in the constructor and
+ * closed via @ref close. Both functions check for success and throw @ref std::exception
+ * upon any error (e.g. when opening failed or when the stream is in an error state when
+ * being closed).
+ * Use @ref stream (or the implicit conversion) to access the output stream and to write
+ * to it.
+ * Note: the stream is closed in the constructor, but no exception is throw from it. To
+ * ensure all errors get reported correctly, you should always call `close` explicitly.
+ */
+class ofstream_wrapper
+{
+    private:
+        std::ofstream file_stream;
+
+    public:
+        ofstream_wrapper( const std::string &path );
+        ~ofstream_wrapper();
+
+        std::ostream &stream() {
+            return file_stream;
+        }
+        operator std::ostream &() {
+            return file_stream;
+        }
+
+        void close();
+};
+
+/**
+ * Same as ofstream_wrapper, but uses exclusive I/O (@ref fopen_exclusive).
+ * The interface intentionally matches ofstream_wrapper. One should be able to use
+ * one instead of the other.
+ */
+class ofstream_wrapper_exclusive
+{
+    private:
+        std::ofstream file_stream;
+        std::string path;
+
+    public:
+        ofstream_wrapper_exclusive( const std::string &path );
+        ~ofstream_wrapper_exclusive();
+
+        std::ostream &stream() {
+            return file_stream;
+        }
+        operator std::ostream &() {
+            return file_stream;
+        }
+
+        void close();
 };
 
 #endif // CAT_UTILITY_H

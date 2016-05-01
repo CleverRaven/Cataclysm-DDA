@@ -7,6 +7,7 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "cata_utility.h"
 #include "input.h"
 #include "worldfactory.h"
 #include "catacharset.h"
@@ -1828,27 +1829,17 @@ bool options_manager::save(bool ingame)
     fov_3d = OPTIONS["FOV_3D"];
 
     try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fout.open(savefile.c_str());
-
-        if(!fout.is_open()) {
-            return true; //trick game into thinking it was saved
-        }
-
+        ofstream_wrapper fout( savefile );
         JsonOut jout( fout, true );
         serialize(jout);
 
         fout.close();
         return true;
 
-    } catch(std::ios::failure &) {
-        popup(_("Failed to save options to %s"), savefile.c_str());
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to save options to %s: %s" ), savefile.c_str(), err.what() );
         return false;
     }
-
-    return false;
 }
 
 void options_manager::load()

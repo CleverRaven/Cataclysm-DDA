@@ -4,7 +4,7 @@
 #include "player.h"
 #include "debug.h"
 #include "output.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "translations.h"
 #include "worldfactory.h"
 #include "catacharset.h"
@@ -181,20 +181,13 @@ bool zone_manager::save_zones()
                                g->u.name ) + ".zones.json";
 
     try {
-        std::ofstream fout;
-        fout.exceptions( std::ios::badbit | std::ios::failbit );
-
-        fopen_exclusive( fout, savefile.c_str() );
-        if( !fout.is_open() ) {
-            return true; //trick game into thinking it was saved
-        }
-
-        fout << serialize();
-        fclose_exclusive( fout, savefile.c_str() );
+        ofstream_wrapper_exclusive fout( savefile );
+        fout.stream() << serialize();
+        fout.close();
         return true;
 
-    } catch( std::ios::failure & ) {
-        popup( _( "Failed to save zones to %s" ), savefile.c_str() );
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to save zones to %s: %s" ), savefile.c_str(), err.what() );
         return false;
     }
 }

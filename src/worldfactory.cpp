@@ -10,6 +10,7 @@
 #include "input.h"
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "cata_utility.h"
 #include "calendar.h"
 #include "name.h"
 #include "json.h"
@@ -257,9 +258,6 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         return false;
     }
 
-    std::ofstream fout;
-    const auto savefile = world->world_path + "/" + FILENAMES["worldoptions"];
-
     if (!assure_dir_exist(world->world_path)) {
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world->world_name <<
                                     "] directory for saving";
@@ -267,35 +265,32 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     }
 
     if (!is_conversion) {
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
+        const auto savefile = world->world_path + "/" + FILENAMES["worldoptions"];
+        try {
+            ofstream_wrapper fout( savefile );
+            JsonOut jout( fout );
 
-        fout.open(savefile.c_str());
+            jout.start_array();
 
-        if (!fout.is_open()) {
-            popup( _( "Could not open the world file %s, check file permissions." ), savefile.c_str() );
+            for( auto &elem : world->WORLD_OPTIONS ) {
+                if( elem.second.getDefaultText() != "" ) {
+                    jout.start_object();
+
+                    jout.member( "info", elem.second.getTooltip() );
+                    jout.member( "default", elem.second.getDefaultText( false ) );
+                    jout.member( "name", elem.first );
+                    jout.member( "value", elem.second.getValue() );
+
+                    jout.end_object();
+                }
+            }
+
+            jout.end_array();
+            fout.close();
+        } catch( const std::exception &err ) {
+            popup( _( "Failed to save the world file %s: %s - check file permissions." ), savefile.c_str(), err.what() );
             return false;
         }
-
-        JsonOut jout( fout, true );
-
-        jout.start_array();
-
-        for( auto &elem : world->WORLD_OPTIONS ) {
-            if( elem.second.getDefaultText() != "" ) {
-                jout.start_object();
-
-                jout.member( "info", elem.second.getTooltip() );
-                jout.member( "default", elem.second.getDefaultText( false ) );
-                jout.member( "name", elem.first );
-                jout.member( "value", elem.second.getValue() );
-
-                jout.end_object();
-            }
-        }
-
-        jout.end_array();
-
-        fout.close();
     }
 
     mman->save_mods_list(world);
