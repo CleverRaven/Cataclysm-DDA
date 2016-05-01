@@ -82,7 +82,6 @@ class item_location
         class impl;
         std::unique_ptr<impl> ptr;
 
-        class item_is_null;
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
