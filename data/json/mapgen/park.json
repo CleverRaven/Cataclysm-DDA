@@ -11,7 +11,13 @@
         "name": "GROUP_PARK_PLAYGROUND",
         "default": "mon_null",
         "monsters": [
-            { "monster": "mon_zombie_child", "freq": 600, "cost_multiplier": 1, "pack_size": [5,12] }
+            { "monster": "mon_zombie_child", "freq": 200, "cost_multiplier": 1, "pack_size": [5,12] },
+            { "monster" : "mon_zombie_anklebiter", "freq" : 10, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_sproglodyte", "freq" : 10, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_shriekling", "freq" : 20, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_creepy", "freq" : 5, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_snotgobbler", "freq" : 30, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_waif", "freq" : 20, "cost_multiplier" : 0 }
         ]
     },{
         "type": "monstergroup",
