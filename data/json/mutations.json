@@ -4153,7 +4153,6 @@
         "prereqs" : ["SHOUT2"],
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
-
         "type" : "mutation",
         "id" : "ARM_FEATHERS",
         "name" : "Feathered Arms",
@@ -4828,7 +4827,7 @@
         "id" : "SQUEAMISH",
         "name" : "Squeamish",
         "points" : -2,
-        "starting_trait" : true, 
+        "starting_trait" : true,
         "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
     }
 ]

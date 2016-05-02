@@ -501,7 +501,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You use your sewer gas inhaler.",
-            "effects" : [ { "id" : "hallu", "duration" : 2600 } ]     
-        }   
+            "effects" : [ { "id" : "hallu", "duration" : 2600 } ]
+        }
     }
 ]

@@ -1325,7 +1325,6 @@
         "color" : "green",
         "see_cost" : 4
     },{
-
         "type" : "overmap_terrain",
         "id" : "dirtroad2_aban1",
         "name" : "forest",
@@ -3558,7 +3557,6 @@
         "mondensity" : 2,
         "rotate" : true,
         "sidewalk" : true
-
     },{
         "comment" : "xxx Bookmark for necropolis sewers",
         "type" : "overmap_terrain",
@@ -7039,4 +7037,3 @@
         "sidewalk" : true
     }
 ]
-

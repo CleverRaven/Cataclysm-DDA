@@ -17,7 +17,7 @@
         "type": "item_group",
         "items": [
             { "item": "308_casing", "charges": [1, 1] }
-        ] 
+        ]
     },
     {
         "type": "mapgen",
