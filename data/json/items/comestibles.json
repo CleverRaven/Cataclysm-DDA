@@ -3383,6 +3383,7 @@
     {
         "id" : "hotdogs_campfire",
         "type" : "COMESTIBLE",
+        "comestible_type" : "FOOD",
         "name" : "campfire hot dogs",
         "name_plural" : "campfire hot dogs",
         "description" : "The simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked",
