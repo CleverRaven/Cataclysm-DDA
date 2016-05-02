@@ -54,16 +54,6 @@
                 ]
             },
             {
-                "id" : "n_nomon",
-                "shuffle" : false,
-                "files" : [
-                    {
-                        "file": "n_nomon.wav",
-                        "volume": 100
-                    }
-                ]
-            },
-            {
                 "id" : "n_lowmon",
                 "shuffle" : false,
                 "files" : [
@@ -94,11 +84,11 @@
                 ]
             },
             {
-                "id" : "d_nomon",
+                "id" : "n_driving",
                 "shuffle" : false,
                 "files" : [
                     {
-                        "file": "d_nomon.wav",
+                        "file": "n_driving.wav",
                         "volume": 100
                     }
                 ]
@@ -129,6 +119,16 @@
                 "files" : [
                     {
                         "file": "d_horde.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_driving",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_driving.wav",
                         "volume": 100
                     }
                 ]
