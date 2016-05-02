@@ -994,12 +994,10 @@ void npc::load(JsonObject &data)
 
     data.read("personality", personality);
 
-    data.read( "wandf", wander_time );
-    data.read( "wandx", wander_pos.x );
-    data.read( "wandy", wander_pos.y );
-    if( !data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = posz();
-    }
+    data.read( "investigation_time", investigation_time );
+    data.read( "investigation_targetx", investigation_target.x );
+    data.read( "investigation_targety", investigation_target.y );
+    data.read( "investigation_targetz", investigation_target.z );
 
     data.read("mapx", mapx);
     data.read("mapy", mapy);
@@ -1098,10 +1096,10 @@ void npc::store(JsonOut &json) const
     json.member( "myclass", (int)myclass );
 
     json.member( "personality", personality );
-    json.member( "wandf", wander_time );
-    json.member( "wandx", wander_pos.x );
-    json.member( "wandy", wander_pos.y );
-    json.member( "wandz", wander_pos.z );
+    json.member( "investigation_time", investigation_time );
+    json.member( "investigation_targetx", investigation_target.x );
+    json.member( "investigation_targety", investigation_target.y );
+    json.member( "investigation_targetz", investigation_target.z );
 
     json.member( "mapx", mapx );
     json.member( "mapy", mapy );

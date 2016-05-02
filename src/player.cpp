@@ -4160,7 +4160,7 @@ void player::pause()
     search_surroundings();
 }
 
-void player::shout( std::string msg )
+void player::shout( std::string msg, const std::string &verbal_shout_id )
 {
     int base = 10;
     int shout_multiplier = 2;
@@ -4211,7 +4211,7 @@ void player::shout( std::string msg )
         noise = std::max(minimum_noise, noise / 2);
     }
 
-    sounds::sound( pos(), noise, msg );
+    sounds::sound( pos(), noise, msg, false, verbal_shout_id, "default", verbal_shout_id );
 }
 
 void player::toggle_move_mode()
