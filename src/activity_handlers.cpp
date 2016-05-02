@@ -1157,7 +1157,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coords are dropped anyway
             g->exam_vehicle(*veh,
-                            tripoint( act->values[0], act->values[1], g->get_levz() ),
+                            tripoint( act->values[0], act->values[1], pl->posz() ),
                             act->values[2], act->values[3]);
             return;
         } else {
