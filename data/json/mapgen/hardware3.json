@@ -68,7 +68,7 @@
                 "H": "f_rack"
             },
             "items": {
-                "D": [ 
+                "D": [
                     { "item": "trash", "chance": 50 },
                     { "item": "trash", "chance": 50 },
                     { "item": "trash", "chance": 50 },
@@ -95,4 +95,3 @@
         }
     }
 ]
-

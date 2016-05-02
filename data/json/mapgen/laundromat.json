@@ -123,7 +123,6 @@
       ["kimono", 3]
     ]
 },
-
 {
       "type"  : "item_group",
    "id"    : "laundromat_bleach",
@@ -131,7 +130,6 @@
     ["bleach",        50]
     ]
 },
-
 {
      "type"  : "item_group",
    "id"    : "laundromat_containers",
@@ -141,8 +139,6 @@
       ["bag_plastic", 30]
     ]
 },
-
-
    {
     "type" : "overmap_terrain",
     "id" : "s_laundromat",
