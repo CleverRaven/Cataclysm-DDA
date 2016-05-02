@@ -2648,7 +2648,7 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
 
 long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
-    int practice_amount = (int)std::max( 9.0f, limb_power * 3.0f );
+    float practice_amount = std::max( 9.0f, limb_power * 3.0f );
     const int dam = get_heal_value( healer, healed );
 
     if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
@@ -2680,13 +2680,13 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
 
     if( patient.has_effect( effect_bleed, bp_healed ) ) {
         if( x_in_y( bleed, 1.0f ) ) {
-            patient.remove_effect( effect_bleed, bp_healed);
+            patient.remove_effect( effect_bleed, bp_healed );
             heal_msg( m_good, _("You stop the bleeding."), _("The bleeding is stopped.") );
         } else {
             heal_msg( m_warning, _("You fail to stop the bleeding."), _("The wound still bleeds.") );
         }
 
-        practice_amount += 3;
+        practice_amount += bleed * 3.0f;
     }
     if( patient.has_effect( effect_bite, bp_healed ) ) {
         if( x_in_y( bite, 1.0f ) ) {
@@ -2696,7 +2696,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
             heal_msg( m_warning, _("Your wound still aches."), _("The wound still looks bad.") );
         }
 
-        practice_amount += 3;
+        practice_amount += bite * 3.0f;
     }
     if( patient.has_effect( effect_infected, bp_healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
@@ -2708,7 +2708,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
             heal_msg( m_warning, _("Your wound still hurts."), _("The wound still looks nasty.") );
         }
 
-        practice_amount += 10;
+        practice_amount += infect * 10.0f;
     }
 
     if( long_action ) {
@@ -2730,7 +2730,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         }
     }
 
-    healer.practice( skill_firstaid, practice_amount );
+    healer.practice( skill_firstaid, (int)practice_amount );
     return it.type->charges_to_use();
 }
 
