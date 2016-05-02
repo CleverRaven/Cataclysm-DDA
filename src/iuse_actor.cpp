@@ -1338,6 +1338,8 @@ bool cauterize_actor::cauterize_effect( player *p, item *it, bool force )
         if (p->has_effect( effect_bite, bp)) {
             p->add_effect( effect_bite, 2600, bp, true);
         }
+
+        p->moves = 0;
         return true;
     }
 
@@ -2538,6 +2540,8 @@ void heal_actor::load( JsonObject &obj )
     // Optional
     head_power = obj.get_int( "head_power", 0.8f * limb_power );
     torso_power = obj.get_int( "torso_power", 1.5f * limb_power );
+
+    bonus_scaling = obj.get_float( "bonus_scaling", 0.25f * limb_power );
 
     bleed = obj.get_float( "bleed", 0.0f );
     bite = obj.get_float( "bite", 0.0f );
