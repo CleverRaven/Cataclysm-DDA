@@ -13398,11 +13398,48 @@ void game::vertical_move(int movez, bool force)
         shift_monsters( 0, 0, movez );
     }
 
+    std::vector<npc*> npcs_to_bring;
+    if( !m.has_zlevels() && abs( movez ) == 1 ) {
+        std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
+                      [this]( npc *np ) {
+            return np->is_friend() && rl_dist( np->pos(), u.pos() ) < 2;
+        } );
+    }
+
     u.moves -= move_cost;
 
     vertical_shift( z_after );
     if( !force ) {
         update_map( stairs.x, stairs.y );
+    }
+
+    if( !npcs_to_bring.empty() ) {
+        // Would look nicer randomly scrambled
+        auto candidates = closest_tripoints_first( 1, u.pos() );
+        std::remove_if( candidates.begin(), candidates.end(), [this]( const tripoint &c ) {
+            return !is_empty( c );
+        } );
+
+        for( npc *np : npcs_to_bring ) {
+            const auto found = std::find_if( candidates.begin(), candidates.end(),
+                [this, np]( const tripoint &c ) {
+                return !np->is_dangerous_field( m.field_at( c ) ) && m.tr_at( c ).is_benign();
+            } );
+
+            if( found != candidates.end() ) {
+                // @todo De-uglify
+                np->setpos( *found );
+                np->place_on_map();
+                np->setpos( *found );
+                candidates.erase( found );
+            }
+
+            if( candidates.empty() ) {
+                break;
+            }
+        }
+
+        reload_npcs();
     }
 
     if( rope_ladder ) {

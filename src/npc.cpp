@@ -2065,7 +2065,15 @@ void npc::told_to_leave()
 
 int npc::follow_distance() const
 {
- return 4; // TODO: Modify based on bravery, weapon wielded, etc.
+    // If the player is standing on stairs, follow closely
+    // This makes the stair hack less painful to use
+    if( is_friend() &&
+        ( g->m.has_flag( TFLAG_GOES_DOWN, g->u.pos() ) ||
+          g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
+        return 1;
+    }
+    // @todo Allow player to set that
+    return 4;
 }
 
 nc_color npc::basic_symbol_color() const
