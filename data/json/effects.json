@@ -87,6 +87,7 @@
         "id": "catch_up",
         "name": ["Catch Up"],
         "desc": ["AI tag for telling NPCs to catch up.  This is a bug if you have it."],
+        "int_add_val": 1,
         "max_intensity": 15
     },
     {
