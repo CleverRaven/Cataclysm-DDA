@@ -4218,6 +4218,11 @@ void game::debug()
                          << string_format( _( "Collector: %d" ), int( np->personality.collector ) ) << " "
                          << string_format( _( "Altruism: %d" ), int( np->personality.altruism ) ) << std::endl;
 
+                    data << _( "Needs:" ) << std::endl;
+                    for( const auto &need : np->needs ) {
+                        data << need << std::endl;
+                    }
+
                     nmenu.text = data.str();
                 } else {
                     nmenu.text = _( "Player" );
