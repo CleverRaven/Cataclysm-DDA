@@ -21,6 +21,12 @@ enum bionic_tab_mode {
     TAB_ACTIVE,
     TAB_PASSIVE
 };
+enum bionic_menu_mode {
+    ACTIVATING,
+    EXAMINING,
+    REASSIGNING,
+    REMOVING
+};
 } // namespace
 
 bionic *player::bionic_by_invlet( const long ch )
@@ -44,13 +50,9 @@ char get_free_invlet( player &p )
     return ' ';
 }
 
-void show_bionics_titlebar( WINDOW *window, player *p, std::string menu_mode )
+void show_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
-
-    std::string caption = _( "BIONICS -" );
-    int cap_offset = utf8_width( caption ) + 1;
-    mvwprintz( window, 0,  0, c_blue, "%s", caption.c_str() );
 
     std::stringstream pwr;
     pwr << string_format( _( "Power: %i/%i" ), int( p->power_level ), int( p->max_power_level ) );
@@ -58,18 +60,18 @@ void show_bionics_titlebar( WINDOW *window, player *p, std::string menu_mode )
     mvwprintz( window, 0, getmaxx( window ) - pwr_length, c_white, "%s", pwr.str().c_str() );
 
     std::string desc;
-    int desc_length = getmaxx( window ) - cap_offset - pwr_length;
+    int desc_length = getmaxx( window ) - pwr_length;
 
-    if( menu_mode == "reassigning" ) {
+    if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
-    } else if( menu_mode == "activating" ) {
+    } else if( mode == ACTIVATING ) {
         desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
-    } else if( menu_mode == "removing" ) {
+    } else if( mode == REMOVING ) {
         desc = _( "<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
-    } else if( menu_mode == "examining" ) {
+    } else if( mode == EXAMINING ) {
         desc = _( "<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
     }
-    fold_and_print( window, 0, cap_offset, desc_length, c_white, desc );
+    fold_and_print( window, 0, 1, desc_length, c_white, desc );
 
     wrefresh( window );
 }
@@ -231,7 +233,7 @@ void player::power_bionics()
     int cursor = 0;
 
     //generate the tab title string and a count of the bionics owned
-    std::string menu_mode = "activating";
+    bionic_menu_mode menu_mode = ACTIVATING;
     std::ostringstream tabname;
     tabname << _( "ACTIVE" );
     if( active_bionic_count > 0 ) {
@@ -311,7 +313,7 @@ void player::power_bionics()
             redraw = false;
 
             werase( wBio );
-            draw_border( wBio );
+            draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
             // Draw symbols to connect additional lines to border
             mvwputch( wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO ); // |-
             mvwputch( wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
@@ -380,7 +382,7 @@ void player::power_bionics()
         show_bionics_titlebar( w_title, this, menu_mode );
 
         // Description
-        if( menu_mode == "examining" && current_bionic_list->size() > 0 ) {
+        if( menu_mode == EXAMINING && current_bionic_list->size() > 0 ) {
             werase( w_description );
             std::ostringstream power_only_desc;
             std::string poweronly_string;
@@ -414,8 +416,8 @@ void player::power_bionics()
         const long ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = NULL;
         bool confirmCheck = false;
-        if( menu_mode == "reassigning" ) {
-            menu_mode = "activating";
+        if( menu_mode == REASSIGNING ) {
+            menu_mode = ACTIVATING;
             tmp = bionic_by_invlet( ch );
             if( tmp == nullptr ) {
                 // Selected an non-existing bionic (or escape, or ...)
@@ -476,12 +478,12 @@ void player::power_bionics()
                 scroll_position--;
             }
         } else if( action == "REASSIGN" ) {
-            menu_mode = "reassigning";
+            menu_mode = REASSIGNING;
         } else if( action == "TOGGLE_EXAMINE" ) { // switches between activation and examination
-            menu_mode = menu_mode == "activating" ? "examining" : "activating";
+            menu_mode = menu_mode == ACTIVATING ? EXAMINING : ACTIVATING;
             redraw = true;
         } else if( action == "REMOVE" ) {
-            menu_mode = "removing";
+            menu_mode = REMOVING;
             redraw = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             redraw = true;
@@ -526,14 +528,14 @@ void player::power_bionics()
             bio_last = tmp;
             const std::string &bio_id = tmp->id;
             const bionic_data &bio_data = bionic_info( bio_id );
-            if( menu_mode == "removing" ) {
+            if( menu_mode == REMOVING ) {
                 if( uninstall_bionic( bio_id ) ) {
                     recalc = true;
                     redraw = true;
                     continue;
                 }
             }
-            if( menu_mode == "activating" ) {
+            if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
                     int b = tmp - &my_bionics[0];
                     if( tmp->powered ) {
@@ -551,7 +553,7 @@ void player::power_bionics()
                            bio_data.name.c_str(), tmp->invlet );
                     redraw = true;
                 }
-            } else if( menu_mode == "examining" ) { // Describing bionics, allow user to jump to description key
+            } else if( menu_mode == EXAMINING ) { // Describing bionics, allow user to jump to description key
                 redraw = true;
                 if( action != "CONFIRM" ) {
                     for( size_t i = 0; i < active.size(); i++ ) {
