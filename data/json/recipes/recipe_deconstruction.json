@@ -11,10 +11,10 @@
     "autolearn": false,
     "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
     "components": [
-      [ [ "scrap", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "battery", 100 ] ]
+      [ [ "scrap",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "processor",1 ] ],
+      [ [ "battery",100 ] ]
     ]
   },{
     "type" : "recipe",
@@ -28,8 +28,8 @@
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
-      [ [ "rag", 35 ] ],
-      [ [ "down_feather", 160 ] ]
+      [ [ "rag",35 ] ],
+      [ [ "down_feather",160 ] ]
     ]
   },{
     "type" : "recipe",
@@ -43,8 +43,8 @@
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "down_feather", 40 ] ]
+      [ [ "rag",6 ] ],
+      [ [ "down_feather",40 ] ]
     ]
   },{
     "type" : "recipe",
@@ -58,8 +58,8 @@
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
     "components": [
-      [ [ "rag", 6 ] ],
-      [ [ "cotton_ball", 4 ] ]
+      [ [ "rag",6 ] ],
+      [ [ "cotton_ball",4 ] ]
     ]
   },{
     "type" : "recipe",
@@ -73,11 +73,11 @@
     "autolearn": false,
     "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
     "components": [
-      [ [ "scrap", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "rag", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "e_scrap", 2 ] ]
+      [ [ "scrap",1 ] ],
+      [ [ "plastic_chunk",2 ] ],
+      [ [ "rag",2 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "e_scrap",2 ] ]
     ]
   },{
     "type" : "recipe",
@@ -91,13 +91,13 @@
     "autolearn": false,
     "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
     "components": [
-      [ [ "scrap", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "rag", 2 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "e_scrap", 2 ] ]
+      [ [ "scrap",1 ] ],
+      [ [ "plastic_chunk",2 ] ],
+      [ [ "rag",2 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "e_scrap",2 ] ]
     ]
-  }, {
+  },{
     "type" : "recipe",
     "result": "bowl_pewter",
     "id_suffix": "uncraft",
@@ -107,29 +107,29 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "qualities":[
-      {"id":"HAMMER","level":1,"amount":1}
-    ],
-    "components": [ [ [ "tin", 100 ] ] ]
-  },{
-  "type" : "recipe",
-  "result": "cu_pipe",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "tin",100 ] ]
     ]
-  ],
-  "components": [ [ [ "copper", 200 ] ] ]
-},{
+  },{
+    "type" : "recipe",
+    "result": "cu_pipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "tools": [
+      [ [ "toolset",10 ] ],
+      [ [ "fire",-1 ] ]
+    ],
+  "components": [
+      [ [ "copper",200 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "silver",
     "id_suffix": "uncraft",
@@ -140,7 +140,9 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "silver_small", 800 ] ] ]
+    "components": [
+      [ [ "silver_small",800 ] ]
+    ]
   },{
     "type" : "recipe",
     "result": "small_relic",
@@ -152,7 +154,9 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [
+      [ [ "silver_small",100 ] ]
+    ]
   },{
     "type" : "recipe",
     "result": "badge_deputy",
@@ -164,129 +168,108 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "necklace",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "silver_small", 100 ]
+    "components": [
+      [ [ "silver_small",100 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "locket",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "silver_small", 110 ]
+  },{
+    "type" : "recipe",
+    "result": "necklace",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "silver_small",100 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "gold_bracelet",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gold_small", 260 ]
+  },{
+    "type" : "recipe",
+    "result": "locket",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "silver_small",110 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "silver_bracelet",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "silver_small", 260 ]
+  },{
+    "type" : "recipe",
+    "result": "gold_bracelet",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "gold_small",260 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "copper_bracelet",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 43 ]
+  },{
+    "type" : "recipe",
+    "result": "silver_bracelet",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "silver_small",260 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "ring",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gold_small", 50 ]
+  },{
+    "type" : "recipe",
+    "result": "copper_bracelet",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "copper",43 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "diamond_ring",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gold_small", 50 ]
-    ],
-    [
-      [ "diamond", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "ring",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "gold_small",50 ] ]
     ]
-  ]
+  },{
+    "type" : "recipe",
+    "result": "diamond_ring",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "gold_small",50 ] ],
+      [ [ "diamond",1 ] ]
+    ]
   },{
     "type" : "recipe",
     "result": "diamond_dental_grill",
@@ -299,8 +282,8 @@
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
     "components": [
-      [ [ "gold_small", 100 ] ],
-      [ [ "diamond", 1 ] ]
+      [ [ "gold_small",100 ] ],
+      [ [ "diamond",1 ] ]
     ]
   },{
     "type" : "recipe",
@@ -313,58 +296,51 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "gold_small", 100 ] ] ]
+    "components": [
+      [ [ "gold_small",100 ] ]
+    ]
   },{
-  "type" : "recipe",
-  "result": "gold_ear",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gold_small", 50 ]
+    "type" : "recipe",
+    "result": "gold_ear",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "gold_small",50 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "silver_ear",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "silver_small", 60 ]
+  },{
+    "type" : "recipe",
+    "result": "silver_ear",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "silver_small",60 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "copper_ear",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 25 ]
+  },{
+    "type" : "recipe",
+    "result": "copper_ear",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "copper",25 ] ]
     ]
-  ]
   },{
     "type" : "recipe",
     "result": "tieclip",
@@ -376,151 +352,124 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [
+      [ [ "silver_small",100 ] ]
+    ]
   },{
-  "type" : "recipe",
-  "result": "usb_drive",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "RAM", 1 ]
+    "type" : "recipe",
+    "result": "usb_drive",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "RAM",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pda",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "small_lcd_screen", 1 ]
-    ],
-    [
-      [ "plastic_chunk", 2 ]
-    ],
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "pda",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "small_lcd_screen",1 ] ],
+      [ [ "plastic_chunk",2 ] ],
+      [ [ "processor",1 ] ],
+      [ [ "RAM",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "binoculars",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "lens", 2 ]
-    ],
-    [
-      [ "plastic_chunk", 2 ]
-    ],
-    [
-      [ "scrap", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "binoculars",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "lens",2 ] ],
+      [ [ "plastic_chunk",2 ] ],
+      [ [ "scrap",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "wristwatch",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "plastic_chunk", 1 ]
-    ],
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "battery", 20 ]
+  },{
+    "type" : "recipe",
+    "result": "wristwatch",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "plastic_chunk",1 ] ],
+      [ [ "processor",1 ] ],
+      [ [ "battery",20 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "laptop",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 60000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["processor", 1]],
-    [["RAM", 4]],
-    [["cable", 6]],
-    [["amplifier", 1]],
-    [["plastic_chunk", 6]],
-    [["small_lcd_screen", 1]],
-    [["small_storage_battery", 2]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "fan",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [[ "scrap", 1 ]],
-    [[ "plastic_chunk", 3 ]],
-    [[ "motor_small", 1 ]],
-    [[ "cable", 2 ]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pocketwatch",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [[ "scrap", 2 ]],
-    [[ "clockworks", 1 ]]
-  ]
+  },{
+    "type" : "recipe",
+    "result": "laptop",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 60000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ ["processor",1] ],
+      [ ["RAM",4] ],
+      [ ["cable",6] ],
+      [ ["amplifier",1] ],
+      [ ["plastic_chunk",6] ],
+      [ ["small_lcd_screen",1] ],
+      [ ["small_storage_battery",2] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "fan",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",1 ] ],
+      [ [ "plastic_chunk",3 ] ],
+      [ [ "motor_small",1 ] ],
+      [ [ "cable",2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "pocketwatch",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1}],
+    "components": [
+      [ [ "scrap",2 ] ],
+      [ [ "clockworks",1 ] ]
+    ]
   },{
     "type" : "recipe",
     "result": "gold_watch",
@@ -536,9 +485,9 @@
       {"id":"SCREW","level":1,"amount":1}
     ],
     "components": [
-      [ [ "scrap", 2 ] ],
-      [ [ "gold_small", 150 ] ],
-      [ [ "clockworks", 1 ] ]
+      [ [ "scrap",2 ] ],
+      [ [ "gold_small",150 ] ],
+      [ [ "clockworks",1 ] ]
     ]
   },{
     "type" : "recipe",
@@ -555,196 +504,186 @@
       {"id":"SCREW","level":1,"amount":1}
     ],
     "components": [
-      [ [ "gold_small", 100 ] ],
-      [ [ "silver_small", 100 ] ],
-      [ [ "clockworks", 1 ] ]
+      [ [ "gold_small",100 ] ],
+      [ [ "silver_small",100 ] ],
+      [ [ "clockworks",1 ] ]
     ]
   },{
-  "type" : "recipe",
-  "result": "alarmclock",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [[ "scrap", 4 ]],
-    [[ "clockworks", 2 ]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "television",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 60000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["processor", 1]],
-    [["RAM", 2]],
-    [["cable", 8]],
-    [["amplifier", 4]],
-    [[ "power_supply", 2 ]],
-    [["plastic_chunk", 8]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "microwave",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 80000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["processor", 1]],
-    [["cable", 4]],
-    [["amplifier", 1]],
-    [["power_supply", 4]],
-    [["plastic_chunk", 8]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "toaster",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["cable", 2]],
-    [["power_supply", 1]],
-    [["scrap", 2]],
-    [["element", 4]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "clock",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["scrap", 3]],
-    [["clockworks", 2]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "knife_steak",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [
-    [["spike", 1]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "lawnmower",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"WRENCH","level":1,"amount":1}
-  ], "components": [
-    [[ "scrap", 8 ]],
-    [[ "spring", 2 ]],
-    [[ "blade",  2 ]],
-    [[ "1cyl_combustion", 1 ]],
-    [[ "metal_tank_little", 1 ]],
-    [[ "pipe", 3 ]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "lighter",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [["pilot_light", 1]],
-    [["plastic_chunk", 1]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "ref_lighter",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [["pilot_light", 1]],
-    [["scrap", 1]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "tshirt",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "rag", 5 ]
+    "type" : "recipe",
+    "result": "alarmclock",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",4 ] ],
+      [ [ "clockworks",2 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "tank_top",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "rag", 4 ]
+  },{
+    "type" : "recipe",
+    "result": "television",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 60000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ ["processor",1] ],
+      [ ["RAM",2] ],
+      [ ["cable",8] ],
+      [ ["amplifier",4] ],
+      [ [ "power_supply",2 ] ],
+      [ ["plastic_chunk",8] ]
     ]
-  ]
-},{
+  },{
+    "type" : "recipe",
+    "result": "microwave",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 80000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ ["processor",1] ],
+      [ ["cable",4] ],
+      [ ["amplifier",1] ],
+      [ ["power_supply",4] ],
+      [ ["plastic_chunk",8] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "toaster",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ ["cable",2] ],
+      [ ["power_supply",1] ],
+      [ ["scrap",2] ],
+      [ ["element",4] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "clock",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ ["scrap",3] ],
+      [ ["clockworks",2] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "knife_steak",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ ["spike",1] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "lawnmower",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",8 ] ],
+      [ [ "spring",2 ] ],
+      [ [ "blade", 2 ] ],
+      [ [ "1cyl_combustion",1 ] ],
+      [ [ "metal_tank_little",1 ] ],
+      [ [ "pipe",3 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "lighter",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ ["pilot_light",1] ],
+      [ ["plastic_chunk",1] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "ref_lighter",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ ["pilot_light",1] ],
+      [ ["scrap",1] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "tshirt",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "tailor",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "rag",5 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "tank_top",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "tailor",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "rag",4 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "boots_steel",
     "id_suffix": "uncraft",
@@ -755,537 +694,434 @@
     "time": 1000,
     "reversible": true,
     "autolearn": false,
-    "qualities" : [
-        {"id":"CUT","level":1,"amount":1}
-    ], "components": [
-        [ [ "leather", 8 ] ],
-        [ [ "scrap", 2 ] ]
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "leather",8 ] ],
+      [ [ "scrap",2 ] ]
     ]
-},{
-  "type" : "recipe",
-  "result": "lightstrip_dead",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+  },{
+    "type" : "recipe",
+    "result": "lightstrip_dead",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ ["amplifier",1] ],
+      [ ["e_scrap",1] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bio_recycler",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid",5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bio_digestion",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid",5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bio_face_mask",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid",5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bio_nanobots",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid",5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ]]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bio_ground_sonar",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid",5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bio_metabolics",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid",5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bio_blood_filter",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid",5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bindle",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "rag",4 ] ],
+      [ [ "stick",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "makeshift_sling",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "sheet",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "battletorch_done",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ [ "bat",1 ] ],
+      [ [ "nomex",5 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "pipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"SAW_M","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",7 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "makeshift_crowbar",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities": [ {"id":"SAW_M","level":1,"amount":1} ],
+    "components": [
+       [ [ "scrap",3 ] ],
+       [ [ "steel_chunk",1] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "file",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ [ "paper",3 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "box_cigarette",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ [ "paper",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "flyer",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ [ "paper",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "survnote",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ [ "paper",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "broken_manhack",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",5 ] ],
+      [ [ "toolset",5 ] ]
+    ],
+    "components": [
+      [ [ "spike",2 ] ],
+      [ [ "processor",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "scrap",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "broken_grenade_hack",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",5 ] ],
+      [ ["toolset",5 ] ]
+    ],
+    "components": [
+      [ [ "processor",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "scrap",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "broken_mininuke_hack",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 4000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",10 ] ],
+      [ [ "toolset",10 ] ]
+    ],
+    "components": [
+      [ [ "processor",2 ] ],
+      [ [ "RAM",2 ] ],
+      [ [ "scrap",2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "broken_gasbomb_hack",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",5 ] ],
+      [ [ "toolset",5 ] ]
+    ],
+    "components": [
+      [ [ "processor",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "scrap",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "broken_EMP_hack",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",5 ] ],
+      [ [ "toolset",5 ] ]
   ],
-  "components": [
-    [["amplifier", 1]],
-    [["e_scrap", 1]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_recycler",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
+    "components": [
+      [ [ "processor",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "scrap",1 ] ]
     ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_digestion",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_face_mask",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_nanobots",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_ground_sonar",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_metabolics",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_blood_filter",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bindle",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "rag", 4 ]
+  },{
+    "type" : "recipe",
+    "result": "broken_flashbang_hack",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",5 ] ],
+      [ [ "toolset",5 ] ]
     ],
-    [
-      [ "stick", 1 ]
+    "components": [
+      [ [ "processor",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "scrap",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_sling",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "sheet", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "battletorch_done",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [
-      [ "bat", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "broken_c4_hack",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",5 ] ],
+      [ [ "toolset",5 ] ]
     ],
-    [
-      [ "nomex", 5 ]
+    "components": [
+      [ [ "processor",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "scrap",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pipe",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "mechanics",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[ {"id":"SAW_M","level":1,"amount":1} ],
-  "components": [ [ [ "scrap", 7 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_crowbar",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "skill_used": "mechanics",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities": [ {"id":"SAW_M","level":1,"amount":1} ],
-  "components": [
-        [ [ "scrap", 3 ] ],
-        [ [ "steel_chunk", 1] ]
-    ]
-},{
-  "type" : "recipe",
-  "result": "file",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [ [ [ "paper", 3 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "box_cigarette",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [ [ [ "paper", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "flyer",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [ [ [ "paper", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "survnote",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [ [ [ "paper", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "broken_manhack",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "spike", 2 ]
-    ],
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "broken_grenade_hack",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "broken_mininuke_hack",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 5,
-  "time": 4000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 10 ],
-      [ "toolset", 10 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "processor", 2 ]
-    ],
-    [
-      [ "RAM", 2 ]
-    ],
-    [
-      [ "scrap", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "broken_gasbomb_hack",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "broken_EMP_hack",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "broken_flashbang_hack",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "broken_c4_hack",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
-  ]
-},{
+  },{
     "type" : "recipe",
     "result": "broken_eyebot",
     "category": "CC_NONCRAFT",
@@ -1295,17 +1131,18 @@
     "time": 30000,
     "reversible": true,
     "autolearn": false,
-    "qualities" : [
-        {"id":"SCREW","level":1,"amount":1}
-    ], "tools": [
-        [ [ "soldering_iron", 3 ], [ "toolset", 3 ] ]
-    ], "components": [
-        [ [ "processor", 1 ] ],
-        [ [ "lens", 1 ] ],
-        [ [ "e_scrap", 1 ] ],
-        [ [ "scrap", 1 ] ]
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",3 ] ],
+      [ [ "toolset",3 ] ]
+    ],
+    "components": [
+      [ [ "processor",1 ] ],
+      [ [ "lens",1 ] ],
+      [ [ "e_scrap",1 ] ],
+      [ [ "scrap",1 ] ]
     ]
-},{
+  },{
     "type" : "recipe",
     "result": "broken_skitterbot",
     "category": "CC_NONCRAFT",
@@ -1315,17 +1152,18 @@
     "time": 60000,
     "reversible": true,
     "autolearn": false,
-    "qualities" : [
-        {"id":"SCREW","level":1,"amount":1}
-    ], "tools": [
-        [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ]
-    ], "components": [
-        [ [ "power_supply", 1 ] ],
-        [ [ "tazer", 2 ] ],
-        [ [ "e_scrap", 2 ] ],
-        [ [ "scrap", 4 ] ]
+    "qualities" : [{"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",10 ] ],
+      [ [ "toolset",10 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",1 ] ],
+      [ [ "tazer",2 ] ],
+      [ [ "e_scrap",2 ] ],
+      [ [ "scrap",4 ] ]
     ]
-},{
+  },{
     "type" : "recipe",
     "result": "broken_copbot",
     "category": "CC_NONCRAFT",
@@ -1336,20 +1174,26 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [
-        {"id":"SCREW","level":1,"amount":1},
-        {"id":"SAW_M","level":1,"amount":1}
-    ], "tools": [
-        [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-        [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
-    ], "components": [
-        [ [ "power_supply", 4 ] ],
-        [ [ "solar_cell", 2 ] ],
-        [ [ "motor", 1 ] ],
-        [ [ "tazer", 1 ] ],
-        [ [ "e_scrap", 3 ] ],
-        [ [ "steel_chunk", 12 ] ]
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ] ],
+      [ [ "oxy_torch",10 ] ],
+      [ [ "welder",50 ] ],
+      [ [ "toolset",75 ] ],
+      [ [ "welder_crude",75 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",4 ] ],
+      [ [ "solar_cell",2 ] ],
+      [ [ "motor",1 ] ],
+      [ [ "tazer",1 ] ],
+      [ [ "e_scrap",3 ] ],
+      [ [ "steel_chunk",12 ] ]
     ]
-},{
+  },{
     "type" : "recipe",
     "result": "broken_riotbot",
     "category": "CC_NONCRAFT",
@@ -1360,20 +1204,26 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [
-        {"id":"SCREW","level":1,"amount":1},
-        {"id":"SAW_M","level":1,"amount":1}
-    ], "tools": [
-        [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ],
-        [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
-    ], "components": [
-        [ [ "power_supply", 4 ] ],
-        [ [ "solar_cell", 2 ] ],
-        [ [ "motor", 1 ] ],
-        [ [ "canister_empty", 1 ] ],
-        [ [ "e_scrap", 3 ] ],
-        [ [ "steel_chunk", 12 ] ]
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ [ "toolset",20 ] ],
+      [ [ "oxy_torch",10 ] ],
+      [ [ "welder",50 ] ],
+      [ [ "toolset",75 ] ],
+      [ [ "welder_crude",75 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",4 ] ],
+      [ [ "solar_cell",2 ] ],
+      [ [ "motor",1 ] ],
+      [ [ "canister_empty",1 ] ],
+      [ [ "e_scrap",3 ] ],
+      [ [ "steel_chunk",12 ] ]
     ]
-},{
+  },{
     "type" : "recipe",
     "result": "broken_molebot",
     "category": "CC_NONCRAFT",
@@ -1383,16 +1233,19 @@
     "time": 180000,
     "reversible": true,
     "autolearn": false,
-    "qualities" : [
-        {"id":"SAW_M","level":1,"amount":1}
-    ], "tools": [
-        [ [ "oxy_torch", 12 ], [ "welder", 60 ], [ "toolset", 90 ], [ "welder_crude", 90 ] ]
-    ], "components": [
-        [ [ "power_supply", 4 ] ],
-        [ [ "motor", 1 ] ],
-        [ [ "steel_chunk", 20 ] ]
+    "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
+    "tools": [
+      [ [ "oxy_torch",12 ] ],
+      [ [ "welder",60 ] ],
+      [ [ "toolset",90 ] ],
+      [ [ "welder_crude",90 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",4 ] ],
+      [ [ "motor",1 ] ],
+      [ [ "steel_chunk",20 ] ]
     ]
-},{
+  },{
     "type" : "recipe",
     "result": "broken_tripod",
     "category": "CC_NONCRAFT",
@@ -1403,21 +1256,27 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [
-        {"id":"SCREW","level":1,"amount":1},
-        {"id":"SAW_M","level":1,"amount":1}
-    ], "tools": [
-        [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
-        [ [ "oxy_torch", 20 ],  [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
-    ], "components": [
-        [ [ "power_supply", 12 ] ],
-        [ [ "processor", 1 ] ],
-        [ [ "RAM", 1 ] ],
-        [ [ "flamethrower", 1 ] ],
-        [ [ "wire", 4 ] ],
-        [ [ "motor", 2 ] ],
-        [ [ "steel_chunk", 60 ] ]
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",10 ] ],
+      [ [ "toolset",10 ] ],
+      [ [ "oxy_torch",20  ]], 
+      [ [ "welder",100 ] ],
+      [ [ "toolset",150 ] ],
+      [ [ "welder_crude",150 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",12 ] ],
+      [ [ "processor",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "flamethrower",1 ] ],
+      [ [ "wire",4 ] ],
+      [ [ "motor",2 ] ],
+      [ [ "steel_chunk",60 ] ]
     ]
-},{
+  },{
     "type" : "recipe",
     "result": "broken_tankbot",
     "category": "CC_NONCRAFT",
@@ -1428,940 +1287,686 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [
-        {"id":"SCREW","level":1,"amount":1},
-        {"id":"WRENCH","level":1,"amount":1},
-        {"id":"SAW_M","level":1,"amount":1}
-    ], "tools": [
-        [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ],
-        [ [ "oxy_torch", 40 ], [ "welder", 200 ], [ "toolset", 300 ], [ "welder_crude", 300 ] ]
-    ], "components": [
-        [ [ "flamethrower", 1 ] ],
-        [ [ "tazer", 1 ] ],
-        [ [ "m4a1", 1 ] ],
-        [ [ "motor_large", 1 ] ],
-        [ [ "power_supply", 20 ] ],
-        [ [ "plut_cell", 4 ] ],
-        [ [ "RAM", 2 ] ],
-        [ [ "steel_chunk", 15 ] ],
-        [ [ "mil_plate", 2 ] ],
-        [ [ "robot_controls", 1 ] ]
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"WRENCH","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",30 ] ],
+      [ [ "toolset",30 ] ],
+      [ [ "oxy_torch",40 ] ],
+      [ [ "welder",200 ] ],
+      [ [ "toolset",300 ] ],
+      [ [ "welder_crude",300 ] ]
+    ],
+    "components": [
+      [ [ "flamethrower",1 ] ],
+      [ [ "tazer",1 ] ],
+      [ [ "m4a1",1 ] ],
+      [ [ "motor_large",1 ] ],
+      [ [ "power_supply",20 ] ],
+      [ [ "plut_cell",4 ] ],
+      [ [ "RAM",2 ] ],
+      [ [ "steel_chunk",15 ] ],
+      [ [ "mil_plate",2 ] ],
+      [ [ "robot_controls",1 ] ]
     ]
-    },{
-        "type" : "recipe",
-        "result": "alternator_motorbike",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "mechanics",
-        "difficulty": 2,
-        "time": 10000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1}
-        ], "tools": [
-            [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
-        ], "components": [
-            [ [ "power_supply", 1 ] ],
-            [ [ "cable", 10 ] ],
-            [ [ "bearing", 10 ] ],
-            [ [ "scrap", 2 ] ]
-        ]
-    },{
-        "type" : "recipe",
-        "result": "alternator_car",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "mechanics",
-        "difficulty": 3,
-        "time": 20000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1},
-            {"id":"WRENCH","level":1,"amount":1}
-        ], "tools": [
-            [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ]
-        ], "components": [
-            [ [ "power_supply", 1 ] ],
-            [ [ "cable", 15 ] ],
-            [ [ "bearing", 15 ] ],
-            [ [ "scrap", 2 ] ],
-            [ [ "steel_chunk", 2 ] ]
-        ]
-    },{
-        "type" : "recipe",
-        "result": "alternator_truck",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "mechanics",
-        "difficulty": 4,
-        "time": 30000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1},
-            {"id":"WRENCH","level":1,"amount":1},
-            {"id":"SAW_M","level":1,"amount":1}
-        ], "tools": [
-            [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ],
-            [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "toolset", 45 ], [ "welder_crude", 45 ] ]
-        ], "components": [
-            [ [ "power_supply", 2 ] ],
-            [ [ "cable", 20 ] ],
-            [ [ "bearing", 20 ] ],
-            [ [ "scrap", 3 ] ],
-            [ [ "steel_chunk", 3 ] ]
-        ]
-    },{
-        "type" : "recipe",
-        "result": "motor",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "mechanics",
-        "difficulty": 4,
-        "time": 30000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1},
-            {"id":"WRENCH","level":1,"amount":1},
-            {"id":"SAW_M","level":1,"amount":1}
-        ], "tools": [
-            [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ],
-            [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "toolset", 45 ], [ "welder_crude", 45 ] ]
-        ], "components": [
-            [ [ "amplifier", 2 ] ],
-            [ [ "cable", 20 ] ],
-            [ [ "bearing", 20 ] ],
-            [ [ "steel_chunk", 3 ] ]
-        ]
-    },{
-        "type" : "recipe",
-        "result": "motor_large",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "mechanics",
-        "difficulty": 6,
-        "time": 50000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1},
-            {"id":"WRENCH","level":1,"amount":1},
-            {"id":"SAW_M","level":1,"amount":1}
-        ], "tools": [
-            [ [ "soldering_iron", 50 ], [ "toolset", 50 ] ],
-            [ [ "oxy_torch", 10 ], [ "welder", 50 ], [ "toolset", 75 ], [ "welder_crude", 75 ] ]
-        ], "components": [
-            [ [ "power_supply", 2 ] ],
-            [ [ "amplifier", 4 ] ],
-            [ [ "cable", 30 ] ],
-            [ [ "bearing", 40 ] ],
-            [ [ "steel_chunk", 7 ] ]
-        ]
-    },{
-        "type" : "recipe",
-        "result": "horn_car",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "electronics",
-        "difficulty": 2,
-        "time": 10000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1}
-        ], "components": [
-            [ [ "e_scrap", 2 ] ],
-            [ [ "amplifier", 1 ] ],
-            [ [ "scrap", 2 ] ]
-        ]
-    },{
-        "type" : "recipe",
-        "result": "horn_big",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "electronics",
-        "difficulty": 3,
-        "time": 10000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1}
-        ], "components": [
-            [ [ "e_scrap", 4 ] ],
-            [ [ "amplifier", 2 ] ],
-            [ [ "scrap", 4 ] ]
-        ]
-    },{
-        "type" : "recipe",
-        "result": "polisher",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "electronics",
-        "difficulty": 2,
-        "time": 10000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1}
-        ], "tools": [
-            [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ]
-        ], "components": [
-            [ [ "plastic_chunk", 8 ] ],
-            [ [ "motor_small", 1 ] ],
-            [ [ "scrap", 4 ] ]
-        ]
-    },{
-        "type" : "recipe",
-        "result": "heavy_flashlight",
-        "category": "CC_NONCRAFT",
-        "subcategory": "CSC_NONCRAFT",
-        "skill_used": "electronics",
-        "difficulty": 3,
-        "time": 10000,
-        "reversible": true,
-        "autolearn": false,
-        "qualities" : [
-            {"id":"SCREW","level":1,"amount":1},
-            {"id":"SAW_M","level":1,"amount":1}
-        ], "components": [
-            [ [ "cable", 12 ] ],
-            [ [ "amplifier", 2 ] ],
-            [ [ "material_aluminium_ingot", 1 ] ]
-        ]
-    },{
-  "type" : "recipe",
-  "result": "gold",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      ["gold_small", 800]
+  },{
+    "type" : "recipe",
+    "result": "alternator_motorbike",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 2,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ ["toolset",20 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",1 ] ],
+      [ [ "cable",10 ] ],
+      [ [ "bearing",10 ] ],
+      [ [ "scrap",2 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-    "result": "candlestick",
+  },{
+    "type" : "recipe",
+    "result": "alternator_car",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 3,
+    "time": 20000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"WRENCH","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",30 ] ],
+      [ [ "toolset",30 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",1 ] ],
+      [ [ "cable",15 ] ],
+      [ [ "bearing",15 ] ],
+      [ [ "scrap",2 ] ],
+      [ [ "steel_chunk",2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "alternator_truck",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": 30000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"WRENCH","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",40 ] ],
+      [ ["toolset",40 ] ],
+      [ [ "oxy_torch",6 ] ],
+      [ ["welder",30 ] ],
+      [ ["toolset",45 ] ],
+      [ ["welder_crude",45 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",2 ] ],
+      [ [ "cable",20 ] ],
+      [ [ "bearing",20 ] ],
+      [ [ "scrap",3 ] ],
+      [ [ "steel_chunk",3 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "motor",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": 30000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"WRENCH","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",40 ] ],
+      [ ["toolset",40 ] ],
+      [ [ "oxy_torch",6 ] ],
+      [ ["welder",30 ] ],
+      [ ["toolset",45 ] ],
+      [ ["welder_crude",45 ] ]
+    ],
+    "components": [
+      [ [ "amplifier",2 ] ],
+      [ [ "cable",20 ] ],
+      [ [ "bearing",20 ] ],
+      [ [ "steel_chunk",3 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "motor_large",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 6,
+    "time": 50000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"WRENCH","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",50 ] ],
+      [ ["toolset",50 ] ],
+      [ [ "oxy_torch",10 ] ],
+      [ ["welder",50 ] ],
+      [ ["toolset",75 ] ],
+      [ ["welder_crude",75 ] ]
+    ],
+    "components": [
+      [ [ "power_supply",2 ] ],
+      [ [ "amplifier",4 ] ],
+      [ [ "cable",30 ] ],
+      [ [ "bearing",40 ] ],
+      [ [ "steel_chunk",7 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "horn_car",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "e_scrap",2 ] ],
+      [ [ "amplifier",1 ] ],
+      [ [ "scrap",2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "horn_big",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "e_scrap",4 ] ],
+      [ [ "amplifier",2 ] ],
+      [ [ "scrap",4 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "polisher",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 2,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",10 ] ],
+      [ [ "toolset",10 ] ]
+    ],
+    "components": [
+      [ [ "plastic_chunk",8 ] ],
+      [ [ "motor_small",1 ] ],
+      [ [ "scrap",4 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "heavy_flashlight",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "components": [
+      [ [ "cable",12 ] ],
+      [ [ "amplifier",2 ] ],
+      [ [ "material_aluminium_ingot",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "gold",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
     "difficulty": 0,
     "time": 2000,
     "reversible": true,
     "autolearn": false,
     "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-      [
-        ["gold_small", 100]
-      ]
-    ]
-},{
-  "type" : "recipe",
-  "result": "char_purifier",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [
-      [ "jug_plastic", 1 ]
+      {"id":"HAMMER","level":1,"amount":1},
+      {"id":"SCREW","level":1,"amount":1}
     ],
-    [
-      [ "rag", 4 ]
+    "components": [
+      [ ["gold_small",800] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "baseball",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "leather", 2 ]
-    ],
-    [
-      [ "string_6", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "football",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "leather", 4 ]
-    ],
-    [
-      [ "string_6", 3 ]
-    ]
-  ]
   },{
-  "type" : "recipe",
-  "result": "power_armor_helmet_basic",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "skills_required": ["electronics",  4],
-  "difficulty": 8,
-  "time": 80000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "boltcutters", -1 ],
-      [ "toolset", -1 ]
+    "type" : "recipe",
+    "result": "candlestick",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[
+      {"id":"HAMMER","level":1,"amount":1},
+      {"id":"SCREW","level":1,"amount":1}
+    ],
+    "components": [
+      [ ["gold_small",100] ]
     ]
-  ],
-  "components": [
-    [
-        ["depowered_helmet", 1]
-    ],
-    [
-      [ "power_supply", 1 ]
-    ],
-    [
-      [ "element", 1 ]
-    ],
-    [
-      [ "small_lcd_screen", 2 ]
-    ],
-    [
-      [ "circuit", 2 ]
-    ],
-    [
-      [ "RAM", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "char_purifier",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ [ "jug_plastic",1 ] ],
+      [ [ "rag",4 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "power_armor_basic",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "skills_required": ["electronics",  5],
-  "difficulty": 7,
-  "time": 80000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"SAW_M","level":1,"amount":1},
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "boltcutters", -1 ],
-      [ "toolset", -1 ]
+  },{
+    "type" : "recipe",
+    "result": "baseball",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "leather",2 ] ],
+      [ [ "string_6",2 ] ]
     ]
-  ],
-  "components": [
-    [
-      ["depowered_armor", 1]
-    ],
-    [
-      [ "power_supply", 6 ]
-    ],
-    [
-      [ "element", 2 ]
-    ],
-    [
-      [ "cable", 12 ]
-    ],
-    [
-      [ "circuit", 6 ]
-    ],
-    [
-      [ "transponder", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "football",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "leather",4 ] ],
+      [ [ "string_6",3 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "rag",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 60000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  },{
+    "type" : "recipe",
+    "result": "power_armor_helmet_basic",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "skills_required": ["electronics", 4],
+    "difficulty": 8,
+    "time": 80000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[
+      {"id":"SAW_M","level":1,"amount":1},
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"WRENCH","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "boltcutters",-1 ] ],
+      [ ["toolset",-1 ] ]
+    ],
   "components": [
-    [
-      [ "thread", 100 ]
+      [ ["depowered_helmet",1] ],
+      [ [ "power_supply",1 ] ],
+      [ [ "element",1 ] ],
+      [ [ "small_lcd_screen",2 ] ],
+      [ [ "circuit",2 ] ],
+      [ [ "RAM",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "felt_patch",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 6000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  },{
+    "type" : "recipe",
+    "result": "power_armor_basic",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "skills_required": ["electronics", 5],
+    "difficulty": 7,
+    "time": 80000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[
+      {"id":"SAW_M","level":1,"amount":1},
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"WRENCH","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "boltcutters",-1 ] ],
+      [ [ "toolset",-1 ] ]
+    ],
   "components": [
-    [
-      [ "yarn", 50 ]
+      [ ["depowered_armor",1] ],
+      [ [ "power_supply",6 ] ],
+      [ [ "element",2 ] ],
+      [ [ "cable",12 ] ],
+      [ [ "circuit",6 ] ],
+      [ [ "transponder",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "mre_beef_box",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "mre_beef", 4 ]
-    ],
-    [
-      [ "pur_tablets", 6 ]
-    ],
-    [
-      [ "vitamins", 1 ]
-    ],
-    [
-      [ "crackers", 2 ]
-    ],
-    [
-      [ "can_cheese", 1 ]
-    ],
-    [
-      [ "dry_fruit", 1 ]
-    ],
-    [
-      [ "chocolate", 1 ]
-    ],
-    [
-      [ "candy2", 2 ]
-    ],
-    [
-      [ "cookies", 1 ]
-    ],
-    [
-      [ "coffee_raw", 1 ]
-    ],
-    [
-      [ "lemonade_powder", 2 ]
-    ],
-    [
-      [ "matches", 1 ]
-    ],
-    [
-      [ "protein_powder", 1 ]
-    ],
-    [
-      [ "gum", 2 ]
-    ],
-    [
-      [ "paper", 8 ]
-    ],
-    [
-      [ "spork", 1 ]
-    ],
-    [
-      [ "heatpack", 1 ]
-    ],
-    [
-      [ "bag_plastic", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "rag",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 60000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "thread",100 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "mre_veggy_box",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "mre_veggy", 4 ]
-    ],
-    [
-      [ "pur_tablets", 6 ]
-    ],
-    [
-      [ "vitamins", 1 ]
-    ],
-    [
-      [ "crackers", 2 ]
-    ],
-    [
-      [ "can_cheese", 1 ]
-    ],
-    [
-      [ "dry_fruit", 1 ]
-    ],
-    [
-      [ "chocolate", 1 ]
-    ],
-    [
-      [ "candy2", 2 ]
-    ],
-    [
-      [ "cookies", 1 ]
-    ],
-    [
-      [ "coffee_raw", 1 ]
-    ],
-    [
-      [ "lemonade_powder", 2 ]
-    ],
-    [
-      [ "matches", 1 ]
-    ],
-    [
-      [ "protein_powder", 1 ]
-    ],
-    [
-      [ "gum", 2 ]
-    ],
-    [
-      [ "paper", 8 ]
-    ],
-    [
-      [ "spork", 1 ]
-    ],
-    [
-      [ "heatpack", 1 ]
-    ],
-    [
-      [ "bag_plastic", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "felt_patch",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 6000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+    "components": [
+      [ [ "yarn",50 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "mre_chicken_box",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "mre_chicken", 4 ]
-    ],
-    [
-      [ "pur_tablets", 6 ]
-    ],
-    [
-      [ "vitamins", 1 ]
-    ],
-    [
-      [ "crackers", 2 ]
-    ],
-    [
-      [ "can_cheese", 1 ]
-    ],
-    [
-      [ "dry_fruit", 1 ]
-    ],
-    [
-      [ "chocolate", 1 ]
-    ],
-    [
-      [ "candy2", 2 ]
-    ],
-    [
-      [ "cookies", 1 ]
-    ],
-    [
-      [ "coffee_raw", 1 ]
-    ],
-    [
-      [ "lemonade_powder", 2 ]
-    ],
-    [
-      [ "matches", 1 ]
-    ],
-    [
-      [ "protein_powder", 1 ]
-    ],
-    [
-      [ "gum", 2 ]
-    ],
-    [
-      [ "paper", 8 ]
-    ],
-    [
-      [ "spork", 1 ]
-    ],
-    [
-      [ "heatpack", 1 ]
-    ],
-    [
-      [ "bag_plastic", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "mre_beef_box",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "mre_beef",4 ] ],
+      [ [ "pur_tablets",6 ] ],
+      [ [ "vitamins",1 ] ],
+      [ [ "crackers",2 ] ],
+      [ [ "can_cheese",1 ] ],
+      [ [ "dry_fruit",1 ] ],
+      [ [ "chocolate",1 ] ],
+      [ [ "candy2",2 ] ],
+      [ [ "cookies",1 ] ],
+      [ [ "coffee_raw",1 ] ],
+      [ [ "lemonade_powder",2 ] ],
+      [ [ "matches",1 ] ],
+      [ [ "protein_powder",1 ] ],
+      [ [ "gum",2 ] ],
+      [ [ "paper",8 ] ],
+      [ [ "spork",1 ] ],
+      [ [ "heatpack",1 ] ],
+      [ [ "bag_plastic",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "mre_hotdog_box",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "mre_hotdogs", 4 ]
-    ],
-    [
-      [ "pur_tablets", 6 ]
-    ],
-    [
-      [ "vitamins", 1 ]
-    ],
-    [
-      [ "crackers", 2 ]
-    ],
-    [
-      [ "can_cheese", 1 ]
-    ],
-    [
-      [ "dry_fruit", 1 ]
-    ],
-    [
-      [ "chocolate", 1 ]
-    ],
-    [
-      [ "candy2", 2 ]
-    ],
-    [
-      [ "cookies", 1 ]
-    ],
-    [
-      [ "coffee_raw", 1 ]
-    ],
-    [
-      [ "lemonade_powder", 2 ]
-    ],
-    [
-      [ "matches", 1 ]
-    ],
-    [
-      [ "protein_powder", 1 ]
-    ],
-    [
-      [ "gum", 2 ]
-    ],
-    [
-      [ "paper", 8 ]
-    ],
-    [
-      [ "spork", 1 ]
-    ],
-    [
-      [ "heatpack", 1 ]
-    ],
-    [
-      [ "bag_plastic", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "mre_veggy_box",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "mre_veggy",4 ] ],
+      [ [ "pur_tablets",6 ] ],
+      [ [ "vitamins",1 ] ],
+      [ [ "crackers",2 ] ],
+      [ [ "can_cheese",1 ] ],
+      [ [ "dry_fruit",1 ] ],
+      [ [ "chocolate",1 ] ],
+      [ [ "candy2",2 ] ],
+      [ [ "cookies",1 ] ],
+      [ [ "coffee_raw",1 ] ],
+      [ [ "lemonade_powder",2 ] ],
+      [ [ "matches",1 ] ],
+      [ [ "protein_powder",1 ] ],
+      [ [ "gum",2 ] ],
+      [ [ "paper",8 ] ],
+      [ [ "spork",1 ] ],
+      [ [ "heatpack",1 ] ],
+      [ [ "bag_plastic",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "mre_ravioli_box",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "mre_ravioli", 4 ]
-    ],
-    [
-      [ "pur_tablets", 6 ]
-    ],
-    [
-      [ "vitamins", 1 ]
-    ],
-    [
-      [ "crackers", 2 ]
-    ],
-    [
-      [ "can_cheese", 1 ]
-    ],
-    [
-      [ "dry_fruit", 1 ]
-    ],
-    [
-      [ "chocolate", 1 ]
-    ],
-    [
-      [ "candy2", 2 ]
-    ],
-    [
-      [ "cookies", 1 ]
-    ],
-    [
-      [ "coffee_raw", 1 ]
-    ],
-    [
-      [ "lemonade_powder", 2 ]
-    ],
-    [
-      [ "matches", 1 ]
-    ],
-    [
-      [ "protein_powder", 1 ]
-    ],
-    [
-      [ "gum", 2 ]
-    ],
-    [
-      [ "paper", 8 ]
-    ],
-    [
-      [ "spork", 1 ]
-    ],
-    [
-      [ "heatpack", 1 ]
-    ],
-    [
-      [ "bag_plastic", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "mre_chicken_box",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "mre_chicken",4 ] ],
+      [ [ "pur_tablets",6 ] ],
+      [ [ "vitamins",1 ] ],
+      [ [ "crackers",2 ] ],
+      [ [ "can_cheese",1 ] ],
+      [ [ "dry_fruit",1 ] ],
+      [ [ "chocolate",1 ] ],
+      [ [ "candy2",2 ] ],
+      [ [ "cookies",1 ] ],
+      [ [ "coffee_raw",1 ] ],
+      [ [ "lemonade_powder",2 ] ],
+      [ [ "matches",1 ] ],
+      [ [ "protein_powder",1 ] ],
+      [ [ "gum",2 ] ],
+      [ [ "paper",8 ] ],
+      [ [ "spork",1 ] ],
+      [ [ "heatpack",1 ] ],
+      [ [ "bag_plastic",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "gobag",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [
-      [ "duffelbag", 1 ]
-    ],
-    [
-      [ "backpack", 1 ]
-    ],
-    [
-      [ "helmet_army", 1 ]
-    ],
-    [
-      [ "jacket_army", 1 ]
-    ],
-    [
-      [ "pants_army", 1 ]
-    ],
-    [
-      [ "tshirt", 7 ]
-    ],
-    [
-      [ "under_armor", 1 ]
-    ],
-    [
-      [ "kevlar", 1 ]
-    ],
-    [
-      [ "chestrig", 1 ]
-    ],
-    [
-      [ "coat_rain", 1 ]
-    ],
-    [
-      [ "hood_rain", 1 ]
-    ],
-    [
-      [ "long_underpants", 1 ]
-    ],
-    [
-      [ "towel", 1 ]
-    ],
-    [
-      [ "boots_combat", 1 ]
-    ],
-    [
-      [ "sneakers", 1 ]
-    ],
-    [
-      [ "socks", 7 ]
-    ],
-    [
-      [ "gloves_tactical", 1 ]
-    ],
-    [
-      [ "gloves_rubber", 1 ]
-    ],
-    [
-      [ "fire_gauntlets", 1 ]
-    ],
-    [
-      [ "battery", 100 ]
-    ],
-    [
-      [ "flashlight", 1 ]
-    ],
-    [
-      [ "lighter", 1 ]
-    ],
-    [
-      [ "pockknife", 1 ]
-    ],
-    [
-      [ "rollmat", 1 ]
-    ],
-    [
-      [ "sleeping_bag", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "mre_hotdog_box",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "mre_hotdogs",4 ] ],
+      [ [ "pur_tablets",6 ] ],
+      [ [ "vitamins",1 ] ],
+      [ [ "crackers",2 ] ],
+      [ [ "can_cheese",1 ] ],
+      [ [ "dry_fruit",1 ] ],
+      [ [ "chocolate",1 ] ],
+      [ [ "candy2",2 ] ],
+      [ [ "cookies",1 ] ],
+      [ [ "coffee_raw",1 ] ],
+      [ [ "lemonade_powder",2 ] ],
+      [ [ "matches",1 ] ],
+      [ [ "protein_powder",1 ] ],
+      [ [ "gum",2 ] ],
+      [ [ "paper",8 ] ],
+      [ [ "spork",1 ] ],
+      [ [ "heatpack",1 ] ],
+      [ [ "bag_plastic",1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "kiln_done",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [ [ "charcoal", 75 ] ],
-    [ [ "char_kiln", 1 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "multi_cooker",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 90000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "components": [
-    [ ["processor", 1] ],
-    [ ["RAM", 1] ],
-    [ ["cable", 8] ],
-    [ [ "element", 4 ] ],
-    [ ["amplifier", 1] ],
-    [ [ "power_supply", 4 ] ],
-    [ ["plastic_chunk", 12] ],
-    [ ["e_scrap", 4] ],
-    [ ["scrap", 10] ]
-  ]
-},
-{
-  "type" : "recipe",
-  "result": "mess_kit",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
-  "components": [
-    [ [ "element", 3 ] ],
-    [ ["amplifier", 1] ],
-    [ ["scrap", 6] ],
-    [ ["plastic_chunk", 1] ],
-    [ ["cable", 8] ]
-  ]
-},
-{
-  "type" : "recipe",
-  "result": "mil_mess_kit",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "components": [
-    [ [ "element", 3 ] ],
-    [ [ "amplifier", 1 ] ],
-    [ [ "cable", 8 ] ]
-  ]
-},
-{
-  "type" : "recipe",
-  "result": "l_HFPack",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [ [ "l_long_45", 1 ] ],
-    [ [ "l_enforcer_45", 1 ] ],
-    [ [ "small_repairkit", 1 ] ],
-    [ [ "battery", 300 ] ],
-    [ [ "manual_gun", 1 ] ],
-    [ [ "holster", 1 ] ]
-  ]
-},{
+  },{
+    "type" : "recipe",
+    "result": "mre_ravioli_box",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "mre_ravioli",4 ] ],
+      [ [ "pur_tablets",6 ] ],
+      [ [ "vitamins",1 ] ],
+      [ [ "crackers",2 ] ],
+      [ [ "can_cheese",1 ] ],
+      [ [ "dry_fruit",1 ] ],
+      [ [ "chocolate",1 ] ],
+      [ [ "candy2",2 ] ],
+      [ [ "cookies",1 ] ],
+      [ [ "coffee_raw",1 ] ],
+      [ [ "lemonade_powder",2 ] ],
+      [ [ "matches",1 ] ],
+      [ [ "protein_powder",1 ] ],
+      [ [ "gum",2 ] ],
+      [ [ "paper",8 ] ],
+      [ [ "spork",1 ] ],
+      [ [ "heatpack",1 ] ],
+      [ [ "bag_plastic",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "gobag",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ [ "duffelbag",1 ] ],
+      [ [ "backpack",1 ] ],
+      [ [ "helmet_army",1 ] ],
+      [ [ "jacket_army",1 ] ],
+      [ [ "pants_army",1 ] ],
+      [ [ "tshirt",7 ] ],
+      [ [ "under_armor",1 ] ],
+      [ [ "kevlar",1 ] ],
+      [ [ "chestrig",1 ] ],
+      [ [ "coat_rain",1 ] ],
+      [ [ "hood_rain",1 ] ],
+      [ [ "long_underpants",1 ] ],
+      [ [ "towel",1 ] ],
+      [ [ "boots_combat",1 ] ],
+      [ [ "sneakers",1 ] ],
+      [ [ "socks",7 ] ],
+      [ [ "gloves_tactical",1 ] ],
+      [ [ "gloves_rubber",1 ] ],
+      [ [ "fire_gauntlets",1 ] ],
+      [ [ "battery",100 ] ],
+      [ [ "flashlight",1 ] ],
+      [ [ "lighter",1 ] ],
+      [ [ "pockknife",1 ] ],
+      [ [ "rollmat",1 ] ],
+      [ [ "sleeping_bag",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "kiln_done",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ [ "charcoal",75 ] ],
+      [ [ "char_kiln",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "multi_cooker",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 90000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ ["processor",1] ],
+      [ ["RAM",1] ],
+      [ ["cable",8] ],
+      [ [ "element",4 ] ],
+      [ ["amplifier",1] ],
+      [ [ "power_supply",4 ] ],
+      [ ["plastic_chunk",12] ],
+      [ ["e_scrap",4] ],
+      [ ["scrap",10] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "mess_kit",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",10 ] ],
+      [ ["toolset",10 ] ]
+    ],
+    "components": [
+      [ [ "element",3 ] ],
+      [ ["amplifier",1] ],
+      [ ["scrap",6] ],
+      [ ["plastic_chunk",1] ],
+      [ ["cable",8] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "mil_mess_kit",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "element",3 ] ],
+      [ [ "amplifier",1 ] ],
+      [ [ "cable",8 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "l_HFPack",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ [ "l_long_45",1 ] ],
+      [ [ "l_enforcer_45",1 ] ],
+      [ [ "small_repairkit",1 ] ],
+      [ [ "battery",300 ] ],
+      [ [ "manual_gun",1 ] ],
+      [ [ "holster",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "eink_tablet_pc",
     "id_suffix": "uncraft",
@@ -2373,14 +1978,13 @@
     "autolearn": false,
     "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
     "components": [
-      [ [ "scrap", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "plastic_chunk", 2 ] ],
-      [ [ "e_scrap", 2 ] ]
+      [ [ "scrap",1 ] ],
+      [ [ "RAM",1 ] ],
+      [ [ "processor",1 ] ],
+      [ [ "plastic_chunk",2 ] ],
+      [ [ "e_scrap",2 ] ]
     ]
-  },
-  {
+  },{
     "type" : "recipe",
     "result": "camera",
     "id_suffix": "uncraft",
@@ -2392,14 +1996,13 @@
     "autolearn": false,
     "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
     "components": [
-      [ [ "scrap", 2 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "plastic_chunk", 5 ] ],
-      [ [ "e_scrap", 2 ] ],
-      [ [ "lens", 1 ] ]
+      [ [ "scrap",2 ] ],
+      [ [ "processor",1 ] ],
+      [ [ "plastic_chunk",5 ] ],
+      [ [ "e_scrap",2 ] ],
+      [ [ "lens",1 ] ]
     ]
-  },
-  {
+  },{
     "type" : "recipe",
     "result": "camera_pro",
     "id_suffix": "uncraft",
@@ -2411,154 +2014,166 @@
     "autolearn": false,
     "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
     "components": [
-      [ [ "scrap", 5 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "plastic_chunk", 10 ] ],
-      [ [ "e_scrap", 8 ] ],
-      [ [ "lens", 2 ] ]
+      [ [ "scrap",5 ] ],
+      [ [ "processor",1 ] ],
+      [ [ "plastic_chunk",10 ] ],
+      [ [ "e_scrap",8 ] ],
+      [ [ "lens",2 ] ]
     ]
-  },
-{
-  "type" : "recipe",
-  "result": "processor",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 1,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [ [ [ "soldering_iron", 5 ], [ "toolset", 5 ] ] ],
-  "components": [
-    [ [ "e_scrap", 3 ] ],
-    [ ["plastic_chunk", 1] ]
-  ]
-},
-  {
-  "type" : "recipe",
-  "result": "radio_car_box",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [ [ "radio_car", 1 ] ],
-    [ [ "radiocontrol", 1 ] ],
-    [ [ "battery", 200 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "material_shrd_limestone",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-  "tools": [ [ [ "crucible", -1 ], ["crucible_clay", -1] ] ],
-  "components": [ [ [ "material_limestone", 10 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "hd_steel_drum",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "difficulty": 4,
-  "time": 750000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
-  "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
-  "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "oxy_torch",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 1500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
-  "components": [
-    [ [ "scrap", 5 ] ],
-    [ [ "cu_pipe", 1 ] ],
-    [ [ "pilot_light", 1 ] ],
-    [ [ "rag", 5 ] ],
-    [ [ "metal_tank_little", 2 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "oxygen_tank",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
-  "components": [
-    [ [ "scrap", 1 ] ],
-    [ [ "plastic_chunk", 1 ] ],
-    [ [ "metal_tank_little", 1 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "smoxygen_tank",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
-  "components": [
-    [ [ "plastic_chunk", 2 ] ],
-    [ [ "canister_empty", 1 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "extinguisher",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
-  "components": [
-    [ [ "scrap", 3 ] ],
-    [ [ "hose", 1 ] ],
-    [ [ "jerrycan_big", 1 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "sm_extinguisher",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
-  "components": [
-    [ [ "scrap", 1 ] ],
-    [ [ "plastic_chunk", 1 ] ],
-    [ [ "metal_tank_little", 1 ] ]
-  ]
-},{
+  },{
+    "type" : "recipe",
+    "result": "processor",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "tools": [
+      [ [ "soldering_iron",5 ] ],
+      [ [ "toolset",5 ] ]
+    ],
+    "components": [
+      [ [ "e_scrap",3 ] ],
+      [ ["plastic_chunk",1] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "radio_car_box",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "components": [
+      [ [ "radio_car",1 ] ],
+      [ [ "radiocontrol",1 ] ],
+      [ [ "battery",200 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "material_shrd_limestone",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
+    "tools": [
+      [ [ "crucible",-1 ] ],
+      [ ["crucible_clay",-1] ]
+      ],
+    "components": [
+      [ [ "material_limestone",10 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "hd_steel_drum",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 750000,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
+    "tools": [
+      [ [ "welder",500 ] ],
+      [ [ "toolset",750 ] ]
+    ],
+    "components": [
+      [ [ "steel_plate",10 ] ],
+      [ [ "steel_lump",70 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "oxy_torch",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",5 ] ],
+      [ [ "cu_pipe",1 ] ],
+      [ [ "pilot_light",1 ] ],
+      [ [ "rag",5 ] ],
+      [ [ "metal_tank_little",2 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "oxygen_tank",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",1 ] ],
+      [ [ "plastic_chunk",1 ] ],
+      [ [ "metal_tank_little",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "smoxygen_tank",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+    "components": [
+      [ [ "plastic_chunk",2 ] ],
+      [ [ "canister_empty",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "extinguisher",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",3 ] ],
+      [ [ "hose",1 ] ],
+      [ [ "jerrycan_big",1 ] ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "sm_extinguisher",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",1 ] ],
+      [ [ "plastic_chunk",1 ] ],
+      [ [ "metal_tank_little",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "roadmap",
     "id_suffix": "uncraft",
@@ -2569,8 +2184,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 10 ] ]    ]
-},{
+    "components": [
+      [ [ "paper",10 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "survivormap",
     "id_suffix": "uncraft",
@@ -2581,8 +2198,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 10 ] ] ]
-},{
+    "components": [
+      [ [ "paper",10 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "militarymap",
     "id_suffix": "uncraft",
@@ -2593,8 +2212,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 10 ] ] ]
-},{
+    "components": [ 
+      [ [ "paper",10 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "restaurantmap",
     "id_suffix": "uncraft",
@@ -2605,8 +2226,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 10 ] ]    ]
-},{
+    "components": [
+      [ [ "paper",10 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "touristmap",
     "id_suffix": "uncraft",
@@ -2617,8 +2240,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 10 ] ]    ]
-},{
+    "components": [
+      [ [ "paper",10 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "newest_newspaper",
     "id_suffix": "uncraft",
@@ -2629,8 +2254,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 2 ] ] ]
-},{
+    "components": [
+      [ [ "paper",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "many_years_old_newspaper",
     "id_suffix": "uncraft",
@@ -2641,8 +2268,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 2 ] ] ]
-},{
+    "components": [
+      [ [ "paper",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "years_old_newspaper",
     "id_suffix": "uncraft",
@@ -2653,8 +2282,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 2 ] ] ]
-},{
+    "components": [
+      [ [ "paper",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "one_year_old_newspaper",
     "id_suffix": "uncraft",
@@ -2665,8 +2296,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 2 ] ] ]
-},{
+    "components": [
+      [ [ "paper",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "months_old_newspaper",
     "id_suffix": "uncraft",
@@ -2677,8 +2310,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 2 ] ] ]
-},{
+    "components": [ 
+      [ [ "paper",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "weeks_old_newspaper",
     "id_suffix": "uncraft",
@@ -2689,8 +2324,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 2 ] ] ]
-},{
+    "components": [ 
+      [ [ "paper",2 ] ] 
+    ]
+  },{
     "type" : "recipe",
     "result": "money_bundle",
     "id_suffix": "uncraft",
@@ -2701,8 +2338,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 2 ] ] ]
-},{
+    "components": [ 
+      [ [ "paper",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "wrapper",
     "id_suffix": "uncraft",
@@ -2713,8 +2352,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_EASY"],
-    "components": [ [ [ "paper", 2 ] ] ]
-},{
+    "components": [ 
+      [ [ "paper",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "straw_basket",
     "id_suffix": "uncraft",
@@ -2725,8 +2366,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_HARD"],
-    "components": [ [ [ "straw_pile", 4 ] ] ]
-},{
+    "components": [
+      [ [ "straw_pile",4 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "straw_doll",
     "id_suffix": "uncraft",
@@ -2737,8 +2380,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_HARD"],
-    "components": [ [ [ "straw_pile", 1 ] ] ]
-},{
+    "components": [
+      [ [ "straw_pile",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "straw_sandals",
     "id_suffix": "uncraft",
@@ -2749,8 +2394,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_HARD"],
-    "components": [ [ [ "straw_pile", 2 ] ] ]
-},{
+    "components": [
+      [ [ "straw_pile",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "straw_hat",
     "id_suffix": "uncraft",
@@ -2761,8 +2408,10 @@
     "reversible": true,
     "autolearn": false,
     "flags": ["BLIND_HARD"],
-    "components": [ [ [ "straw_pile", 2 ] ] ]
-},{
+    "components": [
+      [ [ "straw_pile",2 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "straw_fedora",
     "id_suffix": "uncraft",
@@ -2773,8 +2422,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
-    "components": [ [ [ "straw_pile", 5 ] ] ]
-},{
+    "components": [ 
+      [ [ "straw_pile",5 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "fork",
     "id_suffix": "uncraft",
@@ -2785,8 +2436,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-},{
+    "components": [ 
+      [ [ "scrap",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "spoon",
     "id_suffix": "uncraft",
@@ -2797,8 +2450,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-},{
+    "components": [
+      [ [ "scrap",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "spork",
     "id_suffix": "uncraft",
@@ -2809,8 +2464,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-},{
+    "components": [
+      [ [ "scrap",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "foon",
     "id_suffix": "uncraft",
@@ -2821,8 +2478,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-},{
+    "components": [
+      [ [ "scrap",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "spring",
     "id_suffix": "uncraft",
@@ -2833,8 +2492,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "scrap", 7 ] ] ]
-},{
+    "components": [
+      [ [ "scrap",7 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "wire",
     "id_suffix": "uncraft",
@@ -2845,8 +2506,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-},{
+    "components": [
+      [ [ "scrap",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "blade",
     "id_suffix": "uncraft",
@@ -2857,8 +2520,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "scrap", 3 ] ] ]
-},{
+    "components": [
+      [ [ "scrap",3 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "glass",
     "id_suffix": "uncraft",
@@ -2868,8 +2533,10 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "glass_shard", 1 ] ] ]
-},{
+    "components": [
+      [ [ "glass_shard",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "glass_plate",
     "id_suffix": "uncraft",
@@ -2879,8 +2546,10 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "glass_shard", 1 ] ] ]
-},{
+    "components": [
+      [ [ "glass_shard",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "glass_bowl",
     "id_suffix": "uncraft",
@@ -2890,8 +2559,10 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "glass_shard", 1 ] ] ]
-},{
+    "components": [
+      [ [ "glass_shard",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "ceramic_plate",
     "id_suffix": "uncraft",
@@ -2901,8 +2572,10 @@
     "time": 1000,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
-},{
+    "components": [
+      [ [ "ceramic_shard",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "ceramic_bowl",
     "id_suffix": "uncraft",
@@ -2912,8 +2585,10 @@
     "time": 1000,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
-},{
+    "components": [
+      [ [ "ceramic_shard",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "ceramic_cup",
     "id_suffix": "uncraft",
@@ -2923,8 +2598,10 @@
     "time": 1000,
     "reversible": true,
     "autolearn": false,
-    "components": [ [ [ "ceramic_shard", 1 ] ] ]
-},{
+    "components": [
+      [ [ "ceramic_shard",1 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "tin_plate",
     "id_suffix": "uncraft",
@@ -2935,8 +2612,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "tin", 100 ] ] ]
-},{
+    "components": [
+      [ [ "tin",100 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "robot_controls",
     "category": "CC_NONCRAFT",
@@ -2947,44 +2626,38 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [
-        {"id":"SCREW","level":1,"amount":1},
-        {"id":"WRENCH","level":1,"amount":1},
-        {"id":"SAW_M","level":1,"amount":1}
-    ], "tools": [
-        [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
-    ], "components": [
-        [ [ "motor_small", 3 ] ],
-        [ [ "processor", 3 ] ],
-        [ [ "RAM", 2 ] ],
-        [ [ "plastic_chunk", 2 ] ]
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"WRENCH","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "tools": [
+      [ [ "soldering_iron",20 ] ],
+      [ ["toolset",20 ] ]
+    ],
+    "components": [
+      [ [ "motor_small",3 ] ],
+      [ [ "processor",3 ] ],
+      [ [ "RAM",2 ] ],
+      [ [ "plastic_chunk",2 ] ]
     ]
-},{
-  "type" : "recipe",
-  "result": "vac_sealer",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "scrap", 4 ]
-    ],
-    [
-      [ "element", 2 ]
-    ],
-    [
-      [ "hose", 1 ]
-    ],
-    [
-      [ "power_supply", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "vac_sealer",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap",4 ] ],
+      [ [ "element",2 ] ],
+      [ [ "hose",1 ] ],
+      [ [ "power_supply",1 ] ]
     ]
-  ]
-},{
+  },{
     "type" : "recipe",
     "result": "thyme",
     "id_suffix": "uncraft",
@@ -2995,8 +2668,10 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
-    "components": [ [ [ "wild_herbs", 10 ] ] ]
-},{
+    "components": [
+      [ [ "wild_herbs",10 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "seat",
     "id_suffix": "uncraft",
@@ -3006,17 +2681,19 @@
     "time": 5000,
     "reversible": true,
     "autolearn": false,
-    "qualities" : [
-        {"id":"CUT","level":1,"amount":1}
-    ], "tools": [
-        [ [ "oxy_torch", 12 ], [ "welder", 25 ], [ "welder_crude", 40 ], [ "toolset", 40 ] ] ],
+    "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+    "tools": [
+      [ [ "oxy_torch",12 ] ],
+      [ ["welder",25 ] ],
+      [ ["welder_crude",40 ] ],
+      [ ["toolset",40 ] ]
+    ],
     "components": [
-    [ [ "pipe", 4 ] ],
-    [ [ "spring", 2 ] ],
-    [ [ "leather", 12 ] ]
+      [ [ "pipe",4 ] ],
+      [ [ "spring",2 ] ],
+      [ [ "leather",12 ] ]
     ]
-},
-{
+  },{
     "type" : "recipe",
     "result": "cannabis",
     "id_suffix": "uncraft",
@@ -3031,25 +2708,27 @@
         {"id":"CUT","level":1,"amount":1}
     ],
     "components": [
-    [ [ "weed", 20 ] ],
-    [ [ "plant_fibre", 100 ] ],
-    [ [ "withered", 1 ] ]
+    [ [ "weed",20 ] ],
+    [ [ "plant_fibre",100 ] ],
+    [ [ "withered",1 ] ]
     ]
-},{
-  "type" : "recipe",
-  "result": "pot_copper",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 7500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
-  "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
-},
-{
+  },{
+    "type" : "recipe",
+    "result": "pot_copper",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 7500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
+    "components": [
+      [ [ "scrap_copper",5 ] ],
+      [ [ "scrap",1 ] ]
+    ]
+  },{
     "type": "recipe",
     "result": "shot_bird",
     "id_suffix": "uncraft",
@@ -3061,15 +2740,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 16 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 12 ] ]
+      [ [ "lead",16 ] ],
+      [ [ "shot_hull",1 ] ],
+      [ [ "shotgun_primer",1 ] ],
+      [ [ "gunpowder",12 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "shot_slug",
     "id_suffix": "uncraft",
@@ -3081,15 +2761,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 16 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 20 ] ]
+      [ [ "lead",16 ] ],
+      [ [ "shot_hull",1 ] ],
+      [ [ "shotgun_primer",1 ] ],
+      [ [ "gunpowder",20 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "shot_00",
     "id_suffix": "uncraft",
@@ -3101,15 +2782,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 16 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 20 ] ]
+      [ [ "lead",16 ] ],
+      [ [ "shot_hull",1 ] ],
+      [ [ "shotgun_primer",1 ] ],
+      [ [ "gunpowder",20 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "shot_beanbag",
     "id_suffix": "uncraft",
@@ -3121,15 +2803,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "rubber_slug", 1 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 16 ] ]
+      [ [ "rubber_slug",1 ] ],
+      [ [ "shot_hull",1 ] ],
+      [ [ "shotgun_primer",1 ] ],
+      [ [ "gunpowder",16 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "shot_flechette",
     "id_suffix": "uncraft",
@@ -3141,15 +2824,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "combatnail", 8 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 20 ] ]
+      [ [ "combatnail",8 ] ],
+      [ [ "shot_hull",1 ] ],
+      [ [ "shotgun_primer",1 ] ],
+      [ [ "gunpowder",20 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "22_lr",
     "id_suffix": "uncraft",
@@ -3161,14 +2845,15 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "22_casing_new", 1 ] ],
-        [ [ "gunpowder", 2 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "22_casing_new",1 ] ],
+      [ [ "gunpowder",2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "22_ratshot",
     "id_suffix": "uncraft",
@@ -3180,14 +2865,15 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "22_casing_new", 1 ] ],
-        [ [ "gunpowder", 2 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "22_casing_new",1 ] ],
+      [ [ "gunpowder",2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "22_cb",
     "id_suffix": "uncraft",
@@ -3199,14 +2885,15 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "22_casing_new", 1 ] ],
-        [ [ "gunpowder", 1 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "22_casing_new",1 ] ],
+      [ [ "gunpowder",1 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "22_fmj",
     "id_suffix": "uncraft",
@@ -3218,15 +2905,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "22_casing_new", 1 ] ],
-        [ [ "gunpowder", 1 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "22_casing_new",1 ] ],
+      [ [ "gunpowder",1 ] ],
+      [ [ "copper",2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9mm",
     "id_suffix": "uncraft",
@@ -3238,15 +2926,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
+      [ [ "lead",4 ] ],
+      [ [ "9mm_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9mmP",
     "id_suffix": "uncraft",
@@ -3258,15 +2947,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ]
+      [ [ "lead",4 ] ],
+      [ [ "9mm_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9mmP2",
     "id_suffix": "uncraft",
@@ -3278,15 +2968,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ]
+      [ [ "lead",4 ] ],
+      [ [ "9mm_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9mmfmj",
     "id_suffix": "uncraft",
@@ -3298,16 +2989,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 4 ] ]
+      [ [ "lead",4 ] ],
+      [ [ "9mm_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",6 ] ],
+      [ [ "copper",4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "32_acp",
     "id_suffix": "uncraft",
@@ -3319,15 +3011,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "38_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
+      [ [ "lead",5 ] ],
+      [ [ "38_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "38_special",
     "id_suffix": "uncraft",
@@ -3339,15 +3032,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "38_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ]
+      [ [ "lead",5 ] ],
+      [ [ "38_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "38_super",
     "id_suffix": "uncraft",
@@ -3359,15 +3053,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "38_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 7 ] ]
+      [ [ "lead",5 ] ],
+      [ [ "38_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",7 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "38_fmj",
     "id_suffix": "uncraft",
@@ -3379,16 +3074,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [ 
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "38_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ],
-        [ [ "copper", 5 ] ]
+      [ [ "lead",5 ] ],
+      [ [ "38_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",5 ] ],
+      [ [ "copper",5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "10mm",
     "id_suffix": "uncraft",
@@ -3400,15 +3096,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 8 ] ],
-        [ [ "40_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ]
+      [ [ "lead",8 ] ],
+      [ [ "40_casing",1 ] ],
+      [ [ "lgpistol_primer",1 ] ],
+      [ [ "gunpowder",8 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "40sw",
     "id_suffix": "uncraft",
@@ -3420,15 +3117,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "40_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ]
+      [ [ "lead",6 ] ],
+      [ [ "40_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "40fmj",
     "id_suffix": "uncraft",
@@ -3440,16 +3138,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "40_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead",6 ] ],
+      [ [ "40_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",6 ] ],
+      [ [ "copper",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "44magnum",
     "id_suffix": "uncraft",
@@ -3461,15 +3160,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 10 ] ],
-        [ [ "44_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ]
+      [ [ "lead",10 ] ],
+      [ [ "44_casing",1 ] ],
+      [ [ "lgpistol_primer",1 ] ],
+      [ [ "gunpowder",10 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "44fmj",
     "id_suffix": "uncraft",
@@ -3481,16 +3181,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 7 ] ],
-        [ [ "44_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 7] ]
+      [ [ "lead",7 ] ],
+      [ [ "44_casing",1 ] ],
+      [ [ "lgpistol_primer",1 ] ],
+      [ [ "gunpowder",10 ] ],
+      [ [ "copper",7] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "45_acp",
     "id_suffix": "uncraft",
@@ -3502,15 +3203,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 8 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ]
+      [ [ "lead",8 ] ],
+      [ [ "45_casing",1 ] ],
+      [ [ "lgpistol_primer",1 ] ],
+      [ [ "gunpowder",10 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "45_jhp",
     "id_suffix": "uncraft",
@@ -3522,16 +3224,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 7 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 7 ] ]
+      [ [ "lead",7 ] ],
+      [ [ "45_casing",1 ] ],
+      [ [ "lgpistol_primer",1 ] ],
+      [ [ "gunpowder",10 ] ],
+      [ [ "copper",7 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "45_super",
     "id_suffix": "uncraft",
@@ -3543,15 +3246,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 10 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 12 ] ]
+      [ [ "lead",10 ] ],
+      [ [ "45_casing",1 ] ],
+      [ [ "lgpistol_primer",1 ] ],
+      [ [ "gunpowder",12 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "454_Casull",
     "id_suffix": "uncraft",
@@ -3563,16 +3267,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 20 ] ],
-        [ [ "454_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 20 ] ],
-        [ [ "copper", 20 ] ]
+      [ [ "lead",20 ] ],
+      [ [ "454_casing",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",20 ] ],
+      [ [ "copper",20 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "500_Magnum",
     "id_suffix": "uncraft",
@@ -3584,16 +3289,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 24 ] ],
-        [ [ "500_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 24 ] ],
-        [ [ "copper", 24 ] ]
+      [ [ "lead",24 ] ],
+      [ [ "500_casing",1 ] ],
+      [ [ "lgpistol_primer",1 ] ],
+      [ [ "gunpowder",24 ] ],
+      [ [ "copper",24 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "57mm",
     "id_suffix": "uncraft",
@@ -3605,15 +3311,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "57mm_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "57mm_casing",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "46mm",
     "id_suffix": "uncraft",
@@ -3625,15 +3332,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "46mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "46mm_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_m43",
     "id_suffix": "uncraft",
@@ -3645,16 +3353,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "762_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 7 ] ],
-        [ [ "copper", 5 ] ]
+      [ [ "lead",5 ] ],
+      [ [ "762_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",7 ] ],
+      [ [ "copper",5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_m87",
     "id_suffix": "uncraft",
@@ -3666,16 +3375,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "762_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 5 ] ]
+      [ [ "lead",5 ] ],
+      [ [ "762_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",8 ] ],
+      [ [ "copper",5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "545",
     "id_suffix": "uncraft",
@@ -3687,16 +3397,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "545_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "545_casing",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",5 ] ],
+      [ [ "copper",2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "545_ap",
     "id_suffix": "uncraft",
@@ -3708,16 +3419,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 3 ] ],
-        [ [ "545_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ],
-        [ [ "copper", 3 ] ]
+      [ [ "lead",3 ] ],
+      [ [ "545_casing",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",5 ] ],
+      [ [ "copper",3 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "223",
     "id_suffix": "uncraft",
@@ -3729,16 +3441,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "223_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "223_casing",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",4 ] ],
+      [ [ "copper",2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "556",
     "id_suffix": "uncraft",
@@ -3750,16 +3463,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "223_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "223_casing",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",6 ] ],
+      [ [ "copper",2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "556_incendiary",
     "id_suffix": "uncraft",
@@ -3771,16 +3485,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "incendiary", 2 ] ],
-        [ [ "223_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "incendiary",2 ] ],
+      [ [ "223_casing",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",6 ] ],
+      [ [ "copper",2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "270",
     "id_suffix": "uncraft",
@@ -3792,16 +3507,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "3006_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 5 ] ]
+      [ [ "lead",5 ] ],
+      [ [ "3006_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",10 ] ],
+      [ [ "copper",5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "3006",
     "id_suffix": "uncraft",
@@ -3813,16 +3529,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "3006_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead",6 ] ],
+      [ [ "3006_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",8 ] ],
+      [ [ "copper",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "3006fmj",
     "id_suffix": "uncraft",
@@ -3834,16 +3551,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "3006_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead",6 ] ],
+      [ [ "3006_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",8 ] ],
+      [ [ "copper",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "3006_incendiary",
     "id_suffix": "uncraft",
@@ -3855,16 +3573,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "incendiary", 6 ] ],
-        [ [ "3006_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "incendiary",6 ] ],
+      [ [ "3006_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",8 ] ],
+      [ [ "copper",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "308",
     "id_suffix": "uncraft",
@@ -3876,16 +3595,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "308_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead",6 ] ],
+      [ [ "308_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",10 ] ],
+      [ [ "copper",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_51",
     "id_suffix": "uncraft",
@@ -3897,16 +3617,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "308_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead",6 ] ],
+      [ [ "308_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",10 ] ],
+      [ [ "copper",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_51_incendiary",
     "id_suffix": "uncraft",
@@ -3918,16 +3639,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "incendiary", 6 ] ],
-        [ [ "308_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-         [ [ "copper", 6 ] ]
+      [ [ "incendiary",6 ] ],
+      [ [ "308_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",10 ] ],
+       [ [ "copper",6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "5x50heavy",
     "id_suffix": "uncraft",
@@ -3939,15 +3661,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 3 ] ],
-        [ [ "5x50_hull", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 3 ] ]
+      [ [ "lead",3 ] ],
+      [ [ "5x50_hull",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",3 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "5x50dart",
     "id_suffix": "uncraft",
@@ -3959,15 +3682,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "5x50_hull", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 3 ] ]
+      [ [ "lead",2 ] ],
+      [ [ "5x50_hull",1 ] ],
+      [ [ "smrifle_primer",1 ] ],
+      [ [ "gunpowder",3 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "50bmg",
     "id_suffix": "uncraft",
@@ -3979,16 +3703,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 12 ] ],
-        [ [ "50_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 33 ] ],
-        [ [ "copper", 9 ] ]
+      [ [ "lead",12 ] ],
+      [ [ "50_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",33 ] ],
+      [ [ "copper",9 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "50ss",
     "id_suffix": "uncraft",
@@ -4000,17 +3725,18 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "50_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 100 ] ],
-        [ [ "copper", 27 ] ],
-        [ [ "combatnail", 5]
-     ] ],
-    "//": "Crafting these uses scrap metal instead of lead. Just breaking down into casings, copper and powder felt wrong, and combatnails seemed like a reasonable approximation."
-},
-{
+      [ [ "50_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",100 ] ],
+      [ [ "copper",27 ] ],
+      [ [ "combatnail",5] ]
+    ],
+    "//": "Crafting these uses scrap metal instead of lead. Just breaking down into casings,copper and powder felt wrong,and combatnails seemed like a reasonable approximation."
+  },{
     "type": "recipe",
     "result": "50_incendiary",
     "id_suffix": "uncraft",
@@ -4022,17 +3748,18 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 20 ] ],
-        [ [ "incendiary", 30 ] ],
-        [ [ "50_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 100 ] ],
-        [ [ "copper", 27 ] ]
+      [ [ "lead",20 ] ],
+      [ [ "incendiary",30 ] ],
+      [ [ "50_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",100 ] ],
+      [ [ "copper",27 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "700nx",
     "id_suffix": "uncraft",
@@ -4044,16 +3771,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 14 ] ],
-        [ [ "700nx_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 38 ] ],
-        [ [ "copper", 9 ] ]
+      [ [ "lead",14 ] ],
+      [ [ "700nx_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",38 ] ],
+      [ [ "copper",9 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "300_winmag",
     "id_suffix": "uncraft",
@@ -4065,16 +3793,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 8 ] ],
-        [ [ "300_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 16 ] ],
-        [ [ "copper", 21 ] ]
+      [ [ "lead",8 ] ],
+      [ [ "300_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",16 ] ],
+      [ [ "copper",21 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9x18mm",
     "id_suffix": "uncraft",
@@ -4086,15 +3815,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9x18mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 3 ] ]
+      [ [ "lead",4 ] ],
+      [ [ "9x18mm_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",3 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9x18mmP2",
     "id_suffix": "uncraft",
@@ -4106,15 +3836,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9x18mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ]
+      [ [ "lead",4 ] ],
+      [ [ "9x18mm_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9x18mmfmj",
     "id_suffix": "uncraft",
@@ -4126,16 +3857,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9x18mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 3 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead",4 ] ],
+      [ [ "9x18mm_casing",1 ] ],
+      [ [ "smpistol_primer",1 ] ],
+      [ [ "gunpowder",3 ] ],
+      [ [ "copper",2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_54R",
     "id_suffix": "uncraft",
@@ -4147,34 +3879,36 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 3 ] ],
-        [ [ "762_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 10 ] ]
+      [ [ "lead",3 ] ],
+      [ [ "762_casing",1 ] ],
+      [ [ "lgrifle_primer",1 ] ],
+      [ [ "gunpowder",8 ] ],
+      [ [ "copper",10 ] ]
     ]
-},{
+  },{
     "type" : "recipe",
     "result": "vibrator",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 2 ],
+    "skills_required": ["fabrication",2],
     "difficulty": 3,
     "time": 5400,
     "reversible": true,
     "autolearn": false,
     "qualities" : [
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
     ],
     "components": [
-    [[ "e_scrap", 1 ]],
-    [[ "scrap", 1 ]],
-    [[ "plastic_chunk", 1 ]]
+      [ [ "e_scrap",1 ] ],
+      [ [ "scrap",1 ] ],
+      [ [ "plastic_chunk",1 ] ]
     ]
-    }
+  }
 ]
