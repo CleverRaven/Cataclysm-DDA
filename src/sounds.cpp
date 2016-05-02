@@ -963,7 +963,13 @@ int sfx::play_special_music( std::string playlist ) {
 
 int sfx::consider() {
     bool is_night = calendar::turn.is_night();
-        
+
+    if( is_night && g->u.in_vehicle ) {
+        return play_special_music( "n_driving" );
+    } else if ( !is_night && g->u.in_vehicle ) {
+        return play_special_music( "d_driving" );
+    }
+
     int hostiles = 0;
     for( auto &critter : g->u.get_visible_creatures( 40 ) ) {
         if( g->u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
