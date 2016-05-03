@@ -104,11 +104,11 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 1] , ["textbook_chemistry", 1]],
-  "tools": [
-    [
-      [ "chemistry_set", 5 ]
-    ]
-  ],
+  "qualities":[ { "id": "CHEM", "level": 2 } ],
+  "tools": [ [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ]
+  ] ],
   "components": [
     [
       [ "water", 1 ],
@@ -2091,11 +2091,11 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [
-    [
-      [ "chemistry_set", 50 ]
-    ]
-  ],
+  "qualities":[ { "id": "CHEM", "level": 2 } ],
+  "tools": [ [
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ]
+  ] ],
   "components": [
     [
       [ "salt_water", 2 ],
@@ -2113,11 +2113,11 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [
-    [
-      [ "chemistry_set", 50 ]
-    ]
-  ],
+  "qualities":[ { "id": "CHEM", "level": 2 } ],
+  "tools": [ [
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ]
+  ] ],
   "components": [
     [
       [ "water_clean", 1 ],
@@ -2487,15 +2487,14 @@
   "time": 15000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[{"id":"BOIL","level":2,"amount":1}],
-  "tools": [
-    [[ "chemistry_set", 25 ]],
-    [
-      [ "hotplate", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
+  "qualities":[
+    { "id": "BOIL", "level": 2 },
+    { "id": "CHEM", "level": 2 }
   ],
+  "tools": [ [
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ]
+  ] ],
   "components": [
     [ [ "chem_hydrogen_peroxide_conc", 1 ] ],
     [ [ "chem_sulphur", 25 ] ] ]
