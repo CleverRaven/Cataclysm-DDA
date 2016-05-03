@@ -601,7 +601,7 @@ public:
     const item_category *category = nullptr; // category pointer or NULL for automatic selection
 
     nc_color color = c_white; // Color on the map (color.h)
-    char sym = '#';       // Symbol on the ma
+    char sym = 0; // Symbol on the map
 
     /** Magazine types (if any) for each ammo type that can be used to reload this item */
     std::map< ammotype, std::set<itype_id> > magazines;

@@ -1,0 +1,12 @@
+[
+  {
+    "abstract": "rifle_pipe",
+    "copy-from": "rifle_base",
+    "type": "GUN",
+    "name": "pipe rifle",
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "proportional": { "reload": 4.0 },
+    "extend": { "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ] }
+  }
+]
