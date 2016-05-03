@@ -254,6 +254,7 @@ void player::power_bionics()
     //generate the tab title string and a count of the bionics owned
     bionic_menu_mode menu_mode = ACTIVATING;
     std::ostringstream tabname;
+    // @todo should be updated in recalc conditional branch
     tabname << _( "ACTIVE" );
     if( !active.empty() ) {
         tabname << "(" << active.size() << ")";
@@ -328,10 +329,12 @@ void player::power_bionics()
                 switch( tab_mode ) {
                     case TAB_ACTIVE:
                         msg = _( "No activatable bionics installed." );
+                        break;
                     case TAB_PASSIVE:
                         msg = _( "No passive bionics installed." );
+                        break;
                 }
-                mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, "%s", msg.c_str() );
+                fold_and_print( wBio, list_start_y, 2, WIDTH - 3, c_ltgray, msg );
             } else {
                 for( size_t i = scroll_position; i < current_bionic_list->size(); i++ ) {
                     if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
@@ -362,7 +365,6 @@ void player::power_bionics()
 
         show_bionics_titlebar( w_title, this, menu_mode );
 
-        // Description
         if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
             show_description( w_description, *( *current_bionic_list )[cursor] );
         }
@@ -450,7 +452,7 @@ void player::power_bionics()
         //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
         if( confirmCheck ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
-            if( action == "CONFIRM" && current_bionic_list->size() > 0 ) {
+            if( action == "CONFIRM" && !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
             } else {
                 tmp = bionic_by_invlet( ch );
