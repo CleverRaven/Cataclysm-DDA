@@ -10010,7 +10010,7 @@ void player::mend_item( item_location&& obj, bool interactive )
 
 int player::item_handling_cost( const item& it, bool effects, int factor, int qty ) const {
 
-    // If necessary crete duplicate with appropriate number of charges
+    // If necessary create duplicate with appropriate number of charges
     item obj = it;
     obj = obj.split( qty );
     if( obj.is_null() ) {
