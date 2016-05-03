@@ -320,6 +320,8 @@ void player::power_bionics()
             }
 
             recalc = false;
+            // bionics were modified, so it's necessary to redraw the screen
+            redraw = true;
         }
 
         //track which list we are looking at
@@ -488,7 +490,6 @@ void player::power_bionics()
             if( menu_mode == REMOVING ) {
                 if( uninstall_bionic( bio_id ) ) {
                     recalc = true;
-                    redraw = true;
                     continue;
                 }
             }
