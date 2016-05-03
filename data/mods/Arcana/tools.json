@@ -41,12 +41,7 @@
     "use_action": {
         "type" : "consume_drug",
         "activation_message" : "As you drink from the chalice, you feel your breath being drawn from your lungs!",
-        "effects" : [
-            {
-                "id": "offering",
-                "duration": 1
-            }
-        ]
+        "effects" : [ { "id" : "offering", "duration" : 1 } ]
     }
   },{
     "id": "offering_chalice_used",
@@ -115,13 +110,7 @@
     "use_action" : {
         "type" : "consume_drug",
         "activation_message" : "Upon drawing the blade across your palm, wounds open elsewhere on your body!",
-        "effects" : [
-            {
-               "id": "bleed",
-                "bp": "TORSO",
-                "duration": 100
-            }
-        ]
+        "effects" : [ { "id" : "bleed", "bp" : "TORSO", "duration" : 100 } ]
     },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },{

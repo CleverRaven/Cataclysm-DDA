@@ -139,12 +139,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "The diamond shimmers with malevolent red light as you feel a strange hunger, a craving for rotting meat and stagnant water...",
-            "effects" : [
-                {
-                   "id": "revenant_hunger",
-                    "duration": 500
-                }
-            ]
+            "effects" : [ { "id" : "revenant_hunger", "duration" : 500 } ]
         },
         "artifact_data" : {
           "effects_worn": ["AEP_STEALTH", "AEP_EXTINGUISH", "AEP_SICK"]
@@ -259,12 +254,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "A strange energy radiates from the ring's gem, spreading a calming sensation over you.",
-            "effects" : [
-                {
-                   "id": "cleric_warding",
-                    "duration": 250
-                }
-            ]
+            "effects" : [ { "id" : "cleric_warding", "duration" : 250 } ]
         },
         "artifact_data" : {
           "effects_worn": ["AEP_PSYSHIELD", "AEP_STR_DOWN"]

@@ -22,12 +22,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You drink the potion and feel a strange numbness spread through your body.",
-            "effects" : [
-                {
-                    "id": "potion_numbness",
-                    "duration": 50
-                }
-            ],
+            "effects" : [ { "id" : "potion_numbness", "duration" : 50 } ],
             "stat_adjustments": {"hunger" : 25}
         }
     },
@@ -53,12 +48,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You drink the potion and feel wicked power spread through your body.",
-            "effects" : [
-                {
-                    "id": "potion_strength",
-                    "duration": 50
-                }
-            ],
+            "effects" : [ { "id" : "potion_strength", "duration" : 50 } ],
             "stat_adjustments": {"hunger" : 20}
         }
     },
@@ -84,12 +74,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You drink the potion and feel a sudden tension spread through your body.",
-            "effects" : [
-                {
-                    "id": "potion_speed",
-                    "duration": 50
-                }
-            ],
+            "effects" : [ { "id" : "potion_speed", "duration" : 50 } ],
             "stat_adjustments": {"hunger" : 15}
         }
     },
@@ -115,12 +100,7 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "You drink the potion and feel a pleasant warmth spread through your body.",
-            "effects" : [
-                {
-                    "id": "potion_healing",
-                    "duration": 50
-                }
-            ],
+            "effects" : [ { "id" : "potion_healing", "duration" : 50 } ],
             "stat_adjustments": {"hunger" : 10}
         }
     }
