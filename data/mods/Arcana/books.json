@@ -145,10 +145,8 @@
         "plural-name": "tattered notes",
         "snippet_category": "note_grove",
         "description": "An old, worn scrap of paper with writing scrawled on it.",
-        "price": 0,
         "material": "paper",
-        "weight": 3,
-        "volume": 0
+        "weight": 3
     },{
         "type":"GENERIC",
         "id": "note_sanguine",
@@ -159,10 +157,8 @@
         "plural-name": "blood-stained notes",
         "snippet_category": "note_sanguine",
         "description": "A scrap of paper marred by old, dried blood.",
-        "price": 0,
         "material": "paper",
-        "weight": 3,
-        "volume": 0
+        "weight": 3
     },{
         "type":"GENERIC",
         "id": "note_chalice",
@@ -173,10 +169,8 @@
         "plural-name": "strange notes",
         "snippet_category": "note_chalice",
         "description": "A sheet of paper, with peculiar writing on it.",
-        "price": 0,
         "material": "paper",
-        "weight": 3,
-        "volume": 0
+        "weight": 3
     },{
         "type":"GENERIC",
         "id": "note_flame",
@@ -187,9 +181,7 @@
         "plural-name": "singed notes",
         "snippet_category": "note_flame",
         "description": "A piece of paper with writing on it, edges scorched as if it was hastily rescued from the fireplace.",
-        "price": 0,
         "material": "paper",
-        "weight": 3,
-        "volume": 0
+        "weight": 3
     }
 ]
