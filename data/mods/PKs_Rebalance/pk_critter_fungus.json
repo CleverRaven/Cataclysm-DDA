@@ -36,7 +36,7 @@
     "special_attacks":[["FUNGUS_GROWTH", 300]],
     "flags":["HEARS", "SMELLS", "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED"],
-    "//" : "Giving them sight would make them much better at aggroing, since the anger tags depend on perception and a 3x3 box around them isnt exactly giving them that detection."
+    "//" : "Giving them sight would make them much better at aggroing, since the anger tags depend on perception and a 3x3 box around them isn't exactly giving them that detection."
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid",
@@ -45,7 +45,7 @@
     "special_attacks":[["FUNGUS", 40]],
     "flags":["HEARS", "SMELLS", "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED"],
-    "//" : "Giving them sight would make them much better at aggroing, since the anger tags depend on perception and a 3x3 box around them isnt exactly giving them that detection."
+    "//" : "Giving them sight would make them much better at aggroing, since the anger tags depend on perception and a 3x3 box around them isn't exactly giving them that detection."
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_fungus",
@@ -71,7 +71,7 @@
     "death_function":["FUNGUS"],
     "special_attacks":[["FUNGUS_INJECT", 30], ["GRAB", 30], ["FUNGUS", 300]],
     "anger_triggers":["HURT", "FRIEND_ATTACKED"],
-      "//" : "The vanilla fungal ants are pretty awful at everything.  I get why, considering the real-world examples, but Im trying to create a more combat-intensive experience while still having the interesting.  So they evolve now."
+      "//" : "The vanilla fungal ants are pretty awful at everything.  I get why, considering the real-world examples, but I'm trying to create a more combat-intensive experience while still having the interesting.  So they evolve now."
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_fungus",
@@ -80,7 +80,7 @@
     "vision_day":7,
     "vision_night":7,
     "flags":["SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "REVIVES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"],
-    "//" : "In the base game these guys have a vision radius defined, but cant actually see.  So I added that flag and reduced their vision.  I think its handwavable as using methods to find their prey that just arent capable of being emulated in a simulation."
+    "//" : "In the base game these guys have a vision radius defined, but can't actually see.  So I added that flag and reduced their vision.  I think its hand wavable as using methods to find their prey that just aren't capable of being emulated in a simulation."
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer_fungus",
@@ -153,7 +153,7 @@
             "max_range" : 4
         },
         ["LUNGE", 60], ["FUNGUS", 180], ["FUNGUS_INJECT", 20]],
-    "description":"The Eastern cougar, now an aspiring fungaloid.  Although it appears its transformation has affected its agility some, it still bounds after targets with savagry.",
+    "description":"The Eastern cougar, now an aspiring fungaloid.  Although it appears its transformation has affected its agility some, it still bounds after targets with savagery.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "POISON", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["PLAYER_WEAK", "HURT", "FRIEND_ATTACKED"],
     "fear_triggers":["SOUND", "FIRE"]
@@ -183,12 +183,12 @@
     "hp":50,
     "death_function":["FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "DISINTEGRATE", "SMOKEBURST"],
     "special_attacks":[["LUNGE", 3], ["SUICIDE", 90], ["SHRIEK", 15], ["FUNGUS", 60]],
-    "description":"A deer brought into the fold of the Mcyus.  Suicidally fast.  So fast you hardly have time to recognize its affliction.",
+    "description":"A deer riddled with budding fungi.  Suicidally fast.  So fast you hardly have time to recognize its affliction.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "POISON", "BASHES", "WARM", "FUR", "BONES", "FAT"],
     "anger_triggers":["SOUND", "STALK", "PLAYER_CLOSE", "HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["FIRE"],
-    "//" : "This deer is a great concept, but admittedly gamey.  Perhaps itd be better to change its color to ltgray or to remove the suicide attack?"
+    "//" : "This deer is a great concept, but admittedly gamey.  Perhaps it'd be better to change its color to ltgray or to remove the suicide attack?"
     },{
     "type" : "MONSTER",
     "id" : "mon_foose",
@@ -215,7 +215,7 @@
     "hp":145,
     "death_function":["NORMAL", "FUNGUS"],
     "special_attacks":[["SMASH", 40], ["FUNGUS", 180], ["HOWL", 60]],
-    "description":"The 'foose' is an ill-tempered beast, fighting a battle it must inevitably lose.  Occassionally it gives unearthly voice to its anguish.",
+    "description":"The 'foose' is an ill-tempered beast, fighting a battle it must inevitably lose.  Occasionally it gives unearthly voice to its anguish.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "POISON", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["FIRE", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK", "SOUND"],
@@ -295,7 +295,7 @@
             ]
         },
         ["GRAB", 60], ["FUNGUS", 240], ["FUNGUS_INJECT", 30]],
-    "description":"Pale and sickly gray in color, its hard to believe this ant is still alive, much less moving to attack you.",
+    "description":"Pale and sickly gray in color, it's hard to believe this ant is still alive, much less moving to attack you.",
     "flags":["SEES", "SMELLS", "POISON", "CLIMBS"]
     },{
     "type" : "MONSTER",
@@ -359,7 +359,7 @@
     "flags":["SEES", "SMELLS","POISON", "STUMBLES", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "SWIMS", "ANIMAL", "FAT","CHITIN"],
     "anger_triggers":["HURT", "STALK", "FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"],
-    "//" : "As it currently stands this guy will whip at you even if it is peaceful.  The tentacle attacks were taken from the DogThing, and can cover quite a distance.  So the reduced vison radius keeps the max distance of the tentacle down.  Its a neat effect caused by what Im sure is an unintended bug."
+    "//" : "As it currently stands this guy will whip at you even if it is peaceful.  The tentacle attacks were taken from the DogThing, and can cover quite a distance.  So the reduced vision radius keeps the max distance of the tentacle down.  It's a neat effect caused by what I'm sure is an unintended bug."
    },{
     "type" : "MONSTER",
     "id" : "mon_furvivor",
@@ -401,9 +401,9 @@
             "min_mul" : 1.0
         },
         ["GRAB", 15]],
-    "description":"An apparent survivor of the apocolypse, this individual has visibly active fungal growth sprouting thoughout their body.  Whatever individuality they once held is completely subverted.",
+    "description":"An apparent survivor of the apocalypse, this individual has visibly active fungal growth sprouting throughout their body.  Whatever individuality they once held is completely subverted.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "STUMBLES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON"],
-    "//" : "There's a nerf of survivor gear coming around, and Ill be interested in seeing how it plays out."
+    "//" : "There's a nerf of survivor gear coming around, and I'll be interested in seeing how it plays out."
     },{
     "type" : "MONSTER",
     "id" : "mon_furvivor_glock",
@@ -464,11 +464,11 @@
             "no_ammo_sound" : "a chk!"
         }],
     "starting_ammo" : {"9mm": 31},
-    "description":"A survivor of the apocolypse, this individual is succumbbing to the mycus, paranoia, and incoherency.  Unpredicable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
+    "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"],
-    "//" : "Im vaguely aware that the way I compiled the loot item_groups for these gun-toting Zs is pretty inefficient.  Just sayin"
+    "//" : "I'm vaguely aware that the way I compiled the loot item_groups for these gun-toting Zs is pretty inefficient.  Just sayin'''"
     },{
     "type" : "MONSTER",
     "id" : "mon_furvivor_shotgun",
@@ -526,11 +526,11 @@
             "description" : "KABLAAM!!",
             "targeting_sound" : "the barrel snapped into place!",
             "targeting_volume" : 6,
-            "no_ammo_sound" : "the hammer slap foreward with a hollow rapping!"
+            "no_ammo_sound" : "the hammer slap forward with a hollow rapping!"
         }
     ],
     "starting_ammo" : {"shot_00": 10},
-    "description":"A survivor of the apocolypse, this individual is succumbbing to the mycus, paranoia, and incoherency.  Unpredicable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
+    "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"]
@@ -588,13 +588,13 @@
             "targeting_cost" : 150,
             "range" : 14,
             "description" : "The .44 is fired!",
-            "targeting_sound" : "the suvivor taking a moment to adjust their footing!",
+            "targeting_sound" : "the survivor taking a moment to adjust their footing!",
             "targeting_volume" : 12,
             "no_ammo_sound" : "the survivor curses and resumes their attack!"
         }
     ],
     "starting_ammo" : {"44fmj": 17},
-    "description":"A survivor of the apocolypse, this individual is succumbbing to the mycus, paranoia, and incoherency.  Unpredicable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
+    "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "PLAYER_WEAK", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"]
@@ -658,7 +658,7 @@
         }
     ],
     "starting_ammo" : {"9mm":128},
-    "description":"A survivor of the apocolypse, this individual is succumbbing to the mycus, paranoia, and incoherency.  Unpredicable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
+    "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"]
@@ -702,7 +702,7 @@
             "min_mul" : 1.0
         },
         ["GRAB", 30], ["IMPALE", 30], ["FUNGUS", 180]],
-    "description":"A survivor of the apocolypse, this individual is succumbbing to the mycus, paranoia, and incoherency.  Unpredicable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
+    "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"]
@@ -766,7 +766,7 @@
     "description":"This survivor has willingly given their body to the fungus in some strange, ill-described ritual.  As a result they have retained much of their personality and hold unnatural abilities.  They don't seem interested in talking to you; you cannot even discern their gender.",
     "flags":["SEES", "HEARS", "BASHES", "GROUP_BASH", "DESTROYS", "POISON", "HUMAN", "NO_BREATHE", "FIREPROOF", "BONES", "PUSH_MON"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FIRE", "PLAYER_CLOSE"],
-    "//" : "Very dangerous to anyone not in a PA suit.  Will be evolving into a laser-wieling monstrosity."
+    "//" : "Very dangerous to anyone not in a PA suit.  Will be evolving into a laser-wielding monstrosity."
     },{
     "type" : "MONSTER",
     "id" : "mon_finebeast",
@@ -857,10 +857,10 @@
     "special_attacks":[["VINE", 5], ["KAMIKAZE", 0], ["RATTLE", 3], ["FUNGUS_HAZE", 25], ["FUNGUS_BRISTLE", 30]],
     "starting_ammo": { "EMPbomb": 3},
     "death_function":["EXPLODE", "ACID", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS"],
-    "description":"This plant's dry body is now host to moist fluid sacs that hang off haphazardly; occassionally bursting into a cloud of haze.",
+    "description":"This plant's dry body is now host to moist fluid sacs that hang off haphazardly; occasionally bursting into a cloud of haze.",
     "flags":["SEES", "HEARS", "GOODHEARING", "CAN_DIG", "POISON", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK", "PLAYER_CLOSE"],
-    "//" : "While I feel the triffid HB is somewhat forced into their fold, this guy works pretty well for the fungus and theur themes.  Doesnt seem to want to blow up of his own volition though.  The fungal mdeaths def stack, but its deminishing returns."
+    "//" : "While I feel the triffid HB is somewhat forced into their fold, this guy works pretty well for the fungus and their themes.  Doesn't seem to want to blow up of his own volition though.  The fungal mdeaths def stack, but its diminishing returns."
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_electric_fungal",
@@ -930,7 +930,7 @@
             "cooldown" : 3
         }
     ],
-    "description":"A large, astoundingly tough creature that used to be a dog or boar.  Its massive maw takes up almost half its body. Rows of teeth pushing older rows foreward; creating a jutting smile only made more terrifying by the beady red eyes, socketed above behind the maw, looking down at its prey.",
+    "description":"A large, astoundingly tough creature that used to be a dog or boar.  Its massive maw takes up almost half its body. Rows of teeth pushing older rows forward; creating a jutting smile only made more terrifying by the beady red eyes, socketed above behind the maw, looking down at its prey.",
     "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "BONES", "FAT", "REGENERATES_10", "PLASTIC"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
     }
