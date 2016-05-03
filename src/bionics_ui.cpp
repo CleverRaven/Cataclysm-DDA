@@ -334,13 +334,11 @@ void player::power_bionics()
         //handle tab drawing after main window is refreshed
         werase( w_tabs );
         int width = getmaxx( w_tabs );
-        for( int i = 0; i < width; i++ ) {
-            mvwputch( w_tabs, 2, i, BORDER_COLOR, LINE_OXOX );
-        }
+        mvwhline( w_tabs, 2, 0, LINE_OXOX, width );
         int tab_x = tabs_start;
         draw_tab( w_tabs, tab_x, active_tab_name, tab_mode == TAB_ACTIVE );
         tab_x += tab_step + utf8_width( active_tab_name );
-        draw_tab( w_tabs, tab_x, passive_tab_name, tab_mode != TAB_ACTIVE );
+        draw_tab( w_tabs, tab_x, passive_tab_name, tab_mode == TAB_PASSIVE );
         wrefresh( w_tabs );
 
         show_bionics_titlebar( w_title, this, menu_mode );
