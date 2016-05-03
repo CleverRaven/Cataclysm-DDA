@@ -930,7 +930,7 @@
             "cooldown" : 3
         }
     ],
-    "description":"A large, astoundingly tough creature that used to be a dog or boar.  Its massive maw takes up almost half its body. Constantly growing rows of teeth push older rows forward; creating a jutting smile only made more terrifying by the presence of beady red eyes socketed above and behind the maw.",
+    "description":"A large, astoundingly tough creature that used to be a dog or boar.  Its massive maw takes up almost half its body.  Constantly growing rows of teeth push older rows forward; creating a jutting smile only made more terrifying by the presence of beady red eyes socketed above and behind the maw.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "BONES", "FAT", "REGENERATES_10", "PLASTIC"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
     }
