@@ -318,9 +318,9 @@ void player::power_bionics()
                     if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
                         break;
                     }
-                    bool isHighlighted = cursor == static_cast<int>( i );
+                    bool is_highlighted = cursor == static_cast<int>( i );
                     nc_color col = get_bionic_text_color( *( *current_bionic_list )[i],
-                                                          isHighlighted );
+                                                          is_highlighted );
                     std::string desc = build_bionic_powerdesc_string( *( *current_bionic_list )[i] );
                     trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
                                     "%c %s", ( *current_bionic_list )[i]->invlet, desc.c_str() );
