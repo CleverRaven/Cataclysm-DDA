@@ -292,9 +292,7 @@ void player::power_bionics()
 
         //track which list we are looking at
         std::vector<bionic *> *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
-        max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
-                                             ( int )active.size() :
-                                             ( int )passive.size() ) - LIST_HEIGHT );
+        max_scroll_position = std::max( 0, ( int )current_bionic_list->size() - LIST_HEIGHT );
 
         if( redraw ) {
             redraw = false;
@@ -305,42 +303,27 @@ void player::power_bionics()
             mvwputch( wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO ); // |-
             mvwputch( wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
 
-            nc_color type;
-            if( tab_mode == TAB_PASSIVE ) {
-                if( passive.empty() ) {
-                    mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, _( "No passive bionics installed." ) );
-                } else {
-                    for( size_t i = scroll_position; i < passive.size(); i++ ) {
-                        if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
-                            break;
-                        }
-
-                        bool isHighlighted = cursor == static_cast<int>( i );
-                        type = get_bionic_text_color( *passive[i], isHighlighted );
-
-                        mvwprintz( wBio, list_start_y + i - scroll_position, 2, type, "%c %s", passive[i]->invlet,
-                                   bionic_info( passive[i]->id ).name.c_str() );
-                    }
+            if( current_bionic_list->empty() ) {
+                std::string msg;
+                // @todo switch it to switch
+                if( tab_mode == TAB_ACTIVE ) {
+                    msg = _( "No activatable bionics installed." );
                 }
-            }
-
-            if( tab_mode == TAB_ACTIVE ) {
-                if( active.empty() ) {
-                    mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, _( "No activatable bionics installed." ) );
-                } else {
-                    for( size_t i = scroll_position; i < active.size(); i++ ) {
-                        if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
-                            break;
-                        }
-                        bool isHighlighted = cursor == static_cast<int>( i );
-                        type = get_bionic_text_color( *active[i], isHighlighted );
-                        mvwputch( wBio, list_start_y + i - scroll_position, 2, type, active[i]->invlet );
-                        mvwputch( wBio, list_start_y + i - scroll_position, 3, type, ' ' );
-
-                        std::string power_desc = build_bionic_powerdesc_string( *active[i] );
-                        std::string tmp = utf8_truncate( power_desc, WIDTH - 3 );
-                        mvwprintz( wBio, list_start_y + i - scroll_position, 2 + 2, type, tmp.c_str() );
+                if( tab_mode == TAB_PASSIVE ) {
+                    msg = _( "No passive bionics installed." );
+                }
+                mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, "%s", msg.c_str() );
+            } else {
+                for( size_t i = scroll_position; i < current_bionic_list->size(); i++ ) {
+                    if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
+                        break;
                     }
+                    bool isHighlighted = cursor == static_cast<int>( i );
+                    nc_color col = get_bionic_text_color( *( *current_bionic_list )[i],
+                                                          isHighlighted );
+                    std::string desc = build_bionic_powerdesc_string( *( *current_bionic_list )[i] );
+                    trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
+                                    "%c %s", ( *current_bionic_list )[i]->invlet, desc.c_str() );
                 }
             }
 
