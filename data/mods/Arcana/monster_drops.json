@@ -131,7 +131,7 @@
     {
         "type" : "item_group",
         "subtype": "collection",
-        "comment": "You may or may not get an essense or magical loot.  Only need to add items since we're referencing an existing itemgroup.",
+        "comment": "You may or may not get an essence or magical loot.  Only need to add items since we're referencing an existing itemgroup.",
         "id": "mon_zombie_survivor_death_drops",
         "entries":
         [

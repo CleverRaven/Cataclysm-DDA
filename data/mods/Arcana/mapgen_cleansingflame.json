@@ -77,7 +77,7 @@
         "id": "cleansing_flame_casualties",
         "entries":
         [
-            { "group": "underwear", "damage": [1, 4]}, 
+            { "group": "underwear", "damage": [1, 4]},
             { "group": "shirts", "damage": [1, 4]},
             { "group": "pants", "damage": [1, 4]},
             { "group": "shoes", "damage": [1, 4]},
