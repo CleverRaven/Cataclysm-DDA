@@ -315,10 +315,7 @@ void player::power_bionics()
                             break;
                         }
 
-                        bool isHighlighted = false;
-                        if( cursor == static_cast<int>( i ) ) {
-                            isHighlighted = true;
-                        }
+                        bool isHighlighted = cursor == static_cast<int>( i );
                         type = get_bionic_text_color( *passive[i], isHighlighted );
 
                         mvwprintz( wBio, list_start_y + i - scroll_position, 2, type, "%c %s", passive[i]->invlet,
@@ -335,10 +332,7 @@ void player::power_bionics()
                         if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
                             break;
                         }
-                        bool isHighlighted = false;
-                        if( cursor == static_cast<int>( i ) ) {
-                            isHighlighted = true;
-                        }
+                        bool isHighlighted = cursor == static_cast<int>( i );
                         type = get_bionic_text_color( *active[i], isHighlighted );
                         mvwputch( wBio, list_start_y + i - scroll_position, 2, type, active[i]->invlet );
                         mvwputch( wBio, list_start_y + i - scroll_position, 3, type, ' ' );
