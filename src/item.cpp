@@ -764,11 +764,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 if( !vits.empty() ) {
                     vits += ", ";
                 }
-                vits += string_format( "%s (%i)", v.first.obj().name().c_str(), v.second );
+                vits += string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( 1440.0 / g->u.vitamin_rate( v.first ) ) * 100 ) );
             }
         }
         if( !vits.empty() ) {
-            info.emplace_back( "FOOD", _( "Vitamins: " ), vits.c_str() );
+            info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), vits.c_str() );
         }
     }
 
