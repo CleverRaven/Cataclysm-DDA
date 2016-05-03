@@ -1984,7 +1984,7 @@ nc_color item::color_in_inventory() const
         }
     } else if( is_gun() ) {
         // Guns are green if you are carrying ammo for them
-        // Yellow if you have ammo but no mags
+        // ltred if you have ammo but no mags
         // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
         bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
@@ -1996,7 +1996,7 @@ nc_color item::color_in_inventory() const
         }
     } else if( is_ammo() ) {
         // Likewise, ammo is green if you have guns that use it
-        // Yellow if you have the gun but no mags
+        // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
         bool has_gun = u->has_gun_for_ammo( amtype );
@@ -2008,7 +2008,7 @@ nc_color item::color_in_inventory() const
         }
     } else if( is_magazine() ) {
         // Magazines are green if you have guns and ammo for them
-        // Yellow if you have one but not the other
+        // ltred if you have one but not the other
         ammotype amtype = ammo_type();
         bool has_gun = u->has_item_with( [this]( const item & it ) {
             return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
