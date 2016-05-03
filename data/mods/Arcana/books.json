@@ -24,7 +24,7 @@
         "name" : "History of Alchemy",
         "name_plural" : "Histories of Alchemy",
         "max_level" : 3,
-        "description" : "A series of translated excerpts from several ancient books on the concept of alchemy, along with annotations.  This book presents an unconventional interpretation of the works discussed, and haphazardly segues into the author's own failed attempt to create the \"lapis philosophorum\" and \"alkahest\". Despite this, some of the unconventional chemistry discussed might be useful.",
+        "description" : "A series of translated excerpts from several ancient books on the concept of alchemy, along with annotations.  This book presents an unconventional interpretation of the works discussed, and haphazardly segues into the author's own failed attempt to create the \"lapis philosophorum\" and \"alkahest\".  Despite this, some of the unconventional chemistry discussed might be useful.",
         "weight" : 454,
         "color" : "green",
         "intelligence" : 9,
