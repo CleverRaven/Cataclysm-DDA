@@ -389,7 +389,7 @@ void computer::activate_function(computer_action action, char ch)
 
     case COMPACT_RELEASE_BIONICS:
         sounds::sound(g->u.pos(), 40, _("An alarm sounds!"));
-        g->m.translate_radius(t_reinforced_glass, t_floor, 2.0, g->u.pos());
+        g->m.translate_radius(t_reinforced_glass, t_floor, 3.0, g->u.pos());
         query_any(_("Containment shields opened.  Press any key..."));
         break;
 
