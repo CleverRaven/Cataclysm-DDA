@@ -645,7 +645,7 @@ public:
         if( ammo ) {
             return true;
         } else if( comestible ) {
-            return phase == LIQUID || comestible->def_charges > 1;
+            return phase == LIQUID || comestible->def_charges > 1 || stack_size > 1;
         }
         return false;
     }
