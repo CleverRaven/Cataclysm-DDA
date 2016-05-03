@@ -161,11 +161,11 @@ class game
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;
         /** Saving and loading functions. */
-        void serialize(std::ofstream &fout);  // for save
-        void unserialize(std::ifstream &fin);  // for load
-        bool unserialize_legacy(std::ifstream &fin);  // for old load
-        void unserialize_master(std::ifstream &fin);  // for load
-        bool unserialize_master_legacy(std::ifstream &fin);  // for old load
+        void serialize(std::ostream &fout);  // for save
+        void unserialize(std::istream &fin);  // for load
+        bool unserialize_legacy(std::istream &fin);  // for old load
+        void unserialize_master(std::istream &fin);  // for load
+        bool unserialize_master_legacy(std::istream &fin);  // for old load
 
         /** write stats of all loaded items of the given type to stdout */
         void dump_stats( const std::string& what );
@@ -624,7 +624,7 @@ class game
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                         bool bShowDDA = true);
         bool load_master(std::string worldname); // Load the master data file, with factions &c
-        void load_weather(std::ifstream &fin);
+        void load_weather(std::istream &fin);
         void load(std::string worldname, std::string name); // Load a player-specific save file
         bool start_game(std::string worldname); // Starts a new game in a world
         void start_special_game(special_game_id gametype); // See gamemode.cpp
@@ -632,12 +632,12 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
-        void serialize_master(std::ofstream &fout);
+        void serialize_master(std::ostream &fout);
         // returns false if saving failed for whatever reason
         bool save_artifacts();
         // returns false if saving failed for whatever reason
         bool save_maps();
-        void save_weather(std::ofstream &fout);
+        void save_weather(std::ostream &fout);
         // returns false if saving failed for whatever reason
         bool save_uistate();
         void load_uistate(std::string worldname);

@@ -3590,22 +3590,9 @@ bool game::save_factions_missions_npcs()
     }
 
     std::string masterfile = world_generator->active_world->world_path + "/master.gsav";
-    try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fopen_exclusive(fout, masterfile.c_str());
-        if (!fout.is_open()) {
-            return true; //trick code into thinking that everything went okay
-        }
-
+    return write_to_file_exclusive( masterfile, [&]( std::ostream &fout ) {
         serialize_master(fout);
-        fclose_exclusive(fout, masterfile.c_str());
-        return true;
-    } catch (std::ios::failure &) {
-        popup(_("Failed to save factions to %s"), masterfile.c_str());
-        return false;
-    }
+    }, _( "factions data" ) );
 }
 
 bool game::save_artifacts()
@@ -3618,11 +3605,11 @@ bool game::save_maps()
 {
     try {
         m.save();
-        overmap_buffer.save(); // can throw std::ios::failure
-        MAPBUFFER.save(); // can throw std::ios::failure
+        overmap_buffer.save(); // can throw
+        MAPBUFFER.save(); // can throw
         return true;
-    } catch (std::ios::failure &) {
-        popup(_("Failed to save the maps"));
+    } catch( const std::exception &err ) {
+        popup( _( "Failed to save the maps: %s" ), err.what() );
         return false;
     }
 }
@@ -3630,47 +3617,26 @@ bool game::save_maps()
 bool game::save_uistate()
 {
     std::string savefile = world_generator->active_world->world_path + "/uistate.json";
-    try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fopen_exclusive(fout, savefile.c_str());
-        if (!fout.is_open()) {
-            return true; //trick game into thinking it was saved
-        }
-
+    return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
         fout << uistate.serialize();
-        fclose_exclusive(fout, savefile.c_str());
-        return true;
-    } catch (std::ios::failure &) {
-        popup(_("Failed to save uistate to %s"), savefile.c_str());
-        return false;
-    }
+    }, _( "uistate data" ) );
 }
 
 bool game::save_player_data()
 {
     const std::string playerfile = world_generator->active_world->world_path + "/" + base64_encode(u.name);
-    try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::failbit | std::ios::badbit);
 
-        fout.open(std::string(playerfile + ".sav").c_str());
+    const bool saved_data = write_to_file( playerfile + ".sav", [&]( std::ostream &fout ) {
         serialize(fout);
-        fout.close();
-        // weather
-        fout.open(std::string(playerfile + ".weather").c_str());
+    }, _( "player data" ) );
+    const bool saved_weather = write_to_file( playerfile + ".weather", [&]( std::ostream &fout ) {
         save_weather(fout);
-        fout.close();
-        // log
-        fout.open(std::string(playerfile + ".log").c_str());
+    }, _( "weather state" ) );
+    const bool saved_log = write_to_file( playerfile + ".log", [&]( std::ostream &fout ) {
         fout << u.dump_memorial();
-        fout.close();
-        return true;
-    } catch (std::ios::failure &err) {
-        popup(_("Failed to save player data"));
-        return false;
-    }
+    }, _( "player memorial" ) );
+
+    return saved_data && saved_weather && saved_log;
 }
 
 void game::dump_stats( const std::string& what )
@@ -3923,14 +3889,9 @@ void game::write_memorial_file(std::string sLastWords)
     memorial_file_path << ".txt";
 
     const std::string path_string = memorial_file_path.str();
-    std::ofstream memorial_file {path_string};
-    if (!memorial_file) {
-        dbg(D_ERROR) << "game:write_memorial_file: Unable to open " << path_string;
-        debugmsg("Could not open memorial file '%s'", path_string.c_str());
-        return;
-    }
-
-    u.memorial(memorial_file, sLastWords);
+    write_to_file( memorial_file_path.str(), [&]( std::ostream &fout ) {
+        u.memorial( fout, sLastWords );
+    }, _( "player memorial" ) );
 }
 
 void game::add_event(event_type type, int on_turn, int faction_id)

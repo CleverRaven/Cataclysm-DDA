@@ -16,7 +16,7 @@
 #include "json.h"
 #include "mapdata.h"
 #include "mapgen.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "uistate.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -4311,22 +4311,16 @@ void overmap::open()
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    std::ofstream fout;
-    fout.exceptions(std::ios::badbit | std::ios::failbit);
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
     std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
 
-    // Player specific data
-    fout.open(plrfilename.c_str());
-    serialize_view( fout );
-    fout.close();
-    // World terrain data
-    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
-    if(!fout.is_open()) {
-        return;
-    }
-    serialize( fout );
-    fclose_exclusive(fout, terfilename.c_str());
+    ofstream_wrapper fout_player( plrfilename );
+    serialize_view( fout_player );
+    fout_player.close();
+
+    ofstream_wrapper_exclusive fout_terrain( terfilename );
+    serialize( fout_terrain );
+    fout_terrain.close();
 }
 
 
