@@ -3229,15 +3229,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 16 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 12 ] ]
+      [ [ "lead", 16 ] ],
+      [ [ "shot_hull", 1 ] ],
+      [ [ "shotgun_primer", 1 ] ],
+      [ [ "gunpowder", 12 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "shot_slug",
     "id_suffix": "uncraft",
@@ -3249,15 +3250,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 16 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 20 ] ]
+      [ [ "lead", 16 ] ],
+      [ [ "shot_hull", 1 ] ],
+      [ [ "shotgun_primer", 1 ] ],
+      [ [ "gunpowder", 20 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "shot_00",
     "id_suffix": "uncraft",
@@ -3269,15 +3271,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 16 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 20 ] ]
+      [ [ "lead", 16 ] ],
+      [ [ "shot_hull", 1 ] ],
+      [ [ "shotgun_primer", 1 ] ],
+      [ [ "gunpowder", 20 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "shot_beanbag",
     "id_suffix": "uncraft",
@@ -3289,15 +3292,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "rubber_slug", 1 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 16 ] ]
+      [ [ "rubber_slug", 1 ] ],
+      [ [ "shot_hull", 1 ] ],
+      [ [ "shotgun_primer", 1 ] ],
+      [ [ "gunpowder", 16 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "shot_flechette",
     "id_suffix": "uncraft",
@@ -3309,15 +3313,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "combatnail", 8 ] ],
-        [ [ "shot_hull", 1 ] ],
-        [ [ "shotgun_primer", 1 ] ],
-        [ [ "gunpowder", 20 ] ]
+      [ [ "combatnail", 8 ] ],
+      [ [ "shot_hull", 1 ] ],
+      [ [ "shotgun_primer", 1 ] ],
+      [ [ "gunpowder", 20 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "22_lr",
     "id_suffix": "uncraft",
@@ -3329,14 +3334,15 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "22_casing_new", 1 ] ],
-        [ [ "gunpowder", 2 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "22_casing_new", 1 ] ],
+      [ [ "gunpowder", 2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "22_ratshot",
     "id_suffix": "uncraft",
@@ -3348,14 +3354,15 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "22_casing_new", 1 ] ],
-        [ [ "gunpowder", 2 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "22_casing_new", 1 ] ],
+      [ [ "gunpowder", 2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "22_cb",
     "id_suffix": "uncraft",
@@ -3367,14 +3374,15 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "22_casing_new", 1 ] ],
-        [ [ "gunpowder", 1 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "22_casing_new", 1 ] ],
+      [ [ "gunpowder", 1 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "22_fmj",
     "id_suffix": "uncraft",
@@ -3386,15 +3394,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "22_casing_new", 1 ] ],
-        [ [ "gunpowder", 1 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "22_casing_new", 1 ] ],
+      [ [ "gunpowder", 1 ] ],
+      [ [ "copper", 2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9mm",
     "id_suffix": "uncraft",
@@ -3406,15 +3415,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
+      [ [ "lead", 4 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9mmP",
     "id_suffix": "uncraft",
@@ -3426,15 +3436,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ]
+      [ [ "lead", 4 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9mmP2",
     "id_suffix": "uncraft",
@@ -3446,15 +3457,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ]
+      [ [ "lead", 4 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9mmfmj",
     "id_suffix": "uncraft",
@@ -3466,16 +3478,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 4 ] ]
+      [ [ "lead", 4 ] ],
+      [ [ "9mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "32_acp",
     "id_suffix": "uncraft",
@@ -3487,15 +3500,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "38_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
+      [ [ "lead", 5 ] ],
+      [ [ "38_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "38_special",
     "id_suffix": "uncraft",
@@ -3507,15 +3521,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "38_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ]
+      [ [ "lead", 5 ] ],
+      [ [ "38_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "38_super",
     "id_suffix": "uncraft",
@@ -3527,15 +3542,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "38_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 7 ] ]
+      [ [ "lead", 5 ] ],
+      [ [ "38_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 7 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "38_fmj",
     "id_suffix": "uncraft",
@@ -3547,16 +3563,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [ 
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "38_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ],
-        [ [ "copper", 5 ] ]
+      [ [ "lead", 5 ] ],
+      [ [ "38_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ],
+      [ [ "copper", 5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "10mm",
     "id_suffix": "uncraft",
@@ -3568,15 +3585,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 8 ] ],
-        [ [ "40_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ]
+      [ [ "lead", 8 ] ],
+      [ [ "40_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "40sw",
     "id_suffix": "uncraft",
@@ -3588,15 +3606,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "40_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ]
+      [ [ "lead", 6 ] ],
+      [ [ "40_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "40fmj",
     "id_suffix": "uncraft",
@@ -3608,16 +3627,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "40_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead", 6 ] ],
+      [ [ "40_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "44magnum",
     "id_suffix": "uncraft",
@@ -3629,15 +3649,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 10 ] ],
-        [ [ "44_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ]
+      [ [ "lead", 10 ] ],
+      [ [ "44_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "44fmj",
     "id_suffix": "uncraft",
@@ -3649,16 +3670,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 7 ] ],
-        [ [ "44_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 7] ]
+      [ [ "lead", 7 ] ],
+      [ [ "44_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 7] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "45_acp",
     "id_suffix": "uncraft",
@@ -3670,15 +3692,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 8 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ]
+      [ [ "lead", 8 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "45_jhp",
     "id_suffix": "uncraft",
@@ -3690,16 +3713,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 7 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 7 ] ]
+      [ [ "lead", 7 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 7 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "45_super",
     "id_suffix": "uncraft",
@@ -3711,15 +3735,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 10 ] ],
-        [ [ "45_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 12 ] ]
+      [ [ "lead", 10 ] ],
+      [ [ "45_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 12 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "454_Casull",
     "id_suffix": "uncraft",
@@ -3731,16 +3756,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 20 ] ],
-        [ [ "454_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 20 ] ],
-        [ [ "copper", 20 ] ]
+      [ [ "lead", 20 ] ],
+      [ [ "454_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 20 ] ],
+      [ [ "copper", 20 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "500_Magnum",
     "id_suffix": "uncraft",
@@ -3752,16 +3778,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 24 ] ],
-        [ [ "500_casing", 1 ] ],
-        [ [ "lgpistol_primer", 1 ] ],
-        [ [ "gunpowder", 24 ] ],
-        [ [ "copper", 24 ] ]
+      [ [ "lead", 24 ] ],
+      [ [ "500_casing", 1 ] ],
+      [ [ "lgpistol_primer", 1 ] ],
+      [ [ "gunpowder", 24 ] ],
+      [ [ "copper", 24 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "57mm",
     "id_suffix": "uncraft",
@@ -3773,15 +3800,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "57mm_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "57mm_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "46mm",
     "id_suffix": "uncraft",
@@ -3793,15 +3821,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "46mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "46mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_m43",
     "id_suffix": "uncraft",
@@ -3813,16 +3842,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "762_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 7 ] ],
-        [ [ "copper", 5 ] ]
+      [ [ "lead", 5 ] ],
+      [ [ "762_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 7 ] ],
+      [ [ "copper", 5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_m87",
     "id_suffix": "uncraft",
@@ -3834,16 +3864,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "762_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 5 ] ]
+      [ [ "lead", 5 ] ],
+      [ [ "762_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "545",
     "id_suffix": "uncraft",
@@ -3855,16 +3886,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "545_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "545_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ],
+      [ [ "copper", 2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "545_ap",
     "id_suffix": "uncraft",
@@ -3876,16 +3908,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 3 ] ],
-        [ [ "545_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ],
-        [ [ "copper", 3 ] ]
+      [ [ "lead", 3 ] ],
+      [ [ "545_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ],
+      [ [ "copper", 3 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "223",
     "id_suffix": "uncraft",
@@ -3897,16 +3930,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "223_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 4 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "223_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 4 ] ],
+      [ [ "copper", 2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "556",
     "id_suffix": "uncraft",
@@ -3918,16 +3952,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "223_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "223_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "556_incendiary",
     "id_suffix": "uncraft",
@@ -3939,16 +3974,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "incendiary", 2 ] ],
-        [ [ "223_casing", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 6 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "incendiary", 2 ] ],
+      [ [ "223_casing", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 6 ] ],
+      [ [ "copper", 2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "270",
     "id_suffix": "uncraft",
@@ -3960,16 +3996,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 5 ] ],
-        [ [ "3006_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 5 ] ]
+      [ [ "lead", 5 ] ],
+      [ [ "3006_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "3006",
     "id_suffix": "uncraft",
@@ -3981,16 +4018,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "3006_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead", 6 ] ],
+      [ [ "3006_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "3006fmj",
     "id_suffix": "uncraft",
@@ -4002,16 +4040,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "3006_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead", 6 ] ],
+      [ [ "3006_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "3006_incendiary",
     "id_suffix": "uncraft",
@@ -4023,16 +4062,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "incendiary", 6 ] ],
-        [ [ "3006_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "incendiary", 6 ] ],
+      [ [ "3006_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "308",
     "id_suffix": "uncraft",
@@ -4044,16 +4084,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "308_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead", 6 ] ],
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_51",
     "id_suffix": "uncraft",
@@ -4065,16 +4106,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 6 ] ],
-        [ [ "308_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-        [ [ "copper", 6 ] ]
+      [ [ "lead", 6 ] ],
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+      [ [ "copper", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_51_incendiary",
     "id_suffix": "uncraft",
@@ -4086,16 +4128,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "incendiary", 6 ] ],
-        [ [ "308_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 10 ] ],
-         [ [ "copper", 6 ] ]
+      [ [ "incendiary", 6 ] ],
+      [ [ "308_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 10 ] ],
+       [ [ "copper", 6 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "5x50heavy",
     "id_suffix": "uncraft",
@@ -4107,15 +4150,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 3 ] ],
-        [ [ "5x50_hull", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 3 ] ]
+      [ [ "lead", 3 ] ],
+      [ [ "5x50_hull", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 3 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "5x50dart",
     "id_suffix": "uncraft",
@@ -4127,15 +4171,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 2 ] ],
-        [ [ "5x50_hull", 1 ] ],
-        [ [ "smrifle_primer", 1 ] ],
-        [ [ "gunpowder", 3 ] ]
+      [ [ "lead", 2 ] ],
+      [ [ "5x50_hull", 1 ] ],
+      [ [ "smrifle_primer", 1 ] ],
+      [ [ "gunpowder", 3 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "50bmg",
     "id_suffix": "uncraft",
@@ -4147,16 +4192,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 12 ] ],
-        [ [ "50_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 33 ] ],
-        [ [ "copper", 9 ] ]
+      [ [ "lead", 12 ] ],
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 33 ] ],
+      [ [ "copper", 9 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "50ss",
     "id_suffix": "uncraft",
@@ -4168,17 +4214,18 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "50_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 100 ] ],
-        [ [ "copper", 27 ] ],
-        [ [ "combatnail", 5]
-     ] ],
-    "//": "Crafting these uses scrap metal instead of lead. Just breaking down into casings, copper and powder felt wrong, and combatnails seemed like a reasonable approximation."
-},
-{
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 100 ] ],
+      [ [ "copper", 27 ] ],
+      [ [ "combatnail", 5] ]
+    ],
+    "//": "Crafting these uses scrap metal instead of lead. Just breaking down into casings,copper and powder felt wrong,and combatnails seemed like a reasonable approximation."
+  },{
     "type": "recipe",
     "result": "50_incendiary",
     "id_suffix": "uncraft",
@@ -4190,17 +4237,18 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 20 ] ],
-        [ [ "incendiary", 30 ] ],
-        [ [ "50_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 100 ] ],
-        [ [ "copper", 27 ] ]
+      [ [ "lead", 20 ] ],
+      [ [ "incendiary", 30 ] ],
+      [ [ "50_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 100 ] ],
+      [ [ "copper", 27 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "700nx",
     "id_suffix": "uncraft",
@@ -4212,16 +4260,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 14 ] ],
-        [ [ "700nx_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 38 ] ],
-        [ [ "copper", 9 ] ]
+      [ [ "lead", 14 ] ],
+      [ [ "700nx_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 38 ] ],
+      [ [ "copper", 9 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "300_winmag",
     "id_suffix": "uncraft",
@@ -4233,16 +4282,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 8 ] ],
-        [ [ "300_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 16 ] ],
-        [ [ "copper", 21 ] ]
+      [ [ "lead", 8 ] ],
+      [ [ "300_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 16 ] ],
+      [ [ "copper", 21 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9x18mm",
     "id_suffix": "uncraft",
@@ -4254,15 +4304,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9x18mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 3 ] ]
+      [ [ "lead", 4 ] ],
+      [ [ "9x18mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 3 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9x18mmP2",
     "id_suffix": "uncraft",
@@ -4274,15 +4325,16 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9x18mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 5 ] ]
+      [ [ "lead", 4 ] ],
+      [ [ "9x18mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 5 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "9x18mmfmj",
     "id_suffix": "uncraft",
@@ -4294,16 +4346,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 4 ] ],
-        [ [ "9x18mm_casing", 1 ] ],
-        [ [ "smpistol_primer", 1 ] ],
-        [ [ "gunpowder", 3 ] ],
-        [ [ "copper", 2 ] ]
+      [ [ "lead", 4 ] ],
+      [ [ "9x18mm_casing", 1 ] ],
+      [ [ "smpistol_primer", 1 ] ],
+      [ [ "gunpowder", 3 ] ],
+      [ [ "copper", 2 ] ]
     ]
-},
-{
+  },{
     "type": "recipe",
     "result": "762_54R",
     "id_suffix": "uncraft",
@@ -4315,15 +4368,17 @@
     "reversible": true,
     "autolearn": true,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
-    "tools": [ [ [ "puller", -1 ] ] ],
+    "tools": [
+      [ [ "puller",-1 ] ]
+    ],
     "components": [
-        [ [ "lead", 3 ] ],
-        [ [ "762_casing", 1 ] ],
-        [ [ "lgrifle_primer", 1 ] ],
-        [ [ "gunpowder", 8 ] ],
-        [ [ "copper", 10 ] ]
+      [ [ "lead", 3 ] ],
+      [ [ "762_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 8 ] ],
+      [ [ "copper", 10 ] ]
     ]
-},{
+  },{
     "type" : "recipe",
     "result": "vibrator",
     "id_suffix": "uncraft",
@@ -4336,13 +4391,13 @@
     "reversible": true,
     "autolearn": false,
     "qualities" : [
-    {"id":"SCREW","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+      {"id":"SCREW","level":1,"amount":1},
+      {"id":"SAW_M","level":1,"amount":1}
     ],
     "components": [
-    [[ "e_scrap", 1 ]],
-    [[ "scrap", 1 ]],
-    [[ "plastic_chunk", 1 ]]
+      [ [ "e_scrap", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 1 ] ]
     ]
-    }
+  }
 ]
