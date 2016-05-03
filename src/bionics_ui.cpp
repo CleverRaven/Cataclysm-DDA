@@ -488,10 +488,9 @@ void player::power_bionics()
             const std::string &bio_id = tmp->id;
             const bionic_data &bio_data = bionic_info( bio_id );
             if( menu_mode == REMOVING ) {
-                if( uninstall_bionic( bio_id ) ) {
-                    recalc = true;
-                    continue;
-                }
+                recalc = uninstall_bionic( bio_id );
+                redraw = true;
+                continue;
             }
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
