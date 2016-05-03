@@ -51,7 +51,7 @@
     "color": "yellow",
     "name": "khopesh",
     "name_plural": "khopeshes",
-    "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge. Associated with the New Kingdom period of ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
+    "description": "This ancient bronze weapon features a curved, sickle-like blade sharpened on the outside edge.  Associated with the New Kingdom period of ancient Egypt, it was designed mainly to hack through the light armor common to the region.",
     "price": 12000,
     "material": "bronze",
     "techniques": ["WBLOCK_1", "DEF_DISARM"],
