@@ -165,20 +165,23 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
     return type;
 }
 
-void player::power_bionics()
+std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic_tab_mode mode )
 {
-    std::vector <bionic *> passive;
-    std::vector <bionic *> active;
-    bionic *bio_last = NULL;
-    bionic_tab_mode tab_mode = TAB_ACTIVE;
-
-    for( auto &elem : my_bionics ) {
-        if( !bionic_info( elem.id ).activated ) {
-            passive.push_back( &elem );
-        } else {
-            active.push_back( &elem );
+    std::vector< bionic *>filtered_entries;
+    for( auto &elem : all_bionics ) {
+        if( ( mode == TAB_ACTIVE ) == bionic_info( elem.id ).activated ) {
+            filtered_entries.push_back( &elem );
         }
     }
+    return filtered_entries;
+}
+
+void player::power_bionics()
+{
+    std::vector <bionic *> passive = filtered_bionics( my_bionics, TAB_PASSIVE );
+    std::vector <bionic *> active = filtered_bionics( my_bionics, TAB_ACTIVE );
+    bionic *bio_last = NULL;
+    bionic_tab_mode tab_mode = TAB_ACTIVE;
 
     //added title_tab_height for the tabbed bionic display
     int TITLE_HEIGHT = 2;
@@ -269,16 +272,8 @@ void player::power_bionics()
 
     for( ;; ) {
         if( recalc ) {
-            active.clear();
-            passive.clear();
-
-            for( auto &elem : my_bionics ) {
-                if( !bionic_info( elem.id ).activated ) {
-                    passive.push_back( &elem );
-                } else {
-                    active.push_back( &elem );
-                }
-            }
+            passive = filtered_bionics( my_bionics, TAB_PASSIVE );
+            active = filtered_bionics( my_bionics, TAB_ACTIVE );
 
             if( active.empty() && !passive.empty() ) {
                 tab_mode = TAB_PASSIVE;
