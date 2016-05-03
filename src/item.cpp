@@ -760,7 +760,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         std::string vits;
         for( const auto &v : g->u.vitamins_from( *food_item ) ) {
-            if( v.second != 0 ) {
+            // only display vitamins that we actually require
+            if( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) {
                 if( !vits.empty() ) {
                     vits += ", ";
                 }
