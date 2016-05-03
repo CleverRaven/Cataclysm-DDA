@@ -101,7 +101,7 @@
             "fatigue_chance": [1, 6]
         }
     },{
-        "//": "Will be relevent once cleric ring is obtainable.",
+        "//": "Will be relevant once cleric ring is obtainable.",
         "type": "effect_type",
         "id": "cleric_warding",
         "name": ["Ward Against Evil"],
