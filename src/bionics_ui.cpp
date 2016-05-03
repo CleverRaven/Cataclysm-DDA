@@ -305,12 +305,11 @@ void player::power_bionics()
 
             if( current_bionic_list->empty() ) {
                 std::string msg;
-                // @todo switch it to switch
-                if( tab_mode == TAB_ACTIVE ) {
-                    msg = _( "No activatable bionics installed." );
-                }
-                if( tab_mode == TAB_PASSIVE ) {
-                    msg = _( "No passive bionics installed." );
+                switch( tab_mode ) {
+                    case TAB_ACTIVE:
+                        msg = _( "No activatable bionics installed." );
+                    case TAB_PASSIVE:
+                        msg = _( "No passive bionics installed." );
                 }
                 mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, "%s", msg.c_str() );
             } else {
@@ -344,31 +343,24 @@ void player::power_bionics()
         show_bionics_titlebar( w_title, this, menu_mode );
 
         // Description
-        if( menu_mode == EXAMINING && current_bionic_list->size() > 0 ) {
+        if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
             werase( w_description );
+            std::string &bio_id = ( *current_bionic_list )[cursor]->id;
+            std::string poweronly_string = build_bionic_poweronly_string( *( *current_bionic_list )[cursor] );
+            int ypos = fold_and_print( w_description, 0, 0, DESCRIPTION_WIDTH, c_white,
+                                       bionic_info( bio_id ).name );
             std::ostringstream power_only_desc;
-            std::string poweronly_string;
-            std::string bionic_name;
-            if( tab_mode == TAB_ACTIVE ) {
-                bionic_name = bionic_info( active[cursor]->id ).name;
-                poweronly_string = build_bionic_poweronly_string( *active[cursor] );
-            } else {
-                bionic_name = bionic_info( passive[cursor]->id ).name;
-                poweronly_string = build_bionic_poweronly_string( *passive[cursor] );
-            }
-            int ypos = 0;
-            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_white, bionic_name );
             if( poweronly_string.length() > 0 ) {
                 power_only_desc << _( "Power usage: " ) << poweronly_string;
                 ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
                                         power_only_desc.str() );
             }
             ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue,
-                                    bionic_info( ( *current_bionic_list )[cursor]->id ).description ) + 1;
+                                    bionic_info( bio_id ).description ) + 1;
 
             const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( w_description );
             ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
-                                    list_occupied_bps( ( *current_bionic_list )[cursor]->id,
+                                    list_occupied_bps( bio_id,
                                             _( "This bionic occupies the following body parts:" ),
                                             each_bp_on_new_line ).c_str() );
             wrefresh( w_description );
