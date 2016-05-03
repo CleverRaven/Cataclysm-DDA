@@ -180,11 +180,6 @@ void player::power_bionics()
         }
     }
 
-    // maximal number of rows in both columns
-    int active_bionic_count = active.size();
-    int passive_bionic_count = passive.size();
-    int bionic_count = std::max( passive_bionic_count, active_bionic_count );
-
     //added title_tab_height for the tabbed bionic display
     int TITLE_HEIGHT = 2;
     int TITLE_TAB_HEIGHT = 3;
@@ -200,7 +195,8 @@ void player::power_bionics()
      */
     int HEIGHT = std::min(
                      TERMY, std::max( FULL_SCREEN_HEIGHT,
-                                      TITLE_HEIGHT + TITLE_TAB_HEIGHT + bionic_count + 2 ) );
+                                      TITLE_HEIGHT + TITLE_TAB_HEIGHT +
+                                      ( int )my_bionics.size() + 2 ) );
     int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
     int START_X = ( TERMX - WIDTH ) / 2;
     int START_Y = ( TERMY - HEIGHT ) / 2;
@@ -236,14 +232,14 @@ void player::power_bionics()
     bionic_menu_mode menu_mode = ACTIVATING;
     std::ostringstream tabname;
     tabname << _( "ACTIVE" );
-    if( active_bionic_count > 0 ) {
-        tabname << "(" << active_bionic_count << ")";
+    if( !active.empty() ) {
+        tabname << "(" << active.size() << ")";
     }
     std::string active_tab_name = tabname.str();
     tabname.str( "" );
     tabname << _( "PASSIVE" );
-    if( passive_bionic_count > 0 ) {
-        tabname << "(" << passive_bionic_count << ")";
+    if( !passive.empty() ) {
+        tabname << "(" << passive.size() << ")";
     }
     std::string passive_tab_name = tabname.str();
     const int tabs_start = 1;
@@ -254,8 +250,8 @@ void player::power_bionics()
     const int list_start_y = HEADER_LINE_Y;// - scroll_position;
     int half_list_view_location = LIST_HEIGHT / 2;
     int max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
-                                        active_bionic_count :
-                                        passive_bionic_count ) - LIST_HEIGHT );
+                                        ( int )active.size() :
+                                        ( int )passive.size() ) - LIST_HEIGHT );
 
     input_context ctxt( "BIONICS" );
     ctxt.register_updown();
@@ -284,11 +280,7 @@ void player::power_bionics()
                 }
             }
 
-            active_bionic_count = active.size();
-            passive_bionic_count = passive.size();
-            bionic_count = std::max( passive_bionic_count, active_bionic_count );
-
-            if( active_bionic_count == 0 && passive_bionic_count > 0 ) {
+            if( active.empty() && !passive.empty() ) {
                 tab_mode = TAB_PASSIVE;
             }
 
@@ -306,8 +298,8 @@ void player::power_bionics()
         //track which list we are looking at
         std::vector<bionic *> *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
         max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
-                                             active_bionic_count :
-                                             passive_bionic_count ) - LIST_HEIGHT );
+                                             ( int )active.size() :
+                                             ( int )passive.size() ) - LIST_HEIGHT );
 
         if( redraw ) {
             redraw = false;
@@ -560,7 +552,7 @@ void player::power_bionics()
                         if( active[i] == tmp ) {
                             tab_mode = TAB_ACTIVE;
                             cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, active_bionic_count - LIST_HEIGHT );
+                            int max_scroll_check = std::max( 0, ( int )active.size() - LIST_HEIGHT );
                             if( static_cast<int>( i ) > max_scroll_check ) {
                                 scroll_position = max_scroll_check;
                             } else {
@@ -573,7 +565,7 @@ void player::power_bionics()
                         if( passive[i] == tmp ) {
                             tab_mode = TAB_PASSIVE;
                             cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, passive_bionic_count - LIST_HEIGHT );
+                            int max_scroll_check = std::max( 0, ( int )passive.size() - LIST_HEIGHT );
                             if( static_cast<int>( i ) > max_scroll_check ) {
                                 scroll_position = max_scroll_check;
                             } else {
