@@ -121,6 +121,26 @@ std::string build_bionic_powerdesc_string( bionic const &bio )
     return power_desc.str();
 }
 
+void show_description( WINDOW *win, bionic &bio )
+{
+    werase( win );
+    const int width = getmaxx( win );
+    std::string poweronly_string = build_bionic_poweronly_string( bio );
+    int ypos = fold_and_print( win, 0, 0, width, c_white, bionic_info( bio.id ).name );
+    std::ostringstream power_only_desc;
+    if( poweronly_string.length() > 0 ) {
+        power_only_desc << _( "Power usage: " ) << poweronly_string;
+        ypos += fold_and_print( win, ypos, 0, width, c_ltgray, power_only_desc.str() );
+    }
+    ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bionic_info( bio.id ).description );
+
+    const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
+    ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+                            list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
+                                    each_bp_on_new_line ) );
+    wrefresh( win );
+}
+
 //get a text color depending on the power/powering state of the bionic
 nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBionic )
 {
@@ -344,26 +364,7 @@ void player::power_bionics()
 
         // Description
         if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
-            werase( w_description );
-            std::string &bio_id = ( *current_bionic_list )[cursor]->id;
-            std::string poweronly_string = build_bionic_poweronly_string( *( *current_bionic_list )[cursor] );
-            int ypos = fold_and_print( w_description, 0, 0, DESCRIPTION_WIDTH, c_white,
-                                       bionic_info( bio_id ).name );
-            std::ostringstream power_only_desc;
-            if( poweronly_string.length() > 0 ) {
-                power_only_desc << _( "Power usage: " ) << poweronly_string;
-                ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
-                                        power_only_desc.str() );
-            }
-            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue,
-                                    bionic_info( bio_id ).description ) + 1;
-
-            const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( w_description );
-            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
-                                    list_occupied_bps( bio_id,
-                                            _( "This bionic occupies the following body parts:" ),
-                                            each_bp_on_new_line ).c_str() );
-            wrefresh( w_description );
+            show_description( w_description, *( *current_bionic_list )[cursor] );
         }
 
         const std::string action = ctxt.handle_input();
