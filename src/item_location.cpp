@@ -35,7 +35,7 @@ class item_location::impl
 class item_location::item_on_map : public item_location::impl
 {
     private:
-        const map_cursor cur;
+        map_cursor cur;
 
     public:
         item_on_map( const map_cursor &cur, item *which ) : cur( cur ) {
@@ -103,7 +103,10 @@ class item_location::item_on_map : public item_location::impl
             if( what == nullptr ) {
                 return;
             }
-            g->m.i_rem( cur, what );
+            item obj = cur.remove_item( *what );
+            if( obj.is_null() ) {
+                debugmsg( "Tried to remove an item from a map tile which doesn't contain it" );
+            }
             what = nullptr;
         }
 };
@@ -224,22 +227,18 @@ class item_location::item_on_person : public item_location::impl
             if( what == nullptr ) {
                 return;
             }
-
-            const auto removed = who.remove_items_with( [this]( const item & it ) {
-                return &it == what;
-            }, 1 );
-
-            what = nullptr;
-            if( removed.empty() ) {
+            item obj = who.remove_item( *what );
+            if( obj.is_null() ) {
                 debugmsg( "Tried to remove an item from a character who doesn't have it" );
             }
+            what = nullptr;
         }
 };
 
 class item_location::item_on_vehicle : public item_location::impl
 {
     private:
-        const vehicle_cursor cur;
+        vehicle_cursor cur;
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : cur( cur ) {
@@ -306,10 +305,14 @@ class item_location::item_on_vehicle : public item_location::impl
         void remove_item() override {
             if( what == nullptr ) {
                 return;
-            } else if( &cur.veh.parts[ cur.part ].base == what ) {
+            }
+            if( &cur.veh.parts[ cur.part ].base == what ) {
                 cur.veh.remove_part( cur.part );
             } else {
-                cur.veh.remove_item( cur.part, what );
+                item obj = cur.remove_item( *what );
+                if( obj.is_null() ) {
+                    debugmsg( "Tried to remove an item from a vehicle which doesn't contain it" );
+                }
             }
             what = nullptr;
         }

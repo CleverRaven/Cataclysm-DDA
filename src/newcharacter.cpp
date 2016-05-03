@@ -2447,12 +2447,7 @@ void save_template(player *u)
         return;
     }
     std::string playerfile = FILENAMES["templatedir"] + name + ".template";
-
-    std::ofstream fout;
-    fout.open(playerfile.c_str());
-    fout << u->save_info();
-    fout.close();
-    if (fout.fail()) {
-        popup(_("Failed to write template to %s"), playerfile.c_str());
-    }
+    write_to_file( playerfile, [&]( std::ostream &fout ) {
+        fout << u->save_info();
+    }, _( "player template" ) );
 }

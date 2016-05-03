@@ -1927,7 +1927,7 @@ std::string player::save_info() const
     return dump.str();
 }
 
-void player::memorial( std::ofstream &memorial_file, std::string epitaph )
+void player::memorial( std::ostream &memorial_file, std::string epitaph )
 {
     //Size of indents in the memorial file
     const std::string indent = "  ";
@@ -2234,7 +2234,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
  * entry lines begin with a pipe (|).
  * @param fin The ifstream to read the memorial entries from.
  */
-void player::load_memorial_file(std::ifstream &fin)
+void player::load_memorial_file(std::istream &fin)
 {
   std::string entry;
   memorial_log.clear();
@@ -12576,6 +12576,16 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
     return has_item_with( [at]( const item & it ) {
         // item::ammo_type considers the active gunmod.
         return it.is_gun() && it.ammo_type() == at;
+    } );
+}
+
+bool player::has_magazine_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [&at]( const item & it ) {
+        return ( it.is_magazine() && it.ammo_type() == at ) ||
+               ( it.is_gun() && it.magazine_integral() && it.ammo_type() == at ) ||
+               ( it.is_gun() && it.magazine_current() != nullptr &&
+                 it.magazine_current()->ammo_type() == at );
     } );
 }
 

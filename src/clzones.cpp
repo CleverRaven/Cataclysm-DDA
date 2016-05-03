@@ -4,7 +4,7 @@
 #include "player.h"
 #include "debug.h"
 #include "output.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "translations.h"
 #include "worldfactory.h"
 #include "catacharset.h"
@@ -180,23 +180,9 @@ bool zone_manager::save_zones()
     std::string savefile = world_generator->active_world->world_path + "/" + base64_encode(
                                g->u.name ) + ".zones.json";
 
-    try {
-        std::ofstream fout;
-        fout.exceptions( std::ios::badbit | std::ios::failbit );
-
-        fopen_exclusive( fout, savefile.c_str() );
-        if( !fout.is_open() ) {
-            return true; //trick game into thinking it was saved
-        }
-
+    return write_to_file_exclusive( savefile, [&]( std::ostream & fout ) {
         fout << serialize();
-        fclose_exclusive( fout, savefile.c_str() );
-        return true;
-
-    } catch( std::ios::failure & ) {
-        popup( _( "Failed to save zones to %s" ), savefile.c_str() );
-        return false;
-    }
+    }, _( "zones date" ) );
 }
 
 void zone_manager::load_zones()

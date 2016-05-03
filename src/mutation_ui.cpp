@@ -19,7 +19,7 @@ void draw_exam_window( WINDOW *win, const int border_y )
 {
     int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
-    whline( win, LINE_OXOX, width - 2 );
+    mvwhline( win, border_y, 1, LINE_OXOX, width - 2 );
     mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );
 }
 

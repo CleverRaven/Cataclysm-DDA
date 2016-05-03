@@ -356,6 +356,7 @@
 		<Unit filename="src/basecamp.h" />
 		<Unit filename="src/bionics.cpp" />
 		<Unit filename="src/bionics.h" />
+		<Unit filename="src/bionics_ui.cpp" />
 		<Unit filename="src/bodypart.cpp" />
 		<Unit filename="src/bodypart.h" />
 		<Unit filename="src/bonuses.cpp" />

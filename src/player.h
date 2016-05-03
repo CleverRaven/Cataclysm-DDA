@@ -193,7 +193,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual void serialize(JsonOut &jsout) const override;
 
         /** Prints out the player's memorial file */
-        void memorial( std::ofstream &memorial_file, std::string epitaph );
+        void memorial( std::ostream &memorial_file, std::string epitaph );
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
         /** Provides the window and detailed morale data */
@@ -1043,6 +1043,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Check whether the player has a gun that uses the given type of ammo.
          */
         bool has_gun_for_ammo( const ammotype &at ) const;
+        bool has_magazine_for_ammo( const ammotype &at ) const;
 
         bool has_weapon() const override;
 
@@ -1229,7 +1230,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         //Log an event, to be later written to the memorial file
         void add_memorial_log(const char *male_msg, const char *female_msg, ...) override;
         //Loads the memorial log from a file
-        void load_memorial_file(std::ifstream &fin);
+        void load_memorial_file(std::istream &fin);
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
 

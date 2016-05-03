@@ -210,7 +210,7 @@
         "ammo": "essence_type",
         "use_action": {
             "type": "transform",
-            "msg": "The robe's fabric returns to its normal gray color, dispeling the illusion.",
+            "msg": "The robe's fabric returns to its normal gray color, dispelling the illusion.",
             "target": "robe_shadow"
         },
         "artifact_data" : {

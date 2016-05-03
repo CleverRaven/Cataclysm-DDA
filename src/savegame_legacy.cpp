@@ -202,7 +202,7 @@ void item::load_info( const std::string &data )
     clear_vars();
     std::string idtmp, ammotmp, item_tag, mode;
     int lettmp, damtmp, acttmp, corp, tag_count;
-    int owned; // Ignoring an obsolete member. 
+    int owned; // Ignoring an obsolete member.
     dump >> lettmp >> idtmp >> charges >> damtmp >> tag_count;
     for( int i = 0; i < tag_count; ++i )
     {
@@ -246,7 +246,7 @@ void item::load_info( const std::string &data )
 
 ///// overmap legacy deserialization, replaced with json serialization June 2015
 // throws std::exception (most likely as JsonError)
-void overmap::unserialize_legacy(std::ifstream & fin) {
+void overmap::unserialize_legacy(std::istream & fin) {
     // DEBUG VARS
     int nummg = 0;
     char datatype;
@@ -440,7 +440,7 @@ void overmap::unserialize_legacy(std::ifstream & fin) {
     }
 }
 
-void overmap::unserialize_view_legacy( std::ifstream &fin )
+void overmap::unserialize_view_legacy( std::istream &fin )
 {
     // Private/per-character data
     int z = 0; // assumption

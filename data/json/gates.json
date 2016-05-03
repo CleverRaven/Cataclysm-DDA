@@ -4,7 +4,7 @@
         "handle" : "t_gates_mech_control",
         "other_handles" : [
             "t_gates_control_concrete",
-            "t_gates_control_brick"	   
+            "t_gates_control_brick"
         ],
         "door" : "t_door_metal_locked",
         "floor" : "t_floor",

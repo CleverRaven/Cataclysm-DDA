@@ -1695,6 +1695,10 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
             continue;
         }
 
+        if( p == g->u.pos() ) {
+            continue;
+        }
+
         const int cost = g->m.combined_movecost( pos(), p );
         if( cost <= 0 ) {
             continue;
@@ -1993,7 +1997,7 @@ void npc::drop_items(int weight, int volume)
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_following() && !rules.allow_pulp ) {
+    if( is_following() && ( !rules.allow_pulp || g->u.in_vehicle ) ) {
         return false;
     }
 

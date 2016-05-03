@@ -130,7 +130,6 @@
             "monster": {
                 "Y": { "monster": "mon_deer", "friendly": true, "name": "THE DEER" }
             },
-
             "//": [ "And now an all-purpose mapping" ],
             "mapping": {
                 "X": {
@@ -141,7 +140,6 @@
                     "terrain": "t_dirt"
                 }
             },
-
             "//": [ "And now the same (nearly) but with explicit coordinates.",
                     "These spawn in the northern part of the map and they have slightly",
                     "different values so they are be distinguished." ],

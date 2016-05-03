@@ -16,7 +16,7 @@
 #include "json.h"
 #include "mapdata.h"
 #include "mapgen.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "uistate.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -3910,7 +3910,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     bool passed = false;
     for( const auto& location : special.locations ) {
         // check each location, if one returns true, then return true, else return false
-        // never, always, water, land, forest, wilderness, by_hiway
+        // never, always, water, land, forest, field, wilderness, by_hiway
         // false, true,   river, !river, forest, forest/field, special
         std::list<std::string> allowed_terrains;
         std::list<std::string> disallowed_terrains;
@@ -3926,6 +3926,8 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
             disallowed_terrains.push_back("road");
         } else if(location == "forest") {
             allowed_terrains.push_back("forest");
+        } else if(location == "field") {
+            allowed_terrains.push_back("field");
         } else if(location == "wilderness") {
             allowed_terrains.push_back("forest");
             allowed_terrains.push_back("field");
@@ -4309,22 +4311,16 @@ void overmap::open()
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    std::ofstream fout;
-    fout.exceptions(std::ios::badbit | std::ios::failbit);
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
     std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
 
-    // Player specific data
-    fout.open(plrfilename.c_str());
-    serialize_view( fout );
-    fout.close();
-    // World terrain data
-    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
-    if(!fout.is_open()) {
-        return;
-    }
-    serialize( fout );
-    fclose_exclusive(fout, terfilename.c_str());
+    ofstream_wrapper fout_player( plrfilename );
+    serialize_view( fout_player );
+    fout_player.close();
+
+    ofstream_wrapper_exclusive fout_terrain( terfilename );
+    serialize( fout_terrain );
+    fout_terrain.close();
 }
 
 

@@ -31,7 +31,6 @@
 #include "map_iterator.h"
 #include "vehicle_selector.h"
 
-#include <fstream>
 #include <sstream>
 #include <stdlib.h>
 #include <set>
@@ -293,7 +292,7 @@ bool vehicle::remote_controlled(player const &p) const
     return false;
 }
 
-void vehicle::load (std::ifstream &stin)
+void vehicle::load (std::istream &stin)
 {
     std::string type;
     getline(stin, type);
@@ -387,7 +386,7 @@ void vehicle::add_steerable_wheels()
     }
 }
 
-void vehicle::save (std::ofstream &stout)
+void vehicle::save (std::ostream &stout)
 {
     serialize(stout);
     stout << std::endl;
@@ -6902,6 +6901,8 @@ item vehicle_part::properties_to_item() const
 
     if( vpinfo.fuel_type == fuel_type_battery ) {
         tmp.charges = amount;
+    } else if( vpinfo.fuel_type == fuel_type_plutonium ) {
+        // Do nothing, itemized minireactors with plutonium in them are bugged
     } else if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "null" && amount > 0 ) {
         tmp.emplace_back( vpinfo.fuel_type, calendar::turn, amount / fuel_charges_to_amount_factor( vpinfo.fuel_type ) );
     }

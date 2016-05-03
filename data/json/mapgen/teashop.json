@@ -1,5 +1,4 @@
 [
-    
       {
         "type"  : "item_group",
         "id"    : "tea_dishes",
@@ -25,7 +24,6 @@
           ["suit",   70],
           ["waistcoat",   70],
           ["dress_shirt", 70]
-          
         ]
       },
       {
@@ -86,7 +84,6 @@
           ["ceramic_cup",   70],
           ["teapot",   70],
           ["clay_teapot",   70]
-          
         ]
       },
       {
@@ -106,7 +103,6 @@
           ["spoon",   20]
         ]
       },
-    
     {
         "type": "mapgen",
         "om_terrain": ["s_teashop"],
@@ -188,7 +184,6 @@
                 { "point": "furniture", "id": "f_mutpoppy", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
                 { "point": "terrain", "id": "t_shrub", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
                 { "point": "furniture", "id": "f_chamomile", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] }
-                
             ],
             "place_items": [
                 {"item": "tea_dishes", "chance": 30, "x": 11, "y":  6, "repeat": [1,2]},
@@ -200,24 +195,20 @@
                 {"item": "tea_dishes", "chance": 30, "x": 14, "y": 13, "repeat": [1,2]},
                 {"item": "tea_dishes", "chance": 30, "x": 19, "y": 15, "repeat": [1,2]},
                 {"item": "tea_dishes", "chance": 30, "x": 12, "y": 16, "repeat": [1,2]},
-                
                 {"item": "corner_reader", "chance": 80, "x": 20, "y":  6, "repeat": [1,2]},
                 {"item": "corner_weapon", "chance": 20, "x": 20, "y":  6},
-                
                 {"item": "chair_extra", "chance": 80, "x": 2, "y": 12, "repeat": [1,2]},
                 {"item": "chair_torso", "chance": 80, "x": 2, "y": 12, "repeat": [1,2]},
                 {"item": "chair_hat", "chance": 30, "x": 2, "y": 12},
                 {"item": "chair_pants", "chance": 30, "x": 2, "y": 12},
                 {"item": "chair_feet", "chance": 30, "x": 2, "y": 12},
-                
                 {"item": "displays", "chance": 30, "x": 2, "y": [7,9], "repeat": [1,3]},
                 {"item": "displays", "chance": 30, "x": [5,7], "y": 6, "repeat": [1,3]},
                 {"item": "displays", "chance": 30, "x": [4,5], "y": [8,9], "repeat": [1,4]},
-                
                 {"item": "teashop_kitchen_counter", "chance": 80, "x": 2, "y": [14,16], "repeat": [1,4]},
                 {"item": "teashop_kitchen_counter", "chance": 80, "x": [5,6], "y": 14, "repeat": [1,3]},
                 {"item": "teashop_fridge", "chance": 80, "x": 2, "y": 13, "repeat": [1,4]}
-            ]            
+            ]
         }
     }
 ]

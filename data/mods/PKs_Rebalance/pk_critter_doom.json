@@ -32,12 +32,30 @@
         {
             "type" : "leap",
             "cooldown" : 25,
-            "max_range" : 5
+            "max_range" : 4
         },
         {
             "type" : "bite",
             "cooldown" : 60
+        },{
+            "type" : "gun",
+            "cooldown" : 5,
+            "gun_type" : "hell_ball",
+            "ammo_type" : "flaming_skull",
+            "max_ammo" : 1000,
+            "fake_str" : 10,
+            "fake_dex" : 13,
+            "fake_per" : 7,
+            "fake_skills" : [["gun", 2], ["pistol", 3]],
+            "move_cost" : 150,
+            "targeting_cost" : 200,
+            "range" : 10,
+            "description" : "The imp lets loose a fireball!",
+            "targeting_sound" : "RAAAAGHH!",
+            "targeting_volume" : 25,
+            "no_ammo_sound" : "RAAGH?"
         }],
+    "starting_ammo": { "flaming_skull": 66 },
     "description":"This humanoid resembles a burnt cenobite.  It attacks with fire and claw, and is the grunt of the demonic armies.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "BONES", "CLIMBS", "PUSH_MON", "GROUP_MORALE"]
     },{
@@ -72,12 +90,30 @@
         {
             "type" : "leap",
             "cooldown" : 25,
-            "max_range" : 5
+            "max_range" : 4
         },
         {
             "type" : "bite",
             "cooldown" : 60
+        },{
+            "type" : "gun",
+            "cooldown" : 5,
+            "gun_type" : "hell_ball",
+            "ammo_type" : "flaming_ball",
+            "max_ammo" : 1000,
+            "fake_str" : 10,
+            "fake_dex" : 13,
+            "fake_per" : 7,
+            "fake_skills" : [["gun", 2], ["pistol", 3]],
+            "move_cost" : 150,
+            "targeting_cost" : 250,
+            "range" : 13,
+            "description" : "The imp looses a fireball!",
+            "targeting_sound" : "RAAHHI!",
+            "targeting_volume" : 25,
+            "no_ammo_sound" : "RAAGH?"
         }],
+    "starting_ammo": { "flaming_ball": 66 },
     "description":"Even for an imp, this figure has black skin.  It attacks with fire and claw, and leads its brethren into battle.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "BLEED", "BONES", "CLIMBS", "PUSH_MON", "GROUP_MORALE"]
     },{
@@ -148,7 +184,26 @@
     "vision_night":7,
     "hp":5,
     "luminance":10,
-    "special_attacks":[["LUNGE", 20]],
+    "special_attacks":[["LUNGE", 20],
+    {
+            "type" : "gun",
+            "cooldown" : 5,
+            "gun_type" : "hell_ball",
+            "ammo_type" : "flaming_skull",
+            "max_ammo" : 1000,
+            "fake_str" : 5,
+            "fake_dex" : 15,
+            "fake_per" : 9,
+            "fake_skills" : [["gun", 1], ["pistol", 0]],
+            "move_cost" : 300,
+            "targeting_cost" : 300,
+            "range" : 1,
+            "description" : "From the lost soul's mouth pours a gout of flame!",
+            "targeting_sound" : "skaaah!",
+            "targeting_volume" : 15,
+            "no_ammo_sound" : "skiiiissh"
+        }],
+    "starting_ammo": { "flaming_skull": 66},
     "description":"A hovering skull in a halo of fire.  Very fast.",
     "flags":["SEES", "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOGIB", "HARDTOSHOOT", "FIREY", "SWARMS", "HIT_AND_RUN"]
     },{
@@ -179,8 +234,16 @@
     "vision_night":5,
     "hp":120,
     "death_function":["NORMAL"],
-    "special_attacks":[["RANGED_PULL", 20]],
-    "description":"A gaunt figure with translucent flesh, this backbone of the demonic army sports a salvo of homing rockets on each shoulder.  Its punch is easily more powerful than any humans.",
+    "special_attacks":[["RANGED_PULL", 20], ["GRENADIER", 40], ["GRENADIER_ELITE", 40]],
+    "starting_ammo" : {"bot_manhack_missile": 16},
+    "death_drops": {
+        "subtype": "collection",
+        "//": "Sometimes drops its manhacks.  Sometimes it drops grenade-style bombs.",
+        "groups": [
+            [ "revenant_death_drops", 75]
+        ]
+    },
+    "description":"A gaunt figure with translucent flesh, this backbone of the demonic army sports a salvo of homing rockets on each shoulder.  Its punch can crack human bones.",
     "flags":["SEES", "HEARS", "NO_BREATHE", "PUSH_MON", "BASHES", "GROUP_BASH"]
     },{
     "type" : "MONSTER",
@@ -210,7 +273,26 @@
     "vision_night":7,
     "hp":160,
     "death_function":["NORMAL"],
-    "special_attacks":[["SMASH", 60], ["GRAB", 40]],
+    "special_attacks":[["SMASH", 60], ["GRAB", 40],
+    {
+            "type" : "gun",
+            "cooldown" : 5,
+            "gun_type" : "hell_plasma",
+            "ammo_type" : "hell_plasma_k",
+            "max_ammo" : 1000,
+            "fake_str" : 17,
+            "fake_dex" : 9,
+            "fake_per" : 10,
+            "fake_skills" : [["gun", 4], ["rifle", 2]],
+            "move_cost" : 150,
+            "targeting_cost" : 200,
+            "range" : 9,
+            "description" : "With a clap the Knight's hands close!",
+            "targeting_sound" : "ROOAWNNT!!",
+            "targeting_volume" : 40,
+            "no_ammo_sound" : "Rooar?"
+        }],
+    "starting_ammo": { "hell_plasma_k": 66 },
     "description":"A towering monster vaguely reminiscent of a satyr.  As a member of the ruling species of its domains, it is given administrative control.  Its plasma blasts are deadly.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BONES", "PUSH_MON", "BLEED"]
     },{
@@ -241,7 +323,26 @@
     "vision_night":7,
     "hp":200,
     "death_function":["NORMAL"],
-    "special_attacks":[["SMASH", 40], ["GRAB", 30], ["FLESH_GOLEM", 20]],
+    "special_attacks":[["SMASH", 40], ["GRAB", 30], ["FLESH_GOLEM", 20],
+        {
+            "type" : "gun",
+            "cooldown" : 5,
+            "gun_type" : "hell_plasma",
+            "ammo_type" : "hell_plasma_b",
+            "max_ammo" : 1000,
+            "fake_str" : 17,
+            "fake_dex" : 9,
+            "fake_per" : 10,
+            "fake_skills" : [["gun", 6], ["rifle", 3]],
+            "move_cost" : 150,
+            "targeting_cost" : 300,
+            "range" : 20,
+            "description" : "A ball of plasma is launched from the hand of the baron!",
+            "targeting_sound" : "!!ROOOWWNT!!",
+            "targeting_volume" : 35,
+            "no_ammo_sound" : "Rownt :("
+        }],
+    "starting_ammo": { "hell_plasma_b": 66 },
     "description":"A towering monster vaguely reminiscent of a satyr.  A ranking member of the ruling species of its domains, it is given command.  Its plasma blasts are deadly.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "DESTROYS", "POISON", "BONES", "PUSH_MON", "BLEED"]
     },{
@@ -271,7 +372,26 @@
     "vision_day":40,
     "vision_night":3,
     "hp":250,
-    "special_attacks":[["SMASH", 30], ["FLAMETHROWER", 60]],
+    "special_attacks":[["SMASH", 30], ["FLAMETHROWER", 60],
+        {
+            "type" : "gun",
+            "cooldown" : 4,
+            "gun_type" : "hell_laser_napalm",
+            "ammo_type" : "hell_napalm",
+            "max_ammo" : 1000,
+            "fake_str" : 25,
+            "fake_dex" : 8,
+            "fake_per" : 9,
+            "fake_skills" : [["gun", 3], ["launcher", 3]],
+            "move_cost" : 200,
+            "targeting_cost" : 200,
+            "range" : 20,
+            "description" : "The mancubus raises its arm-cannons!",
+            "targeting_sound" : "fppphh~!",
+            "targeting_volume" : 50,
+            "no_ammo_sound" : "BLOOOWM!"
+        }],
+    "starting_ammo" : { "hell_napalm": 122},
     "description":"A corpulent, pig-faced monster; its arms have been forcibly replaced with huge flame-cannons.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "DESTROYS", "POISON", "BLEED", "NO_BREATHE", "BONES", "FAT", "PUSH_MON"]
     },{
@@ -307,7 +427,25 @@
             "type" : "bite",
             "cooldown" : 20,
             "min_mul" : 0.8
+        },{
+            "type" : "gun",
+            "cooldown" : 3,
+            "gun_type" : "hell_plasma",
+            "ammo_type" : "hell_plasma_c",
+            "max_ammo" : 1000,
+            "fake_str" : 16,
+            "fake_dex" : 5,
+            "fake_per" : 8,
+            "fake_skills" : [["gun", 3], ["rifle", 6]],
+            "move_cost" : 95,
+            "targeting_cost" : 300,
+            "range" : 21,
+            "description" : "As the caccodemon opens its mouth a torrent of plasma bursts forth!",
+            "targeting_sound" : "SKIIIEEEE",
+            "targeting_volume" : 30,
+            "no_ammo_sound" : "HIiiiss?"
         }],
+    "starting_ammo": { "hell_plasma_c": 122 },
     "description":"A dark red sphere with wicked teeth.  Its single eye lights up as it expels plasma from its mouth.",
     "flags":["SEES", "HEARS", "SMELLS", "FLIES", "POISON", "BLEED", "BASHES", "CHITIN", "BONES", "FAT", "PUSH_MON"]
     },{
@@ -337,6 +475,26 @@
     "vision_night":5,
     "hp":150,
     "death_function":["SMOKEBURST", "NORMAL"],
+    "special_attacks":[
+    {
+            "type" : "gun",
+            "cooldown" : 5,
+            "gun_type" : "hell_laser_gun",
+            "ammo_type" : "hell_laser",
+            "max_ammo" : 1000,
+            "fake_str" : 33,
+            "fake_dex" : 9,
+            "fake_per" : 13,
+            "fake_skills" : [["gun", 5], ["rifle", 5]],
+            "move_cost" : 400,
+            "targeting_cost" : 200,
+            "range" : 45,
+            "description" : "The arachnotron grimaces and fires its carbine!",
+            "targeting_sound" : "Vvvoooooooo-",
+            "targeting_volume" : 50,
+            "no_ammo_sound" : "-Beep-beep-beep-"
+        }],
+    "starting_ammo" : { "laser_pack": 1, "hell_laser": 200 },
     "description":"With metal girders supporting an encased brain, this lasgun-armed robot is almost ripped directly from 80s sci-fi.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "ELECTRONIC", "POISON", "NO_BREATHE", "PUSH_MON", "INTERIOR_AMMO"]
     },{
@@ -367,6 +525,26 @@
     "vision_night":5,
     "hp":500,
     "death_function":["NORMAL", "EXPLODE"],
+    "special_attacks":[
+        {
+            "type" : "gun",
+            "cooldown" : 5,
+            "gun_type" : "hell_launcher",
+            "ammo_type" : "cyber_rocket",
+            "max_ammo" : 1000,
+            "fake_str" : 33,
+            "fake_dex" : 9,
+            "fake_per" : 13,
+            "fake_skills" : [["gun", 6], ["launcher", 6]],
+            "move_cost" : 500,
+            "targeting_cost" : 300,
+            "range" : 50,
+            "description" : "A series of explosions is heard as the cyberdemon raises its rifled hand!",
+            "targeting_sound" : "a charging whine!",
+            "targeting_volume" : 70,
+            "no_ammo_sound" : "ROOOAAAAAaat"
+        }],
+    "starting_ammo": { "cyber_rocket": 99 },
     "description":"A gigantic humanoid with equally impressive machinery and bionics.  Affixed to one arm is a barrel large enough for you to fit into.",
     "flags":["SEES", "HEARS", "WARM", "POISON", "BLEED", "BASHES", "DESTROYS", "NO_BREATHE", "PUSH_MON", "ATTACKMON"]
     },{
@@ -390,6 +568,12 @@
     "dodge":3,
     "armor_bash":6,
     "armor_cut":6,
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "spearmelee_pk", 95 ]
+        ]
+    },
     "hp":65,
     "death_function":["NORMAL"],
     "description":"A tortured slave; a living survivor, beaten, starved, wearing tattered rags and wielding a crude weapon.  They look hungry enough to eat anything.",
@@ -472,7 +656,27 @@
     "vision_day":5,
     "vision_night":3,
     "hp":5,
-    "luminance":15,
+    "luminance":19,
+    "special_attacks":[
+    {
+            "type" : "gun",
+            "cooldown" : 1,
+            "gun_type" : "hell_ball",
+            "ammo_type" : "flaming_skull",
+            "max_ammo" : 1000,
+            "fake_str" : 4,
+            "fake_dex" : 11,
+            "fake_per" : 7,
+            "fake_skills" : [["gun", 1], ["pistol", 0]],
+            "move_cost" : 100,
+            "targeting_cost" : 300,
+            "range" : 1,
+            "description" : "A tongue of flame licks out from the lost soul!",
+            "targeting_sound" : "skaaah!",
+            "targeting_volume" : 10,
+            "no_ammo_sound" : "skiiiissh"
+        }],
+    "starting_ammo": { "flaming_skull": 66},
     "description":"Fastened in place with metal spikes, chains, and nails, this flaming skull is literally a living lamp.",
     "flags":["SEES", "STUMBLES", "FLIES", "POISON", "NO_BREATHE", "NOGIB", "HARDTOSHOOT", "FIREY", "IMMOBILE"]
     },{
@@ -503,6 +707,64 @@
         ["FEAR_PARALYZE", 10]],
     "description":"All evidence indicates that this used to be a survivor, who was killed by torture and body reanimated. Its garments lack the weathered look of other zombies but are mutilated none-the-less.  Although it struggles to free itself, it is held fast with spikes, nails, and chains.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_doom_archvile",
+    "name": "archvile",
+    "species":"ABERRATION",
+    "default_faction":"doom_upper",
+    "symbol":"A",
+    "color":"i_dkgray",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":30,
+    "aggression":5,
+    "morale":200,
+    "speed":120,
+    "melee_skill":8,
+    "melee_dice":3,
+    "melee_dice_sides":9,
+    "melee_cut":0,
+    "dodge":3,
+    "armor_bash":15,
+    "armor_cut":15,
+    "vision_day":50,
+    "vision_night":5,
+    "hp":200,
+    "death_function":["NORMAL"],
+    "special_attacks":[["RESURRECT", 0]],
+    "description":"A sickly yellow, elongated humanoid.  With almost complete control over its own flames it attacks with pyrokinesis and breathes life into its fallen allies.",
+    "flags":["SEES", "HEARS", "WARM", "POISON", "NO_BREATHE", "BONES"],
+    "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_doom_archdemon",
+    "name": "archdemon",
+    "species":"ABERRATION",
+    "default_faction":"doom_upper",
+    "symbol":"O",
+    "color":"i_dkgray",
+    "size":"HUGE",
+    "material":"spess_plastic",
+    "diff":50,
+    "aggression":100,
+    "morale":200,
+    "speed":100,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":30,
+    "armor_cut":30,
+    "armor_acid":20,
+    "armor_fire":20,
+    "vision_day":50,
+    "vision_night":50,
+    "hp":300,
+    "death_function":["JABBERWOCKY", "EXPLODE"],
+    "description":"A massive face cross-sectioned with large machinery; various tubes of bubbling liquid bury themselves and reemerge from pustulating wounds. Its forehead has been removed, exposing a pulsating brain mass from which sound eminates.",
+    "flags":["SEES", "WARM", "POISON", "NO_BREATHE", "IMMOBILE", "ELECTRIC"]
     }
 
 ]
