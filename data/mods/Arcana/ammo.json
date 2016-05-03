@@ -8,7 +8,7 @@
         "name_plural" : "essence",
         "symbol" : "=",
         "color" : "blue",
-        "description" : "A strange glowing mote of wispy vapor.  It gives off a soothing warmth and feels suprisingly solid, almost alive even.",
+        "description" : "A strange glowing mote of wispy vapor.  It gives off a soothing warmth and feels surprisingly solid, almost alive even.",
         "material" : "essencemat",
         "volume" : 0,
         "weight" : 0,

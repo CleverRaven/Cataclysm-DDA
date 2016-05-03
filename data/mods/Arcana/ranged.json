@@ -70,7 +70,7 @@
       "symbol" : "(",
       "color" : "green",
       "name" : "wraithslayer crossbow",
-      "description" : "A crossbow decorated with golden symbols, seemingly lacking a bowstring.  Instead it propels bright green bolts of energy, with signifigant armor penetration.",
+      "description" : "A crossbow decorated with golden symbols, seemingly lacking a bowstring.  Instead it propels bright green bolts of energy, with significant armor penetration.",
       "price" : 85300,
       "material" : ["steel", "wood", "gold"],
       "skill" : "magic",
