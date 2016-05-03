@@ -23,28 +23,38 @@ void draw_exam_window( WINDOW *win, const int border_y )
     mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );
 }
 
-void show_mutations_titlebar( WINDOW *window, std::string &menu_mode )
+const auto shortcut = []( const std::string &s )
+{
+    return string_format( "<color_yellow>%s</color>", s.c_str() );
+};
+
+void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_context &ctxt )
 {
     werase( window );
 
-    std::string caption = _( "MUTATIONS -" );
-    int cap_offset = utf8_width( caption ) + 1;
-    mvwprintz( window, 0,  0, c_blue, "%s", caption.c_str() );
-
-    std::string desc;
-    int desc_length = getmaxx( window ) - cap_offset;
-
+    std::ostringstream desc;
+    const int width = getmaxx( window );
     if( menu_mode == "reassigning" ) {
-        desc = _( "Reassigning.\nSelect a mutation to reassign or press SPACE to cancel." );
-    } else if( menu_mode == "activating" ) {
-        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>=</color> to reassign." );
-    } else if( menu_mode == "examining" ) {
-        desc = _( "<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>=</color> to reassign." );
+        desc << _( "Reassigning." ) << "  " <<
+             _( "Select a mutation to reassign or press <color_yellow>SPACE</color> to cancel. " );
     }
-    fold_and_print( window, 0, cap_offset, desc_length, c_white, desc );
-    fold_and_print( window, 1, 0, desc_length, c_white,
-                    _( "Might need to use ? to assign the keys." ) );
+    if( menu_mode == "activating" ) {
+        desc << "<color_green>" << _( "Activating" ) << "</color>  " <<
+             shortcut( ctxt.get_desc( "TOGGLE_EXAMINE" ).c_str() ) <<
+             _( " to examine mutation, " );
+    }
+    if( menu_mode == "examining" ) {
+        desc << "<color_ltblue>" << _( "Examining" ) << "</color>  " <<
+             shortcut( ctxt.get_desc( "TOGGLE_EXAMINE" ).c_str() ) <<
+             _( " to activate mutation, " );
+    }
+    if( menu_mode != "reassigning" ) {
+        desc << shortcut( ctxt.get_desc( "REASSIGN" ).c_str() ) <<
+             _( " to reassign invlet, " );
+    }
+    desc << shortcut( ctxt.get_desc( "HELP_KEYBINDINGS" ) ) << _( " to assign the hotkeys." );
 
+    fold_and_print( window, 0, 1, width - 1, c_white, desc.str() );
     wrefresh( window );
 }
 
@@ -133,7 +143,7 @@ void player::power_mutations()
             redraw = false;
 
             werase( wBio );
-            draw_border( wBio );
+            draw_border( wBio, BORDER_COLOR, _( " MUTATIONS " ) );
             // Draw line under title
             mvwhline( wBio, HEADER_LINE_Y, 1, LINE_OXOX, WIDTH - 2 );
             // Draw symbols to connect additional lines to border
@@ -210,7 +220,7 @@ void player::power_mutations()
             }
         }
         wrefresh( wBio );
-        show_mutations_titlebar( w_title, menu_mode );
+        show_mutations_titlebar( w_title, menu_mode, ctxt );
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
         if( menu_mode == "reassigning" ) {
