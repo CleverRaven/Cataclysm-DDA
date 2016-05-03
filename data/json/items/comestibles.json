@@ -2601,8 +2601,8 @@
         "price" : 500, "//" : "*May* have been commercially traded.",
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
-        "stack_size" : 2,
+        "charges" : 2,
+        "stack_size" : 4,
         "fun" : -18
     },
     {
@@ -2620,8 +2620,8 @@
         "price" : 500,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
-        "stack_size" : 2,
+        "stack_size" : 4,
+        "charges" : 2,
         "fun" : -18
     },
     {
@@ -3203,8 +3203,8 @@
         "price" : 0, "//" : "Not for use in edible/foodsafe recipes.  Inefficiency is handled by tainted tallow recipe requiring 200% as much materials input as regular tallow recipe.",
         "material" : "junk",
         "volume" : 1,
-        "charges" : 1,
-        "stack_size" : 2,
+        "charges" : 2,
+        "stack_size" : 4,
         "fun" : -18
     },
     {
@@ -9846,6 +9846,7 @@
         "price" : 40,
         "material" : "oil",
         "volume" : 1,
+        "charges" : 2,
         "phase" : "liquid",
         "fun" : -4
     },
