@@ -2479,6 +2479,21 @@
 },
 {
   "type" : "recipe",
+  "result": "chem_hydrogen_peroxide",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_CHEMICALS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "result_mult": 5,
+  "time": 1000,
+  "autolearn": true,
+  "components": [
+    [ [ "chem_hydrogen_peroxide_conc", 1 ] ],
+    [ [ "water_clean", 4 ] ]
+  ]
+},
+{
+  "type" : "recipe",
   "result": "chem_sulphuric_acid",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
