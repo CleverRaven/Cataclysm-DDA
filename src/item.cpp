@@ -4351,16 +4351,12 @@ item::reload_option::reload_option( const player *who, const item *target, const
         max_qty = this->who->charges_of( this->target->type->magazine->linkage );
     }
 
-    long amt = 1;
+    // magazine, ammo or ammo container
+    item& tmp = this->ammo->is_ammo_container() ? this->ammo->contents.front() : *this->ammo;
 
-    if( this->ammo->is_ammo_container() ) {
-        amt = this->ammo->contents[ 0 ].charges;
+    long amt = tmp.is_ammo() ? tmp.charges : 1;
 
-    } else if( this->ammo->is_ammo() ) {
-        amt = this->ammo->charges;
-    }
-
-    if( this->target->is_gun() && this->target->magazine_integral() ) {
+    if( this->target->is_gun() && this->target->magazine_integral() && tmp.made_of( SOLID ) ) {
         amt = 1; // guns with integral magazines reload one round at a time
     }
 
