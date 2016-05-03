@@ -81,6 +81,11 @@ const auto separator = []( std::ostringstream &s )
     return s.tellp() != 0 ? ", " : "";
 };
 
+const auto num_in_parentheses = []( size_t i )
+{
+    return i > 0 ? string_format( "(%i)", i ) : "";
+};
+
 //builds the power usage string of a given bionic
 std::string build_bionic_poweronly_string( bionic const &bio )
 {
@@ -119,6 +124,28 @@ std::string build_bionic_powerdesc_string( bionic const &bio )
         power_desc << ", " << power_string;
     }
     return power_desc.str();
+}
+
+void show_bionics_tabs( WINDOW *win, size_t active_num, size_t passive_num,
+                        bionic_tab_mode current_mode )
+{
+    werase( win );
+
+    int width = getmaxx( win );
+    mvwhline( win, 2, 0, LINE_OXOX, width );
+
+    std::ostringstream active_tab_name;
+    active_tab_name << _( "ACTIVE" ) << num_in_parentheses( active_num );
+    std::ostringstream passive_tab_name;
+    passive_tab_name << _( "PASSIVE" ) << num_in_parentheses( passive_num );
+
+    const int tab_step = 3;
+    int tab_x = 1;
+    draw_tab( win, tab_x, active_tab_name.str(), current_mode == TAB_ACTIVE );
+    tab_x += tab_step + utf8_width( active_tab_name.str() );
+    draw_tab( win, tab_x, passive_tab_name.str(), current_mode == TAB_PASSIVE );
+
+    wrefresh( win );
 }
 
 void show_description( WINDOW *win, bionic &bio )
@@ -253,22 +280,6 @@ void player::power_bionics()
 
     //generate the tab title string and a count of the bionics owned
     bionic_menu_mode menu_mode = ACTIVATING;
-    std::ostringstream tabname;
-    // @todo should be updated in recalc conditional branch
-    tabname << _( "ACTIVE" );
-    if( !active.empty() ) {
-        tabname << "(" << active.size() << ")";
-    }
-    std::string active_tab_name = tabname.str();
-    tabname.str( "" );
-    tabname << _( "PASSIVE" );
-    if( !passive.empty() ) {
-        tabname << "(" << passive.size() << ")";
-    }
-    std::string passive_tab_name = tabname.str();
-    const int tabs_start = 1;
-    const int tab_step = 3;
-
     // offset for display: bionic with index i is drawn at y=list_start_y+i
     // drawing the bionics starts with bionic[scroll_position]
     const int list_start_y = HEADER_LINE_Y;// - scroll_position;
@@ -352,19 +363,8 @@ void player::power_bionics()
             draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
         }
         wrefresh( wBio );
-
-        //handle tab drawing after main window is refreshed
-        werase( w_tabs );
-        int width = getmaxx( w_tabs );
-        mvwhline( w_tabs, 2, 0, LINE_OXOX, width );
-        int tab_x = tabs_start;
-        draw_tab( w_tabs, tab_x, active_tab_name, tab_mode == TAB_ACTIVE );
-        tab_x += tab_step + utf8_width( active_tab_name );
-        draw_tab( w_tabs, tab_x, passive_tab_name, tab_mode == TAB_PASSIVE );
-        wrefresh( w_tabs );
-
+        show_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
         show_bionics_titlebar( w_title, this, menu_mode );
-
         if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
             show_description( w_description, *( *current_bionic_list )[cursor] );
         }
