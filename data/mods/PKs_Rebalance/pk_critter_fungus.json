@@ -32,11 +32,14 @@
     "type" : "MONSTER",
     "id" : "mon_fungaloid_young",
     "edit-mode" : "modify",
-    "aggression":-10,
+    "aggression":-20,
     "special_attacks":[["FUNGUS_GROWTH", 300]],
     "flags":["HEARS", "SMELLS", "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED"],
-    "//" : "Giving them sight would make them much better at aggroing, since the anger tags depend on perception and a 3x3 box around them isn't exactly giving them that detection."
+    "upgrades":{
+      "into": "mon_fungaloid_pk",
+      "half_life": 3
+    }
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid",
@@ -68,7 +71,7 @@
       "into": "mon_fant",
       "half_life": 21
       },
-    "death_function":["FUNGUS"],
+    "death_function":["FUNGUS", "NORMAL"],
     "special_attacks":[["FUNGUS_INJECT", 30], ["GRAB", 30], ["FUNGUS", 300]],
     "anger_triggers":["HURT", "FRIEND_ATTACKED"],
       "//" : "The vanilla fungal ants are pretty awful at everything.  I get why, considering the real-world examples, but I'm trying to create a more combat-intensive experience while still having the interesting.  So they evolve now."
@@ -114,8 +117,8 @@
     "armor_cut":0,
     "hp":3,
     "upgrades":{
-      "into": "mon_fungaloid_young",
-      "half_life": 7
+      "into": "mon_fungaloid_pk",
+      "half_life": 3
     },
     "death_function": ["DISINTEGRATE", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS"],
     "special_attacks":[["PLANT", 60], ["SUICIDE", 90]],
