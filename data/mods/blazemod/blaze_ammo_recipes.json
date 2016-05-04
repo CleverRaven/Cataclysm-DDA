@@ -366,7 +366,7 @@
       [ "bone_glue", 1 ]
     ]
   ]
-}, 
+},
 {
         "type" : "recipe",
   "result": "hbolt_boom",
@@ -395,7 +395,7 @@
       [ "bone_glue", 1 ]
     ]
   ]
-}, 
+},
 {
         "type" : "recipe",
   "result": "hbolt_boom2",
@@ -416,7 +416,6 @@
     ],
     [
       [ "canbomb2", 1 ]
-      
     ],
     [
       [ "string_36", 1 ],

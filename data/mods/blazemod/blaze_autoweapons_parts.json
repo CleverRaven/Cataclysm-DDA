@@ -644,7 +644,6 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "breaks_into" : [
-
             {"item": "scrap", "count": [8, 12]},
             {"item": "cable", "charges": [12, 40]},
             {"item": "e_scrap", "count": [6, 20]},
@@ -791,5 +790,3 @@
         ]
     }
 ]
-
-
