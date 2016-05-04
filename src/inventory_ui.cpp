@@ -154,6 +154,8 @@ class inventory_selector
         size_t middle_column_offset;
         size_t right_column_width;
         size_t right_column_offset;
+        /** For Grid Mode: how far down the user has scrolled */
+        size_t grid_scroll;
         bool inCategoryMode;
         /** Allow selecting several items for dropping. And show selected items in the
          * right column. */
@@ -166,6 +168,7 @@ class inventory_selector
         const item_category worn_cat;
 
         void print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const;
+        void print_bar(int y, int x, int carried, int capacity) const;
         void print_left_column() const;
         void print_middle_column() const;
         void print_right_column() const;
@@ -187,6 +190,7 @@ class inventory_selector
         void set_to_drop(int it_pos, int count);
         void print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected,
                           size_t current_page_offset) const;
+        void print_grid(const itemstack_vector &worn, const itemstack_vector &inv, size_t selected) const;
         void prepare_paging(itemstack_vector &items);
 };
 
@@ -253,25 +257,72 @@ void inventory_selector::prepare_paging(itemstack_vector &items)
 void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carried,
         int vol_capacity) const
 {
-    // Print weight
-    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units());
-    nc_color weight_color;
-    if (weight_carried > g->u.weight_capacity()) {
-        weight_color = c_red;
-    } else {
-        weight_color = c_ltgray;
-    }
-    wprintz(w_inv, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
-    wprintz(w_inv, c_ltgray, "/%-6.1f", convert_weight(g->u.weight_capacity()));
+    if(OPTIONS["INV_DISPLAY"] == "list") {
+        // Print weight
+        mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units());
+        nc_color weight_color = c_ltgray;
+        if (weight_carried > g->u.weight_capacity()) {
+            weight_color = c_red;
+        }
+        wprintz(w_inv, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
+        wprintz(w_inv, c_ltgray, "/%-6.1f", convert_weight(g->u.weight_capacity()));
 
-    // Print volume
-    mvwprintw(w_inv, 0, 61, _("Volume: "));
-    if (vol_carried > vol_capacity) {
-        wprintz(w_inv, c_red, "%3d", vol_carried);
-    } else {
-        wprintz(w_inv, c_ltgray, "%3d", vol_carried);
+        // Print volume
+        mvwprintw(w_inv, 0, 61, _("Volume: "));
+        if (vol_carried > vol_capacity) {
+            wprintz(w_inv, c_red, "%3d", vol_carried);
+        } else {
+            wprintz(w_inv, c_ltgray, "%3d", vol_carried);
+        }
+        wprintw(w_inv, "/%-3d", vol_capacity);
+    } else if(OPTIONS["INV_DISPLAY"] == "grid") {
+        // Print weight
+        mvwprintw(w_inv, 0, TERMX - 41, _("Weight: "));
+        nc_color weight_color = c_ltgray;
+        if (weight_carried > g->u.weight_capacity()) {
+            weight_color = c_red;
+        }
+        wprintz(w_inv, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
+        wprintz(w_inv, c_ltgray, "/%-6.1f %s", convert_weight(g->u.weight_capacity()), _(weight_units()));
+        wmove(w_inv, 0, TERMX - 15);
+        wprintz(w_inv, c_ltgray, "[............]");
+        print_bar(0, TERMX - 14, weight_carried, g->u.weight_capacity());
+        
+        // Print volume
+        mvwprintw(w_inv, 1, TERMX - 41, _("Volume: "));
+        wmove(w_inv, 1, TERMX - 30);
+        if (vol_carried > vol_capacity) {
+            wprintz(w_inv, c_red, "%3d", vol_carried);
+        } else {
+            wprintz(w_inv, c_ltgray, "%3d", vol_carried);
+        }
+        wprintw(w_inv, "/%-3d", vol_capacity);
+        wmove(w_inv, 1, TERMX - 15);
+        wprintz(w_inv, c_ltgray, "[............]");
+        print_bar(1, TERMX - 14, vol_carried, vol_capacity);
     }
-    wprintw(w_inv, "/%-3d", vol_capacity);
+}
+
+void inventory_selector::print_bar(int y, int x, int carried, int capacity) const {
+    wmove(w_inv, y, x);
+    int barsize = static_cast<int>((carried * 24.0) / capacity);
+    nc_color color = c_green;
+    if(barsize > 4) { color = c_ltgreen; }
+    if(barsize > 9) { color = c_yellow; }
+    if(barsize > 13) { color = c_ltred; }
+    if(barsize > 18) { color = c_red; }
+    
+    std::stringstream bar;
+    bar.str("");
+    
+    for(int i = 0; i < 12; i++) {
+        if(barsize > (i*2)) {
+            bar << "|";
+        } else if(barsize == (i*2)-1) {
+            bar << "\\";
+        } else break;
+    }
+    wprintz(w_inv, color, bar.str().c_str());
 }
 
 char invlet_or_space(const item &it)
@@ -402,14 +453,275 @@ void inventory_selector::print_right_column() const
     }
 }
 
+void inventory_selector::print_grid(const itemstack_vector &worn, const itemstack_vector &inv, size_t selected) const {
+    
+    nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
+        
+    int curr_line = 3 - grid_scroll; // Always expected to start at the fourth row
+    int total_height = 0;
+    
+    size_t row_width = (TERMX - 2)/25; // How many cells can fit in a row
+                                    // First two columns are scrollbar, then the leftmost cell border
+                                    // Cells are 25 columns wide, including the right cell border
+    size_t row_i = 0; // How far along the row we are
+    bool cat_continued = false; // Whether or not we wrapped this row
+    bool had_first_cat = false;
+    
+    //player &u = g->u;
+    
+    // First we want to print out worn stuff
+    for(size_t a = 0; a < worn.size(); a++) {
+        const itemstack_or_category &cur_entry = worn[a];
+        if(cur_entry.category == NULL) { // Blank object, skip over
+            continue;
+        }
+        if(cur_entry.it == NULL) { // This is a category header, print out category
+            if(had_first_cat) {
+                curr_line += 6; // Already printed first category, skip 5 lines
+                total_height += 6;
+            } else {
+                had_first_cat = true; // Printing first category, put right at top
+            }
+            const std::string name = cur_entry.category->name;
+            if(curr_line >= 3 && curr_line < TERMY) {
+                center_print(w_inv, curr_line, c_magenta, _("--- %s ---"), name.c_str()); // Center print header
+            }
+            curr_line++; // Move down a line
+            total_height++; // Track added height
+            row_i = 0; // Restart counting along row
+            cat_continued = false;
+            continue;
+        }
+        
+        const item &it = *cur_entry.it; // This is an item
+        
+        nc_color fill = (a == selected) ? selected_line_color : c_white;
+        
+        // Render the cell
+        if(curr_line >= 3 && curr_line < TERMY) {  // Top line
+        
+            // Cell Border Stuff
+            if(row_i == 0) {
+                mvwputch(w_inv, curr_line, 1, c_white, cat_continued ? LINE_XXXO : LINE_OXXO);
+            } else {
+                mvwputch(w_inv, curr_line, 1 + (row_i * 25), c_white, cat_continued ? LINE_XXXX : LINE_OXXX);
+            }
+            if(!cat_continued) { // This is a continuation, no need to render top line
+                for(char x = 2; x < 26; x++) {
+                    mvwputch(w_inv, curr_line, x + (row_i * 25), c_white, LINE_OXOX);
+                }
+                mvwputch(w_inv, curr_line, 26 + (row_i * 25), c_white, LINE_OOXX);
+            } else { // Just edit the top right corner
+                mvwputch(w_inv, curr_line, 26 + (row_i * 25), c_white, LINE_XOXX);
+            }
+            // End Cell Border Stuff
+        }
+        
+        std::string item_name = it.label(); // Get object's display name
+        size_t count = 1;
+        if(cur_entry.slice != NULL) {
+            count = cur_entry.slice->size();
+            if(count > 1) {
+                item_name = it.label(count);
+            }
+        }
+        
+        if(curr_line >= 2 && curr_line + 1 < TERMY) {  // Second line
+            // Cell Border Stuff
+            if(row_i == 0) {
+                mvwputch(w_inv, curr_line + 1, 1, c_white, LINE_XOXO);
+            }
+            for(char x = 2; x < 26; x++) {
+                mvwputch(w_inv, curr_line + 1, x + (row_i * 25), fill, ' ');
+            }
+            mvwputch(w_inv, curr_line + 1, 26 + (row_i * 25), c_white, LINE_XOXO);
+            // End Cell Border Stuff
+        
+            if(it.invlet != 0) {
+                mvwputch(w_inv, curr_line + 1, 2 + (row_i * 25), fill, it.invlet);
+            }
+            
+            if(count > 1) {
+                mvwprintz(w_inv, curr_line + 1, 3 + (row_i * 25), fill, "%22ux", count);
+            }
+            
+            if(OPTIONS["ITEM_HEALTH_BAR"] && (it.damage != 0 || it.is_armor()) && !it.is_null()) {
+                auto const &nc_text = get_item_hp_bar(damage);
+                mvwprintz(w_inv, curr_line + 1, 6 + (row_i * 25), nc_text.second, nc_text.first.c_str());
+            }
+            
+            // TODO: Add in mod count at 10
+        }
+        
+        if(curr_line >= 1 && curr_line + 2 < TERMY) {  // Third line
+            // Cell Border Stuff
+            if(row_i == 0) {
+                mvwputch(w_inv, curr_line + 2, 1, c_white, LINE_XOXO);
+            }
+            for(char x = 2; x < 26; x++) {
+                mvwputch(w_inv, curr_line + 2, x + (row_i * 25), fill, ' ');
+            }
+            mvwputch(w_inv, curr_line + 2, 26 + (row_i * 25), c_white, LINE_XOXO);
+            // End Cell Border Stuff
+            
+        }
+        
+        if(curr_line >= 0 && curr_line + 3 < TERMY) {  // Fourth line
+            // Cell Border Stuff
+            if(row_i == 0) {
+                mvwputch(w_inv, curr_line + 3, 1, c_white, LINE_XOXO);
+            }
+            for(char x = 2; x < 26; x++) {
+                mvwputch(w_inv, curr_line + 3, x + (row_i * 25), fill, ' ');
+            }
+            mvwputch(w_inv, curr_line + 3, 26 + (row_i * 25), c_white, LINE_XOXO);
+            // End Cell Border Stuff
+            
+            std::string tagtext = it.get_item_tags(false);
+        }
+        
+        if(curr_line >= -1 && curr_line + 4 < TERMY) {  // Bottom line
+            mvwputch(w_inv, curr_line + 4, 1 + (row_i * 25), c_white, (row_i == 0) ? LINE_XXOO : LINE_XXOX);
+            for(char x = 2; x < 26; x++) {
+                mvwputch(w_inv, curr_line + 4, x + (row_i * 25), c_white, LINE_OXOX);
+            }
+            mvwputch(w_inv, curr_line + 4, 26 + (row_i * 25), c_white, LINE_XOOX);
+        }
+        
+        if(++row_i >= row_width) {
+            row_i = 0;
+            curr_line += 4;
+            cat_continued = true;
+        }
+    }
+    
+    // Bit of spacer between worn and carried...
+    curr_line += 2;
+    total_height += 2;
+    
+    // Then the carried stuff
+    for(size_t a = 0; a < inv.size(); a++) {
+        const itemstack_or_category &cur_entry = inv[a];
+        if(cur_entry.category == NULL) { // Blank object, skip over
+            continue;
+        }
+        if(cur_entry.it == NULL) { // This is a category header, print out category
+            if(had_first_cat) {
+                curr_line += 5; // Already printed first category, skip 5 lines
+                total_height += 5;
+            } else {
+                had_first_cat = true; // Printing first category, put right at top
+            }
+            const std::string name = cur_entry.category->name;
+            if(curr_line >= 3 && curr_line < TERMY) {
+                center_print(w_inv, curr_line, c_magenta, _("--- %s ---"), name.c_str()); // Center print header
+            }
+            curr_line++; // Move down a line
+            total_height++; // Track added height
+            row_i = 0; // Restart counting along row
+            cat_continued = false;
+            continue;
+        }
+        
+        const item &it = *cur_entry.it; // This is an item
+        
+        nc_color fill = (a + worn.size() == selected) ? selected_line_color : c_white;
+        
+        // Render the cell
+        if(curr_line >= 3 && curr_line < TERMY) {  // Top line
+        
+            // Cell Border Stuff
+            if(row_i == 0) {
+                mvwputch(w_inv, curr_line, 1, c_white, cat_continued ? LINE_XXXO : LINE_OXXO);
+            } else {
+                mvwputch(w_inv, curr_line, 1 + (row_i * 25), c_white, cat_continued ? LINE_XXXX : LINE_OXXX);
+            }
+            if(!cat_continued) { // This is a continuation, no need to render top line
+                for(char x = 2; x < 26; x++) {
+                    mvwputch(w_inv, curr_line, x + (row_i * 25), c_white, LINE_OXOX);
+                }
+                mvwputch(w_inv, curr_line, 26 + (row_i * 25), c_white, LINE_OOXX);
+            } else { // Just edit the top right corner
+                mvwputch(w_inv, curr_line, 26 + (row_i * 25), c_white, LINE_XOXX);
+            }
+            // End Cell Border Stuff
+        }
+        
+        std::string item_name = ""; // Get object's display name
+        size_t count = 1;
+        if(cur_entry.slice != NULL) {
+            count = cur_entry.slice->size();
+            if(count > 1) {
+                item_name = it.tname(count);
+            }
+        }
+        
+        if(curr_line >= 2 && curr_line + 1 < TERMY) {  // Second line
+            // Cell Border Stuff
+            if(row_i == 0) {
+                mvwputch(w_inv, curr_line + 1, 1, c_white, LINE_XOXO);
+            }
+            for(char x = 2; x < 26; x++) {
+                mvwputch(w_inv, curr_line + 1, x + (row_i * 25), fill, ' ');
+            }
+            mvwputch(w_inv, curr_line + 1, 26 + (row_i * 25), c_white, LINE_XOXO);
+            // End Cell Border Stuff
+        
+            if(it.invlet != 0) {
+                mvwputch(w_inv, curr_line + 1, 2 + (row_i * 25), fill, it.invlet);
+            }
+            
+            if(count > 1) {
+                mvwprintz(w_inv, curr_line + 1, 3 + (row_i * 25), fill, "%22ux", count);
+            }
+        }
+        
+        if(curr_line >= 1 && curr_line + 2 < TERMY) {  // Third line
+            // Cell Border Stuff
+            if(row_i == 0) {
+                mvwputch(w_inv, curr_line + 2, 1, c_white, LINE_XOXO);
+            }
+            for(char x = 2; x < 26; x++) {
+                mvwputch(w_inv, curr_line + 2, x + (row_i * 25), fill, ' ');
+            }
+            mvwputch(w_inv, curr_line + 2, 26 + (row_i * 25), c_white, LINE_XOXO);
+            // End Cell Border Stuff
+            
+        }
+        
+        if(curr_line >= 0 && curr_line + 3 < TERMY) {  // Fourth line
+            // Cell Border Stuff
+            if(row_i == 0) {
+                mvwputch(w_inv, curr_line + 3, 1, c_white, LINE_XOXO);
+            }
+            for(char x = 2; x < 26; x++) {
+                mvwputch(w_inv, curr_line + 3, x + (row_i * 25), fill, ' ');
+            }
+            mvwputch(w_inv, curr_line + 3, 26 + (row_i * 25), c_white, LINE_XOXO);
+            // End Cell Border Stuff
+        }
+        
+        if(curr_line >= -1 && curr_line + 4 < TERMY) {  // Bottom line
+            mvwputch(w_inv, curr_line + 4, 1 + (row_i * 25), c_white, (row_i == 0) ? LINE_XXOO : LINE_XXOX);
+            for(char x = 2; x < 26; x++) {
+                mvwputch(w_inv, curr_line + 4, x + (row_i * 25), c_white, LINE_OXOX);
+            }
+            mvwputch(w_inv, curr_line + 4, 26 + (row_i * 25), c_white, LINE_XOOX);
+        }
+        
+        if(++row_i >= row_width) {
+            row_i = 0;
+            curr_line += 4;
+            cat_continued = true;
+        }
+    }
+}
+
 void inventory_selector::display(bool show_worn) const
 {
-    const size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
-    if (multidrop) {
-        mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
-    }
+    
     std::string msg_str;
     nc_color msg_color;
     if (inCategoryMode) {
@@ -419,17 +731,8 @@ void inventory_selector::display(bool show_worn) const
         msg_str = _("Item selection; [TAB] switches mode, arrows select.");
         msg_color = h_white;
     }
-    mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str),
+    mvwprintz(w_inv, TERMY - 1, TERMX - (utf8_width(msg_str) + 1),
               msg_color, msg_str.c_str());
-    print_left_column();
-    if(show_worn) {
-        print_middle_column();
-    }
-    print_right_column();
-    const size_t max_size = in_inventory ? items.size() : worn.size();
-    const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
-    mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
-              max_pages);
     if (multidrop) {
         // Make copy, remove to be dropped items from that
         // copy and let the copy recalculate the volume capacity
@@ -450,9 +753,38 @@ void inventory_selector::display(bool show_worn) const
     } else {
         print_inv_weight_vol(g->u.weight_carried(), g->u.volume_carried(), g->u.volume_capacity());
     }
-    if (!multidrop && !compare) {
-        mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "),
-                  g->u.allocated_invlets().size(), inv_chars.size());
+    
+    if(OPTIONS["INV_DISPLAY"] == "list") {
+        const size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
+        if (multidrop) {
+            mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
+        }
+        print_left_column();
+        if(show_worn) {
+            print_middle_column();
+        }
+        print_right_column();
+        const size_t max_size = in_inventory ? items.size() : worn.size();
+        const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
+        mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
+                  max_pages);
+        if (!multidrop && !compare) {
+            mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "),
+                      g->u.allocated_invlets().size(), inv_chars.size());
+        }
+        
+    } else if(OPTIONS["INV_DISPLAY"] == "grid") {
+        if (multidrop) {
+            if(TERMX > 100)
+                mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
+            else
+                mvwprintw(w_inv, 2, 0, _("To drop x items, type a number and then the item hotkey."));
+        }
+        if (!multidrop && !compare) {
+            mvwprintw(w_inv, 1, 0, _("( Hotkeys:  %d/%d )"),
+                      g->u.allocated_invlets().size(), inv_chars.size());
+        }
+        print_grid(worn, items, selected_i);
     }
     wrefresh(w_inv);
 }
@@ -480,31 +812,54 @@ inventory_selector::inventory_selector(bool m, bool c, const std::string &t)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
 {
     w_inv = newwin(TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X);
-    if (compare || multidrop) {
-        left_column_width = 40;
-        left_column_offset = 0;
-        middle_column_width = std::min<int>( TERMX - left_column_width - 1, 40 );
-        right_column_width = std::max<int>( 0, TERMX - left_column_width - middle_column_width - 2 );
-    } else {
-        left_column_width = TERMX / 2;
-        left_column_offset = 0;
-        middle_column_width = TERMX - left_column_width - 1;
-        right_column_width = 0;
+    if (OPTIONS["INV_DISPLAY"] == "list") {
+        if (compare || multidrop) {
+            left_column_width = 40;
+            left_column_offset = 0;
+            middle_column_width = std::min<int>( TERMX - left_column_width - 1, 40 );
+            right_column_width = std::max<int>( 0, TERMX - left_column_width - middle_column_width - 2 );
+        } else {
+            left_column_width = TERMX / 2;
+            left_column_offset = 0;
+            middle_column_width = TERMX - left_column_width - 1;
+            right_column_width = 0;
+        }
+        middle_column_offset = left_column_width + left_column_offset + 1;
+        right_column_offset = middle_column_width + middle_column_offset + 1;
+        ctxt.register_action("DOWN", _("Next item"));
+        ctxt.register_action("UP", _("Previous item"));
+        ctxt.register_action("RIGHT", _("Confirm"));
+        ctxt.register_action("LEFT", _("Switch inventory/worn"));
+        ctxt.register_action("CONFIRM", _("Mark selected item"));
+        ctxt.register_action("QUIT", _("Cancel"));
+        ctxt.register_action("CATEGORY_SELECTION");
+        ctxt.register_action("NEXT_TAB", _("Page down"));
+        ctxt.register_action("PREV_TAB", _("Page up"));
+        ctxt.register_action("HELP_KEYBINDINGS");
+        // For invlets
+        ctxt.register_action("ANY_INPUT");
+    } else if (OPTIONS["INV_DISPLAY"] == "grid") {
+        grid_scroll = 0;
+        
+        ctxt.register_action("DOWN", _("Move selector down"));
+        ctxt.register_action("UP", _("Move selector up"));
+        ctxt.register_action("RIGHT", _("Move selector right"));
+        ctxt.register_action("LEFT", _("Move selector left"));
+        if(compare)
+            ctxt.register_action("CONFIRM", _("Select for comparison"));
+        else if(multidrop)
+            ctxt.register_action("CONFIRM", _("Select for drop"));
+        else
+            ctxt.register_action("CONFIRM", _("Examine"));
+        ctxt.register_action("QUIT", _("Cancel"));
+        ctxt.register_action("CATEGORY_SELECTION");
+        ctxt.register_action("NEXT_TAB", _("Scroll down"));
+        ctxt.register_action("PREV_TAB", _("Scroll up"));
+        ctxt.register_action("HELP_KEYBINDINGS");
+        // For invlets
+        ctxt.register_action("ANY_INPUT");
+        
     }
-    middle_column_offset = left_column_width + left_column_offset + 1;
-    right_column_offset = middle_column_width + middle_column_offset + 1;
-    ctxt.register_action("DOWN", _("Next item"));
-    ctxt.register_action("UP", _("Previous item"));
-    ctxt.register_action("RIGHT", _("Confirm"));
-    ctxt.register_action("LEFT", _("Switch inventory/worn"));
-    ctxt.register_action("CONFIRM", _("Mark selected item"));
-    ctxt.register_action("QUIT", _("Cancel"));
-    ctxt.register_action("CATEGORY_SELECTION");
-    ctxt.register_action("NEXT_TAB", _("Page down"));
-    ctxt.register_action("PREV_TAB", _("Page up"));
-    ctxt.register_action("HELP_KEYBINDINGS");
-    // For invlets
-    ctxt.register_action("ANY_INPUT");
 
     player &u = g->u;
     if (u.is_armed()) {

@@ -987,6 +987,12 @@ void options_manager::init()
                                      _("If true, show item symbols in inventory and pick up menu."),
                                      false
                                     );
+    optionNames["grid"] = _("Grid");
+    optionNames["list"] = _("List");
+    OPTIONS["INV_DISPLAY"] = cOpt("interface", _("Inventory display method"),
+                                     _("Grid: Show the inventory in a single column, items laid out in a grid.  List: Show the inventory in two columns, items laid out in a list."),
+                                     "grid,list", "list"
+                                     );
 
     mOptionsSort["interface"]++;
 

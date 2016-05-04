@@ -222,13 +222,21 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @param with_prefix determines whether to include more item properties, such as
      * the extent of damage and burning (was created to sort by name without prefix
      * in additional inventory)
+     * @param with_tags determines whether to include the tagtext (was created to
+     * highlight key information in the grid view)
      */
-    std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
+    std::string tname( unsigned int quantity = 1, bool with_prefix = true, bool with_tags = true ) const;
     /**
      * Returns the item name and the charges or contained charges (if the item can have
-     * charges at at all). Calls @ref tname with given quantity and with_prefix being true.
+     * charges at at all). Calls @ref tname with given quantity, with_prefix being true, and
+     * with_tags dependent upon view style in inventory.
      */
-    std::string display_name( unsigned int quantity = 1) const;
+    std::string display_name( unsigned int quantity = 1 ) const;
+    /**
+     * Returns a listing of all the player-visible tags on an item.  Created for use with grid view.
+     * @param parens indicates whether to wrap each tag's text in parens ( '(' and ')' ).
+     */
+    std::string get_item_tags(bool parens = true) const;
     /**
      * Return all the information about the item and its type. This includes the different
      * properties of the @ref itype (if they are visible to the player). The returned string

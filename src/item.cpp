@@ -2068,7 +2068,7 @@ void item::on_pickup( Character &p  )
     }
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, bool with_tags ) const
 {
     std::stringstream ret;
 
@@ -2188,49 +2188,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     const it_comest* food_type = NULL;
     std::string tagtext = "";
+    if(with_tags) { 
+        tagtext = get_item_tags(true);
+    }
     std::string modtext = "";
     ret.str("");
-    if (is_food())
-    {
-        food_type = dynamic_cast<const it_comest*>(type);
-
-        if (food_type->spoils != 0)
-        {
-            if(rotten()) {
-                ret << _(" (rotten)");
-            } else if ( is_going_bad()) {
-                ret << _(" (old)");
-            } else if ( rot < 100 ) {
-                ret << _(" (fresh)");
-            }
-        }
-        if (has_flag("HOT")) {
-            ret << _(" (hot)");
-            }
-        if (has_flag("COLD")) {
-            ret << _(" (cold)");
-            }
-    }
-
-    if (has_flag("FIT")) {
-        ret << _(" (fits)");
-    }
-
-    if (is_tool() && has_flag("USE_UPS")){
-        ret << _(" (UPS)");
-    }
-    if (is_tool() && has_flag("RADIO_MOD")){
-        ret << _(" (radio:");
-        if( has_flag( "RADIOSIGNAL_1" ) ) {
-            ret << _("R)");
-        } else if( has_flag( "RADIOSIGNAL_2" ) ) {
-            ret << _("B)");
-        } else if( has_flag( "RADIOSIGNAL_3" ) ) {
-            ret << _("G)");
-        } else {
-            ret << _("Bug");
-        }
-    }
 
     if (has_flag("ATOMIC_AMMO")) {
         modtext += _( "atomic " );
@@ -2239,26 +2201,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( gunmod_find( "barrel_small" ) ) {
         modtext += _( "sawn-off ");
     }
-
-    if(has_flag("WET"))
-       ret << _(" (wet)");
-
-    if(has_flag("LITCIG"))
-        ret << _(" (lit)");
-
-    if( already_used_by_player( g->u ) ) {
-        ret << _( " (used)" );
-    }
-
-    if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 || type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
-        // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
-        // in their name, also food is active while it rots.
-        ret << _( " (active)" );
-    }
-
-    tagtext = ret.str();
-
-    ret.str("");
 
     //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet) (fits)").
     ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(),
@@ -2275,7 +2217,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 std::string item::display_name(unsigned int quantity) const
 {
-    std::string name = tname(quantity);
+    std::string name = tname(quantity, true, OPTIONS["INV_DISPLAY"] == "grid");
     std::string side = "";
     std::string qty  = "";
 
@@ -2304,6 +2246,74 @@ std::string item::display_name(unsigned int quantity) const
     }
 
     return string_format("%s%s%s", name.c_str(), side.c_str(), qty.c_str());
+}
+
+std::string item::get_item_tags(bool parens) const
+{
+    std::string rtn;
+    std::stringstream ret;
+    ret.str("");
+    
+    if (is_food()) {
+        food_type = dynamic_cast<const it_comest*>(type);
+
+        if (food_type->spoils != 0)
+        {
+            if(rotten()) {
+                ret << _(parens ? " (rotten)" : " ROTTEN");
+            } else if ( is_going_bad()) {
+                ret << _(parens ? " (old)" : " OLD");
+            } else if ( rot < 100 ) {
+                ret << _(parens ? " (fresh)" : " FRESH");
+            }
+        }
+        if (has_flag("HOT")) {
+            ret << _(parens ? " (hot)" : " HOT");
+            }
+        if (has_flag("COLD")) {
+            ret << _(parens ? " (cold)" : " COLD");
+            }
+    }
+
+    if (has_flag("FIT")) {
+        ret << _(parens ? " (fits)" : " FITS");
+    }
+
+    if (is_tool() && has_flag("USE_UPS")) {
+        ret << _(parens ? " (UPS)" : " UPS");
+    }
+    if (is_tool() && has_flag("RADIO_MOD")) {
+        ret << _(parens ? " (radio:" : " Radio");
+        if( has_flag( "RADIOSIGNAL_1" ) ) {
+            ret << _(parens ? " R)" : "R");
+        } else if( has_flag( "RADIOSIGNAL_2" ) ) {
+            ret << _(parens ? " B)" : "B");
+        } else if( has_flag( "RADIOSIGNAL_3" ) ) {
+            ret << _(parens ? " G)" : "G");
+        } else {
+            ret << _(parens ? "Bug" : "Err");
+        }
+    }
+
+    if(has_flag("WET"))
+        ret << _(parens ? " (wet)" : " WET");
+
+    if(has_flag("LITCIG"))
+        ret << _(parens ? " (lit)" : " LIT");
+
+    if( already_used_by_player( g->u ) ) {
+        ret << _(parens ? " (used)" : " USED" );
+    }
+
+    if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 || type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
+        // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
+        // in their name, also food is active while it rots.
+        ret << _(parens ? " (active)" : " ACTIVE" );
+    }
+
+    rtn = ret.str();
+    ret.str("");
+    return rtn;
 }
 
 nc_color item::color() const
