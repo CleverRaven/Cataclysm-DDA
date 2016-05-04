@@ -206,7 +206,7 @@
         "effects" : ["COOKOFF", "NEVER_MISFIRES"]
     },{
         "type" : "AMMO",
-        "id" : "556", 
+        "id" : "556",
         "price" : 3500,
         "name" : "light rifle ammo",
         "name_plural" : "light rifle ammo",
@@ -251,7 +251,7 @@
         "effects" : ["COOKOFF", "INCENDIARY", "NEVER_MISFIRES"]
    },{
        "type" : "AMMO",
-        "id" : "308", 
+        "id" : "308",
         "price" : 2700,
         "name" : "handloaded rifle ammo",
         "name_plural" : "hand loaded rifle ammo",
@@ -274,7 +274,7 @@
         "effects" : ["COOKOFF", "NEVER_MISFIRES"]
    },{
        "type" : "AMMO",
-        "id" : "762_51", 
+        "id" : "762_51",
         "price" : 2700,
         "name" : "rifle ammo",
         "name_plural" : "rifle ammo",
