@@ -774,10 +774,11 @@ void inventory_selector::display(bool show_worn) const
         
     } else if(OPTIONS["INV_DISPLAY"] == "grid") {
         if (multidrop) {
-            if(TERMX > 100)
+            if(TERMX > 100) {
                 mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
-            else
+            } else {
                 mvwprintw(w_inv, 2, 0, _("To drop x items, type a number and then the item hotkey."));
+            }
         }
         if (!multidrop && !compare) {
             mvwprintw(w_inv, 1, 0, _("( Hotkeys:  %d/%d )"),

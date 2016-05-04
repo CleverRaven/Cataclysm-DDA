@@ -2253,59 +2253,58 @@ std::string item::get_item_tags(bool parens) const
     
     if (is_food()) {
         if(rotten()) {
-            ret << _(parens ? " (rotten)" : " ROTTEN");
+            ret << parens ? _(" (rotten)") : _(" ROTTEN");
         } else if ( is_going_bad()) {
-            ret << _(parens ? " (old)" : " OLD");
+            ret << parens ? _(" (old)") : _(" OLD");
         } else if ( is_fresh() ) {
-            ret << _(parens ? " (fresh)" : " FRESH");
+            ret << parens ? _(" (fresh)") : _(" FRESH");
         }
         
         if (has_flag("HOT")) {
-            ret << _(parens ? " (hot)" : " HOT");
+            ret << parens ? _(" (hot)") : _(" HOT");
             }
         if (has_flag("COLD")) {
-            ret << _(parens ? " (cold)" : " COLD");
+            ret << parens ? _(" (cold)") : _(" COLD");
             }
     }
 
     if (has_flag("FIT")) {
-        ret << _(parens ? " (fits)" : " FITS");
+        ret << parens ? _(" (fits)") : _(" FITS");
     }
 
     if (is_tool() && has_flag("USE_UPS")) {
-        ret << _(parens ? " (UPS)" : " UPS");
+        ret << parens ? _(" (UPS)") : _(" UPS");
     }
     if (is_tool() && has_flag("RADIO_MOD")) {
-        ret << _(parens ? " (radio:" : " Radio");
+        ret << parens ? _(" (radio:") : _(" Radio");
         if( has_flag( "RADIOSIGNAL_1" ) ) {
-            ret << _(parens ? "R)" : "R");
+            ret << parens ? _("R)") : _("R");
         } else if( has_flag( "RADIOSIGNAL_2" ) ) {
-            ret << _(parens ? "B)" : "B");
+            ret << parens ? _("B)") : _("B");
         } else if( has_flag( "RADIOSIGNAL_3" ) ) {
-            ret << _(parens ? "G)" : "G");
+            ret << parens ? _("G)") : _("G");
         } else {
-            ret << _(parens ? "Bug" : "Err");
+            ret << parens ? _("Bug") : _("Err");
         }
     }
 
     if(has_flag("WET"))
-        ret << _(parens ? " (wet)" : " WET");
+        ret << parens ? _(" (wet)") : _(" WET");
 
     if(has_flag("LITCIG"))
-        ret << _(parens ? " (lit)" : " LIT");
+        ret << parens ? _(" (lit)") : _(" LIT");
 
     if( already_used_by_player( g->u ) ) {
-        ret << _(parens ? " (used)" : " USED" );
+        ret << parens ? _(" (used)") : _(" USED" );
     }
 
     if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 || type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
-        ret << _(parens ? " (active)" : " ACTIVE" );
+        ret << parens ? _(" (active)") : _(" ACTIVE" );
     }
 
     rtn = ret.str();
-    ret.str("");
     return rtn;
 }
 
