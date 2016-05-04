@@ -33,28 +33,28 @@ void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_cont
     werase( window );
 
     std::ostringstream desc;
-    const int width = getmaxx( window );
     if( menu_mode == "reassigning" ) {
         desc << _( "Reassigning." ) << "  " <<
              _( "Select a mutation to reassign or press <color_yellow>SPACE</color> to cancel. " );
     }
     if( menu_mode == "activating" ) {
         desc << "<color_green>" << _( "Activating" ) << "</color>  " <<
-             shortcut( ctxt.get_desc( "TOGGLE_EXAMINE" ).c_str() ) <<
-             _( " to examine mutation, " );
+             string_format( _( "%s to examine mutation, " ),
+                            shortcut( ctxt.get_desc( "TOGGLE_EXAMINE" ).c_str() ).c_str() );
     }
     if( menu_mode == "examining" ) {
         desc << "<color_ltblue>" << _( "Examining" ) << "</color>  " <<
-             shortcut( ctxt.get_desc( "TOGGLE_EXAMINE" ).c_str() ) <<
-             _( " to activate mutation, " );
+             string_format( _( "%s to activate mutation, " ),
+                            shortcut( ctxt.get_desc( "TOGGLE_EXAMINE" ).c_str() ).c_str() );
     }
     if( menu_mode != "reassigning" ) {
-        desc << shortcut( ctxt.get_desc( "REASSIGN" ).c_str() ) <<
-             _( " to reassign invlet, " );
+        desc << string_format( _( "%s to reassign invlet, " ),
+                               shortcut( ctxt.get_desc( "REASSIGN" ).c_str() ).c_str() );
     }
-    desc << shortcut( ctxt.get_desc( "HELP_KEYBINDINGS" ) ) << _( " to assign the hotkeys." );
+    desc << string_format( _( "%s to assign the hotkeys." ),
+                           shortcut( ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ).c_str() ) ;
+    fold_and_print( window, 0, 1, getmaxx( window ) - 1, c_white, desc.str() );
 
-    fold_and_print( window, 0, 1, width - 1, c_white, desc.str() );
     wrefresh( window );
 }
 
