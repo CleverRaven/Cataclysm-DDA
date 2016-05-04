@@ -209,6 +209,10 @@ void npc_chatbin::check_missions()
 
 void npc::talk_to_u()
 {
+    if( g->u.is_dead_state() ) {
+        attitude = NPCATT_NULL;
+        return;
+    }
     const bool has_mind_control = g->u.has_trait( "DEBUG_MIND_CONTROL" );
     // This is necessary so that we don't bug the player over and over
     if( attitude == NPCATT_TALK ) {
