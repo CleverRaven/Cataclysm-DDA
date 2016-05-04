@@ -89,6 +89,7 @@ const efftype_id effect_dazed( "dazed" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_fearparalyze( "fearparalyze" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_grabbed( "grabbed" );
@@ -2589,17 +2590,16 @@ bool mattack::fear_paralyze(monster *z)
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if (g->u.sees( *z )) {
+    if ( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
         if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.is_wearing("tinfoil_hat") && one_in(4))) {
             add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
         ///\EFFECT_INT decreases chance of being paralyzed by fear attack
-        } else if (rng(1, 20) > g->u.int_cur) {
-            add_msg(m_bad, _("The terrifying visage of the %s paralyzes you."),
-                    z->name().c_str());
-            g->u.moves -= 100;
+        } else if ( rng(0, 20) > g->u.get_int() ) {
+            add_msg( m_bad, _("The terrifying visage of the %s paralyzes you."), z->name().c_str() );
+            g->u.add_effect( effect_fearparalyze, 5 );
+            g->u.moves -= 400;
         } else
-            add_msg(_("You manage to avoid staring at the horrendous %s."),
-                    z->name().c_str());
+            add_msg( _("You manage to avoid staring at the horrendous %s."), z->name().c_str() );
     }
 
     return true;

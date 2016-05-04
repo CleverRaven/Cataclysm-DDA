@@ -550,7 +550,8 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
     player &patient = *p;
     hp_part healed = (hp_part)act->values[0];
     long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
-    p->reduce_charges( act->position, charges_consumed );
+    p->consume_charges( it, charges_consumed );
+
     // Erase activity and values.
     act->type = ACT_NULL;
     act->values.clear();

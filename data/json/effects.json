@@ -1278,6 +1278,13 @@
     },
     {
         "type": "effect_type",
+        "id": "fearparalyze",
+        "name": ["Feared"],
+        "desc": ["You have been paralyzed by the fear."],
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
         "id": "asthma",
         "name": [
             "Asthma",

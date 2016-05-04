@@ -17,6 +17,8 @@
 
 #include <fstream>
 
+using namespace std::placeholders;
+
 #define SAVE_MASTER "master.gsav"
 #define SAVE_EXTENSION ".sav"
 
@@ -72,9 +74,9 @@ worldfactory::worldfactory()
     mman_ui.reset( new mod_ui( mman.get() ) );
 
     // prepare tab display order
-    tabs.push_back(&worldfactory::show_worldgen_tab_modselection);
-    tabs.push_back(&worldfactory::show_worldgen_tab_options);
-    tabs.push_back(&worldfactory::show_worldgen_tab_confirm);
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1, _2));
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_confirm, this, _1, _2));
 
     tab_strings.push_back(_("Mods to use"));
     tab_strings.push_back(_("World Gen Options"));
@@ -106,7 +108,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         while (curtab >= 0 && curtab < numtabs) {
             lasttab = curtab;
             draw_worldgen_tabs(wf_win, curtab);
-            curtab += (world_generator->*tabs[curtab])(wf_win, retworld);
+            curtab += tabs[curtab](wf_win, retworld);
 
             if (curtab < 0) {
                 if (!query_yn(_("Do you want to abort World Generation?"))) {

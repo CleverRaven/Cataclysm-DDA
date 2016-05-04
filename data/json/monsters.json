@@ -2480,8 +2480,8 @@
     "dodge":0,
     "armor_bash":3,
     "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
+    "vision_day":5,
+    "vision_night":5,
     "death_drops": "default_zombie_death_drops",
     "burn_into" : "mon_zombie_scorched",
     "hp":60,
@@ -2494,7 +2494,7 @@
         }
     ],
     "description":"Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
-    "flags":["SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
+    "flags":["SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer",

@@ -1058,6 +1058,24 @@ The contents of use_action fields can either be a string indicating a built-in f
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
     "message": "You add roads and tourist attractions to your map." // Displayed after the revelation.
+},
+"use_action": {
+    "type" : "heal",        // Heal damage, possibly some statuses
+    "limb_power" : 10,      // How much hp to restore when healing limbs? Mandatory value
+    "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
+    "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
+    "bleed" : 0.4,          // Chance to remove bleed effect.
+    "bite" : 0.95           // Chance to remove bite effect.
+    "infect" : 0.1          // Chance to remove infected effect.
+    "move_cost" : 250       // Cost in moves to use the item.
+    "long_action" : true,   // Is using this item a long action. Setting this to true will divide move cost by (first aid skill + 1).
+    "limb_scaling" : 1.2,   // How much extra limb hp should be healed per first aid level. Defaults to 0.25 * limb_power.
+    "head_scaling" : 1.0,   // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * head_power.
+    "torso_scaling" : 2.0,  // How much extra limb hp should be healed per first aid level. Defaults to (limb_scaling / limb_power) * torso_power.
+    "effects" : [           // Effects to apply to patient on finished healing. Same syntax as in consume_drug effects.
+        { "id" : "pkill1", "duration" : 120 }
+    ],
+    "used_up_item" : "rag_bloody" // Item produced on successful healing. If the healing item is a tool, it is turned into the new type. Otherwise a new item is produced.
 }
 ```
 ###Random descriptions
