@@ -238,8 +238,8 @@ class input_manager
 
         int input_timeout;
 
-        t_input_event_list &get_event_list( const std::string &action_descriptor,
-                                            const std::string &context );
+        t_input_event_list &get_or_create_event_list( const std::string &action_descriptor,
+                const std::string &context );
         void remove_input_for_action( const std::string &action_descriptor, const std::string &context );
         void add_input_for_action( const std::string &action_descriptor, const std::string &context,
                                    const input_event &event );
@@ -349,9 +349,18 @@ class input_context
 
         /**
          * Get a description text for the key/other input method associated
-         * with the given action.
+         * with the given action. If there are multiple bound keys, no more
+         * than max_limit will be described in the result.
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param max_limit No more than max_limit bound keys will be
+         *                  described in the returned description. A value of
+         *                  0 indicates no limit.
          */
-        const std::string get_desc( const std::string &action_descriptor );
+        const std::string get_desc( const std::string &action_descriptor,
+                                    const unsigned int max_limit = 0 );
 
         /**
          * Handles input and returns the next action in the queue.

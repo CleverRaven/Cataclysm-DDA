@@ -118,37 +118,33 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                 continue;
             }
 
-            const auto tool = dynamic_cast<const it_tool *>( actual_item->type );
-            const use_function *ufunc = actual_item->get_use( use );
-            // Can't just test for charges_per_use > charges, because charges can be -1
-            if( ufunc == nullptr ||
-                ( ufunc->get_actor_ptr() != nullptr &&
-                  !ufunc->get_actor_ptr()->can_use( &p, actual_item, false, p.pos() ) ) ||
-                ( tool != nullptr && tool->charges_per_use > 0 &&
-                  tool->charges_per_use > actual_item->charges ) ) {
+            const use_function *func = actual_item->get_use( use );
+            if( !( func && func->get_actor_ptr() &&
+                   func->get_actor_ptr()->can_use( &p, actual_item, false, p.pos() ) ) ) {
+                continue;
+            }
+            if( actual_item->ammo_remaining() < actual_item->ammo_required() ) {
                 continue;
             }
 
             // Add to usable items if it needs less charges per use or has less charges
             auto found = candidates.find( use );
-            int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
             bool better = false;
             if( found == candidates.end() ) {
                 better = true;
             } else {
-                const auto other = dynamic_cast<const it_tool *>( found->second->type );
-                if( other == nullptr || would_use_charges > other->charges_per_use ) {
+                if( actual_item->ammo_required() > found->second->ammo_required() ) {
                     continue; // Other item consumes less charges
                 }
 
-                if( found->second->charges > actual_item->charges ) {
+                if( found->second->ammo_remaining() > actual_item->ammo_remaining() ) {
                     better = true; // Items with less charges preferred
                 }
             }
 
             if( better ) {
                 candidates[use] = i;
-                if( would_use_charges == 0 ) {
+                if( actual_item->ammo_required() == 0 ) {
                     to_remove.insert( use );
                 }
             }
@@ -223,13 +219,10 @@ void game::item_action_menu()
     kmenu.callback = &callback;
     int num = 0;
     for( auto &p : iactions ) {
-        const auto tool = dynamic_cast<const it_tool *>( p.second->type );
-        int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
-
         std::stringstream ss;
         ss << gen.get_action_name( p.first ) << " [" << p.second->display_name();
-        if( would_use_charges > 0 ) {
-            ss << " (" << would_use_charges << '/' << p.second->charges << ')';
+        if( p.second->ammo_required() ) {
+            ss << " (" << p.second->ammo_required() << '/' << p.second->ammo_remaining() << ')';
         }
         ss << "]";
 

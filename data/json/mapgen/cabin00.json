@@ -67,7 +67,7 @@
                 { "item": "camping", "chance": 70, "x": 19, "y": [16,19] },
                 { "item": "dresser", "chance": 70, "x": 16, "y": 10 },
                 { "item": "dresser", "chance": 70, "x": 19, "y": 10 },
-                { "item": "tools", "chance": 70, "x": [5,9], "y": 3 },
+                { "item": "tools_earthworking", "chance": 70, "x": [5,9], "y": 3 },
                 { "item": "bed", "chance": 60, "x": [17,18], "y": [10,11] }
             ],
             "place_monsters": [
@@ -172,7 +172,7 @@
                 { "item": "kitchen", "chance": 60, "x": 7, "y": 15 },
                 { "item": "dining", "chance": 60, "x": [3,4], "y": [11,12] },
                 { "item": "trash", "chance": 60, "x": [0,23], "y": [0,23] },
-                { "item": "survival_tools", "chance": 30, "x": 3, "y": [4,9] },
+                { "item": "gear_survival", "chance": 30, "x": 3, "y": [4,9] },
                 { "item": "cannedfood", "chance": 50, "x": 3, "y": [4,9] },
                 { "item": "camping", "chance": 50, "x": [4,6], "y": [4,9] },
                 { "item": "magazines", "chance": 60, "x": [14,17], "y": 9 },

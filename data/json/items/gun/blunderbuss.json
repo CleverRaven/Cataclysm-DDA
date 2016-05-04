@@ -1,0 +1,29 @@
+[
+  {
+    "id": "blunderbuss",
+    "type": "GUN",
+    "name": "blunderbuss",
+    "name_plural": "blunderbusses",
+    "description": "A homemade version of a crude precursor to the shotgun.  Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
+    "weight": 8267,
+    "volume": 12,
+    "price": 15000,
+    "bashing": 12,
+    "to_hit": -1,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "skill": "shotgun",
+    "ammo": "blunderbuss",
+    "dispersion": 555,
+    "sight_dispersion": 150,
+    "aim_speed": 0,
+    "recoil": 350,
+    "durability": 3,
+    "loudness": 200,
+    "clip_size": 1,
+    "reload": 300,
+    "valid_mod_locations": [ [ "stock", 1 ] ],
+    "flags": [ "RELOAD_ONE" ]
+  }
+]

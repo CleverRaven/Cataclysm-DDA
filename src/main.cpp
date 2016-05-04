@@ -58,6 +58,7 @@ int main(int argc, char *argv[])
     int seed = time(NULL);
     bool verifyexit = false;
     bool check_all_mods = false;
+    std::string dump;
 
     // Set default file paths
 #ifdef PREFIX
@@ -107,6 +108,18 @@ int main(int argc, char *argv[])
                 section_default,
                 [&check_all_mods](int, const char **) -> int {
                     check_all_mods = true;
+                    return 0;
+                }
+            },
+            {
+                "--dump-stats", "<what>",
+                "Dumps item stats",
+                section_default,
+                [&dump](int n, const char *params[]) -> int {
+                    if(n != 1 ) {
+                        return -1;
+                    }
+                    dump = params[ 0 ];
                     return 0;
                 }
             },
@@ -390,6 +403,10 @@ int main(int argc, char *argv[])
             }
             exit_handler(0);
         }
+        if( ! dump.empty() ) {
+            g->dump_stats( dump );
+            exit_handler( 0 );
+        }
         if (check_all_mods) {
             // Here we load all the mods and check their
             // consistency (both is done in check_all_mod_data).
@@ -494,16 +511,6 @@ void exit_handler(int s)
     if (s != 2 || query_yn(_("Really Quit? All unsaved changes will be lost."))) {
         erase(); // Clear screen
 
-        int ret;
-#if (defined _WIN32 || defined WINDOWS)
-        ret = system("cls"); // Tell the terminal to clear itself
-        ret = system("color 07");
-#else
-        ret = system("clear"); // Tell the terminal to clear itself
-#endif
-        if (ret != 0) {
-            DebugLog( D_ERROR, DC_ALL ) << "system(\"clear\"): error returned: " << ret;
-        }
         deinitDebug();
 
         int exit_status = 0;

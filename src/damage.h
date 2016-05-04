@@ -13,6 +13,7 @@
 
 struct itype;
 struct tripoint;
+struct explosion_data;
 class item;
 class monster;
 class Creature;
@@ -104,15 +105,21 @@ struct projectile {
         void set_drop( item &&it );
         void unset_drop();
 
+        const explosion_data &get_custom_explosion() const;
+        void set_custom_explosion( const explosion_data &ex );
+        void unset_custom_explosion();
+
         projectile();
         projectile( const projectile & );
         projectile( projectile && ) = default;
         projectile &operator=( const projectile & );
+        ~projectile();
 
     private:
         // Actual item used (to drop contents etc.).
         // Null in case of bullets (they aren't "made of cartridges").
         std::unique_ptr<item> drop;
+        std::unique_ptr<explosion_data> custom_explosion;
 };
 
 struct dealt_projectile_attack {

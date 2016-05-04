@@ -19,7 +19,6 @@
 #include "overmapbuffer.h"
 #include "compatibility.h"
 #include "translations.h"
-#include "morale.h"
 #include "coordinates.h"
 #include "npc.h"
 #include "vehicle.h"
@@ -667,7 +666,7 @@ void editmap::update_view( bool update_info )
         } else if( veh ) {
             mvwprintw( w_info, off, 1, _( "There is a %s there. Parts:" ), veh->name.c_str() );
             off++;
-            veh->print_part_desc( w_info, off, width, veh_part );
+            veh->print_part_desc( w_info, off, getmaxy( w_info ) - 1, width, veh_part );
             off += 6;
         }
 

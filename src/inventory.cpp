@@ -450,7 +450,7 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
     for( const tripoint &p : g->m.points_in_radius( origin, range ) ) {
         if (g->m.has_furn( p ) && g->m.accessible_furniture( origin, p, range )) {
             const furn_t &f = g->m.furn_at( p );
-            itype *type = f.crafting_pseudo_item_type();
+            const itype *type = f.crafting_pseudo_item_type();
             if (type != NULL) {
                 item furn_item(type->id, 0);
                 const itype *ammo = f.crafting_ammo_item_type();
@@ -662,7 +662,7 @@ std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
 
 item inventory::remove_item(const item *it)
 {
-    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    auto tmp = remove_items_with( [&it](const item& i) { return &i == it; }, 1 );
     if( !tmp.empty() ) {
         return tmp.front();
     }
@@ -837,33 +837,6 @@ std::vector<std::pair<item *, int> > inventory::all_items_by_type(itype_id type)
     return ret;
 }
 
-int inventory::amount_of(itype_id it) const
-{
-    return amount_of(it, true);
-}
-
-int inventory::amount_of(itype_id it, bool used_as_tool) const
-{
-    int count = 0;
-    for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
-            count += elem_stack_iter.amount_of( it, used_as_tool );
-        }
-    }
-    return count;
-}
-
-long inventory::charges_of(itype_id it) const
-{
-    int count = 0;
-    for( const auto &elem : items ) {
-        for( const auto &elem_stack_iter : elem ) {
-            count += elem_stack_iter.charges_of( it );
-        }
-    }
-    return count;
-}
-
 std::list<item> inventory::use_amount(itype_id it, int _quantity)
 {
     long quantity = _quantity; // Don't wanny change the function signature right now
@@ -888,28 +861,6 @@ std::list<item> inventory::use_amount(itype_id it, int _quantity)
     return ret;
 }
 
-std::list<item> inventory::use_charges(itype_id it, long quantity)
-{
-    sort();
-    std::list<item> ret;
-    for (invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */) {
-        for (std::list<item>::iterator stack_iter = iter->begin();
-             stack_iter != iter->end() && quantity > 0; /* noop */) {
-            if (stack_iter->use_charges(it, quantity, ret)) {
-                stack_iter = iter->erase(stack_iter);
-            } else {
-                ++stack_iter;
-            }
-        }
-        if (iter->empty()) {
-            iter = items.erase(iter);
-        } else if (iter != items.end()) {
-            ++iter;
-        }
-    }
-    return ret;
-}
-
 bool inventory::has_tools(itype_id it, int quantity) const
 {
     return has_amount(it, quantity, true);
@@ -918,16 +869,6 @@ bool inventory::has_tools(itype_id it, int quantity) const
 bool inventory::has_components(itype_id it, int quantity) const
 {
     return has_amount(it, quantity, false);
-}
-
-bool inventory::has_amount(itype_id it, int quantity) const
-{
-    return has_amount(it, quantity, true);
-}
-
-bool inventory::has_amount(itype_id it, int quantity, bool used_as_tool) const
-{
-    return (amount_of(it, used_as_tool) >= quantity);
 }
 
 bool inventory::has_charges(itype_id it, long quantity) const
@@ -1086,7 +1027,7 @@ void inventory::rust_iron_items()
 {
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
-            if( elem_stack_iter.made_of( "iron" ) &&
+            if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF_GUN" ) &&
                 !elem_stack_iter.has_flag( "WATERPROOF" ) && elem_stack_iter.damage < 5 &&
                 one_in( 500 ) ) {
@@ -1187,26 +1128,4 @@ std::set<char> inventory::allocated_invlets() const
         }
     }
     return invlets;
-}
-
-std::vector<item *> inventory::items_with( const std::function<bool(const item&)>& filter ) {
-    std::vector<item *> res;
-    visit_items( [&res, &filter]( item *node ) {
-        if( filter( *node ) ) {
-            res.emplace_back( node );
-        }
-        return VisitResponse::NEXT;
-    });
-    return res;
-}
-
-std::vector<const item *> inventory::items_with( const std::function<bool(const item&)>& filter ) const {
-    std::vector<const item *> res;
-    visit_items_const( [&res, &filter]( const item *node ) {
-        if( filter( *node ) ) {
-            res.emplace_back( node );
-        }
-        return VisitResponse::NEXT;
-    });
-    return res;
 }

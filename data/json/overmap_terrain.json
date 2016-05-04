@@ -742,7 +742,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "s_teashop",
-        "name" : "teashop shop",
+        "name" : "teashop",
         "rotate" : true,
         "sym" : [94, 62, 118, 60],
         "color" : "white_magenta",
@@ -1360,7 +1360,7 @@
     },{
         "type" : "overmap_terrain",
         "id" : "car_corner_aban1",
-        "name" : "green",
+        "name" : "car corner",
         "sym" : 70,
         "rotate" : true,
         "color" : "green",
@@ -1832,7 +1832,6 @@
         "mondensity" : 2,
         "mapgen": [
             { "method": "builtin", "name": "basement_junk" },
-            { "method": "builtin", "name": "basement_survivalist" },
             { "method": "builtin", "name": "basement_chemlab" },
             { "method": "builtin", "name": "basement_game" },
             { "method": "builtin", "name": "basement_weed" },

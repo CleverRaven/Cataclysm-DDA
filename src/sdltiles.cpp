@@ -321,11 +321,17 @@ bool WinCreate()
         window_flags |= SDL_WINDOW_FULLSCREEN;
     } else if (OPTIONS["FULLSCREEN"] == "windowedbl") {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
+    }
+
+    int display = OPTIONS["DISPLAY"];
+    if ( display < 0 || display >= SDL_GetNumVideoDisplays() ) {
+        display = 0;
     }
 
     window = SDL_CreateWindow(version.c_str(),
-            SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED,
+            SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
+            SDL_WINDOWPOS_CENTERED_DISPLAY( display ),
             WindowWidth,
             WindowHeight,
             window_flags
@@ -655,6 +661,23 @@ void set_displaybuffer_rendertarget()
     if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
         dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
     }
+}
+
+// Populate a map with the available video displays and their name
+void find_videodisplays() {
+    std::map<int, std::string> displays;
+
+    int numdisplays = SDL_GetNumVideoDisplays();
+    for( int i = 0 ; i < numdisplays ; i++ ) {
+        displays.insert( { i, SDL_GetDisplayName( i ) } );
+    }
+
+    int current_display = OPTIONS["DISPLAY"];
+
+    OPTIONS["DISPLAY"] = options_manager::cOpt("graphics", _("Display"),
+                              _("Sets which video display will be used to show the game. Requires restart."),
+                              displays, current_display, 0, options_manager::COPT_CURSES_HIDE
+                              );
 }
 
 // line_id is one of the LINE_*_C constants
@@ -1514,6 +1537,8 @@ WINDOW *curses_init(void)
     if(!InitSDL()) {
         return NULL;
     }
+
+    find_videodisplays();
 
     TERMINAL_WIDTH = OPTIONS["TERMINAL_X"];
     TERMINAL_HEIGHT = OPTIONS["TERMINAL_Y"];

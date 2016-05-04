@@ -107,7 +107,7 @@
                 { "item": "cannedfood", "chance": 50, "x": [ 2,4 ],   "y": [ 10,10 ] },
                 { "item": "pasta",      "chance": 50, "x": [ 2,4 ],   "y": [ 10,10 ] },
                 { "item": "stash_food", "chance": 50, "x": [ 6,8 ],   "y": [ 10,10 ] },
-                { "item": "allguns",    "chance": 50, "x": [ 9,9 ],   "y": [ 15,15 ] },
+                { "item": "guns_pistol_common", "chance": 50, "x": [ 9,9 ], "y": [ 15,15 ], "magazine": 100, "ammo": 50 },
                 { "item": "ammo",       "chance": 50, "x": [ 13,13 ], "y": [ 15,15 ] },
                 { "item": "camping",    "chance": 70, "x": [ 10,11 ], "y": [ 15,15 ] },
                 { "item": "homebooks",  "chance": 60, "x": [ 13,13 ], "y": [ 9,12 ] },

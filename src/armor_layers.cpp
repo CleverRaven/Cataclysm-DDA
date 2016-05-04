@@ -5,14 +5,13 @@
 #include "output.h"
 #include "item.h"
 #include "translations.h"
+#include "npc.h"
 
 #include <vector>
 #include <string>
 
 namespace
 {
-void draw_mid_pane( WINDOW *win, item const &worn_item );
-
 std::string clothing_layer( item const &worn_item );
 std::vector<std::string> clothing_properties( item const &worn_item, int width );
 std::vector<std::string> clothing_flags_description( item const &worn_item );
@@ -139,16 +138,37 @@ struct layering_item_info {
     }
 };
 
-std::vector<layering_item_info> items_cover_bp( int bp )
+std::vector<layering_item_info> items_cover_bp( const Character &c, int bp )
 {
     std::vector<layering_item_info> s;
-    for( auto &elem : g->u.worn ) {
+    for( auto &elem : c.worn ) {
         if( elem.covers( static_cast<body_part>( bp ) ) ) {
             layering_item_info t = {elem.damage, elem.get_encumber(), elem.type_name( 1 )};
             s.push_back( t );
         }
     }
     return s;
+}
+
+void draw_grid( WINDOW *w, int left_pane_w, int mid_pane_w )
+{
+    const int win_w = getmaxx( w );
+    const int win_h = getmaxy( w );
+
+    draw_border( w );
+    mvwhline( w, 2, 1, 0, win_w - 2 );
+    mvwvline( w, 3, left_pane_w + 1, 0, win_h - 4 );
+    mvwvline( w, 3, left_pane_w + mid_pane_w + 2, 0, win_h - 4 );
+
+    // intersections
+    mvwputch( w, 2, 0, BORDER_COLOR, LINE_XXXO );
+    mvwputch( w, 2, win_w - 1, BORDER_COLOR, LINE_XOXX );
+    mvwputch( w, 2, left_pane_w + 1, BORDER_COLOR, LINE_OXXX );
+    mvwputch( w, win_h - 1, left_pane_w + 1, BORDER_COLOR, LINE_XXOX );
+    mvwputch( w, 2, left_pane_w + mid_pane_w + 2, BORDER_COLOR, LINE_OXXX );
+    mvwputch( w, win_h - 1, left_pane_w + mid_pane_w + 2, BORDER_COLOR, LINE_XXOX );
+
+    wrefresh( w );
 }
 
 void player::sort_armor()
@@ -213,19 +233,7 @@ void player::sort_armor()
 
     // Layout window
     WINDOW *w_sort_armor = newwin( win_h, win_w, win_y, win_x );
-    draw_border( w_sort_armor );
-    mvwhline( w_sort_armor, 2, 1, 0, win_w - 2 );
-    mvwvline( w_sort_armor, 3, left_w + 1, 0, win_h - 4 );
-    mvwvline( w_sort_armor, 3, left_w + middle_w + 2, 0, win_h - 4 );
-    // intersections
-    mvwhline( w_sort_armor, 2, 0, LINE_XXXO, 1 );
-    mvwhline( w_sort_armor, 2, win_w - 1, LINE_XOXX, 1 );
-    mvwvline( w_sort_armor, 2, left_w + 1, LINE_OXXX, 1 );
-    mvwvline( w_sort_armor, win_h - 1, left_w + 1, LINE_XXOX, 1 );
-    mvwvline( w_sort_armor, 2, left_w + middle_w + 2, LINE_OXXX, 1 );
-    mvwvline( w_sort_armor, win_h - 1, left_w + middle_w + 2, LINE_XXOX, 1 );
-    wrefresh( w_sort_armor );
-
+    draw_grid( w_sort_armor, left_w, middle_w );
     // Subwindows (between lines)
     WINDOW *w_sort_cat    = newwin( 1, win_w - 4, win_y + 1, win_x + 2 );
     WINDOW *w_sort_left   = newwin( cont_h, left_w,   win_y + 3, win_x + 1 );
@@ -246,7 +254,7 @@ void player::sort_armor()
     ctxt.register_action( "ASSIGN_INVLETS" );
     ctxt.register_action( "EQUIP_ARMOR" );
     ctxt.register_action( "REMOVE_ARMOR" );
-    ctxt.register_action( "HELP" );
+    ctxt.register_action( "USAGE_HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     bool exit = false;
@@ -280,7 +288,9 @@ void player::sort_armor()
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str() );
-        tmp_str = string_format( _( "Press %s for help." ), ctxt.get_desc( "HELP" ).c_str() );
+        tmp_str = string_format( _( "Press %s for help. Press %s to change keybindings." ),
+                                 ctxt.get_desc( "USAGE_HELP" ).c_str(),
+                                 ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
         mvwprintz( w_sort_cat, 0, win_w - utf8_width( tmp_str ) - 4,
                    c_white, tmp_str.c_str() );
 
@@ -352,16 +362,17 @@ void player::sort_armor()
         rightListSize = 0;
         for( int cover = 0, pos = 1; cover < num_bp; cover++ ) {
             bool combined = false;
-            if( cover > 3 && cover % 2 == 0 && items_cover_bp( cover ) == items_cover_bp( cover + 1 ) ) {
+            if( cover > 3 && cover % 2 == 0 &&
+                items_cover_bp( *this, cover ) == items_cover_bp( *this, cover + 1 ) ) {
                 combined = true;
             }
             if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                 mvwprintz( w_sort_right, pos, 1, ( cover == tabindex ? c_yellow : c_white ),
-                           "%s:", ( combined ? bpp_asText[cover] : bp_asText[cover] ).c_str() );
+                           "%s:", body_part_name_as_heading( bp_aBodyPart[cover], combined ? 2 : 1 ).c_str() );
                 pos++;
             }
             rightListSize++;
-            for( auto &elem : items_cover_bp( cover ) ) {
+            for( auto &elem : items_cover_bp( *this, cover ) ) {
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                     mvwprintz( w_sort_right, pos, 2, dam_color[elem.damage + 1],
                                elem.name.c_str() );
@@ -389,16 +400,18 @@ void player::sort_armor()
         wrefresh( w_sort_right );
         wrefresh( w_encumb );
 
-        // A set of actions that we can only execute if is_player() is true
-        static const std::set<std::string> not_allowed_npc = {{
-                "EQUIP_ARMOR", "REMOVE_ARMOR", "ASSIGN_INVLETS"
-            }
-        };
-
         const std::string action = ctxt.handle_input();
-        if( !is_player() && not_allowed_npc.count( action ) > 0 ) {
-            popup( _( "Can't use that action on an NPC" ) );
+        if( is_npc() && action == "ASSIGN_INVLETS" ) {
+            // It doesn't make sense to assign invlets to NPC items
             continue;
+        }
+
+        if( is_npc() && ( action == "EQUIP_ARMOR" || action == "REMOVE_ARMOR" ) ) {
+            const npc &np = dynamic_cast<const npc &>( *this );
+            if( !np.is_minion() && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+                popup( _( "%s says: I don't trust you enough to let you do that!" ), disp_name().c_str() );
+                continue;
+            }
         }
 
         if( action == "UP" && leftListSize > 0 ) {
@@ -478,13 +491,15 @@ void player::sort_armor()
             }
         } else if( action == "CHANGE_SIDE" ) {
             if( leftListIndex < ( int ) tmp_worn.size() && tmp_worn[leftListIndex]->is_sided() ) {
-                if( query_yn( _( "Swap side for %s?" ), tmp_worn[leftListIndex]->tname().c_str() ) ) {
+                if( g->u.query_yn( _( "Swap side for %s?" ), tmp_worn[leftListIndex]->tname().c_str() ) ) {
                     change_side( tmp_worn[leftListIndex] );
                     wrefresh( w_sort_armor );
                 }
             }
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
+            // NOTE: This is from player's inventory, even for NPCs!
+            // @todo Allow making NPCs equip their own stuff
             int pos = g->inv_for_unequipped( _( "Put on:" ), []( const item & it ) {
                 return it.is_armor();
             } );
@@ -502,17 +517,18 @@ void player::sort_armor()
                     std::advance( iter, leftListIndex );
                     // inserts at position before iter (no b0f, phew)
                     worn.insert( iter, new_equip );
+                } else if( is_npc() ) {
+                    // @todo Pass the reason here
+                    popup( _( "Can't put this on" ) );
                 }
             }
-            // TODO: fix up along with hack below
-            draw_border( w_sort_armor );
-            wrefresh( w_sort_armor );
+            draw_grid( w_sort_armor, left_w, middle_w );
         } else if( action == "REMOVE_ARMOR" ) {
             // query (for now)
             if( leftListIndex < ( int ) tmp_worn.size() ) {
-                if( query_yn( _( "Remove selected armor?" ) ) ) {
+                if( g->u.query_yn( _( "Remove selected armor?" ) ) ) {
                     // remove the item, asking to drop it if necessary
-                    takeoff( tmp_worn[leftListIndex] );
+                    takeoff( tmp_worn[leftListIndex], is_npc() );
                     wrefresh( w_sort_armor );
                 }
             }
@@ -536,7 +552,7 @@ void player::sort_armor()
                     }
                 }
             }
-        } else if( action == "HELP" ) {
+        } else if( action == "USAGE_HELP" ) {
             popup_getkey( _( "\
 Use the arrow- or keypad keys to navigate the left list.\n\
 Press [%s] to select highlighted armor for reordering.\n\
@@ -548,7 +564,7 @@ Press [%s] to remove selected armor from oneself.\n\
  \n\
 [Encumbrance and Warmth] explanation:\n\
 The first number is the summed encumbrance from all clothing on that bodypart.\n\
-The second number is the encumbrance caused by the number of clothing on that bodypart.\n\
+The second number is an additional encumbrance penalty caused by wearing multiple items on one of the bodypart's four layers.\n\
 The sum of these values is the effective encumbrance value your character has for that bodypart." ),
                           ctxt.get_desc( "MOVE_ARMOR" ).c_str(),
                           ctxt.get_desc( "PREV_TAB" ).c_str(),
@@ -558,9 +574,9 @@ The sum of these values is the effective encumbrance value your character has fo
                           ctxt.get_desc( "EQUIP_ARMOR" ).c_str(),
                           ctxt.get_desc( "REMOVE_ARMOR" ).c_str()
                         );
-            //TODO: refresh the window properly. Current method erases the intersection symbols
-            draw_border( w_sort_armor ); // hack to mark whole window for redrawing
-            wrefresh( w_sort_armor );
+            draw_grid( w_sort_armor, left_w, middle_w );
+        } else if( action == "HELP_KEYBINDINGS" ) {
+            draw_grid( w_sort_armor, left_w, middle_w );
         } else if( action == "QUIT" ) {
             exit = true;
         }

@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <list>
 #include <stdarg.h>
 
@@ -105,6 +106,8 @@ class faction;
 class live_view;
 typedef int nc_color;
 struct w_point;
+struct explosion_data;
+struct visibility_variables;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -160,6 +163,9 @@ class game
         void unserialize_master(std::ifstream &fin);  // for load
         bool unserialize_master_legacy(std::ifstream &fin);  // for old load
 
+        /** write stats of all loaded items of the given type to stdout */
+        void dump_stats( const std::string& what );
+
         /** Returns false if saving failed. */
         bool save();
         /** Deletes the given world. If delete_folder is true delete all the files and directories
@@ -203,12 +209,29 @@ class game
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
             Explosion intensity formula is roughly power*factor^distance.
             If factor <= 0, no blast is produced */
-        void explosion( const tripoint &p, float power, float factor = 0.8f,
-                        int shrapnel = 0, bool fire = false );
+        std::unordered_map<tripoint, std::pair<int, int>> explosion(
+            const tripoint &p, float power, float factor = 0.8f,
+            bool fire = false, int shrapnel_count = 0, int shrapnel_mass = 10
+        );
+
+        std::unordered_map<tripoint, std::pair<int, int>> explosion(
+            const tripoint &p, const explosion_data &ex
+        );
+
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
-        /** Shoot shrapnel from point p */
-        void shrapnel( const tripoint &p, int power, int count, int radius );
+
+        /*
+         * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
+         * @param src source from which shrapnel radiates outwards in a uniformly random distribtion
+         * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
+         * @param count abritrary measure of quantity shrapnel emitted affecting number of hits
+         * @param mass determines how readily terrain constrains shrapnel and also caps pierce damage
+         * @param range maximum distance shrapnel may travel
+         * @return map containing all tiles considered with value being sum of damage received (if any)
+         */
+        std::unordered_map<tripoint,int> shrapnel( const tripoint &src, int power, int count, int mass, int range = -1 );
+
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
@@ -386,7 +409,9 @@ class game
         int list_items(const int iLastState); //List all items around the player
         int list_monsters(const int iLastState); //List all monsters around the player
         // Shared method to print "look around" info
-        void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line, bool mouse_hover );
+        void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                                  int last_line, bool draw_terrain_indicators,
+                                  const visibility_variables &cache );
 
         std::vector<map_item_stack> find_nearby_items(int iRadius);
         void draw_item_filter_rules(WINDOW *window, int rows);
@@ -437,6 +462,7 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        int get_user_action_counter() const;
 
         std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
@@ -504,7 +530,7 @@ class game
         //otherwise returns sentinel -1, signifies transaction fail.
         int move_liquid(item &liquid);
 
-        void open_gate( const tripoint &p, const ter_id handle_type );
+        void open_gate( const tripoint &p );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;
@@ -545,7 +571,7 @@ class game
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
          */
-        bool check_save_mode_allowed();
+        bool check_safe_mode_allowed();
 
         const int dangerous_proximity;
         bool narrow_sidebar;
@@ -584,7 +610,7 @@ class game
         // will do so, if bash_dmg is greater than 0, items won't stop the door
         // from closing at all.
         // If the door gets closed the items on the door tile get moved away or destroyed.
-        bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
+        bool forced_door_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
 
         //pixel minimap management
@@ -593,8 +619,6 @@ class game
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                         bool bShowDDA = true);
-        void print_menu_items(WINDOW *w_in, std::vector<std::string> vItems, int iSel,
-                              int iOffsetY, int iOffsetX, int spacing = 1);
         bool load_master(std::string worldname); // Load the master data file, with factions &c
         void load_weather(std::ifstream &fin);
         void load(std::string worldname, std::string name); // Load a player-specific save file
@@ -678,7 +702,7 @@ class game
         void reload(); // Reload a wielded gun/tool  'r'
         void reload(int pos);
 public:
-        void unload(item &it); // Unload a gun/tool  'U'
+        bool unload( item &it ); // Unload a gun/tool  'U'
         void unload(int pos = INT_MIN);
 private:
         void wield(int pos = INT_MIN); // Wield a weapon  'w'
@@ -690,10 +714,17 @@ private:
         void print_fields_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
         void print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, int &line );
         void print_trap_info( const tripoint &lp, WINDOW *w_look, const int column, int &line );
-        void print_object_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                               bool mouse_hover );
-        void handle_multi_item_info( const tripoint &lp, WINDOW *w_look, const int column, int &line,
-                                    bool mouse_hover );
+        void print_creature_info( const Creature *creature, WINDOW *w_look, int column,
+                                  int &line );
+        void print_vehicle_info( const vehicle *veh, int veh_part, WINDOW *w_look,
+                                 int column, int &line, int last_line );
+        void print_visibility_info( WINDOW *w_look, int column, int &line,
+                                    visibility_type visibility );
+        void print_visibility_indicator( visibility_type visibility );
+        void print_items_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                               int last_line );
+        void print_graffiti_info( const tripoint &lp, WINDOW *w_look, int column, int &line,
+                                  int last_line );
         void get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const;
 
         input_context get_player_input(std::string &action);
@@ -761,8 +792,10 @@ private:
         void quickload();        // Loads the previously saved game if it exists
 
         // Input related
+        // Handles box showing items under mouse
         bool handle_mouseview(input_context &ctxt,
-                              std::string &action); // Handles box showing items under mouse
+                              std::string &action,
+                              const visibility_variables &cache);
         void hide_mouseview(); // Hides the mouse hover box and redraws what was under it
 
         // On-request draw functions
@@ -807,6 +840,7 @@ private:
         special_game *gamemode;
 
         int moveCount; //Times the player has moved (not pause, sleep, etc)
+        int user_action_counter; // Times the user has input an action
         const int lookHeight; // Look Around window height
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */

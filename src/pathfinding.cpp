@@ -11,9 +11,11 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "cata_utility.h"
+#include "pathfinding.h"
 
 #include <algorithm>
 #include <queue>
+#include <set>
 
 #include "messages.h"
 
@@ -101,6 +103,12 @@ struct pathfinder {
         const int index = flat_index( p.x, p.y );
         layer.state[index] = ASL_CLOSED;
     }
+
+    void unclose_point( const tripoint &p ) {
+        auto &layer = get_layer( p.z );
+        const int index = flat_index( p.x, p.y );
+        layer.state[index] = ASL_NONE;
+    }
 };
 
 // Returns a tile with `flag` in the overmap tile that `t` is on
@@ -118,21 +126,61 @@ tripoint vertical_move_destination( const map &m, const tripoint &t )
         m.getlocal( rc.begin_om_pos() )
     );
 
-    tripoint from( omtile_align_start.x, omtile_align_start.y, t.z );
-    tripoint to( omtile_align_start.x + omtileszx, omtile_align_start.y + omtileszy, t.z );
-
-    // TODO: Avoid up to 576 bounds checks by using methods that don't check bounds
-    for( const tripoint &p : m.points_in_rectangle( from, to ) ) {
-        if( m.has_flag( flag, p ) ) {
-            return p;
+    const auto &pf_cache = m.get_pathfinding_cache_ref( t.z );
+    for( int x = omtile_align_start.x; x < omtile_align_start.x + omtileszx; x++ ) {
+        for( int y = omtile_align_start.y; y < omtile_align_start.y + omtileszy; y++ ) {
+            if( pf_cache.special[x][y] & PF_UPDOWN ) {
+                const tripoint p( x, y, t.z );
+                if( m.has_flag( flag, p ) ) {
+                    return p;
+                }
+            }
         }
     }
 
     return tripoint_min;
 }
 
+template<class Set1, class Set2>
+bool is_disjoint( const Set1 &set1, const Set2 &set2 )
+{
+    if( set1.empty() || set2.empty() ) {
+        return true;
+    }
+
+    typename Set1::const_iterator it1 = set1.begin();
+    typename Set1::const_iterator it1_end = set1.end();
+
+    typename Set2::const_iterator it2 = set2.begin();
+    typename Set2::const_iterator it2_end = set2.end();
+
+    if( *set2.rbegin() < *it1 || *set1.rbegin() < *it2 ) {
+        return true;
+    }
+
+    while( it1 != it1_end && it2 != it2_end ) {
+        if( *it1 == *it2 ) {
+            return false;
+        }
+        if( *it1 < *it2 ) {
+            it1++;
+        } else {
+            it2++;
+        }
+    }
+
+    return true;
+}
+
 std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                                   const int bash, const int maxdist ) const
+{
+    return route( f, t, bash, maxdist, {{ g->u.pos() }} );
+}
+
+std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
+                                  const int bash, const int maxdist,
+                                  const std::set<tripoint> &pre_closed ) const
 {
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
@@ -149,21 +197,17 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         return route( f, clipped, bash, maxdist );
     }
     // First, check for a simple straight line on flat ground
-    // Except when the player is on the line - we need to do regular pathing then
-    const tripoint &pl_pos = g->u.pos();
+    // Except when the line contains a pre-closed tile - we need to do regular pathing then
     if( f.z == t.z && clear_path( f, t, -1, 2, 2 ) ) {
         const auto line_path = line_to( f, t );
-        if( pl_pos.z != f.z ) {
-            // Player on different z-level, certainly not on the line
-            return line_path;
-        }
+        const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
 
-        if( std::find( line_path.begin(), line_path.end(), pl_pos ) == line_path.end() ) {
+        if( is_disjoint( sorted_line, pre_closed ) ) {
             return line_path;
         }
     }
 
-    const int pad = 8;  // Should be much bigger - low value makes pathfinders dumb!
+    const int pad = 16;  // Should be much bigger - low value makes pathfinders dumb!
     int minx = std::min( f.x, t.x ) - pad;
     int miny = std::min( f.y, t.y ) - pad;
     int minz = std::min( f.z, t.z ); // TODO: Make this way bigger
@@ -174,12 +218,18 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     clip_to_bounds( maxx, maxy, maxz );
 
     pathfinder pf( minx, miny, maxx, maxy );
-    pf.add_point( 0, 0, f, f );
     // Make NPCs not want to path through player
     // But don't make player pathing stop working
-    if( f != pl_pos && t != pl_pos ) {
-        pf.close_point( pl_pos );
+    for( const auto &p : pre_closed ) {
+        if( p.x >= minx && p.x < maxx && p.y >= miny && p.y < maxy ) {
+            pf.close_point( p );
+        }
     }
+
+    // Start and end must not be closed
+    pf.unclose_point( f );
+    pf.unclose_point( t );
+    pf.add_point( 0, 0, f, f );
 
     bool done = false;
 
@@ -205,6 +255,9 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
         cur_state = ASL_CLOSED;
 
+        const auto &pf_cache = get_pathfinding_cache_ref( cur.z );
+        const auto cur_special = pf_cache.special[cur.x][cur.y];
+
         // 7 3 5
         // 1 . 2
         // 6 4 8
@@ -214,7 +267,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
             const int index = flat_index( p.x, p.y );
 
-            // TODO: Remove this and instead have sentinels at the edges
+            // @todo Remove this and instead have sentinels at the edges
             if( p.x < minx || p.x >= maxx || p.y < miny || p.y >= maxy ) {
                 continue;
             }
@@ -223,88 +276,101 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 continue;
             }
 
-            int part = -1;
-            const maptile &tile = maptile_at_internal( p );
-            const auto &terrain = tile.get_ter_t();
-            const auto &furniture = tile.get_furn_t();
-            const vehicle *veh = veh_at_internal( p, part );
+            // Penalize for diagonals or the path will look "unnatural"
+            int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
 
-            const int cost = move_cost_internal( furniture, terrain, veh, part );
-            // Don't calculate bash rating unless we intend to actually use it
-            const int rating = ( bash == 0 || cost != 0 ) ? -1 :
-                               bash_rating_internal( bash, furniture, terrain, false, veh, part );
+            const auto p_special = pf_cache.special[p.x][p.y];
 
-            if( cost == 0 && rating <= 0 && terrain.open.empty() && veh == nullptr ) {
-                layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
-                continue;
-            }
+            constexpr auto non_normal = PF_SLOW | PF_WALL | PF_VEHICLE | PF_TRAP;
+            // @todo De-uglify, de-huge-n
+            if( !( p_special & non_normal ) ) {
+                // Boring flat dirt - the most common case above the ground
+                newg += 2;
+            } else {
+                int part = -1;
+                const maptile &tile = maptile_at_internal( p );
+                const auto &terrain = tile.get_ter_t();
+                const auto &furniture = tile.get_furn_t();
+                const vehicle *veh = veh_at_internal( p, part );
 
-            int newg = layer.gscore[parent_index] + cost + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
-            if( cost == 0 ) {
-                // Handle all kinds of doors
-                // Only try to open INSIDE doors from the inside
-                if( !terrain.open.empty() &&
-                    ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
-                    newg += 4; // To open and then move onto the tile
-                } else if( veh != nullptr ) {
-                    part = veh->obstacle_at_part( part );
-                    int dummy = -1;
-                    if( veh->part_flag( part, VPFLAG_OPENABLE ) &&
-                        ( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) ||
-                          veh_at_internal( cur, dummy ) == veh ) ) {
-                        // Handle car doors, but don't try to path through curtains
-                        newg += 10; // One turn to open, 4 to move there
-                    } else if( part != -1 && bash > 0 ) {
-                        // Car obstacle that isn't a door
-                        // Or there is no car obstacle, but the car is wedged into an obstacle,
-                        //  in which case part == -1
-                        newg += 2 * veh->parts[part].hp / bash + 8 + 4;
-                    } else {
-                        if( !veh->part_flag( part, VPFLAG_OPENABLE ) ) {
-                            // Won't be openable, don't try from other sides
-                            layer.state[index] = ASL_CLOSED;
-                        }
+                const int cost = move_cost_internal( furniture, terrain, veh, part );
+                // Don't calculate bash rating unless we intend to actually use it
+                const int rating = ( bash == 0 || cost != 0 ) ? -1 :
+                                   bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
-                        continue;
-                    }
-                } else if( rating > 1 ) {
-                    // Expected number of turns to bash it down, 1 turn to move there
-                    // and 5 turns of penalty not to trash everything just because we can
-                    newg += ( 20 / rating ) + 2 + 10;
-                } else if( rating == 1 ) {
-                    // Desperate measures, avoid whenever possible
-                    newg += 500;
-                } else {
-                    continue; // Unbashable and unopenable from here
+                if( cost == 0 && rating <= 0 && terrain.open.empty() && veh == nullptr ) {
+                    layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
+                    continue;
                 }
-            }
 
-            const auto &ter_trp = terrain.trap.obj();
-            const auto &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
-            if( !trp.is_benign() ) {
-                // For now make them detect all traps
-                if( has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR ) ) {
-                    // Special case - ledge in z-levels
-                    // Warning: really expensive, needs a cache
-                    // TODO: Walking on vehicles (currently NPCs will phase through floors)
-                    if( valid_move( p, tripoint( p.x, p.y, p.z - 1 ), false, true ) ) {
-                        tripoint below( p.x, p.y, p.z - 1 );
-                        if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
-                            // Otherwise this would have been a huge fall
-                            auto &layer = pf.get_layer( p.z - 1 );
-                            // From cur, not p, because we won't be walking on air
-                            pf.add_point( layer.gscore[parent_index] + 10,
-                                          layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
-                                          cur, below );
+                newg += cost;
+                if( cost == 0 ) {
+                    // Handle all kinds of doors
+                    // Only try to open INSIDE doors from the inside
+                    if( !terrain.open.empty() &&
+                        ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
+                        newg += 4; // To open and then move onto the tile
+                    } else if( veh != nullptr ) {
+                        part = veh->obstacle_at_part( part );
+                        int dummy = -1;
+                        if( veh->part_flag( part, VPFLAG_OPENABLE ) &&
+                            ( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) ||
+                              veh_at_internal( cur, dummy ) == veh ) ) {
+                            // Handle car doors, but don't try to path through curtains
+                            newg += 10; // One turn to open, 4 to move there
+                        } else if( part != -1 && bash > 0 ) {
+                            // Car obstacle that isn't a door
+                            // Or there is no car obstacle, but the car is wedged into an obstacle,
+                            //  in which case part == -1
+                            newg += 2 * veh->parts[part].hp / bash + 8 + 4;
+                        } else {
+                            if( !veh->part_flag( part, VPFLAG_OPENABLE ) ) {
+                                // Won't be openable, don't try from other sides
+                                layer.state[index] = ASL_CLOSED;
+                            }
+
+                            continue;
                         }
-
-                        // Close p, because we won't be walking on it
-                        layer.state[index] = ASL_CLOSED;
-                        continue;
+                    } else if( rating > 1 ) {
+                        // Expected number of turns to bash it down, 1 turn to move there
+                        // and 5 turns of penalty not to trash everything just because we can
+                        newg += ( 20 / rating ) + 2 + 10;
+                    } else if( rating == 1 ) {
+                        // Desperate measures, avoid whenever possible
+                        newg += 500;
+                    } else {
+                        continue; // Unbashable and unopenable from here
                     }
-                    // Otherwise it's walkable
-                } else {
-                    newg += 500;
+                }
+
+                if( p_special & PF_TRAP ) {
+                    const auto &ter_trp = terrain.trap.obj();
+                    const auto &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
+                    if( !trp.is_benign() ) {
+                        // For now make them detect all traps
+                        if( has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                            // Special case - ledge in z-levels
+                            // Warning: really expensive, needs a cache
+                            if( valid_move( p, tripoint( p.x, p.y, p.z - 1 ), false, true ) ) {
+                                tripoint below( p.x, p.y, p.z - 1 );
+                                if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
+                                    // Otherwise this would have been a huge fall
+                                    auto &layer = pf.get_layer( p.z - 1 );
+                                    // From cur, not p, because we won't be walking on air
+                                    pf.add_point( layer.gscore[parent_index] + 10,
+                                                  layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
+                                                  cur, below );
+                                }
+
+                                // Close p, because we won't be walking on it
+                                layer.state[index] = ASL_CLOSED;
+                                continue;
+                            }
+                        } else {
+                            // Otherwise it's walkable
+                            newg += 500;
+                        }
+                    }
                 }
             }
 
@@ -315,7 +381,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
 
-        if( !has_zlevels() ) {
+        if( !has_zlevels() || !( cur_special & PF_UPDOWN ) ) {
             // The part below is only for z-level pathing
             continue;
         }

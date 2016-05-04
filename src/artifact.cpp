@@ -156,7 +156,7 @@ struct artifact_tool_form_datum {
     char sym;
     nc_color color;
     // Most things had 0 to 1 material.
-    std::string material;
+    material_id material;
     int volume_min, volume_max;
     int weight_min, weight_max;
     artifact_weapon_type base_weapon;
@@ -197,7 +197,7 @@ struct artifact_armor_form_datum {
     std::string name;
     nc_color color;
     // Most things had 0 to 1 material.
-    std::string material;
+    material_id material;
     int volume, weight;
     int encumb;
     int coverage;
@@ -242,22 +242,20 @@ std::string artifact_noun[NUM_ART_NOUNS];
 std::string artifact_name(std::string type);
 
 // Constructrs for artifact itypes.
-it_artifact_tool::it_artifact_tool() : it_tool()
+it_artifact_tool::it_artifact_tool() : itype()
 {
+    tool.reset( new islot_tool() );
     artifact.reset( new islot_artifact() );
     id = item_controller->create_artifact_id();
-    ammo_id = "NULL";
     price = 0;
-    def_charges = 0;
-    charges_per_use = 1;
+    tool->charges_per_use = 1;
     artifact->charge_type = ARTC_NULL;
-    turns_per_charge = 0;
-    revert_to = "null";
     use_methods.push_back( &iuse::artifact );
 }
 
-it_artifact_tool::it_artifact_tool( JsonObject &jo ) : it_tool()
+it_artifact_tool::it_artifact_tool( JsonObject &jo ) : itype()
 {
+    tool.reset( new islot_tool() );
     artifact.reset( new islot_artifact() );
     use_methods.push_back( &iuse::artifact );
     deserialize( jo );
@@ -440,32 +438,32 @@ void init_artifacts()
 
     artifact_tool_form_datum tmp_artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
         {
-            "", '*', c_white, "null", 0, 0, 0, 0, ARTWEAP_BULK,
+            "", '*', c_white, material_id( "null" ), 0, 0, 0, 0, ARTWEAP_BULK,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Harp"), ';', c_yellow, "wood", 20, 30, 1150, 2100, ARTWEAP_BULK,
+            _("Harp"), ';', c_yellow, material_id( "wood" ), 20, 30, 1150, 2100, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
         },
 
         {
-            _("Staff"), '/', c_brown, "wood", 6, 12, 450, 1150, ARTWEAP_CLUB,
+            _("Staff"), '/', c_brown, material_id( "wood" ), 6, 12, 450, 1150, ARTWEAP_CLUB,
             {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
         },
 
         {
-            _("Sword"), '/', c_ltblue, "steel", 8, 14, 900, 3259, ARTWEAP_SWORD,
+            _("Sword"), '/', c_ltblue, material_id( "steel" ), 8, 14, 900, 3259, ARTWEAP_SWORD,
             {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Dagger"), ';', c_ltblue, "steel", 1, 4, 100, 700, ARTWEAP_KNIFE,
+            _("Dagger"), ';', c_ltblue, material_id( "steel" ), 1, 4, 100, 700, ARTWEAP_KNIFE,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Cube"), '*', c_white, "steel", 1, 3, 100, 2300, ARTWEAP_BULK,
+            _("Cube"), '*', c_white, material_id( "steel" ), 1, 3, 100, 2300, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
         }
     };
@@ -488,13 +486,13 @@ void init_artifacts()
 
     artifact_armor_form_datum tmp_artifact_armor_form_data[NUM_ARTARMFORMS] = {
         {
-            "", c_white, "null",        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+            "", c_white, material_id( "null" ),        0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
             0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Robe"),   c_red, "wool",    6, 700,  1,  90,  3,  0,  2,  0, -8,  0, -3,
+            _("Robe"),   c_red, material_id( "wool" ),    6, 700,  1,  90,  3,  0,  2,  0, -8,  0, -3,
             mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
@@ -503,7 +501,7 @@ void init_artifacts()
         },
 
         {
-            _("Coat"),   c_brown, "leather",   14, 1600,  2,  80, 2,  1,  4,  4, -6,  0, -3,
+            _("Coat"),   c_brown, material_id( "leather" ),   14, 1600,  2,  80, 2,  1,  4,  4, -6,  0, -3,
             mfb(bp_torso), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -512,7 +510,7 @@ void init_artifacts()
         },
 
         {
-            _("Mask"),   c_white, "wood",      4, 100,  2,  50, 2,  1,  2,  0,  2,  0, -2,
+            _("Mask"),   c_white, material_id( "wood" ),      4, 100,  2,  50, 2,  1,  2,  0,  2,  0, -2,
             mfb(bp_eyes) | mfb(bp_mouth), false,
             {
                 ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -522,7 +520,7 @@ void init_artifacts()
 
         // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Helm"),   c_dkgray, "silver",    6, 700,  2,  85, 3,  0,  1,  0,  8,  0, -2,
+            _("Helm"),   c_dkgray, material_id( "silver" ),    6, 700,  2,  85, 3,  0,  1,  0,  8,  0, -2,
             mfb(bp_head), false,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -531,7 +529,7 @@ void init_artifacts()
         },
 
         {
-            _("Gloves"), c_ltblue, "leather", 2, 100,  1,  90,  3,  1,  2,  0, -4,  0, -2,
+            _("Gloves"), c_ltblue, material_id( "leather" ), 2, 100,  1,  90,  3,  1,  2,  0, -4,  0, -2,
             mfb(bp_hand_l) | mfb(bp_hand_r), true,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -541,7 +539,7 @@ void init_artifacts()
 
         // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Boots"), c_blue, "leather",     6, 250,  1,  75,  3,  1,  3,  0,  4,  0, -1,
+            _("Boots"), c_blue, material_id( "leather" ),     6, 250,  1,  75,  3,  1,  3,  0,  4,  0, -1,
             mfb(bp_foot_l) | mfb(bp_foot_r), true,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -550,7 +548,7 @@ void init_artifacts()
         },
 
         {
-            _("Ring"), c_ltgreen, "silver",   0,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+            _("Ring"), c_ltgreen, material_id( "silver" ),   0,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,
             0, true,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         }
@@ -563,44 +561,44 @@ void init_artifacts()
     artifact_armor_form_datum tmp_artifact_armor_mod_data[NUM_ARMORMODS] = {
 
         {
-            "", c_white, "null", 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
+            "", c_white, material_id( "null" ), 0,  0,  0,  0,  0,  0,  0,  0,  0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Description; "It is ..." or "They are ..."
         {
-            _("very thin and light."), c_white, "null",
+            _("very thin and light."), c_white, material_id( "null" ),
             // Vol   Wgt Enc Cov Thk Env Wrm Sto
             -4, -950, -2, -1, -1, -1, -1,  0, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("extremely bulky."), c_white, "null",
+            _("extremely bulky."), c_white, material_id( "null" ),
             8, 1150,  2,  1,  1,  0,  1,  0, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("covered in pockets."), c_white, "null",
+            _("covered in pockets."), c_white, material_id( "null" ),
             1, 150,  1,  0,  0,  0,  0, 16, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("disgustingly furry."), c_white, "wool",
+            _("disgustingly furry."), c_white, material_id( "wool" ),
             // Vol  Wgt Enc Dmg Cut Env Wrm Sto
             4, 250,  1,  1,  1,  1,  3,  0, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("leather-padded."), c_white, "leather",
+            _("leather-padded."), c_white, material_id( "leather" ),
             4, 450,  1, 1,  1,  0,  1, -3, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
-            _("plated in iron."), c_white, "iron",
+            _("plated in iron."), c_white, material_id( "iron" ),
             4, 1400,  3,  2, 2,  0,  1, -4, 0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
@@ -748,8 +746,6 @@ std::string new_artifact()
         num_good = 0;
         num_bad = 0;
         value = 0;
-        art->def_charges = 0;
-        art->max_charges = 0;
         std::vector<art_effect_active> good_a_effects = fill_good_active();
         std::vector<art_effect_active> bad_a_effects = fill_bad_active();
         while (!good_a_effects.empty() && !bad_a_effects.empty() &&
@@ -766,11 +762,11 @@ std::string new_artifact()
                 value += active_effect_cost[active_tmp];
             }
             art->artifact->effects_activated.push_back(active_tmp);
-            art->max_charges += rng(1, 3);
+            art->tool->max_charges += rng(1, 3);
         }
-        art->def_charges = art->max_charges;
+        art->tool->def_charges = art->tool->max_charges;
         // If we have charges, pick a recharge mechanism
-        if (art->max_charges > 0) {
+        if( art->tool->max_charges > 0 ) {
             art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
         }
         if (one_in(8) && num_bad + num_good >= 4) {
@@ -812,13 +808,13 @@ std::string new_artifact()
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-                if (modinfo->volume >= 0 || art->volume > unsigned(abs(modinfo->volume))) {
+                if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume)) {
                     art->volume += modinfo->volume;
                 } else {
                     art->volume = 1;
                 }
 
-                if (modinfo->weight >= 0 || art->weight > unsigned(abs(modinfo->weight))) {
+                if (modinfo->weight >= 0 || art->weight > abs(modinfo->weight)) {
                     art->weight += modinfo->weight;
                 } else {
                     art->weight = 1;
@@ -901,7 +897,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
 
     art->sym = ':';
     art->color = c_yellow;
-    art->materials.push_back("stone");
+    art->materials.push_back( material_id( "stone" ) );
     art->volume = rng(shape_data->volume_min, shape_data->volume_max);
     art->weight = rng(shape_data->weight_min, shape_data->weight_max);
     art->melee_dam = 0;
@@ -983,8 +979,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
     // Natural artifacts ALWAYS can recharge
     // (When "implanting" them in a mundane item, this ability may be lost
     if (!art->artifact->effects_activated.empty()) {
-        art->max_charges = rng(1, 4);
-        art->def_charges = art->max_charges;
+        art->tool->def_charges = art->tool->max_charges = rng( 1, 4 );
         art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
     }
     item_controller->add_item_type( art );
@@ -1121,17 +1116,17 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     // quite some time. Loading and saving once will write things out as a JSON
     // array.
     if (jo.has_string("m1")) {
-        materials.push_back(jo.get_string("m1"));
+        materials.push_back( material_id( jo.get_string( "m1" ) ) );
     }
     if (jo.has_string("m2")) {
-        materials.push_back(jo.get_string("m2"));
+        materials.push_back( material_id( jo.get_string( "m2" ) ) );
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
         for( size_t i = 0; i < jarr.size(); ++i) {
-            materials.push_back(jarr.get_string(i));
+            materials.push_back( material_id ( jarr.get_string( i ) ) );
         }
     }
     volume = jo.get_int("volume");
@@ -1141,13 +1136,13 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     m_to_hit = jo.get_int("m_to_hit");
     item_tags = jo.get_tags("item_flags");
 
-    max_charges = jo.get_long("max_charges");
-    def_charges = jo.get_long("def_charges");
+    tool->max_charges = jo.get_long("max_charges");
+    tool->def_charges = jo.get_long("def_charges");
 
-    charges_per_use = jo.get_int("charges_per_use");
-    turns_per_charge = jo.get_int("turns_per_charge");
-    ammo_id = jo.get_string("ammo");
-    revert_to = jo.get_string("revert_to");
+    tool->charges_per_use = jo.get_int("charges_per_use");
+    tool->turns_per_charge = jo.get_int("turns_per_charge");
+    tool->ammo_id = jo.get_string("ammo");
+    tool->revert_to = jo.get_string("revert_to");
 
     artifact->charge_type = (art_charge)jo.get_int("charge_type");
 
@@ -1187,23 +1182,18 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     // quite some time. Loading and saving once will write things out as a JSON
     // array.
     if (jo.has_string("m1")) {
-        materials.push_back(jo.get_string("m1"));
+        materials.push_back( material_id( jo.get_string( "m1" ) ) );
     }
     if (jo.has_string("m2")) {
-        materials.push_back(jo.get_string("m2"));
+        materials.push_back( material_id( jo.get_string( "m2" ) ) );
     }
     // Assumption, perhaps dangerous, that we won't wind up with m1 and m2 and
     // a materials array in our serialized objects at the same time.
     if (jo.has_array("materials")) {
         JsonArray jarr = jo.get_array("materials");
         for( size_t i = 0; i < jarr.size(); ++i) {
-            materials.push_back(jarr.get_string(i));
+            materials.push_back( material_id( jarr.get_string( i ) ) );
         }
-    }
-    if (materials.size() == 0) {
-        // I don't think we need this, but a lot of code seems to want at least
-        // one material and I'm not sure I found every single corner case.
-        materials.push_back("null");
     }
     volume = jo.get_int("volume");
     weight = jo.get_int("weight");
@@ -1241,8 +1231,8 @@ bool save_artifacts( const std::string &path )
         JsonOut json( fout );
         json.start_array();
         for( auto & p : item_controller->get_all_itypes() ) {
-            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second );
-            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second );
+            it_artifact_tool *art_tool = dynamic_cast<it_artifact_tool *>( p.second.get() );
+            it_artifact_armor *art_armor = dynamic_cast<it_artifact_armor *>( p.second.get() );
             if( art_tool != nullptr ) {
                 json.write( *art_tool );
             } else if( art_armor != nullptr ) {
@@ -1302,12 +1292,12 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("techniques", techniques);
 
     // tool data
-    json.member("ammo", ammo_id);
-    json.member("max_charges", max_charges);
-    json.member("def_charges", def_charges);
-    json.member("charges_per_use", charges_per_use);
-    json.member("turns_per_charge", turns_per_charge);
-    json.member("revert_to", revert_to);
+    json.member("ammo", tool->ammo_id);
+    json.member("max_charges", tool->max_charges);
+    json.member("def_charges", tool->def_charges);
+    json.member("charges_per_use", tool->charges_per_use);
+    json.member("turns_per_charge", tool->turns_per_charge);
+    json.member("revert_to", tool->revert_to);
 
     // artifact data
     json.member("charge_type", artifact->charge_type);

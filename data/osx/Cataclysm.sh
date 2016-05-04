@@ -1,11 +1,20 @@
 #!/bin/sh
 PWD=`dirname "${0}"`
-OSREV=`uname -r | cut -d. -f1`
-if [ "$OSREV" -ge 11 ] ; then
-   export DYLD_LIBRARY_PATH=${PWD}/../Resources/
-   export DYLD_FRAMEWORK_PATH=${PWD}/../Resources/
+cd "${PWD}/../Resources/"
+
+COMMAND='
+OSREV=`uname -r | cut -d. -f1`;
+if [ $OSREV -ge 11 ] ; then
+   export DYLD_LIBRARY_PATH=./;
+   export DYLD_FRAMEWORK_PATH=./;
 else
-   export DYLD_FALLBACK_LIBRARY_PATH=${PWD}/../Resources/
-   export DYLD_FALLBACK_FRAMEWORK_PATH=${PWD}/../Resources/
+   export DYLD_FALLBACK_LIBRARY_PATH=./;
+   export DYLD_FALLBACK_FRAMEWORK_PATH=./;
+fi;'
+
+if [ -f "cataclysm" ] ; then
+    osascript -e 'tell application "Terminal" to activate do script "cd '`pwd`';'"${COMMAND}"'./cataclysm;exit;"'
+else
+    eval "${COMMAND}"
+    ./cataclysm-tiles
 fi
-cd "${PWD}/../Resources/"; ./cataclysm-tiles

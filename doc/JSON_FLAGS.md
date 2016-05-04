@@ -586,8 +586,9 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```INCENDIARY``` Lights target on fire.
 - ```NAPALM``` Explosion that spreads fire.
 - ```TEARGAS``` Generates a cloud of teargas.
-- ```SMOKE``` Generates a cloud of smoke.
-- ```SMOKE_BIG``` Generates a large cloud of smoke.
+- ```SMOKE``` Generates a cloud of smoke at the target.
+- ```SMOKE_BIG``` Generates a large cloud of smoke at the target.
+- ```MUZZLE_SMOKE``` Generate a small cloud of smoke at the source.
 - ```TRAIL``` Creates a trail of smoke.
 - ```FLARE``` Lights the target on fire.
 - ```FLASHBANG``` Blinds and deafens nearby targets.
@@ -793,12 +794,12 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SLICE``` Deals cutting damage, with a low chance of getting stuck.
 - ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
 - ```WHIP``` Has a chance of disarming the opponent.
+- ```REACH_ATTACK``` Allows to perform reach attack.
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
-- ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
@@ -810,8 +811,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BURST_ONLY``` No single-fire mode. Note that this is an additional flag to the above "MODE_BURST" flag.
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
-- ```NO_AMMO``` Does not directly have a loaded ammo type.
-- ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo. (CBM weapons should get both NO_AMMO and BIO_WEAPON, to work correctly).
+- ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo and should not specify an ammo type
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```FIRE_50``` Uses 50 shots per firing.
@@ -825,6 +825,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```FIRE_TWOHAND``` Gun can only be fired if player has two free hands.
+- ```PRIMITIVE_RANGED_WEAPON``` Allows using non-gunsmith tools to repair it (but not reinforce).
 - ```NEVER_JAMS``` Never malfunctions.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.

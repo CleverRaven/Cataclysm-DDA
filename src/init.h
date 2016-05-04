@@ -7,6 +7,8 @@
 #include <vector>
 #include <memory>
 
+class Item_factory;
+
 //********** Functor Base, Static and Class member accessors
 class TFunctor
 {
@@ -109,6 +111,8 @@ template <class TClass> class ClassFunctionAccessor : public TFunctor
  */
 class DynamicDataLoader
 {
+        friend Item_factory;
+
     public:
         typedef std::string type_string;
         typedef std::map<type_string, TFunctor *> t_type_function_map;

@@ -158,6 +158,12 @@ int utf8_width(const std::string &str, const bool ignore_tags)
 {
     return utf8_width(str.c_str(), ignore_tags);
 }
+
+int utf8_width(const utf8_wrapper &str, const bool ignore_tags)
+{
+    return utf8_width(str.c_str(), ignore_tags);
+}
+
 //Convert cursor position to byte offset
 //returns the first character position in bytes behind the cursor position.
 //If the cursor is not on the first half of the character,
@@ -420,6 +426,24 @@ int center_text_pos(const char *text, int start_pos, int end_pos)
     return start_pos + position;
 }
 
+int center_text_pos( const std::string &text, int start_pos, int end_pos )
+{
+    return center_text_pos( text.c_str(), start_pos, end_pos );
+}
+
+int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos )
+{
+    int full_screen = end_pos - start_pos + 1;
+    int str_len = text.display_width();
+    int position = (full_screen - str_len) / 2;
+
+    if (position <= 0) {
+        return start_pos;
+    }
+
+    return start_pos + position;
+}
+
 // In an attempt to maintain compatibility with gcc 4.6, use an initializer function
 // instead of a delegated constructor.
 // When we declare a hard dependency on gcc 4.7+, turn this back into a delegated constructor.
@@ -556,6 +580,18 @@ void utf8_wrapper::append(const utf8_wrapper &other)
     _data.append(other._data);
     _length += other._length;
     _display_width += other._display_width;
+}
+
+utf8_wrapper& utf8_wrapper::replace_all( const utf8_wrapper &search, const utf8_wrapper &replace )
+{
+    for(std::string::size_type i = _data.find(search._data); i != std::string::npos;
+            i = _data.find(search._data, i) ) {
+        erase(i, search.length());
+        insert(i, replace);
+        i += replace._data.length();
+    }
+
+    return *this;
 }
 
 std::string utf8_wrapper::shorten( size_t maxlength ) const

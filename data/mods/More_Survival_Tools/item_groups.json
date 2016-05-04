@@ -77,7 +77,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "survival_tools",
+    "id" : "tools_survival",
     "items":[
       ["flint_steel", 3],
       ["hobo_stove", 3],

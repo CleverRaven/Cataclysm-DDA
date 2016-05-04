@@ -44,9 +44,11 @@
     "id" : "ammo_pistol_obscure",
     "//" : "Imported or otherwise very obscure pistol ammmo.",
     "items": [
-      [ "9x18mm", 100 ],
+      [ "454_Casull", 50 ],
+      [ "500_Magnum", 50 ],
+      [ "9x18mm", 50 ],
       [ "9x18mmfmj", 50 ],
-      [ "9x18mmP2", 20 ]
+      [ "9x18mmP2", 50 ]
     ]
   },
   {
@@ -128,7 +130,8 @@
       [ "22_ratshot", 30 ],
       [ "270", 25 ],
       [ "3006", 25 ],
-      [ "308", 25 ]
+      [ "308", 25 ],
+      [ "762_m43", 10 ]
     ]
   },
   {
@@ -141,8 +144,7 @@
       [ "556", 100 ],
       [ "762_51", 50 ],
       [ "762_54R", 50 ],
-      [ "762_m43", 50 ],
-      [ "762_m87", 20 ]
+      [ "762_m87", 25 ]
     ]
   },
   {
@@ -160,6 +162,7 @@
     "id" : "ammo_rifle_obscure",
     "//" : "Imported or otherwise very obscure rifle ammmo.",
     "items": [
+      [ "700nx", 100 ]
     ]
   },
   {
@@ -283,6 +286,21 @@
       { "group": "ammo_smg_reloaded", "prob": 10 },
       { "group": "ammo_rifle_reloaded", "prob": 100 },
       { "group": "ammo_shotgun_reloaded", "prob": 20 }
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "ammo_parts",
+    "//" : "Raw materials for assembling ammo excluding casings.",
+    "items":[
+      [ "gunpowder", 320 ],
+      [ "incendiary", 20 ],
+      [ "lead", 160 ],
+      [ "shotgun_primer", 80 ],
+      [ "smpistol_primer", 80 ],
+      [ "smrifle_primer", 80 ],
+      [ "lgpistol_primer", 40 ],
+      [ "lgrifle_primer", 40 ]
     ]
   },
   {

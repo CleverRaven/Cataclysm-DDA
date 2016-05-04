@@ -70,6 +70,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/dependency_tree.cpp
     ${CMAKE_SOURCE_DIR}/src/monster.cpp
     ${CMAKE_SOURCE_DIR}/src/editmap.cpp
+    ${CMAKE_SOURCE_DIR}/src/explosion.cpp
     ${CMAKE_SOURCE_DIR}/src/mapsharing.cpp
     ${CMAKE_SOURCE_DIR}/src/requirements.cpp
     ${CMAKE_SOURCE_DIR}/src/cursesport.cpp
@@ -119,6 +120,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/computer.cpp
     ${CMAKE_SOURCE_DIR}/src/trap.cpp
     ${CMAKE_SOURCE_DIR}/src/game.cpp
+    ${CMAKE_SOURCE_DIR}/src/gates.cpp
     ${CMAKE_SOURCE_DIR}/src/monattack.cpp
     ${CMAKE_SOURCE_DIR}/src/effect.cpp
     ${CMAKE_SOURCE_DIR}/src/iuse_software_sokoban.cpp
@@ -209,6 +211,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/worldfactory.h
     ${CMAKE_SOURCE_DIR}/src/editmap.h
     ${CMAKE_SOURCE_DIR}/src/effect.h
+    ${CMAKE_SOURCE_DIR}/src/explosion.h
     ${CMAKE_SOURCE_DIR}/src/creature.h
     ${CMAKE_SOURCE_DIR}/src/vehicle.h
     ${CMAKE_SOURCE_DIR}/src/vehicle_group.h
@@ -242,6 +245,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/computer.h
     ${CMAKE_SOURCE_DIR}/src/veh_interact.h
     ${CMAKE_SOURCE_DIR}/src/morale.h
+    ${CMAKE_SOURCE_DIR}/src/morale_types.h
     ${CMAKE_SOURCE_DIR}/src/game.h
     ${CMAKE_SOURCE_DIR}/src/generic_factory.h
     ${CMAKE_SOURCE_DIR}/src/help.h
@@ -300,6 +304,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/uistate.h
     ${CMAKE_SOURCE_DIR}/src/profession.h
     ${CMAKE_SOURCE_DIR}/src/path_info.h
+    ${CMAKE_SOURCE_DIR}/src/pathfinding.h
     ${CMAKE_SOURCE_DIR}/src/version.h
     ${CMAKE_SOURCE_DIR}/src/input.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h

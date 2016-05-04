@@ -18,13 +18,18 @@ src/debug.cpp
 src/dependency_tree.cpp
 src/drawing_primitives.cpp
 src/editmap.cpp
+src/explosion.cpp
 src/gamemode.cpp
+src/gates.cpp
+src/gates.h
+src/help.cpp
 src/item_action.cpp
 src/item_location.cpp
 src/itype.cpp
 src/iuse_software.cpp
 src/live_view.cpp
 src/lua_console.cpp
+src/main_menu.cpp
 src/map_selector.cpp
 src/mapsharing.cpp
 src/material.cpp
@@ -32,6 +37,7 @@ src/mattack_actors.cpp
 src/mission_end.cpp
 src/mission_fail.cpp
 src/mission_place.cpp
+src/mod_manager_ui.cpp
 src/mondefense.cpp
 src/monfaction.cpp
 src/monmove.cpp
@@ -57,6 +63,7 @@ src/tutorial.cpp
 src/vehicle_selector.cpp
 src/version.cpp
 src/weather_gen.cpp
+src/wish.cpp
 src/action.h
 src/active_item_cache.h
 src/activity_handlers.h
@@ -93,6 +100,7 @@ src/dependency_tree.h
 src/drawing_primitives.h
 src/editmap.h
 src/event.h
+src/explosion.h
 src/faction.h
 src/filesystem.h
 src/game_constants.h
@@ -130,6 +138,7 @@ src/mondefense.h
 src/monfaction.h
 src/mongroup.h
 src/morale.h
+src/morale_types.h
 src/mutation.h
 src/name.h
 src/npc_favor.h
@@ -137,6 +146,7 @@ src/omdata.h
 src/options.h
 src/overmap_types.h
 src/path_info.h
+src/pathfinding.h
 src/pickup.h
 src/platform_win.h
 src/player_activity.h

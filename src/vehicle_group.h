@@ -11,6 +11,8 @@ class VehicleGroup;
 using vgroup_id = string_id<VehicleGroup>;
 class VehicleSpawn;
 using vspawn_id = string_id<VehicleSpawn>;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
 
 extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 

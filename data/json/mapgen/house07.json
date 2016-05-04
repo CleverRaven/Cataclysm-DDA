@@ -109,7 +109,7 @@
                 { "item": "bedroom", "chance": 60,  "x": [ 15,21 ], "y": [ 7,21 ] },
                 { "item": "dresser", "chance": 70,  "x": [ 20,20 ], "y": [ 21,21 ] },
                 { "item": "dresser", "chance": 70,  "x": [ 17,17 ], "y": [ 21,21 ] },
-                { "item": "allguns", "chance": 80,  "x": [ 8,8 ], "y": [ 21,21 ] },
+                { "item": "guns_pistol_common", "chance": 80,  "x": [ 8,8 ], "y": [ 21,21 ], "magazine": 100, "ammo": 80 },
                 { "item": "dresser", "chance": 50,  "x": [ 12,12 ], "y": [ 21,21 ] },
                 { "item": "dresser", "chance": 50,  "x": [ 13,13 ], "y": [ 17,17 ] },
                 { "item": "softdrugs", "chance": 70, "x": [ 2,3 ], "y": [ 21,21 ] },

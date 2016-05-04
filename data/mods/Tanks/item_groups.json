@@ -71,7 +71,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "mil_books",
+    "id" : "book_military",
     "items":[
       ["textbook_launcher", 3]
     ]

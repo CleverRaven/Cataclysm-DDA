@@ -3,13 +3,15 @@
 
 #include "output.h" //WINDOW_PTR
 
+struct visibility_variables;
+
 class live_view
 {
     public:
         live_view() = default;
 
         void init( int start_x, int start_y, int width, int height );
-        void show( int x, int y );
+        void show( int x, int y, const visibility_variables &cache );
         bool hide( bool refresh = true, bool force = false );
         bool is_compact() const;
         void set_compact( bool value );

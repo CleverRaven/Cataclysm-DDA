@@ -1,0 +1,108 @@
+[
+  {
+    "result": "chem_ethanol",
+    "type" : "recipe",
+    "byproducts": [ "water_clean" ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 5,
+    "time": 30000,
+    "book_learn": [ [ "textbook_chemistry", 5 ], [ "brewing_cookbook", 4 ] ],
+    "qualities": [
+        { "id": "BOIL", "level": 2 },
+        { "id": "DISTILL", "level": 2 }
+     ],
+     "tools": [
+       [ [ "fire", -1 ], [ "hotplate", 30 ], [ "toolset", 30 ] ],
+       [ [ "thermometer", -1 ] ]
+     ],
+     "components": [ [
+       [ "vodka", 14 ],
+       [ "whiskey", 14 ],
+       [ "single_malt_whiskey", 14 ],
+       [ "brandy", 14 ],
+       [ "rum", 14 ],
+       [ "gin", 14 ],
+       [ "tequila", 14 ],
+       [ "bum_wine", 56 ],
+       [ "fruit_wine", 56 ],
+       [ "moonshine", 14 ],
+       [ "mixed_alcohol_strong", 14 ]
+    ] ]
+  },
+  {
+    "result": "denat_alcohol",
+    "type" : "recipe",
+    "byproducts": [ "water_clean" ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": 30000,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
+    "qualities": [
+        { "id": "BOIL", "level": 2 },
+        { "id": "DISTILL", "level": 1 }
+     ],
+     "tools": [
+       [ [ "fire", -1 ], [ "hotplate", 60 ], [ "toolset", 60 ] ]
+     ],
+     "components": [ [
+       [ "vodka", 14 ],
+       [ "whiskey", 14 ],
+       [ "single_malt_whiskey", 14 ],
+       [ "brandy", 14 ],
+       [ "rum", 14 ],
+       [ "gin", 14 ],
+       [ "tequila", 14 ],
+       [ "bum_wine", 56 ],
+       [ "fruit_wine", 56 ],
+       [ "moonshine", 14 ],
+       [ "mixed_alcohol_strong", 14 ]
+    ] ]
+  },
+  {
+    "result": "diesel",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 6,
+    "time": 60000,
+    "book_learn": [ [ "textbook_biodiesel", 5 ] ],
+    "qualities":[ { "id": "CHEM", "level": 2, "amount": 1 } ],
+    "tools": [ [
+      [ "fire", -1 ],
+      [ "hotplate", 20 ],
+      [ "toolset", 20 ]
+    ] ],
+    "components": [
+        [ [ "water_clean", 1 ], [ "water", 1 ] ],
+        [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ],
+        [ [ "lye_powder", 20 ] ],
+        [ [ "cooking_oil", 2 ], [ "lard", 2 ], [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "fat", 4 ], [ "fat_tainted", 4 ], [ "lamp_oil", 250 ] ]
+    ]
+  },
+  {
+    "result": "lamp_oil",
+    "type" : "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_FUEL",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": 30000,
+    "autolearn": true,
+    "qualities" : [
+      { "id": "CUT", "level": 1, "amount": 1 },
+      { "id": "COOK", "level": 3, "amount": 1 }
+    ],
+    "tools": [
+      [ [ "fire", -1 ], [ "hotplate", 10 ], [ "toolset", 10 ] ]
+    ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "tallow", 2 ], [ "tallow_tainted", 2 ], [ "lard", 2 ], [ "cooking_oil", 2 ] ]
+    ]
+  }
+]

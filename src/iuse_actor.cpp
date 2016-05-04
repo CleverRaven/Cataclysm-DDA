@@ -8,7 +8,7 @@
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "translations.h"
-#include "morale.h"
+#include "morale_types.h"
 #include "messages.h"
 #include "material.h"
 #include "event.h"
@@ -55,18 +55,27 @@ iuse_actor *iuse_transform::clone() const
 
 void iuse_transform::load( JsonObject &obj )
 {
-    // Mandatory:
-    target_id = obj.get_string( "target" );
-    // Optional (default is good enough):
+    target = obj.get_string( "target" ); // required
+
     obj.read( "msg", msg_transform );
-    obj.read( "target_charges", target_charges );
-    obj.read( "container", container_id );
+    obj.read( "container", container );
+    obj.read( "target_charges", ammo_qty );
+    obj.read( "target_ammo", ammo_type );
     obj.read( "active", active );
-    obj.read( "need_fire", need_fire );
-    obj.read( "need_fire_msg", need_fire_msg );
-    obj.read( "need_charges", need_charges );
-    obj.read( "need_charges_msg", need_charges_msg );
+
     obj.read( "moves", moves );
+    if( moves < 0 ) {
+        obj.throw_error( "transform actor specified negative moves", "moves" );
+    }
+
+    obj.read( "need_fire", need_fire );
+    need_fire = std::max( need_fire, 0L );
+    need_charges_msg = obj.has_string( "need_charges_msg" ) ? _( obj.get_string( "need_charges_msg" ).c_str() ) : _( "The %s is empty!" );
+
+    obj.read( "need_charges", need_charges );
+    need_charges = std::max( need_charges, 0L );
+    need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ).c_str() ) : _( "You need a source of fire!" );
+
     obj.read( "menu_option_text", menu_option_text );
     if( !menu_option_text.empty() ) {
         menu_option_text = _( menu_option_text.c_str() );
@@ -76,60 +85,52 @@ void iuse_transform::load( JsonObject &obj )
 long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) const
 {
     if( t ) {
-        // Invoked from active item processing, do nothing.
-        return 0;
-    }
-    // We can't just check for p != nullptr, because item::process sets p = g->u
-    // Not needed here (player always has the item), but is in auto_transform
-    const bool player_has_item = p != nullptr && p->has_item( *it );
-    if( player_has_item && p->is_underwater() ) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater"));
-        return 0;
-    }
-    if( player_has_item && need_charges > 0 && it->charges < need_charges ) {
-        if (!need_charges_msg.empty()) {
-            p->add_msg_if_player(m_info, _( need_charges_msg.c_str() ), it->tname().c_str());
-        }
-        return 0;
-    }
-    if( player_has_item && need_fire > 0 && !p->use_charges_if_avail("fire", need_fire) ) {
-        if (!need_fire_msg.empty()) {
-            p->add_msg_if_player(m_info, _( need_fire_msg.c_str() ), it->tname().c_str());
-        }
-        return 0;
-    }
-    // load this from the original item, not the transformed one.
-    const long charges_to_use = it->type->charges_to_use();
-    if( p != nullptr && !msg_transform.empty() && p->sees( pos ) ) {
-        p->add_msg_if_player(m_neutral, _( msg_transform.c_str() ), it->tname().c_str());
-    }
-    item *target;
-    if (container_id.empty()) {
-        // No container, assume simple type transformation like foo_off -> foo_on
-        target = &it->convert( target_id );
-    } else {
-        // Transform into something in a container, assume the content is
-        // "created" right now and give the content the current time as birthday
-        it->convert( container_id );
-        target = &it->emplace_back( target_id );
-    }
-    target->active = active;
-    if (target_charges > -2) {
-        // -1 is for items that can not have any charges at all.
-        target->charges = target_charges;
-    } else if( charges_to_use > 0 && target->charges >= 0 ) {
-    // Makes no sense to set the charges via this iuse and than remove some of them, you can combine
-    // both into the target_charges value.
-    // Also if the target does not use charges (item::charges == -1), don't change them at all.
-    // This allows simple transformations like "folded" <=> "unfolded", and "retracted" <=> "extended"
-    // Active item handling has gotten complicated, so having this consume charges itself
-    // instead of passing it off to the caller.
-        target->charges -= std::min(charges_to_use, target->charges);
+        return 0; // invoked from active item processing, do nothing.
     }
 
-    if( player_has_item ) {
-        p->moves -= moves;
+    bool possess = p && p->has_item( *it );
+
+    if( need_charges && it->ammo_remaining() < need_charges ) {
+        if( possess ) {
+            p->add_msg_if_player( m_info, need_charges_msg.c_str(), it->tname().c_str() );
+        }
+        return 0;
     }
+
+    if( need_fire && possess ) {
+        if( !p->use_charges_if_avail( "fire", need_fire ) ) {
+            p->add_msg_if_player( m_info, need_fire_msg.c_str(), it->tname().c_str() );
+            return 0;
+        }
+        if( p->is_underwater() ) {
+            p->add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
+            return 0;
+        }
+    }
+
+    if( p ) {
+        if( p->sees( pos ) && !msg_transform.empty() ) {
+            p->add_msg_if_player( m_neutral, _( msg_transform.c_str() ), it->tname().c_str() );
+        }
+        if( possess ) {
+            p->moves -= moves;
+        }
+    }
+
+    item *obj;
+    if( container.empty() ) {
+        obj = &it->convert( target );
+    } else {
+        it->convert( container );
+        obj = &it->emplace_back( target );
+    }
+
+    if( ammo_qty >= 0 ) {
+        obj->ammo_set( ammo_type.empty() ? obj->ammo_current() : ammo_type, ammo_qty );
+    }
+
+    obj->active = active;
+
     return 0;
 }
 
@@ -155,10 +156,11 @@ extern std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int ra
 
 void explosion_iuse::load( JsonObject &obj )
 {
-    obj.read( "explosion_power", explosion_power );
-    obj.read( "explosion_shrapnel", explosion_shrapnel );
-    obj.read( "explosion_distance_factor", explosion_distance_factor );
-    obj.read( "explosion_fire", explosion_fire );
+    if( obj.has_object( "explosion" ) ) {
+        auto expl = obj.get_object( "explosion" );
+        explosion = load_explosion_data( expl );
+    }
+
     obj.read( "draw_explosion_radius", draw_explosion_radius );
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
@@ -195,9 +197,11 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         }
         return 0;
     }
-    if (explosion_power >= 0) {
-        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_shrapnel, explosion_fire );
+
+    if( explosion.power >= 0.0f ) {
+        g->explosion( pos, explosion );
     }
+
     if (draw_explosion_radius >= 0) {
         g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);
     }
@@ -929,20 +933,19 @@ void salvage_actor::load( JsonObject &obj )
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
         while( jarr.has_more() ) {
-            const auto material_id = jarr.next_string();
-            material_whitelist.push_back( material_id );
+            material_whitelist.push_back( material_id( jarr.next_string() ) );
         }
     } else {
         // Default to old salvageable materials
-        material_whitelist.push_back("cotton");
-        material_whitelist.push_back("leather");
-        material_whitelist.push_back("fur");
-        material_whitelist.push_back("nomex");
-        material_whitelist.push_back("kevlar");
-        material_whitelist.push_back("plastic");
-        material_whitelist.push_back("wood");
-        material_whitelist.push_back("wool");
-        material_whitelist.push_back("neoprene");
+        material_whitelist.push_back( material_id( "cotton" ) );
+        material_whitelist.push_back( material_id( "leather" ) );
+        material_whitelist.push_back( material_id( "fur" ) );
+        material_whitelist.push_back( material_id( "nomex" ) );
+        material_whitelist.push_back( material_id( "kevlar" ) );
+        material_whitelist.push_back( material_id( "plastic" ) );
+        material_whitelist.push_back( material_id( "wood" ) );
+        material_whitelist.push_back( material_id( "wool" ) );
+        material_whitelist.push_back( material_id( "neoprene" ) );
     }
 }
 
@@ -1050,7 +1053,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->skillLevel( skill_fabrication ) );
     // What material components can we get back?
-    std::vector<std::string> cut_material_components = cut->made_of();
+    std::vector<material_id> cut_material_components = cut->made_of();
     // What materials do we salvage (ids and counts).
     std::map<std::string, int> materials_salvaged;
 
@@ -1094,9 +1097,9 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // Decided to split components evenly. Since salvage will likely change
     // soon after I write this, I'll go with the one that is cleaner.
     for (auto material : cut_material_components) {
-        material_type * mt = material_type::find_material(material);
-        std::string salvaged_id = mt->salvage_id();
-        float salvage_multiplier = mt->salvage_multiplier();
+        const material_type &mt = material.obj();
+        std::string salvaged_id = mt.salvage_id();
+        float salvage_multiplier = mt.salvage_multiplier();
         materials_salvaged[salvaged_id] = count * salvage_multiplier / cut_material_components.size();
     }
 
@@ -1142,19 +1145,18 @@ void inscribe_actor::load( JsonObject &obj )
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
         while( jarr.has_more() ) {
-            const auto material_id = jarr.next_string();
-            material_whitelist.push_back( material_id );
+            material_whitelist.push_back( material_id( jarr.next_string() ) );
         }
     } else if( material_restricted ) {
         material_whitelist.reserve( 7 );
         // Default to old carveable materials
-        material_whitelist.push_back("wood");
-        material_whitelist.push_back("plastic");
-        material_whitelist.push_back("glass");
-        material_whitelist.push_back("chitin");
-        material_whitelist.push_back("iron");
-        material_whitelist.push_back("steel");
-        material_whitelist.push_back("silver");
+        material_whitelist.push_back( material_id( "wood" ) );
+        material_whitelist.push_back( material_id( "plastic" ) );
+        material_whitelist.push_back( material_id( "glass" ) );
+        material_whitelist.push_back( material_id( "chitin" ) );
+        material_whitelist.push_back( material_id( "iron" ) );
+        material_whitelist.push_back( material_id( "steel" ) );
+        material_whitelist.push_back( material_id( "silver" ) );
     }
 
     verb = _(obj.get_string( "verb", "Carve" ).c_str());
@@ -1400,7 +1402,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->has_material("flesh") &&
+        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->made_of( material_id( "flesh" ) ) &&
             mt->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }
@@ -1591,14 +1593,8 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
     }
 
     if( extinguish ) {
-        it->active = false;
-        const auto tool = dynamic_cast<const it_tool *>( it->type );
-        if( tool == nullptr ) {
-            debugmsg( "Non-tool has fireweapon_on actor" );
-            it->convert( "null" );
-        }
+        it->deactivate( p, false );
 
-        it->convert( tool->revert_to );
     } else if( one_in( noise_chance ) ) {
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, _(noise_message.c_str()) );
@@ -1885,6 +1881,23 @@ void bandolier_actor::load( JsonObject &obj )
     ammo = obj.get_tags( "ammo" );
 }
 
+void bandolier_actor::info( const item&, std::vector<iteminfo>& dump ) const
+{
+    if( !ammo.empty() ) {
+        auto str = std::accumulate( std::next( ammo.begin() ), ammo.end(),
+                                    string_format( "<stat>%s</stat>", ammo_name( *ammo.begin() ).c_str() ),
+                                    [&]( const std::string& lhs, const ammotype& rhs ) {
+                return lhs + string_format( ", <stat>%s</stat>", ammo_name( rhs ).c_str() );
+        } );
+
+        dump.emplace_back( "TOOL", string_format(
+            ngettext( "Can be activated to store a single round of ",
+                      "Can be activated to store up to <stat>%i</stat> rounds of ", capacity ),
+                      capacity ),
+            str );
+    }
+}
+
 bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
 {
     if( !obj.is_ammo() ) {
@@ -2012,7 +2025,7 @@ void repair_item_actor::load( JsonObject &obj )
     // Mandatory:
     JsonArray jarr = obj.get_array( "materials" );
     while( jarr.has_more() ) {
-        materials.push_back( jarr.next_string() );
+        materials.push_back( material_id( jarr.next_string() ) );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
@@ -2033,28 +2046,28 @@ void repair_item_actor::load( JsonObject &obj )
 }
 
 // TODO: This should be a property of material json, not a hardcoded hack
-const itype_id &material_component( const std::string &material_id )
+const itype_id &material_component( const material_id &id )
 {
-    static const std::map< std::string, itype_id > material_id_map {
+    static const std::map< material_id, itype_id > material_id_map {
         // Metals (welded)
-        { "kevlar", "kevlar_plate" },
-        { "plastic", "plastic_chunk" },
-        { "iron", "scrap" },
-        { "steel", "scrap" },
-        { "hardsteel", "scrap" },
-        { "aluminum", "material_aluminium_ingot" },
-        { "copper", "scrap_copper" },
+        { material_id( "kevlar" ), "kevlar_plate" },
+        { material_id( "plastic" ), "plastic_chunk" },
+        { material_id( "iron" ), "scrap" },
+        { material_id( "steel" ), "scrap" },
+        { material_id( "hardsteel" ), "scrap" },
+        { material_id( "aluminum" ), "material_aluminium_ingot" },
+        { material_id( "copper" ), "scrap_copper" },
         // Fabrics (sewn)
-        { "cotton", "rag" },
-        { "leather", "leather" },
-        { "fur", "fur" },
-        { "nomex", "nomex" },
-        { "wool", "felt_patch" },
-        { "neoprene", "neoprene" }
+        { material_id( "cotton" ), "rag" },
+        { material_id( "leather" ), "leather" },
+        { material_id( "fur" ), "fur" },
+        { material_id( "nomex" ), "nomex" },
+        { material_id( "wool" ), "felt_patch" },
+        { material_id( "neoprene" ), "neoprene" }
     };
 
     static const itype_id null_material = "";
-    const auto iter = material_id_map.find( material_id );
+    const auto iter = material_id_map.find( id );
     if( iter != material_id_map.end() ) {
         return iter->second;
     }
@@ -2076,8 +2089,7 @@ bool could_repair( const player &p, const item &it, bool print_msg )
         }
         return false;
     }
-    int charges_used = dynamic_cast<const it_tool*>( it.type )->charges_to_use();
-    if( it.charges < charges_used ) {
+    if( it.charges < it.type->charges_to_use() ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
         }
@@ -2119,7 +2131,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     bool print_msg, bool just_check ) const
 {
     // Entries valid for repaired items
-    std::set<std::string> valid_entries;
+    std::set<material_id> valid_entries;
     for( const auto &mat : materials ) {
         if( fix.made_of( mat ) ) {
             valid_entries.insert( mat );
@@ -2132,10 +2144,10 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
             pl.add_msg_if_player( m_info, _("Your %s is not made of any of:"),
                                   fix.tname().c_str());
             for( const auto &mat_name : materials ) {
-                const auto mat = material_type::find_material( mat_name );
+                const auto &mat = mat_name.obj();
                 const auto mat_comp = material_component( mat_name );
                 pl.add_msg_if_player( m_info, _("%s (repaired using %s)"),
-                                      mat->name().c_str(), item::nname( mat_comp, 2 ).c_str() );
+                                      mat.name().c_str(), item::nname( mat_comp, 2 ).c_str() );
             }
         }
 
@@ -2207,7 +2219,7 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
             cur_difficulty++;
         }
 
-        if( !training && !pl.has_recipe_requirements( cur_recipe ) ) {
+        if( !training && !pl.has_recipe_requirements( *cur_recipe ) ) {
             cur_difficulty++;
         }
 
@@ -2244,7 +2256,7 @@ bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fi
         return false;
     }
 
-    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const std::string &mat ) {
+    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const material_id &mat ) {
             return material_component( mat ) == fix.typeId();
         } ) ) {
         if( print_msg ) {
@@ -2756,4 +2768,35 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
     }
 
     return healed;
+}
+
+void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    if( head_power > 0 || torso_power > 0 || limb_power > 0 ) {
+        dump.emplace_back( "TOOL", _( "<bold>Base healing:</bold> " ), "", -999, true, "", true );
+        dump.emplace_back( "TOOL", _( "Head: " ), "", head_power, true, "", false );
+        dump.emplace_back( "TOOL", _( "  Torso: " ), "", torso_power, true, "", false );
+        dump.emplace_back( "TOOL", _( "  Limbs: " ), "", limb_power, true, "", true );
+        if( g != nullptr ) {
+            dump.emplace_back( "TOOL", _( "<bold>Actual healing:</bold> " ), "", -999, true, "", true );
+            dump.emplace_back( "TOOL", _( "Head: " ), "", get_heal_value( g->u, hp_head ), true, "", false );
+            dump.emplace_back( "TOOL", _( "  Torso: " ), "", get_heal_value( g->u, hp_torso ), true, "", false );
+            dump.emplace_back( "TOOL", _( "  Limbs: " ), "", get_heal_value( g->u, hp_arm_l ), true, "", true );
+        }
+    }
+
+    if( bleed > 0.0f || bite > 0.0f || infect > 0.0f ) {
+        dump.emplace_back( "TOOL", _( "<bold>Chance to heal (percent):</bold> " ), "", -999, true, "", true );
+        if( bleed > 0.0f ) {
+            dump.emplace_back( "TOOL", _( "<bold>Bleeding</bold>:" ), "", (int)(bleed * 100), true, "", true );
+        }
+        if( bite > 0.0f ) {
+            dump.emplace_back( "TOOL", _( "<bold>Bite</bold>:" ), "", (int)(bite * 100), true, "", true );
+        }
+        if( infect > 0.0f ) {
+            dump.emplace_back( "TOOL", _( "<bold>Infection</bold>:" ), "", (int)(infect * 100), true, "", true );
+        }
+    }
+
+    dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
 }

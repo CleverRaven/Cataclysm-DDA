@@ -117,38 +117,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "lamp_oil",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":3,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 7 ],
-      [ "toolset", 7 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "tallow", 2 ],
-      [ "tallow_tainted", 2 ],
-      [ "lard", 2 ],
-      [ "cooking_oil", 5 ]
-    ],
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "tallow_tainted",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_OTHER",
@@ -1980,47 +1948,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "disinfectant",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "cooking",
-  "skills_required": [ "firstaid", 2 ],
-  "difficulty": 4,
-  "time": 24000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["textbook_firstaid", 3] , ["manual_first_aid", 3] , ["emergency_book", 4] , ["pocket_firstaid", 2] , ["recipe_labchem", 4]],
-  "qualities":[
-    {"id":"CHEM","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 25 ],
-      [ "toolset", 25 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "whiskey", 7 ],
-      [ "single_malt_whiskey", 7 ],
-      [ "vodka", 7 ],
-      [ "rum", 7 ],
-      [ "tequila", 7 ],
-      [ "gin", 7 ],
-      [ "moonshine", 7 ],
-      [ "brandy", 7 ],
-      [ "chem_ethanol", 7],
-      [ "bleach", 1 ]
-    ],
-    [
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "oxy_powder", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "iodine",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
@@ -2492,7 +2419,7 @@
     [
      [ "tallow", 2 ],
      [ "lard", 2 ],
-     [ "cooking_oil", 5 ]
+     [ "cooking_oil", 2 ]
     ],
     [
      [ "lye_powder", 10 ]
@@ -2552,89 +2479,6 @@
     [ [ "sewage", 1 ] ],
     [ [ "bleach", 1 ] ]
   ]
-},{
-  "type" : "recipe",
-  "result": "gasoline",
-  "byproducts": ["diesel", "lamp_oil"],
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_CHEMICALS",
-  "skill_used": "cooking",
-  "difficulty": 6,
-  "time": 36000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "tools": [ [ [ "chemistry_set", 50 ] ] ],
-  "components": [
-    [ [ "water_clean", 1 ], [ "water", 1 ] ],
-    [ [ "plant_sac", 10 ], [ "veggy", 6 ] ],
-    [ [ "lye_powder", 5 ] ]
-  ]
-},
-{
-    "type": "recipe",
-    "result": "diesel",
-    "result_mult": 2,
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "cooking",
-    "difficulty": 6,
-    "time": 3000,
-    "reversible": false,
-    "autolearn": false,
-    "book_learn": [["textbook_biodiesel", 5]],
-    "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
-    "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 10 ],
-      [ "hotplate", 10 ]
-    ]
-    ],
-    "components": [
-        [[ "water_clean", 1 ], [ "water", 1 ]],
-        [[ "chem_ethanol", 14 ], ["denat_alcohol", 14 ]],
-        [[ "cooking_oil", 2 ],
-         [ "lard", 2 ],
-         [ "tallow", 2 ],
-         [ "tallow_tainted", 4 ],
-         [ "fat", 4 ],
-         [ "fat_tainted", 8 ]],
-        [[ "lye_powder", 1 ]]
-    ]
-},
-{
-  "type" : "recipe",
-  "result": "chem_ethanol",
-  "byproducts": ["water_clean"],
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_CHEMICALS",
-  "skill_used": "cooking",
-  "difficulty": 6,
-  "time": 1176,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["adv_chemistry", 5] , ["textbook_chemistry", 5] , ["recipe_labchem", 5]],
-  "qualities": [
-      {"id":"BOIL","level":2,"amount":1},
-      {"id":"BREW","level":2,"amount":1}
-   ],
-    "tools": [ [
-        [ "hotplate", 15 ],
-        [ "toolset", 15 ]
-    ] ],
-    "components": [ [
-        [ "vodka", 14 ],
-        [ "whiskey", 14 ],
-        [ "single_malt_whiskey", 14 ],
-        [ "brandy", 14 ],
-        [ "rum", 14 ],
-        [ "gin", 14 ],
-        [ "tequila", 14 ],
-        [ "bum_wine", 56 ],
-        [ "fruit_wine", 56],
-        [ "moonshine", 14]
-    ] ]
 },
 {
   "type" : "recipe",

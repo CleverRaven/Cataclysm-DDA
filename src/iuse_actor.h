@@ -6,6 +6,7 @@
 #include "color.h"
 #include "bodypart.h"
 #include "string_id.h"
+#include "explosion.h"
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -20,6 +21,9 @@ using skill_id = string_id<Skill>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 using ammotype = std::string;
+using itype_id = std::string;
+class material_type;
+using material_id = string_id<material_type>;
 
 /**
  * Transform an item into a specific type.
@@ -34,41 +38,41 @@ using ammotype = std::string;
 class iuse_transform : public iuse_actor
 {
     public:
-        /** Message to the player, %s is replaced with the item name */
+        /** displayed if player sees transformation with %s replaced by item name */
         std::string msg_transform;
-        /** Id of the resulting item. */
-        std::string target_id;
-        /**
-         * If >= -1: set the charges property of the target to this value. */
-        long target_charges;
-        /** Id of the container (or empty if no container is needed).
-         * If not empty, the item is transformed to the container, and a
-         * new item (with type @ref target_id) is placed inside.
-         * In that case the new item will have the current turn as birthday.
-         */
-        std::string container_id;
-        /** Set the active property of the resulting item to this. */
-        bool active;
-        /** Need this many fire charges. Values <= 0 don't need fire.
-         * The player must not be underwater if fire is used! */
-        long need_fire;
+
+        /** type of the resulting item */
+        std::string target;
+
+        /** if set transform item to container and place new item (of type @ref target) inside */
+        std::string container;
+
+        /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
+        long ammo_qty = -1;
+
+        /** if both this and ammo_qty are specified then set @ref target to this specific ammo */
+        std::string ammo_type;
+
+        /** used to set the active property of the transformed @ref target */
+        bool active = false;
+
+        /** subtracted from @ref Creature::moves when transformation is successful */
+        int moves = 0;
+
+        /** minimum number of fire charges required (if any) for transformation */
+        long need_fire = 0;
+
+        /** displayed if item is in player possession with %s replaced by item name */
         std::string need_fire_msg;
-        /** Need this many charges before processing the action. Values <= 0 are ignored. */
-        long need_charges;
+
+        /** minimum charges (if any) required for transformation */
+        long need_charges = 0;
+
+        /** displayed if item is in player possession with %s replaced by item name */
         std::string need_charges_msg;
-        /** Subtract this from @ref Creature::moves when actually transforming the item. */
-        int moves;
+
         std::string menu_option_text;
 
-        iuse_transform()
-            : iuse_actor()
-            , target_charges(-2)
-            , active(false)
-            , need_fire(0)
-            , need_charges(0)
-            , moves(0)
-        {
-        }
         virtual ~iuse_transform();
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, const tripoint& ) const override;
@@ -116,12 +120,15 @@ class auto_iuse_transform : public iuse_transform
 class explosion_iuse : public iuse_actor
 {
     public:
-        // Those 4 values are forwarded to game::explosion.
-        // No explosion is done if power < 0
-        float explosion_power;
-        float explosion_distance_factor;
-        int explosion_shrapnel;
-        bool explosion_fire;
+        // Structure describing the explosion + shrapnel
+        // Ignored if its power field is < 0
+        explosion_data explosion;
+
+        /** Maximum percentage of count that should be dropped within area of effect */
+        int shrapnel_recovery = 0;
+        /** What type of shrapnel to drop */
+        itype_id shrapnel_drop = "null";
+
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
         int draw_explosion_radius;
@@ -147,10 +154,6 @@ class explosion_iuse : public iuse_actor
 
         explosion_iuse()
             : iuse_actor()
-            , explosion_power(-1)
-            , explosion_distance_factor(0.8f)
-            , explosion_shrapnel(-1)
-            , explosion_fire(false)
             , draw_explosion_radius(-1)
             , draw_explosion_color(c_white)
             , do_flashbang(false)
@@ -421,7 +424,7 @@ class salvage_actor : public iuse_actor
         /**
          * Materials it can cut.
          */
-        std::vector<std::string> material_whitelist;
+        std::vector<material_id> material_whitelist;
 
         bool try_to_cut_up( player *p, item *it ) const;
         int cut_up( player *p, item *it, item *cut ) const;
@@ -448,7 +451,7 @@ class inscribe_actor : public iuse_actor
         bool material_restricted;
 
         // Materials it can write on
-        std::vector<std::string> material_whitelist;
+        std::vector<material_id> material_whitelist;
 
         // How will the inscription be described
         std::string verb; // "Write", "Carve"
@@ -659,6 +662,7 @@ class bandolier_actor : public iuse_actor
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, const tripoint & ) const override;
         virtual iuse_actor *clone() const override;
+        virtual void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -668,7 +672,7 @@ class repair_item_actor : public iuse_actor
 {
     public:
         /** Materials we are allowed to repair */
-        std::vector<std::string> materials;
+        std::vector<material_id> materials;
         /** Skill used */
         skill_id used_skill;
         /**
@@ -781,6 +785,7 @@ class heal_actor : public iuse_actor
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, const tripoint & ) const override;
         virtual iuse_actor *clone() const override;
+        virtual void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 #endif

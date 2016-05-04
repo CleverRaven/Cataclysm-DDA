@@ -1,3 +1,4 @@
+#include <cmath>
 #include <sstream>
 #include "calendar.h"
 #include "output.h"

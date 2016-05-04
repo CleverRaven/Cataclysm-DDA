@@ -5,6 +5,7 @@
 #include "map.h"
 #include "options.h"
 #include "translations.h"
+#include "catacharset.h"
 #include "vehicle.h"
 
 #include <map>
@@ -17,31 +18,6 @@ namespace
 constexpr int START_LINE = 1;
 constexpr int START_COLUMN = 1;
 
-void print_items( WINDOW *const w, const map_stack &items, int &line )
-{
-    std::map<std::string, int> item_names;
-    for( auto &item : items ) {
-        ++item_names[item.tname()];
-    }
-
-    int const last_line = getmaxy( w ) - START_LINE - 1;
-    int const max_w = getmaxx( w ) - START_COLUMN - 1; // border
-
-    for( auto const &it : item_names ) {
-        if( line == last_line ) {
-            mvwprintz( w, line++, START_COLUMN, c_yellow, _( "More items here..." ) );
-            break;
-        }
-
-        if( it.second > 1 ) {
-            //~ item name [quantity]
-            trim_and_print( w, line++, START_COLUMN, max_w, c_white, _( "%s [%d]" ),
-                            it.first.c_str(), it.second );
-        } else {
-            trim_and_print( w, line++, START_COLUMN, max_w, c_white, "%s", it.first.c_str() );
-        }
-    }
-}
 } //namespace
 
 bool live_view::is_compact() const
@@ -65,40 +41,21 @@ void live_view::init( int const start_x, int const start_y, int const w, int con
     hide();
 }
 
-void live_view::show( const int x, const int y )
+void live_view::show( const int x, const int y, const visibility_variables &cache )
 {
     if( !enabled || !w_live_view ) {
         return;
     }
 
-    bool did_hide = hide( false ); // Clear window if it's visible
+    hide( false ); // Clear window if it's visible
 
-    if( !g->u.sees( x, y ) ) {
-        if( did_hide ) {
-            wrefresh( *this );
-        }
-        return;
-    }
-
-    map &m = g->m;
-    mvwprintz( *this, 0, START_COLUMN, c_white, "< " );
-    wprintz( *this, c_green, _( "Mouse View" ) );
-    wprintz( *this, c_white, " >" );
     int line = START_LINE;
 
     // TODO: Z
     tripoint p( x, y, g->get_levz() );
 
-    g->print_all_tile_info( p, *this, START_COLUMN, line, true );
-
-    if( m.can_put_items( p ) && m.sees_some_items( p, g->u ) ) {
-        if( g->u.has_effect( effect_blind ) || g->u.worn_with_flag( "BLIND" ) ) {
-            mvwprintz( *this, line++, START_COLUMN, c_yellow,
-                       _( "There's something here, but you can't see what it is." ) );
-        } else {
-            print_items( *this, m.i_at( p ), line );
-        }
-    }
+    const int last_line = getmaxy( w_live_view.get() ) - START_LINE - 1;
+    g->print_all_tile_info( p, *this, START_COLUMN, line, last_line, false, cache );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     // Because of the way the status UI is done, the live view window must
@@ -110,12 +67,21 @@ void live_view::show( const int x, const int y )
     // be a different code path here that works for ncurses.
     int full_height = w_live_view->height;
     if( line < w_live_view->height - 1 ) {
-        w_live_view->height = ( line > 11 ) ? line : 11;
+        w_live_view->height = std::max( line + 1, 11 );
     }
     last_height = w_live_view->height;
 #endif
 
     draw_border( *this );
+    static const char *title_prefix = "< ";
+    static const char *title = _( "Mouse View" );
+    static const char *title_suffix = " >";
+    static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
+    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( w_live_view.get() ) - 1 );
+
+    mvwprintz( *this, 0, start_pos, c_white, title_prefix );
+    wprintz( *this, c_green, title );
+    wprintz( *this, c_white, title_suffix );
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
