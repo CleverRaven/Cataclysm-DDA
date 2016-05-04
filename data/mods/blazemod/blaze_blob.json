@@ -951,7 +951,7 @@
         "not_ready_msg": "You test the structure; it gives easily, it's still not sturdy enough",
         "msg": "You test the structure; it gives into pressure, but quickly springs back into place.  It's ready.",
         "moves": 0,
-        "target": "bseat"
+        "target": "bharness"
     }
   },
   {
