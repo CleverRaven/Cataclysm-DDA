@@ -150,6 +150,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         int new_range = no_overshoot ?
                             range + rng( -offset, offset ) :
                             rng( range - offset, proj_arg.range );
+        new_range = std::max( new_range, 1 );
 
         target.x = source.x + roll_remainder( new_range * cos( rad ) );
         target.y = source.y + roll_remainder( new_range * sin( rad ) );
