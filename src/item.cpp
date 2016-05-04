@@ -2068,7 +2068,7 @@ void item::on_pickup( Character &p )
     }
 }
 
-std::string item::tname( unsigned int quantity, bool with_prefix, bool with_tags ) const
+std::string item::tname( unsigned int quantity, bool with_prefix, bool grid ) const
 {
     std::stringstream ret;
 
@@ -2079,8 +2079,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, bool with_tags
             if( damage < MIN_ITEM_DAMAGE ) {
                 damtext = rm_prefix(_("<dam_adj>bugged "));
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto const &nc_text = get_item_hp_bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+                if(!grid) {
+                    auto const &nc_text = get_item_hp_bar(damage);
+                    damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+                }
             } else if (is_gun())  {
                 damtext = rm_prefix(_("<dam_adj>accurized "));
             } else {
@@ -2094,9 +2096,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix, bool with_tags
                 if (damage == 4) damtext = rm_prefix(_("<dam_adj>pulped "));
 
             } else if ( OPTIONS["ITEM_HEALTH_BAR"] ) {
-                auto const &nc_text = get_item_hp_bar(damage);
-                damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
-
+                if(!grid) {
+                    auto const &nc_text = get_item_hp_bar(damage);
+                    damtext = "<color_" + string_from_color(nc_text.second) + ">" + nc_text.first + " </color>";
+                }
             } else {
                 damtext = rmp_format("%s ", get_base_material().dmg_adj(damage).c_str());
             }
@@ -2151,20 +2154,14 @@ std::string item::tname( unsigned int quantity, bool with_prefix, bool with_tags
     else if (iname != item_vars.end()) {
         maintext = iname->second;
     }
-    else if( is_gun() || is_tool() || is_magazine() ) {
+    else if(is_gun() || is_tool() || is_magazine() ||
+        (is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
+        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 )) {
         ret.str("");
         ret << label(quantity);
-        for( const auto mod : gunmods() ) {
-            if( !type->gun->built_in_mods.count( mod->typeId() ) ) {
-                ret << "+";
-            }
+        if(!grid) {
+            ret << get_mod_string();
         }
-        maintext = ret.str();
-    } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
-        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 ) {
-        ret.str("");
-        ret << label(quantity);
-        ret << "+";
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
@@ -2185,7 +2182,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, bool with_tags
     }
 
     std::string tagtext = "";
-    if(with_tags) { 
+    if(!grid) { 
         tagtext = get_item_tags(true);
     }
     std::string modtext = "";
@@ -2247,65 +2244,82 @@ std::string item::display_name(unsigned int quantity) const
 
 std::string item::get_item_tags(bool parens) const
 {
-    std::string rtn;
-    std::stringstream ret;
-    ret.str("");
+    std::ostringstream ret;
     
     if (is_food()) {
         if(rotten()) {
-            ret << parens ? _(" (rotten)") : _(" ROTTEN");
+            ret << (parens ? _(" (rotten)") : _(" ROTTEN"));
         } else if ( is_going_bad()) {
-            ret << parens ? _(" (old)") : _(" OLD");
+            ret << (parens ? _(" (old)") : _(" OLD"));
         } else if ( is_fresh() ) {
-            ret << parens ? _(" (fresh)") : _(" FRESH");
+            ret << (parens ? _(" (fresh)") : _(" FRESH"));
         }
         
         if (has_flag("HOT")) {
-            ret << parens ? _(" (hot)") : _(" HOT");
-            }
+            ret << (parens ? _(" (hot)") : _(" HOT"));
+        }
         if (has_flag("COLD")) {
-            ret << parens ? _(" (cold)") : _(" COLD");
-            }
+            ret << (parens ? _(" (cold)") : _(" COLD"));
+        }
     }
 
     if (has_flag("FIT")) {
-        ret << parens ? _(" (fits)") : _(" FITS");
+        ret << (parens ? _(" (fits)") : _(" FITS"));
     }
 
     if (is_tool() && has_flag("USE_UPS")) {
-        ret << parens ? _(" (UPS)") : _(" UPS");
+        ret << (parens ? _(" (UPS)") : _(" UPS"));
     }
     if (is_tool() && has_flag("RADIO_MOD")) {
-        ret << parens ? _(" (radio:") : _(" Radio");
+        ret << (parens ? _(" (radio:") : _(" Radio"));
         if( has_flag( "RADIOSIGNAL_1" ) ) {
-            ret << parens ? _("R)") : _("R");
+            ret << (parens ? _("R)") : _("R"));
         } else if( has_flag( "RADIOSIGNAL_2" ) ) {
-            ret << parens ? _("B)") : _("B");
+            ret << (parens ? _("B)") : _("B"));
         } else if( has_flag( "RADIOSIGNAL_3" ) ) {
-            ret << parens ? _("G)") : _("G");
+            ret << (parens ? _("G)") : _("G"));
         } else {
-            ret << parens ? _("Bug") : _("Err");
+            ret << (parens ? _("Bug") : _("Err"));
         }
     }
 
     if(has_flag("WET"))
-        ret << parens ? _(" (wet)") : _(" WET");
+        ret << (parens ? _(" (wet)") : _(" WET"));
 
     if(has_flag("LITCIG"))
-        ret << parens ? _(" (lit)") : _(" LIT");
+        ret << (parens ? _(" (lit)") : _(" LIT"));
 
     if( already_used_by_player( g->u ) ) {
-        ret << parens ? _(" (used)") : _(" USED" );
+        ret << (parens ? _(" (used)") : _(" USED" ));
     }
 
     if( active && !is_food() && !is_corpse() && ( type->id.length() < 3 || type->id.compare( type->id.length() - 3, 3, "_on" ) != 0 ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
-        ret << parens ? _(" (active)") : _(" ACTIVE" );
+        ret << (parens ? _(" (active)") : _(" ACTIVE" ));
     }
 
-    rtn = ret.str();
+    std::string rtn = ret.str();
+    if(!parens && rtn.length() > 0) { // If we have a tag and we're pushing this to grid view, remove leading space
+        rtn = rtn.substr(1);
+    }
     return rtn;
+}
+
+std::string item::get_mod_string() const {
+    if(is_gun() || is_tool() || is_magazine()) {
+        std::ostringstream ret;
+        for( const auto mod : gunmods() ) {
+            if( !type->gun->built_in_mods.count( mod->typeId() ) ) {
+                ret << "+";
+            }
+        }
+        return ret.str();
+    } else if(is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
+        item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 ) {
+        return "+";
+    }
+    return "";
 }
 
 nc_color item::color() const

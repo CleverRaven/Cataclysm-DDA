@@ -171,6 +171,8 @@ class inventory_selector
         void print_left_column() const;
         void print_middle_column() const;
         void print_right_column() const;
+        
+        std::string *split_name(const std::string name, std::string* rtn) const;
     public:
         /** Toggle item dropping for item position it_pos:
          * If count is > 0: set dropping to count
@@ -452,6 +454,21 @@ void inventory_selector::print_right_column() const
     }
 }
 
+std::string *inventory_selector::split_name(const std::string name, std::string* rtn) const {
+    rtn[0] = name;
+    rtn[1] = "";
+    if(name.length() > 24) {
+        for(int i = 24; i > 0; i--) {
+            if(name[i] == ' ') {
+                rtn[0] = name.substr(0, i);
+                rtn[1] = name.substr(i + 1);
+                break;
+            }
+        }
+    }
+    return rtn;
+}
+
 void inventory_selector::print_grid(const itemstack_vector &worn, const itemstack_vector &inv, size_t selected) const {
     
     nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
@@ -495,6 +512,9 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
         const item &it = *cur_entry.it; // This is an item
         
         nc_color fill = (a == selected) ? selected_line_color : c_white;
+        nc_color invlet_color = (a == selected) ? selected_line_color :  // If selected, selected_line_color, otherwise (if hotkey assigned, yellow, otherwise white) 
+                (g->u.assigned_invlet.count(it.invlet) ? c_yellow : c_white);
+        nc_color name_color = (a == selected) ? selected_line_color : it.color_in_inventory();
         
         // Render the cell
         if(curr_line >= 3 && curr_line < TERMY) {  // Top line
@@ -536,21 +556,24 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
             mvwputch(w_inv, curr_line + 1, 26 + (row_i * 25), c_white, LINE_XOXO);
             // End Cell Border Stuff
         
-            if(it.invlet != 0) {
-                mvwputch(w_inv, curr_line + 1, 2 + (row_i * 25), fill, it.invlet);
+            if(it.invlet != 0) { // Show item hotkey (if any)
+                mvwputch(w_inv, curr_line + 1, 2 + (row_i * 25), invlet_color, it.invlet);
             }
             
-            if(count > 1) {
+            if(count > 1) { // Show item count (if more than one)
                 mvwprintz(w_inv, curr_line + 1, 3 + (row_i * 25), fill, "%22ux", count);
             }
             
-            if(OPTIONS["ITEM_HEALTH_BAR"] && (it.damage != 0 || it.is_armor()) && !it.is_null()) {
-                auto const &nc_text = get_item_hp_bar(damage);
+            if(OPTIONS["ITEM_HEALTH_BAR"] && (it.damage != 0 || it.is_armor()) && !it.is_null()) { // Show item damage (if appropriate)
+                auto const &nc_text = get_item_hp_bar(it.damage);
                 mvwprintz(w_inv, curr_line + 1, 6 + (row_i * 25), nc_text.second, nc_text.first.c_str());
             }
             
-            // TODO: Add in mod count at 10
+            mvwprintz(w_inv, curr_line + 1, 10 + (row_i * 25), fill, it.get_mod_string().c_str()); // Show mod count (if any)
         }
+        
+        std::string temp[2];
+        std::string *name_lines = split_name(item_name, temp);
         
         if(curr_line >= 1 && curr_line + 2 < TERMY) {  // Third line
             // Cell Border Stuff
@@ -563,6 +586,7 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
             mvwputch(w_inv, curr_line + 2, 26 + (row_i * 25), c_white, LINE_XOXO);
             // End Cell Border Stuff
             
+            mvwprintz(w_inv, curr_line + 2, 2 + (row_i * 25), name_color, name_lines[0].c_str()); // Print line one of name
         }
         
         if(curr_line >= 0 && curr_line + 3 < TERMY) {  // Fourth line
@@ -576,7 +600,15 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
             mvwputch(w_inv, curr_line + 3, 26 + (row_i * 25), c_white, LINE_XOXO);
             // End Cell Border Stuff
             
+            mvwprintz(w_inv, curr_line + 3, 4 + (row_i * 25), name_color, name_lines[1].c_str());
+            
             std::string tagtext = it.get_item_tags(false);
+            
+            if(tagtext.length() + name_lines[1].length() > 21) { // Collision between tags and second name line
+                mvwprintz(w_inv, curr_line + 3, 23 - tagtext.length() + (row_i * 25), fill, "...%s", tagtext.c_str());
+            } else {
+                mvwprintz(w_inv, curr_line + 3, 26 - tagtext.length() + (row_i * 25), fill, tagtext.c_str());
+            }
         }
         
         if(curr_line >= -1 && curr_line + 4 < TERMY) {  // Bottom line
@@ -606,8 +638,8 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
         }
         if(cur_entry.it == NULL) { // This is a category header, print out category
             if(had_first_cat) {
-                curr_line += 5; // Already printed first category, skip 5 lines
-                total_height += 5;
+                curr_line += 6; // Already printed first category, skip 5 lines
+                total_height += 6;
             } else {
                 had_first_cat = true; // Printing first category, put right at top
             }
@@ -625,6 +657,9 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
         const item &it = *cur_entry.it; // This is an item
         
         nc_color fill = (a + worn.size() == selected) ? selected_line_color : c_white;
+        nc_color invlet_color = (a + worn.size() == selected) ? selected_line_color :  // If selected, selected_line_color, otherwise (if hotkey assigned, yellow, otherwise white) 
+                (g->u.assigned_invlet.count(it.invlet) ? c_yellow : c_white);
+        nc_color name_color = (a + worn.size() == selected) ? selected_line_color : it.color_in_inventory();
         
         // Render the cell
         if(curr_line >= 3 && curr_line < TERMY) {  // Top line
@@ -646,12 +681,12 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
             // End Cell Border Stuff
         }
         
-        std::string item_name = ""; // Get object's display name
+        std::string item_name = it.label(); // Get object's display name
         size_t count = 1;
         if(cur_entry.slice != NULL) {
             count = cur_entry.slice->size();
             if(count > 1) {
-                item_name = it.tname(count);
+                item_name = it.label(count);
             }
         }
         
@@ -666,14 +701,24 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
             mvwputch(w_inv, curr_line + 1, 26 + (row_i * 25), c_white, LINE_XOXO);
             // End Cell Border Stuff
         
-            if(it.invlet != 0) {
-                mvwputch(w_inv, curr_line + 1, 2 + (row_i * 25), fill, it.invlet);
+            if(it.invlet != 0) { // Show item hotkey (if any)
+                mvwputch(w_inv, curr_line + 1, 2 + (row_i * 25), invlet_color, it.invlet);
             }
             
-            if(count > 1) {
+            if(count > 1) { // Show item count (if more than one)
                 mvwprintz(w_inv, curr_line + 1, 3 + (row_i * 25), fill, "%22ux", count);
             }
+            
+            if(OPTIONS["ITEM_HEALTH_BAR"] && (it.damage != 0 || it.is_armor()) && !it.is_null()) { // Show item damage (if appropriate)
+                auto const &nc_text = get_item_hp_bar(it.damage);
+                mvwprintz(w_inv, curr_line + 1, 6 + (row_i * 25), nc_text.second, nc_text.first.c_str());
+            }
+            
+            mvwprintz(w_inv, curr_line + 1, 10 + (row_i * 25), fill, it.get_mod_string().c_str()); // Show mod count (if any)
         }
+        
+        std::string temp[2];
+        std::string *name_lines = split_name(item_name, temp);
         
         if(curr_line >= 1 && curr_line + 2 < TERMY) {  // Third line
             // Cell Border Stuff
@@ -686,6 +731,7 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
             mvwputch(w_inv, curr_line + 2, 26 + (row_i * 25), c_white, LINE_XOXO);
             // End Cell Border Stuff
             
+            mvwprintz(w_inv, curr_line + 2, 2 + (row_i * 25), name_color, name_lines[0].c_str()); // Print line one of name
         }
         
         if(curr_line >= 0 && curr_line + 3 < TERMY) {  // Fourth line
@@ -698,6 +744,16 @@ void inventory_selector::print_grid(const itemstack_vector &worn, const itemstac
             }
             mvwputch(w_inv, curr_line + 3, 26 + (row_i * 25), c_white, LINE_XOXO);
             // End Cell Border Stuff
+            
+            mvwprintz(w_inv, curr_line + 3, 4 + (row_i * 25), name_color, name_lines[1].c_str());
+            
+            std::string tagtext = it.get_item_tags(false);
+            
+            if(tagtext.length() + name_lines[1].length() > 21) { // Collision between tags and second name line
+                mvwprintz(w_inv, curr_line + 3, 23 - tagtext.length() + (row_i * 25), fill, "...%s", tagtext.c_str());
+            } else {
+                mvwprintz(w_inv, curr_line + 3, 26 - tagtext.length() + (row_i * 25), fill, tagtext.c_str());
+            }
         }
         
         if(curr_line >= -1 && curr_line + 4 < TERMY) {  // Bottom line
