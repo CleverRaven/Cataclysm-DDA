@@ -54,14 +54,12 @@ void show_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
-    std::stringstream pwr;
-    pwr << string_format( _( "Power: %i/%i" ), int( p->power_level ), int( p->max_power_level ) );
-    int pwr_length = utf8_width( pwr.str() ) + 1;
-    mvwprintz( window, 0, getmaxx( window ) - pwr_length, c_white, "%s", pwr.str().c_str() );
+    std::string pwr = string_format( _( "Power: %i/%i" ), int( p->power_level ),
+                                     int( p->max_power_level ) );
+    int desc_length = getmaxx( window ) - utf8_width( pwr ) - 1;
+    mvwprintz( window, 0, desc_length, c_white, "%s", pwr.c_str() );
 
     std::string desc;
-    int desc_length = getmaxx( window ) - pwr_length;
-
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
     } else if( mode == ACTIVATING ) {
