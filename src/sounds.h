@@ -12,6 +12,12 @@ class player;
 class Creature;
 class item;
 
+enum verbal_shout_id : int {
+    VERBAL_SHOUT_NONE,
+    VERBAL_SHOUT_CALL,
+    NUM_VERBAL_SHOUT
+};
+
 namespace sounds
 {
 // Methods for recording sound events.

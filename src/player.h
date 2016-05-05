@@ -4,6 +4,7 @@
 #include "character.h"
 #include "craft_command.h"
 #include "item.h"
+#include "sounds.h"
 #include "player_activity.h"
 #include "weighted_list.h"
 #include "game_constants.h"
