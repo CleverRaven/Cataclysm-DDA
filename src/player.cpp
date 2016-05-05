@@ -1559,15 +1559,12 @@ void player::recalc_speed_bonus()
         if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(pos())) {
             mod_speed_bonus(-(g->light_level( posz() ) >= 12 ? 5 : 10));
         }
-        if ((has_trait("COLDBLOOD4")) && g->get_temperature() > 60) {
-            mod_speed_bonus(+(g->get_temperature() - 65) / 2);
-        }
-        if ((has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) && g->get_temperature() < 60) {
-            mod_speed_bonus(-(65 - g->get_temperature()) / 2);
-        } else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60) {
-            mod_speed_bonus(-(65 - g->get_temperature()) / 3);
-        } else if (has_trait("COLDBLOOD") && g->get_temperature() < 60) {
-            mod_speed_bonus(-(65 - g->get_temperature()) / 5);
+        if (has_trait("COLDBLOOD4") || (has_trait("COLDBLOOD3") && g->get_temperature() < 65)) {
+            mod_speed_bonus((g->get_temperature() - 65) / 2);
+        } else if (has_trait("COLDBLOOD2") && g->get_temperature() < 65) {
+            mod_speed_bonus((g->get_temperature() - 65) / 3);
+        } else if (has_trait("COLDBLOOD") && g->get_temperature() < 65) {
+            mod_speed_bonus((g->get_temperature() - 65) / 5);
         }
     }
 
