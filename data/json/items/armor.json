@@ -6502,7 +6502,16 @@
         "symbol" : "[",
         "bashing" : 5,
         "warmth" : 0,
-        "flags" : ["WAIST"]
+        "flags" : ["WAIST"],
+        "use_action" : {
+            "type": "holster",
+             "holster_prompt": "Stick what into your belt",
+             "holster_msg": "You tuck your %s into your %s",
+             "max_volume": 2,
+             "max_weight": 400,
+             "draw_cost": 60,
+             "flags": ["BELT_CLIP"]
+        }
     },
     {
         "type" : "ARMOR",
