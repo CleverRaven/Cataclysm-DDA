@@ -8791,7 +8791,6 @@
     "skill_used": "cooking",
     "difficulty": 5,
     "time": 7000,
-    "reversible": false,
     "autolearn": true,
     "qualities":[ { "id": "COOK", "level": 2 } ],
     "tools":[ [ [ "hotplate", 20 ], [ "toolset", 20 ], ["fire", -1] ] ],
