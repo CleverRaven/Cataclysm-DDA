@@ -619,12 +619,13 @@ json-check: $(CHKJSON_BIN)
 clean: clean-tests
 	rm -rf $(TARGET) $(TILESTARGET) $(W32TILESTARGET) $(W32TARGET) cataclysm.a
 	rm -rf $(ODIR) $(W32ODIR) $(W32ODIRTILES)
-	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -f $(SRC_DIR)/version.h $(LUASRC_DIR)/catabindings.cpp
 	rm -f $(CHKJSON_BIN)
 
-distclean:
-	rm -rf $(BINDIST_DIR)
+distclean: clean clean-bindist
+
+clean-bindist:
+	rm -rf $(BINDIST) $(W32BINDIST) $(BINDIST_DIR)
 	rm -rf save
 	rm -rf lang/mo
 	rm -f data/options.txt
@@ -779,7 +780,7 @@ dmgdist: app dmgdistclean
 
 endif  # ifeq ($(NATIVE), osx)
 
-$(BINDIST): distclean version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
+$(BINDIST): clean-bindist version $(TARGET) $(L10N) $(BINDIST_EXTRAS) $(BINDIST_LOCALE)
 	mkdir -p $(BINDIST_DIR)
 	cp -R $(TARGET) $(BINDIST_EXTRAS) $(BINDIST_DIR)
 ifdef LANGUAGES
@@ -827,7 +828,7 @@ check: version cataclysm.a
 clean-tests:
 	$(MAKE) -C tests clean
 
-.PHONY: tests check ctags etags clean-tests install
+.PHONY: tests check ctags etags clean clean-tests clean-bindist install
 
 -include $(SOURCES:$(SRC_DIR)/%.cpp=$(DEPDIR)/%.P)
 -include ${OBJS:.o=.d}
