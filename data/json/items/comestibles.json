@@ -4518,7 +4518,7 @@
         "nutrition" : 31,
         "description" : "A tasty and nutritious mixture of oats, honey, and other ingredients that has been baked until crisp.",
         "price" : 350,
-        "material" : "wheat",
+        "material" : ["wheat", "fruit"],
         "volume" : 2,
         "charges" : 8,
         "fun" : 3
