@@ -103,9 +103,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 {
     const bool do_animation = OPTIONS["ANIMATIONS"];
 
-    constexpr double dblpi = 6.28318530717958f;
     // shot_dispersion is in MOA - 1/60 of a degree
-    constexpr double moa = dblpi / 360 / 60;
+    constexpr double moa = M_PI / 180 / 60;
     // We're approximating the tangent. Multiplying angle*range by ~0.745 does that (kinda).
     constexpr double to_tangent = 0.745;
 
@@ -142,7 +141,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         double dy = target_arg.y - source.y;
         double rad = atan2( dy, dx );
         // Cap spread at 30 degrees or it gets wild quickly
-        double spread = std::min( shot_dispersion / moa, dblpi / 360 * 30 );
+        double spread = std::min( shot_dispersion / moa, M_PI / 180 * 30 );
         rad += rng_float( -spread, spread );
 
         // @todo This should also represent the miss on z axis
