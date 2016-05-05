@@ -7135,7 +7135,7 @@ bool game::is_sheltered( const tripoint &p )
              ( veh && veh->is_inside(vpart) ) );
 }
 
-bool game::revive_corpse( const tripoint &p, const item &it )
+bool game::revive_corpse( const tripoint &p, item &it )
 {
     if (!it.is_corpse()) {
         debugmsg("Tried to revive a non-corpse.");
@@ -7147,11 +7147,18 @@ bool game::revive_corpse( const tripoint &p, const item &it )
     }
     monster critter( it.get_mtype()->id, p );
     critter.init_from_item( it );
-    critter.no_extra_death_drops = true;
+    if( critter.get_hp() < 1 ) {
+        // Failed reanimation due to corpse being too burned
+        it.active = false;
+        return false;
+    }
 
-    if (it.get_var( "zlave" ) == "zlave"){
-        critter.add_effect( effect_pacified, 1, num_bp, true);
-        critter.add_effect( effect_pet, 1, num_bp, true);
+    critter.no_extra_death_drops = true;
+    critter.add_effect( effect_downed, 5, num_bp, true );
+
+    if (it.get_var( "zlave" ) == "zlave" ) {
+        critter.add_effect( effect_pacified, 1, num_bp, true );
+        critter.add_effect( effect_pet, 1, num_bp, true );
     }
 
     if (it.get_var("no_ammo") == "no_ammo") {

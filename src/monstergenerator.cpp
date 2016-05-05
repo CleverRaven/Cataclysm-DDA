@@ -396,6 +396,8 @@ void MonsterGenerator::init_flags()
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
     flag_map["NIGHT_INVISIBILITY"] = MF_NIGHT_INVISIBILITY;
+    flag_map["REVIVES_HEALTHY"] = MF_REVIVES_HEALTHY;
+    flag_map["NO_NECRO"] = MF_NO_NECRO;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
 }
 
@@ -548,6 +550,8 @@ void mtype::load( JsonObject &jo )
         optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
         upgrades = true;
     }
+
+    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
 
     const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
