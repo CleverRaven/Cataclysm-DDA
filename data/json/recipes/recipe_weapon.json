@@ -267,28 +267,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "blowgun",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "superglue", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "spear_wood",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
