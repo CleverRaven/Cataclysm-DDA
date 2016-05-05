@@ -66,7 +66,7 @@ struct centroid {
 // The sound events since the last monster turn.
 static std::vector<std::pair<tripoint, int>> recent_sounds;
 // The verbal sound events since the last monster turn.
-static std::vector<std::tuple<tripoint, int, std::string>> recent_verbal_sounds;
+static std::vector<std::tuple<tripoint, int, verbal_shout_id>> recent_verbal_sounds;
 // The sound events since the last interactive player turn. (doesn't count sleep etc)
 static std::vector<std::pair<tripoint, sound_event>> sounds_since_last_turn;
 // The sound events currently displayed to the player.
@@ -77,7 +77,7 @@ void sounds::ambient_sound( const tripoint &p, int vol, std::string description 
     sound( p, vol, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, const std::string& id, const std::string& variant, const std::string& verbal_shout_id )
+void sounds::sound( const tripoint &p, int vol, std::string description, bool ambient, const std::string& id, const std::string& variant, verbal_shout_id verbal_shout_id )
 {
     if( vol < 0 ) {
         // Bail out if no volume.
@@ -87,7 +87,7 @@ void sounds::sound( const tripoint &p, int vol, std::string description, bool am
     recent_sounds.emplace_back( std::make_pair( p, vol ) );
     sounds_since_last_turn.emplace_back(
         std::make_pair( p, sound_event {vol, description, ambient, false, id, variant} ) );
-    if( !verbal_shout_id.empty() ) {
+    if( verbal_shout_id != VERBAL_SHOUT_NONE ) {
         recent_verbal_sounds.emplace_back( p, vol, verbal_shout_id );
     }
 }
@@ -96,6 +96,21 @@ void sounds::add_footstep( const tripoint &p, int volume, int, monster * )
 {
     sounds_since_last_turn.emplace_back(
         std::make_pair( p, sound_event {volume, "", false, true, "", ""} ) );
+}
+
+const char * sounds::sound_event_id( verbal_shout_id verbal_shout_id ) {
+    switch( verbal_shout_id ) {
+        case VERBAL_SHOUT_NONE:
+            return "";
+        case VERBAL_SHOUT_CALL:
+            return "VERBAL_SHOUT_CALL";
+        case NUM_VERBAL_SHOUT:
+            debugmsg("Invalid verbal_shout_id");
+            return "";
+    }
+
+    debugmsg("Invalid verbal_shout_id");
+    return "";
 }
 
 template <typename C>

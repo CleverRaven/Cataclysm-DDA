@@ -1626,7 +1626,7 @@ void npc::say( const std::string line, ... ) const
     }
 }
 
-void npc::hear_sound( const tripoint &source, float volume, const std::string &verbal_shout_id )
+void npc::hear_sound( const tripoint &source, float volume, verbal_shout_id verbal_shout_id )
 {
     if( is_deaf() ) {
         return;
@@ -1652,7 +1652,7 @@ void npc::hear_sound( const tripoint &source, float volume, const std::string &v
     const int target_y = source.y + rng(-localization_error, localization_error);
     const int target_z = source.z;
 
-    if( verbal_shout_id == "SHOUT_CALL" ) {
+    if( verbal_shout_id == VERBAL_SHOUT_CALL ) {
         // ~30% average. ~0% w/ min trust. ~95% w/ max trust.
         const bool will_investigate_unseen = personality.aggression + personality.bravery + 2 * op_of_u.trust > 10;
         // ~80% average. ~20% w/ min trust. ~100% w/ max trust.

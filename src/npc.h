@@ -18,6 +18,7 @@ class overmap;
 class player;
 class field_entry;
 enum game_message_type : int;
+enum verbal_shout_id : int;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -697,7 +698,7 @@ public:
     bool emergency( int danger ) const;
     bool is_active() const;
     void say( const std::string line, ...) const;
-    void hear_sound( const tripoint &source, float vol, const std::string &verbal_shout_id );
+    void hear_sound( const tripoint &source, float vol, verbal_shout_id verbal_shout_id );
     void decide_needs();
     void die(Creature* killer) override;
     bool is_dead() const;

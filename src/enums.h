@@ -164,6 +164,12 @@ enum phase_id {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
 
+enum verbal_shout_id : int {
+    VERBAL_SHOUT_NONE,
+    VERBAL_SHOUT_CALL,
+    NUM_VERBAL_SHOUT
+};
+
 // Return the class an in-world object uses to interact with the world.
 //   ex; if ( player.grab_type == OBJECT_VEHICLE ) { ...
 //   or; if ( baseactor_just_shot_at.object_type() == OBJECT_NPC ) { ...

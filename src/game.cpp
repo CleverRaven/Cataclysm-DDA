@@ -11755,7 +11755,7 @@ void game::chat()
     } else if( nmenu.ret == (int)available.size() ) {
         u.shout();
     } else if( nmenu.ret == (int)available.size() + 1 ) {
-        u.shout( _( "You shout, \"Hey! Come here!\"" ), "SHOUT_CALL" );
+        u.shout( _( "You shout, \"Hey! Come here!\"" ), VERBAL_SHOUT_CALL );
     } else {
         available[nmenu.ret]->talk_to_u();
     }
