@@ -36,7 +36,7 @@ float pit_effectiveness( const tripoint &p )
         }
     }
 
-    int filled_volume = 75 * 10; // 10 zombies; see item::volume
+    int filled_volume = 75 * 10 * 250; // 10 zombies; see item::volume
 
     return std::max( 0.0f, 1.0f - float( corpse_volume ) / filled_volume );
 }

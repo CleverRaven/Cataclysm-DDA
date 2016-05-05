@@ -29,6 +29,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "map_iterator.h"
+#include "cata_utility.h"
 
 #include <sstream>
 #include <stdlib.h>
@@ -2747,7 +2748,9 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ), max_volume( pl[i] ) );
+            partname += string_format(_(" (vol: %.2f/%.2f)"),
+                                      convert_volume( stored_volume( pl[i] ) ),
+                                      convert_volume( max_volume( pl[i] ) ) );
         }
 
         bool armor = part_flag(pl[i], "ARMOR");
@@ -4033,7 +4036,7 @@ void vehicle::operate_reaper(){
                 size_t itemdex = 0;
                 const map_stack q = g->m.i_at( reaper_pos );
                 for( auto it : q ) {
-                    if( it.volume() < max_pickup_size ) {
+                    if( it.volume() * 0.004 < max_pickup_size ) {
                         that_item_there = g->m.item_from( reaper_pos, itemdex );
                         break;
                     }
@@ -4111,7 +4114,7 @@ void vehicle::operate_scoop()
             }
             size_t itemdex = 0;
             for( auto it : q ) {
-                if( it.volume() < max_pickup_size ) {
+                if( it.volume() * 0.004 < max_pickup_size ) {
                     that_item_there = g->m.item_from( position, itemdex );
                     break;
                 }
@@ -4124,7 +4127,7 @@ void vehicle::operate_scoop()
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->damage++;
                 //The scoop gets a lot louder when breaking an item.
-                sounds::sound( position, rng(10, (long)that_item_there->volume() * 2 + 10),
+                sounds::sound( position, rng(10, (long)that_item_there->volume() * 0.004 * 2 + 10),
                                _("BEEEThump") );
             }
             const int battery_deficit = discharge_battery( that_item_there->weight() *

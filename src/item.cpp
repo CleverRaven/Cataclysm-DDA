@@ -620,22 +620,23 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
     if( !is_null() ) {
         info.push_back( iteminfo( "BASE", _( "Category: " ), "<header>" + get_category().name + "</header>",
-                                  -999, true, "", false ) );
+                                  -999, "%.0f", "", false ) );
         const int price_preapoc = price( false );
         const int price_postapoc = price( true );
         info.push_back( iteminfo( "BASE", space + _( "Price: " ), "<num>",
-                                  ( double )price_preapoc / 100, false, "$", true, true ) );
+                                  ( double )price_preapoc / 100, "%.1f", "$", true, true ) );
         if( price_preapoc != price_postapoc ) {
             info.push_back( iteminfo( "BASE", space + _( "Barter value: " ), "<num>",
-                            ( double )price_postapoc / 100, false, "$", true, true ) );
+                            ( double )price_postapoc / 100, "%.1f", "$", true, true ) );
         }
 
-        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
-                                  true ) );
+        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ),
+                                  string_format( "<num> %s", volume_units() ),
+                                  convert_volume( volume() ), "%.2f", "", false, true ) );
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                   string_format( "<num> %s", weight_units() ),
-                                  convert_weight( weight() ), false, "", true, true ) );
+                                  convert_weight( weight() ), "%.1f", "", true, true ) );
 
         if( count_by_charges() && type->volume > 0 && type->stack_size > 1 ) {
             if( type->volume == 1 ) {
@@ -643,8 +644,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.emplace_back( "BASE", string_format( _( "Stacks in groups of <stat>%1$d</stat>" ), type->stack_size ) );
             } else {
                 //~ %1$d is stack size and %2$d is base volume with both guaranteed to be > 1
-                info.emplace_back( "BASE", string_format( _( "Stack of <stat>%1$d</stat> consumes <stat>%2$d</stat> volume" ),
-                                   type->stack_size, type->volume ) );
+                info.emplace_back( "BASE", string_format( _( "Stack of <stat>%d</stat> consumes <stat>%.2f</stat> volume" ),
+                                   type->stack_size, convert_volume( type->volume ) ) );
             }
         }
 
@@ -653,19 +654,19 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
-            info.push_back( iteminfo( "BASE", _( "Bash: " ), "", damage_bash(), true, "", false ) );
+            info.push_back( iteminfo( "BASE", _( "Bash: " ), "", damage_bash(), "%.0f", "", false ) );
             if( has_flag( "SPEAR" ) ) {
-                info.push_back( iteminfo( "BASE", space + _( "Pierce: " ), "", damage_cut(), true, "", false ) );
+                info.push_back( iteminfo( "BASE", space + _( "Pierce: " ), "", damage_cut(), "%.0f", "", false ) );
             } else if( has_flag( "STAB" ) ) {
-                info.push_back( iteminfo( "BASE", space + _( "Stab: " ), "", damage_cut(), true, "", false ) );
+                info.push_back( iteminfo( "BASE", space + _( "Stab: " ), "", damage_cut(), "%.0f", "", false ) );
             } else {
-                info.push_back( iteminfo( "BASE", space + _( "Cut: " ), "", damage_cut(), true, "", false ) );
+                info.push_back( iteminfo( "BASE", space + _( "Cut: " ), "", damage_cut(), "%.0f", "", false ) );
             }
             info.push_back( iteminfo( "BASE", space + _( "To-hit bonus: " ),
                                       ( ( type->m_to_hit > 0 ) ? "+" : "" ),
-                                      type->m_to_hit, true, "" ) );
+                                      type->m_to_hit, "%.0f", "" ) );
             info.push_back( iteminfo( "BASE", _( "Moves per attack: " ), "",
-                                      attack_time(), true, "", true, true ) );
+                                      attack_time(), "%.0f", "", true, true ) );
         }
 
         insert_separation_line();
@@ -714,23 +715,23 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( debug == true ) {
             if( g != NULL ) {
                 info.push_back( iteminfo( "BASE", _( "age: " ), "",
-                                          ( int( calendar::turn ) - bday ) / ( 10 * 60 ), true, "", true, true ) );
+                                          ( int( calendar::turn ) - bday ) / ( 10 * 60 ), "%.0f", "", true, true ) );
 
                 const item *food = is_food_container() ? &contents[ 0 ] : this;
                 if( food && food->goes_bad() ) {
                     info.push_back( iteminfo( "BASE", _( "bday rot: " ), "",
-                                              ( int( calendar::turn ) - food->bday ), true, "", true, true ) );
+                                              ( int( calendar::turn ) - food->bday ), "%.0f", "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "temp rot: " ), "",
-                                              ( int )food->rot, true, "", true, true ) );
+                                              ( int )food->rot, "%.0f", "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "max rot: " ), "",
-                                              food->type->comestible->spoils, true, "", true, true ) );
+                                              food->type->comestible->spoils, "%.0f", "", true, true ) );
                     info.push_back( iteminfo( "BASE", space + _( "fridge: " ), "",
-                                              ( int )food->fridge, true, "", true, true ) );
+                                              ( int )food->fridge, "%.0f", "", true, true ) );
                     info.push_back( iteminfo( "BASE", _( "last rot: " ), "",
-                                              ( int )food->last_rot_check, true, "", true, true ) );
+                                              ( int )food->last_rot_check, "%.0f", "", true, true ) );
                 }
             }
-            info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, true, "", true, true ) );
+            info.push_back( iteminfo( "BASE", _( "burn: " ), "",  burnt, "%.0f", "", true, true ) );
         }
     }
 
@@ -743,7 +744,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( food_item != nullptr ) {
         if( g->u.nutrition_for( food_item->type ) != 0 || food_item->type->comestible->quench != 0 ) {
             info.push_back( iteminfo( "FOOD", _( "<bold>Nutrition</bold>: " ), "", g->u.nutrition_for( food_item->type ),
-                                      true, "", false, true ) );
+                                      "%.0f", "", false, true ) );
             info.push_back( iteminfo( "FOOD", space + _( "Quench: " ), "", food_item->type->comestible->quench ) );
         }
 
@@ -775,10 +776,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( is_magazine() && !has_flag( "NO_RELOAD" ) ) {
         info.emplace_back( "MAGAZINE", _( "Capacity: " ),
                            string_format( ngettext( "<num> round of %s", "<num> rounds of %s", ammo_capacity() ),
-                                          ammo_name( ammo_type() ).c_str() ), ammo_capacity(), true );
+                                          ammo_name( ammo_type() ).c_str() ), ammo_capacity(), "%.0f" );
 
         info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
-                           type->magazine->reload_time, true, "", true, true );
+                           type->magazine->reload_time, "%.0f", "", true, true );
 
         insert_separation_line();
     }
@@ -793,11 +794,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
             const auto& ammo = *ammo_data()->ammo;
             if( ammo.damage > 0 ) {
-                info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "", ammo.damage, true, "", false, false );
-                info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), "", ammo.pierce, true, "", true, false );
-                info.emplace_back( "AMMO", _( "Range: " ), "", ammo.range, true, "", false, false );
-                info.emplace_back( "AMMO", space + _( "Dispersion: " ), "", ammo.dispersion, true, "", true, true );
-                info.emplace_back( "AMMO", _( "Recoil: " ), "", ammo.recoil, true, "", true, true );
+                info.emplace_back( "AMMO", _( "<bold>Damage</bold>: " ), "", ammo.damage, "%.0f", "", false, false );
+                info.emplace_back( "AMMO", space + _( "Armor-pierce: " ), "", ammo.pierce, "%.0f", "", true, false );
+                info.emplace_back( "AMMO", _( "Range: " ), "", ammo.range, "%.0f", "", false, false );
+                info.emplace_back( "AMMO", space + _( "Dispersion: " ), "", ammo.dispersion, "%.0f", "", true, true );
+                info.emplace_back( "AMMO", _( "Recoil: " ), "", ammo.recoil, "%.0f", "", true, true );
              }
 
             std::vector<std::string> fx;
@@ -846,7 +847,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             if( mod->ammo_capacity() ) {
                 info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ),
                                    string_format( ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
-                                                  ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true );
+                                                  ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), "%.0f" );
             }
         } else {
             info.emplace_back( "GUN", _( "Type: " ), ammo_name( mod->ammo_type() ) );
@@ -867,75 +868,75 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         insert_separation_line();
 
-        info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
+        info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), "%.0f", "", false, false ) );
 
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_dam >= 0 ? "+" : "" );
             // ammo_damage and sum_of_damage don't need to translate.
             info.push_back( iteminfo( "GUN", "ammo_damage", "",
-                                      ammo_dam, true, temp1.str(), false, false, false ) );
+                                      ammo_dam, "%.0f", temp1.str(), false, false, false ) );
             info.push_back( iteminfo( "GUN", "sum_of_damage", _( " = <num>" ),
-                                      mod->gun_damage( true ), true, "", false, false, false ) );
+                                      mod->gun_damage( true ), "%.0f", "", false, false, false ) );
         }
 
         info.push_back( iteminfo( "GUN", space + _( "Armor-pierce: " ), "",
-                                  mod->gun_pierce( false ), true, "", !has_ammo, false ) );
+                                  mod->gun_pierce( false ), "%.0f", "", !has_ammo, false ) );
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_pierce >= 0 ? "+" : "" );
             // ammo_armor_pierce and sum_of_armor_pierce don't need to translate.
             info.push_back( iteminfo( "GUN", "ammo_armor_pierce", "",
-                                      ammo_pierce, true, temp1.str(), false, false, false ) );
+                                      ammo_pierce, "%.0f", temp1.str(), false, false, false ) );
             info.push_back( iteminfo( "GUN", "sum_of_armor_pierce", _( " = <num>" ),
-                                      mod->gun_pierce( true ), true, "", true, false, false ) );
+                                      mod->gun_pierce( true ), "%.0f", "", true, false, false ) );
         }
 
-        info.push_back( iteminfo( "GUN", _( "Range: " ), "", mod->gun_range( false ), true, "", false,
+        info.push_back( iteminfo( "GUN", _( "Range: " ), "", mod->gun_range( false ), "%.0f", "", false,
                                   false ) );
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_range >= 0 ? "+" : "" );
             // ammo_range and sum_of_range don't need to translate.
             info.push_back( iteminfo( "GUN", "ammo_range", "",
-                                      ammo_range, true, temp1.str(), false, false, false ) );
+                                      ammo_range, "%.0f", temp1.str(), false, false, false ) );
             info.push_back( iteminfo( "GUN", "sum_of_range", _( " = <num>" ),
-                                      mod->gun_range( true ), true, "", false, false, false ) );
+                                      mod->gun_range( true ), "%.0f", "", false, false, false ) );
         }
 
         info.push_back( iteminfo( "GUN", space + _( "Dispersion: " ), "",
-                                  mod->gun_dispersion( false ), true, "", !has_ammo, true ) );
+                                  mod->gun_dispersion( false ), "%.0f", "", !has_ammo, true ) );
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_range >= 0 ? "+" : "" );
             // ammo_dispersion and sum_of_dispersion don't need to translate.
             info.push_back( iteminfo( "GUN", "ammo_dispersion", "",
-                                      ammo_dispersion, true, temp1.str(), false, true, false ) );
+                                      ammo_dispersion, "%.0f", temp1.str(), false, true, false ) );
             info.push_back( iteminfo( "GUN", "sum_of_dispersion", _( " = <num>" ),
-                                      mod->gun_dispersion( true ), true, "", true, true, false ) );
+                                      mod->gun_dispersion( true ), "%.0f", "", true, true, false ) );
         }
 
         info.push_back( iteminfo( "GUN", _( "Sight dispersion: " ), "",
-                                  mod->sight_dispersion( -1 ), true, "", false, true ) );
+                                  mod->sight_dispersion( -1 ), "%.0f", "", false, true ) );
 
         info.push_back( iteminfo( "GUN", space + _( "Aim speed: " ), "",
-                                  mod->aim_speed( -1 ), true, "", true, true ) );
+                                  mod->aim_speed( -1 ), "%.0f", "", true, true ) );
 
-        info.push_back( iteminfo( "GUN", _( "Recoil: " ), "", mod->gun_recoil( false ), true, "", false,
+        info.push_back( iteminfo( "GUN", _( "Recoil: " ), "", mod->gun_recoil( false ), "%.0f", "", false,
                                   true ) );
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_recoil >= 0 ? "+" : "" );
             // ammo_recoil and sum_of_recoil don't need to translate.
             info.push_back( iteminfo( "GUN", "ammo_recoil", "",
-                                      ammo_recoil, true, temp1.str(), false, true, false ) );
+                                      ammo_recoil, "%.0f", temp1.str(), false, true, false ) );
             info.push_back( iteminfo( "GUN", "sum_of_recoil", _( " = <num>" ),
-                                      mod->gun_recoil( true ), true, "", false, true, false ) );
+                                      mod->gun_recoil( true ), "%.0f", "", false, true, false ) );
         }
 
         info.push_back( iteminfo( "GUN", space + _( "Reload time: " ),
                                   ( ( has_flag( "RELOAD_ONE" ) ) ? _( "<num> per round" ) : "" ),
-                                  gun->reload_time, true, "", true, true ) );
+                                  gun->reload_time, "%.0f", "", true, true ) );
 
         if( mod->burst_size() == 1 ) {
             if( skill->ident() == skill_id( "pistol" ) && has_flag( "RELOAD_ONE" ) ) {
@@ -1007,29 +1008,29 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( mod->dispersion != 0 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Dispersion modifier: " ), "",
-                                      mod->dispersion, true, ( ( mod->dispersion > 0 ) ? "+" : "" ), true, true ) );
+                                      mod->dispersion, "%.0f", ( ( mod->dispersion > 0 ) ? "+" : "" ), true, true ) );
         }
         if( mod->sight_dispersion != -1 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Sight dispersion: " ), "",
-                                      mod->sight_dispersion, true, "", true, true ) );
+                                      mod->sight_dispersion, "%.0f", "", true, true ) );
         }
         if( mod->aim_speed != -1 ) {
             info.push_back( iteminfo( "GUNMOD", _( "Aim speed: " ), "",
-                                      mod->aim_speed, true, "", true, true ) );
+                                      mod->aim_speed, "%.0f", "", true, true ) );
         }
         if( mod->damage != 0 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", mod->damage, true,
+            info.push_back( iteminfo( "GUNMOD", _( "Damage: " ), "", mod->damage, "%.0f",
                                       ( ( mod->damage > 0 ) ? "+" : "" ) ) );
         }
         if( mod->pierce != 0 ) {
-            info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod->pierce, true,
+            info.push_back( iteminfo( "GUNMOD", _( "Armor-pierce: " ), "", mod->pierce, "%.0f",
                                       ( ( mod->pierce > 0 ) ? "+" : "" ) ) );
         }
         if( mod->recoil != 0 )
-            info.push_back( iteminfo( "GUNMOD", _( "Recoil: " ), "", mod->recoil, true,
+            info.push_back( iteminfo( "GUNMOD", _( "Recoil: " ), "", mod->recoil, "%.0f",
                                       ( ( mod->recoil > 0 ) ? "+" : "" ), true, true ) );
         if( mod->burst != 0 )
-            info.push_back( iteminfo( "GUNMOD", _( "Burst: " ), "", mod->burst, true,
+            info.push_back( iteminfo( "GUNMOD", _( "Burst: " ), "", mod->burst, "%.0f",
                                       ( mod->burst > 0 ? "+" : "" ) ) );
 
         if( mod->ammo_modifier != "NULL" ) {
@@ -1129,7 +1130,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         info.push_back( iteminfo( "ARMOR", temp1.str() ) );
 
-        info.push_back( iteminfo( "ARMOR", _( "Coverage: " ), "<num>%", get_coverage(), true, "", false ) );
+        info.push_back( iteminfo( "ARMOR", _( "Coverage: " ), "<num>%", get_coverage(), "%.0f", "", false ) );
         info.push_back( iteminfo( "ARMOR", space + _( "Warmth: " ), "", get_warmth() ) );
 
         insert_separation_line();
@@ -1137,19 +1138,21 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( has_flag( "FIT" ) ) {
             info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ),
                                       _( "<num> <info>(fits)</info>" ),
-                                      get_encumber(), true, "", false, true ) );
+                                      get_encumber(), "%.0f", "", false, true ) );
         } else {
             info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ), "",
-                                      get_encumber(), true, "", false, true ) );
+                                      get_encumber(), "%.0f", "", false, true ) );
         }
 
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), "", get_storage() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
+                                  string_format( "<num> %s", volume_units() ),
+                                  convert_volume( get_storage() ), "%.2f" ) );
 
-        info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), true, "",
+        info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), "%.0f", "",
                                   false ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "", cut_resist(), true, "", false ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "", acid_resist(), true, "", true ) );
-        info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "", fire_resist(), true, "", true ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Cut: " ), "", cut_resist(), "%.0f", "", false ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Acid: " ), "", acid_resist(), "%.0f", "", true ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Fire: " ), "", fire_resist(), "%.0f", "", true ) );
         info.push_back( iteminfo( "ARMOR", _( "Environmental protection: " ), "", get_env_resist() ) );
 
     }
@@ -1176,23 +1179,23 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     info.push_back( iteminfo( "BOOK", "",
                                               string_format( _( "<info>Requires %s level</info> <num> to understand." ),
                                                       book->skill.obj().name().c_str() ),
-                                              book->req, true, "", true, true ) );
+                                              book->req, "%.0f", "", true, true ) );
                 }
             }
 
             info.push_back( iteminfo( "BOOK", "",
                                       _( "Requires <info>intelligence of</info> <num> to easily read." ),
-                                      book->intel, true, "", true, true ) );
+                                      book->intel, "%.0f", "", true, true ) );
             if( book->fun != 0 ) {
                 info.push_back( iteminfo( "BOOK", "",
                                           _( "Reading this book affects your morale by <num>" ),
-                                          book->fun, true, ( book->fun > 0 ? "+" : "" ) ) );
+                                          book->fun, "%.0f", ( book->fun > 0 ? "+" : "" ) ) );
             }
             info.push_back( iteminfo( "BOOK", "",
                                       ngettext( "A chapter of this book takes <num> <info>minute to read</info>.",
                                                 "A chapter of this book takes <num> <info>minutes to read</info>.",
                                                 book->time ),
-                                      book->time, true, "", true, true ) );
+                                      book->time, "%.0f", "", true, true ) );
             if( book->chapters > 0 ) {
                 const int unread = get_remaining_chapters( g->u );
                 info.push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> <info>unread chapter</info>.",
@@ -1889,8 +1892,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else {
             temp1 << elem.sFmt.c_str();
         }
-        if( elem.sValue != "-999" ) {
-            temp1 << elem.sPlus << "<neutral>" << elem.sValue << "</neutral>";
+        if( (int)elem.dValue != -999 ) {
+            temp1 << elem.sPlus << "<neutral>" << string_format(elem.sFormat, elem.dValue) << "</neutral>";
         }
         temp1 << sPost;
         temp1 << ( ( elem.bNewLine ) ? "\n" : "" );
@@ -2192,7 +2195,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string burntext = "";
     if (with_prefix && !made_of(LIQUID)) {
-        if (volume() >= 4 && burnt >= volume() * 2) {
+        if ( volume() * 0.004 >= 1 && burnt >= volume() * 0.008) {
             burntext = rm_prefix(_("<burnt_adj>badly burnt "));
         } else if (burnt > 0) {
             burntext = rm_prefix(_("<burnt_adj>burnt "));
@@ -2489,9 +2492,9 @@ int item::weight() const
 int item::precise_unit_volume() const
 {
     if( count_by_charges() || made_of( LIQUID ) ) {
-        return get_var( "volume", type->volume ) * 1000 / type->stack_size;
+        return get_var( "volume", type->volume ) / type->stack_size;
     }
-    return volume() * 1000;
+    return volume();
 }
 
 int item::volume( bool integral ) const
@@ -2502,11 +2505,11 @@ int item::volume( bool integral ) const
 
     if( is_corpse() ) {
         switch( corpse->size ) {
-            case MS_TINY:    return    3;
-            case MS_SMALL:   return  120;
-            case MS_MEDIUM:  return  250;
-            case MS_LARGE:   return  370;
-            case MS_HUGE:    return 3500;
+            case MS_TINY:    return    750;
+            case MS_SMALL:   return  30000;
+            case MS_MEDIUM:  return  62500;
+            case MS_LARGE:   return  92500;
+            case MS_HUGE:    return 875000;
         }
         debugmsg( "unknown monster size for corpse" );
         return 0;
@@ -2516,7 +2519,7 @@ int item::volume( bool integral ) const
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ceil( ret * double( charges ) / type->stack_size );
+        ret *= ceil( double( charges ) / type->stack_size );
     }
 
     // Non-rigid items add the volume of the content
@@ -2528,7 +2531,7 @@ int item::volume( bool integral ) const
 
     // Some magazines sit (partly) flush with the item so add less extra volume
     if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->volume() - type->magazine_well, 0 );
+        ret += std::max( (int)(magazine_current()->volume() * 0.004) - type->magazine_well, 0 ) * 250;
     }
 
     if (is_gun()) {
@@ -2539,30 +2542,30 @@ int item::volume( bool integral ) const
         // @todo implement stock_length property for guns
         if (has_flag("COLLAPSIBLE_STOCK")) {
             // consider only the base size of the gun (without mods)
-            int tmpvol = get_var( "volume", type->volume - type->gun->barrel_length );
+            int tmpvol = get_var( "volume", type->volume * 0.004 - type->gun->barrel_length );
             if     ( tmpvol <=  3 ) ; // intentional NOP
-            else if( tmpvol <=  5 ) ret -= 2;
-            else if( tmpvol <=  6 ) ret -= 3;
-            else if( tmpvol <=  8 ) ret -= 4;
-            else if( tmpvol <= 11 ) ret -= 5;
-            else if( tmpvol <= 16 ) ret -= 6;
-            else                    ret -= 7;
+            else if( tmpvol <=  5 ) ret -= 500;
+            else if( tmpvol <=  6 ) ret -= 750;
+            else if( tmpvol <=  8 ) ret -= 1000;
+            else if( tmpvol <= 11 ) ret -= 1250;
+            else if( tmpvol <= 16 ) ret -= 1500;
+            else                    ret -= 1750;
         }
 
         if( gunmod_find( "barrel_small" ) ) {
-            ret -= type->gun->barrel_length;
+            ret -= type->gun->barrel_length * 250;
         }
     }
 
     // Battery mods also add volume
     if( has_flag("ATOMIC_AMMO") ) {
-        ret += 1;
+        ret += 250;
     }
 
     if( has_flag("DOUBLE_AMMO") ) {
         // Batteries have volume 1 per 100 charges
         // TODO: De-hardcode this
-        ret += type->maximum_charges() / 100;
+        ret += type->maximum_charges() * 2.5;
     }
 
     return ret;
@@ -2575,7 +2578,7 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + 4 * volume() + weight() / 60;
+    int ret = 65 + 4 * volume() * 0.004 + weight() / 60;
     return ret;
 }
 
@@ -2839,7 +2842,7 @@ int item::get_encumber() const
     const auto t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (eg. shoulder strap) as special case
-        return is_gun() ? volume() / 3 : 0;
+        return is_gun() ? volume() * 0.004 / 3 : 0;
     }
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
@@ -2847,7 +2850,7 @@ int item::get_encumber() const
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
         for( const auto &e : contents ) {
-            encumber += e.volume();
+            encumber += e.volume() * 0.004;
         }
     }
 
@@ -2957,7 +2960,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return false;
     }
     int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
-    age_in_hours -= int((float)burnt / volume() * 24);
+    age_in_hours -= int((float)burnt / (volume() * 0.004) * 24);
     if( damage > 0 ) {
         age_in_hours /= (damage + 1);
     }
@@ -4768,7 +4771,7 @@ bool item::burn(int amount)
 
     if( !count_by_charges() ) {
         burnt += amount;
-        return burnt >= volume() * 3;
+        return burnt >= volume() * 0.012;
     }
 
     amount *= rng( type->stack_size / 2, type->stack_size );
@@ -4804,7 +4807,7 @@ bool item::flammable() const
         return true;
     }
 
-    int vol = volume();
+    int vol = volume() * 0.004;
     if( ( made_of( material_id( "wood" ) ) || made_of( material_id( "veggy" ) ) ) && ( burnt < 1 || vol <= 10 ) ) {
         return true;
     }
@@ -5112,23 +5115,14 @@ bool item_matches_locator(const item &it, const item *other, int)
 }
 
 iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
-                   double Value, bool _is_int, std::string Plus,
+                   double Value, std::string Format, std::string Plus,
                    bool NewLine, bool LowerIsBetter, bool DrawName)
 {
     sType = Type;
     sName = replace_colors(Name);
     sFmt = replace_colors(Fmt);
-    is_int = _is_int;
+    sFormat = Format;
     dValue = Value;
-    std::stringstream convert;
-    if (_is_int) {
-        int dIn0i = int(Value);
-        convert << dIn0i;
-    } else {
-        convert.precision(2);
-        convert << std::fixed << Value;
-    }
-    sValue = convert.str();
     sPlus = Plus;
     bNewLine = NewLine;
     bLowerIsBetter = LowerIsBetter;
@@ -5390,7 +5384,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     }
 
     active = false;
-    if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
+    if( rng( 0, volume() * 0.004 ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
                 if( corpse->in_species( ROBOT ) ) {

@@ -1788,7 +1788,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     }
 
     auto char_type = item::find_type( "unfinished_charcoal" );
-    int char_charges = ( 100 - loss ) * total_volume * char_type->ammo->def_charges / 100 / char_type->volume;
+    int char_charges = ( 100 - loss ) * total_volume * 0.004 * char_type->ammo->def_charges / 100 / char_type->volume;
     if( char_charges < 1 ) {
         add_msg( _("The batch in this kiln is too small to yield any charcoal.") );
         return;
@@ -1808,7 +1808,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     result.charges = char_charges;
     g->m.add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
-    int practice_amount = ( 10 - skill ) * total_volume / 100; // 50 at 0 skill, 25 at 5, 10 at 8
+    int practice_amount = ( 10 - skill ) * total_volume * 0.004 / 100; // 50 at 0 skill, 25 at 5, 10 at 8
     p.practice( skill_carpentry, practice_amount );
 }
 
@@ -1858,7 +1858,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
 
     item result( "charcoal", calendar::turn.get_turn() );
-    result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
+    result.charges = total_volume * 0.004 * char_type->ammo->def_charges / (char_type->volume * 0.004);
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
 }
@@ -1936,7 +1936,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         for (int i = 0; i < charges_held && !vat_full; i++) {
             p.use_charges(brew_type, 1);
             brew.charges++;
-            if ( ( brew.count_by_charges() ? brew.volume() : brew.volume() * brew.charges ) >= 100 ) {
+            if ( ( brew.count_by_charges() ? brew.volume() * 0.004 : brew.volume() * 0.004 * brew.charges ) >= 100 ) {
                 vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
             }
         }
@@ -2091,7 +2091,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         for (int i = 0; i < charges_held && !keg_full; i++) {
             g->u.use_charges(drink.typeId(), 1);
             drink.charges++;
-            keg_full = drink.volume() >= keg_cap;
+            keg_full = drink.volume() * 0.004 >= keg_cap;
         }
         if( keg_full ) {
             add_msg(_("You completely fill the %1$s with %2$s."),
@@ -2152,7 +2152,7 @@ void iexamine::keg(player &p, const tripoint &examp)
 
         case REFILL: {
             int charges_held = p.charges_of(drink->typeId());
-            if( drink->volume() >= keg_cap ) {
+            if( drink->volume() * 0.004 >= keg_cap ) {
                 add_msg(_("The %s is completely full."), g->m.name(examp).c_str());
                 return;
             }
@@ -2164,7 +2164,7 @@ void iexamine::keg(player &p, const tripoint &examp)
             for (int i = 0; i < charges_held; i++) {
                 p.use_charges(drink->typeId(), 1);
                 drink->charges++;
-                if( drink->volume() >= keg_cap ) {
+                if( drink->volume() * 0.004 >= keg_cap ) {
                     add_msg(_("You completely fill the %1$s with %2$s."), g->m.name(examp).c_str(),
                             drink->tname().c_str());
                     p.moves -= 250;
@@ -2180,7 +2180,7 @@ void iexamine::keg(player &p, const tripoint &examp)
         case EXAMINE: {
             add_msg(m_info, _("That is a %s."), g->m.name(examp).c_str());
             add_msg(m_info, _("It contains %s (%d), %0.f%% full."),
-                    drink->tname().c_str(), drink->charges, double( drink->volume() ) / keg_cap * 100 );
+                    drink->tname().c_str(), drink->charges, double( drink->volume() * 0.004 ) / keg_cap * 100 );
             return;
         }
 

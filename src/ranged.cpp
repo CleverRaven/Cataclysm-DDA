@@ -444,7 +444,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
         if( gun.ammo_type() != "shot" ) {
             const item *parent = gun.is_auxiliary_gunmod() && has_item( gun ) ? find_parent( gun ) : nullptr;
-            dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
+            dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) * 0.004 / 3.0 ) / range, 1.0 );
         }
 
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
@@ -589,8 +589,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
-    if (thrown.volume() > 5) {
-        deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
+    if (thrown.volume() * 0.004 > 5) {
+        deviation += rng(0, 1 + (thrown.volume() * 0.004 - 5) / 4);
     }
     if (thrown.volume() == 0) {
         deviation += rng(0, 3);
@@ -612,7 +612,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     int real_dam = ( (thrown.weight() / 452)
                      + (thrown.type->melee_dam / 2)
                      + (str_cur / 2) )
-                   / (2.0 + (thrown.volume() / 4.0));
+                   / (2.0 + (thrown.volume() * 0.004 / 4.0));
     if( real_dam > thrown.weight() / 40 ) {
         real_dam = thrown.weight() / 40;
     }
@@ -640,7 +640,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
+                         rng(0, thrown.volume() * 0.004 + 8) - rng(0, str_cur) < thrown.volume() * 0.004;
 
     // Add some flags to the projectile
     // TODO: Add this flag only when the item is heavy
@@ -657,13 +657,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "LIGHTNING" );
     }
 
-    if( thrown.volume() > 2 ) {
+    if( thrown.volume() * 0.004 > 2 ) {
         proj_effects.insert( "WIDE" );
     }
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        const int glassdam = rng( 0, thrown.volume() * 2 );
+        const int glassdam = rng( 0, thrown.volume() * 0.004 * 2 );
         impact.add_damage( DT_CUT, glassdam );
         proj_effects.insert( "SHATTER_SELF" );
     }
@@ -1511,7 +1511,7 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
         int vol = parent ? parent->volume() : weapon->volume();
 
         ///\EFFECT_DRIVING reduces the inaccuracy penalty when using guns whilst driving
-        dispersion += std::max( vol - get_skill_level( skill_driving ), 1 ) * 20;
+        dispersion += std::max( (int)(vol * 0.004) - get_skill_level( skill_driving ), 1 ) * 20;
     }
 
     dispersion += rand_or_max( random, ranged_dex_mod() );
@@ -1647,15 +1647,15 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( embed ) {
         const m_size critter_size = mon->get_size();
         const int vol = dropped_item.volume();
-        embed = embed && ( critter_size > MS_TINY || vol < 1 );
-        embed = embed && ( critter_size > MS_SMALL || vol < 2 );
+        embed = embed && ( critter_size > MS_TINY || vol < 250 );
+        embed = embed && ( critter_size > MS_SMALL || vol < 500 );
         // And if we deal enough damage
         // Item volume bumps up the required damage too
         embed = embed &&
                  ( attack.dealt_dam.type_damage( DT_CUT ) / 2 ) +
                    attack.dealt_dam.type_damage( DT_STAB ) >
                      attack.dealt_dam.type_damage( DT_BASH ) +
-                     vol * 3 + rng( 0, 5 );
+                     vol * 0.004 * 3 + rng( 0, 5 );
     }
 
     if( embed ) {

@@ -1215,10 +1215,10 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 buffer << sFmt;
             }
 
-            if (vItemDisplay[i].sValue != "-999") {
+            if ((int)vItemDisplay[i].dValue != -999) {
                 nc_color thisColor = OPTIONS["INFO_HIGHLIGHT"] ? c_yellow : c_ltgray;
                 for (auto &k : vItemCompare) {
-                    if (k.sValue != "-999") {
+                    if ((int)k.dValue != -999) {
                         if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
                             if (vItemDisplay[i].dValue > k.dValue - .1 &&
                                 vItemDisplay[i].dValue < k.dValue + .1) {
@@ -1241,11 +1241,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                     }
                 }
                 buffer << sPlus << "<color_" << string_from_color( thisColor ) << ">";
-                if (vItemDisplay[i].is_int == true) {
-                    buffer << string_format( "%.0f", vItemDisplay[i].dValue );
-                } else {
-                    buffer << string_format( "%.1f", vItemDisplay[i].dValue );
-                }
+                buffer << string_format( vItemDisplay[i].sFormat, vItemDisplay[i].dValue );
                 buffer << "</color>";
             }
             buffer << sPost;

@@ -49,9 +49,11 @@ double logarithmic_range( int min, int max, int pos );
 int bound_mod_to_vals( int val, int mod, int max, int min );
 const char *velocity_units( const units_type vel_units );
 const char *weight_units();
+const char *volume_units();
 double convert_velocity( int velocity, const units_type vel_units );
 double convert_weight( int weight );
 double temp_to_celsius( double fahrenheit );
+double convert_volume( int volume );
 
 /**
  * From `points`, finds p1 and p2 such that p1.first < x < p2.first

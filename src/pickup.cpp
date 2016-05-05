@@ -913,8 +913,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 wprintz(w_pickup, c_white, "/%.1f", convert_weight(g->u.weight_capacity()));
                 mvwprintz(w_pickup, 0, 24,
                           (new_volume > g->u.volume_capacity() ? c_red : c_white),
-                          _("Vol %d"), new_volume);
-                wprintz(w_pickup, c_white, "/%d", g->u.volume_capacity());
+                          _("Vol %.2f"), convert_volume(new_volume));
+                wprintz(w_pickup, c_white, "/%.2f", convert_volume(g->u.volume_capacity()));
             }
             wrefresh(w_pickup);
 
