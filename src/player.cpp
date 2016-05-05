@@ -365,13 +365,13 @@ void player::reset_stats()
     // Pain
     if( get_perceived_pain() > 0 ) {
         if( !( has_trait( "CENOBITE" ) ) ) {
-            mod_str_bonus( -int( get_perceived_pain() / 15 ) );
-            mod_dex_bonus( -int( get_perceived_pain() / 15 ) );
-            add_miss_reason( _( "Your pain distracts you!" ), int( get_perceived_pain() / 15 ) );
+            mod_str_bonus( -get_perceived_pain() / 15  );
+            mod_dex_bonus( -get_perceived_pain() / 15 );
+            add_miss_reason( _( "Your pain distracts you!" ), unsigned(get_perceived_pain() / 15) );
         }
-        mod_per_bonus( -int( get_perceived_pain() / 20 ) );
+        mod_per_bonus( -get_perceived_pain() / 20 );
         if( !( has_trait( "INT_SLIME" ) ) ) {
-            mod_int_bonus( -( 1 + int( get_perceived_pain() / 25 ) ) );
+            mod_int_bonus( -( 1 + (get_perceived_pain() / 25 ) ) );
         } else if( has_trait( "INT_SLIME" ) ) {
             // Having one's brain throughout one's body does have its downsides.
             // Be glad we don't assess permanent damage.
@@ -380,57 +380,57 @@ void player::reset_stats()
     }
     // Morale
     if( abs( get_morale_level() ) >= 100 ) {
-        mod_str_bonus( int( get_morale_level() / 180 ) );
-        int dex_mod = int( get_morale_level() / 200 );
+        mod_str_bonus( get_morale_level() / 180 );
+        int dex_mod = get_morale_level() / 200;
         mod_dex_bonus( dex_mod );
         if( dex_mod < 0 ) {
-            add_miss_reason( _( "What's the point of fighting?" ), -dex_mod );
+            add_miss_reason( _( "What's the point of fighting?" ), unsigned(-dex_mod) );
         }
-        mod_per_bonus( int( get_morale_level() / 125 ) );
-        mod_int_bonus( int( get_morale_level() / 100 ) );
+        mod_per_bonus( get_morale_level() / 125 );
+        mod_int_bonus( get_morale_level() / 100 );
     }
     // Radiation
     if( radiation > 0 ) {
-        mod_str_bonus( -int( radiation / 80 ) );
-        int dex_mod = -int( radiation / 110 );
+        mod_str_bonus( -radiation / 80 );
+        int dex_mod = -radiation / 110;
         mod_dex_bonus( dex_mod );
         if( dex_mod < 0 ) {
-            add_miss_reason( _( "Radiation weakens you." ), -dex_mod );
+            add_miss_reason( _( "Radiation weakens you." ), unsigned(-dex_mod) );
         }
-        mod_per_bonus( -int( radiation / 100 ) );
-        mod_int_bonus( -int( radiation / 120 ) );
+        mod_per_bonus( -radiation / 100 );
+        mod_int_bonus( -radiation / 120 );
     }
     // Stimulants
-    mod_dex_bonus( int( stim / 10 ) );
-    mod_per_bonus( int( stim /  7 ) );
-    mod_int_bonus( int( stim /  6 ) );
+    mod_dex_bonus( stim / 10 );
+    mod_per_bonus( stim /  7 );
+    mod_int_bonus( stim /  6 );
     if( stim >= 30 ) {
-        int dex_mod = -int( abs( stim - 15 ) / 8 );
+        int dex_mod = -1 * abs( stim - 15 ) / 8;
         mod_dex_bonus( dex_mod );
-        add_miss_reason( _( "You shake with the excess stimulation." ), -dex_mod );
-        mod_per_bonus( -int( abs( stim - 15 ) / 12 ) );
-        mod_int_bonus( -int( abs( stim - 15 ) / 14 ) );
-    } else if( stim <= 10 ) {
-        add_miss_reason( _( "You feel woozy." ), -int( stim / 10 ) );
+        add_miss_reason( _( "You shake with the excess stimulation." ), unsigned(-dex_mod) );
+        mod_per_bonus( -1 * abs( stim - 15 ) / 12 );
+        mod_int_bonus( -1 * abs( stim - 15 ) / 14 );
+    } else if( stim < 0 ) {
+        add_miss_reason( _( "You feel woozy." ), unsigned( -stim / 10 ) );
     }
     // Hunger
     if( get_hunger() >= 500 ) {
         // We die at 6000
-        const int dex_mod = -int( get_hunger() / 1000 );
-        add_miss_reason( _( "You're weak from hunger." ), -dex_mod );
-        mod_str_bonus( -int( get_hunger() / 500 ) );
+        const int dex_mod = -get_hunger() / 1000;
+        add_miss_reason( _( "You're weak from hunger." ), unsigned(-dex_mod) );
+        mod_str_bonus( -get_hunger() / 500 );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -int( get_hunger() / 1000 ) );
+        mod_int_bonus( -get_hunger() / 1000 );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
         // We die at 1200
-        const int dex_mod = -int( get_thirst() / 200 );
-        add_miss_reason( _( "You're weak from thirst." ), -dex_mod );
-        mod_str_bonus( -int( get_thirst() / 200 ) );
+        const int dex_mod = -get_thirst() / 200;
+        add_miss_reason( _( "You're weak from thirst." ), unsigned(-dex_mod) );
+        mod_str_bonus( -get_thirst() / 200 );
         mod_dex_bonus( dex_mod );
-        mod_int_bonus( -int( get_thirst() / 200 ) );
-        mod_per_bonus( -int( get_thirst() / 200 ) );
+        mod_int_bonus( -get_thirst() / 200 );
+        mod_per_bonus( -get_thirst() / 200 );
     }
 
     // Dodge-related effects
@@ -587,7 +587,7 @@ void player::apply_persistent_morale()
 {
     // Hoarders get a morale penalty if they're not carrying a full inventory.
     if( has_trait( "HOARDER" ) ) {
-        int pen = int( ( volume_capacity() - volume_carried() ) / 2 );
+        int pen = ( volume_capacity() - volume_carried() ) / 2;
         if( pen > 70 ) {
             pen = 70;
         }
@@ -595,9 +595,9 @@ void player::apply_persistent_morale()
             pen = 0;
         }
         if( has_effect( effect_took_xanax ) ) {
-            pen = int( pen / 7 );
+            pen = pen / 7;
         } else if( has_effect( effect_took_prozac ) ) {
-            pen = int( pen / 2 );
+            pen = pen / 2;
         }
         if( pen > 0 ) {
             add_morale( MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true );
@@ -753,7 +753,7 @@ void player::update_bodytemp()
     }
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = 100 * temp_to_celsius( g->get_temperature() );
+    int Ctemperature = int(100 * temp_to_celsius( g->get_temperature() ));
     w_point const weather = g->weather_gen->get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
@@ -787,12 +787,12 @@ void player::update_bodytemp()
     // -1333 when starving with light eater
     // -2000 if you managed to get 0 metabolism rate somehow
     const float met_rate = metabolic_rate();
-    const int hunger_warmth = 2000 * std::min( met_rate, 1.0f ) - 2000;
+    const int hunger_warmth = int(2000 * std::min( met_rate, 1.0f ) - 2000);
     // Give SOME bonus to those living furnaces with extreme metabolism
-    const int metabolism_warmth = std::max( 0.0f, met_rate - 1.0f ) * 1000;
+    const int metabolism_warmth = int(std::max( 0.0f, met_rate - 1.0f ) * 1000);
     // Fatigue
     // ~-900 when exhausted
-    const int fatigue_warmth = has_sleep ? 0 : std::min( 0.0f, -1.5f * get_fatigue() );
+    const int fatigue_warmth = has_sleep ? 0 : int(std::min( 0.0f, -1.5f * get_fatigue() ));
 
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
@@ -848,12 +848,12 @@ void player::update_bodytemp()
         double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                     temp_cur[i] );
         // Produces a smooth curve between 30.0 and 60.0.
-        float homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustement = homeostasis_adjustement * warmth( body_part( i ) );
-        int clothing_warmth_adjusted_bonus = homeostasis_adjustement * bonus_item_warmth( body_part( i ) );
+        double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
+        int clothing_warmth_adjustement = int(homeostasis_adjustement * warmth( body_part( i ) ));
+        int clothing_warmth_adjusted_bonus = int(homeostasis_adjustement * bonus_item_warmth( body_part( i ) ));
         // WINDCHILL
 
-        bp_windpower = ( float )bp_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 );
+        bp_windpower = int(( float )bp_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ));
         // Calculate windchill
         int windchill = get_local_windchill( g->get_temperature(),
                                              get_local_humidity( weather.humidity, g->weather,
@@ -862,7 +862,7 @@ void player::update_bodytemp()
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to 0.01C
-        int water_temperature = 100 * temp_to_celsius( g->weather_gen->get_water_temperature() );
+        int water_temperature = int(100 * temp_to_celsius( g->weather_gen->get_water_temperature() ));
         if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ) ||
             ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ) &&
               ( i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r ) ) ) {
@@ -956,6 +956,9 @@ void player::update_bodytemp()
             case bp_foot_r:
                 temp_equalizer( bp_foot_r, bp_leg_r );
                 break;
+            default:
+                debugmsg("Wacky body part temperature equalization!");
+                break;
         }
 
         // Correction of body temperature due to traits and mutations
@@ -1027,8 +1030,8 @@ void player::update_bodytemp()
             // Spread the morale bonus in time.
             if( comfortable_warmth > 0 &&
                 calendar::turn % MINUTES( 1 ) == ( MINUTES( i ) / MINUTES( num_bp ) ) &&
-                get_effect_int( effect_cold, ( body_part )num_bp ) == 0 &&
-                get_effect_int( effect_hot, ( body_part )num_bp ) == 0 &&
+                get_effect_int( effect_cold, num_bp ) == 0 &&
+                get_effect_int( effect_hot, num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 10, 20, 10, true );
             }
@@ -1044,7 +1047,7 @@ void player::update_bodytemp()
             rounding_error = 1;
         }
         if( temp_cur[i] != temp_conv[i] ) {
-            temp_cur[i] = temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error;
+            temp_cur[i] = int(temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error);
         }
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
@@ -1058,7 +1061,7 @@ void player::update_bodytemp()
             }
             if( temp_before != temp_conv[i] ) {
                 temp_difference = temp_before - temp_conv[i];
-                temp_cur[i] = temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error;
+                temp_cur[i] = int(temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error);
             }
         }
         int temp_after = temp_cur[i];
@@ -1116,10 +1119,10 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[i] / drench_capacity[i]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = g->get_temperature() +
-                               warmth( ( body_part )i ) * 0.2 - 20 * wetness_percentage / 100;
+            int Ftemperature = int(g->get_temperature() +
+                               warmth( ( body_part )i ) * 0.2 - 20 * wetness_percentage / 100);
             // Windchill reduced by your armor
-            int FBwindPower = total_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 );
+            int FBwindPower = int(total_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ));
 
             int intense = get_effect_int( effect_frostbite, ( body_part )i );
 
@@ -1413,7 +1416,7 @@ int player::bodytemp_modifier_traits_floor() const
 
 int player::temp_corrected_by_climate_control( int temperature ) const
 {
-    const int variation = BODYTEMP_NORM * 0.5;
+    const int variation = int(BODYTEMP_NORM * 0.5);
     if( temperature < BODYTEMP_SCORCHING + variation &&
         temperature > BODYTEMP_FREEZING - variation ) {
         if( temperature > BODYTEMP_SCORCHING ) {
@@ -1454,7 +1457,7 @@ void player::temp_equalizer(body_part bp1, body_part bp2)
 {
     // Body heat is moved around.
     // Shift in one direction only, will be shifted in the other direction separately.
-    int diff = (temp_cur[bp2] - temp_cur[bp1]) * 0.0001; // If bp1 is warmer, it will lose heat
+    int diff = int((temp_cur[bp2] - temp_cur[bp1]) * 0.0001); // If bp1 is warmer, it will lose heat
     temp_cur[bp1] += diff;
 }
 
@@ -1513,7 +1516,7 @@ void player::recalc_speed_bonus()
     }
 
     if( abs( get_morale_level() ) >= 100 ) {
-        int morale_bonus = int( get_morale_level() / 25 );
+        int morale_bonus = get_morale_level() / 25;
         if (morale_bonus < -10) {
             morale_bonus = -10;
         } else if (morale_bonus > 10) {
@@ -1557,14 +1560,14 @@ void player::recalc_speed_bonus()
             mod_speed_bonus(-(g->light_level( posz() ) >= 12 ? 5 : 10));
         }
         if ((has_trait("COLDBLOOD4")) && g->get_temperature() > 60) {
-            mod_speed_bonus(+int( (g->get_temperature() - 65) / 2));
+            mod_speed_bonus(+(g->get_temperature() - 65) / 2);
         }
         if ((has_trait("COLDBLOOD3") || has_trait("COLDBLOOD4")) && g->get_temperature() < 60) {
-            mod_speed_bonus(-int( (65 - g->get_temperature()) / 2));
+            mod_speed_bonus(-(65 - g->get_temperature()) / 2);
         } else if (has_trait("COLDBLOOD2") && g->get_temperature() < 60) {
-            mod_speed_bonus(-int( (65 - g->get_temperature()) / 3));
+            mod_speed_bonus(-(65 - g->get_temperature()) / 3);
         } else if (has_trait("COLDBLOOD") && g->get_temperature() < 60) {
-            mod_speed_bonus(-int( (65 - g->get_temperature()) / 5));
+            mod_speed_bonus(-(65 - g->get_temperature()) / 5);
         }
     }
 
@@ -1804,15 +1807,15 @@ bool player::is_elec_immune() const
     return is_immune_damage( DT_ELECTRIC );
 }
 
-bool player::is_immune_effect( const efftype_id &effect ) const
+bool player::is_immune_effect( const efftype_id &eff ) const
 {
-    if( effect == effect_downed ) {
+    if( eff == effect_downed ) {
         return is_throw_immune() || ( has_trait("LEG_TENT_BRACE") && footwear_factor() == 0 );
-    } else if( effect == effect_onfire ) {
+    } else if( eff == effect_onfire ) {
         return is_immune_damage( DT_HEAT );
-    } else if( effect == effect_deaf ) {
+    } else if( eff == effect_deaf ) {
         return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
-    } else if( effect == effect_corroding ) {
+    } else if( eff == effect_corroding ) {
         return has_trait( "ACIDPROOF" );
     }
 
