@@ -24,7 +24,7 @@
         "name" : "History of Alchemy",
         "name_plural" : "Histories of Alchemy",
         "max_level" : 3,
-        "description" : "A series of translated excerpts from several ancient books on the concept of alchemy, along with annotations.  This book presents an unconventional interpretation of the works discussed, and haphazardly segues into the author's own failed attempt to create the \"lapis philosophorum\" and \"alkahest\". Despite this, some of the unconventional chemistry discussed might be useful.",
+        "description" : "A series of translated excerpts from several ancient books on the concept of alchemy, along with annotations.  This book presents an unconventional interpretation of the works discussed, and haphazardly segues into the author's own failed attempt to create the \"lapis philosophorum\" and \"alkahest\".  Despite this, some of the unconventional chemistry discussed might be useful.",
         "weight" : 454,
         "color" : "green",
         "intelligence" : 9,
@@ -122,7 +122,7 @@
         "name" : "To Master the Unknown",
         "name_plural" : "To Master the Unknown",
         "max_level" : 10,
-        "description" : "A book describing several otherworldy creatures and their origins, or at least conjecture on those origins.  Stranger still, it describes experiments in summoning and  ...controlling them?",
+        "description" : "A book describing several otherworldly creatures and their origins, or at least conjecture on those origins.  Stranger still, it describes experiments in summoning and  ...controlling them?",
         "weight" : 454,
         "color" : "dark_gray",
         "intelligence" : 11,
@@ -145,10 +145,8 @@
         "plural-name": "tattered notes",
         "snippet_category": "note_grove",
         "description": "An old, worn scrap of paper with writing scrawled on it.",
-        "price": 0,
         "material": "paper",
-        "weight": 3,
-        "volume": 0
+        "weight": 3
     },{
         "type":"GENERIC",
         "id": "note_sanguine",
@@ -159,10 +157,8 @@
         "plural-name": "blood-stained notes",
         "snippet_category": "note_sanguine",
         "description": "A scrap of paper marred by old, dried blood.",
-        "price": 0,
         "material": "paper",
-        "weight": 3,
-        "volume": 0
+        "weight": 3
     },{
         "type":"GENERIC",
         "id": "note_chalice",
@@ -173,10 +169,8 @@
         "plural-name": "strange notes",
         "snippet_category": "note_chalice",
         "description": "A sheet of paper, with peculiar writing on it.",
-        "price": 0,
         "material": "paper",
-        "weight": 3,
-        "volume": 0
+        "weight": 3
     },{
         "type":"GENERIC",
         "id": "note_flame",
@@ -187,9 +181,7 @@
         "plural-name": "singed notes",
         "snippet_category": "note_flame",
         "description": "A piece of paper with writing on it, edges scorched as if it was hastily rescued from the fireplace.",
-        "price": 0,
         "material": "paper",
-        "weight": 3,
-        "volume": 0
+        "weight": 3
     }
 ]
