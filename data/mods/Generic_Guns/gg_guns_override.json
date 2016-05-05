@@ -124,7 +124,7 @@
      "color": "dark_gray",
      "name": "plinking carbine",
      "name_plural": "plinking carbines",
-     "description": "A cheap carbine made for target practice or varmint hunting.  It uses detachable pistol magazines.",   
+     "description": "A cheap carbine made for target practice or varmint hunting.  It uses detachable pistol magazines.",
      "price": 30000,
      "material": ["steel", "plastic"],
      "skill": "rifle",
@@ -412,7 +412,7 @@
      "reload": 10000,
      "loudness" : 150
     },
-    { 
+    {
      "id": "savage_111f",
      "type": "GUN",
      "symbol": "(",
@@ -441,7 +441,7 @@
      "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
     },
     {
-     "id": "m14a", 
+     "id": "m14a",
      "type": "GUN",
      "symbol": "(",
      "color": "brown",
