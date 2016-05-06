@@ -1011,9 +1011,13 @@ int sfx::consider() {
 
 void sfx::play_city_distance_music() {
     const auto wild_fctr = overmap_buffer.closest_city( g->u.global_sm_location() );
+	if( !wild_fctr ) {
+		play_music( "wilderness" );
+		return;
+	}
     const auto &nearest_city = *wild_fctr.city;
     const int city_dist = wild_fctr.distance - nearest_city.s;
-    if( !wild_fctr || city_dist > nearest_city.s + 8 ) {
+    if( city_dist > nearest_city.s + 8 ) {
         play_music( "wilderness" );
     } else if( city_dist >= nearest_city.s + 4 ) {
         play_music( "outskirts" );
