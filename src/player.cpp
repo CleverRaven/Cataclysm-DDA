@@ -3249,16 +3249,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                     bool isLearning = level.isTraining();
                     bool rusting = level.isRusting();
 
+                    nc_color cstatus;
                     if( rusting ) {
-                        status = isLearning ? c_ltred : c_red;
+                        cstatus = isLearning ? c_ltred : c_red;
                     } else if( !can_train ) {
-                        status = c_white;
+                        cstatus = c_white;
                     } else {
-                        status = isLearning ? c_ltblue : c_blue;
+                        cstatus = isLearning ? c_ltblue : c_blue;
                     }
 
-                    mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
-                    mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%)", (int)level,
+                    mvwprintz(w_skills, i + 1,  1, cstatus, "%s:", thisSkill->name().c_str());
+                    mvwprintz(w_skills, i + 1, 19, cstatus, "%-2d(%2d%%)", (int)level,
                               (level.exercise() <  0 ? 0 : level.exercise()));
                 }
                 wrefresh(w_skills);
@@ -3565,7 +3566,7 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                              ( strain <= 0.4 ? c_ltred : c_red ) );
 
         bool has_turrets = false;
-        for( int p = 0; p < veh->parts.size(); p++ ) {
+        for( unsigned int p = 0; p < veh->parts.size(); p++ ) {
             if( veh->part_flag( p, "TURRET" ) ) {
                 has_turrets = true;
                 break;
@@ -5546,8 +5547,8 @@ void player::update_needs( int rate_multiplier )
         focus_pool -= 1;
     }
 
-    int dec_stom_food = get_stomach_food() * 0.2;
-    int dec_stom_water = get_stomach_water() * 0.2;
+    int dec_stom_food = int(get_stomach_food() * 0.2);
+    int dec_stom_water = int(get_stomach_water() * 0.2);
     dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
     dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
     mod_stomach_food(-dec_stom_food);
@@ -5569,7 +5570,7 @@ void player::regen( int rate_multiplier )
 {
     int pain_ticks = rate_multiplier;
     while( get_pain() > 0 && pain_ticks-- > 0 ) {
-        mod_pain( -( 1 + int( get_pain() / 10 ) ) );
+        mod_pain( -( 1 + get_pain() / 10 ) );
     }
 
     float heal_rate = 0.0f;
@@ -5700,7 +5701,7 @@ void player::add_addiction(add_type type, int strength)
             } else if (i.sated < 600) {
                 i.sated += timer; // TODO: Make this variable?
             } else {
-                i.sated += int((3000 - i.sated) / 2);
+                i.sated += (3000 - i.sated) / 2;
             }
             if ((rng(0, strength) > rng(0, i.intensity * 5) || rng(0, 500) < strength) &&
                   i.intensity < 20) {
@@ -5884,6 +5885,8 @@ void player::print_health() const
         case 4:
             message = _("You're up and you feel fantastic. No sickness is going to keep you down today!");
             break;
+        default:
+            break;
         }
     } else if (!ill && current_health > 50) {
         switch (roll) {
@@ -5902,6 +5905,8 @@ void player::print_health() const
         case 4:
             message = _("Awareness comes fast, your body coming quickly to attention after your rest.");
             break;
+        default:
+            break;
         }
     } else if (!ill && current_health > 10) {
         switch (roll) {
@@ -5919,6 +5924,8 @@ void player::print_health() const
             break;
         case 4:
             message = _("Your body stretches with ease, and you feel ready to take on the world.");
+            break;
+        default:
             break;
         }
     } else if(current_health >= -10) {
@@ -5940,6 +5947,8 @@ void player::print_health() const
         case 4:
             message = _("You struggle to awareness. Being awake seems somewhat harder to reach today.");
             break;
+        default:
+            break;
         }
     } else if (current_health >= -100) {
         switch (roll) {
@@ -5958,6 +5967,8 @@ void player::print_health() const
         case 4:
             message = _("You're up, but your body seems like it would rather stay in bed.");
             break;
+        default:
+            break;
         }
     } else {
         switch (roll) {
@@ -5975,6 +5986,8 @@ void player::print_health() const
             break;
         case 4:
             message = _("Awareness seems to only come with a battle... and your body seem to be on its side.");
+            break;
+        default:
             break;
         }
     }
@@ -6111,7 +6124,7 @@ void player::process_effects() {
             auto msgs = it.get_miss_msgs();
             if (!msgs.empty()) {
                 for (auto i : msgs) {
-                    add_miss_reason(_(i.first.c_str()), i.second);
+                    add_miss_reason(_(i.first.c_str()), unsigned(i.second));
                 }
             }
 
