@@ -387,6 +387,7 @@
         "material" : "powder",
         "symbol" : "!",
         "color" : "white",
+        "container" : "bag_plastic",
         "stim" : 20,
         "healthy" : -2,
         "fun" : 25,
