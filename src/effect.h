@@ -212,7 +212,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         double get_percentage( std::string arg, int val, bool reduced = false ) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated( unsigned int turn, std::string arg, int val,
+        bool activated( int turn, std::string arg, int val,
                         bool reduced = false, double mod = 1 ) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
