@@ -31,6 +31,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "upgrades":{
             "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
             "half_life": 14
@@ -70,6 +71,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":35,
         "death_function":["NORMAL"],
         "special_attacks":[
@@ -111,6 +113,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":15,
         "death_function":["NORMAL"],
         "special_attacks":[["SHRIEK", 15]],
@@ -147,6 +150,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":30,
         "death_function":["NORMAL"],
         "special_attacks":[
@@ -189,6 +193,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":20,
         "death_function":["NORMAL"],
         "special_attacks":[["SHRIEK", 5]],
@@ -225,6 +230,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":25,
         "death_function":["NORMAL"],
         "special_attacks":[["SHRIEK", 5]],
@@ -261,6 +267,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":25,
         "death_function":["BOOMER"],
         "special_attacks":[["GRAB", 5]],
