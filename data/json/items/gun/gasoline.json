@@ -76,6 +76,7 @@
     "burst": 5,
     "clip_size": 2000,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "extend": { "flags": [ "MODE_BURST" ] }
+    "delete": { "flags": [ "FIRE_100" ] },
+    "extend": { "flags": [ "FIRE_20", "MODE_BURST" ] }
   }
 ]
