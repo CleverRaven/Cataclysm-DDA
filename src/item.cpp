@@ -765,7 +765,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 if( !vits.empty() ) {
                     vits += ", ";
                 }
-                vits += string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( 1440.0 / g->u.vitamin_rate( v.first ) ) * 100 ) );
+                vits += string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) );
             }
         }
         if( !vits.empty() ) {
