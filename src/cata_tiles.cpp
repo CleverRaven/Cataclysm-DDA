@@ -1472,8 +1472,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                 col = f.color();
             }
         } else if (category == C_TERRAIN) {
-            if (termap.count(id) > 0) {
-                const ter_t &t = termap[id];
+            const ter_str_id tid( id );
+            if ( tid.is_valid() ) {
+                const ter_t &t = tid.obj();
                 sym = t.symbol();
                 col = t.color();
             }
@@ -1930,7 +1931,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
         // do something to get other terrain orientation values
     }
 
-    const std::string& tname = t.obj().id;
+    const std::string& tname = t.obj().id.str();
 
     return draw_from_id_string( tname, C_TERRAIN, empty_string, p, subtile, rotation, ll,
                                 nv_goggles_activated, height_3d );
@@ -2721,13 +2722,13 @@ void cata_tiles::get_tile_values(const int t, const int *tn, int &subtile, int &
 void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
 
-    tile_loading_report(termap, "Terrain", "");
+    tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
     tile_loading_report(furnmap, "Furniture", "");
     //TODO: exclude fake items from Item_factory::init_old()
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
     auto mtypes = MonsterGenerator::generator().get_all_mtypes();
-    lr_generic( mtypes.begin(), mtypes.end(), []( std::vector<const mtype *>::iterator m ) {
-        return ( *m )->id.str();
+    lr_generic( mtypes.begin(), mtypes.end(), []( const std::vector<mtype>::iterator &m ) {
+        return ( *m ).id.str();
     }, "Monsters", "" );
     tile_loading_report<vpart_info>(vpart_info::get_all().size(), "Vehicle Parts", "vp_");
     tile_loading_report<trap>(trap::count(), "Traps", "");

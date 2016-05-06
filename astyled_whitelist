@@ -4,6 +4,7 @@ src/activity_item_handling.cpp
 src/ammo.cpp
 src/armor_layers.cpp
 src/basecamp.cpp
+src/bionics_ui.cpp
 src/bonuses.cpp
 src/cata_utility.cpp
 src/char_validity_check.cpp
@@ -43,6 +44,7 @@ src/monfaction.cpp
 src/monmove.cpp
 src/morale.cpp
 src/mtype.cpp
+src/mutation_ui.cpp
 src/name.cpp
 src/pathfinding.cpp
 src/player_activity.cpp
@@ -102,6 +104,8 @@ src/editmap.h
 src/event.h
 src/explosion.h
 src/faction.h
+src/fault.h
+src/fault.cpp
 src/filesystem.h
 src/game_constants.h
 src/generic_factory.h
@@ -173,6 +177,8 @@ src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h
 src/version.h
+src/vitamin.h
+src/vitamin.cpp
 src/visitable.h
 src/weather.h
 src/weighted_list.h

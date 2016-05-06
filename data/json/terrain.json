@@ -958,6 +958,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall",
+        "aliases" : [
+            "t_wall_h",
+            "t_wall_v"
+        ],
         "name": "wall",
         "symbol": "LINE_OXOX",
         "color": "ltgray",
@@ -974,6 +978,10 @@
     },{
         "type" : "terrain",
         "id" : "t_concrete_wall",
+        "aliases" : [
+            "t_concrete_h",
+            "t_concrete_v"
+        ],
         "name": "concrete wall",
         "symbol": "LINE_OXOX",
         "color": "dkgray",
@@ -993,6 +1001,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_metal",
+        "aliases" : [
+            "t_wall_metal_h",
+            "t_wall_metal_v"
+        ],
         "name": "metal wall",
         "symbol": "LINE_OXOX",
         "color": "cyan",
@@ -1013,6 +1025,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_glass",
+        "aliases" : [
+            "t_wall_glass_h",
+            "t_wall_glass_v"
+        ],
         "name": "glass wall",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -1032,6 +1048,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_glass_alarm",
+        "aliases" : [
+            "t_wall_glass_h_alarm",
+            "t_wall_glass_v_alarm"
+        ],
         "name": "glass wall",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -1052,6 +1072,10 @@
     },{
         "type" : "terrain",
         "id" : "t_reinforced_glass",
+        "aliases" : [
+            "t_reinforced_glass_h",
+            "t_reinforced_glass_v"
+        ],
         "name": "reinforced glass",
         "symbol": "LINE_OXOX",
         "color": "ltcyan",
@@ -3156,9 +3180,29 @@
         "id" : "t_tree_maple",
         "name": "maple tree",
         "symbol": "7",
-        "color": "red",
+        "color": [ "red", "light_green", "light_green", "red" ],
         "move_cost": 0,
-        "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
+        "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+        "examine_action": "tree_maple",
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crunch!",
+            "sound_fail": "whack!",
+            "ter_set": "t_dirt",
+            "items": [
+                { "item": "stick", "count": [3, 10] },
+                { "item": "splinter", "count": [10, 25] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_tree_maple_tapped",
+        "name": "maple tree",
+        "symbol": "7",
+        "color": [ "red", "light_green", "light_green", "red" ],
+        "move_cost": 0,
+        "flags": [ "FLAMMABLE_ASH", "SEALED", "PLACE_ITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "LIQUIDCONT" ],
+        "examine_action": "tree_maple_tapped",
         "bash": {
             "str_min": 80, "str_max": 180,
             "sound": "crunch!",
@@ -3766,6 +3810,10 @@
     },{
         "type" : "terrain",
         "id" : "t_fungus_wall",
+        "aliases" : [
+            "t_fungus_wall_h",
+            "t_fungus_wall_v"
+        ],
         "name": "fungal wall",
         "symbol": "O",
         "color": "dkgray",
@@ -5117,6 +5165,10 @@
    },{
         "type" : "terrain",
         "id" : "t_wall_r",
+        "aliases" : [
+            "t_wall_h_r",
+            "t_wall_v_r"
+        ],
         "name": "red wall",
         "symbol": "LINE_OXOX",
         "color": "red",
@@ -5132,6 +5184,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_w",
+        "aliases" : [
+            "t_wall_h_w",
+            "t_wall_v_w"
+        ],
         "name": "white wall",
         "symbol": "LINE_OXOX",
         "color": "white",
@@ -5147,6 +5203,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_b",
+        "aliases" : [
+            "t_wall_h_b",
+            "t_wall_v_b"
+        ],
         "name": "blue wall",
         "symbol": "LINE_OXOX",
         "color": "blue",
@@ -5162,6 +5222,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_g",
+        "aliases" : [
+            "t_wall_h_g",
+            "t_wall_v_g"
+        ],
         "name": "green wall",
         "symbol": "LINE_OXOX",
         "color": "green",
@@ -5177,6 +5241,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_y",
+        "aliases" : [
+            "t_wall_h_y",
+            "t_wall_v_y"
+        ],
         "name": "yellow wall",
         "symbol": "LINE_OXOX",
         "color": "yellow",
@@ -5192,6 +5260,10 @@
     },{
         "type" : "terrain",
         "id" : "t_wall_p",
+        "aliases" : [
+            "t_wall_h_p",
+            "t_wall_v_p"
+        ],
         "name": "purple wall",
         "symbol": "LINE_OXOX",
         "color": "magenta",

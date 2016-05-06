@@ -6,7 +6,7 @@
 #include "translations.h"
 #include "filesystem.h"
 #include "overmapbuffer.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "mapdata.h"
 #include "worldfactory.h"
 #include "game.h"
@@ -158,8 +158,8 @@ void mapbuffer::save( bool delete_after_save )
     }
 }
 
-void mapbuffer::save_quad( const std::string &dirname, const std::string &filename, 
-                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete, 
+void mapbuffer::save_quad( const std::string &dirname, const std::string &filename,
+                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                            bool delete_after_save )
 {
     std::vector<point> offsets;
@@ -196,12 +196,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
     // Don't create the directory if it would be empty
     assure_dir_exist( dirname.c_str() );
-    std::ofstream fout;
-    fopen_exclusive( fout, filename.c_str() );
-    if( !fout.is_open() ) {
-        return;
-    }
-
+    ofstream_wrapper_exclusive fout( filename );
     JsonOut jsout( fout );
     jsout.start_array();
     for( auto &submap_addr : submap_addrs ) {
@@ -390,7 +385,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
     }
 
     jsout.end_array();
-    fclose_exclusive( fout, filename.c_str() );
+    fout.close();
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and
@@ -440,40 +435,41 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 jsin.start_array();
                 // Small duplication here so that the update check is only performed once
                 if (rubpow_update) {
-                    std::string ter_string;
                     item rock = item("rock", 0);
                     item chunk = item("steel_chunk", 0);
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            ter_string = jsin.get_string();
-                            if (ter_string == "t_rubble") {
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                            const ter_str_id tid( jsin.get_string() );
+
+                            if ( tid == "t_rubble" ) {
+                                sm->ter[i][j] = ter_id( "t_dirt" );
                                 sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
-                            } else if (ter_string == "t_wreckage"){
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                            } else if ( tid == "t_wreckage" ){
+                                sm->ter[i][j] = ter_id( "t_dirt" );
                                 sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
-                            } else if (ter_string == "t_ash"){
-                                sm->ter[i][j] = termap[ "t_dirt" ].loadid;
+                            } else if ( tid == "t_ash" ){
+                                sm->ter[i][j] = ter_id(  "t_dirt" );
                                 sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_support_l"){
-                                sm->ter[i][j] = termap[ "t_support_l" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_switchgear_l"){
-                                sm->ter[i][j] = termap[ "t_switchgear_l" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_switchgear_s"){
-                                sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
+                            } else if ( tid == "t_pwr_sb_support_l" ){
+                                sm->ter[i][j] = ter_id(  "t_support_l" );
+                            } else if ( tid == "t_pwr_sb_switchgear_l" ){
+                                sm->ter[i][j] = ter_id(  "t_switchgear_l" );
+                            } else if ( tid == "t_pwr_sb_switchgear_s" ){
+                                sm->ter[i][j] = ter_id(  "t_switchgear_s" );
                             } else {
-                                sm->ter[i][j] = terfind( ter_string );
+                                sm->ter[i][j] = tid.id();
                             }
                         }
                     }
                 } else {
                     for( int j = 0; j < SEEY; j++ ) {
                         for( int i = 0; i < SEEX; i++ ) {
-                            sm->ter[i][j] = terfind( jsin.get_string() );
+                            const ter_str_id tid( jsin.get_string() );
+                            sm->ter[i][j] = tid.id();
                         }
                     }
                 }

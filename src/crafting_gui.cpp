@@ -357,7 +357,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 } else {
                     mvwprintz( w_data, ypos++, 30, col, _( "Your skill level: %d" ),
                                // Macs don't seem to like passing this as a class, so force it to int
-                               ( int )g->u.skillLevel( current[line]->skill_used ) );
+                               ( int )g->u.get_skill_level( current[line]->skill_used ) );
                 }
                 ypos += current[line]->print_time( w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
                                                    ( batch ) ? line + 1 : 1 );

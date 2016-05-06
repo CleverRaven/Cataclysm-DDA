@@ -287,24 +287,6 @@
     {
         "type" : "item_group",
         "subtype": "collection",
-        "id": "mon_zombie_technician_death_drops",
-        "entries":
-        [
-            { "group": "technician_shirts", "damage": [1, 4] },
-            { "group": "technician_pants", "damage": [1, 4] },
-            {
-                "distribution": [
-                    { "group": "underwear" }
-                ],
-                "damage": [1, 4]
-            },
-            { "item": "hat_hard" },
-            { "item": "boots" }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
         "id": "marloss_yellow_drops",
         "entries":
         [

@@ -641,7 +641,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
             case HACK_UNABLE:
                 add_msg(
                     m_info,
-                    p.skillLevel( skill_computer ) > 0 ?
+                    p.get_skill_level( skill_computer ) > 0 ?
                         _("Looks like you need a %s, or a tool to hack it with.") :
                         _("Looks like you need a %s."),
                     item::nname( card_type ).c_str()
@@ -653,7 +653,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
 
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    bool has_digging_tool = p.has_items_with_quality( "DIG", 2, 1 );
+    bool has_digging_tool = p.has_quality( "DIG", 2 );
     if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
@@ -680,7 +680,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 void iexamine::crate(player &p, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_items_with_quality( "PRY", 1, 1 );
+    bool has_prying_tool = p.crafting_inventory().has_quality( "PRY", 1 );
     if( !has_prying_tool ) {
         add_msg( m_info, _("If only you had a crowbar...") );
         return;
@@ -1007,7 +1007,7 @@ void iexamine::safe(player &p, const tripoint &examp)
         ///\EFFECT_PER speeds up safe cracking
 
         ///\EFFECT_MECHANICS speeds up safe cracking
-        int moves = std::max(MINUTES(150) + (p.skillLevel( skill_mechanics ) - 3) * MINUTES(-20) +
+        int moves = std::max(MINUTES(150) + (p.get_skill_level( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p.get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
          p.assign_activity( ACT_CRACKING, moves );
@@ -1037,11 +1037,11 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     ///\EFFECT_DEX speeds up lock picking gun safe
 
     ///\EFFECT_MECHANICS speeds up lock picking gun safe
-    p.moves -= (1000 - (pick_quality * 100)) - (p.dex_cur + p.skillLevel( skill_mechanics )) * 5;
+    p.moves -= (1000 - (pick_quality * 100)) - (p.dex_cur + p.get_skill_level( skill_mechanics )) * 5;
     ///\EFFECT_DEX increases chance of lock picking gun safe
 
     ///\EFFECT_MECHANICS increases chance of lock picking gun safe
-    int pick_roll = (dice(2, p.skillLevel( skill_mechanics )) + dice(2, p.dex_cur)) * pick_quality;
+    int pick_roll = (dice(2, p.get_skill_level( skill_mechanics )) + dice(2, p.dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
         p.practice( skill_mechanics, 1);
@@ -1077,7 +1077,7 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
         case HACK_UNABLE:
             add_msg(
                 m_info,
-                p.skillLevel( skill_computer ) > 0 ?
+                p.get_skill_level( skill_computer ) > 0 ?
                     _("You can't hack this gun safe without a hacking tool.") :
                     _("This electronic safe looks too complicated to open.")
             );
@@ -1362,7 +1362,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
         return;
     }
 
-    if( !p.has_items_with_quality( "DIG", 1, 1 ) ) {
+    if( !p.has_quality( "DIG" ) ) {
         none( p, examp );
         add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
         return;
@@ -1661,7 +1661,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             g->m.i_clear(examp);
             g->m.furn_set(examp, f_null);
 
-            int skillLevel = p.skillLevel( skill_survival );
+            int skillLevel = p.get_skill_level( skill_survival );
             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
@@ -1778,7 +1778,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     }
 
     ///\EFFECT_CARPENTRY decreases loss when firing a kiln
-    SkillLevel &skill = p.skillLevel( skill_carpentry );
+    const SkillLevel &skill = p.get_skill_level( skill_carpentry );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -1872,7 +1872,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
     int charges_on_ground = 0;
     auto items = g->m.i_at(examp);
     for( auto item_it = items.begin(); item_it != items.end(); ) {
-        if( !item_it->has_flag("BREW") || brew_present ) {
+        if( !item_it->is_brewable() || brew_present ) {
             // This isn't a brew or there was already another kind of brew inside,
             // so this has to be moved.
             items.push_back( *item_it );
@@ -1883,8 +1883,11 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
             brew_present = true;
         }
     }
-    if (!brew_present) {
-        std::vector<const item *> b_inv = p.all_items_with_flag( "BREW" );
+    if( !brew_present ) {
+        // @todo Allow using brews from crafting inventory
+        const auto b_inv = p.items_with( []( const item &it ) {
+            return it.is_brewable();
+        } );
         if( b_inv.empty() ) {
             add_msg(m_info, _("You have no brew to ferment."));
             return;
@@ -1944,7 +1947,7 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
         p.moves -= 250;
     }
     if (vat_full || query_yn(_("Start fermenting cycle?"))) {
-        g->m.i_at( examp).front().bday = calendar::turn;
+        g->m.i_at( examp ).front().bday = calendar::turn;
         g->m.furn_set(examp, f_fvat_full);
         if (vat_full) {
             add_msg(_("The vat is full, so you close the lid and start the fermenting cycle."));
@@ -1954,70 +1957,74 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
     }
 }
 
-void iexamine::fvat_full(player &p, const tripoint &examp)
+void iexamine::fvat_full( player &p, const tripoint &examp )
 {
-    bool liquid_present = false;
-    for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
-        if (!(g->m.i_at(examp)[i].made_of(LIQUID)) || liquid_present) {
-            g->m.add_item_or_charges(examp, g->m.i_at(examp)[i]);
-            g->m.i_rem( examp, i );
-            i--;
-        } else {
-            liquid_present = true;
-        }
-    }
-    if (!liquid_present) {
-        debugmsg("fvat_full was empty or contained non-liquids only!");
-        g->m.furn_set(examp, f_fvat_empty);
+    auto items_here = g->m.i_at( examp );
+    if( items_here.empty() ) {
+        debugmsg( "fvat_full was empty!" );
+        g->m.furn_set( examp, f_fvat_empty );
         return;
     }
-    item brew_i = g->m.i_at(examp)[0];
-    if (brew_i.has_flag("BREW")) { //Does the vat contain unfermented brew, or already fermented booze?
+
+    for( size_t i = 0; i < items_here.size(); i++ ) {
+        auto &it = items_here[i];
+        if( !it.made_of( LIQUID ) ) {
+            add_msg( _("You remove %s from the vat."), it.tname().c_str() );
+            g->m.add_item_or_charges( p.pos(), it );
+            g->m.i_rem( examp, i );
+            i--;
+        }
+    }
+
+    if( items_here.empty() ) {
+        g->m.furn_set( examp, f_fvat_empty );
+        return;
+    }
+
+    item &brew_i = items_here.front();
+    // Does the vat contain unfermented brew, or already fermented booze?
+    // @todo Allow "recursive brewing" to continue without player having to check on it
+    if( brew_i.is_brewable() ) {
+        add_msg( _("There's a vat full of %s set to ferment there."), brew_i.tname().c_str() );
+
         int brew_time = brew_i.brewing_time();
-        int brewing_stage = 3 * ((float)(calendar::turn.get_turn() - brew_i.bday) / (brew_time));
-        add_msg(_("There's a vat full of %s set to ferment there."), brew_i.tname().c_str());
-        switch (brewing_stage) {
-        case 0:
-            add_msg(_("It's been set recently, and will take some time to ferment."));
-            break;
-        case 1:
-            add_msg(_("It is about halfway done fermenting."));
-            break;
-        case 2:
-            add_msg(_("It will be ready for bottling soon."));
-            break;
-        // More messages can be added to show progress if desired
-        default:
-            // Double-checking that the brew is actually ready
-            if( (calendar::turn.get_turn() > (brew_i.bday + brew_time) ) &&
-                g->m.furn(examp) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
-                //declare fermenting result as the brew's ID minus "brew_"
-                itype_id alcoholType = g->m.i_at(examp)[0].typeId().substr(5);
-                ///\EFFECT_COOKING >4 prevents hb_beer from turning into just beer
-                SkillLevel &cooking = p.skillLevel( skill_cooking );
-                if (alcoholType == "hb_beer" && cooking < 5) {
-                    alcoholType = alcoholType.substr(3);    //hb_beer -> beer
-                }
-                item booze(alcoholType, 0);
-                booze.charges = brew_i.charges;
-                booze.bday = brew_i.bday;
-
-                g->m.i_clear(examp);
-                g->m.add_item( examp, booze );
-                p.moves -= 500;
-
-                //low xp: you also get xp from crafting the brew
-                p.practice( skill_cooking, std::min(brew_time / 600, 72) );
-                add_msg(_("The %s is now ready for bottling."), booze.tname().c_str());
+        int progress = calendar::turn.get_turn() - brew_i.bday;
+        if( progress < brew_time ) {
+            int hours = ( brew_time - progress ) / HOURS(1);
+            if( hours < 1 ) {
+                add_msg( _( "It will finish brewing in less than an hour." ) );
+            } else {
+                add_msg( ngettext( "It will finish brewing in about %d hour.",
+                                   "It will finish brewing in about %d hours.",
+                                   hours ), hours );
             }
+            return;
         }
-    } else { //Booze is done, so bottle it!
-        item &booze = g->m.i_at(examp).front();
-        if( g->handle_liquid( booze, true, false) ) {
-            g->m.furn_set(examp, f_fvat_empty);
-            add_msg(_("You squeeze the last drops of %s from the vat."), booze.tname().c_str());
+
+        if( query_yn(_("Finish brewing?") ) ) {
+            const auto results = brew_i.brewing_results();
+
             g->m.i_clear( examp );
+            for( const auto &result : results ) {
+                // @todo Different age based on settings
+                item booze( result, brew_i.bday, brew_i.charges );
+                g->m.add_item( examp, booze );
+                if( booze.made_of( LIQUID ) ) {
+                    add_msg( _("The %s is now ready for bottling."), booze.tname().c_str() );
+                }
+            }
+
+            p.moves -= 500;
+            p.practice( skill_cooking, std::min( brew_time / MINUTES(10), 100 ) );
         }
+
+        return;
+    }
+
+    if( g->handle_liquid( brew_i, true, false ) ) {
+        g->m.furn_set( examp, f_fvat_empty );
+        add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.tname().c_str());
+        g->m.i_clear( examp );
     }
 }
 
@@ -2191,7 +2198,7 @@ void pick_plant(player &p, const tripoint &examp,
         return;
     }
 
-    SkillLevel &survival = p.skillLevel( skill_survival );
+    const SkillLevel &survival = p.get_skill_level( skill_survival );
     if (survival < 1) {
         p.practice( skill_survival, rng(5, 12) );
     } else if (survival < 6) {
@@ -2260,10 +2267,10 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
     harvest_tree_shrub( p, examp );
     ///\EFFECT_SURVIVAL >0 allows digging up hickory root
-    if( !( p.skillLevel( skill_survival ) > 0 ) ) {
+    if( !( p.get_skill_level( skill_survival ) > 0 ) ) {
         return;
     }
-    if( !p.has_items_with_quality( "DIG", 1, 1 ) ) {
+    if( !p.has_quality( "DIG" ) ) {
         add_msg(m_info, _("You have no tool to dig with..."));
         return;
     }
@@ -2273,9 +2280,165 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     g->m.spawn_item(p.pos(), "hickory_root", rng(1,4) );
     g->m.ter_set(examp, t_tree_hickory_dead);
     ///\EFFECT_SURVIVAL speeds up hickory root digging
-    p.moves -= 2000 / ( p.skillLevel( skill_survival ) + 1 ) + 100;
+    p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
     return;
     none( p, examp );
+}
+
+item_location maple_tree_sap_container() {
+    const item maple_sap = item( "maple_sap", 0 );
+    return g->inv_map_splice( [&]( const item &it ) {
+        return it.get_remaining_capacity_for_liquid( maple_sap, true ) > 0;
+    }, _( "Which container:" ), PICKUP_RANGE );
+}
+
+void iexamine::tree_maple(player &p, const tripoint &examp)
+{
+    if( !p.has_quality( "DRILL" ) ) {
+        add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
+        return;
+    }
+
+    if( !p.has_quality( "HAMMER" ) ) {
+        add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
+        return;
+    }
+
+    const inventory &crafting_inv = p.crafting_inventory();
+
+    if( !crafting_inv.has_amount( "tree_spile", 1 ) ) {
+        add_msg( m_info, _( "You need a %s to tap this maple tree." ), item::nname( "tree_spile" ).c_str() );
+        return;
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "tree_spile", 1 ) );
+    p.consume_items( comps );
+
+    p.mod_moves( -200 );
+    g->m.ter_set( examp, t_tree_maple_tapped );
+
+    auto cont_loc = maple_tree_sap_container();
+
+    item *container = cont_loc.get_item();
+    if( container ) {
+        g->m.add_item_or_charges( examp, *container, 0 );
+
+        cont_loc.remove_item();
+    } else {
+        add_msg( m_info, _( "No container added. The sap will just spill on the ground." ) );
+    }
+}
+
+void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
+{
+    bool has_sap = false;
+    bool has_container = false;
+    long charges = 0;
+
+    const std::string maple_sap_name = item( "maple_sap", 0 ).tname( 1 );
+
+    auto items = g->m.i_at( examp );
+    for( auto &it : items ) {
+        if( it.is_bucket() || it.is_watertight_container() ) {
+            has_container = true;
+
+            if( !it.is_container_empty() && it.contents.front().type->id == "maple_sap" ) {
+                has_sap = true;
+                charges = it.contents.front().charges;
+            }
+        }
+    }
+
+    enum options {
+        REMOVE_TAP,
+        ADD_CONTAINER,
+        HARVEST_SAP,
+        REMOVE_CONTAINER,
+        CANCEL,
+    };
+    uimenu selectmenu;
+    selectmenu.addentry( REMOVE_TAP, true, MENU_AUTOASSIGN, _("Remove tap") );
+    selectmenu.addentry( ADD_CONTAINER, !has_container, MENU_AUTOASSIGN, _("Add a container to receive the %s"), maple_sap_name.c_str() );
+    selectmenu.addentry( HARVEST_SAP, has_sap, MENU_AUTOASSIGN, _("Harvest current %s (%d)"), maple_sap_name.c_str(), charges );
+    selectmenu.addentry( REMOVE_CONTAINER, has_container, MENU_AUTOASSIGN, _("Remove container") );
+    selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
+
+    selectmenu.return_invalid = true;
+    selectmenu.text = _("Select an action");
+    selectmenu.selected = 0;
+    selectmenu.query();
+
+    switch( static_cast<options>( selectmenu.ret ) ) {
+        case REMOVE_TAP: {
+            if( !p.has_quality( "HAMMER" ) ) {
+                add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
+                return;
+            }
+
+            item tree_spile( "tree_spile" );
+            add_msg( _( "You remove the %s." ), tree_spile.tname( 1 ).c_str() );
+            g->m.add_item_or_charges( p.pos(), tree_spile );
+
+            for( auto &it : items ) {
+                g->m.add_item_or_charges( p.pos(), it );
+            }
+            g->m.i_clear( examp );
+
+            p.mod_moves( -200 );
+            g->m.ter_set( examp, t_tree_maple );
+
+            return;
+        }
+
+        case ADD_CONTAINER: {
+            auto cont_loc = maple_tree_sap_container();
+
+            item *container = cont_loc.get_item();
+            if( container ) {
+                g->m.add_item_or_charges( examp, *container, 0 );
+
+                cont_loc.remove_item();
+            } else {
+                add_msg( m_info, _( "No container added. The sap will just spill on the ground." ) );
+            }
+
+            return;
+        }
+
+        case HARVEST_SAP:
+            for( auto &it : items ) {
+                if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
+                    auto &liquid = it.contents.front();
+                    if( liquid.type->id == "maple_sap" ) {
+                        long initial_charges = liquid.charges;
+                        bool emptied = g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
+
+                        if( emptied || initial_charges != liquid.charges ) {
+                            p.mod_moves( -100 );
+                        }
+
+                        if( emptied || liquid.charges <= 0 ) {
+                            it.contents.clear();
+                        }
+                    }
+                }
+            }
+
+            return;
+
+        case REMOVE_CONTAINER: {
+            g->u.assign_activity( ACT_PICKUP, 0 );
+            g->u.activity.placement = examp - p.pos();
+            g->u.activity.values.push_back( false );
+            g->u.activity.values.push_back( 0 );
+            g->u.activity.values.push_back( 0 );
+            return;
+        }
+
+        case CANCEL:
+            return;
+    }
 }
 
 void iexamine::tree_bark(player &p, const tripoint &examp)
@@ -2334,7 +2497,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
 
     add_msg( _("You forage through the %s."), g->m.tername( examp ).c_str() );
     ///\EFFECT_SURVIVAL speeds up foraging
-    int move_cost = 100000 / ( 2 * p.skillLevel( skill_survival ) + 5 );
+    int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
@@ -2619,7 +2782,7 @@ void iexamine::curtains(player &p, const tripoint &examp)
         p.add_msg_if_player( _("You carefully peek through the curtains.") );
     } else if( choice == 2 ) {
         // Mr. Gorbachev, tear down those curtains!
-        g->m.ter_set( examp, "t_window_no_curtains" );
+        g->m.ter_set( examp, t_window_no_curtains );
         g->m.spawn_item( p.pos(), "nail", 1, 4 );
         g->m.spawn_item( p.pos(), "sheet", 2 );
         g->m.spawn_item( p.pos(), "stick" );
@@ -2703,7 +2866,7 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
     int &j = tmp.y;
     for (i = center.x - radius; i <= center.x + radius; i++) {
         for (j = center.y - radius; j <= center.y + radius; j++) {
-            if (g->m.ter_at(tmp).id != "t_gas_tank") {
+            if (g->m.ter_at(tmp).id.str() != "t_gas_tank") {
                 continue;
             }
 
@@ -2851,7 +3014,7 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
             liq_d.charges = amount;
 
             ter_t backup_pump = g->m.ter_at(dst);
-            g->m.ter_set( dst, "t_null");
+            g->m.ter_set( dst, NULL_ID );
             g->m.add_item_or_charges(dst, liq_d);
             g->m.ter_set(dst, backup_pump.id);
 
@@ -2881,7 +3044,7 @@ static long fromPumpFuel(const tripoint &dst, const tripoint &src)
 
             // add the charges to the destination
             ter_t backup_tank = g->m.ter_at(dst);
-            g->m.ter_set(dst, "t_null");
+            g->m.ter_set(dst, NULL_ID);
             g->m.add_item_or_charges(dst, liq_d);
             g->m.ter_set(dst, backup_tank.id);
 
@@ -2906,9 +3069,9 @@ static void turnOnSelectedPump(const tripoint &p, int number)
         for (j = p.y - radius; j <= p.y + radius; j++) {
             if ((g->m.ter_at(tmp).id == "t_gas_pump" || g->m.ter_at(tmp).id == "t_gas_pump_a") ) {
                 if (number == k++) {
-                    g->m.ter_set(tmp, "t_gas_pump_a");
+                    g->m.ter_set(tmp, ter_str_id( "t_gas_pump_a" ) );
                 } else {
-                    g->m.ter_set(tmp, "t_gas_pump");
+                    g->m.ter_set(tmp, ter_str_id( "t_gas_pump" ) );
                 }
             }
         }
@@ -3345,6 +3508,12 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("tree_hickory" == function_name) {
         return &iexamine::tree_hickory;
     }
+    if ( "tree_maple" == function_name ) {
+        return &iexamine::tree_maple;
+    }
+    if ( "tree_maple_tapped" == function_name ) {
+        return &iexamine::tree_maple_tapped;
+    }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;
     }
@@ -3405,7 +3574,7 @@ hack_result iexamine::hack_attempt( player &p ) {
     p.moves -= 500;
     p.practice( skill_computer, 20 );
     ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    int success = rng( p.skillLevel( skill_computer ) / 4 - 2, p.skillLevel( skill_computer ) * 2 );
+    int success = rng( p.get_skill_level( skill_computer ) / 4 - 2, p.get_skill_level( skill_computer ) * 2 );
     success += rng( -3, 3 );
     if( using_fingerhack ) {
         p.charge_power( -25 );

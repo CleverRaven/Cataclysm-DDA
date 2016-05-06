@@ -252,7 +252,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             break;
     }
 
-    const int skill_level = p->skillLevel( skill_survival );
+    const int skill_level = p->get_skill_level( skill_survival );
 
     auto roll_butchery = [&]() {
         double skill_shift = 0.0;
@@ -472,11 +472,17 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( meat == "null" ) {
             return;
         }
-        item tmpitem(meat, age);
-        tmpitem.set_mtype( corpse );
-        while ( pieces > 0 ) {
-            pieces--;
-            g->m.add_item_or_charges(p->pos(), tmpitem);
+
+        item chunk( meat, age );
+        chunk.set_mtype( corpse );
+
+        // for now don't drop non-tainted parts overhaul of taint system to not require excessive item duplication
+        item parts( chunk.is_tainted() || chunk.has_flag( "CANNIBALISM" ) ? meat : "offal", age );
+        parts.set_mtype( corpse );
+
+        g->m.add_item_or_charges( p->pos(), chunk );
+        for( int i = 1; i <= pieces; ++i ) {
+            g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
         }
     }
 
@@ -544,7 +550,8 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
     player &patient = *p;
     hp_part healed = (hp_part)act->values[0];
     long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
-    p->reduce_charges( act->position, charges_consumed );
+    p->consume_charges( it, charges_consumed );
+
     // Erase activity and values.
     act->type = ACT_NULL;
     act->values.clear();
@@ -581,11 +588,11 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     int sSkillLevel = 0;
     int fishChance = 20;
     if( it.has_flag("FISH_POOR") ) {
-        sSkillLevel = p->skillLevel( skill_survival ) + dice(1, 6);
+        sSkillLevel = p->get_skill_level( skill_survival ) + dice(1, 6);
         fishChance = dice(1, 20);
     } else if( it.has_flag("FISH_GOOD") ) {
         // Much better chances with a good fishing implement.
-        sSkillLevel = p->skillLevel( skill_survival ) * 1.5 + dice(1, 6) + 3;
+        sSkillLevel = p->get_skill_level( skill_survival ) * 1.5 + dice(1, 6) + 3;
         fishChance = dice(1, 20);
     }
     ///\EFFECT_SURVIVAL increases chance of fishing success
@@ -600,23 +607,24 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     bool found_something = false;
 
     items_location loc;
-    ter_id next_ter = t_null; //Just to have a default for compilers' sake
+    ter_str_id next_ter;
+
     switch( calendar::turn.get_season() ) {
     case SPRING:
         loc = "forage_spring";
-        next_ter = terfind("t_underbrush_harvested_spring");
+        next_ter = ter_str_id( "t_underbrush_harvested_spring" );
         break;
     case SUMMER:
         loc = "forage_summer";
-        next_ter = terfind("t_underbrush_harvested_summer");
+        next_ter = ter_str_id( "t_underbrush_harvested_summer" );
         break;
     case AUTUMN:
         loc = "forage_autumn";
-        next_ter = terfind("t_underbrush_harvested_autumn");
+        next_ter = ter_str_id( "t_underbrush_harvested_autumn" );
         break;
     case WINTER:
         loc = "forage_winter";
-        next_ter = terfind("t_underbrush_harvested_winter");
+        next_ter = ter_str_id( "t_underbrush_harvested_winter" );
         break;
     }
 
@@ -627,7 +635,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     ///\EFFECT_SURVIVAL increases forage success chance
 
     ///\EFFECT_PER slightly increases forage success chance
-    if( veggy_chance < p->skillLevel( skill_survival ) * 3 + p->per_cur - 2 ) {
+    if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname().c_str() );
@@ -650,7 +658,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = p->int_cur / 3 + 1;
     ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
-    const int max_exp = 2 * ( max_forage_skill - p->skillLevel( skill_survival ) );
+    const int max_exp = 2 * ( max_forage_skill - p->get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
 }
@@ -1028,26 +1036,27 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         return;
     }
 
+    std::string msg = _( "You reload the %s." );
+
     if( reloadable->is_gun() ) {
         p->recoil -= act->moves_total;
+        p->recoil = std::max( MIN_RECOIL, p->recoil );
 
         if( reloadable->has_flag( "RELOAD_ONE" ) ) {
             for( int i = 0; i != qty; ++i ) {
                 if( reloadable->ammo_type() == "bolt" ) {
-                    add_msg( _( "You insert a bolt into the %s." ), reloadable->tname().c_str() );
+                    msg = _( "You insert a bolt into the %s." );
                 } else {
-                    add_msg( _( "You insert a cartridge into the %s." ), reloadable->tname().c_str() );
+                    msg = _( "You insert a cartridge into the %s." );
                 }
             }
-        } else {
-            add_msg( _( "You reload the %s." ), reloadable->tname().c_str() );
         }
-
         if( reloadable->type->gun->reload_noise_volume > 0 ) {
             sfx::play_variant_sound( "reload", reloadable->typeId(), sfx::get_heard_volume( p->pos() ) );
             sounds::ambient_sound( p->pos(), reloadable->type->gun->reload_noise_volume, reloadable->type->gun->reload_noise );
         }
     }
+    add_msg( msg.c_str(), reloadable->tname().c_str() );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
@@ -1090,17 +1099,17 @@ void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const skill_id sk( act->name );
     if( sk.is_valid() ) {
-        const Skill *skill = &sk.obj();
-        int new_skill_level = p->skillLevel(skill) + 1;
-        p->skillLevel(skill).level(new_skill_level);
+        const Skill &skill = sk.obj();
+        int new_skill_level = p->get_skill_level( sk ) + 1;
+        p->set_skill_level( sk, new_skill_level );
         add_msg(m_good, _("You finish training %s to level %d."),
-                skill->name().c_str(),
+                skill.name().c_str(),
                 new_skill_level);
         if( new_skill_level % 4 == 0 ) {
             //~ %d is skill level %s is skill name
             p->add_memorial_log(pgettext("memorial_male", "Reached skill level %1$d in %2$s."),
                                 pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
-                                new_skill_level, skill->name().c_str());
+                                new_skill_level, skill.name().c_str());
         }
 
         lua_callback("on_skill_increased");
@@ -1149,7 +1158,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *pl )
             // TODO: Z (and also where the activity is queued)
             // Or not, because the vehicle coords are dropped anyway
             g->exam_vehicle(*veh,
-                            tripoint( act->values[0], act->values[1], g->get_levz() ),
+                            tripoint( act->values[0], act->values[1], pl->posz() ),
                             act->values[2], act->values[3]);
             return;
         } else {
@@ -1473,7 +1482,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         }
 
         const std::string title = string_format(
-                                      _( "%s\nSuccess chance %.1f\nDamage chance %.1f" ),
+                                      _( "%s\nSuccess chance: %.1f%%\nDamage chance: %.1f%%" ),
                                       repair_item_actor::action_description( action_type ).c_str(),
                                       100.0f * chance.first, 100.0f * chance.second );
         repeat_type answer = repeat_menu( title, repeat );

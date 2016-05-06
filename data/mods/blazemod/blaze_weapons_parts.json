@@ -519,7 +519,6 @@
         "flags" : ["TURRET", "CARGO", "FOLDABLE", "NEEDS_BATTERY_MOUNT", "MANUAL"],
         "folded_volume": 12,
         "breaks_into" : [
-
             {"item": "scrap", "count": [2, 8]},
             {"item": "cable", "charges": [12, 40]},
             {"item": "e_scrap", "count": [6, 12]},
@@ -610,5 +609,3 @@
         ]
     }
 ]
-
-

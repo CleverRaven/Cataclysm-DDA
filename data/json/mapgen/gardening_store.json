@@ -109,7 +109,7 @@
                 { "item": "farming_seeds", "chance": 80, "x": [ 17,18 ], "y": [ 9,10 ] },
                 { "item": "farming_seeds", "chance": 80, "x": [ 17,18 ], "y": [ 13,14 ] },
                 { "item": "farming_seeds", "chance": 80, "x": [ 5,18 ], "y": [ 17,17 ] }
-                            ] 
+                            ]
 }
 }
 ]

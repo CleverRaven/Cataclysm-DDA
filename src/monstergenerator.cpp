@@ -104,8 +104,8 @@ void MonsterGenerator::reset()
 
 void MonsterGenerator::finalize_mtypes()
 {
-    for( auto &elem : mon_templates->all_ref() ) {
-        mtype &mon = const_cast<mtype&>( elem.second );
+    for( const auto &elem : mon_templates->get_all() ) {
+        mtype &mon = const_cast<mtype&>( elem );
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
@@ -396,6 +396,8 @@ void MonsterGenerator::init_flags()
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
     flag_map["NIGHT_INVISIBILITY"] = MF_NIGHT_INVISIBILITY;
+    flag_map["REVIVES_HEALTHY"] = MF_REVIVES_HEALTHY;
+    flag_map["NO_NECRO"] = MF_NO_NECRO;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
 }
 
@@ -549,6 +551,8 @@ void mtype::load( JsonObject &jo )
         upgrades = true;
     }
 
+    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
+
     const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
     optional( jo, was_loaded, "flags", flags, flag_reader );
 
@@ -576,7 +580,7 @@ void species_type::load( JsonObject &jo )
     optional( jo, was_loaded, "fear_triggers", fear_trig, trigger_reader );
 }
 
-std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const
+const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
 {
     return mon_templates->get_all();
 }
@@ -584,8 +588,7 @@ std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const
 mtype_id MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
-    for( auto &elem : mon_templates->all_ref() ) {
-        const mtype &mon = elem.second;
+    for( const auto &mon : mon_templates->get_all() ) {
         if( mon.id != NULL_ID && mon.id != mon_generator ) {
             potentials.push_back( mon.id );
         }
@@ -669,53 +672,52 @@ void mtype::remove_special_attacks( JsonObject &jo, const std::string &member_na
 
 void MonsterGenerator::check_monster_definitions() const
 {
-    for( const auto &elem : mon_templates->all_ref() ) {
-        const mtype *mon = &elem.second;
-        for( auto &spec : mon->species ) {
+    for( const auto &mon : mon_templates->get_all() ) {
+        for( auto &spec : mon.species ) {
             if( !spec.is_valid() ) {
-                debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec.c_str());
+                debugmsg("monster %s has invalid species %s", mon.id.c_str(), spec.c_str());
             }
         }
-        if (!mon->death_drops.empty() && !item_group::group_is_defined(mon->death_drops)) {
-            debugmsg("monster %s has unknown death drop item group: %s", mon->id.c_str(),
-                     mon->death_drops.c_str());
+        if (!mon.death_drops.empty() && !item_group::group_is_defined(mon.death_drops)) {
+            debugmsg("monster %s has unknown death drop item group: %s", mon.id.c_str(),
+                     mon.death_drops.c_str());
         }
-        for( auto &m : mon->mat ) {
+        for( auto &m : mon.mat ) {
             if( m.str() == "null" || !m.is_valid() ) {
-                debugmsg( "monster %s has unknown material: %s", mon->id.c_str(), m.c_str() );
+                debugmsg( "monster %s has unknown material: %s", mon.id.c_str(), m.c_str() );
             }
         }
-        if( !mon->revert_to_itype.empty() && !item::type_is_defined( mon->revert_to_itype ) ) {
-            debugmsg("monster %s has unknown revert_to_itype: %s", mon->id.c_str(),
-                     mon->revert_to_itype.c_str());
+        if( !mon.revert_to_itype.empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
+            debugmsg("monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
+                     mon.revert_to_itype.c_str());
         }
-        for( auto & s : mon->starting_ammo ) {
+        for( auto & s : mon.starting_ammo ) {
             if( !item::type_is_defined( s.first ) ) {
-                debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon->id.c_str() );
+                debugmsg( "starting ammo %s of monster %s is unknown", s.first.c_str(), mon.id.c_str() );
             }
         }
-        for( auto & e : mon->atk_effs ) {
+        for( auto & e : mon.atk_effs ) {
             if( !e.id.is_valid() ) {
-                debugmsg( "attack effect %s of monster %s is unknown", e.id.c_str(), mon->id.c_str() );
+                debugmsg( "attack effect %s of monster %s is unknown", e.id.c_str(), mon.id.c_str() );
             }
         }
-        if( mon->upgrades ) {
-            if( mon->half_life <= 0 ) {
-                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon->half_life, mon->id.c_str() );
+        if( mon.upgrades ) {
+            if( mon.half_life <= 0 ) {
+                debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon.half_life, mon.id.c_str() );
             }
-            if( !mon->upgrade_into && !mon->upgrade_group ) {
-                debugmsg( "no into nor into_group defined for monster %s", mon->id.c_str() );
+            if( !mon.upgrade_into && !mon.upgrade_group ) {
+                debugmsg( "no into nor into_group defined for monster %s", mon.id.c_str() );
             }
-            if( mon->upgrade_into && mon->upgrade_group ) {
-                debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
+            if( mon.upgrade_into && mon.upgrade_group ) {
+                debugmsg( "both into and into_group defined for monster %s", mon.id.c_str() );
             }
-            if( !mon->upgrade_into.is_valid() ) {
+            if( !mon.upgrade_into.is_valid() ) {
                 debugmsg( "upgrade_into %s of monster %s is not a valid monster id",
-                           mon->upgrade_into.c_str(), mon->id.c_str() );
+                           mon.upgrade_into.c_str(), mon.id.c_str() );
             }
-            if( !mon->upgrade_group.is_valid() ) {
+            if( !mon.upgrade_group.is_valid() ) {
                 debugmsg( "upgrade_group %s of monster %s is not a valid monster group id",
-                           mon->upgrade_group.c_str(), mon->id.c_str() );
+                           mon.upgrade_group.c_str(), mon.id.c_str() );
             }
         }
     }

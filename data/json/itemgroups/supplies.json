@@ -8,6 +8,7 @@
       [ "antenna", 40 ],
       [ "battery", 100 ],
       [ "cable", 60 ],
+      [ "power_supply", 20 ],
       [ "processor", 20 ],
       [ "solar_cell", 10 ],
       [ "solder_wire", 60 ],
@@ -37,6 +38,18 @@
       [ "diesel", 20 ],
       [ "gasoline", 50 ],
       [ "lamp_oil", 100 ]
+    ]
+  },
+  {
+    "id": "supplies_spares_vehicle",
+    "type": "item_group",
+    "//": "Spare parts for crafting or mending vehicle parts",
+    "items": [
+      [ "drivebelt", 200 ],
+      [ "glowplug", 10 ],
+      [ "motor_small", 20 ],
+      [ "pump_complex", 10 ],
+      [ "well_pump", 50 ]
     ]
   }
 ]

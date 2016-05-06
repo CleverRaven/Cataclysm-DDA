@@ -7,6 +7,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "explosion.h"
+#include "vitamin.h"
 #include <limits.h>
 
 struct vehicle_prototype;
@@ -228,6 +229,10 @@ class consume_drug_iuse : public iuse_actor
         std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
+
+        /** Modify player @vitamin_levels by random amount between min (first) and max (second) */
+        std::map<vitamin_id, std::pair<int,int>> vitamins;
+
         /** How many move points this action takes. */
         int moves;
 
@@ -236,6 +241,7 @@ class consume_drug_iuse : public iuse_actor
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
+        virtual void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -747,11 +753,11 @@ class heal_actor : public iuse_actor
 {
     public:
         /** How much hp to restore when healing limbs? */
-        int limb_power;
+        float limb_power;
         /** How much hp to restore when healing head? */
-        int head_power;
+        float head_power;
         /** How much hp to restore when healing torso? */
-        int torso_power;
+        float torso_power;
         /** Chance to remove bleed effect. */
         float bleed;
         /** Chance to remove bite effect. */
@@ -762,8 +768,12 @@ class heal_actor : public iuse_actor
         int move_cost;
         /** Is using this item a long action. */
         bool long_action;
-        /** Scales extra healed hp gained from first aid skill. */
-        float bonus_scaling;
+        /** Extra hp gained per skill level when healing limbs. */
+        float limb_scaling;
+        /** Extra hp gained per skill level when healing head. */
+        float head_scaling;
+        /** Extra hp gained per skill level when healing torso. */
+        float torso_scaling;
         /** Effects to apply to patient on finished healing. */
         std::vector<effect_data> effects;
         /**
@@ -791,7 +801,9 @@ class heal_actor : public iuse_actor
             , infect( 0.0f )
             , move_cost( 100 )
             , long_action( false )
-            , bonus_scaling( 1.0f )
+            , limb_scaling( 0.0f )
+            , head_scaling( 0.0f )
+            , torso_scaling( 0.0f )
             { }
         virtual ~heal_actor() { }
         virtual void load( JsonObject &jo );

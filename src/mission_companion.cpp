@@ -580,9 +580,9 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
             while (i < experience){
                 y = rng(0,100);
                 if (y < 60){
-                    const Skill* best = elem->best_skill();
-                    if (best != nullptr){
-                        popup("%s", best->name().c_str());
+                    const skill_id best = elem->best_skill();
+                    if( best ) {
+                        popup( "%s", best.obj().name().c_str() );
                         elem->practice(best, 10);
                     } else {
                         elem->practice( skill_melee, 10);
@@ -628,13 +628,13 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     }
     npc* att = random_entry( attacker );
     npc* def = random_entry( defender );
-    const Skill* best = att->best_skill();
+    const skill_id best = att->best_skill();
     int best_score = 1;
-    if (best != nullptr){
-        best_score = att->skillLevel(best);
+    if( best ) {
+        best_score = att->get_skill_level(best);
     }
     ///\EFFECT_DODGE_NPC increases avoidance of random attacks
-    if( rng( -1, best_score ) >= rng( 0, def->skillLevel( skill_dodge ) ) ){
+    if( rng( -1, best_score ) >= rng( 0, def->get_skill_level( skill_dodge ) ) ){
         def->hp_cur[hp_torso] = 0;
         popup(_("%s is wasted by %s!"), def->name.c_str(), att->name.c_str());
     } else {
@@ -649,9 +649,9 @@ int talk_function::combat_score(std::vector<npc *> group)
     int score = 0;
     for( auto *elem : group ) {
         if (elem->hp_cur[hp_torso] != 0){
-            const Skill* best = elem->best_skill();
-            if (best != nullptr){
-                score += elem->skillLevel(best);
+            const skill_id best = elem->best_skill();
+            if( best ) {
+                score += elem->get_skill_level(best);
             } else {
                 score += 1;
             }
@@ -962,9 +962,9 @@ bool talk_function::scavenging_patrol_return(npc *p)
         ///\EFFECT_UNARMED_NPC affects scavenging_patrol results
 
         ///\EFFECT_DODGE_NPC affects scavenging_patrol results
-        int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
-            comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_gun ) + comp->skillLevel( skill_stabbing )
-            + comp->skillLevel( skill_unarmed ) + comp->skillLevel( skill_dodge ) + 4;
+        int skill = comp->get_skill_level( skill_melee ) + (.5*comp->get_skill_level( skill_survival )) + comp->get_skill_level( skill_bashing ) +
+            comp->get_skill_level( skill_cutting ) + comp->get_skill_level( skill_gun ) + comp->get_skill_level( skill_stabbing )
+            + comp->get_skill_level( skill_unarmed ) + comp->get_skill_level( skill_dodge ) + 4;
         if (one_in(6)){
             popup(_("Through quick thinking the group was able to evade combat!"));
         } else {
@@ -1053,9 +1053,9 @@ bool talk_function::scavenging_raid_return(npc *p)
         ///\EFFECT_UNARMED_NPC affects scavenging_raid results
 
         ///\EFFECT_DODGE_NPC affects scavenging_raid results
-        int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
-            comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_gun ) + comp->skillLevel( skill_stabbing )
-            + comp->skillLevel( skill_unarmed ) + comp->skillLevel( skill_dodge ) + 4;
+        int skill = comp->get_skill_level( skill_melee ) + (.5*comp->get_skill_level( skill_survival )) + comp->get_skill_level( skill_bashing ) +
+            comp->get_skill_level( skill_cutting ) + comp->get_skill_level( skill_gun ) + comp->get_skill_level( skill_stabbing )
+            + comp->get_skill_level( skill_unarmed ) + comp->get_skill_level( skill_dodge ) + 4;
         if (one_in(6)){
             popup(_("Through quick thinking the group was able to evade combat!"));
         } else {
@@ -1184,9 +1184,9 @@ bool talk_function::carpenter_return(npc *p)
         ///\EFFECT_DODGE_NPC affects carpenter mission results
 
         ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
-        int skill_1 = comp->skillLevel( skill_carpentry );
-        int skill_2 = comp->skillLevel( skill_dodge );
-        int skill_3 = comp->skillLevel( skill_survival );
+        int skill_1 = comp->get_skill_level( skill_carpentry );
+        int skill_2 = comp->get_skill_level( skill_dodge );
+        int skill_3 = comp->get_skill_level( skill_survival );
         popup(_("While %s was framing a building one of the walls began to collapse..."), comp->name.c_str());
         if( skill_1 > rng( 1, 8 ) ){
             popup(_("In the blink of an eye, %s threw a brace up and averted a disaster."), comp->name.c_str());
@@ -1244,8 +1244,8 @@ bool talk_function::forage_return(npc *p)
         ///\EFFECT_SURVIVAL_NPC affects forage mission results
 
         ///\EFFECT_DODGE_NPC affects forage mission results
-        int skill_1 = comp->skillLevel( skill_survival );
-        int skill_2 = comp->skillLevel( skill_dodge );
+        int skill_1 = comp->get_skill_level( skill_survival );
+        int skill_2 = comp->get_skill_level( skill_dodge );
         if( skill_1 > rng( -2, 8 ) ){
             popup(_("Alerted by a rustle, %s fled to the safety of the outpost!"), comp->name.c_str());
         } else if( skill_2 > rng( -2, 8 ) ) {
@@ -1267,9 +1267,9 @@ bool talk_function::forage_return(npc *p)
             ///\EFFECT_UNARMED_NPC affects forage mission results
 
             ///\EFFECT_DODGE_NPC affects forage mission results
-            int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
-            comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_stabbing ) + comp->skillLevel( skill_unarmed )
-            + comp->skillLevel( skill_dodge );
+            int skill = comp->get_skill_level( skill_melee ) + (.5*comp->get_skill_level( skill_survival )) + comp->get_skill_level( skill_bashing ) +
+            comp->get_skill_level( skill_cutting ) + comp->get_skill_level( skill_stabbing ) + comp->get_skill_level( skill_unarmed )
+            + comp->get_skill_level( skill_dodge );
             int monsters = rng( 0, 10 );
             if( skill * rng_float( .80, 1.2 ) > (monsters * rng_float( .8, 1.2 )) ){
                 if( one_in(2) ){
@@ -1317,7 +1317,7 @@ bool talk_function::forage_return(npc *p)
     // the following doxygen aliases do not yet exist. this is marked for future reference
 
     ///\EFFECT_SURVIVAL_NPC affects forage mission results
-    int skill = comp->skillLevel( skill_survival );
+    int skill = comp->get_skill_level( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
         std::string itemlist = "farming_seeds";
         if (one_in(2)){
@@ -1538,7 +1538,7 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                 || bay.get_ter(x,y) == "t_door_boarded" || bay.get_ter(x,y) == "t_door_boarded_damaged"
                 || bay.get_ter(x,y) == "t_rdoor_boarded" || bay.get_ter(x,y) == "t_rdoor_boarded_damaged"
                 || bay.get_ter(x,y) == "t_door_boarded_peep" || bay.get_ter(x,y) == "t_door_boarded_damaged_peep"){
-                    bay.ter_set( x, y, "t_door_o");
+                    bay.ter_set( x, y, ter_str_id( "t_door_o" ) );
             } else if (bay.get_ter(x,y) == "t_door_locked" || bay.get_ter(x,y) == "t_door_locked_peep"
                 || bay.get_ter(x,y) == "t_door_locked_alarm"){
                     const map_bash_info &bash = bay.ter_at(x,y).bash;
@@ -1546,9 +1546,9 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
             } else if (bay.get_ter(x,y) == "t_door_metal_c" || bay.get_ter(x,y) == "t_door_metal_locked"
                 || bay.get_ter(x,y) == "t_door_metal_pickable"){
-                    bay.ter_set( x, y, "t_door_metal_o");
+                    bay.ter_set( x, y, ter_str_id( "t_door_metal_o" ) );
             } else if (bay.get_ter(x,y) == "t_door_glass_c"){
-                    bay.ter_set( x, y, "t_door_glass_o");
+                    bay.ter_set( x, y, ter_str_id( "t_door_glass_o" ) );
             } else if (bay.get_ter(x,y) == "t_wall" && one_in(25)){
                     const map_bash_info &bash = bay.ter_at(x,y).bash;
                     bay.ter_set( x, y, bash.ter_set);

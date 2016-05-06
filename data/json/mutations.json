@@ -3925,7 +3925,8 @@
         "description" : "Your body's ability to digest fruits, vegetables and grains is severely hampered.  You cannot eat anything besides meat.",
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT",  "GRAZER"],
         "leads_to" : ["SAPROVORE"],
-        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"]
+        "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"],
+        "vitamin_rates": [ [ "vitC", -120 ] ]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
@@ -4152,7 +4153,6 @@
         "prereqs" : ["SHOUT2"],
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
-
         "type" : "mutation",
         "id" : "ARM_FEATHERS",
         "name" : "Feathered Arms",
@@ -4807,6 +4807,14 @@
         "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
         "threshold" : true
     },{
+      "type" : "mutation",
+      "id" : "DEBUG_CBM_SLOTS",
+      "name" : "Debug CBM Slots Limits",
+      "points" : 99,
+      "valid" : false,
+      "description" : "Limitate the number of bionics which you're able to install in your body.",
+      "threshold" : true
+    },{
         "type" : "mutation",
         "id" : "DEBUG_MIND_CONTROL",
         "name" : "Debug Mind Control",
@@ -4814,5 +4822,12 @@
         "valid" : false,
         "description" : "Mind the bugs, would you kindly?.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "SQUEAMISH",
+        "name" : "Squeamish",
+        "points" : -2,
+        "starting_trait" : true,
+        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
     }
 ]

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "inhaler",
+    "type": "TOOL",
+    "category": "drugs",
+    "name": "inhaler",
+    "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
+    "weight": 85,
+    "volume": 1,
+    "price": 5000,
+    "material": "plastic",
+    "symbol": "!",
+    "color": "light_blue",
+    "max_charges": 100,
+    "initial_charges": 100,
+    "charges_per_use": 1,
+    "use_action": "INHALER"
+  }
+]

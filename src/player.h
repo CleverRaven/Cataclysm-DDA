@@ -31,6 +31,8 @@ struct recipe;
 struct item_comp;
 struct tool_comp;
 class vehicle;
+class vitamin;
+using vitamin_id = string_id<vitamin>;
 class start_location;
 using start_location_id = string_id<start_location>;
 struct w_point;
@@ -191,7 +193,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual void serialize(JsonOut &jsout) const override;
 
         /** Prints out the player's memorial file */
-        void memorial( std::ofstream &memorial_file, std::string epitaph );
+        void memorial( std::ostream &memorial_file, std::string epitaph );
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
         /** Provides the window and detailed morale data */
@@ -717,6 +719,31 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const itype *comest ) const;
+
+        /** Get vitamin contents for a comestible */
+        std::map<vitamin_id, int> vitamins_from( const item& it ) const;
+        std::map<vitamin_id, int> vitamins_from( const itype_id& id ) const;
+
+        /** Get vitamin usage rate (minutes per unit) accounting for bionics, mutations and effects */
+        int vitamin_rate( const vitamin_id& vit ) const;
+
+        /**
+         * Add or subtract vitamins from player storage pools
+         * @param qty amount by which to adjust @ref vit (negative values are permitted)
+         * @param capped if true prevent vitamins which can accumulate in excess from doing so
+         * @return adjusted level for the vitamin or zero if @ref vit does not exist
+         */
+        int vitamin_mod( const vitamin_id& vit, int qty, bool capped = true );
+
+        /** Returns current level for a vitamin (or zero if @ref vit) does not exist */
+        int vitamin_get( const vitamin_id& vit ) const;
+
+        /**
+         * Sets level of a vitamin or returns false if @ref vit does not exist
+         * @note status effects are still set for deficiency/excess
+         */
+        bool vitamin_set( const vitamin_id& vit, int qty );
+
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
@@ -726,6 +753,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
+
+        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
+        template <typename T>
+        bool can_lift( const T& obj ) const {
+            // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+            int str = get_str();
+            if( has_trait( "STRONGBACK" ) ) {
+                str *= 1.35;
+            } else if( has_trait( "BADBACK" ) ) {
+                str /= 1.35;
+            }
+            return get_str() >= obj.lift_strength();
+        }
 
         /** Check player capable of wearing an item.
           * @param alert display reason for any failure */
@@ -766,6 +806,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @return whether the item was successfully disposed of
          */
         virtual bool dispose_item( item& obj, const std::string& prompt = std::string() );
+
+        /**
+         * Attempt to mend an item (fix any current faults)
+         * @param interactive if true prompts player when multiple faults, otherwise mends the first
+         */
+        void mend_item( item_location&& obj, bool interactive = true );
 
         /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
@@ -880,6 +926,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;
+        hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
         /** Returns warmth provided by armor, etc. */
@@ -918,7 +965,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_wind_resistance(body_part bp) const;
 
         int adjust_for_focus(int amount) const;
-        void practice( const Skill* s, int amount, int cap = 99 );
         void practice( const skill_id &s, int amount, int cap = 99 );
 
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
@@ -991,14 +1037,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( std::string flag ) const;
-        // Returns max required quality in player's items, INT_MIN if player has no such items
-        int max_quality( const std::string &quality_id ) const;
 
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */
         bool has_gun_for_ammo( const ammotype &at ) const;
+        bool has_magazine_for_ammo( const ammotype &at ) const;
 
         bool has_weapon() const override;
 
@@ -1160,13 +1205,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int focus_pool;
 
-        void set_skill_level(const Skill* _skill, int level);
-        void set_skill_level(Skill const &_skill, int level);
-        void set_skill_level(const skill_id &ident, int level);
-
-        void boost_skill_level(const Skill* _skill, int level);
-        void boost_skill_level(const skill_id &ident, int level);
-
         std::map<std::string, const recipe *> learned_recipes;
 
         std::vector<matype_id> ma_styles;
@@ -1182,12 +1220,17 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
+        int get_used_bionics_slots( const body_part bp ) const;
+        int get_total_bionics_slots( const body_part bp ) const;
+        int get_free_bionics_slots( const body_part bp ) const;
+        std::map<body_part, int> bionic_installation_issues( const std::string &bioid );
+
         //Dumps all memorial events into a single newline-delimited string
         std::string dump_memorial() const;
         //Log an event, to be later written to the memorial file
         void add_memorial_log(const char *male_msg, const char *female_msg, ...) override;
         //Loads the memorial log from a file
-        void load_memorial_file(std::ifstream &fin);
+        void load_memorial_file(std::istream &fin);
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
 
@@ -1405,6 +1448,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+
+        /** Current deficiency/excess quantity for each vitamin */
+        std::map<vitamin_id, int> vitamin_levels;
 };
 
 #endif

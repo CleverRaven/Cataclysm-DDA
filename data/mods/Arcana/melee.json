@@ -24,8 +24,6 @@
         "price": 2000,
         "material": "paper",
         "weight": 415,
-        "volume": 1,
-        "bashing": 0,
-        "to_hit": 0
+        "volume": 1
     }
 ]

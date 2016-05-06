@@ -36,7 +36,13 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 2,
-        "density" : 4
+        "density" : 4,
+        "edible": true,
+        "vitamins": [
+          [ "calcium", 0.1 ],
+          [ "vitA", 1.0 ],
+          [ "vitC", 0.5 ]
+        ]
     },{
         "type" : "material",
         "ident" : "fruit",
@@ -55,7 +61,11 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 1,
-        "density" : 4
+        "density" : 4,
+        "edible": true,
+        "vitamins" : [
+            [ "vitC", 2.0 ]
+        ]
     },{
         "type" : "material",
         "ident" : "honey",
@@ -74,7 +84,8 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "wheat",
@@ -93,7 +104,11 @@
         "elec_resist" : 1,
         "fire_resist" : 0,
         "chip_resist" : 1,
-        "density" : 4
+        "density" : 4,
+        "edible": true,
+        "vitamins": [
+          [ "vitB", 1.0 ]
+        ]
     },{
         "type" : "material",
         "ident" : "junk",
@@ -112,7 +127,8 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 2,
-        "density" : 4
+        "density" : 4,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "flesh",
@@ -131,7 +147,13 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 2,
-        "density" : 5
+        "density" : 5,
+        "edible": true,
+        "vitamins" : [
+          [ "calcium", 0.1 ],
+          [ "vitB", 1.0 ],
+          [ "iron", 2.0 ]
+        ]
     },{
         "type" : "material",
         "ident" : "powder",
@@ -169,7 +191,8 @@
         "elec_resist" : 0,
         "fire_resist" : 1,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "milk",
@@ -188,7 +211,12 @@
         "elec_resist" : 0,
         "fire_resist" : 1,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true,
+        "vitamins" : [
+          [ "vitB", 0.5 ],
+          [ "calcium", 1.5 ]
+        ]
     },{
         "type" : "material",
         "ident" : "iflesh",
@@ -207,8 +235,12 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 2,
-        "density" : 5
-        },{
+        "density" : 5,
+        "edible": true,
+        "vitamins" : [
+          [ "calcium", 1.0 ]
+        ]
+    },{
         "type" : "material",
         "ident" : "hflesh",
         "name" : "Human Flesh",
@@ -226,7 +258,13 @@
         "elec_resist" : 1,
         "fire_resist" : 1,
         "chip_resist" : 2,
-        "density" : 5
+        "density" : 5,
+        "edible": true,
+        "vitamins" : [
+          [ "calcium", 0.1 ],
+          [ "vitB", 1.0 ],
+          [ "iron", 2.0 ]
+        ]
     },{
         "type" : "material",
         "ident" : "cotton",
@@ -383,7 +421,11 @@
         "elec_resist" : 2,
         "fire_resist" : 1,
         "chip_resist" : 8,
-        "density" : 7
+        "density" : 7,
+        "edible": true,
+        "vitamins" : [
+            [ "calcium", 2.0 ]
+        ]
     },{
         "type" : "material",
         "ident" : "stone",
@@ -729,7 +771,14 @@
         "elec_resist" : 0,
         "fire_resist" : 1,
         "chip_resist" : 1,
-        "density" : 3
+        "density" : 3,
+        "edible": true,
+        "vitamins" : [
+          [ "vitA", 0.5 ],
+          [ "vitB", 0.5 ],
+          [ "calcium", 0.5 ],
+          [ "iron", 0.5 ]
+        ]
     },{
         "type" : "material",
         "ident" : "freshclay",
@@ -786,7 +835,8 @@
         "elec_resist" : 0,
         "fire_resist" : 0,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "oil",
@@ -805,7 +855,8 @@
         "elec_resist" : 0,
         "fire_resist" : 0,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "edible": true
     },{
         "type" : "material",
         "ident" : "hydrocarbons",

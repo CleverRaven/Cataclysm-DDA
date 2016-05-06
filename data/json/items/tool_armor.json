@@ -10,14 +10,14 @@
         "type": "TOOL_ARMOR",
         "category" : "armor",
         "symbol": "[",
-        "color": "blue",
+        "color": "yellow",
         "name": "mining helmet",
         "description": "This is a mining helmet with a heavy duty LED flashlight.  Using this will turn the flashlight on and provide light, assuming it is charged with batteries.",
         "flags": [ "WATERPROOF" ],
         "price": 12500,
         "material": ["plastic" ],
-        "weight" : 796,
-        "volume": 10,
+        "weight" : 1196,
+        "volume": 12,
         "bashing": 6,
         "max_charges": 100,
         "initial_charges": 100,
@@ -34,7 +34,7 @@
         "covers" : ["HEAD"],
         "techniques" : ["WBLOCK_1"],
         "warmth" : 5,
-        "encumbrance" : 10,
+        "encumbrance" : 15,
         "coverage" : 80,
         "material_thickness" : 4
     },
@@ -50,8 +50,8 @@
         "flags": [ "LIGHT_450", "CHARGEDIM", "WATERPROOF" ],
         "price": 12500,
         "material": ["plastic"],
-        "weight" : 796,
-        "volume": 10,
+        "weight" : 1196,
+        "volume": 12,
         "bashing": 6,
         "max_charges": 100,
         "initial_charges": 100,
@@ -66,7 +66,7 @@
         "covers" : ["HEAD"],
         "techniques" : ["WBLOCK_1"],
         "warmth" : 5,
-        "encumbrance" : 10,
+        "encumbrance" : 15,
         "coverage" : 80,
         "material_thickness" : 4
     },
@@ -91,8 +91,7 @@
         "ammo": "battery",
         "use_action": "PORTABLE_GAME",
         "max_charges": 60,
-        "initial_charges": 60,
-        "turns_per_charge": 0
+        "initial_charges": 60
     },
     {
         "type" : "TOOL_ARMOR",
@@ -1874,8 +1873,7 @@
             "noise_message": "FWEEEET!",
             "noise": 38,
             "moves": 100
-        },
-        "turns_per_charge": 0
+        }
     },
     {
         "type" : "TOOL_ARMOR",
@@ -2053,7 +2051,7 @@
         "encumbrance" : 30,
         "bashing" : 12,
         "coverage" : 20,
-        "material_thickness" : 4    
+        "material_thickness" : 4
     },
     {
         "id": "powered_earmuffs",
@@ -2117,4 +2115,4 @@
         "coverage" : 10,
         "material_thickness" : 2
     }
-]    
+]

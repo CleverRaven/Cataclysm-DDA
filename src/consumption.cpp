@@ -6,7 +6,9 @@
 #include "morale_types.h"
 #include "itype.h"
 #include "messages.h"
+#include "material.h"
 #include "addiction.h"
+#include "mutation.h"
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -15,6 +17,10 @@
 
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
+const efftype_id effect_tapeworm( "tapeworm" );
+const efftype_id effect_bloodworms( "bloodworms" );
+const efftype_id effect_brainworms( "brainworms" );
+const efftype_id effect_paincysts( "paincysts" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -50,6 +56,89 @@ int player::stomach_capacity() const
 int player::nutrition_for( const itype *comest ) const
 {
     return ( comest && comest->comestible ) ? comest->comestible->nutr : 0;
+}
+
+std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
+{
+    return vitamins_from( item( id ) );
+}
+
+std::map<vitamin_id, int> player::vitamins_from( const item &it ) const
+{
+    std::map<vitamin_id, int> res;
+
+    if( !it.type->comestible ) {
+        return res;
+    }
+
+    // food to which the player is allergic to never contains any vitamins
+    if( allergy_type( it ) != MORALE_NULL ) {
+        return res;
+    }
+
+    // @todo bionics and mutations can affect vitamin absorption
+    for( const auto &e : it.type->comestible->vitamins ) {
+        res.emplace( e.first, e.second );
+    }
+
+    return res;
+}
+
+int player::vitamin_rate( const vitamin_id &vit ) const
+{
+    int res = vit.obj().rate();
+
+    for( const auto &m : get_mutations() ) {
+        const auto &mut = mutation_branch::get( m );
+        auto iter = mut.vitamin_rates.find( vit );
+        if( iter != mut.vitamin_rates.end() ) {
+            res += iter->second;
+        }
+    }
+
+    return res;
+}
+
+int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
+{
+    auto it = vitamin_levels.find( vit );
+    if( it == vitamin_levels.end() ) {
+        return 0;
+    }
+    const auto &v = it->first.obj();
+
+    if( qty > 0 ) {
+        // accumulations can never occur from food sources
+        it->second = std::min( it->second + qty, capped ? 0 : v.max() );
+
+    } else if( qty < 0 ) {
+        it->second = std::max( it->second + qty, v.min() );
+    }
+
+    auto eff = v.effect( it->second );
+    if( !eff.is_null() ) {
+        // consumption rate may vary so extend effect until next check due for this vitamin
+        add_effect( eff, ( std::abs( vitamin_rate( vit ) ) * MINUTES( 1 ) ) - get_effect_dur( eff ) + 1 );
+    }
+
+    return it->second;
+}
+
+int player::vitamin_get( const vitamin_id &vit ) const
+{
+    const auto &v = vitamin_levels.find( vit );
+    return v != vitamin_levels.end() ? v->second : 0;
+}
+
+bool player::vitamin_set( const vitamin_id &vit, int qty )
+{
+    auto v = vitamin_levels.find( vit );
+    if( v == vitamin_levels.end() ) {
+        return false;
+    }
+    vitamin_mod( vit, qty - v->second, false );
+
+    return true;
 }
 
 float player::metabolic_rate_base() const
@@ -162,6 +251,18 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return INEDIBLE;
     }
 
+    const bool edible    = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
+    const bool drinkable = comest->comesttype == "DRINK" && !food.has_flag( "USE_EAT_VERB" );
+
+    if( edible || drinkable ) {
+        for( const auto &m : food.type->materials ) {
+            if( !m.obj().edible() ) {
+                maybe_print( m_info, _( "That doesn't look edible in its current form." ) );
+                return INEDIBLE;
+            }
+        }
+    }
+
     if( comest->tool != "null" ) {
         bool has = has_amount( comest->tool, 1 );
         if( item::count_by_charges( comest->tool ) ) {
@@ -186,7 +287,6 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         return INEDIBLE_MUTATION;
     }
 
-    const bool drinkable = comest->comesttype == "DRINK" && !food.has_flag( "USE_EAT_VERB" );
     // Here's why PROBOSCIS is such a negative trait.
     if( has_trait( "PROBOSCIS" ) && !drinkable ) {
         maybe_print( m_info, _( "Ugh, you can't drink that!" ) );
@@ -251,14 +351,12 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     }
 
     const bool saprophage = has_trait( "SAPROPHAGE" );
-    // The item is solid food
-    const bool chew = comest->comesttype == "FOOD" || food.has_flag( "USE_EAT_VERB" );
     if( spoiled ) {
         if( !saprophage && !has_trait( "SAPROVORE" ) &&
             !maybe_query( _( "This %s smells awful!  Eat it?" ) ) ) {
             return ROTTEN;
         }
-    } else if( saprophage && chew && !food.has_flag( "FERTILIZER" ) &&
+    } else if( saprophage && edible && !food.has_flag( "FERTILIZER" ) &&
                !maybe_query( _( "Really eat that %s?  Your stomach won't be happy." ) ) ) {
         // Note: We're allowing all non-solid "food". This includes drugs
         // Hardcoding fertilizer for now - should be a separate flag later
@@ -480,6 +578,33 @@ bool player::eat( item &food, bool force )
 
     if( will_vomit ) {
         vomit();
+    }
+
+    // chance to become parasitised
+    if( !( has_bionic( "bio_digestion" ) || has_trait( "PARAIMMUNE" ) ) ) {
+        if( food.type->comestible->parasites > 0 && one_in( food.type->comestible->parasites ) ) {
+            switch( rng( 0, 3 ) ) {
+                case 0:
+                    if( !has_trait( "EATHEALTH" ) ) {
+                        add_effect( effect_tapeworm, 1, num_bp, true );
+                    }
+                case 1:
+                    if( !has_trait( "ACIDBLOOD" ) ) {
+                        add_effect( effect_bloodworms, 1, num_bp, true );
+                    }
+                case 2:
+                    add_effect( effect_brainworms, 1, num_bp, true );
+                case 3:
+                    add_effect( effect_paincysts, 1, num_bp, true );
+            }
+        }
+    }
+
+    for( const auto &v : this->vitamins_from( food ) ) {
+        auto qty = has_effect( effect_tapeworm ) ? v.second / 2 : v.second;
+
+        // can never develop hypervitaminosis from consuming food
+        vitamin_mod( v.first, qty );
     }
 
     return true;

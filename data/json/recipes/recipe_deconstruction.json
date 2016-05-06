@@ -2487,7 +2487,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "components": [
     [ [ "scrap", 5 ] ],
     [ [ "cu_pipe", 1 ] ],
@@ -2505,7 +2505,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "components": [
     [ [ "scrap", 1 ] ],
     [ [ "plastic_chunk", 1 ] ],
@@ -2521,7 +2521,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "components": [
     [ [ "plastic_chunk", 2 ] ],
     [ [ "canister_empty", 1 ] ]
@@ -2536,7 +2536,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "components": [
     [ [ "scrap", 3 ] ],
     [ [ "hose", 1 ] ],
@@ -2552,7 +2552,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "components": [
     [ [ "scrap", 1 ] ],
     [ [ "plastic_chunk", 1 ] ],
@@ -4155,5 +4155,26 @@
         [ [ "gunpowder", 8 ] ],
         [ [ "copper", 10 ] ]
     ]
-}
+},{
+    "type" : "recipe",
+    "result": "vibrator",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": 5400,
+    "reversible": true,
+    "autolearn": false,
+    "qualities" : [
+    {"id":"SCREW","level":1,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+    ],
+    "components": [
+    [[ "e_scrap", 1 ]],
+    [[ "scrap", 1 ]],
+    [[ "plastic_chunk", 1 ]]
+    ]
+    }
 ]

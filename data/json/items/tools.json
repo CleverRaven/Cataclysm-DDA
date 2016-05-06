@@ -334,7 +334,6 @@
     "name" : "honey scraper",
     "description" : "A sharp, knife-like tool used in harvesting honey from beehives.  Makes a passable melee weapon.",
     "weight" : 580,
-    "to_hit" : 0,
     "color" : "dark_gray",
     "symbol" : ",",
     "material" : ["steel"],
@@ -2887,7 +2886,6 @@
       "volume" : 1,
       "weight" : 150,
       "bashing" : 2,
-      "to_hit" : 0,
       "max_charges": 5,
       "initial_charges": 5,
       "charges_per_use": 1,
@@ -6193,6 +6191,22 @@
     }
   },
   {
+    "id": "hand_drill",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "light_gray",
+    "name": "hand drill",
+    "description": "A primitive manual drill with a single drill bit.  It is slow and it will exhaust you quickly.",
+    "price": 500,
+    "material": [ "wood", "steel" ],
+    "weight": 907,
+    "volume": 1,
+    "bashing": 3,
+    "cutting": 1,
+    "to_hit": -1,
+    "qualities": [ [ "DRILL", 1 ] ]
+  },
+  {
     "id": "cordless_drill",
     "type": "TOOL",
     "symbol": ";",
@@ -6345,25 +6359,6 @@
         "target": "apple_vac",
         "container": "bag_plastic"
     }
-  },
-  {
-    "id": "medical_gauze",
-    "type": "TOOL",
-    "symbol": ",",
-    "color": "white",
-    "name": "medical gauze",
-    "description": "This is decent sized piece of cotton, sterilized and sealed.  It's designed for medical purposes.",
-    "price": 350,
-    "material": "cotton",
-    "weight": 90,
-    "volume": 0,
-    "category" : "drugs",
-        "use_action" : {
-            "type" : "heal",
-            "limb_power" : 0,
-            "bleed" : 0.5,
-            "move_cost" : 200
-        }
   },
   {
     "id": "talking_doll",
@@ -7230,19 +7225,6 @@
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
   {
-    "id": "jack",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "jack",
-    "description": "This is a common hydraulic jack, used when changing tires.",
-    "price": 5000,
-    "material": "steel",
-    "weight": 11974,
-    "volume": 5,
-    "bashing": 8
-  },
-  {
     "id": "scythe",
     "type": "TOOL",
     "symbol": "/",
@@ -7382,43 +7364,6 @@
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
-  },
-  {
-    "id": "inhaler",
-    "type": "TOOL",
-    "symbol": "!",
-    "color": "light_blue",
-    "name": "inhaler",
-    "description": "Albuterol inhaler.  Used in the treatment of bronchospasm, it is a lifeline for people with asthma.  A mild stimulant, it may cause nervousness or tremors.",
-    "price": 5000,
-    "material": "plastic",
-    "weight": 10,
-    "volume": 0,
-    "to_hit": -4,
-    "max_charges": 100,
-    "initial_charges": 100,
-    "charges_per_use": 1,
-    "category": "drugs",
-    "use_action": "INHALER"
-  },
-  {
-    "id": "eyedrops",
-    "type": "TOOL",
-    "symbol": "!",
-    "color": "light_blue",
-    "name": "saline eye drop",
-    "name_plural": "saline eye drops",
-    "description": "Sterile saline eye drops.  Can be used to treat dry eyes, or to wash out contaminants.",
-    "price": 300,
-    "material": "plastic",
-    "weight": 18,
-    "volume": 0,
-    "to_hit": -4,
-    "max_charges": 10,
-    "initial_charges": 10,
-    "charges_per_use": 1,
-    "category": "drugs",
-    "use_action": "EYEDROPS"
   },
   {
     "id": "cow_bell",
@@ -7571,18 +7516,14 @@
     "color": "red",
     "name": "toolbox",
     "name_plural":"toolboxes",
-    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.  In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, paper, bone, or chitin.  It requires 25 units of duct tape per use.",
+    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.",
     "price": 12999,
     "material": "steel",
     "weight": 3522,
     "volume": 10,
     "bashing": 8,
     "to_hit": -2,
-    "max_charges": 400,
-    "initial_charges": 200,
-    "charges_per_use": 25,
-    "ammo": "tape",
-    "use_action": [ "MISC_REPAIR", { "type": "knife" } ],
+    "use_action": [ "HACKSAW", "SAW_BARREL", "LUMBER", "REMOVE_ALL_MODS", "HAMMER", { "type": "knife" } ],
     "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
         ["BUTCHER", 12]]
@@ -7695,8 +7636,7 @@
     "material" : "steel",
     "weight" : 1,
     "volume" : 0,
-    "cutting" : 3,
-    "to_hit" : 0
+    "cutting" : 3
   },{
     "type" : "GENERIC",
     "id" : "fishing_hook_bone",
@@ -7708,8 +7648,7 @@
     "material" : "bone",
     "weight" : 1,
     "volume" : 0,
-    "cutting" : 3,
-    "to_hit" : 0
+    "cutting" : 3
   },{
     "id": "toolset",
     "type": "TOOL",
@@ -8770,7 +8709,6 @@
     "category" : "tools",
     "weight" : 250,
     "color" : "light_gray",
-    "to_hit" : 0,
     "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
@@ -9069,7 +9007,6 @@
         "target": "l-stick"
     }
   },
-
    {
     "id": "needle_curved",
     "sub": "sewing_kit",

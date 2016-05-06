@@ -19,6 +19,7 @@
       { "group": "tools_common", "prob": 100 },
       [ "circsaw_off", 100 ],
       [ "cordless_drill", 100 ],
+      [ "hand_drill", 20 ],
       [ "nailgun", 100 ]
     ]
   },
@@ -56,9 +57,11 @@
     "//": "Portable tools for earthworking or farming",
     "items": [
       [ "ax", 80 ],
+      [ "bucket", 40 ],
       [ "chainsaw_off", 30 ],
       [ "elec_chainsaw_off", 30 ],
       [ "g_shovel", 40 ],
+      [ "hand_drill", 20 ],
       [ "hoe", 60 ],
       [ "pickaxe", 80 ],
       [ "pitchfork", 60 ],
@@ -108,6 +111,7 @@
     "items": [
       [ "forge", 100 ],
       [ "jack", 100 ],
+      [ "jack_small", 100 ],
       [ "oxy_torch", 100 ],
       [ "polisher", 100 ],
       [ "welder", 100 ]
@@ -151,6 +155,16 @@
       [ "heavy_flashlight", 30 ],
       [ "oil_lamp", 10 ],
       [ "wearable_light", 15 ]
+    ]
+  },
+  {
+    "id" : "tools_lighting_industrial",
+    "type" : "item_group",
+    "//": "Light sources used as industrial working equipment.",
+    "items" : [
+      [ "flashlight", 100 ],
+      [ "heavy_flashlight", 40 ],
+      [ "wearable_light", 60 ]
     ]
   },
   {

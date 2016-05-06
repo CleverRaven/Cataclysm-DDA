@@ -103,7 +103,7 @@
             "//": "a stash and another (different) stash with different chance",
             "items": {
                 "s": { "item": "bionics_tech", "chance": 70 },
-                "o": { "item": "technician_pants", "chance": 20 }
+                "o": { "item": "clothing_work_set", "chance": 20 }
             },
             "//": "single-tile vehicles to avoid conflicts with outer parts of the map, chance=100 to spawn always",
             "vehicles": {
@@ -130,7 +130,6 @@
             "monster": {
                 "Y": { "monster": "mon_deer", "friendly": true, "name": "THE DEER" }
             },
-
             "//": [ "And now an all-purpose mapping" ],
             "mapping": {
                 "X": {
@@ -141,7 +140,6 @@
                     "terrain": "t_dirt"
                 }
             },
-
             "//": [ "And now the same (nearly) but with explicit coordinates.",
                     "These spawn in the northern part of the map and they have slightly",
                     "different values so they are be distinguished." ],
@@ -172,7 +170,7 @@
             ],
             "place_items": [
                 { "x": 1, "y": 3, "item": "bionics_tech", "chance": 70 },
-                { "x": 2, "y": 3, "item": "technician_pants", "chance": 20 }
+                { "x": 2, "y": 3, "item": "clothing_work_set", "chance": 20 }
             ],
             "place_vehicles": [
                 { "x": 5, "y": 3, "vehicle": "unicycle", "chance": 100, "status": 1 }

@@ -3,7 +3,7 @@
         "type": "profession",
         "ident": "brave_of_the_king",
         "name": "Brave of the King",
-        "description": "Elite infantry of ancient Egypt and bodyguards of the Pharoh.  While armor was uncommon due to desert conditions, such equipment did see increased usage during the New Kingdom period.",
+        "description": "Elite infantry of ancient Egypt and bodyguards of the Pharaoh.  While armor was uncommon due to desert conditions, such equipment did see increased usage during the New Kingdom period.",
         "points": 3,
         "skills": [
             {
@@ -205,7 +205,7 @@
             "male": "Man-at-Arms",
             "female": "Woman-at-Arms"
         },
-        "description": "The medival heavy cavalry of various countries in Europe, whether noble-born or of common blood.  While knights traditionally were men-at-arms, not every man-at-arms was a knight.",
+        "description": "The medieval heavy cavalry of various countries in Europe, whether noble-born or of common blood.  While knights traditionally were men-at-arms, not every man-at-arms was a knight.",
         "points": 5,
         "skills": [
             {
@@ -304,7 +304,7 @@
         "type": "profession",
         "ident": "samurai",
         "name": "Samurai",
-        "description": "Warrior nobility of fuedal Japan.  Known originally as masters of the horse and bow, they become famous for their swordsmanship in later eras.",
+        "description": "Warrior nobility of feudal Japan.  Known originally as masters of the horse and bow, they become famous for their swordsmanship in later eras.",
         "points": 5,
         "skills": [
             {

@@ -429,7 +429,6 @@
         "volume" : 1,
         "weight" : 3816,
         "bashing" : 8,
-        "to_hit" : 0,
         "ammo_type" : "h_projectile",
         "damage" : 14,
         "range" : 0,

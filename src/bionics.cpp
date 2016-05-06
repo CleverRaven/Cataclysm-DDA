@@ -7,14 +7,11 @@
 #include "input.h"
 #include "item.h"
 #include "bionics.h"
-#include "line.h"
-#include "json.h"
+#include "bodypart.h"
 #include "messages.h"
 #include "overmapbuffer.h"
 #include "sounds.h"
 #include "translations.h"
-#include "catacharset.h"
-#include "input.h"
 #include "monster.h"
 #include "overmap.h"
 #include "itype.h"
@@ -23,13 +20,10 @@
 #include "weather_gen.h"
 #include "weather.h"
 #include "cata_utility.h"
+#include "output.h"
 
-#include <math.h>    //sqrt
 #include <algorithm> //std::min
 #include <sstream>
-
-// '!', '-' and '=' are uses as default bindings in the menu
-const invlet_wrapper bionic_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}");
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -72,11 +66,6 @@ std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
 } //namespace
 
-enum bionic_tab_mode {
-    TAB_ACTIVE,
-    TAB_PASSIVE
-};
-
 bool is_valid_bionic( std::string const &id )
 {
     return !!bionics.count( id );
@@ -89,571 +78,23 @@ bionic_data const &bionic_info( std::string const &id )
         return it->second;
     }
 
-    debugmsg("bad bionic id");
+    debugmsg( "bad bionic id" );
 
-    static bionic_data const null_value {"bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false};
+    static bionic_data const null_value {
+        "bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false, {{bp_torso, 0}}
+    };
     return null_value;
 }
 
 void bionics_install_failure( player *u, int difficulty, int success );
 
 bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
-                         int ct, int cap, std::string desc, bool fault
+                         int ct, int cap, std::string desc, bool fault, std::map<body_part, size_t> bps
 ) : name(std::move(nname)), description(std::move(desc)), power_activate(pac),
     power_deactivate(pad), power_over_time(pot), charge_time(ct), capacity(cap), faulty(fault),
-    power_source(ps), activated(tog || pac || ct), toggled(tog)
+    power_source( ps ), activated( tog || pac || ct ), toggled( tog ),
+    occupied_bodyparts( std::move( bps ) )
 {
-}
-
-void show_bionics_titlebar( WINDOW *window, player *p, std::string menu_mode )
-{
-    werase( window );
-
-    std::string caption = _( "BIONICS -" );
-    int cap_offset = utf8_width( caption ) + 1;
-    mvwprintz( window, 0,  0, c_blue, "%s", caption.c_str() );
-
-    std::stringstream pwr;
-    pwr << string_format( _( "Power: %i/%i" ), int( p->power_level ), int( p->max_power_level ) );
-    int pwr_length = utf8_width( pwr.str() ) + 1;
-    mvwprintz( window, 0, getmaxx( window ) - pwr_length, c_white, "%s", pwr.str().c_str() );
-
-    std::string desc;
-    int desc_length = getmaxx( window ) - cap_offset - pwr_length;
-
-    if( menu_mode == "reassigning" ) {
-        desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
-    } else if( menu_mode == "activating" ) {
-        desc = _( "<color_green>Activating</color>  <color_yellow>!</color> to examine, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
-    } else if( menu_mode == "removing" ) {
-        desc = _( "<color_red>Removing</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
-    } else if( menu_mode == "examining" ) {
-        desc = _( "<color_ltblue>Examining</color>  <color_yellow>!</color> to activate, <color_yellow>-</color> to remove, <color_yellow>=</color> to reassign, <color_yellow>TAB</color> to switch tabs." );
-    }
-    fold_and_print( window, 0, cap_offset, desc_length, c_white, desc );
-
-    wrefresh( window );
-}
-
-const auto separator = []( std::ostringstream &s )
-{
-    return s.tellp() != 0 ? ", " : "";
-};
-
-//builds the power usage string of a given bionic
-std::string build_bionic_poweronly_string( bionic const &bio )
-{
-    std::ostringstream power_desc;
-    if( bionics[bio.id].power_over_time > 0 && bionics[bio.id].charge_time > 0 ) {
-        power_desc << (
-                       bionics[bio.id].charge_time == 1
-                       ? string_format( _( "%d PU / turn" ),
-                                        bionics[bio.id].power_over_time )
-                       : string_format( _( "%d PU / %d turns" ),
-                                        bionics[bio.id].power_over_time,
-                                        bionics[bio.id].charge_time ) );
-    }
-    if( bionics[bio.id].power_activate > 0 && !bionics[bio.id].charge_time ) {
-        power_desc << separator( power_desc ) << string_format( _( "%d PU act" ),
-                   bionics[bio.id].power_activate );
-    }
-    if( bionics[bio.id].power_deactivate > 0 && !bionics[bio.id].charge_time ) {
-        power_desc << separator( power_desc ) << string_format( _( "%d PU deact" ),
-                   bionics[bio.id].power_deactivate );
-    }
-    if( bionics[bio.id].toggled ) {
-        power_desc << separator( power_desc ) << ( bio.powered ? _( "ON" ) : _( "OFF" ) );
-    }
-
-    return power_desc.str();
-}
-
-//generates the string that show how much power a bionic uses
-std::string build_bionic_powerdesc_string( bionic const &bio )
-{
-    std::ostringstream power_desc;
-    std::string power_string = build_bionic_poweronly_string( bio );
-    power_desc << bionics[bio.id].name;
-    if( power_string.length() > 0 ) {
-        power_desc << ", " << power_string;
-    }
-    return power_desc.str();
-}
-
-//get a text color depending on the power/powering state of the bionic
-nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBionic )
-{
-    nc_color type = c_white;
-    if( bionics[bio.id].activated ) {
-        if( isHighlightedBionic ) {
-            if( bio.powered && !bionics[bio.id].power_source ) {
-                type = h_red;
-            } else if( bionics[bio.id].power_source && !bio.powered ) {
-                type = h_ltcyan;
-            } else if( bionics[bio.id].power_source && bio.powered ) {
-                type = h_ltgreen;
-            } else {
-                type = h_ltred;
-            }
-        } else {
-            if( bio.powered && !bionics[bio.id].power_source ) {
-                type = c_red;
-            } else if( bionics[bio.id].power_source && !bio.powered ) {
-                type = c_ltcyan;
-            } else if( bionics[bio.id].power_source && bio.powered ) {
-                type = c_ltgreen;
-            } else {
-                type = c_ltred;
-            }
-        }
-    } else {
-        if( isHighlightedBionic ) {
-            if( bionics[bio.id].power_source ) {
-                type = h_ltcyan;
-            } else {
-                type = h_cyan;
-            }
-        } else {
-            if( bionics[bio.id].power_source ) {
-                type = c_ltcyan;
-            } else {
-                type = c_cyan;
-            }
-        }
-    }
-    return type;
-}
-
-void player::power_bionics()
-{
-    std::vector <bionic *> passive;
-    std::vector <bionic *> active;
-    bionic *bio_last = NULL;
-    bionic_tab_mode tab_mode = TAB_ACTIVE;
-
-    for( auto &elem : my_bionics ) {
-        if( !bionics[elem.id].activated ) {
-            passive.push_back( &elem );
-        } else {
-            active.push_back( &elem );
-        }
-    }
-
-    // maximal number of rows in both columns
-    int active_bionic_count = active.size();
-    int passive_bionic_count = passive.size();
-    int bionic_count = std::max( passive_bionic_count, active_bionic_count );
-
-    //added title_tab_height for the tabbed bionic display
-    int TITLE_HEIGHT = 2;
-    int TITLE_TAB_HEIGHT = 3;
-
-    // Main window
-    /** Total required height is:
-     * top frame line:                                         + 1
-     * height of title window:                                 + TITLE_HEIGHT
-     * height of tabs:                                         + TITLE_TAB_HEIGHT
-     * height of the biggest list of active/passive bionics:   + bionic_count
-     * bottom frame line:                                      + 1
-     * TOTAL: TITLE_HEIGHT + TITLE_TAB_HEIGHT + bionic_count + 2
-     */
-    int HEIGHT = std::min(
-                     TERMY, std::max( FULL_SCREEN_HEIGHT,
-                                      TITLE_HEIGHT + TITLE_TAB_HEIGHT + bionic_count + 2 ) );
-    int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
-    int START_X = ( TERMX - WIDTH ) / 2;
-    int START_Y = ( TERMY - HEIGHT ) / 2;
-    //wBio is the entire bionic window
-    WINDOW *wBio = newwin( HEIGHT, WIDTH, START_Y, START_X );
-    WINDOW_PTR wBioptr( wBio );
-
-    int LIST_HEIGHT = HEIGHT - TITLE_HEIGHT - TITLE_TAB_HEIGHT - 2;
-
-    int DESCRIPTION_WIDTH = WIDTH - 2 - 40;
-    int DESCRIPTION_START_Y = START_Y + TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
-    int DESCRIPTION_START_X = START_X + 1 + 40;
-    //w_description is the description panel that is controlled with ! key
-    WINDOW *w_description = newwin( LIST_HEIGHT, DESCRIPTION_WIDTH,
-                                    DESCRIPTION_START_Y, DESCRIPTION_START_X );
-    WINDOW_PTR w_descriptionptr( w_description );
-
-    // Title window
-    int TITLE_START_Y = START_Y + 1;
-    int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1; // + lines with text in titlebar, local
-    WINDOW *w_title = newwin( TITLE_HEIGHT, WIDTH - 2, TITLE_START_Y, START_X + 1 );
-    WINDOW_PTR w_titleptr( w_title );
-
-    int TAB_START_Y = TITLE_START_Y + 2;
-    //w_tabs is the tab bar for passive and active bionic groups
-    WINDOW *w_tabs = newwin( TITLE_TAB_HEIGHT, WIDTH - 2, TAB_START_Y, START_X + 1 );
-    WINDOW_PTR w_tabsptr( w_tabs );
-
-    int scroll_position = 0;
-    int cursor = 0;
-
-    //generate the tab title string and a count of the bionics owned
-    std::string menu_mode = "activating";
-    std::ostringstream tabname;
-    tabname << _( "ACTIVE" );
-    if( active_bionic_count > 0 ) {
-        tabname << "(" << active_bionic_count << ")";
-    }
-    std::string active_tab_name = tabname.str();
-    tabname.str( "" );
-    tabname << _( "PASSIVE" );
-    if( passive_bionic_count > 0 ) {
-        tabname << "(" << passive_bionic_count << ")";
-    }
-    std::string passive_tab_name = tabname.str();
-    const int tabs_start = 1;
-    const int tab_step = 3;
-
-    // offset for display: bionic with index i is drawn at y=list_start_y+i
-    // drawing the bionics starts with bionic[scroll_position]
-    const int list_start_y = HEADER_LINE_Y;// - scroll_position;
-    int half_list_view_location = LIST_HEIGHT / 2;
-    int max_scroll_position = std::max(0, ( tab_mode == TAB_ACTIVE ? active_bionic_count : passive_bionic_count ) - LIST_HEIGHT );
-
-    input_context ctxt( "BIONICS" );
-    ctxt.register_updown();
-    ctxt.register_action( "ANY_INPUT" );
-    ctxt.register_action( "TOGGLE_EXAMINE" );
-    ctxt.register_action( "REASSIGN" );
-    ctxt.register_action( "REMOVE" );
-    ctxt.register_action( "NEXT_TAB" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-
-    bool recalc = false;
-    bool redraw = true;
-
-    for( ;; ) {
-        if( recalc ) {
-            active.clear();
-            passive.clear();
-
-            for( auto &elem : my_bionics ) {
-                if( !bionics[elem.id].activated ) {
-                    passive.push_back( &elem );
-                } else {
-                    active.push_back( &elem );
-                }
-            }
-
-            active_bionic_count = active.size();
-            passive_bionic_count = passive.size();
-            bionic_count = std::max( passive_bionic_count, active_bionic_count );
-
-            if( active_bionic_count == 0 && passive_bionic_count > 0 ) {
-                tab_mode = TAB_PASSIVE;
-            }
-
-            if( --cursor < 0 ) {
-                cursor = 0;
-            }
-            if( scroll_position > max_scroll_position &&
-                cursor - scroll_position < LIST_HEIGHT - half_list_view_location ) {
-                scroll_position--;
-            }
-
-            recalc = false;
-        }
-
-        //track which list we are looking at
-        std::vector<bionic *> *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
-        max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
-                                             active_bionic_count :
-                                             passive_bionic_count ) - LIST_HEIGHT );
-
-        if( redraw ) {
-            redraw = false;
-
-            werase( wBio );
-            draw_border( wBio );
-            // Draw symbols to connect additional lines to border
-            mvwputch( wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO ); // |-
-            mvwputch( wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
-
-            nc_color type;
-            if( tab_mode == TAB_PASSIVE ) {
-                if( passive.empty() ) {
-                    mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, _( "No passive bionics installed." ) );
-                } else {
-                    for( size_t i = scroll_position; i < passive.size(); i++ ) {
-                        if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
-                            break;
-                        }
-
-                        bool isHighlighted = false;
-                        if( cursor == static_cast<int>( i ) ) {
-                            isHighlighted = true;
-                        }
-                        type = get_bionic_text_color( *passive[i], isHighlighted );
-
-                        mvwprintz( wBio, list_start_y + i - scroll_position, 2, type, "%c %s", passive[i]->invlet,
-                                   bionics[passive[i]->id].name.c_str() );
-                    }
-                }
-            }
-
-            if( tab_mode == TAB_ACTIVE ) {
-                if( active.empty() ) {
-                    mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, _( "No activatable bionics installed." ) );
-                } else {
-                    for( size_t i = scroll_position; i < active.size(); i++ ) {
-                        if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
-                            break;
-                        }
-                        bool isHighlighted = false;
-                        if( cursor == static_cast<int>( i ) ) {
-                            isHighlighted = true;
-                        }
-                        type = get_bionic_text_color( *active[i], isHighlighted );
-                        mvwputch( wBio, list_start_y + i - scroll_position, 2, type, active[i]->invlet );
-                        mvwputch( wBio, list_start_y + i - scroll_position, 3, type, ' ' );
-
-                        std::string power_desc = build_bionic_powerdesc_string( *active[i] );
-                        std::string tmp = utf8_truncate( power_desc, WIDTH - 3 );
-                        mvwprintz( wBio, list_start_y + i - scroll_position, 2 + 2, type, tmp.c_str() );
-                    }
-                }
-            }
-
-            draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
-        }
-        wrefresh( wBio );
-
-        //handle tab drawing after main window is refreshed
-        werase( w_tabs );
-        int width = getmaxx( w_tabs );
-        for( int i = 0; i < width; i++ ) {
-            mvwputch( w_tabs, 2, i, BORDER_COLOR, LINE_OXOX );
-        }
-        int tab_x = tabs_start;
-        draw_tab( w_tabs, tab_x, active_tab_name, tab_mode == TAB_ACTIVE );
-        tab_x += tab_step + utf8_width( active_tab_name );
-        draw_tab( w_tabs, tab_x, passive_tab_name, tab_mode != TAB_ACTIVE );
-        wrefresh( w_tabs );
-
-        show_bionics_titlebar( w_title, this, menu_mode );
-
-        // Description
-        if( menu_mode == "examining" && current_bionic_list->size() > 0 ) {
-            werase( w_description );
-            std::ostringstream power_only_desc;
-            std::string poweronly_string;
-            std::string bionic_name;
-            if( tab_mode == TAB_ACTIVE ) {
-                bionic_name = bionics[active[cursor]->id].name;
-                poweronly_string = build_bionic_poweronly_string( *active[cursor] );
-            } else {
-                bionic_name = bionics[passive[cursor]->id].name;
-                poweronly_string = build_bionic_poweronly_string( *passive[cursor] );
-            }
-            int ypos = 0;
-            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_white, bionic_name );
-            if( poweronly_string.length() > 0 ) {
-                power_only_desc << _( "Power usage: " ) << poweronly_string;
-                ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
-                                        power_only_desc.str() );
-            }
-            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue,
-                                    bionics[( *current_bionic_list )[cursor]->id].description );
-            wrefresh( w_description );
-        }
-
-        const std::string action = ctxt.handle_input();
-        const long ch = ctxt.get_raw_input().get_first_input();
-        bionic *tmp = NULL;
-        bool confirmCheck = false;
-        if( menu_mode == "reassigning" ) {
-            menu_mode = "activating";
-            tmp = bionic_by_invlet( ch );
-            if( tmp == nullptr ) {
-                // Selected an non-existing bionic (or escape, or ...)
-                continue;
-            }
-            redraw = true;
-            const long newch = popup_getkey( _( "%s; enter new letter." ),
-                                             bionics[tmp->id].name.c_str() );
-            wrefresh( wBio );
-            if( newch == ch || newch == ' ' || newch == KEY_ESCAPE ) {
-                continue;
-            }
-            if( !bionic_chars.valid( newch ) ) {
-                popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
-                       bionic_chars.get_allowed_chars().c_str() );
-                continue;
-            }
-            bionic *otmp = bionic_by_invlet( newch );
-            if( otmp != nullptr ) {
-                std::swap( tmp->invlet, otmp->invlet );
-            } else {
-                tmp->invlet = newch;
-            }
-            // TODO: show a message like when reassigning a key to an item?
-        } else if( action == "NEXT_TAB" ) {
-            redraw = true;
-            scroll_position = 0;
-            cursor = 0;
-            if( tab_mode == TAB_ACTIVE ) {
-                tab_mode = TAB_PASSIVE;
-            } else {
-                tab_mode = TAB_ACTIVE;
-            }
-        } else if( action == "PREV_TAB" ) {
-            redraw = true;
-            scroll_position = 0;
-            cursor = 0;
-            if( tab_mode == TAB_PASSIVE ) {
-                tab_mode = TAB_ACTIVE;
-            } else {
-                tab_mode = TAB_PASSIVE;
-            }
-        } else if( action == "DOWN" ) {
-            redraw = true;
-            if( static_cast<size_t>( cursor ) < current_bionic_list->size() - 1 ) {
-                cursor++;
-            }
-            if( scroll_position < max_scroll_position &&
-                cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
-                scroll_position++;
-            }
-        } else if( action == "UP" ) {
-            redraw = true;
-            if( cursor > 0 ) {
-                cursor--;
-            }
-            if( scroll_position > 0 && cursor - scroll_position < half_list_view_location ) {
-                scroll_position--;
-            }
-        } else if( action == "REASSIGN" ) {
-            menu_mode = "reassigning";
-        } else if( action == "TOGGLE_EXAMINE" ) { // switches between activation and examination
-            menu_mode = menu_mode == "activating" ? "examining" : "activating";
-            redraw = true;
-        } else if( action == "REMOVE" ) {
-            menu_mode = "removing";
-            redraw = true;
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            redraw = true;
-        } else if( action == "CONFIRM" ) {
-            confirmCheck = true;
-        } else {
-            confirmCheck = true;
-        }
-        //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
-        if( confirmCheck ) {
-            auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
-            if( action == "CONFIRM" && current_bionic_list->size() > 0 ) {
-                tmp = bio_list[cursor];
-            } else {
-                tmp = bionic_by_invlet( ch );
-                if( tmp && tmp != bio_last ) {
-                    // new bionic selected, update cursor and scroll position
-                    int temp_cursor = 0;
-                    for( temp_cursor = 0; temp_cursor < ( int )bio_list.size(); temp_cursor++ ) {
-                        if( bio_list[temp_cursor] == tmp ) {
-                            break;
-                        }
-                    }
-                    // if bionic is not found in current list, ignore the attempt to view/activate
-                    if( temp_cursor >= ( int )bio_list.size() ) {
-                        continue;
-                    }
-                    //relocate cursor to the bionic that was found
-                    cursor = temp_cursor;
-                    scroll_position = 0;
-                    while( scroll_position < max_scroll_position &&
-                           cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
-                        scroll_position++;
-                    }
-                }
-            }
-            if( !tmp ) {
-                // entered a key that is not mapped to any bionic,
-                // -> leave screen
-                break;
-            }
-            bio_last = tmp;
-            const std::string &bio_id = tmp->id;
-            const bionic_data &bio_data = bionics[bio_id];
-            if( menu_mode == "removing" ) {
-                if( uninstall_bionic( bio_id ) ) {
-                    recalc = true;
-                    redraw = true;
-                    continue;
-                }
-            }
-            if( menu_mode == "activating" ) {
-                if( bio_data.activated ) {
-                    int b = tmp - &my_bionics[0];
-                    if( tmp->powered ) {
-                        deactivate_bionic( b );
-                    } else {
-                        activate_bionic( b );
-                    }
-                    // update message log and the menu
-                    g->refresh_all();
-                    redraw = true;
-                    continue;
-                } else {
-                    popup(_("You can not activate %s!\n"
-                            "To read a description of %s, press '!', then '%c'."), bio_data.name.c_str(), bio_data.name.c_str(), tmp->invlet);
-                    redraw = true;
-                }
-            } else if( menu_mode == "examining" ) { // Describing bionics, allow user to jump to description key
-                redraw = true;
-                if( action != "CONFIRM" ) {
-                    for( size_t i = 0; i < active.size(); i++ ) {
-                        if( active[i] == tmp ) {
-                            tab_mode = TAB_ACTIVE;
-                            cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, active_bionic_count - LIST_HEIGHT );
-                            if( static_cast<int>( i ) > max_scroll_check ) {
-                                scroll_position = max_scroll_check;
-                            } else {
-                                scroll_position = i;
-                            }
-                            break;
-                        }
-                    }
-                    for( size_t i = 0; i < passive.size(); i++ ) {
-                        if( passive[i] == tmp ) {
-                            tab_mode = TAB_PASSIVE;
-                            cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, passive_bionic_count - LIST_HEIGHT );
-                            if( static_cast<int>( i ) > max_scroll_check ) {
-                                scroll_position = max_scroll_check;
-                            } else {
-                                scroll_position = i;
-                            }
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-void draw_exam_window( WINDOW *win, int border_line, bool examination )
-{
-    int width = getmaxx( win );
-    if( examination ) {
-        for( int i = 1; i < width - 1; i++ ) {
-            mvwputch( win, border_line, i, BORDER_COLOR, LINE_OXOX ); // Draw line above description
-        }
-        mvwputch( win, border_line, 0, BORDER_COLOR, LINE_XXXO ); // |-
-        mvwputch( win, border_line, width - 1, BORDER_COLOR, LINE_XOXX ); // -|
-    } else {
-        for( int i = 1; i < width - 1; i++ ) {
-            mvwprintz( win, border_line, i, c_black, " " ); // Erase line
-        }
-        mvwputch( win, border_line, 0, BORDER_COLOR, LINE_XOXO ); // |
-        mvwputch( win, border_line, width, BORDER_COLOR, LINE_XOXO ); // |
-    }
 }
 
 void force_comedown( effect &eff )
@@ -709,174 +150,179 @@ bool player::activate_bionic( int b, bool eff_only )
     int &dirx = dirp.x;
     int &diry = dirp.y;
     item tmp_item;
-    w_point const weatherPoint = g->weather_gen->get_weather( global_square_location(), calendar::turn );
+    w_point const weatherPoint = g->weather_gen->get_weather( global_square_location(),
+                                 calendar::turn );
 
     // On activation effects go here
-    if(bio.id == "bio_painkiller") {
+    if( bio.id == "bio_painkiller" ) {
         mod_pain( -2 );
         mod_painkiller( 6 );
-        if ( get_painkiller() > get_pain() ) {
+        if( get_painkiller() > get_pain() ) {
             set_painkiller( get_pain() );
         }
-    } else if (bio.id == "bio_ears" && has_active_bionic("bio_earplugs")) {
-        for (auto &i : my_bionics) {
-            if (i.id == "bio_earplugs") {
+    } else if( bio.id == "bio_ears" && has_active_bionic( "bio_earplugs" ) ) {
+        for( auto &i : my_bionics ) {
+            if( i.id == "bio_earplugs" ) {
                 i.powered = false;
-                add_msg(m_info, _("Your %s automatically turn off."), bionics[i.id].name.c_str());
+                add_msg( m_info, _( "Your %s automatically turn off." ), bionics[i.id].name.c_str() );
             }
         }
-    } else if (bio.id == "bio_earplugs" && has_active_bionic("bio_ears")) {
-        for (auto &i : my_bionics) {
-            if (i.id == "bio_ears") {
+    } else if( bio.id == "bio_earplugs" && has_active_bionic( "bio_ears" ) ) {
+        for( auto &i : my_bionics ) {
+            if( i.id == "bio_ears" ) {
                 i.powered = false;
-                add_msg(m_info, _("Your %s automatically turns off."), bionics[i.id].name.c_str());
+                add_msg( m_info, _( "Your %s automatically turns off." ), bionics[i.id].name.c_str() );
             }
         }
-    } else if (bio.id == "bio_tools") {
+    } else if( bio.id == "bio_tools" ) {
         invalidate_crafting_inventory();
-    } else if (bio.id == "bio_cqb") {
-        if (!pick_style()) {
+    } else if( bio.id == "bio_cqb" ) {
+        if( !pick_style() ) {
             bio.powered = false;
-            add_msg(m_info, _("You change your mind and turn it off."));
+            add_msg( m_info, _( "You change your mind and turn it off." ) );
             return false;
         }
-    } else if (bio.id == "bio_nanobots") {
+    } else if( bio.id == "bio_nanobots" ) {
         remove_effect( effect_bleed );
-        healall(4);
-    } else if (bio.id == "bio_resonator") {
+        healall( 4 );
+    } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, _("VRRRRMP!"));
-        for (int i = posx() - 1; i <= posx() + 1; i++) {
-            for (int j = posy() - 1; j <= posy() + 1; j++) {
+        sounds::sound( pos(), 30, _( "VRRRRMP!" ) );
+        for( int i = posx() - 1; i <= posx() + 1; i++ ) {
+            for( int j = posy() - 1; j <= posy() + 1; j++ ) {
                 tripoint bashpoint( i, j, posz() );
                 g->m.bash( bashpoint, 110 );
                 g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
                 g->m.bash( bashpoint, 110 );
             }
         }
-    } else if (bio.id == "bio_time_freeze") {
+    } else if( bio.id == "bio_time_freeze" ) {
         moves += power_level;
         power_level = 0;
-        add_msg(m_good, _("Your speed suddenly increases!"));
-        if (one_in(3)) {
-            add_msg(m_bad, _("Your muscles tear with the strain."));
+        add_msg( m_good, _( "Your speed suddenly increases!" ) );
+        if( one_in( 3 ) ) {
+            add_msg( m_bad, _( "Your muscles tear with the strain." ) );
             apply_damage( nullptr, bp_arm_l, rng( 5, 10 ) );
             apply_damage( nullptr, bp_arm_r, rng( 5, 10 ) );
             apply_damage( nullptr, bp_leg_l, rng( 7, 12 ) );
             apply_damage( nullptr, bp_leg_r, rng( 7, 12 ) );
             apply_damage( nullptr, bp_torso, rng( 5, 15 ) );
         }
-        if (one_in(5)) {
+        if( one_in( 5 ) ) {
             add_effect( effect_teleglow, rng( 50, 400 ) );
         }
-    } else if (bio.id == "bio_teleport") {
+    } else if( bio.id == "bio_teleport" ) {
         g->teleport();
         add_effect( effect_teleglow, 300 );
         // TODO: More stuff here (and bio_blood_filter)
-    } else if(bio.id == "bio_blood_anal") {
-        WINDOW *w = newwin(20, 40, 3 + ((TERMY > 25) ? (TERMY - 25) / 2 : 0),
-                10 + ((TERMX > 80) ? (TERMX - 80) / 2 : 0));
-        draw_border(w);
-        if (has_effect( effect_fungus )) {
-            bad.push_back(_("Fungal Parasite"));
+    } else if( bio.id == "bio_blood_anal" ) {
+        WINDOW *w = newwin( 20, 40, 3 + ( ( TERMY > 25 ) ? ( TERMY - 25 ) / 2 : 0 ),
+                            10 + ( ( TERMX > 80 ) ? ( TERMX - 80 ) / 2 : 0 ) );
+        draw_border( w );
+        if( has_effect( effect_fungus ) ) {
+            bad.push_back( _( "Fungal Parasite" ) );
         }
-        if (has_effect( effect_dermatik )) {
-            bad.push_back(_("Insect Parasite"));
+        if( has_effect( effect_dermatik ) ) {
+            bad.push_back( _( "Insect Parasite" ) );
         }
-        if (has_effect( effect_stung )) {
-            bad.push_back(_("Stung"));
+        if( has_effect( effect_stung ) ) {
+            bad.push_back( _( "Stung" ) );
         }
-        if (has_effect( effect_poison )) {
-            bad.push_back(_("Poison"));
+        if( has_effect( effect_poison ) ) {
+            bad.push_back( _( "Poison" ) );
         }
-        if (radiation > 0) {
-            bad.push_back(_("Irradiated"));
+        if( radiation > 0 ) {
+            bad.push_back( _( "Irradiated" ) );
         }
-        if (has_effect( effect_pkill1 )) {
-            good.push_back(_("Minor Painkiller"));
+        if( has_effect( effect_pkill1 ) ) {
+            good.push_back( _( "Minor Painkiller" ) );
         }
-        if (has_effect( effect_pkill2 )) {
-            good.push_back(_("Moderate Painkiller"));
+        if( has_effect( effect_pkill2 ) ) {
+            good.push_back( _( "Moderate Painkiller" ) );
         }
-        if (has_effect( effect_pkill3 )) {
-            good.push_back(_("Heavy Painkiller"));
+        if( has_effect( effect_pkill3 ) ) {
+            good.push_back( _( "Heavy Painkiller" ) );
         }
-        if (has_effect( effect_pkill_l )) {
-            good.push_back(_("Slow-Release Painkiller"));
+        if( has_effect( effect_pkill_l ) ) {
+            good.push_back( _( "Slow-Release Painkiller" ) );
         }
-        if (has_effect( effect_drunk )) {
-            good.push_back(_("Alcohol"));
+        if( has_effect( effect_drunk ) ) {
+            good.push_back( _( "Alcohol" ) );
         }
-        if (has_effect( effect_cig )) {
-            good.push_back(_("Nicotine"));
+        if( has_effect( effect_cig ) ) {
+            good.push_back( _( "Nicotine" ) );
         }
-        if (has_effect( effect_meth )) {
-            good.push_back(_("Methamphetamines"));
+        if( has_effect( effect_meth ) ) {
+            good.push_back( _( "Methamphetamines" ) );
         }
-        if (has_effect( effect_high )) {
-            good.push_back(_("Intoxicant: Other"));
+        if( has_effect( effect_high ) ) {
+            good.push_back( _( "Intoxicant: Other" ) );
         }
-        if (has_effect( effect_weed_high )) {
-            good.push_back(_("THC Intoxication"));
+        if( has_effect( effect_weed_high ) ) {
+            good.push_back( _( "THC Intoxication" ) );
         }
-        if (has_effect( effect_hallu ) || has_effect( effect_visuals )) {
-            bad.push_back(_("Hallucinations"));
+        if( has_effect( effect_hallu ) || has_effect( effect_visuals ) ) {
+            bad.push_back( _( "Hallucinations" ) );
         }
-        if (has_effect( effect_pblue )) {
-            good.push_back(_("Prussian Blue"));
+        if( has_effect( effect_pblue ) ) {
+            good.push_back( _( "Prussian Blue" ) );
         }
-        if (has_effect( effect_iodine )) {
-            good.push_back(_("Potassium Iodide"));
+        if( has_effect( effect_iodine ) ) {
+            good.push_back( _( "Potassium Iodide" ) );
         }
-        if (has_effect( effect_datura )) {
-            good.push_back(_("Anticholinergic Tropane Alkaloids"));
+        if( has_effect( effect_datura ) ) {
+            good.push_back( _( "Anticholinergic Tropane Alkaloids" ) );
         }
-        if (has_effect( effect_took_xanax )) {
-            good.push_back(_("Xanax"));
+        if( has_effect( effect_took_xanax ) ) {
+            good.push_back( _( "Xanax" ) );
         }
-        if (has_effect( effect_took_prozac )) {
-            good.push_back(_("Prozac"));
+        if( has_effect( effect_took_prozac ) ) {
+            good.push_back( _( "Prozac" ) );
         }
-        if (has_effect( effect_took_flumed )) {
-            good.push_back(_("Antihistamines"));
+        if( has_effect( effect_took_flumed ) ) {
+            good.push_back( _( "Antihistamines" ) );
         }
-        if (has_effect( effect_adrenaline )) {
-            good.push_back(_("Adrenaline Spike"));
+        if( has_effect( effect_adrenaline ) ) {
+            good.push_back( _( "Adrenaline Spike" ) );
         }
-        if (has_effect( effect_adrenaline_mycus )) {
-            good.push_back(_("Mycal Spike"));
+        if( has_effect( effect_adrenaline_mycus ) ) {
+            good.push_back( _( "Mycal Spike" ) );
         }
-        if (has_effect( effect_tapeworm )) {  // This little guy is immune to the blood filter though, as he lives in your bowels.
-            good.push_back(_("Intestinal Parasite"));
+        if( has_effect( effect_tapeworm ) ) {
+            // This little guy is immune to the blood filter though, as he lives in your bowels.
+            good.push_back( _( "Intestinal Parasite" ) );
         }
-        if (has_effect( effect_bloodworms )) {
-            good.push_back(_("Hemolytic Parasites"));
+        if( has_effect( effect_bloodworms ) ) {
+            good.push_back( _( "Hemolytic Parasites" ) );
         }
-        if (has_effect( effect_brainworms )) {  // These little guys are immune to the blood filter too, as they live in your brain.
-            good.push_back(_("Intracranial Parasite"));
+        if( has_effect( effect_brainworms ) ) {
+            // These little guys are immune to the blood filter too, as they live in your brain.
+            good.push_back( _( "Intracranial Parasite" ) );
         }
-        if (has_effect( effect_paincysts )) {  // These little guys are immune to the blood filter too, as they live in your muscles.
-            good.push_back(_("Intramuscular Parasites"));
+        if( has_effect( effect_paincysts ) ) {
+            // These little guys are immune to the blood filter too, as they live in your muscles.
+            good.push_back( _( "Intramuscular Parasites" ) );
         }
-        if (has_effect( effect_tetanus )) {  // Tetanus infection.
-            good.push_back(_("Clostridium Tetani Infection"));
+        if( has_effect( effect_tetanus ) ) {
+            // Tetanus infection.
+            good.push_back( _( "Clostridium Tetani Infection" ) );
         }
-        if (good.empty() && bad.empty()) {
-            mvwprintz(w, 1, 1, c_white, _("No effects."));
+        if( good.empty() && bad.empty() ) {
+            mvwprintz( w, 1, 1, c_white, _( "No effects." ) );
         } else {
-            for (unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++) {
-                if (line <= bad.size()) {
-                    mvwprintz(w, line, 1, c_red, "%s", bad[line - 1].c_str());
+            for( unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++ ) {
+                if( line <= bad.size() ) {
+                    mvwprintz( w, line, 1, c_red, "%s", bad[line - 1].c_str() );
                 } else {
-                    mvwprintz(w, line, 1, c_green, "%s", good[line - 1 - bad.size()].c_str());
+                    mvwprintz( w, line, 1, c_green, "%s", good[line - 1 - bad.size()].c_str() );
                 }
             }
         }
-        wrefresh(w);
+        wrefresh( w );
         refresh();
         getch();
-        delwin(w);
-    } else if(bio.id == "bio_blood_filter") {
+        delwin( w );
+    } else if( bio.id == "bio_blood_filter" ) {
         remove_effect( effect_fungus );
         remove_effect( effect_dermatik );
         remove_effect( effect_bloodworms );
@@ -903,42 +349,43 @@ bool player::activate_bionic( int b, bool eff_only )
         force_comedown( get_effect( effect_meth ) );
         set_painkiller( 0 );
         stim = 0;
-    } else if(bio.id == "bio_evap") {
-        item water = item("water_clean", 0);
+    } else if( bio.id == "bio_evap" ) {
+        item water = item( "water_clean", 0 );
         int humidity = weatherPoint.humidity;
-        int water_charges = (humidity * 3.0) / 100.0 + 0.5;
+        int water_charges = ( humidity * 3.0 ) / 100.0 + 0.5;
         // At 50% relative humidity or more, the player will draw 2 units of water
         // At 16% relative humidity or less, the player will draw 0 units of water
         water.charges = water_charges;
-        if (water_charges == 0) {
-            add_msg_if_player(m_bad, _("There was not enough moisture in the air from which to draw water!"));
-        } else if (g->handle_liquid(water, true, false)) {
+        if( water_charges == 0 ) {
+            add_msg_if_player( m_bad,
+                               _( "There was not enough moisture in the air from which to draw water!" ) );
+        } else if( g->handle_liquid( water, true, false ) ) {
             moves -= 100;
         } else {
             water.charges -= drink_from_hands( water );
             if( water.charges == water_charges ) {
-                charge_power(bionics["bio_evap"].power_activate);
+                charge_power( bionics["bio_evap"].power_activate );
             }
         }
-    } else if(bio.id == "bio_lighter") {
+    } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
-        if(!choose_adjacent(_("Start a fire where?"), dirp) ||
-           (!g->m.add_field(dirp, fd_fire, 1, 0))) {
-            add_msg_if_player(m_info, _("You can't light a fire there."));
-            charge_power(bionics["bio_lighter"].power_activate);
+        if( !choose_adjacent( _( "Start a fire where?" ), dirp ) ||
+            ( !g->m.add_field( dirp, fd_fire, 1, 0 ) ) ) {
+            add_msg_if_player( m_info, _( "You can't light a fire there." ) );
+            charge_power( bionics["bio_lighter"].power_activate );
         }
-    } else if(bio.id == "bio_leukocyte") {
-        set_healthy(std::min(100, get_healthy() + 2));
-        mod_healthy_mod(20, 100);
-    } else if(bio.id == "bio_geiger") {
-        add_msg(m_info, _("Your radiation level: %d"), radiation);
-    } else if(bio.id == "bio_radscrubber") {
-        if (radiation > 4) {
+    } else if( bio.id == "bio_leukocyte" ) {
+        set_healthy( std::min( 100, get_healthy() + 2 ) );
+        mod_healthy_mod( 20, 100 );
+    } else if( bio.id == "bio_geiger" ) {
+        add_msg( m_info, _( "Your radiation level: %d" ), radiation );
+    } else if( bio.id == "bio_radscrubber" ) {
+        if( radiation > 4 ) {
             radiation -= 5;
         } else {
             radiation = 0;
         }
-    } else if(bio.id == "bio_adrenaline") {
+    } else if( bio.id == "bio_adrenaline" ) {
         if( has_effect( effect_adrenaline ) ) {
             // Safety
             add_msg_if_player( m_bad, _( "The bionic refuses to activate!" ) );
@@ -946,31 +393,31 @@ bool player::activate_bionic( int b, bool eff_only )
         } else {
             add_effect( effect_adrenaline, 200 );
         }
-    } else if(bio.id == "bio_blaster") {
+    } else if( bio.id == "bio_blaster" ) {
         tmp_item = weapon;
-        weapon = item("bio_blaster_gun", 0);
+        weapon = item( "bio_blaster_gun", 0 );
         g->refresh_all();
-        g->plfire(false);
-        if(weapon.charges == 1) { // not fired
-            charge_power(bionics[bio.id].power_activate);
+        g->plfire( false );
+        if( weapon.charges == 1 ) { // not fired
+            charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
-    } else if (bio.id == "bio_laser") {
+    } else if( bio.id == "bio_laser" ) {
         tmp_item = weapon;
-        weapon = item("bio_laser_gun", 0);
+        weapon = item( "bio_laser_gun", 0 );
         g->refresh_all();
-        g->plfire(false);
-        if(weapon.charges == 1) { // not fired
-            charge_power(bionics[bio.id].power_activate);
+        g->plfire( false );
+        if( weapon.charges == 1 ) { // not fired
+            charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
-    } else if(bio.id == "bio_chain_lightning") {
+    } else if( bio.id == "bio_chain_lightning" ) {
         tmp_item = weapon;
-        weapon = item("bio_lightning", 0);
+        weapon = item( "bio_lightning", 0 );
         g->refresh_all();
-        g->plfire(false);
-        if(weapon.charges == 1) { // not fired
-            charge_power(bionics[bio.id].power_activate);
+        g->plfire( false );
+        if( weapon.charges == 1 ) { // not fired
+            charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
     } else if (bio.id == "bio_emp") {
@@ -1365,7 +812,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
     //If you are paying the doctor to do it, shouldn't use your supplies
-    if( !( has_items_with_quality( "CUT", 1, 1 ) && has_amount( "1st_aid", 1 ) ) &&
+    if( !( has_quality( "CUT" ) && has_amount( "1st_aid", 1 ) ) &&
         skill_level == -1 ) {
         popup( _( "Removing bionics requires a cutting tool and a first aid kit." ) );
         return false;
@@ -1411,9 +858,9 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
     } else {
         ///\EFFECT_INT increases chance of success removing bionics with unspecified skil level
         chance_of_success = bionic_manip_cos( int_cur,
-                                              skillLevel( skilll_electronics ),
-                                              skillLevel( skilll_firstaid ),
-                                              skillLevel( skilll_mechanics ),
+                                              get_skill_level( skilll_electronics ),
+                                              get_skill_level( skilll_firstaid ),
+                                              get_skill_level( skilll_mechanics ),
                                               difficulty + 2 );
     }
 
@@ -1484,25 +931,6 @@ bool player::install_bionics( const itype &type, int skill_level )
         popup( "invalid / unknown bionic id %s", bioid.c_str() );
         return false;
     }
-    if( bioid == "bio_reactor" || bioid == "bio_advreactor" ) {
-        if( has_bionic( "bio_furnace" ) && has_bionic( "bio_storage" ) ) {
-            popup( _( "Your internal storage and furnace take up too much room!" ) );
-            return false;
-        } else if( has_bionic( "bio_furnace" ) ) {
-            popup( _( "Your internal furnace takes up too much room!" ) );
-            return false;
-        } else if( has_bionic( "bio_storage" ) ) {
-            popup( _( "Your internal storage takes up too much room!" ) );
-            return false;
-        }
-    }
-    if( ( bioid == "bio_furnace" ) || ( bioid == "bio_storage" ) || ( bioid == "bio_reactor" ) ||
-        ( bioid == "bio_advreactor" ) ) {
-        if( has_bionic( "bio_reactor" ) || has_bionic( "bio_advreactor" ) ) {
-            popup( _( "Your installed reactor leaves no room!" ) );
-            return false;
-        }
-    }
     if( bioid == "bio_reactor_upgrade" ) {
         if( !has_bionic( "bio_reactor" ) ) {
             popup( _( "There is nothing to upgrade!" ) );
@@ -1526,15 +954,28 @@ bool player::install_bionics( const itype &type, int skill_level )
     } else {
         ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos( int_cur,
-                                              skillLevel( skilll_electronics ),
-                                              skillLevel( skilll_firstaid ),
-                                              skillLevel( skilll_mechanics ),
+                                              get_skill_level( skilll_electronics ),
+                                              get_skill_level( skilll_firstaid ),
+                                              get_skill_level( skilll_mechanics ),
                                               difficult );
     }
 
-    if( !query_yn(
-            _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Install anyway?" ),
-            100 - chance_of_success ) ) {
+    const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
+    // show all requirements which are not satisfied
+    if( !issues.empty() ) {
+        std::string detailed_info;
+        for( auto& elem : issues ) {
+            //~ <Body part name>: <number of slots> more slot(s) needed.
+            detailed_info += string_format( _( "\n%s: %i more slot(s) needed." ),
+                                            body_part_name_as_heading( elem.first, 1 ).c_str(),
+                                            elem.second );
+        }
+        popup( _( "Not enough space for bionic installation!%s" ), detailed_info.c_str() );
+        return false;
+    }
+
+    if( !query_yn( _( "WARNING: %i percent chance of genetic damage, blood loss, or damage to existing bionics! Continue anyway?" ),
+                   ( 100 - int( chance_of_success ) ) ) ) {
         return false;
     }
 
@@ -1586,9 +1027,9 @@ void bionics_install_failure( player *u, int difficulty, int success )
     // pl_skill should be calculated the same as in install_bionics
     ///\EFFECT_INT randomly decreases severity of bionics installation failure
     int pl_skill = u->int_cur * 4 +
-                   u->skillLevel( skilll_electronics ) * 4 +
-                   u->skillLevel( skilll_firstaid )    * 3 +
-                   u->skillLevel( skilll_mechanics )   * 1;
+                   u->get_skill_level( skilll_electronics ) * 4 +
+                   u->get_skill_level( skilll_firstaid )    * 3 +
+                   u->get_skill_level( skilll_mechanics )   * 1;
     // Medical residents get a substantial assist here
     if( u->has_trait( "PROF_MED" ) ) {
         pl_skill += 6;
@@ -1705,18 +1146,100 @@ void bionics_install_failure( player *u, int difficulty, int success )
     }
 }
 
+std::string list_occupied_bps( const std::string &bio_id, const std::string &intro,
+                               const bool each_bp_on_new_line )
+{
+    if( bionic_info( bio_id ).occupied_bodyparts.empty() ) {
+        return "";
+    }
+    std::ostringstream desc;
+    desc << intro;
+    for( const auto &elem : bionic_info( bio_id ).occupied_bodyparts ) {
+        desc << ( each_bp_on_new_line ? "\n" : " " );
+        //~ <Bodypart name> (<number of occupied slots> slots);
+        desc << string_format( _( "%s (%i slots);" ),
+                           body_part_name_as_heading( elem.first, 1 ).c_str(),
+                           elem.second );
+    }
+    return desc.str();
+}
+
+int player::get_used_bionics_slots( const body_part bp ) const
+{
+    int used_slots = 0;
+    for( auto &bio : my_bionics ) {
+        auto search = bionics[bio.id].occupied_bodyparts.find( bp );
+        if( search != bionics[bio.id].occupied_bodyparts.end() ) {
+            used_slots += search->second;
+        }
+    }
+
+    return used_slots;
+}
+
+std::map<body_part, int> player::bionic_installation_issues( const std::string &bioid )
+{
+    std::map<body_part, int> issues;
+    if( !has_trait( "DEBUG_CBM_SLOTS" ) ) {
+        return issues;
+    }
+    for( auto &elem : bionics[ bioid ].occupied_bodyparts ) {
+        const int lacked_slots = elem.second - get_free_bionics_slots( elem.first );
+        if( lacked_slots > 0 ) {
+            issues.emplace( elem.first, lacked_slots );
+        }
+    }
+    return issues;
+}
+
+int player::get_total_bionics_slots( const body_part bp ) const
+{
+    switch( bp ) {
+    case bp_torso:
+        return 80;
+
+    case bp_head:
+        return 18;
+
+    case bp_eyes:
+        return 4;
+
+    case bp_mouth:
+        return 4;
+
+    case bp_arm_l:
+    case bp_arm_r:
+        return 20;
+
+    case bp_hand_l:
+    case bp_hand_r:
+        return 5;
+
+    case bp_leg_l:
+    case bp_leg_r:
+        return 30;
+
+    case bp_foot_l:
+    case bp_foot_r:
+        return 7;
+
+    case num_bp:
+        debugmsg( "number of slots for incorrect bodypart is requested!" );
+        return 0;
+    }
+    return 0;
+}
+
+int player::get_free_bionics_slots( const body_part bp ) const
+{
+    return get_total_bionics_slots( bp ) - get_used_bionics_slots( bp );
+}
+
 void player::add_bionic( std::string const &b )
 {
     if( has_bionic( b ) ) {
         debugmsg( "Tried to install bionic %s that is already installed!", b.c_str() );
         return;
-    }
-    char newinv = ' ';
-    for( auto &inv_char : bionic_chars ) {
-        if( bionic_by_invlet( inv_char ) == nullptr ) {
-            newinv = inv_char;
-            break;
-        }
     }
 
     int pow_up = bionics[b].capacity;
@@ -1727,7 +1250,7 @@ void player::add_bionic( std::string const &b )
         return;
     }
 
-    my_bionics.push_back( bionic( b, newinv ) );
+    my_bionics.push_back( bionic( b, get_free_invlet( *this ) ) );
     if( b == "bio_tools" || b == "bio_ears" ) {
         activate_bionic( my_bionics.size() - 1 );
     }
@@ -1801,15 +1324,7 @@ bionic &player::bionic_at_index( int i )
     return my_bionics[i];
 }
 
-bionic *player::bionic_by_invlet( const long ch )
-{
-    for( auto &elem : my_bionics ) {
-        if( elem.invlet == ch ) {
-            return &elem;
-        }
-    }
-    return nullptr;
-}
+
 
 // Returns true if a bionic was removed.
 bool player::remove_random_bionic()
@@ -1850,6 +1365,16 @@ void load_bionic( JsonObject &jsobj )
     bool faulty = jsobj.get_bool( "faulty", false );
     bool power_source = jsobj.get_bool( "power_source", false );
 
+    std::map<body_part, size_t> occupied_bodyparts;
+    JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
+    if( !jsarr.empty() ) {
+        while( jsarr.has_more() ) {
+            JsonArray ja = jsarr.next_array();
+            occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                        ja.get_int( 1 ) );
+        }
+    }
+
     if( faulty ) {
         faulty_bionics.push_back( id );
     }
@@ -1857,7 +1382,8 @@ void load_bionic( JsonObject &jsobj )
     auto const result = bionics.insert( std::make_pair( std::move( id ),
                                         bionic_data( std::move( name ), power_source, toggled,
                                                 on_cost, off_cost, react_cost, time, capacity,
-                                                std::move( description ), faulty ) ) );
+                                                std::move( description ), faulty,
+                                                std::move( occupied_bodyparts ) ) ) );
 
     if( !result.second ) {
         debugmsg( "duplicate bionic id" );

@@ -166,7 +166,6 @@
     "weight": 2100,
     "volume": 6,
     "bashing": 7,
-    "to_hit": 0,
     "ranged_damage": 10,
     "range": 25,
     "dispersion": 100,
@@ -196,7 +195,6 @@
     "weight": 2700,
     "volume": 8,
     "bashing": 7,
-    "to_hit": 0,
     "ranged_damage": 15,
     "range": 15,
     "dispersion": 250,
@@ -210,5 +208,3 @@
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   }
 ]
-
-

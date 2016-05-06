@@ -1413,7 +1413,7 @@ void advanced_inventory::display()
         advanced_inventory_pane &dpane = panes[dest];
         // current item in source pane, might be null
         advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
-        aim_location changeSquare;
+        aim_location changeSquare = NUM_AIM_LOCATIONS;
 
         const std::string action = (is_processing()) ? "MOVE_ALL_ITEMS" : ctxt.handle_input();
         if( action == "CATEGORY_SELECTION" ) {
@@ -1601,10 +1601,10 @@ void advanced_inventory::display()
             recalc = true;
         } else if( action == "SORT" ) {
             if( show_sort_menu( spane ) ) {
-                redraw = true;
                 recalc = true;
                 uistate.adv_inv_sort[src] = spane.sortby;
             }
+            redraw = true;
         } else if( action == "FILTER" ) {
             long key = 0;
             int spos = -1;

@@ -1,6 +1,5 @@
 [
     {
-
             "type": "profession",
             "ident": "bionic_prepper",
             "name": "Bionic Prepper",
@@ -319,7 +318,6 @@
                 "name": "mechanics"
             }
         ],
-
         "items": {
             "both": [
                 "dress_shirt",
@@ -449,8 +447,6 @@
                 "honeycomb",
                 "honey_bottled",
                 "honey_bottled"
-
-
             ],
             "male": [
                 "boxer_briefs"
@@ -477,7 +473,6 @@
                 "name": "throw"
             }
         ],
-
         "items": {
             "both": [
                 "tank_top",
@@ -1628,7 +1623,6 @@
                 "name": "mechanics"
             }
         ],
-
         "items": {
             "both": [
                 "jeans",
@@ -3431,7 +3425,6 @@
             ]
         }
     },
-
    {
         "type": "profession",
         "ident": "archaeologist",
@@ -3570,7 +3563,6 @@
             ]
         }
     },
-
     {
         "type": "profession",
         "ident": "farmer",
@@ -3665,7 +3657,6 @@
                 "name": "archery"
             }
         ],
-
         "items": {
             "both": [
                 "survivor_vest",
@@ -3719,7 +3710,6 @@
                 "name": "rifle"
             }
         ],
-
         "items": {
             "both": [
                 "pants_army",
@@ -3773,7 +3763,6 @@
                 "name": "firstaid"
             }
         ],
-
         "items": {
             "both": [
                 "socks",
@@ -4068,7 +4057,6 @@
             ]
         }
     },{
-
         "type": "profession",
         "ident": "drone_op",
         "name": "Drone Operator",
@@ -4101,7 +4089,6 @@
         }
     },
     {
-
             "type": "profession",
             "ident": "elementary_student",
             "name": "Elementary Student",
@@ -4297,7 +4284,6 @@
         }
     },
     {
-
             "type": "profession",
             "ident": "bionic_student",
             "name": "Bionic Student",
@@ -4520,6 +4506,60 @@
                 "socks",
                 "sneakers",
                 "runner_bag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "camper",
+        "name": "Camper",
+        "description": "You always enjoyed hiking and camping in the wilderness before everything fell apart, so it was a no-brainer to grab your bag and run when the sirens sounded.  The world may be ruined, but you're prepared to make a home wherever you may find yourself.",
+        "points": 6,
+        "skills": [
+            {
+                "level": 1,
+                "name": "survival"
+            },
+            {
+                "level": 1,
+                "name": "swimming"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+        "items": {
+            "both": [
+                "tshirt",
+                "socks",
+                "jeans",
+                "jacket_windbreaker",
+                "boots_hiking",
+                "gloves_light",
+                "hat_cotton",
+                "knit_scarf",
+                "backpack",
+                "ref_lighter",
+                "hatchet",
+                "e_tool",
+                "tent_kit",
+                "rollmat",
+                "sleeping_bag",
+                "knife_swissarmy",
+                "mess_kit",
+                "gasoline_lantern",
+                "canteen",
+                "granola",
+                "pur_tablets",
+                "1st_aid"
             ],
             "male": [
                 "briefs"

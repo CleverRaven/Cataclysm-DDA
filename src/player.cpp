@@ -49,8 +49,11 @@
 #include "npc.h"
 #include "cata_utility.h"
 #include "overlay_ordering.h"
+#include "vitamin.h"
+#include "fault.h"
 
 #include <map>
+#include <iterator>
 
 #ifdef TILES
 #include "SDL2/SDL.h"
@@ -75,6 +78,7 @@ const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
+const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_swimming( "swimming" );
 const skill_id skill_throw( "throw" );
 const skill_id skill_unarmed( "unarmed" );
@@ -241,7 +245,7 @@ player::player() : Character()
     empty_traits();
 
     for( auto &skill : Skill::skills ) {
-        skillLevel( skill ).level( 0 );
+        set_skill_level( skill.ident(), 0 );
     }
 
     for( int i = 0; i < num_bp; i++ ) {
@@ -252,6 +256,10 @@ player::player() : Character()
     }
     nv_cached = false;
     volume = 0;
+
+    for( const auto &v : vitamin::all() ) {
+        vitamin_levels[ v.first ] = 0;
+    }
 
     memorial_log.clear();
     player_stats.reset();
@@ -1919,7 +1927,7 @@ std::string player::save_info() const
     return dump.str();
 }
 
-void player::memorial( std::ofstream &memorial_file, std::string epitaph )
+void player::memorial( std::ostream &memorial_file, std::string epitaph )
 {
     //Size of indents in the memorial file
     const std::string indent = "  ";
@@ -2033,12 +2041,12 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     // map <name, sym> to kill count
     for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-        if( g->kill_count( type->id ) > 0 ) {
+        if( g->kill_count( type.id ) > 0 ) {
             kill_counts[std::tuple<std::string,std::string>(
-                type->nname(),
-                type->sym
-            )] += g->kill_count( type->id );
-            total_kills += g->kill_count( type->id );
+                type.nname(),
+                type.sym
+            )] += g->kill_count( type.id );
+            total_kills += g->kill_count( type.id );
         }
     }
 
@@ -2058,7 +2066,7 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
     //Skills
     memorial_file << _( "Skills:" ) << "\n";
     for( auto &skill : Skill::skills ) {
-        SkillLevel next_skill_level = get_skill_level( skill );
+        SkillLevel next_skill_level = get_skill_level( skill.ident() );
         memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
                       << next_skill_level.exercise() << "%)\n";
     }
@@ -2226,7 +2234,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
  * entry lines begin with a pipe (|).
  * @param fin The ifstream to read the memorial entries from.
  */
-void player::load_memorial_file(std::ifstream &fin)
+void player::load_memorial_file(std::istream &fin)
 {
   std::string entry;
   memorial_log.clear();
@@ -2655,13 +2663,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
 
     auto skillslist = Skill::get_skills_sorted_by([&](Skill const& a, Skill const& b) {
-        int const level_a = get_skill_level(a).exercised_level();
-        int const level_b = get_skill_level(b).exercised_level();
+        int const level_a = get_skill_level( a.ident() ).exercised_level();
+        int const level_b = get_skill_level( b.ident() ).exercised_level();
         return level_a > level_b || (level_a == level_b && a.name() < b.name());
     });
 
     for( auto &elem : skillslist ) {
-        SkillLevel level = get_skill_level( elem );
+        SkillLevel level = get_skill_level( elem->ident() );
 
         // Default to not training and not rusting
         nc_color text_color = c_blue;
@@ -3181,7 +3189,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
             for (unsigned i = min; i < max; i++) {
                 const Skill* aSkill = skillslist[i];
-                SkillLevel level = get_skill_level(aSkill);
+                SkillLevel level = get_skill_level(aSkill->ident());
 
                 const bool can_train = level.can_train();
                 const bool training = level.isTraining();
@@ -3236,7 +3244,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 mvwprintz(w_skills, 0, 13 - utf8_width(title_SKILLS)/2, c_ltgray, title_SKILLS);
                 for (size_t i = 0; i < skillslist.size() && i < size_t(skill_win_size_y); i++) {
                     const Skill* thisSkill = skillslist[i];
-                    SkillLevel level = get_skill_level(thisSkill);
+                    SkillLevel level = get_skill_level(thisSkill->ident());
                     bool can_train = level.can_train();
                     bool isLearning = level.isTraining();
                     bool rusting = level.isRusting();
@@ -3257,7 +3265,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 line = 0;
                 curtab++;
             } else if (action == "CONFIRM") {
-                skillLevel(selectedSkill).toggleTraining();
+                get_skill_level(selectedSkill->ident()).toggleTraining();
             } else if (action == "QUIT") {
                 done = true;
             }
@@ -5205,6 +5213,23 @@ void player::update_body( int from, int to )
         mend( thirty_mins );
     }
 
+    for( const auto& v : vitamin::all() ) {
+        int rate = vitamin_rate( v.first );
+        if( rate > 0 ) {
+            int qty = ticks_between( from, to, MINUTES( rate ) );
+            if( qty > 0 ) {
+                vitamin_mod( v.first, 0 - qty );
+            }
+
+        } else if ( rate < 0 ) {
+            // mutations can result in vitamins being generated (but never accumulated)
+            int qty = ticks_between( from, to, MINUTES( std::abs( rate ) ) );
+            if( qty > 0 ) {
+                vitamin_mod( v.first, qty );
+            }
+        }
+    }
+
     if( ticks_between( from, to, HOURS(6) ) ) {
         // Radiation kills health even at low doses
         update_health( has_trait( "RADIOGENIC" ) ? 0 : -radiation );
@@ -5236,7 +5261,6 @@ void player::get_sick()
     const int checks_per_year = 2 * 24 * 365;
 
     // Health is in the range [-200,200].
-    // A character who takes vitamins every 6 hours will have ~50 health.
     // Diseases are half as common for every 50 health you gain.
     float health_factor = std::pow(2.0f, get_healthy() / 50.0f);
 
@@ -5262,9 +5286,7 @@ void player::get_sick()
 void player::update_health(int external_modifiers)
 {
     if( has_artifact_with( AEP_SICK ) ) {
-        // Carrying a sickness artifact makes your health 50 points worse on
-        // average.  This is the negative equivalent of eating vitamins every
-        // 6 hours.
+        // Carrying a sickness artifact makes your health 50 points worse on average
         external_modifiers -= 50;
     }
     Character::update_health( external_modifiers );
@@ -5913,7 +5935,7 @@ void player::print_health() const
             message = _("You feel cruddy. Maybe you should consider eating a bit healthier.");
             break;
         case 1:
-            message = _("You get up with a bit of a scratch in your throat. Might be time for some vitamins.");
+            message = _("You get up with a bit of a scratch in your throat.");
             break;
         case 2:
             message = _("You stretch, but your muscles don't seem to be doing so good today.");
@@ -7445,7 +7467,7 @@ void player::hardcoded_effects(effect &it)
 
         bool woke_up = false;
         int tirednessVal = rng(5, 200) + rng(0, abs(get_fatigue() * 2 * 5));
-        if (!is_blind() && !has_active_bionic("bio_blindfold")) {
+        if( !is_blind() ) {
             if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
                 // So you can too sleep through noon
                 if ((tirednessVal * 1.25) < g->m.ambient_light_at(pos()) && (get_fatigue() < 10 || one_in(get_fatigue() / 2))) {
@@ -8170,7 +8192,6 @@ void player::suffer()
 
     if( !radiogenic && radiation > 0 ) {
         // Even if you heal the radiation itself, the damage is done.
-        // Until you heal it with vitamins...
         const int hmod = get_healthy_mod();
         if( hmod > 200 - radiation ) {
             set_healthy_mod( std::max( -200, 200 - radiation ) );
@@ -9105,30 +9126,6 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
     return res;
 }
 
-int player::max_quality( const std::string &quality_id ) const
-{
-    int result = INT_MIN;
-    if( has_bionic( "bio_tools" ) ) {
-        item tmp( "toolset", 0 );
-        result = std::max( result, tmp.get_quality( quality_id ) );
-    }
-    if( quality_id == "BUTCHER" ) {
-        if( has_bionic( "bio_razor" ) || has_trait( "CLAWS_ST" ) ){
-            result = std::max( result, 8 );
-        } else if( has_trait( "TALONS" ) || has_trait( "MANDIBLES" ) || has_trait( "CLAWS" ) ||
-                   has_trait( "CLAWS_RETRACT" ) || has_trait( "CLAWS_RAT" ) ) {
-            result = std::max( result, 4 );
-        }
-    }
-
-    result = std::max( result, inv.max_quality( quality_id ) );
-    result = std::max( result, weapon.get_quality( quality_id ) );
-    for( const auto &elem : worn ) {
-        result = std::max( result, elem.get_quality( quality_id ) );
-    }
-    return result;
-}
-
 item* player::pick_usb()
 {
     std::vector<std::pair<item*, int> > drives = inv.all_items_by_type("usb_drive");
@@ -9481,7 +9478,7 @@ bool player::can_wear( const item& it, bool alert ) const
 
     if( ( ( it.covers( bp_foot_l ) && is_wearing_shoes( "left" ) ) ||
           ( it.covers( bp_foot_r ) && is_wearing_shoes( "right") ) ) &&
-          ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) && 
+          ( !it.has_flag( "OVERSIZE" ) || !it.has_flag( "OUTER" ) ) &&
           !it.has_flag( "SKINTIGHT" ) && !it.has_flag( "BELTED" ) ) {
         // Checks to see if the player is wearing shoes
         if( alert ) {
@@ -9501,6 +9498,13 @@ bool player::can_wear( const item& it, bool alert ) const
     if( has_trait( "WOOLALLERGY" ) && ( it.made_of( material_id( "wool" ) ) || it.item_tags.count( "wooled" ) ) ) {
         if( alert ) {
             add_msg_if_player( m_info, _( "You can't wear that, it's made of wool!" ) );
+        }
+        return false;
+    }
+    
+    if( it.is_disgusting_for( g->u ) ) {
+        if( alert ) {
+            add_msg_if_player( m_info, _( "You can't wear that, it's filthy!" ) );
         }
         return false;
     }
@@ -9922,6 +9926,88 @@ bool player::dispose_item( item& obj, const std::string& prompt )
     return false;
 }
 
+void player::mend_item( item_location&& obj, bool interactive )
+{
+    std::vector<std::pair<const fault *, bool>> faults;
+    std::transform( obj->faults.begin(), obj->faults.end(), std::back_inserter( faults ), []( const fault_id& e ) {
+        return std::make_pair<const fault *, bool>( &e.obj(), false );
+    } );
+
+    if( faults.empty() ) {
+        if( interactive ) {
+            add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname().c_str() );
+        }
+        return;
+    }
+
+    auto inv = crafting_inventory();
+
+    for( auto& f : faults ) {
+        f.second = f.first->requirements().can_make_with_inventory( inv );
+    }
+
+    int sel = 0;
+    if( interactive ) {
+        uimenu menu;
+        menu.text = _( "Mend which fault?" );
+        menu.return_invalid = true;
+        menu.desc_enabled = true;
+        menu.desc_lines = 12;
+
+        int w = 80;
+
+        for( auto& f : faults ) {
+            auto reqs = f.first->requirements();
+            auto tools = reqs.get_folded_tools_list( w, c_white, inv );
+            auto comps = reqs.get_folded_components_list( w, c_white, inv );
+
+            std::ostringstream descr;
+            descr << _( "<color_white>Skills:</color>\n" );
+            for( const auto& e : f.first->skills() ) {
+                bool hasSkill = get_skill_level( skill_mechanics ) >= e.second;
+                f.second -= !hasSkill;
+                descr << string_format( "> <color_%1$s>%2$s %3$i</color>\n", hasSkill ? "c_green" : "c_red",
+                                        _( e.first.obj().name().c_str() ), e.second );
+            }
+
+            std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
+            std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( descr, "\n" ) );
+
+            auto name = f.first->name();
+            name += std::string( std::max( w - utf8_width( name, true ), 0 ), ' ' );
+
+            menu.addentry_desc( -1, true, -1, name, descr.str() );
+        }
+        menu.query();
+        if( menu.ret < 0 ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        sel = menu.ret;
+    }
+
+    // @todo convert this in to a long activity
+    if( sel >= 0 ) {
+        if( !faults[ sel ].second ) {
+            if( interactive ) {
+                add_msg( m_info, _( "You are currently unable to mend the %s." ), obj->tname().c_str() );
+            }
+            return;
+        }
+
+        const auto& reqs = faults[ sel ].first->requirements();
+        for( const auto& e : reqs.get_components() ) {
+            consume_items( e );
+        }
+        for( const auto& e : reqs.get_tools() ) {
+            consume_tools( e );
+        }
+        invalidate_crafting_inventory();
+
+        obj->faults.erase( faults[ sel ].first->id() );
+    }
+}
+
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
     int mv = std::max( 1, it.volume() * factor );
 
@@ -10285,6 +10371,15 @@ hint_rating player::rate_action_unload( const item &it ) const
     }
 
     return HINT_CANT;
+}
+
+hint_rating player::rate_action_mend( const item &it ) const
+{
+    // @todo check also if item damage could be repaired via a tool
+    if( !it.faults.empty() ) {
+        return HINT_GOOD;
+    }
+    return !it.type->engine || it.type->engine->faults.empty() ? HINT_CANT : HINT_IFFY;
 }
 
 hint_rating player::rate_action_disassemble( const item &it )
@@ -11038,7 +11133,7 @@ void player::do_read( item *book )
 
     if( skill && get_skill_level( skill ) < reading->level &&
         get_skill_level( skill ).can_train() ) {
-        auto &skill_level = skillLevel( skill );
+        auto &skill_level = get_skill_level( skill );
         int originalSkillLevel = skill_level;
         ///\EFFECT_INT increases reading speed
         int min_ex = reading->time / 10 + int_cur / 4;
@@ -11492,7 +11587,7 @@ float player::fine_detail_vision_mod() const
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if( is_blind() || has_active_bionic("bio_blindfold") ||
+    if( is_blind() ||
          ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
         return 11.0;
     }
@@ -12219,9 +12314,10 @@ int player::adjust_for_focus(int amount) const
     return ret;
 }
 
-void player::practice( const Skill* s, int amount, int cap )
+void player::practice( const skill_id &id, int amount, int cap )
 {
-    SkillLevel& level = skillLevel(s);
+    SkillLevel &level = get_skill_level( id );
+    const Skill &skill = id.obj();
     // Double amount, but only if level.exercise isn't a small negative number?
     if (level.exercise() < 0) {
         if (amount >= -level.exercise()) {
@@ -12239,65 +12335,65 @@ void player::practice( const Skill* s, int amount, int cap )
 
     bool isSavant = has_trait("SAVANT");
 
-    const Skill* savantSkill = NULL;
+    skill_id savantSkill( NULL_ID );
     SkillLevel savantSkillLevel = SkillLevel();
 
     if (isSavant) {
         for( auto const &skill : Skill::skills ) {
-            if( skillLevel( skill ) > savantSkillLevel ) {
-                savantSkill = &skill;
-                savantSkillLevel = skillLevel( skill );
+            if( get_skill_level( skill.ident() ) > savantSkillLevel ) {
+                savantSkill = skill.ident();
+                savantSkillLevel = get_skill_level( skill.ident() );
             }
         }
     }
 
     amount = adjust_for_focus(amount);
 
-    if (has_trait("PACIFIST") && s->is_combat_skill()) {
+    if (has_trait("PACIFIST") && skill.is_combat_skill()) {
         if(!one_in(3)) {
           amount = 0;
         }
     }
-    if (has_trait("PRED2") && s->is_combat_skill()) {
+    if (has_trait("PRED2") && skill.is_combat_skill()) {
         if(one_in(3)) {
           amount *= 2;
         }
     }
-    if (has_trait("PRED3") && s->is_combat_skill()) {
+    if (has_trait("PRED3") && skill.is_combat_skill()) {
         amount *= 2;
     }
 
-    if (has_trait("PRED4") && s->is_combat_skill()) {
+    if (has_trait("PRED4") && skill.is_combat_skill()) {
         amount *= 3;
     }
 
-    if (isSavant && s != savantSkill) {
+    if (isSavant && id != savantSkill ) {
         amount /= 2;
     }
 
 
 
-    if (get_skill_level(s) > cap) { //blunt grinding cap implementation for crafting
+    if (get_skill_level( id ) > cap) { //blunt grinding cap implementation for crafting
         amount = 0;
-        int curLevel = get_skill_level(s);
+        int curLevel = get_skill_level( id );
         if(is_player() && one_in(5)) {//remind the player intermittently that no skill gain takes place
             add_msg(m_info, _("This task is too simple to train your %s beyond %d."),
-                    s->name().c_str(), curLevel);
+                    skill.name().c_str(), curLevel);
         }
     }
 
     if (amount > 0 && level.isTraining()) {
-        int oldLevel = get_skill_level(s);
-        skillLevel(s).train(amount);
-        int newLevel = get_skill_level(s);
+        int oldLevel = get_skill_level( id );
+        get_skill_level( id ).train(amount);
+        int newLevel = get_skill_level( id );
         if (is_player() && newLevel > oldLevel) {
-            add_msg(m_good, _("Your skill in %s has increased to %d!"), s->name().c_str(), newLevel);
+            add_msg(m_good, _("Your skill in %s has increased to %d!"), skill.name().c_str(), newLevel);
             lua_callback("on_skill_increased");
         }
         if(is_player() && newLevel > cap) {
             //inform player immediately that the current recipe can't be used to train further
             add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
-                    s->name().c_str());
+                    skill.name().c_str());
         }
 
 
@@ -12306,17 +12402,12 @@ void player::practice( const Skill* s, int amount, int cap )
         // Apex Predators don't think about much other than killing.
         // They don't lose Focus when practicing combat skills.
         if ((rng(1, 100) <= (chance_to_drop % 100)) && (!(has_trait("PRED4") &&
-                                                          s->is_combat_skill()))) {
+                                                          skill.is_combat_skill()))) {
             focus_pool--;
         }
     }
 
-    skillLevel(s).practice();
-}
-
-void player::practice( const skill_id &s, int amount, int cap )
-{
-    practice( &s.obj(), amount, cap );
+    get_skill_level( id ).practice();
 }
 
 int player::exceeds_recipe_requirements( const recipe &rec ) const
@@ -12459,6 +12550,16 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
     } );
 }
 
+bool player::has_magazine_for_ammo( const ammotype &at ) const
+{
+    return has_item_with( [&at]( const item & it ) {
+        return ( it.is_magazine() && it.ammo_type() == at ) ||
+               ( it.is_gun() && it.magazine_integral() && it.ammo_type() == at ) ||
+               ( it.is_gun() && it.magazine_current() != nullptr &&
+                 it.magazine_current()->ammo_type() == at );
+    } );
+}
+
 std::string player::weapname() const
 {
     if( weapon.is_gun() ) {
@@ -12580,31 +12681,6 @@ nc_color encumb_color(int level)
  if (level < 70)
   return c_ltred;
  return c_red;
-}
-
-void player::set_skill_level(const Skill* _skill, int level)
-{
-    skillLevel(_skill).level(level);
-}
-
-void player::set_skill_level(Skill const &_skill, int level)
-{
-    set_skill_level(&_skill, level);
-}
-
-void player::set_skill_level(const skill_id &ident, int level)
-{
-    skillLevel(ident).level(level);
-}
-
-void player::boost_skill_level(const Skill* _skill, int level)
-{
-    skillLevel(_skill).level(level+skillLevel(_skill));
-}
-
-void player::boost_skill_level(const skill_id &ident, int level)
-{
-    skillLevel(ident).level(level+skillLevel(ident));
 }
 
 int player::get_melee() const

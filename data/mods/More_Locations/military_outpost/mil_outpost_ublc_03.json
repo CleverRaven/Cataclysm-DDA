@@ -120,7 +120,7 @@
                     "item": { "item": "2x4" },
                     "fields": { "field": "fd_fire" }
                 }
-            },  
+            },
             "place_fields": [
                 { "x": [ 2, 12 ], "y": [ 17, 22 ], "field": "fd_blood", "age": 2, "density": 2, "repeat": 20 }
             ]

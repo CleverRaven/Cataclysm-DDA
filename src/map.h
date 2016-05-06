@@ -44,6 +44,7 @@ struct regional_settings;
 struct mongroup;
 struct ter_t;
 using ter_id = int_id<ter_t>;
+using ter_str_id = string_id<ter_t>;
 struct furn_t;
 using furn_id = int_id<furn_t>;
 struct mtype;
@@ -520,7 +521,7 @@ public:
 
 // Furniture: 2D overloads
     void set(const int x, const int y, const ter_id new_terrain, const furn_id new_furniture);
-    void set(const int x, const int y, const std::string new_terrain, const std::string new_furniture);
+    void set(const int x, const int y, const ter_str_id &new_terrain, const std::string &new_furniture);
 
     std::string name(const int x, const int y);
     bool has_furn(const int x, const int y) const;
@@ -535,7 +536,7 @@ public:
     std::string furnname(const int x, const int y);
 // Furniture: 3D
     void set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture );
-    void set( const tripoint &p, const std::string new_terrain, const std::string new_furniture );
+    void set( const tripoint &p, const ter_str_id &new_terrain, const std::string &new_furniture );
 
     std::string name( const tripoint &p );
     std::string disp_name( const tripoint &p );
@@ -552,26 +553,26 @@ public:
     bool can_move_furniture( const tripoint &pos, player * p = nullptr );
 // Terrain: 2D overloads
     ter_id ter(const int x, const int y) const; // Terrain integer id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
-    std::string get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
+    ter_str_id get_ter(const int x, const int y) const; // Terrain string id at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
     std::string get_ter_harvestable(const int x, const int y) const; // harvestable of the terrain
     ter_id get_ter_transforms_into(const int x, const int y) const; // get the terrain id to transform to
     int get_ter_harvest_season(const int x, const int y) const; // get season to harvest the terrain
     const ter_t & ter_at(const int x, const int y) const; // Terrain at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
 
     void ter_set(const int x, const int y, const ter_id new_terrain);
-    void ter_set(const int x, const int y, const std::string new_terrain);
+    void ter_set(const int x, const int y, const ter_str_id &new_terrain);
 
     std::string tername(const int x, const int y) const; // Name of terrain at (x, y)
 // Terrain: 3D
     ter_id ter( const tripoint &p ) const;
-    std::string get_ter( const tripoint &p ) const;
+    ter_str_id get_ter( const tripoint &p ) const;
     std::string get_ter_harvestable( const tripoint &p ) const;
     ter_id get_ter_transforms_into( const tripoint &p ) const;
     int get_ter_harvest_season( const tripoint &p ) const;
     const ter_t & ter_at( const tripoint &p ) const;
 
     void ter_set( const tripoint &p, const ter_id new_terrain);
-    void ter_set( const tripoint &p, const std::string new_terrain);
+    void ter_set( const tripoint &p, const ter_str_id &new_terrain);
 
     std::string tername( const tripoint &p ) const;
 
@@ -680,27 +681,27 @@ public:
 // mapgen
 
 void draw_line_ter(const ter_id type, int x1, int y1, int x2, int y2);
-void draw_line_ter(const std::string type, int x1, int y1, int x2, int y2);
+void draw_line_ter(const ter_str_id &type, int x1, int y1, int x2, int y2);
 void draw_line_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_line_furn(const std::string type, int x1, int y1, int x2, int y2);
 void draw_fill_background(ter_id type);
-void draw_fill_background(std::string type);
+void draw_fill_background(const ter_str_id &type);
 void draw_fill_background(ter_id (*f)());
 void draw_fill_background(const id_or_id<ter_t> & f);
 
 void draw_square_ter(ter_id type, int x1, int y1, int x2, int y2);
-void draw_square_ter(std::string type, int x1, int y1, int x2, int y2);
+void draw_square_ter(const ter_str_id &type, int x1, int y1, int x2, int y2);
 void draw_square_furn(furn_id type, int x1, int y1, int x2, int y2);
 void draw_square_furn(std::string type, int x1, int y1, int x2, int y2);
 void draw_square_ter(ter_id (*f)(), int x1, int y1, int x2, int y2);
 void draw_square_ter(const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2);
 void draw_rough_circle_ter(ter_id type, int x, int y, int rad);
-void draw_rough_circle_ter(std::string type, int x, int y, int rad);
+void draw_rough_circle_ter(const ter_str_id &type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
 void draw_rough_circle_furn(std::string type, int x, int y, int rad);
 void draw_circle_ter(ter_id type, double x, double y, double rad);
 void draw_circle_ter(ter_id type, int x, int y, int rad);
-void draw_circle_ter(std::string type, int x, int y, int rad);
+void draw_circle_ter(const ter_str_id &type, int x, int y, int rad);
 void draw_circle_furn(furn_id type, int x, int y, int rad);
 void draw_circle_furn(std::string type, int x, int y, int rad);
 
@@ -1195,6 +1196,12 @@ protected:
          * called the last time.
          */
         void restock_fruits( const tripoint &p, int time_since_last_actualize );
+        /**
+         * Produce sap on tapped maple trees
+         * @param time_since_last_actualize Time (in turns) since this function has been
+         * called the last time.
+         */
+        void produce_sap( const tripoint &p, int time_since_last_actualize );
         /**
          * Radiation-related plant (and fungus?) death.
          */

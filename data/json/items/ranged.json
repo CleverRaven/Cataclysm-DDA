@@ -90,7 +90,7 @@
     "description": "A leather sling, easy to use and accurate.  It uses pebbles as ammunition.",
     "price": 150, "//": "It's little more than a piece of slightly shaped leather",
     "material": "leather",
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
+    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP"],
     "skill": "throw",
     "ammo": "pebble",
     "weight": 96,
@@ -117,7 +117,7 @@
     "description": "A wooden slingshot, easy to use and accurate.  It uses pebbles as ammunition.",
     "price": 500,
     "material": "wood",
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
+    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP"],
     "skill": "archery",
     "ammo": "pebble",
     "weight": 254,
@@ -144,7 +144,7 @@
     "description": "A modern slingshot with a wrist brace, it is easy to use, accurate, and quite powerful.",
     "price": 3000,
     "material": ["steel", "plastic"],
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
+    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "BELT_CLIP"],
     "skill": "archery",
     "ammo": "pebble",
     "weight": 322,
@@ -178,7 +178,6 @@
       "volume" : 5,
       "bashing" : 9,
       "cutting" : 0,
-      "to_hit" : 0,
       "ranged_damage" : 10,
       "range" : 10,
       "dispersion" : 55,
@@ -191,31 +190,6 @@
       "loudness" : 3,
       "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
-  {
-    "id": "blowgun",
-    "type": "GUN",
-    "symbol": "|",
-    "color": "yellow",
-    "name": "blowgun",
-    "description": "A wooden blowgun, easy to use and very accurate.  It uses darts as ammunition.",
-    "price": 3000,
-    "material": "wood",
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
-    "skill": "archery",
-    "ammo": "dart",
-    "weight": 440,
-    "volume": 4,
-    "bashing": 8,
-    "cutting": 0,
-    "to_hit": -2,
-    "dispersion": 75,
-    "sight_dispersion": 150,
-    "aim_speed" : 0,
-    "recoil": 0,
-    "durability": 7,
-    "clip_size": 1,
-    "reload": 100
-  },
   {
     "id": "ksg",
     "type": "GUN",
@@ -908,8 +882,6 @@
     "loudness" : 40,
     "valid_mod_locations": [[ "accessories", 4],[ "grip", 1 ],[ "stock", 1 ]]
   },
-
-
   {
     "id": "flamethrower_crude",
     "type": "GUN",
@@ -1022,7 +994,6 @@
     "reload": 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
-
   {
     "id": "rebar_rifle",
     "type": "GUN",
@@ -1516,7 +1487,7 @@
     "color": "brown",
     "name": "combination gun",
     "description": "A break action firearm comprised of a .30-06 barrel over a 12 gauge smooth bore.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
-    "price": 259500, 
+    "price": 259500,
     "material": ["steel", "wood"],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
     "skill": "rifle",
@@ -1538,7 +1509,6 @@
     "built_in_mods" : ["combination_gun_shotgun"],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ], [ "underbarrel", 1 ]]
   },
-
   {
     "id": "surv_rocket_launcher",
     "type": "GUN",
@@ -1614,7 +1584,6 @@
     "volume": 0,
     "bashing": 0,
     "cutting": 0,
-    "to_hit": 0,
     "ranged_damage": 0,
     "range": 0,
     "dispersion": 0,
@@ -1635,7 +1604,7 @@
   "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
   "price": 750000,
   "material": ["hardsteel", "wood"],
-  "flags": ["MODE_BURST", "RELOAD_EJECT"], 
+  "flags": ["MODE_BURST", "RELOAD_EJECT"],
   "skill": "shotgun",
   "ammo": "shot",
   "weight": 22000,
@@ -1671,7 +1640,6 @@
     "volume": 1,
     "bashing": 1,
     "cutting": 0,
-    "to_hit": 0,
     "ranged_damage": 0,
     "dispersion": 255,
     "sight_dispersion": 90,

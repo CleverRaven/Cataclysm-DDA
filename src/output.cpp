@@ -522,12 +522,15 @@ void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, c
     wattroff(w, FG);
 }
 
-void draw_border(WINDOW *w, nc_color FG)
+void draw_border( WINDOW *w, nc_color border_color, std::string title, nc_color title_color )
 {
-    wattron(w, FG);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wattroff(w, FG);
+    wattron( w, border_color );
+    wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wattroff( w, border_color );
+    if( !title.empty() ) {
+        center_print( w, 0, title_color, title.c_str() );
+    }
 }
 
 void draw_tabs(WINDOW *w, int active_tab, ...)
@@ -1956,7 +1959,7 @@ std::pair<std::string, nc_color> const& get_light_level(const float light)
     using pair_t = std::pair<std::string, nc_color>;
     static std::array<pair_t, 6> const strings {{
         pair_t {_("unknown"), c_pink},
-        pair_t {_("brightly"), c_yellow},
+        pair_t {_("bright"), c_yellow},
         pair_t {_("cloudy"), c_white},
         pair_t {_("shady"), c_ltgray},
         pair_t {_("dark"), c_dkgray},

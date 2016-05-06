@@ -1,5 +1,5 @@
 [
-  { 
+  {
     "id" : "20x66_10_mag",
     "type" : "MAGAZINE",
     "name" : "RMSA10 magazine",
@@ -16,7 +16,7 @@
     "reload_time" : 60,
     "flags" : [ "MAG_COMPACT" ]
   },
-  {  
+  {
     "id" : "20x66_20_mag",
     "type" : "MAGAZINE",
     "name" : "RMSB20 magazine",
@@ -33,7 +33,7 @@
     "reload_time" : 60,
     "flags" : [ "MAG_COMPACT" ]
   },
-  { 
+  {
     "id" : "20x66_40_mag",
     "type" : "MAGAZINE",
     "name" : "RMSB40 magazine",

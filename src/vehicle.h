@@ -124,18 +124,33 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     enum : int { passenger_flag = 1 };
 
-    vehicle_part( int dx = 0, int dy = 0 );
-    vehicle_part( const vpart_str_id &sid, int dx = 0, int dy = 0, const item *it = nullptr );
+    vehicle_part(); /** DefaultConstructible */
+
+    vehicle_part( const vpart_str_id& str, int dx, int dy, item&& it );
 
     bool has_flag(int const flag) const noexcept { return flag & flags; }
     int  set_flag(int const flag)       noexcept { return flags |= flag; }
     int  remove_flag(int const flag)    noexcept { return flags &= ~flag; }
 
-private:
-    vpart_id id;         // id in map of parts (vehicle_part_types key)
+    /** Translated name of a part inclusive of any current status effects */
+    std::string name() const;
+
+    /** Current faults affecting this part (if any) */
+    const std::set<fault_id>& faults() const;
+
+    /** Faults which could potentially occur with this part (if any) */
+    std::set<fault_id> faults_potential() const;
+
+    /** Try to set fault returning false if specified fault cannot occur with this item */
+    bool fault_set( const fault_id &f );
+
 public:
-    point mount;                  // mount point: x is on the forward/backward axis, y is on the left/right axis
-    std::array<point, 2> precalc; // mount translated to face.dir [0] and turn_dir [1]
+    /** mount point: x is on the forward/backward axis, y is on the left/right axis */
+    point mount;
+
+    /** mount translated to face.dir [0] and turn_dir [1] */
+    std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
+
     int hp           = 0;         // current durability, if 0, then broken
     int blood        = 0;         // how much blood covers part (in turns).
     int bigness      = 0;         // size of engine, wheel radius, translates to item properties.
@@ -146,21 +161,22 @@ public:
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
-    union {
-        int amount;    // amount of fuel for tank/charge in battery
-        int open;      // door is open
-        int direction; // direction the part is facing
-        int mode;      // turret mode
-    };
+    int amount = 0;               // amount of fuel for tank/charge in battery
+    bool open = false;            // door is open
+    int direction = 0;            // direction the part is facing
+    int mode = 0;                 // turret mode
 
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
     // Both cases use absolute coordinates (relative to world origin)
     std::pair<tripoint, tripoint> target;
+
 private:
+    vpart_id id;         // id in map of parts (vehicle_part_types key)
+    item base;
     std::list<item> items; // inventory
+
 public:
-    void set_id( const vpart_str_id & str );
     const vpart_str_id &get_id() const;
     const vpart_info &info() const;
 
@@ -176,11 +192,6 @@ public:
      * aspect, ...
      */
     item properties_to_item() const;
-    /**
-     * Set members of this vehicle part from properties of the item.
-     * It includes hp, fuel, bigness, ...
-     */
-    void properties_from_item( const item &used_item );
 };
 
 /**
@@ -369,10 +380,10 @@ public:
     void smash();
 
     // load and init vehicle data from stream. This implies valid save data!
-    void load (std::ifstream &stin);
+    void load (std::istream &stin);
 
     // Save vehicle data to stream
-    void save (std::ofstream &stout);
+    void save (std::ostream &stout);
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -417,8 +428,9 @@ public:
     int install_part (int dx, int dy, const vpart_str_id &id, int hp = -1, bool force = false);
     // Install a copy of the given part, skips possibility check
     int install_part (int dx, int dy, const vehicle_part &part);
-    // install an item to vehicle as a vehicle part.
-    int install_part (int dx, int dy, const vpart_str_id &id, const item &item_used);
+
+    /** install item @ref obj to vehicle as a vehicle part */
+    int install_part( int dx, int dy, const vpart_str_id& id, item&& obj );
 
     bool remove_part (int p);
     void part_removal_cleanup ();
@@ -824,8 +836,6 @@ public:
     bool is_part_on(int p) const;
     //returns whether the engine uses specified fuel type
     bool is_engine_type(int e, const itype_id &ft) const;
-    //returns whether there is an active engine at vehicle coordinates
-    bool is_active_engine_at(int x, int y) const;
     //returns whether the alternator is operational
     bool is_alternator_on(int a) const;
     //mark engine as on or off
@@ -858,6 +868,9 @@ public:
     void set_submap_moved(int x, int y);
 
     const std::string disp_name();
+
+    /** Required strength to be able to successfully lift the vehicle unaided by equipment */
+    int lift_strength() const;
 
     // config values
     std::string name;   // vehicle name

@@ -12,7 +12,6 @@
 #define NAILS_USED 10
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
-#define TIRE_CHANGE_STR_MOD 30
 
 struct vpart_info;
 using vpart_id = int_id<vpart_info>;
@@ -91,6 +90,8 @@ class veh_interact
         bool has_wheel;
         inventory crafting_inv;
         input_context main_context;
+
+        int max_lift; // maximum level of available lifting equipment (if any)
 
         int part_at( int dx, int dy );
         void move_cursor( int dx, int dy );

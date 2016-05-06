@@ -11,7 +11,13 @@
         "name": "GROUP_PARK_PLAYGROUND",
         "default": "mon_null",
         "monsters": [
-            { "monster": "mon_zombie_child", "freq": 600, "cost_multiplier": 1, "pack_size": [5,12] }
+            { "monster": "mon_zombie_child", "freq": 200, "cost_multiplier": 1, "pack_size": [5,12] },
+            { "monster" : "mon_zombie_anklebiter", "freq" : 10, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_sproglodyte", "freq" : 10, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_shriekling", "freq" : 20, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_creepy", "freq" : 5, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_snotgobbler", "freq" : 30, "cost_multiplier" : 0 },
+            { "monster" : "mon_zombie_waif", "freq" : 20, "cost_multiplier" : 0 }
         ]
     },{
         "type": "monstergroup",
@@ -179,7 +185,7 @@
                 " | ........[........ |R ",
                 " + ........[........ +  ",
                 " ---------------------  ",
-                "                        " 
+                "                        "
             ],
             "terrain": {
                 ".": "t_pavement_y",
@@ -238,7 +244,7 @@
                 "  ,$$$$$$$$$[$$$$$$$$$, ",
                 "  ,$$$$$$$$$[$$$$$$$$$, ",
                 "   ,,,,,,,,,[,,,,,,,,,  ",
-                "                     HHH" 
+                "                     HHH"
             ],
             "terrain": {
                 ".": "t_pavement_y",
@@ -293,7 +299,7 @@
                 " z fsf     ..  #HH# t z ",
                 " z         ..         z ",
                 "  zzzzzzzz....zzzzzzzz  ",
-                "         ......         " 
+                "         ......         "
             ],
             "terrain": {
                 ".": "t_pavement",
@@ -310,7 +316,6 @@
                 "H": "t_dirt",
                 "T": "t_dirt",
                 "R": "t_dirt"
-                
             },
             "furniture": {
                 "A": "f_statue",
@@ -363,7 +368,7 @@
                 "  zz    H......H    zz ,",
                 ",  zzz  z......z  zzz   ",
                 "     zzz .o..o. zzz ,   ",
-                " , ,   z ...... z       " 
+                " , ,   z ...... z       "
             ],
             "terrain": {
                 ".": "t_pavement",
@@ -374,7 +379,6 @@
                 "f": "t_dirt",
                 "H": "t_dirt",
                 "o": "t_column"
-                
             },
             "furniture": {
                 "H": "f_bench",
@@ -418,7 +422,7 @@
                 " z|          ,HHH,   |z ",
                 " z---------++---------z ",
                 "  zzzzzzzP....zzzzzzzz  ",
-                "     ,   ......         " 
+                "     ,   ......         "
             ],
             "terrain": {
                 ".": "t_pavement",

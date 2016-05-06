@@ -2,10 +2,11 @@
 #define MAPDATA_H
 
 #include "game_constants.h"
-#include "color.h"
+#include "calendar.h"
 #include "enums.h"
 #include "iexamine.h"
 #include "int_id.h"
+#include "trap.h"
 #include "string_id.h"
 #include "weighted_list.h"
 #include "rng.h"
@@ -24,8 +25,12 @@ struct furn_t;
 
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
+
 using ter_id = int_id<ter_t>;
+using ter_str_id = string_id<ter_t>;
+
 using furn_id = int_id<furn_t>;
+using furn_str_id = string_id<furn_t>;
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -48,7 +53,7 @@ struct map_bash_info {
     std::string drop_group; // item group of items that are dropped when the object is bashed
     std::string sound;      // sound made on success ('You hear a "smash!"')
     std::string sound_fail; // sound  made on fail
-    std::string ter_set;    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;   // furniture to set (only used by furniture, not terrain)
     // ids used for the special handling of tents (have to be ids of furniture)
     std::vector<std::string> tent_centers;
@@ -56,7 +61,7 @@ struct map_bash_info {
                       str_min_supported(-1), str_max_supported(-1),
                       explosive(0), sound_vol(-1), sound_fail_vol(-1),
                       collapse_radius(1), destroy_only(false), bash_below(false),
-                      drop_group("EMPTY_GROUP"), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
+                      drop_group("EMPTY_GROUP"), ter_set(NULL_ID) {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 struct map_deconstruct_info {
@@ -66,9 +71,9 @@ struct map_deconstruct_info {
     bool deconstruct_above;
     // items you get when deconstructing.
     std::string drop_group;
-    std::string ter_set;    // terrain to set (REQUIRED for terrain))
+    ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     std::string furn_set;    // furniture to set (only used by furniture, not terrain)
-    map_deconstruct_info() : can_do(false), deconstruct_above(false), drop_group(), ter_set(), furn_set() { }
+    map_deconstruct_info() : can_do(false), deconstruct_above(false), ter_set(NULL_ID) {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
 };
 
@@ -185,10 +190,7 @@ enum ter_connects : int {
 };
 
 struct map_data_common_t {
-    std::string id;    // The terrain's ID. Must be set, must be unique.
     std::string name;  // The plaintext name of the terrain type the user would see (i.e. dirt)
-    std::string open;  // Open action: transform into terrain with matching id
-    std::string close; // Close action: transform into terrain with matching id
 
     map_bash_info        bash;
     map_deconstruct_info deconstruct;
@@ -246,16 +248,33 @@ public:
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
-    ter_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
+    ter_str_id id;    // The terrain's ID. Must be set, must be unique.
+    ter_str_id open;  // Open action: transform into terrain with matching id
+    ter_str_id close; // Close action: transform into terrain with matching id
+
     std::string trap_id_str;     // String storing the id string of the trap.
     std::string harvestable;     // What will be harvested from this terrain?
-    std::string transforms_into; // Transform into what terrain?
-    std::string roof;            // What will be the floor above this terrain?
+    ter_str_id transforms_into; // Transform into what terrain?
+    ter_str_id roof;            // What will be the floor above this terrain
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
 
-    int harvest_season; // When will this terrain get harvested?
-    int bloom_season;   // When does this terrain bloom?
+    season_type harvest_season; // When will this terrain get harvested?
+
+    ter_t() :
+        open( NULL_ID ),
+        close( NULL_ID ),
+        transforms_into( NULL_ID ),
+        roof( NULL_ID ),
+        trap( tr_null ),
+        harvest_season( season_type::AUTUMN ) {};
+
+    static size_t count();
+
+    bool was_loaded = false;
+
+    void load( JsonObject &jo );
+    void check() const;
 };
 
 void set_ter_ids();
@@ -265,11 +284,12 @@ void reset_furn_ter();
 /*
  * The terrain list contains the master list of  information and metadata for a given type of terrain.
  */
-extern std::map<std::string, ter_t> termap;
-ter_id terfind(const std::string & id); // lookup, carp and return null on error
 
 struct furn_t : map_data_common_t {
+    std::string id;
     furn_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
+    std::string open;  // Open action: transform into terrain with matching id
+    std::string close; // Close action: transform into terrain with matching id
     std::string crafting_pseudo_item;
 
     int move_str_req; //The amount of strength required to move through this terrain easily.
@@ -380,7 +400,7 @@ extern ter_id t_null,
     // Tree
     t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested,
     t_tree_cherry, t_tree_cherry_harvested, t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested,
-    t_tree_plum, t_tree_plum_harvested, t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_birch_harvested, t_tree_willow, t_tree_willow_harvested, t_tree_maple, t_tree_deadpine, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree_plum, t_tree_plum_harvested, t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_birch_harvested, t_tree_willow, t_tree_willow_harvested, t_tree_maple, t_tree_maple_tapped, t_tree_deadpine, t_tree_hickory, t_tree_hickory_dead, t_tree_hickory_harvested, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,

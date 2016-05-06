@@ -16,66 +16,44 @@ using gate_id = string_id<gate_data>;
 
 struct gate_data {
 
-    public:
-        gate_data() : moves( 0 ), bash_dmg( 0 ), was_loaded( false ), wall( t_null ), door( t_null ),
-            floor( t_null ) {};
+    gate_data() :
+        moves( 0 ),
+        bash_dmg( 0 ),
+        was_loaded( false ) {};
 
-        gate_id id;
+    gate_id id;
 
-        ter_id get_wall() const {
-            return get_ter( wall_id, wall );
-        }
+    ter_str_id door;
+    ter_str_id floor;
+    std::vector<ter_str_id> walls;
 
-        ter_id get_door() const {
-            return get_ter( door_id, door );
-        }
+    std::string pull_message;
+    std::string open_message;
+    std::string close_message;
+    std::string fail_message;
 
-        ter_id get_floor() const {
-            return get_ter( floor_id, floor );
-        }
+    int moves;
+    int bash_dmg;
+    bool was_loaded;
 
-        std::string pull_message;
-        std::string open_message;
-        std::string close_message;
-        std::string fail_message;
-
-        int moves;
-        int bash_dmg;
-        bool was_loaded;
-
-        void load( JsonObject &jo );
-
-    private:
-        ter_id get_ter( const std::string &ter_name, ter_id &cached_ter ) const {
-            if( cached_ter == t_null ) {
-                cached_ter = terfind( ter_name );
-            }
-            return cached_ter;
-        }
-
-        mutable ter_id wall;
-        mutable ter_id door;
-        mutable ter_id floor;
-
-        std::string wall_id;
-        std::string door_id;
-        std::string floor_id;
+    void load( JsonObject &jo );
+    bool is_suitable_wall( const tripoint &pos ) const;
 };
 
 gate_id get_gate_id( const tripoint &pos )
 {
-    return static_cast<gate_id>( g->m.get_ter( pos ) );
+    return gate_id( g->m.get_ter( pos ).str() );
 }
 
-generic_factory<gate_data> gates_data( "gate type", "handle" );
+generic_factory<gate_data> gates_data( "gate type", "handle", "other_handles" );
 
 }
 
 void gate_data::load( JsonObject &jo )
 {
-    mandatory( jo, was_loaded, "wall", wall_id );
-    mandatory( jo, was_loaded, "door", door_id );
-    mandatory( jo, was_loaded, "floor", floor_id );
+    mandatory( jo, was_loaded, "door", door );
+    mandatory( jo, was_loaded, "floor", floor );
+    mandatory( jo, was_loaded, "walls", walls, string_id_reader<ter_t> {} );
 
     if( !was_loaded || jo.has_member( "messages" ) ) {
         JsonObject messages_obj = jo.get_object( "messages" );
@@ -88,6 +66,15 @@ void gate_data::load( JsonObject &jo )
 
     optional( jo, was_loaded, "moves", moves, 0 );
     optional( jo, was_loaded, "bashing_damage", bash_dmg, 0 );
+}
+
+bool gate_data::is_suitable_wall( const tripoint &pos ) const
+{
+    const auto wid = g->m.ter( pos );
+    const auto iter = std::find_if( walls.begin(), walls.end(), [ wid ]( const ter_str_id & wall ) {
+        return wall.id() == wid;
+    } );
+    return iter != walls.end();
 }
 
 void gates::load_gates( JsonObject &jo )
@@ -130,7 +117,7 @@ void gates::open_gate( const tripoint &pos )
         static const tripoint dir[4] = { { 1, 0, 0 }, { 0, 1, 0 }, { -1, 0, 0 }, { 0, -1, 0 } };
         const tripoint wall_pos = pos + dir[i];
 
-        if( g->m.ter( wall_pos ) != gate.get_wall() ) {
+        if( !gate.is_suitable_wall( wall_pos ) ) {
             continue;
         }
 
@@ -143,8 +130,8 @@ void gates::open_gate( const tripoint &pos )
 
             if( !open ) { // Closing the gate...
                 tripoint cur_pos = gate_pos;
-                while( g->m.ter( cur_pos ) == gate.get_floor() ) {
-                    fail = !g->forced_door_closing( cur_pos, gate.get_door(), gate.bash_dmg ) || fail;
+                while( g->m.ter( cur_pos ) == gate.floor.id() ) {
+                    fail = !g->forced_door_closing( cur_pos, gate.door.id(), gate.bash_dmg ) || fail;
                     close = !fail;
                     cur_pos += dir[j];
                 }
@@ -155,10 +142,10 @@ void gates::open_gate( const tripoint &pos )
                 while( true ) {
                     const ter_id ter = g->m.ter( cur_pos );
 
-                    if( ter == gate.get_door() ) {
-                        g->m.ter_set( cur_pos, gate.get_floor() );
+                    if( ter == gate.door.id() ) {
+                        g->m.ter_set( cur_pos, gate.floor.id() );
                         open = !fail;
-                    } else if( ter != gate.get_floor() ) {
+                    } else if( ter != gate.floor.id() ) {
                         break;
                     }
                     cur_pos += dir[j];

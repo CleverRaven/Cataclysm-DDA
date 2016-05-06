@@ -47,7 +47,7 @@
     "dispersion" : 0,
     "recoil" : 0
    },
-  { 
+  {
     "type" : "AMMO",
     "id" : "material_cement",
     "category" : "spare_parts",
@@ -523,7 +523,7 @@
     "name_plural" : "nitric acid",
     "symbol" : "=",
     "color" : "white",
-    "description" : "Nitric acid, a strong oxidant and extremely corrosive material.  Mainly used in the production of synthetic fertilisers, for etching of circuit boards and in woodworking.  Remains quite useful both for making a vast array of pyrotechnic and explosive agents and as a direct weapon: not many beings enjoy being doused in nitric acid.",
+    "description" : "Nitric acid, a strong oxidant and extremely corrosive material.  Mainly used in the production of synthetic fertilizers, for etching of circuit boards and in woodworking.  Remains quite useful both for making a vast array of pyrotechnic and explosive agents and as a direct weapon: not many beings enjoy being doused in nitric acid.",
     "volume" : 1,
     "weight" : 375,
     "bashing" : 1,
@@ -546,7 +546,7 @@
     "name_plural" : "chromium oxide",
     "symbol" : "=",
     "color" : "green",
-    "description" : "A handful of chromium oxide pellets.  This substance, typically known as the only stable green pigment for paints, is also a mild oxidiser, which can be mixed with aluminum powder to make thermite for welding.  If one had access to a CVD machine and a laboratory worth of reagents, they might be able to produce very durable ceramic layers.",
+    "description" : "A handful of chromium oxide pellets.  This substance, typically known as the only stable green pigment for paints, is also a mild oxidizer, which can be mixed with aluminum powder to make thermite for welding.  If one had access to a CVD machine and a laboratory worth of reagents, they might be able to produce very durable ceramic layers.",
     "material" : "powder",
     "volume" : 1,
     "weight" : 13.05,
@@ -635,7 +635,7 @@
     "name_plural" : "ammonium nitrate",
     "symbol" : "=",
     "color" : "white",
-    "description" : "A handful of ammonium nitrate.  This white, crystalline powder is commonly used as a component of fertilisers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
+    "description" : "A handful of ammonium nitrate.  This white, crystalline powder is commonly used as a component of fertilizers and explosives.  Could also be dissolved in water to sharply lower its temperature, but is there any use for this quality in this new world?",
     "material" : "powder",
     "volume" : 1,
     "weight" : 8.6,

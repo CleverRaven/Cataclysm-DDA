@@ -1,0 +1,98 @@
+[
+  {
+    "id" : "hflesh_drink",
+    "copy-from": "protein_drink",
+    "type" : "COMESTIBLE",
+    "name" : "soylent green",
+    "name_plural" : "soylent green drinks",
+    "description": "A thin slurry of refined human protein mixed with water.  While quite nutritious, it is not particularly tasty.",
+    "material" : "hflesh"
+  },
+  {
+    "id": "hflesh_powder",
+    "copy-from": "protein_powder",
+    "type": "COMESTIBLE",
+    "name": "soylent green powder",
+    "name_plural": "servings of soylent green powder",
+    "description": "Raw, refined protein made out of people!  While quite nutritious, it is difficult to enjoy in its pure form.",
+    "material": [ "powder", "hflesh" ]
+  },
+  {
+    "id": "hflesh_shake",
+    "copy-from": "protein_shake",
+    "type": "COMESTIBLE",
+    "name": "soylent green shake",
+    "description": "A thick and tasty beverage made from pure refined human protein and nutritious fruit.",
+    "material": [ "fruit", "hflesh" ]
+  },
+  {
+    "id": "hflesh_shake_fortified",
+    "copy-from": "protein_shake_fortified",
+    "type": "COMESTIBLE",
+    "name": "fortified soylent green shake",
+    "description": "A thick and tasty beverage made from pure refined human protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
+    "material": [ "fruit", "hflesh" ]
+  },
+  {
+    "id": "protein_drink",
+    "type": "COMESTIBLE",
+    "comestible_type": "DRINK",
+    "name": "protein drink",
+    "description": "A thin slurry of refined protein mixed with water.  While quite nutritious, it is not particularly tasty.",
+    "weight": 288,
+    "volume": 1,
+    "price": 200,
+    "symbol": "~",
+    "color": "light_gray",
+    "phase": "liquid",
+    "container": "bottle_plastic",
+    "calories": 100,
+    "quench": 40,
+    "healthy": 2,
+    "fun": -1,
+    "vitamins": [],
+    "flags": [ "EATEN_COLD" ]
+  },
+  {
+    "id": "protein_powder",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "protein powder",
+    "name_plural": "servings of protein powder",
+    "description": "Raw, refined protein.  While quite nutritious, it is difficult to enjoy in its pure form.",
+    "weight": 38,
+    "volume": 1,
+    "price": 1100,
+    "charges": 4,
+    "material": "powder",
+    "symbol": "%",
+    "color": "white",
+    "container": "bottle_plastic_small",
+    "calories": 100,
+    "vitamins": []
+  },
+  {
+    "id": "protein_shake",
+    "copy-from": "protein_drink",
+    "type": "COMESTIBLE",
+    "name": "protein shake",
+    "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
+    "material": "fruit",
+    "proportional": {
+        "weight": 1.2,
+        "price": 2.0
+    },
+    "relative": { "calories": 50 },
+    "healthy": 4,
+    "fun": 4,
+    "vitamins": [ [ "vitC", 20 ] ]
+  },
+  {
+    "id": "protein_shake_fortified",
+    "copy-from": "protein_shake",
+    "type": "COMESTIBLE",
+    "name": "fortified protein shake",
+    "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
+    "relative": { "vitamins": [ [ "calcium", 5 ], [ "iron", 5 ], [ "vitA", 5 ], [ "vitB", 5 ], [ "vitC", 5 ] ] }
+  }
+]

@@ -110,12 +110,11 @@
                 { "group": "doctors_books", "chance": 40, "x": 9, "y": 3 },
                 { "group": "doctors_books", "chance": 40, "x": 7, "y": 20 },
                 { "group": "gear_medical", "chance": 60, "x": [4,5], "y": 10, "repeat": [2,5] },
-                { "group": "harddrugs", "chance": 60, "x": [4,5], "y": 12, "repeat": [1,3] },
-                { "group": "harddrugs", "chance": 60, "x": [4,5], "y": 14, "repeat": [1,3] }
+                { "group": "drugs_analgesic", "chance": 75, "x": [4,5], "y": 12 },
+                { "group": "drugs_rare", "chance": 75, "x": [4,5], "y": 14 }
            ],
             "comment": "end of mapgen json definition ---v"
         },
         "comment": "end of mapgen entry ---v"
     }
 ]
-

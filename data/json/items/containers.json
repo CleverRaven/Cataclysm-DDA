@@ -152,6 +152,22 @@
         "contains": 4
     },
     {
+        "id": "bucket",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_gray",
+        "name": "bucket",
+        "name_plural": "buckets",
+        "category": "other",
+        "description": "A galvanized bucket for peanuts, chilled wine, iced beer, lobster, crab legs, french fries, animal feed, farm use, tailgating, crafts, planting flowers, holding gift baskets, containing a fruit basket and herbs, loose item storage or as an ice bucket.",
+        "price": 300,
+        "weight": 725,
+        "volume": 20,
+        "material": "steel",
+        "watertight": true,
+        "contains": 20
+    },
+    {
         "id": "box_cigarette",
         "type": "CONTAINER",
         "symbol": ")",
@@ -314,7 +330,7 @@
         "contains": 6,
         "rigid": false,
         "watertight": true,
-        "seals": true 
+        "seals": true
     },
     {
         "id": "large_stomach_sealed",

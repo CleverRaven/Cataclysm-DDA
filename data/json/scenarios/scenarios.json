@@ -101,6 +101,16 @@
     "professions" : ["unemployed","bionic_patient","patient","broken_cyborg"],
     "flags" : ["CHALLENGE"]
   },{
+    "type" : "scenario",
+    "ident" : "prisonbreak",
+    "name" : "Prison Break",
+    "points" : -4,
+    "description" : "You were a convicted felon planning your escape before the event.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight... you might need to expedite your escape plans.",
+    "allowed_locs" : [ "prison" ],
+    "start_name" : "Prison",
+    "professions" : ["convict"],
+    "forced_traits": [ "PSYCHOPATH" ]
+  },{
     "type": "scenario",
     "ident" : "mutant",
     "name" : "Experiment",
@@ -155,7 +165,7 @@
     "points" : 0,
     "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
     "start_name": "Forest",
-    "professions" : ["unemployed", "survivalist", "trapper", "bionic_prepper", "guru", "backpacker", "naturalist", "bow_hunter", "crossbow_hunter", "lumberjack", "jr_survivalist", "fisher"],
+    "professions" : ["unemployed", "survivalist", "trapper", "bionic_prepper", "guru", "backpacker", "naturalist", "camper", "bow_hunter", "crossbow_hunter", "lumberjack", "jr_survivalist", "fisher"],
     "allowed_locs" : ["forest"]
   },{
     "type": "scenario",

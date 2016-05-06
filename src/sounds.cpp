@@ -350,18 +350,6 @@ void sounds::reset_markers()
     sound_markers.clear();
 }
 
-void sounds::draw_monster_sounds( const tripoint &offset, WINDOW *window )
-{
-    auto sound_clusters = cluster_sounds( recent_sounds );
-    // TODO: Signal sounds on different Z-levels differently (with '^' and 'v'?)
-    for( const auto &sound : recent_sounds ) {
-        mvwputch( window, offset.y + sound.first.y, offset.x + sound.first.x, c_yellow, '?' );
-    }
-    for( const auto &sound : sound_clusters ) {
-        mvwputch( window, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
-    }
-}
-
 std::vector<tripoint> sounds::get_footstep_markers()
 {
     // Optimization, make this static and clear it in reset_markers?
@@ -869,7 +857,7 @@ void sfx::do_footstep() {
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
         int heard_volume = sfx::get_heard_volume( g->u.pos() );
-        const auto terrain = g->m.ter_at( g->u.pos() ).id;
+        const auto terrain = g->m.ter_at( g->u.pos() ).id.str();
         static std::set<ter_type> const grass = {
             ter_type( "t_grass" ),
             ter_type( "t_shrub" ),
@@ -936,7 +924,7 @@ void sfx::do_footstep() {
 
 void sfx::do_obstacle() {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
-    const auto terrain = g->m.ter_at( g->u.pos() ).id;
+    const auto terrain = g->m.ter_at( g->u.pos() ).id.str();
     static std::set<ter_type> const water = {
         ter_type( "t_water_sh" ),
         ter_type( "t_water_dp" ),

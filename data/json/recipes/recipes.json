@@ -34,6 +34,7 @@
       "CSC_FOOD_SNACK",
       "CSC_FOOD_BREAD",
       "CSC_FOOD_PASTA",
+      "CSC_FOOD_BREW",
       "CSC_FOOD_OTHER"
     ]
   },{
@@ -85,6 +86,7 @@
       "CSC_OTHER_MATERIALS",
       "CSC_OTHER_PARTS",
       "CSC_OTHER_TRAPS",
+      "CSC_OTHER_VEHICLE",
       "CSC_OTHER_OTHER"
     ]
   },{

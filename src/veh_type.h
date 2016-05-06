@@ -71,7 +71,6 @@ struct vpart_info {
         using itype_id = std::string;
         vpart_str_id id;         // unique identifier for this part
         vpart_id loadid;             // # of loaded order, non-saved runtime optimization
-        std::string name;       // part name, user-visible
         long sym;               // symbol of part as if it's looking north
         nc_color color;         // color
         char sym_broken;        // symbol of broken part as if it's looking north
@@ -94,7 +93,17 @@ struct vpart_info {
         int difficulty;     // installation difficulty (mechanics requirement)
         std::string location;   //Where in the vehicle this part goes
         std::string breaks_into_group;
+
+        /** Tool qualities this vehicle part can provide when installed */
+        std::map<std::string, int> qualities;
+
+        /** Translated name of a part */
+        std::string name() const;
+
     private:
+        /** Name from vehicle part definition which if set overrides the base item name */
+        mutable std::string name_;
+
         std::set<std::string> flags;    // flags
         std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
     public:

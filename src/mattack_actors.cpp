@@ -389,11 +389,11 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     tmp.attitude = z.friendly ? NPCATT_DEFEND : NPCATT_KILL;
 
     if( fake_skills.empty() ) {
-        tmp.skillLevel( skill_id( "gun" ) ).level( 4 );
-        tmp.skillLevel( gun.gun_skill() ).level( 8 );
+        tmp.set_skill_level( skill_id( "gun" ), 4 );
+        tmp.set_skill_level( gun.gun_skill(), 8 );
     }
     for( const auto &pr : fake_skills ) {
-        tmp.skillLevel( pr.first ).level( pr.second );
+        tmp.set_skill_level( pr.first, pr.second );
     }
 
     tmp.weapon = gun;

@@ -10,11 +10,14 @@
 #include "input.h"
 #include "cursesdef.h"
 #include "catacharset.h"
+#include "cata_utility.h"
 #include "calendar.h"
 #include "name.h"
 #include "json.h"
 
 #include <fstream>
+
+using namespace std::placeholders;
 
 #define SAVE_MASTER "master.gsav"
 #define SAVE_EXTENSION ".sav"
@@ -71,9 +74,9 @@ worldfactory::worldfactory()
     mman_ui.reset( new mod_ui( mman.get() ) );
 
     // prepare tab display order
-    tabs.push_back(&worldfactory::show_worldgen_tab_modselection);
-    tabs.push_back(&worldfactory::show_worldgen_tab_options);
-    tabs.push_back(&worldfactory::show_worldgen_tab_confirm);
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_modselection, this, _1, _2));
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_options, this, _1, _2));
+    tabs.push_back(std::bind(&worldfactory::show_worldgen_tab_confirm, this, _1, _2));
 
     tab_strings.push_back(_("Mods to use"));
     tab_strings.push_back(_("World Gen Options"));
@@ -105,7 +108,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
         while (curtab >= 0 && curtab < numtabs) {
             lasttab = curtab;
             draw_worldgen_tabs(wf_win, curtab);
-            curtab += (world_generator->*tabs[curtab])(wf_win, retworld);
+            curtab += tabs[curtab](wf_win, retworld);
 
             if (curtab < 0) {
                 if (!query_yn(_("Do you want to abort World Generation?"))) {
@@ -257,9 +260,6 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
         return false;
     }
 
-    std::ofstream fout;
-    const auto savefile = world->world_path + "/" + FILENAMES["worldoptions"];
-
     if (!assure_dir_exist(world->world_path)) {
         DebugLog( D_ERROR, DC_ALL ) << "Unable to create or open world[" << world->world_name <<
                                     "] directory for saving";
@@ -267,35 +267,30 @@ bool worldfactory::save_world(WORLDPTR world, bool is_conversion)
     }
 
     if (!is_conversion) {
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
+        const auto savefile = world->world_path + "/" + FILENAMES["worldoptions"];
+        const bool saved = write_to_file( savefile, [&]( std::ostream &fout ) {
+            JsonOut jout( fout );
 
-        fout.open(savefile.c_str());
+            jout.start_array();
 
-        if (!fout.is_open()) {
-            popup( _( "Could not open the world file %s, check file permissions." ), savefile.c_str() );
+            for( auto &elem : world->WORLD_OPTIONS ) {
+                if( elem.second.getDefaultText() != "" ) {
+                    jout.start_object();
+
+                    jout.member( "info", elem.second.getTooltip() );
+                    jout.member( "default", elem.second.getDefaultText( false ) );
+                    jout.member( "name", elem.first );
+                    jout.member( "value", elem.second.getValue() );
+
+                    jout.end_object();
+                }
+            }
+
+            jout.end_array();
+        }, _( "world data" ) );
+        if( !saved ) {
             return false;
         }
-
-        JsonOut jout( fout, true );
-
-        jout.start_array();
-
-        for( auto &elem : world->WORLD_OPTIONS ) {
-            if( elem.second.getDefaultText() != "" ) {
-                jout.start_object();
-
-                jout.member( "info", elem.second.getTooltip() );
-                jout.member( "default", elem.second.getDefaultText( false ) );
-                jout.member( "name", elem.first );
-                jout.member( "value", elem.second.getValue() );
-
-                jout.end_object();
-            }
-        }
-
-        jout.end_array();
-
-        fout.close();
     }
 
     mman->save_mods_list(world);
@@ -437,7 +432,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     WINDOW *w_worlds        = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                      iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
 
-    draw_border(w_worlds_border);
+    draw_border( w_worlds_border, BORDER_COLOR, _( " WORLD SELECTION " ) );
     mvwputch(w_worlds_border, 4, 0, BORDER_COLOR, LINE_XXXO); // |-
     mvwputch(w_worlds_border, 4, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOXX); // -|
 
@@ -446,7 +441,6 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                   LINE_XXOX ); // _|_
     }
 
-    center_print(w_worlds_border, 0, c_ltred, _(" WORLD SELECTION "));
     wrefresh(w_worlds_border);
 
     for (int i = 0; i < 78; i++) {

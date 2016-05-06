@@ -531,7 +531,7 @@ int recipe::batch_time( int batch ) const
     int assistants = 0;
     for( auto &elem : g->active_npc ) {
         if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
-            if( elem->skillLevel( skill_used ) >= difficulty ) {
+            if( elem->get_skill_level( skill_used ) >= difficulty ) {
                 assistants++;
             }
         }
@@ -695,7 +695,7 @@ void player::complete_craft()
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
-    int skill_dice = skillLevel(making->skill_used) * 4;
+    int skill_dice = get_skill_level(making->skill_used) * 4;
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
@@ -744,7 +744,7 @@ void player::complete_craft()
         for( auto &elem : g->active_npc ) {
             if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
                 //If the NPC can understand what you are doing, they gain more exp
-                if (elem->skillLevel(making->skill_used) >= making->difficulty){
+                if (elem->get_skill_level(making->skill_used) >= making->difficulty){
                     elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .50), (int)making->difficulty * 1.25 );
                     if (batch_size > 1)
                         add_msg(m_info, _("%s assists with crafting..."), elem->name.c_str());
@@ -986,9 +986,10 @@ comp_selection<item_comp> player::select_item_component(const std::vector<item_c
             cmenu.addentry( tmpStr );
         }
 
-        // unlike with tools, it's a bad thing if there aren't any components available
-        if ( cmenu.entries.empty() ) {
-            if (!(has_trait("WEB_ROPE"))) {
+        // Unlike with tools, it's a bad thing if there aren't any components available
+        // @todo Make WEB_ROPE not prevent the debugmsg - it shouldn't make this section trigger
+        if( cmenu.entries.empty() ) {
+            if( !has_trait( "WEB_ROPE" ) && !has_trait( "DEBUG_HS" ) ) {
                 debugmsg("Attempted a recipe with no available components!");
             }
             selected.use_from = cancel;
@@ -1600,8 +1601,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
     // add the components to the map
     // Player skills should determine how many components are returned
 
-    int skill_dice = 2 + skillLevel(dis.skill_used) * 3;
-    skill_dice += skillLevel(dis.skill_used);
+    int skill_dice = 2 + get_skill_level(dis.skill_used) * 3;
+    skill_dice += get_skill_level(dis.skill_used);
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items

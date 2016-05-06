@@ -162,18 +162,19 @@
             ["portable_generator", 50]
         ]
     },{
-        "type" : "vehicle_group",
-        "id" : "garage",
-        "vehicles" : [
-            ["car", 200],
-            ["quad_bike", 120],
-            ["motorcycle", 120],
-            ["superbike", 50],
-            ["welding_cart", 120],
-            ["car_chassis", 200],
-            ["quad_bike_chassis", 120],
-            ["motorcycle_chassis", 120],
-            ["portable_generator", 50]
+        "id": "garage",
+        "type": "vehicle_group",
+        "vehicles": [
+            [ "car", 10 ],
+            [ "car_chassis", 20 ],
+            [ "engine_crane", 40 ],
+            [ "motorcycle", 10 ],
+            [ "motorcycle_chassis", 20 ],
+            [ "portable_generator", 20 ],
+            [ "quad_bike", 10 ],
+            [ "quad_bike_chassis", 20 ],
+            [ "superbike", 5 ],
+            [ "welding_cart", 20 ]
         ]
     },{
         "type" : "vehicle_group",
@@ -194,7 +195,20 @@
             ["tractor_plow", 1000],
             ["tractor_seed", 1000],
             ["tractor_reaper", 1000],
-            ["autotractor", 1000]
+            ["autotractor", 1000],
+            ["excavator", 500]
+        ]
+    },
+    {
+        "id": "industrial_vehicles",
+        "type": "vehicle_group",
+        "//": "Industrial and construction vehicles found at public works depot and similar locations",
+        "vehicles": [
+            [ "autosweeper", 20 ],
+            [ "excavator", 120 ],
+            [ "flatbed_truck", 40 ],
+            [ "pickup", 20 ],
+            [ "road_roller", 80 ]
         ]
     }
 ]

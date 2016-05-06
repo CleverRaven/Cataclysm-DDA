@@ -120,13 +120,13 @@ void load_available_constructions( std::vector<std::string> &available,
     }
 }
 
-void draw_grid( WINDOW *w, const int list_width = 30 )
+void draw_grid( WINDOW *w, const int list_width )
 {
     draw_border( w );
-    mvwprintz( w, 0, 8, c_ltred, _( " Construction " ) );
+    mvwprintz( w, 0, 2, c_ltred, _( " Construction " ) );
     // draw internal lines
     mvwvline( w, 1, list_width, LINE_XOXO, getmaxy( w ) - 2 );
-    mvwhline( w, 2, 1, LINE_OXOX, list_width - 1 );
+    mvwhline( w, 2, 1, LINE_OXOX, list_width );
     // draw intersections
     mvwputch( w, 0, list_width, c_ltgray, LINE_OXXX );
     mvwputch( w, getmaxy( w ) - 1, list_width, c_ltgray, LINE_XXOX );
@@ -134,6 +134,36 @@ void draw_grid( WINDOW *w, const int list_width = 30 )
     mvwputch( w, 2, list_width, c_ltgray, LINE_XOXX );
 
     wrefresh( w );
+}
+
+nc_color construction_color( std::string &con_name, bool highlight )
+{
+    nc_color col = c_dkgray;
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        col = c_white;
+    } else if( can_construct( con_name ) ) {
+        construction *con_first = nullptr;
+        std::vector<construction *> cons = constructions_by_desc( con_name );
+        const inventory &total_inv = g->u.crafting_inventory();
+        for( auto &con : cons ) {
+            if( con->requirements.can_make_with_inventory( total_inv ) ) {
+                con_first = con;
+                break;
+            }
+        }
+        if( con_first != nullptr ) {
+            int pskill = g->u.get_skill_level( con_first->skill );
+            int diff = con_first->difficulty;
+            if( pskill < diff ) {
+                col = c_red;
+            } else if( pskill == diff ) {
+                col = c_ltblue;
+            } else {
+                col = c_white;
+            }
+        }
+    }
+    return highlight ? hilite( col ) : col;
 }
 
 void construction_menu()
@@ -149,23 +179,30 @@ void construction_menu()
         return;
     }
 
-    int iMaxY = TERMY;
-    if( ( int )available.size() + 2 < iMaxY ) {
-        iMaxY = available.size() + 2;
+    int w_height = TERMY;
+    if( ( int )available.size() + 2 < w_height ) {
+        w_height = available.size() + 2;
     }
-    if( iMaxY < FULL_SCREEN_HEIGHT ) {
-        iMaxY = FULL_SCREEN_HEIGHT;
+    if( w_height < FULL_SCREEN_HEIGHT ) {
+        w_height = FULL_SCREEN_HEIGHT;
     }
 
-    WINDOW_PTR w_con_ptr {newwin( iMaxY, FULL_SCREEN_WIDTH, ( TERMY > iMaxY ) ? ( TERMY - iMaxY ) / 2 : 0,
-                                  ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 )};
-
+    const int w_width = std::max( FULL_SCREEN_WIDTH, TERMX * 2 / 3);
+    const int w_y0 = ( TERMY > w_height ) ? ( TERMY - w_height ) / 2 : 0;
+    const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
+    WINDOW_PTR w_con_ptr {newwin( w_height, w_width, w_y0, w_x0 )};
     WINDOW *const w_con = w_con_ptr.get();
-    draw_grid( w_con );
+
+    const int w_list_width = int( .375 * w_width );
+    const int w_list_height = w_height - 4;
+    const int w_list_x0 = 1;
+    WINDOW_PTR w_list_ptr {newwin( w_list_height, w_list_width, w_y0 + 3, w_x0 + w_list_x0 )};
+    WINDOW *const w_list = w_list_ptr.get();
+
+    draw_grid( w_con, w_list_width + w_list_x0 );
 
     //tabcount needs to be increased to add more categories
     int tabcount = 9;
-    //Must be 24 or less characters
     std::string construct_cat[] = {_( "All" ), _( "Constructions" ), _( "Furniture" ),
                                    _( "Digging and Mining" ), _( "Repairing" ),
                                    _( "Reinforcing" ), _( "Decorative" ),
@@ -250,84 +287,50 @@ void construction_menu()
                 constructs = cat_available[category_name];
             }
         }
-        // Erase existing tab selection
-        for( int j = 1; j < 30; j++ ) {
-            mvwputch( w_con, 1, j, c_black, ' ' );
-        }
-        //Print new tab listing
+        // Erase existing tab selection & list of constructions
+        mvwhline( w_con, 1, 1, ' ', w_list_width );
+        werase( w_list );
+        // Print new tab listing
         mvwprintz( w_con, 1, 1, c_yellow, "<< %s >>", construct_cat[tabindex].c_str() );
-
-        // Erase existing list of constructions
-        for( int i = 3; i < iMaxY - 1; i++ ) {
-            for( int j = 1; j < 30; j++ ) {
-                mvwputch( w_con, i, j, c_black, ' ' );
-            }
-        }
         // Determine where in the master list to start printing
-        calcStartPos( offset, select, iMaxY - 4, constructs.size() );
+        calcStartPos( offset, select, w_list_height, constructs.size() );
         // Print the constructions between offset and max (or how many will fit)
-        for( size_t i = 0; ( int )i < iMaxY - 4 && ( i + offset ) < constructs.size(); i++ ) {
+        for( size_t i = 0; ( int )i < w_list_height && ( i + offset ) < constructs.size(); i++ ) {
             int current = i + offset;
             std::string con_name = constructs[current];
-            nc_color col = c_dkgray;
-            if( g->u.has_trait( "DEBUG_HS" ) ) {
-                col = c_white;
-            } else if( can_construct( con_name ) ) {
-                construction *con_first = NULL;
-                std::vector<construction *> cons = constructions_by_desc( con_name );
-                for( auto &con : cons ) {
-                    if( con->requirements.can_make_with_inventory( total_inv ) ) {
-                        con_first = con;
-                        break;
-                    }
-                }
-                if( con_first != NULL ) {
-                    int pskill = g->u.skillLevel( con_first->skill );
-                    int diff = con_first->difficulty;
-                    if( pskill < diff ) {
-                        col = c_red;
-                    } else if( pskill == diff ) {
-                        col = c_ltblue;
-                    } else {
-                        col = c_white;
-                    }
-                }
-            }
-            if( current == select ) {
-                col = hilite( col );
-            }
-            // print construction name with limited length.
-            // limit(28) = 30(column len) - 2(letter + ' ').
-            // If we run out of hotkeys, just stop assigning them.
-            mvwprintz( w_con, 3 + i, 1, col, "%c %s",
-                       ( current < ( int )hotkeys.size() ) ? hotkeys[current] : ' ',
-                       utf8_truncate( con_name.c_str(), 27 ).c_str() );
+            bool highlight = ( current == select );
+
+            trim_and_print( w_list, i, 0, w_list_width,
+                            construction_color( con_name, highlight ), "%c %s",
+                            ( current < ( int )hotkeys.size() ) ? hotkeys[current] : ' ',
+                            con_name.c_str() );
         }
 
         if( update_info ) {
             update_info = false;
             // Clear out lines for tools & materials
-            for( int i = 1; i < iMaxY - 1; i++ ) {
-                for( int j = 31; j < 79; j++ ) {
-                    mvwputch( w_con, i, j, c_black, ' ' );
-                }
+            const int pos_x = ( w_list_width + w_list_x0 + 2 );
+            for( int i = 1; i < w_height - 1; i++ ) {
+                mvwhline( w_con, i, pos_x, ' ', w_width - pos_x - 1 );
             }
 
             //leave room for top and bottom UI text
-            int available_buffer_height = iMaxY - 5 - 3;
-            int available_window_width = FULL_SCREEN_WIDTH - 31 - 1;
+            int available_buffer_height = w_height - 5 - 3;
+            int available_window_width = w_width - ( w_list_width + w_list_x0 + 2 ) - 1;
             nc_color color_stage = c_white;
 
             if( !constructs.empty() ) {
                 std::string current_desc = constructs[select];
                 // Print instructions for toggling recipe hiding.
-                mvwprintz( w_con, iMaxY - 3, 31, c_white, _( "Press %s to toggle unavailable constructions." ),
+                mvwprintz( w_con, w_height - 3, ( w_list_width + w_list_x0 + 2 ), c_white,
+                           _( "Press %s to toggle unavailable constructions." ),
                            ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ).c_str() );
-                mvwprintz( w_con, iMaxY - 2, 31, c_white, _( "Press %s to view and edit key-bindings." ),
+                mvwprintz( w_con, w_height - 2, ( w_list_width + w_list_x0 + 2 ), c_white,
+                           _( "Press %s to view and edit key-bindings." ),
                            ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
 
                 // Print construction name
-                mvwprintz( w_con, 1, 31, c_white, "%s", current_desc.c_str() );
+                mvwprintz( w_con, 1, ( w_list_width + w_list_x0 + 2 ), c_white, "%s", current_desc.c_str() );
 
                 //only reconstruct the project list when moving away from the current item, or when changing the display mode
                 if( previous_select != select || previous_tabindex != tabindex ||
@@ -373,7 +376,7 @@ void construction_menu()
                             if( current_con->post_is_furniture ) {
                                 result_string = furnmap[current_con->post_terrain].name;
                             } else {
-                                result_string = termap[current_con->post_terrain].name;
+                                result_string = ter_str_id( current_con->post_terrain ).obj().name;
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Result: %s" ), result_string.c_str() ) << "</color>";
@@ -385,7 +388,7 @@ void construction_menu()
 
                         current_line.str( "" );
                         // display required skill and difficulty
-                        int pskill = g->u.skillLevel( current_con->skill );
+                        int pskill = g->u.get_skill_level( current_con->skill );
                         int diff = ( current_con->difficulty > 0 ) ? current_con->difficulty : 0;
 
                         current_line << "<color_" << string_from_color( ( pskill >= diff ? c_white : c_red ) ) << ">" <<
@@ -401,7 +404,7 @@ void construction_menu()
                             if( current_con->pre_is_furniture ) {
                                 require_string = furnmap[current_con->pre_terrain].name;
                             } else {
-                                require_string = termap[current_con->pre_terrain].name;
+                                require_string = ter_str_id( current_con->pre_terrain ).obj().name;
                             }
                             current_line << "<color_" << string_from_color( color_stage ) << ">" << string_format(
                                              _( "Requires: %s" ), require_string.c_str() ) << "</color>";
@@ -450,12 +453,12 @@ void construction_menu()
                 }
                 if( current_construct_breakpoint > 0 ) {
                     // Print previous stage indicator if breakpoint is past the beginning
-                    mvwprintz( w_con, 2, 31, c_white, _( "^ [P]revious stage(s)" ) );
+                    mvwprintz( w_con, 2, ( w_list_width + w_list_x0 + 2 ), c_white, _( "^ [P]revious stage(s)" ) );
                 }
                 if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] +
                                          available_buffer_height ) < full_construct_buffer.size() ) {
                     // Print next stage indicator if more breakpoints are remaining after screen height
-                    mvwprintz( w_con, iMaxY - 4, 31, c_white, _( "v [N]ext stage(s)" ) );
+                    mvwprintz( w_con, w_height - 4, ( w_list_width + w_list_x0 + 2 ), c_white, _( "v [N]ext stage(s)" ) );
                 }
                 // Leave room for above/below indicators
                 int ypos = 3;
@@ -466,13 +469,14 @@ void construction_menu()
                     if( ypos > available_buffer_height + 3 ) {
                         break;
                     }
-                    print_colored_text( w_con, ypos++, 31, stored_color, color_stage, full_construct_buffer[i] );
+                    print_colored_text( w_con, ypos++, ( w_list_width + w_list_x0 + 2 ), stored_color, color_stage, full_construct_buffer[i] );
                 }
             }
         } // Finished updating
 
-        draw_scrollbar( w_con, select, iMaxY - 4, constructs.size(), 3 );
+        draw_scrollbar( w_con, select, w_list_height, constructs.size(), 3 );
         wrefresh( w_con );
+        wrefresh( w_list );
 
         const std::string action = ctxt.handle_input();
         const long raw_input_char = ctxt.get_raw_input().get_first_input();
@@ -536,7 +540,7 @@ void construction_menu()
             exit = true;
         } else if( action == "HELP_KEYBINDINGS" ) {
             hotkeys = ctxt.get_available_single_char_hotkeys();
-            draw_grid( w_con );
+            draw_grid( w_con, w_list_width + w_list_x0 );
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
             update_info = true;
             update_cat = true;
@@ -561,15 +565,14 @@ void construction_menu()
                 } else {
                     popup( _( "You can't build that!" ) );
                     select = chosen;
-                    for( int i = 1; i < iMaxY - 1; i++ ) {
-                        mvwputch( w_con, i, 30, c_ltgray, LINE_XOXO );
-                    }
+                    draw_grid( w_con, w_list_width + w_list_x0 );
                     update_info = true;
                 }
             }
         }
     } while( !exit );
 
+    w_list_ptr.reset();
     w_con_ptr.reset();
     g->refresh_all();
 }
@@ -592,7 +595,7 @@ bool player_can_build( player &p, const inventory &pinv, construction const *con
         return true;
     }
 
-    if( p.skillLevel( con->skill ) < con->difficulty ) {
+    if( p.get_skill_level( con->skill ) < con->difficulty ) {
         return false;
     }
     return con->requirements.can_make_with_inventory( pinv );
@@ -620,7 +623,7 @@ bool can_construct( construction const *con, int x, int y )
             furn_id f = furnmap[con->pre_terrain].loadid;
             place_okay &= ( g->m.furn( x, y ) == f );
         } else {
-            ter_id t = termap[con->pre_terrain].loadid;
+            ter_id t = ter_id( con->pre_terrain );
             place_okay &= ( g->m.ter( x, y ) == t );
         }
     }
@@ -634,7 +637,7 @@ bool can_construct( construction const *con, int x, int y )
             furn_id f = furnmap[con->post_terrain].loadid;
             place_okay &= ( g->m.furn( x, y ) != f );
         } else {
-            ter_id t = termap[con->post_terrain].loadid;
+            ter_id t = ter_id( con->post_terrain );
             place_okay &= ( g->m.ter( x, y ) != t );
         }
     }
@@ -711,7 +714,7 @@ void complete_construction()
     for( auto &elem : g->active_npc ) {
         if( rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
             //If the NPC can understand what you are doing, they gain more exp
-            if (elem->skillLevel(built.skill) >= built.difficulty){
+            if (elem->get_skill_level(built.skill) >= built.difficulty){
                 elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
                                     (int)(built.difficulty * 1.25) );
                 add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
@@ -739,7 +742,7 @@ void complete_construction()
         if( built.post_is_furniture ) {
             g->m.furn_set( terx, tery, built.post_terrain );
         } else {
-            g->m.ter_set( terx, tery, built.post_terrain );
+            g->m.ter_set( terx, tery, ter_str_id( built.post_terrain ) );
         }
     }
 
@@ -902,12 +905,12 @@ void construct::done_deconstruct( point p )
             return;
         }
         if( t.id == "t_console_broken" )  {
-            if( g->u.skillLevel( skill_electronics ) >= 1 ) {
+            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 20, 4 );
             }
         }
         if( t.id == "t_console" )  {
-            if( g->u.skillLevel( skill_electronics ) >= 1 ) {
+            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 40, 8 );
             }
         }
@@ -1062,7 +1065,7 @@ void construct::done_digormine_stair( point p, bool dig )
                                    pgettext( "memorial_female", "Mined into lava." ) );
 
         // Now to see if you go swimming.  Same idea as the sinkhole.
-        if( ( ( g->u.skillLevel( skill_carpentry ) ) + ( g->u.per_cur ) ) > ( ( g->u.str_cur ) + ( rng( 5,
+        if( ( ( g->u.get_skill_level( skill_carpentry ) ) + ( g->u.per_cur ) ) > ( ( g->u.str_cur ) + ( rng( 5,
                 10 ) ) ) ) {
             add_msg( _( "You avoid collapsing the rock underneath you." ) );
             add_msg( _( "Lashing your lumber together, you make a stable platform." ) );
@@ -1073,12 +1076,12 @@ void construct::done_digormine_stair( point p, bool dig )
             add_msg( _( "Your timbers plummet into the lava!" ) );
             if( g->u.has_amount( "grapnel", 1 ) ) {
                 add_msg( _( "You desperately throw your grappling hook!" ) );
-                int throwroll = rng( g->u.skillLevel( skill_throw ),
-                                     g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur );
+                int throwroll = rng( g->u.get_skill_level( skill_throw ),
+                                     g->u.get_skill_level( skill_throw ) + g->u.str_cur + g->u.dex_cur );
                 if( throwroll >= 9 ) { // Little tougher here than in a sinkhole
                     add_msg( _( "The grappling hook catches something!" ) );
-                    if( rng( g->u.skillLevel( skill_unarmed ),
-                             g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                    if( rng( g->u.get_skill_level( skill_unarmed ),
+                             g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
                         if( !catch_with_rope( p ) ) {
                             g->u.use_amount( "grapnel", 1 );
                             g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
@@ -1101,17 +1104,17 @@ void construct::done_digormine_stair( point p, bool dig )
                 }
             } else if( g->u.has_trait( "WEB_ROPE" ) ) {
                 // There are downsides to using one's own product...
-                int webroll = rng( g->u.skillLevel( skill_carpentry ),
-                                   g->u.skillLevel( skill_carpentry ) + g->u.per_cur + g->u.int_cur );
+                int webroll = rng( g->u.get_skill_level( skill_carpentry ),
+                                   g->u.get_skill_level( skill_carpentry ) + g->u.per_cur + g->u.int_cur );
                 if( webroll >= 11 ) {
                     add_msg( _( "Luckily, you'd attached a web..." ) );
                     // Bigger you are, the larger the strain
-                    int stickroll = rng( g->u.skillLevel( skill_carpentry ),
-                                         g->u.skillLevel( skill_carpentry ) + g->u.dex_cur - g->u.str_cur );
+                    int stickroll = rng( g->u.get_skill_level( skill_carpentry ),
+                                         g->u.get_skill_level( skill_carpentry ) + g->u.dex_cur - g->u.str_cur );
                     if( stickroll >= 8 ) {
                         add_msg( _( "Your web holds firm!" ) );
-                        if( rng( g->u.skillLevel( skill_unarmed ),
-                                 g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                        if( rng( g->u.get_skill_level( skill_unarmed ),
+                                 g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
                             if( !catch_with_rope( p ) ) {
                                 g->vertical_move( -1, true );
                             }
@@ -1129,12 +1132,12 @@ void construct::done_digormine_stair( point p, bool dig )
                 // You have a rope because you needed one to construct
                 // (You aren't charged it here because you lose it at end/construction)
                 add_msg( _( "You desperately throw your rope!" ) );
-                int throwroll = rng( g->u.skillLevel( skill_throw ),
-                                     g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur );
+                int throwroll = rng( g->u.get_skill_level( skill_throw ),
+                                     g->u.get_skill_level( skill_throw ) + g->u.str_cur + g->u.dex_cur );
                 if( throwroll >= 11 ) { // No hook, so good luck with that
                     add_msg( _( "The rope snags and holds!" ) );
-                    if( rng( g->u.skillLevel( skill_unarmed ),
-                             g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                    if( rng( g->u.get_skill_level( skill_unarmed ),
+                             g->u.get_skill_level( skill_unarmed ) + g->u.str_cur ) > 7 ) {
                         if( !catch_with_rope( p ) ) {
                             g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
                             g->vertical_move( -1, true );
@@ -1404,17 +1407,24 @@ void check_constructions()
             debugmsg("Unknown skill %s in %s", c->skill.c_str(), display_name.c_str());
         }
         c->requirements.check_consistency(display_name);
-        if (!c->pre_terrain.empty() && !c->pre_is_furniture && termap.count(c->pre_terrain) == 0) {
-            debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+
+        if( !c->pre_terrain.empty() ) {
+            if( c->pre_is_furniture ) {
+                if( furnmap.count( c->pre_terrain ) == 0 ) {
+                    debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str() );
+                }
+            } else if( !ter_str_id( c->pre_terrain ).is_valid() ) {
+                debugmsg("Unknown pre_terrain (terrain) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
+            }
         }
-        if (!c->pre_terrain.empty() && c->pre_is_furniture && furnmap.count(c->pre_terrain) == 0) {
-            debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str());
-        }
-        if (!c->post_terrain.empty() && !c->post_is_furniture && termap.count(c->post_terrain) == 0) {
-            debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
-        }
-        if (!c->post_terrain.empty() && c->post_is_furniture && furnmap.count(c->post_terrain) == 0) {
-            debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+        if( !c->post_terrain.empty() ) {
+            if( c->post_is_furniture ) {
+                if( furnmap.count( c->post_terrain ) == 0 ) {
+                    debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+                }
+            } else if( !ter_str_id( c->post_terrain ).is_valid() ) {
+                debugmsg("Unknown post_terrain (terrain) %s in %s", c->post_terrain.c_str(), display_name.c_str());
+            }
         }
     }
 }
@@ -1443,7 +1453,7 @@ int construction::adjusted_time() const
 
     for( auto &elem : g->active_npc ) {
         if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
-            if( elem->skillLevel( skill ) >= difficulty ) {
+            if( elem->get_skill_level( skill ) >= difficulty ) {
                 assistants++;
             }
         }

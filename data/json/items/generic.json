@@ -187,7 +187,7 @@
         "to_hit": -2,
         "flags" : ["UNRECOVERABLE"]
     },
-    { 
+    {
         "type":"GENERIC",
         "id": "bone_glue",
         "symbol": ",",
@@ -445,6 +445,18 @@
     },
     {
         "type":"GENERIC",
+        "id": "tree_spile",
+        "symbol": ".",
+        "color": "light_gray",
+        "name": "tree spile",
+        "description": "A hollow metal cylinder which is inserted in a tree crust in order to slowly harvest its sap.  Can be used on a maple tree in between late winter and early spring to harvest maple sap.",
+        "price": 5,
+        "material": "steel",
+        "weight": 11,
+        "volume": 0
+    },
+    {
+        "type":"GENERIC",
         "id": "wire",
         "symbol": ";",
         "color": "light_gray",
@@ -643,7 +655,7 @@
         "bashing": 4,
         "to_hit": -3
     },
-    { 
+    {
         "type":"GENERIC",
         "id": "largebroketent",
         "symbol": ";",
@@ -2029,20 +2041,6 @@
     },
     {
         "type":"GENERIC",
-        "id": "well_pump",
-        "symbol": ";",
-        "color": "dark_gray",
-        "name": "mechanical pump",
-        "description": "An old-fashioned mechanical pump of the type used to draw drinking water from a well.  It's not good for much of anything on its own.",
-        "price": 2000,
-        "material": ["iron"],
-        "weight": 19400,
-        "volume": 5,
-        "bashing": 7,
-        "to_hit": -5
-    },
-    {
-        "type":"GENERIC",
         "id":"diamond",
         "symbol": "*",
         "color": "white",
@@ -2473,10 +2471,7 @@
         "volume": 0,
         "to_hit": -3,
         "max_charges": 200000000,
-        "initial_charges": 0,
         "rand_charges": [0,1,2,3,4,5,6,7,8,9,10,50,100,200,300,500,800,1000,1200,1400,1600,1800,2000,3000,4000,5000,6000,7000,8000,9000,10000,12000,14000,16000,18000,20000,50000,100000],
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
         "ammo": "money"
     },
     {
@@ -2492,11 +2487,7 @@
         "flags": ["GAS_DISCOUNT", "DISCOUNT_VALUE_1"],
         "weight": 6,
         "volume": 0,
-        "to_hit": -3,
-        "max_charges": 0,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0
+        "to_hit": -3
     },
     {
         "id": "gasdiscount_gold",
@@ -2511,11 +2502,7 @@
         "flags": ["GAS_DISCOUNT", "DISCOUNT_VALUE_2"],
         "weight": 6,
         "volume": 0,
-        "to_hit": -3,
-        "max_charges": 0,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0
+        "to_hit": -3
     },
     {
         "id": "gasdiscount_platinum",
@@ -2530,11 +2517,7 @@
         "flags": ["GAS_DISCOUNT", "DISCOUNT_VALUE_3"],
         "weight": 6,
         "volume": 0,
-        "to_hit": -3,
-        "max_charges": 0,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0
+        "to_hit": -3
     },
     {
         "type":"GENERIC",

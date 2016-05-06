@@ -888,7 +888,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 } else if( fuel->made_of( material_id( "flesh" ) ) || fuel->made_of( material_id( "hflesh" ) ) ||
                                            fuel->made_of( material_id( "iflesh" ) ) ) {
                                     // Slow and smokey
-                                    if( one_in( vol / 50 / cur->getFieldDensity() ) ) {
+                                    if( one_in( vol / 25 / cur->getFieldDensity() ) ) {
                                         time_added += 1;
                                         burn_amt = cur->getFieldDensity();
                                         smoke += 3 * cur->getFieldDensity();
@@ -1055,7 +1055,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         auto neighs = get_neighbors( p );
 
                         // If the flames are in a pit, it can't spread to non-pit
-                        const bool in_pit = ter.loadid == t_pit;
+                        const bool in_pit = ter.id.id() == t_pit;
 
                         // Count adjacent fires, to optimize out needless smoke and hot air
                         int adjacent_fires = 0;
@@ -1184,7 +1184,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             const int power = cur->getFieldDensity() + one_in( 5 );
                             if( rng(1, 100) < spread_chance && tr_brazier != trp &&
                                   !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) &&
-                                  (in_pit == (dster.loadid == t_pit)) &&
+                                  (in_pit == (dster.id.id() == t_pit)) &&
                                   (
                                     (power >= 3 && cur->getFieldAge() < 0 && one_in( 20 ) ) ||
                                     (power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in(2) ) ) ||

@@ -14,9 +14,7 @@
         "volume": 14,
         "to_hit" : -1,
         "max_charges": 30,
-        "initial_charges": 0,
         "charges_per_use": 15,
-        "turns_per_charge": 0,
         "ammo": "essence_dull_type",
         "use_action" : "ARTIFACT",
         "artifact_data" : {
@@ -24,7 +22,6 @@
         },
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
         "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE", "NO_SALVAGE"],
-        "storage" : 0,
         "warmth" : 40,
         "environmental_protection" : 3,
         "encumbrance" : 17,
@@ -43,11 +40,7 @@
         "material": ["leather", "iron", "copper"],
         "weight" : 210,
         "volume": 4,
-        "to_hit" : 0,
         "max_charges": 12,
-        "initial_charges": 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
         "ammo": "essence_dull_type",
         "use_action": {
             "type": "transform",
@@ -77,10 +70,7 @@
         "material": ["leather", "iron", "copper"],
         "weight" : 210,
         "volume": 4,
-        "to_hit" : 0,
         "max_charges": 12,
-        "initial_charges": 0,
-        "charges_per_use": 0,
         "turns_per_charge": 50,
         "ammo": "essence_dull_type",
         "revert_to": "somen_clairvoyance",
@@ -116,9 +106,7 @@
         "bashing": 2,
         "to_hit" : -5,
         "max_charges": 16,
-        "initial_charges": 0,
         "charges_per_use": 4,
-        "turns_per_charge": 0,
         "ammo": "essence_blood_type",
         "use_action" : "ARTIFACT",
         "artifact_data" : {
@@ -146,28 +134,18 @@
         "volume": 14,
         "to_hit" : -1,
         "max_charges": 6,
-        "initial_charges": 0,
         "charges_per_use": 2,
-        "turns_per_charge": 0,
         "ammo": "essence_blood_type",
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "The diamond shimmers with malevolent red light as you feel a strange hunger, a craving for rotting meat and stagnant water...",
-            "effects" : [
-                {
-                   "id": "revenant_hunger",
-                    "duration": 500
-                }
-            ]
+            "effects" : [ { "id" : "revenant_hunger", "duration" : 500 } ]
         },
         "artifact_data" : {
           "effects_worn": ["AEP_STEALTH", "AEP_EXTINGUISH", "AEP_SICK"]
         },
         "covers" : ["HEAD"],
         "flags" : ["VARSIZE", "ALLOWS_NATURAL_ATTACKS"],
-        "storage" : 0,
-        "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 20,
         "material_thickness" : 1
@@ -187,9 +165,7 @@
         "volume": 19,
         "to_hit" : -5,
         "max_charges": 20,
-        "initial_charges": 0,
         "charges_per_use": 1,
-        "turns_per_charge": 0,
         "ammo": "essence_type",
         "use_action": {
             "type": "transform",
@@ -221,13 +197,11 @@
         "volume": 19,
         "to_hit" : -5,
         "max_charges": 20,
-        "initial_charges": 0,
-        "charges_per_use": 0,
         "turns_per_charge": 5,
         "ammo": "essence_type",
         "use_action": {
             "type": "transform",
-            "msg": "The robe's fabric returns to its normal gray color, dispeling the illusion.",
+            "msg": "The robe's fabric returns to its normal gray color, dispelling the illusion.",
             "target": "robe_shadow"
         },
         "artifact_data" : {
@@ -257,14 +231,11 @@
         "bashing": 7,
         "to_hit" : -2,
         "max_charges": 4,
-        "initial_charges": 0,
         "charges_per_use": 1,
-        "turns_per_charge": 0,
         "ammo": "essence_type",
         "use_action" : "TAZER",
         "covers" : ["HANDS"],
         "flags" : ["VARSIZE", "STURDY", "NO_SALVAGE"],
-        "storage" : 0,
         "warmth" : 20,
         "environmental_protection" : 1,
         "encumbrance" : 20,
@@ -275,36 +246,23 @@
         "id" : "cleric_ring",
         "name" : "ring of the fallen angel",
         "name_plural" : "rings of the fallen angel",
-        "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A simple silver ring, adorned with a small red gem and a wing motif.  Using it cures several anomalous ailments, and provides protection from such effects for a while.",
         "weight" : 10,
-        "to_hit" : 0,
         "max_charges": 8,
-        "initial_charges": 0,
         "charges_per_use": 8,
-        "turns_per_charge": 0,
         "ammo": "essence_type",
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "A strange energy radiates from the ring's gem, spreading a calming sensation over you.",
-            "effects" : [
-                {
-                   "id": "cleric_warding",
-                    "duration": 250
-                }
-            ]
+            "effects" : [ { "id" : "cleric_warding", "duration" : 250 } ]
         },
         "artifact_data" : {
           "effects_worn": ["AEP_PSYSHIELD", "AEP_STR_DOWN"]
         },
         "color" : "white",
-        "encumbrance" : 0,
         "price" : 30000,
         "material" : ["silver", "essencemat"],
-        "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
         "flags" : ["FANCY"]
     }
 ]

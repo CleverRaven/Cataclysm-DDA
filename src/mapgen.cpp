@@ -531,10 +531,12 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
             std::string tmpid = pjo.get_string("id");
             switch( tmpop ) {
                 case JMAPGEN_SETMAP_TER: {
-                    if ( termap.find( tmpid ) == termap.end() ) {
+                    const ter_str_id tid( tmpid );
+
+                    if( !tid.is_valid() ) {
                         pjo.throw_error( "no such terrain", "id" );
                     }
-                    tmp_i.val = termap[ tmpid ].loadid;
+                    tmp_i.val = tid.id();
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
                     if ( furnmap.find( tmpid ) == furnmap.end() ) {
@@ -833,33 +835,38 @@ public:
     }
 };
 
-/**
- * Place items from an item group.
- * see @ref map::place_loot
- */
+/** Place items from an item group */
 class jmapgen_loot : public jmapgen_piece {
+    friend jmapgen_objects;
+
     public:
         jmapgen_loot( JsonObject &jsi ) : jmapgen_piece()
         , group( jsi.get_string( "group", std::string() ) )
         , name( jsi.get_string( "item", std::string() ) )
-        , chance( jsi, "chance", 100, 100 )
-        , ammo( jsi, "ammo", 0, 0 )
-        , magazine( jsi, "magazine", 0, 0 )
+        , chance( jsi.get_int( "chance", 100 ) )
+        , ammo( jsi.get_int( "ammo", 0 ) )
+        , magazine( jsi.get_int( "magazine", 0 ) )
         {
             if( group.empty() == name.empty() ) {
                 jsi.throw_error( "must provide either item or group" );
             }
-
             if( !group.empty() && !item_group::group_is_defined( group ) ) {
                 jsi.throw_error( "no such item group", "group" );
             }
             if( !name.empty() && !item_controller->has_template( name ) ) {
                 jsi.throw_error( "no such item", "item" );
             }
+            if( ammo < 0 || ammo > 100 ) {
+                jsi.throw_error( "ammo chance out of range", "ammo" );
+            }
+            if( magazine < 0 || magazine > 100 ) {
+                jsi.throw_error( "magazine chance out of range", "magazine" );
+            }
         }
+
         void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
         {
-            if( rng( 0, 99 ) < chance.get() * ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ] ) {
+            if( rng( 0, 99 ) < chance ) {
                 std::vector<item> spawn;
                 if( group.empty() ) {
                     spawn.emplace_back( name, calendar::turn );
@@ -868,21 +875,11 @@ class jmapgen_loot : public jmapgen_piece {
                 }
 
                 for( auto &e: spawn ) {
-                    bool spawn_ammo = rng( 0, 99 ) < ammo.get();
-                    bool spawn_mags = rng( 0, 99 ) < magazine.get() || spawn_ammo;
-
-                    if( spawn_mags && !e.magazine_integral() && !e.magazine_current() ) {
+                    if( rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current() ) {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
-                    if( spawn_ammo && e.ammo_remaining() == 0 ) {
-                        if( e.magazine_current() ) {
-                            item tmp( default_ammo( e.ammo_type() ), e.bday );
-                            tmp.charges = e.ammo_capacity();
-                            e.magazine_current()->contents.push_back( tmp );
-                        } else {
-                            e.set_curammo( default_ammo( e.ammo_type() ) ) ;
-                            e.charges = e.ammo_capacity();
-                        }
+                    if( rng( 0, 99 ) < ammo && e.ammo_remaining() == 0 ) {
+                        e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
                     }
                 }
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
@@ -892,9 +889,9 @@ class jmapgen_loot : public jmapgen_piece {
     private:
         const std::string group;
         const std::string name;
-        const jmapgen_int chance;
-        const jmapgen_int ammo;
-        const jmapgen_int magazine;
+        int chance;
+        const int ammo;
+        const int magazine;
 };
 
 /**
@@ -1086,24 +1083,9 @@ public:
 class jmapgen_terrain : public jmapgen_piece {
 public:
     ter_id id;
-    jmapgen_terrain( JsonObject &jsi ) : jmapgen_piece()
-    , id( 0 )
-    {
-        const auto iter = termap.find( jsi.get_string( "ter" ) );
-        if( iter == termap.end() ) {
-            jsi.throw_error( "unknown terrain type", "ter" );
-        }
-        id = iter->second.loadid;
-    }
-    jmapgen_terrain( const std::string &tid ) : jmapgen_piece()
-    , id( 0 )
-    {
-        const auto iter = termap.find( tid );
-        if( iter == termap.end() ) {
-            throw std::runtime_error( "unknown terrain type" );
-        }
-        id = iter->second.loadid;
-    }
+    jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
+
+    jmapgen_terrain( const std::string &ter_name ) : jmapgen_piece(), id( ter_id( ter_name ) ) {}
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         m.ter_set( x.get(), y.get(), id );
@@ -1130,11 +1112,7 @@ public:
         }
         jsi.read( "items", items );
         if( jsi.has_string( "floor_type" ) ) {
-            const auto iter = termap.find( jsi.get_string( "floor_type" ) );
-            if( iter == termap.end() ) {
-                jsi.throw_error( "unknown terrain type", "floor_type" );
-            }
-            floor_type = iter->second.loadid;
+            floor_type = ter_id( jsi.get_string( "floor_type" ) );
         }
         jsi.read( "overwrite", overwrite );
     }
@@ -1157,6 +1135,31 @@ void jmapgen_objects::load_objects( JsonArray parray )
         const jmapgen_place where( jsi );
         std::shared_ptr<jmapgen_piece> what( new PieceType( jsi ) );
         add(where, what);
+    }
+}
+
+template<>
+void jmapgen_objects::load_objects<jmapgen_loot>( JsonArray parray )
+{
+    while( parray.has_more() ) {
+        auto jsi = parray.next_object();
+        jmapgen_place where( jsi );
+
+        auto loot = new jmapgen_loot( jsi );
+        auto rate = ACTIVE_WORLD_OPTIONS[ "ITEM_SPAWNRATE" ];
+
+        if( where.repeat.valmax != 1 ) {
+            // if loot can repeat scale according to rate
+            where.repeat.val = std::max( int( where.repeat.val * rate ), 1 );
+            where.repeat.valmax = std::max( int( where.repeat.valmax * rate ), 1 );
+
+        } else if( loot->chance != 100 ) {
+            // otherwise except where chance is 100% scale probability
+            loot->chance = std::max( std::min( int( loot->chance * rate ), 100 ), 1 );
+        }
+
+        std::shared_ptr<jmapgen_piece> ptr( loot );
+        add( where, ptr );
     }
 }
 
@@ -1332,7 +1335,7 @@ bool mapgen_function_json::setup() {
         }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
-        std::string tmpval = "";
+        ter_str_id tmpval;
         JsonArray parray;
         JsonArray sparray;
         JsonObject pjo;
@@ -1340,12 +1343,9 @@ bool mapgen_function_json::setup() {
 
         // something akin to mapgen fill_background.
         if ( jo.read("fill_ter", tmpval) ) {
-            if ( termap.find( tmpval ) == termap.end() ) {
-                jo.throw_error(string_format("  fill_ter: invalid terrain '%s'",tmpval.c_str() ));
-            }
-            fill_ter = termap[ tmpval ].loadid;
+            fill_ter = tmpval.id();
             qualifies = true;
-            tmpval = "";
+            tmpval = NULL_ID;
         }
 
         format.resize( mapgensize * mapgensize );
@@ -1363,12 +1363,7 @@ bool mapgen_function_json::setup() {
                         pjo.throw_error( "format map key must be 1 character", key );
                     }
                     if( pjo.has_string( key ) ) {
-                        const auto tmpval = pjo.get_string( key );
-                        const auto iter = termap.find( tmpval );
-                        if( iter == termap.end() ) {
-                            pjo.throw_error( "Invalid terrain", key );
-                        }
-                        format_terrain[key[0]] = iter->second.loadid;
+                        format_terrain[key[0]] = ter_id( pjo.get_string( key ) );
                     } else {
                         auto &vect = format_placings[ key[0] ];
                         ::load_place_mapings<jmapgen_terrain>( pjo, key, vect );
@@ -1763,96 +1758,6 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
 
         fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
     // todo; make these mappable functions
-    } else if (terrain_type == "apartments_mod_tower_1_entrance") {
-
-        dat.fill_groundcover();
-        mapf::formatted_set_simple(this, 0, 0,
-                                   "\
-  w.htth..FFFF..eSc|....\n\
-  w...............O|....\n\
-  |-X|..........ccc|....\n\
-  Rss|-+----|o...h.|....\n\
-  Rss|...BBd|o....A|....\n\
-  Rssw...BB.|^.....|....\n\
-  Rssw...h..|--|...D....\n\
-  Rss|..cxc.+.r|-+-|....\n\
- ||--|+|----|--|r..|....\n\
- |b....|bTS.+..|---|....\n\
- |b.T.S|b...|..+..u|....\n\
- |-----|-+|-|..|---|....\n\
- |.dBBd...+r|...eSc|....\n\
- w..BB....|-|.....O|....\n\
- |.....h..+.....ccc|....\n\
- |--|.cxc.|........D....\n\
-    |-www-|o.tt....|....\n\
-    Rsssss|.......F|....\n\
-    RsssssX..A..FFF|-w-G\n\
-    |aaaaa|----ww--|  ss\n\
-                      ss\n\
-                      ss\n\
-                      ss\n\
-                      ss\n",
-                                   mapf::ter_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o", t_floor,
-                                           t_floor,    t_floor, t_elevator, t_stairs_down, t_stairs_up, t_railing_h, t_railing_v, t_rock,
-                                           t_door_glass_c, t_floor, t_console_broken, t_shrub, t_floor,        t_floor, t_wall, t_wall,
-                                           t_floor, t_floor, t_door_c, t_door_locked_interior, t_door_metal_c, t_door_locked, t_window,
-                                           t_floor,   t_floor,  t_floor, t_floor,  t_floor, t_floor, t_floor,   t_floor,   t_floor,
-                                           t_sidewalk, t_floor),
-                                   mapf::furn_bind("u A F E > < a R # G r x % ^ . - | t B + D = X w b T S e O h c d l s o",
-                                           f_cupboard, f_armchair, f_sofa,  f_null,     f_null,        f_null,      f_null,      f_null,
-                                           f_null, f_null,         f_rack,  f_null,           f_null,  f_indoor_plant, f_null,  f_null,
-                                           f_null,   f_table, f_bed,   f_null,   f_null,                 f_null,         f_null,        f_null,
-                                           f_bathtub, f_toilet, f_sink,  f_fridge, f_oven,  f_chair, f_counter, f_dresser, f_locker, f_null,
-                                           f_bookcase));
-        for (int i = 0; i <= 23; i++) {
-            for (int j = 0; j <= 23; j++) {
-                if (this->furn(i, j) == f_dresser) {
-                    place_items("dresser", 70,  i,  j, i,  j, false, 0);
-                }
-                if (this->furn(i, j) == f_rack) {
-                    place_items("dresser", 30,  i,  j, i,  j, false, 0);
-                    place_items("jackets", 60,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_fridge) {
-                    place_items("fridge", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_oven) {
-                    place_items("oven", 70,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_cupboard) {
-                    place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                    place_items("home_hw", 30,  i,  j, i,  j, false, 0);
-                    place_items("cannedfood", 50,  i,  j, i,  j, false, 0);
-                    place_items("pasta", 50,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_bookcase) {
-                    place_items("magazines", 30,  i,  j, i,  j, false, 0);
-                    place_items("novels", 40,  i,  j, i,  j, false, 0);
-                    place_items("alcohol", 30,  i,  j, i,  j, false, 0);
-                    place_items("manuals", 20,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_sink) {
-                    place_items("softdrugs", 70,  i,  j, i,  j, false, 0);
-                    place_items("cleaning", 50,  i,  j, i,  j, false, 0);
-                } else if (this->furn(i, j) == f_toilet) {
-                    place_items("magazines", 70,  i,  j + 1, i,  j + 1, false, 0);
-                    place_items("novels", 50,  i,  j + 1 , i,  j + 1, false, 0);
-                } else if (this->furn(i, j) == f_bed) {
-                    place_items("bed", 60,  i,  j, i,  j, false, 0);
-                }
-            }
-        }
-        if (density > 1) {
-            place_spawns( GROUP_ZOMBIE, 2, 0, 0, 23, 23, density);
-        } else {
-            add_spawn(mon_zombie, rng(1, 8), 15, 10);
-        }
-        if (t_north == "apartments_mod_tower_1" && t_west == "apartments_mod_tower_1") {
-            rotate(3);
-        } else if (t_north == "apartments_mod_tower_1" && t_east == "apartments_mod_tower_1") {
-            rotate(0);
-        } else if (t_south == "apartments_mod_tower_1" && t_east == "apartments_mod_tower_1") {
-            rotate(1);
-        } else if (t_west == "apartments_mod_tower_1" && t_south == "apartments_mod_tower_1") {
-            rotate(2);
-        }
-
-
     } else if (terrain_type == "apartments_mod_tower_1") {
 
         // Init to grass & dirt;
@@ -6141,42 +6046,22 @@ __________           f  \n",
             place_spawns( GROUP_PUBLICWORKERS, 1, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, 0.1);
             if (t_west == "public_works" && t_north == "public_works") {
                 rotate(1);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 2, 0, 90);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 2, 0, 90);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 2, 0 }, 90, 0 ,0 );
                 }
             } else if (t_east == "public_works" && t_north == "public_works") {
                 rotate(2);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 23, 10, 270);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 23, 10, 270);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 23, 10 }, 270, 0, 0 );
                 }
             } else if (t_east == "public_works" && t_south == "public_works") {
                 rotate(3);
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                    if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 10, 23, 0);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 10, 23, 0);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 10, 23 }, 0, 0, 0 );
                 }
             } else {
-                if (x_in_y(2, 3)) {
-                int roller_check=rng(0,100);
-                  if (roller_check < 75) {
-                        add_vehicle( vproto_id( "flatbed_truck" ), 0, 10, 90);
-                    } else {
-                        add_vehicle( vproto_id( "road_roller" ), 0, 10, 90);
-                    }
+                if( one_in( 2 ) ) {
+                    add_vehicle( vgroup_id( "industrial_vehicles" ), { 0, 10 }, 90, 0, 0 );
                 }
             }
         }
@@ -10696,7 +10581,7 @@ std::vector<item *> map::place_items( items_location loc, int chance, int x1, in
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
                 e->contents.emplace_back( e->magazine_default(), e->bday );
             }
-            if( rng( 0, 99 ) < ammo && e->ammo_type() != "NULL" && e->ammo_remaining() == 0 ) {
+            if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
                 e->ammo_set( default_ammo( e->ammo_type() ), e->ammo_capacity() );
             }
         }
@@ -12625,11 +12510,6 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
     // OK, if there's a way to get ajacent road tiles w/o bringing in
     // the overmap-scan I'm not seeing it.  So gonna make it Generic.
     // Barricades to E/W
-    line_furn(&m, f_barricade_road, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
-    line_furn(&m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
-    line_furn(&m, f_barricade_road, 3, 4, 3, 10);
-    line_furn(&m, f_barricade_road, 1, 13, 1, 19);
-
     // Vehicles to N/S
     bool mil = false;
     if (one_in(3)) {
@@ -12676,6 +12556,10 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
             }
         }
     } else { // Police roadblock
+        line_furn(&m, f_barricade_road, SEEX * 2 - 1, 4, SEEX * 2 - 1, 10);
+        line_furn(&m, f_barricade_road, SEEX * 2 - 3, 13, SEEX * 2 - 3, 19);
+        line_furn(&m, f_barricade_road, 3, 4, 3, 10);
+        line_furn(&m, f_barricade_road, 1, 13, 1, 19);
         m.add_vehicle( vproto_id( "policecar" ), 8, 5, 20);
         m.add_vehicle( vproto_id( "policecar" ), 16, SEEY * 2 - 5, 145);
         m.add_spawn(mon_turret, 1, 1, 12);

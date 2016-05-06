@@ -370,87 +370,6 @@ int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-struct parasite_chances {
-    int tapeworm;
-    int bloodworms;
-    int brainworms;
-    int paincysts;
-};
-
-int raw_food(player *p, item *it, const struct parasite_chances &pcs)
-{
-    if( p->is_npc() ) {
-        // NPCs don't need to eat, so they don't need to eat raw food
-        return 0;
-    }
-    if (p->has_bionic("bio_digestion") || p->has_trait("PARAIMMUNE")) {
-        return it->type->charges_to_use();
-    }
-    if (pcs.tapeworm > 0 && one_in(pcs.tapeworm) && !(p->has_effect( effect_tapeworm)
-            || p->has_trait("EATHEALTH"))) {
-           // Hyper-Metabolism digests the thing before it can set up shop.
-        p->add_effect( effect_tapeworm, 1, num_bp, true);
-    }
-    if (pcs.bloodworms > 0 && one_in(pcs.bloodworms) && !(p->has_effect( effect_bloodworms)
-           || p->has_trait("ACIDBLOOD"))) {
-           // The worms can't survive in acidic blood.
-        p->add_effect( effect_bloodworms, 1, num_bp, true);
-    }
-    if (pcs.brainworms > 0 && one_in(pcs.brainworms) && !p->has_effect( effect_brainworms)) {
-        p->add_effect( effect_brainworms, 1, num_bp, true);
-    }
-    if (pcs.paincysts > 0 && one_in(pcs.paincysts) && !p->has_effect( effect_paincysts)) {
-        p->add_effect( effect_paincysts, 1, num_bp, true);
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::raw_meat(player *p, item *it, bool, const tripoint& )
-{
-    struct parasite_chances pcs = {0, 0, 0, 0};
-    pcs.tapeworm = 32;
-    pcs.bloodworms = 64;
-    pcs.brainworms = 128;
-    pcs.paincysts = 64;
-    return raw_food(p, it, pcs);
-}
-
-int iuse::raw_fat(player *p, item *it, bool, const tripoint& )
-{
-    struct parasite_chances pcs = {0, 0, 0, 0};
-    pcs.tapeworm = 64;
-    pcs.bloodworms = 128;
-    pcs.brainworms = 128;
-    return raw_food(p, it, pcs);
-}
-
-int iuse::raw_bone(player *p, item *it, bool, const tripoint& )
-{
-    struct parasite_chances pcs = {0, 0, 0, 0};
-    pcs.bloodworms = 128;
-    return raw_food(p, it, pcs);
-}
-
-int iuse::raw_fish(player *p, item *it, bool, const tripoint& )
-{
-    struct parasite_chances pcs = {0, 0, 0, 0};
-    pcs.tapeworm = 256;
-    pcs.bloodworms = 256;
-    pcs.brainworms = 256;
-    pcs.paincysts = 256;
-    return raw_food(p, it, pcs);
-}
-
-int iuse::raw_wildveg(player *p, item *it, bool, const tripoint& )
-{
-    struct parasite_chances pcs = {0, 0, 0, 0};
-    pcs.tapeworm = 512;
-    pcs.bloodworms = 256;
-    pcs.brainworms = 512;
-    pcs.paincysts = 128;
-    return raw_food(p, it, pcs);
-}
-
 #define STR(weak, medium, strong) (strength == 0 ? (weak) : strength == 1 ? (medium) : (strong))
 int alcohol(player *p, item *it, int strength)
 {
@@ -885,13 +804,6 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::vitamins(player *p, item *it, bool, const tripoint& )
-{
-    p->add_msg_if_player(_("You take some vitamins."));
-    p->mod_healthy_mod(50, 50);
-    return it->type->charges_to_use();
-}
-
 int iuse::vaccine(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You inject the vaccine."));
@@ -1042,11 +954,12 @@ int iuse::flusleep(player *p, item *it, bool, const tripoint& )
 
 int iuse::inhaler(player *p, item *it, bool, const tripoint& )
 {
-    p->remove_effect( effect_asthma);
-    p->add_msg_if_player(m_neutral, _("You take a puff from your inhaler."));
-    if (one_in(50)) {  // adverse reaction
-        p->add_msg_if_player(m_bad, _("Your heart begins to race."));
-        p->mod_fatigue(-10);
+    p->add_msg_if_player( m_neutral, _( "You take a puff from your inhaler." ) );
+    if( !p->remove_effect( effect_asthma) ) {
+        p->mod_fatigue( -3 ); // if we don't have asthma can be used as stimulant
+        if( one_in( 20 ) ) {   // with a small but significant risk of adverse reaction
+            p->add_effect( effect_shakes, 10 * rng( 2, 5 ) );
+        }
     }
     return it->type->charges_to_use();
 }
@@ -2255,7 +2168,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     p->moves -= 500 * p->fine_detail_vision_mod();
     p->practice( skill_tailor, items_needed * 3 + 3 );
     ///\EFFECT_TAILOR randomly improves clothing modifiation efforts
-    int rn = dice( 3, 2 + p->skillLevel( skill_tailor ) ); // Skill
+    int rn = dice( 3, 2 + p->get_skill_level( skill_tailor ) ); // Skill
     ///\EFFECT_DEX randomly improves clothing modification efforts
     rn += rng( 0, p->dex_cur / 2 );                    // Dexterity
     ///\EFFECT_PER randomly improves clothing modification efforts
@@ -2661,7 +2574,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                 return 0;
             }
             int success = -50;
-            const int surv = p->skillLevel( skill_survival );
+            const int surv = p->get_skill_level( skill_survival );
             const int attempts = rng(it->charges, it->charges * it->charges);
             for (int i = 0; i < attempts; i++) {
                 ///\EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap
@@ -3305,11 +3218,11 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     ///\EFFECT_STR speeds up crowbar prying attempts
 
     ///\EFFECT_MECHANICS speeds up crowbar prying attempts
-    p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->skillLevel( skill_mechanics ) ) * 5 ) );
+    p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->get_skill_level( skill_mechanics ) ) * 5 ) );
     ///\EFFECT_STR increases chance of crowbar prying success
 
     ///\EFFECT_MECHANICS increases chance of crowbar prying success
-    if (dice(4, difficulty) < dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->str_cur)) {
+    if (dice(4, difficulty) < dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
         p->practice( skill_mechanics, 1);
         p->add_msg_if_player(m_good, succ_action);
         if (g->m.furn(dirx, diry) == f_crate_c) {
@@ -3337,7 +3250,7 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
             ///\EFFECT_STR reduces chance of breaking window with crowbar
 
             ///\EFFECT_MECHANICS reduces chance of breaking window with crowbar
-            if (dice(4, difficulty) > dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->str_cur)) {
+            if (dice(4, difficulty) > dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
                 p->add_msg_if_player(m_mixed, _("You break the glass."));
                 sounds::sound(dirp, 24, _("glass breaking!"));
                 g->m.ter_set(dirx, diry, t_window_frame);
@@ -3652,7 +3565,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         ///\EFFECT_CARPENTRY speeds up mining with a pickaxe
-        turns = (100000 - 3000 * p->skillLevel( skill_carpentry ));
+        turns = (100000 - 3000 * p->get_skill_level( skill_carpentry ));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
         turns = 20000;
@@ -3731,7 +3644,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
         type = tr_bubblewrap;
         practice = 2;
     } else if (it->type->id == "beartrap") {
-        buried = (p->has_items_with_quality( "DIG", 3, 1 ) &&
+        buried = (p->has_quality( "DIG", 3 ) &&
                   g->m.has_flag("DIGGABLE", posx, posy) &&
                   query_yn(_("Bury the beartrap?")));
         type = (buried ? tr_beartrap_buried : tr_beartrap);
@@ -3841,7 +3754,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
             return 0;
         }
     } else if (it->type->id == "landmine") {
-        buried = (p->has_items_with_quality( "DIG", 3, 1 ) &&
+        buried = (p->has_quality( "DIG", 3 ) &&
                   g->m.has_flag("DIGGABLE", posx, posy) &&
                   query_yn(_("Bury the land mine?")));
         type = (buried ? tr_landmine_buried : tr_landmine);
@@ -3859,7 +3772,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     }
 
     if( buried ) {
-        if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+        if( !p->has_quality( "DIG" ) ) {
             p->add_msg_if_player( m_info, _( "You need a digging tool." ));
             return 0;
         } else if( !g->m.has_flag( "DIGGABLE", posx, posy ) ) {
@@ -4589,7 +4502,7 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
     ///\EFFECT_DEX slightly increases chance of successfully using tazer
 
     ///\EFFECT_MELEE increases chance of successfully using a tazer
-    int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel( skill_melee ) * 2;
+    int numdice = 3 + (p->dex_cur / 2.5) + p->get_skill_level( skill_melee ) * 2;
     p->moves -= 100;
 
     ///\EFFECT_DODGE increases chance of dodging a tazer attack
@@ -4994,7 +4907,7 @@ void iuse::cut_log_into_planks(player *p)
     item plank("2x4", int(calendar::turn));
     item scrap("splinter", int(calendar::turn));
     ///\EFFECT_CARPENTRY increases number of planks cut from a log
-    int planks = (rng(1, 3) + (p->skillLevel( skill_carpentry ) * 2));
+    int planks = (rng(1, 3) + (p->get_skill_level( skill_carpentry ) * 2));
     int scraps = 12 - planks;
     if (planks >= 12) {
         planks = 12;
@@ -6191,7 +6104,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     ///\EFFECT_MECHANICS >1 allows gun repair
-    if (p->skillLevel( skill_mechanics ) < 2) {
+    if (p->get_skill_level( skill_mechanics ) < 2) {
         p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
     }
@@ -6210,13 +6123,13 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
                              fix->tname().c_str());
         return 0;
     }
-    if ((fix->damage == 0) && p->skillLevel( skill_mechanics ) < 8) {
+    if ((fix->damage == 0) && p->get_skill_level( skill_mechanics ) < 8) {
         p->add_msg_if_player(m_info, _("Your %s is already in peak condition."), fix->tname().c_str());
         p->add_msg_if_player(m_info, _("With a higher mechanics skill, you might be able to improve it."));
         return 0;
     }
     ///\EFFECT_MECHANICS >7 allows accurizing ranged weapons
-    if ((fix->damage == 0) && p->skillLevel( skill_mechanics ) >= 8) {
+    if ((fix->damage == 0) && p->get_skill_level( skill_mechanics ) >= 8) {
         p->add_msg_if_player(m_good, _("You accurize your %s."), fix->tname().c_str());
         sounds::sound(p->pos(), 6, "");
         p->moves -= 2000 * p->fine_detail_vision_mod();
@@ -6253,7 +6166,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     ///\EFFECT_FABRICATION >0 allows use of repair kit
-    if (p->skillLevel( skill_fabrication ) < 1) {
+    if (p->get_skill_level( skill_fabrication ) < 1) {
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
     }
@@ -6391,12 +6304,12 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             ///\EFFECT_INT speeds up robot reprogramming
 
             ///\EFFECT_COMPUTER speeds up robot reprogramming
-            p->moves -= std::max(100, 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10);
+            p->moves -= std::max(100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10);
             ///\EFFECT_INT increases chance of successful robot reprogramming, vs difficulty
 
             ///\EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty
-            float success = p->skillLevel( skill_computer ) - 1.5 * (z->type->difficulty) /
-                            ((rng(2, p->int_cur) / 2) + (p->skillLevel( skill_computer ) / 2));
+            float success = p->get_skill_level( skill_computer ) - 1.5 * (z->type->difficulty) /
+                            ((rng(2, p->int_cur) / 2) + (p->get_skill_level( skill_computer ) / 2));
             if (success >= 0) {
                 p->add_msg_if_player(_("You successfully override the %s's IFF protocols!"),
                                      z->name().c_str());
@@ -6777,7 +6690,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
         amenu.addentry(ei_download, true, 'w', _("Download data from memory card"));
 
         ///\EFFECT_COMPUTER >2 allows decrypting memory cards more easily
-        if (p->skillLevel( skill_computer ) > 2) {
+        if (p->get_skill_level( skill_computer ) > 2) {
             amenu.addentry(ei_decrypt, true, 'd', _("Decrypt memory card"));
         } else {
             amenu.addentry(ei_decrypt, false, 'd', _("Decrypt memory card (low skill)"));
@@ -7010,7 +6923,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             ///\EFFECT_INT increases chance of safely decrypting memory card
 
             ///\EFFECT_COMPUTER increases chance of safely decrypting memory card
-            const int success = p->skillLevel( skill_computer ) * rng(1, p->skillLevel( skill_computer )) *
+            const int success = p->get_skill_level( skill_computer ) * rng(1, p->get_skill_level( skill_computer )) *
                 rng(1, p->int_cur) - rng(30, 80);
             if (success > 0) {
                 p->practice( skill_computer , rng(5, 10));
@@ -7637,7 +7550,7 @@ static bool hackveh(player *p, item *it, vehicle *veh)
     ///\EFFECT_INT increases chance of bypassing vehicle security system
 
     ///\EFFECT_COMPUTER increases chance of bypassing vehicle security system
-    int roll = dice( p->skillLevel( skill_computer ) + 2, p->int_cur ) - ( advanced ? 50 : 25 );
+    int roll = dice( p->get_skill_level( skill_computer ) + 2, p->int_cur ) - ( advanced ? 50 : 25 );
     int effort = 0;
     bool success = false;
     if( roll < -20 ) { // Really bad rolls will trigger the alarm before you know it exists
@@ -7871,7 +7784,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
             ///\EFFECT_INT increases chance of checking multi-cooker on time
 
             ///\EFFECT_SURVIVAL increases chance of checking multi-cooker on time
-            if (p->int_cur + p->skillLevel( skill_cooking ) + p->skillLevel( skill_survival ) > 16) {
+            if (p->int_cur + p->get_skill_level( skill_cooking ) + p->get_skill_level( skill_survival ) > 16) {
                 add_msg(m_info, _("The multi-cooker should be finishing shortly..."));
             }
         }
@@ -7943,7 +7856,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 ///\EFFECT_ELECTRONICS >3 allows multicooker upgrade
 
                 ///\EFFECT_FABRICATION >3 allows multicooker upgrade
-                if (p->skillLevel( skill_electronics ) > 3 && p->skillLevel( skill_fabrication ) > 3) {
+                if (p->get_skill_level( skill_electronics ) > 3 && p->get_skill_level( skill_fabrication ) > 3) {
                     const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
                     if (upgr == "" ) {
                         menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi-cooker"));
@@ -8091,7 +8004,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 has_tools = false;
             }
 
-            if( !cinv.has_items_with_quality( "SCREW_FINE", 1, 1 ) ) {
+            if( !cinv.has_quality( "SCREW_FINE" ) ) {
                 p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SCREW_FINE" ).c_str() );
                 has_tools = false;
             }
@@ -8110,7 +8023,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
             ///\EFFECT_ELECTRONICS increases chance to successfully upgrade multi-cooker
 
             ///\EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker
-            if (p->skillLevel( skill_electronics ) + p->skillLevel( skill_fabrication ) + p->int_cur > rng(20, 35)) {
+            if (p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->int_cur > rng(20, 35)) {
 
                 p->practice( skill_electronics, rng(5, 20));
                 p->practice( skill_fabrication, rng(5, 20));
@@ -8155,7 +8068,7 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
         }
         auto veh = g->m.veh_at( posp );
         auto ter = g->m.ter_at( posp );
-        if( veh == nullptr && ter.id != "t_chainfence_h" && ter.id != "t_chainfence_v") {
+        if( veh == nullptr && ter.id.id() != t_chainfence_h && ter.id.id() != t_chainfence_v ) {
             p->add_msg_if_player(_("There's no vehicle there."));
             return 0;
         } else {
@@ -8226,13 +8139,13 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             const vpart_str_id vpid( it->typeId() );
 
             point vcoords = g->m.veh_part_coordinates( source_local );
-            vehicle_part source_part(vpid, vcoords.x, vcoords.y, it);
+            vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates( target_local );
-            vehicle_part target_part(vpid, vcoords.x, vcoords.y, it);
+            vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);

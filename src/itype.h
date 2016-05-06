@@ -8,6 +8,7 @@
 #include "bodypart.h" // body_part::num_bp
 #include "string_id.h"
 #include "explosion.h"
+#include "vitamin.h"
 
 #include <string>
 #include <vector>
@@ -33,10 +34,11 @@ class material_type;
 using material_id = string_id<material_type>;
 typedef std::string itype_id;
 typedef std::string ammotype;
+class fault;
+using fault_id = string_id<fault>;
 
 enum bigness_property_aspect : int {
-    BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
-    BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
+    BIGNESS_WHEEL_DIAMETER      // wheel size in inches, including tire
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
@@ -78,9 +80,6 @@ struct islot_comestible
     /** turns until becomes rotten, or zero if never spoils */
     int spoils = 0; 
 
-    /** how many seasons for a brew to ferment */
-    int brewtime = 0;
-
     /** addiction potential */
     int addict = 0; 
 
@@ -96,12 +95,26 @@ struct islot_comestible
     /** @todo add documentation */
     int healthy = 0;
 
+    /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
+    int parasites = 0;
+
+    /** vitamins potentially provided by this comestible (if any) */
+    std::map<vitamin_id, int> vitamins;
+
     /** 1 nutr ~= 8.7kcal (1 nutr/5min = 288 nutr/day at 2500kcal/day) */
     static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
     int get_calories() const {
         return nutr * kcal_per_nutr;
     }
+};
+
+struct islot_brewable {
+    /** What are the results of fermenting this item? */
+    std::vector<std::string> results;
+
+    /** How many turns for this brew to ferment */
+    int time = 0;
 };
 
 struct islot_container {
@@ -284,6 +297,15 @@ struct common_firing_data : common_ranged_data {
     int loudness = 0;
 };
 
+struct islot_engine
+{
+    /** for combustion engines the displacement (cc) */
+    int displacement = 0;
+
+    /** What faults (if any) can occur */
+    std::set<fault_id> faults;
+};
+
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_firing_data {
     /**
@@ -361,6 +383,8 @@ struct islot_gunmod : common_firing_data {
     /** Increases base gun UPS consumption by this many charges per shot */
     int ups_charges = 0;
 
+    /** If non-empty replaces the compatible magazines for the base gun */
+    std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 };
 
 struct islot_magazine {
@@ -423,7 +447,7 @@ struct islot_variable_bigness {
     /**
      * What the bigness actually represent see @ref bigness_property_aspect
      */
-    bigness_property_aspect bigness_aspect = BIGNESS_ENGINE_DISPLACEMENT;
+    bigness_property_aspect bigness_aspect = BIGNESS_WHEEL_DIAMETER;
 };
 
 struct islot_bionic {
@@ -442,7 +466,7 @@ struct islot_seed {
      * Time it takes for a seed to grow (in days, based of off a season length of 91)
      */
     int grow = 0;
-	/**
+    /**
      * Amount of harvested charges of fruits is divided by this number.
      */
     int fruit_div = 1;
@@ -505,8 +529,10 @@ struct itype {
     copyable_unique_ptr<islot_container> container;
     copyable_unique_ptr<islot_tool> tool;
     copyable_unique_ptr<islot_comestible> comestible;
+    copyable_unique_ptr<islot_brewable> brewable;
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
+    copyable_unique_ptr<islot_engine> engine;
     copyable_unique_ptr<islot_gun> gun;
     copyable_unique_ptr<islot_gunmod> gunmod;
     copyable_unique_ptr<islot_magazine> magazine;
@@ -575,7 +601,7 @@ public:
     const item_category *category = nullptr; // category pointer or NULL for automatic selection
 
     nc_color color = c_white; // Color on the map (color.h)
-    char sym = '#';       // Symbol on the ma
+    char sym = 0; // Symbol on the map
 
     /** Magazine types (if any) for each ammo type that can be used to reload this item */
     std::map< ammotype, std::set<itype_id> > magazines;
@@ -619,7 +645,7 @@ public:
         if( ammo ) {
             return true;
         } else if( comestible ) {
-            return phase == LIQUID || comestible->def_charges > 1;
+            return phase == LIQUID || comestible->def_charges > 1 || stack_size > 1;
         }
         return false;
     }

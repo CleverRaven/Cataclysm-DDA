@@ -85,6 +85,8 @@ void aggie_plant( player &p, const tripoint &examp );
 void harvest_tree_shrub( player &p, const tripoint &examp );
 void tree_pine( player &p, const tripoint &examp );
 void tree_hickory( player &p, const tripoint &examp );
+void tree_maple( player &p, const tripoint &examp );
+void tree_maple_tapped( player &p, const tripoint &examp );
 void tree_bark( player &p, const tripoint &examp );
 void shrub_marloss( player &p, const tripoint &examp );
 void tree_marloss( player &p, const tripoint &examp );

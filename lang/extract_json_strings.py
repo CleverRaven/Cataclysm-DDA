@@ -61,6 +61,9 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
+    "fault",
+    "vitamin",
+    "ENGINE",
     "AMMO",
     "ammunition_type",
     "ARMOR",
@@ -294,7 +297,12 @@ def extract_mapgen(item):
             for special in item["object"][objkey]:
                 for speckey in special:
                     if speckey == "signage":
-                        writestr(outfile, special[speckey])
+                        writestr(outfile, special[speckey], comment="Sign")
+        if objkey == "signs":
+            obj = item["object"][objkey]
+            for k in obj.keys():
+                sign = obj[k].get("signage", None)
+                writestr(outfile, sign, comment="Sign")
 
 def extract_recipes(item):
     outfile = get_outfile("recipe")
@@ -607,6 +615,10 @@ def extract(item, infilename):
     if "messages" in item:
         for message in item["messages"]:
             writestr(outfile, message, **kwargs)
+            wrote = True
+    if "mod_targets" in item:
+        for target in item["mod_targets"]:
+            writestr(outfile, target, **kwargs)
             wrote = True
     if "valid_mod_locations" in item:
         for mod_loc in item["valid_mod_locations"]:

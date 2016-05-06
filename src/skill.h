@@ -26,10 +26,10 @@ class Skill
         static std::vector<Skill> skills;
         static void load_skill( JsonObject &jsobj );
         // For loading old saves that still have integer-based ids.
-        static const Skill *from_legacy_int( int legacy_id );
+        static skill_id from_legacy_int( int legacy_id );
 
-        static const Skill *random_skill_with_tag( const std::string &tag );
-        static const Skill *random_skill();
+        static skill_id random_skill_with_tag( const std::string &tag );
+        static skill_id random_skill();
 
         static size_t skill_count();
         // clear skill vector, every skill pointer becames invalid!

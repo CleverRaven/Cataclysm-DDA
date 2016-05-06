@@ -148,7 +148,7 @@ public:
         if (type == m_debug && !debug_mode) {
             return;
         }
-        
+
         if (coalesce_messages(msg, type)) {
             return;
         }
@@ -204,7 +204,7 @@ void Messages::deserialize( JsonObject &json )
     if (!json.has_member("player_messages")) {
         return;
     }
-    
+
     JsonObject obj = json.get_object( "player_messages" );
     obj.read( "messages", player_messages.impl_->messages );
     obj.read( "curmes", player_messages.impl_->curmes );
@@ -278,11 +278,12 @@ void Messages::display_messages()
                 lasttime = timepassed.get_turn();
             }
 
+            nc_color col_out = col;
             for( const std::string &folded : foldstring(m.get_with_count(), maxlength) ) {
                 if (line > bottom) {
                     break;
                 }
-                mvwprintz(w, line++, 1, col, "%s", folded.c_str());
+                print_colored_text( w, line++, 1, col_out, col, folded );
             }
         }
 

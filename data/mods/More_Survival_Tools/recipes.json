@@ -634,32 +634,6 @@
   ]
 },{
   "type" : "recipe",
-   "result": "hotdogs_campfire",
-   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
-   "skill_used": "cooking",
-   "difficulty": 0,
-   "time": 1000,
-   "reversible": false,
-   "autolearn": true,
-   "batch_time_factors":[67, 5],
-   "qualities" : [
-     {"id":"COOK","level":1,"amount":1}
-  ], "tools": [
-   [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 10 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "hotdogs_frozen", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "override": true,
   "result": "plant_fibre",
   "category": "CC_OTHER",

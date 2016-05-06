@@ -79,7 +79,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [0, 23], "y": [0, 23] }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -122,7 +121,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [0, 23], "y": [0, 23] }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -170,7 +168,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [0, 23], "y": [0, 23] }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -239,7 +236,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [1, 17], "y": [0, 23] }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -316,7 +312,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [7, 23], "repeat": 2 }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -394,7 +389,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [7, 23], "repeat": 2 }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -471,7 +465,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [7, 23], "repeat": 2 }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -539,7 +532,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 23] }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -613,7 +605,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [1, 17], "y": [0, 22], "repeat": 2 }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -686,7 +677,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [0, 23], "y": [23, 3], "repeat": 2 }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -761,7 +751,6 @@
             "place_monsters": [
                 { "monster": "GROUP_ZOMBIE", "x": [7, 23], "y": [0, 22], "repeat": 2 }
             ]
-
         }
     },{
         "type": "mapgen",
@@ -885,7 +874,6 @@
             "place_monsters": [
                 { "monster": "GROUP_HOTEL_POOL", "x": [0, 22], "y": [12, 19], "repeat": 2 }
             ]
-
         }
     },{
         "type": "mapgen",

@@ -87,7 +87,7 @@
       "terrain": {
         "5": "t_wall_glass",
         "%": "t_wall_glass",
-        ",": "t_pavement_y",        
+        ",": "t_pavement_y",
         "_": "t_pavement",
         "x": "t_console_broken",
         ".": "t_floor",
@@ -137,7 +137,6 @@
         {"item": "coffee_display", "chance": 40, "x": [19, 15],  "y": 22, "repeat": [1,2]},
         {"item": "coffee_dishes",  "chance": 85, "x": 20,       "y": 22, "repeat": [1,2]},
         {"item": "coffee_fridge",  "chance": 75, "x": 22,       "y": 22, "repeat": [1,2]},
-        
         {"item": "coffee_table", "chance": 20, "x": [22,21], "y": [17,16], "repeat": [1,2]},
         {"item": "coffee_table", "chance": 20, "x": 12,    "y": 17,     "repeat": [1,2]},
         {"item": "coffee_table", "chance": 20, "x": 8,    "y": 17,     "repeat": [1,2]},
@@ -147,7 +146,6 @@
         {"item": "coffee_table", "chance": 20, "x": 21,     "y": 5,    "repeat": [1,2]},
         {"item": "coffee_table", "chance": 20, "x": 18,     "y": 5,    "repeat": [1,2]},
         {"item": "coffee_table", "chance": 20, "x": [20,19], "y": 2,    "repeat": [1,2]},
-        
         {"item": "coffee_trash", "chance": 75, "x": 22,      "y": 13,   "repeat": [2,4]},
         {"item": "coffee_bathroom","chance": 20,"x":[6,5],"y":[22,21], "repeat": [1,2]},
         {"item": "coffee_bathroom","chance": 20,"x":[3,2],"y":[22,21], "repeat": [1,2]}

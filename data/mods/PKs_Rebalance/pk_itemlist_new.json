@@ -1,0 +1,169 @@
+[
+
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "melee drops",
+        "id": "spearmelee_pk",
+        "entries":
+        [
+            { "group": "mon_zombie_survivor_death_drops", "damage": [3, 4] },
+            { "group": "bags", "damage": [2, 4], "prob": 10 },
+            { "group": "pk_melee", "damage": [3, 4], "prob": 50}
+        ]
+    },
+    
+    {
+    "type" : "item_group",
+    "id" : "pk_melee",
+    "//" : "weapons, some uncommon",
+    "items": [
+      [ "stick", 10],
+      ["spear_rebar", 10],
+      ["pointy_stick", 5],
+      ["q_staff", 5],
+      ["spear_wood", 5],
+      ["spear_forked", 5],
+      ["spear_steel", 5],
+      ["spear_copper", 3],
+      ["sword_crude", 3],
+      ["homewrecker", 3],
+      ["makeshift_halberd", 3],
+      ["makeshift_machete", 3],
+      ["javelin_iron", 3],
+      ["bwirebat", 3],
+      ["makeshift_crowbar", 3],
+      ["machete", 2],
+      ["i_staff", 2],
+      ["lajatang", 2],
+      ["canister_empty", 2],
+      ["sword_wood", 2],
+      ["hammer_sledge", 2],
+      ["hatchet", 1],
+      ["knife_butter", 1],
+      ["baton-extended", 1],
+      ["mace", 1],
+      ["spike", 1],
+      ["torch_done", 1],
+      ["rock", 1],
+      ["sharp_rock", 1],
+      ["pipe", 1],
+      ["golf_club", 1],
+      ["glass_macuahuitl", 1],
+      ["longsword_inferior", 1] 
+    ]
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "revenant rocket drops",
+        "id": "revenant_death_drops",
+        "entries":
+        [
+            { "group": "revenant_rockets", "prob": 35, "count": [0, 4]},
+            { "group": "revenant_rocket_cores", "prob": 5, "count": [0, 2] }
+        ]
+    },{
+    "type" : "item_group",
+    "id" : "revenant_rockets",
+    "//" : "revenant rocket bots.",
+    "items": [
+      [ "bot_manhack_missile", 1]
+    ] 
+    },{
+    "type" : "item_group",
+    "id" : "revenant_rocket_cores",
+    "//" : "rockets in bomb form.",
+    "items": [
+      [ "rocket_core", 1]
+      
+    ] 
+    },{
+        "type" : "item_group",
+        "id" : "doom_corpse",
+        "items":[
+            ["corpse", 7],
+            ["human_flesh", 1]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "doom_stimpack",
+        "items":[
+      ["stamina_vial", 9],
+      ["disinfectant", 9],
+      ["caffeine", 6],
+      ["1st_aid", 6],
+      ["medikit", 6],
+      ["codeine", 6],
+      ["tramadol", 6],
+      ["adrenaline_injector", 6],
+      ["berserker_drug", 6],
+      ["quikclot", 3],
+      ["bandages", 3],
+      ["caff_gum", 3],
+      ["bfipowder", 3],
+      ["smoxygen_tank", 3],
+      ["aspirin", 3],
+      ["oxycodone", 1],
+      ["morphine", 1]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "doom_lootpack",
+        "items":[
+      ["power_armor_helmet_basic", 20],
+      ["flamethrower", 20],
+      ["LAW_Packed", 20],
+      ["megaarmor_torso_1", 15],
+      ["megaarmor_head_1", 15],
+      ["megaarmor_boots_1", 15],
+      ["rx12_injector", 15],
+      ["rx11_stimpack", 15],
+      ["megaarmor_leggings_1", 10],
+      ["megaarmor_gloves_1", 10],
+      ["megaarmor_armguards_1", 10],
+      ["stamina_vial", 10],
+      ["berserker_drug", 10],
+      ["l-stick", 10],
+      ["power_armor_basic", 10],
+      ["power_armor_frame", 10],
+      ["ampoule", 10],
+      ["stimpack_ammo", 10],
+      ["stillsuit", 10],
+      ["adv_UPS_off", 10],
+      ["medikit", 5],
+      ["bio_time_freeze", 5],
+      ["bio_teleport", 5],
+      ["bio_probability_travel", 5],
+      ["battery_ups", 5],
+      ["optical_cloak", 5],
+      ["rm451_flamethrower", 5],
+      ["m3_carlgustav", 5],
+      ["portal", 5],
+      ["teleporter", 5]
+    ]
+    },{
+        "type" : "item_group",
+        "id" : "doom_armor",
+        "items":[
+      ["null", 8],
+      ["megaarmor_leggings_1", 8],
+      ["megaarmor_gloves_1", 8],
+      ["megaarmor_armguards_1", 8],
+      ["megaarmor_boots_1", 5],
+      ["megaarmor_torso_1", 5],
+      ["megaarmor_head_1", 5]
+    ]
+    },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "y i gotta make this?",
+        "id": "doom_victim_corpse",
+        "entries":
+        [
+            { "group": "default_zombie_items", "damage": [1, 4] },
+            { "group": "doom_corpse", "damage": [ 1, 4 ] },
+            { "group": "knifeblock", "damage": [ 1, 3], "prob": 40, "count": [1, 2] }
+        ]
+    }
+
+]

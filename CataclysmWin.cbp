@@ -356,6 +356,7 @@
 		<Unit filename="src/basecamp.h" />
 		<Unit filename="src/bionics.cpp" />
 		<Unit filename="src/bionics.h" />
+		<Unit filename="src/bionics_ui.cpp" />
 		<Unit filename="src/bodypart.cpp" />
 		<Unit filename="src/bodypart.h" />
 		<Unit filename="src/bonuses.cpp" />
@@ -421,6 +422,8 @@
 		<Unit filename="src/event.h" />
 		<Unit filename="src/faction.cpp" />
 		<Unit filename="src/faction.h" />
+		<Unit filename="src/fault.cpp" />
+		<Unit filename="src/fault.h" />
 		<Unit filename="src/field.cpp" />
 		<Unit filename="src/field.h" />
 		<Unit filename="src/filesystem.cpp" />
@@ -543,6 +546,7 @@
 		<Unit filename="src/mutation.cpp" />
 		<Unit filename="src/mutation.h" />
 		<Unit filename="src/mutation_data.cpp" />
+		<Unit filename="src/mutation_ui.cpp" />
 		<Unit filename="src/name.cpp" />
 		<Unit filename="src/name.h" />
 		<Unit filename="src/newcharacter.cpp" />
@@ -634,6 +638,8 @@
 		<Unit filename="src/vehicle_selector.cpp" />
 		<Unit filename="src/vehicle_selector.h" />
 		<Unit filename="src/version.cpp" />
+		<Unit filename="src/vitamin.cpp" />
+		<Unit filename="src/vitamin.h" />
 		<Unit filename="src/visitable.cpp" />
 		<Unit filename="src/visitable.h" />
 		<Unit filename="src/wcwidth.h" />

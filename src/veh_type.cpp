@@ -136,7 +136,11 @@ void vpart_info::load( JsonObject &jo )
     vpart_info next_part;
 
     next_part.id = vpart_str_id( jo.get_string( "id" ) );
-    next_part.name = _(jo.get_string("name").c_str());
+
+    if( jo.has_member( "name" ) ) {
+        next_part.name_ = _( jo.get_string( "name" ).c_str() );
+    }
+
     next_part.sym = jo.get_string("symbol")[0];
     next_part.color = color_from_string(jo.get_string("color"));
     next_part.sym_broken = jo.get_string("broken_symbol")[0];
@@ -169,7 +173,7 @@ void vpart_info::load( JsonObject &jo )
         //Too many
         debugmsg("Error parsing vehicle part '%s': \
                Use AT MOST one of: par1, wheel_width, bonus",
-                 next_part.name.c_str());
+                 next_part.name().c_str());
         //Keep going to produce more messages if other parts are wrong
         next_part.par1 = 0;
     }
@@ -188,6 +192,12 @@ void vpart_info::load( JsonObject &jo )
         next_part.breaks_into_group = item_group::load_item_group( stream, "collection" );
     } else {
         next_part.breaks_into_group = "EMPTY_GROUP";
+    }
+
+    auto qual = jo.get_array( "qualities" );
+    while( qual.has_more() ) {
+        auto pair = qual.next_array();
+        next_part.qualities[ pair.get_string( 0 ) ] = pair.get_int( 1 );
     }
 
     //Calculate and cache z-ordering based off of location
@@ -267,7 +277,7 @@ void vpart_info::check()
                       part.id.c_str(), part.breaks_into_group.c_str() );
         }
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
-            debugmsg("Error: folded part %s has a volume of 0!", part.name.c_str());
+            debugmsg("Error: folded part %s has a volume of 0!", part.name().c_str());
         }
         if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
@@ -290,6 +300,14 @@ void vpart_info::reset()
 const std::vector<const vpart_info*> &vpart_info::get_all()
 {
     return vehicle_part_int_types;
+}
+
+std::string vpart_info::name() const
+{
+    if( name_.empty() ) {
+        name_ = item::nname( item ); // cache on first request
+    }
+    return name_;
 }
 
 template<>

@@ -8,7 +8,7 @@
     {
         "type" : "ammunition_type",
         "id" : "pointer_fake_ammo",
-        "name" : "none", 
+        "name" : "none",
         "default" : "pointer_fake_ammo"
     },
     {

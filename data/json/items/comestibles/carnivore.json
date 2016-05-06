@@ -1,0 +1,154 @@
+[
+  {
+    "abstract": "flesh",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "meat/fish",
+    "material": "flesh",
+    "symbol": "%",
+    "color": "red",
+    "parasites": 32,
+    "vitamins": [
+      [ "calcium", 1 ],
+      [ "iron", 20 ],
+      [ "vitB", 10 ]
+    ]
+  },
+  {
+    "id": "fish",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": "fillet of fish",
+    "name_plural": "fillets of fish",
+    "description": "Freshly caught fish.  Makes a passable meal raw.",
+    "weight": 200,
+    "volume": 1,
+    "price": 500,
+    "spoils_in": 12,
+    "calories": 200
+  },
+  {
+    "id": "fish_cooked",
+    "copy-from": "fish",
+    "type": "COMESTIBLE",
+    "name": "cooked fish",
+    "name_plural": "cooked fish",
+    "description": "Freshly cooked fish.  Very nutritious.",
+    "proportional": { "price": 1.5 },
+    "spoils_in": 24,
+    "parasites": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "hstomach",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": "human stomach",
+    "description": "The stomach of a human.  It is surprisingly durable.",
+    "material": "hflesh"
+  },
+  {
+    "id": "hstomach_large",
+    "copy-from": "hstomach",
+    "type": "COMESTIBLE",
+    "name": "large human stomach",
+    "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
+    "proportional": {
+      "weight": 2.0,
+      "volume": 2.0,
+      "price": 1.5,
+      "calories": 2.0
+    }
+  },
+  {
+    "id": "human_flesh",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "human flesh",
+    "name_plural": "human fleshes",
+    "description": "Freshly butchered from a human body.",
+    "material": "hflesh"
+  },
+  {
+    "id": "human_cooked",
+    "copy-from": "human_flesh",
+    "type": "COMESTIBLE",
+    "name": "cooked creep",
+    "description": "A freshly cooked slice of some unpleasant person.  Tastes great.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "meat",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": "chunk of meat",
+    "name_plural": "chunks of meat",
+    "description": "Freshly butchered meat.  You could eat it raw, but cooking it is better.",
+    "weight": 200,
+    "volume": 1,
+    "price": 500,
+    "spoils_in": 24,
+    "calories": 250,
+    "healthy": -1,
+    "fun": -10
+  },
+  {
+    "id": "meat_cooked",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "cooked meat",
+    "description": "Freshly cooked meat.  Very nutritious.",
+    "proportional": { "price": 1.5 },
+    "parasites": 0,
+    "healthy": 0,
+    "fun": 0,
+    "flags": [ "EATEN_HOT" ]
+  },
+  {
+    "id": "offal",
+    "copy-from": "meat",
+    "type": "COMESTIBLE",
+    "name": "raw offal",
+    "description": "Uncooked internal organs and entrails.  Unappealing to eat but filled with essential vitamins.",
+    "proportional": {
+        "calories": 0.5,
+        "parasites": 2.0
+    },
+    "relative": {
+        "vitamins": [ [ "vitA", 5 ] ],
+        "fun": -5
+    }
+  },
+  {
+    "id": "stomach",
+    "copy-from": "flesh",
+    "type": "COMESTIBLE",
+    "name": "stomach",
+    "description": "The stomach of a woodland creature.  It is surprisingly durable.",
+    "weight": 72,
+    "volume": 1,
+    "price": 200,
+    "spoils_in": 8,
+    "calories": 40,
+    "quench": 1,
+    "healthy": -1,
+    "fun": -15
+  },
+  {
+    "id": "stomach_large",
+    "copy-from": "stomach",
+    "type": "COMESTIBLE",
+    "name": "large stomach",
+    "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
+    "proportional": {
+      "weight": 2.0,
+      "volume": 2.0,
+      "price": 1.5,
+      "calories": 2.0
+    }
+  }
+]

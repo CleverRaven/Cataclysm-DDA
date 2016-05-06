@@ -117,7 +117,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
 
-    const bool stream = proj_effects.count("FLAME") > 0 ||
+    const bool stream = proj_effects.count("STREAM") > 0 ||
+                        proj_effects.count("STREAM_BIG") ||
                         proj_effects.count("JET") > 0;
     const bool no_item_damage = proj_effects.count( "NO_ITEM_DAMAGE" ) > 0;
     const bool do_draw_line = proj_effects.count( "DRAW_AS_LINE" ) > 0;
@@ -162,7 +163,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
 
-    if( range < proj_arg.range ) {
+    // If we were targetting a tile rather than a monster, don't overshoot
+    // Unless the target was a wall, then we are aiming high enough to overshoot
+    const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
+                              ( g->critter_at( target_arg ) == nullptr && g->m.passable( target_arg ) );
+
+    if( !no_overshoot && range < proj_arg.range ) {
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
                                                                     proj_arg.range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
@@ -469,7 +475,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         }
 
         // Experience gain is limited by range and penalised proportional to inaccuracy.
-        int exp = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) ) * 20;
+        int exp = std::min( range, 3 * ( get_skill_level( skill_used ) + 1 ) ) * 20;
         int penalty = std::max( int( sqrt( shot.missed_by * 36 ) ), 1 );
 
         // Even if we are not training we practice the skill to prevent rust.
@@ -487,7 +493,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
 
             hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
-                if( rl_dist( z->pos(), aim ) > skillLevel( skill_gun ) ) {
+                if( rl_dist( z->pos(), aim ) > get_skill_level( skill_gun ) ) {
                     return true; ///\EFFECT_GUN increases range of automatic retargeting during burst fire
 
                 } else if( z->is_dead_state() ) {
@@ -504,7 +510,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             if( hostiles.empty() || hostiles.front()->is_dead_state() ) {
                 break; // We ran out of suitable targets
 
-            } else if( !one_in( 7 - skillLevel( skill_gun ) ) ) {
+            } else if( !one_in( 7 - get_skill_level( skill_gun ) ) ) {
                 break; ///\EFFECT_GUN increases chance of firing multiple times in a burst
             }
             aim = random_entry( hostiles )->pos();
@@ -529,7 +535,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
     ///\EFFECT_THROW speeds up throwing items
-    int skill_cost = (int)(move_cost / (std::pow(skillLevel( skill_throw ), 3.0f) / 400.0 + 1.0));
+    int skill_cost = (int)(move_cost / (std::pow(get_skill_level( skill_throw ), 3.0f) / 400.0 + 1.0));
     ///\EFFECT_DEX speeds up throwing items
     const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
 
@@ -558,7 +564,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     const skill_id &skill_used = skill_throw;
     // Throwing attempts below "Basic Competency" level are extra-bad
-    int skill_level = skillLevel( skill_throw );
+    int skill_level = get_skill_level( skill_throw );
 
     ///\EFFECT_THROW <8 randomly increases throwing deviation
     if( skill_level < 3 ) {
@@ -682,7 +688,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const double missed_by = dealt_attack.missed_by;
 
     // Copied from the shooting function
-    const int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
+    const int range_multiplier = std::min( range, 3 * ( get_skill_level( skill_used ) + 1 ) );
     constexpr int damage_factor = 21;
 
     if( missed_by <= .1 ) {
@@ -855,7 +861,7 @@ static int print_aim_bars( const player &p, WINDOW *w, int line_number, item *we
         p.get_weapon_dispersion( weapon, false );
     const double range = rl_dist( p.pos(), target->pos() );
     const double missed_by = aim_level * 0.00021666666666666666 * range;
-    const double hit_rating = missed_by / std::max( double( p.get_speed() ) / 80., 1.0 );
+    const double hit_rating = missed_by;
     const double confidence = 1 / hit_rating;
     // This is a relative measure of how steady the player's aim is,
     // 0 it is the best the player can do.
@@ -1020,7 +1026,6 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     }
 
     const tripoint old_offset = u.view_offset;
-    u.view_offset += p - u.pos();
     do {
         ret = g->m.find_clear_path( from, p );
 
@@ -1367,7 +1372,7 @@ int time_to_fire(player &p, const itype &firingt)
     static const time_info_t default_info{ 50, 220, 25 };
 
     time_info_t const &info = (it == map.end()) ? default_info : it->second;
-    return std::max(info.min_time, info.base - info.reduction * p.skillLevel( skill_used ));
+    return std::max(info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ));
 }
 
 static inline void eject_casing( player& p, item& weap ) {

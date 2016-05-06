@@ -188,5 +188,112 @@
       [ "pocketwatch", 25 ],
       [ "wristwatch", 100 ]
     ]
+  },
+  {
+    "id": "clothing_work_boots",
+    "type": "item_group",
+    "//": "Sturdy boots often worn by technicians and tradesmen.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "boots", "prob": 60 },
+      { "item": "boots_hiking", "prob": 10 },
+      { "item": "boots_steel", "prob": 30 }
+    ]
+  },
+  {
+    "id": "clothing_work_glasses",
+    "type": "item_group",
+    "//": "Eye protection often worn by technicians and tradesmen.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "clothing_glasses", "prob": 10 },
+      { "item": "glasses_safety", "prob": 75 },
+      { "item": "goggles_welding", "prob": 15 }
+    ]
+  },
+  {
+    "id": "clothing_work_gloves",
+    "type": "item_group",
+    "//": "Protective gloves often worn by technicians and tradesmen.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_leather", "prob": 30 },
+      { "item": "gloves_rubber", "prob": 10 },
+      { "item": "gloves_work", "prob": 60 }
+    ]
+  },
+  {
+    "id": "clothing_work_hat",
+    "type": "item_group",
+    "//": "Protective helmets or headlamps often worn by technicians and tradesmen.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hat_hard", "prob": 60 },
+      { "item": "hat_hard_hooded", "prob": 15 },
+      { "item": "miner_hat", "prob": 10 },
+      { "item": "wearable_light", "prob": 15 }
+    ]
+  },
+  {
+    "id": "clothing_work_mask",
+    "type": "item_group",
+    "//": "Protective masks often worn by technicians and tradesmen.",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mask_dust", "prob": 90 },
+      { "item": "mask_filter", "prob": 10 }
+    ]
+  },
+  {
+    "id": "clothing_work_pants",
+    "type": "item_group",
+    "//": "Pants often worn by technicians and tradesmen.",
+    "subtype": "distribution",
+    "entries": [
+        { "item": "technician_pants_blue", "prob": 100 },
+        { "item": "technician_pants_ltblue", "prob": 100 },
+        { "item": "technician_pants_gray", "prob": 100 }
+    ]
+  },
+  {
+    "id" : "clothing_work_torso",
+    "type": "item_group",
+    "//": "Shirts and jackets often worn by technicians and labourers.",
+    "items": [
+      { "collection": [
+        { "distribution": [
+          { "item": "technician_shirt_blue", "prob": 100 },
+          { "item": "technician_shirt_ltblue", "prob": 100 },
+          { "item": "technician_shirt_gray", "prob": 100 }
+        ] },
+        { "distribution": [
+          { "item": "coat_rain", "prob": 30 },
+          { "item": "jacket_jean", "prob": 20 },
+          { "item": "jacket_light", "prob": 40 }
+        ], "prob": 20 }
+      ] }
+    ]
+  },
+  {
+    "id": "clothing_work_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Set of clothes worn by technicians and labourers including protective gear",
+    "items": [
+      { "group": "clothing_work_boots" },
+      { "group": "clothing_work_glasses", "prob": 60 },
+      { "group": "clothing_work_gloves", "prob": 75 },
+      { "group": "clothing_work_hat", "prob": 60 },
+      { "group": "clothing_work_mask", "prob": 40 },
+      { "item": "ear_plugs", "prob": 15 },
+      { "item": "tool_belt", "prob": 25 },
+      { "distribution": [
+          { "collection": [
+            { "group": "clothing_work_pants" },
+            { "group": "clothing_work_torso" }
+          ], "prob": 75 },
+          { "item": "jumpsuit", "prob": 25 }
+      ] }
+    ]
   }
 ]
