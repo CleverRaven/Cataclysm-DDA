@@ -52902,8 +52902,8 @@
     "file": "tiles32.png", 
     "sprite_width":32,
     "sprite_height":32,
-    "sprite_offset_x":-8,
-    "sprite_offset_y":-8,
+    "sprite_offset_x":-3,
+    "sprite_offset_y":-6,
     "tiles":
     [ 
         {
