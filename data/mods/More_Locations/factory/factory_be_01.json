@@ -46,7 +46,6 @@
                 "]": "t_door_metal_locked",
                 "[": "t_door_metal_locked",
                 "=": "t_conveyor",
-
                 "*": "t_bars",
                 "!": "t_door_metal_c",
                 "_": "t_metal_floor",
