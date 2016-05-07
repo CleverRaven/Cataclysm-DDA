@@ -6468,14 +6468,6 @@ void player::hardcoded_effects(effect &it)
         int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
         int peakTime = int(maxDuration*0.8);
         int comedownTime = int(maxDuration*0.3);
-
-        // Cap hallu duration to maxDuration.
-        // Otherwise the player can just take like 40 pink tablets and break hallucination
-        // since it will take 39*3600 extra turns before dur even reaches comeupTime.
-        if (dur > maxDuration) {
-          it.set_duration(maxDuration);
-        }
-
         // Baseline
         if (dur == noticeTime) {
             add_msg_if_player(m_warning, _("You feel a little strange."));
