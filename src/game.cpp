@@ -7204,8 +7204,8 @@ void game::open()
                 // curtains as well.
                 int outside_openable = veh->next_part_to_open(vpart, true);
                 if (outside_openable == -1) {
-                    const char *name = veh->part_info( openable ).name().c_str();
-                    add_msg(m_info, _("That %s can only opened from the inside."), name);
+                    const std::string name = veh->part_info( openable ).name();
+                    add_msg(m_info, _("That %s can only opened from the inside."), name.c_str());
                     u.moves += 100;
                 } else {
                     veh->open_all_at(openable);
@@ -7215,8 +7215,8 @@ void game::open()
             // If there are any OPENABLE parts here, they must be already open
             int already_open = veh->part_with_feature(vpart, "OPENABLE");
             if (already_open >= 0) {
-                const char *name = veh->part_info( already_open ).name().c_str();
-                add_msg(m_info, _("That %s is already open."), name);
+                const std::string name = veh->part_info( already_open ).name();
+                add_msg(m_info, _("That %s is already open."), name.c_str());
             }
             u.moves += 100;
         }
@@ -7272,11 +7272,11 @@ void game::close( const tripoint &closep )
                 add_msg(m_info, _("There's some buffoon in the way!"));
                 return;
             }
-            const char *name = veh->part_info(openable).name().c_str();
+            const std::string name = veh->part_info(openable).name();
             if (veh->part_info(openable).has_flag("OPENCLOSE_INSIDE")) {
                 const vehicle *in_veh = m.veh_at(u.pos());
                 if (!in_veh || in_veh != veh) {
-                    add_msg(m_info, _("That %s can only closed from the inside."), name);
+                    add_msg(m_info, _("That %s can only closed from the inside."), name.c_str());
                     return;
                 }
             }
@@ -7284,7 +7284,7 @@ void game::close( const tripoint &closep )
                 veh->close(openable);
                 didit = true;
             } else {
-                add_msg(m_info, _("That %s is already closed."), name);
+                add_msg(m_info, _("That %s is already closed."), name.c_str());
             }
         }
     } else if( closep == u.pos() ) {

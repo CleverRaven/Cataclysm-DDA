@@ -6102,19 +6102,19 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     }
 
     if( only_manual_modes ) {
-        const char *name = parts[ p ].name().c_str();
+        const std::string name = parts[ p ].name();
         if( tr.mode < -1 ) {
-            add_msg( m_info, _("Setting turret %s to burst mode."), name );
+            add_msg( m_info, _("Setting turret %s to burst mode."), name.c_str() );
         } else if( tr.mode == -1 ) {
-            add_msg( m_info, _("Setting turret %s to single-fire mode."), name );
+            add_msg( m_info, _("Setting turret %s to single-fire mode."), name.c_str() );
         } else if( tr.mode == 0 ) {
-            add_msg( m_info, _("Disabling turret %s."), name );
+            add_msg( m_info, _("Disabling turret %s."), name.c_str() );
         } else {
-            add_msg( m_info, _("Setting turret %s to buggy mode."), name );
+            add_msg( m_info, _("Setting turret %s to buggy mode."), name.c_str() );
         }
 
         if( was_auto ) {
-            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name );
+            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name.c_str() );
         }
     }
 }
