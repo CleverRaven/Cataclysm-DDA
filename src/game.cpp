@@ -3554,7 +3554,6 @@ void game::load_world_modfiles(WORLDPTR world)
     popup_nowait(_("Please wait while the world data loads...\nReading JSON files..."));
     load_core_data();
     if (world != NULL) {
-        popup_nowait(_("Please wait while the world data loads...\nLoading mods..."));
         load_artifacts(world->world_path + "/artifacts.gsav");
         mod_manager *mm = world_generator->get_mod_manager();
         // this code does not care about mod dependencies,
