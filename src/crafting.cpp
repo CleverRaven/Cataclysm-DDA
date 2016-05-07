@@ -487,9 +487,8 @@ const inventory& player::crafting_inventory()
         const auto &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
             !bio_data.fake_item.empty() ) {
-            item tools( bio.info().fake_item, calendar::turn );
-            tools.charges = power_level;
-            cached_crafting_inventory += tools;
+            cached_crafting_inventory += item( bio.info().fake_item,
+                                               calendar::turn, power_level );
         }
     }
 

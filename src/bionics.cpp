@@ -21,7 +21,6 @@
 #include "weather.h"
 #include "cata_utility.h"
 #include "output.h"
-#include "item_factory.h"
 
 #include <algorithm> //std::min
 #include <sstream>
@@ -1392,7 +1391,7 @@ void check_bionics()
 {
     for( const auto &bio : bionics ) {
         if( bio.second.fake_item.empty() &&
-            item_controller->has_template( bio.second.fake_item ) ) {
+            item::type_is_defined( bio.second.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
                       bio.first.c_str(), bio.second.fake_item.c_str() );
         }
@@ -1406,7 +1405,7 @@ int bionic::get_quality( const std::string &q ) const
         return false;
     }
 
-    return item( i.fake_item, calendar::turn ).get_quality( q );
+    return item( i.fake_item ).get_quality( q );
 }
 
 void bionic::serialize( JsonOut &json ) const

@@ -146,6 +146,10 @@ bool visitable<Character>::has_quality( const std::string &qual, int level, int 
 
     for( const auto &bio : self->my_bionics ) {
         if( bio.get_quality( qual ) >= level ) {
+            if( qty <= 1 ) {
+                return true;
+            }
+
             qty--;
         }
     }
