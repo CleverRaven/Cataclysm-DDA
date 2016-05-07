@@ -2566,35 +2566,35 @@ int item::volume( bool integral ) const
     }
 
     const int local_volume = get_var( "volume", -1 );
-    int ret;
+    units::volume ret;
     if( local_volume >= 0 ) {
-        ret = local_volume;
+        ret = local_volume * units::legacy_volume_factor;
     } else if( integral ) {
-        ret = type->integral_volume / units::legacy_volume_factor;
+        ret = type->integral_volume;
     } else {
-        ret = type->volume / units::legacy_volume_factor;
+        ret = type->volume;
     }
 
     // For items counted per charge the above volume is per stack so adjust dependent upon charges
     if( count_by_charges() || made_of( LIQUID ) ) {
-        ret = ceil( ret * double( charges ) / type->stack_size );
+        ret *= double( charges ) / type->stack_size;
     }
 
     // Non-rigid items add the volume of the content
     if( !type->rigid ) {
         for( auto &elem : contents ) {
-            ret += elem.volume();
+            ret += elem.volume() * units::legacy_volume_factor;
         }
     }
 
     // Some magazines sit (partly) flush with the item so add less extra volume
     if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->volume() - type->magazine_well / units::legacy_volume_factor, 0 );
+        ret += std::max( magazine_current()->volume() * units::legacy_volume_factor - type->magazine_well, units::volume( 0 ) );
     }
 
     if (is_gun()) {
         for( const auto elem : gunmods() ) {
-            ret += elem->volume( true );
+            ret += elem->volume( true ) * units::legacy_volume_factor;
         }
 
         // @todo implement stock_length property for guns
@@ -2602,31 +2602,31 @@ int item::volume( bool integral ) const
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", type->volume / units::legacy_volume_factor - type->gun->barrel_length );
             if     ( tmpvol <=  3 ) ; // intentional NOP
-            else if( tmpvol <=  5 ) ret -= 2;
-            else if( tmpvol <=  6 ) ret -= 3;
-            else if( tmpvol <=  8 ) ret -= 4;
-            else if( tmpvol <= 11 ) ret -= 5;
-            else if( tmpvol <= 16 ) ret -= 6;
-            else                    ret -= 7;
+            else if( tmpvol <=  5 ) ret -= 2 * units::legacy_volume_factor;
+            else if( tmpvol <=  6 ) ret -= 3 * units::legacy_volume_factor;
+            else if( tmpvol <=  8 ) ret -= 4 * units::legacy_volume_factor;
+            else if( tmpvol <= 11 ) ret -= 5 * units::legacy_volume_factor;
+            else if( tmpvol <= 16 ) ret -= 6 * units::legacy_volume_factor;
+            else                    ret -= 7 * units::legacy_volume_factor;
         }
 
         if( gunmod_find( "barrel_small" ) ) {
-            ret -= type->gun->barrel_length;
+            ret -= type->gun->barrel_length * units::legacy_volume_factor;
         }
     }
 
     // Battery mods also add volume
     if( has_flag("ATOMIC_AMMO") ) {
-        ret += 1;
+        ret += 1 * units::legacy_volume_factor;
     }
 
     if( has_flag("DOUBLE_AMMO") ) {
         // Batteries have volume 1 per 100 charges
         // TODO: De-hardcode this
-        ret += type->maximum_charges() / 100;
+        ret += type->maximum_charges() * units::legacy_volume_factor / 100;
     }
 
-    return ret;
+    return ret / units::legacy_volume_factor;
 }
 
 int item::lift_strength() const
