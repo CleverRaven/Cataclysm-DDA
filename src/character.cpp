@@ -868,7 +868,7 @@ units::volume Character::volume_capacity_reduced_by( units::volume mod ) const
 {
     int ret = -mod / units::legacy_volume_factor;
     for (auto &i : worn) {
-        ret += i.get_storage();
+        ret += i.get_storage() / units::legacy_volume_factor;
     }
     if (has_bionic("bio_storage")) {
         ret += 8;

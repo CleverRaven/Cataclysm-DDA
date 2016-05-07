@@ -929,7 +929,7 @@ classes = {
             { name = "get_remaining_chapters", rval = "int", args = { "player" } },
             { name = "get_rot", rval = "int", args = { } },
             { name = "get_side", rval = "int", args = { } },
-            { name = "get_storage", rval = "int", args = { } },
+            { name = "get_storage", rval = "volume", args = { } },
             { name = "get_thickness", rval = "int", args = { } },
             { name = "get_usable_item", rval = "item&", args = { "string" } },
             { name = "get_var", rval = "float", args = { "string", "float" } },

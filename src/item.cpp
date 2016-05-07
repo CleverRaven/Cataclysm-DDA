@@ -1257,7 +1257,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       get_encumber(), true, "", false, true ) );
         }
 
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), "", get_storage() ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), "", get_storage() / units::legacy_volume_factor ) );
 
         info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), true, "",
                                   false ) );
@@ -2864,13 +2864,13 @@ void item::calc_rot(const tripoint &location)
     }
 }
 
-int item::get_storage() const
+units::volume item::get_storage() const
 {
     auto t = find_armor_data();
     if( t == nullptr )
         return 0;
 
-    return t->storage / units::legacy_volume_factor;
+    return t->storage;
 }
 
 int item::get_env_resist() const

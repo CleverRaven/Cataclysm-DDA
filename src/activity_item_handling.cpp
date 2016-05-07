@@ -90,8 +90,8 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
 
 void stash_on_pet( const std::list<item> &items, monster &pet )
 {
-    units::volume remaining_volume = units::from_milliliter( pet.inv.empty() ? 0 :
-                                     pet.inv.front().get_storage() );
+    units::volume remaining_volume = pet.inv.empty() ? units::volume( 0 ) :
+                                     pet.inv.front().get_storage();
     int remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
@@ -262,7 +262,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     units::volume remaining_storage = p.volume_capacity(); // Cumulatively decreases
 
     while( !worn.empty() && !inv.empty() ) {
-        storage_loss += worn.front().it->get_storage() * units::legacy_volume_factor;
+        storage_loss += worn.front().it->get_storage();
         remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
 
         if( remaining_storage < inv.front().it->volume() ) {

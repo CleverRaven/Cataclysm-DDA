@@ -7929,7 +7929,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        int max_cap = it->get_storage();
+        int max_cap = it->get_storage() / units::legacy_volume_factor;
         int max_weight = z->weight_capacity() - it->weight();
 
         if (z->inv.size() > 1) {
