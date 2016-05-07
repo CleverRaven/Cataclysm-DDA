@@ -207,7 +207,8 @@ struct artifact_armor_form_datum {
     nc_color color;
     // Most things had 0 to 1 material.
     material_id material;
-    int volume, weight;
+    units::volume volume;
+    int weight;
     int encumb;
     int coverage;
     int thickness;
@@ -495,13 +496,13 @@ void init_artifacts()
 
     artifact_armor_form_datum tmp_artifact_armor_form_data[NUM_ARTARMFORMS] = {
         {
-            "", c_white, material_id( "null" ),        0,  0,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+            "", c_white, material_id( "null" ),        0_ml,  0,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
             0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Name    color  Material         Vol Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Robe"),   c_red, material_id( "wool" ),    6, 700,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
+            _("Robe"),   c_red, material_id( "wool" ),    1500_ml, 700,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
             mfb(bp_torso) | mfb(bp_leg_l) | mfb(bp_leg_r), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
@@ -510,7 +511,7 @@ void init_artifacts()
         },
 
         {
-            _("Coat"),   c_brown, material_id( "leather" ),   14, 1600,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
+            _("Coat"),   c_brown, material_id( "leather" ),   3500_ml, 1600,  2,  80, 2,  1,  4,  1000_ml, -6,  0, -3,
             mfb(bp_torso), false,
             {
                 ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
@@ -519,7 +520,7 @@ void init_artifacts()
         },
 
         {
-            _("Mask"),   c_white, material_id( "wood" ),      4, 100,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
+            _("Mask"),   c_white, material_id( "wood" ),      1000_ml, 100,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
             mfb(bp_eyes) | mfb(bp_mouth), false,
             {
                 ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
@@ -529,7 +530,7 @@ void init_artifacts()
 
         // Name    color  Materials             Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Helm"),   c_dkgray, material_id( "silver" ),    6, 700,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
+            _("Helm"),   c_dkgray, material_id( "silver" ),    1500_ml, 700,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
             mfb(bp_head), false,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -538,7 +539,7 @@ void init_artifacts()
         },
 
         {
-            _("Gloves"), c_ltblue, material_id( "leather" ), 2, 100,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
+            _("Gloves"), c_ltblue, material_id( "leather" ), 500_ml, 100,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
             mfb(bp_hand_l) | mfb(bp_hand_r), true,
             {
                 ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -548,7 +549,7 @@ void init_artifacts()
 
         // Name    color  Materials            Vol  Wgt Enc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
-            _("Boots"), c_blue, material_id( "leather" ),     6, 250,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
+            _("Boots"), c_blue, material_id( "leather" ),     1500_ml, 250,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
             mfb(bp_foot_l) | mfb(bp_foot_r), true,
             {
                 ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
@@ -557,7 +558,7 @@ void init_artifacts()
         },
 
         {
-            _("Ring"), c_ltgreen, material_id( "silver" ),   0,  4,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
+            _("Ring"), c_ltgreen, material_id( "silver" ),   0_ml,  4,  0,  0,  0,  0,  0,  0_ml,  0,  0,  0,
             0, true,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         }
@@ -570,45 +571,45 @@ void init_artifacts()
     artifact_armor_form_datum tmp_artifact_armor_mod_data[NUM_ARMORMODS] = {
 
         {
-            "", c_white, material_id( "null" ), 0,  0,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
+            "", c_white, material_id( "null" ), 0_ml,  0,  0,  0,  0,  0,  0,  0_ml,  0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
         // Description; "It is ..." or "They are ..."
         {
             _("very thin and light."), c_white, material_id( "null" ),
             // Vol   Wgt Enc Cov Thk Env Wrm Sto
-            -4, -950, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
+            -1000_ml, -950, -2, -1, -1, -1, -1,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("extremely bulky."), c_white, material_id( "null" ),
-            8, 1150,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
+            2000_ml, 1150,  2,  1,  1,  0,  1,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("covered in pockets."), c_white, material_id( "null" ),
-            1, 150,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
+            250_ml, 150,  1,  0,  0,  0,  0, 4000_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("disgustingly furry."), c_white, material_id( "wool" ),
             // Vol  Wgt Enc Dmg Cut Env Wrm Sto
-            4, 250,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
+            1000_ml, 250,  1,  1,  1,  1,  3,  0_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("leather-padded."), c_white, material_id( "leather" ),
-            4, 450,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
+            1000_ml, 450,  1, 1,  1,  0,  1, -750_ml, 0, 0, 0, 0,  false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
         {
             _("plated in iron."), c_white, material_id( "iron" ),
-            4, 1400,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
+            1000_ml, 1400,  3,  2, 2,  0,  1, -1000_ml, 0, 0, 0, 0, false,
             {ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL, ARMORMOD_NULL}
         },
 
@@ -793,7 +794,7 @@ std::string new_artifact()
         art->sym = "["; // Armor is always [
         art->color = info->color;
         art->materials.push_back(info->material);
-        art->volume = info->volume * units::legacy_volume_factor;
+        art->volume = info->volume;
         art->weight = info->weight;
         art->melee_dam = info->melee_bash;
         art->melee_cut = info->melee_cut;
@@ -817,8 +818,8 @@ std::string new_artifact()
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-                if( modinfo->volume >= 0 || art->volume / units::legacy_volume_factor > std::abs( modinfo->volume ) ) {
-                    art->volume += modinfo->volume * units::legacy_volume_factor;
+                if( modinfo->volume >= 0 || art->volume > -modinfo->volume ) {
+                    art->volume += modinfo->volume;
                 } else {
                     art->volume = 1 * units::legacy_volume_factor;
                 }
