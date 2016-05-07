@@ -11,6 +11,9 @@
 #include <set>
 #include <stdexcept>
 
+typedef int nc_color;
+nc_color color_from_string( const std::string &color );
+
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
@@ -728,6 +731,15 @@ class JsonObject
             const std::string& name, T& val ) {
 
             return read( name, val );
+        }
+
+        template <typename T>
+        bool assign( const std::string& name, nc_color& val ) {
+            if( has_string( name ) ) {
+                val = color_from_string( get_string( name ) );
+                return true;
+            }
+            return false;
         }
 
         template <typename T>

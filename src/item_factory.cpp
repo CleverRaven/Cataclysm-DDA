@@ -1310,6 +1310,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     jo.assign( "price_postapoc", new_item_template->price_post );
     jo.assign( "stack_size", new_item_template->stack_size );
     jo.assign( "integral_volume", new_item_template->integral_volume );
+    jo.assign( "color", new_item_template->color );
     jo.assign( "bashing", new_item_template->melee_dam );
     jo.assign( "cutting", new_item_template->melee_cut );
     jo.assign( "to_hit", new_item_template->m_to_hit );
@@ -1335,10 +1336,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
 
     if( jo.has_string( "symbol" ) ) {
         new_item_template->sym = jo.get_string( "symbol" )[0];
-    }
-
-    if( jo.has_string( "color" ) ) {
-        new_item_template->color = color_from_string( jo.get_string( "color" ) );
     }
 
     if( jo.has_member( "material" ) ) {
