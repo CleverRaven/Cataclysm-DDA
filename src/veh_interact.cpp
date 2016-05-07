@@ -2289,7 +2289,7 @@ void complete_vehicle ()
     int welder_oxy_charges = charges_per_use( "oxy_torch" );
     int welder_crude_charges = charges_per_use( "welder_crude" );
     const inventory &crafting_inv = g->u.crafting_inventory();
-    const bool has_goggles = crafting_inv.has_quality( "GLARE", 2 );
+    const bool has_goggles = crafting_inv.has_quality( GLARE, 2 );
     const bool has_screwdriver = crafting_inv.has_quality( SCREW );
     const bool has_wrench = crafting_inv.has_quality( WRENCH );
 

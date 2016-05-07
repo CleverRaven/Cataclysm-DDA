@@ -1398,7 +1398,7 @@ void check_bionics()
     }
 }
 
-int bionic::get_quality( const std::string &q ) const
+int bionic::get_quality( const quality_id &q ) const
 {
     const auto &i = info();
     if( i.fake_item.empty() ) {

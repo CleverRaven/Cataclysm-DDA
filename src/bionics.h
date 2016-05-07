@@ -51,7 +51,7 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
         return bionic_info( id );
     }
 
-    int get_quality( const std::string &quality ) const;
+    int get_quality( const quality_id &quality ) const;
 
     using JsonSerializer::serialize;
     void serialize( JsonOut &json ) const override;

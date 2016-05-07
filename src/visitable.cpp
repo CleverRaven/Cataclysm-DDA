@@ -140,7 +140,7 @@ bool visitable<vehicle_cursor>::has_quality( const quality_id &qual, int level, 
 }
 
 template <>
-bool visitable<Character>::has_quality( const std::string &qual, int level, int qty ) const
+bool visitable<Character>::has_quality( const quality_id &qual, int level, int qty ) const
 {
     auto self = static_cast<const Character *>( this );
 
