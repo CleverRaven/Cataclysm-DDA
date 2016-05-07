@@ -19,6 +19,12 @@
 
 using namespace units::literals;
 
+template<typename V, typename B>
+inline units::quantity<V, B> rng( const units::quantity<V, B> &min, const units::quantity<V, B> &max )
+{
+    return units::quantity<V, B>( rng( min.value(), max.value() ), B{} );
+}
+
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
 std::vector<art_effect_active>  fill_good_active();
@@ -130,7 +136,7 @@ enum artifact_natural_shape {
 struct artifact_shape_datum {
     std::string name;
     std::string desc;
-    int volume_min, volume_max;
+    units::volume volume_min, volume_max;
     int weight_min, weight_max;
 };
 
@@ -281,24 +287,24 @@ it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 void init_artifacts()
 {
     artifact_shape_datum tmp_artifact_shape_data[ARTSHAPE_MAX] = {
-        {"BUG", "BUG", 0, 0, 0, 0},
-        {_("sphere"), _("smooth sphere"), 2, 4, 1, 1150},
-        {_("rod"), _("tapered rod"), 1, 7, 1, 800},
-        {_("teardrop"), _("teardrop-shaped stone"), 2, 6, 1, 950},
-        {_("lamp"), _("hollow, transparent cube"), 4, 9, 1, 350},
-        {_("snake"), _("winding, flexible rod"), 0, 8, 1, 950},
-        {_("disc"), _("smooth disc"), 4, 6, 200, 400},
-        {_("beads"), _("string of beads"), 3, 7, 1, 700},
-        {_("napkin"), _("very thin sheet"), 0, 3, 1, 350},
-        {_("urchin"), _("spiked sphere"), 3, 5, 200, 700},
-        {_("jelly"), _("malleable blob"), 2, 8, 200, 450},
-        {_("spiral"), _("spiraling rod"), 5, 6, 200, 350},
-        {_("pin"), _("pointed rod"), 1, 5, 100, 1050},
-        {_("tube"), _("hollow tube"), 2, 5, 350, 700},
-        {_("pyramid"), _("regular tetrahedron"), 3, 7, 200, 450},
-        {_("crystal"), _("translucent crystal"), 1, 6, 200, 800},
-        {_("knot"), _("twisted, knotted cord"), 2, 6, 100, 800},
-        {_("crescent"), _("crescent-shaped stone"), 2, 6, 200, 700}
+        {"BUG", "BUG", 0_ml, 0_ml, 0, 0},
+        {_("sphere"), _("smooth sphere"), 500_ml, 1000_ml, 1, 1150},
+        {_("rod"), _("tapered rod"), 250_ml, 1750_ml, 1, 800},
+        {_("teardrop"), _("teardrop-shaped stone"), 500_ml, 1500_ml, 1, 950},
+        {_("lamp"), _("hollow, transparent cube"), 1000_ml, 225_ml, 1, 350},
+        {_("snake"), _("winding, flexible rod"), 0_ml, 2000_ml, 1, 950},
+        {_("disc"), _("smooth disc"), 1000_ml, 1500_ml, 200, 400},
+        {_("beads"), _("string of beads"), 750_ml, 1750_ml, 1, 700},
+        {_("napkin"), _("very thin sheet"), 0_ml, 750_ml, 1, 350},
+        {_("urchin"), _("spiked sphere"), 750_ml, 1250_ml, 200, 700},
+        {_("jelly"), _("malleable blob"), 500_ml, 2000_ml, 200, 450},
+        {_("spiral"), _("spiraling rod"), 1250_ml, 1500_ml, 200, 350},
+        {_("pin"), _("pointed rod"), 250_ml, 1250_ml, 100, 1050},
+        {_("tube"), _("hollow tube"), 500_ml, 1250_ml, 350, 700},
+        {_("pyramid"), _("regular tetrahedron"), 750_ml, 1750_ml, 200, 450},
+        {_("crystal"), _("translucent crystal"), 250_ml, 1500_ml, 200, 800},
+        {_("knot"), _("twisted, knotted cord"), 500_ml, 1500_ml, 100, 800},
+        {_("crescent"), _("crescent-shaped stone"), 500_ml, 1500_ml, 200, 700}
     };
     for(int i = 0; i < ARTSHAPE_MAX; i++) {
         artifact_shape_data[i] = tmp_artifact_shape_data[i];
@@ -900,7 +906,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
     art->sym = ":";
     art->color = c_yellow;
     art->materials.push_back( material_id( "stone" ) );
-    art->volume = rng(shape_data->volume_min, shape_data->volume_max) * units::legacy_volume_factor;
+    art->volume = rng(shape_data->volume_min, shape_data->volume_max);
     art->weight = rng(shape_data->weight_min, shape_data->weight_max);
     art->melee_dam = 0;
     art->melee_cut = 0;
