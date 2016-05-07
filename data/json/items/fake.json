@@ -6,10 +6,6 @@
         "color": "brown",
         "name": "integrated toolset",
         "description": "Dummy item.  If you see this, then something went wrong.",
-        "price": 7000,
-        "material": ["steel", "wood"],
-        "weight": 0,
-        "volume": 0,
         "max_charges": 10000,
         "use_action": [ "HAMMER", "HACKSAW", "LUMBER", "CROWBAR", "REMOVE_ALL_MODS", { "type": "knife" } ],
         "qualities": [
