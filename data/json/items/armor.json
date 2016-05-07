@@ -5224,7 +5224,7 @@
         "environmental_protection" : 6,
         "encumbrance" : 60,
         "coverage" : 100,
-        "flags" : ["SUN_GLASSES"],
+        "flags" : ["SUN_GLASSES", "FLASH_PROTECTION"],
         "qualities" : [["GLARE", 2]],
         "material_thickness" : 4
     },

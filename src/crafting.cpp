@@ -483,11 +483,15 @@ const inventory& player::crafting_inventory()
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
-    if (has_active_bionic("bio_tools")) {
-        item tools("toolset", calendar::turn);
-        tools.charges = power_level;
-        cached_crafting_inventory += tools;
+    for( const auto &bio : my_bionics ) {
+        const auto &bio_data = bio.info();
+        if( ( !bio_data.activated || bio.powered ) &&
+            !bio_data.fake_item.empty() ) {
+            cached_crafting_inventory += item( bio.info().fake_item,
+                                               calendar::turn, power_level );
+        }
     }
+
     cached_moves = moves;
     cached_turn = calendar::turn.get_turn();
     cached_position = pos();

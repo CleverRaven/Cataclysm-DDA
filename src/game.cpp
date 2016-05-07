@@ -267,7 +267,9 @@ void game::check_all_mod_data()
             // this mod, so there is no need to check this mod now.
             continue;
         }
-        popup_nowait("checking mod %s", mod->name.c_str());
+        erase();
+        refresh();
+        popup_nowait( "Checking mod <color_yellow>%s</color>", mod->name.c_str() );
         // Reset & load core data, than load dependencies
         // and the actual mod and finally finalize all.
         load_core_data();
@@ -3551,8 +3553,12 @@ void game::load(std::string worldname, std::string name)
 
 void game::load_world_modfiles(WORLDPTR world)
 {
-    popup_nowait(_("Please wait while the world data loads"));
+    popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
     load_core_data();
+
+    erase();
+    refresh();
+    popup_nowait(_("Please wait while the world data loads...\nLoading mods..."));
     if (world != NULL) {
         load_artifacts(world->world_path + "/artifacts.gsav");
         mod_manager *mm = world_generator->get_mod_manager();
@@ -3575,6 +3581,10 @@ void game::load_world_modfiles(WORLDPTR world)
         // Load additional mods from that world-specific folder
         load_data_from_dir(world->world_path + "/mods");
     }
+
+    erase();
+    refresh();
+    popup_nowait(_("Please wait while the world data loads...\nFinalizing and verifying..."));
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }
 
@@ -6390,7 +6400,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if( u.has_bionic( "bio_sunglasses" ) || u.is_wearing( "rm13_armor_on" ) ) {
                 flash_mod = 6;
-            } else if( u.worn_with_flag( "BLIND" ) || u.is_wearing( "goggles_welding" ) ) {
+            } else if( u.worn_with_flag( "BLIND" ) || u.worn_with_flag( "FLASH_PROTECTION" ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist );

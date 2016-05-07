@@ -776,7 +776,8 @@
     },
     {
         "type": "effect_type",
-        "id": "hallu"
+        "id": "hallu",
+        "max_duration": 3600
     },
     {
         "type": "effect_type",

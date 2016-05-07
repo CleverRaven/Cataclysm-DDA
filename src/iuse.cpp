@@ -4960,8 +4960,8 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    if (!(p->has_amount("goggles_welding", 1) || p->is_wearing("goggles_welding") ||
-          p->is_wearing("rm13_armor_on") || p->has_bionic("bio_sunglasses"))) {
+    static const quality_id GLARE( "GLARE" );
+    if( p->has_quality( GLARE, 2 ) ) {
         add_msg(m_info, _("You need welding goggles to do that."));
         return 0;
     }

@@ -12,12 +12,10 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 60 ],
       [ "welder_crude", 75 ],
@@ -65,12 +63,10 @@
   "note": "sawing it down doesn't teach anything useful",
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
@@ -96,10 +92,8 @@
   "time": 15000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
@@ -340,11 +334,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
 	[
       [ "welder", 100 ],
       [ "welder_crude", 200 ],

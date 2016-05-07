@@ -13464,7 +13464,7 @@ std::vector<const item *> player::all_items_with_flag( const std::string flag ) 
     } );
 }
 
-bool player::has_item_with_flag( std::string flag ) const
+bool player::has_item_with_flag( const std::string &flag ) const
 {
     return has_item_with( [&flag]( const item & it ) {
         return it.has_flag( flag );

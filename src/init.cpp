@@ -405,4 +405,5 @@ void DynamicDataLoader::check_consistency()
     mutation_branch::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();
+    check_bionics();
 }

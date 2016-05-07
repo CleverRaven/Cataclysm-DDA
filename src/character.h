@@ -230,6 +230,8 @@ class Character : public Creature, public visitable<Character>
         bool has_base_trait(const std::string &flag) const;
         /** Returns true if player has a trait with a flag */
         bool has_trait_flag( const std::string &flag ) const;
+        /** Returns true if player has a bionic with a flag */
+        bool has_bionic_flag( const std::string &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         std::string trait_by_invlet( long ch ) const;
 
@@ -399,7 +401,7 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing the item on the given body_part. */
         bool is_wearing_on_bp(const itype_id &it, body_part bp) const;
         /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( std::string flag ) const;
+        bool worn_with_flag( const std::string &flag ) const;
 
         // --------------- Skill Stuff ---------------
         SkillLevel &get_skill_level( const skill_id &ident );
