@@ -896,14 +896,11 @@ bool Character::is_wearing_on_bp(const itype_id & it, body_part bp) const
     return false;
 }
 
-bool Character::worn_with_flag( std::string flag ) const
+bool Character::worn_with_flag( const std::string &flag ) const
 {
-    for (auto &i : worn) {
-        if (i.has_flag( flag )) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of( worn.begin(), worn.end(), [&flag]( const item &it ) {
+        return it.has_flag( flag );
+    } );
 }
 
 SkillLevel& Character::get_skill_level(const skill_id &ident)

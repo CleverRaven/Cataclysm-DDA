@@ -1036,7 +1036,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Check for free container space for the whole liquid item
         bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
-        bool has_item_with_flag( std::string flag ) const;
+        bool has_item_with_flag( const std::string &flag ) const;
 
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**

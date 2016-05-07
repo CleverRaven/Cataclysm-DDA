@@ -7668,6 +7668,15 @@
      ["BUTCHER", -100]]
   },
   {
+    "id": "fake_goggles",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "bionic goggles",
+    "description": "Dummy item.  If you see this, then something went wrong.",
+    "qualities": [ ["GLARE", 2] ]
+  },
+  {
     "type": "TOOL",
     "id": "advanced_ecig",
     "symbol": "!",
