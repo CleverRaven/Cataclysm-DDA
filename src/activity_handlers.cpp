@@ -1544,7 +1544,7 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     p->invalidate_crafting_inventory();
 
     target->faults.erase( *f );
-    add_msg( m_good, _( "You successfuly mended the %s." ), target->tname().c_str() );
+    add_msg( m_good, _( "You successfully mended the %s." ), target->tname().c_str() );
 }
 
 void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
