@@ -267,7 +267,9 @@ void game::check_all_mod_data()
             // this mod, so there is no need to check this mod now.
             continue;
         }
-        popup_nowait("checking mod %s", mod->name.c_str());
+        erase();
+        refresh();
+        popup_nowait( "Checking mod <color_yellow>%s</color>", mod->name.c_str() );
         // Reset & load core data, than load dependencies
         // and the actual mod and finally finalize all.
         load_core_data();
