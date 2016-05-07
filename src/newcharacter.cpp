@@ -704,18 +704,17 @@ void draw_tabs(WINDOW *w, std::string sTab)
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
 }
-void draw_points(WINDOW *w, points_left &points, int netPointCost) {
-
-  mvwprintz(w, 3, 2, c_black, clear_str);
+void draw_points( WINDOW *w, points_left &points, int netPointCost )
+{
+  mvwprintz( w, 3, 2, c_black, clear_str );
   std::string points_msg = points.to_string();
   int pMsg_length = utf8_width( points_msg.c_str() );
-  mvwprintz(w, 3, 2, c_ltgray, points_msg.c_str() );
-  if (netPointCost > 0) {
-      mvwprintz(w, 3, pMsg_length + 2, c_red, "(-%d)", abs(netPointCost));
-  } else if (netPointCost < 0) {
-      mvwprintz(w, 3, pMsg_length + 2, c_green, "(+%d)", abs(netPointCost));
+  mvwprintz( w, 3, 2, c_ltgray, points_msg.c_str() );
+  if( netPointCost > 0 ) {
+      mvwprintz( w, 3, pMsg_length + 2, c_red, "(-%d)", abs(netPointCost) );
+  } else if( netPointCost < 0 ) {
+      mvwprintz( w, 3, pMsg_length + 2, c_green, "(+%d)", abs(netPointCost) );
   }
-
 }
 
 template <class Compare>
@@ -1400,7 +1399,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
                                      pointsForProf);
         }
         // This string has fixed start pos(7 = 2(start) + 5(length of "(+%d)" and space))
-        int pMsg_length = utf8_width( points.to_string().c_str() );
+        int pMsg_length = utf8_width( points.to_string() );
         mvwprintz(w, 3, pMsg_length + 7, can_pick ? c_green : c_ltred, prof_msg_temp.c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(u->male).c_str(),
                   pointsForProf);
