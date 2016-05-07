@@ -1879,8 +1879,12 @@ void holster_actor::load( JsonObject &obj )
     holster_prompt = obj.get_string( "holster_prompt", "" );
     holster_msg    = obj.get_string( "holster_msg",    "" );
 
-    max_volume = obj.get_int( "max_volume" );
-    min_volume = obj.get_int( "min_volume", max_volume / 3 );
+    max_volume = obj.get_int( "max_volume" ) * units::legacy_volume_factor;
+    if( obj.has_member( "min_volume" ) ) {
+        min_volume = obj.get_int( "min_volume" ) * units::legacy_volume_factor;
+    } else {
+        min_volume = max_volume / 3;
+    }
     max_weight = obj.get_int( "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
     draw_cost  = obj.get_int( "draw_cost",  draw_cost );
@@ -1895,7 +1899,7 @@ void holster_actor::load( JsonObject &obj )
 }
 
 bool holster_actor::can_holster( const item& obj ) const {
-    if( obj.volume() / units::legacy_volume_factor > max_volume || obj.volume() / units::legacy_volume_factor < min_volume ) {
+    if( obj.volume() > max_volume || obj.volume() < min_volume ) {
         return false;
     }
     if( max_weight > 0 && obj.weight() > max_weight ) {
@@ -1913,13 +1917,13 @@ bool holster_actor::store( player &p, item& holster, item& obj ) const
     }
 
     // if selected item is unsuitable inform the player why not
-    if( obj.volume() / units::legacy_volume_factor > max_volume ) {
+    if( obj.volume() > max_volume ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too big to fit in your %2$s" ),
                              obj.tname().c_str(), holster.tname().c_str() );
         return false;
     }
 
-    if( obj.volume() / units::legacy_volume_factor < min_volume ) {
+    if( obj.volume() < min_volume ) {
         p.add_msg_if_player( m_info, _( "Your %1$s is too small to fit in your %2$s" ),
                               obj.tname().c_str(), holster.tname().c_str() );
         return false;
