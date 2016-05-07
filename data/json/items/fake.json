@@ -1,11 +1,17 @@
 [
     {
-        "id": "toolset",
+        "abstract": "fake_item",
         "type": "TOOL",
-        "symbol": ";",
-        "color": "brown",
-        "name": "integrated toolset",
+        "name": "fake item",
         "description": "Dummy item.  If you see this, then something went wrong.",
+        "symbol": "@",
+        "color": "red"
+    },
+    {
+        "id": "toolset",
+        "copy-from": "fake_item",
+        "type": "TOOL",
+        "name": "integrated toolset",
         "max_charges": 10000,
         "use_action": [ "HAMMER", "HACKSAW", "LUMBER", "CROWBAR", "REMOVE_ALL_MODS", { "type": "knife" } ],
         "qualities": [
@@ -18,19 +24,15 @@
         ]
     },{
         "id": "fake_goggles",
+        "copy-from": "fake_item",
         "type": "TOOL",
-        "symbol": ";",
-        "color": "brown",
         "name": "bionic goggles",
-        "description": "Dummy item.  If you see this, then something went wrong.",
         "qualities": [ ["GLARE", 2] ]
     },{
         "id": "fake_razor",
+        "copy-from": "fake_item",
         "type": "TOOL",
-        "symbol": ";",
-        "color": "brown",
         "name": "bionic razor",
-        "description": "Dummy item.  If you see this, then something went wrong.",
         "qualities": [ ["BUTCHER", 8] ]
     }
 ]
