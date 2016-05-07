@@ -4800,7 +4800,7 @@ units::volume vehicle::free_volume(int const part) const
 bool vehicle::add_item( int part, const item &itm )
 {
     const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE;
-    const int maxvolume = this->max_volume(part) / units::legacy_volume_factor;
+    const units::volume maxvolume = max_volume( part );
 
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
@@ -4818,20 +4818,18 @@ bool vehicle::add_item( int part, const item &itm )
             return false;
         }
     }
-
-    int cur_volume = 0;
-    int add_volume = itm.volume() / units::legacy_volume_factor;
+    units::volume cur_volume = 0;
     bool tryaddcharges=(itm.charges  != -1 && itm.count_by_charges());
     // iterate anyway since we need a volume total
     for (auto &i : parts[part].items) {
-        cur_volume += i.volume() / units::legacy_volume_factor;
+        cur_volume += i.volume();
         if( tryaddcharges && i.merge_charges( itm ) ) {
             invalidate_mass();
             return true;
         }
     }
 
-    if( cur_volume + add_volume > maxvolume ) {
+    if( cur_volume + itm.volume() > maxvolume ) {
         return false;
     }
 
