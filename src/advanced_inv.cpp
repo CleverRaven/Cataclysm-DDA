@@ -598,7 +598,6 @@ void advanced_inv_area::init()
                 desc[0] = veh->name;
                 canputitemsloc = true;
                 max_size = MAX_ITEM_IN_VEHICLE_STORAGE;
-                max_volume = veh->max_volume( vstor );
             } else {
                 veh = nullptr;
                 canputitemsloc = false;
@@ -634,7 +633,6 @@ void advanced_inv_area::init()
             }
             canputitemsloc = can_store_in_vehicle() || g->m.can_put_items_ter_furn( pos );
             max_size = MAX_ITEM_IN_SQUARE;
-            max_volume = g->m.max_volume( pos );
             if( can_store_in_vehicle() ) {
                 // get storage label
                 const auto part = veh->parts[veh->global_part_at(pos.x, pos.y)];

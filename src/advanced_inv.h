@@ -79,14 +79,14 @@ struct advanced_inv_area {
     // total volume and weight of items currently there
     int volume, weight;
     // maximal count / volume of items there.
-    int max_size, max_volume;
+    int max_size;
 
     advanced_inv_area( aim_location id ) : id( id ) {}
     advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name,
                        std::string shortname ) : id( id ), hscreenx( hscreenx ),
         hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ), pos( 0, 0, 0 ),
         canputitemsloc( false ), veh( nullptr ), vstor( -1 ), volume( 0 ), weight( 0 ),
-        max_size( 0 ), max_volume( 0 ) {
+        max_size( 0 ) {
     }
 
     void init();
