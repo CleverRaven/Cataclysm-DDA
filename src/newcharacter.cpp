@@ -2294,13 +2294,15 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
 
         if (action == "NEXT_TAB") {
             if (OPTIONS["POINT_DISTRIBUTION"] != "freeform" && !points.is_valid() ) {
-		if (points.skill_points_left() < 0 ) {
-	                popup(_("Too many points allocated, change some features and try again."));
-		} else if (points.trait_points_left() < 0 ) {
-			popup(_("Too many trait points allocated, change some traits or lower some stats and try again."));
-		} else if (points.stat_points_left() < 0) {
-			popup(_("Too many stat points allocated, lower some stats and try again."));
-		}
+                if (points.skill_points_left() < 0 ) {
+                        popup(_("Too many points allocated, change some features and try again."));
+                } else if (points.trait_points_left() < 0 ) {
+                        popup(_("Too many trait points allocated, change some traits or lower some stats and try again."));
+                } else if (points.stat_points_left() < 0) {
+                        popup(_("Too many stat points allocated, lower some stats and try again."));
+                } else {
+                        popup(_("Too many points allocated, change some features and try again."));
+                }
                 redraw = true;
                 continue;
             } else if (points.has_spare() &&
@@ -2342,7 +2344,16 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                     save_template(u);
                 }
             } else if( !points.is_valid() ) {
-                popup(_("You cannot save a template with negative unused points"));
+                if (points.skill_points_left() < 0 ) {
+	                popup(_("You cannot save a template with negative unused points"));
+                } else if (points.trait_points_left() < 0 ) {
+                        popup(_("You cannot save a template with this many trait points allocated, change some traits or lower some stats and try again."));
+                } else if (points.stat_points_left() < 0) {
+                        popup(_("You cannot save a template with this many stat points allocated, lower some stats and try again."));
+                } else {
+                        popup(_("You cannot save a template with negative unused points"));
+                }
+                
             } else {
                 save_template(u);
             }
