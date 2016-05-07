@@ -2293,11 +2293,17 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
         const std::string action = ctxt.handle_input();
 
         if (action == "NEXT_TAB") {
-            if( OPTIONS["POINT_DISTRIBUTION"] != "freeform" && !points.is_valid() ) {
-                popup(_("Too many points allocated, change some features and try again."));
+            if (OPTIONS["POINT_DISTRIBUTION"] != "freeform" && !points.is_valid() ) {
+		if (points.skill_points_left() < 0 ) {
+	                popup(_("Too many points allocated, change some features and try again."));
+		} else if (points.trait_points_left() < 0 ) {
+			popup(_("Too many trait points allocated, change some traits or lower some stats and try again."));
+		} else if (points.stat_points_left() < 0) {
+			popup(_("Too many stat points allocated, lower some stats and try again."));
+		}
                 redraw = true;
                 continue;
-            } else if( points.has_spare() &&
+            } else if (points.has_spare() &&
                        !query_yn(_("Remaining points will be discarded, are you sure you want to proceed?"))) {
                 redraw = true;
                 continue;
