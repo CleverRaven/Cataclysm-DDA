@@ -274,5 +274,38 @@
         "description":"This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
         "//": "GUILT because it still looks enough like a child to evoke pity",
         "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_child_scorched",
+    "name": "burned child zombie",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"z",
+    "color":"brown",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":15,
+    "aggression":100,
+    "morale":100,
+    "speed":100,
+    "melee_skill":2,
+    "melee_dice":2,
+    "melee_dice_sides":1,
+    "melee_cut":2,
+    "dodge":2,
+    "armor_bash":4,
+    "armor_cut":5,
+    "armor_fire":15,
+    "armor_acid":3,
+    "vision_day":25,
+    "vision_night":3,
+    "upgrades":{
+      "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
+      "half_life": 28
+    },
+    "hp":35,
+    "death_function":["NORMAL"],
+    "description":"A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
+    "flags":["SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "GUILT", "CLIMBS"]
     }
 ]
