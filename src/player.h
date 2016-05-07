@@ -817,9 +817,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
          * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
          * @param factor base move cost per unit volume before considering any other modifiers
+         * @param qty if specified limits maximum obtained charges
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST) const;
+        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST, int qty = -1 ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
@@ -833,10 +834,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param ammo either ammo or magazine to use when reloading the item
-         * @param qty maximum units of ammo to reload capped by remaining capacity. Defaults to remaining capacity
-         * (or 1 if RELOAD_ONE). Ignored if reloading using a magazine.
+         * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
          */
-        int item_reload_cost( const item& it, const item& ammo, long qty = -1 ) const;
+        int item_reload_cost( const item& it, const item& ammo, long qty ) const;
 
         /** Calculate (but do not deduct) the number of moves required to wear an item */
         int item_wear_cost( const item& to_wear ) const;

@@ -2,9 +2,21 @@
   {
     "abstract": "gun_base",
     "type": "GUN",
-    "name": "base firearm",
+    "name": "base gun",
     "symbol": "(",
     "color": "light_gray"
+  },
+  {
+    "abstract": "flamethrower_base",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "name": "base flamethrower",
+    "skill": "launcher",
+    "ammo": "gasoline",
+    "ammo_effects": [ "NO_BOOM", "FLARE" ],
+    "aim_speed": 10,
+    "reload": 4,
+    "flags": [ "FIRE_100", "NEVER_JAMS" ]
   },
   {
     "abstract": "pistol_base",

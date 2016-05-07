@@ -4373,18 +4373,19 @@ item::reload_option::reload_option( const player *who, const item *target, const
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
-        max_qty = who->charges_of( this->target->type->magazine->linkage );
+        max_qty = this->who->charges_of( this->target->type->magazine->linkage );
     }
 
-    if( this->ammo->is_ammo() ) {
-        qty( !this->target->has_flag( "RELOAD_ONE" ) ? this->ammo->charges : 1L );
+    // magazine, ammo or ammo container
+    item& tmp = this->ammo->is_ammo_container() ? this->ammo->contents.front() : *this->ammo;
 
-    } else if( this->ammo->is_ammo_container() ) {
-        qty( !this->target->has_flag( "RELOAD_ONE" ) ? this->ammo->contents[ 0 ].charges : 1L );
+    long amt = tmp.is_ammo() ? tmp.charges : 1;
 
-    } else {
-        qty( 1L ); // when reloading target using a magazine
+    if( this->target->is_gun() && this->target->magazine_integral() && tmp.made_of( SOLID ) ) {
+        amt = 1; // guns with integral magazines reload one round at a time
     }
+
+    qty( amt );
 }
 
 
