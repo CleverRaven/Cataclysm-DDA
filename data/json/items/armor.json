@@ -2645,7 +2645,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 20,
+        "encumbrance" : 25,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2666,7 +2666,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 10,
+        "encumbrance" : 20,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2687,7 +2687,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2708,7 +2708,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2729,7 +2729,7 @@
         "volume" : 1,
         "warmth" : 5,
         "environmental_protection" : 15,
-        "encumbrance" : 1,
+        "encumbrance" : 20,
         "flags" : ["WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY"],
         "qualities" : [["GLARE", 1]],
         "coverage" : 100,
@@ -8355,7 +8355,7 @@
         "volume" : 5,
         "warmth" : 75,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -8376,7 +8376,7 @@
         "volume" : 5,
         "warmth" : 75,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 35,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -8517,7 +8517,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 30,
+        "encumbrance" : 35,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
