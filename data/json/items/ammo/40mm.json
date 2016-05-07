@@ -1,4 +1,5 @@
-[  {   "type" : "AMMO",
+[  
+    {   "type" : "AMMO",
         "id" : "40mm_concussive",
         "price" : 40000,
         "name" : "40mm concussive",
