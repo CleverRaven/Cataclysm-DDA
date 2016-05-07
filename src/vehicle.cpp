@@ -4797,27 +4797,6 @@ int vehicle::free_volume(int const part) const
     return max_volume( part ) - stored_volume( part );
 }
 
-// returns true if full, modified by arguments:
-// (none):                            size >= max || volume >= max
-// (addvolume >= 0):                  size+1 > max || volume + addvolume > max
-// (addvolume >= 0, addnumber >= 0):  size + addnumber > max || volume + addvolume > max
-bool vehicle::is_full(const int part, const int addvolume, const int addnumber) const
-{
-   const int maxitems = MAX_ITEM_IN_VEHICLE_STORAGE;
-   const int maxvolume = this->max_volume(part);
-
-   if ( addvolume == -1 ) {
-       if( (int)get_items(part).size() < maxitems ) return true;
-       int cur_volume=stored_volume(part);
-       return (cur_volume >= maxvolume ? true : false );
-   } else {
-       if ( (int)get_items(part).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
-       int cur_volume=stored_volume(part);
-       return ( cur_volume + addvolume > maxvolume ? true : false );
-   }
-
-}
-
 bool vehicle::add_item( int part, const item &itm )
 {
     const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)

@@ -922,7 +922,6 @@ public:
     int max_volume(int part) const; // stub for per-vpart limit
     int free_volume(int part) const;
     int stored_volume(int part) const;
-    bool is_full(int part, int addvolume = -1, int addnumber = -1) const;
 
     // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
     // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
