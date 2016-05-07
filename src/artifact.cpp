@@ -165,7 +165,7 @@ struct artifact_tool_form_datum {
     nc_color color;
     // Most things had 0 to 1 material.
     material_id material;
-    int volume_min, volume_max;
+    units::volume volume_min, volume_max;
     int weight_min, weight_max;
     artifact_weapon_type base_weapon;
     artifact_weapon_type extra_weapons[3];
@@ -446,32 +446,32 @@ void init_artifacts()
 
     artifact_tool_form_datum tmp_artifact_tool_form_data[NUM_ARTTOOLFORMS] = {
         {
-            "", '*', c_white, material_id( "null" ), 0, 0, 0, 0, ARTWEAP_BULK,
+            "", '*', c_white, material_id( "null" ), 0_ml, 0_ml, 0, 0, ARTWEAP_BULK,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Harp"), ';', c_yellow, material_id( "wood" ), 20, 30, 1150, 2100, ARTWEAP_BULK,
+            _("Harp"), ';', c_yellow, material_id( "wood" ), 5000_ml, 7500_ml, 1150, 2100, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_SWORD, ARTWEAP_KNIFE}
         },
 
         {
-            _("Staff"), '/', c_brown, material_id( "wood" ), 6, 12, 450, 1150, ARTWEAP_CLUB,
+            _("Staff"), '/', c_brown, material_id( "wood" ), 1500_ml, 3000_ml, 450, 1150, ARTWEAP_CLUB,
             {ARTWEAP_BULK, ARTWEAP_SPEAR, ARTWEAP_KNIFE}
         },
 
         {
-            _("Sword"), '/', c_ltblue, material_id( "steel" ), 8, 14, 900, 3259, ARTWEAP_SWORD,
+            _("Sword"), '/', c_ltblue, material_id( "steel" ), 2000_ml, 3500_ml, 900, 3259, ARTWEAP_SWORD,
             {ARTWEAP_BULK, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Dagger"), ';', c_ltblue, material_id( "steel" ), 1, 4, 100, 700, ARTWEAP_KNIFE,
+            _("Dagger"), ';', c_ltblue, material_id( "steel" ), 250_ml, 1000_ml, 100, 700, ARTWEAP_KNIFE,
             {ARTWEAP_NULL, ARTWEAP_NULL, ARTWEAP_NULL}
         },
 
         {
-            _("Cube"), '*', c_white, material_id( "steel" ), 1, 3, 100, 2300, ARTWEAP_BULK,
+            _("Cube"), '*', c_white, material_id( "steel" ), 250_ml, 750_ml, 100, 2300, ARTWEAP_BULK,
             {ARTWEAP_SPEAR, ARTWEAP_NULL, ARTWEAP_NULL}
         }
     };
@@ -669,7 +669,7 @@ std::string new_artifact()
         art->color = info->color;
         art->sym = std::string( 1, info->sym );
         art->materials.push_back(info->material);
-        art->volume = rng(info->volume_min, info->volume_max) * units::legacy_volume_factor;
+        art->volume = rng(info->volume_min, info->volume_max);
         art->weight = rng(info->weight_min, info->weight_max);
         // Set up the basic weapon type
         artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
@@ -1005,7 +1005,7 @@ std::string architects_cube()
     art->color = info->color;
     art->sym = std::string( 1, info->sym );
       art->materials.push_back(info->material);
-    art->volume = rng(info->volume_min, info->volume_max) * units::legacy_volume_factor;
+    art->volume = rng(info->volume_min, info->volume_max);
     art->weight = rng(info->weight_min, info->weight_max);
     // Set up the basic weapon type
     artifact_weapon_datum *weapon = &(artifact_weapon_data[info->base_weapon]);
