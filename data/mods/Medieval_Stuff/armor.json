@@ -75,7 +75,6 @@
         "material" : ["iron", "fur"],
         "volume" : 14,
         "warmth" : 35,
-        "environmental_protection" : 1,
         "encumbrance" : 20,
         "bashing" : 6,
         "flags" : ["STURDY"],
