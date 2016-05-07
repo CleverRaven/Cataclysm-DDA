@@ -2499,7 +2499,7 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 int field_entry::setFieldDensity(const int new_density)
 {
     is_alive = new_density > 1;
-    return std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
+    return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
 }
 
 int field_entry::setFieldAge(const int new_age){
