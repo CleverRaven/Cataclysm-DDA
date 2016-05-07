@@ -30,8 +30,6 @@ struct bionic_data {
         *  it's effect every turn. */
     bool toggled = false;
     std::map<body_part, size_t> occupied_bodyparts;
-    /** Tool qualities granted by this bionic. */
-    std::map<std::string, int> qualities;
     /** Fake item created for crafting with this bionic available. */
     std::string fake_item;
 };

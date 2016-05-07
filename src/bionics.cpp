@@ -1375,13 +1375,6 @@ void load_bionic( JsonObject &jsobj )
         }
     }
 
-    if( jsobj.has_member( "qualities" ) ) {
-        while( jsarr.has_more() ) {
-            JsonArray ja = jsarr.next_array();
-            new_bionic.qualities.emplace( ja.get_string( 0 ), ja.get_int( 1 ) );
-        }
-    }
-
     new_bionic.activated = new_bionic.toggled ||
                            new_bionic.power_activate > 0 ||
                            new_bionic.charge_time > 0;
@@ -1398,12 +1391,6 @@ void load_bionic( JsonObject &jsobj )
 void check_bionics()
 {
     for( const auto &bio : bionics ) {
-        for( const auto &q : bio.second.qualities ) {
-            if( !quality::has( q.first ) ) {
-                debugmsg( "Bionic %s has unknown quality %s", bio.first.c_str(), q.first.c_str() );
-            }
-        }
-
         if( bio.second.fake_item.empty() &&
             item_controller->has_template( bio.second.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
@@ -1415,13 +1402,11 @@ void check_bionics()
 int bionic::get_quality( const std::string &q ) const
 {
     const auto &i = info();
-    const auto &qualities = i.qualities;
-    const auto iter = qualities.find( q );
-    if( iter != qualities.end() ) {
-        return iter->second;
+    if( i.fake_item.empty() ) {
+        return false;
     }
 
-    return INT_MIN;
+    return item( i.fake_item, calendar::turn ).get_quality( q );
 }
 
 void bionic::serialize( JsonOut &json ) const
