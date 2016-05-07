@@ -2576,7 +2576,7 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
-            partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ), max_volume( pl[i] ) );
+            partname += string_format(_(" (vol: %d/%d)"), stored_volume( pl[i] ) / units::legacy_volume_factor, max_volume( pl[i] ) / units::legacy_volume_factor );
         }
 
         bool armor = part_flag(pl[i], "ARMOR");
@@ -4772,27 +4772,27 @@ void vehicle::handle_trap( const tripoint &p, int part )
 }
 
 // total volume of all the things
-int vehicle::stored_volume(int const part) const
+units::volume vehicle::stored_volume(int const part) const
 {
     if (!part_flag(part, "CARGO")) {
         return 0;
     }
-    int cur_volume = 0;
+    units::volume cur_volume = 0;
     for( auto &i : get_items(part) ) {
-       cur_volume += i.volume() / units::legacy_volume_factor;
+       cur_volume += i.volume();
     }
     return cur_volume;
 }
 
-int vehicle::max_volume(int const part) const
+units::volume vehicle::max_volume(int const part) const
 {
     if (part_flag(part, "CARGO")) {
-        return parts[part].info().size;
+        return parts[part].info().size * units::legacy_volume_factor;
     }
     return 0;
 }
 
-int vehicle::free_volume(int const part) const
+units::volume vehicle::free_volume(int const part) const
 {
     return max_volume( part ) - stored_volume( part );
 }
@@ -4800,7 +4800,7 @@ int vehicle::free_volume(int const part) const
 bool vehicle::add_item( int part, const item &itm )
 {
     const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE;
-    const int maxvolume = this->max_volume(part);
+    const int maxvolume = this->max_volume(part) / units::legacy_volume_factor;
 
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc

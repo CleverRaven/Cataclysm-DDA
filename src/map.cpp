@@ -4277,17 +4277,17 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
                 quantity, charges, birthday, damlevel );
 }
 
-int map::max_volume(const int x, const int y)
+units::volume map::max_volume(const int x, const int y)
 {
     return max_volume( tripoint( x, y, abs_sub.z ) );
 }
 
-int map::stored_volume(const int x, const int y)
+units::volume map::stored_volume(const int x, const int y)
 {
     return stored_volume( tripoint( x, y, abs_sub.z ) );
 }
 
-int map::free_volume(const int x, const int y)
+units::volume map::free_volume(const int x, const int y)
 {
     return free_volume( tripoint( x, y, abs_sub.z ) );
 }
@@ -4451,31 +4451,29 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
     spawn_an_item(p, new_item, charges, damlevel);
 }
 
-int map::max_volume(const tripoint &p)
+units::volume map::max_volume(const tripoint &p)
 {
     if (has_furn(p)) {
-        return furn( p ).obj().max_volume / units::legacy_volume_factor;
+        return furn( p ).obj().max_volume;
     }
-    return ter(p).obj().max_volume / units::legacy_volume_factor;
+    return ter(p).obj().max_volume;
 }
 
 // total volume of all the things
-int map::stored_volume(const tripoint &p) {
+units::volume map::stored_volume(const tripoint &p) {
     if(!inbounds(p)) {
         return 0;
     }
-    int cur_volume = 0;
+    units::volume cur_volume = 0;
     for( auto &n : i_at(p) ) {
-        cur_volume += n.volume() / units::legacy_volume_factor;
+        cur_volume += n.volume();
     }
     return cur_volume;
 }
 
 // free space
-int map::free_volume(const tripoint &p) {
-   const int maxvolume = this->max_volume(p);
-   if(!inbounds(p)) return 0;
-   return ( maxvolume - stored_volume(p) );
+units::volume map::free_volume(const tripoint &p) {
+    return max_volume( p ) - stored_volume( p );
 }
 
 // adds an item to map point, or stacks charges.
@@ -4503,7 +4501,7 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
     const bool tryaddcharges = new_item.charges != -1 && new_item.count_by_charges();
     std::vector<tripoint> ps = closest_tripoints_first(overflow_radius, p);
     for( const auto &p_it : ps ) {
-        if( !inbounds(p_it) || new_item.volume() / units::legacy_volume_factor > free_volume(p_it) ||
+        if( !inbounds(p_it) || new_item.volume() > free_volume(p_it) ||
             has_flag("DESTROY_ITEM", p_it) || has_flag("NOITEM", p_it) ) {
             continue;
         }

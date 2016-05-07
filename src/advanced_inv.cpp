@@ -255,9 +255,9 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             if( pane.get_area() == AIM_CONTAINER && s.get_container(pane.in_vehicle()) != nullptr ) {
                 maxvolume = s.get_container(pane.in_vehicle())->get_container_capacity();
             } else if( pane.in_vehicle() ) {
-                maxvolume = s.veh->max_volume( s.vstor );
+                maxvolume = s.veh->max_volume( s.vstor ) / units::legacy_volume_factor;
             } else {
-                maxvolume = g->m.max_volume( s.pos );
+                maxvolume = g->m.max_volume( s.pos ) / units::legacy_volume_factor;
             }
             head = string_format( "%3.1f %3d/%3d", convert_weight( s.weight ), s.volume / units::legacy_volume_factor, maxvolume );
         }
@@ -2004,7 +2004,7 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
         return ( g->u.volume_capacity() - g->u.volume_carried() );
     }
-    return ( (in_vehicle) ? veh->free_volume( vstor ) : g->m.free_volume( pos ) ) * units::legacy_volume_factor;
+    return (in_vehicle) ? veh->free_volume( vstor ) : g->m.free_volume( pos );
 }
 
 bool advanced_inventory::query_charges( aim_location destarea, const advanced_inv_listitem &sitem,

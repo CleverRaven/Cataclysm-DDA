@@ -1590,8 +1590,8 @@ void veh_interact::display_stats()
     int total_cargo = 0;
     int free_cargo = 0;
     for( const auto &p : cargo_parts ) {
-        total_cargo += veh->max_volume(p);
-        free_cargo += veh->free_volume(p);
+        total_cargo += veh->max_volume(p) / units::legacy_volume_factor;
+        free_cargo += veh->free_volume(p) / units::legacy_volume_factor;
     }
 
     const int second_column = 33 + (extraw / 4);

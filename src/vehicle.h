@@ -12,6 +12,7 @@
 #include "active_item_cache.h"
 #include "string_id.h"
 #include "int_id.h"
+#include "units.h"
 
 #include <vector>
 #include <array>
@@ -919,9 +920,9 @@ public:
     // Process the trap beneath
     void handle_trap( const tripoint &p, int part );
 
-    int max_volume(int part) const; // stub for per-vpart limit
-    int free_volume(int part) const;
-    int stored_volume(int part) const;
+    units::volume max_volume(int part) const; // stub for per-vpart limit
+    units::volume free_volume(int part) const;
+    units::volume stored_volume(int part) const;
 
     // add item to part's cargo. if false, then there's no cargo at this part or cargo is full(*)
     // *: "full" means more than 1024 items, or max_volume(part) volume (500 for now)
