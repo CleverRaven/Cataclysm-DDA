@@ -78,7 +78,8 @@ struct advanced_inv_area {
     // flags, e.g. FIRE, TRAP, WATER
     std::string flags;
     // total volume and weight of items currently there
-    int volume, weight;
+    units::volume volume;
+    int weight;
     // maximal count / volume of items there.
     int max_size;
 
