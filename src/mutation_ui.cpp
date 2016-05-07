@@ -23,15 +23,15 @@ void draw_exam_window( WINDOW *win, const int border_y )
     mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );
 }
 
-const auto shortcut = []( const std::string &s )
+const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
-    return string_format( "<color_yellow>%s</color>", s.c_str() );
+    return string_format( comment.c_str(),
+                          string_format( "<color_yellow>%s</color>", keys.c_str() ).c_str() );
 };
 
 void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_context &ctxt )
 {
     werase( window );
-
     std::ostringstream desc;
     if( menu_mode == "reassigning" ) {
         desc << _( "Reassigning." ) << "  " <<
@@ -39,22 +39,17 @@ void show_mutations_titlebar( WINDOW *window, std::string &menu_mode, input_cont
     }
     if( menu_mode == "activating" ) {
         desc << "<color_green>" << _( "Activating" ) << "</color>  " <<
-             string_format( _( "%s to examine mutation, " ),
-                            shortcut( ctxt.get_desc( "TOGGLE_EXAMINE" ).c_str() ).c_str() );
+             shortcut_desc( _( "%s to examine mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == "examining" ) {
         desc << "<color_ltblue>" << _( "Examining" ) << "</color>  " <<
-             string_format( _( "%s to activate mutation, " ),
-                            shortcut( ctxt.get_desc( "TOGGLE_EXAMINE" ).c_str() ).c_str() );
+             shortcut_desc( _( "%s to activate mutation, " ), ctxt.get_desc( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode != "reassigning" ) {
-        desc << string_format( _( "%s to reassign invlet, " ),
-                               shortcut( ctxt.get_desc( "REASSIGN" ).c_str() ).c_str() );
+        desc << shortcut_desc( _( "%s to reassign invlet, " ), ctxt.get_desc( "REASSIGN" ) );
     }
-    desc << string_format( _( "%s to assign the hotkeys." ),
-                           shortcut( ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() ).c_str() ) ;
+    desc << shortcut_desc( _( "%s to assign the hotkeys." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     fold_and_print( window, 0, 1, getmaxx( window ) - 1, c_white, desc.str() );
-
     wrefresh( window );
 }
 
