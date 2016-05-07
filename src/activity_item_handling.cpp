@@ -90,17 +90,18 @@ void put_into_vehicle( player &p, const std::list<item> &items, vehicle &veh, in
 
 void stash_on_pet( const std::list<item> &items, monster &pet )
 {
-    int remaining_volume = pet.inv.empty() ? 0 : pet.inv.front().get_storage();
+    units::volume remaining_volume = units::from_milliliter( pet.inv.empty() ? 0 :
+                                     pet.inv.front().get_storage() );
     int remaining_weight = pet.weight_capacity();
 
     for( const auto &it : pet.inv ) {
-        remaining_volume -= it.volume() / units::legacy_volume_factor;
+        remaining_volume -= it.volume();
         remaining_weight -= it.weight();
     }
 
     for( auto &it : items ) {
         pet.add_effect( effect_controlled, 5 );
-        if( it.volume() / units::legacy_volume_factor > remaining_volume ) {
+        if( it.volume() > remaining_volume ) {
             add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
                      it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
             g->m.add_item_or_charges( pet.pos(), it, 1 );
@@ -110,7 +111,7 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
             g->m.add_item_or_charges( pet.pos(), it, 1 );
         } else {
             pet.add_item( it );
-            remaining_volume -= it.volume() / units::legacy_volume_factor;
+            remaining_volume -= it.volume();
             remaining_weight -= it.weight();
         }
     }
