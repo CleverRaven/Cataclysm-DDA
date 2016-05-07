@@ -1402,7 +1402,7 @@ int bionic::get_quality( const quality_id &q ) const
 {
     const auto &i = info();
     if( i.fake_item.empty() ) {
-        return false;
+        return INT_MIN;
     }
 
     return item( i.fake_item ).get_quality( q );
