@@ -257,21 +257,19 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
                     && !second.it->is_worn_only_with( *first.it ) );
     } );
 
-    int storage_loss = 0;                        // Cumulatively increases
-    int remaining_storage = p.volume_capacity() / units::legacy_volume_factor; // Cumulatively decreases
+    units::volume storage_loss = 0;                        // Cumulatively increases
+    units::volume remaining_storage = p.volume_capacity(); // Cumulatively decreases
 
     while( !worn.empty() && !inv.empty() ) {
-        storage_loss += worn.front().it->get_storage();
-        remaining_storage -= p.volume_capacity_reduced_by( storage_loss * units::legacy_volume_factor ) /
-                             units::legacy_volume_factor;
+        storage_loss += worn.front().it->get_storage() * units::legacy_volume_factor;
+        remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
 
-        if( remaining_storage < inv.front().it->volume() / units::legacy_volume_factor ) {
+        if( remaining_storage < inv.front().it->volume() ) {
             break; // Does not fit
         }
 
-        while( !inv.empty() &&
-               remaining_storage >= inv.front().it->volume() / units::legacy_volume_factor ) {
-            remaining_storage -= inv.front().it->volume() / units::legacy_volume_factor;
+        while( !inv.empty() && remaining_storage >= inv.front().it->volume() ) {
+            remaining_storage -= inv.front().it->volume();
 
             res.push_back( inv.front() );
             res.back().consumed_moves = 0; // Free of charge
