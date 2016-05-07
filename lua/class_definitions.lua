@@ -685,7 +685,7 @@ classes = {
             { name = "make_craft_with_command", rval = nil, args = { "string", "int" } },
             { name = "make_craft_with_command", rval = nil, args = { "string", "int", "bool" } },
             { name = "making_would_work", rval = "bool", args = { "string", "int" } },
-            { name = "max_quality", rval = "int", args = { "string" } },
+            { name = "max_quality", rval = "int", args = { "quality_id" } },
             { name = "melee_attack", rval = nil, args = { "Creature", "bool", "matec_id" } },
             { name = "melee_value", rval = "float", args = { "item" } },
             { name = "mend", rval = nil, args = { "int" } },
@@ -950,7 +950,7 @@ classes = {
             { name = "get_property_long", rval = "int", args = { "string", "int" } },
             { name = "get_property_string", rval = "string", args = { "string" } },
             { name = "get_property_string", rval = "string", args = { "string", "string" } },
-            { name = "get_quality", rval = "int", args = { "string" } },
+            { name = "get_quality", rval = "int", args = { "quality_id" } },
             { name = "get_relative_rot", rval = "float", args = { } },
             { name = "get_remaining_capacity_for_liquid", rval = "int", args = { "item", "bool" } },
             { name = "get_remaining_chapters", rval = "int", args = { "player" } },
@@ -984,8 +984,8 @@ classes = {
             { name = "has_flag", rval = "bool", args = { "string" } },
             { name = "has_label", rval = "bool", args = { } },
             { name = "has_property", rval = "bool", args = { "string" } },
-            { name = "has_quality", rval = "bool", args = { "string" } },
-            { name = "has_quality", rval = "bool", args = { "string", "int" } },
+            { name = "has_quality", rval = "bool", args = { "quality_id" } },
+            { name = "has_quality", rval = "bool", args = { "quality_id", "int" } },
             { name = "has_rotten_away", rval = "bool", args = { } },
             { name = "has_technique", rval = "bool", args = { "matec_id" } },
             { name = "has_var", rval = "bool", args = { "string" } },
@@ -1809,6 +1809,14 @@ classes = {
     Skill = {
         string_id = "skill_id",
         attributes = {
+        },
+        functions = {
+        }
+    },
+    quality = {
+        string_id = "quality_id",
+        attributes = {
+            name = { type = "string", writable = false }
         },
         functions = {
         }

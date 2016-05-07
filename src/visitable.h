@@ -4,10 +4,14 @@
 #include <vector>
 #include <list>
 #include <functional>
+#include <string>
 
 #include "enums.h"
+#include "string_id.h"
 
 class item;
+struct quality;
+using quality_id = string_id<quality>;
 
 enum class VisitResponse {
     ABORT, // Stop processing after this node
@@ -60,10 +64,10 @@ class visitable
         bool has_item_with( const std::function<bool( const item & )> &filter ) const;
 
         /** Returns true if instance has amount (or more) items of at least quality level */
-        bool has_quality( const std::string &qual, int level = 1, int qty = 1 ) const;
+        bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const;
 
         /** Return maximum tool quality level provided by instance or INT_MIN if not found */
-        int max_quality( const std::string &qual ) const;
+        int max_quality( const quality_id &qual ) const;
 
         /**
          * Count maximum available charges from this instance and any contained items

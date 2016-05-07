@@ -760,15 +760,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         std::string vits;
         for( const auto &v : g->u.vitamins_from( *food_item ) ) {
-            if( v.second != 0 ) {
+            // only display vitamins that we actually require
+            if( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) {
                 if( !vits.empty() ) {
                     vits += ", ";
                 }
-                vits += string_format( "%s (%i)", v.first.obj().name().c_str(), v.second );
+                vits += string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) );
             }
         }
         if( !vits.empty() ) {
-            info.emplace_back( "FOOD", _( "Vitamins: " ), vits.c_str() );
+            info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), vits.c_str() );
         }
     }
 
@@ -1325,7 +1326,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     for( const auto &quality : type->qualities ) {
         const auto desc = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
                                          quality.second,
-                                         quality::get_name( quality.first ).c_str() );
+                                         quality.first.obj().name.c_str() );
         info.push_back( iteminfo( "QUALITIES", "", desc ) );
     }
     bool intro = false; // Did we print the "Contains items with qualities" line
@@ -1338,7 +1339,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
             const auto desc = string_format( space + _( "Level %1$d %2$s quality." ),
                                              quality.second,
-                                             quality::get_name( quality.first ).c_str() );
+                                             quality.first.obj().name.c_str() );
             info.push_back( iteminfo( "QUALITIES", "", desc ) );
         }
     }
@@ -2280,7 +2281,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (has_flag("FIT")) {
         ret << _(" (fits)");
     }
-    
+
     if( is_disgusting_for( g->u ) ) {
         ret << _(" (filthy)" );
     }
@@ -2720,16 +2721,16 @@ long item::get_property_long( const std::string& prop, long def ) const
     return def;
 }
 
-int item::get_quality( const std::string &quality_id ) const
+int item::get_quality( const quality_id &id ) const
 {
     int return_quality = INT_MIN;
     for( const auto &quality : type->qualities ) {
-        if( quality.first == quality_id ) {
+        if( quality.first == id ) {
             return_quality = quality.second;
         }
     }
     for( auto &itm : contents ) {
-        return_quality = std::max( return_quality, itm.get_quality( quality_id ) );
+        return_quality = std::max( return_quality, itm.get_quality( id ) );
     }
 
     return return_quality;

@@ -35,7 +35,7 @@ class vitamin
         }
 
         /**
-         * Usage rate of vitamin (minutes to consume unit)
+         * Usage rate of vitamin (turns to consume unit)
          * Lower bound is zero whereby vitamin is not required (but may still accumulate)
          * If unspecified in JSON a default value of 60 minutes is used
          */

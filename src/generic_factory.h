@@ -192,7 +192,8 @@ class generic_factory
                          const std::string &alias_member_name = "" )
             : type_name( type_name ),
               id_member_name( id_member_name ),
-              alias_member_name( alias_member_name ) {
+              alias_member_name( alias_member_name ),
+              dummy_obj() {
         }
         /**
          * Load an object of type T with the data from the given JSON object.

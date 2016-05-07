@@ -653,7 +653,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
 
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    bool has_digging_tool = p.has_quality( "DIG", 2 );
+    bool has_digging_tool = p.has_quality( quality_id( "DIG" ), 2 );
     if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
@@ -680,7 +680,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 void iexamine::crate(player &p, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_quality( "PRY", 1 );
+    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
     if( !has_prying_tool ) {
         add_msg( m_info, _("If only you had a crowbar...") );
         return;
@@ -1362,7 +1362,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
         return;
     }
 
-    if( !p.has_quality( "DIG" ) ) {
+    if( !p.has_quality( quality_id( "DIG" ) ) ) {
         none( p, examp );
         add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
         return;
@@ -2270,7 +2270,7 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     if( !( p.get_skill_level( skill_survival ) > 0 ) ) {
         return;
     }
-    if( !p.has_quality( "DIG" ) ) {
+    if( !p.has_quality( quality_id( "DIG" ) ) ) {
         add_msg(m_info, _("You have no tool to dig with..."));
         return;
     }
@@ -2294,12 +2294,12 @@ item_location maple_tree_sap_container() {
 
 void iexamine::tree_maple(player &p, const tripoint &examp)
 {
-    if( !p.has_quality( "DRILL" ) ) {
+    if( !p.has_quality( quality_id( "DRILL" ) ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( "HAMMER" ) ) {
+    if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
         add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
     }
@@ -2371,7 +2371,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
     switch( static_cast<options>( selectmenu.ret ) ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( "HAMMER" ) ) {
+            if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
