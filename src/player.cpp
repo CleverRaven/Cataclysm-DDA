@@ -10897,7 +10897,7 @@ bool player::read(int inventory_position)
 
     auto tmp = it->type->book.get();
     int time; //Declare this here so that we can change the time depending on whats needed
-    // activity.get_value(0) == 1: see below at player_activity(ACT_READ)
+    // See below at player_activity(ACT_READ)
     const bool continuous = (activity.get_value(0) == 1);
     bool study = continuous;
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
@@ -10945,48 +10945,47 @@ bool player::read(int inventory_position)
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
         return false;
     } else if( skill_level < tmp->req ) {
-        add_msg(_("The %s-related jargon flies over your head!"),
-                   skill.obj().name().c_str());
-        if (tmp->recipes.empty()) {
+        add_msg( _( "The %s-related jargon flies over your head!" ),
+                   skill.obj().name().c_str() );
+        if( !can_learn_recipe( *it->type ) ) {
             return false;
         } else {
-            add_msg(m_info, _("But you might be able to learn a recipe or two."));
+            add_msg( m_info, _( "But you can learn a recipe or two." ) );
         }
-    } else if( skill_level >= tmp->level && !can_study_recipe(*it->type) &&
-               !query_yn(tmp->fun > 0 ?
-                         _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
-                         _("Your %s skill won't be improved.  Read anyway?"),
-                         skill.obj().name().c_str())) {
+    } else if( skill_level >= tmp->level && !can_learn_recipe( *it->type ) &&
+               !query_yn( tmp->fun > 0 ?
+                         _( "It would be fun, but your %s skill won't be improved.  Read anyway?" ) :
+                         _( "Your %s skill won't be improved.  Read anyway?" ),
+                         skill.obj().name().c_str() ) ) {
         return false;
     } else if( !continuous &&
                  ( ( skill_level.can_train() && skill_level < tmp->level ) ||
-                     can_study_recipe(*it->type) ) &&
+                     can_learn_recipe( *it->type ) ) &&
                  !query_yn( skill_level.can_train() && skill_level < tmp->level ?
-                 _("Study %s until you learn something? (gain a level)") :
-                 _("Study the book until you learn all recipes?"),
-                 skill.obj().name().c_str()) ) {
+                 _( "Study %s until you learn something? (gain a level)" ) :
+                 _( "Study the book until you learn all recipes?" ),
+                 skill.obj().name().c_str() ) ) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
-        if(!continuous) {
-            add_msg(m_info, _("Now studying %s, %s to stop early."),
-                    it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
-            if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
-                 g->m.has_flag("DIGGABLE", pos()) &&
-                 (!(footwear_factor())) ) {
-                add_msg(m_info, _("You sink your roots into the soil."));
+        if( !continuous ) {
+            add_msg( m_info, _( "Now studying %s, %s to stop early." ),
+                     it->tname().c_str(), press_x( ACTION_PAUSE ).c_str() );
+            if( ( has_trait("ROOTS2") || has_trait( "ROOTS3" ) ) &&
+                g->m.has_flag( "DIGGABLE", pos() ) && !footwear_factor() ) {
+                add_msg( m_info, _( "You sink your roots into the soil." ) );
             }
         }
         study = true;
     }
 
-    if (!tmp->recipes.empty() && !continuous) {
-        if( can_study_recipe( *it->type ) ) {
-            add_msg(m_info, _("This book has more recipes for you to learn."));
+    if( !tmp->recipes.empty() && !continuous ) {
+        if( can_learn_recipe( *it->type ) ) {
+            add_msg( m_info, _( "This book has more recipes for you to learn." ) );
         } else if( studied_all_recipes( *it->type ) ) {
-            add_msg(m_info, _("You know all the recipes this book has to offer."));
+            add_msg( m_info, _( "You know all the recipes this book has to offer." ) );
         } else {
-            add_msg(m_info, _("This book has more recipes, but you don't have the skill to learn them yet."));
+            add_msg( m_info, _( "This book has more recipes, but you don't have the skill to learn them yet." ) );
         }
     }
 
@@ -11082,8 +11081,8 @@ void player::do_read( item *book )
                 recipe_list.size(), recipes.c_str());
             add_msg(m_info, "%s", recipe_line.c_str());
         }
-        if( recipe_list.size() != reading->recipes.size() ) {
-            add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
+        if( can_learn_recipe( *book->type ) ) {
+            add_msg( m_info, _( "You can learn some recipes from this book." ) );
         }
         activity.type = ACT_NULL;
         return;
@@ -11120,13 +11119,11 @@ void player::do_read( item *book )
     book->mark_chapter_as_read( *this );
 
     bool no_recipes = true;
-    if( !reading->recipes.empty() ) {
-        bool recipe_learned = try_study_recipe( *book->type );
-        if( !studied_all_recipes( *book->type ) ) {
-            no_recipes = false;
-        }
+    if( can_learn_recipe( *book->type) ) {
+        const bool recipe_learned = try_study_recipe( *book->type );
+        no_recipes = !can_learn_recipe( *book->type );
 
-        // for books that the player cannot yet read due to skill level or have no skill component,
+        // For books that the player cannot yet read due to skill level or have no skill component,
         // but contain lower level recipes, break out once recipe has been studied
         if( !skill || (get_skill_level(skill) < reading->req) ) {
             if( recipe_learned ) {
@@ -11212,16 +11209,15 @@ void player::do_read( item *book )
                         book->type_name().c_str());
             }
         }
-    } else if( can_study_recipe(*book->type) && activity.get_value(0) == 1 ) {
+    } else if( can_learn_recipe( *book->type ) && activity.get_value(0) == 1 ) {
         // continuously read until player gains a new recipe
         activity.type = ACT_NULL;
-        read(activity.position);
+        read( activity.position );
         // Rooters root (based on time spent reading)
         int root_factor = (reading->time / 20);
         double foot_factor = footwear_factor();
         if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
-            g->m.has_flag("DIGGABLE", pos()) &&
-            !foot_factor ) {
+            g->m.has_flag("DIGGABLE", pos()) && !foot_factor ) {
             if (get_hunger() > -20) {
                 mod_hunger(-root_factor * foot_factor);
             }
@@ -11249,7 +11245,7 @@ bool player::has_identified( std::string item_id ) const
     return items_identified.count( item_id ) > 0;
 }
 
-bool player::can_study_recipe(const itype &book) const
+bool player::can_learn_recipe( const itype &book ) const
 {
     if( !book.book ) {
         return false;
@@ -11258,7 +11254,7 @@ bool player::can_study_recipe(const itype &book) const
         auto const r = elem.recipe;
         if( !knows_recipe( r ) &&
             ( !r->skill_used ||
-              get_skill_level( r->skill_used ) >= elem.skill_level ) ) {
+              ( get_skill_level( r->skill_used ) - elem.skill_level ) >= 4 ) ) {
             return true;
         }
     }
@@ -11288,17 +11284,13 @@ bool player::try_study_recipe( const itype &book )
         if( knows_recipe( r ) || !r->valid_learn() ) {
             continue;
         }
-        if( !r->skill_used || get_skill_level( r->skill_used ) >= elem.skill_level ) {
-            if( !r->skill_used ||
-                rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2 ) {
-                learn_recipe( r );
-                add_msg(m_good, _("Learned a recipe for %1$s from the %2$s."),
-                                item::nname( r->result ).c_str(), book.nname(1).c_str());
-                return true;
-            } else {
-                add_msg(_("Failed to learn a recipe from the %s."), book.nname(1).c_str());
-                return false;
-            }
+        const int skill_difference = r->skill_used ?
+            get_skill_level( r->skill_used ) - elem.skill_level : 4;
+        if( skill_difference >= 4 ) {
+            learn_recipe( r );
+            add_msg( m_good, _( "Learned a recipe for %1$s from the %2$s." ),
+                    item::nname( r->result ).c_str(), book.nname( 1 ).c_str() );
+            return true;
         }
     }
     return true; // _("false") seems to mean _("attempted and failed")
