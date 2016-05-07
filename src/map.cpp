@@ -4478,30 +4478,6 @@ int map::free_volume(const tripoint &p) {
    return ( maxvolume - stored_volume(p) );
 }
 
-// returns true if full, modified by arguments:
-// (none):                            size >= max || volume >= max
-// (addvolume >= 0):                  size+1 > max || volume + addvolume > max
-// (addvolume >= 0, addnumber >= 0):  size + addnumber > max || volume + addvolume > max
-bool map::is_full(const tripoint &p, const int addvolume, const int addnumber ) {
-   const int maxitems = MAX_ITEM_IN_SQUARE; // (game.h) 1024
-   const int maxvolume = this->max_volume(p);
-
-   if( ! (inbounds(p) && passable(p) && !has_flag("NOITEM", p) ) ) {
-       return true;
-   }
-
-   if ( addvolume == -1 ) {
-       if ( (int)i_at(p).size() < maxitems ) return true;
-       int cur_volume=stored_volume(p);
-       return (cur_volume >= maxvolume ? true : false );
-   } else {
-       if ( (int)i_at(p).size() + ( addnumber == -1 ? 1 : addnumber ) > maxitems ) return true;
-       int cur_volume=stored_volume(p);
-       return ( cur_volume + addvolume > maxvolume ? true : false );
-   }
-
-}
-
 // adds an item to map point, or stacks charges.
 // returns false if item exceeds tile's weight limits or item count. This function is expensive, and meant for
 // user initiated actions, not mapgen!

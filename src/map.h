@@ -812,7 +812,6 @@ void add_corpse( const tripoint &p );
     int max_volume( const tripoint &p );
     int free_volume( const tripoint &p );
     int stored_volume( const tripoint &p );
-    bool is_full( const tripoint &p, const int addvolume = -1, const int addnumber = -1 );
     item &add_item_or_charges( const tripoint &p, item new_item, int overflow_radius = 2 );
     item &add_item_at( const tripoint &p, std::list<item>::iterator index, item new_item );
     item &add_item( const tripoint &p, item new_item );
