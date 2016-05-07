@@ -184,7 +184,7 @@ struct islot_armor {
     /**
      * How much storage this items provides when worn.
      */
-    unsigned char storage = 0;
+    units::volume storage = 0;
     /**
      * Whether this is a power armor item.
      */

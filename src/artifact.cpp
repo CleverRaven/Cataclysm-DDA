@@ -795,7 +795,7 @@ std::string new_artifact()
         art->armor->thickness = info->thickness;
         art->armor->env_resist = info->env_resist;
         art->armor->warmth = info->warmth;
-        art->armor->storage = info->storage;
+        art->armor->storage = info->storage * units::legacy_volume_factor;
         std::ostringstream description;
         description << string_format(info->plural ?
                                      _("This is the %s.\nThey are the only ones of their kind.") :
@@ -841,8 +841,8 @@ std::string new_artifact()
                 }
                 art->armor->warmth += modinfo->warmth;
 
-                if( modinfo->storage > 0 || art->armor->storage > std::abs( modinfo->storage ) ) {
-                    art->armor->storage += modinfo->storage;
+                if( modinfo->storage > 0 || art->armor->storage / units::legacy_volume_factor > std::abs( modinfo->storage ) ) {
+                    art->armor->storage += modinfo->storage * units::legacy_volume_factor;
                 } else {
                     art->armor->storage = 0;
                 }
@@ -1196,7 +1196,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     armor->thickness = jo.get_int("material_thickness");
     armor->env_resist = jo.get_int("env_resist");
     armor->warmth = jo.get_int("warmth");
-    armor->storage = jo.get_int("storage");
+    armor->storage = jo.get_int("storage") * units::legacy_volume_factor;
     armor->power_armor = jo.get_bool("power_armor");
 
     JsonArray ja = jo.get_array("effects_worn");
@@ -1315,7 +1315,7 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("material_thickness", armor->thickness);
     json.member("env_resist", armor->env_resist);
     json.member("warmth", armor->warmth);
-    json.member("storage", armor->storage);
+    json.member("storage", armor->storage / units::legacy_volume_factor);
     json.member("power_armor", armor->power_armor);
 
     // artifact data

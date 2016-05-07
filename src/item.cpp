@@ -2870,8 +2870,7 @@ int item::get_storage() const
     if( t == nullptr )
         return 0;
 
-    // it_armor::storage is unsigned char
-    return static_cast<int> (static_cast<unsigned int>( t->storage ) );
+    return t->storage / units::legacy_volume_factor;
 }
 
 int item::get_env_resist() const
