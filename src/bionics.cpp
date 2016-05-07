@@ -1390,8 +1390,8 @@ void load_bionic( JsonObject &jsobj )
 void check_bionics()
 {
     for( const auto &bio : bionics ) {
-        if( bio.second.fake_item.empty() &&
-            item::type_is_defined( bio.second.fake_item ) ) {
+        if( !bio.second.fake_item.empty() &&
+            !item::type_is_defined( bio.second.fake_item ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
                       bio.first.c_str(), bio.second.fake_item.c_str() );
         }
