@@ -9929,11 +9929,12 @@ bool player::dispose_item( item& obj, const std::string& prompt )
 void player::mend_item( item_location&& obj, bool interactive )
 {
     if( g->u.has_trait( "DEBUG_HS" ) ) {
-        uimenu menu( true, "Toggle which fault?" );
+        uimenu menu( true, _( "Toggle which fault?" ) );
         std::vector<std::pair<fault_id, bool>> opts;
         for( const auto& f : obj->faults_potential() ) {
             opts.emplace_back( f, obj->faults.count( f ) );
-            menu.addentry( -1, true, -1, string_format( "%s %s", opts.back().second ? "Mend" : "Break", f.obj().name().c_str() ) );
+            menu.addentry( -1, true, -1, string_format( "%s %s", opts.back().second ? _( "Mend" ) : _( "Break" ),
+                                                        f.obj().name().c_str() ) );
         }
         menu.query();
         if( menu.ret >= 0 ) {
