@@ -375,7 +375,6 @@
         "stack_size" : 100,
         "count" : 20
     },
-
     {   "type" : "AMMO",
         "id" : "laser_pack",
         "price" : 80000,
@@ -394,7 +393,6 @@
         "count" : 20,
         "effects" : ["NEVER_MISFIRES"]
     },
-
     {   "type" : "AMMO",
         "id" : "66mm_HEAT",
         "price" : 0,
@@ -1020,25 +1018,6 @@
         "weight" : 3,
         "ammo_type" : "components",
         "count" : 35
-    },
-    {   "type" : "AMMO",
-        "id" : "40mm_beanbag",
-        "price" : 40000,
-        "name" : "40mm beanbag",
-        "symbol" : "=",
-        "color" : "light_gray",
-        "description" : "A 40mm beanbag that deals massive, but less-lethal, force.",
-        "material" : ["steel", "powder"],
-        "volume" : 1,
-        "weight" : 298,
-        "ammo_type" : "40mm",
-        "casing" : "40mm_casing",
-        "damage" : 30,
-        "range" : 40,
-        "dispersion" : 30,
-        "recoil" : 225,
-        "count" : 4,
-        "effects" : ["COOKOFF", "LARGE_BEANBAG", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "8mm_caseless",
