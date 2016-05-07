@@ -3,6 +3,7 @@
 
 #include "cursesdef.h" // WINDOW
 #include "enums.h"
+#include "units.h"
 
 #include <string>
 #include <array>
@@ -155,7 +156,7 @@ struct advanced_inv_listitem {
     /**
      * The volume of all the items in this stack, used for sorting.
      */
-    int volume;
+    units::volume volume;
     /**
      * The weight of all the items in this stack, used for sorting.
      */

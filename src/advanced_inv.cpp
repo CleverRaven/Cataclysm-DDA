@@ -361,7 +361,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         mvwprintz( window, 6 + x, weight_startpos, print_color, "%5.*f", w_precision, it_weight );
 
         //print volume column
-        int it_vol = sitem.volume;
+        int it_vol = sitem.volume / units::legacy_volume_factor;
         print_color = ( it_vol > 0 ) ? thiscolor : thiscolordark;
         if( it_vol > 9999 ) {
             it_vol = 9999;
@@ -738,7 +738,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , name_without_prefix( an_item->tname( 1, false ) )
     , autopickup( get_auto_pickup().has_rule( an_item->tname( 1, false ) ) )
     , stacks( count )
-    , volume( an_item->volume() / units::legacy_volume_factor * stacks )
+    , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
     , cat( &an_item->get_category() )
     , from_vehicle( from_veh )
@@ -757,7 +757,7 @@ advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int i
     name_without_prefix(list.front()->tname(1, false)),
     autopickup(get_auto_pickup().has_rule(list.front()->tname(1, false))),
     stacks(list.size()),
-    volume(list.front()->volume() / units::legacy_volume_factor * stacks),
+    volume(list.front()->volume() * stacks),
     weight(list.front()->weight() * stacks),
     cat(&list.front()->get_category()),
     from_vehicle(veh)
@@ -885,7 +885,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
             if( is_filtered( it.items.front()) ) {
                 continue;
             }
-            square.volume += it.volume;
+            square.volume += it.volume / units::legacy_volume_factor;
             square.weight += it.weight;
             items.push_back( it );
         }
@@ -896,7 +896,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
             if( is_filtered( it.items.front() ) ) {
                 continue;
             }
-            square.volume += it.volume;
+            square.volume += it.volume / units::legacy_volume_factor;
             square.weight += it.weight;
             items.push_back( it );
         }
@@ -907,7 +907,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
                 // filtering does not make sense for liquid in container
                 item *it = &( square.get_container( in_vehicle() )->contents.front() );
                 advanced_inv_listitem ait( it, 0, 1, square.id, in_vehicle() );
-                square.volume += ait.volume;
+                square.volume += ait.volume / units::legacy_volume_factor;
                 square.weight += ait.weight;
                 items.push_back( ait );
             }
@@ -924,7 +924,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
             if( is_filtered( it.items.front() ) ) {
                 continue;
             }
-            square.volume += it.volume;
+            square.volume += it.volume / units::legacy_volume_factor;
             square.weight += it.weight;
             items.push_back( it );
         }
