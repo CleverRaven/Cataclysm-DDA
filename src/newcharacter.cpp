@@ -61,7 +61,7 @@
 const char clear_str[] = "                                                ";
 
 void draw_tabs(WINDOW *w, std::string sTab);
-void draw_points(WINDOW *w, points_left &points, int netPointCost = 0);
+void draw_points( WINDOW *w, points_left &points, int netPointCost = 0 );
 
 struct points_left {
     int stat_points = 0;
@@ -706,15 +706,15 @@ void draw_tabs(WINDOW *w, std::string sTab)
 }
 void draw_points( WINDOW *w, points_left &points, int netPointCost )
 {
-  mvwprintz( w, 3, 2, c_black, clear_str );
-  std::string points_msg = points.to_string();
-  int pMsg_length = utf8_width( points_msg.c_str() );
-  mvwprintz( w, 3, 2, c_ltgray, points_msg.c_str() );
-  if( netPointCost > 0 ) {
-      mvwprintz( w, 3, pMsg_length + 2, c_red, "(-%d)", abs(netPointCost) );
-  } else if( netPointCost < 0 ) {
-      mvwprintz( w, 3, pMsg_length + 2, c_green, "(+%d)", abs(netPointCost) );
-  }
+    mvwprintz( w, 3, 2, c_black, clear_str );
+    std::string points_msg = points.to_string();
+    int pMsg_length = utf8_width( points_msg );
+    mvwprintz( w, 3, 2, c_ltgray, points_msg.c_str() );
+    if( netPointCost > 0 ) {
+        mvwprintz( w, 3, pMsg_length + 2, c_red, "(-%d)", std::abs( netPointCost ) );
+    } else if( netPointCost < 0 ) {
+        mvwprintz( w, 3, pMsg_length + 2, c_green, "(+%d)", std::abs( netPointCost ) );
+    }
 }
 
 template <class Compare>
@@ -797,9 +797,9 @@ Scenarios and professions affect skill point pool" ) ),
             retval = tab_direction::FORWARD;
         } else if( action == "QUIT" && query_yn( _("Return to main menu?") ) ) {
             retval = tab_direction::QUIT;
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs(w, _("POINTS"));
+            draw_tabs( w, _("POINTS") );
         } else if( action == "CONFIRM" ) {
             points.limit = std::get<0>( cur_opt );
         }
@@ -856,7 +856,7 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
             mvwprintz(w, i, iSecondColumn, c_black, clear_str);
         }
 
-        draw_points(w, points);
+        draw_points( w, points );
 
         mvwprintz(w, 6,  2, c_ltgray, _("Strength:"));
         mvwprintz(w, 6, 16, c_ltgray, "%2d", u->str_max);
@@ -1012,9 +1012,9 @@ tab_direction set_stats(WINDOW *w, player *u, points_left &points)
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return tab_direction::FORWARD;
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs(w, _("STATS"));
+            draw_tabs( w, _("STATS") );
         } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
             delwin(w_description);
             return tab_direction::QUIT;
@@ -1026,7 +1026,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
 {
     const int max_trait_points = OPTIONS["MAX_TRAIT_POINTS"];
 
-    draw_tabs(w, _("TRAITS"));
+    draw_tabs( w, _("TRAITS") );
 
     WINDOW *w_description = newwin(3, FULL_SCREEN_WIDTH - 2, FULL_SCREEN_HEIGHT - 4 + getbegy(w),
                                    1 + getbegx(w));
@@ -1083,7 +1083,7 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
     ctxt.register_action("QUIT");
 
     do {
-        draw_points(w, points);
+        draw_points( w, points );
         mvwprintz(w, 3, 26, c_ltgreen, "%2d/%-2d", num_good, max_trait_points);
         mvwprintz(w, 3, 32, c_ltred, "%3d/-%-2d ", num_bad, max_trait_points);
 
@@ -1260,9 +1260,9 @@ tab_direction set_traits(WINDOW *w, player *u, points_left &points)
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return tab_direction::FORWARD;
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs(w, _("TRAITS"));
+            draw_tabs( w, _("TRAITS") );
         } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
             delwin(w_description);
             return tab_direction::QUIT;
@@ -1294,7 +1294,7 @@ struct {
 
 tab_direction set_profession(WINDOW *w, player *u, points_left &points)
 {
-    draw_tabs(w, _("PROFESSION"));
+    draw_tabs( w, _("PROFESSION") );
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
     int desc_offset = 0;
@@ -1385,7 +1385,7 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             pointsForProf *= -1;
         }
         // Draw header.
-        draw_points(w, points, netPointCost);
+        draw_points( w, points, netPointCost );
         std::string prof_msg_temp;
         if (negativeProf) {
             //~ 1s - profession name, 2d - current character points.
@@ -1564,9 +1564,9 @@ tab_direction set_profession(WINDOW *w, player *u, points_left &points)
             filterstring = string_input_popup(_("Search:"), 60, filterstring,
                 _("Search by profession name."));
             recalc_profs = true;
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs(w, _("PROFESSION"));
+            draw_tabs( w, _("PROFESSION") );
         } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
             retval = tab_direction::QUIT;
         }
@@ -1591,7 +1591,7 @@ static int skill_increment_cost( const Character &u, const skill_id &skill )
 
 tab_direction set_skills(WINDOW *w, player *u, points_left &points)
 {
-    draw_tabs(w, _("SKILLS"));
+    draw_tabs( w, _("SKILLS") );
     const int iContentHeight = FULL_SCREEN_HEIGHT - 6;
     const int iHalf = iContentHeight / 2;
     WINDOW *w_description = newwin(iContentHeight, FULL_SCREEN_WIDTH - 35,
@@ -1622,7 +1622,7 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                std::inserter( prof_skills, prof_skills.begin() ) );
 
     do {
-        draw_points(w, points);
+        draw_points( w, points );
         // Clear the bottom of the screen.
         werase(w_description);
         mvwprintz(w, 3, 31, c_ltgray, "                                              ");
@@ -1774,9 +1774,9 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return tab_direction::FORWARD;
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs(w, _("SKILLS"));
+            draw_tabs( w, _("SKILLS") );
         } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
             delwin(w_description);
             return tab_direction::QUIT;
@@ -1808,7 +1808,7 @@ struct {
 
 tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
 {
-    draw_tabs(w, _("SCENARIO"));
+    draw_tabs( w, _("SCENARIO") );
 
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -1911,7 +1911,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
         }
 
         // Draw header.
-        draw_points(w, points, netPointCost);
+        draw_points( w, points, netPointCost );
 
         std::string scen_msg_temp;
         if (negativeScen) {
@@ -2077,9 +2077,9 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
             filterstring = string_input_popup(_("Search:"), 60, filterstring,
                 _("Search by scenario name."));
             recalc_scens = true;
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs(w, _("SCENARIO"));
+            draw_tabs( w, _("SCENARIO") );
         } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
             retval = tab_direction::QUIT;
         }
@@ -2090,7 +2090,7 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
 
 tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, points_left &points)
 {
-    draw_tabs(w, _("DESCRIPTION"));
+    draw_tabs( w, _("DESCRIPTION") );
 
     WINDOW *w_name = newwin(2, 42, getbegy(w) + 5, getbegx(w) + 2);
     WINDOW_PTR w_nameptr( w_name );
@@ -2358,10 +2358,10 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
             werase(select_location.window);
             select_location.refresh();
             redraw = true;
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             // Need to redraw since the help window obscured everything.
-            draw_tabs(w, _("DESCRIPTION"));
-            draw_points(w, points);
+            draw_tabs( w, _("DESCRIPTION") );
+            draw_points( w, points );
             redraw = true;
         } else if (action == "ANY_INPUT" &&
                    !MAP_SHARING::isSharing()) {  // Don't edit names when sharing maps
