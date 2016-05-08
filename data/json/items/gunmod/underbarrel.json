@@ -44,7 +44,7 @@
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
     "recoil_modifier": 45,
-    "flags": [ "NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET" ]
+    "flags": [ "NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET","SHEATH_KNIFE" ]
   },
   {
     "id": "bipod",
@@ -142,7 +142,7 @@
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
     "recoil_modifier": 45,
-    "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
+    "flags": [ "NON_STUCK", "SPEAR", "BAYONET","SHEATH_KNIFE" ]
   },
   {
     "id": "diamond_pistol_bayonet",
@@ -161,7 +161,7 @@
     "mod_targets": [ "pistol", "smg", "crossbow" ],
     "dispersion_modifier": 15,
     "recoil_modifier": 45,
-    "flags": [ "STAB", "BAYONET" ]
+    "flags": [ "STAB", "BAYONET", "SHEATH_KNIFE" ]
   },
   {
     "id": "diamond_sword_bayonet",
@@ -399,7 +399,7 @@
     "mod_targets": [ "pistol", "smg", "crossbow" ],
     "dispersion_modifier": 15,
     "recoil_modifier": 45,
-    "flags": [ "STAB", "BAYONET" ]
+    "flags": [ "STAB", "BAYONET", "SHEATH_KNIFE" ]
   },
   {
     "id": "rm121aux",
@@ -448,7 +448,7 @@
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
     "recoil_modifier": 105,
-    "flags": [ "NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET" ]
+    "flags": [ "NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET", "SHEATH_SWORD" ]
   },
   {
     "id": "u_shotgun",
