@@ -12,6 +12,8 @@
 #include "json.h"
 #include "itype.h"
 
+extern class game *g;
+
 bool item_is_blacklisted( const std::string &id );
 
 typedef std::string Item_tag;
@@ -201,12 +203,6 @@ class Item_factory
 
         void load_item_blacklist( JsonObject &jo );
         void load_item_whitelist( JsonObject &jo );
-
-        /**
-         * Load a json blob of type item option.
-         * @param jo a JsonObject of type ITEM_OPTION to load.
-         */
-        void load_item_option( JsonObject &jo );
 
         /**
          * A list of *all* known item type ids. Each is suitable as input to
