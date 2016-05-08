@@ -13,7 +13,7 @@
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
 
-struct vpart_info;
+class vpart_info;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
 
@@ -41,7 +41,7 @@ class veh_interact
     public:
         int ddx;
         int ddy;
-        const struct vpart_info *sel_vpart_info;
+        const vpart_info *sel_vpart_info;
         const struct vehicle_part *sel_vehicle_part;
         char sel_cmd; //Command currently being run by the player
         int sel_type;

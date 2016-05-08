@@ -124,10 +124,6 @@ int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
 {
 }
 
-// Note on the 'symbol' flag in vehicle parts -
-// the following symbols will be translated:
-// y, u, n, b to NW, NE, SE, SW lines correspondingly
-// h, j, c to horizontal, vertical, cross correspondingly
 /**
  * Reads in a vehicle part from a JsonObject.
  */
@@ -137,21 +133,43 @@ void vpart_info::load( JsonObject &jo )
 
     next_part.id = vpart_str_id( jo.get_string( "id" ) );
 
-    if( jo.has_member( "name" ) ) {
-        next_part.name_ = _( jo.get_string( "name" ).c_str() );
+    jo.assign( "name", next_part.name_ );
+    jo.assign( "item", next_part.item );
+    jo.assign( "location", next_part.location );
+    jo.assign( "color", next_part.color );
+    jo.assign( "broken_color", next_part.color_broken );
+    jo.assign( "durability", next_part.durability );
+    jo.assign( "damage_modifier", next_part.dmg_mod );
+    jo.assign( "power", next_part.power );
+    jo.assign( "epower", next_part.epower );
+    jo.assign( "fuel_type", next_part.fuel_type );
+    jo.assign( "folded_volume", next_part.folded_volume );
+    jo.assign( "range", next_part.range );
+    jo.assign( "size", next_part.size );
+    jo.assign( "difficulty", next_part.difficulty );
+
+    jo.assign( "flags", next_part.flags );
+
+    if( jo.has_member( "symbol" ) ) {
+        next_part.sym = jo.get_string( "symbol" )[ 0 ];
+    }
+    if( jo.has_member( "broken_symbol" ) ) {
+        next_part.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
     }
 
-    next_part.sym = jo.get_string("symbol")[0];
-    next_part.color = color_from_string(jo.get_string("color"));
-    next_part.sym_broken = jo.get_string("broken_symbol")[0];
-    next_part.color_broken = color_from_string(jo.get_string("broken_color"));
-    next_part.dmg_mod = jo.has_member("damage_modifier") ? jo.get_int("damage_modifier") : 100;
-    next_part.durability = jo.get_int("durability");
-    next_part.power = jo.get_int("power", 0);
-    next_part.epower = jo.get_int("epower", 0);
-    next_part.folded_volume = jo.get_int("folded_volume", 0);
-    next_part.range = jo.get_int( "range", 12 );
-    next_part.size = jo.get_int( "size", 0 );
+    if( jo.has_member( "breaks_into" ) ) {
+        JsonIn& stream = *jo.get_raw( "breaks_into" );
+        next_part.breaks_into_group = item_group::load_item_group( stream, "collection" );
+    }
+
+    auto qual = jo.get_array( "qualities" );
+    if( !qual.empty() ) {
+        next_part.qualities.clear();
+        while( qual.has_more() ) {
+            auto pair = qual.next_array();
+            next_part.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+        }
+    }
 
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
@@ -176,72 +194,6 @@ void vpart_info::load( JsonObject &jo )
                  next_part.name().c_str());
         //Keep going to produce more messages if other parts are wrong
         next_part.par1 = 0;
-    }
-    next_part.fuel_type = jo.get_string( "fuel_type", "null" );
-    next_part.item = jo.get_string("item");
-    next_part.difficulty = jo.get_int("difficulty");
-    next_part.location = jo.has_member("location") ? jo.get_string("location") : "";
-
-    JsonArray jarr = jo.get_array("flags");
-    while (jarr.has_more()) {
-        next_part.set_flag( jarr.next_string() );
-    }
-
-    if( jo.has_member( "breaks_into" ) ) {
-        JsonIn& stream = *jo.get_raw( "breaks_into" );
-        next_part.breaks_into_group = item_group::load_item_group( stream, "collection" );
-    } else {
-        next_part.breaks_into_group = "EMPTY_GROUP";
-    }
-
-    auto qual = jo.get_array( "qualities" );
-    while( qual.has_more() ) {
-        auto pair = qual.next_array();
-        next_part.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
-    }
-
-    //Calculate and cache z-ordering based off of location
-    // list_order is used when inspecting the vehicle
-    if(next_part.location == "on_roof") {
-        next_part.z_order = 9;
-        next_part.list_order = 3;
-    } else if(next_part.location == "on_cargo") {
-        next_part.z_order = 8;
-        next_part.list_order = 6;
-    } else if(next_part.location == "center") {
-        next_part.z_order = 7;
-        next_part.list_order = 7;
-    } else if(next_part.location == "under") {
-        //Have wheels show up over frames
-        next_part.z_order = 6;
-        next_part.list_order = 10;
-    } else if(next_part.location == "structure") {
-        next_part.z_order = 5;
-        next_part.list_order = 1;
-    } else if(next_part.location == "engine_block") {
-        //Should be hidden by frames
-        next_part.z_order = 4;
-        next_part.list_order = 8 ;
-    } else if (next_part.location == "on_battery_mount"){
-        //Should be hidden by frames
-        next_part.z_order = 3;
-        next_part.list_order = 10;
-    } else if(next_part.location == "fuel_source") {
-        //Should be hidden by frames
-        next_part.z_order = 3;
-        next_part.list_order = 9;
-    } else if(next_part.location == "roof") {
-        //Shouldn't be displayed
-        next_part.z_order = -1;
-        next_part.list_order = 4;
-    } else if(next_part.location == "armor") {
-        //Shouldn't be displayed (the color is used, but not the symbol)
-        next_part.z_order = -2;
-        next_part.list_order = 2;
-    } else {
-        //Everything else
-        next_part.z_order = 0;
-        next_part.list_order = 5;
     }
 
     auto const iter = vehicle_part_types.find( next_part.id );
@@ -268,16 +220,98 @@ void vpart_info::set_flag( const std::string &flag )
     }
 }
 
+void vpart_info::finalize()
+{
+    for( auto& e : vehicle_part_types ) {
+        if( e.second.folded_volume > 0 ) {
+            e.second.set_flag( "FOLDABLE" );
+        }
+
+        for( const auto& f : e.second.flags ) {
+            auto b = vpart_bitflag_map.find( f );
+            if( b != vpart_bitflag_map.end() ) {
+                e.second.bitflags.set( b->second );
+            }            
+        }
+
+        // Calculate and cache z-ordering based off of location
+        // list_order is used when inspecting the vehicle
+        if( e.second.location == "on_roof" ) {
+            e.second.z_order = 9;
+            e.second.list_order = 3;
+        } else if( e.second.location == "on_cargo" ) {
+            e.second.z_order = 8;
+            e.second.list_order = 6;
+        } else if( e.second.location == "center" ) {
+            e.second.z_order = 7;
+            e.second.list_order = 7;
+        } else if( e.second.location == "under" ) {
+            // Have wheels show up over frames
+            e.second.z_order = 6;
+            e.second.list_order = 10;
+        } else if( e.second.location == "structure" ) {
+            e.second.z_order = 5;
+            e.second.list_order = 1;
+        } else if( e.second.location == "engine_block" ) {
+            // Should be hidden by frames
+            e.second.z_order = 4;
+            e.second.list_order = 8 ;
+        } else if( e.second.location == "on_battery_mount" ){
+            // Should be hidden by frames
+            e.second.z_order = 3;
+            e.second.list_order = 10;
+        } else if( e.second.location == "fuel_source" ) {
+            // Should be hidden by frames
+            e.second.z_order = 3;
+            e.second.list_order = 9;
+        } else if( e.second.location == "roof" ) {
+            // Shouldn't be displayed
+            e.second.z_order = -1;
+            e.second.list_order = 4;
+        } else if( e.second.location == "armor" ) {
+            // Shouldn't be displayed (the color is used, but not the symbol)
+            e.second.z_order = -2;
+            e.second.list_order = 2;
+        } else {
+            // Everything else
+            e.second.z_order = 0;
+            e.second.list_order = 5;
+        }
+    }
+}
+
 void vpart_info::check()
 {
     for( auto &part_ptr : vehicle_part_int_types ) {
         auto &part = *part_ptr;
+
         if( !item_group::group_is_defined( part.breaks_into_group ) ) {
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
                       part.id.c_str(), part.breaks_into_group.c_str() );
         }
+        if( part.sym == 0 ) {
+            debugmsg( "vehicle part %s does not define a symbol", part.id.c_str() );
+        }
+        if( part.sym_broken == 0 ) {
+            debugmsg( "vehicle part %s does not define a broken symbol", part.id.c_str() );
+        }
+        if( part.durability <= 0 ) {
+            debugmsg( "vehicle part %s has zero or negative durability", part.id.c_str() );
+        }
+        if( part.dmg_mod < 0 ) {
+            debugmsg( "vehicle part %s has negative damage modifier", part.id.c_str() );
+        }
+        if( part.folded_volume < 0 ) {
+            debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
+        }
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0 ) {
-            debugmsg("Error: folded part %s has a volume of 0!", part.name().c_str());
+            debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
+        }
+        if( part.size < 0 ) {
+            debugmsg( "vehicle part %s has negative size", part.id.c_str() );
+        }
+        if( part.range < 0 ) {
+            debugmsg( "vehicle part %s has negative range", part.id.c_str() );
         }
         if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
@@ -286,7 +320,7 @@ void vpart_info::check()
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.item.c_str() );
         }
         if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
-            debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
+            debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str() );
         }
         for( auto &q : part.qualities ) {
             if( !q.first.is_valid() ) {
