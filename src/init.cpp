@@ -391,6 +391,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::check_consistency()
 {
+    vitamin::check_consistency();
     item_controller->check_definitions();
     fault::check_consistency();
     vpart_info::check();

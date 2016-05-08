@@ -62,6 +62,9 @@ class vitamin
         /** Get all currently loaded vitamins */
         static const std::map<vitamin_id, vitamin> &all();
 
+        /** Check consistency of all loaded vitamins */
+        static void check_consistency();
+
         /** Clear all loaded vitamins (invalidating any pointers) */
         static void reset();
 
