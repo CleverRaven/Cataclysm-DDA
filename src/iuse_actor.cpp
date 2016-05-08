@@ -429,7 +429,8 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
 
     // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto& v : vitamins ) {
-        p->vitamin_mod( v.first, rng( v.second.first ,v.second.second ), false );
+        // players with mutations that remove the requirement for a vitamin cannot suffer accmulation of it
+        p->vitamin_mod( v.first, rng( v.second.first, v.second.second ), p->vitamin_rate( v.first ) > 0 ? false : true );
     }
 
     // Output message.
