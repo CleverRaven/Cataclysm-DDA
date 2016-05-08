@@ -1414,6 +1414,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         for( const auto &method : type->use_methods ) {
+            insert_separation_line();
             method.dump_info( *this, info );
         }
 
