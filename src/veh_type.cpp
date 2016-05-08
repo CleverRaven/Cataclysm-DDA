@@ -77,6 +77,8 @@ std::map<vpart_str_id, vpart_info> vehicle_part_types;
 // linked to. Pointers here are always valid.
 std::vector<const vpart_info*> vehicle_part_int_types;
 
+static std::map<vpart_str_id, vpart_info> abstract_parts;
+
 /** JSON data dependent upon as-yet unparsed definitions */
 static std::list<std::string> deferred;
 
@@ -138,14 +140,22 @@ void vpart_info::load( JsonObject &jo )
 
     if( jo.has_string( "copy-from" ) ) {
         auto const base = vehicle_part_types.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
+        auto const ab = abstract_parts.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
         if( base != vehicle_part_types.end() ) {
             def = base->second;
+        } else if( ab != abstract_parts.end() ) {
+            def = ab->second;
         } else {
             deferred.emplace_back( jo.str() );
         }
+        def.id = vpart_str_id( jo.get_string( "id" ) );
     }
 
-    def.id = vpart_str_id( jo.get_string( "id" ) );
+    if( jo.has_string( "abstract" ) ) {
+        def.id = vpart_str_id( jo.get_string( "abstract" ) );
+    } else {
+        def.id = vpart_str_id( jo.get_string( "id" ) );
+    }
 
     jo.assign( "name", def.name_ );
     jo.assign( "item", def.item );
@@ -208,6 +218,11 @@ void vpart_info::load( JsonObject &jo )
                  def.name().c_str());
         //Keep going to produce more messages if other parts are wrong
         def.par1 = 0;
+    }
+
+    if( jo.has_string( "abstract" ) ) {
+        abstract_parts[ def.id ] = def;
+        return;
     }
 
     auto const iter = vehicle_part_types.find( def.id );
@@ -371,6 +386,7 @@ void vpart_info::reset()
 {
     vehicle_part_types.clear();
     vehicle_part_int_types.clear();
+    abstract_parts.clear();
 }
 
 const std::vector<const vpart_info*> &vpart_info::get_all()
