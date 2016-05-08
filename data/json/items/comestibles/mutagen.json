@@ -24,7 +24,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "beast mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_BEAST" ]
     },
@@ -33,7 +32,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "cattle mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_CATTLE" ]
     },
@@ -42,7 +40,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "feline mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_FELINE" ]
     },
@@ -51,7 +48,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "fish mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_FISH" ]
     },
@@ -60,7 +56,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "insect mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 1,
         "flags" : [ "MUTAGEN_INSECT" ]
     },
@@ -69,7 +64,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "plant mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_PLANT" ]
     },
@@ -78,7 +72,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "rat mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_RAT" ]
     },
@@ -87,7 +80,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "slime mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_SLIME" ]
     },
@@ -96,7 +88,6 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "spider mutagen",
-        "description" : "A rare substance of uncertain origins.  Causes you to mutate.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_SPIDER" ]
     }
