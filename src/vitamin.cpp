@@ -26,19 +26,19 @@ const vitamin &string_id<vitamin>::obj() const
     return found->second;
 }
 
-const efftype_id &vitamin::effect( int level ) const
+const std::pair<efftype_id, int> &vitamin::effect( int level ) const
 {
     for( const auto &e : deficiency_ ) {
-        if( level <= e.second ) {
-            return e.first;
+        if( level <= e.first ) {
+            return e.second;
         }
     }
     for( const auto &e : excess_ ) {
-        if( level >= e.second ) {
-            return e.first;
+        if( level >= e.first ) {
+            return e.second;
         }
     }
-    static efftype_id null_effect = NULL_ID;
+    static std::pair<efftype_id, int> null_effect = { NULL_ID, 1 };
     return null_effect;
 }
 
@@ -56,16 +56,25 @@ void vitamin::load_vitamin( JsonObject &jo )
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
     }
 
+    using disease = std::pair<int, std::pair<efftype_id, int>>;
+
     auto def = jo.get_array( "deficiency" );
     while( def.has_more() ) {
         auto e = def.next_array();
-        vit.deficiency_.emplace_back( efftype_id( e.get_string( 0 ) ), e.get_int( 1 ) );
+        vit.deficiency_.emplace_back( e.get_int( 0 ),
+                                      std::make_pair( efftype_id( e.get_string( 1 ) ), e.get_int( 2 ) ) );
     }
+    std::sort( vit.deficiency_.begin(), vit.deficiency_.end(),
+               []( const disease& lhs, const disease& rhs ) { return lhs.first < rhs.first; } );
+
     auto exc = jo.get_array( "excess" );
     while( exc.has_more() ) {
         auto e = exc.next_array();
-        vit.excess_.emplace_back( efftype_id( e.get_string( 0 ) ), e.get_int( 1 ) );
+        vit.excess_.emplace_back( e.get_int( 0 ),
+                                  std::make_pair( efftype_id( e.get_string( 1 ) ), e.get_int( 2 ) ) );
     }
+    std::sort( vit.excess_.rbegin(), vit.excess_.rend(),
+               []( const disease& lhs, const disease& rhs ) { return lhs.first < rhs.first; } );
 
     if( vitamins_all.find( vit.id_ ) != vitamins_all.end() ) {
         jo.throw_error( "parsed vitamin overwrites existing definition", "id" );
