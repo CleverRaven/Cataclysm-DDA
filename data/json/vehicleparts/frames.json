@@ -1,0 +1,73 @@
+[
+  {
+    "abstract": "frame",
+    "type": "vehicle_part",
+    "name": "frame",
+    "item": "frame",
+    "location": "structure",
+    "durability": 400,
+    "difficulty": 1,
+    "breaks_into": "ig_vp_frame",
+    "flags" : [ "MOUNTABLE" ]
+  },
+  {
+    "id": "frame_cover",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "frame_cross",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "c"
+  },
+  {
+    "id": "frame_horizontal",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_horizontal_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_ne",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "frame_nw",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "frame_se",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "frame_sw",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "frame_vertical",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "frame_vertical_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "H"
+  }
+]
