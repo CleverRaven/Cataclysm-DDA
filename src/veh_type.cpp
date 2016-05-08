@@ -8,9 +8,11 @@
 #include "color.h"
 #include "itype.h"
 #include "vehicle_group.h"
+#include "init.h"
 
 #include <unordered_map>
 #include <unordered_set>
+#include <sstream>
 
 std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
@@ -75,6 +77,9 @@ std::map<vpart_str_id, vpart_info> vehicle_part_types;
 // linked to. Pointers here are always valid.
 std::vector<const vpart_info*> vehicle_part_int_types;
 
+/** JSON data dependent upon as-yet unparsed definitions */
+static std::list<std::string> deferred;
+
 template<>
 const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
 
@@ -129,45 +134,54 @@ int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
  */
 void vpart_info::load( JsonObject &jo )
 {
-    vpart_info next_part;
+    vpart_info def;
 
-    next_part.id = vpart_str_id( jo.get_string( "id" ) );
+    if( jo.has_string( "copy-from" ) ) {
+        auto const base = vehicle_part_types.find( vpart_str_id( jo.get_string( "copy-from" ) ) );
+        if( base != vehicle_part_types.end() ) {
+            def = base->second;
+        } else {
+            deferred.emplace_back( jo.str() );
+        }
+    }
 
-    jo.assign( "name", next_part.name_ );
-    jo.assign( "item", next_part.item );
-    jo.assign( "location", next_part.location );
-    jo.assign( "color", next_part.color );
-    jo.assign( "broken_color", next_part.color_broken );
-    jo.assign( "durability", next_part.durability );
-    jo.assign( "damage_modifier", next_part.dmg_mod );
-    jo.assign( "power", next_part.power );
-    jo.assign( "epower", next_part.epower );
-    jo.assign( "fuel_type", next_part.fuel_type );
-    jo.assign( "folded_volume", next_part.folded_volume );
-    jo.assign( "range", next_part.range );
-    jo.assign( "size", next_part.size );
-    jo.assign( "difficulty", next_part.difficulty );
+    def.id = vpart_str_id( jo.get_string( "id" ) );
 
-    jo.assign( "flags", next_part.flags );
+    jo.assign( "name", def.name_ );
+    jo.assign( "item", def.item );
+    jo.assign( "location", def.location );
+    jo.assign( "color", def.color );
+    jo.assign( "broken_color", def.color_broken );
+    jo.assign( "durability", def.durability );
+    jo.assign( "damage_modifier", def.dmg_mod );
+    jo.assign( "power", def.power );
+    jo.assign( "epower", def.epower );
+    jo.assign( "fuel_type", def.fuel_type );
+    jo.assign( "folded_volume", def.folded_volume );
+    jo.assign( "range", def.range );
+    jo.assign( "size", def.size );
+    jo.assign( "difficulty", def.difficulty );
+
+    jo.assign( "flags", def.flags );
 
     if( jo.has_member( "symbol" ) ) {
-        next_part.sym = jo.get_string( "symbol" )[ 0 ];
+        def.sym = jo.get_string( "symbol" )[ 0 ];
     }
     if( jo.has_member( "broken_symbol" ) ) {
-        next_part.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
+        def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
     }
 
     if( jo.has_member( "breaks_into" ) ) {
         JsonIn& stream = *jo.get_raw( "breaks_into" );
-        next_part.breaks_into_group = item_group::load_item_group( stream, "collection" );
+        def.breaks_into_group = item_group::load_item_group( stream, "collection" );
     }
 
     auto qual = jo.get_array( "qualities" );
     if( !qual.empty() ) {
-        next_part.qualities.clear();
+        def.qualities.clear();
         while( qual.has_more() ) {
             auto pair = qual.next_array();
-            next_part.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
+            def.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
         }
     }
 
@@ -178,35 +192,35 @@ void vpart_info::load( JsonObject &jo )
 
     if(element_count == 0) {
         //If not specified, assume 0
-        next_part.par1 = 0;
+        def.par1 = 0;
     } else if(element_count == 1) {
         if(jo.has_member("par1")) {
-            next_part.par1 = jo.get_int("par1");
+            def.par1 = jo.get_int("par1");
         } else if(jo.has_member("wheel_width")) {
-            next_part.par1 = jo.get_int("wheel_width");
+            def.par1 = jo.get_int("wheel_width");
         } else { //bonus
-            next_part.par1 = jo.get_int("bonus");
+            def.par1 = jo.get_int("bonus");
         }
     } else {
         //Too many
         debugmsg("Error parsing vehicle part '%s': \
                Use AT MOST one of: par1, wheel_width, bonus",
-                 next_part.name().c_str());
+                 def.name().c_str());
         //Keep going to produce more messages if other parts are wrong
-        next_part.par1 = 0;
+        def.par1 = 0;
     }
 
-    auto const iter = vehicle_part_types.find( next_part.id );
+    auto const iter = vehicle_part_types.find( def.id );
     if( iter != vehicle_part_types.end() ) {
         // Entry in the map already exists, so the pointer in the vector is already correct
         // and does not need to be changed, only the int-id needs to be taken from the old entry.
-        next_part.loadid = iter->second.loadid;
-        iter->second = next_part;
+        def.loadid = iter->second.loadid;
+        iter->second = def;
     } else {
         // The entry is new, "generate" a new int-id and link the new entry from the vector.
-        next_part.loadid = vpart_id( vehicle_part_int_types.size() );
-        vpart_info &new_entry = vehicle_part_types[next_part.id];
-        new_entry = next_part;
+        def.loadid = vpart_id( vehicle_part_int_types.size() );
+        vpart_info &new_entry = vehicle_part_types[ def.id ];
+        new_entry = def;
         vehicle_part_int_types.push_back( &new_entry );
     }
 }
@@ -222,6 +236,29 @@ void vpart_info::set_flag( const std::string &flag )
 
 void vpart_info::finalize()
 {
+    auto& dyn = DynamicDataLoader::get_instance();
+
+    while( !deferred.empty() ) {
+        auto n = deferred.size();
+        auto it = deferred.begin();
+        for( decltype(deferred)::size_type idx = 0; idx != n; ++idx ) {
+            try {
+                std::istringstream str( *it );
+                JsonIn jsin( str );
+                JsonObject jo = jsin.get_object();
+                dyn.load_object( jo );
+            } catch( const std::exception &err ) {
+                debugmsg( "Error loading data from json: %s", err.what() );
+            }
+            ++it;
+        }
+        deferred.erase( deferred.begin(), it );
+        if( deferred.size() == n ) {
+            debugmsg( "JSON contains circular dependency: discarded %i templates", n );
+            break;
+        }
+    }
+
     for( auto& e : vehicle_part_types ) {
         if( e.second.folded_volume > 0 ) {
             e.second.set_flag( "FOLDABLE" );
