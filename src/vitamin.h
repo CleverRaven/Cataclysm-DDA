@@ -76,7 +76,7 @@ class vitamin
         int min_;
         int max_;
         int rate_;
-        std::vector<std::pair<int,int>> disease_;
+        std::vector<std::pair<int, int>> disease_;
 };
 
 #endif
