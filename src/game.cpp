@@ -10506,8 +10506,6 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     if( menu.entries.empty() ) {
         return false;
     }
-    // Has no associated action, it's there to show that cancelling is an option.
-    menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Cancel" ) );
 
     menu.query();
     const size_t chosen = static_cast<size_t>( menu.ret );
