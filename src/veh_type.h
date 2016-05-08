@@ -88,7 +88,7 @@ class vpart_info {
         std::string location;
 
         /** Color of part for different states */
-        nc_color color = c_white;
+        nc_color color = c_ltgray;
         nc_color color_broken = c_ltgray;
 
         /**
@@ -97,7 +97,7 @@ class vpart_info {
          * h, j, c to horizontal, vertical, cross correspondingly
          */
         long sym = 0;
-        char sym_broken = 0;
+        char sym_broken = '#';
 
         /** Maximum damage part can sustain before being destroyed */
         int durability = 0;
