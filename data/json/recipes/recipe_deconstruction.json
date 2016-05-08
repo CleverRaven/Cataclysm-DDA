@@ -97,7 +97,7 @@
       [ [ "RAM", 1 ] ],
       [ [ "e_scrap", 2 ] ]
     ]
-  }, {
+  },{
     "type" : "recipe",
     "result": "bowl_pewter",
     "id_suffix": "uncraft",
@@ -107,29 +107,29 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
-    "qualities":[
-      {"id":"HAMMER","level":1,"amount":1}
-    ],
-    "components": [ [ [ "tin", 100 ] ] ]
-  },{
-  "type" : "recipe",
-  "result": "cu_pipe",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "tin", 100 ] ]
     ]
-  ],
-  "components": [ [ [ "copper", 200 ] ] ]
-},{
+  },{
+    "type" : "recipe",
+    "result": "cu_pipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "tools": [
+      [ [ "toolset", 10 ] ],
+      [ [ "fire",-1 ] ]
+    ],
+  "components": [
+      [ [ "copper", 200 ] ]
+    ]
+  },{
     "type" : "recipe",
     "result": "silver",
     "id_suffix": "uncraft",
@@ -140,7 +140,9 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "silver_small", 800 ] ] ]
+    "components": [
+      [ [ "silver_small", 800 ] ]
+    ]
   },{
     "type" : "recipe",
     "result": "small_relic",
@@ -152,7 +154,9 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
+    "components": [
+      [ [ "silver_small", 100 ] ]
+    ]
   },{
     "type" : "recipe",
     "result": "badge_deputy",
@@ -164,129 +168,108 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "silver_small", 100 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "necklace",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "silver_small", 100 ]
+    "components": [
+      [ [ "silver_small", 100 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "locket",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "silver_small", 110 ]
+  },{
+    "type" : "recipe",
+    "result": "necklace",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "silver_small", 100 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "gold_bracelet",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gold_small", 260 ]
+  },{
+    "type" : "recipe",
+    "result": "locket",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "silver_small", 110 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "silver_bracelet",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "silver_small", 260 ]
+  },{
+    "type" : "recipe",
+    "result": "gold_bracelet",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "gold_small", 260 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "copper_bracelet",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 43 ]
+  },{
+    "type" : "recipe",
+    "result": "silver_bracelet",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "silver_small", 260 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "ring",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gold_small", 50 ]
+  },{
+    "type" : "recipe",
+    "result": "copper_bracelet",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "copper", 43 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "diamond_ring",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gold_small", 50 ]
-    ],
-    [
-      [ "diamond", 1 ]
+  },{
+    "type" : "recipe",
+    "result": "ring",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "gold_small", 50 ] ]
     ]
-  ]
+  },{
+    "type" : "recipe",
+    "result": "diamond_ring",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "autolearn": false,
+    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "components": [
+      [ [ "gold_small", 50 ] ],
+      [ [ "diamond", 1 ] ]
+    ]
   },{
     "type" : "recipe",
     "result": "diamond_dental_grill",
@@ -313,7 +296,9 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [ [ [ "gold_small", 100 ] ] ]
+    "components": [
+      [ [ "gold_small", 100 ] ]
+    ]
   },{
   "type" : "recipe",
   "result": "gold_ear",
