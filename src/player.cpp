@@ -5209,6 +5209,7 @@ void player::update_body( int from, int to )
     }
 
     for( const auto& v : vitamin::all() ) {
+
         int rate = vitamin_rate( v.first );
         if( rate > 0 ) {
             int qty = ticks_between( from, to, MINUTES( rate ) );
@@ -5222,6 +5223,20 @@ void player::update_body( int from, int to )
             if( qty > 0 ) {
                 vitamin_mod( v.first, qty );
             }
+        }
+
+        efftype_id def = v.second.deficiency();
+        efftype_id exc = v.second.excess();
+
+        int lvl = v.second.severity( vitamin_get( v.first ) );
+        if( lvl <= 0 ) {
+            remove_effect( def );
+        }
+        if( lvl > 0 ) {
+            add_effect( def, 1, num_bp, true, lvl );
+        }
+        if( lvl < 0 ) {
+            add_effect( exc, 1, num_bp, true, std::abs( lvl ) );
         }
     }
 
