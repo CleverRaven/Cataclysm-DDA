@@ -5244,6 +5244,9 @@ void player::update_vitamins( const vitamin_id& vit )
     if( lvl <= 0 ) {
         remove_effect( def );
     }
+    if( lvl >= 0 ) {
+        remove_effect( exc );
+    }
     if( lvl > 0 ) {
         if( has_effect( def, num_bp ) ) {
             get_effect( def, num_bp ).set_intensity( lvl, true );
