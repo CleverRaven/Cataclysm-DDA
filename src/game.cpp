@@ -10450,7 +10450,26 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } );
     }
 
-    menu.addentry( -1, true, 'g', _( "Pour on the ground / into an adjacent keg" ) );
+    for( auto &target_pos : m.points_in_radius( u.pos(), 1 ) ) {
+        if( !iexamine::has_keg( target_pos ) ) {
+            continue;
+        }
+        if( source_pos != nullptr && *source_pos == target_pos ) {
+            continue;
+        }
+        const std::string dir = direction_name( direction_from( u.pos(), target_pos ) );
+        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir.c_str() );
+        actions.emplace_back( [&, target_pos]() {
+            if( create_activity() ) {
+                serialize_liquid_target( u.activity, target_pos );
+                return;
+            }
+            iexamine::pour_into_keg( target_pos, liquid );
+            u.mod_moves( -100 );
+        } );
+    }
+
+    menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
     actions.emplace_back( [&]() {
         tripoint target_pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
@@ -10463,39 +10482,23 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             add_msg( m_info, _( "That's where you took it from!" ) );
             return;
         }
-
-        const bool has_keg = iexamine::has_keg( target_pos );
-        const bool can_put = m.can_put_items_ter_furn( target_pos );
-
-        if( !has_keg && !can_put ) {
+        if( !m.can_put_items_ter_furn( target_pos ) ) {
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
         }
-		// From infinite source to the ground somewhere else. The target has
-		// infinite space and the liquid can not be used from there anyway.
-        if( !has_keg && is_infinite && source_pos != nullptr ) {
+        // From infinite source to the ground somewhere else. The target has
+        // infinite space and the liquid can not be used from there anyway.
+        if( is_infinite && source_pos != nullptr ) {
             add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
             return;
         }
 
-        // One can either pour into a keg *or* on the ground. It is never possible to do both on
-        // the same square because kegs have the NOITEM flag. In other words:
-        // assert( !( has_keg && can_put ) );
-        // This allows to start the activity with only the target position as parameter.
         if( create_activity() ) {
             serialize_liquid_target( u.activity, target_pos );
             return;
         }
-
-        if( has_keg ) {
-            if( !iexamine::pour_into_keg( target_pos, liquid ) ) {
-                return;
-            }
-        } else {
-            m.add_item_or_charges( target_pos, liquid, 1 );
-            liquid.charges = 0;
-        }
-
+        m.add_item_or_charges( target_pos, liquid, 1 );
+        liquid.charges = 0;
         u.mod_moves( -100 );
     } );
     if( liquid.rotten() ) {
