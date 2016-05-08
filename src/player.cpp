@@ -5209,7 +5209,6 @@ void player::update_body( int from, int to )
     }
 
     for( const auto& v : vitamin::all() ) {
-
         int rate = vitamin_rate( v.first );
         if( rate > 0 ) {
             int qty = ticks_between( from, to, MINUTES( rate ) );
@@ -5224,25 +5223,40 @@ void player::update_body( int from, int to )
                 vitamin_mod( v.first, qty );
             }
         }
-
-        efftype_id def = v.second.deficiency();
-        efftype_id exc = v.second.excess();
-
-        int lvl = v.second.severity( vitamin_get( v.first ) );
-        if( lvl <= 0 ) {
-            remove_effect( def );
-        }
-        if( lvl > 0 ) {
-            add_effect( def, 1, num_bp, true, lvl );
-        }
-        if( lvl < 0 ) {
-            add_effect( exc, 1, num_bp, true, std::abs( lvl ) );
-        }
     }
 
     if( ticks_between( from, to, HOURS(6) ) ) {
         // Radiation kills health even at low doses
         update_health( has_trait( "RADIOGENIC" ) ? 0 : -radiation );
+    }
+}
+
+void player::update_vitamins( const vitamin_id& vit )
+{
+    if( is_npc() ) {
+        return; // NPCs cannot develop vitamin diseases
+    }
+
+    efftype_id def = vit.obj().deficiency();
+    efftype_id exc = vit.obj().excess();
+
+    int lvl = vit.obj().severity( vitamin_get( vit ) );
+    if( lvl <= 0 ) {
+        remove_effect( def );
+    }
+    if( lvl > 0 ) {
+        if( has_effect( def, num_bp ) ) {
+            get_effect( def, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( def, 1, num_bp, true, lvl );
+        }
+    }
+    if( lvl < 0 ) {
+        if( has_effect( exc, num_bp ) ) {
+            get_effect( exc, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( exc, 1, num_bp, true, lvl );
+        }
     }
 }
 

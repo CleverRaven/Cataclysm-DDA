@@ -110,9 +110,11 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     if( qty > 0 ) {
         // accumulations can never occur from food sources
         it->second = std::min( it->second + qty, capped ? 0 : v.max() );
+        update_vitamins( vit );
 
     } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
+        update_vitamins( vit );
     }
 
     return it->second;
