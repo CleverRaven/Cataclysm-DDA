@@ -1,7 +1,7 @@
 [
     {
         "id": "software",
-        "type": "GENERIC", 
+        "type": "GENERIC",
         "name": "software",
         "symbol": "#",
         "container": "usb_drive",
