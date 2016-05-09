@@ -1378,7 +1378,7 @@ void load_bionic( JsonObject &jsobj )
                            new_bionic.power_activate > 0 ||
                            new_bionic.charge_time > 0;
 
-    auto const result = bionics.insert( std::make_pair( std::move( id ), std::move( new_bionic ) ) );
+    auto const result = bionics.insert( std::make_pair( id, new_bionic ) );
 
     if( !result.second ) {
         debugmsg( "duplicate bionic id" );
