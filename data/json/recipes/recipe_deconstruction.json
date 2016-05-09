@@ -16,7 +16,8 @@
       [ [ "processor", 1 ] ],
       [ [ "battery", 100 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "down_blanket",
     "id_suffix" : "uncraft",
@@ -31,7 +32,8 @@
       [ [ "rag", 35 ] ],
       [ [ "down_feather", 160 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "down_pillow",
     "id_suffix" : "uncraft",
@@ -46,7 +48,8 @@
       [ [ "rag", 6 ] ],
       [ [ "down_feather", 40 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "pillow",
     "id_suffix" : "uncraft",
@@ -61,7 +64,8 @@
       [ [ "rag", 6 ] ],
       [ [ "cotton_ball", 4 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "talking_doll",
     "id_suffix" : "uncraft",
@@ -79,7 +83,8 @@
       [ [ "RAM", 1 ] ],
       [ [ "e_scrap", 2 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "creepy_doll",
     "id_suffix" : "uncraft",
@@ -97,7 +102,8 @@
       [ [ "RAM", 1 ] ],
       [ [ "e_scrap", 2 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "bowl_pewter",
     "id_suffix" : "uncraft",
@@ -111,7 +117,8 @@
     "components" : [
       [ [ "tin", 100 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "cu_pipe",
     "id_suffix" : "uncraft",
@@ -129,7 +136,8 @@
   "components" : [
       [ [ "copper", 200 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "silver",
     "id_suffix" : "uncraft",
@@ -143,7 +151,8 @@
     "components" : [
       [ [ "silver_small", 800 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "small_relic",
     "id_suffix" : "uncraft",
@@ -157,7 +166,8 @@
     "components" : [
       [ [ "silver_small", 100 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "badge_deputy",
     "id_suffix" : "uncraft",
@@ -171,7 +181,8 @@
     "components" : [
       [ [ "silver_small", 100 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "necklace",
     "id_suffix" : "uncraft",
@@ -185,7 +196,8 @@
     "components" : [
       [ [ "silver_small", 100 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result": "locket",
     "id_suffix": "uncraft",
@@ -199,7 +211,8 @@
     "components": [
       [ [ "silver_small", 110 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "gold_bracelet",
     "id_suffix" : "uncraft",
@@ -213,7 +226,8 @@
     "components" : [
       [ [ "gold_small", 260 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "silver_bracelet",
     "id_suffix" : "uncraft",
@@ -227,7 +241,8 @@
     "components" : [
       [ [ "silver_small", 260 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "copper_bracelet",
     "id_suffix" : "uncraft",
@@ -241,7 +256,8 @@
     "components" : [
       [ [ "copper", 43 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "ring",
     "id_suffix" : "uncraft",
@@ -255,7 +271,8 @@
     "components" : [
       [ [ "gold_small", 50 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "diamond_ring",
     "id_suffix" : "uncraft",
@@ -270,7 +287,8 @@
       [ [ "gold_small", 50 ] ],
       [ [ "diamond", 1 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "diamond_dental_grill",
     "id_suffix" : "uncraft",
@@ -285,7 +303,8 @@
       [ [ "gold_small", 100 ] ],
       [ [ "diamond", 1 ] ]
     ]
-  },{
+  },
+  {
     "type" : "recipe",
     "result" : "gold_dental_grill",
     "id_suffix" : "uncraft",
@@ -299,7 +318,8 @@
     "components" : [
       [ [ "gold_small", 100 ] ]
     ]
-  },{
+  },
+  {
   "type" : "recipe",
   "result": "gold_ear",
   "id_suffix": "uncraft",
