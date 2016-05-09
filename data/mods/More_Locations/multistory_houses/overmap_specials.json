@@ -16,7 +16,6 @@
         "occurrences" : [20, 50],
         "rotate" : true,
         "flags" : [ "CLASSIC" ]
- 
     },{
         "type" : "overmap_special",
         "id" : "3storyB",
@@ -118,7 +117,6 @@
         "occurrences" : [20, 50],
         "rotate" : true,
         "flags" : [ "CLASSIC" ]
- 
     },{
         "type" : "overmap_special",
         "id" : "2storyB",
