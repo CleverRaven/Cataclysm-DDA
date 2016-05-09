@@ -7924,12 +7924,16 @@ void player::suffer()
         // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
         if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
             add_msg( m_bad, _( "The sunlight is really irritating your skin." ) );
-        }
-        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) ) ) {
-            add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( in_sleep_state() ) {
                 wake_up();
             }
+            if( one_in(10) ) {
+                mod_pain(1);
+            }
+            else focus_pool --;
+        }
+        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) ) ) {
+            add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
             if( one_in(10) ) {
                 mod_pain(1);
             }
