@@ -114,9 +114,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "tin", 100 ] ]
-    ]
+    "components" : [ [ [ "tin", 100 ] ] ]
   },
   {
     "type" : "recipe",
@@ -133,9 +131,7 @@
       [ [ "toolset", 10 ] ],
       [ [ "fire",-1 ] ]
     ],
-  "components" : [
-      [ [ "copper", 200 ] ]
-    ]
+  "components" : [ [ [ "copper", 200 ] ] ]
   },
   {
     "type" : "recipe",
@@ -148,9 +144,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "silver_small", 800 ] ]
-    ]
+    "components" : [ [ [ "silver_small", 800 ] ] ]
   },
   {
     "type" : "recipe",
@@ -163,9 +157,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "silver_small", 100 ] ]
-    ]
+    "components" : [ [ [ "silver_small", 100 ] ] ]
   },
   {
     "type" : "recipe",
@@ -178,9 +170,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "silver_small", 100 ] ]
-    ]
+    "components" : [ [ [ "silver_small", 100 ] ] ]
   },
   {
     "type" : "recipe",
@@ -193,9 +183,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "silver_small", 100 ] ]
-    ]
+    "components" : [ [ [ "silver_small", 100 ] ] ]
   },
   {
     "type" : "recipe",
@@ -208,9 +196,7 @@
     "reversible": true,
     "autolearn": false,
     "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
-    "components": [
-      [ [ "silver_small", 110 ] ]
-    ]
+    "components": [ [ [ "silver_small", 110 ] ] ]
   },
   {
     "type" : "recipe",
@@ -223,9 +209,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "gold_small", 260 ] ]
-    ]
+    "components" : [ [ [ "gold_small", 260 ] ] ]
   },
   {
     "type" : "recipe",
@@ -238,9 +222,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "silver_small", 260 ] ]
-    ]
+    "components" : [ [ [ "silver_small", 260 ] ] ]
   },
   {
     "type" : "recipe",
@@ -253,9 +235,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "copper", 43 ] ]
-    ]
+    "components" : [ [ [ "copper", 43 ] ] ]
   },
   {
     "type" : "recipe",
@@ -268,9 +248,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "gold_small", 50 ] ]
-    ]
+    "components" : [ [ [ "gold_small", 50 ] ] ]
   },
   {
     "type" : "recipe",
@@ -315,9 +293,7 @@
     "reversible" : true,
     "autolearn" : false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
-    "components" : [
-      [ [ "gold_small", 100 ] ]
-    ]
+    "components" : [ [ [ "gold_small", 100 ] ] ]
   },
   {
   "type" : "recipe",
