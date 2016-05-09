@@ -20,6 +20,14 @@
         "flags" : [ "MUTAGEN_STRONG" ]
     },
     {
+        "id" : "mutagen_alpha",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "alpha mutagen",
+        "addiction_potential" : 2,
+        "flags" : [ "MUTAGEN_ALPHA" ]
+    },
+    {
         "id" : "mutagen_beast",
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
@@ -28,12 +36,44 @@
         "flags" : [ "MUTAGEN_BEAST" ]
     },
     {
+        "id" : "mutagen_bird",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "bird mutagen",
+        "addiction_potential" : 2,
+        "flags" : [ "MUTAGEN_BIRD" ]
+    },
+    {
         "id" : "mutagen_cattle",
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "cattle mutagen",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_CATTLE" ]
+    },
+    {
+        "id" : "mutagen_cephalopod",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "cephalopod mutagen",
+        "addiction_potential" : 2,
+        "flags" : [ "MUTAGEN_CEPHALOPOD" ]
+    },
+    {
+        "id" : "mutagen_chimera",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "chimera mutagen",
+        "addiction_potential" : 2,
+        "flags" : [ "MUTAGEN_CHIMERA" ]
+    },
+    {
+        "id" : "mutagen_elfa",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "elfa mutagen",
+        "addiction_potential" : 2,
+        "flags" : [ "MUTAGEN_ELFA" ]
     },
     {
         "id" : "mutagen_feline",
@@ -60,12 +100,44 @@
         "flags" : [ "MUTAGEN_INSECT" ]
     },
     {
+        "id" : "mutagen_lizard",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "lizard mutagen",
+        "addiction_potential" : 1,
+        "flags" : [ "MUTAGEN_LIZARD" ]
+    },
+    {
+        "id" : "mutagen_lupine",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "lupine mutagen",
+        "addiction_potential" : 1,
+        "flags" : [ "MUTAGEN_LUPINE" ]
+    },
+    {
+        "id" : "mutagen_medical",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "medical mutagen",
+        "addiction_potential" : 1,
+        "flags" : [ "MUTAGEN_MEDICAL" ]
+    },
+    {
         "id" : "mutagen_plant",
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "plant mutagen",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_PLANT" ]
+    },
+    {
+        "id" : "mutagen_raptor",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "raptor mutagen",
+        "addiction_potential" : 2,
+        "flags" : [ "MUTAGEN_RAPTOR" ]
     },
     {
         "id" : "mutagen_rat",
@@ -90,5 +162,21 @@
         "name" : "spider mutagen",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_SPIDER" ]
+    },
+    {
+        "id" : "mutagen_troglobite",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "troglobite mutagen",
+        "addiction_potential" : 2,
+        "flags" : [ "MUTAGEN_TROGLOBITE" ]
+    },
+    {
+        "id" : "mutagen_ursine",
+        "copy-from" : "mutagen",
+        "type" : "COMESTIBLE",
+        "name" : "ursine mutagen",
+        "addiction_potential" : 2,
+        "flags" : [ "MUTAGEN_URSINE" ]
     }
 ]
