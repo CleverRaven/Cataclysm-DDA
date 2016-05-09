@@ -97,6 +97,7 @@
 #include <iterator>
 #include <ctime>
 #include <cstring>
+#include <chrono>
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -175,6 +176,34 @@ bool is_valid_in_w_terrain(int x, int y)
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
+namespace {
+
+using namespace std::chrono;
+
+time_point<steady_clock> user_turn_start;
+
+void begin_user_turn() {
+    user_turn_start = steady_clock::now();
+}
+
+bool has_user_turn_timeout_elapsed() {
+    float turn_duration = OPTIONS["TURN_DURATION"];
+    // Magic number 0.005 chosen due to option menu's 2 digit precision and
+    // the option menu UI rounding <= 0.005 down to "0.00" in the display.
+    // This conditional will catch values (e.g. 0.003) that the options menu
+    // would round down to "0.00" in the options menu display. This prevents
+    // the user from being surprised by floating point rounding near zero.
+    if ( turn_duration <= 0.005 ) {
+        return false;
+    }
+
+    auto now = steady_clock::now();
+    milliseconds elapsed_ms = duration_cast<milliseconds>(now - user_turn_start);
+    return elapsed_ms.count() >= 1000 * turn_duration;
+}
+
+} // namespace
+
 // This is the main game set-up process.
 game::game() :
     map_ptr( new map() ),
@@ -202,6 +231,7 @@ game::game() :
     dangerous_proximity(5),
     pixel_minimap_option(0),
     safe_mode(SAFE_MODE_ON),
+    safe_mode_warning_logged(false),
     mostseen(0),
     gamemode(NULL),
     user_action_counter(0),
@@ -2071,6 +2101,8 @@ input_context game::get_player_input(std::string &action)
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
     const auto &visibility_cache = map_cache.visibility_cache;
 
+    begin_user_turn();
+
     if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT - 121) / 2 : 0;
@@ -2118,6 +2150,10 @@ input_context game::get_player_input(std::string &action)
         inp_mngr.set_timeout(125);
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
+            if (action == "TIMEOUT" && has_user_turn_timeout_elapsed()) {
+                break;
+            }
+
             if( bWeatherEffect && OPTIONS["ANIMATION_RAIN"] ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -2233,7 +2269,13 @@ input_context game::get_player_input(std::string &action)
         }
         inp_mngr.set_timeout(-1);
     } else {
-        while (handle_mouseview(ctxt, action)) {};
+        inp_mngr.set_timeout(125);
+        while (handle_mouseview(ctxt, action)) {
+            if (action == "TIMEOUT" && has_user_turn_timeout_elapsed()) {
+                break;
+            }
+        }
+        inp_mngr.set_timeout(-1);
     }
 
     return ctxt;
@@ -2403,9 +2445,13 @@ bool game::handle_action()
                     return false;
                 }
             }
-        } else {
+        } else if ( act != ACTION_TIMEOUT ) {
             // act has not been set for an auto-move, so clearing possible
-            // auto-move destinations
+            // auto-move destinations. Since initializing an auto-move with
+            // the mouse may span across multiple actions, we do not clear the
+            // auto-move destination if the action is only a timeout, as this
+            // would require the user to double click quicker quicker than the
+            // timeout delay.
             u.clear_destination();
             destination_preview.clear();
         }
@@ -2495,6 +2541,12 @@ bool game::handle_action()
             break; // dummy entries
         case ACTION_ACTIONMENU:
             break; // handled above
+
+        case ACTION_TIMEOUT:
+            if( check_safe_mode_allowed(false) ) {
+                u.pause();
+            }
+            break;
 
         case ACTION_PAUSE:
             if( check_safe_mode_allowed() ) {
@@ -2972,12 +3024,12 @@ bool game::handle_action()
 
         case ACTION_TOGGLE_SAFEMODE:
             if (safe_mode == SAFE_MODE_OFF ) {
-                safe_mode = SAFE_MODE_ON;
+                set_safe_mode( SAFE_MODE_ON );
                 mostseen = 0;
                 add_msg(m_info, _("Safe mode ON!"));
             } else {
                 turnssincelastmon = 0;
-                safe_mode = SAFE_MODE_OFF;
+                set_safe_mode( SAFE_MODE_OFF );
                 if (autosafemode) {
                     add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
                 } else {
@@ -2986,6 +3038,7 @@ bool game::handle_action()
             }
             if( u.has_effect( effect_laserlocked) ) {
                 u.remove_effect( effect_laserlocked);
+                safe_mode_warning_logged = false;
             }
             break;
 
@@ -3006,10 +3059,11 @@ bool game::handle_action()
                     monster &critter = critter_tracker->find( elem );
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
-                safe_mode = SAFE_MODE_ON;
+                set_safe_mode( SAFE_MODE_ON );
             } else if( u.has_effect( effect_laserlocked) ) {
                 add_msg(m_info, _("Ignoring laser targeting!"));
                 u.remove_effect( effect_laserlocked);
+                safe_mode_warning_logged = false;
             }
             break;
 
@@ -6061,17 +6115,17 @@ int game::mon_info(WINDOW *w)
         }
         turnssincelastmon = 0;
         if (safe_mode == SAFE_MODE_ON) {
-            safe_mode = SAFE_MODE_STOP; // Stop movement!
+            set_safe_mode( SAFE_MODE_STOP );
         }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
         if (turnssincelastmon >= OPTIONS["AUTOSAFEMODETURNS"] && safe_mode == SAFE_MODE_OFF) {
-            safe_mode = SAFE_MODE_ON;
+            set_safe_mode( SAFE_MODE_ON );
         }
     }
 
     if (newseen == 0 && safe_mode == SAFE_MODE_STOP) {
-        safe_mode = SAFE_MODE_ON;
+        set_safe_mode( SAFE_MODE_ON );
     }
 
     mostseen = newseen;
@@ -11816,8 +11870,13 @@ void game::pldrive(int x, int y)
     }
 }
 
-bool game::check_safe_mode_allowed()
+bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 {
+    if ( !repeat_safe_mode_warnings && safe_mode_warning_logged ) {
+        // Already warned player since safe_mode_warning_logged is set.
+        return false;
+    }
+
     std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
     if (!msg_ignore.empty()) {
         msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
@@ -11827,6 +11886,7 @@ bool game::check_safe_mode_allowed()
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
         add_msg(m_warning, _("You are being laser-targeted, %s to ignore."),
                 msg_ignore.c_str());
+        safe_mode_warning_logged = true;
         return false;
     }
     if( safe_mode != SAFE_MODE_STOP ) {
@@ -11849,7 +11909,14 @@ bool game::check_safe_mode_allowed()
     add_msg( m_warning,
              _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
              spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );
+    safe_mode_warning_logged = true;
     return false;
+}
+
+void game::set_safe_mode( safe_mode_type mode )
+{
+    safe_mode = mode;
+    safe_mode_warning_logged = false;
 }
 
 bool game::disable_robot( const tripoint &p )

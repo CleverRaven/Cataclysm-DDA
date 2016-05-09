@@ -808,6 +808,13 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    OPTIONS["TURN_DURATION"] = cOpt("general", _("Automatic Zombie Advancement"),
+                                    _("If enabled, zombies will take periodic gameplay turns. This value is the delay between each turn, in seconds. Works best with Safemode disabled. 0 = disabled."),
+                                    0.0, 10.0, 0.0, 0.05
+                                   );
+
+    mOptionsSort["general"]++;
+
     OPTIONS["AUTOSAVE"] = cOpt("general", _("Periodically autosave"),
                                _("If true, game will periodically save the map. Autosaves occur based on in-game turns or real-time minutes, whichever is larger."),
                                false

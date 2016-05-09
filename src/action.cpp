@@ -113,6 +113,8 @@ std::string action_ident( action_id act )
     switch( act ) {
         case ACTION_PAUSE:
             return "pause";
+        case ACTION_TIMEOUT:
+            return "TIMEOUT";
         case ACTION_MOVE_N:
             return "UP";
         case ACTION_MOVE_NE:
@@ -341,6 +343,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
+        case ACTION_TIMEOUT:
             return false;
         default:
             return true;

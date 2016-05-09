@@ -257,7 +257,7 @@ void gun_actor::load( JsonObject &obj )
     obj.read( "fake_int", fake_int );
     obj.read( "fake_per", fake_per );
 
-    obj.read( "range", range );
+    obj.read( "range", target_range );
     obj.read( "burst_limit", burst_limit );
     obj.read( "range_no_burst", range_no_burst );
 
@@ -291,8 +291,26 @@ mattack_actor *gun_actor::clone() const
     return new gun_actor( *this );
 }
 
+// @todo Enforce load order (add finalization?) and allow calculating this at json load
+int gun_actor::get_range() const
+{
+    if( target_range > 0 ) {
+        return target_range;
+    }
+
+    item gun( gun_type );
+    itype_id ammo = ( ammo_type != "NULL" ) ? ammo_type : gun.ammo_default();
+
+    if( ammo != "NULL" ) {
+        gun.ammo_set( ammo, max_ammo );
+    }
+
+    return gun.gun_range( true );
+}
+
 bool gun_actor::call( monster &z ) const
 {
+    const int range = get_range();
     if( z.friendly != 0 ) {
         // Attacking monsters, not the player!
         int boo_hoo;
@@ -407,7 +425,11 @@ void gun_actor::shoot( monster &z, Creature &target ) const
         add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.gun_type().c_str() );
     }
 
-    z.ammo[ammo] -= tmp.fire_gun( target.pos(), burst );
+    int ammo_used = tmp.fire_gun( target.pos(), burst );
+    if( ammo != "NULL" ) {
+        // Don't set "NULL" ammo
+        z.ammo[ammo] -= ammo_used;
+    }
 
     if( require_targeting ) {
         z.add_effect( effect_targeted, targeting_timeout_extend );
