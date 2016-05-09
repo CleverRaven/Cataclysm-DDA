@@ -176,33 +176,32 @@ bool is_valid_in_w_terrain(int x, int y)
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
-namespace {
+class user_turn {
 
-using namespace std::chrono;
-
-time_point<steady_clock> user_turn_start;
-
-void begin_user_turn() {
-    user_turn_start = steady_clock::now();
-}
-
-bool has_user_turn_timeout_elapsed() {
-    float turn_duration = OPTIONS["TURN_DURATION"];
-    // Magic number 0.005 chosen due to option menu's 2 digit precision and
-    // the option menu UI rounding <= 0.005 down to "0.00" in the display.
-    // This conditional will catch values (e.g. 0.003) that the options menu
-    // would round down to "0.00" in the options menu display. This prevents
-    // the user from being surprised by floating point rounding near zero.
-    if ( turn_duration <= 0.005 ) {
-        return false;
+private:
+    std::chrono::time_point<std::chrono::steady_clock> user_turn_start;
+public:
+    user_turn() {
+        user_turn_start = std::chrono::steady_clock::now();
     }
 
-    auto now = steady_clock::now();
-    milliseconds elapsed_ms = duration_cast<milliseconds>(now - user_turn_start);
-    return elapsed_ms.count() >= 1000 * turn_duration;
-}
+    bool has_timeout_elapsed() {
+        float turn_duration = OPTIONS["TURN_DURATION"];
+        // Magic number 0.005 chosen due to option menu's 2 digit precision and
+        // the option menu UI rounding <= 0.005 down to "0.00" in the display.
+        // This conditional will catch values (e.g. 0.003) that the options menu
+        // would round down to "0.00" in the options menu display. This prevents
+        // the user from being surprised by floating point rounding near zero.
+        if( turn_duration <= 0.005 ) {
+            return false;
+        }
 
-} // namespace
+        auto now = std::chrono::steady_clock::now();
+        std::chrono::milliseconds elapsed_ms =
+            std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
+        return elapsed_ms.count() >= 1000.0 * turn_duration;
+    }
+};
 
 // This is the main game set-up process.
 game::game() :
@@ -2101,7 +2100,7 @@ input_context game::get_player_input(std::string &action)
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
     const auto &visibility_cache = map_cache.visibility_cache;
 
-    begin_user_turn();
+    user_turn current_turn;
 
     if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
@@ -2147,10 +2146,10 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        inp_mngr.set_timeout(125);
+        inp_mngr.set_timeout( 125 );
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
-            if (action == "TIMEOUT" && has_user_turn_timeout_elapsed()) {
+            if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
                 break;
             }
 
@@ -2269,13 +2268,13 @@ input_context game::get_player_input(std::string &action)
         }
         inp_mngr.set_timeout(-1);
     } else {
-        inp_mngr.set_timeout(125);
-        while (handle_mouseview(ctxt, action)) {
-            if (action == "TIMEOUT" && has_user_turn_timeout_elapsed()) {
+        inp_mngr.set_timeout( 125 );
+        while( handle_mouseview( ctxt, action ) ) {
+            if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
                 break;
             }
         }
-        inp_mngr.set_timeout(-1);
+        inp_mngr.set_timeout( -1 );
     }
 
     return ctxt;
