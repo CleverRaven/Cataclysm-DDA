@@ -24,6 +24,8 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "alpha mutagen",
+        "description" : "An extremely rare mutagen cocktail.",
+        "price" : 500000, "//" : "*May* have gotten a dose smuggled out.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_ALPHA" ]
     },
@@ -64,6 +66,7 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "chimera mutagen",
+        "description" : "An extremely rare mutagen cocktail.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_CHIMERA" ]
     },
@@ -72,6 +75,7 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "elfa mutagen",
+        "description" : "An extremely rare mutagen cocktail.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_ELFA" ]
     },
@@ -120,6 +124,7 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "medical mutagen",
+        "price" : 150000, "//" : "*May* have been considered for commercial trading.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_MEDICAL" ]
     },
@@ -136,6 +141,7 @@
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "name" : "raptor mutagen",
+        "description" : "An extremely rare mutagen cocktail.",
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_RAPTOR" ]
     },
