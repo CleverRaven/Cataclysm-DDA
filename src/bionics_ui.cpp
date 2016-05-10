@@ -54,14 +54,12 @@ void show_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
-    std::stringstream pwr;
-    pwr << string_format( _( "Power: %i/%i" ), int( p->power_level ), int( p->max_power_level ) );
-    int pwr_length = utf8_width( pwr.str() ) + 1;
-    mvwprintz( window, 0, getmaxx( window ) - pwr_length, c_white, "%s", pwr.str().c_str() );
+    std::string pwr = string_format( _( "Power: %i/%i" ), int( p->power_level ),
+                                     int( p->max_power_level ) );
+    int desc_length = getmaxx( window ) - utf8_width( pwr ) - 1;
+    mvwprintz( window, 0, desc_length, c_white, "%s", pwr.c_str() );
 
     std::string desc;
-    int desc_length = getmaxx( window ) - pwr_length;
-
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
     } else if( mode == ACTIVATING ) {
@@ -79,6 +77,11 @@ void show_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 const auto separator = []( std::ostringstream &s )
 {
     return s.tellp() != 0 ? ", " : "";
+};
+
+const auto num_in_parentheses = []( size_t i )
+{
+    return i > 0 ? string_format( "(%i)", i ) : "";
 };
 
 //builds the power usage string of a given bionic
@@ -119,6 +122,48 @@ std::string build_bionic_powerdesc_string( bionic const &bio )
         power_desc << ", " << power_string;
     }
     return power_desc.str();
+}
+
+void show_bionics_tabs( WINDOW *win, size_t active_num, size_t passive_num,
+                        bionic_tab_mode current_mode )
+{
+    werase( win );
+
+    int width = getmaxx( win );
+    mvwhline( win, 2, 0, LINE_OXOX, width );
+
+    std::ostringstream active_tab_name;
+    active_tab_name << _( "ACTIVE" ) << num_in_parentheses( active_num );
+    std::ostringstream passive_tab_name;
+    passive_tab_name << _( "PASSIVE" ) << num_in_parentheses( passive_num );
+
+    const int tab_step = 3;
+    int tab_x = 1;
+    draw_tab( win, tab_x, active_tab_name.str(), current_mode == TAB_ACTIVE );
+    tab_x += tab_step + utf8_width( active_tab_name.str() );
+    draw_tab( win, tab_x, passive_tab_name.str(), current_mode == TAB_PASSIVE );
+
+    wrefresh( win );
+}
+
+void show_description( WINDOW *win, bionic &bio )
+{
+    werase( win );
+    const int width = getmaxx( win );
+    std::string poweronly_string = build_bionic_poweronly_string( bio );
+    int ypos = fold_and_print( win, 0, 0, width, c_white, bionic_info( bio.id ).name );
+    std::ostringstream power_only_desc;
+    if( poweronly_string.length() > 0 ) {
+        power_only_desc << _( "Power usage: " ) << poweronly_string;
+        ypos += fold_and_print( win, ypos, 0, width, c_ltgray, power_only_desc.str() );
+    }
+    ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bionic_info( bio.id ).description );
+
+    const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( win );
+    ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+                            list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
+                                    each_bp_on_new_line ) );
+    wrefresh( win );
 }
 
 //get a text color depending on the power/powering state of the bionic
@@ -165,25 +210,23 @@ nc_color get_bionic_text_color( bionic const &bio, bool const isHighlightedBioni
     return type;
 }
 
-void player::power_bionics()
+std::vector< bionic *>filtered_bionics( std::vector<bionic> &all_bionics, bionic_tab_mode mode )
 {
-    std::vector <bionic *> passive;
-    std::vector <bionic *> active;
-    bionic *bio_last = NULL;
-    bionic_tab_mode tab_mode = TAB_ACTIVE;
-
-    for( auto &elem : my_bionics ) {
-        if( !bionic_info( elem.id ).activated ) {
-            passive.push_back( &elem );
-        } else {
-            active.push_back( &elem );
+    std::vector< bionic *>filtered_entries;
+    for( auto &elem : all_bionics ) {
+        if( ( mode == TAB_ACTIVE ) == bionic_info( elem.id ).activated ) {
+            filtered_entries.push_back( &elem );
         }
     }
+    return filtered_entries;
+}
 
-    // maximal number of rows in both columns
-    int active_bionic_count = active.size();
-    int passive_bionic_count = passive.size();
-    int bionic_count = std::max( passive_bionic_count, active_bionic_count );
+void player::power_bionics()
+{
+    std::vector <bionic *> passive = filtered_bionics( my_bionics, TAB_PASSIVE );
+    std::vector <bionic *> active = filtered_bionics( my_bionics, TAB_ACTIVE );
+    bionic *bio_last = NULL;
+    bionic_tab_mode tab_mode = TAB_ACTIVE;
 
     //added title_tab_height for the tabbed bionic display
     int TITLE_HEIGHT = 2;
@@ -200,7 +243,8 @@ void player::power_bionics()
      */
     int HEIGHT = std::min(
                      TERMY, std::max( FULL_SCREEN_HEIGHT,
-                                      TITLE_HEIGHT + TITLE_TAB_HEIGHT + bionic_count + 2 ) );
+                                      TITLE_HEIGHT + TITLE_TAB_HEIGHT +
+                                      ( int )my_bionics.size() + 2 ) );
     int WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
     int START_X = ( TERMX - WIDTH ) / 2;
     int START_Y = ( TERMY - HEIGHT ) / 2;
@@ -234,28 +278,13 @@ void player::power_bionics()
 
     //generate the tab title string and a count of the bionics owned
     bionic_menu_mode menu_mode = ACTIVATING;
-    std::ostringstream tabname;
-    tabname << _( "ACTIVE" );
-    if( active_bionic_count > 0 ) {
-        tabname << "(" << active_bionic_count << ")";
-    }
-    std::string active_tab_name = tabname.str();
-    tabname.str( "" );
-    tabname << _( "PASSIVE" );
-    if( passive_bionic_count > 0 ) {
-        tabname << "(" << passive_bionic_count << ")";
-    }
-    std::string passive_tab_name = tabname.str();
-    const int tabs_start = 1;
-    const int tab_step = 3;
-
     // offset for display: bionic with index i is drawn at y=list_start_y+i
     // drawing the bionics starts with bionic[scroll_position]
     const int list_start_y = HEADER_LINE_Y;// - scroll_position;
     int half_list_view_location = LIST_HEIGHT / 2;
     int max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
-                                        active_bionic_count :
-                                        passive_bionic_count ) - LIST_HEIGHT );
+                                        ( int )active.size() :
+                                        ( int )passive.size() ) - LIST_HEIGHT );
 
     input_context ctxt( "BIONICS" );
     ctxt.register_updown();
@@ -273,22 +302,10 @@ void player::power_bionics()
 
     for( ;; ) {
         if( recalc ) {
-            active.clear();
-            passive.clear();
+            passive = filtered_bionics( my_bionics, TAB_PASSIVE );
+            active = filtered_bionics( my_bionics, TAB_ACTIVE );
 
-            for( auto &elem : my_bionics ) {
-                if( !bionic_info( elem.id ).activated ) {
-                    passive.push_back( &elem );
-                } else {
-                    active.push_back( &elem );
-                }
-            }
-
-            active_bionic_count = active.size();
-            passive_bionic_count = passive.size();
-            bionic_count = std::max( passive_bionic_count, active_bionic_count );
-
-            if( active_bionic_count == 0 && passive_bionic_count > 0 ) {
+            if( active.empty() && !passive.empty() ) {
                 tab_mode = TAB_PASSIVE;
             }
 
@@ -301,13 +318,13 @@ void player::power_bionics()
             }
 
             recalc = false;
+            // bionics were modified, so it's necessary to redraw the screen
+            redraw = true;
         }
 
         //track which list we are looking at
         std::vector<bionic *> *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
-        max_scroll_position = std::max( 0, ( tab_mode == TAB_ACTIVE ?
-                                             active_bionic_count :
-                                             passive_bionic_count ) - LIST_HEIGHT );
+        max_scroll_position = std::max( 0, ( int )current_bionic_list->size() - LIST_HEIGHT );
 
         if( redraw ) {
             redraw = false;
@@ -318,98 +335,38 @@ void player::power_bionics()
             mvwputch( wBio, HEADER_LINE_Y - 1, 0, BORDER_COLOR, LINE_XXXO ); // |-
             mvwputch( wBio, HEADER_LINE_Y - 1, WIDTH - 1, BORDER_COLOR, LINE_XOXX ); // -|
 
-            nc_color type;
-            if( tab_mode == TAB_PASSIVE ) {
-                if( passive.empty() ) {
-                    mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, _( "No passive bionics installed." ) );
-                } else {
-                    for( size_t i = scroll_position; i < passive.size(); i++ ) {
-                        if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
-                            break;
-                        }
-
-                        bool isHighlighted = false;
-                        if( cursor == static_cast<int>( i ) ) {
-                            isHighlighted = true;
-                        }
-                        type = get_bionic_text_color( *passive[i], isHighlighted );
-
-                        mvwprintz( wBio, list_start_y + i - scroll_position, 2, type, "%c %s", passive[i]->invlet,
-                                   bionic_info( passive[i]->id ).name.c_str() );
-                    }
+            if( current_bionic_list->empty() ) {
+                std::string msg;
+                switch( tab_mode ) {
+                    case TAB_ACTIVE:
+                        msg = _( "No activatable bionics installed." );
+                        break;
+                    case TAB_PASSIVE:
+                        msg = _( "No passive bionics installed." );
+                        break;
                 }
-            }
-
-            if( tab_mode == TAB_ACTIVE ) {
-                if( active.empty() ) {
-                    mvwprintz( wBio, list_start_y + 1, 2, c_ltgray, _( "No activatable bionics installed." ) );
-                } else {
-                    for( size_t i = scroll_position; i < active.size(); i++ ) {
-                        if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
-                            break;
-                        }
-                        bool isHighlighted = false;
-                        if( cursor == static_cast<int>( i ) ) {
-                            isHighlighted = true;
-                        }
-                        type = get_bionic_text_color( *active[i], isHighlighted );
-                        mvwputch( wBio, list_start_y + i - scroll_position, 2, type, active[i]->invlet );
-                        mvwputch( wBio, list_start_y + i - scroll_position, 3, type, ' ' );
-
-                        std::string power_desc = build_bionic_powerdesc_string( *active[i] );
-                        std::string tmp = utf8_truncate( power_desc, WIDTH - 3 );
-                        mvwprintz( wBio, list_start_y + i - scroll_position, 2 + 2, type, tmp.c_str() );
+                fold_and_print( wBio, list_start_y, 2, WIDTH - 3, c_ltgray, msg );
+            } else {
+                for( size_t i = scroll_position; i < current_bionic_list->size(); i++ ) {
+                    if( list_start_y + static_cast<int>( i ) - scroll_position == HEIGHT - 1 ) {
+                        break;
                     }
+                    bool is_highlighted = cursor == static_cast<int>( i );
+                    nc_color col = get_bionic_text_color( *( *current_bionic_list )[i],
+                                                          is_highlighted );
+                    std::string desc = build_bionic_powerdesc_string( *( *current_bionic_list )[i] );
+                    trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
+                                    "%c %s", ( *current_bionic_list )[i]->invlet, desc.c_str() );
                 }
             }
 
             draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
         }
         wrefresh( wBio );
-
-        //handle tab drawing after main window is refreshed
-        werase( w_tabs );
-        int width = getmaxx( w_tabs );
-        for( int i = 0; i < width; i++ ) {
-            mvwputch( w_tabs, 2, i, BORDER_COLOR, LINE_OXOX );
-        }
-        int tab_x = tabs_start;
-        draw_tab( w_tabs, tab_x, active_tab_name, tab_mode == TAB_ACTIVE );
-        tab_x += tab_step + utf8_width( active_tab_name );
-        draw_tab( w_tabs, tab_x, passive_tab_name, tab_mode != TAB_ACTIVE );
-        wrefresh( w_tabs );
-
+        show_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
         show_bionics_titlebar( w_title, this, menu_mode );
-
-        // Description
-        if( menu_mode == EXAMINING && current_bionic_list->size() > 0 ) {
-            werase( w_description );
-            std::ostringstream power_only_desc;
-            std::string poweronly_string;
-            std::string bionic_name;
-            if( tab_mode == TAB_ACTIVE ) {
-                bionic_name = bionic_info( active[cursor]->id ).name;
-                poweronly_string = build_bionic_poweronly_string( *active[cursor] );
-            } else {
-                bionic_name = bionic_info( passive[cursor]->id ).name;
-                poweronly_string = build_bionic_poweronly_string( *passive[cursor] );
-            }
-            int ypos = 0;
-            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_white, bionic_name );
-            if( poweronly_string.length() > 0 ) {
-                power_only_desc << _( "Power usage: " ) << poweronly_string;
-                ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
-                                        power_only_desc.str() );
-            }
-            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltblue,
-                                    bionic_info( ( *current_bionic_list )[cursor]->id ).description ) + 1;
-
-            const bool each_bp_on_new_line = ypos + ( int )num_bp + 1 < getmaxy( w_description );
-            ypos += fold_and_print( w_description, ypos, 0, DESCRIPTION_WIDTH, c_ltgray,
-                                    list_occupied_bps( ( *current_bionic_list )[cursor]->id,
-                                            _( "This bionic occupies the following body parts:" ),
-                                            each_bp_on_new_line ).c_str() );
-            wrefresh( w_description );
+        if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
+            show_description( w_description, *( *current_bionic_list )[cursor] );
         }
 
         const std::string action = ctxt.handle_input();
@@ -495,7 +452,7 @@ void player::power_bionics()
         //confirmation either occurred by pressing enter where the bionic cursor is, or the hotkey was selected
         if( confirmCheck ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
-            if( action == "CONFIRM" && current_bionic_list->size() > 0 ) {
+            if( action == "CONFIRM" && !current_bionic_list->empty() ) {
                 tmp = bio_list[cursor];
             } else {
                 tmp = bionic_by_invlet( ch );
@@ -529,11 +486,9 @@ void player::power_bionics()
             const std::string &bio_id = tmp->id;
             const bionic_data &bio_data = bionic_info( bio_id );
             if( menu_mode == REMOVING ) {
-                if( uninstall_bionic( bio_id ) ) {
-                    recalc = true;
-                    redraw = true;
-                    continue;
-                }
+                recalc = uninstall_bionic( bio_id );
+                redraw = true;
+                continue;
             }
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
@@ -560,7 +515,7 @@ void player::power_bionics()
                         if( active[i] == tmp ) {
                             tab_mode = TAB_ACTIVE;
                             cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, active_bionic_count - LIST_HEIGHT );
+                            int max_scroll_check = std::max( 0, ( int )active.size() - LIST_HEIGHT );
                             if( static_cast<int>( i ) > max_scroll_check ) {
                                 scroll_position = max_scroll_check;
                             } else {
@@ -573,7 +528,7 @@ void player::power_bionics()
                         if( passive[i] == tmp ) {
                             tab_mode = TAB_PASSIVE;
                             cursor = static_cast<int>( i );
-                            int max_scroll_check = std::max( 0, passive_bionic_count - LIST_HEIGHT );
+                            int max_scroll_check = std::max( 0, ( int )passive.size() - LIST_HEIGHT );
                             if( static_cast<int>( i ) > max_scroll_check ) {
                                 scroll_position = max_scroll_check;
                             } else {
