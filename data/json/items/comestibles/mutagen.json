@@ -67,6 +67,7 @@
         "type" : "COMESTIBLE",
         "name" : "chimera mutagen",
         "description" : "An extremely rare mutagen cocktail.",
+        "price" : 200000,
         "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_CHIMERA" ]
     },
