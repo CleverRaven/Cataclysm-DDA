@@ -981,7 +981,10 @@ long salvage_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return 0;
     }
 
-    int inventory_index = g->inv_for_salvage( _("Cut up what?"), *this );
+    int inventory_index = g->inv_for_filter( _("Cut up what?"), [ this ]( const item &it ) {
+        return valid_to_cut_up( &it );
+    } );
+
     item *cut = &( p->i_at( inventory_index ) );
     if( !try_to_cut_up(p, cut) ) {
         // Messages should have already been displayed.
@@ -1289,7 +1292,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
     }
 
-    int pos = g->inv( _("Inscribe which item?") );
+    int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
     if( item_inscription( cut ) ) {
@@ -2173,14 +2176,12 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( !could_repair( *p, *it, true ) ) {
         return 0;
     }
-
-    int pos = g->inv_for_filter( _("Repair what?"), [this, it]( const item &itm ) {
+    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
         return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
-    } );
+    }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
-    item &fix = p->i_at( pos );
-    if( fix.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
+    if( pos == INT_MIN ) {
+        p->add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
 

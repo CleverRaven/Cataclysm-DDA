@@ -1308,14 +1308,13 @@ bool query_disassemble(const item &dis_item)
 bool player::disassemble(int dis_pos)
 {
     if (dis_pos == INT_MAX) {
-        dis_pos = g->inv(_("Disassemble item:"));
+        dis_pos = g->inv_for_all( _( "Disassemble item:" ), _( "You don't have any items to disassemble." ) );
     }
-    item &dis_item = i_at(dis_pos);
-    if( !has_item( dis_item ) ) {
-        add_msg(m_info, _("You don't have that item!"), dis_pos);
+    if( dis_pos == INT_MIN ) {
+        add_msg_if_player( m_info, _( "Never mind." ) );
         return false;
     }
-    return disassemble(dis_item, dis_pos, false);
+    return disassemble( i_at( dis_pos ), dis_pos, false );
 }
 
 bool player::disassemble( item &dis_item, int dis_pos,

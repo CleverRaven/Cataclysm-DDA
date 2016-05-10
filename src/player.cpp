@@ -10540,7 +10540,7 @@ void player::use(int inventory_position)
 
         int gunpos = g->inv_for_filter( _("Select gun to modify:" ), [&used]( const item& e ) {
             return e.gunmod_compatible( *used, false, false );
-        } );
+        }, _( "You don't have compatible guns." ) );
 
         if( gunpos == INT_MIN ) {
             add_msg_if_player( m_info, _( "Never mind." ) );
