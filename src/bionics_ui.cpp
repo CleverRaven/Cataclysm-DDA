@@ -79,11 +79,6 @@ const auto separator = []( std::ostringstream &s )
     return s.tellp() != 0 ? ", " : "";
 };
 
-const auto num_in_parentheses = []( size_t i )
-{
-    return i > 0 ? string_format( "(%i)", i ) : "";
-};
-
 //builds the power usage string of a given bionic
 std::string build_bionic_poweronly_string( bionic const &bio )
 {
@@ -132,16 +127,13 @@ void draw_bionics_tabs( WINDOW *win, size_t active_num, size_t passive_num,
     int width = getmaxx( win );
     mvwhline( win, 2, 0, LINE_OXOX, width );
 
-    std::ostringstream active_tab_name;
-    active_tab_name << _( "ACTIVE" ) << num_in_parentheses( active_num );
-    std::ostringstream passive_tab_name;
-    passive_tab_name << _( "PASSIVE" ) << num_in_parentheses( passive_num );
-
+    const std::string active_tab_name = string_format( _( "ACTIVE (%i)" ), active_num );
+    const std::string passive_tab_name = string_format( _( "PASSIVE (%i)" ), passive_num );
     const int tab_step = 3;
     int tab_x = 1;
-    draw_tab( win, tab_x, active_tab_name.str(), current_mode == TAB_ACTIVE );
-    tab_x += tab_step + utf8_width( active_tab_name.str() );
-    draw_tab( win, tab_x, passive_tab_name.str(), current_mode == TAB_PASSIVE );
+    draw_tab( win, tab_x, active_tab_name, current_mode == TAB_ACTIVE );
+    tab_x += tab_step + utf8_width( active_tab_name );
+    draw_tab( win, tab_x, passive_tab_name, current_mode == TAB_PASSIVE );
 
     wrefresh( win );
 }
