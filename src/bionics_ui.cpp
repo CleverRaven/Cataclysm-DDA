@@ -50,7 +50,7 @@ char get_free_invlet( player &p )
     return ' ';
 }
 
-void show_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
+void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
@@ -124,7 +124,7 @@ std::string build_bionic_powerdesc_string( bionic const &bio )
     return power_desc.str();
 }
 
-void show_bionics_tabs( WINDOW *win, size_t active_num, size_t passive_num,
+void draw_bionics_tabs( WINDOW *win, size_t active_num, size_t passive_num,
                         bionic_tab_mode current_mode )
 {
     werase( win );
@@ -146,7 +146,7 @@ void show_bionics_tabs( WINDOW *win, size_t active_num, size_t passive_num,
     wrefresh( win );
 }
 
-void show_description( WINDOW *win, bionic &bio )
+void draw_description( WINDOW *win, bionic &bio )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -363,10 +363,10 @@ void player::power_bionics()
             draw_scrollbar( wBio, cursor, LIST_HEIGHT, current_bionic_list->size(), list_start_y );
         }
         wrefresh( wBio );
-        show_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
-        show_bionics_titlebar( w_title, this, menu_mode );
+        draw_bionics_tabs( w_tabs, active.size(), passive.size(), tab_mode );
+        draw_bionics_titlebar( w_title, this, menu_mode );
         if( menu_mode == EXAMINING && !current_bionic_list->empty() ) {
-            show_description( w_description, *( *current_bionic_list )[cursor] );
+            draw_description( w_description, *( *current_bionic_list )[cursor] );
         }
 
         const std::string action = ctxt.handle_input();
