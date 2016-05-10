@@ -20,75 +20,158 @@
         "flags" : [ "MUTAGEN_STRONG" ]
     },
     {
-        "id" : "mutagen_beast",
+        "id" : "mutagen_flavor", "//" : "meta item, not spawned in game but used as a baseline for class of mutagens",
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
+        "addiction_potential" : 2
+    },    
+    {
+        "id" : "mutagen_alpha",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "alpha mutagen",
+        "description" : "An extremely rare mutagen cocktail.",
+        "price" : 500000, "//" : "*May* have gotten a dose smuggled out.",
+        "flags" : [ "MUTAGEN_ALPHA" ]
+    },
+    {
+        "id" : "mutagen_beast",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
         "name" : "beast mutagen",
-        "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_BEAST" ]
     },
     {
+        "id" : "mutagen_bird",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "bird mutagen",
+        "flags" : [ "MUTAGEN_BIRD" ]
+    },
+    {
         "id" : "mutagen_cattle",
-        "copy-from" : "mutagen",
+        "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "cattle mutagen",
-        "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_CATTLE" ]
     },
     {
+        "id" : "mutagen_cephalopod",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "cephalopod mutagen",
+        "flags" : [ "MUTAGEN_CEPHALOPOD" ]
+    },
+    {
+        "id" : "mutagen_chimera",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "chimera mutagen",
+        "description" : "An extremely rare mutagen cocktail.",
+        "price" : 200000,
+        "flags" : [ "MUTAGEN_CHIMERA" ]
+    },
+    {
+        "id" : "mutagen_elfa",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "elfa mutagen",
+        "description" : "An extremely rare mutagen cocktail.",
+        "price" : 200000,
+        "flags" : [ "MUTAGEN_ELFA" ]
+    },
+    {
         "id" : "mutagen_feline",
-        "copy-from" : "mutagen",
+        "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "feline mutagen",
-        "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_FELINE" ]
     },
     {
         "id" : "mutagen_fish",
-        "copy-from" : "mutagen",
+        "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "fish mutagen",
-        "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_FISH" ]
     },
     {
         "id" : "mutagen_insect",
-        "copy-from" : "mutagen",
+        "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "insect mutagen",
-        "addiction_potential" : 1,
         "flags" : [ "MUTAGEN_INSECT" ]
     },
     {
+        "id" : "mutagen_lizard",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "lizard mutagen",
+        "flags" : [ "MUTAGEN_LIZARD" ]
+    },
+    {
+        "id" : "mutagen_lupine",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "lupine mutagen",
+        "flags" : [ "MUTAGEN_LUPINE" ]
+    },
+    {
+        "id" : "mutagen_medical",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "medical mutagen",
+        "price" : 150000, "//" : "*May* have been considered for commercial trading.",
+        "flags" : [ "MUTAGEN_MEDICAL" ]
+    },
+    {
         "id" : "mutagen_plant",
-        "copy-from" : "mutagen",
+        "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "plant mutagen",
-        "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_PLANT" ]
     },
     {
+        "id" : "mutagen_raptor",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "raptor mutagen",
+        "description" : "An extremely rare mutagen cocktail.",
+        "price" : 200000,
+        "flags" : [ "MUTAGEN_RAPTOR" ]
+    },
+    {
         "id" : "mutagen_rat",
-        "copy-from" : "mutagen",
+        "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "rat mutagen",
-        "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_RAT" ]
     },
     {
         "id" : "mutagen_slime",
-        "copy-from" : "mutagen",
+        "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "slime mutagen",
-        "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_SLIME" ]
     },
     {
         "id" : "mutagen_spider",
-        "copy-from" : "mutagen",
+        "copy-from" : "mutagen_flavor",
         "type" : "COMESTIBLE",
         "name" : "spider mutagen",
-        "addiction_potential" : 2,
         "flags" : [ "MUTAGEN_SPIDER" ]
+    },
+    {
+        "id" : "mutagen_troglobite",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "troglobite mutagen",
+        "flags" : [ "MUTAGEN_TROGLOBITE" ]
+    },
+    {
+        "id" : "mutagen_ursine",
+        "copy-from" : "mutagen_flavor",
+        "type" : "COMESTIBLE",
+        "name" : "ursine mutagen",
+        "flags" : [ "MUTAGEN_URSINE" ]
     }
 ]
