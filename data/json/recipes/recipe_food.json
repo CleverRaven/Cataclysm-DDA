@@ -3001,7 +3001,12 @@
       [ "single_malt_whiskey", 1 ]
     ],
     [
-      [ "coffee_syrup", 1 ]
+      [ "coffee_syrup", 1 ],
+      [ "coffee", 1 ]
+    ],
+    [
+      [ "milk" ],
+      [ "con_milk", 1 ]
     ]
   ]
 },{
