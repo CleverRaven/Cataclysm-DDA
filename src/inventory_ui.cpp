@@ -517,11 +517,11 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
         worn.push_back(itemstack_or_category(&u.weapon, -1));
     }
     auto iter = u.worn.begin();
-    for (size_t i = 0; i < u.worn.size(); i++, ++iter) {
+    for( size_t i = 0, filtered = 0; i < u.worn.size(); ++i, ++iter ) {
         if( !filter( *iter ) ) {
             continue;
         }
-        if( i == 0 ) {
+        if( filtered++ == 0 ) {
             worn.push_back( itemstack_or_category( &worn_cat ) );
         }
         worn.push_back(itemstack_or_category(&*iter, player::worn_position_to_index(i)));
