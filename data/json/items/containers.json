@@ -200,8 +200,7 @@
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 2,
-           "warmth" : 0
+           "encumbrance" : 2
         },
         "watertight": true,
         "seals": true,
@@ -226,8 +225,7 @@
            "covers" : ["TORSO"],
            "coverage" : 10,
            "material_thickness" : 2,
-           "encumbrance" : 4,
-           "warmth" : 0
+           "encumbrance" : 4
         },
         "watertight": true,
         "seals": true,
@@ -253,7 +251,6 @@
            "coverage" : 15,
            "material_thickness" : 1,
            "encumbrance" : 1,
-           "warmth" : 0,
            "storage" : 4
         },
         "watertight": true,
@@ -370,8 +367,7 @@
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 0,
-           "warmth" : 0
+           "encumbrance" : 0
         },
         "rigid": false,
         "watertight": true,
@@ -397,8 +393,7 @@
            "covers" : ["TORSO"],
            "coverage" : 10,
            "material_thickness" : 2,
-           "encumbrance" : 0,
-           "warmth" : 0
+           "encumbrance" : 0
         },
         "rigid": false,
         "watertight": true,
@@ -424,8 +419,7 @@
            "covers" : ["TORSO"],
            "coverage" : 15,
            "material_thickness" : 2,
-           "encumbrance" : 0,
-           "warmth" : 0
+           "encumbrance" : 0
         },
         "rigid": false,
         "watertight": true,
@@ -560,8 +554,7 @@
             "covers" : ["LEG_EITHER"],
             "coverage" : 2,
             "material_thickness" : 1,
-            "encumbrance" : 0,
-            "warmth" : 0
+            "encumbrance" : 0
         },
         "watertight": true,
         "seals": true,

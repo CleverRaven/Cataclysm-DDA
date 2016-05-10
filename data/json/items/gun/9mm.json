@@ -15,8 +15,7 @@
         "covers" : ["ARM_EITHER", "HAND_EITHER"],
         "coverage" : 10,
         "material_thickness" : 1,
-        "encumbrance" : 30,
-        "warmth" : 0
+        "encumbrance" : 30
     },
     "skill": "smg",
     "ammo": "9mm",
