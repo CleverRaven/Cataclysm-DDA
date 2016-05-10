@@ -113,7 +113,7 @@ std::string build_bionic_powerdesc_string( bionic const &bio )
     std::ostringstream power_desc;
     std::string power_string = build_bionic_poweronly_string( bio );
     power_desc << bionic_info( bio.id ).name;
-    if( power_string.length() > 0 ) {
+    if( !power_string.empty() ) {
         power_desc << ", " << power_string;
     }
     return power_desc.str();
@@ -144,10 +144,9 @@ void draw_description( WINDOW *win, bionic &bio )
     const int width = getmaxx( win );
     std::string poweronly_string = build_bionic_poweronly_string( bio );
     int ypos = fold_and_print( win, 0, 0, width, c_white, bionic_info( bio.id ).name );
-    std::ostringstream power_only_desc;
-    if( poweronly_string.length() > 0 ) {
-        power_only_desc << _( "Power usage: " ) << poweronly_string;
-        ypos += fold_and_print( win, ypos, 0, width, c_ltgray, power_only_desc.str() );
+    if( !poweronly_string.empty() ) {
+        ypos += fold_and_print( win, ypos, 0, width, c_ltgray,
+                                _( "Power usage: %s" ), poweronly_string.c_str() );
     }
     ypos += 1 + fold_and_print( win, ypos, 0, width, c_ltblue, bionic_info( bio.id ).description );
 
