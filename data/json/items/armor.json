@@ -2742,7 +2742,6 @@
         "price" : 24000,
         "material" : ["leather", "cotton"],
         "volume" : 7,
-        "warmth" : 0,
         "encumbrance" : 2,
         "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED"],
         "coverage" : 30,
@@ -2761,7 +2760,6 @@
         "price" : 24000,
         "material" : ["leather", "cotton"],
         "volume" : 10,
-        "warmth" : 0,
         "encumbrance" : 8,
         "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED"],
         "coverage" : 30,
@@ -2780,7 +2778,6 @@
         "price" : 24000,
         "material" : ["leather", "cotton"],
         "volume" : 20,
-        "warmth" : 0,
         "encumbrance" : 18,
         "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE"],
         "coverage" : 40,
@@ -2799,7 +2796,6 @@
         "price" : 24000,
         "material" : ["leather", "cotton"],
         "volume" : 30,
-        "warmth" : 0,
         "encumbrance" : 25,
         "flags" : ["WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE"],
         "coverage" : 40,
@@ -6372,7 +6368,6 @@
         "//": "KA101's ran about $90 but is ballistic nylon.  Bit tougher than the DDA model.",
         "material" : ["cotton", "plastic"],
         "volume" : 4,
-        "warmth" : 0,
         "encumbrance" : 5,
         "bashing" : 1,
         "coverage" : 30,
@@ -6414,7 +6409,6 @@
         "price" : 24000,
         "material" : ["cotton", "plastic"],
         "volume" : 6,
-        "warmth" : 0,
         "encumbrance" : 3,
         "bashing" : 1,
         "coverage" : 20,
@@ -6714,7 +6708,6 @@
         "price" : 1000,
         "material" : ["cotton"],
         "volume" : 2,
-        "warmth" : 0,
         "encumbrance" : 10,
         "bashing" : 1,
         "coverage" : 15,
@@ -6736,7 +6729,6 @@
         "price" : 1000,
         "material" : ["leather"],
         "volume" : 2,
-        "warmth" : 0,
         "encumbrance" : 3,
         "bashing" : 1,
         "coverage" : 15,
@@ -6789,7 +6781,6 @@
         "material" : ["plastic"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
         "flags" : ["FANCY"]
     },
     {
@@ -7597,7 +7588,6 @@
         "price" : 1000000,
         "material" : ["steel"],
         "volume" : 48,
-        "warmth" : 0,
         "to_hit" : 1,
         "power_armor" : true,
         "storage" : 120,
@@ -7728,7 +7718,6 @@
         "price" : 2500,
         "material" : ["plastic", "cotton"],
         "volume" : 6,
-        "warmth" : 0,
         "encumbrance" : 0,
         "flags" : ["WATER_FRIENDLY", "BELTED"],
         "coverage" : 30,
@@ -7772,8 +7761,7 @@
         "material" : ["plastic", "steel"],
         "flags" : ["WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -7793,7 +7781,6 @@
         "flags" : ["WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
         "symbol" : "[",
-        "warmth" : 0,
         "use_action": "WEATHER_TOOL"
     },
     {
@@ -7813,8 +7800,7 @@
         "material" : ["steel", "gold"],
         "flags" : ["WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 5,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -7834,8 +7820,7 @@
         "material" : ["gold", "silver"],
         "flags" : ["WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 10,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -9071,7 +9056,6 @@
         "price" : 3000,
         "material" : ["cotton"],
         "volume" : 2,
-        "warmth" : 0,
         "encumbrance" : 5,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "BELTED"],
         "coverage" : 20,
@@ -9092,8 +9076,7 @@
         "price" : 3000,
         "material" : ["leather", "plastic"],
         "coverage" : 0,
-        "symbol" : "^",
-        "warmth" : 0
+        "symbol" : "^"
     },
     {
         "type" : "ARMOR",
@@ -9110,8 +9093,7 @@
         "price" : 1500,
         "material" : ["fur", "plastic"],
         "coverage" : 0,
-        "symbol" : "^",
-        "warmth" : 0
+        "symbol" : "^"
     },
     {
         "type" : "ARMOR",
@@ -9128,8 +9110,7 @@
         "material" : ["leather", "plastic"],
         "coverage" : 0,
         "symbol" : "s",
-        "bashing" : 4,
-        "warmth" : 0
+        "bashing" : 4
     },
     {
         "type" : "ARMOR",
@@ -9146,8 +9127,7 @@
         "material" : ["fur", "plastic"],
         "coverage" : 0,
         "symbol" : "s",
-        "bashing" : 4,
-        "warmth" : 0
+        "bashing" : 4
     },
     {
         "type" : "ARMOR",
@@ -9163,8 +9143,7 @@
         "price" : 1000,
         "material" : ["fur"],
         "coverage" : 0,
-        "symbol" : "-",
-        "warmth" : 0
+        "symbol" : "-"
     },
     {
         "type" : "ARMOR",
@@ -9198,7 +9177,6 @@
         "price" : 10,
         "material" : ["cotton"],
         "volume" : 0,
-        "warmth" : 0,
         "encumbrance" : 0,
         "coverage" : 1,
         "material_thickness" : 1,
@@ -9256,8 +9234,7 @@
         "price" : 10000,
         "material" : ["leather"],
         "coverage" : 0,
-        "symbol" : "-",
-        "warmth" : 0
+        "symbol" : "-"
     },
     {
         "type" : "ARMOR",
@@ -9332,7 +9309,6 @@
         "price" : 0,
         "material" : "cotton",
         "volume" : 4,
-        "warmth" : 0,
         "encumbrance" : 100,
         "coverage" : 5,
         "material_thickness" : 1
@@ -9351,7 +9327,6 @@
         "price" : 24000,
         "material" : ["plastic"],
         "volume" : 6,
-        "warmth" : 0,
         "encumbrance" : 30,
         "bashing" : 5,
         "coverage" : 10,
@@ -9372,7 +9347,6 @@
         "price" : 80,
         "material" : ["cotton", "wood"],
         "volume" : 12,
-        "warmth" : 0,
         "encumbrance" : 40,
         "bashing" : 4,
         "coverage" : 4,
@@ -9394,7 +9368,6 @@
         "price" : 1,
         "material" : "plastic",
         "volume" : 1,
-        "warmth" : 0,
         "encumbrance" : 60,
         "coverage" : 4,
         "material_thickness" : 1
@@ -9433,7 +9406,6 @@
         "material" : ["silver"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
         "flags" : ["FANCY"]
     },
     {
@@ -9573,7 +9545,6 @@
         "material" : ["silver"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
         "flags" : ["FANCY"]
     },
     {
@@ -9593,7 +9564,6 @@
         "symbol" : "[",
         "bashing" : 2,
         "cutting" : 2,
-        "warmth" : 0,
         "flags" : ["FANCY", "SKINTIGHT"]
     },
     {
@@ -9613,7 +9583,6 @@
         "symbol" : "[",
         "bashing" : 3,
         "cutting" : 3,
-        "warmth" : 0,
         "flags" : ["SUPER_FANCY", "SKINTIGHT"]
     },
     {
@@ -9951,7 +9920,6 @@
         "material" : ["plastic"],
         "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
         "flags" : ["FANCY"]
     },
     {
@@ -10180,7 +10148,6 @@
         "price" : 200,
         "material" : "paper",
         "volume" : 10,
-        "warmth" : 0,
         "encumbrance" : 30,
         "coverage" : 4,
         "material_thickness" : 2
@@ -10218,7 +10185,6 @@
         "price" : 2000,
         "material" : ["paper"],
         "volume" : 2,
-        "warmth" : 0,
         "encumbrance" : 14,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 30,
@@ -10355,7 +10321,6 @@
         "price" : 15000,
         "material" : ["leather"],
         "volume" : 9,
-        "warmth" : 0,
         "encumbrance" : 3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE"],
         "coverage" : 15,
@@ -10537,8 +10502,7 @@
         "price" : 1000,
         "material" : ["cotton"],
         "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -10554,8 +10518,7 @@
         "price" : 1000,
         "material" : ["cotton"],
         "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -10571,8 +10534,7 @@
         "price" : 1000,
         "material" : ["cotton"],
         "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -10588,8 +10550,7 @@
         "price" : 1000,
         "material" : ["cotton"],
         "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -10605,8 +10566,7 @@
         "price" : 1000,
         "material" : ["cotton"],
         "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -10622,8 +10582,7 @@
         "price" : 1000,
         "material" : ["cotton"],
         "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -10639,8 +10598,7 @@
         "price" : 1000,
         "material" : ["cotton"],
         "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -10656,8 +10614,7 @@
         "price" : 2000,
         "material" : ["cotton"],
         "coverage" : 0,
-        "symbol" : "[",
-        "warmth" : 0
+        "symbol" : "["
     },
     {
         "type" : "ARMOR",
@@ -10673,7 +10630,6 @@
         "price" : 50,
         "material" : ["plastic"],
         "volume" : 1,
-        "warmth" : 0,
         "encumbrance" : 7,
         "flags" : ["WATERPROOF", "OVERSIZE", "OUTER"],
         "coverage" : 70,
