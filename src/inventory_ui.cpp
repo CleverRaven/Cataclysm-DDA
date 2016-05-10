@@ -1018,7 +1018,6 @@ int game::inv_for_equipped( const std::string &title )
 int game::inv_for_unequipped( const std::string &title )
 {
     return inv_for_filter( title, [ this ]( const item &it ) {
-        // TODO: Add more filter conditions like "not made of wool if allergic to it".
         return it.is_armor() && !u.is_worn( it );
     }, _( "You don't have any items to wear." ) );
 }
