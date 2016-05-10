@@ -2757,7 +2757,7 @@ bool game::handle_action()
             int cMenu = ' ';
             int position = INT_MIN;
             do {
-                position = inv(_("Inventory:"), position);
+                position = inv( position );
                 cMenu = inventory_item_menu(position);
             } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
                      cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
@@ -7508,7 +7508,7 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_activatable(_("Use item:"));
+        pos = inv_for_activatables( u, _( "Use item:" ) );
     }
 
     if (pos == INT_MIN) {
@@ -7996,16 +7996,6 @@ bool pet_menu(monster *z)
 
         item *it = &g->u.i_at(pos);
 
-        if (!it->is_armor()) {
-            add_msg(_("This is not a bag!"));
-            return true;
-        }
-
-        if( it->get_storage() <= 0 ) {
-            add_msg(_("This is not a bag!"));
-            return true;
-        }
-
         z->add_item(*it);
 
         add_msg(_("You mount the %1$s on your %2$s, ready to store gear."),
@@ -8169,17 +8159,13 @@ bool npc_menu( npc &who )
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
-        static const std::string npc_use_flag( "USE_ON_NPC" );
-        const int pos = g->inv_for_filter( _("Use which item:"),[]( const item &it ) {
-            return it.has_flag( npc_use_flag );
-        } );
+        const int pos = g->inv_for_flag( "USE_ON_NPC", _("Use which item:") );
 
-        item &used = g->u.i_at( pos );
-        if( !used.has_flag( npc_use_flag ) ) {
+        if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
             return false;
         }
-
+        item &used = g->u.i_at( pos );
         bool did_use = g->u.invoke_item( &used, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
@@ -10493,7 +10479,9 @@ int game::move_liquid(item &liquid)
 
     //liquid is in fact a liquid.
     const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
-    int pos = inv_for_liquid(liquid, text, false);
+    int pos = inv_for_filter( text, [ &liquid ]( const item &it ) {
+        return it.get_remaining_capacity_for_liquid( liquid ) > 0;
+    } );
 
     //is container selected?
     item *cont = &( u.i_at( pos ) );
@@ -10699,7 +10687,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 void game::reassign_item( int pos )
 {
     if( pos == INT_MIN ) {
-        pos = inv( _( "Reassign item:" ) );
+        pos = inv_for_all( _( "Reassign item:" ) );
     }
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
@@ -10754,7 +10742,7 @@ void game::plthrow(int pos)
     }
 
     if (pos == INT_MIN) {
-        pos = inv(_("Throw item:"));
+        pos = inv_for_all( _( "Throw item:" ), _( "You don't have any items to throw." ) );
         refresh_all();
     }
 
@@ -11351,7 +11339,7 @@ void game::eat(int pos)
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
-    }, _( "Consume item:" ), 1 );
+    }, _( "Consume item:" ), 1, _( "You have nothing to consume." ) );
 
     item *it = item_loc.get_item();
     if( !it ) {
@@ -11376,12 +11364,7 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        auto filter = [this]( const item &it ) {
-            // TODO: Add more filter conditions like "not made of wool if allergic to it".
-            return it.is_armor() &&
-                   u.get_item_position( &it ) >= -1; // not already worn
-        };
-        pos = inv_for_filter( _("Wear item:"), filter );
+        pos = inv_for_unequipped( _( "Wear item:" ) );
     }
 
     u.wear(pos);
@@ -11390,35 +11373,27 @@ void game::wear(int pos)
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        auto filter = [this]( const item &it ) {
-            return u.get_item_position( &it ) < -1; // means item is worn.
-        };
-        pos = inv_for_filter( _("Take off item:"), filter );
+        pos = inv_for_equipped( _( "Take off item:" ) );
     }
-
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
         return;
     }
-
     u.takeoff( pos );
 }
 
 void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_filter(_("Change side for item:"),
-                             [&](const item &it) { return u.is_worn(it) && it.is_sided(); });
+        pos = inv_for_filter( _( "Change side for item:" ), [&]( const item &it ) {
+            return u.is_worn(it) && it.is_sided();
+        }, _( "You don't have sided items worn." ) );
     }
-
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
         return;
     }
-
-    if (!u.change_side(pos)) {
-        add_msg(m_info, _("Invalid selection."));
-    }
+    u.change_side(pos);
 }
 
 void game::reload( int pos, bool prompt )
@@ -11497,7 +11472,7 @@ void game::unload(int pos)
     if( pos == INT_MIN ) {
         it = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item:" ), 1 ).get_item();
+        }, _( "Unload item:" ), 1, _( "You have nothing to unload." ) ).get_item();
 
         if( it == nullptr ) {
             add_msg( _("Never mind.") );
@@ -11702,7 +11677,7 @@ void game::wield( int pos )
         return;
     }
     if( pos == INT_MIN ) {
-        pos = inv( _( "Wield item:" ) );
+        pos = inv_for_all( _( "Wield item:" ), _( "You have nothing to wield." ) );
     }
 
     if( pos == INT_MIN ) {
@@ -11725,7 +11700,8 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1 );
+    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1,
+                                _( "You have nothing to read." ) );
 
     item *book = loc.get_item();
     if( !book ) {
@@ -14218,7 +14194,7 @@ void game::gameover()
     erase();
     gamemode->game_over();
     mvprintw(0, 35, _("GAME OVER"));
-    inv(_("Inventory:"));
+    inv();
 }
 
 bool game::game_quit()

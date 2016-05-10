@@ -283,7 +283,7 @@ static bool inscribe_item(player *p, std::string verb, std::string gerund, bool 
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,
     //but might need to be reworked for some European languages that have more verb forms
-    int pos = g->inv(string_format(_("%s on what?"), verb.c_str()));
+    int pos = g->inv_for_all(string_format(_("%s on what?"), verb.c_str()));
     item *cut = &(p->i_at(pos));
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
@@ -2213,22 +2213,11 @@ void remove_battery_mods( item &modded, player &p )
 
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(m_info, _("This mod can only be used on tools."));
-        return 0;
-    }
-
-    if( modded->ammo_type() != "battery") {
-        p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
 
@@ -2246,22 +2235,11 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 
 int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "plutonium";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "plutonium" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(m_info, _("This device can only be used on tools."));
-        return 0;
-    }
-
-    if( modded->ammo_type() != "plutonium" ) {
-        p->add_msg_if_player(m_info, _("That item does not use plutonium!"));
         return 0;
     }
 
@@ -2273,25 +2251,13 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 
 int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(m_info, _("This mod can only be used on tools."));
-        return 0;
-    }
-
-    if( modded->ammo_type() != "battery" ) {
-        p->add_msg_if_player(m_info, _("That item does not use batteries!"));
-        return 0;
-    }
-
     if (modded->has_flag("RECHARGE")) {
         p->add_msg_if_player(m_info, _("That item already has a rechargeable battery pack."));
         return 0;
@@ -2310,30 +2276,18 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 
 int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(m_info, _("This mod can only be used on tools."));
-        return 0;
-    }
-
     if (modded->has_flag("ATOMIC_AMMO")) {
         p->add_msg_if_player(m_info,
                              _("That item has already had its battery modified to accept plutonium cells."));
         return 0;
     }
-    if( modded->ammo_type() != "battery" ) {
-        p->add_msg_if_player(m_info, _("That item does not use batteries!"));
-        return 0;
-    }
-
 
     remove_battery_mods( *modded, *p );
     remove_ammo( modded, *p ); // remove batteries, item::charges is now plutonium
@@ -2348,25 +2302,13 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 }
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(_("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(_("This mod can only be used on tools."));
-        return 0;
-    }
-
-    if( modded->ammo_type() != "battery" ) {
-        p->add_msg_if_player(_("That item does not use batteries!"));
-        return 0;
-    }
-
     if (modded->has_flag("USE_UPS")) {
         p->add_msg_if_player(_("That item has already had its battery modified to use a UPS!"));
         return 0;
@@ -2402,10 +2344,6 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
     if( modded.is_null() ) {
         p->add_msg_if_player(_("You do not have that item!"));
-        return 0;
-    }
-    if( !modded.is_tool() || !modded.has_flag( "RADIO_MODABLE" ) ) {
-        p->add_msg_if_player(_("This item can't be made modified this way."));
         return 0;
     }
 
@@ -2456,11 +2394,6 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     item *modded = &( p->i_at( inventory_index ) );
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return 0;
-    }
-
-    if (!modded->is_tool()) {
-        p->add_msg_if_player( m_info, _( "Only power mods for tools can be removed this way." ) );
         return 0;
     }
 
@@ -2791,7 +2724,7 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
         return !itm.contents.empty() &&
                ( itm.contents[0].type->id == "water" ||
                  itm.contents[0].type->id == "salt_water" );
-    }, _( "Purify what?" ), 1 );
+    }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     item *target = loc.get_item();
     if( target == nullptr ) {
@@ -2804,10 +2737,6 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
     }
 
     item *pure = &target->contents[0];
-    if (pure->type->id != "water" && pure->type->id != "salt_water") {
-        p->add_msg_if_player(m_info, _("You can only purify water."));
-        return 0;
-    }
     if (pure->charges > it->charges) {
         p->add_msg_if_player(m_info,
                              _("You don't have enough charges in your purifier to purify all of the water."));
@@ -4933,23 +4862,17 @@ int iuse::lumber(player *p, item *it, bool, const tripoint& )
     }
 
     // If the player is not standing on a log, check inventory
-    int pos = g->inv_for_filter( _("Cut up what?"), []( const item & itm ) {
-        return itm.type->id == "log";
-    } );
+    int pos = g->inv_for_id( itype_id( "log" ), _( "Cut up what?" ) );
+
     item* cut = &( p->i_at( pos ) );
 
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (cut->type->id == "log") {
-        p->i_rem( cut );
-        cut_log_into_planks(p);
-        return it->type->charges_to_use();
-    } else {
-        add_msg(m_info, _("You can't cut that up!"));
-        return 0;
-    }
+    p->i_rem( cut );
+    cut_log_into_planks( p );
+    return it->type->charges_to_use();
 }
 
 
@@ -5709,25 +5632,20 @@ static bool heat_item(player *p)
    auto loc = g->inv_map_splice( []( const item & itm ) {
         return (itm.is_food() && itm.has_flag("EATEN_HOT")) ||
             (itm.is_food_container() && itm.contents[0].has_flag("EATEN_HOT"));
-    }, _( "Heat up what?" ), 1 );
+    }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
     if( heat == nullptr ) {
-        add_msg(m_info, _("You do not have that item!"));
+        add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if ((target->is_food()) && (target->has_flag("EATEN_HOT"))) {
-        p->moves -= 300;
-        add_msg(_("You heat up the food."));
-        target->item_tags.insert("HOT");
-        target->active = true;
-        target->item_counter = 600; // sets the hot food flag for 60 minutes
-        return true;
-    }
-    add_msg(m_info, _("You can't heat that up!"));
-    return false;
+    p->mod_moves( -300 );
+    add_msg( _( "You heat up the food." ) );
+    target->item_tags.insert( "HOT" );
+    target->active = true;
+    target->item_counter = 600; // sets the hot food flag for 60 minutes
+    return true;
 }
 
 int iuse::heatpack(player *p, item *it, bool, const tripoint& )
@@ -5796,11 +5714,6 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
         item *put = &( p->i_at(inventory_index ) );
         if (put == NULL || put->is_null()) {
             p->add_msg_if_player(_("Never mind."));
-            return 0;
-        }
-
-        if (!(put->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
-            p->add_msg_if_player(m_info, _("Those aren't arrows!"));
             return 0;
         }
 
@@ -6109,7 +6022,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
     }
-    int inventory_index = g->inv(_("Select the firearm to repair"));
+    int inventory_index = g->inv_for_all(_("Select the firearm to repair"));
     item *fix = &(p->i_at(inventory_index));
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -6178,15 +6091,6 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
     item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if ( fix->is_firearm() ) {
-        p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
-        return 0;
-    }
-    if (!(fix->made_of( material_id( "wood" ) ) || fix->made_of( material_id( "paper" ) ) || fix->made_of( material_id( "bone" ) ) ||
-          fix->made_of( material_id( "chitin" ) ))) {
-        p->add_msg_if_player(m_info, _("That isn't made of wood, paper, bone, or chitin!"));
         return 0;
     }
     if ( fix->damage == MIN_ITEM_DAMAGE ) {
@@ -6870,7 +6774,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
             p->moves -= 200;
 
-            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
             item *mc = &(p->i_at(inventory_index));
 
             if (mc == NULL || mc->is_null()) {
@@ -6900,7 +6804,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
         if (ei_decrypt == choice) {
             p->moves -= 200;
-            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
             item *mc = &(p->i_at(inventory_index));
 
             if (mc == NULL || mc->is_null()) {
@@ -7190,7 +7094,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
         p->moves -= 200;
 
-        const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+        const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
         item *mc = &(p->i_at(inventory_index));
 
         if (mc == NULL || mc->is_null()) {
@@ -7362,7 +7266,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
     if (choice == 2) {
 
         if( it->contents.empty() ) { //arming car with bomb
-            int inventory_index = g->inv_for_flag("RADIOCARITEM", _("Arm what?"), false);
+            int inventory_index = g->inv_for_flag("RADIOCARITEM", _("Arm what?"));
             item *put = &(p->i_at(inventory_index));
             if (put == NULL || put->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -8420,17 +8324,14 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
         });
     };
 
-    item& obj = p->i_at( g->inv_for_filter( _( "Saw barrel?" ), filter ) );
+    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter, _( "You don't have guns with long barrels." ) );
 
-    if( obj.is_null() ) {
+    if( pos == INT_MIN ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
-    if( !filter( obj ) ) {
-        p->add_msg_if_player( _( "Can't saw down the barrel of your %s" ), obj.tname().c_str() );
-        return 0;
-    }
 
+    item &obj = p->i_at( pos );
     p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
     obj.contents.emplace_back( "barrel_small", calendar::turn );
 

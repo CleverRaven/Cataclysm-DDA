@@ -6253,7 +6253,8 @@
     [ [ "screwdriver_set", 1 ] ],
     [ [ "hacksaw", 1 ] ],
     [ [ "wrench", 1 ] ],
-    [ [ "saw", 1 ] ]
+    [ [ "saw", 1 ] ],
+    [ [ "hammer", 1] ]
   ]
   },{
   "type" : "recipe",
