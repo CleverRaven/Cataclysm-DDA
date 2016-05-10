@@ -12310,7 +12310,8 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "stomach", 1 ]
+      [ "stomach", 1 ],
+      [ "offal", 1 ]
     ],
     [
       [ "oatmeal", 1 ],
