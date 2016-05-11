@@ -168,7 +168,6 @@ class inventory_selector
         player &u;
 
         void print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const;
-        void print_bar(int y, int x, int carried, int capacity) const;
         void print_right_column(size_t right_column_width, size_t right_column_offset) const;
 
         /** Returns an entry from @ref items by its invlet */
@@ -277,58 +276,47 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
         int vol_capacity) const
 {
     // Print weight
-    mvwprintw(w_inv, 0, TERMX - 41, _("Weight: "), weight_units());
+    mvwprintw(w_inv, 0, TERMX - 39, _("Weight: "), weight_units());
     nc_color weight_color = c_ltgray;
     if (weight_carried > u.weight_capacity()) {
         weight_color = c_red;
     }
     wprintz(w_inv, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
     wprintz(w_inv, c_ltgray, "/%-6.1f %s", convert_weight(u.weight_capacity()), weight_units());
-    wmove(w_inv, 0, TERMX - 15);
-    wprintz(w_inv, c_ltgray, "[............]");
-    print_bar(0, TERMX - 14, weight_carried, g->u.weight_capacity());
+    
+    double pctUsed = (u.weight_capacity() == 0) ? 1 : (weight_carried / u.weight_capacity());
+    std::string bar = get_labeled_bar(pctUsed, 12, "", '*');
+    nc_color color = c_green;
+    if(pctUsed > 0.2) { color = c_ltgreen; }
+    if(pctUsed > 0.4) { color = c_yellow; }
+    if(pctUsed > 0.6) { color = c_ltred; }
+    if(pctUsed > 0.8) { color = c_red; }
+    
+    mvwprintz(w_inv, 0, TERMX - 13, color, bar.c_str()); // Print bar colorized
+    mvwputch(w_inv, 0, TERMX - 13, c_ltgray, '['); // De-color end caps
+    mvwputch(w_inv, 0, TERMX - 2, c_ltgray, ']');
 
     // Print volume
-    mvwprintw(w_inv, 1, TERMX - 41, _("Volume: "));
-    wmove(w_inv, 1, TERMX - 30);
+    mvwprintw(w_inv, 1, TERMX - 39, _("Volume: "));
+    wmove(w_inv, 1, TERMX - 28);
     if (vol_carried > vol_capacity) {
         wprintz(w_inv, c_red, "%3d", vol_carried);
     } else {
         wprintz(w_inv, c_ltgray, "%3d", vol_carried);
     }
     wprintw(w_inv, "/%-3d", vol_capacity);
-    wmove(w_inv, 1, TERMX - 15);
-    wprintz(w_inv, c_ltgray, "[............]");
-    print_bar(1, TERMX - 14, vol_carried, vol_capacity);
-}
-
-void inventory_selector::print_bar(int y, int x, int carried, int capacity) const {
-    wmove(w_inv, y, x);
-    if(capacity == 0) {
-        wprintz(w_inv, c_red, "------------");
-        return;
-    }
     
-    int barsize = static_cast<int>((carried * 24.0) / capacity);
-    nc_color color = c_green;
-    if(barsize > 4) { color = c_ltgreen; }
-    if(barsize > 9) { color = c_yellow; }
-    if(barsize > 13) { color = c_ltred; }
-    if(barsize > 18) { color = c_red; }
+    pctUsed = (vol_capacity == 0) ? 1 : (vol_carried / vol_capacity);
+    bar = get_labeled_bar(pctUsed, 12, "", '*');
+    color = c_green;
+    if(pctUsed > 0.2) { color = c_ltgreen; }
+    if(pctUsed > 0.4) { color = c_yellow; }
+    if(pctUsed > 0.6) { color = c_ltred; }
+    if(pctUsed > 0.8) { color = c_red; }
     
-    std::stringstream bar;
-    
-    for(int i = 0; i < 12; i++) {
-        if(barsize > (i * 2)) {
-            bar << "|";
-        } else if(barsize == (i*2)-1) {
-            bar << "\\";
-        } else {
-            break;
-        }
-    }
-    
-    wprintz(w_inv, color, bar.str().c_str());
+    mvwprintz(w_inv, 1, TERMX - 13, color, bar.c_str()); // Print bar colorized
+    mvwputch(w_inv, 1, TERMX - 13, c_ltgray, '['); // De-color end caps
+    mvwputch(w_inv, 1, TERMX - 2, c_ltgray, ']');
 }
 
 char invlet_or_space(const item &it)
@@ -464,8 +452,8 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
 
         print_right_column( right_column_width, right_column_offset );
     } else {
-        mvwprintw(w_inv, 0, TERMX - 50, _("Hotkeys"));
-        mvwprintw(w_inv, 1, TERMX - 50, _(" %2d/%2d "), u.allocated_invlets().size(), inv_chars.size());
+        mvwprintw(w_inv, 0, TERMX - 48, _("Hotkeys"));
+        mvwprintw(w_inv, 1, TERMX - 48, _(" %2d/%2d "), u.allocated_invlets().size(), inv_chars.size());
     }
 
     std::string msg_str;
@@ -477,7 +465,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         msg_str = _("Item selection; [TAB] switches mode, arrows select.");
         msg_color = h_white;
     }
-    mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str),
+    mvwprintz(w_inv, items_per_page + 4, TERMX - utf8_width(msg_str),
               msg_color, msg_str.c_str());
     print_column(items, left_column_offset, left_column_width, selected_i, current_page_offset_i, mode);
     print_column(worn, middle_column_offset, middle_column_width, selected_w, current_page_offset_w, mode);
@@ -502,8 +490,11 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         }
         remove_dropping_items(tmp);
         print_inv_weight_vol(tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity());
-        mvwprintw(w_inv, 0, 11, _("To drop x items, type a"));
-        mvwprintw(w_inv, 1, 0, _("number and then the item hotkey."));
+        if(TERMX < 97) { // Cannot fit hint in one line, split (overwrites window title to facilitate split)
+            fold_and_print(w_inv, 0, 0, TERMX - 42, c_ltgray, _("Multidrop: To drop x items, type a number and then the item hotkey."));
+        } else { // Can fit hint in one line
+            mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
+        }
     } else {
         print_inv_weight_vol(u.weight_carried(), u.volume_carried(), u.volume_capacity());
     }
