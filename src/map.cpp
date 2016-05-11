@@ -1533,10 +1533,10 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
 }
 
 void map::furn_set(const int x, const int y, const furn_str_id new_furniture) {
-    if ( furnmap.find(new_furniture) == furnmap.end() ) {
+    if( !new_furniture.is_valid() ) {
         return;
     }
-    furn_set(x, y, furnmap[ new_furniture ].loadid );
+    furn_set(x, y, new_furniture.id() );
 }
 
 std::string map::furnname(const int x, const int y) {
@@ -1635,11 +1635,10 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
 }
 
 void map::furn_set( const tripoint &p, const furn_str_id new_furniture) {
-    if( furnmap.find(new_furniture) == furnmap.end() ) {
+    if( !new_furniture.is_valid() ) {
         return;
     }
-
-    furn_set( p, furnmap[ new_furniture ].loadid );
+    furn_set( p, new_furniture.id() );
 }
 
 bool map::can_move_furniture( const tripoint &pos, player *p ) {
@@ -4135,12 +4134,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         return true;
-    } else if ( !furn.open.str().empty() && furn.open.str() != "t_null" ) {
-        if ( furnmap.find( furn.open ) == furnmap.end() ) {
-            debugmsg("terrain %s.open == non existant furniture '%s'\n", furn.id.c_str(), furn.open.c_str() );
-            return false;
-        }
-
+    } else if( furn.open ) {
         if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
             return false;
         }
@@ -4228,11 +4222,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
         ter_set(p, ter.close );
      }
      return true;
- } else if ( !furn.close.str().empty() && furn.close.str() != "t_null" ) {
-     if ( furnmap.find( furn.close ) == furnmap.end() ) {
-         debugmsg("terrain %s.close == non existant furniture '%s'\n", furn.id.c_str(), furn.close.c_str() );
-         return false;
-     }
+ } else if( furn.close ) {
      if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
          return false;
      }
@@ -7833,11 +7823,7 @@ tinymap::tinymap( int mapsize, bool zlevels )
 furn_id find_furn_id( const furn_str_id id, bool complain = true )
 {
     ( void )complain; //FIXME: complain unused
-    if( furnmap.find( id ) == furnmap.end() ) {
-        debugmsg( "Can't find furnmap[%s]", id.c_str() );
-        return furn_id( 0 );
-    }
-    return furnmap[id].loadid;
+    return id.id();
 }
 
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )

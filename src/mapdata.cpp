@@ -1008,7 +1008,7 @@ void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_t
         if ( !mbi.ter_set.is_valid() ) {
             debugmsg("bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
         }
-        if ( !mbi.furn_set.str().empty() && furnmap.count(mbi.furn_set) == 0) {
+        if ( !mbi.furn_set.is_valid() ) {
             debugmsg("bash result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
         }
     }
@@ -1028,7 +1028,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     if ( !mbi.ter_set.is_valid() ) {
         debugmsg("deconstruct result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
     }
-    if (!mbi.furn_set.str().empty() && furnmap.count(mbi.furn_set) == 0) {
+    if ( !mbi.furn_set.is_valid() ) {
         debugmsg("deconstruct result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
     }
 }
@@ -1047,6 +1047,11 @@ void ter_t::check() const
     if( !close.is_valid() ) {
         debugmsg( "invalid terrain %s for closing %s", close.c_str(), id.c_str() );
     }
+}
+
+size_t furn_t::count()
+{
+    return furnmap.size();
 }
 
 void check_furniture_and_terrain()

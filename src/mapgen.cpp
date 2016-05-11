@@ -541,10 +541,10 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
                 case JMAPGEN_SETMAP_FURN: {
                     const furn_str_id fid( tmpid );
 
-                    if ( furnmap.find( fid ) == furnmap.end() ) {
+                    if ( !fid.is_valid() ) {
                         pjo.throw_error( "no such furniture", "id" );
                     }
-                    tmp_i.val = furnmap[ fid ].loadid;
+                    tmp_i.val = fid.id();
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
                     const trap_str_id sid( tmpid );
@@ -1059,15 +1059,7 @@ class jmapgen_furniture : public jmapgen_piece {
 public:
     furn_id id;
     jmapgen_furniture( JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
-
-    jmapgen_furniture( const std::string &tid ) : jmapgen_piece(), id( 0 )
-    {
-        const auto iter = furnmap.find( furn_str_id( tid ) );
-        if( iter == furnmap.end() ) {
-            throw std::runtime_error( "unknown furniture type" );
-        }
-        id = iter->second.loadid;
-    }
+    jmapgen_furniture( const std::string &fid ) : jmapgen_piece(), id( furn_id( fid ) ) {}
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         m.furn_set( x.get(), y.get(), id );
@@ -1081,8 +1073,7 @@ class jmapgen_terrain : public jmapgen_piece {
 public:
     ter_id id;
     jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
-
-    jmapgen_terrain( const std::string &ter_name ) : jmapgen_piece(), id( ter_id( ter_name ) ) {}
+    jmapgen_terrain( const std::string &tid ) : jmapgen_piece(), id( ter_id( tid ) ) {}
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         m.ter_set( x.get(), y.get(), id );
@@ -1101,11 +1092,7 @@ public:
     jmapgen_make_rubble( JsonObject &jsi ) : jmapgen_piece()
     {
         if( jsi.has_string( "rubble_type" ) ) {
-            const auto iter = furnmap.find( furn_str_id( jsi.get_string( "rubble_type" ) ) );
-            if( iter == furnmap.end() ) {
-                jsi.throw_error( "unknown furniture type", "rubble_type" );
-            }
-            rubble_type = iter->second.loadid;
+            rubble_type = furn_id( jsi.get_string( "rubble_type" ) );
         }
         jsi.read( "items", items );
         if( jsi.has_string( "floor_type" ) ) {
@@ -1382,12 +1369,7 @@ bool mapgen_function_json::setup() {
                         pjo.throw_error( "format map key must be 1 character", key );
                     }
                     if( pjo.has_string( key ) ) {
-                        const auto tmpval = furn_str_id( pjo.get_string( key ) );
-                        const auto iter = furnmap.find( tmpval );
-                        if( iter == furnmap.end() ) {
-                            pjo.throw_error( "Invalid furniture", key );
-                        }
-                        format_furniture[key[0]] = iter->second.loadid;
+                        format_furniture[key[0]] = furn_id( pjo.get_string( key ) );
                     } else {
                         auto &vect = format_placings[ key[0] ];
                         ::load_place_mapings<jmapgen_furniture>( pjo, key, vect );

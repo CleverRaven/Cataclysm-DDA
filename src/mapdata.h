@@ -303,6 +303,8 @@ struct furn_t : map_data_common_t {
         loadid( 0 ),
         open( NULL_ID ),
         close( NULL_ID ) {};
+
+    static size_t count();
 };
 
 

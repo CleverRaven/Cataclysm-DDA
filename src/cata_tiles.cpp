@@ -1467,8 +1467,8 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         nc_color col = c_white;
         if (category == C_FURNITURE) {
             const furn_str_id fid( id );
-            if (furnmap.count(fid) > 0) {
-                const furn_t &f = furnmap[fid];
+            if( fid.is_valid() ) {
+                const furn_t &f = fid.obj();
                 sym = f.symbol();
                 col = f.color();
             }
@@ -2724,7 +2724,7 @@ void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
 
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
-    tile_loading_report(furnmap, "Furniture", "");
+    tile_loading_report<furn_t>( furn_t::count(), "Furniture", "" );
     //TODO: exclude fake items from Item_factory::init_old()
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
     auto mtypes = MonsterGenerator::generator().get_all_mtypes();
