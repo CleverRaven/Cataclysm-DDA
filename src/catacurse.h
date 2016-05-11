@@ -17,8 +17,8 @@ typedef unsigned short attr_t;
 
 //a pair of colors[] indexes, foreground and background
 typedef struct {
-    int FG;//foreground index in colors[]
-    int BG;//foreground index in colors[]
+    int FG;
+    int BG;
 } pairs;
 
 //Individual lines, so that we can track changed lines
@@ -44,14 +44,14 @@ struct curseline {
 struct WINDOW {
     int x;//left side of window
     int y;//top side of window
-    int width;//width of the curses window
-    int height;//height of the curses window
+    int width;
+    int height;
     int FG;//current foreground color from attron
     int BG;//current background color from attron
     bool inuse;// Does this window actually exist?
     bool draw;//Tracks if the window text has been changed
-    int cursorx;//x location of the cursor
-    int cursory;//y location of the cursor
+    int cursorx;
+    int cursory;
     std::vector<curseline> line;
 };
 
