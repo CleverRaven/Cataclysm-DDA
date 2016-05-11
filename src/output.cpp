@@ -431,17 +431,6 @@ void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, const std::string &ch)
     wattroff(w, HC);
 }
 
-void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
-{
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
-    attron(FG);
-    mvprintw(y, x, "%s", text.c_str());
-    attroff(FG);
-}
-
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
@@ -451,17 +440,6 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
     wattron(w, FG);
     mvwprintw(w, y, x, "%s", text.c_str());
     wattroff(w, FG);
-}
-
-void printz(nc_color FG, const char *mes, ...)
-{
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
-    attron(FG);
-    printw("%s", text.c_str());
-    attroff(FG);
 }
 
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
