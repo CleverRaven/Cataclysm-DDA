@@ -19,6 +19,9 @@ const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military",
 template<>
 const string_id<ter_t> string_id<ter_t>::NULL_ID( "t_null", 0 );
 
+template<>
+const string_id<furn_t> string_id<furn_t>::NULL_ID( "f_null", 0 );
+
 namespace
 {
 
@@ -27,7 +30,7 @@ generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
 }
 
 std::vector<furn_t> furnlist;
-std::map<std::string, furn_t> furnmap;
+std::map<furn_str_id, furn_t> furnmap;
 
 template<>
 inline bool int_id<ter_t>::is_valid() const
@@ -161,7 +164,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     sound_fail = j.get_string("sound_fail", _("thump!"));
 
     if( isfurniture ) {
-        furn_set = j.get_string("furn_set", "f_null");
+        furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
     } else {
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
     }
@@ -186,7 +189,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
         return false;
     }
     JsonObject j = jsobj.get_object(member);
-    furn_set = j.get_string("furn_set", "");
+    furn_set = furn_str_id( j.get_string("furn_set", "f_null" ) );
 
     if (!isfurniture) {
         ter_set = ter_str_id( j.get_string( "ter_set" ) );
@@ -200,7 +203,7 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
 
 furn_t null_furniture_t() {
   furn_t new_furniture;
-  new_furniture.id = "f_null";
+  new_furniture.id = NULL_ID;
   new_furniture.name = _("nothing");
   new_furniture.symbol_.fill( ' ' );
   new_furniture.color_.fill( c_white );
@@ -210,8 +213,6 @@ furn_t null_furniture_t() {
   new_furniture.set_flag("TRANSPARENT");
   new_furniture.examine = iexamine_function_from_string("none");
   new_furniture.loadid = furn_id( 0 );
-  new_furniture.open = "";
-  new_furniture.close = "";
   new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_furniture;
 }
@@ -304,7 +305,7 @@ void load_furniture(JsonObject &jsobj)
       furnlist.push_back(new_null);
   }
   furn_t new_furniture;
-  new_furniture.id = jsobj.get_string("id");
+  new_furniture.id = furn_str_id( jsobj.get_string("id") );
   if ( new_furniture.id == "f_null" ) {
       return;
   }
@@ -331,13 +332,13 @@ void load_furniture(JsonObject &jsobj)
     new_furniture.examine = iexamine_function_from_string("none");
   }
 
-  new_furniture.open = "";
+  new_furniture.open = NULL_ID;
   if ( jsobj.has_member("open") ) {
-      new_furniture.open = jsobj.get_string("open");
+      new_furniture.open = furn_str_id( jsobj.get_string("open") );
   }
-  new_furniture.close = "";
+  new_furniture.close = NULL_ID;
   if ( jsobj.has_member("close") ) {
-      new_furniture.close = jsobj.get_string("close");
+      new_furniture.close = furn_str_id( jsobj.get_string("close") );
   }
   new_furniture.bash.load(jsobj, "bash", true);
   new_furniture.deconstruct.load(jsobj, "deconstruct", true);
@@ -758,11 +759,12 @@ void reset_furn_ter()
 }
 
 furn_id furnfind(const std::string & id) {
-    if( furnmap.find(id) == furnmap.end() ) {
+    const furn_str_id fid( id );
+    if( furnmap.find( fid ) == furnmap.end() ) {
          debugmsg("Can't find %s",id.c_str());
          return furn_id( 0 );
     }
-    return furnmap[id].loadid;
+    return furnmap[fid].loadid;
 }
 
 furn_id f_null,
@@ -966,7 +968,7 @@ void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_t
         if ( !mbi.ter_set.is_valid() ) {
             debugmsg("bash result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
         }
-        if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
+        if ( !mbi.furn_set.str().empty() && furnmap.count(mbi.furn_set) == 0) {
             debugmsg("bash result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
         }
     }
@@ -986,7 +988,7 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     if ( !mbi.ter_set.is_valid() ) {
         debugmsg("deconstruct result terrain %s of %s does not exist", mbi.ter_set.c_str(), id.c_str());
     }
-    if (!mbi.furn_set.empty() && furnmap.count(mbi.furn_set) == 0) {
+    if (!mbi.furn_set.str().empty() && furnmap.count(mbi.furn_set) == 0) {
         debugmsg("deconstruct result furniture %s of %s does not exist", mbi.furn_set.c_str(), id.c_str());
     }
 }
@@ -1010,12 +1012,12 @@ void ter_t::check() const
 void check_furniture_and_terrain()
 {
     for( const furn_t& f : furnlist ) {
-        check_bash_items(f.bash, f.id, false);
-        check_decon_items(f.deconstruct, f.id, false);
-        if( !f.open.empty() && furnmap.count( f.open ) == 0 ) {
+        check_bash_items(f.bash, f.id.str(), false);
+        check_decon_items(f.deconstruct, f.id.str(), false);
+        if( !f.open.str().empty() && furnmap.count( f.open ) == 0 ) {
             debugmsg( "invalid furniture %s for opening %s", f.open.c_str(), f.id.c_str() );
         }
-        if( !f.close.empty() && furnmap.count( f.close ) == 0 ) {
+        if( !f.close.str().empty() && furnmap.count( f.close ) == 0 ) {
             debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
         }
     }

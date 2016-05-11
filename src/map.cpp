@@ -1490,7 +1490,7 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
     ter_set(x, y, new_terrain);
 }
 
-void map::set(const int x, const int y, const ter_str_id &new_terrain, const std::string &new_furniture) {
+void map::set(const int x, const int y, const ter_str_id &new_terrain, const furn_str_id &new_furniture) {
     furn_set(x, y, new_furniture);
     ter_set(x, y, new_terrain);
 }
@@ -1505,7 +1505,7 @@ bool map::has_furn(const int x, const int y) const
   return furn(x, y) != f_null;
 }
 
-std::string map::get_furn(const int x, const int y) const
+furn_str_id map::get_furn(const int x, const int y) const
 {
     return furn_at(x, y).id;
 }
@@ -1532,7 +1532,7 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
     furn_set( tripoint( x, y, abs_sub.z ), new_furniture );
 }
 
-void map::furn_set(const int x, const int y, const std::string new_furniture) {
+void map::furn_set(const int x, const int y, const furn_str_id new_furniture) {
     if ( furnmap.find(new_furniture) == furnmap.end() ) {
         return;
     }
@@ -1550,7 +1550,7 @@ void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_fu
     ter_set( p, new_terrain );
 }
 
-void map::set( const tripoint &p, const ter_str_id &new_terrain, const std::string &new_furniture) {
+void map::set( const tripoint &p, const ter_str_id &new_terrain, const furn_str_id &new_furniture) {
     furn_set( p, new_furniture );
     ter_set( p, new_terrain );
 }
@@ -1570,7 +1570,7 @@ bool map::has_furn( const tripoint &p ) const
   return furn( p ) != f_null;
 }
 
-std::string map::get_furn( const tripoint &p ) const
+furn_str_id map::get_furn( const tripoint &p ) const
 {
     return furn_at( p ).id;
 }
@@ -1634,7 +1634,7 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
     support_dirty( above );
 }
 
-void map::furn_set( const tripoint &p, const std::string new_furniture) {
+void map::furn_set( const tripoint &p, const furn_str_id new_furniture) {
     if( furnmap.find(new_furniture) == furnmap.end() ) {
         return;
     }
@@ -3473,7 +3473,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( smash_furn ) {
-        soundfxvariant = furnid.id;
+        soundfxvariant = furnid.id.str();
     } else {
         soundfxvariant = terid.id.str();
     }
@@ -4135,7 +4135,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         return true;
-    } else if ( !furn.open.empty() && furn.open != "t_null" ) {
+    } else if ( !furn.open.str().empty() && furn.open.str() != "t_null" ) {
         if ( furnmap.find( furn.open ) == furnmap.end() ) {
             debugmsg("terrain %s.open == non existant furniture '%s'\n", furn.id.c_str(), furn.open.c_str() );
             return false;
@@ -4146,7 +4146,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         if(!check_only) {
-            sounds::sound( p, 6, "", true, "open_door", furn.id );
+            sounds::sound( p, 6, "", true, "open_door", furn.id.str() );
             furn_set(p, furn.open );
         }
 
@@ -4228,7 +4228,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
         ter_set(p, ter.close );
      }
      return true;
- } else if ( !furn.close.empty() && furn.close != "t_null" ) {
+ } else if ( !furn.close.str().empty() && furn.close.str() != "t_null" ) {
      if ( furnmap.find( furn.close ) == furnmap.end() ) {
          debugmsg("terrain %s.close == non existant furniture '%s'\n", furn.id.c_str(), furn.close.c_str() );
          return false;
@@ -4237,7 +4237,7 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
          return false;
      }
      if (!check_only) {
-         sounds::sound( p, 10, "", true, "close_door", furn.id );
+         sounds::sound( p, 10, "", true, "close_door", furn.id.str() );
          furn_set(p, furn.close );
      }
      return true;
@@ -4712,7 +4712,7 @@ item &map::add_item_at( const tripoint &p,
     if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
     }
-    
+
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
@@ -6879,12 +6879,12 @@ void map::grow_plant( const tripoint &p )
     if ( calendar::turn >= seed.bday + plantEpoch ) {
         if (calendar::turn < seed.bday + plantEpoch * 2 ) {
                 i_rem(p, 1);
-                furn_set(p, "f_plant_seedling");
+                furn_set(p, furn_str_id( "f_plant_seedling" ) );
         } else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
                 i_rem(p, 1);
-                furn_set(p, "f_plant_mature");
+                furn_set(p, furn_str_id( "f_plant_mature" ) );
         } else {
-                furn_set(p, "f_plant_harvest");
+                furn_set(p, furn_str_id( "f_plant_harvest" ) );
         }
     }
 }
@@ -7830,7 +7830,7 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-furn_id find_furn_id( const std::string id, bool complain = true )
+furn_id find_furn_id( const furn_str_id id, bool complain = true )
 {
     ( void )complain; //FIXME: complain unused
     if( furnmap.find( id ) == furnmap.end() ) {
@@ -7859,7 +7859,7 @@ void map::draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_line_furn( const std::string type, int x1, int y1, int x2, int y2 )
+void map::draw_line_furn( const furn_str_id type, int x1, int y1, int x2, int y2 )
 {
     draw_line_furn( find_furn_id( type ), x1, y1, x2, y2 );
 }
@@ -7914,7 +7914,7 @@ void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_square_furn( std::string type, int x1, int y1, int x2, int y2 )
+void map::draw_square_furn( furn_str_id type, int x1, int y1, int x2, int y2 )
 {
     draw_square_furn( find_furn_id( type ), x1, y1, x2, y2 );
 }
@@ -7952,7 +7952,7 @@ void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_rough_circle_furn( std::string type, int x, int y, int rad )
+void map::draw_rough_circle_furn( furn_str_id type, int x, int y, int rad )
 {
     draw_rough_circle_furn( find_furn_id( type ), x, y, rad );
 }
@@ -7983,7 +7983,7 @@ void map::draw_circle_furn( furn_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_circle_furn( std::string type, int x, int y, int rad )
+void map::draw_circle_furn( furn_str_id type, int x, int y, int rad )
 {
     draw_circle_furn( find_furn_id( type ), x, y, rad );
 }
