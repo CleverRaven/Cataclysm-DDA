@@ -2609,20 +2609,8 @@
         "type" : "COMESTIBLE",
         "id" : "lard",
         "name" : "lard",
-        "weight" : 128,
-        "color" : "white",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : -10,
-        "healthy" : -2,
-        "nutrition" : 18,
-        "description" : "A smooth white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
-        "price" : 500,
-        "material" : "flesh",
-        "volume" : 1,
-        "stack_size" : 4,
-        "charges" : 2,
-        "fun" : -18
+        "copy-from": "tallow",
+        "description" : "A smooth white block of dry-rendered animal fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects."
     },
     {
         "type" : "COMESTIBLE",
