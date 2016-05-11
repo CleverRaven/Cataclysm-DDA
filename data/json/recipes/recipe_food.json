@@ -12320,16 +12320,6 @@
       [ "buckwheat", 1 ]
     ],
     [
-      [ "meat", 1],
-      [ "rehydrated_meat", 1 ],
-      [ "dry_meat", 1 ],
-      [ "meat_canned", 1 ],
-      [ "can_chicken", 1 ],
-      [ "jerky", 1 ],
-      [ "meat_vac", 1 ],
-      [ "meat_smoked", 1 ]
-    ],
-    [
       [ "fat", 1 ],
       [ "tallow", 1 ],
       [ "lard", 1 ]
