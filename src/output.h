@@ -444,7 +444,6 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
                     nc_color bar_color = c_white, const bool bTextScroll = false);
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
-void clear_window(WINDOW *w);
 
 class scrollingcombattext
 {
