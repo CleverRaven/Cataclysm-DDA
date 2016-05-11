@@ -74,14 +74,54 @@ bool string_id<ter_t>::is_valid() const
 }
 
 template<>
+inline bool int_id<furn_t>::is_valid() const
+{
+    return static_cast<size_t>( _id ) < furnlist.size();
+}
+
+template<>
 const furn_t &int_id<furn_t>::obj() const
 {
-    if( static_cast<size_t>( _id ) >= furnlist.size() ) {
+    if( !is_valid() ) {
         debugmsg( "invalid furniture id %d", _id );
         static const furn_t dummy{};
         return dummy;
     }
     return furnlist[_id];
+}
+
+template<>
+const string_id<furn_t> &int_id<furn_t>::id() const
+{
+    return obj().id;
+}
+
+template<>
+bool string_id<furn_t>::is_valid() const
+{
+    return furnmap.count( *this ) > 0;
+}
+
+template<>
+const furn_t &string_id<furn_t>::obj() const
+{
+    if( !is_valid() ) {
+        debugmsg( "invalid furniture id %s", _id.c_str() );
+        static const furn_t dummy{};
+        return dummy;
+    }
+    return furnmap[*this];
+}
+
+template<>
+int_id<furn_t> string_id<furn_t>::id() const
+{
+    return obj().loadid;
+}
+
+template<>
+int_id<furn_t>::int_id( const string_id<furn_t> &id ) : _id( id.id() )
+{
 }
 
 static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { {
