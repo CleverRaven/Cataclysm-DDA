@@ -224,7 +224,13 @@
         "weight": 1080,
         "volume": 10,
         "bashing": 1,
-        "to_hit": -1
+        "to_hit": -1,
+        "armor_data" : {
+            "covers" : ["TORSO"],
+            "encumbrance" : 12,
+            "coverage" : 10,
+            "material_thickness" : 10
+        }
     },
     {
         "type":"GENERIC",
@@ -240,7 +246,13 @@
         "weight": 1080,
         "volume": 10,
         "bashing": 1,
-        "to_hit": -1
+        "to_hit": -1,
+        "armor_data" : {
+            "covers" : ["TORSO"],
+            "encumbrance" : 12,
+            "coverage" : 10,
+            "material_thickness" : 10
+        }
     },
     {
         "type":"GENERIC",
