@@ -69,14 +69,14 @@ struct WINDOW {
 #define A_CHARTEXT 0x000000ff /* bits for 8-bit characters          <---------not used */
 #define A_COLOR  0x03fe0000 /* Color bits */
 
-#define COLOR_BLACK 0x00        //RGB{0,0,0}
-#define COLOR_RED 0x01        //RGB{196, 0, 0}
-#define COLOR_GREEN 0x02        //RGB{0,196,0}
-#define COLOR_YELLOW 0x03    //RGB{196,180,30}
-#define COLOR_BLUE 0x04        //RGB{0, 0, 196}
-#define COLOR_MAGENTA 0x05    //RGB{196, 0, 180}
-#define COLOR_CYAN 0x06        //RGB{0, 170, 200}
-#define COLOR_WHITE 0x07        //RGB{196, 196, 196}
+#define COLOR_BLACK 0x00    // RGB{0, 0, 0}
+#define COLOR_RED 0x01      // RGB{196, 0, 0}
+#define COLOR_GREEN 0x02    // RGB{0, 196, 0}
+#define COLOR_YELLOW 0x03   // RGB{196, 180, 30}
+#define COLOR_BLUE 0x04     // RGB{0, 0, 196}
+#define COLOR_MAGENTA 0x05  // RGB{196, 0, 180}
+#define COLOR_CYAN 0x06     // RGB{0, 170, 200}
+#define COLOR_WHITE 0x07    // RGB{196, 196, 196}
 
 #define COLOR_PAIR(n) ((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
 
