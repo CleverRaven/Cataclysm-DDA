@@ -229,7 +229,7 @@
             "covers" : ["TORSO"],
             "encumbrance" : 12,
             "coverage" : 10,
-            "material_thickness" : 10
+            "material_thickness" : 6
         }
     },
     {
@@ -251,7 +251,7 @@
             "covers" : ["TORSO"],
             "encumbrance" : 12,
             "coverage" : 10,
-            "material_thickness" : 10
+            "material_thickness" : 6
         }
     },
     {
