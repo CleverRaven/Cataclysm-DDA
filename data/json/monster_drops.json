@@ -293,44 +293,5 @@
             {"item": "marloss_gel"},
             {"item": "fungal_seeds"}
         ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "worker_ant_death_drops",
-        "entries":
-        [
-            {"item": "worker_ant_junk", "prob": 10 },
-            {"item": "worker_ant_food", "prob": 10 }
-        ]
-    }.
-    {
-        "type" : "item_group",
-        "id": "worker_ant_food",
-        "entries":
-        [
-            {"item": "honey_ant", "prob": 10 },
-            {"item": "meat", "prob": 100 },
-            {"item": "meat_tainted", "prob": 50 },
-            {"item": "human_flesh", "prob": 50 },
-            {"item": "bone", "prob": 80 },
-            {"item": "bone_tainted", "prob": 30 },
-            {"item": "bone_human", "prob": 30 },
-            {"item": "stomach", "prob": 25 },
-            {"item": "hstomach", "prob": 15 },
-            {"item": "fat", "prob": 25 },
-            {"item": "veggy", "prob": 70 },
-            {"item": "veggy_wild", "prob": 150 }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "worker_ant_junk",
-        "entries":
-        [
-            {"item": "veggy_wild", "prob": 150 },
-            {"item": "rock", "prob": 300 }
-        ]
     }
 ]
