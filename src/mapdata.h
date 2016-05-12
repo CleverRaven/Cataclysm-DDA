@@ -307,10 +307,6 @@ struct furn_t : map_data_common_t {
     static size_t count();
 };
 
-
-furn_id furnfind(const std::string & id); // lookup, carp and return null on error
-
-
 /*
 Map Extras are overmap specific flags that tell a submap "hey, put something extra here ontop of whats normally here".
 */
