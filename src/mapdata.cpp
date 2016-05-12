@@ -1050,17 +1050,23 @@ void furn_t::load( JsonObject &jo )
     deconstruct.load(jo, "deconstruct", true);
 }
 
+void furn_t::check() const
+{
+    check_bash_items( bash, id.str(), false );
+    check_decon_items( deconstruct, id.str(), false );
+
+    if( !open.is_valid() ) {
+        debugmsg( "invalid furniture %s for opening %s", open.c_str(), id.c_str() );
+    }
+    if( !close.is_valid() ) {
+        debugmsg( "invalid furniture %s for closing %s", close.c_str(), id.c_str() );
+    }
+}
+
 void check_furniture_and_terrain()
 {
     for( const furn_t& f : furnlist ) {
-        check_bash_items(f.bash, f.id.str(), false);
-        check_decon_items(f.deconstruct, f.id.str(), false);
-        if( !f.open.str().empty() && furnmap.count( f.open ) == 0 ) {
-            debugmsg( "invalid furniture %s for opening %s", f.open.c_str(), f.id.c_str() );
-        }
-        if( !f.close.str().empty() && furnmap.count( f.close ) == 0 ) {
-            debugmsg( "invalid furniture %s for closing %s", f.close.c_str(), f.id.c_str() );
-        }
+        f.check();
     }
     terrain_data.check();
 }
