@@ -1447,7 +1447,6 @@ classes = {
         attributes = {
             close = { type = "furn_str_id", writable = true },
             id = { type = "furn_str_id" },
-            loadid = { type = "furn_id" },
             max_volume = { type = "int", writable = true },
             movecost = { type = "int", writable = true },
             name = { type = "string", writable = true },

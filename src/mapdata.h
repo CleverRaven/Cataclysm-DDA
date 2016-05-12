@@ -287,7 +287,6 @@ void reset_furn_ter();
 
 struct furn_t : map_data_common_t {
     furn_str_id id;
-    furn_id loadid;     // This is akin to the old ter_id, however it is set at runtime.
     furn_str_id open;  // Open action: transform into terrain with matching id
     furn_str_id close; // Close action: transform into terrain with matching id
     std::string crafting_pseudo_item;
@@ -300,7 +299,6 @@ struct furn_t : map_data_common_t {
     const itype *crafting_ammo_item_type() const;
 
     furn_t() :
-        loadid( 0 ),
         open( NULL_ID ),
         close( NULL_ID ) {};
 

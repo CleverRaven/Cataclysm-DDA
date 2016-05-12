@@ -243,7 +243,6 @@ furn_t null_furniture_t() {
   new_furniture.transparent = true;
   new_furniture.set_flag("TRANSPARENT");
   new_furniture.examine = iexamine_function_from_string("none");
-  new_furniture.loadid = furn_id( 0 );
   new_furniture.max_volume = MAX_VOLUME_IN_SQUARE;
   return new_furniture;
 }

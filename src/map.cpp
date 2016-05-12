@@ -1885,7 +1885,7 @@ std::string map::features( const tripoint &p )
 
 int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const vehicle *veh, const int vpart) const
 {
-    if( terrain.movecost == 0 || ( furniture.loadid != f_null && furniture.movecost < 0 ) ) {
+    if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ) {
         return 0;
     }
 
@@ -1902,7 +1902,7 @@ int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const
         }
     }
 
-    if( furniture.loadid != f_null ) {
+    if( furniture.id ) {
         return std::max( terrain.movecost + furniture.movecost, 0 );
     }
 
@@ -2580,7 +2580,7 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
     bool furn_smash = false;
     bool ter_smash = false;
     ///\EFFECT_STR determines what furniture can be smashed
-    if( furniture.loadid != f_null && furniture.bash.str_max != -1 ) {
+    if( furniture.id && furniture.bash.str_max != -1 ) {
         furn_smash = true;
     ///\EFFECT_STR determines what terrain can be smashed
     } else if( terrain.bash.str_max != -1 && ( !terrain.bash.bash_below || allow_floor ) ) {
@@ -5988,7 +5988,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     bool draw_item_sym = false;
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
-    if( curr_furn.loadid != f_null ) {
+    if( curr_furn.id ) {
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
     } else {

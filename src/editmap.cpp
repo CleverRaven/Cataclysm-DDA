@@ -912,7 +912,7 @@ int editmap::edit_ter()
                 mvwaddch( w_pickter, 0, i, LINE_OXOX );
             }
 
-            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.loadid.to_i(),
+            mvwprintw( w_pickter, 0, 2, "< %s[%d]: %s >", pftype.id.c_str(), pftype.id.id().to_i(),
                        pftype.name.c_str() );
             mvwprintz( w_pickter, off, 2, c_white, _( "movecost %d" ), pftype.movecost );
             std::string fextras = "";
