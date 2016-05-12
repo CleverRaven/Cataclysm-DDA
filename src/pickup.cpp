@@ -7,6 +7,7 @@
 #include "messages.h"
 #include "translations.h"
 #include "input.h"
+#include "output.h"
 #include "options.h"
 #include "ui.h"
 #include "itype.h"
@@ -882,9 +883,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
             size_t help_text_x_pos = 0;
             mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
 
-            help_text = utf8_wrapper(string_format(_("[%s] Help"), ctxt.get_desc("HELP_KEYBINDINGS", 1).c_str()));
-            help_text_x_pos = center_text_pos(help_text, 0, pickupW);
-            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            center_print( w_pickup, maxitems + 1, c_ltgray,
+                          _( "[%s] Help" ), ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() );
 
             help_text = utf8_wrapper(string_format(_("[%s] Mark"), ctxt.get_desc("RIGHT", 1).c_str()));
             help_text_x_pos = pickupW - help_text.display_width();
@@ -894,9 +894,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
             help_text_x_pos = 0;
             mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
 
-            help_text = utf8_wrapper(string_format(_("[%s] All"), ctxt.get_desc("SELECT_ALL", 1).c_str()));
-            help_text_x_pos = center_text_pos(help_text, 0, pickupW);
-            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            center_print( w_pickup, maxitems + 2, c_ltgray,
+                          _( "[%s] All" ), ctxt.get_desc( "SELECT_ALL", 1 ).c_str() );
 
             help_text = utf8_wrapper(string_format(_("[%s] Next"), ctxt.get_desc("NEXT_TAB", 1).c_str()));
             help_text_x_pos = pickupW - help_text.display_width();

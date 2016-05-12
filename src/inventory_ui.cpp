@@ -21,16 +21,6 @@
 #include <sstream>
 #include <algorithm>
 
-std::string trim_to(const std::string &text, size_t length)
-{
-    const size_t width = utf8_width(text);
-    if(width <= length) {
-        return text;
-    }
-    const size_t bytes_offset = cursorx_to_position(text.c_str(), length - 1, NULL, -1);
-    return text.substr(0, bytes_offset) + "…";
-}
-
 /**
  * - it != NULL -> item entry, print the item name and allow selecting it, or
  * - it == NULL && category != NULL -> category header, print it specially,
@@ -327,8 +317,8 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             continue;
         }
         if (cur_entry.it == NULL) {
-            const std::string name = trim_to(cur_entry.category->name, w);
-            mvwprintz(w_inv, cur_line, y, c_magenta, "%s", name.c_str());
+            trim_and_print( w_inv, cur_line, y, w, c_magenta,
+                            "%s", cur_entry.category->name.c_str() );
             continue;
         }
         const item &it = *cur_entry.it;
