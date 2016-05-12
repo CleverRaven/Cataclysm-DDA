@@ -308,7 +308,6 @@ struct furn_t : map_data_common_t {
 };
 
 
-extern std::map<furn_str_id, furn_t> furnmap;
 furn_id furnfind(const std::string & id); // lookup, carp and return null on error
 
 
