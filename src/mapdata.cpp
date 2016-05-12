@@ -992,38 +992,30 @@ size_t furn_t::count()
 
 void furn_t::load( JsonObject &jo )
 {
-    name = _( jo.get_string("name").c_str() );
+    mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    mandatory( jo, was_loaded, "required_str", move_str_req );
+    optional( jo, was_loaded, "max_volume", max_volume, MAX_VOLUME_IN_SQUARE );
+    optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
 
     load_symbol( jo );
-
-    movecost = jo.get_int("move_cost_mod");
-    move_str_req = jo.get_int("required_str");
-    max_volume = jo.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
-    crafting_pseudo_item = jo.get_string("crafting_pseudo_item", "");
     transparent = false;
 
     for( auto & flag : jo.get_string_array( "flags" ) ) {
         set_flag( flag );
     }
 
-    if(jo.has_member("examine_action")) {
-        std::string function_name = jo.get_string("examine_action");
-        examine = iexamine_function_from_string(function_name);
+    if( jo.has_member( "examine_action" ) ) {
+        examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
     } else {
-        //If not specified, default to no action
-        examine = iexamine_function_from_string("none");
+        examine = iexamine_function_from_string( "none" );
     }
 
-    open = NULL_ID;
-    if( jo.has_member("open") ) {
-        open = furn_str_id( jo.get_string("open") );
-    }
-    close = NULL_ID;
-    if( jo.has_member("close") ) {
-        close = furn_str_id( jo.get_string("close") );
-    }
-    bash.load(jo, "bash", true);
-    deconstruct.load(jo, "deconstruct", true);
+    optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, NULL_ID );
+    optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, NULL_ID );
+
+    bash.load( jo, "bash", true );
+    deconstruct.load( jo, "deconstruct", true );
 }
 
 void furn_t::check() const
