@@ -1,19 +1,8 @@
 #ifndef SOFTWARE_KITTEN_H
 #define SOFTWARE_KITTEN_H
 
-#include "cursesdef.h"
 #include "color.h"
-
 #include <string>
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iosfwd>
-#include <iterator>
-#include <map>
-#include <vector>
 
 struct kobject {
     int x;
