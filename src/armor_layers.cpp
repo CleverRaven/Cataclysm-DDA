@@ -1,6 +1,5 @@
 #include "game.h"
 #include "player.h"
-#include "catacharset.h"
 #include "input.h"
 #include "output.h"
 #include "item.h"
@@ -223,8 +222,6 @@ void player::sort_armor()
     int rightListOffset = 0;
 
     std::vector<item *> tmp_worn;
-    std::string tmp_str;
-
     std::string  armor_cat[] = {_( "Torso" ), _( "Head" ), _( "Eyes" ), _( "Mouth" ), _( "L. Arm" ), _( "R. Arm" ),
                                 _( "L. Hand" ), _( "R. Hand" ), _( "L. Leg" ), _( "R. Leg" ), _( "L. Foot" ),
                                 _( "R. Foot" ), _( "All" )
@@ -287,11 +284,10 @@ void player::sort_armor()
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str() );
-        tmp_str = string_format( _( "Press %s for help. Press %s to change keybindings." ),
-                                 ctxt.get_desc( "USAGE_HELP" ).c_str(),
-                                 ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
-        mvwprintz( w_sort_cat, 0, win_w - utf8_width( tmp_str ) - 4,
-                   c_white, tmp_str.c_str() );
+        right_print( w_sort_cat, 0, win_w - 4, c_white,
+                     _( "Press %s for help. Press %s to change keybindings." ),
+                     ctxt.get_desc( "USAGE_HELP" ).c_str(),
+                     ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
 
         // Create ptr list of items to display
         tmp_worn.clear();
@@ -310,8 +306,7 @@ void player::sort_armor()
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        mvwprintz( w_sort_left, 0, left_w - utf8_width( _( "Storage" ) ), c_ltgray, _( "Storage" ) );
-
+        right_print( w_sort_left, 0, left_w, c_ltgray, _( "Storage" ) );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -331,11 +326,10 @@ void player::sort_armor()
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
         if( leftListSize > ( int )tmp_worn.size() ) {
-            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ), c_ltblue, _( "<more>" ) );
+            right_print( w_sort_left, cont_h - 1, left_w, c_ltblue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
-            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ), c_ltblue,
-                       _( "<empty>" ) );
+            right_print( w_sort_left, cont_h - 1, left_w, c_ltblue, _( "<empty>" ) );
         }
 
         // Items stats
@@ -351,8 +345,7 @@ void player::sort_armor()
 
         // Right header
         mvwprintz( w_sort_right, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        mvwprintz( w_sort_right, 0, right_w - utf8_width( _( "Encumbrance" ) ), c_ltgray,
-                   _( "Encumbrance" ) );
+        right_print( w_sort_right, 0, right_w, c_ltgray, _( "Encumbrance" ) );
 
         // Right list
         rightListSize = 0;
@@ -386,8 +379,7 @@ void player::sort_armor()
         // Right footer
         mvwprintz( w_sort_right, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
-            mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_ltblue,
-                       _( "<more>" ) );
+            right_print( w_sort_right, cont_h - 1, right_w, c_ltblue, _( "<more>" ) );
         }
         // F5
         wrefresh( w_sort_cat );
