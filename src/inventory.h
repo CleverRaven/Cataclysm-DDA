@@ -74,14 +74,7 @@ class inventory : public visitable<inventory>
         inventory  operator+  (const item &rhs);
         inventory  operator+  (const std::list<item> &rhs);
 
-        static bool has_activation(const item &it, const player &u);
-        static bool has_capacity_for_liquid(const item &it, const item &liquid);
-
-        indexed_invslice slice_filter();  // unfiltered, but useful for a consistent interface.
-        indexed_invslice slice_filter_by_activation(const player &u);
-        indexed_invslice slice_filter_by_capacity_for_liquid(const item &liquid);
-        indexed_invslice slice_filter_by_flag(const std::string flag);
-        indexed_invslice slice_filter_by_salvageability(const salvage_actor &actor);
+        indexed_invslice indexed_slice_filter_by( item_filter filter ) const;
 
         void unsort(); // flags the inventory as unsorted
         void sort();
@@ -184,20 +177,6 @@ class inventory : public visitable<inventory>
         void assign_empty_invlet(item &it, bool force = false);
 
         std::set<char> allocated_invlets() const;
-
-        template<typename T>
-        indexed_invslice slice_filter_by( T filter )
-        {
-            int i = 0;
-            indexed_invslice stacks;
-            for( auto &elem : items ) {
-                if( filter( elem.front() ) ) {
-                    stacks.push_back( std::make_pair( &elem, i ) );
-                }
-                ++i;
-            }
-            return stacks;
-        }
 
     private:
         // For each item ID, store a set of "favorite" inventory letters.

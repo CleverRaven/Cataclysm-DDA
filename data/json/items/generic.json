@@ -220,11 +220,17 @@
         "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.",
         "price": 5000,
         "material": "veggy",
-        "flags" : "WRAP",
+        "flags" : ["WRAP", "BELTED"],
         "weight": 1080,
         "volume": 10,
         "bashing": 1,
-        "to_hit": -1
+        "to_hit": -1,
+        "armor_data" : {
+            "covers" : ["TORSO"],
+            "encumbrance" : 12,
+            "coverage" : 10,
+            "material_thickness" : 6
+        }
     },
     {
         "type":"GENERIC",
@@ -236,11 +242,17 @@
         "description": "A 30-foot long nylon rope.  Useful for keeping yourself safe from falls.",
         "price": 10000,
         "material": "cotton",
-        "flags": ["NO_SALVAGE", "WRAP"],
+        "flags": ["NO_SALVAGE", "WRAP", "BELTED"],
         "weight": 1080,
         "volume": 10,
         "bashing": 1,
-        "to_hit": -1
+        "to_hit": -1,
+        "armor_data" : {
+            "covers" : ["TORSO"],
+            "encumbrance" : 12,
+            "coverage" : 10,
+            "material_thickness" : 6
+        }
     },
     {
         "type":"GENERIC",
