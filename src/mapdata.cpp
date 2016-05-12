@@ -339,53 +339,22 @@ nc_color map_data_common_t::color() const
 
 void load_furniture(JsonObject &jsobj)
 {
-  if ( furnlist.empty() ) {
-      furn_t new_null = null_furniture_t();
-      furnmap[new_null.id] = new_null;
-      furnlist.push_back(new_null);
-  }
-  furn_t new_furniture;
-  new_furniture.id = furn_str_id( jsobj.get_string("id") );
-  if ( new_furniture.id == "f_null" ) {
-      return;
-  }
-  new_furniture.name = _(jsobj.get_string("name").c_str());
-
-    new_furniture.load_symbol( jsobj );
-
-  new_furniture.movecost = jsobj.get_int("move_cost_mod");
-  new_furniture.move_str_req = jsobj.get_int("required_str");
-  new_furniture.max_volume = jsobj.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
-
-  new_furniture.crafting_pseudo_item = jsobj.get_string("crafting_pseudo_item", "");
-
-  new_furniture.transparent = false;
-    for( auto & flag : jsobj.get_string_array( "flags" ) ) {
-        new_furniture.set_flag( flag );
+    if( furnlist.empty() ) {
+        furn_t new_null = null_furniture_t();
+        furnmap[new_null.id] = new_null;
+        furnlist.push_back(new_null);
     }
 
-  if(jsobj.has_member("examine_action")) {
-    std::string function_name = jsobj.get_string("examine_action");
-    new_furniture.examine = iexamine_function_from_string(function_name);
-  } else {
-    //If not specified, default to no action
-    new_furniture.examine = iexamine_function_from_string("none");
-  }
+    furn_t new_furniture;
+    new_furniture.id = furn_str_id( jsobj.get_string("id") );
 
-  new_furniture.open = NULL_ID;
-  if ( jsobj.has_member("open") ) {
-      new_furniture.open = furn_str_id( jsobj.get_string("open") );
-  }
-  new_furniture.close = NULL_ID;
-  if ( jsobj.has_member("close") ) {
-      new_furniture.close = furn_str_id( jsobj.get_string("close") );
-  }
-  new_furniture.bash.load(jsobj, "bash", true);
-  new_furniture.deconstruct.load(jsobj, "deconstruct", true);
-
-  new_furniture.loadid = furn_id( furnlist.size() );
-  furnmap[new_furniture.id] = new_furniture;
-  furnlist.push_back(new_furniture);
+    if ( new_furniture.id == NULL_ID ) {
+        return;
+    }
+    new_furniture.load( jsobj );
+    new_furniture.loadid = furn_id( furnlist.size() );
+    furnmap[new_furniture.id] = new_furniture;
+    furnlist.push_back(new_furniture);
 }
 
 void load_terrain(JsonObject &jsobj)
@@ -1043,6 +1012,42 @@ void ter_t::check() const
 size_t furn_t::count()
 {
     return furnmap.size();
+}
+
+void furn_t::load( JsonObject &jo )
+{
+    name = _( jo.get_string("name").c_str() );
+
+    load_symbol( jo );
+
+    movecost = jo.get_int("move_cost_mod");
+    move_str_req = jo.get_int("required_str");
+    max_volume = jo.get_int("max_volume", MAX_VOLUME_IN_SQUARE);
+    crafting_pseudo_item = jo.get_string("crafting_pseudo_item", "");
+    transparent = false;
+
+    for( auto & flag : jo.get_string_array( "flags" ) ) {
+        set_flag( flag );
+    }
+
+    if(jo.has_member("examine_action")) {
+        std::string function_name = jo.get_string("examine_action");
+        examine = iexamine_function_from_string(function_name);
+    } else {
+        //If not specified, default to no action
+        examine = iexamine_function_from_string("none");
+    }
+
+    open = NULL_ID;
+    if( jo.has_member("open") ) {
+        open = furn_str_id( jo.get_string("open") );
+    }
+    close = NULL_ID;
+    if( jo.has_member("close") ) {
+        close = furn_str_id( jo.get_string("close") );
+    }
+    bash.load(jo, "bash", true);
+    deconstruct.load(jo, "deconstruct", true);
 }
 
 void check_furniture_and_terrain()
