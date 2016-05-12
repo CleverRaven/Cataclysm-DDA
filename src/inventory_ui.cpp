@@ -510,7 +510,7 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     // For invlets
     ctxt.register_action("ANY_INPUT");
 
-    add_items( u.inv.indexed_slice_filter_by( filter ), AT_BEGINNING );
+    add_items( u.inv.indexed_slice_filter_by( filter ), AT_END );
 
     if( u.is_armed() && filter( u.weapon ) ) {
         worn.push_back(itemstack_or_category(&weapon_cat));
