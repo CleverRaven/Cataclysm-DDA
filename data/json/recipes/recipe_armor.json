@@ -9026,19 +9026,22 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
-  "difficulty": 0,
+  "difficulty": 1,
   "time": 5000,
-  "reversible": false,
+   "reversible": true,
   "autolearn": true,
-  "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
   "components": [
     [
       [ "sheet", 1 ]
+    ],
+    [
+      [ "rope_6", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
     ]
-  ]
-},
+    ]
+  },
 {
   "type" : "recipe",
   "result": "mask_rioter",
