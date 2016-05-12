@@ -26,6 +26,7 @@ namespace
 {
 
 generic_factory<ter_t> terrain_data( "terrain", "id", "aliases" );
+generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
 
 }
 
@@ -76,47 +77,37 @@ bool string_id<ter_t>::is_valid() const
 template<>
 inline bool int_id<furn_t>::is_valid() const
 {
-    return static_cast<size_t>( _id ) < furnlist.size();
+    return furniture_data.is_valid( *this );
 }
 
 template<>
 const furn_t &int_id<furn_t>::obj() const
 {
-    if( !is_valid() ) {
-        debugmsg( "invalid furniture id %d", _id );
-        static const furn_t dummy{};
-        return dummy;
-    }
-    return furnlist[_id];
+    return furniture_data.obj( *this );
 }
 
 template<>
 const string_id<furn_t> &int_id<furn_t>::id() const
 {
-    return obj().id;
+    return furniture_data.convert( *this );
 }
 
 template<>
 bool string_id<furn_t>::is_valid() const
 {
-    return furnmap.count( *this ) > 0;
+    return furniture_data.is_valid( *this );
 }
 
 template<>
 const furn_t &string_id<furn_t>::obj() const
 {
-    if( !is_valid() ) {
-        debugmsg( "invalid furniture id %s", _id.c_str() );
-        static const furn_t dummy{};
-        return dummy;
-    }
-    return furnmap[*this];
+    return furniture_data.obj( *this );
 }
 
 template<>
 int_id<furn_t> string_id<furn_t>::id() const
 {
-    return obj().loadid;
+    return furniture_data.convert( *this, f_null );
 }
 
 template<>
@@ -339,22 +330,10 @@ nc_color map_data_common_t::color() const
 
 void load_furniture(JsonObject &jsobj)
 {
-    if( furnlist.empty() ) {
-        furn_t new_null = null_furniture_t();
-        furnmap[new_null.id] = new_null;
-        furnlist.push_back(new_null);
+    if( furniture_data.empty() ) {
+        furniture_data.insert( null_furniture_t() );
     }
-
-    furn_t new_furniture;
-    new_furniture.id = furn_str_id( jsobj.get_string("id") );
-
-    if ( new_furniture.id == NULL_ID ) {
-        return;
-    }
-    new_furniture.load( jsobj );
-    new_furniture.loadid = furn_id( furnlist.size() );
-    furnmap[new_furniture.id] = new_furniture;
-    furnlist.push_back(new_furniture);
+    furniture_data.load( jsobj );
 }
 
 void load_terrain(JsonObject &jsobj)
@@ -762,9 +741,7 @@ void set_ter_ids() {
 void reset_furn_ter()
 {
     terrain_data.reset();
-
-    furnmap.clear();
-    furnlist.clear();
+    furniture_data.reset();
 }
 
 furn_id f_null,
@@ -1011,7 +988,7 @@ void ter_t::check() const
 
 size_t furn_t::count()
 {
-    return furnmap.size();
+    return furniture_data.size();
 }
 
 void furn_t::load( JsonObject &jo )
@@ -1065,8 +1042,6 @@ void furn_t::check() const
 
 void check_furniture_and_terrain()
 {
-    for( const furn_t& f : furnlist ) {
-        f.check();
-    }
     terrain_data.check();
+    furniture_data.check();
 }

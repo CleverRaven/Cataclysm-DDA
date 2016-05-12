@@ -306,6 +306,8 @@ struct furn_t : map_data_common_t {
 
     static size_t count();
 
+    bool was_loaded = false;
+
     void load( JsonObject &jo );
     void check() const;
 };
