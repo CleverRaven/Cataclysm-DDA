@@ -301,8 +301,7 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
         if (begin_y + (int)next_paragraph.size() > height - ((i + 1) < (int)text.size() ? 1 : 0)) {
             // Next page
             i--;
-            const std::string cont_str = _("Press any key for more...");
-            mvwprintw(w, height - 1, center_text_pos(cont_str.c_str(), 0, width - 1), cont_str.c_str());
+            center_print( w, height - 1, c_ltgray, _( "Press any key for more..." ) );
             wrefresh(w);
             refresh();
             getch();
