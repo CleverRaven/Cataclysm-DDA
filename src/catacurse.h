@@ -17,17 +17,9 @@ typedef unsigned short attr_t;
 
 //a pair of colors[] indexes, foreground and background
 typedef struct {
-    int FG;//foreground index in colors[]
-    int BG;//foreground index in colors[]
+    int FG;
+    int BG;
 } pairs;
-
-//The curse character struct, just a char, attribute, and color pair
-//typedef struct
-//{
-// char character;//the ascii actual character
-// int attrib;//attributes, mostly for A_BLINK and A_BOLD
-// pairs color;//pair of foreground/background, indexed into colors[]
-//} cursechar;
 
 //Individual lines, so that we can track changed lines
 struct cursecell {
@@ -52,14 +44,14 @@ struct curseline {
 struct WINDOW {
     int x;//left side of window
     int y;//top side of window
-    int width;//width of the curses window
-    int height;//height of the curses window
+    int width;
+    int height;
     int FG;//current foreground color from attron
     int BG;//current background color from attron
     bool inuse;// Does this window actually exist?
     bool draw;//Tracks if the window text has been changed
-    int cursorx;//x location of the cursor
-    int cursory;//y location of the cursor
+    int cursorx;
+    int cursory;
     std::vector<curseline> line;
 };
 
@@ -77,17 +69,16 @@ struct WINDOW {
 #define A_CHARTEXT 0x000000ff /* bits for 8-bit characters          <---------not used */
 #define A_COLOR  0x03fe0000 /* Color bits */
 
-#define COLOR_BLACK 0x00        //RGB{0,0,0}
-#define COLOR_RED 0x01        //RGB{196, 0, 0}
-#define COLOR_GREEN 0x02        //RGB{0,196,0}
-#define COLOR_YELLOW 0x03    //RGB{196,180,30}
-#define COLOR_BLUE 0x04        //RGB{0, 0, 196}
-#define COLOR_MAGENTA 0x05    //RGB{196, 0, 180}
-#define COLOR_CYAN 0x06        //RGB{0, 170, 200}
-#define COLOR_WHITE 0x07        //RGB{196, 196, 196}
+#define COLOR_BLACK 0x00    // RGB{0, 0, 0}
+#define COLOR_RED 0x01      // RGB{196, 0, 0}
+#define COLOR_GREEN 0x02    // RGB{0, 196, 0}
+#define COLOR_YELLOW 0x03   // RGB{196, 180, 30}
+#define COLOR_BLUE 0x04     // RGB{0, 0, 196}
+#define COLOR_MAGENTA 0x05  // RGB{196, 0, 180}
+#define COLOR_CYAN 0x06     // RGB{0, 170, 200}
+#define COLOR_WHITE 0x07    // RGB{196, 196, 196}
 
 #define COLOR_PAIR(n) ((static_cast<std::uint32_t>(n) << 17) & A_COLOR)
-//#define PAIR_NUMBER(n) ((((u_int32_t)n) & A_COLOR) >> 17)
 
 #define    KEY_MIN        0x101    /* minimum extended key value */ //<---------not used
 #define    KEY_BREAK      0x101    /* break key */                  //<---------not used
