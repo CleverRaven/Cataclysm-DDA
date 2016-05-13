@@ -241,7 +241,7 @@
         "type":"CONTAINER",
         "id" : "vgen2",
         "name" : "vortex generator",
-        "description" : "A tornado in a box, so to speak.   Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map.  An external mechanism allow it to be hooked up to a battery to store the power generated.  To activate, install it on a vehicle, insert the vortex core, and activate.  The core must be removed from the machinery before installation, due to its sensitivity.",
+        "description" : "A tornado in a box, so to speak.  Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map.  An external mechanism allow it to be hooked up to a battery to store the power generated.  To activate, install it on a vehicle, insert the vortex core, and activate.  The core must be removed from the machinery before installation, due to its sensitivity.",
         "weight" : 24066,
         "color" : "magenta",
         "symbol" : ",",
