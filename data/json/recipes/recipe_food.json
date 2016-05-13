@@ -10038,6 +10038,9 @@
     ],
     [
       [ "salt", 5 ], [ "salt_water", 1 ], [ "saline", 5 ], [ "seasoning_salt", 5 ], [ "soysauce", 1 ]
+    ],
+    [
+      [ "vinegar", 1 ]
     ]
   ]
 },{
