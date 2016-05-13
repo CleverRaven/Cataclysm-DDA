@@ -1,12 +1,9 @@
 #include <string>
-#include <iostream>
-#include <iterator>
 #include <sstream>
-#include <fstream>
-#include <map>
 #include <vector>
 #include <cstdlib>
 
+#include "cursesdef.h"
 #include "output.h"
 #include "ui.h"
 #include "rng.h"

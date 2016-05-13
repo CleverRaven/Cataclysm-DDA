@@ -1,9 +1,6 @@
 #ifndef SOFTWARE_MINESWEEPER_H
 #define SOFTWARE_MINESWEEPER_H
 
-#include "cursesdef.h"
-
-#include <string>
 #include <map>
 
 class minesweeper_game
