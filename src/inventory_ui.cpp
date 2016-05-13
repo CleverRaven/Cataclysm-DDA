@@ -783,8 +783,6 @@ int inventory_selector::execute_pick( const std::string &title, const int positi
             return get_selected_item_position();
         } else if ( action == "QUIT" ) {
             return INT_MIN;
-        } else {
-            return INT_MIN;
         }
     }
 }
