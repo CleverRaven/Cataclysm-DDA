@@ -2345,13 +2345,13 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                 }
             } else if( !points.is_valid() ) {
                 if (points.skill_points_left() < 0 ) {
-	                popup(_("You cannot save a template with negative unused points"));
+	                popup(_("You cannot save a template with negative unused points."));
                 } else if (points.trait_points_left() < 0 ) {
                         popup(_("You cannot save a template with this many trait points allocated, change some traits or lower some stats and try again."));
                 } else if (points.stat_points_left() < 0) {
                         popup(_("You cannot save a template with this many stat points allocated, lower some stats and try again."));
                 } else {
-                        popup(_("You cannot save a template with negative unused points"));
+                        popup(_("You cannot save a template with negative unused points."));
                 }
                 
             } else {
