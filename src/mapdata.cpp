@@ -30,9 +30,6 @@ generic_factory<furn_t> furniture_data( "furniture", "id", "aliases" );
 
 }
 
-std::vector<furn_t> furnlist;
-std::map<furn_str_id, furn_t> furnmap;
-
 template<>
 inline bool int_id<ter_t>::is_valid() const
 {
