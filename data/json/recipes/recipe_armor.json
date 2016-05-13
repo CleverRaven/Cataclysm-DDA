@@ -9026,19 +9026,13 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
-  "difficulty": 1,
+  "difficulty": 0,
   "time": 5000,
   "reversible": true,
   "autolearn": true,
   "components": [
     [
       [ "sheet", 1 ]
-    ],
-    [
-      [ "rope_6", 1 ]
-    ],
-    [
-      [ "string_36", 1 ]
     ]
   ]
 },
