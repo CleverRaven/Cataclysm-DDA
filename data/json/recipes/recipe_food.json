@@ -10453,7 +10453,6 @@
     [
       ["apple", 2],
       ["apricot", 2],
-      ["banana", 2],
       ["blackberries", 2],
       ["blueberries", 2],
       ["cherries", 2],
@@ -10474,7 +10473,6 @@
       ["watermelon", 1],
       ["irradiated_apple", 2],
       ["irradiated_apricot", 2],
-      ["irradiated_banana", 2],
       ["irradiated_blackberries", 2],
       ["irradiated_blueberries", 2],
       ["irradiated_cherries", 2],
