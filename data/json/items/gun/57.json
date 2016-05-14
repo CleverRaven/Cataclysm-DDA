@@ -52,7 +52,6 @@
     "magazines" : [
         [ "57", [ "fnp90mag" ] ],
         [ "22", [ "a180mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   }
 ]

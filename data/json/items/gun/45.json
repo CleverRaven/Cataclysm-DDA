@@ -25,8 +25,7 @@
     "magazines" : [
       [ "45", [ "ump45mag" ] ],
       [ "9mm", [ "mp5mag", "mp5bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "l_enforcer_45",
@@ -145,8 +144,7 @@
     "magazines" : [
       ["45", [ "mac10mag" ] ],
       [ "9mm", [ "tec9mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "surv_hand_cannon",
@@ -198,8 +196,7 @@
     "magazines" : [
       [ "45", [ "tdi_mag" ] ],
       [ "9mm", [ "uzimag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "tommygun",
@@ -228,8 +225,7 @@
     "magazines": [
       [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ],
       [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "usp_45",

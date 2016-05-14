@@ -27,7 +27,7 @@
       [ "223", [ "stanag30", "stanag10", "stanag50" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
-    "flags": ["MODE_BURST", "NEVER_JAMS"]
+    "flags": [ "NEVER_JAMS" ]
   },
   {
     "id": "arx160",

@@ -806,8 +806,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Guns
 
-- ```MODE_BURST``` Has a burst-fire mode.
-- ```BURST_ONLY``` No single-fire mode. Note that this is an additional flag to the above "MODE_BURST" flag.
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo and should not specify an ammo type

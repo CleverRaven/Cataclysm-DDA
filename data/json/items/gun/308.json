@@ -24,8 +24,7 @@
     "magazines": [
       [ "308", [ "belt308" ] ],
       [ "223", [ "belt223" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "m60",
@@ -53,8 +52,7 @@
     "magazines": [
       [ "308", [ "belt308" ] ],
       [ "223", [ "belt223" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "fn_fal",
@@ -82,8 +80,7 @@
     "magazines": [
       [ "308", [ "falmag", "falbigmag" ] ],
       [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "hk_g3",
@@ -110,8 +107,7 @@
     "magazines": [
       [ "308", [ "g3mag", "g3bigmag" ] ],
       [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "m134",
