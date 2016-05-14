@@ -297,23 +297,6 @@ mattack_actor *gun_actor::clone() const
     return new gun_actor( *this );
 }
 
-// @todo Enforce load order (add finalization?) and allow calculating this at json load
-int gun_actor::get_range() const
-{
-    if( target_range > 0 ) {
-        return target_range;
-    }
-
-    item gun( gun_type );
-    itype_id ammo = ( ammo_type != "NULL" ) ? ammo_type : gun.ammo_default();
-
-    if( ammo != "NULL" ) {
-        gun.ammo_set( ammo, max_ammo );
-    }
-
-    return gun.gun_range( true );
-}
-
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
