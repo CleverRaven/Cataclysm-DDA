@@ -284,7 +284,7 @@ void player::sort_armor()
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str() );
-        right_print( w_sort_cat, 0, win_w - 4, c_white,
+        right_print( w_sort_cat, 0, 0, c_white,
                      _( "Press %s for help. Press %s to change keybindings." ),
                      ctxt.get_desc( "USAGE_HELP" ).c_str(),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ).c_str() );
@@ -306,7 +306,7 @@ void player::sort_armor()
 
         // Left header
         mvwprintz( w_sort_left, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_left, 0, left_w, c_ltgray, _( "Storage" ) );
+        right_print( w_sort_left, 0, 0, c_ltgray, _( "Storage" ) );
         // Left list
         for( int drawindex = 0; drawindex < leftListSize; drawindex++ ) {
             int itemindex = leftListOffset + drawindex;
@@ -326,10 +326,10 @@ void player::sort_armor()
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
         if( leftListSize > ( int )tmp_worn.size() ) {
-            right_print( w_sort_left, cont_h - 1, left_w, c_ltblue, _( "<more>" ) );
+            right_print( w_sort_left, cont_h - 1, 0, c_ltblue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
-            right_print( w_sort_left, cont_h - 1, left_w, c_ltblue, _( "<empty>" ) );
+            right_print( w_sort_left, cont_h - 1, 0, c_ltblue, _( "<empty>" ) );
         }
 
         // Items stats
@@ -345,7 +345,7 @@ void player::sort_armor()
 
         // Right header
         mvwprintz( w_sort_right, 0, 0, c_ltgray, _( "(Innermost)" ) );
-        right_print( w_sort_right, 0, right_w, c_ltgray, _( "Encumbrance" ) );
+        right_print( w_sort_right, 0, 0, c_ltgray, _( "Encumbrance" ) );
 
         // Right list
         rightListSize = 0;
@@ -379,7 +379,7 @@ void player::sort_armor()
         // Right footer
         mvwprintz( w_sort_right, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
-            right_print( w_sort_right, cont_h - 1, right_w, c_ltblue, _( "<more>" ) );
+            right_print( w_sort_right, cont_h - 1, 0, c_ltblue, _( "<more>" ) );
         }
         // F5
         wrefresh( w_sort_cat );

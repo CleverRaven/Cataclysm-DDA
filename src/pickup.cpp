@@ -884,7 +884,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             center_print( w_pickup, maxitems + 1, c_ltgray, _( "[%s] Help" ),
                           ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() );
 
-            right_print( w_pickup, maxitems + 1, pickupW, c_ltgray, _( "[%s] Mark" ),
+            right_print( w_pickup, maxitems + 1, 0, c_ltgray, _( "[%s] Mark" ),
                          ctxt.get_desc( "RIGHT", 1 ).c_str() );
 
             mvwprintw( w_pickup, maxitems + 2, 0, _( "[%s] Prev" ),
@@ -893,7 +893,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
             center_print( w_pickup, maxitems + 2, c_ltgray, _( "[%s] All" ),
                           ctxt.get_desc( "SELECT_ALL", 1 ).c_str() );
 
-            right_print( w_pickup, maxitems + 2, pickupW, c_ltgray, _( "[%s] Next" ),
+            right_print( w_pickup, maxitems + 2, 0, c_ltgray, _( "[%s] Next" ),
                          ctxt.get_desc( "NEXT_TAB", 1 ).c_str() );
 
             if (update) { // Update weight & volume information

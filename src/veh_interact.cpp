@@ -1568,7 +1568,7 @@ void veh_interact::display_veh ()
         mvwputch (w_disp, hh + y, hw + x, col, special_symbol(sym));
     }
     if (!vertical_menu) {
-        right_print( w_disp, 0, disp_w, c_dkgray, _( "FWD ->" ) );
+        right_print( w_disp, 0, 0, c_dkgray, _( "FWD ->" ) );
     }
     wrefresh (w_disp);
 }
