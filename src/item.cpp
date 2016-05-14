@@ -931,17 +931,18 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   ( ( has_flag( "RELOAD_ONE" ) ) ? _( "<num> per round" ) : "" ),
                                   gun->reload_time, true, "", true, true ) );
 
-        if( mod->burst_size() == 1 ) {
-            if( skill->ident() == skill_id( "pistol" ) && has_flag( "RELOAD_ONE" ) ) {
-                info.push_back( iteminfo( "GUN", _( "Fire mode: <info>Revolver</info>." ) ) );
-            } else {
-                info.push_back( iteminfo( "GUN", _( "Fire mode: <info>Semi-automatic</info>." ) ) );
+        std::vector<std::string> fm;
+        for( const auto &e : gun_all_modes() ) {
+            if( e.second.target == this && !e.second.melee ) {
+                fm.emplace_back( string_format( "%s (%i)", e.second.mode.c_str(), e.second.qty ) );
             }
-        } else {
-            if( has_flag( "BURST_ONLY" ) ) {
-                info.push_back( iteminfo( "GUN", _( "Fire mode: <info>Fully-automatic</info> (burst only)." ) ) );
-            }
-            info.push_back( iteminfo( "GUN", _( "Burst size: " ), "", mod->burst_size() ) );
+        }
+        if( !fm.empty() ) {
+            insert_separation_line();
+            std::ostringstream tmp;
+            std::copy( fm.begin(), fm.end() - 1, std::ostream_iterator<std::string>( tmp, ", " ) );
+            tmp << fm.back();
+            info.emplace_back( "GUN", _( "<bold>Fire modes:</bold> " ), tmp.str() );
         }
 
         if( !magazine_integral() ) {

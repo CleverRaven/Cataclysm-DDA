@@ -118,8 +118,16 @@ void Item_factory::finalize() {
                                            obj.ammo->recoil / 3 );
         }
         if( obj.gun ) {
+            // @todo add explicit action field to gun definitions
+            std::string defmode = "semi-automatic";
+            if( obj.gun->clip == 1 ) {
+                defmode = "manual"; // break-type actions
+            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+                defmode = "revolver";
+            }
+
             // if the gun doesn't have a DEFAULT mode then add one now
-            obj.gun->modes.emplace( "DEFAULT", std::make_pair<std::string, int >( "", 1 ) );
+            obj.gun->modes.emplace( "DEFAULT", std::make_pair<std::string, int>( std::move( defmode ), 1 ) );
 
             if( obj.gun->burst > 1 ) {
                 // handle legacy JSON format
