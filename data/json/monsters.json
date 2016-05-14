@@ -6792,7 +6792,7 @@
     "vision_night":15,
     "death_function":"NORMAL",
     "special_attacks":[["SHRIEK_ALERT", 6], ["SHRIEK_STUN", 1]],
-    "description":"A man-sized crustacean clad in an iron-like chitin, constantly emiting the most horrible of shrieks.  Often spotted near shipwrecks or other dark damp places, which it uses as nesting grounds.",
+    "description":"A man-sized crustacean clad in an iron-like chitin, capable of emitting the most horrible of shrieks.  Often spotted near shipwrecks or other dark damp places, which it uses as nesting grounds.",
     "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "ARTHROPOD_BLOOD"],
     "anger_triggers":["PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT"],
     "fear_triggers":["FIRE"]
@@ -6817,7 +6817,7 @@
     "dodge":2,
     "armor_bash": 20,
     "armor_cut": 30,
-    "hp":80,
+    "hp":120,
     "vision_day":30,
     "vision_night":20,
     "death_function":"NORMAL",
