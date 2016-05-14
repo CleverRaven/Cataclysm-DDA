@@ -4254,17 +4254,21 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     return res;
 }
 
-item::gun_mode item::gun_current_mode()
+const item::gun_mode item::gun_has_mode( const std::string& mode ) const
 {
     if( is_gun() ) {
-        auto cur = gun_get_mode();
         for( auto e : gun_all_modes() ) {
-            if( e.first == cur ) {
+            if( e.first == mode ) {
                 return e.second;
             }
         }
     }
     return { "", nullptr, 0, false };
+}
+
+item::gun_mode item::gun_current_mode()
+{
+    return gun_has_mode( const_cast<item *>( this )->gun_get_mode() );
 }
 
 std::string item::gun_get_mode() const
