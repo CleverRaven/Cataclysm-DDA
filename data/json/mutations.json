@@ -227,7 +227,7 @@
         "id" : "STRONGSTOMACH",
         "name" : "Strong Stomach",
         "points" : 1,
-        "description" : "You are less likely to throw up from food poisoning, alcohol, etc.",
+        "description" : "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
         "starting_trait" : true,
         "changes_to" : ["NAUSEA"],
         "note" : "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",

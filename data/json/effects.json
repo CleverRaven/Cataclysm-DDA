@@ -391,7 +391,6 @@
         "desc": ["You feel nauseous.  Even a thought of food makes you feel sick."],
         "remove_message": "You no longer feel nauseous.",
         "rating": "bad",
-        "resist_traits": ["STRONGSTOMACH"],
         "int_dur_factor": 300,
         "max_intensity": 3,
         "max_duration": 900,
