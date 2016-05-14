@@ -364,6 +364,9 @@ struct islot_gun : common_firing_data {
     *Default mods, string is id of mod. These mods are removable but are default on the weapon.
     */
     std::set<itype_id> default_mods;
+
+    /** Firing modes are supported by the gun. Always contains at least DEFAULT mode */
+    std::map<std::string, std::pair<std::string, int>> modes;
 };
 
 struct islot_gunmod : common_firing_data {

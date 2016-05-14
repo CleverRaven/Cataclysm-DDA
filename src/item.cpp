@@ -3667,80 +3667,6 @@ bool item::operator<(const item& other) const
     }
 }
 
-std::string item::get_gun_mode() const
-{
-    // has_flag() calls get_gun_mode(), so this:
-    const std::string default_mode = type->item_tags.count( "BURST_ONLY" ) ? "MODE_BURST" : "NULL";
-    return get_var( GUN_MODE_VAR_NAME, default_mode );
-}
-
-void item::set_gun_mode( const std::string &mode )
-{
-    // a gun mode only makes sense on things that can fire, all other items are ignored!
-    if( !is_gun() ) {
-        return;
-    }
-    if( mode.empty() || mode == "NULL" ) {
-        erase_var( GUN_MODE_VAR_NAME );
-    } else {
-        set_var( GUN_MODE_VAR_NAME, mode );
-    }
-}
-
-void item::next_mode()
-{
-    auto mods = gunmods();
-
-    auto mode = get_gun_mode();
-    if( mode == "NULL" && has_flag("MODE_BURST") ) {
-        set_gun_mode("MODE_BURST");
-    } else if( mode == "NULL" || mode == "MODE_BURST" ) {
-        // mode is MODE_BURST, or item has no MODE_BURST flag and mode is NULL
-        // Enable the first mod with an AUX firing mode.
-        for( auto elem : mods ) {
-            if( elem->is_gun() ) {
-                set_gun_mode( "MODE_AUX" );
-                elem->set_gun_mode( "MODE_AUX" );
-                return;
-            }
-        }
-        if( has_flag( "REACH_ATTACK" ) ) {
-            set_gun_mode( "MODE_REACH" );
-        } else {
-            set_gun_mode( "NULL" );
-        }
-    } else if( get_gun_mode() == "MODE_AUX" ) {
-        auto iter = mods.begin();
-        // Advance to next aux mode, or if there isn't one, normal mode
-        for( ; iter != mods.end(); ++iter ) {
-            if( (*iter)->get_gun_mode() == "MODE_AUX" ) {
-                (*iter)->set_gun_mode( "NULL" );
-                break;
-            }
-        }
-        for( ++iter; iter != mods.end(); ++iter ) {
-            if( (*iter)->is_gun() ) {
-                (*iter)->set_gun_mode( "MODE_AUX" );
-                break;
-            }
-        }
-        if( iter == mods.end() ) {
-            if( has_flag( "REACH_ATTACK" ) ) {
-                set_gun_mode( "MODE_REACH" );
-            } else {
-                set_gun_mode( "NULL" );
-            }
-        }
-    } else if( mode == "MODE_REACH" ) {
-        set_gun_mode( "NULL" );
-    }
-    // ensure MODE_BURST for BURST_ONLY weapons
-    mode = get_gun_mode();
-    if( mode == "NULL" && has_flag( "BURST_ONLY" ) ) {
-        set_gun_mode( "MODE_BURST" );
-    }
-}
-
 skill_id item::gun_skill() const
 {
     if( !is_gun() ) {
@@ -3883,11 +3809,14 @@ int item::burst_size() const
     if( !is_gun() ) {
         return 0;
     }
-    // No burst fire for gunmods right now.
-    if( get_gun_mode() == "MODE_AUX" ) {
+
+    auto modes = gun_all_modes();
+    auto iter = modes.find( "AUTO" );
+    if( iter == modes.end() ) {
         return 1;
     }
-    int ret = type->gun->burst;
+
+    int ret = iter->second.qty;
     for( const auto mod : gunmods() ) {
         ret += mod->type->gunmod->burst;
     }
@@ -4287,38 +4216,83 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
     return false;
 }
 
-item::gun_mode item::gun_current_mode()
+std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 {
     if( !is_gun() ) {
-        return { "", nullptr, 0, false };
+        return {};
     }
 
-    auto m = get_gun_mode();
-    if( m == "MODE_REACH" ) {
-        for( auto e : gunmods() ) {
-            if( e->has_flag( "REACH_ATTACK" ) ) {
-                return { _( "Bayonet" ), e, e->has_flag( "REACH3" ) ? 3 : 2, true };
-            }
-        }
-        return { _( "Melee" ), this, 1, true };
+    std::map<std::string, const item::gun_mode> res;
+
+    auto mods = gunmods();
+
+    std::set<const item *> opts = { this };
+    std::copy_if( mods.begin(), mods.end(), std::inserter( opts, opts.end() ), []( const item *e ) {
+        return e->is_gun();
+    } );
+
+    for( auto e : opts ) {
+        for( auto m : e->type->gun->modes ) {
+            // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
+            std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
+            std::transform( prefix.begin(), prefix.end(), prefix.begin(), std::toupper );
+
+            res.emplace( prefix += m.first, item::gun_mode { m.second.first, const_cast<item *>( e ), m.second.second, false } );
+        };
     }
 
-    if( m == "MODE_AUX" ) {
-        for( auto e : gunmods() ) {
-            if( e->is_gun() && e->get_gun_mode() == "MODE_AUX" ) {
-                return { "", e, std::max( e->type->gun->burst, 1 ), false };
-            }
-        }
-        // intentional fall-through
-    }
-
-    if( m == "MODE_BURST" ) {
-        return { _( "Burst" ), this, burst_size(), false };
-    }
-
-    return { "", this, 1, false };
+    return res;
 }
 
+item::gun_mode item::gun_current_mode()
+{
+    if( is_gun() ) {
+        auto cur = gun_get_mode();
+        for( auto e : gun_all_modes() ) {
+            if( e.first == cur ) {
+                return e.second;
+            }
+        }
+    }
+    return { "", nullptr, 0, false };
+}
+
+std::string item::gun_get_mode() const
+{
+    return get_var( GUN_MODE_VAR_NAME, "DEFAULT" );
+}
+
+bool item::gun_set_mode( const std::string& mode )
+{
+    if( !gun_all_modes().count( mode ) ) {
+        return false;
+    }
+    set_var( GUN_MODE_VAR_NAME, mode );
+    return true;
+}
+
+void item::gun_cycle_mode()
+{
+    if( !is_gun() ) {
+        return;
+    }
+
+    auto cur = gun_get_mode();
+    auto modes = gun_all_modes();
+
+    for( auto iter = modes.begin(); iter != modes.end(); ++iter ) {
+        if( iter->first == cur ) {
+            if( std::next( iter ) == modes.end() ) {
+                break;
+            }
+            gun_set_mode( std::next( iter )->first );
+            return;
+        }
+    }
+    gun_set_mode( modes.begin()->first );
+
+    return;
+}
 
 const item::gun_mode item::gun_current_mode() const
 {

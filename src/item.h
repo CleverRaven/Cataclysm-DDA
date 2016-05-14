@@ -1216,9 +1216,21 @@ public:
             const item *operator->() const { return target; }
         };
 
+        /** Get all possible modes for this gun inclusive of any attached gunmods */
+        std::map<std::string, const item::gun_mode> gun_all_modes() const;
+
         /** Get the current mode for this gun (or an invalid mode if item is not a gun) */
         gun_mode gun_current_mode();
         const gun_mode gun_current_mode() const;
+
+        /** Get the gun mode a gun is currently set to, eg. DEFAULT, AUTO, BURST */
+        std::string gun_get_mode() const;
+
+        /** Try to set the mode for a gun, returning false if no such mode is possible */
+        bool gun_set_mode( const std::string& mode );
+
+        /** Switch to the next available firing mode */
+        void gun_cycle_mode();
 
         /**
          * Burst size (see ranged.cpp), includes effects from installed gunmods.
@@ -1242,19 +1254,6 @@ public:
         /** Whether this is a (nearly) silent gun (a tiny bit of sound is allowed). Non-guns are always silent. */
         bool is_silent() const;
 
-        /**
-         * Get the gun mode, e.g. BURST, or MODE_AUX, or something else.
-         */
-        std::string get_gun_mode() const;
-        /**
-         * Set the gun mode (see @ref get_gun_mode).
-         */
-        void set_gun_mode( const std::string &mode );
-        /**
-         * If this item is a gun with several firing mods (including auxiliary gunmods), switch
-         * to the next mode. Otherwise, make nothing at all.
-         */
-        void next_mode();
         /**
          * The weapons range in map squares. If the item has an active gunmod, it returns the range
          * of that gunmod, the guns range is returned only when the item has no active gunmod.

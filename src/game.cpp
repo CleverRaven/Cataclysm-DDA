@@ -11027,7 +11027,8 @@ void game::plfire( const tripoint &default_target )
 void game::cycle_item_mode( bool force_gun )
 {
     if( u.is_armed() ) {
-        u.weapon.next_mode();
+        u.weapon.gun_cycle_mode();
+
     } else if( !force_gun ) {
         int part = -1;
         vehicle *veh = m.veh_at( u.pos(), part );

@@ -10697,7 +10697,7 @@ bool player::gunmod_remove( item &gun, item& mod )
         return false;
     }
 
-    gun.set_gun_mode( "NULL" );
+    gun.gun_set_mode( "DEFAULT" );
     moves -= mod.type->gunmod->install_time / 2;
 
     i_add_or_drop( mod );

@@ -321,6 +321,35 @@
     ]
   },
   {
+    "id": "sig552",
+    "copy-from": "rifle_auto",
+    "type": "GUN",
+    "name": "SIG 552",
+    "description": "A compact selective fire automatic rifle featuring an integrated folding stock.",
+    "weight": 2670,
+    "volume": 8,
+    "price": 320000,
+    "bashing": 12,
+    "to_hit": -1,
+    "material": ["steel", "plastic"],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": "223",
+    "sight_dispersion": 60,
+    "recoil": 75,
+    "durability": 9,
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [
+        [ "BURST", "3 rd.", 3 ],
+        [ "AUTO", "auto", 8 ]
+    ],
+    "magazines" : [
+      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
+    ]
+  },
+  {
     "id": "scar_l",
     "copy-from": "rifle_auto",
     "type": "GUN",
