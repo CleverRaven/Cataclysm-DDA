@@ -6804,7 +6804,7 @@
     "default_faction":"razorclaw",
     "symbol":"Y",
     "color":"red",
-    "size":"MEDIUM",
+    "size":"LARGE",
     "material":"flesh",
     "diff": 50,
     "aggression": 15,
