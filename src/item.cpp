@@ -813,13 +813,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
     } else {
-        auto mod = gunmod_current();
-        if( mod == nullptr ) {
+        auto mod = &*gun_current_mode();
+        if( !mod->is_gun() ) {
             mod = this;
-        } else {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      string_format( _( "Stats of the active <info>gunmod (%s)</info> are shown." ),
-                                              mod->tname().c_str() ) ) );
+        }
+        if( mod != this ) {
+            info.emplace_back( "DESCRIPTION", string_format( _( "Stats of the active <info>gunmod (%s)</info> are shown." ),
+                                                             mod->tname().c_str() ) );
         }
         islot_gun *gun = mod->type->gun.get();
         const auto curammo = mod->ammo_data();
@@ -3667,23 +3667,6 @@ bool item::operator<(const item& other) const
     }
 }
 
-item* item::gunmod_current()
-{
-    return const_cast<item*>( const_cast<const item*>( this )->gunmod_current() );
-}
-
-item const* item::gunmod_current() const
-{
-    if( get_gun_mode() == "MODE_AUX" ) {
-        const auto mods = gunmods();
-        auto it = std::find_if( mods.begin(), mods.end(), []( const item *e ) {
-            return e->get_gun_mode() == "MODE_AUX";
-        } );
-        return it != mods.end() ? *it : nullptr;
-    }
-    return nullptr;
-}
-
 std::string item::get_gun_mode() const
 {
     // has_flag() calls get_gun_mode(), so this:
@@ -4679,7 +4662,7 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     // Firstly try reloading active gunmod, then item itself, any other auxiliary gunmods and finally any currently loaded magazine
-    std::vector<item *> opts = { obj->gunmod_current(), obj };
+    std::vector<item *> opts = { &*obj->gun_current_mode(), obj };
     auto mods = obj->gunmods();
     std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
         return e->is_gun();

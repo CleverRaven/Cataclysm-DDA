@@ -1194,14 +1194,6 @@ public:
         item * gunmod_find( const itype_id& mod );
         const item * gunmod_find( const itype_id& mod ) const;
 
-        /**
-         * Returns currently active gunmod item.
-         * May return null if there is no such gun mod or if the gun is not in the
-         * auxiliary mode (@ref is_in_auxiliary_mode).
-         */
-        item * gunmod_current();
-        item const * gunmod_current() const;
-
         /*
          * Checks if mod can be applied to this item considering any current state (jammed, loaded etc.)
          * @param alert whether to display message describing reason for any incompatibility
