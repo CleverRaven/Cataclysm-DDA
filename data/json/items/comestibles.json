@@ -7579,7 +7579,7 @@
         "symbol" : "o",
         "quench" : 10,
         "nutrition" : 40,
-        "description" : "A clump of razorclaw eggs. Quite palatable, even when the consistency is hard to get used to.",
+        "description" : "A clump of razorclaw eggs.  Quite palatable, even when the consistency is hard to get used to.",
         "price" : 3000,
         "material" : "flesh",
         "volume" : 1,

@@ -6822,7 +6822,7 @@
     "vision_night":20,
     "death_function":"NORMAL",
     "special_attacks":[["SHRIEK_ALERT", 6], ["SHRIEK_STUN", 1]],
-    "description":"A blood red, gigantic razorclaw. Its sword like pincers serve as the keepers of the nest.",
+    "description":"A blood red, gigantic razorclaw.  Its sword like pincers serve as the keepers of the nest.",
     "flags":["SMELLS", "HEARS", "SEES", "CHITIN", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["FIRE"]
