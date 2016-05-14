@@ -1572,8 +1572,8 @@ void npc::decide_needs()
             needrank[ need_food ] += nutrition_for( i->front().type ) / 4;
             needrank[ need_drink ] += i->front().type->comestible->quench / 4;
         } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents[0].type ) / 4;
-            needrank[ need_drink ] += i->front().contents[0].type->comestible->quench / 4;
+            needrank[ need_food ] += nutrition_for( i->front().contents.front().type ) / 4;
+            needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
         }
     }
     needs.clear();

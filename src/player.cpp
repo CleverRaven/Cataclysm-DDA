@@ -2144,8 +2144,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         memorial_file << indent << next_item.invlet << " - " << next_item.tname(1, false);
         if( next_item.charges > 0 ) {
             memorial_file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents[0].charges > 0 ) {
-            memorial_file << " (" << next_item.contents[0].charges << ")";
+        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
+            memorial_file << " (" << next_item.contents.front().charges << ")";
         }
         memorial_file << "\n";
     }
@@ -2165,8 +2165,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         }
         if( next_item.charges > 0 ) {
             memorial_file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents[0].charges > 0 ) {
-            memorial_file << " (" << next_item.contents[0].charges << ")";
+        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
+            memorial_file << " (" << next_item.contents.front().charges << ")";
         }
         memorial_file << "\n";
     }
@@ -9244,7 +9244,7 @@ bool player::consume_item( item &target )
     }
     item *to_eat = nullptr;
     if( target.is_food_container( this ) ) {
-        to_eat = &target.contents[0];
+        to_eat = &target.contents.front();
     } else if( target.is_food( this ) ) {
         to_eat = &target;
     } else {
@@ -9341,7 +9341,7 @@ bool player::consume(int target_position)
     const bool was_in_container = target.is_food_container( this );
     if( consume_item( target ) ) {
         if( was_in_container ) {
-            i_rem( &target.contents[0] );
+            i_rem( &target.contents.front() );
         } else {
             i_rem( &target );
         }
@@ -12612,7 +12612,7 @@ std::string player::weapname() const
         return str.str();
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents[0].charges );
+        return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
 
     } else if( weapon.is_null() ) {
         return _( "fists" );
@@ -12643,7 +12643,8 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
         return false;
     }
 
-    if( !can_wield( container->contents[pos] ) ) {
+    auto target = std::next( container->contents.begin(), pos );
+    if( !can_wield( *target ) ) {
         return false;
     }
 
@@ -12656,10 +12657,11 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
         inv.unsort();
     }
 
-    weapon = container->contents[pos];
+    weapon = std::move( *target );
+    container->contents.erase( target );
+
     inv.assign_empty_invlet( weapon, true );
     last_item = itype_id( weapon.type->id );
-    container->contents.erase( container->contents.begin() + pos );
 
     ///\EFFECT_PISTOL decreases time taken to draw pistols from holsters
     ///\EFFECT_SMG decreases time taken to draw smgs from holsters
@@ -13416,7 +13418,7 @@ int player::add_ammo_to_worn_quiver( item &ammo )
         int stored = quiver->quiver_store_arrow( ammo);
         if( stored > 0) {
             add_msg_if_player( ngettext( "You store %1$d %2$s in your %3$s.", "You store %1$d %2$s in your %3$s.", stored),
-                               stored, quiver->contents[0].type_name(stored).c_str(), quiver->type_name().c_str());
+                               stored, quiver->contents.front().type_name(stored).c_str(), quiver->type_name().c_str());
         }
         moves -= std::min( 100, stored * move_cost_per_arrow);
         quivered_sum += stored;

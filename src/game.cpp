@@ -10890,12 +10890,12 @@ void game::plfire( bool burst, const tripoint &default_target )
 
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
-                !w.contents.empty() && w.contents[0].is_gun() ) {
+                !w.contents.empty() && w.contents.front().is_gun() ) {
                 // draw (first) gun contained in holster
                 options.push_back( string_format( _("%s from %s (%d)" ),
-                                                  w.contents[0].tname().c_str(),
+                                                  w.contents.front().tname().c_str(),
                                                   w.type_name().c_str(),
-                                                  w.contents[0].ammo_remaining() ) );
+                                                  w.contents.front().ammo_remaining() ) );
 
                 actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
 
@@ -11409,7 +11409,7 @@ void game::reload( int pos, bool prompt )
 
     // for holsters and ammo pouches try to reload any contained item
     if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
-        it = &it->contents[ 0 ];
+        it = &it->contents.front();
     }
 
     switch( u.rate_action_reload( *it ) ) {

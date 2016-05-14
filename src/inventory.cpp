@@ -752,7 +752,7 @@ item &inventory::item_or_container(itype_id type)
             if( elem_stack_iter.type->id == type ) {
                 return elem_stack_iter;
             } else if( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() ) {
-                if( elem_stack_iter.contents[0].type->id == type ) {
+                if( elem_stack_iter.contents.front().typeId() == type ) {
                     return elem_stack_iter;
                 }
             }
@@ -972,7 +972,7 @@ std::vector<item *> inventory::active_items()
             if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
                 elem_stack_iter.active ||
                 ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
-                  elem_stack_iter.contents[0].active ) ) {
+                  elem_stack_iter.contents.front().active ) ) {
                 ret.push_back( &elem_stack_iter );
             }
         }

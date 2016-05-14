@@ -780,7 +780,7 @@ public:
 
  itype_id typeId() const;
  const itype* type;
- std::vector<item> contents;
+ std::list<item> contents;
 
         /**
          * Unloads the item's contents.

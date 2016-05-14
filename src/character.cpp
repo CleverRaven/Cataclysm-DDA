@@ -715,8 +715,8 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
                 // some liquids are ammo but we can't reload with them unless within a container
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo_container() && !node->contents[0].made_of( SOLID ) ) {
-                if( node->contents[0].ammo_type() == ammo ) {
+            if( node->is_ammo_container() && !node->contents.front().made_of( SOLID ) ) {
+                if( node->contents.front().ammo_type() == ammo ) {
                     out = item_location( src, node );
                 }
                 return VisitResponse::SKIP;

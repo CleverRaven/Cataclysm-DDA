@@ -2524,7 +2524,7 @@ bool npc::consume_food()
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         float cur_weight = it.is_food_container() ?
-            rate_food( it.contents[0], want_hunger, want_quench ) :
+            rate_food( it.contents.front(), want_hunger, want_quench ) :
             rate_food( it, want_hunger, want_quench );
         if( cur_weight > best_weight ) {
             best_weight = cur_weight;
