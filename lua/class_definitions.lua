@@ -903,7 +903,6 @@ classes = {
             { name = "brewing_time", rval = "int", args = { } },
             { name = "burn", rval = "bool", args = { "int" } },
             { name = "burn", rval = "bool", args = { } },
-            { name = "burst_size", rval = "int", args = { } },
             { name = "calc_rot", rval = nil, args = { "tripoint" } },
             { name = "can_holster", rval = "bool", args = { "item" } },
             { name = "can_holster", rval = "bool", args = { "item", "bool" } },

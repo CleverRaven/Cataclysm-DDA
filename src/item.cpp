@@ -3805,25 +3805,6 @@ int item::gun_pierce( bool with_ammo ) const
     return ret;
 }
 
-int item::burst_size() const
-{
-    if( !is_gun() ) {
-        return 0;
-    }
-
-    auto modes = gun_all_modes();
-    auto iter = modes.find( "AUTO" );
-    if( iter == modes.end() ) {
-        return 1;
-    }
-
-    int ret = iter->second.qty;
-    for( const auto mod : gunmods() ) {
-        ret += mod->type->gunmod->burst;
-    }
-    return std::max( 1, ret );
-}
-
 int item::gun_recoil( bool with_ammo ) const
 {
     if( !is_gun() ) {

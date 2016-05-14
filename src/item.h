@@ -1235,10 +1235,6 @@ public:
         /** Switch to the next available firing mode */
         void gun_cycle_mode();
 
-        /**
-         * Burst size (see ranged.cpp), includes effects from installed gunmods.
-         */
-        int burst_size() const;
         /** Aim speed. See ranged.cpp */
         int aim_speed( int aim_threshold ) const;
         /** We use the current aim level to decide which sight to use. */
