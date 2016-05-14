@@ -309,9 +309,11 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &location, item &corpse );
+
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
-        void plfire( bool burst, const tripoint &default_target = tripoint_min );
+        void plfire( const tripoint &default_target = tripoint_min );
+
         /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
         void cycle_item_mode( bool force_gun );
         /** Target is an interactive function which allows the player to choose a nearby

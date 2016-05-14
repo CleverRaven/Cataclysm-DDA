@@ -2827,11 +2827,12 @@ bool game::handle_action()
 
         case ACTION_FIRE:
             // Shell-users may fire a *single-handed* weapon out a port, if need be.
-            plfire( false, mouse_target );
+            plfire( mouse_target );
             break;
 
         case ACTION_FIRE_BURST:
-            plfire( true, mouse_target );
+            // @todo temporarily switch to burst mode
+            plfire( mouse_target );
             break;
 
         case ACTION_SELECT_FIRE_MODE:
@@ -9591,7 +9592,7 @@ void game::list_items_monsters()
         add_msg(m_info, _("You don't see any items or monsters around you!"));
     } else if (iRetMonsters == 2) {
         refresh_all();
-        plfire(false);
+        plfire();
     }
     refresh_all();
     reenter_fullscreen();
@@ -10859,7 +10860,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
     return trajectory;
 }
 
-void game::plfire( bool burst, const tripoint &default_target )
+void game::plfire( const tripoint &default_target )
 {
     if( u.has_effect( effect_relax_gas) ) {
         if( one_in(5) ) {
@@ -10916,51 +10917,38 @@ void game::plfire( bool burst, const tripoint &default_target )
         return;
     }
 
-    item& gun = u.weapon.gunmod_current() ? *u.weapon.gunmod_current() : u.weapon;
+    auto gun = u.weapon.gun_current_mode();
 
-    if( !gun.is_gun() && !gun.has_flag( "REACH_ATTACK" ) ) {
-        return;
+    if( !( gun && u.can_use( *gun ) ) ) {
+        return; // check a valid mode was returned and we are able to use it
     }
-    if( !u.can_use( gun ) ) {
-        return;
-    }
-
-    // Execute reach attack (instead of shooting) if our weapon can reach and
-    // either we're not using a gun or using a gun set to use a non-gun gunmod
-    bool reach_attack = gun.has_flag( "REACH_ATTACK" ) && ( !gun.is_gun() || gun.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos());
-    if( veh != nullptr && veh->player_in_control( u ) && gun.is_two_handed( u ) ) {
+    if( veh != nullptr && veh->player_in_control( u ) && gun->is_two_handed( u ) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
 
     int reload_time = 0;
-    if( !reach_attack ) {
-        //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
-        //should be fine to place this here, plfire(true,*) only once in code
-        if( burst && !gun.has_flag( "MODE_BURST" ) ) {
+    if( !gun.melee ) {
+        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+            add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
             return;
         }
 
-        if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
-            add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
-            return;
-        }
-
-        if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
-            item::reload_option opt = gun.pick_reload_ammo( u );
+        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
+            item::reload_option opt = gun->pick_reload_ammo( u );
             if( !opt ) {
                 return; // menu cancelled
             }
 
             reload_time += opt.moves();
-            if( !gun.reload( u, std::move( opt.ammo ), 1 ) ) {
+            if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 return; // unable to reload
             }
 
             // Burn 2x the strength required to fire in stamina.
-            u.mod_stat( "stamina", gun.type->min_str * -2 );
+            u.mod_stat( "stamina", gun->type->min_str * -2 );
 
             // At low stamina levels, firing starts getting slow.
             int sta_percent = (100 * u.stamina) / u.get_stamina_max();
@@ -10969,17 +10957,17 @@ void game::plfire( bool burst, const tripoint &default_target )
             refresh_all();
         }
 
-        if( gun.ammo_remaining() < gun.ammo_required() && !gun.has_flag("RELOAD_AND_SHOOT") ) {
-            if( gun.ammo_remaining() == 0 ) {
+        if( gun->ammo_remaining() < gun->ammo_required() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
+            if( !gun->ammo_remaining() ) {
                 add_msg(m_info, _("You need to reload!"));
             } else {
-                add_msg(m_info, _("Your %s needs %i charges to fire!"), gun.tname().c_str(), gun.ammo_required() );
+                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
             }
             return;
         }
 
-        if( gun.get_gun_ups_drain() > 0 ) {
-            const int ups_drain       = gun.get_gun_ups_drain();
+        if( gun->get_gun_ups_drain() > 0 ) {
+            const int ups_drain       = gun->get_gun_ups_drain();
             const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
             const int bio_power_drain = std::max( 1, ups_drain / 5 );
 
@@ -10993,7 +10981,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
         }
 
-        if( gun.has_flag( "MOUNTED_GUN" ) ) {
+        if( gun->has_flag( "MOUNTED_GUN" ) ) {
             int vpart = -1;
             vehicle *veh = m.veh_at( u.pos(), vpart );
             if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() ) &&
@@ -11005,24 +10993,19 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
     }
 
-    int range;
-    if( reach_attack ) {
-        range = gun.reach_range();
-    } else {
-        range = gun.gun_range( &u );
-    }
+    int range = gun.melee ? gun.qty : gun->gun_range( &u );
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
     tripoint p = u.pos();
 
-    target_mode tmode = reach_attack ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &gun, tmode, default_target );
+    target_mode tmode = gun.melee ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &*gun, tmode, default_target );
 
     if (trajectory.empty()) {
-        if( gun.has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
-            unload( gun );
+        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
+            unload( *gun );
             u.moves -= reload_time / 2; // allow for unloading time
         }
         reenter_fullscreen();
@@ -11030,15 +11013,12 @@ void game::plfire( bool burst, const tripoint &default_target )
     }
     draw_ter(); // Recenter our view
 
-    if( gun.get_gun_mode() == "MODE_BURST" || ( u.has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) && gun.burst_size() >= 2 ) ) {
-        burst = true;
-    }
-
-    if( reach_attack ) {
+    if( gun.melee ) {
         u.reach_attack( p );
     } else {
         u.moves -= reload_time;
-        u.fire_gun( p, burst ? gun.burst_size() : 1, gun );
+        // @todo add check for TRIGGERHAPPY
+        u.fire_gun( p, gun.qty, *gun );
     }
 
     reenter_fullscreen();
