@@ -21,6 +21,7 @@ const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_nausea( "nausea" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -364,6 +365,12 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         maybe_print( m_info, _( "It's too fresh, let it age a little first." ) );
         return ROTTEN;
+    }
+
+    if( nutr > 0 && has_effect( effect_nausea ) ) {
+        if( !maybe_query( _( "You still feel nauseous and will probably puke it all up again.  Eat anyway?" ) ) ) {
+            return ALLERGY;
+        }
     }
 
     // Print at most one of those
