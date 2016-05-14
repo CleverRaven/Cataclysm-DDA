@@ -1246,7 +1246,6 @@
     "revert_to": "towel",
     "use_action": "TOWEL",
     "flags": ["WET"],
-    "warmth" : 0,
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1
@@ -1266,7 +1265,6 @@
     "revert_to": "towel",
     "use_action": "TOWEL",
     "flags": ["WET"],
-    "warmth" : 0,
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1

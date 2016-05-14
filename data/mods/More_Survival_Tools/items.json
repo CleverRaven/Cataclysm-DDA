@@ -540,8 +540,7 @@
       "covers" : ["TORSO"],
       "coverage" : 5,
       "material_thickness" : 2,
-      "encumbrance" : 5,
-      "warmth" : 0
+      "encumbrance" : 5
     },
     "watertight": true,
     "seals": true,
