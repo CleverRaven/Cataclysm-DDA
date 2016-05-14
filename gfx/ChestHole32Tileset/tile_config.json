@@ -11646,7 +11646,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_sword_crude",
+          "id": ["overlay_wielded_sword_crude"],
           "fg": 1400,
           "bg": 632,
           "rotates": false
@@ -22182,6 +22182,237 @@
           "rotates": false
         },
         {
+          "id": "vp_ram_military_horizontal",
+          "fg": 3895,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_steel",
+          "fg": 3896,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_wood",
+          "fg": 3897,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_hardsteel",
+          "fg": 3896,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_alloy",
+          "fg": 3897,
+          "rotates": true
+        },
+        {
+          "id": "vp_ram_spiked",
+          "fg": 3898,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_tank_manual",
+          "fg": 3899,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_tank_auto",
+          "fg": 3899,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_howitzer",
+          "fg": 3899,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_tank_105",
+          "fg": 3899,
+          "rotates": true
+        },
+        {
+          "id": "vp_mounted_tank_rws",
+          "fg": 3899,
+          "rotates": true
+        },
+        {
+          "id": "vp_tow_launcher",
+          "fg": 3899,
+          "rotates": true
+        },
+        {
+          "id": "vp_tow_turret",
+          "fg": 3899,
+          "rotates": true
+        },
+        {
+          "id": "vp_tread1",
+          "fg": 3900,
+          "rotates": true
+        },
+        {
+          "id": "vp_tread2",
+          "fg": 3900,
+          "rotates": true
+        },
+        {
+          "id": "vp_tread3",
+          "fg": 3900,
+          "rotates": true
+        },
+        {
+          "id": "reloaded_654",
+          "fg": 3901,
+          "rotates": false
+        },
+        {
+          "id": "wrist_dread",
+          "fg": 3902,
+          "rotates": false
+        },
+        {
+          "id": "emas",
+          "fg": 3903,
+          "rotates": false
+        },
+        {
+          "id": "ficrico",
+          "fg": 3904,
+          "rotates": false
+        },
+        {
+          "id": "m203",
+          "fg": 3905,
+          "rotates": false
+        },
+        {
+          "id": "ruger_lcr_38",
+          "fg": 3906,
+          "rotates": false
+        },
+        {
+          "id": "ruger_lcr_22",
+          "fg": 3906,
+          "rotates": false
+        },
+        {
+          "id": "gunsword",
+          "fg": 3907,
+          "rotates": false
+        },
+        {
+          "id": "gunknife",
+          "fg": 3908,
+          "rotates": false
+        },
+        {
+          "id": "hk_mp5eod",
+          "fg": 3909,
+          "rotates": false
+        },
+        {
+          "id": "inflatable_boat",
+          "fg": 3910,
+          "rotates": false
+        },
+        {
+          "id": "inflatable_section",
+          "fg": 3911,
+          "rotates": false
+        },
+        {
+          "id": "inflatable_airbag",
+          "fg": 3911,
+          "rotates": false
+        },
+        {
+          "id": "boat_board",
+          "fg": 3911,
+          "rotates": false
+        },
+        {
+          "id": "vp_inflatable_section",
+          "fg": 3912,
+          "rotates": true
+        },
+        {
+          "id": "vp_inflatable_airbag",
+          "fg": 3913,
+          "rotates": true
+        },
+        {
+          "id": "vp_hand_paddles",
+          "fg": 3914,
+          "rotates": true
+        },
+        {
+          "id": "vp_forklift_fork",
+          "fg": 3915,
+          "rotates": true
+        },
+        {
+          "id": "vp_boat_board",
+          "fg": 3916,
+          "rotates": true
+        },
+        {
+          "id": "t_leanto",
+          "fg": 3917,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "tinder",
+          "fg": 3918,
+          "rotates": false
+        },
+        {
+          "id": "hat_hooded",
+          "fg": 3920,
+          "rotates": false
+        },
+        {
+          "id": "hobo_stove",
+          "fg": 3921,
+          "rotates": false
+        },
+        {
+          "id": "flint_steel",
+          "fg": 3922,
+          "rotates": false
+        },
+        {
+          "id": "tinderbox",
+          "fg": 3923,
+          "rotates": false
+        },
+        {
+          "id": "tinderbox_on",
+          "fg": 3924,
+          "rotates": false
+        },
+        {
+          "id": "bottle_metal",
+          "fg": 3925,
+          "rotates": false
+        },
+        {
+          "id": "resin_cord",
+          "fg": 3926,
+          "rotates": false
+        },
+        {
+          "id": "throwing_stick",
+          "fg": 3927,
+          "rotates": false
+        },
+        {
+          "id": "atlatl",
+          "fg": 3929,
+          "rotates": false
+        },
+        {
           "id": "mask_bal",
           "fg": 413,
           "bg": 632,
@@ -22224,8 +22455,14 @@
           "rotates": false
         },
         {
-          "id": "mask_hsurvivor",
+          "id": "overlay_worn_mask_hsurvivor",
           "fg": 3688,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mask_hsurvivor",
+          "fg": 3683,
           "bg": 632,
           "rotates": false
         },
@@ -23504,28 +23741,43 @@
           "rotates": false
         },
         {
+          "id": "overlay_male_mutation_PROF_MA_BLACK",
+          "fg": 3597,
+          "rotates": true
+        },
+        {
+          "id": "overlay_male_mutation_PROF_SKATER",
+          "fg": 3598,
+          "rotates": true
+        },
+        {
+          "id": "overlay_male_mutation_PROF_MED",
+          "fg": 3599,
+          "rotates": true
+        },
+        {
+          "id": "overlay_male_mutation_PROF_PD_DET",
+          "fg": 3600,
+          "rotates": true
+        },
+        {
+          "id": "overlay_male_mutation_PROF_FED",
+          "fg": 3600,
+          "rotates": true
+        },
+        {
+          "id": "overlay_male_mutation_PROF_POLICE",
+          "fg": 3600,
+          "rotates": true
+        },
+        {
           "id": "overlay_mutation_PROF_CYBERCOP",
-          "fg": 440,
-          "rotates": false
-        },
-        {
-          "id": "overlay_mutation_PROF_FED",
-          "fg": 440,
-          "rotates": false
-        },
-        {
-          "id": "overlay_mutation_PROF_PD_DET",
-          "fg": 440,
-          "rotates": false
-        },
-        {
-          "id": "overlay_mutation_PROF_POLICE",
-          "fg": 440,
+          "fg": 3600,
           "rotates": false
         },
         {
           "id": "overlay_mutation_PROF_SWAT",
-          "fg": 440,
+          "fg": 3600,
           "rotates": false
         },
         {
@@ -34426,7 +34678,7 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 3334
+              "fg": 3333
             }
 	    ]
         },{
@@ -34437,7 +34689,7 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 3334
+              "fg": 3333
             }
 	    ]
         },{
@@ -34448,37 +34700,37 @@
           "additional_tiles": [
             {
               "id": "broken",
-              "fg": 3334
+              "fg": 3333
             }
 	    ]
         },
         {
           "id": "aluminum_foil",
-          "fg": 3335,
+          "fg": 3334,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "bag_bundle_10",
-          "fg": 3336,
+          "fg": 3335,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "bagpipes",
-          "fg": 3337,
+          "fg": 3336,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "banjo",
-          "fg": 3338,
+          "fg": 3337,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "battery_atomic",
-          "fg": 3339,
+          "fg": 3338,
           "bg": 632,
           "rotates": false
         },
@@ -34490,7 +34742,7 @@
         },
         {
           "id": "battery_ups",
-          "fg": 3340,
+          "fg": 3339,
           "bg": 632,
           "rotates": false
         },
@@ -46346,7 +46598,7 @@
           "rotates": false
         },
         {
-          "id": ["overlay_wielded_sword_forged", "overlay_wielded_longsword", "overlay_wielded_longsword_fake", "overlay_wielded_longsword_inferior"],
+          "id": ["overlay_wielded_sword_forged", "overlay_wielded_longsword", "overlay_wielded_longsword_fake", "overlay_wielded_longsword_inferior", "overlay_wielded_arming_sword", "overlay_wielded_arming_sword_fake", "overlay_wielded_arming_sword_inferior"],
           "fg": 1334,
           "rotates": false
         },
