@@ -4242,6 +4242,12 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
             res.emplace( "REACH", item::gun_mode { e->tname(), const_cast<item *>( e ),
                                                    e->has_flag( "REACH3" ) ? 3 : 2, true } );
         }
+        if( e->is_gunmod() ) {
+            for( auto m : e->type->gunmod->mode_modifier ) {
+                res.emplace( m.first, item::gun_mode { m.second.first, const_cast<item *>( this ),
+                                                       m.second.second, false } );
+            }
+        }
     }
 
     return res;

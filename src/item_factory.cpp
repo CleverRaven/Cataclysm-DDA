@@ -1249,6 +1249,15 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
             slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
         }
     }
+
+    if( jo.has_array( "mode_modifier" ) ) {
+        slot.mode_modifier.clear();
+        JsonArray jarr = jo.get_array( "mode_modifier" );
+        while( jarr.has_more() ) {
+            JsonArray curr = jarr.next_array();
+            slot.mode_modifier.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
+        }
+    }
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)

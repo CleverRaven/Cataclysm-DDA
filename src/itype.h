@@ -390,6 +390,9 @@ struct islot_gunmod : common_firing_data {
 
     /** If non-empty replaces the compatible magazines for the base gun */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
+
+    /** Firing modes added to or replacing those of the base gun */
+    std::map<std::string, std::pair<std::string, int>> mode_modifier;
 };
 
 struct islot_magazine {
