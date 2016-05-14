@@ -147,6 +147,7 @@ const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_nausea( "nausea" );
 
 const matype_id style_none( "style_none" );
 
@@ -7589,7 +7590,11 @@ double player::vomit_mod()
     if (has_trait("VOMITOUS")) {
         mod *= 3;
     }
-
+    // If you're already nauseous, any food in your stomach greatly
+    // increases chance of vomiting. Liquids don't provoke vomiting, though.
+    if( get_stomach_food() != 0 && has_effect( effect_nausea ) ) {
+        mod *= 5 * get_effect_int( effect_nausea );
+    }
     return mod;
 }
 
@@ -8498,6 +8503,13 @@ void player::vomit()
     } else {
         add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
     }
+
+    if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
+        const effect dummy_nausea( &effect_nausea.obj(), 0, num_bp, false, 1, 0 );
+        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * stomach_contents / 21,
+                                             dummy_nausea.get_int_dur_factor() ) );
+    }
+
     moves -= 100;
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
