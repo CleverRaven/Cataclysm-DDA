@@ -4224,21 +4224,24 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 
     std::map<std::string, const item::gun_mode> res;
 
-    auto mods = gunmods();
-
-    std::set<const item *> opts = { this };
-    std::copy_if( mods.begin(), mods.end(), std::inserter( opts, opts.end() ), []( const item *e ) {
-        return e->is_gun();
-    } );
+    auto opts = gunmods();
+    opts.push_back( this );
 
     for( auto e : opts ) {
-        for( auto m : e->type->gun->modes ) {
-            // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
-            std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
-            std::transform( prefix.begin(), prefix.end(), prefix.begin(), std::toupper );
+        if( e->is_gun() ) {
+            for( auto m : e->type->gun->modes ) {
+                // prefix attached gunmods, eg. M203_DEFAULT to avoid index key collisions
+                std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
+                std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
-            res.emplace( prefix += m.first, item::gun_mode { m.second.first, const_cast<item *>( e ), m.second.second, false } );
-        };
+                res.emplace( prefix += m.first, item::gun_mode { m.second.first, const_cast<item *>( e ),
+                                                                 m.second.second, false } );
+            };
+        }
+        if( e->has_flag( "REACH_ATTACK" ) ) {
+            res.emplace( "REACH", item::gun_mode { e->tname(), const_cast<item *>( e ),
+                                                   e->has_flag( "REACH3" ) ? 3 : 2, true } );
+        }
     }
 
     return res;
