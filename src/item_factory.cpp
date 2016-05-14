@@ -19,6 +19,7 @@
 #include "artifact.h"
 #include "veh_type.h"
 #include "init.h"
+#include "generic_factory.h"
 
 #include <algorithm>
 #include <sstream>
@@ -859,16 +860,16 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo )
 
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
-    jo.assign( "ammo_type", slot.type );
-    jo.assign( "casing", slot.casing );
-    jo.assign( "damage", slot.damage );
-    jo.assign( "pierce", slot.pierce );
-    jo.assign( "range", slot.range );
-    jo.assign( "dispersion", slot.dispersion );
-    jo.assign( "recoil", slot.recoil );
-    jo.assign( "count", slot.def_charges );
-    jo.assign( "loudness", slot.loudness );
-    jo.assign( "effects", slot.ammo_effects );
+    assign( jo, "ammo_type", slot.type );
+    assign( jo, "casing", slot.casing );
+    assign( jo, "damage", slot.damage );
+    assign( jo, "pierce", slot.pierce );
+    assign( jo, "range", slot.range );
+    assign( jo, "dispersion", slot.dispersion );
+    assign( jo, "recoil", slot.recoil );
+    assign( jo, "count", slot.def_charges );
+    assign( jo, "loudness", slot.loudness );
+    assign( jo, "effects", slot.ammo_effects );
 }
 
 void Item_factory::load_ammo(JsonObject &jo)
@@ -882,8 +883,8 @@ void Item_factory::load_ammo(JsonObject &jo)
 
 void Item_factory::load( islot_engine &slot, JsonObject &jo )
 {
-    jo.assign( "displacement", slot.displacement );
-    jo.assign( "faults", slot.faults );
+    assign( jo, "displacement", slot.displacement );
+    assign( jo, "faults", slot.faults );
 }
 
 void Item_factory::load_engine( JsonObject &jo )
@@ -897,27 +898,27 @@ void Item_factory::load_engine( JsonObject &jo )
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    jo.assign( "skill", slot.skill_used );
-    jo.assign( "ammo", slot.ammo );
-    jo.assign( "range", slot.range );
-    jo.assign( "ranged_damage", slot.damage );
-    jo.assign( "pierce", slot.pierce );
-    jo.assign( "dispersion", slot.dispersion );
-    jo.assign( "sight_dispersion", slot.sight_dispersion );
-    jo.assign( "aim_speed", slot.aim_speed );
-    jo.assign( "recoil", slot.recoil );
-    jo.assign( "durability", slot.durability );
-    jo.assign( "burst", slot.burst );
-    jo.assign( "loudness", slot.loudness );
-    jo.assign( "clip_size", slot.clip );
-    jo.assign( "reload", slot.reload_time );
-    jo.assign( "reload_noise", slot.reload_noise );
-    jo.assign( "reload_noise_volume", slot.reload_noise_volume );
-    jo.assign( "barrel_length", slot.barrel_length );
-    jo.assign( "built_in_mods", slot.built_in_mods );
-    jo.assign( "default_mods", slot.default_mods );
-    jo.assign( "ups_charges", slot.ups_charges );
-    jo.assign( "ammo_effects", slot.ammo_effects );
+    assign( jo, "skill", slot.skill_used );
+    assign( jo, "ammo", slot.ammo );
+    assign( jo, "range", slot.range );
+    assign( jo, "ranged_damage", slot.damage );
+    assign( jo, "pierce", slot.pierce );
+    assign( jo, "dispersion", slot.dispersion );
+    assign( jo, "sight_dispersion", slot.sight_dispersion );
+    assign( jo, "aim_speed", slot.aim_speed );
+    assign( jo, "recoil", slot.recoil );
+    assign( jo, "durability", slot.durability );
+    assign( jo, "burst", slot.burst );
+    assign( jo, "loudness", slot.loudness );
+    assign( jo, "clip_size", slot.clip );
+    assign( jo, "reload", slot.reload_time );
+    assign( jo, "reload_noise", slot.reload_noise );
+    assign( jo, "reload_noise_volume", slot.reload_noise_volume );
+    assign( jo, "barrel_length", slot.barrel_length );
+    assign( jo, "built_in_mods", slot.built_in_mods );
+    assign( jo, "default_mods", slot.default_mods );
+    assign( jo, "ups_charges", slot.ups_charges );
+    assign( jo, "ammo_effects", slot.ammo_effects );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -981,14 +982,14 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
 
 void Item_factory::load( islot_tool &slot, JsonObject &jo )
 {
-    jo.assign( "ammo", slot.ammo_id );
-    jo.assign( "max_charges", slot.max_charges );
-    jo.assign( "initial_charges", slot.def_charges );
-    jo.assign( "charges_per_use", slot.charges_per_use );
-    jo.assign( "turns_per_charge", slot.turns_per_charge );
-    jo.assign( "revert_to", slot.revert_to );
-    jo.assign( "revert_msg", slot.revert_msg );
-    jo.assign( "sub", slot.subtype );
+    assign( jo, "ammo", slot.ammo_id );
+    assign( jo, "max_charges", slot.max_charges );
+    assign( jo, "initial_charges", slot.def_charges );
+    assign( jo, "charges_per_use", slot.charges_per_use );
+    assign( jo, "turns_per_charge", slot.turns_per_charge );
+    assign( jo, "revert_to", slot.revert_to );
+    assign( jo, "revert_msg", slot.revert_msg );
+    assign( jo, "sub", slot.subtype );
 }
 
 void Item_factory::load_tool(JsonObject &jo)
@@ -1011,13 +1012,13 @@ void Item_factory::load_tool_armor(JsonObject &jo)
 
 void Item_factory::load( islot_book &slot, JsonObject &jo )
 {
-    jo.assign( "max_level", slot.level );
-    jo.assign( "required_level", slot.req );
-    jo.assign( "fun", slot.fun );
-    jo.assign( "intelligence", slot.intel );
-    jo.assign( "time", slot.time );
-    jo.assign( "skill", slot.skill );
-    jo.assign( "chapters", slot.chapters );
+    assign( jo, "max_level", slot.level );
+    assign( jo, "required_level", slot.req );
+    assign( jo, "fun", slot.fun );
+    assign( jo, "intelligence", slot.intel );
+    assign( jo, "time", slot.time );
+    assign( jo, "skill", slot.skill );
+    assign( jo, "chapters", slot.chapters );
 
     set_use_methods_from_json( jo, "use_action", slot.use_methods );
 }
@@ -1033,14 +1034,14 @@ void Item_factory::load_book( JsonObject &jo )
 
 void Item_factory::load( islot_comestible &slot, JsonObject &jo )
 {
-    jo.assign( "comestible_type", slot.comesttype );
-    jo.assign( "tool", slot.tool );
-    jo.assign( "charges", slot.def_charges );
-    jo.assign( "quench", slot.quench );
-    jo.assign( "fun", slot.fun );
-    jo.assign( "stim", slot.stim );
-    jo.assign( "healthy", slot.healthy );
-    jo.assign( "parasites", slot.parasites );
+    assign( jo, "comestible_type", slot.comesttype );
+    assign( jo, "tool", slot.tool );
+    assign( jo, "charges", slot.def_charges );
+    assign( jo, "quench", slot.quench );
+    assign( jo, "fun", slot.fun );
+    assign( jo, "stim", slot.stim );
+    assign( jo, "healthy", slot.healthy );
+    assign( jo, "parasites", slot.parasites );
 
     if( jo.read( "spoils_in", slot.spoils ) ) {
         slot.spoils *= 600; // JSON specifies hours so convert to turns
@@ -1184,12 +1185,12 @@ void Item_factory::load_gunmod(JsonObject &jo)
 
 void Item_factory::load( islot_magazine &slot, JsonObject &jo )
 {
-    jo.assign( "ammo_type", slot.type );
-    jo.assign( "capacity", slot.capacity );
-    jo.assign( "count", slot.count );
-    jo.assign( "reliability", slot.reliability );
-    jo.assign( "reload_time", slot.reload_time );
-    jo.assign( "linkage", slot.linkage );
+    assign( jo, "ammo_type", slot.type );
+    assign( jo, "capacity", slot.capacity );
+    assign( jo, "count", slot.count );
+    assign( jo, "reliability", slot.reliability );
+    assign( jo, "reload_time", slot.reload_time );
+    assign( jo, "linkage", slot.linkage );
 }
 
 void Item_factory::load_magazine(JsonObject &jo)
@@ -1304,24 +1305,24 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
-    jo.assign( "weight", new_item_template->weight );
-    jo.assign( "volume", new_item_template->volume );
-    jo.assign( "price", new_item_template->price );
-    jo.assign( "price_postapoc", new_item_template->price_post );
-    jo.assign( "stack_size", new_item_template->stack_size );
-    jo.assign( "integral_volume", new_item_template->integral_volume );
-    jo.assign( "color", new_item_template->color );
-    jo.assign( "bashing", new_item_template->melee_dam );
-    jo.assign( "cutting", new_item_template->melee_cut );
-    jo.assign( "to_hit", new_item_template->m_to_hit );
-    jo.assign( "container", new_item_template->default_container );
-    jo.assign( "rigid", new_item_template->rigid );
-    jo.assign( "min_strength", new_item_template->min_str );
-    jo.assign( "min_dexterity", new_item_template->min_dex );
-    jo.assign( "min_intelligence", new_item_template->min_int );
-    jo.assign( "min_perception", new_item_template->min_per );
-    jo.assign( "magazine_well", new_item_template->magazine_well );
-    jo.assign( "explode_in_fire", new_item_template->explode_in_fire );
+    assign( jo, "weight", new_item_template->weight );
+    assign( jo, "volume", new_item_template->volume );
+    assign( jo, "price", new_item_template->price );
+    assign( jo, "price_postapoc", new_item_template->price_post );
+    assign( jo, "stack_size", new_item_template->stack_size );
+    assign( jo, "integral_volume", new_item_template->integral_volume );
+    assign( jo, "color", new_item_template->color );
+    assign( jo, "bashing", new_item_template->melee_dam );
+    assign( jo, "cutting", new_item_template->melee_cut );
+    assign( jo, "to_hit", new_item_template->m_to_hit );
+    assign( jo, "container", new_item_template->default_container );
+    assign( jo, "rigid", new_item_template->rigid );
+    assign( jo, "min_strength", new_item_template->min_str );
+    assign( jo, "min_dexterity", new_item_template->min_dex );
+    assign( jo, "min_intelligence", new_item_template->min_int );
+    assign( jo, "min_perception", new_item_template->min_per );
+    assign( jo, "magazine_well", new_item_template->magazine_well );
+    assign( jo, "explode_in_fire", new_item_template->explode_in_fire );
 
     new_item_template->name = jo.get_string( "name" );
     if( jo.has_member( "name_plural" ) ) {
@@ -1389,7 +1390,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->snippet_category = jo.get_string( "snippet_category", "" );
     }
 
-    jo.assign( "flags", new_item_template->item_tags );
+    assign( jo, "flags", new_item_template->item_tags );
 
     if (jo.has_member("qualities")) {
         set_qualities_from_json(jo, "qualities", new_item_template);
@@ -1653,8 +1654,8 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
         jsobj.throw_error("unknown item group type", "subtype");
     }
 
-    jsobj.assign( "ammo", ig->with_ammo );
-    jsobj.assign( "magazine", ig->with_magazine );
+    assign( jsobj, "ammo", ig->with_ammo );
+    assign( jsobj, "magazine", ig->with_magazine );
 
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");

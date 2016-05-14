@@ -9,6 +9,7 @@
 #include "itype.h"
 #include "vehicle_group.h"
 #include "init.h"
+#include "generic_factory.h"
 
 #include <unordered_map>
 #include <unordered_set>
@@ -157,22 +158,22 @@ void vpart_info::load( JsonObject &jo )
         def.id = vpart_str_id( jo.get_string( "id" ) );
     }
 
-    jo.assign( "name", def.name_ );
-    jo.assign( "item", def.item );
-    jo.assign( "location", def.location );
-    jo.assign( "color", def.color );
-    jo.assign( "broken_color", def.color_broken );
-    jo.assign( "durability", def.durability );
-    jo.assign( "damage_modifier", def.dmg_mod );
-    jo.assign( "power", def.power );
-    jo.assign( "epower", def.epower );
-    jo.assign( "fuel_type", def.fuel_type );
-    jo.assign( "folded_volume", def.folded_volume );
-    jo.assign( "range", def.range );
-    jo.assign( "size", def.size );
-    jo.assign( "difficulty", def.difficulty );
+    assign( jo, "name", def.name_ );
+    assign( jo, "item", def.item );
+    assign( jo, "location", def.location );
+    assign( jo, "color", def.color );
+    assign( jo, "broken_color", def.color_broken );
+    assign( jo, "durability", def.durability );
+    assign( jo, "damage_modifier", def.dmg_mod );
+    assign( jo, "power", def.power );
+    assign( jo, "epower", def.epower );
+    assign( jo, "fuel_type", def.fuel_type );
+    assign( jo, "folded_volume", def.folded_volume );
+    assign( jo, "range", def.range );
+    assign( jo, "size", def.size );
+    assign( jo, "difficulty", def.difficulty );
 
-    jo.assign( "flags", def.flags );
+    assign( jo, "flags", def.flags );
 
     if( jo.has_member( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" )[ 0 ];
