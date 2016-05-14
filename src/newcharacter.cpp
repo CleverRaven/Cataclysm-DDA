@@ -142,12 +142,14 @@ struct points_left {
 
     std::string to_string()
     {
-        if( limit == MULTI_POOL ) {
-            return string_format( _("Points left: %d%c%d%c%d=%d"),
-                stat_points, trait_points >= 0 ? '+' : '-',
-                abs(trait_points), skill_points >= 0 ? '+' : '-',
-                abs(skill_points),
-                stat_points + trait_points + skill_points );
+        if( limit == MULTI_POOL ) {	
+            return string_format( _("Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>"),
+				stat_points_left() >= 0 ? "ltgray" : "red",	stat_points, 
+                trait_points >= 0 ? '+' : '-',
+                trait_points_left() >= 0 ? "ltgray" : "red", abs(trait_points), 
+                skill_points >= 0 ? '+' : '-',
+                skill_points_left() >= 0 ? "ltgray" : "red", abs(skill_points),
+                is_valid() ? "ltgray" : "red", stat_points + trait_points + skill_points );
         } else if( limit == ONE_POOL ) {
             return string_format( _("Points left: %4d"), skill_points_left() );
         } else {
@@ -708,8 +710,9 @@ void draw_points( WINDOW *w, points_left &points, int netPointCost )
 {
     mvwprintz( w, 3, 2, c_black, clear_str );
     std::string points_msg = points.to_string();
-    int pMsg_length = utf8_width( points_msg );
-    mvwprintz( w, 3, 2, c_ltgray, points_msg.c_str() );
+    int pMsg_length = utf8_width( points_msg, true );
+    nc_color color;
+    print_colored_text( w, 3, 2, color, c_ltgray, points_msg );
     if( netPointCost > 0 ) {
         mvwprintz( w, 3, pMsg_length + 2, c_red, "(-%d)", std::abs( netPointCost ) );
     } else if( netPointCost < 0 ) {
