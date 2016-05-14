@@ -1103,23 +1103,13 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 }
             } else if( relevant == &u.weapon && relevant->is_gun() ) {
                 // firing a gun
-                mvwprintw(w_target, line_number, 1, _("Range: %d/%d, %s"),
-                          rl_dist(from, p), range, enemiesmsg.c_str());
-                // get the current weapon mode or mods
-                std::string mode = "";
-                if( u.weapon.get_gun_mode() == "MODE_BURST" ) {
-                    mode = _("Burst");
-                } else {
-                    item *gunmod = u.weapon.gunmod_current();
-                    if( gunmod != NULL ) {
-                        mode = gunmod->type_name();
-                    }
+                mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
+                          rl_dist( from, p ), range, enemiesmsg.c_str() );
+
+                auto m = relevant->gun_current_mode();
+                if( !m.mode.empty() ) {
+                    mvwprintw( w_target, line_number++, 1, _("Firing mode: %s"), m.mode.c_str() );
                 }
-                if( mode != "" ) {
-                    mvwprintw( w_target, line_number, 14, _("Firing mode: %s"),
-                               mode.c_str() );
-                }
-                line_number++;
             } else {
                 // throwing something or setting turret's target
                 mvwprintw( w_target, line_number++, 1, _("Range: %d/%d, %s"),

@@ -4314,23 +4314,23 @@ item::gun_mode item::gun_current_mode()
     if( m == "MODE_REACH" ) {
         for( auto e : gunmods() ) {
             if( e->has_flag( "REACH_ATTACK" ) ) {
-                return { "reach", e, e->has_flag( "REACH3" ) ? 3 : 2, true };
+                return { _( "Bayonet" ), e, e->has_flag( "REACH3" ) ? 3 : 2, true };
             }
         }
-        return { "reach", this, 1, true };
+        return { _( "Melee" ), this, 1, true };
     }
 
     if( m == "MODE_AUX" ) {
         for( auto e : gunmods() ) {
             if( e->is_gun() && e->get_gun_mode() == "MODE_AUX" ) {
-                return { "aux", e, std::max( e->type->gun->burst, 1 ), false };
+                return { "", e, std::max( e->type->gun->burst, 1 ), false };
             }
         }
         // intentional fall-through
     }
 
     if( m == "MODE_BURST" ) {
-        return { "burst", this, burst_size(), false };
+        return { _( "Burst" ), this, burst_size(), false };
     }
 
     return { "", this, 1, false };

@@ -3310,23 +3310,17 @@ void player::disp_morale()
 
 static std::string print_gun_mode( const player &p )
 {
-    // Print current weapon, or attachment if active.
-    const item *gunmod = p.weapon.gunmod_current();
-    std::stringstream attachment;
-    if( gunmod != NULL ) {
-        attachment << gunmod->type_name().c_str();
-        if( gunmod->ammo_remaining() ) {
-            attachment << " (" << gunmod->ammo_remaining() << ")";
-        }
-        return string_format( _( "%s (Mod)" ), attachment.str().c_str() );
-    } else {
-        if( p.weapon.get_gun_mode() == "MODE_BURST" ) {
-            return string_format( _( "%s (Burst)" ), p.weapname().c_str() );
-        } else if( p.weapon.get_gun_mode() == "MODE_REACH" ) {
-            return string_format( _( "%s (Bayonet)" ), p.weapname().c_str() );
+    auto m = p.weapon.gun_current_mode();
+    if( m ) {
+        if( m.melee || !m->is_gunmod() ) {
+            return string_format( m.mode.empty() ? "%s": "%s (%s)",
+                                  p.weapname().c_str(), m.mode.c_str() );
         } else {
-            return string_format( _( "%s" ), p.weapname().c_str() );
+            return string_format( "%s (%i/%i)", m->tname().c_str(),
+                                  m->ammo_remaining(), m->ammo_capacity() );
         }
+    } else {
+        return p.weapname();
     }
 }
 
