@@ -7571,6 +7571,22 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "razorclaw_roe",
+        "name" : "razorclaw roe",
+        "weight" : 220,
+        "color" : "red",
+        "comestible_type" : "FOOD",
+        "symbol" : "o",
+        "quench" : 10,
+        "nutrition" : 40,
+        "description" : "A clump of razorclaw eggs. Quite palatable, even when the consistency is hard to get used to.",
+        "material" : "flesh",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 5
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "marloss_berry",
         "name" : "marloss berry",
         "name_plural" : "marloss berries",
