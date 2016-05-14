@@ -12583,8 +12583,10 @@ std::string player::weapname() const
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
-        bool aux = std::any_of( weapon.contents.begin(), weapon.contents.end(), [&]( const item& e ) {
-            return e.is_auxiliary_gunmod() && e.ammo_capacity() > 0 && !e.has_flag( "RELOAD_AND_SHOOT" );
+
+        const auto mods = weapon.gunmods();
+        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item *e ) {
+            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
         } );
 
         if( base || aux ) {
@@ -12599,11 +12601,11 @@ std::string player::weapname() const
             }
             str << ")";
 
-            for( const auto& mod : weapon.contents ) {
-                if( mod.is_auxiliary_gunmod() && mod.ammo_capacity() > 0 && !mod.has_flag( "RELOAD_AND_SHOOT" ) ) {
-                    str << " (" << mod.ammo_remaining();
-                    if( mod.magazine_integral() ) {
-                        str << "/" << mod.ammo_capacity();
+            for( auto e : mods ) {
+                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                    str << " (" << e->ammo_remaining();
+                    if( e->magazine_integral() ) {
+                        str << "/" << e->ammo_capacity();
                     }
                     str << ")";
                 }

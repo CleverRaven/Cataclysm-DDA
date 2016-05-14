@@ -991,7 +991,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( is_gunmod() ) {
         const auto mod = type->gunmod.get();
 
-        if( is_auxiliary_gunmod() ) {
+        if( is_gun() ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "This mod <info>must be attached to a gun</info>, it can not be fired separately." ) ) );
         }
@@ -2649,25 +2649,14 @@ void item::unset_flags()
 bool item::has_flag( const std::string &f ) const
 {
     bool ret = false;
-    // TODO: this might need checking against the firing code, that code should use the
-    // auxiliary gun mod item directly (and call has_flag on it, *not* on the gun),
-    // e.g. for the NEVER_JAMS flag, that should not be inherited to the gun mod
-    if (is_gun()) {
-        if (is_in_auxiliary_mode()) {
-            item const* gunmod = gunmod_current();
-            if( gunmod != NULL )
-                ret = gunmod->has_flag(f);
-            if (ret) return ret;
-        } else {
-            for( auto &elem : contents ) {
-                // Don't report flags from active gunmods for the gun.
-                if( elem.has_flag( f ) && !( elem.is_auxiliary_gunmod() || elem.is_magazine() ) ) {
-                    ret = true;
-                    return ret;
-                }
-            }
+
+    // gunmods fired separately from the base gun do not contribute to base gun flags
+    for( const auto e : gunmods() ) {
+        if( !e->is_gun() && e->has_flag( f ) ) {
+            return true;
         }
     }
+
     // other item type flags
     ret = type->item_tags.count(f);
     if (ret) {
@@ -2792,11 +2781,6 @@ void item::calc_rot(const tripoint &location)
             active = false;
         }
     }
-}
-
-bool item::is_auxiliary_gunmod() const
-{
-    return type->gunmod && type->gun;
 }
 
 int item::get_storage() const
@@ -3732,16 +3716,18 @@ void item::set_gun_mode( const std::string &mode )
 
 void item::next_mode()
 {
+    auto mods = gunmods();
+
     auto mode = get_gun_mode();
     if( mode == "NULL" && has_flag("MODE_BURST") ) {
         set_gun_mode("MODE_BURST");
     } else if( mode == "NULL" || mode == "MODE_BURST" ) {
         // mode is MODE_BURST, or item has no MODE_BURST flag and mode is NULL
         // Enable the first mod with an AUX firing mode.
-        for( auto &elem : contents ) {
-            if( elem.is_auxiliary_gunmod() ) {
+        for( auto elem : mods ) {
+            if( elem->is_gun() ) {
                 set_auxiliary_mode();
-                elem.set_auxiliary_mode();
+                elem->set_auxiliary_mode();
                 return;
             }
         }
@@ -3751,21 +3737,21 @@ void item::next_mode()
             set_gun_mode( "NULL" );
         }
     } else if( is_in_auxiliary_mode() ) {
-        auto iter = contents.begin();
+        auto iter = mods.begin();
         // Advance to next aux mode, or if there isn't one, normal mode
-        for( ; iter != contents.end(); ++iter ) {
-            if( iter->is_gunmod() && iter->is_in_auxiliary_mode() ) {
-                iter->set_gun_mode( "NULL" );
+        for( ; iter != mods.end(); ++iter ) {
+            if( (*iter)->is_in_auxiliary_mode() ) {
+                (*iter)->set_gun_mode( "NULL" );
                 break;
             }
         }
-        for( ++iter; iter != contents.end(); ++iter ) {
-            if( iter->is_auxiliary_gunmod() ) {
-                iter->set_auxiliary_mode();
+        for( ++iter; iter != mods.end(); ++iter ) {
+            if( (*iter)->is_gun() ) {
+                (*iter)->set_auxiliary_mode();
                 break;
             }
         }
-        if( iter == contents.end() ) {
+        if( iter == mods.end() ) {
             if( has_flag( "REACH_ATTACK" ) ) {
                 set_gun_mode( "MODE_REACH" );
             } else {
@@ -4143,8 +4129,8 @@ ammotype item::ammo_type( bool conversion ) const
             return "plutonium";
         }
         for( const auto mod : gunmods() ) {
-            if( !mod->is_auxiliary_gunmod() && mod->ammo_type() != "NULL" ) {
-                return mod->ammo_type();
+            if( mod->type->gunmod->ammo_modifier != "NULL" ) {
+                return mod->type->gunmod->ammo_modifier;
             }
         }
     }
@@ -4157,8 +4143,6 @@ ammotype item::ammo_type( bool conversion ) const
         return type->magazine->type;
     } else if( is_ammo() ) {
         return type->ammo->type;
-    } else if( is_gunmod() ) {
-        return type->gunmod->ammo_modifier;
     }
     return "NULL";
 }
@@ -4670,7 +4654,7 @@ bool item::reload( player &u, item_location loc, long qty )
     std::vector<item *> opts = { obj->gunmod_current(), obj };
     auto mods = obj->gunmods();
     std::copy_if( mods.begin(), mods.end(), std::back_inserter( opts ), []( item *e ) {
-        return e->is_auxiliary_gunmod();
+        return e->is_gun();
     });
     opts.push_back( obj->magazine_current() );
 

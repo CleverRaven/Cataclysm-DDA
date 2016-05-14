@@ -996,7 +996,6 @@ classes = {
             { name = "is_ammo_container", rval = "bool", args = { } },
             { name = "is_armor", rval = "bool", args = { } },
             { name = "is_artifact", rval = "bool", args = { } },
-            { name = "is_auxiliary_gunmod", rval = "bool", args = { } },
             { name = "is_bashing_weapon", rval = "bool", args = { } },
             { name = "is_bionic", rval = "bool", args = { } },
             { name = "is_book", rval = "bool", args = { } },

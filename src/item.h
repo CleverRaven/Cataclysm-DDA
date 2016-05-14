@@ -1195,7 +1195,7 @@ public:
         const item * gunmod_find( const itype_id& mod ) const;
 
         /**
-         * Returns currently active auxiliary (@ref is_auxiliary_gunmod) gun mod item.
+         * Returns currently active gunmod item.
          * May return null if there is no such gun mod or if the gun is not in the
          * auxiliary mode (@ref is_in_auxiliary_mode).
          */
@@ -1230,11 +1230,7 @@ public:
         sound_data gun_noise( bool burst = false ) const;
         /** Whether this is a (nearly) silent gun (a tiny bit of sound is allowed). Non-guns are always silent. */
         bool is_silent() const;
-        /**
-         * Auxiliary gun mod: a gunmod that can be fired instead of the actual gun.
-         * Example: underslug shotgun.
-         */
-        bool is_auxiliary_gunmod() const;
+
         /**
          * Same as @code get_gun_mode() == "MODE_AUX" @endcode
          */
