@@ -887,7 +887,6 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
             float trailingEdge = (delta.x - 0.5f) * yhighinv;
             float leadingEdge = (delta.x + 0.5f) * ylowinv;
 
-
             if( !(currentX >= 0 && currentY >= 0 && currentX < SEEX * MAPSIZE &&
                   currentY < SEEY * MAPSIZE) || start < leadingEdge ) {
                 continue;
