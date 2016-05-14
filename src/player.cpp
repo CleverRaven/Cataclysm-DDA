@@ -10528,7 +10528,7 @@ void player::use(int inventory_position)
     } else if (used->is_gunmod()) {
 
         // first check at least the minimum requirements are met
-        if( !can_use( *used ) ) {
+        if( !( can_use( *used ) || has_trait( "DEBUG_HS" ) ) ) {
             return;
         }
 
@@ -10718,7 +10718,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !can_use( mod ) ) {
+    if( !( can_use( mod ) || has_trait( "DEBUG_HS" ) ) ) {
         return;
     }
 
@@ -10730,7 +10730,7 @@ void player::gunmod_add( item &gun, item &mod )
     int qty = 0;
 
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
-    if( mod.has_flag( "INSTALL_DIFFICULT" ) ) {
+    if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
         for( const auto &sk : mod.type->min_skills ) {
@@ -10806,8 +10806,9 @@ void player::gunmod_add( item &gun, item &mod )
         actions[ prompt.ret ]();
     }
 
-    assign_activity( ACT_GUNMOD_ADD, mod.type->gunmod->install_time, -1, get_item_position( &gun ),
-                     tool );
+    int turns = !has_trait( "DEBUG_HS" ) ? mod.type->gunmod->install_time : 0;
+
+    assign_activity( ACT_GUNMOD_ADD, turns, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
