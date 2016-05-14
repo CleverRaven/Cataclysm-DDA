@@ -1232,14 +1232,6 @@ public:
         bool is_silent() const;
 
         /**
-         * Same as @code get_gun_mode() == "MODE_AUX" @endcode
-         */
-        bool is_in_auxiliary_mode() const;
-        /**
-         * Same as @code set_gun_mode("MODE_AUX") @endcode
-         */
-        void set_auxiliary_mode();
-        /**
          * Get the gun mode, e.g. BURST, or MODE_AUX, or something else.
          */
         std::string get_gun_mode() const;

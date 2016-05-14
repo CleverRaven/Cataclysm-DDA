@@ -3674,24 +3674,14 @@ item* item::gunmod_current()
 
 item const* item::gunmod_current() const
 {
-    if( is_in_auxiliary_mode() ) {
+    if( get_gun_mode() == "MODE_AUX" ) {
         const auto mods = gunmods();
         auto it = std::find_if( mods.begin(), mods.end(), []( const item *e ) {
-            return e->is_in_auxiliary_mode();
+            return e->get_gun_mode() == "MODE_AUX";
         } );
         return it != mods.end() ? *it : nullptr;
     }
     return nullptr;
-}
-
-bool item::is_in_auxiliary_mode() const
-{
-    return get_gun_mode() == "MODE_AUX";
-}
-
-void item::set_auxiliary_mode()
-{
-    set_gun_mode( "MODE_AUX" );
 }
 
 std::string item::get_gun_mode() const
@@ -3726,8 +3716,8 @@ void item::next_mode()
         // Enable the first mod with an AUX firing mode.
         for( auto elem : mods ) {
             if( elem->is_gun() ) {
-                set_auxiliary_mode();
-                elem->set_auxiliary_mode();
+                set_gun_mode( "MODE_AUX" );
+                elem->set_gun_mode( "MODE_AUX" );
                 return;
             }
         }
@@ -3736,18 +3726,18 @@ void item::next_mode()
         } else {
             set_gun_mode( "NULL" );
         }
-    } else if( is_in_auxiliary_mode() ) {
+    } else if( get_gun_mode() == "MODE_AUX" ) {
         auto iter = mods.begin();
         // Advance to next aux mode, or if there isn't one, normal mode
         for( ; iter != mods.end(); ++iter ) {
-            if( (*iter)->is_in_auxiliary_mode() ) {
+            if( (*iter)->get_gun_mode() == "MODE_AUX" ) {
                 (*iter)->set_gun_mode( "NULL" );
                 break;
             }
         }
         for( ++iter; iter != mods.end(); ++iter ) {
             if( (*iter)->is_gun() ) {
-                (*iter)->set_auxiliary_mode();
+                (*iter)->set_gun_mode( "MODE_AUX" );
                 break;
             }
         }
@@ -3911,7 +3901,7 @@ int item::burst_size() const
         return 0;
     }
     // No burst fire for gunmods right now.
-    if( is_in_auxiliary_mode() ) {
+    if( get_gun_mode() == "MODE_AUX" ) {
         return 1;
     }
     int ret = type->gun->burst;
