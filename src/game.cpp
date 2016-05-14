@@ -2830,10 +2830,14 @@ bool game::handle_action()
             plfire( mouse_target );
             break;
 
-        case ACTION_FIRE_BURST:
-            // @todo temporarily switch to burst mode
-            plfire( mouse_target );
+        case ACTION_FIRE_BURST: {
+            auto mode = u.weapon.gun_get_mode();
+            if( u.weapon.gun_set_mode( "AUTO" ) ) {
+                plfire( mouse_target );
+                u.weapon.gun_set_mode( mode );
+            }
             break;
+        }
 
         case ACTION_SELECT_FIRE_MODE:
             cycle_item_mode( false );
