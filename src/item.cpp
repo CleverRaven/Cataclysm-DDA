@@ -1023,10 +1023,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( mod->recoil != 0 )
             info.push_back( iteminfo( "GUNMOD", _( "Recoil: " ), "", mod->recoil, true,
                                       ( ( mod->recoil > 0 ) ? "+" : "" ), true, true ) );
-        if( mod->burst != 0 )
-            info.push_back( iteminfo( "GUNMOD", _( "Burst: " ), "", mod->burst, true,
-                                      ( mod->burst > 0 ? "+" : "" ) ) );
-
         if( mod->ammo_modifier != "NULL" ) {
             info.push_back( iteminfo( "GUNMOD",
                                       string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->ammo_modifier ).c_str() ) ) );
@@ -4216,8 +4212,13 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
+                auto qty = m.second.second;
+                if( m.first == "AUTO" && e == this && has_flag( "RAPIDFIRE" ) ) {
+                    qty *= 1.5;
+                }
+
                 res.emplace( prefix += m.first, item::gun_mode { m.second.first, const_cast<item *>( e ),
-                                                                 m.second.second, false } );
+                                                                 qty, false } );
             };
         }
         if( e->has_flag( "REACH_ATTACK" ) ) {

@@ -290,10 +290,6 @@ struct common_firing_data : common_ranged_data {
      * A value of -1 in gunmods means it's ignored.
      */
     int aim_speed = 0;
-    /**
-     * Burst size.
-     */
-    int burst = 0;
 
     /** Modifies base loudness as provided by the currently loaded ammo */
     int loudness = 0;
@@ -367,6 +363,9 @@ struct islot_gun : common_firing_data {
 
     /** Firing modes are supported by the gun. Always contains at least DEFAULT mode */
     std::map<std::string, std::pair<std::string, int>> modes;
+
+    /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
+    int burst = 0;
 };
 
 struct islot_gunmod : common_firing_data {
