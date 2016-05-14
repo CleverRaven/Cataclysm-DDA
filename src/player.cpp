@@ -8501,7 +8501,7 @@ void player::vomit()
 
         add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
-        add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
+        add_msg_if_player( m_warning, _( "You retched, but your stomach is empty." ) );
     }
 
     if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
