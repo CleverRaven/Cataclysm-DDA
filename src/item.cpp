@@ -813,14 +813,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
     } else {
-        auto mod = &*gun_current_mode();
-        if( !mod->is_gun() ) {
-            mod = this;
-        }
-        if( mod != this ) {
+        const item *mod = this;
+        if( !is_gunmod() ) {
+            mod = &*gun_current_mode();
             info.emplace_back( "DESCRIPTION", string_format( _( "Stats of the active <info>gunmod (%s)</info> are shown." ),
                                                              mod->tname().c_str() ) );
         }
+
         islot_gun *gun = mod->type->gun.get();
         const auto curammo = mod->ammo_data();
 
@@ -4255,12 +4254,15 @@ item::gun_mode item::gun_current_mode()
 
 std::string item::gun_get_mode() const
 {
+    if( !is_gun() || is_gunmod() ) {
+        return "";
+    }
     return get_var( GUN_MODE_VAR_NAME, "DEFAULT" );
 }
 
 bool item::gun_set_mode( const std::string& mode )
 {
-    if( !gun_all_modes().count( mode ) ) {
+    if( !is_gun() || is_gunmod() || !gun_all_modes().count( mode ) ) {
         return false;
     }
     set_var( GUN_MODE_VAR_NAME, mode );
@@ -4269,7 +4271,7 @@ bool item::gun_set_mode( const std::string& mode )
 
 void item::gun_cycle_mode()
 {
-    if( !is_gun() ) {
+    if( !is_gun() || is_gunmod() ) {
         return;
     }
 
