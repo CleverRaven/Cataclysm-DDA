@@ -1209,6 +1209,25 @@ public:
          */
         bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
+        struct gun_mode {
+            std::string mode; /** name of this mode */
+            item *target;     /** pointer to base gun or attached gunmod */
+            int qty;          /** burst size or melee range */
+            bool melee;       /** if true perform a melee attach as opposed to shooting */
+
+            operator bool() const { return target != nullptr; }
+
+            item &operator*() { return *target; }
+            const item &operator*() const { return *target; }
+
+            item *operator->() { return target; }
+            const item *operator->() const { return target; }
+        };
+
+        /** Get the current mode for this gun (or an invalid mode if item is not a gun) */
+        gun_mode gun_current_mode();
+        const gun_mode gun_current_mode() const;
+
         /**
          * Burst size (see ranged.cpp), includes effects from installed gunmods.
          */
