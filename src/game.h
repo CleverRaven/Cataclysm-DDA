@@ -675,15 +675,12 @@ class game
         void exam_vehicle(vehicle &veh, int cx = 0, int cy = 0);
 
         // put items from the item-vector on the map/a vehicle
-        // at (dirx, diry), items are dropped into a vehicle part
+        // at dir, items are dropped into a vehicle part
         // with the cargo flag (if there is one), otherwise they are
         // dropped onto the ground.
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, tripoint dir,
-                  bool to_vehicle = true); // emulate old behaviour normally
-        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                  int freed_volume_capacity, int dirx, int diry,
-                  bool to_vehicle = true); // emulate old behaviour normally
+                  bool to_vehicle = true); // emulate old behavior normally
         bool make_drop_activity(enum activity_type act, const tripoint &target, bool to_vehicle = true);
 
         // Forcefully close a door at p.

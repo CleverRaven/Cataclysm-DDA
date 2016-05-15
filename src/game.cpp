@@ -10397,7 +10397,7 @@ void game::drop(int pos)
         } else {
             dropped.push_back(u.i_rem(pos));
         }
-        drop(dropped, dropped_worn, 0, u.posx(), u.posy());
+        drop( dropped, dropped_worn, 0, u.pos() );
     }
 }
 
@@ -10415,13 +10415,6 @@ void game::drop_in_direction()
 
     refresh_all();
     make_drop_activity( ACT_DROP, dirp );
-}
-
-void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                int freed_volume_capacity, int dirx, int diry, bool to_vehicle)
-{
-    drop(dropped, dropped_worn, freed_volume_capacity,
-            tripoint(dirx, diry, g->get_levz()), to_vehicle);
 }
 
 void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
