@@ -55,7 +55,7 @@
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
-      "components": [ [ [ "filter", 1 ], [ "filter_makeshift", 1 ] ] ]
+      "components": [ [ [ "filter_air", 1 ], [ "filter_air_makeshift", 1 ] ] ]
     }
   },
   {
@@ -67,7 +67,7 @@
     "skills": [ [ "mechanics", 1 ] ],
     "requirements": {
       "qualities": [ { "id": "SCREW", "level": 1 } ],
-      "components": [ [ [ "filter", 1 ], [ "filter_makeshift", 1 ] ] ]
+      "components": [ [ [ "filter_liquid", 1 ], [ "filter_liquid_makeshift", 1 ] ] ]
     }
   },
   {
