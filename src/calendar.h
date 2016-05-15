@@ -10,12 +10,12 @@ constexpr int MINUTES( int n )
 
 constexpr int HOURS( int n )
 {
-    return n * 600;
+    return n * MINUTES( 60 );
 }
 
 constexpr int DAYS( int n )
 {
-    return n * 14400;
+    return n * HOURS( 24 );
 }
 
 // How much light the moon provides per quater
