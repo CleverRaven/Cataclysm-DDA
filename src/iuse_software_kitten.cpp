@@ -1,23 +1,8 @@
-#include <string>
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iterator>
-#include <map>
-#include <vector>
-
 #include "output.h"
-#include "catacharset.h"
-#include "options.h"
-#include "debug.h"
-#include "posix_time.h"
 #include "iuse_software_kitten.h"
 #include "translations.h"
 
 #include <iostream>
-
 
 #define EMPTY -1
 #define ROBOT 0
