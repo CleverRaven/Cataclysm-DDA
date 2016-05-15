@@ -180,7 +180,7 @@
     "category" : "CC_NONCRAFT",
     "subcategory" : "CSC_NONCRAFT",
     "difficulty" : 0,
-    "time": 500,
+    "time" : 500,
     "reversible" : true,
     "qualities" :[ {"id":"HAMMER","level":1} ],
     "components" : [ [ [ "silver_small", 110 ] ] ]
