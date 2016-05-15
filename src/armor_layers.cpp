@@ -1,5 +1,6 @@
 #include "game.h"
 #include "player.h"
+#include "catacharset.h" // used for utf8_width()
 #include "input.h"
 #include "output.h"
 #include "item.h"
@@ -326,10 +327,13 @@ void player::sort_armor()
         // Left footer
         mvwprintz( w_sort_left, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
         if( leftListSize > ( int )tmp_worn.size() ) {
-            right_print( w_sort_left, cont_h - 1, 0, c_ltblue, _( "<more>" ) );
+            // @todo replace it by right_print()
+            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<more>" ) ), c_ltblue, _( "<more>" ) );
         }
         if( leftListSize == 0 ) {
-            right_print( w_sort_left, cont_h - 1, 0, c_ltblue, _( "<empty>" ) );
+            // @todo replace it by right_print()
+            mvwprintz( w_sort_left, cont_h - 1, left_w - utf8_width( _( "<empty>" ) ), c_ltblue,
+                       _( "<empty>" ) );
         }
 
         // Items stats
@@ -379,7 +383,9 @@ void player::sort_armor()
         // Right footer
         mvwprintz( w_sort_right, cont_h - 1, 0, c_ltgray, _( "(Outermost)" ) );
         if( rightListSize > cont_h - 2 ) {
-            right_print( w_sort_right, cont_h - 1, 0, c_ltblue, _( "<more>" ) );
+            // @todo replace it by right_print()
+            mvwprintz( w_sort_right, cont_h - 1, right_w - utf8_width( _( "<more>" ) ), c_ltblue,
+                       _( "<more>" ) );
         }
         // F5
         wrefresh( w_sort_cat );
