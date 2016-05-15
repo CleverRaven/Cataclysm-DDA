@@ -829,6 +829,11 @@ void uimenu::reset()
         wrefresh(window);
         delwin(window);
         window = NULL;
+
+        // window area is lost when owner of uimenu exits its function for SDL
+        #ifdef TILES
+        g->refresh_all();
+        #endif // TILES
     }
 
     init();

@@ -2729,7 +2729,6 @@ bool game::handle_action()
                 add_msg(m_info, _("You can't butcher while you're in your shell."));
             } else {
                 butcher();
-                refresh_all();
             }
             break;
 
