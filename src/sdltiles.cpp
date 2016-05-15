@@ -738,33 +738,24 @@ void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG)
     }
 }
 
-void invalidate_oversized_framebuffer( int x, int y, int width, int height )
+void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, int width, int height )
 {
     for( int j = 0, fby = y; j < height; j++, fby++ ) {
-        std::fill_n( oversized_framebuffer[fby].chars.begin() + x, width, cursecell( "" ) );
+        std::fill_n( framebuffer[fby].chars.begin() + x, width, cursecell( "" ) );
     }
 }
 
-void invalidate_terminal_framebuffer()
+void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 {
-    for( unsigned int i = 0; i < terminal_framebuffer.size(); i++ ) {
-        std::fill_n( terminal_framebuffer[i].chars.begin(), terminal_framebuffer[i].chars.size(),
-                     cursecell( "" ) );
-    }
-}
-
-void invalidate_oversized_framebuffer()
-{
-    for( unsigned int i = 0; i < oversized_framebuffer.size(); i++ ) {
-        std::fill_n( oversized_framebuffer[i].chars.begin(), oversized_framebuffer[i].chars.size(),
-                     cursecell( "" ) );
+    for( unsigned int i = 0; i < framebuffer.size(); i++ ) {
+        std::fill_n( framebuffer[i].chars.begin(), framebuffer[i].chars.size(), cursecell( "" ) );
     }
 }
 
 void invalidate_all_framebuffers()
 {
-    invalidate_terminal_framebuffer();
-    invalidate_oversized_framebuffer();
+    invalidate_framebuffer( terminal_framebuffer );
+    invalidate_framebuffer( oversized_framebuffer );
 }
 
 void reinitialize_framebuffer()
@@ -802,7 +793,7 @@ void curses_drawwindow(WINDOW *win)
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
 
-        invalidate_oversized_framebuffer(win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
+        invalidate_framebuffer(terminal_framebuffer, win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
 
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
@@ -885,10 +876,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
     bool oldWinCompatible = false;
 
     // use the oversize buffer when dealing with windows that can have a different font than the main text font
-    std::vector<curseline> *bufferpointer = &terminal_framebuffer;
-    if( g && ( win == g->w_terrain || win == g->w_overmap ) ) {
-        bufferpointer = &oversized_framebuffer;
-    }
+    bool use_oversized_framebuffer = g && ( win == g->w_terrain || win == g->w_overmap );
 
     /*
     Let's try to keep track of different windows.
@@ -940,7 +928,12 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             // TODO: handle caching when drawing normal windows over graphical tiles
             const int fbx = win->x + i;
             const int fby = win->y + j;
-            cursecell &oldcell = (*bufferpointer)[fby].chars[fbx];
+
+            std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
+                                             terminal_framebuffer;
+
+            cursecell &oldcell = framebuffer[fby].chars[fbx];
+
             if (oldWinCompatible && cell == oldcell && fontScale == fontScaleBuffer) {
                 continue;
             }
