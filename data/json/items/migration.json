@@ -15,6 +15,12 @@
     "replace": "adv_UPS_off"
   },
   {
+    "id": "saiga_sawn",
+    "type": "MIGRATION",
+    "replace": "saiga_12",
+    "contents": [ "barrel_small" ]
+  },
+  {
     "id": "UPS_on",
     "type": "MIGRATION",
     "replace": "UPS_off"

@@ -9417,13 +9417,6 @@
             "multitile":false
         },
         {
-            "id": "saiga_sawn",
-            "fg":-1,
-            "bg":-1,
-            "rotates":false,
-            "multitile":false
-        },
-        {
             "id": "shotgun_s",
             "fg":-1,
             "bg":-1,

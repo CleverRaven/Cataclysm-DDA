@@ -32010,14 +32010,6 @@
         },
         {
           "fg": [
-            1404
-          ],
-          "id": "saiga_sawn",
-          "multitile": false,
-          "rotates": false
-        },
-        {
-          "fg": [
             1405
           ],
           "id": "shotgun_s",
