@@ -9,6 +9,7 @@
 #include "monster.h"
 #include "debug.h"
 #include "messages.h"
+#include "translations.h"
 #include "sounds.h"
 #include "vehicle.h"
 #include "field.h"
