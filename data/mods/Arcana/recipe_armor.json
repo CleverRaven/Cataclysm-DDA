@@ -8,7 +8,6 @@
   "skills_required": [ "tailor", 3 ],
   "difficulty": 5,
   "time": 30000,
-  "autolearn": false,
   "book_learn": [[ "book_hexenhammer", 5 ]],
   "qualities":[{"id":"HAMMER","level":2,"amount":1}],
   "tools": [
@@ -32,7 +31,6 @@
   "skills_required": [ "tailor", 3 ],
   "difficulty": 6,
   "time": 25000,
-  "autolearn": false,
   "book_learn": [[ "book_hexenhammer", 6 ]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
@@ -59,7 +57,6 @@
   "skills_required": [ "tailor", 3 ],
   "difficulty": 4,
   "time": 25000,
-  "autolearn": false,
   "book_learn": [[ "book_bloodmagic", 4 ]],
   "tools": [
     [ ["book_bloodmagic", -1] ],
@@ -88,7 +85,6 @@
   "skills_required": [ "fabrication", 3 ],
   "difficulty": 5,
   "time": 15000,
-  "autolearn": false,
   "book_learn": [[ "book_bloodmagic", 5 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
@@ -116,7 +112,6 @@
   "skills_required": [ "fabrication", 3 ],
   "difficulty": 6,
   "time": 30000,
-  "autolearn": false,
   "book_learn": [[ "book_sacrifice", 6 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
@@ -147,7 +142,6 @@
   "skills_required": [ "tailor", 5 ],
   "difficulty": 7,
   "time": 80000,
-  "autolearn": false,
   "book_learn": [[ "book_sacrifice", 7 ]],
   "qualities":[{"id":"CUT","level":1,"amount":1}],
   "tools": [

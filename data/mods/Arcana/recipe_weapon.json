@@ -8,7 +8,6 @@
   "skills_required": [ "fabrication", 6 ],
   "difficulty": 8,
   "time": 150000,
-  "autolearn": false,
   "book_learn": [[ "book_sacrifice", 8 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
@@ -43,7 +42,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 3,
   "time": 180000,
-  "autolearn": false,
   "book_learn": [[ "book_bloodmagic", 3 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
@@ -85,7 +83,6 @@
   "skills_required": [ "fabrication", 4 ],
   "difficulty": 6,
   "time": 100000,
-  "autolearn": false,
   "book_learn": [[ "book_hexenhammer", 6 ]],
   "tools": [
     [ ["book_hexenhammer", -1] ],
@@ -115,7 +112,6 @@
   "skills_required": [ "fabrication", 4 ],
   "difficulty": 4,
   "time": 100000,
-  "autolearn": false,
   "book_learn": [[ "book_hexenhammer", 4 ]],
   "qualities": [
     {"id":"HAMMER","level":3,"amount":1}
@@ -152,7 +148,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 6,
   "time": 100000,
-  "autolearn": false,
   "book_learn": [[ "book_bloodmagic", 6 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
@@ -185,7 +180,6 @@
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 5,
   "time": 20000,
-  "autolearn": false,
   "book_learn": [[ "book_bloodmagic", 5 ]],
   "qualities":[{"id":"CUT","level":1,"amount":1}],
   "tools": [ [ [ "book_bloodmagic", -1 ] ] ],
@@ -203,7 +197,6 @@
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 7,
   "time": 200000,
-  "autolearn": false,
   "book_learn": [[ "book_hexenhammer", 7 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
@@ -232,7 +225,6 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 7,
   "time": 180000,
-  "autolearn": false,
   "book_learn": [[ "book_sacrifice", 7 ]],
   "qualities":[{"id":"CUT","level":1,"amount":1}],
   "tools": [ [ [ "book_sacrifice", -1 ] ] ],
