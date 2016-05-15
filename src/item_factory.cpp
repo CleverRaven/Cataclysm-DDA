@@ -24,6 +24,8 @@
 #include <algorithm>
 #include <sstream>
 
+extern class game *g;
+
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
 static const std::string category_id_weapons("weapons");

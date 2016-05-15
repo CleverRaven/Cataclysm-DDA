@@ -12,8 +12,6 @@
 #include "json.h"
 #include "itype.h"
 
-extern class game *g;
-
 bool item_is_blacklisted( const std::string &id );
 
 typedef std::string Item_tag;

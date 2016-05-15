@@ -364,12 +364,13 @@ void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
     std::string vits;
     for( const auto &v : vitamins ) {
         // only display vitamins that we actually require
-        if( g->u.vitamin_rate( v.first ) > 0 ) {
+        int rate = g->u.vitamin_rate( v.first );
+        if( rate > 0 ) {
             if( !vits.empty() ) {
                 vits += ", ";
             }
-            int lo = int( v.second.first  / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 );
-            int hi = int( v.second.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 );
+            int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
+            int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
             vits += string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
         }
     }
