@@ -4799,8 +4799,8 @@ int vehicle::free_volume(int const part) const
 
 bool vehicle::add_item( int part, const item &itm )
 {
-    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE; // (game.h)
-    const int maxvolume = this->max_volume(part);         // (game.h => vehicle::max_volume(part) ) in theory this could differ per vpart ( seat vs trunk )
+    const int max_storage = MAX_ITEM_IN_VEHICLE_STORAGE;
+    const int maxvolume = this->max_volume(part);
 
     // const int max_weight = ?! // TODO: weight limit, calc per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certian point, or when hitting bumps etc
