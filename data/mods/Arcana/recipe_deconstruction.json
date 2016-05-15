@@ -20,7 +20,7 @@
   "time": 600,
   "reversible": true,
   "flags": ["BLIND_EASY"],
-  "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+  "qualities":[ {"id":"HAMMER","level":1} ],
   "components": [ [ [ "silver_small", 95 ] ] ]
 },{
   "type" : "recipe",
@@ -74,7 +74,7 @@
   "difficulty": 7,
   "time": 50000,
   "reversible": true,
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "qualities" : [{"id":"CUT","level":1}],
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
     [ [ "rag", 19 ] ],
@@ -137,7 +137,7 @@
   "difficulty": 3,
   "time": 50000,
   "reversible": true,
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "qualities" : [{"id":"CUT","level":1}],
   "tools": [ [ [ "hexenhammer", -1 ] ] ],
   "components": [
     [ [ "leather", 42 ] ],

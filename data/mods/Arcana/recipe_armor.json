@@ -9,7 +9,7 @@
   "difficulty": 5,
   "time": 30000,
   "book_learn": [[ "book_hexenhammer", 5 ]],
-  "qualities":[{"id":"HAMMER","level":2,"amount":1}],
+  "qualities":[{"id":"HAMMER","level":2}],
   "tools": [
     [ ["book_hexenhammer", -1] ],
     [
@@ -33,8 +33,8 @@
   "time": 25000,
   "book_learn": [[ "book_hexenhammer", 6 ]],
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1},
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"HAMMER","level":2},
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [ ["book_hexenhammer", -1] ],
@@ -86,7 +86,7 @@
   "difficulty": 5,
   "time": 15000,
   "book_learn": [[ "book_bloodmagic", 5 ]],
-  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "qualities":[{"id":"HAMMER","level":3}],
   "tools": [
     [ [ "book_bloodmagic", -1 ] ],
     [ [ "tongs", -1 ] ],
@@ -113,7 +113,7 @@
   "difficulty": 6,
   "time": 30000,
   "book_learn": [[ "book_sacrifice", 6 ]],
-  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "qualities":[{"id":"HAMMER","level":3}],
   "tools": [
     [ [ "book_sacrifice", -1 ] ],
     [ [ "tongs", -1 ] ],
@@ -143,7 +143,7 @@
   "difficulty": 7,
   "time": 80000,
   "book_learn": [[ "book_sacrifice", 7 ]],
-  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "qualities":[{"id":"CUT","level":1}],
   "tools": [
     [ [ "book_sacrifice", -1 ] ],
     [
