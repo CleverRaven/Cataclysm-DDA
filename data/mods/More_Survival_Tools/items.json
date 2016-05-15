@@ -143,25 +143,15 @@
     "name" : "resinous cord",
     "weight" : 140,
     "color" : "green",
-    "addiction_type" : "none",
-    "spoils_in" : 0,
     "use_action" : "MISC_REPAIR",
-    "stim" : 0,
-    "container" : "null",
     "comestible_type" : "MED",
     "symbol" : ";",
-    "quench" : 0,
-    "healthy" : 0,
-    "addiction_potential" : 0,
-    "nutrition" : 0,
     "description" : "Primitive binding material made of cords and natural glue.  Use it to repair items made of wood, paper, bone, or chitin.",
     "price" : 100,
     "material" : "cotton",
-    "tool" : "null",
     "volume" : 1,
     "charges" : 2,
-    "stack_size": 9,
-    "fun" : 0
+    "stack_size": 9
   },{
     "type" : "AMMO",
     "id" : "throwing_stick",
@@ -540,8 +530,7 @@
       "covers" : ["TORSO"],
       "coverage" : 5,
       "material_thickness" : 2,
-      "encumbrance" : 5,
-      "warmth" : 0
+      "encumbrance" : 5
     },
     "watertight": true,
     "seals": true,
