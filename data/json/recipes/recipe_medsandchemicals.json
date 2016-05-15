@@ -2455,30 +2455,6 @@
       [ "poppy_bud", 2 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "inhaler_sewergas",
-  "category": "CC_CHEM",
-  "subcategory": "CSC_CHEM_DRUGS",
-  "skill_used": "cooking",
-  "requires_skills": [ "survival", 1 ],
-  "difficulty": 7,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[ {"id":"CHEM","level":2,"amount":1} ],
-  "tools": [
-    [
-      [ "fire", -1 ],
-      [ "toolset", 10 ],
-      [ "hotplate", 10 ]
-    ],
-    [ [ "inhaler", 100 ] ]
-  ],
-  "components": [
-    [ [ "sewage", 1 ] ],
-    [ [ "bleach", 1 ] ]
-  ]
 },
 {
   "type" : "recipe",
@@ -2626,7 +2602,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 4 ], ["textbook_chemistry", 5], ["textbook_armschina", 5]],
-  "qualities" : 
+  "qualities" :
     [
       {"id":"CONTAIN","level":1,"amount":1}
     ],
@@ -2687,7 +2663,7 @@
 "reversible": false,
 "autolearn": false,
 "book_learn": [[ "textbook_anarch", 6 ] , [ "recipe_labchem", 5 ] , ["textbook_chemistry", 7]],
-"qualities" : 
+"qualities" :
 [
 {"id":"CONTAIN","level":1,"amount":1}
 ],
@@ -2876,14 +2852,14 @@
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1},
     {"id":"BOIL","level":2,"amount":1}
-  ], 
+  ],
   "tools": [
     [
       [ "hotplate", 10 ],
       [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
-  ], 
+  ],
   "components": [
     [ [ "cooking_oil", 2 ] ],
     [ [ "thyme", 2 ] ]

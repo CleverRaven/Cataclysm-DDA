@@ -298,7 +298,7 @@
       "recoil" : 0,
       "count" : 10,
       "effects" : ["RECOVER_10"]
-   }, 
+   },
    {
       "type" : "AMMO",
       "id" : "arrow_heavy_field_point_fletched",

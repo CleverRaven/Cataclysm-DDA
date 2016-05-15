@@ -35,7 +35,7 @@
         "pierce": 2
     }
   },
-  {  
+  {
     "id" : "reloaded_762_m43",
     "copy-from": "762_m43",
     "type" : "AMMO",
@@ -49,7 +49,7 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
-  {  
+  {
     "id" : "reloaded_762_m87",
     "copy-from": "762_m87",
     "type" : "AMMO",
@@ -64,4 +64,3 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]
-

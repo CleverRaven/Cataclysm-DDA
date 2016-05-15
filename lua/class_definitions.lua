@@ -331,11 +331,10 @@ classes = {
             { name = "handle_liquid", rval = "bool", args = { "item", "bool", "bool", "item", "item" } },
             { name = "handle_liquid", rval = "bool", args = { "item", "bool", "bool", "item", "item", "int" } },
             { name = "increase_kill_count", rval = nil, args = { "mtype_id" } },
-            { name = "inv", rval = "int", args = { "string" } },
-            { name = "inv", rval = "int", args = { "string", "int" } },
-            { name = "inv_activatable", rval = "int", args = { "string" } },
-            { name = "inv_for_flag", rval = "int", args = { "string", "string", "bool" } },
-            { name = "inv_for_liquid", rval = "int", args = { "item", "string", "bool" } },
+            { name = "inv", rval = "int", args = { "int" } },
+            { name = "inv_for_all", rval = "int", args = { "string" } },
+            { name = "inv_for_activatables", rval = "int", args = { "player", "string" } },
+            { name = "inv_for_flag", rval = "int", args = { "string", "string" } },
             { name = "inv_map_for_liquid", rval = "item&", args = { "item", "string" } },
             { name = "inv_map_for_liquid", rval = "item&", args = { "item", "string", "int" } },
             { name = "inventory_item_menu", rval = "int", args = { "int" } },
@@ -663,7 +662,8 @@ classes = {
             { name = "item_handling_cost", rval = "int", args = { "item" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool" } },
             { name = "item_handling_cost", rval = "int", args = { "item", "bool", "int" } },
-            { name = "item_reload_cost", rval = "int", args = { "item", "item" } },
+            { name = "item_handling_cost", rval = "int", args = { "item", "bool", "int", "int" } },
+            { name = "item_reload_cost", rval = "int", args = { "item", "item", "int" } },
             { name = "knock_back_from", rval = nil, args = { "tripoint" } },
             { name = "knows_trap", rval = "bool", args = { "tripoint" } },
             { name = "leak_level", rval = "int", args = { "string" } },
@@ -685,7 +685,7 @@ classes = {
             { name = "make_craft_with_command", rval = nil, args = { "string", "int" } },
             { name = "make_craft_with_command", rval = nil, args = { "string", "int", "bool" } },
             { name = "making_would_work", rval = "bool", args = { "string", "int" } },
-            { name = "max_quality", rval = "int", args = { "string" } },
+            { name = "max_quality", rval = "int", args = { "quality_id" } },
             { name = "melee_attack", rval = nil, args = { "Creature", "bool", "matec_id" } },
             { name = "melee_value", rval = "float", args = { "item" } },
             { name = "mend", rval = nil, args = { "int" } },
@@ -950,7 +950,7 @@ classes = {
             { name = "get_property_long", rval = "int", args = { "string", "int" } },
             { name = "get_property_string", rval = "string", args = { "string" } },
             { name = "get_property_string", rval = "string", args = { "string", "string" } },
-            { name = "get_quality", rval = "int", args = { "string" } },
+            { name = "get_quality", rval = "int", args = { "quality_id" } },
             { name = "get_relative_rot", rval = "float", args = { } },
             { name = "get_remaining_capacity_for_liquid", rval = "int", args = { "item", "bool" } },
             { name = "get_remaining_chapters", rval = "int", args = { "player" } },
@@ -984,8 +984,8 @@ classes = {
             { name = "has_flag", rval = "bool", args = { "string" } },
             { name = "has_label", rval = "bool", args = { } },
             { name = "has_property", rval = "bool", args = { "string" } },
-            { name = "has_quality", rval = "bool", args = { "string" } },
-            { name = "has_quality", rval = "bool", args = { "string", "int" } },
+            { name = "has_quality", rval = "bool", args = { "quality_id" } },
+            { name = "has_quality", rval = "bool", args = { "quality_id", "int" } },
             { name = "has_rotten_away", rval = "bool", args = { } },
             { name = "has_technique", rval = "bool", args = { "matec_id" } },
             { name = "has_var", rval = "bool", args = { "string" } },
@@ -1425,7 +1425,7 @@ classes = {
 
         attributes = {
             close = { type = "ter_str_id", writable = true },
-            harvest_season = { type = "int", writable = true },
+            harvest_season = { type = "season_type", writable = true },
             harvestable = { type = "string", writable = true },
             name = { type = "string",  writable = false },
             open = { type = "ter_str_id", writable = true },
@@ -1809,6 +1809,14 @@ classes = {
     Skill = {
         string_id = "skill_id",
         attributes = {
+        },
+        functions = {
+        }
+    },
+    quality = {
+        string_id = "quality_id",
+        attributes = {
+            name = { type = "string", writable = false }
         },
         functions = {
         }

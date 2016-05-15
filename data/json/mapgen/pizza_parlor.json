@@ -59,7 +59,7 @@
         ]
     },
     {
-        "type"  : "item_group", 
+        "type"  : "item_group",
         "id"    : "pizza_soda",
         "items" : [
             ["purple_drink",   3],
@@ -216,7 +216,6 @@
                 { "line": "terrain", "x": 20, "y": 15, "x2": 20, "y2": 17, "id": "t_concrete" },
                 { "point": "terrain", "id": "t_concrete", "x": 21, "y": 16},
                 { "point": "terrain", "id": "t_concrete", "x": 19, "y": 16},
-
                 { "line": "terrain", "x": 20, "y": 19, "x2": 20, "y2": 21, "id": "t_concrete" },
                 { "point": "terrain", "id": "t_concrete", "x": 21, "y": 20},
                 { "point": "terrain", "id": "t_concrete", "x": 19, "y": 20}

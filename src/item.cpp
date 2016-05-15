@@ -760,15 +760,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         std::string vits;
         for( const auto &v : g->u.vitamins_from( *food_item ) ) {
-            if( v.second != 0 ) {
+            // only display vitamins that we actually require
+            if( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) {
                 if( !vits.empty() ) {
                     vits += ", ";
                 }
-                vits += string_format( "%s (%i)", v.first.obj().name().c_str(), v.second );
+                vits += string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) );
             }
         }
         if( !vits.empty() ) {
-            info.emplace_back( "FOOD", _( "Vitamins: " ), vits.c_str() );
+            info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), vits.c_str() );
         }
     }
 
@@ -1325,7 +1326,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     for( const auto &quality : type->qualities ) {
         const auto desc = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
                                          quality.second,
-                                         quality::get_name( quality.first ).c_str() );
+                                         quality.first.obj().name.c_str() );
         info.push_back( iteminfo( "QUALITIES", "", desc ) );
     }
     bool intro = false; // Did we print the "Contains items with qualities" line
@@ -1338,7 +1339,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
             const auto desc = string_format( space + _( "Level %1$d %2$s quality." ),
                                              quality.second,
-                                             quality::get_name( quality.first ).c_str() );
+                                             quality.first.obj().name.c_str() );
             info.push_back( iteminfo( "QUALITIES", "", desc ) );
         }
     }
@@ -1531,6 +1532,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving)." ) ) );
             }
+            if( is_disgusting_for( g->u ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
+            }
             if( has_flag( "RAD_PROOF" ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <good>completely protects</good> you from <info>radiation</info>." ) ) );
@@ -1666,12 +1671,12 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
 
             ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
-            if( has_flag( "HIDDEN_POISON" ) && g->u.skillLevel( skill_survival ).level() >= 3 ) {
+            if( has_flag( "HIDDEN_POISON" ) && g->u.get_skill_level( skill_survival ).level() >= 3 ) {
                 info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) );
             }
 
             ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
-            if( has_flag( "HIDDEN_HALLU" ) && g->u.skillLevel( skill_survival ).level() >= 5 ) {
+            if( has_flag( "HIDDEN_HALLU" ) && g->u.get_skill_level( skill_survival ).level() >= 5 ) {
                 info.emplace_back( "DESCRIPTION", _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) );
             }
         }
@@ -1941,10 +1946,6 @@ nc_color item::color_in_inventory() const
         ret = c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
         ret = c_yellow;
-    } else if (is_gun()) { // Guns are green if you are carrying ammo for them
-        ammotype amtype = ammo_type();
-        if (u->get_ammo(amtype).size() > 0)
-            ret = c_green;
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
         const item &to_color = is_food() ? *this : contents[0];
@@ -1982,14 +1983,42 @@ nc_color item::color_in_inventory() const
             case NO_TOOL:
                 break;
         }
-    } else if (is_ammo()) { // Likewise, ammo is green if you have guns that use it
+    } else if( is_gun() ) {
+        // Guns are green if you are carrying ammo for them
+        // ltred if you have ammo but no mags
+        // Gun with integrated mag counts as both
         ammotype amtype = ammo_type();
-        if (u->weapon.is_gun() && u->weapon.ammo_type() == amtype) {
+        bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
+        bool has_mag = magazine_integral() || !u->find_ammo( *this, true, -1 ).empty();
+        if( has_ammo && has_mag ) {
             ret = c_green;
-        } else {
-            if (u->has_gun_for_ammo(amtype)) {
-                ret = c_green;
-            }
+        } else if( has_ammo || has_mag ) {
+            ret = c_ltred;
+        }
+    } else if( is_ammo() ) {
+        // Likewise, ammo is green if you have guns that use it
+        // ltred if you have the gun but no mags
+        // Gun with integrated mag counts as both
+        ammotype amtype = ammo_type();
+        bool has_gun = u->has_gun_for_ammo( amtype );
+        bool has_mag = u->has_magazine_for_ammo( amtype );
+        if( has_gun && has_mag ) {
+            ret = c_green;
+        } else if( has_gun || has_mag ) {
+            ret = c_ltred;
+        }
+    } else if( is_magazine() ) {
+        // Magazines are green if you have guns and ammo for them
+        // ltred if you have one but not the other
+        ammotype amtype = ammo_type();
+        bool has_gun = u->has_item_with( [this]( const item & it ) {
+            return it.is_gun() && it.magazine_compatible().count( typeId() ) > 0;
+        } );
+        bool has_ammo = !u->find_ammo( *this, false, -1 ).empty();
+        if( has_gun && has_ammo ) {
+            ret = c_green;
+        } else if( has_gun || has_ammo ) {
+            ret = c_ltred;
         }
     } else if (is_book()) {
         if(u->has_identified( type->id )) {
@@ -2069,9 +2098,9 @@ void item::on_wield( player &p, int mv )
     if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
         float d = 32.0; // arbitrary linear scaling factor
         if( is_gun() ) {
-            d /= std::max( (float)p.skillLevel( gun_skill() ),  1.0f );
+            d /= std::max( (float)p.get_skill_level( gun_skill() ),  1.0f );
         } else if( is_weap() ) {
-            d /= std::max( (float)p.skillLevel( weap_skill() ), 1.0f );
+            d /= std::max( (float)p.get_skill_level( weap_skill() ), 1.0f );
         }
 
         int penalty = get_var( "volume", type->volume ) * d;
@@ -2251,6 +2280,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     if (has_flag("FIT")) {
         ret << _(" (fits)");
+    }
+
+    if( is_disgusting_for( g->u ) ) {
+        ret << _(" (filthy)" );
     }
 
     if (is_tool() && has_flag("USE_UPS")){
@@ -2688,16 +2721,16 @@ long item::get_property_long( const std::string& prop, long def ) const
     return def;
 }
 
-int item::get_quality( const std::string &quality_id ) const
+int item::get_quality( const quality_id &id ) const
 {
     int return_quality = INT_MIN;
     for( const auto &quality : type->qualities ) {
-        if( quality.first == quality_id ) {
+        if( quality.first == id ) {
             return_quality = quality.second;
         }
     }
     for( auto &itm : contents ) {
-        return_quality = std::max( return_quality, itm.get_quality( quality_id ) );
+        return_quality = std::max( return_quality, itm.get_quality( id ) );
     }
 
     return return_quality;
@@ -4181,6 +4214,14 @@ itype_id item::magazine_default( bool conversion ) const
 
 std::set<itype_id> item::magazine_compatible( bool conversion ) const
 {
+    // gunmods that define magazine_adaptor may override the items usual magazines
+    for( const auto m : gunmods() ) {
+        if( !m->type->gunmod->magazine_adaptor.empty() ) {
+            auto mags = m->type->gunmod->magazine_adaptor.find( ammo_type( conversion ) );
+            return mags != m->type->gunmod->magazine_adaptor.end() ? mags->second : std::set<itype_id>();
+        }
+    }
+
     auto mags = type->magazines.find( ammo_type( conversion ) );
     return mags != type->magazines.end() ? mags->second : std::set<itype_id>();
 }
@@ -4264,8 +4305,9 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
     } else if( get_free_mod_locations( mod.type->gunmod->location ) <= 0 ) {
         msg = string_format( _( "Your %1$s doesn't have enough room for another %2$s mod." ), tname().c_str(), _( mod.type->gunmod->location.c_str() ) );
 
-    } else if( effects && mod.type->gunmod->ammo_modifier != "NULL" && ( ammo_remaining() > 0 || magazine_current() ) ) {
-        msg = string_format( _( "Unload your %s before trying to modify the ammo type." ), tname().c_str() );
+    } else if( effects && ( mod.type->gunmod->ammo_modifier != "NULL" || !mod.type->gunmod->magazine_adaptor.empty() )
+                       && ( ammo_remaining() > 0 || magazine_current() ) ) {
+        msg = string_format( _( "You must unload your %s before installing this mod." ), tname().c_str() );
 
     } else if( !mod.type->gunmod->usable.count( gun_type() ) ) {
         msg = string_format( _( "That %s cannot be attached to a %s" ), mod.tname().c_str(), _( gun_type().c_str() ) );
@@ -4331,18 +4373,19 @@ item::reload_option::reload_option( const player *who, const item *target, const
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
-        max_qty = who->charges_of( this->target->type->magazine->linkage );
+        max_qty = this->who->charges_of( this->target->type->magazine->linkage );
     }
 
-    if( this->ammo->is_ammo() ) {
-        qty( !this->target->has_flag( "RELOAD_ONE" ) ? this->ammo->charges : 1L );
+    // magazine, ammo or ammo container
+    item& tmp = this->ammo->is_ammo_container() ? this->ammo->contents.front() : *this->ammo;
 
-    } else if( this->ammo->is_ammo_container() ) {
-        qty( !this->target->has_flag( "RELOAD_ONE" ) ? this->ammo->contents[ 0 ].charges : 1L );
+    long amt = tmp.is_ammo() ? tmp.charges : 1;
 
-    } else {
-        qty( 1L ); // when reloading target using a magazine
+    if( this->target->is_gun() && this->target->magazine_integral() && tmp.made_of( SOLID ) ) {
+        amt = 1; // guns with integral magazines reload one round at a time
     }
+
+    qty( amt );
 }
 
 
@@ -4606,7 +4649,7 @@ bool item::reload( player &u, item_location loc, long qty )
 
     // Chance to fail pulling an arrow at lower levels
     if( container && container->type->can_use( "QUIVER" ) ) {
-        int archery = u.skillLevel( skill_id( "archery" ) );
+        int archery = u.get_skill_level( skill_id( "archery" ) );
         ///\EFFECT_ARCHERY increases reliability of pulling arrows from a quiver
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
@@ -4707,6 +4750,22 @@ bool item::burn(int amount)
 {
     if( amount < 0 ) {
         return false;
+    }
+
+    if( is_corpse() ) {
+        const mtype *mt = get_mtype();
+        if( active && mt != nullptr && burnt + amount > mt->hp &&
+            !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
+            corpse = &get_mtype()->burn_into.obj();
+            // Delay rezing
+            bday = calendar::turn;
+            burnt = 0;
+            return false;
+        }
+
+        if( burnt + amount > mt->hp ) {
+            active = false;
+        }
     }
 
     if( !count_by_charges() ) {
@@ -5820,4 +5879,8 @@ bool item_category::operator==( const item_category &rhs ) const
 bool item_category::operator!=( const item_category &rhs ) const
 {
     return !( *this == rhs );
+}
+
+bool item::is_disgusting_for( const player &p ) const {
+    return has_flag( "FILTHY" ) && p.has_trait( "SQUEAMISH" );
 }

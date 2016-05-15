@@ -45,6 +45,7 @@ const skill_id skill_driving( "driving" );
 const skill_id skill_traps( "traps" );
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
@@ -534,7 +535,7 @@ bool map::vehproceed()
             veh.turn( one_in( 2 ) ? -15 : 15 );
         }
     ///\EFFECT_DRIVING reduces chance of fumbling vehicle controls
-    } else if( !should_fall && pl_ctrl && rng(0, 4) > g->u.skillLevel( skill_driving ) && one_in(20) ) {
+    } else if( !should_fall && pl_ctrl && rng(0, 4) > g->u.get_skill_level( skill_driving ) && one_in(20) ) {
         add_msg( m_warning, _("You fumble with the %s's controls."), veh.name.c_str() );
         veh.turn( one_in( 2 ) ? -15 : 15 );
     }
@@ -916,7 +917,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
 
             ///\EFFECT_DRIVING reduces chance of losing control of vehicle when shaken
-            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel( skill_driving ) * 3 ) {
+            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
                 psg->add_msg_player_or_npc( m_warning,
                     _("You lose control of the %s."),
                     _("<npcname> loses control of the %s."),
@@ -3151,7 +3152,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
 
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
         if( pl.has_trait("TAIL_CATTLE") &&
-            one_in( 20 - pl.dex_cur - pl.skillLevel( skill_id( "melee" ) ) ) ) {
+            one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_id( "melee" ) ) ) ) {
             pl.add_msg_if_player( _("The spores land on you, but you quickly swat them off with your tail!" ) );
             return;
         }
@@ -4711,7 +4712,7 @@ item &map::add_item_at( const tripoint &p,
     if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
     }
-
+    
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
@@ -4813,7 +4814,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 if( cur_veh->discharge_battery( 10, false ) ) {
                     break; // Check car's power before charging
                 }
-                n.charges++;
+                n.ammo_set( "battery", n.ammo_remaining() + 1 );
             }
         }
     }
@@ -5413,7 +5414,7 @@ void map::disarm_trap( const tripoint &p )
         return;
     }
 
-    const int tSkillLevel = g->u.skillLevel( skill_traps );
+    const int tSkillLevel = g->u.get_skill_level( skill_traps );
     const int diff = tr.get_difficulty();
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
 

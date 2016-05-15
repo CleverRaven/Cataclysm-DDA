@@ -544,6 +544,11 @@ void Item_factory::check_definitions() const
                 msg << string_format("invalid material %s", mat_id.c_str()) << "\n";
             }
         }
+
+        if( type->sym == 0 ) {
+            msg << "symbol not defined" << "\n";
+        }
+
         for( const auto &_a : type->techniques ) {
             if( !_a.is_valid() ) {
                 msg << string_format( "unknown technique %s", _a.c_str() ) << "\n";
@@ -554,10 +559,9 @@ void Item_factory::check_definitions() const
                 msg << string_format("snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
             }
         }
-        for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
-             a != type->qualities.end(); ++a) {
-            if( !quality::has( a->first ) ) {
-                msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
+        for( auto &q : type->qualities ) {
+            if( !q.first.is_valid() ) {
+                msg << string_format("item %s has unknown quality %s", type->id.c_str(), q.first.c_str()) << "\n";
             }
         }
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
@@ -955,10 +959,7 @@ void Item_factory::load_engine( JsonObject &jo )
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
-    if( jo.has_string( "skill" ) ) {
-        slot.skill_used = skill_id( jo.get_string( "skill" ) );
-    }
-
+    assign( jo, "skill", slot.skill_used );
     assign( jo, "ammo", slot.ammo );
     assign( jo, "range", slot.range );
     assign( jo, "ranged_damage", slot.damage );
@@ -981,11 +982,11 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
     assign( jo, "ammo_effects", slot.ammo_effects );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
+        slot.valid_mod_locations.clear();
         JsonArray jarr = jo.get_array( "valid_mod_locations" );
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
-            slot.valid_mod_locations.insert( std::pair<std::string, int>( curr.get_string( 0 ),
-                                             curr.get_int( 1 ) ) );
+            slot.valid_mod_locations.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
         }
     }
 }
@@ -1023,8 +1024,8 @@ void Item_factory::load_armor(JsonObject &jo)
 void Item_factory::load( islot_armor &slot, JsonObject &jo )
 {
     slot.encumber = jo.get_int( "encumbrance", 0 );
-    slot.coverage = jo.get_int( "coverage" );
-    slot.thickness = jo.get_int( "material_thickness" );
+    slot.coverage = jo.get_int( "coverage", 0 );
+    slot.thickness = jo.get_int( "material_thickness", 0 );
     slot.env_resist = jo.get_int( "environmental_protection", 0 );
     slot.warmth = jo.get_int( "warmth", 0 );
     slot.storage = jo.get_int( "storage", 0 );
@@ -1073,7 +1074,7 @@ void Item_factory::load_tool_armor(JsonObject &jo)
 void Item_factory::load( islot_book &slot, JsonObject &jo )
 {
     assign( jo, "max_level", slot.level );
-    assign( jo, "required_level", slot.level );
+    assign( jo, "required_level", slot.req );
     assign( jo, "fun", slot.fun );
     assign( jo, "intelligence", slot.intel );
     assign( jo, "time", slot.time );
@@ -1222,6 +1223,18 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
     slot.ups_charges = jo.get_int( "ups_charges", slot.ups_charges );
     slot.install_time = jo.get_int( "install_time", slot.install_time );
+
+    JsonArray mags = jo.get_array( "magazine_adaptor" );
+    while( mags.has_more() ) {
+        JsonArray arr = mags.next_array();
+
+        ammotype ammo = arr.get_string( 0 ); // an ammo type (eg. 9mm)
+        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+
+        while( compat.has_more() ) {
+            slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
+        }
+    }
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
@@ -1401,6 +1414,10 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->phase = jo.get_enum_value<phase_id>( "phase" );
     }
 
+    if( jo.has_array( "magazines" ) ) {
+        new_item_template->magazine_default.clear();
+        new_item_template->magazines.clear();
+    }
     JsonArray mags = jo.get_array( "magazines" );
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
@@ -1493,7 +1510,7 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()) {
             JsonArray curr = jarr.next_array();
-            const auto quali = std::pair<std::string, int>(curr.get_string(0), curr.get_int(1));
+            const auto quali = std::pair<quality_id, int>(quality_id(curr.get_string(0)), curr.get_int(1));
             if( new_item_template->qualities.count( quali.first ) > 0 ) {
                 curr.throw_error( "Duplicated quality", 0 );
             }
@@ -1701,8 +1718,8 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
         jsobj.throw_error("unknown item group type", "subtype");
     }
 
-    ig->with_ammo = jsobj.get_int( "ammo", ig->with_ammo );
-    ig->with_magazine= jsobj.get_int( "magazine", ig->with_magazine );
+    assign( jsobj, "ammo", ig->with_ammo );
+    assign( jsobj, "magazine", ig->with_magazine );
 
     if (subtype == "old") {
         JsonArray items = jsobj.get_array("items");

@@ -20,6 +20,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/main_menu.cpp
     ${CMAKE_SOURCE_DIR}/src/savegame_legacy.cpp
     ${CMAKE_SOURCE_DIR}/src/mutation_data.cpp
+    ${CMAKE_SOURCE_DIR}/src/mutation_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/posix_time.cpp
     ${CMAKE_SOURCE_DIR}/src/tutorial.cpp
     ${CMAKE_SOURCE_DIR}/src/catacharset.cpp
@@ -112,6 +113,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/faction.cpp
     ${CMAKE_SOURCE_DIR}/src/wish.cpp
     ${CMAKE_SOURCE_DIR}/src/bionics.cpp
+    ${CMAKE_SOURCE_DIR}/src/bionics_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/missiondef.cpp
     ${CMAKE_SOURCE_DIR}/src/wincurse.cpp
     ${CMAKE_SOURCE_DIR}/src/worldfactory.cpp
@@ -167,6 +169,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/vitamin.cpp
     ${CMAKE_SOURCE_DIR}/src/fault.cpp
     ${CMAKE_SOURCE_DIR}/src/dump.cpp
+    ${CMAKE_SOURCE_DIR}/src/overlay_ordering.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
@@ -321,6 +324,14 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/bonuses.h
     ${CMAKE_SOURCE_DIR}/src/vitamin.h
     ${CMAKE_SOURCE_DIR}/src/fault.h
+	${CMAKE_SOURCE_DIR}/src/overlay_ordering.h
+	${CMAKE_SOURCE_DIR}/src/int_id.h
+	${CMAKE_SOURCE_DIR}/src/io.h
+	${CMAKE_SOURCE_DIR}/src/map_iterator.h
+	${CMAKE_SOURCE_DIR}/src/mingw.thread.h
+	${CMAKE_SOURCE_DIR}/src/overmap_types.h
+	${CMAKE_SOURCE_DIR}/src/string_id.h
+	${CMAKE_SOURCE_DIR}/src/weighted_list.h
 )
 
 # Get GIT version strings

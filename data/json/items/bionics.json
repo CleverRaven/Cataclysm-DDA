@@ -1185,7 +1185,7 @@
         "bashing": 8,
         "difficulty": 4
     },
-    {   
+    {
         "type": "BIONIC_ITEM",
         "category": "bionics",
         "id": "bio_eye_optic",

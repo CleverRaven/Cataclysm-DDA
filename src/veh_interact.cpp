@@ -37,9 +37,17 @@ static inline const char * status_color( bool status )
     return status ? good : bad;
 }
 
-static const std::string repair_hotkeys("r1234567890");
-
+namespace {
+const std::string repair_hotkeys("r1234567890");
+const quality_id SCREW( "SCREW" );
+const quality_id LIFT( "LIFT" );
+const quality_id JACK( "JACK" );
+const quality_id GLARE( "GLARE" );
+const quality_id HAMMER( "HAMMER" );
+const quality_id WRENCH( "WRENCH" );
+const quality_id SAW_M_FINE( "SAW_M_FINE" );
 const skill_id skill_mechanics( "mechanics" );
+} // namespace
 
 /**
  * Creates a blank veh_interact window.
@@ -348,12 +356,12 @@ void veh_interact::cache_tool_availability()
     int charges = charges_per_use( "welder" );
     int charges_oxy = charges_per_use( "oxy_torch" );
     int charges_crude = charges_per_use( "welder_crude" );
-    has_screwdriver = crafting_inv.has_quality( "SCREW" );
-    has_wrench = crafting_inv.has_quality( "WRENCH" );
-    has_hammer = crafting_inv.has_quality( "HAMMER" );
+    has_screwdriver = crafting_inv.has_quality( SCREW );
+    has_wrench = crafting_inv.has_quality( WRENCH );
+    has_hammer = crafting_inv.has_quality( HAMMER );
     has_nailgun = crafting_inv.has_tools("nailgun", 1);
-    has_goggles = (g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( "GLARE", 2 ));
-    has_hacksaw = crafting_inv.has_quality( "SAW_M_FINE" ) ||
+    has_goggles = (g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( GLARE, 2 ));
+    has_hacksaw = crafting_inv.has_quality( SAW_M_FINE ) ||
                   (crafting_inv.has_tools("circsaw_off", 1) &&
                    crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
                   (crafting_inv.has_tools("oxy_torch", 1) &&
@@ -379,16 +387,16 @@ void veh_interact::cache_tool_availability()
                 crafting_inv.has_components( "wheel_motorbike", 1 ) ||
                 crafting_inv.has_components( "wheel_small", 1 );
 
-    max_lift = std::max( { g->u.max_quality( "LIFT" ),
-                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( "LIFT" ),
-                           vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( "LIFT" ) } );
+    max_lift = std::max( { g->u.max_quality( LIFT ),
+                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                           vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( LIFT ) } );
 
     // cap JACK requirements at 6000kg to support arbritrarily large vehicles
     double qual = ceil( double( std::min( veh->total_mass(), 6000 ) * 1000 ) / TOOL_LIFT_FACTOR );
 
-    has_jack = g->u.has_quality( "JACK", qual ) ||
-               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( "JACK", qual ) ||
-               vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( "JACK",  qual );
+    has_jack = g->u.has_quality( JACK, qual ) ||
+               map_selector( g->u.pos(), PICKUP_RANGE ).has_quality( JACK, qual ) ||
+               vehicle_selector( g->u.pos(), 2, true, *veh ).has_quality( JACK,  qual );
 }
 
 /**
@@ -573,11 +581,11 @@ bool veh_interact::can_install_part(int msg_width){
     int req_str = is_wheel ? veh->lift_strength() : item( itm ).lift_strength();
 
     ///\EFFECT_MECHANICS determines which vehicle parts can be installed
-    bool has_skill = g->u.skillLevel( skill_mechanics ) >= sel_vpart_info->difficulty;
+    bool has_skill = g->u.get_skill_level( skill_mechanics ) >= sel_vpart_info->difficulty;
 
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
-    bool has_skill2 = !is_engine || (g->u.skillLevel( skill_mechanics ) >= dif_eng);
-    bool has_skill3 = g->u.skillLevel(skill_mechanics) >= dif_steering;
+    bool has_skill2 = !is_engine || (g->u.get_skill_level( skill_mechanics ) >= dif_eng);
+    bool has_skill3 = g->u.get_skill_level(skill_mechanics) >= dif_steering;
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
     bool is_screwable = sel_vpart_info->has_flag("TOOL_SCREWDRIVER");
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
@@ -940,7 +948,7 @@ void veh_interact::do_repair()
         bool has_comps = true;
         int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
         ///\EFFECT_MECHANICS determines which vehicle parts can be replaced
-        bool has_skill = g->u.skillLevel( skill_mechanics ) >= dif;
+        bool has_skill = g->u.get_skill_level( skill_mechanics ) >= dif;
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
                        has_skill ? "ltgreen" : "red",
@@ -1156,7 +1164,7 @@ void veh_interact::do_remove()
     wrefresh (w_mode);
 
     ///\EFFECT_MECHANICS determines which vehicle parts can be removed
-    const int skilllevel = g->u.skillLevel( skill_mechanics );
+    const int skilllevel = g->u.get_skill_level( skill_mechanics );
     int pos = 0;
     for( size_t i = 0; i < parts_here.size(); i++ ) {
         if( can_remove_part( parts_here[i], skilllevel, msg_width ) ) {
@@ -1354,7 +1362,7 @@ bool veh_interact::can_currently_install(const vpart_info &vpart)
     }
     bool has_comps = crafting_inv.has_components(vpart.item, 1);
     ///\EFFECT_MECHANICS determines which vehicle parts can be installed
-    bool has_skill = g->u.skillLevel( skill_mechanics ) >= vpart.difficulty;
+    bool has_skill = g->u.get_skill_level( skill_mechanics ) >= vpart.difficulty;
     bool is_wheel = vpart.has_flag("WHEEL");
     return (has_comps && (has_skill || is_wheel));
 }
@@ -1831,9 +1839,10 @@ void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list,
     for (size_t i = page * lines_per_page; i < (page + 1) * lines_per_page && i < list.size(); i++) {
         const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
+        mvwputch( w_list, y, 1, info.color, special_symbol( info.sym ) );
         nc_color col = can_currently_install( info ) ? c_white : c_dkgray;
-        mvwprintz(w_list, y, 3, pos == i ? hilite (col) : col, info.name().c_str());
-        mvwputch (w_list, y, 1, info.color, special_symbol(info.sym));
+        trim_and_print( w_list, y, 3, getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
+                        info.name().c_str() );
     }
     wrefresh (w_list);
 }
@@ -2280,9 +2289,9 @@ void complete_vehicle ()
     int welder_oxy_charges = charges_per_use( "oxy_torch" );
     int welder_crude_charges = charges_per_use( "welder_crude" );
     const inventory &crafting_inv = g->u.crafting_inventory();
-    const bool has_goggles = g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( "GLARE", 2 );
-    const bool has_screwdriver = crafting_inv.has_quality( "SCREW" );
-    const bool has_wrench = crafting_inv.has_quality( "WRENCH" );
+    const bool has_goggles = crafting_inv.has_quality( GLARE, 2 );
+    const bool has_screwdriver = crafting_inv.has_quality( SCREW );
+    const bool has_wrench = crafting_inv.has_quality( WRENCH );
 
 
 
@@ -2333,7 +2342,7 @@ void complete_vehicle ()
             g->u.consume_tools(tools);
         }
 
-        partnum = veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
+        partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
         if(partnum < 0) {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
         }
@@ -2388,7 +2397,7 @@ void complete_vehicle ()
             // replacing a broken part
             veh->break_part_into_pieces( vehicle_part, g->u.posx(), g->u.posy() );
             veh->remove_part( vehicle_part );
-            veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
+            veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
             g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty ) * 5 + 20 ) );
 
         } else {
@@ -2421,14 +2430,14 @@ void complete_vehicle ()
     case 'o':
         // Only parts that use charges
         if (!(is_wrenchable && has_wrench) && !(is_screwable && has_screwdriver) && !is_hand_remove && !is_wheel){
-            if( !crafting_inv.has_quality( "SAW_M_FINE" ) && ( is_wood && !crafting_inv.has_quality( "HAMMER") ) ) {
+            if( !crafting_inv.has_quality( SAW_M_FINE ) && ( is_wood && !crafting_inv.has_quality( HAMMER ) ) ) {
                 tools.push_back(tool_comp("circsaw_off", 20));
                 tools.push_back(tool_comp("oxy_torch", 10));
                 g->u.consume_tools(tools);
             }
         }
         // Nails survive if pulled out with pliers or a claw hammer. TODO: implement PLY tool quality and random chance based on skill/quality
-        /*if( is_wood && crafting_inv.has_quality( "HAMMER" ) ) {
+        /*if( is_wood && crafting_inv.has_quality( HAMMER ) ) {
             item return_nails("nail");
             return_nails.charges = 10;
             g->m.add_item_or_charges( g->u.posx, g->u.posy, return_nails );
@@ -2488,7 +2497,7 @@ void complete_vehicle ()
             removed_wheel = veh->parts[replaced_wheel].properties_to_item();
             veh->remove_part( replaced_wheel );
             veh->part_removal_cleanup();
-            partnum = veh->install_part( dx, dy, part_id, std::move( consume_vpart_item( part_id ) ) );
+            partnum = veh->install_part( dx, dy, part_id, consume_vpart_item( part_id ) );
             if( partnum < 0 ) {
                 debugmsg ("complete_vehicle tire change fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
             }

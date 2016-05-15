@@ -32,7 +32,7 @@
                 ".|d@@n +  r|r  + kkk |..",
                 ".|-vv--|---|---|--vv-|.."
             ],
-            "terrain" : {                
+            "terrain" : {
                 "|" : "t_wall",
                 "-" : "t_wall",
                 "." : "t_grass",

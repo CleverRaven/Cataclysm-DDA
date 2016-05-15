@@ -237,7 +237,6 @@
             { "id": "WRENCH", "level": 1 }
             ]
             ],
-
         "components" : [
             [ [ "peephole", 1 ] ]
         ],
@@ -503,7 +502,7 @@
         "post_terrain" : "t_window_empty"
     },{
         "type" : "construction",
-        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
@@ -514,7 +513,7 @@
         "post_terrain" : "t_window_taped"
     },{
         "type" : "construction",
-        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
@@ -525,7 +524,7 @@
         "post_terrain" : "t_window_domestic_taped"
     },{
         "type" : "construction",
-        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
@@ -536,7 +535,7 @@
         "post_terrain" : "t_window_alarm_taped"
     },{
         "type" : "construction",
-        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "description" : "Tape Up Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
         "time" : 5,
@@ -718,9 +717,6 @@
         "time" : 60,
         "tools": [
         [
-          [ "goggles_welding", -1 ]
-        ],
-        [
           [ "oxy_torch", 4 ],
           [ "welder", 20 ],
           [ "welder_crude", 30 ],
@@ -728,7 +724,8 @@
         ]
         ],
         "qualities": [ [
-            { "id": "SAW_M", "level": 1 }
+            { "id": "SAW_M", "level": 1 },
+            { "id" : "GLARE", "level" : 2 }
         ] ],
         "components" : [
             [ [ "pipe", 6 ] ],
@@ -737,7 +734,6 @@
         "pre_terrain" : "t_floor",
         "post_terrain" : "t_bars"
     },{
-
         "type" : "construction",
         "description" : "Build Wood Wall", "//": "Step 1: half of a wall where a window used to be",
         "category" : "CONSTRUCT",
@@ -899,8 +895,8 @@
         "category" : "CONSTRUCT",
         "difficulty" : 4,
         "time" : 90,
+        "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
-        [ [ "goggles_welding", -1 ] ],
         [
           [ "oxy_torch", 10 ],
           [ "welder", 50 ],
@@ -919,8 +915,8 @@
         "category" : "CONSTRUCT",
         "difficulty" : 4,
         "time" : 90,
+        "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
-        [ [ "goggles_welding", -1 ] ],
         [
           [ "oxy_torch", 10 ],
           [ "welder", 50 ],
@@ -1051,8 +1047,8 @@
         "category" : "CONSTRUCT",
         "difficulty" : 5,
         "time" : 90,
+        "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
-        [ [ "goggles_welding", -1 ] ],
         [
           [ "oxy_torch", 10 ],
           [ "welder", 50 ],
@@ -1392,7 +1388,6 @@
             [
             { "id": "HAMMER", "level": 2 }
             ]
-
             ],
         "components" : [
             [ [ "2x4", 8 ] ],
@@ -1402,7 +1397,7 @@
         "post_terrain" : "f_crate_o"
     },{
         "type" : "construction",
-        "description" : "Build Bulletin board",
+        "description" : "Build Bulletin Board",
         "category" : "FURN",
         "difficulty" : 0,
         "time" : 20,
@@ -2298,7 +2293,7 @@
             ]
             ],
         "components" : [
-            [["reinforced_glass_sheet", 1]]            
+            [["reinforced_glass_sheet", 1]]
         ],
         "pre_terrain" : "t_m_frame",
         "post_terrain" : "t_reinforced_glass"

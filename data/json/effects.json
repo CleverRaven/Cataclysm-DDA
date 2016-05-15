@@ -681,6 +681,7 @@
         "apply_memorial_log": "Contracted a fungal infection.",
         "remove_memorial_log": "Cured the fungal infection.",
         "miss_messages": [["You feel sick inside.", 1]],
+        "speed_name": "Fungal infection",
         "rating": "bad",
         "max_intensity": 3,
         "resist_traits": ["POISRESIST"],
@@ -776,7 +777,8 @@
     },
     {
         "type": "effect_type",
-        "id": "hallu"
+        "id": "hallu",
+        "max_duration": 3600
     },
     {
         "type": "effect_type",
@@ -1274,6 +1276,13 @@
         "type": "effect_type",
         "id": "amigara",
         "apply_message": "You can't look away from the faultline...",
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "fearparalyze",
+        "name": ["Feared"],
+        "desc": ["You have been paralyzed by the fear."],
         "rating": "bad"
     },
     {

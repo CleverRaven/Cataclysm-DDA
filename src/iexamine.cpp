@@ -207,22 +207,14 @@ private:
 
     //! Prompt for a card to use (includes worn items).
     item* choose_card(char const *const msg) {
-        const int index = g->inv_for_filter(msg, [](item const& itm) {
-            return itm.type->id == "cash_card";
-        });
+        const int index = g->inv_for_id( itype_id( "cash_card" ), msg );
 
         if (index == INT_MIN) {
             add_msg(m_info, _("Never mind."));
             return nullptr; // player canceled
         }
 
-        auto &itm = u.i_at(index);
-        if (itm.type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return nullptr; // must have selected an equipped item
-        }
-
-        return &itm;
+        return &u.i_at(index);
     };
 
     //! Prompt for an integral value clamped to [0, max].
@@ -391,14 +383,10 @@ void iexamine::vending(player &p, const tripoint &examp)
         return;
     }
 
-    item *card = &p.i_at(g->inv_for_filter(_("Insert card for purchases."),
-        [](item const &i) { return i.type->id == "cash_card"; }));
+    item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
 
     if (card->is_null()) {
         return; // player cancelled selection
-    } else if (card->type->id != "cash_card") {
-        popup(_("Please insert cash cards only!"));
-        return;
     } else if (card->charges == 0) {
         popup(_("You must insert a charged cash card!"));
         return;
@@ -641,7 +629,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
             case HACK_UNABLE:
                 add_msg(
                     m_info,
-                    p.skillLevel( skill_computer ) > 0 ?
+                    p.get_skill_level( skill_computer ) > 0 ?
                         _("Looks like you need a %s, or a tool to hack it with.") :
                         _("Looks like you need a %s."),
                     item::nname( card_type ).c_str()
@@ -653,7 +641,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
 
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    bool has_digging_tool = p.has_quality( "DIG", 2 );
+    bool has_digging_tool = p.has_quality( quality_id( "DIG" ), 2 );
     if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
@@ -680,7 +668,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 void iexamine::crate(player &p, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_quality( "PRY", 1 );
+    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
     if( !has_prying_tool ) {
         add_msg( m_info, _("If only you had a crowbar...") );
         return;
@@ -1007,7 +995,7 @@ void iexamine::safe(player &p, const tripoint &examp)
         ///\EFFECT_PER speeds up safe cracking
 
         ///\EFFECT_MECHANICS speeds up safe cracking
-        int moves = std::max(MINUTES(150) + (p.skillLevel( skill_mechanics ) - 3) * MINUTES(-20) +
+        int moves = std::max(MINUTES(150) + (p.get_skill_level( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p.get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
          p.assign_activity( ACT_CRACKING, moves );
@@ -1037,11 +1025,11 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     ///\EFFECT_DEX speeds up lock picking gun safe
 
     ///\EFFECT_MECHANICS speeds up lock picking gun safe
-    p.moves -= (1000 - (pick_quality * 100)) - (p.dex_cur + p.skillLevel( skill_mechanics )) * 5;
+    p.moves -= (1000 - (pick_quality * 100)) - (p.dex_cur + p.get_skill_level( skill_mechanics )) * 5;
     ///\EFFECT_DEX increases chance of lock picking gun safe
 
     ///\EFFECT_MECHANICS increases chance of lock picking gun safe
-    int pick_roll = (dice(2, p.skillLevel( skill_mechanics )) + dice(2, p.dex_cur)) * pick_quality;
+    int pick_roll = (dice(2, p.get_skill_level( skill_mechanics )) + dice(2, p.dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
         p.practice( skill_mechanics, 1);
@@ -1077,7 +1065,7 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
         case HACK_UNABLE:
             add_msg(
                 m_info,
-                p.skillLevel( skill_computer ) > 0 ?
+                p.get_skill_level( skill_computer ) > 0 ?
                     _("You can't hack this gun safe without a hacking tool.") :
                     _("This electronic safe looks too complicated to open.")
             );
@@ -1362,7 +1350,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
         return;
     }
 
-    if( !p.has_quality( "DIG" ) ) {
+    if( !p.has_quality( quality_id( "DIG" ) ) ) {
         none( p, examp );
         add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
         return;
@@ -1661,7 +1649,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             g->m.i_clear(examp);
             g->m.furn_set(examp, f_null);
 
-            int skillLevel = p.skillLevel( skill_survival );
+            int skillLevel = p.get_skill_level( skill_survival );
             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
@@ -1778,7 +1766,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     }
 
     ///\EFFECT_CARPENTRY decreases loss when firing a kiln
-    SkillLevel &skill = p.skillLevel( skill_carpentry );
+    const SkillLevel &skill = p.get_skill_level( skill_carpentry );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -2198,7 +2186,7 @@ void pick_plant(player &p, const tripoint &examp,
         return;
     }
 
-    SkillLevel &survival = p.skillLevel( skill_survival );
+    const SkillLevel &survival = p.get_skill_level( skill_survival );
     if (survival < 1) {
         p.practice( skill_survival, rng(5, 12) );
     } else if (survival < 6) {
@@ -2267,10 +2255,10 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
 {
     harvest_tree_shrub( p, examp );
     ///\EFFECT_SURVIVAL >0 allows digging up hickory root
-    if( !( p.skillLevel( skill_survival ) > 0 ) ) {
+    if( !( p.get_skill_level( skill_survival ) > 0 ) ) {
         return;
     }
-    if( !p.has_quality( "DIG" ) ) {
+    if( !p.has_quality( quality_id( "DIG" ) ) ) {
         add_msg(m_info, _("You have no tool to dig with..."));
         return;
     }
@@ -2280,7 +2268,7 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     g->m.spawn_item(p.pos(), "hickory_root", rng(1,4) );
     g->m.ter_set(examp, t_tree_hickory_dead);
     ///\EFFECT_SURVIVAL speeds up hickory root digging
-    p.moves -= 2000 / ( p.skillLevel( skill_survival ) + 1 ) + 100;
+    p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
     return;
     none( p, examp );
 }
@@ -2294,12 +2282,12 @@ item_location maple_tree_sap_container() {
 
 void iexamine::tree_maple(player &p, const tripoint &examp)
 {
-    if( !p.has_quality( "DRILL" ) ) {
+    if( !p.has_quality( quality_id( "DRILL" ) ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( "HAMMER" ) ) {
+    if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
         add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
     }
@@ -2371,7 +2359,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
     switch( static_cast<options>( selectmenu.ret ) ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( "HAMMER" ) ) {
+            if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
@@ -2424,7 +2412,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                     }
                 }
             }
-            
+
             return;
 
         case REMOVE_CONTAINER: {
@@ -2497,7 +2485,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
 
     add_msg( _("You forage through the %s."), g->m.tername( examp ).c_str() );
     ///\EFFECT_SURVIVAL speeds up foraging
-    int move_cost = 100000 / ( 2 * p.skillLevel( skill_survival ) + 5 );
+    int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );
     ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p.per_cur ), 4 + p.per_cur * 2 );
     p.assign_activity( ACT_FORAGE, move_cost, 0 );
@@ -3177,21 +3165,17 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     }
 
     if (buy_gas == choice) {
-
-        int pos;
         item *cashcard;
 
-        pos = g->inv(_("Insert card."));
+        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
         cashcard = &(p.i_at(pos));
 
-        if (cashcard->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (cashcard->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
         if (cashcard->charges < pricePerUnit) {
             popup(str_to_illiterate_str(
                       _("Not enough money, please refill your cash card.")).c_str()); //or ride on a solar car, ha ha ha
@@ -3259,20 +3243,16 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     }
 
     if (refund == choice) {
-        int pos;
         item *cashcard;
 
-        pos = g->inv(_("Insert card."));
-        cashcard = &(p.i_at(pos));
+        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
 
-        if (cashcard->is_null()) {
-            popup(_("You do not have that item!"));
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
             return;
         }
-        if (cashcard->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
+
+        cashcard = &(p.i_at(pos));
         // Ok, we have a cash card. Now we need to know what's left in the pump.
         tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = fromPumpFuel( pTank, pGasPump );
@@ -3574,7 +3554,7 @@ hack_result iexamine::hack_attempt( player &p ) {
     p.moves -= 500;
     p.practice( skill_computer, 20 );
     ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    int success = rng( p.skillLevel( skill_computer ) / 4 - 2, p.skillLevel( skill_computer ) * 2 );
+    int success = rng( p.get_skill_level( skill_computer ) / 4 - 2, p.get_skill_level( skill_computer ) * 2 );
     success += rng( -3, 3 );
     if( using_fingerhack ) {
         p.charge_power( -25 );

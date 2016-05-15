@@ -11543,14 +11543,12 @@
                 { "item": "magazines", "chance": 75, "x": [ 5,5 ], "y": [ 11,13 ] },
                 { "item": "magazines", "chance": 75, "x": [ 6,8 ], "y": [ 12,12 ] },
                 { "item": "magazines", "chance": 75, "x": [ 9,9 ], "y": [ 11,13 ] },
-
                 { "item": "homebooks", "chance": 75, "x": [ 17,17 ], "y": [ 11,13 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 18,20 ], "y": [ 12,12 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 21,21 ], "y": [ 11,13 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 5,5 ], "y": [ 11,13 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 6,8 ], "y": [ 12,12 ] },
                 { "item": "homebooks", "chance": 75, "x": [ 9,9 ], "y": [ 11,13 ] },
-
                 { "item": "textbooks", "chance": 75, "x": [ 22,23 ], "y": [ 16,16 ] },
                 { "item": "textbooks", "chance": 75, "x": [ 23,23 ], "y": [ 17,18 ] },
                 { "item": "textbooks", "chance": 75, "x": [ 22,23 ], "y": [ 19,19 ] },

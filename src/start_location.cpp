@@ -56,7 +56,7 @@ std::string start_location::target() const
     return _target;
 }
 
-std::vector<const start_location *> start_location::get_all()
+const std::vector<start_location> &start_location::get_all()
 {
     return all_starting_locations.get_all();
 }

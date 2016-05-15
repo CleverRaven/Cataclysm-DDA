@@ -6,7 +6,7 @@
 #include "translations.h"
 #include "filesystem.h"
 #include "overmapbuffer.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "mapdata.h"
 #include "worldfactory.h"
 #include "game.h"
@@ -196,12 +196,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
 
     // Don't create the directory if it would be empty
     assure_dir_exist( dirname.c_str() );
-    std::ofstream fout;
-    fopen_exclusive( fout, filename.c_str() );
-    if( !fout.is_open() ) {
-        return;
-    }
-
+    ofstream_wrapper_exclusive fout( filename );
     JsonOut jsout( fout );
     jsout.start_array();
     for( auto &submap_addr : submap_addrs ) {
@@ -390,7 +385,7 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
     }
 
     jsout.end_array();
-    fclose_exclusive( fout, filename.c_str() );
+    fout.close();
 }
 
 // We're reading in way too many entities here to mess around with creating sub-objects and

@@ -896,50 +896,21 @@ bool Character::is_wearing_on_bp(const itype_id & it, body_part bp) const
     return false;
 }
 
-bool Character::worn_with_flag( std::string flag ) const
+bool Character::worn_with_flag( const std::string &flag ) const
 {
-    for (auto &i : worn) {
-        if (i.has_flag( flag )) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of( worn.begin(), worn.end(), [&flag]( const item &it ) {
+        return it.has_flag( flag );
+    } );
 }
 
-SkillLevel& Character::skillLevel(const skill_id &ident)
+SkillLevel& Character::get_skill_level(const skill_id &ident)
 {
     if( !ident ) {
         static SkillLevel none;
         none.level( 0 );
         return none;
     }
-    return skillLevel( &ident.obj() );
-}
-
-SkillLevel& Character::skillLevel(const Skill* _skill)
-{
-    return _skills[_skill];
-}
-
-SkillLevel& Character::skillLevel(Skill const &_skill)
-{
-    return skillLevel(&_skill);
-}
-
-SkillLevel const& Character::get_skill_level(const Skill* _skill) const
-{
-    const auto iter = _skills.find( _skill );
-    if( iter != _skills.end() ) {
-        return iter->second;
-    }
-
-    static SkillLevel const dummy_result;
-    return dummy_result;
-}
-
-SkillLevel const& Character::get_skill_level(const Skill &_skill) const
-{
-    return get_skill_level(&_skill);
+    return _skills[ident];
 }
 
 SkillLevel const& Character::get_skill_level(const skill_id &ident) const
@@ -948,7 +919,24 @@ SkillLevel const& Character::get_skill_level(const skill_id &ident) const
         static const SkillLevel none{};
         return none;
     }
-    return get_skill_level( &ident.obj() );
+
+    const auto iter = _skills.find( ident );
+    if( iter != _skills.end() ) {
+        return iter->second;
+    }
+
+    static SkillLevel const dummy_result;
+    return dummy_result;
+}
+
+void Character::set_skill_level( const skill_id &ident, const int level )
+{
+    get_skill_level( ident ).level( level );
+}
+
+void Character::boost_skill_level( const skill_id &ident, const int delta )
+{
+    set_skill_level( ident, delta + get_skill_level( ident ) );
 }
 
 bool Character::meets_skill_requirements( const std::map<skill_id, int> &req ) const

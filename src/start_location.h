@@ -30,7 +30,7 @@ class start_location
         static void load_location( JsonObject &jsonobj );
         static void reset();
 
-        static std::vector<const start_location *> get_all();
+        static const std::vector<start_location> &get_all();
 
         /**
          * Find a suitable start location on the overmap.

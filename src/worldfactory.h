@@ -5,6 +5,7 @@
 #include "output.h"
 #include "enums.h"
 
+#include <functional>
 #include <map>
 #include <unordered_map>
 #include <vector>
@@ -86,7 +87,7 @@ class worldfactory
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 
-        typedef int ( worldfactory::*worldgen_display )( WINDOW *, WORLDPTR );
+        typedef std::function<int( WINDOW *, WORLDPTR )> worldgen_display;
 
         std::vector<worldgen_display> tabs;
         std::vector<std::string> tab_strings;

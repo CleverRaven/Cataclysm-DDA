@@ -256,9 +256,7 @@ int sokoban_game::start_game()
 
     WINDOW *w_sokoban = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
     WINDOW_PTR w_sokobanptr( w_sokoban );
-    draw_border(w_sokoban);
-    center_print(w_sokoban, 0, hilite(c_white), _("Sokoban"));
-
+    draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
     input_context ctxt("SOKOBAN");
     ctxt.register_cardinal();
     ctxt.register_action("NEXT");

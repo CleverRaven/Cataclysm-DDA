@@ -201,7 +201,8 @@
       [ "carbine_flintlock", 140 ],
       [ "rifle_flintlock", 180 ],
       [ "steyr_aug", 40 ],
-      [ "trex_gun", 60 ]
+      [ "trex_gun", 60 ],
+      [ "arx160", 40 ]
     ]
   },
   {

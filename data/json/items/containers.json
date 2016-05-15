@@ -330,7 +330,7 @@
         "contains": 6,
         "rigid": false,
         "watertight": true,
-        "seals": true 
+        "seals": true
     },
     {
         "id": "large_stomach_sealed",

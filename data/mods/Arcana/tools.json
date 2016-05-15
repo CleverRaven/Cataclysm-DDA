@@ -5,7 +5,7 @@
     "symbol": ";",
     "color": "yellow",
     "name": "offering chalice",
-    "description": "This is a strange chalice made of gold, engraved all over with some unfamilar text.  It is filled with a thick black liquid that you seem unable to pour out.  You get the feeling that trying to drink it would be a bad idea.",
+    "description": "This is a strange chalice made of gold, engraved all over with some unfamiliar text.  It is filled with a thick black liquid that you seem unable to pour out.  You get the feeling that trying to drink it would be a bad idea.",
     "price": 161300,
     "material": "gold",
     "weight": 2500,
@@ -28,7 +28,7 @@
     "symbol": ";",
     "color": "yellow",
     "name": "offering chalice",
-    "description": "This is a strange chalice made of gold, engraved all over with some unfamilar text.  Maybe you shouldn't be trying to drink from this...",
+    "description": "This is a strange chalice made of gold, engraved all over with some unfamiliar text.  Maybe you shouldn't be trying to drink from this...",
     "price": 161300,
     "material": "gold",
     "weight": 2500,
@@ -41,12 +41,7 @@
     "use_action": {
         "type" : "consume_drug",
         "activation_message" : "As you drink from the chalice, you feel your breath being drawn from your lungs!",
-        "effects" : [
-            {
-                "id": "offering",
-                "duration": 1
-            }
-        ]
+        "effects" : [ { "id" : "offering", "duration" : 1 } ]
     }
   },{
     "id": "offering_chalice_used",
@@ -54,7 +49,7 @@
     "symbol": ";",
     "color": "yellow",
     "name": "drained offering chalice",
-    "description": "This is a strange chalice made of gold, engraved all over with some unfamilar text.  It appears to be empty, but you get the feeling that something remains within it. If you knew the right ritual...",
+    "description": "This is a strange chalice made of gold, engraved all over with some unfamiliar text.  It appears to be empty, but you get the feeling that something remains within it.  If you knew the right ritual...",
     "price": 161300,
     "material": "gold",
     "weight": 2500,
@@ -115,13 +110,7 @@
     "use_action" : {
         "type" : "consume_drug",
         "activation_message" : "Upon drawing the blade across your palm, wounds open elsewhere on your body!",
-        "effects" : [
-            {
-               "id": "bleed",
-                "bp": "TORSO",
-                "duration": 100
-            }
-        ]
+        "effects" : [ { "id" : "bleed", "bp" : "TORSO", "duration" : 100 } ]
     },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },{
@@ -166,7 +155,7 @@
     "price": 148800,
     "material": ["steel", "gold"],
     "flags" : ["FIRE", "CHOP", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "SHEATH_SWORD"],
-    "techniques": ["WBLOCK_2", "VORPAL"], "//": "Weapons normally come with the vorpal flag, not the technique. But gaining the technqiue through normal means likely breaks with transforming weapons.",
+    "techniques": ["WBLOCK_2", "VORPAL"], "//": "Weapons normally come with the vorpal flag, not the technique.  But gaining the technique through normal means likely breaks with transforming weapons.",
     "weight": 1133,
     "volume": 7,
     "bashing": 8,
@@ -288,7 +277,7 @@
     "color": "dark_gray",
     "name": "glyph of trickery",
     "name_plural": "glyphs of trickery",
-    "description": "A strange silver emblem, engraved with depections of groteqsue creatures.  Using it will call forth a kreck, and bind it to your will. Hopefully.",
+    "description": "A strange silver emblem, engraved with depictions of grotesque creatures.  Using it will call forth a kreck, and bind it to your will.  Hopefully.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -313,7 +302,7 @@
     "color": "dark_gray",
     "name": "glyph of impassiveness",
     "name_plural": "glyphs of impassiveness",
-    "description": "A strange silver emblem, engraved with the emotionless faces of unknown beings.  Using it will call forth a blank body, and bind it to your will. Hopefully.",
+    "description": "A strange silver emblem, engraved with the emotionless faces of unknown beings.  Using it will call forth a blank body, and bind it to your will.  Hopefully.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -326,8 +315,8 @@
         "difficulty": 6,
         "skill1": "magic",
         "skill2": "magic",
-        "hostile_msg": "The featureless visage of the blank body is undeciperable at first, but its body langauge suggests hostility.",
-        "friendly_msg": "The featureless visage of the blank body is undeciperable at first, but its passive posture suggests friendliness.",
+        "hostile_msg": "The featureless visage of the blank body is indecipherable at first, but its body language suggests hostility.",
+        "friendly_msg": "The featureless visage of the blank body is indecipherable at first, but its passive posture suggests friendliness.",
         "place_randomly": true,
         "moves": 60
     }
@@ -338,7 +327,7 @@
     "color": "dark_gray",
     "name": "glyph of the beholder",
     "name_plural": "glyphs of the beholder",
-    "description": "A strange silver emblem, engraved with flame patterns.  Using it will call forth a flaming eye, and bind it to your will. Hopefully.",
+    "description": "A strange silver emblem, engraved with flame patterns.  Using it will call forth a flaming eye, and bind it to your will.  Hopefully.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -363,7 +352,7 @@
     "color": "dark_gray",
     "name": "glyph of Crawling Chaos",
     "name_plural": "glyphs of Crawling Chaos",
-    "description": "A strange silver emblem, erratically engraved with indecipherable runes.  Using it will call forth a hunting horror, and bind it to your will. Hopefully.  Using it during the day might be a bad idea.",
+    "description": "A strange silver emblem, erratically engraved with indecipherable runes.  Using it will call forth a hunting horror, and bind it to your will.  Hopefully.  Using it during the day might be a bad idea.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -388,7 +377,7 @@
     "color": "dark_gray",
     "name": "glyph of the eye",
     "name_plural": "glyphs of the eye",
-    "description": "A strange silver emblem, engraved with a serpentine motif.  Using it will call forth a dark wyrm, and bind it to your will. Hopefully.  Using it during the day might be a bad idea.",
+    "description": "A strange silver emblem, engraved with a serpentine motif.  Using it will call forth a dark wyrm, and bind it to your will.  Hopefully.  Using it during the day might be a bad idea.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -401,7 +390,7 @@
         "difficulty": 8,
         "skill1": "magic",
         "skill2": "magic",
-        "hostile_msg": "The wyrm springs forth, reacting to unfamilar sounds and scent with a malevalent screech!",
+        "hostile_msg": "The wyrm springs forth, reacting to unfamiliar sounds and scent with a malevolent screech!",
         "friendly_msg": "The wyrm springs forth, seeming to regard you passively, or at least ignoring your presence.",
         "place_randomly": true,
         "moves": 60
@@ -413,7 +402,7 @@
     "color": "dark_gray",
     "name": "glyph of Yuggoth",
     "name_plural": "glyphs of Yuggoth",
-    "description": "A strange silver emblem, engraved with depictions of strange chitinous entities.  Using it will call forth a mi-go, and bind it to your will. Hopefully.",
+    "description": "A strange silver emblem, engraved with depictions of strange chitinous entities.  Using it will call forth a mi-go, and bind it to your will.  Hopefully.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -436,9 +425,9 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "dark_gray",
-    "name": "glyph of the looking-glass",
+    "name": "glyph of the golem",
     "name_plural": "glyphs of the golem",
-    "description": "A strange silver emblem, engraved with reversed writing in an unknown language.  Using it will call forth a jabberwock, and bind it to your will. Hopefully.",
+    "description": "A strange silver emblem, engraved with reversed writing in an unknown language.  Using it will call forth a jabberwock, and bind it to your will.  Hopefully.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -461,9 +450,9 @@
     "type": "TOOL",
     "symbol": ",",
     "color": "dark_gray",
-    "name": "glyph of anthozoa", "//": "Not an elder god or other Lovecraft reference, but a taxonomic class. Hence, not capitalized.",
+    "name": "glyph of anthozoa", "//": "Not an elder god or other Lovecraft reference, but a taxonomic class.  Hence, not capitalized.",
     "name_plural": "glyphs of anthozoa",
-    "description": "A strange silver emblem, engraved with an strange pattern resembling coral.  Using it will call forth a flying polyp, and bind it to your will. Hopefully.",
+    "description": "A strange silver emblem, engraved with an strange pattern resembling coral.  Using it will call forth a flying polyp, and bind it to your will.  Hopefully.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -488,7 +477,7 @@
     "color": "dark_gray",
     "name": "glyph of the platyhelminthes",
     "name_plural": "glyphs of the platyhelminthes",
-    "description": "A strange silver emblem, engraved with depictions of ancient, cthonian wealth.  Using it will call forth a yugg, and bind it to your will. Hopefully.",
+    "description": "A strange silver emblem, engraved with depictions of ancient, cthonian wealth.  Using it will call forth a yugg, and bind it to your will.  Hopefully.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -513,7 +502,7 @@
     "color": "dark_gray",
     "name": "glyph of the Elder Things",
     "name_plural": "glyphs of the Elder Things",
-    "description": "A strange silver emblem, engraved with many strange eye symbols.  Using it will call forth a shoggoth, and bind it to your will. Hopefully.",
+    "description": "A strange silver emblem, engraved with many strange eye symbols.  Using it will call forth a shoggoth, and bind it to your will.  Hopefully.",
     "price": 8400,
     "material": ["silver"],
     "weight": 285,
@@ -527,7 +516,7 @@
         "skill1": "magic",
         "skill2": "magic",
         "hostile_msg": "You hear a voice in your mind.  \"Tekeli-li!\"  The shoggoth resists your efforts to control it!",
-        "friendly_msg": "You hear a voice in your mind. \"Tekili ...l-li?\"  Your mind exerts a strange influence upon the shoggoth.",
+        "friendly_msg": "You hear a voice in your mind.  \"Tekili ...l-li?\"  Your mind exerts a strange influence upon the shoggoth.",
         "place_randomly": true,
         "moves": 60
     }
@@ -587,7 +576,7 @@
         "type": "explosion",
         "sound_volume": 1,
         "sound_msg": "Drip.",
-        "no_deactivate_msg": "You can't dispel the effect. Might want to try throwing it instead.",
+        "no_deactivate_msg": "You can't dispel the effect.  Might want to try throwing it instead.",
         "fields_radius": 3,
         "fields_type": "fd_blood",
         "fields_min_density": 3,
@@ -608,7 +597,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -628,7 +616,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -648,7 +635,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -668,7 +654,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -688,7 +673,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -708,7 +692,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -723,12 +706,11 @@
     "color": "white",
     "name": "scroll of overgrowth",
     "name_plural": "scrolls of overgrowth",
-    "description": "This is a scroll, with odd writing and exotic natural scenery depicted on it.  Using it will fill the area with life, causing plants to grow unaturally and healing you, potentially mutating you as well.",
+    "description": "This is a scroll, with odd writing and exotic natural scenery depicted on it.  Using it will fill the area with life, causing plants to grow unnaturally and healing you, potentially mutating you as well.",
     "price": 2000,
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -743,12 +725,11 @@
     "color": "white",
     "name": "scroll of overgrowth",
     "name_plural": "scrolls of overgrowth",
-    "description": "This is a scroll, with odd writing and exotic natural scenery depicted on it.  Using it will fill the area with life, causing plants to grow unaturally and healing you, potentially mutating you as well.",
+    "description": "This is a scroll, with odd writing and exotic natural scenery depicted on it.  Using it will fill the area with life, causing plants to grow unnaturally and healing you, potentially mutating you as well.",
     "price": 2000,
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -768,7 +749,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -788,7 +768,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",
@@ -808,7 +787,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "flags" : ["NO_SALVAGE"],
     "use_action": {
          "type": "transform",
@@ -828,7 +806,6 @@
     "material": ["paper"],
     "weight": 415,
     "volume": 1,
-    "bashing": 0,
     "turns_per_charge": 1,
     "flags" : ["NO_SALVAGE"],
     "revert_to": "scroll_blank",

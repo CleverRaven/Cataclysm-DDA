@@ -62,7 +62,7 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
-        std::vector<const mtype *> get_all_mtypes() const;
+        const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
         friend struct species_type;

@@ -183,47 +183,53 @@ Pawn showp        | Anything except milspec weighted towards unusual calibers | 
 Everywhere else   | Predominately 9mm and 223. Always with standard magazine  | Often     | Sometimes | Ruger 223 mag, M1911 mag
 
 ## Ammo stats
-The damage of ammunition is the square root of a round's muzzle energy in joules rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts.
+The damage (**Dmg**) of ammunition is the square root of a round's muzzle energy in joules (**Energy, J**) rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below.
 
-Ammo ID            | Description                 | Muzzle Energy, J | Damage     | Applied Modifiers / Comments |
--------------------|-----------------------------|------------------|------------|---------|
-.22LR              | 40gr unjacketed bullet      | 141              | √141 = 12  |         |
-.22LR FMJ          | 30gr FMJ bullet             | 277              | √277 = 17  |         |
-9x19mm FMJ         | 115gr FMJ bullet            | 420              | √420 = 24  |         |
-9x19mm +P          | 115gr JHP bullet            | 632              | √632 = 25  |         |
-9x19mm +P+         | 115gr JHP bullet            | 678              | √678 = 26  |         |
-9x19mm JHP         | 116gr JHP bullet            | 533              | √533 = 23  | damage increased by 3 |
-9x18mm 57-N-181S   | 93gr FMJ bullet             | 251              | √251 = 16  |         |
-9x18mm SP-7        | 93gr bullet                 | 417              | √417 = 20  |         |
-9x18mm RG028       | 93gr hardened steel core bullet | 317          | √317 = 18  | damage reduced by 4 |
-.38 Special        | 130gr FMJ bullet            | 256              | √256 = 16  |         |
-.38 Super          | 90gr JHP bullet             | 658              | √658 = 26  |         |
-.38 FMJ            | 130gr FMJ bullet            | 256              | √256 = 16  |         |
-10mm auto          | 180gr FMJ bullet            | 575              | √575 = 24  |         |
-.40 S&W            | 135gr JHP bullet            | 575              | √575 = 24  |         |
-.40 FMJ            | 180gr FMJ bullet            | 598              | √598 = 24  |         |
-.44 magnum         | 240gr JHP bullet            | 1570             | √1570 = 40 |         |
-.45 ACP JHP        | 185gr JHP bullet            | 614              | √614 = 25  |         |
-.45 ACP FMJ        | 230gr FMJ bullet            | 447              | √447 = 21  |         |
-.45 ACP +P         | 200gr JHP bullet            | 702              | √702 = 26  |         |
-.454 Casull        | 300gr JSP bullet            | 2459             | √2459 = 50 |         |
-.500 S&W Magnum    | 500gr bullet                | 3056             | √3056 = 55 |         |
-5.7x28mm SS190     | 31gr AP FMJ bullet          | 534              | √534 = 23  | damage reduced by 3   |
-4.6x30mm           | 31gr copper plated steel bullet | 505          | √505 = 22  | damage reduced by 4   |
-7.62x39mm M43      | 123gr steel core FMJ bullet | 1607             | √1607 = 47 | damage lowered by 15  |
-7.62x39mm M67      | 123gr steel core FMJ bullet | 1607             | √1607 = 47 | damage lowered by 9   |
-5.45x39mm 7N10     | 56gr FMJ bullet             | 1402             | √1402 = 37 | damage increased by 3 |
-5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461             | √1461 = 38 |         |
-.223 Remington     | 36gr JHP bullet             | 1524             | √1524 = 39 | damage increased by 5 |
-.308 Winchester    | 168gr hollow point bullet   | 3570             | √3570 = 60 |         |
-7.62 NATO M80      | 147gr FMJ bullet            | 3304             | √3304 = 57 |         |
-7.62 NATO M62      | 147gr FMJ bullet            | 3304             | √3304 = 57 | Belt with 1/5 tracer rounds |
-.270 Winchester    | 130gr soft point bullet     | 3663             | √3663 = 61 |         |
-.30-06 Springfield | 165gr soft point bullet     | 3894             | √3894 = 62 | damage increased by 4 |
-.30-06 M2          | 165gr FMJ bullet            | 3894             | √3894 = 62 | damage reduced by 10 |
-.30-06 M14A1       | Incendiary ammunition       | 3894             | √3894 = 62 | damage reduced by 10 |
-.300 Winchester Magnum | 220gr JHP bullet        | 5299             | √5299 = 73 | damage increased by 5 |
-7.62x54mmR         | 150gr FMJ bullet            | 2677             | √2677 = 52 |         |
+Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by it's real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
+
+Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | Applied Modifiers / Comments |
+-------------------|-----------------------------|-----------|-----|----------|-------------------------------
+.22LR              | 40gr unjacketed bullet      | 141       | 12  | 6in      |                              |
+.22LR FMJ          | 30gr FMJ bullet             | 277       | 17  | 6in      |                              |
+9x19mm FMJ         | 115gr FMJ bullet            | 420       | 24  | 5.9in    |                              |
+9x19mm +P          | 115gr JHP bullet            | 632       | 25  | 5.9in    |                              |
+9x19mm +P+         | 115gr JHP bullet            | 678       | 26  | 5.9in    |                              |
+9x19mm JHP         | 116gr JHP bullet            | 533       | 23  | 5.9in    |damage increased by 3         |
+9x18mm 57-N-181S   | 93gr FMJ bullet             | 251       | 16  | 3.8in    |                              |
+9x18mm SP-7        | 93gr bullet                 | 417       | 20  | 3.8in    |                              |
+9x18mm RG028       | 93gr hardened steel core bullet | 317   | 18  | 3.8in    |          damage reduced by 4 |
+.38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
+.38 Super          | 90gr JHP bullet             | 658       | 26  | 4in      |                              |
+.38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
+10mm auto          | 180gr FMJ bullet            | 575       | 24  | 4in      |                              |
+.40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
+.40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
+.44 magnum         | 240gr JHP bullet            | 1570      | 40  | 7.5in    |                              |
+.45 ACP JHP        | 185gr JHP bullet            | 614       | 25  | 5in      |                              |
+.45 ACP FMJ        | 230gr FMJ bullet            | 447       | 21  | 5in      |                              |
+.45 ACP +P         | 200gr JHP bullet            | 702       | 26  | 5in      |                              |
+.454 Casull        | 300gr JSP bullet            | 2459      | 50  | 7.5in    |                              |
+.500 S&W Magnum    | 500gr bullet                | 3056      | 55  | 8.4in    |                              |
+5.7x28mm SS190     | 31gr AP FMJ bullet          | 534       | 23  | 10.4in   |        damage reduced by 3   |
+4.6x30mm           | 31gr copper plated steel bullet | 505   | 22  | 7.1in    |        damage reduced by 4   |
+7.62x39mm M43      | 123gr steel core FMJ bullet | 1607      | 47  | 16.3in   |        damage lowered by 15  |
+7.62x39mm M67      | 123gr steel core FMJ bullet | 1607      | 47  | 16.3in   |        damage lowered by 9   |
+5.45x39mm 7N10     | 56gr FMJ bullet             | 1402      | 37  | 16.3in   |        damage increased by 3 |
+5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461      | 38  | 16.3in   |                              |
+.223 Remington     | 36gr JHP bullet             | 1524      | 39  | 20in     |Uses 5.56 NATO barrel baseline; damage increased by 5 |
+.308 Winchester    | 168gr hollow point bullet   | 3570      | 60  | 24in     |                              |
+7.62 NATO M80      | 147gr FMJ bullet            | 3304      | 57  | 24in     |                              |
+7.62 NATO M62      | 147gr FMJ bullet            | 3304      | 57  | 24in     |  Belt with 1/5 tracer rounds |
+.270 Winchester    | 130gr soft point bullet     | 3663      | 61  | 24in     |                              |
+.30-06 Springfield | 165gr soft point bullet     | 3894      | 62  | 24in     |        damage increased by 4 |
+.30-06 M2          | 165gr FMJ bullet            | 3894      | 62  | 24in     |         damage reduced by 10 |
+.30-06 M14A1       | Incendiary ammunition       | 3894      | 62  | 24in     |         damage reduced by 10 |
+.300 Winchester Magnum | 220gr JHP bullet        | 5299      | 73  | 24in     |        damage increased by 5 |
+7.62x54mmR         | 150gr FMJ bullet            | 2677      | 52  | 28in     |                              |
+.32 ACP            | 60gr JHP bullet             | 161       | 13  | 4in      |                              |
+7.62x25mm          | 85gr JHP bullet             | 544       | 23  | 4.7in    |                              |
+.700 NX            | 1000gr JSP bullet           | 12100     | 110 | 28in     |                              |
+.50 BMG Ball       | 750gr FMJ-BT bullet         | 17083     | 131 | 45in     |                              |
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

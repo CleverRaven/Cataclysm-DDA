@@ -31,7 +31,7 @@
     "type": "COMESTIBLE",
     "name": "fortified soylent green shake",
     "description": "A thick and tasty beverage made from pure refined human protein and nutritious fruit.  It has been supplemented with extra vitamins and minerals",
-    "material": [ "fruit", "hflesh" ]    
+    "material": [ "fruit", "hflesh" ]
   },
   {
     "id": "protein_drink",

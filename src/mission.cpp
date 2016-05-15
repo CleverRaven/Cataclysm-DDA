@@ -2542,7 +2542,7 @@ mission_type::mission_type(mission_type_id ID, std::string NAME, mission_goal GO
     deadline_high = 0;
     item_id = "null";
     item_count = 1;
-    target_id = 0;///(0);// = "";
+    target_id = 0;
     recruit_class = NC_NONE;
     target_npc_id = -1;
     monster_type = "mon_null";

@@ -29,6 +29,7 @@
   },
   {
     "id": "fish_cooked",
+    "copy-from": "fish",
     "type": "COMESTIBLE",
     "name": "cooked fish",
     "name_plural": "cooked fish",
@@ -41,7 +42,7 @@
   {
     "id": "hstomach",
     "copy-from": "stomach",
-    "type":"COMESTIBLE",
+    "type": "COMESTIBLE",
     "name": "human stomach",
     "description": "The stomach of a human.  It is surprisingly durable.",
     "material": "hflesh"
@@ -49,7 +50,7 @@
   {
     "id": "hstomach_large",
     "copy-from": "hstomach",
-    "type":"COMESTIBLE",
+    "type": "COMESTIBLE",
     "name": "large human stomach",
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
     "proportional": {
@@ -125,7 +126,7 @@
   {
     "id": "stomach",
     "copy-from": "flesh",
-    "type":"COMESTIBLE",
+    "type": "COMESTIBLE",
     "name": "stomach",
     "description": "The stomach of a woodland creature.  It is surprisingly durable.",
     "weight": 72,
@@ -140,7 +141,7 @@
   {
     "id": "stomach_large",
     "copy-from": "stomach",
-    "type":"COMESTIBLE",
+    "type": "COMESTIBLE",
     "name": "large stomach",
     "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
     "proportional": {

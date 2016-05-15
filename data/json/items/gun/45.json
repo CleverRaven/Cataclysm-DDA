@@ -14,6 +14,7 @@
     "color": "dark_gray",
     "skill": "smg",
     "ammo": "45",
+    "ranged_damage": 1,
     "dispersion": 75,
     "sight_dispersion": 105,
     "aim_speed" : 3,
@@ -43,13 +44,12 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "45",
-    "ranged_damage": 5,
+    "ranged_damage": 1, "//": "Real-life Autorevolvers tended to vary between 6-7.5 inch barrels, so we'll err on the side of a +1 here.",
     "dispersion": 195,
     "sight_dispersion": 90,
     "recoil": 120,
     "durability": 8,
-    "clip_size": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "clip_size": 6
   },
   {
     "id": "l_long_45",
@@ -67,6 +67,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "45",
+    "ranged_damage": 4, "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
     "range": 8,
     "dispersion": 5,
     "sight_dispersion": 60,
@@ -96,6 +97,7 @@
   },
   {
     "id": "m1911",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "M1911",
     "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
@@ -107,15 +109,11 @@
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "light_gray",
-    "skill": "pistol",
     "ammo": "45",
-    "ranged_damage": 6,
     "dispersion": 255,
     "sight_dispersion": 90,
-    "aim_speed" : 4,
     "recoil": 130,
     "durability": 7,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well": 1,
     "magazines" : [
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
@@ -137,7 +135,6 @@
     "color": "dark_gray",
     "skill": "smg",
     "ammo": "45",
-    "ranged_damage": -4,
     "dispersion": 300,
     "sight_dispersion": 105,
     "aim_speed" : 3,
@@ -149,10 +146,11 @@
       ["45", [ "mac10mag" ] ],
       [ "9mm", [ "tec9mag" ] ]
     ],
-    "flags": "MODE_BURST"    
+    "flags": "MODE_BURST"
   },
   {
     "id": "surv_hand_cannon",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "homemade hand cannon",
     "name_plural": "homemade hand cannons",
@@ -165,19 +163,14 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "skill": "pistol",
     "ammo": "45",
-    "ranged_damage": 3,
+    "ranged_damage": 2, "//": "On one hand, it's very big for a handgun. On the other, it's still a scrap weapon.",
     "dispersion": 255,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 140,
     "durability": 7,
     "loudness": 25,
-    "clip_size": 5,
-    "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "clip_size": 5
   },
   {
     "id": "TDI",
@@ -194,7 +187,6 @@
     "color": "dark_gray",
     "skill": "smg",
     "ammo": "45",
-    "ranged_damage": -2,
     "dispersion": 105,
     "sight_dispersion": 90,
     "aim_speed" : 4,
@@ -224,7 +216,7 @@
     "color": "brown",
     "skill": "smg",
     "ammo": "45",
-    "ranged_damage": 1,
+    "ranged_damage": 2,
     "dispersion": 120,
     "sight_dispersion": 90,
     "aim_speed" : 4,
@@ -244,6 +236,7 @@
     "copy-from": "usp_9mm",
     "type": "GUN",
     "name": "USP .45",
-    "ammo": "45"
+    "ammo": "45",
+    "ranged_damage": 1
   }
 ]

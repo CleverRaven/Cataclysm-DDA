@@ -1,0 +1,27 @@
+[
+  {
+    "result": "beltfeed",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "skills_required": [ "rifle", 2 ],
+    "time": 200000,
+    "book_learn": [ [ "manual_rifle", 3 ] , [ "manual_fabrication", 5 ] , [ "textbook_fabrication", 5 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id" : "GLARE", "level" : 2 }
+    ],
+    "tools": [
+      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ]
+    ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
+      [ [ "spring", 4 ] ]
+    ]
+  }
+]

@@ -54,7 +54,7 @@
                 "r" : "t_floor",
                 "S" : "t_floor",
                 "v" : "t_window_domestic"
-            }, 
+            },
             "furniture" : {
                 "0" : "f_fireplace",
                 "?" : "f_sofa",

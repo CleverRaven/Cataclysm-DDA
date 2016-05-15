@@ -1467,6 +1467,7 @@
         "into_group": "GROUP_ZOMBIE_UPGRADE",
         "half_life": 28
     },
+    "burn_into" : "mon_zombie_scorched",
     "hp":80,
     "death_function":"NORMAL",
     "special_attacks":[
@@ -1507,6 +1508,7 @@
         "into_group": "GROUP_ZOMBIE_FAT",
         "half_life": 10
     },
+    "burn_into" : "mon_zombie_scorched",
     "hp":95,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -1543,6 +1545,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":100,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -1580,6 +1583,7 @@
     "vision_day":10,
     "vision_night":1,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":60,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -1615,6 +1619,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "mon_zombie_hazmat_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":80,
     "death_function":["NORMAL"],
     "special_attacks":[["GRAB", 7]],
@@ -1647,6 +1652,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "mon_zombie_fireman_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":80,
     "death_function":["NORMAL"],
     "special_attacks":[["GRAB", 7]],
@@ -1678,6 +1684,7 @@
     "vision_day":50,
     "vision_night":3,
     "death_drops": "mon_zombie_survivor_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":120,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -1715,6 +1722,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":55,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -1729,6 +1737,75 @@
     "description":"A once-dead human corpse.  Its discolored swollen flesh is riddled with festering wounds and open sores.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"],
     "categories":["CLASSIC"]
+    },{
+        "type" : "MONSTER",
+        "id" : "mon_zombie_scorched",
+        "name": "scorched zombie",
+        "species":"ZOMBIE",
+        "default_faction":"zombie",
+        "symbol":"Z",
+        "color":"brown",
+        "size":"MEDIUM",
+        "material":"flesh",
+        "diff":1,
+        "aggression":100,
+        "morale":100,
+        "speed":60,
+        "melee_skill":2,
+        "melee_dice":2,
+        "melee_dice_sides":2,
+        "melee_cut":0,
+        "dodge":0,
+        "armor_bash":2,
+        "armor_cut":9,
+        "armor_fire":10,
+        "armor_acid":3,
+        "vision_day":10,
+        "vision_night":5,
+        "upgrades":{
+            "into_group": "GROUP_ZOMBIE_UPGRADE",
+            "half_life": 28
+        },
+        "hp":40,
+        "death_function":["SMOKEBURST", "NORMAL"],
+        "special_attacks":[["GRAB", 7]],
+        "description":"Heavily burned zombie that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+        "flags":["SEES", "HEARS", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES"]
+    },{
+        "type" : "MONSTER",
+        "id" : "mon_zombie_fiend",
+        "name": "fiend",
+        "species":"ZOMBIE",
+        "default_faction":"zombie",
+        "symbol":"Z",
+        "color":"black_white",
+        "size":"MEDIUM",
+        "material":"flesh",
+        "diff":10,
+        "aggression":100,
+        "morale":100,
+        "speed":100,
+        "melee_skill":4,
+        "melee_dice":1,
+        "melee_dice_sides":10,
+        "melee_cut":14,
+        "dodge":0,
+        "armor_bash":6,
+        "armor_cut":12,
+        "armor_fire":12,
+        "armor_acid":5,
+        "vision_day":10,
+        "vision_night":8,
+        "upgrades":{
+            "into": "mon_zombie_brute",
+            "half_life": 8
+        },
+        "burn_into" : "mon_zombie_scorched",
+        "hp":100,
+        "death_function":["NORMAL"],
+        "special_attacks":[["GRAB", 7]],
+        "description":"Charred zombie with bony plates, spikes and protursions.  Moves stiffly, but swiftly.",
+        "flags":["SEES", "STUMBLES", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_cop",
@@ -1754,6 +1831,7 @@
     "vision_day":30,
     "vision_night":3,
     "death_drops": "mon_zombie_cop_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":80,
     "death_function":["NORMAL"],
     "special_attacks":[["GRAB", 7]],
@@ -1784,6 +1862,7 @@
     "vision_day":50,
     "vision_night":4,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "upgrades":{
       "into": "mon_zombie_screecher",
       "half_life": 10
@@ -1817,6 +1896,7 @@
     "vision_day":50,
     "vision_night":8,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":85,
     "death_function":["NORMAL"],
     "special_attacks":[["SHRIEK_ALERT", 20], ["SHRIEK_STUN", 1]],
@@ -1846,6 +1926,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "upgrades":{
       "into": "mon_zombie_spitter",
       "half_life": 10
@@ -1879,6 +1960,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "upgrades":{
       "into": "mon_zombie_corrosive",
       "half_life": 28
@@ -1913,6 +1995,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "luminance":0,
     "hp":140,
     "death_function":["ACID", "NORMAL"],
@@ -2016,6 +2099,7 @@
     "vision_day":3,
     "vision_night":40,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":80,
     "death_function":"NORMAL",
     "special_attacks":[
@@ -2052,6 +2136,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "mon_zombie_swimmer_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "upgrades":{
       "into": "mon_zombie_mancroc",
       "half_life": 28
@@ -2091,6 +2176,7 @@
     "vision_day":25,
     "vision_night":5,
     "death_drops": "mon_zombie_swimmer_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":120,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2277,6 +2363,7 @@
       "into_group": "GROUP_ZOMBIE_BRUTE",
       "half_life": 28
     },
+    "burn_into" : "mon_zombie_fiend",
     "hp":120,
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 30], ["GRAB", 7]],
@@ -2306,6 +2393,7 @@
     "vision_day":5,
     "vision_night":40,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_fiend",
     "hp":200,
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 40], ["STRETCH_ATTACK", 20], ["LONGSWIPE", 20]],
@@ -2336,6 +2424,7 @@
     "vision_day":40,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_fiend",
     "hp":280,
     "death_function":["NORMAL"],
     "special_attacks":[["SMASH", 30], ["BIO_OP_TAKEDOWN", 20], ["RANGED_PULL", 20], ["GRAB_DRAG", 10]],
@@ -2391,9 +2480,10 @@
     "dodge":0,
     "armor_bash":3,
     "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
+    "vision_day":5,
+    "vision_night":5,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":60,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2404,7 +2494,7 @@
         }
     ],
     "description":"Once human, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered flesh.",
-    "flags":["SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
+    "flags":["SEES", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_boomer",
@@ -2491,6 +2581,7 @@
     "vision_day":30,
     "vision_night":3,
     "death_drops": "default_zombie_items",
+    "burn_into" : "mon_zombie_scorched",
     "hp":30,
     "death_function":["FUNGUS", "NORMAL"],
     "special_attacks":[["FUNGUS", 100], ["BOOMER", 20]],
@@ -2585,6 +2676,7 @@
     "vision_day":50,
     "vision_night":5,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":100,
     "death_function":["NORMAL"],
     "special_attacks":[["RESURRECT", 0]],
@@ -2615,6 +2707,7 @@
     "vision_day":50,
     "vision_night":3,
     "death_drops": "mon_zombie_scientist_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":80,
     "death_function":["NORMAL"],
     "special_attacks":[["SCIENCE", 20]],
@@ -2645,6 +2738,7 @@
     "vision_day":30,
     "vision_night":3,
     "death_drops": "mon_zombie_soldier_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":100,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2688,6 +2782,7 @@
         ]
     },
     "starting_ammo" : {"bot_grenade_hack":10, "bot_flashbang_hack":3, "bot_gasbomb_hack":3, "bot_c4_hack":2},
+    "burn_into" : "mon_zombie_scorched",
     "hp":100,
     "death_function":["DETONATE"],
     "special_attacks":[["GRENADIER", 6]],
@@ -2724,6 +2819,7 @@
         ]
     },
     "starting_ammo" : {"bot_grenade_hack":20, "bot_flashbang_hack":10, "bot_gasbomb_hack":10, "bot_c4_hack":10, "bot_mininuke_hack":1},
+    "burn_into" : "mon_zombie_scorched",
     "hp":100,
     "death_function":["DETONATE"],
     "special_attacks":[["GRENADIER_ELITE", 3]],
@@ -2757,6 +2853,7 @@
       "into_group": "GROUP_ZOMBIE_GRAB",
       "half_life": 14
     },
+    "burn_into" : "mon_zombie_scorched",
     "hp":95,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2791,7 +2888,7 @@
     "vision_day":30,
     "vision_night":5,
     "death_drops": "default_zombie_death_drops",
-    "luminance":0,
+    "burn_into" : "mon_zombie_scorched",
     "hp":110,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2828,6 +2925,7 @@
     "vision_day":15,
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":100,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2868,6 +2966,7 @@
     "vision_day":50,
     "vision_night":5,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":180,
     "death_function":["NORMAL"],
     "special_attacks":[["UPGRADE", 10]],
@@ -2903,6 +3002,7 @@
             [ "hive", 80 ]
         ]
     },
+    "burn_into" : "mon_zombie_scorched",
     "hp":70,
     "death_function":["NORMAL"],
     "special_attacks":[
@@ -2938,6 +3038,7 @@
     "vision_night":3,
     "item_chance":40,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "upgrades":{
       "into": "mon_zombie_hunter",
       "half_life": 10
@@ -2979,6 +3080,7 @@
     "vision_day":40,
     "vision_night":5,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "upgrades":{
       "into": "mon_zombie_predator",
       "half_life": 28
@@ -3026,6 +3128,7 @@
     "vision_night":15,
     "item_chance":50,
     "death_drops": "default_zombie_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":90,
     "death_function":["NORMAL"],
     "special_attacks": [
@@ -3073,286 +3176,12 @@
     "armor_cut":4,
     "armor_stab":10,
     "vision_day":30,
-    "vision_night":3, 
+    "vision_night":3,
     "hp":100,
     "death_function":"BLOBSPLIT",
     "special_attacks":[["STRETCH_BITE", 10], ["STRETCH_ATTACK", 5]],
     "description":"Black hollow eyes survey the surroundings as the zombie stretches and bends in ways that whoever the original body belonged to never could.  The only thing that seems solid, on this flexible black-veined body, is the rows of sharp black teeth.  You get the feeling that the only human thing remaining is the skin, worn as one would wear clothes.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE"]   
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_child",
-    "name": "zombie child",
-    "name_plural": "zombie children",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"z",
-    "color":"ltgreen",
-    "size":"SMALL",
-    "material":"flesh",
-    "diff":2,
-    "aggression":60,
-    "morale":100,
-    "speed":65,
-    "melee_skill":2,
-    "melee_dice":2,
-    "melee_dice_sides":4,
-    "melee_cut":2,
-    "dodge":2,
-    "armor_bash":0,
-    "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
-    "death_drops": {
-        "subtype": "collection",
-        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
-        "groups": [
-            [ "default_zombie_clothes", 100 ],
-            [ "child_items", 65 ]
-        ]
-    },
-    "upgrades":{
-        "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
-        "half_life": 28
-    },
-    "hp":40,
-    "death_function":["NORMAL"],
-    "description":"It was only a child, and little is different about it now aside from the hungry look in its eyes.  You'd be hard pressed to not feel like you were killing an actual child by putting it down.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "REVIVES", "BONES"],
-    "categories":["CLASSIC"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_anklebiter",
-    "name": "anklebiter",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"z",
-    "color":"brown",
-    "size":"SMALL",
-    "material":"flesh",
-    "diff":3,
-    "aggression":100,
-    "morale":100,
-    "speed":95,
-    "melee_skill":4,
-    "melee_dice":2,
-    "melee_dice_sides":4,
-    "melee_cut":2,
-    "dodge":3,
-    "armor_bash":0,
-    "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
-    "death_drops": {
-        "subtype": "collection",
-        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
-        "groups": [
-            [ "default_zombie_clothes", 100 ],
-            [ "child_items", 65 ]
-        ]
-    },
-    "hp":35,
-    "death_function":["NORMAL"],
-    "special_attacks":[
-        {
-            "type" : "bite",
-            "cooldown" : 2
-        }
-    ],
-    "description":"This horrifying little mutated wretch looks to have once been a child, but its massive gaping jaws are now far more suggestive of a predatory beast.",
-    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_waif",
-    "name": "howling waif",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"z",
-    "color":"white",
-    "size":"SMALL",
-    "material":"bone",
-    "diff":3,
-    "aggression":80,
-    "morale":100,
-    "speed":65,
-    "melee_skill":2,
-    "melee_dice":2,
-    "melee_dice_sides":2,
-    "melee_cut":1,
-    "dodge":1,
-    "armor_bash":0,
-    "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
-    "death_drops": {
-        "subtype": "collection",
-        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
-        "groups": [
-            [ "default_zombie_clothes", 100 ],
-            [ "child_items", 65 ]
-        ]
-    },
-    "hp":15,
-    "death_function":["NORMAL"],
-    "special_attacks":[["SHRIEK", 15]],
-    "description":"Undeath has not been kind to the children of the apocalypse.  This one is little more than a reanimated membrane of skin stretched across tiny brittle bones.",
-    "//": "GUILT because it still looks enough like a child to evoke pity",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES", "HARDTOSHOOT"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_sproglodyte",
-    "name": "sproglodyte",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"z",
-    "color":"ltgray",
-    "size":"SMALL",
-    "material":"flesh",
-    "diff":3,
-    "aggression":100,
-    "morale":100,
-    "speed":85,
-    "melee_skill":3,
-    "melee_dice":2,
-    "melee_dice_sides":4,
-    "melee_cut":3,
-    "dodge":3,
-    "armor_bash":0,
-    "armor_cut":0,
-    "vision_day":3,
-    "vision_night":30,
-    "death_drops": {
-        "subtype": "collection",
-        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
-        "groups": [
-            [ "default_zombie_clothes", 100 ],
-            [ "child_items", 65 ]
-        ]
-    },
-    "hp":30,
-    "death_function":["NORMAL"],
-    "special_attacks":[
-        {
-            "type" : "leap",
-            "cooldown" : 10,
-            "max_range" : 5
-        }
-    ],
-    "description":"This crouching child-mutant's face is dominated by a pair of huge black eyes and its fingertips end in sharp claws.",
-    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_shriekling",
-    "name": "shriekling",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"z",
-    "color":"magenta",
-    "size":"SMALL",
-    "material":"flesh",
-    "diff":3,
-    "aggression":100,
-    "morale":100,
-    "speed":95,
-    "melee_skill":2,
-    "melee_dice":2,
-    "melee_dice_sides":2,
-    "melee_cut":1,
-    "dodge":1,
-    "armor_bash":0,
-    "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
-    "death_drops": {
-        "subtype": "collection",
-        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
-        "groups": [
-            [ "default_zombie_clothes", 100 ],
-            [ "child_items", 65 ]
-        ]
-    },
-    "hp":20,
-    "death_function":["NORMAL"],
-    "special_attacks":[["SHRIEK", 5]],
-    "description":"This heavily mutated child zombie twitches and flails its limbs in painful looking spasms as it runs about.",
-    "//": "GUILT because it still looks enough like a child to evoke pity",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_creepy",
-    "name": "creepy crawler",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"z",
-    "color":"dkgray",
-    "size":"SMALL",
-    "material":"flesh",
-    "diff":3,
-    "aggression":80,
-    "morale":100,
-    "speed":55,
-    "melee_skill":2,
-    "melee_dice":2,
-    "melee_dice_sides":2,
-    "melee_cut":1,
-    "dodge":1,
-    "armor_bash":0,
-    "armor_cut":0,
-    "vision_day":3,
-    "vision_night":30,
-    "death_drops": {
-        "subtype": "collection",
-        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
-        "groups": [
-            [ "default_zombie_clothes", 100 ],
-            [ "child_items", 65 ]
-        ]
-    },
-    "hp":25,
-    "death_function":["NORMAL"],
-    "special_attacks":[["SHRIEK", 5]],
-    "description":"What was once a child is now a mutant beast with blackened skin and massive eyes.  This abomination's vile form makes mockery of its human origin.",
-    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_snotgobbler",
-    "name": "snotgobbler",
-    "species":"ZOMBIE",
-    "default_faction":"zombie",
-    "symbol":"z",
-    "color":"pink",
-    "size":"SMALL",
-    "material":"flesh",
-    "diff":3,
-    "aggression":100,
-    "morale":100,
-    "speed":65,
-    "melee_skill":4,
-    "melee_dice":2,
-    "melee_dice_sides":4,
-    "melee_cut":2,
-    "dodge":1,
-    "armor_bash":1,
-    "armor_cut":0,
-    "vision_day":30,
-    "vision_night":3,
-    "death_drops": {
-        "subtype": "collection",
-        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
-        "groups": [
-            [ "default_zombie_clothes", 100 ],
-            [ "child_items", 65 ]
-        ]
-    },
-    "hp":25,
-    "death_function":["BOOMER"],
-    "special_attacks":[["GRAB", 5]],
-    "description":"This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
-    "//": "GUILT because it still looks enough like a child to evoke pity",
-    "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE"]
     },{
         "type" : "MONSTER",
         "id" : "mon_jabberwock",
@@ -6661,8 +6490,9 @@
     "vision_day":30,
     "vision_night":3,
     "death_drops": "mon_zombie_armored_death_drops",
+    "burn_into" : "mon_zombie_scorched",
     "hp":120,
-    "death_function":["NORMAL"], 
+    "death_function":["NORMAL"],
     "description":"Despite being encased in a what was once a nigh-impenetrable suit of power armor, something still managed to kill this soldier.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]

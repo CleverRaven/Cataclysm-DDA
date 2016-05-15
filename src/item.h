@@ -37,6 +37,8 @@ class Skill;
 using skill_id = string_id<Skill>;
 class fault;
 using fault_id = string_id<fault>;
+struct quality;
+using quality_id = string_id<quality>;
 
 enum damage_type : int;
 
@@ -474,7 +476,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     void add_rain_to_container(bool acid, int charges = 1);
     /*@}*/
 
-    int get_quality( const std::string &quality_id ) const;
+    int get_quality( const quality_id &id ) const;
     bool count_by_charges() const;
     bool craft_has_charges();
 
@@ -645,6 +647,9 @@ public:
      * for other players. The player is identified by its id.
      */
     void mark_as_used_by_player(const player &p);
+    /** Marks the item as filthy, so characters with squeamish trait can't wear it.
+    */
+    bool is_disgusting_for( const player &p ) const;
     /**
      * This is called once each turn. It's usually only useful for active items,
      * but can be called for inactive items without problems.

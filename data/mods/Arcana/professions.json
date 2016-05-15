@@ -29,7 +29,7 @@
         "type": "profession",
         "ident": "arcanist_alchemist",
         "name": "Alchemist",
-        "description": "You studied under a well-learned scholar, a seeker of the fabled elixer of life.  Despite the tutelage of a master alchemist, you never got any closer to finishing the great work.",
+        "description": "You studied under a well-learned scholar, a seeker of the fabled elixir of life.  Despite the tutelage of a master alchemist, you never got any closer to finishing the great work.",
         "points": 2,
         "skills": [
             {

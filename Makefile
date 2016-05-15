@@ -157,18 +157,37 @@ LDFLAGS += $(PROFILE)
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
     ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
-      CXXFLAGS += -Os
+      OPTLEVEL = -Os
     else
-      CXXFLAGS += -O3
+      OPTLEVEL = -O3
     endif
   else
     # MXE ICE Workaround
-  	ifeq (${CXXVERSION}, 4.9.3)
-	    CXXFLAGS += -O3
-  	else
-  		CXXFLAGS += -Os
-  	endif
+    ifeq (${CXXVERSION}, 4.9.3)
+      OPTLEVEL = -O3
+    else
+      OPTLEVEL = -Os
+    endif
   endif
+  ifdef LTO
+    ifdef CLANG
+      # LLVM's LTO will complain if the optimization level isn't between O0 and
+      # O3 (inclusive)
+      OPTLEVEL = -O3
+    endif
+  endif
+  CXXFLAGS += $(OPTLEVEL)
+
+  ifdef LTO
+    LDFLAGS += -fuse-ld=gold
+    ifdef CLANG
+      LTOFLAGS += -flto
+    else
+      LTOFLAGS += -flto=jobserver -flto-odr-type-merging
+    endif
+  endif
+  CXXFLAGS += $(LTOFLAGS)
+
   # OTHERS += -mmmx -m3dnow -msse -msse2 -msse3 -mfpmath=sse -mtune=native
   # Strip symbols, generates smaller executable.
   OTHERS += $(RELEASE_FLAGS)
@@ -197,10 +216,11 @@ endif
 
 ifndef RELEASE
   ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
-    CXXFLAGS += -Og
+    OPTLEVEL = -Og
   else
-    CXXFLAGS += -O0
+    OPTLEVEL = -O0
   endif
+  CXXFLAGS += $(OPTLEVEL)
 endif
 
 OTHERS += -std=c++11
@@ -567,11 +587,18 @@ ifeq ($(USE_XDG_DIR),1)
   DEFINES += -DUSE_XDG_DIR
 endif
 
+ifdef LTO
+  # Depending on the compiler version, LTO usually requires all the
+  # optimization flags to be specified on the link line, and requires them to
+  # match the original invocations.
+  LDFLAGS += $(CXXFLAGS)
+endif
+
 all: version $(ASTYLE) $(TARGET) $(L10N) tests
 	@
 
 $(TARGET): $(ODIR) $(OBJS)
-	$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
+	+$(LD) $(W32FLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 ifdef RELEASE
 	$(STRIP) $(TARGET)
 endif
@@ -746,7 +773,7 @@ ifeq ($(LOCALIZE), 1)
 endif
 ifdef LUA
 	cp -R lua $(APPRESOURCESDIR)/
-	LIBLUA=$$(otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
+	LIBLUA=$$(otool -L $(APPTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && if [ ! -z "$$LIBLUA" ]; then cp $$LIBLUA $(APPRESOURCESDIR)/; fi
 endif # ifdef LUA
 ifdef TILES
 ifdef SOUND

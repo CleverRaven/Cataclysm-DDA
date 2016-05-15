@@ -450,7 +450,7 @@ void player::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
     ///\EFFECT_MELEE >5 allows WHIP_DISARM technique
-    if( weapon.has_flag( "WHIP" ) && ( skillLevel( skill_melee ) > 5) && one_in( 3 ) ) {
+    if( weapon.has_flag( "WHIP" ) && ( get_skill_level( skill_melee ) > 5) && one_in( 3 ) ) {
         force_technique = matec_id( "WHIP_DISARM" );
     }
 

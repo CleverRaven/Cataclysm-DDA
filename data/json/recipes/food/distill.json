@@ -61,7 +61,27 @@
             [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
         ],
         "components": [ [ [ "wash_rum", 21 ] ] ]
-    },{
+    },
+    {
+        "type" : "recipe",
+        "result": "whiskey",
+        "category": "CC_FOOD",
+        "subcategory": "CSC_FOOD_BREW",
+        "skill_used": "cooking",
+        "difficulty": 5,
+        "time": 30000,
+        "batch_time_factors": [50, 4],
+        "book_learn": [ ["brewing_cookbook", 4] ],
+        "qualities": [
+            { "id": "BOIL", "level": 2 },
+            { "id": "DISTILL", "level": 2 }
+        ],
+        "tools": [
+            [ [ "fire", -1 ], [ "hotplate", 21 ], [ "toolset", 21 ] ]
+        ],
+        "components": [ [ [ "wash_whiskey", 21 ] ] ]
+    },
+    {
         "type" : "recipe",
         "result": "moonshine",
         "category": "CC_FOOD",

@@ -4,13 +4,14 @@
 #include "item_factory.h"
 #include "debug.h"
 #include "json.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "rng.h"
 #include "translations.h"
 
-#include <sstream>
-#include <fstream>
 #include <bitset>
+#include <cmath>
+#include <fstream>
+#include <sstream>
 
 // mfb(t_flag) converts a flag to a bit for insertion into a bitfield
 #ifndef mfb
@@ -808,13 +809,13 @@ std::string new_artifact()
             if (info->available_mods[index] != ARMORMOD_NULL) {
                 artifact_armor_mod mod = info->available_mods[index];
                 artifact_armor_form_datum *modinfo = &(artifact_armor_mod_data[mod]);
-                if (modinfo->volume >= 0 || art->volume > abs(modinfo->volume)) {
+                if( modinfo->volume >= 0 || art->volume > std::abs( modinfo->volume ) ) {
                     art->volume += modinfo->volume;
                 } else {
                     art->volume = 1;
                 }
 
-                if (modinfo->weight >= 0 || art->weight > abs(modinfo->weight)) {
+                if( modinfo->weight >= 0 || art->weight > std::abs( modinfo->weight ) ) {
                     art->weight += modinfo->weight;
                 } else {
                     art->weight = 1;
@@ -822,26 +823,26 @@ std::string new_artifact()
 
                 art->armor->encumber += modinfo->encumb;
 
-                if (modinfo->coverage > 0 || art->armor->coverage > abs(modinfo->coverage)) {
+                if( modinfo->coverage > 0 || art->armor->coverage > std::abs( modinfo->coverage ) ) {
                     art->armor->coverage += modinfo->coverage;
                 } else {
                     art->armor->coverage = 0;
                 }
 
-                if (modinfo->thickness > 0 || art->armor->thickness > abs(modinfo->thickness)) {
+                if( modinfo->thickness > 0 || art->armor->thickness > std::abs( modinfo->thickness ) ) {
                     art->armor->thickness += modinfo->thickness;
                 } else {
                     art->armor->thickness = 0;
                 }
 
-                if (modinfo->env_resist > 0 || art->armor->env_resist > abs(modinfo->env_resist)) {
+                if( modinfo->env_resist > 0 || art->armor->env_resist > std::abs( modinfo->env_resist ) ) {
                     art->armor->env_resist += modinfo->env_resist;
                 } else {
                     art->armor->env_resist = 0;
                 }
                 art->armor->warmth += modinfo->warmth;
 
-                if (modinfo->storage > 0 || art->armor->storage > abs(modinfo->storage)) {
+                if( modinfo->storage > 0 || art->armor->storage > std::abs( modinfo->storage ) ) {
                     art->armor->storage += modinfo->storage;
                 } else {
                     art->armor->storage = 0;
@@ -1219,15 +1220,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
 
 bool save_artifacts( const std::string &path )
 {
-    std::ofstream fout;
-    try {
-        fout.exceptions( std::ios::badbit | std::ios::failbit );
-
-        fopen_exclusive( fout, path.c_str(), std::ofstream::trunc );
-        if( !fout.is_open() ) {
-            return true; // trick game into thinking it was saved
-        }
-
+    return write_to_file_exclusive( path, [&]( std::ostream &fout ) {
         JsonOut json( fout );
         json.start_array();
         for( auto & p : item_controller->get_all_itypes() ) {
@@ -1240,16 +1233,7 @@ bool save_artifacts( const std::string &path )
             }
         }
         json.end_array();
-        fclose_exclusive( fout, path.c_str() );
-
-        return true;
-    } catch( std::ios::failure & ) {
-        if( fout.is_open() ) {
-            fclose_exclusive( fout, path.c_str() );
-        }
-        popup( _( "Failed to save artifacts to %s" ), path.c_str() );
-        return false;
-    }
+    }, _( "artifact file" ) );
 }
 
 template<typename E>

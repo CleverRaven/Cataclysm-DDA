@@ -301,8 +301,7 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
         if (begin_y + (int)next_paragraph.size() > height - ((i + 1) < (int)text.size() ? 1 : 0)) {
             // Next page
             i--;
-            const std::string cont_str = _("Press any key for more...");
-            mvwprintw(w, height - 1, center_text_pos(cont_str.c_str(), 0, width - 1), cont_str.c_str());
+            center_print( w, height - 1, c_ltgray, _( "Press any key for more..." ) );
             wrefresh(w);
             refresh();
             getch();
@@ -431,17 +430,6 @@ void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, const std::string &ch)
     wattroff(w, HC);
 }
 
-void mvprintz(int y, int x, nc_color FG, const char *mes, ...)
-{
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
-    attron(FG);
-    mvprintw(y, x, "%s", text.c_str());
-    attroff(FG);
-}
-
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
 {
     va_list ap;
@@ -451,17 +439,6 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...)
     wattron(w, FG);
     mvwprintw(w, y, x, "%s", text.c_str());
     wattroff(w, FG);
-}
-
-void printz(nc_color FG, const char *mes, ...)
-{
-    va_list ap;
-    va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
-    va_end(ap);
-    attron(FG);
-    printw("%s", text.c_str());
-    attroff(FG);
 }
 
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
@@ -522,12 +499,15 @@ void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, c
     wattroff(w, FG);
 }
 
-void draw_border(WINDOW *w, nc_color FG)
+void draw_border( WINDOW *w, nc_color border_color, std::string title, nc_color title_color )
 {
-    wattron(w, FG);
-    wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
-            LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
-    wattroff(w, FG);
+    wattron( w, border_color );
+    wborder( w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
+             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
+    wattroff( w, border_color );
+    if( !title.empty() ) {
+        center_print( w, 0, title_color, title.c_str() );
+    }
 }
 
 void draw_tabs(WINDOW *w, int active_tab, ...)
@@ -1037,7 +1017,7 @@ long popup(const std::string &text, PopupFlags flags)
     std::vector<std::string> folded = foldstring(text, FULL_SCREEN_WIDTH - 2);
     height += folded.size();
     for( auto &elem : folded ) {
-        int cw = utf8_width( elem );
+        int cw = utf8_width( elem, true );
         if(cw > width) {
             width = cw;
         }

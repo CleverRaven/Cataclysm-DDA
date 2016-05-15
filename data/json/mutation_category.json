@@ -58,7 +58,7 @@
         "category" : "BEAST",
         "mutagen_message" : "Your heart races and you see blood for a moment.",
         "iv_message" : "Your heart races wildly as the injection takes hold.",
-        "memorial_message" : "Embraced his bestial nature."    
+        "memorial_message" : "Embraced his bestial nature."
     },{
         "type" : "mutation_category",
         "id" : "mutation_bear",
@@ -168,7 +168,7 @@
         "iv_hunger" : 20, "//" : "Chimera's all about the massive morphological changes Done Quick, so lotsa nutrition needed",
         "iv_thirst" : 20,
         "iv_pain" : 4,
-        "iv_fatigue" : 20, 
+        "iv_fatigue" : 20,
         "iv_morale" : -40,
         "iv_morale_max" : -200,
         "iv_sound" : true,

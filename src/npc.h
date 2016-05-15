@@ -136,54 +136,40 @@ struct npc_personality : public JsonSerializer, public JsonDeserializer
 
 struct npc_opinion : public JsonSerializer, public JsonDeserializer
 {
- int trust;
- int fear;
- int value;
- int anger;
- int owed;
- std::vector<npc_favor> favors;
+    int trust;
+    int fear;
+    int value;
+    int anger;
+    int owed;
+    std::vector<npc_favor> favors;
 
- int total_owed() {
-  int ret = owed;
-  return ret;
- }
+    npc_opinion() {
+        trust = 0;
+        fear  = 0;
+        value = 0;
+        anger = 0;
+        owed = 0;
+    }
 
- npc_opinion() {
-  trust = 0;
-  fear  = 0;
-  value = 0;
-  anger = 0;
-  owed = 0;
- };
- npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
-             trust (T), fear (F), value (V), anger(A), owed (O) { };
+    npc_opinion( int T, int F, int V, int A, int O ) :
+                 trust( T ), fear( F ), value ( V ), anger( A ), owed ( O )
+    {
+    }
 
- npc_opinion& operator+= ( const npc_opinion &rhs )
- {
-  trust += rhs.trust;
-  fear  += rhs.fear;
-  value += rhs.value;
-  anger += rhs.anger;
-  owed  += rhs.owed;
-  return *this;
- };
+    npc_opinion& operator+=( const npc_opinion &rhs )
+    {
+        trust += rhs.trust;
+        fear  += rhs.fear;
+        value += rhs.value;
+        anger += rhs.anger;
+        owed  += rhs.owed;
+        return *this;
+    }
 
-/*
- npc_opinion& operator+= (npc_opinion rhs)
- {
-  trust += rhs.trust;
-  fear  += rhs.fear;
-  value += rhs.value;
-  anger += rhs.anger;
-  owed  += rhs.owed;
-  return *this;
- };
-*/
-
- npc_opinion& operator+ (npc_opinion &rhs)
- {
-  return (npc_opinion(*this) += rhs);
- };
+    npc_opinion& operator+( const npc_opinion &rhs )
+    {
+        return (npc_opinion(*this) += rhs);
+    }
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -522,7 +508,7 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     /**
      * The skill this NPC offers to train.
      */
-    const Skill* skill = nullptr;
+    skill_id skill = skill_id( NULL_ID );
     /**
      * The martial art style this NPC offers to train.
      */
@@ -587,8 +573,7 @@ public:
      * See @ref npc_chatbin::add_new_mission
      */
     void add_new_mission( mission *miss );
-
- const Skill* best_skill() const;
+    skill_id best_skill() const;
  void starting_weapon(npc_class type);
 
 // Save & load
@@ -623,7 +608,11 @@ public:
  void make_angry(); // Called if the player attacks us
  bool wants_to_travel_with(player *p) const;
  int assigned_missions_value();
- std::vector<const Skill*> skills_offered_to(const player &p); // Skills that're higher
+    /**
+     * @return Skills of which this NPC has a higher level than the given player. In other
+     * words: skills this NPC could teach the player.
+     */
+    std::vector<skill_id> skills_offered_to( const player &p ) const;
     /**
      * Martial art styles that we known, but the player p doesn't.
      */

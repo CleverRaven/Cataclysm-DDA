@@ -36,6 +36,8 @@ typedef std::string itype_id;
 typedef std::string ammotype;
 class fault;
 using fault_id = string_id<fault>;
+struct quality;
+using quality_id = string_id<quality>;
 
 enum bigness_property_aspect : int {
     BIGNESS_WHEEL_DIAMETER      // wheel size in inches, including tire
@@ -72,16 +74,16 @@ struct islot_comestible
     long def_charges = 1;
 
     /** effect on character thirst (may be negative) */
-    int quench = 0; 
+    int quench = 0;
 
     /** effect on character nutrition (may be negative) */
     int nutr = 0;
 
     /** turns until becomes rotten, or zero if never spoils */
-    int spoils = 0; 
+    int spoils = 0;
 
     /** addiction potential */
-    int addict = 0; 
+    int addict = 0;
 
     /** effects of addiction */
     add_type add = ADD_NULL;
@@ -383,6 +385,8 @@ struct islot_gunmod : common_firing_data {
     /** Increases base gun UPS consumption by this many charges per shot */
     int ups_charges = 0;
 
+    /** If non-empty replaces the compatible magazines for the base gun */
+    std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 };
 
 struct islot_magazine {
@@ -553,7 +557,7 @@ public:
 
     std::string default_container = "null"; // The container it comes in
 
-    std::map<std::string, int> qualities; //Tool quality indicators
+    std::map<quality_id, int> qualities; //Tool quality indicators
     std::map<std::string, std::string> properties;
 
     // What we're made of (material names). .size() == made of nothing.
@@ -599,7 +603,7 @@ public:
     const item_category *category = nullptr; // category pointer or NULL for automatic selection
 
     nc_color color = c_white; // Color on the map (color.h)
-    char sym = '#';       // Symbol on the ma
+    char sym = 0; // Symbol on the map
 
     /** Magazine types (if any) for each ammo type that can be used to reload this item */
     std::map< ammotype, std::set<itype_id> > magazines;
@@ -643,7 +647,7 @@ public:
         if( ammo ) {
             return true;
         } else if( comestible ) {
-            return phase == LIQUID || comestible->def_charges > 1;
+            return phase == LIQUID || comestible->def_charges > 1 || stack_size > 1;
         }
         return false;
     }

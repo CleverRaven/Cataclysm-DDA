@@ -46,8 +46,6 @@ void process_sound_markers( player *p );
 std::vector<tripoint> get_footstep_markers();
 // Return list of all sounds and the list of sound cluster centroids.
 std::pair<std::vector<tripoint>, std::vector<tripoint>> get_monster_sounds();
-// Draw sounds as heard by monsters, including clustering.
-void draw_monster_sounds( const tripoint &offset, WINDOW *window );
 // retrieve the sound event(s?) at a location.
 std::string sound_at( const tripoint &location );
 }

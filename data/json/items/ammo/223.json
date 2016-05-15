@@ -35,7 +35,7 @@
         "pierce": 4,
         "dispersion": -10,
         "recoil": 40
-    },        
+    },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {

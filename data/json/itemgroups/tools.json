@@ -19,6 +19,7 @@
       { "group": "tools_common", "prob": 100 },
       [ "circsaw_off", 100 ],
       [ "cordless_drill", 100 ],
+      [ "hand_drill", 20 ],
       [ "nailgun", 100 ]
     ]
   },
@@ -56,9 +57,11 @@
     "//": "Portable tools for earthworking or farming",
     "items": [
       [ "ax", 80 ],
+      [ "bucket", 40 ],
       [ "chainsaw_off", 30 ],
       [ "elec_chainsaw_off", 30 ],
       [ "g_shovel", 40 ],
+      [ "hand_drill", 20 ],
       [ "hoe", 60 ],
       [ "pickaxe", 80 ],
       [ "pitchfork", 60 ],

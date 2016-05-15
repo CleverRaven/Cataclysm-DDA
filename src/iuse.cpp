@@ -283,7 +283,7 @@ static bool inscribe_item(player *p, std::string verb, std::string gerund, bool 
     //Note: this part still strongly relies on English grammar.
     //Although it can be easily worked around in language like Chinese,
     //but might need to be reworked for some European languages that have more verb forms
-    int pos = g->inv(string_format(_("%s on what?"), verb.c_str()));
+    int pos = g->inv_for_all(string_format(_("%s on what?"), verb.c_str()));
     item *cut = &(p->i_at(pos));
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
@@ -954,11 +954,12 @@ int iuse::flusleep(player *p, item *it, bool, const tripoint& )
 
 int iuse::inhaler(player *p, item *it, bool, const tripoint& )
 {
-    p->remove_effect( effect_asthma);
-    p->add_msg_if_player(m_neutral, _("You take a puff from your inhaler."));
-    if (one_in(50)) {  // adverse reaction
-        p->add_msg_if_player(m_bad, _("Your heart begins to race."));
-        p->mod_fatigue(-10);
+    p->add_msg_if_player( m_neutral, _( "You take a puff from your inhaler." ) );
+    if( !p->remove_effect( effect_asthma) ) {
+        p->mod_fatigue( -3 ); // if we don't have asthma can be used as stimulant
+        if( one_in( 20 ) ) {   // with a small but significant risk of adverse reaction
+            p->add_effect( effect_shakes, 10 * rng( 2, 5 ) );
+        }
     }
     return it->type->charges_to_use();
 }
@@ -2167,7 +2168,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     p->moves -= 500 * p->fine_detail_vision_mod();
     p->practice( skill_tailor, items_needed * 3 + 3 );
     ///\EFFECT_TAILOR randomly improves clothing modifiation efforts
-    int rn = dice( 3, 2 + p->skillLevel( skill_tailor ) ); // Skill
+    int rn = dice( 3, 2 + p->get_skill_level( skill_tailor ) ); // Skill
     ///\EFFECT_DEX randomly improves clothing modification efforts
     rn += rng( 0, p->dex_cur / 2 );                    // Dexterity
     ///\EFFECT_PER randomly improves clothing modification efforts
@@ -2212,22 +2213,11 @@ void remove_battery_mods( item &modded, player &p )
 
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(m_info, _("This mod can only be used on tools."));
-        return 0;
-    }
-
-    if( modded->ammo_type() != "battery") {
-        p->add_msg_if_player(m_info, _("That item does not use batteries!"));
         return 0;
     }
 
@@ -2245,22 +2235,11 @@ int iuse::extra_battery(player *p, item *, bool, const tripoint& )
 
 int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "plutonium";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "plutonium" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(m_info, _("This device can only be used on tools."));
-        return 0;
-    }
-
-    if( modded->ammo_type() != "plutonium" ) {
-        p->add_msg_if_player(m_info, _("That item does not use plutonium!"));
         return 0;
     }
 
@@ -2272,25 +2251,13 @@ int iuse::double_reactor(player *p, item *, bool, const tripoint& )
 
 int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(m_info, _("This mod can only be used on tools."));
-        return 0;
-    }
-
-    if( modded->ammo_type() != "battery" ) {
-        p->add_msg_if_player(m_info, _("That item does not use batteries!"));
-        return 0;
-    }
-
     if (modded->has_flag("RECHARGE")) {
         p->add_msg_if_player(m_info, _("That item already has a rechargeable battery pack."));
         return 0;
@@ -2309,30 +2276,18 @@ int iuse::rechargeable_battery(player *p, item *it, bool, const tripoint& )
 
 int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(m_info, _("This mod can only be used on tools."));
-        return 0;
-    }
-
     if (modded->has_flag("ATOMIC_AMMO")) {
         p->add_msg_if_player(m_info,
                              _("That item has already had its battery modified to accept plutonium cells."));
         return 0;
     }
-    if( modded->ammo_type() != "battery" ) {
-        p->add_msg_if_player(m_info, _("That item does not use batteries!"));
-        return 0;
-    }
-
 
     remove_battery_mods( *modded, *p );
     remove_ammo( modded, *p ); // remove batteries, item::charges is now plutonium
@@ -2347,25 +2302,13 @@ int iuse::atomic_battery(player *p, item *it, bool, const tripoint& )
 }
 int iuse::ups_battery(player *p, item *, bool, const tripoint& )
 {
-    int inventory_index = g->inv_for_filter( _("Modify what?"), []( const item & itm ) {
-        return itm.is_tool() && itm.ammo_type() == "battery";
-    } );
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
     item *modded = &( p->i_at( inventory_index ) );
 
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player(_("You do not have that item!"));
         return 0;
     }
-    if (!modded->is_tool()) {
-        p->add_msg_if_player(_("This mod can only be used on tools."));
-        return 0;
-    }
-
-    if( modded->ammo_type() != "battery" ) {
-        p->add_msg_if_player(_("That item does not use batteries!"));
-        return 0;
-    }
-
     if (modded->has_flag("USE_UPS")) {
         p->add_msg_if_player(_("That item has already had its battery modified to use a UPS!"));
         return 0;
@@ -2401,10 +2344,6 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 
     if( modded.is_null() ) {
         p->add_msg_if_player(_("You do not have that item!"));
-        return 0;
-    }
-    if( !modded.is_tool() || !modded.has_flag( "RADIO_MODABLE" ) ) {
-        p->add_msg_if_player(_("This item can't be made modified this way."));
         return 0;
     }
 
@@ -2455,11 +2394,6 @@ int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
     item *modded = &( p->i_at( inventory_index ) );
     if (modded == NULL || modded->is_null()) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return 0;
-    }
-
-    if (!modded->is_tool()) {
-        p->add_msg_if_player( m_info, _( "Only power mods for tools can be removed this way." ) );
         return 0;
     }
 
@@ -2573,7 +2507,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
                 return 0;
             }
             int success = -50;
-            const int surv = p->skillLevel( skill_survival );
+            const int surv = p->get_skill_level( skill_survival );
             const int attempts = rng(it->charges, it->charges * it->charges);
             for (int i = 0; i < attempts; i++) {
                 ///\EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap
@@ -2790,7 +2724,7 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
         return !itm.contents.empty() &&
                ( itm.contents[0].type->id == "water" ||
                  itm.contents[0].type->id == "salt_water" );
-    }, _( "Purify what?" ), 1 );
+    }, _( "Purify what?" ), 1, _( "You don't have water to purify." ) );
 
     item *target = loc.get_item();
     if( target == nullptr ) {
@@ -2803,10 +2737,6 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
     }
 
     item *pure = &target->contents[0];
-    if (pure->type->id != "water" && pure->type->id != "salt_water") {
-        p->add_msg_if_player(m_info, _("You can only purify water."));
-        return 0;
-    }
     if (pure->charges > it->charges) {
         p->add_msg_if_player(m_info,
                              _("You don't have enough charges in your purifier to purify all of the water."));
@@ -3217,11 +3147,11 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     ///\EFFECT_STR speeds up crowbar prying attempts
 
     ///\EFFECT_MECHANICS speeds up crowbar prying attempts
-    p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->skillLevel( skill_mechanics ) ) * 5 ) );
+    p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->get_skill_level( skill_mechanics ) ) * 5 ) );
     ///\EFFECT_STR increases chance of crowbar prying success
 
     ///\EFFECT_MECHANICS increases chance of crowbar prying success
-    if (dice(4, difficulty) < dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->str_cur)) {
+    if (dice(4, difficulty) < dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
         p->practice( skill_mechanics, 1);
         p->add_msg_if_player(m_good, succ_action);
         if (g->m.furn(dirx, diry) == f_crate_c) {
@@ -3249,7 +3179,7 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
             ///\EFFECT_STR reduces chance of breaking window with crowbar
 
             ///\EFFECT_MECHANICS reduces chance of breaking window with crowbar
-            if (dice(4, difficulty) > dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->str_cur)) {
+            if (dice(4, difficulty) > dice(2, p->get_skill_level( skill_mechanics )) + dice(2, p->str_cur)) {
                 p->add_msg_if_player(m_mixed, _("You break the glass."));
                 sounds::sound(dirp, 24, _("glass breaking!"));
                 g->m.ter_set(dirx, diry, t_window_frame);
@@ -3564,7 +3494,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         ///\EFFECT_CARPENTRY speeds up mining with a pickaxe
-        turns = (100000 - 3000 * p->skillLevel( skill_carpentry ));
+        turns = (100000 - 3000 * p->get_skill_level( skill_carpentry ));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
         turns = 20000;
@@ -3617,6 +3547,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     bool set = false;
     std::stringstream message;
     int practice = 0;
+    static const quality_id DIG( "DIG" );
 
     if (it->type->id == "cot") {
         message << _("You unfold the cot and place it on the ground.");
@@ -3643,7 +3574,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
         type = tr_bubblewrap;
         practice = 2;
     } else if (it->type->id == "beartrap") {
-        buried = (p->has_quality( "DIG", 3 ) &&
+        buried = (p->has_quality( DIG, 3 ) &&
                   g->m.has_flag("DIGGABLE", posx, posy) &&
                   query_yn(_("Bury the beartrap?")));
         type = (buried ? tr_beartrap_buried : tr_beartrap);
@@ -3753,7 +3684,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
             return 0;
         }
     } else if (it->type->id == "landmine") {
-        buried = (p->has_quality( "DIG", 3 ) &&
+        buried = (p->has_quality( DIG, 3 ) &&
                   g->m.has_flag("DIGGABLE", posx, posy) &&
                   query_yn(_("Bury the land mine?")));
         type = (buried ? tr_landmine_buried : tr_landmine);
@@ -3771,7 +3702,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
     }
 
     if( buried ) {
-        if( !p->has_quality( "DIG" ) ) {
+        if( !p->has_quality( DIG ) ) {
             p->add_msg_if_player( m_info, _( "You need a digging tool." ));
             return 0;
         } else if( !g->m.has_flag( "DIGGABLE", posx, posy ) ) {
@@ -4501,7 +4432,7 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
     ///\EFFECT_DEX slightly increases chance of successfully using tazer
 
     ///\EFFECT_MELEE increases chance of successfully using a tazer
-    int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel( skill_melee ) * 2;
+    int numdice = 3 + (p->dex_cur / 2.5) + p->get_skill_level( skill_melee ) * 2;
     p->moves -= 100;
 
     ///\EFFECT_DODGE increases chance of dodging a tazer attack
@@ -4906,7 +4837,7 @@ void iuse::cut_log_into_planks(player *p)
     item plank("2x4", int(calendar::turn));
     item scrap("splinter", int(calendar::turn));
     ///\EFFECT_CARPENTRY increases number of planks cut from a log
-    int planks = (rng(1, 3) + (p->skillLevel( skill_carpentry ) * 2));
+    int planks = (rng(1, 3) + (p->get_skill_level( skill_carpentry ) * 2));
     int scraps = 12 - planks;
     if (planks >= 12) {
         planks = 12;
@@ -4931,23 +4862,17 @@ int iuse::lumber(player *p, item *it, bool, const tripoint& )
     }
 
     // If the player is not standing on a log, check inventory
-    int pos = g->inv_for_filter( _("Cut up what?"), []( const item & itm ) {
-        return itm.type->id == "log";
-    } );
+    int pos = g->inv_for_id( itype_id( "log" ), _( "Cut up what?" ) );
+
     item* cut = &( p->i_at( pos ) );
 
     if (cut->type->id == "null") {
         add_msg(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (cut->type->id == "log") {
-        p->i_rem( cut );
-        cut_log_into_planks(p);
-        return it->type->charges_to_use();
-    } else {
-        add_msg(m_info, _("You can't cut that up!"));
-        return 0;
-    }
+    p->i_rem( cut );
+    cut_log_into_planks( p );
+    return it->type->charges_to_use();
 }
 
 
@@ -4958,8 +4883,8 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
-    if (!(p->has_amount("goggles_welding", 1) || p->is_wearing("goggles_welding") ||
-          p->is_wearing("rm13_armor_on") || p->has_bionic("bio_sunglasses"))) {
+    static const quality_id GLARE( "GLARE" );
+    if( p->has_quality( GLARE, 2 ) ) {
         add_msg(m_info, _("You need welding goggles to do that."));
         return 0;
     }
@@ -5707,25 +5632,20 @@ static bool heat_item(player *p)
    auto loc = g->inv_map_splice( []( const item & itm ) {
         return (itm.is_food() && itm.has_flag("EATEN_HOT")) ||
             (itm.is_food_container() && itm.contents[0].has_flag("EATEN_HOT"));
-    }, _( "Heat up what?" ), 1 );
+    }, _( "Heat up what?" ), 1, _( "You don't have appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
     if( heat == nullptr ) {
-        add_msg(m_info, _("You do not have that item!"));
+        add_msg( m_info, _( "Never mind." ) );
         return false;
     }
-
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
-    if ((target->is_food()) && (target->has_flag("EATEN_HOT"))) {
-        p->moves -= 300;
-        add_msg(_("You heat up the food."));
-        target->item_tags.insert("HOT");
-        target->active = true;
-        target->item_counter = 600; // sets the hot food flag for 60 minutes
-        return true;
-    }
-    add_msg(m_info, _("You can't heat that up!"));
-    return false;
+    p->mod_moves( -300 );
+    add_msg( _( "You heat up the food." ) );
+    target->item_tags.insert( "HOT" );
+    target->active = true;
+    target->item_counter = 600; // sets the hot food flag for 60 minutes
+    return true;
 }
 
 int iuse::heatpack(player *p, item *it, bool, const tripoint& )
@@ -5794,11 +5714,6 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
         item *put = &( p->i_at(inventory_index ) );
         if (put == NULL || put->is_null()) {
             p->add_msg_if_player(_("Never mind."));
-            return 0;
-        }
-
-        if (!(put->is_ammo() && (put->ammo_type() == "arrow" || put->ammo_type() == "bolt"))) {
-            p->add_msg_if_player(m_info, _("Those aren't arrows!"));
             return 0;
         }
 
@@ -6103,11 +6018,11 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     ///\EFFECT_MECHANICS >1 allows gun repair
-    if (p->skillLevel( skill_mechanics ) < 2) {
+    if (p->get_skill_level( skill_mechanics ) < 2) {
         p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
     }
-    int inventory_index = g->inv(_("Select the firearm to repair"));
+    int inventory_index = g->inv_for_all(_("Select the firearm to repair"));
     item *fix = &(p->i_at(inventory_index));
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -6122,13 +6037,13 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
                              fix->tname().c_str());
         return 0;
     }
-    if ((fix->damage == 0) && p->skillLevel( skill_mechanics ) < 8) {
+    if ((fix->damage == 0) && p->get_skill_level( skill_mechanics ) < 8) {
         p->add_msg_if_player(m_info, _("Your %s is already in peak condition."), fix->tname().c_str());
         p->add_msg_if_player(m_info, _("With a higher mechanics skill, you might be able to improve it."));
         return 0;
     }
     ///\EFFECT_MECHANICS >7 allows accurizing ranged weapons
-    if ((fix->damage == 0) && p->skillLevel( skill_mechanics ) >= 8) {
+    if ((fix->damage == 0) && p->get_skill_level( skill_mechanics ) >= 8) {
         p->add_msg_if_player(m_good, _("You accurize your %s."), fix->tname().c_str());
         sounds::sound(p->pos(), 6, "");
         p->moves -= 2000 * p->fine_detail_vision_mod();
@@ -6165,7 +6080,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     ///\EFFECT_FABRICATION >0 allows use of repair kit
-    if (p->skillLevel( skill_fabrication ) < 1) {
+    if (p->get_skill_level( skill_fabrication ) < 1) {
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
     }
@@ -6176,15 +6091,6 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
     item *fix = &( p->i_at(inventory_index ) );
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
-        return 0;
-    }
-    if ( fix->is_firearm() ) {
-        p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
-        return 0;
-    }
-    if (!(fix->made_of( material_id( "wood" ) ) || fix->made_of( material_id( "paper" ) ) || fix->made_of( material_id( "bone" ) ) ||
-          fix->made_of( material_id( "chitin" ) ))) {
-        p->add_msg_if_player(m_info, _("That isn't made of wood, paper, bone, or chitin!"));
         return 0;
     }
     if ( fix->damage == MIN_ITEM_DAMAGE ) {
@@ -6303,12 +6209,12 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             ///\EFFECT_INT speeds up robot reprogramming
 
             ///\EFFECT_COMPUTER speeds up robot reprogramming
-            p->moves -= std::max(100, 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10);
+            p->moves -= std::max(100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10);
             ///\EFFECT_INT increases chance of successful robot reprogramming, vs difficulty
 
             ///\EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty
-            float success = p->skillLevel( skill_computer ) - 1.5 * (z->type->difficulty) /
-                            ((rng(2, p->int_cur) / 2) + (p->skillLevel( skill_computer ) / 2));
+            float success = p->get_skill_level( skill_computer ) - 1.5 * (z->type->difficulty) /
+                            ((rng(2, p->int_cur) / 2) + (p->get_skill_level( skill_computer ) / 2));
             if (success >= 0) {
                 p->add_msg_if_player(_("You successfully override the %s's IFF protocols!"),
                                      z->name().c_str());
@@ -6689,7 +6595,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
         amenu.addentry(ei_download, true, 'w', _("Download data from memory card"));
 
         ///\EFFECT_COMPUTER >2 allows decrypting memory cards more easily
-        if (p->skillLevel( skill_computer ) > 2) {
+        if (p->get_skill_level( skill_computer ) > 2) {
             amenu.addentry(ei_decrypt, true, 'd', _("Decrypt memory card"));
         } else {
             amenu.addentry(ei_decrypt, false, 'd', _("Decrypt memory card (low skill)"));
@@ -6868,7 +6774,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
             p->moves -= 200;
 
-            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
             item *mc = &(p->i_at(inventory_index));
 
             if (mc == NULL || mc->is_null()) {
@@ -6898,7 +6804,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
         if (ei_decrypt == choice) {
             p->moves -= 200;
-            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+            const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
             item *mc = &(p->i_at(inventory_index));
 
             if (mc == NULL || mc->is_null()) {
@@ -6922,7 +6828,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
             ///\EFFECT_INT increases chance of safely decrypting memory card
 
             ///\EFFECT_COMPUTER increases chance of safely decrypting memory card
-            const int success = p->skillLevel( skill_computer ) * rng(1, p->skillLevel( skill_computer )) *
+            const int success = p->get_skill_level( skill_computer ) * rng(1, p->get_skill_level( skill_computer )) *
                 rng(1, p->int_cur) - rng(30, 80);
             if (success > 0) {
                 p->practice( skill_computer , rng(5, 10));
@@ -7188,7 +7094,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
         p->moves -= 200;
 
-        const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"), false);
+        const int inventory_index = g->inv_for_flag("MC_MOBILE", _("Insert memory card"));
         item *mc = &(p->i_at(inventory_index));
 
         if (mc == NULL || mc->is_null()) {
@@ -7360,7 +7266,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
     if (choice == 2) {
 
         if( it->contents.empty() ) { //arming car with bomb
-            int inventory_index = g->inv_for_flag("RADIOCARITEM", _("Arm what?"), false);
+            int inventory_index = g->inv_for_flag("RADIOCARITEM", _("Arm what?"));
             item *put = &(p->i_at(inventory_index));
             if (put == NULL || put->is_null()) {
                 p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -7549,7 +7455,7 @@ static bool hackveh(player *p, item *it, vehicle *veh)
     ///\EFFECT_INT increases chance of bypassing vehicle security system
 
     ///\EFFECT_COMPUTER increases chance of bypassing vehicle security system
-    int roll = dice( p->skillLevel( skill_computer ) + 2, p->int_cur ) - ( advanced ? 50 : 25 );
+    int roll = dice( p->get_skill_level( skill_computer ) + 2, p->int_cur ) - ( advanced ? 50 : 25 );
     int effort = 0;
     bool success = false;
     if( roll < -20 ) { // Really bad rolls will trigger the alarm before you know it exists
@@ -7783,7 +7689,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
             ///\EFFECT_INT increases chance of checking multi-cooker on time
 
             ///\EFFECT_SURVIVAL increases chance of checking multi-cooker on time
-            if (p->int_cur + p->skillLevel( skill_cooking ) + p->skillLevel( skill_survival ) > 16) {
+            if (p->int_cur + p->get_skill_level( skill_cooking ) + p->get_skill_level( skill_survival ) > 16) {
                 add_msg(m_info, _("The multi-cooker should be finishing shortly..."));
             }
         }
@@ -7855,7 +7761,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 ///\EFFECT_ELECTRONICS >3 allows multicooker upgrade
 
                 ///\EFFECT_FABRICATION >3 allows multicooker upgrade
-                if (p->skillLevel( skill_electronics ) > 3 && p->skillLevel( skill_fabrication ) > 3) {
+                if (p->get_skill_level( skill_electronics ) > 3 && p->get_skill_level( skill_fabrication ) > 3) {
                     const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
                     if (upgr == "" ) {
                         menu.addentry(mc_upgrade, true, 'u', _("Upgrade multi-cooker"));
@@ -8003,8 +7909,9 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 has_tools = false;
             }
 
-            if( !cinv.has_quality( "SCREW_FINE" ) ) {
-                p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SCREW_FINE" ).c_str() );
+            static const quality_id SCREW_FINE( "SCREW_FINE" );
+            if( !cinv.has_quality( SCREW_FINE ) ) {
+                p->add_msg_if_player(m_warning, _("You need an item with %s of 1 or more to disassemble this."), SCREW_FINE.obj().name.c_str() );
                 has_tools = false;
             }
 
@@ -8022,7 +7929,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
             ///\EFFECT_ELECTRONICS increases chance to successfully upgrade multi-cooker
 
             ///\EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker
-            if (p->skillLevel( skill_electronics ) + p->skillLevel( skill_fabrication ) + p->int_cur > rng(20, 35)) {
+            if (p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->int_cur > rng(20, 35)) {
 
                 p->practice( skill_electronics, rng(5, 20));
                 p->practice( skill_fabrication, rng(5, 20));
@@ -8138,13 +8045,13 @@ int iuse::cable_attach(player *p, item *it, bool, const tripoint& )
             const vpart_str_id vpid( it->typeId() );
 
             point vcoords = g->m.veh_part_coordinates( source_local );
-            vehicle_part source_part( vpid, vcoords.x, vcoords.y, std::move( item( *it ) ) );
+            vehicle_part source_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             source_part.target.first = target_global;
             source_part.target.second = target_veh->real_global_pos3();
             source_veh->install_part(vcoords.x, vcoords.y, source_part);
 
             vcoords = g->m.veh_part_coordinates( target_local );
-            vehicle_part target_part( vpid, vcoords.x, vcoords.y, std::move( item( *it ) ) );
+            vehicle_part target_part( vpid, vcoords.x, vcoords.y, item( *it ) );
             target_part.target.first = source_global;
             target_part.target.second = source_veh->real_global_pos3();
             target_veh->install_part(vcoords.x, vcoords.y, target_part);
@@ -8417,17 +8324,14 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
         });
     };
 
-    item& obj = p->i_at( g->inv_for_filter( _( "Saw barrel?" ), filter ) );
+    const int pos = g->inv_for_filter( _( "Saw barrel?" ), filter, _( "You don't have guns with long barrels." ) );
 
-    if( obj.is_null() ) {
+    if( pos == INT_MIN ) {
         p->add_msg_if_player( _( "Never mind." ) );
         return 0;
     }
-    if( !filter( obj ) ) {
-        p->add_msg_if_player( _( "Can't saw down the barrel of your %s" ), obj.tname().c_str() );
-        return 0;
-    }
 
+    item &obj = p->i_at( pos );
     p->add_msg_if_player( _( "You saw down the barrel of your %s" ), obj.tname().c_str() );
     obj.contents.emplace_back( "barrel_small", calendar::turn );
 

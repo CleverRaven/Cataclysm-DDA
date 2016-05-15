@@ -86,6 +86,8 @@ enum action_id : int;
 struct special_game;
 struct mtype;
 using mtype_id = string_id<mtype>;
+using itype_id = std::string;
+using ammotype = std::string;
 class mission;
 class map;
 class Creature;
@@ -166,11 +168,11 @@ class game
         /** Used in main.cpp to determine what type of quit is being performed. */
         quit_status uquit;
         /** Saving and loading functions. */
-        void serialize(std::ofstream &fout);  // for save
-        void unserialize(std::ifstream &fin);  // for load
-        bool unserialize_legacy(std::ifstream &fin);  // for old load
-        void unserialize_master(std::ifstream &fin);  // for load
-        bool unserialize_master_legacy(std::ifstream &fin);  // for old load
+        void serialize(std::ostream &fout);  // for save
+        void unserialize(std::istream &fin);  // for load
+        bool unserialize_legacy(std::istream &fin);  // for old load
+        void unserialize_master(std::istream &fin);  // for load
+        bool unserialize_master_legacy(std::istream &fin);  // for old load
 
         /** write stats of all loaded items of the given type to stdout */
         void dump_stats( const std::string& what, dump_mode mode );
@@ -311,7 +313,7 @@ class game
          * If the monster was revived, the caller should remove the corpse item.
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
-        bool revive_corpse( const tripoint &location, const item &corpse );
+        bool revive_corpse( const tripoint &location, item &corpse );
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire( bool burst, const tripoint &default_target = tripoint_min );
@@ -431,15 +433,19 @@ class game
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
         std::string list_item_downvote;
-        int inv(const std::string &title, int position = INT_MIN);
-        int inv_activatable(std::string const &title);
-        int inv_for_liquid(const item &liquid, const std::string &title, bool auto_choose_single);
-        int inv_for_salvage(const std::string &title, const salvage_actor &actor );
+
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
-        int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
-        int inv_for_filter(const std::string &title, item_filter filter);
-        int inv_for_unequipped(std::string const &title, item_filter filter);
-        int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
+
+        int inv( int position = INT_MIN );
+        int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
+        int inv_for_all( const std::string &title, const std::string &none_message = "" );
+        int inv_for_activatables( const player &p, const std::string &title );
+        int inv_for_flag( const std::string &flag, const std::string &title );
+        int inv_for_id( const itype_id &id, const std::string &title );
+        int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
+        int inv_for_equipped( const std::string &title );
+        int inv_for_unequipped( const std::string &title );
+
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,
@@ -453,8 +459,10 @@ class game
                                       item_filter ground_filter,
                                       item_filter vehicle_filter,
                                       const std::string &title,
-                                      int radius = 0 );
-        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0 );
+                                      int radius = 0,
+                                      const std::string &none_message = "" );
+        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+                                      const std::string &none_message = "" );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -580,7 +588,8 @@ class game
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
          */
-        bool check_safe_mode_allowed();
+        bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
+        void set_safe_mode( safe_mode_type mode );
 
         const int dangerous_proximity;
         bool narrow_sidebar;
@@ -629,7 +638,7 @@ class game
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
                         bool bShowDDA = true);
         bool load_master(std::string worldname); // Load the master data file, with factions &c
-        void load_weather(std::ifstream &fin);
+        void load_weather(std::istream &fin);
         void load(std::string worldname, std::string name); // Load a player-specific save file
         bool start_game(std::string worldname); // Starts a new game in a world
         void start_special_game(special_game_id gametype); // See gamemode.cpp
@@ -637,12 +646,12 @@ class game
         //private save functions.
         // returns false if saving failed for whatever reason
         bool save_factions_missions_npcs();
-        void serialize_master(std::ofstream &fout);
+        void serialize_master(std::ostream &fout);
         // returns false if saving failed for whatever reason
         bool save_artifacts();
         // returns false if saving failed for whatever reason
         bool save_maps();
-        void save_weather(std::ofstream &fout);
+        void save_weather(std::ostream &fout);
         // returns false if saving failed for whatever reason
         bool save_uistate();
         void load_uistate(std::string worldname);
@@ -825,6 +834,7 @@ private:
         int last_target; // The last monster targeted
         bool last_target_was_npc;
         safe_mode_type safe_mode;
+        bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool autosafemode; // is autosafemode enabled?

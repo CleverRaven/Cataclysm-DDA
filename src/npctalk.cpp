@@ -128,7 +128,7 @@ public:
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
-#define OWED_VAL 250
+#define OWED_VAL 1000
 
 // Some aliases to help with gen_responses
 #define RESPONSE(txt)      ret.push_back(talk_response());\
@@ -173,12 +173,12 @@ const std::string &talk_trial::name() const
 
 /** Time (in turns) and cost (in cent) for training: */
 // TODO: maybe move this function into the skill class? Or into the NPC class?
-static int calc_skill_training_time( const Skill *skill )
+static int calc_skill_training_time( const skill_id &skill )
 {
-    return MINUTES( 10 ) + MINUTES( 5 ) * g->u.skillLevel( skill );
+    return MINUTES( 10 ) + MINUTES( 5 ) * g->u.get_skill_level( skill );
 }
 
-static int calc_skill_training_cost( const Skill *skill )
+static int calc_skill_training_cost( const skill_id &skill )
 {
     return 1000 * ( 1 + g->u.get_skill_level( skill ) ) * ( 1 + g->u.get_skill_level( skill ) );
 }
@@ -196,6 +196,16 @@ static int calc_ma_style_training_cost( const matype_id & /* id */ )
     return 800;
 }
 
+// Rescale values from "mission scale" to "opinion scale"
+static int cash_to_favor( const npc &, int cash )
+{
+    // @todo It should affect different NPCs to a different degree
+    // Square root of mission value in dollars
+    // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
+    double scaled_mission_val = sqrt( cash / 100.0 );
+    return roll_remainder( scaled_mission_val );
+}
+
 void npc_chatbin::check_missions()
 {
     // TODO: or simply fail them? Some missions might only need to be reported.
@@ -209,6 +219,10 @@ void npc_chatbin::check_missions()
 
 void npc::talk_to_u()
 {
+    if( g->u.is_dead_state() ) {
+        attitude = NPCATT_NULL;
+        return;
+    }
     const bool has_mind_control = g->u.has_trait( "DEBUG_MIND_CONTROL" );
     // This is necessary so that we don't bug the player over and over
     if( attitude == NPCATT_TALK ) {
@@ -305,15 +319,15 @@ void npc::talk_to_u()
     d.win = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                     (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY-FULL_SCREEN_HEIGHT) / 2 : 0,
                     (TERMX > FULL_SCREEN_WIDTH) ? (TERMX-FULL_SCREEN_WIDTH) / 2 : 0);
-    draw_border(d.win);
-    mvwvline(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 1, LINE_XOXO, FULL_SCREEN_HEIGHT - 1);
-    mvwputch(d.win, 0, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_OXXX);
-    mvwputch(d.win, FULL_SCREEN_HEIGHT - 1, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_XXOX);
-    mvwprintz(d.win, 1,  1, c_white, _("Dialogue with %s"), name.c_str());
-    mvwprintz(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 3, c_white, _("Your response:"));
 
     // Main dialogue loop
     do {
+        draw_border(d.win);
+        mvwvline(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 1, LINE_XOXO, FULL_SCREEN_HEIGHT - 1);
+        mvwputch(d.win, 0, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_OXXX);
+        mvwputch(d.win, FULL_SCREEN_HEIGHT - 1, (FULL_SCREEN_WIDTH / 2) + 1, BORDER_COLOR, LINE_XXOX);
+        mvwprintz(d.win, 1,  1, c_white, _("Dialogue with %s"), name.c_str());
+        mvwprintz(d.win, 1, (FULL_SCREEN_WIDTH / 2) + 3, c_white, _("Your response:"));
         const std::string next = d.opt(d.topic_stack.back());
         if (next == "TALK_NONE") {
             int cat = topic_category(d.topic_stack.back());
@@ -1011,7 +1025,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
             return _("Shall we resume?");
         }
-        std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+        std::vector<skill_id> trainable = p->skills_offered_to(g->u);
         std::vector<matype_id> styles = p->styles_offered_to(g->u);
         if (trainable.empty() && styles.empty()) {
             return _("Sorry, but it doesn't seem I have anything to teach you.");
@@ -1410,11 +1424,8 @@ talk_response &dialogue::add_response( const std::string &text, const std::strin
     return result;
 }
 
-talk_response &dialogue::add_response( const std::string &text, const std::string &r, const Skill *skill )
+talk_response &dialogue::add_response( const std::string &text, const std::string &r, const skill_id &skill )
 {
-    if( skill == nullptr ) {
-        debugmsg( "tried to select null skill" );
-    }
     talk_response &result = add_response( text, r );
     result.skill = skill;
     return result;
@@ -1563,12 +1574,12 @@ void dialogue::gen_responses( const std::string &topic )
         if( miss == nullptr ) {
             debugmsg( "dialogue::gen_responses(\"TALK_MISSION_SUCCESS\") called for null mission" );
         } else {
-            mission_value = miss->get_value();
+            mission_value = cash_to_favor( *p, miss->get_value() );
         }
         RESPONSE(_("Glad to help.  I need no payment."));
             SUCCESS("TALK_NONE");
-                SUCCESS_OPINION(mission_value / (OWED_VAL * 4), -1,
-                                mission_value / (OWED_VAL * 2), -1, 0 - mission_value);
+                SUCCESS_OPINION( mission_value / 4, -1,
+                                 mission_value / 3, -1, 0 );
                 SUCCESS_ACTION(&talk_function::clear_mission);
         add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
                       &talk_function::mission_reward );
@@ -1579,9 +1590,9 @@ void dialogue::gen_responses( const std::string &topic )
         }
         RESPONSE(_("Glad to help.  I need no payment.  Bye!"));
             SUCCESS("TALK_DONE");
-                SUCCESS_ACTION(&talk_function::clear_mission);
-                SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
-                                p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - mission_value);
+                SUCCESS_ACTION( &talk_function::clear_mission );
+                SUCCESS_OPINION( mission_value / 4, -1,
+                                 mission_value / 3, -1, 0 );
 
     } else if( topic == "TALK_MISSION_SUCCESS_LIE" ) {
         add_response( _("Well, um, sorry."), "TALK_NONE", &talk_function::clear_mission );
@@ -2208,20 +2219,20 @@ void dialogue::gen_responses( const std::string &topic )
                     add_response( resume.str(), "TALK_TRAIN_START", style );
                 } else {
                     resume << skillt.obj().name();
-                    add_response( resume.str(), "TALK_TRAIN_START", &skillt.obj() ); // TODO: should be a const reference not a pointer
+                    add_response( resume.str(), "TALK_TRAIN_START", skillt );
                 }
             }
             std::vector<matype_id> styles = p->styles_offered_to(g->u);
-            std::vector<const Skill*> trainable = p->skills_offered_to(g->u);
+            std::vector<skill_id> trainable = p->skills_offered_to(g->u);
             if (trainable.empty() && styles.empty()) {
                 add_response_none( _("Oh, okay.") );
                 return;
             }
             for( auto & trained : trainable ) {
                 const int cost = calc_skill_training_cost( trained );
-                const int cur_level = g->u.skillLevel( trained );
+                const int cur_level = g->u.get_skill_level( trained );
                 //~Skill name: current level -> next level (cost in cent)
-                std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained->name().c_str(),
+                std::string text = string_format(_("%s: %d -> %d (cost $%d)"), trained.obj().name().c_str(),
                       cur_level, cur_level + 1, cost / 100 );
                 add_response( text, "TALK_TRAIN_START", trained );
             }
@@ -2345,7 +2356,7 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("I need you to come with me."), "TALK_FRIEND", &talk_function::stop_guard );
             add_response_done( _("See you around.") );
 
-    } else if( topic == "TALK_FRIEND" ) {
+    } else if( topic == "TALK_FRIEND" || topic == "TALK_GIVE_ITEM" || topic == "TALK_USE_ITEM" ) {
         if( p->is_following() ) {
             add_response( _("Combat commands..."), "TALK_COMBAT_COMMANDS" );
         }
@@ -2366,7 +2377,7 @@ void dialogue::gen_responses( const std::string &topic )
                 SUCCESS("TALK_DENY_TRAIN");
             }
         }
-        add_response( _("Let's trade items."), "TALK_NONE", &talk_function::start_trade );
+        add_response( _("Let's trade items."), "TALK_FRIEND", &talk_function::start_trade );
         if (p->is_following() && g->m.camp_at( g->u.pos() )) {
             add_response( _("Wait at this base."), "TALK_DONE", &talk_function::assign_base );
         }
@@ -2838,8 +2849,14 @@ int topic_category( const std::string &topic )
     static const std::unordered_set<std::string> topic_8 = { {
         "TALK_AIM_RULES",
     } };
-    if( topic_7.count( topic ) > 0 ) {
+    if( topic_8.count( topic ) > 0 ) {
         return 8;
+    }
+    static const std::unordered_set<std::string> topic_9 = { {
+        "TALK_FRIEND", "TALK_GIVE_ITEM", "TALK_USE_ITEM",
+    } };
+    if( topic_9.count( topic ) > 0 ) {
+        return 9;
     }
     static const std::unordered_set<std::string> topic_99 = { {
         "TALK_SIZE_UP", "TALK_LOOK_AT", "TALK_OPINION", "TALK_SHOUT"
@@ -2874,12 +2891,15 @@ void talk_function::mission_success(npc *p)
         debugmsg( "mission_success: mission_selected == nullptr" );
         return;
     }
-    npc_opinion tmp( 0, 0, 1 + (miss->get_value() / 1000), -1, miss->get_value());
+
+    int miss_val = cash_to_favor( *p, miss->get_value() );
+    npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
     p->op_of_u += tmp;
-    if (p->my_fac != NULL){
-        p->my_fac->likes_u += 10;
-        p->my_fac->respects_u += 10;
-        p->my_fac->power += 10;
+    if( p->my_fac != nullptr ) {
+        int fac_val = std::min( 1 + miss_val / 10, 10 );
+        p->my_fac->likes_u += fac_val;
+        p->my_fac->respects_u += fac_val;
+        p->my_fac->power += fac_val;
     }
     miss->wrap_up();
 }
@@ -3212,7 +3232,7 @@ void talk_function::buy_10_logs(npc *p)
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+    bay.load(site.x * 2, site.y * 2, site.z, false);
     bay.spawn_item( 7, 15, "log", 10);
     bay.save();
 
@@ -3238,7 +3258,7 @@ void talk_function::buy_100_logs(npc *p)
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+    bay.load(site.x * 2, site.y * 2, site.z, false);
     bay.spawn_item( 7, 15, "log", 100);
     bay.save();
 
@@ -3430,11 +3450,11 @@ void talk_function::start_training( npc *p )
     int cost;
     int time;
     std::string name;
-    if( p->chatbin.skill != nullptr ) {
-        const Skill *skill = p->chatbin.skill;
+    if( p->chatbin.skill ) {
+        auto &skill = p->chatbin.skill;
         cost = calc_skill_training_cost( skill );
         time = calc_skill_training_time( skill );
-        name = skill->ident().str();
+        name = skill.str();
     } else if( p->chatbin.style.is_valid() ) {
         auto &ma_style_id = p->chatbin.style;
         cost = calc_ma_style_training_cost( ma_style_id );
@@ -3745,7 +3765,7 @@ std::string dialogue::opt( const std::string &topic )
         beta->chatbin.mission_selected = chosen.mission_selected;
     }
 
-    if( chosen.skill != NULL) {
+    if( chosen.skill ) {
         beta->chatbin.skill = chosen.skill;
     }
 
@@ -3834,7 +3854,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
     ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-    double their_adjust = (price_adjustment(p.skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
+    double their_adjust = (price_adjustment(p.get_skill_level( skill_barter ) - g->u.get_skill_level( skill_barter )) +
                               (p.int_cur - g->u.int_cur) / 20.0);
     if( their_adjust < 1.0 )
         their_adjust = 1.0;
@@ -3844,7 +3864,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
     ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p.skillLevel( skill_barter )) +
+    double your_adjust = (price_adjustment(g->u.get_skill_level( skill_barter ) - p.get_skill_level( skill_barter )) +
                              (g->u.int_cur - p.int_cur) / 20.0);
     if( your_adjust < 1.0 )
         your_adjust = 1.0;
@@ -4445,7 +4465,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 {
-    const int inv_pos = g->inv( _("Offer what?") );
+    const int inv_pos = g->inv_for_all( _( "Offer what?" ), _( "You have no items to offer." ) );
     item &given = g->u.i_at( inv_pos );
     if( given.is_null() ) {
         return _("Changed your mind?");

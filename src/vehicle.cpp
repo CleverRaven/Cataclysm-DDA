@@ -30,7 +30,6 @@
 #include "weather.h"
 #include "map_iterator.h"
 
-#include <fstream>
 #include <sstream>
 #include <stdlib.h>
 #include <set>
@@ -291,7 +290,7 @@ bool vehicle::remote_controlled(player const &p) const
     return false;
 }
 
-void vehicle::load (std::ifstream &stin)
+void vehicle::load (std::istream &stin)
 {
     std::string type;
     getline(stin, type);
@@ -385,7 +384,7 @@ void vehicle::add_steerable_wheels()
     }
 }
 
-void vehicle::save (std::ofstream &stout)
+void vehicle::save (std::ostream &stout)
 {
     serialize(stout);
     stout << std::endl;
@@ -854,11 +853,11 @@ bool vehicle::interact_vehicle_locked()
     if (is_locked){
         const inventory &crafting_inv = g->u.crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
-        if( crafting_inv.has_quality( "SCREW" ) ) {
+        if( crafting_inv.has_quality( quality_id( "SCREW" ) ) ) {
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
-                int mechanics_skill = g->u.skillLevel( skill_mechanics );
+                int mechanics_skill = g->u.get_skill_level( skill_mechanics );
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
                 g->u.assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
@@ -866,7 +865,7 @@ bool vehicle::interact_vehicle_locked()
                 point q = coord_translate(parts[0].mount);
                 g->u.activity.values.push_back(global_x() + q.x);//[0]
                 g->u.activity.values.push_back(global_y() + q.y);//[1]
-                g->u.activity.values.push_back(g->u.skillLevel( skill_mechanics ));//[2]
+                g->u.activity.values.push_back(g->u.get_skill_level( skill_mechanics ));//[2]
             } else {
                 if( has_security_working() && query_yn(_("Trigger the %s's Alarm?"), name.c_str()) ) {
                     is_alarm_on = true;
@@ -898,7 +897,7 @@ void vehicle::smash_security_system(){
     //controls and security must both be valid
     if (c >= 0 && s >= 0){
         ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
-        int skill = g->u.skillLevel( skill_mechanics );
+        int skill = g->u.get_skill_level( skill_mechanics );
         int percent_controls = 70 / (1 + skill);
         int percent_alarm = (skill+3) * 10;
         int rand = rng(1,100);
@@ -2760,11 +2759,11 @@ int vehicle::print_part_desc(WINDOW *win, int y1, const int max_y, int width, in
         } else {
             left_sym = "-"; right_sym = "-";
         }
-
-        mvwprintz(win, y, 1, (int)i == hl? hilite(c_ltgray) : c_ltgray, "%s", left_sym.c_str());
-        mvwprintz(win, y, 2, (int)i == hl? hilite(col_cond) : col_cond, "%s", partname.c_str());
-        mvwprintz(win, y, 2 + utf8_width(partname), (int)i == hl? hilite(c_ltgray) : c_ltgray, "%s", right_sym.c_str());
-//         mvwprintz(win, y, 3 + utf8_width(part_info(pl[i]).name), c_ltred, "%d", parts[pl[i]].blood);
+        nc_color sym_color = ( int )i == hl ? hilite( c_ltgray ) : c_ltgray;
+        mvwprintz( win, y, 1, sym_color, "%s", left_sym.c_str() );
+        trim_and_print( win, y, 2, getmaxx( win ) - 4,
+                        ( int )i == hl ? hilite( col_cond ) : col_cond, "%s", partname.c_str() );
+        wprintz( win, sym_color, "%s", right_sym.c_str() );
 
         if (i == 0 && is_inside(pl[i])) {
             //~ indicates that a vehicle part is inside
@@ -3078,13 +3077,14 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
     //muscle engines have infinite fuel
     if (ftype == fuel_type_muscle) {
         int part_under_player;
+        // @todo Allow NPCs to power those
         vehicle *veh = g->m.veh_at( g->u.pos(), part_under_player );
         bool player_controlling = player_in_control(g->u);
 
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
-        if (veh == this && player_controlling && part_under_player >= 0) {
+        if( veh == this && player_controlling && part_under_player >= 0 ) {
             int p = part_with_feature(part_under_player, VPFLAG_ENGINE);
-            if (p >= 0 && part_info(p).fuel_type == fuel_type_muscle) {
+            if( p >= 0 && part_info(p).fuel_type == fuel_type_muscle && is_part_on( p ) ) {
                 fl += 10;
             }
         }
@@ -5118,11 +5118,16 @@ void vehicle::place_spawn_items()
                     if( broken ) {
                         e.damage = rng( 1, MAX_ITEM_DAMAGE );
                     }
-                    if( rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
-                        e.contents.emplace_back( e.magazine_default(), e.bday );
-                    }
-                    if( rng( 0, 99 ) < spawn.with_ammo && e.ammo_type() != "NULL" && e.ammo_remaining() == 0 ) {
-                        e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                    if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
+                        bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
+                        bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current();
+
+                        if( spawn_mag || spawn_ammo ) {
+                            e.contents.emplace_back( e.magazine_default(), e.bday );
+                        }
+                        if( spawn_ammo ) {
+                            e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                        }
                     }
                     add_item( part, e);
                 }
@@ -5692,8 +5697,8 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                             item part_as_item = parts[parts_in_square[index]].properties_to_item();
                             tripoint dest( pos, smz );
                             g->m.add_item_or_charges( dest, part_as_item, true );
-                            remove_part(parts_in_square[index]);
                         }
+                        remove_part( parts_in_square[index] );
                     }
                 }
                 /* After clearing the frame, remove it if normally legal to do
@@ -6100,19 +6105,19 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     }
 
     if( only_manual_modes ) {
-        const char *name = parts[ p ].name().c_str();
+        const std::string name = parts[ p ].name();
         if( tr.mode < -1 ) {
-            add_msg( m_info, _("Setting turret %s to burst mode."), name );
+            add_msg( m_info, _("Setting turret %s to burst mode."), name.c_str() );
         } else if( tr.mode == -1 ) {
-            add_msg( m_info, _("Setting turret %s to single-fire mode."), name );
+            add_msg( m_info, _("Setting turret %s to single-fire mode."), name.c_str() );
         } else if( tr.mode == 0 ) {
-            add_msg( m_info, _("Disabling turret %s."), name );
+            add_msg( m_info, _("Disabling turret %s."), name.c_str() );
         } else {
-            add_msg( m_info, _("Setting turret %s to buggy mode."), name );
+            add_msg( m_info, _("Setting turret %s to buggy mode."), name.c_str() );
         }
 
         if( was_auto ) {
-            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name );
+            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name.c_str() );
         }
     }
 }
@@ -6354,8 +6359,8 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
     tmp.set_fake( true );
     tmp.add_effect( effect_on_roof, 1 );
     tmp.name = rmp_format( _( "<veh_player>The %s" ), parts[ p ].name().c_str() );
-    tmp.skillLevel( gun.gun_skill() ).level( 8 );
-    tmp.skillLevel( skill_id( "gun" ) ).level(4);
+    tmp.set_skill_level( gun.gun_skill(), 8 );
+    tmp.set_skill_level( skill_id( "gun" ), 4 );
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.setpos( pos );
     tmp.str_cur = 16;
@@ -6862,6 +6867,8 @@ item vehicle_part::properties_to_item() const
 
     if( vpinfo.fuel_type == fuel_type_battery ) {
         tmp.charges = amount;
+    } else if( vpinfo.fuel_type == fuel_type_plutonium ) {
+        // Do nothing, itemized minireactors with plutonium in them are bugged
     } else if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "null" && amount > 0 ) {
         tmp.emplace_back( vpinfo.fuel_type, calendar::turn, amount / fuel_charges_to_amount_factor( vpinfo.fuel_type ) );
     }

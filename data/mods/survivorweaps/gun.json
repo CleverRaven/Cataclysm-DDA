@@ -1,0 +1,238 @@
+[
+  {
+    "id": "2_shot_special",
+    "copy-from": "cop_38",
+    "type": "GUN",
+    "name": "2 Shot Special",
+    "description": "A crudely made double barrel pistol firing 38 special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
+    "clip_size": 2,
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
+  },
+  {
+    "id": "ashot",
+    "copy-from": "shotgun_s",
+    "type": "GUN",
+    "name": "12 gauge pistol",
+    "description": "A single shot pistol that loads 12 gauge shotgun shells, handcrafted from scrap.",
+    "weight": 828,
+    "volume": 2,
+    "skill": "pistol",
+    "aim_speed": 4,
+    "relative": {
+        "durability": -2
+    },
+    "proportional": {
+        "price": 0.2,
+        "recoil": 2.0,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
+  },
+  {
+    "id": "pipe_double_shotgun",
+    "copy-from": "pipe_shotgun",
+    "type": "GUN",
+    "name": "double-barrel pipe shotgun",
+    "description": "A home-made double-barreled shotgun.  It is simply two pipes attached to a stock, with a pair of hammers to strike the two rounds it holds.",
+    "relative": {
+        "weight": 500,
+        "volume": 1,
+        "price": 5000
+    },
+    "burst": 2,
+    "clip_size": 2,
+    "extend": { "flags": [ "MODE_BURST" ] }
+  },
+  {
+    "id": "pipe_shotgun",
+    "copy-from": "shotgun_s",
+    "type": "GUN",
+    "name": "pipe shotgun",
+    "description": "A home-made shotgun.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "proportional": {
+        "price": 0.2,
+        "reload": 4.0
+    }
+  },
+  {
+    "id": "revolver_shotgun",
+    "copy-from": "shotgun_s",
+    "type": "GUN",
+    "name": "shotgun revolver",
+    "description": "A shotgun modified to use a revolver cylinder mechanism, it can hold 6 cartridges.",
+    "weight": 1928,
+    "volume": 6,
+    "skill": "pistol",
+    "clip_size": 6,
+    "relative": {
+        "durability": -2
+    },
+    "proportional": {
+        "price": 0.2,
+        "recoil": 2.0,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
+  },
+  {
+    "id": "rifle_22",
+    "copy-from": "rifle_pipe",
+    "type": "GUN",
+    "name": "pipe rifle: .22",
+    "name_plural": "pipe rifles: .22",
+    "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "weight": 1953,
+    "volume": 7,
+    "price": 10000,
+    "material": [ "steel", "wood" ],
+    "ammo": "22",
+    "ranged_damage": -2,
+    "dispersion": 105,
+    "recoil": 30,
+    "loudness": 25,
+    "barrel_length": 2
+  },
+  {
+    "id": "rifle_308",
+    "copy-from": "m14a",
+    "type": "GUN",
+    "name": "survivor lever rifle",
+    "description": "A homemade lever-action rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as an integral magazine for rounds, and chambering the more powerful .308 rounds.",
+    "clip_size": 6,
+    "magazines": [],
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ] ]
+  },
+  {
+    "id": "rifle_9mm",
+    "copy-from": "rifle_pipe",
+    "type": "GUN",
+    "name": "pipe rifle: 9mm",
+    "name_plural": "pipe rifles: 9mm",
+    "description": "A home-made rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "weight": 2114,
+    "volume": 8,
+    "price": 10000,
+    "material": [ "steel", "wood" ],
+    "ammo": "9mm",
+    "ranged_damage": -2,
+    "dispersion": 105,
+    "recoil": 30,
+    "loudness": 25,
+    "barrel_length": 3
+  },
+  {
+    "id": "surv_carbine_223",
+    "copy-from": "ar15",
+    "type": "GUN",
+    "name": "survivor carbine",
+    "description": "A well designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines this is one of the better homemade weapons.",
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "muzzle", 1 ], [ "stock", 1 ] ],
+    "magazines": [
+      [ "223", [ "survivor223mag" ] ]
+    ]
+  },
+  {
+    "id": "surv_hand_cannon",
+    "copy-from": "l_enforcer_45",
+    "type": "GUN",
+    "name": "homemade hand cannon",
+    "name_plural": "homemade hand cannons",
+    "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
+    "clip_size": 5,
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
+  },
+  {
+    "id": "surv_levershotgun",
+    "copy-from": "mossberg_500",
+    "type": "GUN",
+    "name": "makeshift lever shotgun",
+    "description": "A well designed homemade lever-action shotgun.  With a 8 round magazine, this is one of the better homemade weapons.",
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
+  },
+  {
+    "id": "surv_six_shooter",
+    "copy-from": "sw_610",
+    "type": "GUN",
+    "name": "survivor's six shooter",
+    "name_plural": "survivor's six shooters",
+    "description": "A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work all things considered.",
+    "relative": {
+        "volume": 1,
+        "durability": -2
+    },
+    "proportional": {
+        "weight": 1.5,
+        "price": 0.2,
+        "reload": 4.0
+    },
+    "delete": { "flags": [ "NEVER_JAMS" ] },
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ] ]
+  },
+  {
+    "id": "survivor_special_700",
+    "copy-from": "remington_700",
+    "type": "GUN",
+    "name": "Survivor Special 700",
+    "name_plural": "Survivor Special 700",
+    "description": "A rusty receiver, a R700 pattern barrel and half a broken crutch; all held together in the shape of a rifle with nothing more than glue, duct tape, and generous amounts of faith.",
+    "price": 100000,
+    "clip_size": 1,
+    "proportional": {
+        "sight_dispersion": 2.0,
+        "reload": 4.0
+    },
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ] ]
+  }
+]

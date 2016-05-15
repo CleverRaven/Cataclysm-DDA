@@ -240,11 +240,9 @@
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       ["welder", 100],
       ["welder_crude", 150],
@@ -524,11 +522,9 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_mechanics", 3] , ["welding_book", 5]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 35 ],
       [ "welder_crude", 52 ],
@@ -558,11 +554,9 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["textbook_mechanics", 3] , ["welding_book", 5]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 15 ],
       [ "welder_crude", 30 ],
@@ -591,11 +585,9 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 35 ],
       [ "welder_crude", 52 ],
@@ -625,11 +617,9 @@
   "autolearn": false,
   "book_learn": [["textbook_robots", 8]],
   "qualities":[
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -965,7 +955,7 @@
     ],
     "components": [
       [
-        [ "stick", 1 ], 
+        [ "stick", 1 ],
         [ "2x4", 1 ]
       ],
       [
@@ -1139,7 +1129,6 @@
     [
       [ "water", 5 ],
       [ "water_clean", 5 ]
-      
     ],
     [
       [ "stomach", 1],
@@ -1183,7 +1172,6 @@
     [
       [ "water", 8 ],
       [ "water_clean", 8 ]
-      
     ],
     [
       [ "stomach_large", 1],
@@ -1506,11 +1494,9 @@
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
@@ -1547,7 +1533,7 @@
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}
-  ],  
+  ],
   "tools": [
     [
       [ "sewing_kit", 15 ]
@@ -1625,11 +1611,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -1655,10 +1639,8 @@
   "time": 10000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -1847,11 +1829,9 @@
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -1886,11 +1866,9 @@
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 4] , ["manual_mechanics", 4] , ["textbook_mechanics", 4]],
   "qualities" : [
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 300 ],
       [ "welder_crude", 450 ],
@@ -2004,7 +1982,7 @@
       ["felt_patch", 30],
       [ "tanned_hide", 5 ]
     ]
-  ]  
+  ]
 },{
   "type" : "recipe",
   "result": "rope_30",
@@ -2240,10 +2218,8 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "crucible", -1 ],
       [ "crucible_clay", -1 ]
@@ -2290,10 +2266,8 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -2316,10 +2290,8 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -2346,10 +2318,8 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
@@ -2372,10 +2342,8 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 60 ],
       [ "welder_crude", 90 ],
@@ -2424,11 +2392,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 40 ],
       [ "oxy_torch", 4],
@@ -2455,11 +2421,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 20 ],
       [ "oxy_torch", 2],
@@ -2482,10 +2446,8 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "crucible", -1 ],
       [ "crucible_clay", -1 ]
@@ -2513,10 +2475,8 @@
   "time": 8000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "crucible", -1 ],
       [ "crucible_clay", -1 ]
@@ -2628,10 +2588,8 @@
   "time": 4000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
@@ -2673,10 +2631,8 @@
   "reversible": true,
   "note": "sawing it down doesn't teach anything useful",
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
@@ -2701,10 +2657,8 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 3] , ["welding_book", 3] , ["textbook_mechanics", 4]],
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
@@ -2736,10 +2690,8 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [["textbook_fabrication", 5] , ["adv_chemistry", 6] , ["welding_book", 5]],
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 100 ],
       [ "welder_crude", 150 ],
@@ -2803,7 +2755,6 @@
     ],
     [
       [ "superglue", 1 ]
-
     ]
   ]
 },{
@@ -3042,11 +2993,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -3070,11 +3019,9 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -3107,11 +3054,9 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 20 ],
       [ "welder_crude", 30 ],
@@ -3466,10 +3411,8 @@
   "time": 5000,
   "reversible": true,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "crucible", -1 ],
       [ "crucible_clay", -1 ]
@@ -4838,11 +4781,9 @@
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 100],
       [ "welder_crude", 150],
@@ -5445,11 +5386,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_W","level":2,"amount":1}
+    {"id":"SAW_W","level":2,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["welder", 20],
       ["welder_crude", 30],
@@ -6314,7 +6253,8 @@
     [ [ "screwdriver_set", 1 ] ],
     [ [ "hacksaw", 1 ] ],
     [ [ "wrench", 1 ] ],
-    [ [ "saw", 1 ] ]
+    [ [ "saw", 1 ] ],
+    [ [ "hammer", 1] ]
   ]
   },{
   "type" : "recipe",
@@ -6579,9 +6519,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2},
-    {"id":"SAW_M","level":1}
+    {"id":"SAW_M","level":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
@@ -6608,9 +6548,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 30 ],
       [ "welder_crude", 45 ],
@@ -6701,7 +6641,6 @@
     ]
   ]
 },{
-
   "type" : "recipe",
   "result": "coal_lump",
   "result_mult": 5,
@@ -6726,7 +6665,6 @@
     ]
   ]
   },{
-
   "type" : "recipe",
   "result": "chem_sulphur",
   "byproducts": { "id" : "chem_sulphur", "amount" : 4 },
@@ -7685,10 +7623,10 @@
   "autolearn": false,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -7714,10 +7652,10 @@
   "autolearn": false,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -7744,10 +7682,10 @@
   "autolearn": false,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],
@@ -7773,10 +7711,10 @@
   "autolearn": false,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [ [ "goggles_welding", -1 ] ],
     [
       [ "welder", 50 ],
       [ "welder_crude", 75 ],

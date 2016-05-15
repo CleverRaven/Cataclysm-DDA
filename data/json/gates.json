@@ -2,39 +2,17 @@
     {
         "type" : "gate",
         "handle" : "t_gates_mech_control",
-        "wall" : "t_wall",
+        "other_handles" : [
+            "t_gates_control_concrete",
+            "t_gates_control_brick"
+        ],
         "door" : "t_door_metal_locked",
         "floor" : "t_floor",
-        "messages" : {
-            "pull" : "You turn the handle...",
-            "open" : "The gate is opened!",
-            "close" : "The gate is closed!",
-            "fail" : "The gate can't be closed!"
-        },
-        "moves" : 1800,
-        "bashing_damage" : 40
-    },
-    {
-        "type" : "gate",
-        "handle" : "t_gates_control_concrete",
-        "wall" : "t_concrete_wall",
-        "door" : "t_door_metal_locked",
-        "floor" : "t_floor",
-        "messages" : {
-            "pull" : "You turn the handle...",
-            "open" : "The gate is opened!",
-            "close" : "The gate is closed!",
-            "fail" : "The gate can't be closed!"
-        },
-        "moves" : 1800,
-        "bashing_damage" : 40
-    },
-    {
-        "type" : "gate",
-        "handle" : "t_gates_control_brick",
-        "wall" : "t_brick_wall",
-        "door" : "t_door_metal_locked",
-        "floor" : "t_floor",
+        "walls" : [
+            "t_wall",
+            "t_concrete_wall",
+            "t_brick_wall"
+        ],
         "messages" : {
             "pull" : "You turn the handle...",
             "open" : "The gate is opened!",
@@ -50,6 +28,7 @@
         "wall" : "t_wall_wood",
         "door" : "t_door_metal_locked",
         "floor" : "t_dirtfloor",
+        "walls" : "t_wall_wood",
         "messages" : {
             "pull" : "You pull the rope...",
             "open" : "The barn doors opened!",
@@ -62,9 +41,9 @@
     {
         "type" : "gate",
         "handle" : "t_palisade_pulley",
-        "wall" : "t_palisade",
         "door" : "t_palisade_gate",
         "floor" : "t_palisade_gate_o",
+        "walls" : "t_palisade",
         "messages" : {
             "pull" : "You pull the rope...",
             "open" : "The palisade gate swings open!",
@@ -77,9 +56,9 @@
     {
         "type" : "gate",
         "handle" : "t_gates_control_metal",
-        "wall" : "t_wall_metal",
         "door" : "t_door_metal_locked",
         "floor" : "t_metal_floor",
+        "walls" : "t_wall_metal",
         "messages" : {
             "pull" : "You throw the lever...",
             "open" : "The door rises!",
