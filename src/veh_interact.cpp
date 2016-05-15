@@ -1589,8 +1589,7 @@ void veh_interact::display_stats()
     std::vector<int> cargo_parts = veh->all_parts_with_feature("CARGO");
     int total_cargo = 0;
     int free_cargo = 0;
-    for( auto &cargo_part : cargo_parts ) {
-        const int p = cargo_part;
+    for( const auto &p : cargo_parts ) {
         total_cargo += veh->max_volume(p);
         free_cargo += veh->free_volume(p);
     }
