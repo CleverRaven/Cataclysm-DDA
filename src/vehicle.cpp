@@ -3856,7 +3856,7 @@ void vehicle::operate_reaper(){
         const tripoint reaper_pos = veh_start + parts[ reaper_id ].precalc[ 0 ];
         const int plant_produced =  rng( 1, parts[ reaper_id ].info().bonus );
         const int seed_produced = rng( 1, 3 );
-        const int max_pickup_size = parts[ reaper_id ].info().size / 20;
+        const int max_pickup_volume = parts[ reaper_id ].info().size / 20;
         if( g->m.furn( reaper_pos ) == f_plant_harvest &&
             g->m.has_items( reaper_pos ) ){
             const item& seed = g->m.i_at( reaper_pos ).front();
@@ -3877,7 +3877,7 @@ void vehicle::operate_reaper(){
             g->m.ter( reaper_pos ) == t_dirtmound ) {
             map_stack stack( g->m.i_at( reaper_pos ) );
             for( auto iter = stack.begin(); iter != stack.end(); ) {
-                if( ( iter->volume() <= max_pickup_size ) &&
+                if( ( iter->volume() <= max_pickup_volume ) &&
                     add_item( reaper_id, *iter ) ) {
                     iter = stack.erase( iter );
                 } else {
@@ -3928,7 +3928,7 @@ void vehicle::operate_scoop()
     std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
     for( int scoop : scoops ) {
         const int chance_to_damage_item = 9;
-        int max_pickup_size = parts[scoop].info().size / 10;
+        int max_pickup_volume = parts[scoop].info().size / 10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
                        sound_msgs[rng( 0, 3 )] );
@@ -3949,7 +3949,7 @@ void vehicle::operate_scoop()
             }
             size_t itemdex = 0;
             for( auto it : q ) {
-                if( it.volume() < max_pickup_size ) {
+                if( it.volume() < max_pickup_volume ) {
                     that_item_there = g->m.item_from( position, itemdex );
                     break;
                 }
