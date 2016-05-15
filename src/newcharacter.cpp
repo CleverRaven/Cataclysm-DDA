@@ -711,7 +711,7 @@ void draw_points( WINDOW *w, points_left &points, int netPointCost )
     mvwprintz( w, 3, 2, c_black, clear_str );
     std::string points_msg = points.to_string();
     int pMsg_length = utf8_width( points_msg, true );
-    nc_color color;
+    nc_color color = c_ltgray;
     print_colored_text( w, 3, 2, color, c_ltgray, points_msg );
     if( netPointCost > 0 ) {
         mvwprintz( w, 3, pMsg_length + 2, c_red, "(-%d)", std::abs( netPointCost ) );
@@ -2356,7 +2356,7 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                 } else {
                         popup(_("You cannot save a template with negative unused points."));
                 }
-                
+
             } else {
                 save_template(u);
             }
