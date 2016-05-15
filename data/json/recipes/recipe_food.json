@@ -8578,7 +8578,7 @@
   "batch_time_factors":[83, 3],
   "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
                 [ ["rock_quern", -1], ["clay_quern", -1] ] ],
-  "components": [ [ ["can_corn", 2], ["corn", 2], ["irradiated_corn", 2] ] ]
+  "components": [ [ ["corn", 2], ["irradiated_corn", 2] ] ]
 },{
   "type" : "recipe",
   "result": "meal_bone",
