@@ -1,0 +1,17 @@
+[
+  {
+    "id": "metal_tank_small",
+    "type": "MIGRATION",
+    "replace": "jerrycan"
+  },
+  {
+    "id": "adv_UPS_on",
+    "type": "MIGRATION",
+    "replace": "adv_UPS_off"
+  },
+  {
+    "id": "UPS_on",
+    "type": "MIGRATION",
+    "replace": "UPS_off"
+  }
+]
