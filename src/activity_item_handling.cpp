@@ -17,7 +17,7 @@
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
-bool game::make_drop_activity( enum activity_type act, const tripoint &target, bool to_vehicle )
+bool game::make_drop_activity( enum activity_type act, const tripoint &target )
 {
     std::list<std::pair<int, int> > dropped = multidrop();
     if( dropped.empty() ) {
@@ -25,7 +25,6 @@ bool game::make_drop_activity( enum activity_type act, const tripoint &target, b
     }
     u.assign_activity( act, 0 );
     u.activity.placement = target - u.pos();
-    u.activity.values.push_back( to_vehicle );
     for( auto item_pair : dropped ) {
         u.activity.values.push_back( item_pair.first );
         u.activity.values.push_back( item_pair.second );
@@ -162,7 +161,7 @@ static void stash_on_pet( std::vector<item> &dropped_items, std::vector<item> &d
 static void place_item_activity( std::list<item *> &selected_items, std::list<int> &item_quantities,
                                  std::list<item *> &selected_worn_items,
                                  std::list<int> &worn_item_quantities,
-                                 enum item_place_type type, tripoint drop_target, bool to_vehicle )
+                                 enum item_place_type type, tripoint drop_target )
 {
     std::vector<item> dropped_items;
     std::vector<item> dropped_worn_items;
@@ -201,7 +200,7 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
     if( type == DROP_WORN || type == DROP_NOT_WORN ) {
         // Drop handles move cost.
         g->drop( dropped_items, dropped_worn_items, g->u.volume_capacity() - prev_volume, drop_target,
-                 to_vehicle );
+                 true );
     } else { // Stashing on a pet.
         stash_on_pet( dropped_items, dropped_worn_items, drop_target );
     }
@@ -218,9 +217,7 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     std::list<int> worn_item_quantities;
 
     bool ignoring_interruptions = g->u.activity.ignore_trivial;
-    // get whether `drop_target` is a vehicle cargo, then erase the first element
-    bool to_vehicle = g->u.activity.values[0];
-    g->u.activity.values.erase( g->u.activity.values.begin() );
+
     tripoint drop_target = get_item_pointers_from_activity( selected_items, item_quantities,
                            selected_worn_items, worn_item_quantities );
 
@@ -228,12 +225,12 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     while( g->u.moves >= 0 && !selected_items.empty() ) {
         place_item_activity( selected_items, item_quantities,
                              selected_worn_items, worn_item_quantities,
-                             ( act == ACT_DROP ) ? DROP_NOT_WORN : STASH_NOT_WORN, drop_target, to_vehicle );
+                             ( act == ACT_DROP ) ? DROP_NOT_WORN : STASH_NOT_WORN, drop_target );
     }
     while( g->u.moves >= 0 && !selected_worn_items.empty() ) {
         place_item_activity( selected_items, item_quantities,
                              selected_worn_items, worn_item_quantities,
-                             ( act == ACT_DROP ) ? DROP_WORN : STASH_WORN, drop_target, to_vehicle );
+                             ( act == ACT_DROP ) ? DROP_WORN : STASH_WORN, drop_target );
     }
     if( selected_items.empty() && selected_worn_items.empty() ) {
         // Yay we're done, just exit.
@@ -245,7 +242,6 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     // It's already relative, so no need to adjust it.
     g->u.activity.placement = drop_target;
     g->u.activity.ignore_trivial = ignoring_interruptions;
-    g->u.activity.values.push_back( to_vehicle );
     add_drop_pairs( selected_worn_items, worn_item_quantities );
     add_drop_pairs( selected_items, item_quantities );
 }
