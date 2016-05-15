@@ -1129,7 +1129,6 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 2000,
-  "autolearn": false,
   "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
   "components": [
     [
@@ -1148,7 +1147,6 @@
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
-  "autolearn": false,
   "components": [
     [ [ "snare_trigger", 1 ] ],
     [ [ "string_36", 1 ] ]
@@ -1164,7 +1162,6 @@
   "difficulty": 3,
   "time": 8000,
   "reversible": true,
-  "autolearn": false,
   "components": [
     [ [ "snare_trigger", 1 ] ],
     [ [ "rope_6", 1 ] ]
