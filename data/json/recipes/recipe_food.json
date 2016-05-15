@@ -296,6 +296,7 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
+  "result_mult": 2,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
@@ -312,7 +313,7 @@
   ],
   "components": [
     [
-      [ "fat", 2 ]
+      [ "fat", 3 ]
     ],
     [
       [ "water", 1 ],
