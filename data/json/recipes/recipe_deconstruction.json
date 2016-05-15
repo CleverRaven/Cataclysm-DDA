@@ -276,8 +276,8 @@
     "components": [ [ [ "gold_small", 100 ] ] ]
   },
   {
-    "type": "recipe",
     "result": "gold_ear",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -288,8 +288,8 @@
     "components": [ [ [ "gold_small", 50 ] ] ]
   },
   {
-    "type": "recipe",
     "result": "silver_ear",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -300,8 +300,8 @@
     "components": [ [ [ "silver_small", 60 ] ] ]
   },
   {
-    "type": "recipe",
     "result": "copper_ear",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -312,8 +312,8 @@
     "components": [ [ [ "copper", 25 ] ] ]
   },
   {
-    "type": "recipe",
     "result": "tieclip",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -324,8 +324,8 @@
     "components": [ [ [ "silver_small", 100 ] ] ]
   },
   {
-    "type": "recipe",
     "result": "usb_drive",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -336,8 +336,8 @@
     "components": [ [ [ "RAM", 1 ] ] ]
   },
   {
-    "type": "recipe",
     "result": "pda",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -353,8 +353,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "binoculars",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -369,8 +369,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "wristwatch",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -385,8 +385,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "laptop",
+    "type": "recipe",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "skill_used": "electronics",
@@ -405,8 +405,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "fan",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -422,8 +422,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "pocketwatch",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -437,8 +437,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "gold_watch",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -456,8 +456,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "sf_watch",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -475,8 +475,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "alarmclock",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -490,8 +490,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "television",
+    "type": "recipe",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "skill_used": "electronics",
@@ -509,8 +509,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "microwave",
+    "type": "recipe",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "skill_used": "electronics",
@@ -527,8 +527,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "toaster",
+    "type": "recipe",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "skill_used": "electronics",
@@ -544,8 +544,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "clock",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -559,8 +559,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "knife_steak",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -573,8 +573,8 @@
     ]
   },
   {
-    "type": "recipe",
     "result": "lawnmower",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
