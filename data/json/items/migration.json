@@ -1,5 +1,10 @@
 [
   {
+    "id": "m14a",
+    "type": "MIGRATION",
+    "replace": "m1a"
+  },
+  {
     "id": "metal_tank_small",
     "type": "MIGRATION",
     "replace": "jerrycan"

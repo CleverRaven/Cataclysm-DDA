@@ -17119,7 +17119,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_m14a",
+          "id": "overlay_wielded_m1a",
           "fg": 1478,
           "rotates": false
         },
@@ -47276,7 +47276,7 @@
           "rotates": false
         },
         {
-          "id": "m14a",
+          "id": "m1a",
           "fg": 1478,
           "rotates": false
         },
@@ -47386,7 +47386,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_m14a",
+          "id": "overlay_wielded_m1a",
           "fg": 1501,
           "rotates": false
         },
