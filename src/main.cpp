@@ -387,14 +387,19 @@ int main(int argc, char *argv[])
 
     set_language(true);
 
-    if (initscr() == NULL) { // Initialize ncurses
-        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
-        return 1;
+    // if we are dumping stats don't initialize curses to avoid escape sequences
+    // being inserted in to the output stream
+    if( dump.empty() ) {
+         if( initscr() == nullptr ) { // Initialize ncurses
+            DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
+            return 1;
+        }
+        init_interface();
+        noecho();  // Don't echo keypresses
+        cbreak();  // C-style breaks (e.g. ^C to SIGINT)
+        keypad(stdscr, true); // Numpad is numbers
     }
-    init_interface();
-    noecho();  // Don't echo keypresses
-    cbreak();  // C-style breaks (e.g. ^C to SIGINT)
-    keypad(stdscr, true); // Numpad is numbers
+
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
     // For tiles or windows, this is handled already in initscr().
     init_colors();
@@ -415,7 +420,7 @@ int main(int argc, char *argv[])
             }
             exit_handler(0);
         }
-        if( ! dump.empty() ) {
+        if( !dump.empty() ) {
             g->dump_stats( dump, dmode );
             exit_handler( 0 );
         }

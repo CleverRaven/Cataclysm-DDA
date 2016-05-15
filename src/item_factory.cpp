@@ -726,6 +726,10 @@ void Item_factory::check_definitions() const
         main_stream << "warnings for type " << type->id << ":\n" << msg.str() << "\n";
         const std::string &buffer = main_stream.str();
         const size_t lines = std::count(buffer.begin(), buffer.end(), '\n');
+        if( stdscr == nullptr ) {
+            std::cerr << buffer << std::endl;
+            abort();
+        }
         if (lines > 10) {
             fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
             getch();
@@ -742,6 +746,10 @@ void Item_factory::check_definitions() const
     }
     const std::string &buffer = main_stream.str();
     if (!buffer.empty()) {
+        if( stdscr == nullptr ) {
+            std::cerr << buffer << std::endl;
+            abort();
+        }
         fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
         getch();
         werase(stdscr);
