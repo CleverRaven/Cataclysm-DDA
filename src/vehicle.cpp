@@ -4792,11 +4792,9 @@ int vehicle::max_volume(int const part) const
     return 0;
 }
 
-// free space
 int vehicle::free_volume(int const part) const
 {
-   const int maxvolume = this->max_volume(part);
-   return ( maxvolume - stored_volume(part) );
+    return max_volume( part ) - stored_volume( part );
 }
 
 // returns true if full, modified by arguments:
