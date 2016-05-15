@@ -219,7 +219,8 @@ static bool fontblending = false;
 // Used only while fontlist.txt is created.
 static std::set<std::string> *bitmap_fonts;
 
-static std::vector<curseline> framebuffer;
+static std::vector<curseline> oversized_framebuffer;
+static std::vector<curseline> terminal_framebuffer;
 static WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 
@@ -348,10 +349,15 @@ bool WinCreate()
         TERMINAL_HEIGHT = WindowHeight / fontheight;
     }
 
-    // Initialize framebuffer cache
-    framebuffer.resize(TERMINAL_HEIGHT);
+    // Initialize framebuffer caches
+    terminal_framebuffer.resize(TERMINAL_HEIGHT);
     for (int i = 0; i < TERMINAL_HEIGHT; i++) {
-        framebuffer[i].chars.assign(TERMINAL_WIDTH, cursecell(""));
+        terminal_framebuffer[i].chars.assign(TERMINAL_WIDTH, cursecell(""));
+    }
+
+    oversized_framebuffer.resize(TERMINAL_HEIGHT);
+    for (int i = 0; i < TERMINAL_HEIGHT; i++) {
+        oversized_framebuffer[i].chars.assign(TERMINAL_WIDTH, cursecell(""));
     }
 
     const Uint32 wformat = SDL_GetWindowPixelFormat(window);
@@ -732,43 +738,47 @@ void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG)
     }
 }
 
-void invalidate_framebuffer(int x, int y, int width, int height)
+void invalidate_oversized_framebuffer( int x, int y, int width, int height )
 {
-    for (int j = 0, fby = y; j < height; j++, fby++) {
-        std::fill_n(framebuffer[fby].chars.begin() + x, width, cursecell(""));
+    for( int j = 0, fby = y; j < height; j++, fby++ ) {
+        std::fill_n( oversized_framebuffer[fby].chars.begin() + x, width, cursecell( "" ) );
     }
 }
 
-void invalidate_map_framebuffer()
+void invalidate_terminal_framebuffer()
 {
-    if( !g->w_terrain ) {
-        return;
-    }
-    for( int j = 0, fby = g->w_terrain->y; j < TERRAIN_WINDOW_HEIGHT; j++, fby++ ) {
-        std::fill_n( framebuffer[fby].chars.begin() + g->w_terrain->x, TERRAIN_WINDOW_WIDTH,
+    for( unsigned int i = 0; i < terminal_framebuffer.size(); i++ ) {
+        std::fill_n( terminal_framebuffer[i].chars.begin(), terminal_framebuffer[i].chars.size(),
                      cursecell( "" ) );
     }
 }
 
-void invalidate_overmap_framebuffer()
+void invalidate_oversized_framebuffer()
 {
-    if( !g->w_overmap ) {
-        return;
-    }
-    for( int j = 0, fby = g->w_overmap->y; j < OVERMAP_WINDOW_HEIGHT; j++, fby++ ) {
-        std::fill_n( framebuffer[fby].chars.begin() + g->w_overmap->x, OVERMAP_WINDOW_WIDTH,
+    for( unsigned int i = 0; i < oversized_framebuffer.size(); i++ ) {
+        std::fill_n( oversized_framebuffer[i].chars.begin(), oversized_framebuffer[i].chars.size(),
                      cursecell( "" ) );
     }
+}
+
+void invalidate_all_framebuffers()
+{
+    invalidate_terminal_framebuffer();
+    invalidate_oversized_framebuffer();
 }
 
 void reinitialize_framebuffer()
 {
     //Re-initialize the framebuffer with new values.
-    const int new_height = std::max(TERMY, std::max(OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT));
-    const int new_width = std::max(TERMX, std::max(OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH));
-    framebuffer.resize( new_height );
+    const int new_height = std::max( TERMY, std::max( OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT ) );
+    const int new_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH ) );
+    oversized_framebuffer.resize( new_height );
     for( int i = 0; i < new_height; i++ ) {
-        framebuffer[i].chars.assign( new_width, cursecell("") );
+        oversized_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
+    }
+    terminal_framebuffer.resize( TERMY );
+    for( int i = 0; i < TERMY; i++ ) {
+        terminal_framebuffer[i].chars.assign( TERMX, cursecell( "" ) );
     }
 }
 
@@ -792,7 +802,7 @@ void curses_drawwindow(WINDOW *win)
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight);
 
-        invalidate_framebuffer(win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
+        invalidate_oversized_framebuffer(win->x, win->y, TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT);
 
         update = true;
     } else if (g && win == g->w_terrain && map_font != NULL) {
@@ -873,6 +883,13 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
     //Specifically when showing the overmap
     //And in some instances of screen change, i.e. inventory.
     bool oldWinCompatible = false;
+
+    // use the oversize buffer when dealing with windows that can have a different font than the main text font
+    std::vector<curseline> *bufferpointer = &terminal_framebuffer;
+    if( g && ( win == g->w_terrain || win == g->w_overmap ) ) {
+        bufferpointer = &oversized_framebuffer;
+    }
+
     /*
     Let's try to keep track of different windows.
     A number of windows are coexisting on the screen, so don't have to interfere.
@@ -923,7 +940,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             // TODO: handle caching when drawing normal windows over graphical tiles
             const int fbx = win->x + i;
             const int fby = win->y + j;
-            cursecell &oldcell = framebuffer[fby].chars[fbx];
+            cursecell &oldcell = (*bufferpointer)[fby].chars[fbx];
             if (oldWinCompatible && cell == oldcell && fontScale == fontScaleBuffer) {
                 continue;
             }

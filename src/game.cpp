@@ -2729,6 +2729,7 @@ bool game::handle_action()
                 add_msg(m_info, _("You can't butcher while you're in your shell."));
             } else {
                 butcher();
+                refresh_all();
             }
             break;
 
@@ -2771,6 +2772,7 @@ bool game::handle_action()
 
         case ACTION_ORGANIZE:
             reassign_item();
+            refresh_all();
             break;
 
         case ACTION_USE:
@@ -3074,6 +3076,7 @@ bool game::handle_action()
                     uquit = QUIT_SUICIDE;
                 }
             }
+            refresh_all();
             break;
 
         case ACTION_SAVE:
@@ -3083,6 +3086,7 @@ bool game::handle_action()
                     uquit = QUIT_SAVED;
                 }
             }
+            refresh_all();
             break;
 
         case ACTION_QUICKSAVE:
@@ -3100,7 +3104,7 @@ bool game::handle_action()
 
         case ACTION_MAP:
             #ifdef TILES
-            invalidate_overmap_framebuffer();
+            invalidate_all_framebuffers();
             #endif // TILES
             draw_overmap();
             break;
@@ -5527,7 +5531,7 @@ void game::refresh_all()
     }
 
     #ifdef TILES
-    invalidate_map_framebuffer();
+    invalidate_all_framebuffers();
     clear_window_area( w_terrain );
     #endif // TILES
     draw();
@@ -8302,6 +8306,7 @@ void game::peek()
 {
     tripoint p = u.pos();
     if( !choose_adjacent( _("Peek where?"), p.x, p.y ) ) {
+        refresh_all();
         return;
     }
 
@@ -10580,6 +10585,7 @@ void game::drop_in_direction()
         return;
     }
 
+    refresh_all();
     make_drop_activity( ACT_DROP, dirp );
 }
 
