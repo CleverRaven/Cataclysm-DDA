@@ -5786,7 +5786,7 @@
     "description": "This is a sealed glass jar containing sliced fruits.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "veggy"],
-    "weight": 600,
+    "weight": 1050,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5794,7 +5794,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "apple_canned",
-        "target_charges": 3,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
