@@ -49,6 +49,8 @@ const quality_id SAW_M_FINE( "SAW_M_FINE" );
 const skill_id skill_mechanics( "mechanics" );
 } // namespace
 
+void act_vehicle_siphon(vehicle* veh);
+
 /**
  * Creates a blank veh_interact window.
  */
@@ -299,6 +301,9 @@ void veh_interact::do_main_loop()
             do_rename();
         } else if (action == "SIPHON") {
             do_siphon();
+            // Siphoning may have started a player activity. If so, we should close the
+            // vehicle dialog and continue with the activity.
+            finish = g->u.activity.type != ACT_NULL;
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
         } else if (action == "RELABEL") {
@@ -1228,7 +1233,7 @@ void veh_interact::do_siphon()
     default:
         break; // no reason, all is well
     }
-    sel_cmd = 's';
+    act_vehicle_siphon( veh );
 }
 
 /**
@@ -1568,8 +1573,7 @@ void veh_interact::display_veh ()
         mvwputch (w_disp, hh + y, hw + x, col, special_symbol(sym));
     }
     if (!vertical_menu) {
-        size_t len = utf8_width(_("FWD ->"));
-        mvwprintz(w_disp, 0, disp_w - len, c_dkgray,  _("FWD ->"));
+        right_print( w_disp, 0, 0, c_dkgray, _( "FWD ->" ) );
     }
     wrefresh (w_disp);
 }
@@ -2132,38 +2136,6 @@ item consume_vpart_item( const vpart_str_id &vpid )
     return item_used.front();
 }
 
-const std::list<vehicle*> find_vehicles_around(const tripoint &location, std::function<bool(vehicle*)> pred) {
-    auto found = std::list<vehicle*>{};
-
-    tripoint p = location;
-    int &x = p.x;
-    int &y = p.y;
-    for( x = location.x - 1; x <= location.x + 1; x++ ) {
-        for( y = location.y - 1; y <= location.y + 1; y++ ) {
-            auto veh = g->m.veh_at( p );
-            if(veh == nullptr) {
-                continue; // Nothing to see here, move along...
-            }
-            add_msg(m_debug, "I has a %s at %d,%d...", veh->name.c_str(), x, y);
-            if(std::find(begin(found), end(found), veh) != end(found)) {
-                add_msg(m_debug, "...but we had it already.");
-                continue; // We have this one already.
-            }
-
-            if(!pred(veh)) {
-                add_msg(m_debug, "...but the predicate doesn't want it.");
-                continue; // Can't put any fuel into this one, ignore it.
-            }
-
-            // Okay, there's a vehicle and it's got room for gas and we haven't seen it before.
-            add_msg(m_debug, "...and I'll keep it!");
-            found.emplace_back(veh);
-        }
-    }
-
-    return found;
-}
-
 void act_vehicle_siphon(vehicle* veh) {
     std::vector<itype_id> fuels;
     for( auto & e : veh->fuels_left() ) {
@@ -2196,71 +2168,7 @@ void act_vehicle_siphon(vehicle* veh) {
         fuel = fuels.front();
     }
 
-    const auto foundv = find_vehicles_around(g->u.pos(),
-            [&](vehicle* it) { return it != veh && (it->fuel_capacity(fuel) - it->fuel_left(fuel)) > 0; });
-
-    add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
-
-    // No other vehicles around, just siphon into a can.
-    if(foundv.empty()) {
-        g->u.siphon(veh, fuel);
-        return;
-    } else {
-        uimenu fmenu;
-        fmenu.text = _("Fill what?");
-        fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
-        fmenu.addentry(_("Container"));
-        fmenu.addentry(_("Never mind"));
-        fmenu.query();
-        auto choice = fmenu.ret;
-
-        // HAX: if choice is 0 ("Nearby vehicle"), we'll fall through to later code.
-        if(choice == 1) {
-            g->u.siphon(veh, fuel);
-            return;
-        } else if(choice == 2) {
-            add_msg(m_info, _("Never mind."));
-            return;
-        }
-    }
-
-    add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
-
-    // If we get here, we're doing vehicle-to-vehicle siphoning for sure.
-    vehicle* fillv = nullptr;
-    if(foundv.size() == 1) {
-        fillv = foundv.front();
-    } else {
-        tripoint posp;
-        g->draw_ter();
-        if(choose_adjacent( _("Fill which vehicle?"), posp ) ) {
-            fillv = g->m.veh_at( posp );
-        } else {
-            add_msg(m_info, _("Never mind."));
-            return; // Bailed out of vehicle selection.
-        }
-    }
-
-    if(fillv == nullptr) { // Ain't nothing there! Go away.
-        add_msg(m_info, _("There's no vehicle there."));
-        return;
-    } else if(fillv == veh) {
-        add_msg(m_info, _("As you bend the hose into a U-shape, you figure out something's not quite right..."));
-        return;
-    }
-
-    auto want = fillv->fuel_capacity(fuel) - fillv->fuel_left(fuel);
-    auto got = veh->drain(fuel, want);
-    fillv->refill(fuel, got);
-    g->u.moves -= 200;
-
-    if(got < want) {
-        add_msg(m_info, _("Siphoned %1$d units of %2$s from the %3$s into the %4$s, draining the tank."),
-                got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
-    } else {
-        add_msg(m_info, _("Siphoned %1$d units of %2$s from the %3$s into the %4$s, receiving tank is full."),
-                got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
-    }
+    g->u.siphon( *veh, fuel );
 }
 
 /**
@@ -2402,7 +2310,7 @@ void complete_vehicle ()
 
         } else {
             // repairing a damaged part
-            dmg = 1.1 - veh->parts[ vehicle_part ].hp / veh->part_info( vehicle_part ).durability;
+            dmg = 1.1 - (double) (veh->parts[ vehicle_part ].hp) / veh->part_info( vehicle_part ).durability;
             veh->parts[ vehicle_part ].hp = veh->part_info(vehicle_part).durability;
             g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty + 2 ) * 5 + 20 ) * dmg );
         }
@@ -2481,9 +2389,6 @@ void complete_vehicle ()
             veh->part_removal_cleanup();
         }
         break;
-    case 's':
-        act_vehicle_siphon(veh);
-    break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
         if( parts.size() ) {

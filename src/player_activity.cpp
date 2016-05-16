@@ -66,7 +66,6 @@ bool player_activity::is_abortable() const
         case ACT_CRAFT:
         case ACT_LONGCRAFT:
         case ACT_DISASSEMBLE:
-        case ACT_REFILL_VEHICLE:
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:
         case ACT_FIRSTAID:
@@ -128,6 +127,7 @@ bool player_activity::is_suspendable() const
         case ACT_ATM:
         case ACT_START_ENGINES:
         case ACT_GUNMOD_ADD:
+        case ACT_FILL_LIQUID:
             return false;
         default:
             return true;
@@ -199,8 +199,7 @@ void player_activity::do_turn( player *p )
             activity_handlers::vibe_do_turn( this, p );
             break;
         case ACT_REFILL_VEHICLE:
-            // Takes care of u.activity.moves_left
-            activity_handlers::refill_vehicle_do_turn( this, p );
+            type = ACT_NULL; // activity is not used anymore.
             break;
         case ACT_PULP:
             // does not really use u.activity.moves_left, stops itself when finished

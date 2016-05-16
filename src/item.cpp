@@ -3580,10 +3580,7 @@ bool item::spill_contents( Character &c )
 
     while( !contents.empty() ) {
         if( contents.front().made_of( LIQUID ) ) {
-            long charges_pre = contents.front().charges;
-            if( g->handle_liquid( contents.front(), false, false, this, nullptr, 1 ) ) {
-                contents.erase( contents.begin() );
-            } else if( charges_pre == contents.front().charges ) {
+            if( !g->handle_liquid_from_container( *this, 1 ) ) {
                 return false;
             }
         } else {
