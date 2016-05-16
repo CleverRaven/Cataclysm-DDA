@@ -13095,4 +13095,3 @@ void add_corpse( map *m, int x, int y )
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
 
-/////////
