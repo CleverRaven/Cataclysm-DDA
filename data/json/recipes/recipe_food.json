@@ -8033,35 +8033,35 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "broth", 1 ],
-      [ "broth_human", 1 ],
+      [ "broth", 2 ],
+      [ "broth_human", 2 ],
       [ "broth_bone", 1]
     ],
     [
-      [ "potato_irradiated", 1],
-      [ "potato_raw", 1 ],
-      [ "celery", 1 ],
-      [ "irradiated_celery", 1],
-      [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
-      [ "sauerkraut", 2 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "can_beans", 1 ],
-      [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1],
-      [ "dry_beans", 1 ],
-      [ "raw_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "beans_cooked", 1 ],
-      [ "acorns_cooked", 1 ]
+      [ "potato_irradiated", 2 ],
+      [ "potato_raw", 2 ],
+      [ "celery", 2 ],
+      [ "irradiated_celery", 2 ],
+      [ "cabbage", 2 ],
+      [ "irradiated_cabbage", 2 ],
+      [ "sauerkraut", 4 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ],
+      [ "can_beans", 2 ],
+      [ "spaghetti_raw", 2 ],
+      [ "macaroni_raw", 2 ],
+      [ "noodles_fast", 2 ],
+      [ "dry_beans", 2 ],
+      [ "raw_beans", 2 ],
+      [ "dry_rice", 2 ],
+      [ "beans_cooked", 2 ],
+      [ "acorns_cooked", 2 ]
     ],
     [
-      [ "dry_hflesh", 2 ],
-      [ "rehydrated_hflesh", 2 ],
-      [ "human_flesh", 2 ]
+      [ "dry_hflesh", 4 ],
+      [ "rehydrated_hflesh", 4 ],
+      [ "human_flesh", 4 ]
     ]
   ]
 },{

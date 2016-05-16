@@ -6044,7 +6044,7 @@
     "description": "This is a sealed glass jar containing sap soup.  Use to open and eat to enjoy.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6052,7 +6052,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_human",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
