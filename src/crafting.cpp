@@ -1742,7 +1742,7 @@ void remove_ammo(item *dis_item, player &p)
             continue;
         }
         drop_or_handle( *iter, p );
-        iter = contents.erase( iter );
+        iter = dis_item->contents.erase( iter );
     }
 
     if( dis_item->has_flag( "NO_UNLOAD" ) ) {
