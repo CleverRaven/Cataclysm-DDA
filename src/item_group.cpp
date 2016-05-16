@@ -195,11 +195,11 @@ void Item_modifier::modify(item &new_item) const
                 new_item.ammo_set( new_item.ammo_type(), qty );
             }
         } else if( !new_item.is_gun() ) {
-            //not gun, food, ammo or tool. 
+            //not gun, food, ammo or tool.
             new_item.charges = ch;
         }
     }
-    
+
     if( new_item.is_gun() && ( ammo.get() != nullptr || ch > 0 ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
