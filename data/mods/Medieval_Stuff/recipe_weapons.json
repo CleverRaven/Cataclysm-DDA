@@ -7,7 +7,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 300000,
-  "autolearn": false,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities":[
     {"id":"HAMMER","level":3}
@@ -40,7 +39,6 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 240000,
-  "autolearn": false,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities": [
     {"id":"HAMMER","level":1}
@@ -75,7 +73,6 @@
   "difficulty": 3,
   "time": 12000,
   "reversible": true,
-  "autolearn": false,
   "book_learn": [[ "textbook_armschina", 3 ]],
   "qualities" : [
     {"id":"SAW_M_FINE","level":1},
@@ -94,7 +91,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 240000,
-  "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 4 ]],
   "qualities": [
     {"id":"HAMMER","level":1}
@@ -127,7 +123,6 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 240000,
-  "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 5 ]],
   "qualities": [
     {"id":"HAMMER","level":1}
@@ -160,7 +155,6 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 300000,
-  "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 4 ]],
   "qualities":[
     {"id":"HAMMER","level":3}
