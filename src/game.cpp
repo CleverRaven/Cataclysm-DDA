@@ -7892,7 +7892,7 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        bool success = g->make_drop_activity( ACT_STASH, z->pos() );
+        bool success = g->make_drop_activity( ACT_STASH, g->multidrop(), z->pos() );
         if( success ) {
             z->add_effect( effect_controlled, 5);
         }
@@ -10383,7 +10383,7 @@ void game::drop(int pos)
     }
 
     if (pos == INT_MIN) {
-        make_drop_activity( ACT_DROP, u.pos() );
+        make_drop_activity( ACT_DROP, multidrop(), u.pos() );
     } else if( pos == -1 && !u.can_unwield( u.weapon ) ) {
         return;
     } else {
@@ -10414,7 +10414,7 @@ void game::drop_in_direction()
     }
 
     refresh_all();
-    make_drop_activity( ACT_DROP, dirp );
+    make_drop_activity( ACT_DROP, multidrop(), dirp );
 }
 
 void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,

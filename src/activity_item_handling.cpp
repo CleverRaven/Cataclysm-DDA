@@ -17,9 +17,9 @@
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
-bool game::make_drop_activity( enum activity_type act, const tripoint &target )
+bool game::make_drop_activity( enum activity_type act, const std::list<std::pair<int, int>> &dropped,
+                               const tripoint &target )
 {
-    std::list<std::pair<int, int> > dropped = multidrop();
     if( dropped.empty() ) {
         return false;
     }

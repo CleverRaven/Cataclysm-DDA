@@ -681,7 +681,8 @@ class game
         void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                   int freed_volume_capacity, tripoint dir,
                   bool to_vehicle = true); // emulate old behavior normally
-        bool make_drop_activity( enum activity_type act, const tripoint &target );
+        bool make_drop_activity( enum activity_type act, const std::list<std::pair<int, int>> &dropped,
+                  const tripoint &target );
 
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
