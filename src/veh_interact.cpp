@@ -1568,8 +1568,7 @@ void veh_interact::display_veh ()
         mvwputch (w_disp, hh + y, hw + x, col, special_symbol(sym));
     }
     if (!vertical_menu) {
-        size_t len = utf8_width(_("FWD ->"));
-        mvwprintz(w_disp, 0, disp_w - len, c_dkgray,  _("FWD ->"));
+        right_print( w_disp, 0, 0, c_dkgray, _( "FWD ->" ) );
     }
     wrefresh (w_disp);
 }
@@ -2402,7 +2401,7 @@ void complete_vehicle ()
 
         } else {
             // repairing a damaged part
-            dmg = 1.1 - veh->parts[ vehicle_part ].hp / veh->part_info( vehicle_part ).durability;
+            dmg = 1.1 - (double) (veh->parts[ vehicle_part ].hp) / veh->part_info( vehicle_part ).durability;
             veh->parts[ vehicle_part ].hp = veh->part_info(vehicle_part).durability;
             g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty + 2 ) * 5 + 20 ) * dmg );
         }

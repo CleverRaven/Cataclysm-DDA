@@ -49,7 +49,7 @@
     "id": "pistol_pepperbox",
     "type": "GUN",
     "name": "pepperbox pistol",
-    "description": "An elegantly crafted, ornate pepperbox. This primitive revolver has six barrels, making it unwieldy to shoot.",
+    "description": "An elegantly crafted, ornate pepperbox.  This primitive revolver has six barrels, making it unwieldy to shoot.",
     "weight": 876,
     "volume": 3,
     "price": 45000,

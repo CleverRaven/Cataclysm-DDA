@@ -446,7 +446,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   COUNT(3);
   FOLLOWUP(MISSION_RANCH_NURSE_3);
 
- MISSION(_("Collect 200 Vitamins"), MGOAL_FIND_ITEM, 5, 50000, false,
+ MISSION( _( "Collect 200 Multivitamin Pills" ), MGOAL_FIND_ITEM, 5, 50000, false,
          &mission_place::always, &mission_start::ranch_nurse_2,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
