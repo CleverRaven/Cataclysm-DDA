@@ -5680,7 +5680,7 @@
     "description": "This is a sealed glass jar containing some meat.  Use to open and eat to enjoy.",
     "price": 750,
     "material": ["glass", "flesh"],
-    "weight": 567,
+    "weight": 984,
     "volume": 2,
     "bashing": 4,
     "category": "food",
