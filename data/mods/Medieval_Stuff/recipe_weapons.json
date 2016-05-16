@@ -11,7 +11,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
@@ -45,7 +45,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities": [
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
@@ -80,8 +80,8 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armschina", 3 ]],
   "qualities" : [
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1},
+    {"id":"SCREW_FINE","level":1}
   ],
   "components": [
     [ [ "qiang", 1 ] ],
@@ -100,7 +100,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 4 ]],
   "qualities": [
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
@@ -134,7 +134,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 5 ]],
   "qualities": [
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
@@ -168,7 +168,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 4 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
     [ [ "tongs", -1 ] ],

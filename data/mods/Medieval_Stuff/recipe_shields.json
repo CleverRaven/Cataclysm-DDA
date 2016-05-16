@@ -10,8 +10,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [ [ "nail", 8 ] ],
@@ -29,8 +29,8 @@
   "reversible": false,
   "autolearn": true,
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":2}
   ],
   "components": [
     [ [ "nail", 16 ] ],
@@ -49,8 +49,8 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":3}
   ],
   "tools":[
     [ [ "tongs", -1 ] ],
@@ -80,8 +80,8 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":3}
   ],
   "tools":[
     [ [ "tongs", -1 ] ],
@@ -113,8 +113,8 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 3 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":3}
   ],
   "tools":[
     [ [ "tongs", -1 ] ],
@@ -146,7 +146,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
  ],
   "components": [
     [ [ "2x4", 4 ] ],
@@ -167,7 +167,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [ [ "2x4", 7 ] ],
@@ -188,7 +188,7 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ],
   "tools": [
     [ [ "tongs", -1 ] ],
