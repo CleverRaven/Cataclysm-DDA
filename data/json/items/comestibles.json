@@ -8858,7 +8858,7 @@
         "description" : "Low-sodium preserved meat.  It was boiled and canned.  Contains all of the nutrition, but little of the savor of cooked meat.",
         "price" : 250,
         "material" : "flesh",
-        "volume" : 2,
+        "volume" : 1,
         "charges" : 1,
         "fun" : 2
     },
