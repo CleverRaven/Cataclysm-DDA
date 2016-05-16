@@ -284,7 +284,7 @@
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ], 
+    "qualities":[ {"id":"HAMMER","level":1} ], 
     "components": [ [ [ "gold_small", 50 ] ] ]
   },
   {
@@ -296,7 +296,7 @@
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "qualities":[ {"id":"HAMMER","level":1} ],
     "components": [ [ [ "silver_small", 60 ] ] ]
   },
   {
@@ -308,7 +308,7 @@
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "qualities":[ {"id":"HAMMER","level":1} ],
     "components": [ [ [ "copper", 25 ] ] ]
   },
   {
@@ -320,7 +320,7 @@
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "qualities":[ {"id":"HAMMER","level":1} ],
     "components": [ [ [ "silver_small", 100 ] ] ]
   },
   {
@@ -332,7 +332,7 @@
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [ [ [ "RAM", 1 ] ] ]
   },
   {
@@ -344,7 +344,7 @@
     "difficulty": 0,
     "time": 1200,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "plastic_chunk", 2 ] ],
@@ -361,7 +361,7 @@
     "difficulty": 0,
     "time": 1200,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ [ "lens", 2 ] ],
       [ [ "plastic_chunk", 2 ] ],
@@ -377,7 +377,7 @@
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ [ "plastic_chunk", 1 ] ],
       [ [ "processor", 1 ] ],
@@ -393,7 +393,7 @@
     "difficulty": 0,
     "time": 60000,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ ["processor", 1] ],
       [ ["RAM", 4] ],
@@ -413,7 +413,7 @@
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "plastic_chunk", 3 ] ],
@@ -430,7 +430,7 @@
     "difficulty": 0,
     "time": 600,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1}],
+    "qualities": [ {"id":"SCREW","level":1}],
     "components": [
       [ [ "scrap", 2 ] ],
       [ [ "clockworks", 1 ] ]
@@ -446,8 +446,8 @@
     "time": 600,
     "reversible": true,
     "qualities": [
-      {"id":"HAMMER","level":1,"amount":1},
-      {"id":"SCREW","level":1,"amount":1}
+      {"id":"HAMMER","level":1},
+      {"id":"SCREW","level":1}
     ],
     "components": [
       [ [ "scrap", 2 ] ],
@@ -465,8 +465,8 @@
     "time": 600,
     "reversible": true,
     "qualities": [
-      {"id":"HAMMER","level":1,"amount":1},
-      {"id":"SCREW","level":1,"amount":1}
+      {"id":"HAMMER","level":1},
+      {"id":"SCREW","level":1}
     ],
     "components": [
       [ [ "gold_small", 100 ] ],
@@ -483,7 +483,7 @@
     "difficulty": 0,
     "time": 600,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ [ "scrap", 4 ] ],
       [ [ "clockworks", 2 ] ]
@@ -498,7 +498,7 @@
     "difficulty": 0,
     "time": 60000,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ ["processor", 1] ],
       [ ["RAM", 2] ],
@@ -517,7 +517,7 @@
     "difficulty": 0,
     "time": 80000,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ ["processor", 1] ],
       [ ["cable", 4] ],
@@ -535,7 +535,7 @@
     "difficulty": 0,
     "time": 10000,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ ["cable", 2] ],
       [ ["power_supply", 1] ],
@@ -552,7 +552,7 @@
     "difficulty": 0,
     "time": 1000,
     "reversible": true,
-    "qualities": [ {"id":"SCREW","level":1,"amount":1} ],
+    "qualities": [ {"id":"SCREW","level":1} ],
     "components": [
       [ ["scrap", 3] ],
       [ ["clockworks", 2] ]
@@ -581,7 +581,7 @@
     "difficulty": 0,
     "time": 1000,
     "reversible": true,
-    "qualities": [ {"id":"WRENCH","level":1,"amount":1} ], 
+    "qualities": [ {"id":"WRENCH","level":1} ],
     "components": [
       [ [ "scrap", 8 ] ],
       [ [ "spring", 2 ] ],
