@@ -2704,8 +2704,8 @@
         "description" : "This is a serving of crisply brined and canned fish.  Tasty and nutritious.",
         "price" : 250, "//" : "Two charges per jar.",
         "material" : "flesh",
-        "volume" : 2,
-        "charges" : 2,
+        "volume" : 1,
+        "charges" : 1,
         "fun" : 7
     },
     {
