@@ -9892,7 +9892,7 @@
         "description" : "This is a serving of crisply brined and canned human flesh.  Tasty and nutritious if you're into that sort of thing.",
         "price" : 0,
         "material" : "hflesh",
-        "volume" : 4,
+        "volume" : 1,
         "charges" : 2,
         "fun" : 6
     },
