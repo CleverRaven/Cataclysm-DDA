@@ -10377,6 +10377,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
 void game::drop(int pos)
 {
+    if( pos == -1 && !u.can_unwield( u.weapon ) ) {
+        return;
+    }
+
     if (!m.can_put_items(u.pos())) {
         add_msg(m_info, _("You can't place items here!"));
         return;
@@ -10384,8 +10388,6 @@ void game::drop(int pos)
 
     if (pos == INT_MIN) {
         make_drop_activity( ACT_DROP, multidrop(), u.pos() );
-    } else if( pos == -1 && !u.can_unwield( u.weapon ) ) {
-        return;
     } else {
         std::vector<item> dropped;
         std::vector<item> dropped_worn;
