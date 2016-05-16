@@ -170,6 +170,7 @@
         ["battery", 50],
         ["nail", 35],
         ["nailgun", 12],
+        ["hand_drill", 10],
         ["solar_cell", 5],
         ["manual_mechanics", 35],
         ["manual_fabrication", 20],

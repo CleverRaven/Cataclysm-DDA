@@ -1,0 +1,242 @@
+[
+
+{
+    "id": "spess_chunk",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "polyplatic chunk",
+    "description": "This is a piece of lightweight, microlayered space plastic.  It is unlikely it will ever be manufactered again, so its got to be worth something to somebody . . . right?",
+    "price": 15000,
+    "material": "spess_plastic",
+    "weight": 60,
+    "volume": 1,
+    "category" : "spare_parts",
+    "flags": ["NO_SALVAGE"]
+    },{
+    "id": "bot_manhack_missile",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "revenant rocket",
+    "description": "A revenant's rocket.  Will home in on a target and explode for moderate damage and a small EMP blast.",
+    "price": 60000,
+    "material": ["aluminum", "plastic"],
+    "weight": 330,
+    "volume": 3,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": {
+        "type": "place_monster",
+        "monster_id": "mon_manhack_missile",
+        "difficulty": 6,
+        "skill1": "electronics",
+        "skill2": "computer",
+        "hostile_msg": "You misprogram the missile; it's hostile!",
+        "friendly_msg": "The missile takes off uncertainly!",
+        "place_randomly": true,
+        "moves": 75
+    }
+    },{
+    "id": "rocket_core",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "ltblue",
+    "name": "revenant rocket core",
+    "description": "The core of a revenant's rocket, exposed to the air.  Seems stable enough at the moment, but will likely explode if you mess with it.",
+    "price": 0,
+    "material": ["steel", "plastic"],
+    "weight": 240,
+    "volume": 2,
+    "bashing": 6,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "transform",
+        "target": "rocket_core_act",
+        "target_charges": 3,
+        "active": true,
+        "msg": "You puncture the rocket core!"
+    }
+    },{
+    "id": "rocket_core_act",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "ltred",
+    "name": "unstable revenant rocket core",
+    "description": "The core of a revenant's rocket, exposed to the air.  Will likely explode any moment now.",
+    "price": 0,
+    "material": ["steel", "plastic"],
+    "weight": 240,
+    "volume": 2,
+    "bashing": 6,
+    "to_hit": -1,
+    "max_charges": 3,
+    "initial_charges": 3,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "flags": ["BOMB"],
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Tick.",
+        "no_deactivate_msg": "There's a hole in this core; it's gonna blow!",
+        "explosion": {
+            "emp_blast_radius": 2,
+            "draw_explosion_radius": 2,
+            "draw_explosion_color": "ltblue",
+            "power": 8
+        }
+      }
+    },{
+    "type" : "COMESTIBLE",
+    "id" : "medikit",
+    "name" : "medikit",
+    "weight" : 400,
+    "color" : "red",
+    "comestible_type" : "MED",
+    "symbol" : "+",
+    "quench" : 0,
+    "healthy" : 0,
+    "nutrition" : 0,
+    "description" : "A PRM brand medikit.  Can be quickly applied in battlefield situations, though it is designed to quickly attatch to damaged tissue, not disinfect.",
+    "price" : 50000,
+    "material" : "spess_plastic",
+    "volume" : 2,
+    "charges" : 3,
+    "stack_size" : 6,
+    "flags" : ["USE_ON_NPC"],
+    "fun" : 0,
+    "revert_to": "",
+    "use_action" : {
+        "type" : "heal",
+        "limb_power" : 20,
+        "head_power" : 20,
+        "torso_power" : 20,
+        "bleed" : 0.98,
+        "bite" : 0.50,
+        "infect" : 0.20,
+        "move_cost" : 3300,
+        "long_action" : true,
+        "effects" : [
+            {
+                "id": "pkill1",
+                "duration": 30
+            },{
+                "id": "doom_unhealth",
+                "duration": 5
+            }
+        ]
+    }  
+    },{
+    "type" : "TOOL_ARMOR",
+    "id" : "berserker_drug",
+    "name" : "berserker stimpack",
+    "volume" : 2,
+    "material_thickness" : 0,
+    "description" : "An iv drip in a protective case.  PRM patented stimulants will push the body to its limits for a brief period, making intense combat easier.",
+    "weight" : 360,
+    "to_hit" : -1,
+    "symbol" : "|",
+    "color" : "ltgray",
+    "covers" : ["HAND_EITHER", "ARM_EITHER"],
+    "encumbrance" : 1,
+    "price" : 1000000,
+    "material" : ["plastic"],
+    "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
+    "coverage" : 10,
+    "ammo": "NULL",
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "use_action" : {
+    "type" : "transform",
+    "move_cost" : 250,     
+    "target": "berserker_drug_act",
+    "target_charges": 7,
+    "active": true
+    },
+    "msg": "You insert the needle into your vein and your blood boils!"
+    },{
+    "type" : "TOOL_ARMOR",
+    "id" : "berserker_drug_act",
+    "name" : "berserker stimpack (active)",
+    "volume" : 2,
+    "material_thickness" : 0,
+    "description" : "An iv drip in a protective case.  Inside, PRM brand chemicals are surging through the needle, providing incredible strength and agility to its user.",
+    "weight" : 360,
+    "to_hit" : -1,
+    "symbol" : "|",
+    "color" : "i_dkgray",
+    "covers" : ["HAND_EITHER", "ARM_EITHER"],
+    "encumbrance" : 1,
+    "price" : 1000000,
+    "material" : ["plastic"],
+    "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
+    "coverage" : 10,
+    "ammo": "NULL",
+    "revert_to": "bag_plastic",
+    "max_charges": 7,
+    "initial_charges": 7,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "use_action" : {
+    "type" : "consume_drug",
+    "effects" : [
+        {
+            "id": "doom_stimpack",
+            "duration": 40
+        }    
+    ]}
+    },{
+    "type" : "COMESTIBLE",
+    "id" : "stamina_vial",
+    "name" : "stamina vial",
+    "volume" : 3,
+    "description" : "Containing a slew of charged organic chemicals, this 3-layer slurry might go down hard but provides a noticeable endurance boost for hardcore athletes and demanding soldiers alike.  Like most PRM products it is designed for short-term use only, and may upset the body's balance.",
+    "weight" : 720,
+    "to_hit" : -1,
+    "comestible_type" : "MED",
+    "fun" : -5,
+    "healthy" : 0,
+    "nutrition" : 12,
+    "symbol" : ")",
+    "color" : "blue",
+    "price" : 1000000,
+    "material" : ["glass"],
+    "flags" : ["NO_RELOAD", "NO_UNLOAD"],
+    "ammo": "NULL",
+    "revert_to": "bottle_glass",
+    "charges": 3,
+    "use_action" : {
+    "type" : "consume_drug",
+    "effects" : [
+        {
+                "id": "doom_unhealth",
+                "duration": 10
+        },{
+                "id": "stamina_regen",
+                "duration": 150
+        }
+    ]}
+    }
+
+]

@@ -116,11 +116,11 @@ const scenario *scenario::weighted_random()
         return generic();
     }
 
-    const auto &map = all_scenarios.all_ref();
+    const auto &list = all_scenarios.get_all();
     while( true ) {
-        auto iter = map.begin();
-        std::advance( iter, rng( 0, map.size() - 1 ) );
-        const scenario &scen = iter->second;
+        auto iter = list.begin();
+        std::advance( iter, rng( 0, list.size() - 1 ) );
+        const scenario &scen = *iter;
 
         if( x_in_y( 2, abs( scen.point_cost() ) + 2 ) ) {
             return &scen;
@@ -129,7 +129,7 @@ const scenario *scenario::weighted_random()
     }
 }
 
-std::vector<const scenario *> scenario::get_all()
+const std::vector<scenario> &scenario::get_all()
 {
     return all_scenarios.get_all();
 }
@@ -141,8 +141,8 @@ void scenario::reset()
 
 void scenario::check_definitions()
 {
-    for( auto &pair : all_scenarios.all_ref() ) {
-        pair.second.check_definition();
+    for( const auto &scen : all_scenarios.get_all() ) {
+        scen.check_definition();
     }
 }
 

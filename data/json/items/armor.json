@@ -2645,7 +2645,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 20,
+        "encumbrance" : 25,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2666,7 +2666,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 10,
+        "encumbrance" : 20,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2687,7 +2687,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2708,7 +2708,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2729,7 +2729,7 @@
         "volume" : 1,
         "warmth" : 5,
         "environmental_protection" : 15,
-        "encumbrance" : 1,
+        "encumbrance" : 20,
         "flags" : ["WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY"],
         "qualities" : [["GLARE", 1]],
         "coverage" : 100,
@@ -3240,8 +3240,6 @@
         "coverage" : 65,
         "material_thickness" : 1
     },
-
-
     {
         "type" : "ARMOR",
         "id" : "chestwrap",
@@ -5362,7 +5360,7 @@
         "flags" : ["SUN_GLASSES"],
         "coverage" : 50,
         "material_thickness" : 1
-    },   
+    },
     {   "type" : "ARMOR",
         "id" : "hat_sombrero",
         "name" : "sombrero",
@@ -5552,21 +5550,21 @@
         "type" : "ARMOR",
         "id" : "hat_hard_hooded",
         "name" : "hooded hard hat",
-        "weight" : 838,
+        "weight" : 876,
         "color" : "yellow",
         "covers" : ["HEAD"],
         "techniques" : ["WBLOCK_1"],
         "symbol" : "[",
         "description" : "A hard plastic hat worn in construction sites, with a cloth tucked in under it to serve as a makeshift hood.  Makes it a bit more comfortable to wear, and better protects the neck from sun and rain.",
         "price" : 1200,
-        "material" : ["plastic", "cotton"],
-        "volume" : 10,
-        "warmth" : 4,
+        "material" : ["plastic"],
+        "volume" : 11,
+        "warmth" : 6,
         "encumbrance" : 13,
         "bashing" : 6,
         "flags" : ["WATERPROOF"],
         "coverage" : 80,
-        "material_thickness" : 5
+        "material_thickness" : 4
     },
     {
         "type" : "ARMOR",
@@ -6504,7 +6502,16 @@
         "symbol" : "[",
         "bashing" : 5,
         "warmth" : 0,
-        "flags" : ["WAIST"]
+        "flags" : ["WAIST"],
+        "use_action" : {
+            "type": "holster",
+             "holster_prompt": "Stick what into your belt",
+             "holster_msg": "You tuck your %s into your %s",
+             "max_volume": 2,
+             "max_weight": 400,
+             "draw_cost": 60,
+             "flags": ["BELT_CLIP"]
+        }
     },
     {
         "type" : "ARMOR",
@@ -6787,7 +6794,6 @@
         "flags" : ["FANCY"]
     },
     {
-
         "type" : "ARMOR",
         "id" : "fc_hairpin",
         "name" : "fancy hairpin",
@@ -7032,8 +7038,6 @@
         "material_thickness" : 0,
         "description" : "A small relic from a forgotten saint.  As extraordinary as the world has become it may have some power yet.",
         "weight" : 50,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
         "use_action": "MEDITATE",
         "color" : "white",
         "encumbrance" : 0,
@@ -7058,8 +7062,6 @@
         "encumbrance" : 0,
         "coverage" : 0,
         "warmth" : 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
         "use_action": "MEDITATE",
         "material_thickness" : 0,
         "flags" : ["FANCY"]
@@ -7078,8 +7080,6 @@
         "encumbrance" : 0,
         "coverage" : 0,
         "warmth" : 0,
-        "charges_per_use": 0,
-        "turns_per_charge": 0,
         "use_action": "MEDITATE",
         "material_thickness" : 0
     },
@@ -7850,9 +7850,7 @@
         "coverage" : 5,
         "symbol" : "[",
         "warmth" : 0,
-        "use_action": "WEATHER_TOOL",
-        "charges_per_use": 0,
-        "turns_per_charge": 0
+        "use_action": "WEATHER_TOOL"
     },
     {
         "type" : "ARMOR",
@@ -8357,7 +8355,7 @@
         "volume" : 5,
         "warmth" : 75,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -8378,7 +8376,7 @@
         "volume" : 5,
         "warmth" : 75,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 35,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -8519,7 +8517,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 30,
+        "encumbrance" : 35,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3

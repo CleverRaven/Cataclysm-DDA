@@ -7,6 +7,7 @@
 #include "cursesdef.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "cata_utility.h"
 #include "input.h"
 #include "worldfactory.h"
 #include "catacharset.h"
@@ -1432,8 +1433,7 @@ static void refresh_tiles( bool, bool, bool ) {
 
 void draw_borders_external( WINDOW *w, int horizontal_level, std::map<int, bool> &mapLines )
 {
-    draw_border( w );
-    center_print( w, 0, c_ltred, _( " OPTIONS " ) );
+    draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
     // intersections
     mvwputch( w, horizontal_level, 0, BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, horizontal_level, getmaxx( w ) - 1, BORDER_COLOR, LINE_XOXX ); // -|
@@ -1828,28 +1828,10 @@ bool options_manager::save(bool ingame)
     message_ttl = OPTIONS["MESSAGE_TTL"]; // cache to global due to heavy usage.
     fov_3d = OPTIONS["FOV_3D"];
 
-    try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fout.open(savefile.c_str());
-
-        if(!fout.is_open()) {
-            return true; //trick game into thinking it was saved
-        }
-
+    return write_to_file( savefile, [&]( std::ostream &fout ) {
         JsonOut jout( fout, true );
         serialize(jout);
-
-        fout.close();
-        return true;
-
-    } catch(std::ios::failure &) {
-        popup(_("Failed to save options to %s"), savefile.c_str());
-        return false;
-    }
-
-    return false;
+    }, _( "options" ) );
 }
 
 void options_manager::load()

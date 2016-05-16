@@ -48,8 +48,7 @@
     "sight_dispersion": 90,
     "recoil": 120,
     "durability": 8,
-    "clip_size": 6,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "clip_size": 6
   },
   {
     "id": "l_long_45",
@@ -96,6 +95,7 @@
   },
   {
     "id": "m1911",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "M1911",
     "description": "The M1911 was the US Military standard-issue sidearm for most of the 20th Century.  It remains one of the most popular .45 pistols today.",
@@ -107,15 +107,12 @@
     "material": ["steel", "plastic"],
     "symbol": "(",
     "color": "light_gray",
-    "skill": "pistol",
     "ammo": "45",
     "ranged_damage": 6,
     "dispersion": 255,
     "sight_dispersion": 90,
-    "aim_speed" : 4,
     "recoil": 130,
     "durability": 7,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well": 1,
     "magazines" : [
       [ "45", [ "m1911mag", "m1911bigmag" ] ],
@@ -149,10 +146,11 @@
       ["45", [ "mac10mag" ] ],
       [ "9mm", [ "tec9mag" ] ]
     ],
-    "flags": "MODE_BURST"    
+    "flags": "MODE_BURST"
   },
   {
     "id": "surv_hand_cannon",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "homemade hand cannon",
     "name_plural": "homemade hand cannons",
@@ -165,19 +163,14 @@
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
-    "skill": "pistol",
     "ammo": "45",
     "ranged_damage": 3,
     "dispersion": 255,
     "sight_dispersion": 90,
-    "aim_speed": 4,
     "recoil": 140,
     "durability": 7,
     "loudness": 25,
-    "clip_size": 5,
-    "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "clip_size": 5
   },
   {
     "id": "TDI",

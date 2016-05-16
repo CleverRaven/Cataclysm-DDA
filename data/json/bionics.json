@@ -1204,7 +1204,7 @@
             [ "LEG_L", 1 ],
             [ "LEG_R", 1 ],
             [ "FOOT_L", 1 ],
-            [ "FOOT_R", 1 ]            
+            [ "FOOT_R", 1 ]
         ],
         "faulty": true,
         "description": "Improperly installed wires cause a physical stiffness in most of your body, causing increased encumbrance."

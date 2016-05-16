@@ -1,0 +1,52 @@
+[
+    {
+        "id": "long_heal_tool",
+        "type": "TOOL",
+        "symbol": "!",
+        "color": "light_gray",
+        "name": "long healing tool",
+        "description": "This is a test item for testing long action heal_actor on tools.  It shouldn't spawn in normal game.",
+        "max_charges": 200,
+        "initial_charges": 100,
+        "charges_per_use": 1,
+        "ammo": "battery",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 2,
+            "head_power" : 1,
+            "torso_power" : 3,
+            "bleed" : 0.2,
+            "bite" : 0.2,
+            "infect" : 0.2,
+            "move_cost" : 1000,
+            "long_action" : true,
+            "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
+        }
+    },
+    {
+        "id": "short_heal_tool",
+        "type": "TOOL",
+        "symbol": "!",
+        "color": "light_gray",
+        "name": "short healing tool",
+        "description": "This is a test item for testing short action heal_actor on tools.  It shouldn't spawn in normal game.",
+        "max_charges": 200,
+        "initial_charges": 100,
+        "charges_per_use": 1,
+        "ammo": "battery",
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 2,
+            "head_power" : 1,
+            "torso_power" : 3,
+            "limb_scaling" : 1,
+            "torso_scaling" : 0.5,
+            "head_scaling" : 2,
+            "bleed" : 0.2,
+            "bite" : 0.2,
+            "infect" : 0.2,
+            "move_cost" : 1000,
+            "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
+        }
+    }
+]

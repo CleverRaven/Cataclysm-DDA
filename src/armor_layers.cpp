@@ -18,25 +18,24 @@ std::vector<std::string> clothing_flags_description( item const &worn_item );
 
 void draw_mid_pane( WINDOW *w_sort_middle, item const &worn_item )
 {
-    mvwprintz( w_sort_middle, 0, 1, c_white, worn_item.type_name( 1 ).c_str() );
     int middle_w = getmaxx( w_sort_middle );
+    size_t i = fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
+                               worn_item.type_name( 1 ) ) - 1;
     std::vector<std::string> props = clothing_properties( worn_item, middle_w - 3 );
-    size_t i;
-    for( i = 0; i < props.size(); ++i ) {
-        // headers are green, info is gray
-        nc_color c = ( props[i][0] == '[' ? c_green : c_ltgray );
-        mvwprintz( w_sort_middle, i + 1, 2, c, props[i].c_str() );
+    for( auto &iter : props ) {
+        // [headers] are green, info is gray
+        nc_color color = ( iter[0] == '[' ? c_green : c_ltgray );
+        mvwprintz( w_sort_middle, ++i, 2, color, iter.c_str() );
     }
 
     i += 2;
     i += fold_and_print( w_sort_middle, i, 0, middle_w, c_ltblue,
-                         "%s", clothing_layer( worn_item ).c_str() );
+                         clothing_layer( worn_item ) );
 
     std::vector<std::string> desc = clothing_flags_description( worn_item );
     if( !desc.empty() ) {
         for( size_t j = 0; j < desc.size(); ++j ) {
-            i += -1 + fold_and_print( w_sort_middle, i + j, 0, middle_w,
-                                      c_ltblue, "%s", desc[j].c_str() );
+            i += -1 + fold_and_print( w_sort_middle, i + j, 0, middle_w, c_ltblue, desc[j] );
         }
     }
 }
@@ -199,11 +198,11 @@ void player::sort_armor()
     * + 7 - ASSUMPTION: max possible number of flags @ item
     * + 13 - warmth & enc block
     */
-    int req_mid_h = 3 + 1 + 8 + 7 + 13;
+    const int req_mid_h = 3 + 1 + 8 + 7 + 13;
 
     const int win_h = std::min( TERMY, std::max( FULL_SCREEN_HEIGHT,
                                 std::max( req_right_h, req_mid_h ) ) );
-    const int win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 3;
+    const int win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) * 3 / 4;
     const int win_x = TERMX / 2 - win_w / 2;
     const int win_y = TERMY / 2 - win_h / 2;
 
@@ -321,13 +320,10 @@ void player::sort_armor()
                 mvwprintz( w_sort_left, drawindex + 1, 0, c_yellow, ">>" );
             }
 
-            if( itemindex == selected ) {
-                mvwprintz( w_sort_left, drawindex + 1, 3, dam_color[int( tmp_worn[itemindex]->damage + 1 )],
-                           tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            } else {
-                mvwprintz( w_sort_left, drawindex + 1, 2, dam_color[int( tmp_worn[itemindex]->damage + 1 )],
-                           tmp_worn[itemindex]->type_name( 1 ).c_str() );
-            }
+            const int offset_x = ( itemindex == selected ) ? 3 : 2;
+            trim_and_print( w_sort_left, drawindex + 1, offset_x, left_w - offset_x - 3,
+                            dam_color[int( tmp_worn[itemindex]->damage + 1 )],
+                            tmp_worn[itemindex]->type_name( 1 ).c_str() );
             mvwprintz( w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d",
                        tmp_worn[itemindex]->get_storage() );
         }
@@ -343,10 +339,11 @@ void player::sort_armor()
         }
 
         // Items stats
-        if( leftListSize ) {
+        if( leftListSize > 0 ) {
             draw_mid_pane( w_sort_middle, *tmp_worn[leftListIndex] );
         } else {
-            mvwprintz( w_sort_middle, 0, 1, c_white, _( "Nothing to see here!" ) );
+            fold_and_print( w_sort_middle, 0, 1, middle_w - 1, c_white,
+                            _( "Nothing to see here!" ) );
         }
 
         mvwprintz( w_encumb, 0, 1, c_white, _( "Encumbrance and Warmth" ) );
@@ -358,7 +355,6 @@ void player::sort_armor()
                    _( "Encumbrance" ) );
 
         // Right list
-
         rightListSize = 0;
         for( int cover = 0, pos = 1; cover < num_bp; cover++ ) {
             bool combined = false;
@@ -374,8 +370,8 @@ void player::sort_armor()
             rightListSize++;
             for( auto &elem : items_cover_bp( *this, cover ) ) {
                 if( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
-                    mvwprintz( w_sort_right, pos, 2, dam_color[elem.damage + 1],
-                               elem.name.c_str() );
+                    trim_and_print( w_sort_right, pos, 2, right_w - 4, dam_color[elem.damage + 1],
+                                    elem.name.c_str() );
                     mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
                                elem.encumber );
                     pos++;

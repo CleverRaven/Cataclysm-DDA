@@ -3,6 +3,7 @@
 #include <map>
 
 #include "debug.h"
+#include "translations.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
@@ -45,7 +46,7 @@ void vitamin::load_vitamin( JsonObject &jo )
     vitamin vit;
 
     vit.id_ = vitamin_id( jo.get_string( "id" ) );
-    vit.name_ = jo.get_string( "name" );
+    vit.name_ = _( jo.get_string( "name" ).c_str() );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
     vit.rate_ = jo.get_int( "rate", 60 );

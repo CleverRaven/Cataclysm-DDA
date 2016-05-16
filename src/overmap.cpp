@@ -16,7 +16,7 @@
 #include "json.h"
 #include "mapdata.h"
 #include "mapgen.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "uistate.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -2062,7 +2062,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                   _(" - Toggle Explored")).c_str());
         mvwprintz(wbar, 23, 1, c_magenta, (inp_ctxt->get_desc("HELP_KEYBINDINGS") +
                   _(" - Change keys")).c_str());
-        fold_and_print(wbar, 24, 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
+        fold_and_print(wbar, 24, 1, 27, c_magenta, (inp_ctxt->get_desc("QUIT") +
                        _(" - Return to game")).c_str());
     }
     point omt(cursx, cursy);
@@ -2438,10 +2438,6 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
         } else if (action == "ANY_INPUT") {
             if (uistate.overmap_blinking) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
-            }
-            input_event e = ictxt.get_raw_input();
-            if(e.type == CATA_INPUT_KEYBOARD && e.get_first_input() == 'm') {
-                action = "QUIT";
             }
         }
     } while (action != "QUIT" && action != "CONFIRM");
@@ -3914,7 +3910,7 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
     bool passed = false;
     for( const auto& location : special.locations ) {
         // check each location, if one returns true, then return true, else return false
-        // never, always, water, land, forest, wilderness, by_hiway
+        // never, always, water, land, forest, field, wilderness, by_hiway
         // false, true,   river, !river, forest, forest/field, special
         std::list<std::string> allowed_terrains;
         std::list<std::string> disallowed_terrains;
@@ -3930,6 +3926,8 @@ bool overmap::allow_special(const overmap_special& special, const tripoint& p, i
             disallowed_terrains.push_back("road");
         } else if(location == "forest") {
             allowed_terrains.push_back("forest");
+        } else if(location == "field") {
+            allowed_terrains.push_back("field");
         } else if(location == "wilderness") {
             allowed_terrains.push_back("forest");
             allowed_terrains.push_back("field");
@@ -4313,22 +4311,16 @@ void overmap::open()
 // Note: this may throw io errors from std::ofstream
 void overmap::save() const
 {
-    std::ofstream fout;
-    fout.exceptions(std::ios::badbit | std::ios::failbit);
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
     std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
 
-    // Player specific data
-    fout.open(plrfilename.c_str());
-    serialize_view( fout );
-    fout.close();
-    // World terrain data
-    fopen_exclusive(fout, terfilename.c_str(), std::ios_base::trunc);
-    if(!fout.is_open()) {
-        return;
-    }
-    serialize( fout );
-    fclose_exclusive(fout, terfilename.c_str());
+    ofstream_wrapper fout_player( plrfilename );
+    serialize_view( fout_player );
+    fout_player.close();
+
+    ofstream_wrapper_exclusive fout_terrain( terfilename );
+    serialize( fout_terrain );
+    fout_terrain.close();
 }
 
 
@@ -4431,6 +4423,7 @@ int oter_id::compare(size_t pos, size_t len, const char *s, size_t n) const
 oter_id::oter_id(const std::string &v)
 {
     std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    _val = 0;
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v.c_str());
     } else {
@@ -4442,6 +4435,7 @@ oter_id::oter_id(const std::string &v)
 oter_id::oter_id(const char *v)
 {
     std::unordered_map<std::string, oter_t>::const_iterator it = otermap.find(v);
+    _val = 0;
     if ( it == otermap.end() ) {
         debugmsg("not found: %s", v);
     } else {

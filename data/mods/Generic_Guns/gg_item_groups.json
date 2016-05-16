@@ -6,7 +6,6 @@
     "items":[
       ["levergun_44", 20],
       ["rm228", 4],
-      ["dart", 5],
       ["9mm", 40],
       ["9mmfmj", 8],
       ["44magnum", 30],
@@ -409,7 +408,6 @@
       ["RPG", 1],
       ["RPG-7_ammo", 1],
       ["rm11b_sniper_rifle", 1]
-
     ]
   },{
     "type" : "item_group",
@@ -474,4 +472,3 @@
     ]
   }
 ]
-

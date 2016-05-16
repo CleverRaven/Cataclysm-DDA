@@ -77,7 +77,7 @@
        [ "reloaded_9x18mm", 20 ],
        [ "reloaded_9x18mmfmj", 10 ],
        [ "reloaded_9x18mmP2", 5 ]
-    ]  
+    ]
   },
   {
     "type" : "item_group",

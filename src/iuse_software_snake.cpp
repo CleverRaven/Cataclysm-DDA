@@ -29,13 +29,12 @@ void snake_game::print_score(WINDOW *w_snake, int iScore)
 
 void snake_game::print_header(WINDOW *w_snake, bool show_shortcut)
 {
-    draw_border(w_snake);
+    draw_border( w_snake, BORDER_COLOR, _( "S N A K E" ), c_white );
     if (show_shortcut) {
         std::string shortcut = _("<q>uit");
         shortcut_print(w_snake, 0, FULL_SCREEN_WIDTH - utf8_width(shortcut) - 2,
                        c_white, c_ltgreen, shortcut);
     }
-    center_print(w_snake, 0, c_white, _("S N A K E"));
 }
 
 void snake_game::snake_over(WINDOW *w_snake, int iScore)

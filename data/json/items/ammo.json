@@ -308,24 +308,6 @@
         "effects" : ["NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
-        "id" : "dart",
-        "price" : 100,
-        "name" : "dart",
-        "symbol" : "-",
-        "color" : "yellow",
-        "description" : "A handful of darts, useful as ammunition for blowguns.",
-        "material" : "wood",
-        "volume" : 1,
-        "weight" : 1,
-        "ammo_type" : "dart",
-        "damage" : 1,
-        "range" : 30,
-        "dispersion" : 5,
-        "loudness": 0,
-        "count" : 10,
-        "effects" : ["RECOVER_3", "NEVER_MISFIRES"]
-    },
-    {   "type" : "AMMO",
         "id" : "bearing",
         "price" : 100,
         "name" : "bearings",
@@ -393,7 +375,6 @@
         "stack_size" : 100,
         "count" : 20
     },
-
     {   "type" : "AMMO",
         "id" : "9x18mm",
         "price" : 2600,
@@ -506,7 +487,6 @@
         "stack_size" : 30,
         "effects" : ["COOKOFF"]
     },
-
     {   "type" : "AMMO",
         "id" : "laser_pack",
         "price" : 80000,

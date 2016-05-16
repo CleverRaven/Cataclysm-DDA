@@ -320,27 +320,6 @@ JsonObject JsonObject::get_object(const std::string &name)
     return jsin->get_object();
 }
 
-std::set<std::string> JsonObject::get_tags(const std::string &name)
-{
-    std::set<std::string> ret;
-    int pos = positions[name];
-    if (pos <= start) {
-        return ret; // empty set
-    }
-    jsin->seek(pos);
-    // allow single string as tag
-    if (jsin->test_string()) {
-        ret.insert(jsin->get_string());
-        return ret;
-    }
-    // otherwise assume it's an array and error if it isn't.
-    JsonArray jsarr = jsin->get_array();
-    while (jsarr.has_more()) {
-        ret.insert(jsarr.next_string());
-    }
-    return ret;
-}
-
 /* non-fatal member existence and type testing */
 
 bool JsonObject::has_null(const std::string &name)

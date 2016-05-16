@@ -9,6 +9,7 @@
 #include "filesystem.h"
 #include "translations.h"
 #include "catacharset.h"
+#include "cata_utility.h"
 #include "options.h"
 #include <fstream>
 #include <sstream>
@@ -235,16 +236,7 @@ void input_manager::load(const std::string &file_name, bool is_user_preferences)
 
 void input_manager::save()
 {
-    std::ofstream data_file;
-
-    std::string file_name = FILENAMES["user_keybindings"];
-    std::string file_name_tmp = file_name + ".tmp";
-    data_file.open(file_name_tmp.c_str(), std::ifstream::binary);
-
-    if(!data_file.good()) {
-        throw std::runtime_error(file_name_tmp + ": could not write");
-    }
-    data_file.exceptions(std::ios::badbit | std::ios::failbit);
+    write_to_file( FILENAMES["user_keybindings"], [&]( std::ostream &data_file ) {
     JsonOut jsout(data_file, true);
 
     jsout.start_array();
@@ -293,11 +285,7 @@ void input_manager::save()
         }
     }
     jsout.end_array();
-
-    data_file.close();
-    if(!rename_file(file_name_tmp, file_name)) {
-        throw std::runtime_error( std::string( "Could not rename " ) + file_name_tmp + " to " + file_name );
-    }
+    }, _( "key bindings configuration" ) );
 }
 
 void input_manager::add_keycode_pair(long ch, const std::string &name)
@@ -893,9 +881,7 @@ void input_context::display_help()
         werase(w_help);
         draw_border(w_help);
         draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size() - display_height, 8);
-        mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
-                  c_ltred, " %s ", _("Keybindings"));
-
+        center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print(w_help, 1, 2, legwidth, c_white, legend.str());
 
         for (size_t i = 0; i + scroll_offset < org_registered_actions.size() && i < display_height; i++) {

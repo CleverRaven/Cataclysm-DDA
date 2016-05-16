@@ -39,6 +39,7 @@
         "density" : 4,
         "edible": true,
         "vitamins": [
+          [ "calcium", 0.1 ],
           [ "vitA", 1.0 ],
           [ "vitC", 0.5 ]
         ]
@@ -149,6 +150,7 @@
         "density" : 5,
         "edible": true,
         "vitamins" : [
+          [ "calcium", 0.1 ],
           [ "vitB", 1.0 ],
           [ "iron", 2.0 ]
         ]
@@ -213,7 +215,7 @@
         "edible": true,
         "vitamins" : [
           [ "vitB", 0.5 ],
-          [ "calcium", 1.0 ]
+          [ "calcium", 1.5 ]
         ]
     },{
         "type" : "material",
@@ -259,6 +261,7 @@
         "density" : 5,
         "edible": true,
         "vitamins" : [
+          [ "calcium", 0.1 ],
           [ "vitB", 1.0 ],
           [ "iron", 2.0 ]
         ]
@@ -419,6 +422,7 @@
         "fire_resist" : 1,
         "chip_resist" : 8,
         "density" : 7,
+        "edible": true,
         "vitamins" : [
             [ "calcium", 2.0 ]
         ]

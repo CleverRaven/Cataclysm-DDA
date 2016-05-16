@@ -56,7 +56,7 @@ int savegame_loading_version = savegame_version;
 /*
  * Save to opened character.sav
  */
-void game::serialize(std::ofstream & fout) {
+void game::serialize(std::ostream & fout) {
 /*
  * Format version 12: Fully json, save the header. Weather and memorial exist elsewhere.
  * To prevent (or encourage) confusion, there is no version 8. (cata 0.8 uses v7)
@@ -128,7 +128,7 @@ void game::serialize(std::ofstream & fout) {
 /*
  * Properly reuse a stringstream object for line by line parsing
  */
-inline std::stringstream & stream_line(std::ifstream & f, std::stringstream & s, std::string & buf) {
+inline std::stringstream & stream_line(std::istream & f, std::stringstream & s, std::string & buf) {
     s.clear();
     s.str("");
     getline(f, buf);
@@ -158,7 +158,7 @@ void chkversion(std::istream & fin) {
 /*
  * Parse an open .sav file.
  */
-void game::unserialize(std::ifstream & fin)
+void game::unserialize(std::istream & fin)
 {
     if ( fin.peek() == '#' ) {
         std::string vline;
@@ -257,7 +257,7 @@ void game::unserialize(std::ifstream & fin)
 }
 
 ///// weather
-void game::load_weather(std::ifstream & fin) {
+void game::load_weather(std::istream & fin) {
    if ( fin.peek() == '#' ) {
        std::string vline;
        getline(fin, vline);
@@ -288,7 +288,7 @@ void game::load_weather(std::ifstream & fin) {
     }
 }
 
-void game::save_weather(std::ofstream &fout) {
+void game::save_weather(std::ostream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
     fout << "seed: " << weather_gen->get_seed();
@@ -421,7 +421,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         for( const auto &conv : nearby ) {
             const auto x_it = needs_conversion.find( tripoint( pos.x + conv.xoffset, pos.y, pos.z ) );
             const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
-            if( x_it != needs_conversion.end() && x_it->second == conv.x_id && 
+            if( x_it != needs_conversion.end() && x_it->second == conv.x_id &&
                 y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
                 new_id = conv.new_id;
                 break;
@@ -431,7 +431,7 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
 }
 
 // throws std::exception
-void overmap::unserialize( std::ifstream &fin ) {
+void overmap::unserialize( std::istream &fin ) {
 
     if ( fin.peek() == '#' ) {
         // This was the last savegame version that produced the old format.
@@ -649,7 +649,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool (&arra
 }
 
 // throws std::exception
-void overmap::unserialize_view(std::ifstream &fin)
+void overmap::unserialize_view(std::istream &fin)
 {
     // Private/per-character view of the overmap.
     if ( fin.peek() == '#' ) {
@@ -731,7 +731,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json, const bool (&a
     json.end_array();
 }
 
-void overmap::serialize_view( std::ofstream &fout ) const
+void overmap::serialize_view( std::ostream &fout ) const
 {
     static const int first_overmap_view_json_version = 25;
     fout << "# version " << first_overmap_view_json_version << std::endl;
@@ -778,7 +778,7 @@ void overmap::serialize_view( std::ofstream &fout ) const
     json.end_object();
 }
 
-void overmap::serialize( std::ofstream &fout ) const
+void overmap::serialize( std::ostream &fout ) const
 {
     static const int first_overmap_json_version = 25;
     fout << "# version " << first_overmap_json_version << std::endl;
@@ -992,7 +992,7 @@ void mission::unserialize_all( JsonIn &jsin )
     }
 }
 
-void game::unserialize_master(std::ifstream &fin) {
+void game::unserialize_master(std::istream &fin) {
     savegame_loading_version = 0;
     chkversion(fin);
     if (savegame_loading_version != savegame_version && savegame_loading_version < 11) {
@@ -1038,7 +1038,7 @@ void mission::serialize_all( JsonOut &json )
     json.end_array();
 }
 
-void game::serialize_master(std::ofstream &fout) {
+void game::serialize_master(std::ostream &fout) {
     fout << "# version " << savegame_version << std::endl;
     try {
         JsonOut json(fout, true); // pretty-print

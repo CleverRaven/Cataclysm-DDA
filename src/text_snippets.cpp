@@ -105,7 +105,7 @@ const std::string &snippet_library::random_from_category( const std::string &cat
     }
 
     int count = std::distance( iters.first, iters.second );
-    int index = rng( 0, count );
+    int index = rng( 0, count - 1 );
     auto iter = iters.first;
     std::advance( iter, index );
     return get( iter->second );

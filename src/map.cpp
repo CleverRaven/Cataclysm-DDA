@@ -45,6 +45,7 @@ const skill_id skill_driving( "driving" );
 const skill_id skill_traps( "traps" );
 
 const species_id FUNGUS( "FUNGUS" );
+const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
@@ -534,7 +535,7 @@ bool map::vehproceed()
             veh.turn( one_in( 2 ) ? -15 : 15 );
         }
     ///\EFFECT_DRIVING reduces chance of fumbling vehicle controls
-    } else if( !should_fall && pl_ctrl && rng(0, 4) > g->u.skillLevel( skill_driving ) && one_in(20) ) {
+    } else if( !should_fall && pl_ctrl && rng(0, 4) > g->u.get_skill_level( skill_driving ) && one_in(20) ) {
         add_msg( m_warning, _("You fumble with the %s's controls."), veh.name.c_str() );
         veh.turn( one_in( 2 ) ? -15 : 15 );
     }
@@ -916,7 +917,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
             ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
 
             ///\EFFECT_DRIVING reduces chance of losing control of vehicle when shaken
-            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel( skill_driving ) * 3 ) {
+            if( lose_ctrl_roll > psg->dex_cur * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
                 psg->add_msg_player_or_npc( m_warning,
                     _("You lose control of the %s."),
                     _("<npcname> loses control of the %s."),
@@ -962,8 +963,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
     //  remaining times are normalized
     const veh_collision &c = collisions[0];
     add_msg(m_bad, _("The %1$s's %2$s collides with %3$s's %4$s."),
-                   veh.name.c_str(),  veh.part_info(c.part).name.c_str(),
-                   veh2.name.c_str(), veh2.part_info(c.target_part).name.c_str());
+                   veh.name.c_str(),  veh.part_info(c.part).name().c_str(),
+                   veh2.name.c_str(), veh2.part_info(c.target_part).name().c_str());
 
     const bool vertical = veh.smz != veh2.smz;
 
@@ -1224,7 +1225,7 @@ void map::board_vehicle( const tripoint &pos, player *p )
     const int seat_part = veh->part_with_feature( part, VPFLAG_BOARDABLE );
     if( seat_part < 0 ) {
         debugmsg( "map::board_vehicle: boarding %s (not boardable)",
-                  veh->part_info(part).name.c_str() );
+                  veh->parts[ part ].name().c_str() );
         return;
     }
     if( veh->parts[seat_part].has_flag( vehicle_part::passenger_flag ) ) {
@@ -1270,7 +1271,7 @@ void map::unboard_vehicle( const tripoint &p )
     const int seat_part = veh->part_with_feature( part, VPFLAG_BOARDABLE, false );
     if( seat_part < 0 ) {
         debugmsg ("map::unboard_vehicle: unboarding %s (not boardable)",
-                  veh->part_info(part).name.c_str());
+                  veh->parts[ part ].name().c_str() );
         return;
     }
     passenger = veh->get_passenger(seat_part);
@@ -3151,7 +3152,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
 
         ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
         if( pl.has_trait("TAIL_CATTLE") &&
-            one_in( 20 - pl.dex_cur - pl.skillLevel( skill_id( "melee" ) ) ) ) {
+            one_in( 20 - pl.dex_cur - pl.get_skill_level( skill_id( "melee" ) ) ) ) {
             pl.add_msg_if_player( _("The spores land on you, but you quickly swat them off with your tail!" ) );
             return;
         }
@@ -3939,7 +3940,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             //Greatly weakens power of bullets
             dam -= 40;
-            if (dam <= 0) {
+            if( dam <= 0 && g->u.sees( p ) ) {
                 add_msg(_("The shot is stopped by the reinforced glass wall!"));
             } else if (dam >= 40) {
                 //high powered bullets penetrate the glass, but only extremely strong
@@ -4711,7 +4712,7 @@ item &map::add_item_at( const tripoint &p,
     if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
     }
-
+    
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
@@ -5413,7 +5414,7 @@ void map::disarm_trap( const tripoint &p )
         return;
     }
 
-    const int tSkillLevel = g->u.skillLevel( skill_traps );
+    const int tSkillLevel = g->u.get_skill_level( skill_traps );
     const int diff = tr.get_difficulty();
     int roll = rng(tSkillLevel, 4 * tSkillLevel);
 

@@ -965,7 +965,7 @@
     ],
     "components": [
       [
-        [ "stick", 1 ], 
+        [ "stick", 1 ],
         [ "2x4", 1 ]
       ],
       [
@@ -1139,7 +1139,6 @@
     [
       [ "water", 5 ],
       [ "water_clean", 5 ]
-      
     ],
     [
       [ "stomach", 1],
@@ -1183,7 +1182,6 @@
     [
       [ "water", 8 ],
       [ "water_clean", 8 ]
-      
     ],
     [
       [ "stomach_large", 1],
@@ -1547,7 +1545,7 @@
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}
-  ],  
+  ],
   "tools": [
     [
       [ "sewing_kit", 15 ]
@@ -2004,7 +2002,7 @@
       ["felt_patch", 30],
       [ "tanned_hide", 5 ]
     ]
-  ]  
+  ]
 },{
   "type" : "recipe",
   "result": "rope_30",
@@ -2803,7 +2801,6 @@
     ],
     [
       [ "superglue", 1 ]
-
     ]
   ]
 },{
@@ -5957,7 +5954,7 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["textbook_fabrication", 5] , ["manual_fabrication", 5], ["manual_carpentry", 5], ["textbook_carpentry", 4]],
+  "book_learn": [ [ "textbook_fabrication", 4 ] , [ "manual_fabrication", 4 ] ],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
@@ -6314,8 +6311,7 @@
     [ [ "screwdriver_set", 1 ] ],
     [ [ "hacksaw", 1 ] ],
     [ [ "wrench", 1 ] ],
-    [ [ "saw", 1 ] ],
-    [ [ "misc_repairkit", 1 ] ]
+    [ [ "saw", 1 ] ]
   ]
   },{
   "type" : "recipe",
@@ -6702,7 +6698,6 @@
     ]
   ]
 },{
-
   "type" : "recipe",
   "result": "coal_lump",
   "result_mult": 5,
@@ -6727,7 +6722,6 @@
     ]
   ]
   },{
-
   "type" : "recipe",
   "result": "chem_sulphur",
   "byproducts": { "id" : "chem_sulphur", "amount" : 4 },

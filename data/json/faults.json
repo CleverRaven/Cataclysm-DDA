@@ -1,0 +1,78 @@
+[
+  {
+    "id": "fault_engine_belt_drive",
+    "type": "fault",
+    "name": "drive belt",
+    "description": "Required for operation of an attached alternator.",
+    "skills": [ [ "mechanics", 2 ] ],
+    "requirements": {
+      "qualities": [ { "id": "WRENCH", "level": 1 } ],
+      "components": [ [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ] ]
+    }
+  },
+  {
+    "id": "fault_engine_glow_plug",
+    "type": "fault",
+    "name": "glow plugs",
+    "description": "Required to start the vehicle in low ambient tmperatures.",
+    "skills": [ [ "mechanics", 4 ] ],
+    "requirements": {
+      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
+      "components": [ [ [ "glowplug", 1 ] ] ]
+    }
+  },
+  {
+    "id": "fault_engine_immobiliser",
+    "type": "fault",
+    "name": "immobiliser",
+    "description": "Prevents starting of the vehicle without the appropriate key.",
+    "skills": [ [ "mechanics", 2 ], [ "electronics", 5 ] ],
+    "requirements": {
+      "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
+    }
+  },
+  {
+    "id": "fault_engine_pump_diesel",
+    "type": "fault",
+    "name": "diesel pump",
+    "description": "Required to pump and pressurise diesel from a vehicles tank.",
+    "skills": [ [ "mechanics", 4 ] ],
+    "requirements": {
+      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
+      "components": [ [ [ "pump_complex", 1 ] ] ]
+    }
+  },
+  {
+    "id": "fault_engine_pump_fuel",
+    "type": "fault",
+    "name": "fuel pump",
+    "description": "Required to pump gasoline from a vehicles tank.",
+    "skills": [ [ "mechanics", 4 ] ],
+    "requirements": {
+      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
+      "components": [ [ [ "well_pump", 1 ] ] ]
+    }
+  },
+  {
+    "id": "fault_engine_pump_water",
+    "type": "fault",
+    "name": "water pump",
+    "description": "Required to pump water to an external radiator or heatsink.",
+    "skills": [ [ "mechanics", 4 ] ],
+    "requirements": {
+      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
+      "components": [ [ [ "well_pump", 1 ] ] ]
+    }
+  },
+  {
+    "id": "fault_engine_starter",
+    "type": "fault",
+    "name": "starter motor",
+    "description": "Required to initially start the engine.",
+    "skills": [ [ "mechanics", 3 ] ],
+    "requirements": {
+      "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ],
+      "components": [ [ [ "motor_small", 1 ] ] ]
+    }
+  }
+]

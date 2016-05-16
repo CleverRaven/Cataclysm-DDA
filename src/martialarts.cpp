@@ -208,8 +208,8 @@ bool string_id<martialart>::is_valid() const
 std::vector<matype_id> all_martialart_types()
 {
     std::vector<matype_id> result;
-    for( auto & e : martialarts.all_ref() ) {
-        result.push_back( e.first );
+    for( const auto &ma : martialarts.get_all() ) {
+        result.push_back( ma.id );
     }
     return result;
 }
@@ -225,28 +225,27 @@ void check( const ma_requirements & req, const std::string &display_text )
 
 void check_martialarts()
 {
-    for( auto &e : martialarts.all_ref() ) {
-        const auto style = &e;
-        for( auto technique = style->second.techniques.cbegin();
-             technique != style->second.techniques.cend(); ++technique ) {
+    for( const auto &ma : martialarts.get_all() ) {
+        for( auto technique = ma.techniques.cbegin();
+             technique != ma.techniques.cend(); ++technique ) {
             if( !technique->is_valid() ) {
                 debugmsg( "Technique with id %s in style %s doesn't exist.",
-                          technique->c_str(), style->second.name.c_str() );
+                          technique->c_str(), ma.name.c_str() );
             }
         }
-        for( auto weapon = style->second.weapons.cbegin();
-             weapon != style->second.weapons.cend(); ++weapon ) {
+        for( auto weapon = ma.weapons.cbegin();
+             weapon != ma.weapons.cend(); ++weapon ) {
             if( !item::type_is_defined( *weapon ) ) {
                 debugmsg( "Weapon %s in style %s doesn't exist.",
-                          weapon->c_str(), style->second.name.c_str() );
+                          weapon->c_str(), ma.name.c_str() );
             }
         }
     }
-    for( auto & t : ma_techniques.all_ref() ) {
-        ::check( t.second.reqs, string_format( "technique %s", t.first.c_str() ) );
+    for( const auto &t : ma_techniques.get_all() ) {
+        ::check( t.reqs, string_format( "technique %s", t.id.c_str() ) );
     }
-    for( auto & b : ma_buffs.all_ref() ) {
-        ::check( b.second.reqs, string_format( "buff %s", b.first.c_str() ) );
+    for( const auto &b : ma_buffs.get_all() ) {
+        ::check( b.reqs, string_format( "buff %s", b.id.c_str() ) );
     }
 }
 
@@ -301,8 +300,8 @@ void finialize_martial_arts()
 {
     // This adds an effect type for each ma_buff, so we can later refer to it and don't need a
     // redundant definition of those effects in json.
-    for( auto &buff : ma_buffs.all_ref() ) {
-        const ma_buff_effect_type new_eff( buff.second );
+    for( const auto &buff : ma_buffs.get_all() ) {
+        const ma_buff_effect_type new_eff( buff );
         // Note the slicing here: new_eff is converted to a plain effect_type, but this doesn't
         // bother us because ma_buff_effect_type does not have any members that can be sliced.
         effect_type::register_ma_buff_effect( new_eff );

@@ -166,7 +166,7 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
-  { 
+  {
     "id" : "shot_scrapslug",
     "copy-from": "shot_slug",
     "type" : "AMMO",

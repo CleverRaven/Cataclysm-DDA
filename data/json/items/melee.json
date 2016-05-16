@@ -1327,7 +1327,7 @@
     },
     {
         "id": "fencing_foil",
-        "type": "GENERIC", 
+        "type": "GENERIC",
         "symbol": "/",
         "color": "light_gray",
         "name": "fencing foil",
@@ -1345,7 +1345,7 @@
     },
     {
         "id": "fencing_epee",
-        "type": "GENERIC", 
+        "type": "GENERIC",
         "symbol": "/",
         "color": "light_gray",
         "name": "fencing epee",
@@ -1363,7 +1363,7 @@
     },
     {
         "id": "fencing_sabre",
-        "type": "GENERIC", 
+        "type": "GENERIC",
         "symbol": "/",
         "color": "light_gray",
         "name": "fencing saber",

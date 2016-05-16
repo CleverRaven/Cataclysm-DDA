@@ -350,18 +350,6 @@ void sounds::reset_markers()
     sound_markers.clear();
 }
 
-void sounds::draw_monster_sounds( const tripoint &offset, WINDOW *window )
-{
-    auto sound_clusters = cluster_sounds( recent_sounds );
-    // TODO: Signal sounds on different Z-levels differently (with '^' and 'v'?)
-    for( const auto &sound : recent_sounds ) {
-        mvwputch( window, offset.y + sound.first.y, offset.x + sound.first.x, c_yellow, '?' );
-    }
-    for( const auto &sound : sound_clusters ) {
-        mvwputch( window, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
-    }
-}
-
 std::vector<tripoint> sounds::get_footstep_markers()
 {
     // Optimization, make this static and clear it in reset_markers?

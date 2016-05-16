@@ -18,81 +18,6 @@
         "fun" : 0
     },
     {
-        "id": "water",
-        "type": "COMESTIBLE",
-        "symbol": "~",
-        "color": "light_cyan",
-        "name": "water",
-        "name_plural": "water",
-        "description": "Water, the stuff of life, the best thirst-quencher available.",
-        "price": 0,
-        "weight": 250,
-        "volume": 1,
-        "comestible_type": "DRINK",
-        "container": "bottle_plastic",
-        "quench": 50,
-        "charges": 1,
-        "fun": 0,
-        "flags" : ["EATEN_COLD"],
-        "phase": "liquid",
-        "ammo_data": {
-            "ammo_type" : "water",
-            "damage" : 0,
-            "range" : 0,
-            "dispersion" : 0,
-            "recoil" : 0,
-            "count" : 1,
-            "effects" : []
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "water_clean",
-        "name" : "clean water",
-        "name_plural" : "clean water",
-        "weight" : 250,
-        "color" : "light_cyan",
-        "container" : "bottle_plastic",
-        "comestible_type" : "DRINK",
-        "symbol" : "~",
-        "quench" : 50,
-        "description" : "Fresh, clean water.  Truly the best thing to quench your thirst.",
-        "price" : 50,
-        "volume" : 1,
-        "phase" : "liquid",
-        "charges" : 1,
-        "flags" : ["EATEN_COLD"],
-        "fun" : 0,
-        "ammo_data": {
-            "ammo_type" : "water",
-            "damage" : 0,
-            "range" : 0,
-            "dispersion" : 0,
-            "recoil" : 0,
-            "count" : 1,
-            "effects" : []
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "water_mineral",
-        "name" : "mineral water",
-        "name_plural" : "mineral water",
-        "weight" : 250,
-        "color" : "light_cyan",
-        "container" : "bottle_glass",
-        "comestible_type" : "DRINK",
-        "symbol" : "~",
-        "quench" : 60,
-        "description" : "Fancy mineral water, so fancy it makes you feel fancy just holding it.",
-        "price" : 50,
-        "volume" : 1,
-        "phase" : "liquid",
-        "charges" : 1,
-        "flags" : ["EATEN_COLD"],
-        "fun" : 1
-    },
-    {
         "type" : "COMESTIBLE",
         "id" : "oj",
         "name" : "orange juice",
@@ -2610,7 +2535,6 @@
         "name" : "bone",
         "weight" : 225,
         "color" : "white",
-        "use_action" : "RAW_BONE",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -2642,135 +2566,6 @@
         "fun" : 0
     },
     {
-        "type":"COMESTIBLE",
-        "id": "stomach",
-        "name": "stomach",
-        "weight": 72,
-        "color": "red",
-        "spoils_in": 12,
-        "use_action": "RAW_MEAT",
-        "container": "null",
-        "comestible_type": "FOOD",
-        "symbol": ",",
-        "quench": 1,
-        "healthy": -1,
-        "nutrition": 5,
-        "description": "The stomach of a woodland creature.  It is surprisingly durable.",
-        "price": 500,
-        "material": "flesh",
-        "volume": 1,
-        "to_hit": -1,
-        "charges": 1,
-        "fun": -15
-    },
-    {
-        "type":"COMESTIBLE",
-        "id": "hstomach",
-        "name": "human stomach",
-        "weight": 72,
-        "color": "red",
-        "spoils_in": 12,
-        "use_action": "RAW_MEAT",
-        "container": "null",
-        "comestible_type": "FOOD",
-        "symbol": ",",
-        "quench": 1,
-        "healthy": -1,
-        "nutrition": 5,
-        "description": "The stomach of a human.  It is surprisingly durable.",
-        "price": 500,
-        "material": "hflesh",
-        "volume": 1,
-        "to_hit": -1,
-        "charges": 1,
-        "fun": -15
-    },
-    {
-        "type":"COMESTIBLE",
-        "id": "stomach_large",
-        "name": "large stomach",
-        "weight": 145,
-        "color": "red",
-        "spoils_in": 12,
-        "use_action": "RAW_MEAT",
-        "container": "null",
-        "comestible_type": "FOOD",
-        "symbol": ",",
-        "quench": 1,
-        "healthy": -1,
-        "nutrition": 10,
-        "description": "The stomach of a large woodland creature.  It is surprisingly durable.",
-        "price": 700,
-        "material": "flesh",
-        "volume": 2,
-        "to_hit": -1,
-        "charges": 1,
-        "fun": -15
-    },
-    {
-        "type":"COMESTIBLE",
-        "id": "hstomach_large",
-        "name": "large human stomach",
-        "weight": 145,
-        "color": "red",
-        "spoils_in": 12,
-        "use_action": "RAW_MEAT",
-        "container": "null",
-        "comestible_type": "FOOD",
-        "symbol": ",",
-        "quench": 1,
-        "healthy": -1,
-        "nutrition": 10,
-        "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
-        "price": 700,
-        "material": "hflesh",
-        "volume": 2,
-        "to_hit": -1,
-        "charges": 1,
-        "fun": -15
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "meat",
-        "name" : "chunk of meat",
-        "name_plural" : "chunks of meat",
-        "weight" : 238,
-        "color" : "red",
-        "spoils_in" : 24,
-        "use_action" : "RAW_MEAT",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : 0,
-        "healthy" : -1,
-        "nutrition" : 20,
-        "description" : "Freshly butchered meat.  You could eat it raw, but cooking it is better.",
-        "price" : 500,
-        "material" : "flesh",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : -10
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "fish",
-        "name" : "fillet of fish",
-        "name_plural" : "fillets of fish",
-        "weight" : 150,
-        "color" : "pink",
-        "spoils_in" : 24,
-        "use_action" : "RAW_FISH",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : 0,
-        "nutrition" : 15,
-        "description" : "Freshly caught fish.  Makes a passable meal raw.",
-        "price" : 500,
-        "material" : "flesh",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
-    },
-    {
         "type" : "COMESTIBLE",
         "id" : "fat",
         "name" : "chunk of fat",
@@ -2778,7 +2573,6 @@
         "weight" : 212,
         "color" : "pink",
         "spoils_in" : 168,
-        "use_action" : "RAW_FAT",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : -10,
@@ -2829,27 +2623,6 @@
         "charges" : 1,
         "stack_size" : 2,
         "fun" : -18
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "fish_cooked",
-        "name" : "cooked fish",
-        "name_plural" : "cooked fish",
-        "weight" : 126,
-        "color" : "white",
-        "spoils_in" : 24,
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : 0,
-        "healthy" : 1,
-        "nutrition" : 26,
-        "description" : "Freshly cooked fish.  Very nutritious.",
-        "price" : 500,
-        "material" : "flesh",
-        "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 1
     },
     {
         "type" : "COMESTIBLE",
@@ -3150,34 +2923,12 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "human_flesh",
-        "name" : "human flesh",
-        "name_plural" : "human fleshes",
-        "weight" : 238,
-        "color" : "red",
-        "spoils_in" : 24,
-        "use_action" : "RAW_MEAT",
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : 0,
-        "healthy" : -1,
-        "nutrition" : 20,
-        "description" : "Freshly butchered from a human body.",
-        "price" : 5000, "//" : "Not commercially traded.",
-        "material" : "hflesh",
-        "volume" : 1,
-        "charges" : 1,
-        "fun" : 0
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "veggy_wild",
         "name" : "wild vegetables",
         "name_plural" : "wild vegetables",
         "weight" : 238,
         "color" : "green",
         "spoils_in" : 80,
-        "use_action" : "RAW_WILDVEG",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -3198,7 +2949,6 @@
         "weight" : 146,
         "color" : "green",
         "spoils_in" : 80,
-        "use_action" : "RAW_WILDVEG",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -3238,7 +2988,6 @@
         "weight" : 418,
         "color" : "brown",
         "spoils_in" : 80,
-        "use_action" : "RAW_WILDVEG",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -3276,7 +3025,6 @@
         "name_plural" : "handfuls of dandelions",
         "weight" : 96,
         "color" : "yellow",
-        "use_action" : "RAW_WILDVEG",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -3405,7 +3153,6 @@
         "name" : "human bone",
         "weight" : 225,
         "color" : "white",
-        "use_action" : "RAW_BONE",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -3497,25 +3244,6 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "fun" : 0
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "meat_cooked",
-        "name" : "cooked meat",
-        "weight" : 238,
-        "color" : "red",
-        "spoils_in" : 24,
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : 0,
-        "nutrition" : 50,
-        "description" : "Freshly cooked meat.  Very nutritious.",
-        "price" : 750,
-        "material" : "flesh",
-        "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
         "fun" : 0
     },
     {
@@ -3653,6 +3381,26 @@
         "fun" : -12
     },
     {
+        "id" : "hotdogs_campfire",
+        "type" : "COMESTIBLE",
+        "comestible_type" : "FOOD",
+        "name" : "campfire hot dogs",
+        "name_plural" : "campfire hot dogs",
+        "description" : "The simple hot dog, cooked over an open fire.  Would be better on a bun, but it's quite an improvement over eating it uncooked",
+        "weight" : 80,
+        "volume" : 1,
+        "price" : 800,
+        "stack_size" : 4,
+        "material" : [ "flesh", "junk" ],
+        "symbol" : "%",
+        "color" : "red",
+        "nutrition" : 12,
+        "healthy" : -1,
+        "fun" : 5,
+        "spoils_in" : 280,
+        "flags" : [ "EATEN_HOT" ]
+    },
+    {
         "type" : "COMESTIBLE",
         "id" : "hotdogs_cooked",
         "name" : "cooked hot dogs",
@@ -3760,26 +3508,6 @@
         "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "fun" : 18
-    },
-    {
-        "type" : "COMESTIBLE",
-        "id" : "human_cooked",
-        "name" : "cooked creep",
-        "weight" : 238,
-        "color" : "red",
-        "spoils_in" : 24,
-        "comestible_type" : "FOOD",
-        "symbol" : "%",
-        "quench" : 0,
-        "healthy" : -1,
-        "nutrition" : 50,
-        "description" : "A freshly cooked slice of some unpleasant person.  Tastes great.",
-        "price" : 7500, "//" : "Cannibal recipes are expensive pending buyer-side price modifiers.",
-        "material" : "hflesh",
-        "volume" : 1,
-        "charges" : 1,
-        "flags" : ["EATEN_HOT"],
-        "fun" : 8
     },
     {
         "type" : "COMESTIBLE",
@@ -4773,7 +4501,7 @@
         "material" : ["veggy", "wheat"],
         "volume" : 1,
         "charges" : 3,
-        "flags" : ["EATEN_COLD"],        
+        "flags" : ["EATEN_COLD"],
         "fun" : 1
     },
     {
@@ -4790,7 +4518,7 @@
         "nutrition" : 31,
         "description" : "A tasty and nutritious mixture of oats, honey, and other ingredients that has been baked until crisp.",
         "price" : 350,
-        "material" : "wheat",
+        "material" : ["wheat", "fruit"],
         "volume" : 2,
         "charges" : 8,
         "fun" : 3
@@ -4934,6 +4662,26 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "sandwich_pbm",
+        "name" : "PB&M sandwich",
+        "name_plural" : "PB&M sandwiches",
+        "weight" : 186,
+        "color" : "brown",
+        "spoils_in" : 36,
+        "container" : "wrapper",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 8,
+        "nutrition" : 45,
+        "description" : "Who knew you could mix maple syrup and peanut butter to create yet another different sandwich?",
+        "price" : 175,
+        "material" : "wheat",
+        "volume" : 1,
+        "charges" : 1,
+        "fun" : 6
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "candy",
         "name" : "peanut butter candy",
         "name_plural" : "peanut butter candies",
@@ -5017,6 +4765,66 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "maple_candy",
+        "name" : "maple syrup candy",
+        "name_plural" : "maple syrup candies",
+        "weight" : 18,
+        "color" : "brown",
+        "stim" : 1,
+        "container" : "bag_plastic",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : -1,
+        "healthy" : -1,
+        "nutrition" : 1,
+        "description" : "This golden, translucent leaf candy is made with pure maple syrup and melt slowly as you savor the taste of real maple.",
+        "price" : 600,
+        "material" : "junk",
+        "volume" : 0,
+        "charges" : 2,
+        "fun" : 10
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "glazed_tenderloin",
+        "name" : "glazed tenderloins",
+        "weight" : 320,
+        "color" : "brown",
+        "spoils_in" : 56,
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 3,
+        "healthy" : 2,
+        "nutrition" : 65,
+        "description" : "A tender piece of meat perfectly seasoned with a thin sweet glaze and its veggie accompaniments.  A gourmet dish that is both healthy, sweet and delicious.",
+        "price" : 4000,
+        "material" : ["flesh", "veggy"],
+        "volume" : 4,
+        "charges" : 4,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 18
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "sweet_sausage",
+        "name" : "sweet sausage",
+        "name_plural" : "sweet sausages",
+        "weight" : 220,
+        "color" : "brown",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 0,
+        "nutrition" : 38,
+        "description" : "A sweet and delicious sausage.",
+        "price" : 2400,
+        "material" : "flesh",
+        "volume" : 2,
+        "charges" : 4,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 8
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "chilly-p",
         "name" : "chili powder",
         "name_plural" : "chili powder",
@@ -5064,7 +4872,6 @@
         "weight" : 159,
         "color" : "brown",
         "spoils_in" : 48,
-        "use_action" : "RAW_WILDVEG",
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -5481,7 +5288,6 @@
             "grow" : 120
         }
     },
-
     {
         "type" : "COMESTIBLE",
         "id" : "buckwheat",
@@ -8471,7 +8277,7 @@
         "weight": 250,
         "volume": 1,
         "comestible_type": "DRINK",
-        "container": "bottle_plastic",
+        "container": "bucket",
         "quench": 45,
         "nutrition" : 1,
         "fun": 1,
@@ -8483,7 +8289,7 @@
         "id" : "syrup",
         "name" : "maple syrup",
         "name_plural" : "maple syrup",
-        "weight" : 28,
+        "weight" : 67,
         "color" : "brown",
         "container" : "bottle_glass",
         "comestible_type" : "FOOD",
@@ -8495,8 +8301,8 @@
         "material" : "junk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 7,
-        "fun" : 6
+        "charges" : 5,
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
@@ -8640,6 +8446,28 @@
         "charges" : 6,
         "flags" : ["EATEN_HOT"],
         "fun" : 3
+    },
+    {
+        "type" : "COMESTIBLE",
+        "id" : "pie_maple",
+        "name" : "maple pie",
+        "weight" : 252,
+        "color" : "brown",
+        "spoils_in" : 72,
+        "stim" : 2,
+        "container" : "box_small",
+        "comestible_type" : "FOOD",
+        "symbol" : "%",
+        "quench" : 4,
+        "healthy" : -1,
+        "nutrition" : 16,
+        "description" : "A sweet and delicious baked pie with pure maple syrup.",
+        "price" : 1850,
+        "material" : ["wheat", "milk"],
+        "volume" : 5,
+        "charges" : 6,
+        "flags" : ["EATEN_HOT"],
+        "fun" : 6
     },
     {
         "type" : "COMESTIBLE",
@@ -9619,12 +9447,12 @@
         "comestible_type" : "DRINK",
         "symbol" : "~",
         "quench" : -20,
-        "healthy" : -8,
+        "healthy" : -10,
         "addiction_potential" : 5,
         "nutrition" : 10,
-        "description" : "A frothing slurry of alcohol-soaked zombie flesh and rotten blood, it smells almost as bad as it looks.  The mixture has sterilized, in theory, but that doesn't make it safe to drink.",
+        "description" : "A frothing slurry of alcohol-soaked zombie flesh and rotten blood, it smells almost as bad as it looks.  Has weak mutagenic properties.",
         "price" : 6500,
-        "material" : ["alcohol", "water"],
+        "material" : ["alcohol", "flesh"],
         "volume" : 1,
         "phase" : "liquid",
         "charges" : 2,
@@ -11962,7 +11790,6 @@
         "weight" : 748,
         "color" : "pink",
         "spoils_in" : 36,
-        "use_action" : "RAW_MEAT",
         "comestible_type" : "FOOD",
         "symbol" : ",",
         "quench" : -2,
@@ -12005,7 +11832,6 @@
         "weight" : 748,
         "color" : "pink",
         "spoils_in" : 36,
-        "use_action" : "RAW_MEAT",
         "comestible_type" : "FOOD",
         "symbol" : ",",
         "quench" : -2,
@@ -12027,7 +11853,6 @@
         "weight" : 832,
         "color" : "brown",
         "spoils_in" : 36,
-        "use_action" : "RAW_MEAT",
         "comestible_type" : "FOOD",
         "symbol" : ",",
         "quench" : -20,
@@ -12594,7 +12419,7 @@
             "fruit": "thyme",
             "grow" : 91
         }
-    },{   
+    },{
         "type" : "COMESTIBLE",
         "id" : "seed_canola",
         "category": "other",
@@ -12705,7 +12530,7 @@
         "bashing" : -8,
         "charges" : 1,
         "price" : 0
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_dogbane",
         "category": "other",
@@ -12745,7 +12570,7 @@
        "bashing" : -8,
        "charges" : 1,
        "price" : 0
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_bee_balm",
         "category": "other",
@@ -12809,7 +12634,7 @@
        "bashing" : -8,
        "charges" : 1,
        "price" : 0
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_mugwort",
         "category": "other",
@@ -12830,7 +12655,7 @@
             "fruit": "mugwort",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_buckwheat",
         "category": "other",
@@ -12852,7 +12677,7 @@
             "byproducts": [ "withered" ],
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_wild_herbs",
         "category": "other",
@@ -12873,7 +12698,7 @@
             "fruit": "wild_herbs",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_veggy_wild",
         "category": "other",
@@ -12895,7 +12720,7 @@
             "byproducts": [ "withered" ],
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_raw_dandelion",
         "category": "other",
@@ -12916,7 +12741,7 @@
             "fruit": "raw_dandelion",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_rhubarb",
         "category": "other",
@@ -12938,7 +12763,7 @@
             "byproducts": [ "withered" ],
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom",
         "category": "other",
@@ -12959,7 +12784,7 @@
             "fruit": "mushroom",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_morel",
         "category": "other",
@@ -12980,7 +12805,7 @@
             "fruit": "mushroom_morel",
             "grow" : 91
         }
-},{   
+},{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_magic",
         "category": "other",

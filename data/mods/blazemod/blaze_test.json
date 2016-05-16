@@ -25,7 +25,7 @@
             {"item": "steel_chunk", "count": [2, 5]},
 			{"item": "plastic_chunk", "count": [2, 8]}
 						]
-    }, 	
+    },
   {
         "type" : "vehicle_part",
         "id" : "vgen2",
@@ -168,7 +168,6 @@
 	  [ "alternator_truck", 3],
 	  [ "alternator_car", 3],
 	  [ "alternator_motorbike", 3]
-	  
 	]
   ]
 },{
@@ -287,5 +286,3 @@
         "count" : 1
     }
 ]
-
-

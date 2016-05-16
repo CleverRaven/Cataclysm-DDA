@@ -111,7 +111,7 @@
                     "item": { "item": "corpse" },
                     "fields": { "field": "fd_blood" }
                 }
-            },  
+            },
             "item": {
                 "X": [
                     { "item": "human_flesh", "chance": 1 },

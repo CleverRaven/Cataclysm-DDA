@@ -241,7 +241,6 @@
         "fun" : -20,
         "price" : 0,
         "volume" : 1,
-        "charges" : 1,
         "phase" : "liquid",
         "comestible_type" : "DRINK",
         "brewable" : {
@@ -313,7 +312,6 @@
         "material" : "milk",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 1,
         "fun" : -12,
         "brewable" : {
             "time" : 2400,

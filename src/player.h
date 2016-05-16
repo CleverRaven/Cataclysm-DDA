@@ -193,7 +193,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual void serialize(JsonOut &jsout) const override;
 
         /** Prints out the player's memorial file */
-        void memorial( std::ofstream &memorial_file, std::string epitaph );
+        void memorial( std::ostream &memorial_file, std::string epitaph );
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
         /** Provides the window and detailed morale data */
@@ -808,6 +808,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual bool dispose_item( item& obj, const std::string& prompt = std::string() );
 
         /**
+         * Attempt to mend an item (fix any current faults)
+         * @param interactive if true prompts player when multiple faults, otherwise mends the first
+         */
+        void mend_item( item_location&& obj, bool interactive = true );
+
+        /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
          * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
          * @param factor base move cost per unit volume before considering any other modifiers
@@ -920,6 +926,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;
+        hint_rating rate_action_mend( const item &it ) const;
         hint_rating rate_action_disassemble( const item &it );
 
         /** Returns warmth provided by armor, etc. */
@@ -958,7 +965,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_wind_resistance(body_part bp) const;
 
         int adjust_for_focus(int amount) const;
-        void practice( const Skill* s, int amount, int cap = 99 );
         void practice( const skill_id &s, int amount, int cap = 99 );
 
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
@@ -1037,6 +1043,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Check whether the player has a gun that uses the given type of ammo.
          */
         bool has_gun_for_ammo( const ammotype &at ) const;
+        bool has_magazine_for_ammo( const ammotype &at ) const;
 
         bool has_weapon() const override;
 
@@ -1198,13 +1205,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int focus_pool;
 
-        void set_skill_level(const Skill* _skill, int level);
-        void set_skill_level(Skill const &_skill, int level);
-        void set_skill_level(const skill_id &ident, int level);
-
-        void boost_skill_level(const Skill* _skill, int level);
-        void boost_skill_level(const skill_id &ident, int level);
-
         std::map<std::string, const recipe *> learned_recipes;
 
         std::vector<matype_id> ma_styles;
@@ -1230,7 +1230,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         //Log an event, to be later written to the memorial file
         void add_memorial_log(const char *male_msg, const char *female_msg, ...) override;
         //Loads the memorial log from a file
-        void load_memorial_file(std::ifstream &fin);
+        void load_memorial_file(std::istream &fin);
         //Notable events, to be printed in memorial
         std::vector <std::string> memorial_log;
 

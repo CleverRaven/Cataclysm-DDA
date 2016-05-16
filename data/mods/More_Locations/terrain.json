@@ -53,7 +53,7 @@
                 { "item": "rock", "count": [3, 7] },
                 { "item": "material_limestone", "charges": [10, 25], "prob": 80 }
             ]
-        }   
+        }
     },{
         "type" : "terrain",
         "id" : "t_concrete_floor",
@@ -282,6 +282,5 @@
                 { "item": "steel_plate", "count": [0, 2] }
             ]
         }
-
     }
 ]

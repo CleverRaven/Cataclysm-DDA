@@ -18,11 +18,6 @@ class iuse
 {
 public:
 // FOOD AND DRUGS (ADMINISTRATION)
-    int raw_meat            ( player*, item*, bool, const tripoint& );
-    int raw_fat             ( player*, item*, bool, const tripoint& );
-    int raw_bone            ( player*, item*, bool, const tripoint& );
-    int raw_fish            ( player*, item*, bool, const tripoint& );
-    int raw_wildveg         ( player*, item*, bool, const tripoint& );
     int sewage              ( player*, item*, bool, const tripoint& );
     int honeycomb           ( player*, item*, bool, const tripoint& );
     int royal_jelly         ( player*, item*, bool, const tripoint& );

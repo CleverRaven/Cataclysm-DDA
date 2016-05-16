@@ -581,6 +581,7 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```EXPLOSIVE``` Explodes without any shrapnel.
 - ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
 - ```EXPLOSIVE_HUGE``` Huge explosion without any shrapnel.
+- ```CUSTOM_EXPLOSION``` Explosion as specified in ```"explosion"``` field of used ammo. See JSON_INFO.md
 - ```FRAG``` Small explosion that spreads shrapnel.
 - ```INCENDIARY``` Lights target on fire.
 - ```NAPALM``` Explosion that spreads fire.

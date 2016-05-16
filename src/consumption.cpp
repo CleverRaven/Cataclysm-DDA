@@ -18,6 +18,9 @@
 const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_tapeworm( "tapeworm" );
+const efftype_id effect_bloodworms( "bloodworms" );
+const efftype_id effect_brainworms( "brainworms" );
+const efftype_id effect_paincysts( "paincysts" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -93,7 +96,7 @@ int player::vitamin_rate( const vitamin_id &vit ) const
         }
     }
 
-    return std::max( res, 0 );
+    return res;
 }
 
 int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
@@ -115,7 +118,7 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     auto eff = v.effect( it->second );
     if( !eff.is_null() ) {
         // consumption rate may vary so extend effect until next check due for this vitamin
-        add_effect( eff, ( vitamin_rate( vit ) * MINUTES( 1 ) ) - get_effect_dur( eff ) + 1 );
+        add_effect( eff, ( std::abs( vitamin_rate( vit ) ) * MINUTES( 1 ) ) - get_effect_dur( eff ) + 1 );
     }
 
     return it->second;
@@ -575,6 +578,26 @@ bool player::eat( item &food, bool force )
 
     if( will_vomit ) {
         vomit();
+    }
+
+    // chance to become parasitised
+    if( !( has_bionic( "bio_digestion" ) || has_trait( "PARAIMMUNE" ) ) ) {
+        if( food.type->comestible->parasites > 0 && one_in( food.type->comestible->parasites ) ) {
+            switch( rng( 0, 3 ) ) {
+                case 0:
+                    if( !has_trait( "EATHEALTH" ) ) {
+                        add_effect( effect_tapeworm, 1, num_bp, true );
+                    }
+                case 1:
+                    if( !has_trait( "ACIDBLOOD" ) ) {
+                        add_effect( effect_bloodworms, 1, num_bp, true );
+                    }
+                case 2:
+                    add_effect( effect_brainworms, 1, num_bp, true );
+                case 3:
+                    add_effect( effect_paincysts, 1, num_bp, true );
+            }
+        }
     }
 
     for( const auto &v : this->vitamins_from( food ) ) {

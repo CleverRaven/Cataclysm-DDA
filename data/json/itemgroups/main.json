@@ -429,8 +429,7 @@
       ["recurbow", 40],
       ["reflexbow", 20],
       ["slingshot", 50],
-      ["wristrocket", 50],
-      ["blowgun", 5]
+      ["wristrocket", 50]
     ]
   },{
     "type" : "item_group",
@@ -448,9 +447,7 @@
       ["arrow_wood", 100],
       ["arrow_metal", 50],
       ["arrow_cf", 50],
-      ["bolt_steel", 50],
-      ["dart", 10]
+      ["bolt_steel", 50]
     ]
   }
 ]
-

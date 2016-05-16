@@ -7,7 +7,7 @@
 #include "input.h"
 #include "worldfactory.h"
 #include "path_info.h"
-#include "mapsharing.h"
+#include "cata_utility.h"
 #include "filesystem.h"
 #include "ui.h"
 #include "translations.h"
@@ -653,7 +653,7 @@ void color_manager::show_gui()
                                    1 + iOffsetX);
     WINDOW_PTR w_colorsptr( w_colors );
 
-    draw_border(w_colors_border);
+    draw_border( w_colors_border, BORDER_COLOR, _( " COLOR MANAGER " ) );
     mvwputch(w_colors_border, 3,  0, c_ltgray, LINE_XXXO); // |-
     mvwputch(w_colors_border, 3, 79, c_ltgray, LINE_XOXX); // -|
 
@@ -668,8 +668,6 @@ void color_manager::show_gui()
             mvwputch(w_colors_header, 3, iCol, c_ltgray, LINE_XOXO);
         }
     }
-
-    mvwprintz(w_colors_border, 0, 32, c_ltred, _(" COLOR MANAGER "));
     wrefresh(w_colors_border);
 
     int tmpx = 0;
@@ -911,25 +909,9 @@ bool color_manager::save_custom()
 {
     const auto savefile = FILENAMES["custom_colors"];
 
-    try {
-        std::ofstream fout;
-        fout.exceptions(std::ios::badbit | std::ios::failbit);
-
-        fopen_exclusive(fout, savefile.c_str());
-        if(!fout.is_open()) {
-            return true; //trick game into thinking it was saved
-        }
-
+    return write_to_file_exclusive( savefile, [&]( std::ostream &fout ) {
         fout << serialize();
-        fclose_exclusive(fout, savefile.c_str());
-        return true;
-
-    } catch(std::ios::failure &) {
-        popup(_("Failed to save custom colors to %s"), savefile.c_str());
-        return false;
-    }
-
-    return false;
+    }, _( "custom colors" ) );
 }
 
 void color_manager::load_custom(const std::string &sPath)

@@ -35,6 +35,8 @@ class ma_technique;
 using matec_id = string_id<ma_technique>;
 class Skill;
 using skill_id = string_id<Skill>;
+class fault;
+using fault_id = string_id<fault>;
 
 enum damage_type : int;
 
@@ -643,6 +645,9 @@ public:
      * for other players. The player is identified by its id.
      */
     void mark_as_used_by_player(const player &p);
+    /** Marks the item as filthy, so characters with squeamish trait can't wear it. 
+    */
+    bool is_disgusting_for( const player &p ) const;
     /**
      * This is called once each turn. It's usually only useful for active items,
      * but can be called for inactive items without problems.
@@ -716,6 +721,9 @@ public:
     bool is_bucket_nonempty() const;
 
     bool is_brewable() const;
+    bool is_engine() const;
+
+    bool is_faulty() const;
 
     /**
      * Can this item have given item/itype as content?
@@ -735,6 +743,9 @@ public:
         bool is_reloadable() const;
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
+
+        /** Is item derived from a zombie? */
+        bool is_tainted() const;
 
         /**
          * Is this item flexible enough to be worn on body parts like antlers?
@@ -1294,6 +1305,15 @@ public:
         /*@}*/
 
         /**
+         * @name Vehicle parts
+         *
+         *@{*/
+
+        /** for combustion engines the displacement (cc) */
+        int engine_displacement() const;
+        /*@}*/
+
+        /**
          * Returns the pointer to use_function with name use_name assigned to the type of
          * this item or any of its contents. Checks contents recursively.
          * Returns nullptr if not found.
@@ -1352,6 +1372,7 @@ public:
         const mtype* corpse = nullptr;
         std::set<matec_id> techniques; // item specific techniques
         light_emission light = nolight;
+
 public:
      char invlet = 0;      // Inventory letter
      long charges;
@@ -1371,6 +1392,9 @@ public:
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.
     int irridation = 0;      // Tracks radiation dosage.
+
+    /** What faults (if any) currently apply to this item */
+    std::set<fault_id> faults;
 
  std::set<std::string> item_tags; // generic item specific flags
     unsigned item_counter = 0; // generic counter to be used with item flags

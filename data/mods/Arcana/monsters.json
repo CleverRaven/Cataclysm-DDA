@@ -41,19 +41,19 @@
     "type" : "MONSTER",
     "id" : "mon_zombie_necro",
     "edit-mode" : "modify",
-    "death_drops": "boss_zombie_death_drops", "//": "Anomalous zombie, so you get an essense"
+    "death_drops": "boss_zombie_death_drops", "//": "Anomalous zombie, so you get an essence"
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
     "edit-mode" : "modify",
-    "death_drops": "boss_zombie_death_drops", "//": "Anomalous zombie, so you get an essense"
+    "death_drops": "boss_zombie_death_drops", "//": "Anomalous zombie, so you get an essence"
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_hollow",
     "edit-mode" : "modify",
     "death_drops": {
         "subtype": "collection",
-        "//": "10% chance of essense, it's been overtaken by the blob",
+        "//": "10% chance of essence, it's been overtaken by the blob",
         "groups": [
             [ "essence", 10 ]
         ]
@@ -64,7 +64,7 @@
         "edit-mode" : "modify",
         "death_drops": {
             "subtype": "collection",
-            "//": "10% chance of essense",
+            "//": "10% chance of essence",
             "groups": [
                 [ "essence", 10 ]
             ]
@@ -80,7 +80,7 @@
     "edit-mode" : "modify",
     "death_drops": {
         "subtype": "collection",
-        "//": "10% chance of essense",
+        "//": "10% chance of essence",
         "groups": [
             [ "essence", 10 ]
         ]
@@ -91,7 +91,7 @@
     "edit-mode" : "modify",
     "death_drops": {
         "subtype": "collection",
-        "//": "5% chance of essense",
+        "//": "5% chance of essence",
         "groups": [
             [ "essence", 5 ]
         ]

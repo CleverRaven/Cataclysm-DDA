@@ -16,7 +16,7 @@
     "reload_time" : 60,
     "flags" : [ "MAG_COMPACT" ]
   },
-  { 
+  {
     "id" : "360_400_mag",
     "type" : "MAGAZINE",
     "name" : "RMRD400 magazine",

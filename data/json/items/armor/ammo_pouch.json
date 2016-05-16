@@ -76,7 +76,7 @@
         "draw_cost": 5,
         "flags": [ "MAG_COMPACT", "MAG_BULKY" ]
     },
-    "flags": ["VARSIZE", "WATER_FRIENDLY", "WAIST"]
+    "flags": ["WATER_FRIENDLY", "WAIST"]
   },
   {
     "id" : "legpouch",

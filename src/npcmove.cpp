@@ -1418,10 +1418,10 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         ///\EFFECT_STR_NPC increases recoil recovery speed
 
         ///\EFFECT_GUN_NPC increases recoil recovery speed
-        if (int(str_cur / 2) + skillLevel( skill_gun ) >= (int)recoil) {
+        if (int(str_cur / 2) + get_skill_level( skill_gun ) >= (int)recoil) {
             recoil = MIN_RECOIL;
         } else {
-            recoil -= int(str_cur / 2) + skillLevel( skill_gun );
+            recoil -= int(str_cur / 2) + get_skill_level( skill_gun );
             recoil = int(recoil / 2);
         }
     }
@@ -1565,7 +1565,7 @@ void npc::move_to_next()
     }
 
     move_to( path[0] );
-    if( pos() == path[0] ) { // Move was successful
+    if( !path.empty() && pos() == path[0] ) { // Move was successful
         path.erase( path.begin() );
     }
 }
@@ -1692,6 +1692,10 @@ void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
     int chance = 2;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
         if( p == pos() ) {
+            continue;
+        }
+
+        if( p == g->u.pos() ) {
             continue;
         }
 
@@ -1993,7 +1997,7 @@ void npc::drop_items(int weight, int volume)
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_following() && !rules.allow_pulp ) {
+    if( is_following() && ( !rules.allow_pulp || g->u.in_vehicle ) ) {
         return false;
     }
 
@@ -2434,6 +2438,10 @@ float rate_food( const item &it, int want_nutr, int want_quench )
     if( food == nullptr ) {
         // Not food
         return 0.0f;
+    }
+
+    if( food->parasites ) {
+        return 0.0;
     }
 
     int nutr = food->nutr;

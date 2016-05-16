@@ -267,28 +267,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "blowgun",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "superglue", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "spear_wood",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
@@ -882,7 +860,7 @@
   "components": [
     [
      [ "shotgun_s", 1 ],
-     [ "pipe_shotgun", 1 ] 
+     [ "pipe_shotgun", 1 ]
     ],
     [
       ["pipe", 3]
@@ -6750,7 +6728,7 @@
 [ "welder_crude", 30 ],
 [ "toolset", 20 ],
 [ "soldering_iron", 30 ]
-] 
+]
 ],
 "components": [
 [
@@ -6816,7 +6794,6 @@
     [
       [ "chem_hmtd", 200 ]
     ],
-
     [
       [ "string_36", 5 ],
       [ "string_6", 20 ]
@@ -7036,7 +7013,7 @@
   "time": 180000,
   "reversible": false,
   "autolearn": true,
-  "qualities": 
+  "qualities":
   [
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SAW_M_FINE","level":1,"amount":1},
@@ -7044,7 +7021,7 @@
     {"id":"WRENCH_FINE","level":1,"amount":1},
     {"id":"HAMMER","level":2,"amount":1}
   ],
-  "tools": 
+  "tools":
   [
     [
       ["goggles_welding", -1]
@@ -7059,7 +7036,7 @@
       ["small_repairkit", 150],
       ["large_repairkit", 30]
     ]
-  ], "components": 
+  ], "components":
   [
     [["m2browning", 1]],
     [["2x4", 1]],
@@ -7085,7 +7062,7 @@
     {"id":"SCREW_FINE","level":1,"amount":1},
     {"id":"HAMMER","level":2,"amount":1}
   ],
-  "tools": 
+  "tools":
   [
     [
       ["goggles_welding", -1]

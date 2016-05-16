@@ -3926,10 +3926,7 @@
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT",  "GRAZER"],
         "leads_to" : ["SAPROVORE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"],
-        "vitamin_rates": [
-            [ "VitA", -999 ],
-            [ "VitC", -999 ]
-        ]
+        "vitamin_rates": [ [ "vitC", -120 ] ]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",
@@ -4156,7 +4153,6 @@
         "prereqs" : ["SHOUT2"],
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"]
     },{
-
         "type" : "mutation",
         "id" : "ARM_FEATHERS",
         "name" : "Feathered Arms",
@@ -4826,5 +4822,12 @@
         "valid" : false,
         "description" : "Mind the bugs, would you kindly?.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "SQUEAMISH",
+        "name" : "Squeamish",
+        "points" : -2,
+        "starting_trait" : true,
+        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
     }
 ]
