@@ -2588,7 +2588,7 @@
         "id" : "PRED4",
         "name" : "Apex Predator",
         "points" : 2,
-        "description" : "Your mind and brain have adapted to your new place in the world: as one on top the food chain. You can effortlessly master and maintain combat skills, but your critical thinking has atrophied further.",
+        "description" : "Your mind and brain have adapted to your new place in the world: as one on top the food chain.  You can effortlessly master and maintain combat skills, but your critical thinking has atrophied further.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],

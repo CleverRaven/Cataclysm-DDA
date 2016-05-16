@@ -2059,7 +2059,8 @@ Before we get into a major fight just make sure we have the gear we need, boss."
                      "it.  With food being scarce, people are willing to survive on whatever they can.  I need "
                      "to start supplementing the outpost's diet with vitamins to prevent potential deaths "
                      "indirectly attributable to nutrition.  I know it is a lot but if you could bring me 200 "
-                     "vitamins I'd be able to treat the most vulnerable before they spread anything to the rest of us.");
+                     "multivitamin pills I'd be able to treat the most vulnerable before they spread "
+                     "anything to the rest of us." );
         } else if( state == "TALK_MISSION_ACCEPTED" ) {
             return _("I'm counting on you.");
         } else if( state == "TALK_MISSION_REJECTED" ) {

@@ -4193,7 +4193,7 @@
         "bash": {
             "str_min": 40, "str_max": 210,
             "explosive" : 5,
-            "sound": "Critical failure imminent, self destruct activated. Have a nice day!",
+            "sound": "Critical failure imminent, self destruct activated.  Have a nice day!",
             "sound_fail": "clang!",
             "ter_set": "t_floor",
             "items": [

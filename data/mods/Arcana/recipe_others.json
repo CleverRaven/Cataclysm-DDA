@@ -8,8 +8,6 @@
   "skill_used": "magic",
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_sacrifice", 6 ]],
   "tools": [
@@ -38,8 +36,6 @@
   "skill_used": "magic",
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_sacrifice", 7 ]],
   "tools": [
@@ -76,10 +72,8 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 5,
   "time": 120000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "book_sacrifice", 5 ]],
-  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "qualities":[{"id":"HAMMER","level":3}],
   "tools": [
     [ [ "book_sacrifice", -1 ] ],
     [ [ "tongs", -1 ] ],
@@ -108,8 +102,6 @@
   "skill_used": "magic",
   "difficulty": 1,
   "time": 1000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_HARD"],
   "book_learn": [[ "book_sacrifice", 1 ], [ "book_bloodmagic", 2 ]],
   "byproducts": { "id" : "essence_blood", "amount" : 3 },
@@ -129,8 +121,6 @@
   "skill_used": "magic",
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_bloodmagic", 1 ]],
   "tools": [
@@ -160,8 +150,6 @@
   "skill_used": "magic",
   "difficulty": 2,
   "time": 10000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_bloodmagic", 2 ]],
   "tools": [
@@ -179,12 +167,10 @@
   "skills_required": [ "fabrication", 5 ],
   "difficulty": 5,
   "time": 120000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "book_summoning", 5 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1},
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"HAMMER","level":3},
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
@@ -207,11 +193,9 @@
   "skill_used": "magic",
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 6 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -239,11 +223,9 @@
   "skill_used": "magic",
   "difficulty": 6,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 6 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -268,11 +250,9 @@
   "skill_used": "magic",
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 7 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -297,11 +277,9 @@
   "skill_used": "magic",
   "difficulty": 7,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 7 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -329,11 +307,9 @@
   "skill_used": "magic",
   "difficulty": 8,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 8 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -362,11 +338,9 @@
   "skill_used": "magic",
   "difficulty": 8,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 8 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -396,11 +370,9 @@
   "skill_used": "magic",
   "difficulty": 9,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 9 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -425,11 +397,9 @@
   "skill_used": "magic",
   "difficulty": 9,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 9 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -454,11 +424,9 @@
   "skill_used": "magic",
   "difficulty": 10,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 10 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -488,11 +456,9 @@
   "skill_used": "magic",
   "difficulty": 10,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_summoning", 10 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [
     [ [ "book_summoning", -1 ] ],
     [
@@ -518,10 +484,8 @@
   "skills_required": [ "fabrication", 2 ],
   "difficulty": 2,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "book_scrollcraft", 3 ]],
-  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "qualities":[ {"id":"CUT","level":1} ],
   "tools": [ [ [ "book_scrollcraft", -1 ] ] ],
   "components": [
     [ [ "paper", 5 ] ],
@@ -538,8 +502,6 @@
   "skill_used": "magic",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 3 ]],
   "tools": [
@@ -567,8 +529,6 @@
   "skill_used": "magic",
   "difficulty": 3,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 3 ]],
   "tools": [
@@ -596,8 +556,6 @@
   "skill_used": "magic",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 4 ]],
   "tools": [
@@ -625,8 +583,6 @@
   "skill_used": "magic",
   "difficulty": 4,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 4 ]],
   "tools": [
@@ -654,8 +610,6 @@
   "skill_used": "magic",
   "difficulty": 5,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 5 ]],
   "tools": [
@@ -683,8 +637,6 @@
   "skill_used": "magic",
   "difficulty": 5,
   "time": 20000,
-  "reversible": false,
-  "autolearn": false,
   "flags": ["BLIND_EASY"],
   "book_learn": [[ "book_scrollcraft", 5 ]],
   "tools": [

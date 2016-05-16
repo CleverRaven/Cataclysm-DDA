@@ -8,10 +8,9 @@
   "skills_required": ["fabrication", 3],
   "difficulty": 4,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_survival", 2], ["mag_survival", 3]],
-  "qualities" : [{"id":"HAMMER","level":1,"amount":1}],
+  "qualities" : [{"id":"HAMMER","level":1}],
   "components": [
     [[ "sharp_rock", 1 ]],
     [[ "steel_chunk", 1 ]]
@@ -26,10 +25,9 @@
   "skills_required": ["fabrication", 2],
   "difficulty": 2,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["mag_survival", 1] , ["textbook_survival", 1]],
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "qualities" : [{"id":"CUT","level":1}],
   "components": [[
     [ "can_drink", 1 ],
     [ "can_food", 1 ],
@@ -45,10 +43,9 @@
   "skills_required": ["fabrication", 1],
   "difficulty": 4,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["mag_survival", 2] , ["textbook_survival", 1] , ["cookbook", 2]],
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "qualities" : [{"id":"CUT","level":1}],
   "components": [[
     [ "can_drink", 2 ],
     [ "can_food", 2 ],
@@ -63,9 +60,8 @@
   "skill_used": "survival",
   "difficulty": 1,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "qualities" : [{"id":"CUT","level":1}],
   "components": [[
     [ "stick", 1 ],
     [ "2x4", 1 ],
@@ -90,12 +86,11 @@
   "subcategory": "CSC_WEAPON_BASHING",
   "difficulty": 0,
   "time": 3000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[50, 5],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":2}
   ],
   "tools": [[
     [ "hotplate", 7 ],
@@ -122,9 +117,8 @@
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
-  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "qualities":[{"id":"HAMMER","level":3}],
   "tools": [
     [ ["tongs", -1] ],
     [ ["chisel", -1] ],
@@ -147,10 +141,9 @@
   "skills_required": [ "cooking", 2 ],
   "difficulty": 3,
   "time": 56000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 5],
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "qualities" : [{"id":"CUT","level":1}],
   "tools": [[
     [ "hotplate", 10 ],
     [ "char_smoker", 10 ],
@@ -169,10 +162,9 @@
   "skills_required": [ "cooking", 2 ],
   "difficulty": 3,
   "time": 56000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 5],
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "qualities" : [{"id":"CUT","level":1}],
   "tools": [[
     [ "hotplate", 10 ],
     [ "char_smoker", 10 ],
@@ -189,13 +181,12 @@
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
   "time": 24000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[50, 5],
   "book_learn": [["mag_survival", 2] , ["textbook_survival", 1]],
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":2,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"COOK","level":2}
   ],
   "tools": [[
     [ "hotplate", 5 ],
@@ -231,9 +222,8 @@
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 1,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
-  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "qualities":[{"id":"CUT","level":1}],
   "components": [[
     [ "stick", 1 ],
     [ "broom", 1 ],
@@ -250,9 +240,8 @@
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 3,
   "time": 54000,
-  "reversible": false,
   "autolearn": true,
-  "qualities":[{"id":"HAMMER","level":1,"amount":1}],
+  "qualities":[{"id":"HAMMER","level":1}],
   "components": [[
     [ "rock", 1 ],
     [ "ceramic_shard", 1 ],
@@ -267,9 +256,8 @@
   "skills_required": [ "fabrication", 1 ],
   "difficulty": 2,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
-  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "qualities":[{"id":"CUT","level":1}],
   "components": [[
     [ "stick", 1 ],
     [ "broom", 1 ],
@@ -286,11 +274,10 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 2400,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "components": [
     [
@@ -331,10 +318,9 @@
   "skills_required": [[ "survival", 1 ], [ "throw", 2 ]],
   "difficulty": 2,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "components":
   [
@@ -373,7 +359,7 @@
   "autolearn": true,
   "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [
@@ -413,8 +399,8 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [
@@ -463,7 +449,7 @@
   "reversible": true,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
     [
@@ -500,7 +486,6 @@
   "skill_used": "tailor",
   "difficulty": 1,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -533,7 +518,6 @@
   "skills_required": ["firstaid", 3],
   "difficulty": 4,
   "time": 600,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -572,10 +556,9 @@
   "skill_used": "tailor",
   "difficulty": 2,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "tools": [
     [
@@ -598,10 +581,9 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 1000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "rock", 1 ]
@@ -616,10 +598,9 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 1,
   "time": 10000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -642,7 +623,6 @@
   "difficulty": 1,
   "result_mult": 2,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [
@@ -664,7 +644,6 @@
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
   [
@@ -693,7 +672,6 @@
     "skills_required": [ "gun", 2 ],
     "difficulty": 2,
     "time": 45000,
-    "reversible": false,
     "autolearn": true,
     "book_learn": [[ "textbook_fabrication", 1 ]],
     "tools": [
@@ -727,7 +705,6 @@
     "skills_required": [ "gun", 2 ],
     "difficulty": 2,
     "time": 45000,
-    "reversible": false,
     "autolearn": true,
     "book_learn": [[ "textbook_fabrication", 1 ]],
     "tools": [
@@ -755,10 +732,9 @@
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 80000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3}
   ], "tools": [
       [ ["tongs", -1] ],
       [ ["chisel", -1]],
@@ -782,10 +758,9 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 2,
   "time": 8000,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -811,10 +786,9 @@
   "skills_required": [ "cooking", 1 ],
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "components":
     [
@@ -831,10 +805,9 @@
   "skills_required": [ "cooking", 1 ],
   "difficulty": 1,
   "time": 20000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ],
   "tools": [
       [
@@ -857,11 +830,10 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"SAW_W","level":2,"amount":1}
+    {"id":"CUT","level":1},
+    {"id":"SAW_W","level":2}
   ],
   "tools": [
       [
@@ -904,10 +876,9 @@
   "skills_required": [ "carpentry", 1 ],
   "difficulty": 2,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "stick", 1 ],
@@ -933,11 +904,10 @@
   "skills_required": [ "carpentry", 1 ],
   "difficulty": 3,
   "time": 60000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
+    {"id":"HAMMER","level":1}
   ], "components": [
     [
       [ "stick", 1 ],
@@ -964,10 +934,9 @@
   "skills_required": [ ["survival", 1], ["cooking", 2] ],
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["atomic_survival", 0] , ["textbook_survival", 0]],
-  "qualities":[{"id":"HAMMER","level":2,"amount":1}],
+  "qualities":[{"id":"HAMMER","level":2}],
   "components": [
     [
       [ "rock", 3 ],
@@ -984,7 +953,6 @@
   "skills_required": [ ["survival", 1] ],
   "difficulty": 2,
   "time": 67500,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors": [83, 3],
   "tools": [
@@ -1007,7 +975,6 @@
   "skills_required": [ ["survival", 1] ],
   "difficulty": 2,
   "time": 67500,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors": [83, 3],
   "tools": [ [ ["mortar_pestle", -1] ] ],
@@ -1032,7 +999,6 @@
   "skills_required": [ ["survival", 1] ],
   "difficulty": 2,
   "time": 67500,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "tools": [
@@ -1060,7 +1026,6 @@
   "skills_required": [ ["survival", 1] ],
   "difficulty": 2,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "tools": [ [ ["mortar_pestle", -1] ] ],
@@ -1075,7 +1040,6 @@
   "skills_required": [ ["survival", 1] ],
   "difficulty": 2,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "tools": [ [ [ "mortar_pestle", -1 ] ] ],
@@ -1090,7 +1054,6 @@
   "skills_required": [ ["survival", 1] ],
   "difficulty": 2,
   "time": 90000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[83, 3],
   "tools": [ [ [ "mortar_pestle", -1 ] ] ],
@@ -1104,9 +1067,8 @@
   "skill_used": "survival",
   "difficulty": 1,
   "time": 30000,
-  "reversible": false,
   "autolearn": true,
-  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "qualities" : [ {"id":"CUT","level":1} ],
   "components": [ [ [ "tanned_pelt", 1 ] ] ]
 },{
   "type" : "recipe",
@@ -1117,9 +1079,8 @@
   "skill_used": "survival",
   "difficulty": 1,
   "time": 6000,
-  "reversible": false,
   "autolearn": true,
-  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "qualities" : [ {"id":"CUT","level":1} ],
   "components": [ [ [ "fur", 1 ] ] ]
 },{
   "type" : "recipe",
@@ -1130,10 +1091,9 @@
   "skills_required": [[ "archery", 1 ], [ "survival", 1]],
   "difficulty": 2,
   "time": 12500,
-  "reversible": false,
   "autolearn": true,
   "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1}
   ],
   "components": [
     [
@@ -1169,9 +1129,7 @@
   "skills_required": [ "survival", 1 ],
   "difficulty": 0,
   "time": 2000,
-  "reversible": false,
-  "autolearn": false,
-  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "qualities" : [ {"id":"CUT","level":1} ],
   "components": [
     [
       [ "stick", 1 ],
@@ -1189,7 +1147,6 @@
   "difficulty": 1,
   "time": 5000,
   "reversible": true,
-  "autolearn": false,
   "components": [
     [ [ "snare_trigger", 1 ] ],
     [ [ "string_36", 1 ] ]
@@ -1205,7 +1162,6 @@
   "difficulty": 3,
   "time": 8000,
   "reversible": true,
-  "autolearn": false,
   "components": [
     [ [ "snare_trigger", 1 ] ],
     [ [ "rope_6", 1 ] ]

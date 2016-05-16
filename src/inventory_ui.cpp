@@ -161,7 +161,7 @@ class inventory_selector
         void print_right_column(size_t right_column_width, size_t right_column_offset) const;
 
         /** Returns an entry from @ref items by its invlet */
-        const itemstack_or_category *invlet_to_item_entry( long invlet ) const;
+        const itemstack_or_category *invlet_to_itemstack( long invlet ) const;
         /** Toggle item dropping for item position it_pos:
          * If count is > 0: set dropping to count
          * If the item is already marked for dropping: deactivate dropping,
@@ -217,17 +217,21 @@ void inventory_selector::add_items(const indexed_invslice &slice, add_to where, 
     }
 }
 
-const itemstack_or_category *inventory_selector::invlet_to_item_entry( long invlet ) const
+const itemstack_or_category *inventory_selector::invlet_to_itemstack( long invlet ) const
 {
-    for( auto &it : items ) {
-        if( it.it == nullptr ) {
-            continue;
+    const auto find_among = [ invlet ]( const itemstack_vector &stacks ) -> const itemstack_or_category* {
+        for( const auto &it : stacks ) {
+            if( it.it != nullptr && it.it->invlet == invlet ) {
+                return &it;
+            }
         }
-        if( it.it->invlet == invlet ) {
-            return &it;
-        }
+        return nullptr;
+    };
+    const auto itemstack = find_among( items );
+    if( itemstack != nullptr ) {
+        return itemstack;
     }
-    return nullptr;
+    return find_among( worn );
 }
 
 void inventory_selector::prepare_paging()
@@ -773,17 +777,15 @@ int inventory_selector::execute_pick( const std::string &title, const int positi
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
-        const int item_pos = u.invlet_to_position( ch );
+        const auto itemstack = invlet_to_itemstack( ch );
 
-        if( item_pos != INT_MIN ) {
-            return item_pos;
+        if( itemstack != nullptr ) {
+            return itemstack->item_pos;
         } else if ( handle_movement( action ) ) {
             continue;
         } else if ( action == "CONFIRM" || action == "RIGHT" ) {
             return get_selected_item_position();
         } else if ( action == "QUIT" ) {
-            return INT_MIN;
-        } else {
             return INT_MIN;
         }
     }
@@ -798,22 +800,17 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
-        const int item_pos = u.invlet_to_position( ch );
+        const auto itemstack = invlet_to_itemstack( ch );
 
-        const auto item_entry = ( item_pos == INT_MIN ) ? invlet_to_item_entry( ch ) : nullptr;
-
-        if( item_pos != INT_MIN ) {
-            // Indexed item in inventory
-            set_to_drop( item_pos, 0 );
-            return item_location( u, first_item );
-        } else if( item_entry != nullptr ) {
-            const auto it = opts.find( const_cast<item*>( item_entry->it ) );
+        if( itemstack != nullptr ) {
+            const auto it = opts.find( const_cast<item*>( itemstack->it ) );
             if( it != opts.end() ) {
                 return std::move( it->second );
             }
+            set_to_drop( itemstack->item_pos, 0 );
+            return item_location( u, first_item );
         } else if( handle_movement( action ) ) {
             // continue with comparison below
-
         } else if( action == "QUIT" ) {
             return item_location();
 
@@ -844,14 +841,10 @@ void inventory_selector::execute_compare( const std::string &title )
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
-        const int item_pos = u.invlet_to_position( ch );
+        const auto itemstack = invlet_to_itemstack( ch );
 
-        const auto item_entry = ( item_pos == INT_MIN ) ? invlet_to_item_entry( ch ) : nullptr;
-
-        if( item_pos != INT_MIN ) {
-            set_to_drop( item_pos, 0 );
-        } else if( item_entry != nullptr ) {
-            set_drop_count( item_entry->item_pos, 0, item_entry->slice->front() );
+        if( itemstack != nullptr ) {
+            set_drop_count( itemstack->item_pos, 0, *itemstack->it );
         } else if( handle_movement( action ) ) {
             // continue with comparison below
         } else if( action == "QUIT" ) {
@@ -904,14 +897,14 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
 
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
-        const int item_pos = u.invlet_to_position( ch );
+        const auto itemstack = invlet_to_itemstack( ch );
 
         if( ch >= '0' && ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
             count += ch - '0';
-        } else if( item_pos != INT_MIN ) {
-            set_to_drop( item_pos, count );
+        } else if( itemstack != nullptr ) {
+            set_to_drop( itemstack->item_pos, count );
             count = 0;
         } else if( handle_movement( action ) ) {
             count = 0;

@@ -15,7 +15,6 @@
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "debug.h"
-#include "catacharset.h"
 
 #include <map>
 #include <vector>
@@ -879,27 +878,23 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
             }
 
-            utf8_wrapper help_text = utf8_wrapper(string_format(_("[%s] Unmark"), ctxt.get_desc("LEFT", 1).c_str()));
-            size_t help_text_x_pos = 0;
-            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            mvwprintw( w_pickup, maxitems + 1, 0, _( "[%s] Unmark" ),
+                       ctxt.get_desc( "LEFT", 1 ).c_str() );
 
-            center_print( w_pickup, maxitems + 1, c_ltgray,
-                          _( "[%s] Help" ), ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() );
+            center_print( w_pickup, maxitems + 1, c_ltgray, _( "[%s] Help" ),
+                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() );
 
-            help_text = utf8_wrapper(string_format(_("[%s] Mark"), ctxt.get_desc("RIGHT", 1).c_str()));
-            help_text_x_pos = pickupW - help_text.display_width();
-            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            right_print( w_pickup, maxitems + 1, 0, c_ltgray, _( "[%s] Mark" ),
+                         ctxt.get_desc( "RIGHT", 1 ).c_str() );
 
-            help_text = utf8_wrapper(string_format(_("[%s] Prev"), ctxt.get_desc("PREV_TAB", 1).c_str()));
-            help_text_x_pos = 0;
-            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            mvwprintw( w_pickup, maxitems + 2, 0, _( "[%s] Prev" ),
+                       ctxt.get_desc( "PREV_TAB", 1 ).c_str() );
 
-            center_print( w_pickup, maxitems + 2, c_ltgray,
-                          _( "[%s] All" ), ctxt.get_desc( "SELECT_ALL", 1 ).c_str() );
+            center_print( w_pickup, maxitems + 2, c_ltgray, _( "[%s] All" ),
+                          ctxt.get_desc( "SELECT_ALL", 1 ).c_str() );
 
-            help_text = utf8_wrapper(string_format(_("[%s] Next"), ctxt.get_desc("NEXT_TAB", 1).c_str()));
-            help_text_x_pos = pickupW - help_text.display_width();
-            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            right_print( w_pickup, maxitems + 2, 0, c_ltgray, _( "[%s] Next" ),
+                         ctxt.get_desc( "NEXT_TAB", 1 ).c_str() );
 
             if (update) { // Update weight & volume information
                 update = false;
