@@ -6000,7 +6000,7 @@
     "description": "This is a sealed glass jar containing fish soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "flesh"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6008,7 +6008,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_fish",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
