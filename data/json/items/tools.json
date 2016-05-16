@@ -5872,7 +5872,7 @@
     "description": "This is a sealed glass jar containing pickled meat.  Use to open and eat to enjoy.",
     "price": 700,
     "material": ["glass", "flesh"],
-    "weight": 609,
+    "weight": 1068,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5880,6 +5880,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "meat_pickled",
+		"target_charges": 2,
         "container": "jar_glass"
     }
   },
