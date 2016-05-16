@@ -132,7 +132,7 @@ void set_up_butchery( player_activity &act, player &u )
         return;
     }
 
-    const int factor = u.max_quality( "BUTCHER" );
+    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
     auto items = g->m.i_at( u.pos() );
     if( ( size_t )act.index >= items.size() || factor == INT_MIN ) {
         // Let it print a msg for lack of corpses
@@ -191,7 +191,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     const int age = corpse_item.bday;
     g->m.i_rem( p->pos(), act->index );
 
-    const int factor = p->max_quality( "BUTCHER" );
+    const int factor = p->max_quality( quality_id( "BUTCHER" ) );
     int pieces = 0;
     int skins = 0;
     int bones = 0;

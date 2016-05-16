@@ -13,7 +13,6 @@
         "volume" : 1,
         "weight" : 218,
         "bashing" : 1,
-        "cutting" : 0,
         "to_hit" : -2,
         "ammo_type" : "components",
         "damage" : 0,

@@ -1,11 +1,7 @@
 #include "color.h"
-#include "cursesdef.h"
-#include "options.h"
-#include "rng.h"
 #include "output.h"
 #include "debug.h"
 #include "input.h"
-#include "worldfactory.h"
 #include "path_info.h"
 #include "cata_utility.h"
 #include "filesystem.h"
@@ -614,7 +610,6 @@ std::list<std::pair<std::string, std::string>> get_note_color_names()
     }
     return color_list;
 }
-
 
 void color_manager::clear()
 {

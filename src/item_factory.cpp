@@ -559,10 +559,9 @@ void Item_factory::check_definitions() const
                 msg << string_format("snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
             }
         }
-        for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
-             a != type->qualities.end(); ++a) {
-            if( !quality::has( a->first ) ) {
-                msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
+        for( auto &q : type->qualities ) {
+            if( !q.first.is_valid() ) {
+                msg << string_format("item %s has unknown quality %s", type->id.c_str(), q.first.c_str()) << "\n";
             }
         }
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
@@ -1503,7 +1502,7 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()) {
             JsonArray curr = jarr.next_array();
-            const auto quali = std::pair<std::string, int>(curr.get_string(0), curr.get_int(1));
+            const auto quali = std::pair<quality_id, int>(quality_id(curr.get_string(0)), curr.get_int(1));
             if( new_item_template->qualities.count( quali.first ) > 0 ) {
                 curr.throw_error( "Duplicated quality", 0 );
             }

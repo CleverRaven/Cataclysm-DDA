@@ -345,10 +345,13 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
 
     for( auto& e : result ) {
         if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-            if( rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
+            bool spawn_ammo = rng( 0, 99 ) < with_ammo && e.ammo_remaining() == 0;
+            bool spawn_mag  = rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current();
+
+            if( spawn_mag || spawn_ammo ) {
                 e.contents.emplace_back( e.magazine_default(), e.bday );
             }
-            if( rng( 0, 99 ) < with_ammo && e.ammo_remaining() == 0 ) {
+            if( spawn_ammo ) {
                 e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
             }
         }

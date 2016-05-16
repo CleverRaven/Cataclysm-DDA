@@ -97,11 +97,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
 	[
       [ "welder", 25 ],
       [ "welder_crude", 50 ],
@@ -147,11 +145,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
 	[
       [ "welder", 25 ],
       [ "welder_crude", 50 ],

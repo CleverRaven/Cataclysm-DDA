@@ -20,6 +20,8 @@ using vproto_id = string_id<vehicle_prototype>;
 class vehicle;
 class JsonObject;
 struct vehicle_item_spawn;
+struct quality;
+using quality_id = string_id<quality>;
 typedef int nc_color;
 
 // bitmask backing store of -certian- vpart_info.flags, ones that
@@ -95,7 +97,7 @@ struct vpart_info {
         std::string breaks_into_group;
 
         /** Tool qualities this vehicle part can provide when installed */
-        std::map<std::string, int> qualities;
+        std::map<quality_id, int> qualities;
 
         /** Translated name of a part */
         std::string name() const;

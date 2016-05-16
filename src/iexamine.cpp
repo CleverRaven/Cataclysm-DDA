@@ -207,22 +207,14 @@ private:
 
     //! Prompt for a card to use (includes worn items).
     item* choose_card(char const *const msg) {
-        const int index = g->inv_for_filter(msg, [](item const& itm) {
-            return itm.type->id == "cash_card";
-        });
+        const int index = g->inv_for_id( itype_id( "cash_card" ), msg );
 
         if (index == INT_MIN) {
             add_msg(m_info, _("Never mind."));
             return nullptr; // player canceled
         }
 
-        auto &itm = u.i_at(index);
-        if (itm.type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return nullptr; // must have selected an equipped item
-        }
-
-        return &itm;
+        return &u.i_at(index);
     };
 
     //! Prompt for an integral value clamped to [0, max].
@@ -391,14 +383,10 @@ void iexamine::vending(player &p, const tripoint &examp)
         return;
     }
 
-    item *card = &p.i_at(g->inv_for_filter(_("Insert card for purchases."),
-        [](item const &i) { return i.type->id == "cash_card"; }));
+    item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
 
     if (card->is_null()) {
         return; // player cancelled selection
-    } else if (card->type->id != "cash_card") {
-        popup(_("Please insert cash cards only!"));
-        return;
     } else if (card->charges == 0) {
         popup(_("You must insert a charged cash card!"));
         return;
@@ -653,7 +641,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
 
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    bool has_digging_tool = p.has_quality( "DIG", 2 );
+    bool has_digging_tool = p.has_quality( quality_id( "DIG" ), 2 );
     if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
@@ -680,7 +668,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 void iexamine::crate(player &p, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_quality( "PRY", 1 );
+    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
     if( !has_prying_tool ) {
         add_msg( m_info, _("If only you had a crowbar...") );
         return;
@@ -1362,7 +1350,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
         return;
     }
 
-    if( !p.has_quality( "DIG" ) ) {
+    if( !p.has_quality( quality_id( "DIG" ) ) ) {
         none( p, examp );
         add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
         return;
@@ -2270,7 +2258,7 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     if( !( p.get_skill_level( skill_survival ) > 0 ) ) {
         return;
     }
-    if( !p.has_quality( "DIG" ) ) {
+    if( !p.has_quality( quality_id( "DIG" ) ) ) {
         add_msg(m_info, _("You have no tool to dig with..."));
         return;
     }
@@ -2294,12 +2282,12 @@ item_location maple_tree_sap_container() {
 
 void iexamine::tree_maple(player &p, const tripoint &examp)
 {
-    if( !p.has_quality( "DRILL" ) ) {
+    if( !p.has_quality( quality_id( "DRILL" ) ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( "HAMMER" ) ) {
+    if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
         add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
     }
@@ -2371,7 +2359,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
     switch( static_cast<options>( selectmenu.ret ) ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( "HAMMER" ) ) {
+            if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
@@ -3177,21 +3165,17 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     }
 
     if (buy_gas == choice) {
-
-        int pos;
         item *cashcard;
 
-        pos = g->inv(_("Insert card."));
+        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
         cashcard = &(p.i_at(pos));
 
-        if (cashcard->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (cashcard->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
         if (cashcard->charges < pricePerUnit) {
             popup(str_to_illiterate_str(
                       _("Not enough money, please refill your cash card.")).c_str()); //or ride on a solar car, ha ha ha
@@ -3259,20 +3243,16 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     }
 
     if (refund == choice) {
-        int pos;
         item *cashcard;
 
-        pos = g->inv(_("Insert card."));
-        cashcard = &(p.i_at(pos));
+        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
 
-        if (cashcard->is_null()) {
-            popup(_("You do not have that item!"));
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
             return;
         }
-        if (cashcard->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
+
+        cashcard = &(p.i_at(pos));
         // Ok, we have a cash card. Now we need to know what's left in the pump.
         tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = fromPumpFuel( pTank, pGasPump );

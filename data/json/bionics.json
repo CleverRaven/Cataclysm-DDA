@@ -224,6 +224,7 @@
         "occupied_bodyparts": [
             [ "EYES", 1 ]
         ],
+        "fake_item" : "fake_goggles",
         "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type": "bionic",
@@ -347,6 +348,7 @@
             [ "HAND_L", 3 ],
             [ "HAND_R", 3 ]
         ],
+        "fake_item" : "toolset",
         "toggled": true,
         "description": "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting."
     },{
@@ -767,6 +769,7 @@
             [ "HAND_L", 2 ],
             [ "HAND_R", 2 ]
         ],
+        "fake_item" : "fake_razor",
         "description": "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered."
     },{
         "type": "bionic",

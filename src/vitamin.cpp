@@ -4,6 +4,7 @@
 
 #include "debug.h"
 #include "translations.h"
+#include "calendar.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
@@ -49,7 +50,7 @@ void vitamin::load_vitamin( JsonObject &jo )
     vit.name_ = _( jo.get_string( "name" ).c_str() );
     vit.min_ = jo.get_int( "min" );
     vit.max_ = jo.get_int( "max", 0 );
-    vit.rate_ = jo.get_int( "rate", 60 );
+    vit.rate_ = jo.get_int( "rate", MINUTES( 60 ) );
 
     if( vit.rate_ < 0 ) {
         jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );

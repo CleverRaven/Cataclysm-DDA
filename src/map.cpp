@@ -4814,7 +4814,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 if( cur_veh->discharge_battery( 10, false ) ) {
                     break; // Check car's power before charging
                 }
-                n.charges++;
+                n.ammo_set( "battery", n.ammo_remaining() + 1 );
             }
         }
     }

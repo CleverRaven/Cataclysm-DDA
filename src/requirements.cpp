@@ -12,41 +12,44 @@
 #include "calendar.h"
 #include <cmath>
 #include <algorithm>
+#include "generic_factory.h"
 
-quality::quality_map quality::qualities;
+namespace {
+generic_factory<quality> quality_factory( "tool quality" );
+} // namespace
 
 void quality::reset()
 {
-    qualities.clear();
+    quality_factory.reset();
+}
+
+void quality::load_static( JsonObject &jo )
+{
+    quality_factory.load( jo );
 }
 
 void quality::load( JsonObject &jo )
 {
-    quality qual;
-    qual.id = jo.get_string( "id" );
-    qual.name = _( jo.get_string( "name" ).c_str() );
-    qualities[qual.id] = qual;
+    mandatory( jo, was_loaded, "name", name, translated_string_reader );
 }
 
-std::string quality::get_name( const std::string &id )
+template<>
+const quality &string_id<quality>::obj() const
 {
-    const auto a = qualities.find( id );
-    if( a != qualities.end() ) {
-        return a->second.name;
-    }
-    return id;
+    return quality_factory.obj( *this );
 }
 
-bool quality::has( const std::string &id )
+template<>
+bool string_id<quality>::is_valid() const
 {
-    return qualities.count( id ) > 0;
+    return quality_factory.is_valid( *this );
 }
 
 std::string quality_requirement::to_string( int ) const
 {
     return string_format( ngettext( "%d tool with %s of %d or more.",
                                     "%d tools with %s of %d or more.", count ),
-                          count, quality::get_name( type ).c_str(), level );
+                          count, type.obj().name.c_str(), level );
 }
 
 bool tool_comp::by_charges() const
@@ -75,7 +78,7 @@ std::string item_comp::to_string( int batch ) const
 void quality_requirement::load( JsonArray &jsarr )
 {
     JsonObject quality_data = jsarr.next_object();
-    type = quality_data.get_string( "id" );
+    type = quality_id( quality_data.get_string( "id" ) );
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
     if( count <= 0 ) {
@@ -196,7 +199,7 @@ std::string requirement_data::list_missing() const
 
 void quality_requirement::check_consistency( const std::string &display_name ) const
 {
-    if( !quality::has( type ) ) {
+    if( !type.is_valid() ) {
         debugmsg( "Unknown quality %s in %s", type.c_str(), display_name.c_str() );
     }
 }
@@ -401,11 +404,6 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
 
 bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    if( type == "goggles_welding" ) {
-        if( g->u.has_bionic( "bio_sunglasses" ) || g->u.is_wearing( "rm13_armor_on" ) ) {
-            return true;
-        }
-    }
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
@@ -415,11 +413,6 @@ bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 
 std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
-    if( type == "goggles_welding" ) {
-        if( g->u.has_bionic( "bio_sunglasses" ) || g->u.is_wearing( "rm13_armor_on" ) ) {
-            return "cyan";
-        }
-    }
     if( available == a_insufficent ) {
         return "brown";
     } else if( !by_charges() && crafting_inv.has_tools( type, std::abs( count ) ) ) {
@@ -470,9 +463,9 @@ std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, i
     return has_one ? "dkgray" : "red";
 }
 
-template<typename T>
+template<typename T, typename ID>
 const T *requirement_data::find_by_type( const std::vector< std::vector<T> > &vec,
-        const std::string &type )
+        const ID &type )
 {
     for( const auto &list : vec ) {
         for( const auto &comp : list ) {
@@ -605,20 +598,19 @@ const requirement_data requirement_data::disassembly_requirements() const
             if( type == "welder" ||
                 type == "welder_crude" ||
                 type == "oxy_torch" ) {
-                new_qualities.push_back( quality_requirement( "SAW_M_FINE", 1, 1 ) );
+                new_qualities.emplace_back( quality_id( "SAW_M_FINE" ), 1, 1 );
                 replaced = true;
                 break;
             }
 
             if( type == "sewing_kit" ||
                 type == "mold_plastic" ) {
-                new_qualities.push_back( quality_requirement( "CUT", 1, 1 ) );
+                new_qualities.emplace_back( quality_id( "CUT" ), 1, 1 );
                 replaced = true;
                 break;
             }
 
-            if( type == "goggles_welding" ||
-                type == "crucible" ) {
+            if( type == "crucible" ) {
                 replaced = true;
                 break;
             }

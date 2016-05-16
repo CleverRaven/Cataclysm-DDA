@@ -180,7 +180,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
-    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load);
+    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load_static);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
@@ -405,4 +405,5 @@ void DynamicDataLoader::check_consistency()
     mutation_branch::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();
+    check_bionics();
 }
