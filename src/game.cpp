@@ -10298,247 +10298,227 @@ void game::grab()
     refresh_all();
 }
 
-bool vehicle_near( const itype_id &ft )
+std::vector<vehicle*> nearby_vehicles_for( const itype_id &ft )
 {
+    std::vector<vehicle*> result;
     for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        vehicle *veh = g->m.veh_at( p );
+        vehicle * const veh = g->m.veh_at( p );
         // TODO: constify fuel_left and fuel_capacity
         // TODO: add a fuel_capacity_left function
+        if( std::find( result.begin(), result.end(), veh ) != result.end() ) {
+            continue;
+        }
         if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
-            return true;
+            result.push_back( veh );
         }
     }
-    return false;
+    return result;
 }
 
-// Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
-                         item *cont, int radius)
+void game::handle_all_liquid( item liquid, const int radius )
+{
+    while( liquid.charges > 0l ) {
+        // handle_liquid allows to pour onto the ground, which will handle all the liquid and
+        // set charges to 0. This allows terminating the loop.
+        // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
+        handle_liquid( liquid, nullptr, radius );
+    }
+}
+
+bool game::consume_liquid( item &liquid, const int radius )
+{
+    const auto original_charges = liquid.charges;
+    while( liquid.charges > 0 && handle_liquid( liquid, nullptr, radius ) ) {
+        // try again with the remaining charges
+    }
+    return original_charges != liquid.charges;
+}
+
+bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, const int radius )
+{
+    // TODO: not all code paths on handle_liquid consume move points, fix that.
+    handle_liquid( *on_ground, nullptr, radius, &pos );
+    if( on_ground->charges > 0 ) {
+        return false;
+    }
+    m.i_at( pos ).erase( on_ground );
+    return true;
+}
+
+bool game::handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius )
+{
+    // TODO: not all code paths on handle_liquid consume move points, fix that.
+    handle_liquid( *in_container, &container, radius );
+    if( in_container->charges > 0 ) {
+        return false;
+    }
+    container.contents.erase( in_container );
+    return true;
+}
+
+bool game::handle_liquid_from_container( item &container, int radius )
+{
+    return handle_liquid_from_container( container.contents.begin(), container, radius );
+}
+
+extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
+extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
+
+extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
+extern void serialize_liquid_target( player_activity &act, int container_item_pos );
+extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
+
+bool game::handle_liquid( item &liquid, item * const source, const int radius,
+                          const tripoint * const source_pos,
+                          const vehicle * const source_veh )
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg("Tried to handle_liquid a non-liquid!");
+        // "canceled by the user" because we *can* not handle it.
         return false;
     }
 
-    if( vehicle_near( liquid.type->id ) && query_yn(_("Refill vehicle?")) ) {
-        tripoint vp;
-        refresh_all();
-        if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
-            return false;
-        }
-        vehicle *veh = m.veh_at(vp);
-        if (veh == NULL) {
-            add_msg(m_info, _("There isn't any vehicle there."));
-            return false;
-        }
-        const itype_id &ftype = liquid.type->id;
-        int fuel_cap = veh->fuel_capacity(ftype);
-        int fuel_amnt = veh->fuel_left(ftype);
-        if (fuel_cap <= 0) {
-            //~ %1$s - transport name, %2$s liquid fuel name
-            add_msg(m_info, _("The %1$s doesn't use %2$s."),
-                    veh->name.c_str(), liquid.type_name().c_str());
-            return false;
-        } else if (fuel_amnt >= fuel_cap) {
-            add_msg(m_info, _("The %s is already full."),
-                    veh->name.c_str());
-            return false;
-        }
-        const int amt = infinite ? INT_MAX : liquid.charges;
-        u.moves -= 100;
-        liquid.charges = veh->refill(ftype, amt);
-        if (veh->fuel_left(ftype) < fuel_cap) {
-            add_msg(_("You refill the %1$s with %2$s."),
-                    veh->name.c_str(), liquid.type_name().c_str());
+    const auto create_activity = [&]() {
+        if( source_veh != nullptr ) {
+            u.assign_activity( ACT_FILL_LIQUID, INT_MAX );
+            serialize_liquid_source( u.activity, *source_veh, liquid.typeId() );
+            return true;
+        } else if( source_pos != nullptr ) {
+            u.assign_activity( ACT_FILL_LIQUID, INT_MAX );
+            serialize_liquid_source( u.activity, *source_pos, liquid );
+            return true;
         } else {
-            add_msg(_("You refill the %1$s with %2$s to its maximum."),
-                    veh->name.c_str(), liquid.type_name().c_str());
-        }
-        // infinite: always handled all, to prevent loops
-        return infinite || liquid.charges == 0;
-    }
-
-    // Ask to pour rotten liquid (milk!) from the get-go
-    int dirx, diry;
-    const std::string liqstr = string_format(_("Pour %s where?"), liquid.tname().c_str());
-    refresh_all();
-    if (!from_ground && liquid.rotten() &&
-        choose_adjacent(liqstr, dirx, diry)) {
-
-        if (!m.can_put_items_ter_furn(dirx, diry)) {
-            add_msg(m_info, _("You can't pour there!"));
             return false;
         }
-        m.add_item_or_charges(dirx, diry, liquid, 1);
+    };
+
+    const bool is_infinite = liquid.charges == std::numeric_limits<long>::max();
+    const std::string liquid_name = is_infinite ? liquid.tname() : liquid.display_name( liquid.charges );
+
+    const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
+    item * const cont = inv_map_for_liquid( liquid, text, radius );
+    if( source != nullptr && cont == source ) {
+        add_msg( m_info, _( "That's the same container!" ) );
+        // The user has intended to do something, but mistyped.
+        return true;
+    }
+    if( cont != nullptr && !cont->is_null() ) {
+        const int item_index = u.get_item_position( cont );
+        // Currently activities can only store item position in the players inventory,
+        // not on ground or similar. TODO: implement storing arbitrary container locations.
+        if( item_index != INT_MIN && create_activity() ) {
+            serialize_liquid_target( u.activity, item_index );
+        } else if( u.pour_into( *cont, liquid ) ) {
+            u.mod_moves( -100 );
+        }
         return true;
     }
 
-    if (cont == NULL || cont->is_null()) {
-        const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
-
-        // Check for suitable containers in inventory or within radius including vehicles
-        cont = inv_map_for_liquid(liquid, text, radius);
-        if (cont == NULL || cont->is_null()) {
-            // Ask the player whether they want to drink from it.
-            if (from_ground && liquid.is_food(&u)) {
-                int charges_consumed = u.drink_from_hands(liquid);
-                if (!infinite) {
-                    liquid.charges -= charges_consumed;
-                }
-                if ( charges_consumed > 0 ) {
-                    return liquid.charges <= 0;
-                }
-            }
-
-            // No container selected (escaped, ...), ask to pour
-            // we asked to pour rotten already
-            if (!from_ground && !liquid.rotten() &&
-                choose_adjacent(liqstr, dirx, diry)) {
-
-                if (!m.can_put_items_ter_furn(dirx, diry)) {
-                    add_msg(m_info, _("You can't pour there!"));
-                    return false;
-                }
-                m.add_item_or_charges(dirx, diry, liquid, 1);
-                return true;
-            }
-            add_msg(_("Never mind."));
-            return false;
-        }
-    }
-
-    if (cont == source) {
-        //Source and destination are the same; abort
-        add_msg(m_info, _("That's the same container!"));
-        return false;
-
-    } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
-        // for filling up chainsaws, jackhammers and flamethrowers
-
-        if( cont->ammo_type() != liquid.ammo_type() ) {
-            add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
-                    liquid.tname().c_str());
-            return false;
-        }
-
-        if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
-            add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
-                    liquid.tname().c_str());
-            return false;
-        }
-
-        if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
-            add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
-            return false;
-        }
-
-        add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
-        if (infinite) {
-            cont->ammo_set( liquid.typeId() ); // fill to capacity
-        } else {
-            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
-            liquid.charges -= qty;
-            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
-            if( liquid.charges > 0 ) {
-                add_msg(_("There's some left over!"));
-                return false;
-            }
-        }
-        return true;
-
+    uimenu menu;
+    menu.return_invalid = true;
+    if( source_pos != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
+    } else if( source_veh != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
     } else {
-        // Filling up normal containers
-        bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
-        std::string err;
-        if( !cont->fill_with( liquid, err, allow_bucket ) ) {
-            add_msg( m_info, err.c_str() );
-            return false;
-        }
+        menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
+    }
+    std::vector<std::function<void()>> actions;
 
-        u.inv.unsort();
-        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
-        if( !infinite && liquid.charges > 0 ) {
-            add_msg( _( "There's some left over!" ) );
-        }
-        return infinite || liquid.charges <= 0;
+    if( liquid.is_food( &u ) ) {
+        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        actions.emplace_back( [&]() {
+            // consume_item already consumes moves.
+            u.consume_item( liquid );
+        } );
     }
 
-    return false;
-}
-
-//Move_liquid returns the amount of liquid left if we didn't move all the liquid, otherwise returns sentinel -1, signifies transaction fail.
-//One-use, strictly for liquid transactions. Not intended for use with while loops.
-int game::move_liquid(item &liquid)
-{
-    if (!liquid.made_of(LIQUID)) {
-        dbg(D_ERROR) << "game:move_liquid: Tried to move_liquid a non-liquid!";
-        debugmsg("Tried to move_liquid a non-liquid!");
-        return -1;
+    for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
+        if( veh == source_veh ) {
+            continue;
+        }
+        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name.c_str() );
+        actions.emplace_back( [&, veh]() {
+            if( create_activity() ) {
+                serialize_liquid_target( u.activity, *veh );
+                return;
+            }
+            if( u.pour_into( *veh, liquid ) ) {
+                u.mod_moves( -100 );
+            }
+        } );
     }
 
-    //liquid is in fact a liquid.
-    const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
-    int pos = inv_for_filter( text, [ &liquid ]( const item &it ) {
-        return it.get_remaining_capacity_for_liquid( liquid ) > 0;
+    for( auto &target_pos : m.points_in_radius( u.pos(), 1 ) ) {
+        if( !iexamine::has_keg( target_pos ) ) {
+            continue;
+        }
+        if( source_pos != nullptr && *source_pos == target_pos ) {
+            continue;
+        }
+        const std::string dir = direction_name( direction_from( u.pos(), target_pos ) );
+        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir.c_str() );
+        actions.emplace_back( [&, target_pos]() {
+            if( create_activity() ) {
+                serialize_liquid_target( u.activity, target_pos );
+                return;
+            }
+            iexamine::pour_into_keg( target_pos, liquid );
+            u.mod_moves( -100 );
+        } );
+    }
+
+    menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
+    actions.emplace_back( [&]() {
+        tripoint target_pos = u.pos();
+        const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
+        refresh_all();
+        if( !choose_adjacent( liqstr, target_pos ) ) {
+            return;
+        }
+
+        if( source_pos != nullptr && *source_pos == target_pos ) {
+            add_msg( m_info, _( "That's where you took it from!" ) );
+            return;
+        }
+        if( !m.can_put_items_ter_furn( target_pos ) ) {
+            add_msg( m_info, _( "You can't pour there!" ) );
+            return;
+        }
+        // From infinite source to the ground somewhere else. The target has
+        // infinite space and the liquid can not be used from there anyway.
+        if( is_infinite && source_pos != nullptr ) {
+            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
+            return;
+        }
+
+        if( create_activity() ) {
+            serialize_liquid_target( u.activity, target_pos );
+            return;
+        }
+        m.add_item_or_charges( target_pos, liquid, 1 );
+        liquid.charges = 0;
+        u.mod_moves( -100 );
     } );
-
-    //is container selected?
-    item *cont = &( u.i_at( pos ) );
-    if( u.has_item( *cont ) ) {
-        if (cont == NULL || cont->is_null()) {
-            return -1;
-
-        } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
-            // for filling up chainsaws, jackhammers and flamethrowers
-
-            if( cont->ammo_type() != liquid.ammo_type() ) {
-                add_msg( m_info, _( "Your %1$s won't hold %2$s." ),
-                         cont->tname().c_str(), liquid.tname().c_str() );
-                return -1;
-            }
-
-            if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
-                add_msg( m_info, _( "Your %1$s can't hold any more %2$s." ),
-                         cont->tname().c_str(), liquid.tname().c_str() );
-                return -1;
-            }
-
-            if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
-                add_msg( m_info, _( "You can't mix loads in your %s." ), cont->tname().c_str() );
-                return -1;
-            }
-
-            add_msg( _(" You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
-            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
-            liquid.charges -= qty;
-            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
-            if( liquid.charges > 0 ) {
-                add_msg( _( "There's some left over!" ) );
-                return liquid.charges;
-            }
-            return 0;
-
-        } else {
-            item tmp_liquid = liquid;
-            std::string err;
-            bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
-            if( !cont->fill_with( tmp_liquid, err, allow_bucket ) ) {
-                add_msg( m_info, "%s", err.c_str() );
-                return -1;
-            }
-            u.inv.unsort();
-            if( tmp_liquid.charges == 0 ) {
-                add_msg(_("You pour %1$s into your %2$s."), liquid.tname().c_str(), cont->type_name().c_str());
-            } else {
-                add_msg(_("You fill your %1$s with some of the %2$s."), cont->type_name().c_str(), liquid.tname().c_str());
-                add_msg(_("There's some left over!"));
-            }
-            return tmp_liquid.charges;
-        }
-        return -1;
+    if( liquid.rotten() ) {
+        // Pre-select this one as it is the most likely one for rotten liquids
+        menu.selected = menu.entries.size() - 1;
     }
-    return -1;
+
+    if( menu.entries.empty() ) {
+        return false;
+    }
+
+    menu.query();
+    const size_t chosen = static_cast<size_t>( menu.ret );
+    if( chosen >= actions.size() ) {
+        add_msg( _( "Never mind." ) );
+        // Explicitly canceled all options (container, drink, pour).
+        return false;
+    }
+    actions[chosen]();
+    return true;
 }
 
 void game::drop(int pos)
@@ -11512,7 +11492,8 @@ void game::mend( int pos )
 bool add_or_drop_with_msg( player &u, item &it )
 {
     if( it.made_of( LIQUID ) ) {
-        return g->handle_liquid( it, false, false, nullptr, nullptr, 1 );
+        g->consume_liquid( it, 1 );
+        return it.charges <= 0;
     }
     if( !u.can_pickVolume( it.volume() ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
