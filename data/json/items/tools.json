@@ -5915,7 +5915,7 @@
     "description": "This is sealed glass jar containing pickled human flesh.  Use to open.  You might even enjoy it.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 1986,
+    "weight": 1068,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
