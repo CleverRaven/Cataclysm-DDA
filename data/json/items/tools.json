@@ -5893,7 +5893,7 @@
     "description": "This is a sealed glass jar containing pickled fish.  Use to open and eat to enjoy.",
     "price": 700,
     "material": ["glass", "flesh"],
-    "weight": 555,
+    "weight": 1770,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5901,6 +5901,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "fish_pickled",
+		"target_charges": 4,
         "container": "jar_glass"
     }
   },
