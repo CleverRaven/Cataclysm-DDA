@@ -4,6 +4,7 @@
 #include "translations.h"
 #include "posix_time.h"
 
+#include <cstdlib>
 #include <iostream>
 
 #define EMPTY -1
