@@ -7605,9 +7605,9 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "mushroom", 1 ],
-      [ "veggy", 1 ],
-      [ "veggy_wild", 1 ]
+      [ "mushroom", 2 ],
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ]
     ]
   ]
 },{

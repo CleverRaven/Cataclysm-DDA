@@ -5765,7 +5765,7 @@
     "description": "This is a sealed glass jar containing mixed vegetables.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 500,
+    "weight": 850,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5773,6 +5773,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_canned",
+		"target_charges": 2,
         "container": "jar_glass"
     }
   },
