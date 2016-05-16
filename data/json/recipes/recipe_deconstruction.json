@@ -284,7 +284,7 @@
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "qualities": [ {"id":"HAMMER","level":1} ], 
+    "qualities": [ {"id": "HAMMER","level": 1} ], 
     "components": [ [ [ "gold_small", 50 ] ] ]
   },
   {
