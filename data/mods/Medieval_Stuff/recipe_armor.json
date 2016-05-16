@@ -7,7 +7,6 @@
   "skill_used": "fabrication",
   "difficulty": 5,
   "time": 520000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
@@ -41,7 +40,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 540000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
@@ -70,7 +68,6 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 540000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
@@ -134,7 +131,6 @@
   "skill_used": "fabrication",
   "difficulty": 5,
   "time": 500000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "qualities": [
@@ -157,7 +153,6 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 550000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "qualities": [
@@ -190,7 +185,6 @@
   "skill_used": "fabrication",
   "difficulty": 5,
   "time": 45000,
-  "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_armwest", 4], ["recipe_melee", 4]],
   "qualities":[
@@ -215,7 +209,6 @@
   "difficulty": 4,
   "skills_required": [ "tailor", 3 ],
   "time": 28000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], ["textbook_armschina", 4]],
   "qualities" : [
@@ -247,7 +240,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 540000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities": [

@@ -7,7 +7,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 300000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities":[
@@ -41,7 +40,6 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 240000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armschina", 5 ]],
   "qualities": [
@@ -96,7 +94,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 240000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 4 ]],
   "qualities": [
@@ -130,7 +127,6 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 240000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 5 ]],
   "qualities": [
@@ -164,7 +160,6 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 300000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_weapwest", 4 ]],
   "qualities":[

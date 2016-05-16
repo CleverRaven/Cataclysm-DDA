@@ -7,7 +7,6 @@
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 200000,
-  "reversible": false,
   "autolearn": true,
   "qualities": [
     {"id":"CUT","level":1},
@@ -26,7 +25,6 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 400000,
-  "reversible": false,
   "autolearn": true,
   "qualities": [
     {"id":"CUT","level":1},
@@ -45,7 +43,6 @@
   "skill_used": "fabrication",
   "difficulty": 5,
   "time": 400000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
@@ -76,7 +73,6 @@
   "skill_used": "fabrication",
   "difficulty": 5,
   "time": 400000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
@@ -109,7 +105,6 @@
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 400000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 3 ]],
   "qualities": [
@@ -142,7 +137,6 @@
   "skill_used": "fabrication",
   "difficulty": 5,
   "time": 300000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
@@ -163,7 +157,6 @@
   "skill_used": "fabrication",
   "difficulty": 6,
   "time": 400000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
@@ -184,7 +177,6 @@
   "skill_used": "fabrication",
   "difficulty": 7,
   "time": 400000,
-  "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [

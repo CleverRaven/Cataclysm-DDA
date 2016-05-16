@@ -7,7 +7,6 @@
   "skill_used": "fabrication",
   "difficulty": 2,
   "time": 5000,
-  "reversible": false,
   "autolearn": true,
   "tools": [
     [ [ "tongs", -1 ] ],
