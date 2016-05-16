@@ -5688,7 +5688,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "meat_canned",
-		"target_charges":2
+		"target_charges":2,
         "container": "jar_glass"
     }
   },
