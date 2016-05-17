@@ -1595,14 +1595,11 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
     if( dam <= 0 ) {
         return;
     }
-
-    if( !target->is_npc() && !target->is_player() ) {
-        //Check if the creature isn't an NPC or the player (so the cast works)
-        const monster *mon = dynamic_cast<const monster *>( target );
-        if( mon->is_hallucination() || !mon->made_of( material_id( "flesh" ) ) ) {
-            // If it is a hallucination or not made of flesh don't splatter the blood.
-            return;
-        }
+    if( target->is_hallucination() ) {
+        return;
+    }
+    if( !target->made_of( material_id( "flesh" ) ) ) {
+        return;
     }
     field_id blood = fd_blood;
     if( target != NULL ) {
