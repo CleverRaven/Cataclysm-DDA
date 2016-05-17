@@ -77,7 +77,7 @@ class Creature
         /** Handles stat and bonus reset. */
         virtual void reset();
         /** Adds an appropriate blood splatter. */
-        virtual void bleed( const tripoint &where, int intensity = 1 ) const;
+        virtual void bleed() const;
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 

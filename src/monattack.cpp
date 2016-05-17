@@ -2289,7 +2289,7 @@ bool mattack::dogthing(monster *z)
 
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
         if( rng(0, 2) >= rl_dist( z->pos(), dest ) ) {
-            z->bleed( dest, 2 );
+            g->m.add_splatter( z->bloodType(), dest, 2 );
         }
     }
 

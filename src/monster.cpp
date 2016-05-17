@@ -1536,17 +1536,19 @@ void monster::explode()
         return; // Only create chunks if we know what kind to make.
     }
     const int num_chunks = type->get_meat_chunks_count();
+    const field_id type_blood = bloodType();
+    const field_id type_gib = gibType();
 
     for( int i = 0; i < num_chunks; i++ ) {
         tripoint tarp( pos() + tripoint( rng( -3, 3 ), rng( -3, 3 ), 0 ) );
-        std::vector<tripoint> traj = line_to( pos(), tarp, 0, 0 );
+        const auto traj = line_to( pos(), tarp );
 
         for( size_t j = 0; j < traj.size(); j++ ) {
             tarp = traj[j];
-            if( one_in( 2 ) ) {
-                bleed( tarp );
-            } else if( gibType() != fd_null ) {
-                g->m.add_field( tarp, gibType(), rng( 1, j + 1 ), 0 );
+            if( one_in( 2 ) && type_blood != fd_null ) {
+                g->m.add_splatter( type_blood, tarp );
+            } else {
+                g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
             }
             if( g->m.impassable( tarp ) ) {
                 if( !g->m.bash( tarp, 3 ).success ) {

@@ -5645,6 +5645,37 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
     }
 }
 
+void map::add_splatter( const field_id type, const tripoint &where, int intensity )
+{
+    if( intensity > 0 ) {
+        adjust_field_strength( where, type, intensity );
+    }
+}
+
+void map::add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to )
+{
+    if( type == fd_null ) {
+        return;
+    }
+    const auto trail = line_to( from, to );
+    int remainder = trail.size();
+    for( const auto &elem : trail ) {
+        add_splatter( type, elem );
+        remainder--;
+        if( impassable( elem ) ) { // Blood splatters stop at walls.
+            add_splatter( type, elem, remainder );
+            return;
+        }
+    }
+}
+
+void map::add_splatter_trail( const field_id type, const std::vector<tripoint> &trajectory, int length )
+{
+    if( length > 0 && !trajectory.empty() ) {
+        add_splatter_trail( type, trajectory.back(), shift_line_end( trajectory, length - 1 ) );
+    }
+}
+
 computer* map::computer_at( const tripoint &p )
 {
     if( !inbounds( p ) ) {

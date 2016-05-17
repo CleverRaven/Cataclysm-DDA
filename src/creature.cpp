@@ -104,15 +104,9 @@ void Creature::reset()
     reset_stats();
 }
 
-void Creature::bleed( const tripoint &where, int intensity ) const
+void Creature::bleed() const
 {
-    if( intensity <= 0 ) {
-        return;
-    }
-    if( bloodType() == fd_null ) {
-        return;
-    }
-    g->m.adjust_field_strength( where, bloodType(), intensity );
+    g->m.add_splatter( bloodType(), pos() );
 }
 
 void Creature::reset_bonuses()

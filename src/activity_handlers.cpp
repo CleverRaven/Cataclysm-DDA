@@ -1054,32 +1054,14 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 }
             }
 
-            // Splatter some blood around
-            tripoint tmp = pos;
-            field_id type_blood = corpse.get_mtype()->bloodType();
-            if( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) {
-                // Make gore instead of blood this time
-                type_blood = corpse.get_mtype()->gibType();
-            }
-            if( type_blood != fd_null && x_in_y( pulp_power, corpse.volume() ) ) {
+            if( x_in_y( pulp_power, corpse.volume() ) ) { // Splatter some blood around
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
-                const auto blood_line = line_to( pos, dest );
-                int line_len = blood_line.size();
-                for( const auto &elem : blood_line ) {
-                    g->m.adjust_field_strength( elem, type_blood, 1 );
-                    line_len--;
-                    if( g->m.impassable( elem ) ) {
-                        // Blood splatters stop at walls.
-                        if( line_len > 0 ) {
-                            // But splatter the rest of the blood at the wall
-                            g->m.adjust_field_strength( elem, type_blood, line_len );
-                        }
-
-                        break;
-                    }
-                }
+                const field_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
+                                            corpse.get_mtype()->gibType() :
+                                            corpse.get_mtype()->bloodType();
+                g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
             float stamina_ratio = (float)p->stamina / p->get_stamina_max();

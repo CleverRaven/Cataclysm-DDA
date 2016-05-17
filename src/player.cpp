@@ -6447,7 +6447,7 @@ void player::hardcoded_effects(effect &it)
                                            _("<npcname> loses some blood.") );
             mod_pain(1);
             apply_damage( nullptr, bp, 1 );
-            bleed( pos() );
+            bleed();
         }
     } else if( id == effect_hallu ) {
         // TODO: Redo this to allow for variable durations

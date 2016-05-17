@@ -1732,7 +1732,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         for( tmp.x = tarpos.x - 1; tmp.x <= tarpos.x + 1; tmp.x++ ) {
             for( tmp.y = tarpos.y - 1; tmp.y <= tarpos.y + 1; tmp.y++ ) {
                 if( !one_in(3) ) {
-                    t.bleed( tmp );
+                    g->m.add_splatter( t.bloodType(), tmp );
                 }
             }
         }
