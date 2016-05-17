@@ -1,5 +1,4 @@
 [
-
 {
     "id": "spess_chunk",
     "type": "TOOL",
@@ -144,7 +143,7 @@
                 "duration": 5
             }
         ]
-    }  
+    }
     },{
     "type" : "TOOL_ARMOR",
     "id" : "berserker_drug",
@@ -169,7 +168,7 @@
     "turns_per_charge": 0,
     "use_action" : {
     "type" : "transform",
-    "move_cost" : 250,     
+    "move_cost" : 250,
     "target": "berserker_drug_act",
     "target_charges": 7,
     "active": true
@@ -204,7 +203,7 @@
         {
             "id": "doom_stimpack",
             "duration": 40
-        }    
+        }
     ]}
     },{
     "type" : "COMESTIBLE",
@@ -238,5 +237,4 @@
         }
     ]}
     }
-
 ]

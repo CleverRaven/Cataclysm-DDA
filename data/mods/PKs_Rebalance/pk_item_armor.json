@@ -1,5 +1,4 @@
 [
-
 {
         "type" : "ARMOR",
         "id" : "megaarmor_torso_1",
@@ -134,5 +133,4 @@
         "coverage" : 90,
         "material_thickness" : 2
     }
-    
 ]

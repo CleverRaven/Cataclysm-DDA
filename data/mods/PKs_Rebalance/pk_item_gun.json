@@ -1,5 +1,4 @@
 [
-
     {
     "id": "hell_ball",
     "type": "GUN",
@@ -132,5 +131,4 @@
     "burst": 2,
     "reload": 400
     }
-
 ]

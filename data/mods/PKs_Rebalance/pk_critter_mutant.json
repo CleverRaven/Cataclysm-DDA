@@ -1,5 +1,4 @@
 [
-
     {
     "type" : "MONSTER",
     "id" :"mon_sewer_fish",
@@ -101,5 +100,4 @@
                  "ATTACKMON", "LEATHER", "BONES", "POISON", "BONES", "FAT"],
         "//" : "zombie tank will beat this guy with about 20% health.  Most because its faster and this guy cant smash as often as him.  And oc the tank has more armor."
     }
-
 ]

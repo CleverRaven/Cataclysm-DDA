@@ -1,5 +1,4 @@
 [
-
     {
     "type" : "MONSTER",
     "id" : "mon_bear",
@@ -181,5 +180,4 @@
     "fear_triggers": ["FIRE", "HURT"],
     "categories":["WILDLIFE"]
     }
-    
 ]

@@ -1,5 +1,4 @@
 [
-    
     {
     "type" : "MONSTER",
     "id" : "mon_creeper_hub",
@@ -330,7 +329,7 @@
         "groups": [
             [ "fungal_sting", 15 ]
         ]
-    },  
+    },
     "special_attacks":[["PARA_STING", 15]],
     "description":"A creeping animate plant, growing as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  This one looks tough.",
     "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD", "PARALYZEVENOM"],
@@ -558,5 +557,4 @@
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
     "//": "And these guys give them some means of taking down elctronics."
     }
-    
 ]

@@ -1,5 +1,4 @@
 [
-
     {
     "id" : "flaming_skull",
     "type" : "AMMO",
@@ -156,5 +155,4 @@
         "count" : 1,
         "effects" : ["NAPALM", "PLASMA", "WIDE", "FLAME", "TRAIL", "SMOKE", "NEVER_MISFIRES"]
     }
-
 ]

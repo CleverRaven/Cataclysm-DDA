@@ -1,5 +1,4 @@
 [
-
 {
     "type" : "MONSTER",
     "id" : "mon_imp",
@@ -766,5 +765,4 @@
     "description":"A massive face cross-sectioned with large machinery; various tubes of bubbling liquid bury themselves and reemerge from pustulating wounds. Its forehead has been removed, exposing a pulsating brain mass from which sound eminates.",
     "flags":["SEES", "WARM", "POISON", "NO_BREATHE", "IMMOBILE", "ELECTRIC"]
     }
-
 ]

@@ -1,5 +1,4 @@
 [
-
     {
         "type" : "overmap_terrain",
         "id" : "hell_castle_NW",
@@ -82,5 +81,4 @@
         "extras" : "field",
         "mondensity" : 5
     }
-    
 ]
