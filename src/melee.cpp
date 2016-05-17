@@ -1727,15 +1727,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
     if (d.total_damage() > 10 && weapon.has_flag("MESSY") ) { //Check if you do non minor damage
         cutting_penalty /= 6; // Harder to get stuck
-        tripoint tmp;
-        tmp.z = tarpos.z;
-        for( tmp.x = tarpos.x - 1; tmp.x <= tarpos.x + 1; tmp.x++ ) {
-            for( tmp.y = tarpos.y - 1; tmp.y <= tarpos.y + 1; tmp.y++ ) {
-                if( !one_in(3) ) {
-                    g->m.add_splatter( t.bloodType(), tmp );
-                }
-            }
-        }
+        g->m.add_splash( t.bloodType(), tarpos, 1, 3 );
     }
     // Getting your weapon stuck
     ///\EFFECT_STR decreases chance of getting weapon stuck

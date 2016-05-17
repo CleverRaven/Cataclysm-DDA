@@ -2287,11 +2287,7 @@ bool mattack::dogthing(monster *z)
     add_msg(_("The %s's head explodes in a mass of roiling tentacles!"),
             z->name().c_str());
 
-    for( const tripoint &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
-        if( rng(0, 2) >= rl_dist( z->pos(), dest ) ) {
-            g->m.add_splatter( z->bloodType(), dest, 2 );
-        }
-    }
+    g->m.add_splash( z->bloodType(), z->pos(), 2, 3 );
 
     z->friendly = 0;
     z->poly( mon_headless_dog_thing );
