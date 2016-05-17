@@ -2276,6 +2276,10 @@ bool mattack::dance(monster *z)
 
 bool mattack::dogthing(monster *z)
 {
+    if( z == nullptr ) {
+        return false; // TODO: replace pointers with references
+    }
+
     if (!one_in(3) || !g->u.sees(*z)) {
         return false;
     }
@@ -2285,7 +2289,7 @@ bool mattack::dogthing(monster *z)
 
     for( const tripoint &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
         if( rng(0, 2) >= rl_dist( z->pos(), dest ) ) {
-            g->m.add_field( dest, fd_blood, 2, 0 );
+            z->bleed( dest, 2 );
         }
     }
 
