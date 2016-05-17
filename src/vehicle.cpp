@@ -4780,8 +4780,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                          name.c_str(), parts[ ret.part ].name().c_str(), ret.target_name.c_str());
             }
         }
-
-        if( part_flag( ret.part, "SHARP" ) ) {
+        monster *mon = dynamic_cast<monster *>(critter); // to blood check
+        if( part_flag( ret.part, "SHARP" ) && mon->made_of( material_id( "flesh" ) ) ) { //bleed only on flesh monster
             g->m.adjust_field_strength( p, fd_blood, 1 );
         } else {
             sounds::sound( p, 20, snd );
