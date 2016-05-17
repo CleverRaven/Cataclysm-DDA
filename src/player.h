@@ -1263,8 +1263,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_stamina_max() const;
         void burn_move_stamina( int moves );
 
-        field_id playerBloodType() const;
-
         //message related stuff
         virtual void add_msg_if_player(const char *msg, ...) const override;
         virtual void add_msg_if_player(game_message_type type, const char *msg, ...) const override;

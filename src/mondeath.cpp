@@ -61,16 +61,9 @@ void mdeath::normal(monster *z)
     bool leaveCorpse = !z->no_corpse_quiet;
 
     // leave some blood if we have to
-    field_id type_blood = z->bloodType();
-    if (type_blood != fd_null) {
-        g->m.add_field( z->pos(), type_blood, 1, 0 );
-    }
+    z->bleed( z->pos() );
 
-    int maxHP = z->get_hp_max();
-    if (!maxHP) {
-        maxHP = 1;
-    }
-
+    int maxHP = std::max( z->get_hp_max(), 1 );
     float overflowDamage = std::max( -z->get_hp(), 0 );
     float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
 
@@ -702,8 +695,6 @@ void make_gibs(monster *z, int amount)
         return;
     }
 
-    field_id type_blood = z->bloodType();
-
     const auto random_pt = []( const tripoint &p ) {
         return tripoint( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
     };
@@ -719,11 +710,9 @@ void make_gibs(monster *z, int amount)
             }
         }
         pt = random_pt( z->pos() );
-        if( type_blood != fd_null ) {
-            if( g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
-                // Only place blood if there's a clear path for it to get there.
-                g->m.add_field( pt, type_blood, 1, 0 );
-            }
+        if( g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
+            // Only place blood if there's a clear path for it to get there.
+            z->bleed( pt );
         }
     }
 }

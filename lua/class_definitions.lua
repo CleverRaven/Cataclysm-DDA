@@ -719,7 +719,6 @@ classes = {
             { name = "pick_technique", rval = "matec_id", args = { "Creature", "bool", "bool", "bool" } },
             { name = "pick_usb", rval = "item&", args = { } },
             { name = "place_corpse", rval = nil, args = { } },
-            { name = "playerBloodType", rval = "field_id", args = { } },
             { name = "pos", rval = "tripoint", args = { } },
             { name = "posx", rval = "int", args = { } },
             { name = "posy", rval = "int", args = { } },

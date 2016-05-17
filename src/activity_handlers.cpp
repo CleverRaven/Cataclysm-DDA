@@ -192,7 +192,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     g->m.i_rem( p->pos(), act->index );
 
     const int factor = p->max_quality( quality_id( "BUTCHER" ) );
-    int pieces = 0;
+    int pieces = corpse->get_meat_chunks_count();
     int skins = 0;
     int bones = 0;
     int fats = 0;
@@ -204,7 +204,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     int max_practice = 4;
     switch( corpse->size ) {
         case MS_TINY:
-            pieces = 1;
             skins = 1;
             bones = 1;
             fats = 1;
@@ -213,7 +212,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             wool = 1;
             break;
         case MS_SMALL:
-            pieces = 2;
             skins = 2;
             bones = 4;
             fats = 2;
@@ -222,7 +220,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             wool = 2;
             break;
         case MS_MEDIUM:
-            pieces = 4;
             skins = 4;
             bones = 9;
             fats = 4;
@@ -231,7 +228,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             wool = 4;
             break;
         case MS_LARGE:
-            pieces = 8;
             skins = 8;
             bones = 14;
             fats = 8;
@@ -241,7 +237,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             max_practice = 5;
             break;
         case MS_HUGE:
-            pieces = 16;
             skins = 16;
             bones = 21;
             fats = 16;
