@@ -1601,14 +1601,10 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
     } else if( dam > 20 ) {
         distance = 2;
     }
-
-    std::vector<tripoint> spurt = continue_line( trajectory, distance );
-
-    for( auto &elem : spurt ) {
+    for( auto &elem : continue_line( trajectory, distance ) ) {
         target.bleed( elem );
         if( g->m.impassable( elem ) ) {
-            // Blood splatters stop at walls.
-            break;
+            break; // Blood splatters stop at walls.
         }
     }
 }
