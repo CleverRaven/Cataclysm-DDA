@@ -45,7 +45,7 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
 
-void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target = nullptr );
+void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature &target );
 
 struct aim_type {
     std::string name;
@@ -283,7 +283,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                splatter( blood_traj, dealt_dam.total_damage(), critter );
+                splatter( blood_traj, dealt_dam.total_damage(), *critter );
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
             } else {
@@ -1590,7 +1590,7 @@ int recoil_add( player& p, const item &gun, int shot )
     return p.recoil += std::max( qty, 0 );
 }
 
-void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target )
+void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature &target )
 {
     if( dam <= 0 ) {
         return;
@@ -1605,7 +1605,7 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
     std::vector<tripoint> spurt = continue_line( trajectory, distance );
 
     for( auto &elem : spurt ) {
-        target->bleed( elem );
+        target.bleed( elem );
         if( g->m.impassable( elem ) ) {
             // Blood splatters stop at walls.
             break;
