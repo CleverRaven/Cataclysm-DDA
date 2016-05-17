@@ -4,6 +4,7 @@
 #include "translations.h"
 #include "posix_time.h"
 
+#include <cstdlib>  // Needed for rand()
 #include <iostream>
 
 #define EMPTY -1
