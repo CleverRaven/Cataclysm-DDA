@@ -753,10 +753,15 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
             if( idx >= 0 && idx < (int)here.size()) {
                 if( getitem[idx] ) {
-                    if( getitem[idx].count != 0 && getitem[idx].count < here[idx].charges ) {
+                    if( getitem[idx].count != 0) {
                         item temp = here[idx];
                         temp.charges = getitem[idx].count;
                         new_weight -= temp.weight();
+                        if(g->u.amount_of(here[idx].typeId()) != 0)
+                        {
+                            temp.charges += g->u.inv.charges_of(here[idx].typeId());
+                            new_volume += g->u.inv.item_by_type(here[idx].typeId()).volume();
+                        }
                         new_volume -= temp.volume();
                     } else {
                         new_weight -= here[idx].weight();
@@ -781,11 +786,14 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
 
                 if (getitem[idx]) {
-                    if (getitem[idx].count != 0 &&
-                        getitem[idx].count < here[idx].charges) {
+                    if (getitem[idx].count != 0) {
                         item temp = here[idx];
                         temp.charges = getitem[idx].count;
                         new_weight += temp.weight();
+                        if(g->u.amount_of(here[idx].typeId()) != 0) {
+                            temp.charges += g->u.inv.charges_of(here[idx].typeId());
+                            new_volume -= g->u.inv.item_by_type(here[idx].typeId()).volume();
+                        }
                         new_volume += temp.volume();
                     } else {
                         new_weight += here[idx].weight();
