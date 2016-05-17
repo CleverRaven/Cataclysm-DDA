@@ -112,9 +112,6 @@ void Creature::bleed( const tripoint &where, int intensity ) const
     if( is_hallucination() ) {
         return; // @todo There probably should be illusionary fields
     }
-    if( !made_of( material_id( "flesh" ) ) ) {
-        return; // Dunno if this check should be made
-    }
     if( bloodType() == fd_null ) {
         return;
     }
