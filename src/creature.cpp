@@ -109,9 +109,6 @@ void Creature::bleed( const tripoint &where, int intensity ) const
     if( intensity <= 0 ) {
         return;
     }
-    if( is_hallucination() ) {
-        return; // @todo There probably should be illusionary fields
-    }
     if( bloodType() == fd_null ) {
         return;
     }
