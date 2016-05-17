@@ -106,7 +106,7 @@
         "name" : "spider laser",
         "symbol" : "|",
         "color" : "magenta",
-        "description" : "a spider laser.  Go on, pick it up.  No need for gloves.",
+        "description" : "A spider laser.  Go on, pick it up.  No need for gloves.",
         "material" : "plastic",
         "volume" : 1,
         "weight" : 68,
