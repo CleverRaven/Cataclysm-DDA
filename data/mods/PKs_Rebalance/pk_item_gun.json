@@ -60,7 +60,7 @@
     "symbol": "V",
     "color": "ltgray",
     "name": "Cyber-rocket launcher",
-    "description": "A large barrel with several inexplicible wires and blinking lights protuding at regular intevals.",
+    "description": "A large barrel with several inexplicable wires and blinking lights protruding at regular intervals.",
     "price": 2000000,
     "material": "steel",
     "flags": ["NO_UNLOAD", "BACKBLAST", "NEVER_JAMS"],
