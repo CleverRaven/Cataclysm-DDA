@@ -380,7 +380,7 @@
         "description":"A massive slab of bark with faintly glowing flattened blue tendrils and large brown cones instead of leaves.  It looks 'sort' of like a tree in that the tendrils are thickest at the base of the monster and taper into thin, densely packed slivers at the top.  Its actually almost beautiful at night, where it can be seen from a distance pulsating among the tallest tree.",
         "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "VENOM", "PARALYZEVENOM", "DESTROYS", "ATTACKMON", "PUSH_MON", "NOHEAD"],
         "anger_triggers":["FIRE", "HURT", "PLAYER_CLOSE", "FRIEND_DIED"],
-        "//": "Intentional keep weaker than they could be.  Numbers, and perhaps an evo if its called for."
+        "//": "Intentionally keep weaker than they could be.  Numbers, and perhaps an evo if its called for."
     },{
         "type" : "MONSTER",
         "id" : "mon_treent_green",
