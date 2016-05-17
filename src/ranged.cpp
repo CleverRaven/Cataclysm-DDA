@@ -1595,20 +1595,6 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
     if( dam <= 0 ) {
         return;
     }
-    if( target->is_hallucination() ) {
-        return;
-    }
-    if( !target->made_of( material_id( "flesh" ) ) ) {
-        return;
-    }
-    field_id blood = fd_blood;
-    if( target != NULL ) {
-        blood = target->bloodType();
-    }
-    if (blood == fd_null) { //If there is no blood to splatter, return.
-        return;
-    }
-
     int distance = 1;
     if( dam > 50 ) {
         distance = 3;
@@ -1619,7 +1605,7 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
     std::vector<tripoint> spurt = continue_line( trajectory, distance );
 
     for( auto &elem : spurt ) {
-        g->m.adjust_field_strength( elem, blood, 1 );
+        target->bleed( elem );
         if( g->m.impassable( elem ) ) {
             // Blood splatters stop at walls.
             break;

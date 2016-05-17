@@ -1,6 +1,7 @@
 #include "item.h"
 #include "creature.h"
 #include "output.h"
+#include "field.h"
 #include "game.h"
 #include "map.h"
 #include "messages.h"
@@ -102,6 +103,21 @@ void Creature::reset()
     reset_bonuses();
     reset_stats();
 }
+
+void Creature::bleed( const tripoint &where, int intensity ) const
+{
+    if( is_hallucination() ) {
+        return; // @todo There probably should be illusionary fields
+    }
+    if( !made_of( material_id( "flesh" ) ) ) {
+        return;
+    }
+    if( bloodType() == fd_null ) {
+        return;
+    }
+    g->m.adjust_field_strength( where, bloodType(), intensity );
+}
+
 void Creature::reset_bonuses()
 {
     num_blocks = 1;
