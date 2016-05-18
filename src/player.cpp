@@ -5231,6 +5231,38 @@ void player::update_body( int from, int to )
     }
 }
 
+void player::update_vitamins( const vitamin_id& vit )
+{
+    if( is_npc() ) {
+        return; // NPCs cannot develop vitamin diseases
+    }
+
+    efftype_id def = vit.obj().deficiency();
+    efftype_id exc = vit.obj().excess();
+
+    int lvl = vit.obj().severity( vitamin_get( vit ) );
+    if( lvl <= 0 ) {
+        remove_effect( def );
+    }
+    if( lvl >= 0 ) {
+        remove_effect( exc );
+    }
+    if( lvl > 0 ) {
+        if( has_effect( def, num_bp ) ) {
+            get_effect( def, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( def, 1, num_bp, true, lvl );
+        }
+    }
+    if( lvl < 0 ) {
+        if( has_effect( exc, num_bp ) ) {
+            get_effect( exc, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( exc, 1, num_bp, true, lvl );
+        }
+    }
+}
+
 void player::get_sick()
 {
     // NPCs are too dumb to handle infections now

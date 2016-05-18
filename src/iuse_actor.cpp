@@ -361,8 +361,25 @@ void consume_drug_iuse::load( JsonObject &obj )
 
 void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
 {
+    std::string vits;
+    for( const auto &v : vitamins ) {
+        // only display vitamins that we actually require
+        int rate = g->u.vitamin_rate( v.first );
+        if( rate > 0 ) {
+            if( !vits.empty() ) {
+                vits += ", ";
+            }
+            int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
+            int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
+            vits += string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
+        }
+    }
+    if( !vits.empty() ) {
+        dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits.c_str() );
+    }
+
     if( tools_needed.count( "syringe" ) ) {
-        dump.emplace_back( "TOOL", _( "You need a syringe to inject this drug" ) );
+        dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug" ) );
     }
 }
 
@@ -413,11 +430,12 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
 
     // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto& v : vitamins ) {
-        p->vitamin_mod( v.first, rng( v.second.first ,v.second.second ), false );
+        // players with mutations that remove the requirement for a vitamin cannot suffer accmulation of it
+        p->vitamin_mod( v.first, rng( v.second.first, v.second.second ), p->vitamin_rate( v.first ) > 0 ? false : true );
     }
 
     // Output message.
-    p->add_msg_if_player( _(activation_message.c_str()) );
+    p->add_msg_if_player( string_format( _( activation_message.c_str() ), it->type_name( 1 ).c_str() ).c_str() );
     // Consume charges.
     for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
          ++consumable ) {
