@@ -15,7 +15,6 @@
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
     [
-      [ "chemistry_set", 50 ],
       [ "hotplate", 50 ],
       [ "toolset", 50 ]
     ]
