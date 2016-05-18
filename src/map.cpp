@@ -5640,9 +5640,20 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
 
 void map::add_splatter( const field_id type, const tripoint &where, int intensity )
 {
-    if( intensity > 0 ) {
-        adjust_field_strength( where, type, intensity );
+    if( intensity <= 0 ) {
+        return;
     }
+    if( type == fd_blood || type == fd_gibs_flesh ) { // giblets are also good for painting
+        int anchor_part = -1;
+        vehicle* veh = veh_at( where, anchor_part );
+        if( veh != nullptr ) {
+            const int part = veh->part_displayed_at( veh->parts[anchor_part].mount.x,
+                                                     veh->parts[anchor_part].mount.y );
+            veh->parts[part].blood += 200 * std::min( intensity, 3 ) / 3;
+            return;
+        }
+    }
+    adjust_field_strength( where, type, intensity );
 }
 
 void map::add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to )
