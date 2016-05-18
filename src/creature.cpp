@@ -1,7 +1,6 @@
 #include "item.h"
 #include "creature.h"
 #include "output.h"
-#include "field.h"
 #include "game.h"
 #include "map.h"
 #include "messages.h"
