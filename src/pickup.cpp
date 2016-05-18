@@ -15,6 +15,7 @@
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "inventory.h"
 
 #include <map>
 #include <vector>
@@ -752,28 +753,22 @@ void Pickup::pick_up( const tripoint &pos, int min )
             }
 
             if( idx >= 0 && idx < (int)here.size()) {
+                // an item was deselected- adjust weight and volume appropriately.
                 if( getitem[idx] ) {
-                    if( getitem[idx].count != 0) {
-                        item temp = here[idx];
-                        temp.charges = getitem[idx].count;
-                        new_weight -= temp.weight();
-                        if(g->u.amount_of(here[idx].typeId()) != 0)
-                        {
-                            temp.charges += g->u.inv.charges_of(here[idx].typeId());
-                            new_volume += g->u.inv.item_by_type(here[idx].typeId()).volume();
-                        }
-                        new_volume -= temp.volume();
+                    if( here[idx].count_by_charges() ) {
+                        adjust_weight_and_volume(here[idx], new_weight, new_volume, getitem[idx].count, 0);
                     } else {
-                        new_weight -= here[idx].weight();
-                        new_volume -= here[idx].volume();
+                        adjust_weight_and_volume(here[idx], new_weight, new_volume, 1, 0);
                     }
                 }
+                //if needed, set getitem[idx].count and reset itemcount
                 if (itemcount != 0 || getitem[idx].count == 0) {
-                    if (itemcount >= here[idx].charges || !here[idx].count_by_charges()) {
-                        // Ignore the count if we pickup the whole stack anyway
-                        // or something that is not counted by charges (tools)
+                    if(itemcount > here[idx].charges) itemcount = here[idx].charges;
+                    if (!here[idx].count_by_charges()) {
+                        // Ignore the count if we pickup something that is not counted by charges (tools)
                         itemcount = 0;
                     }
+                    else if(itemcount == 0) itemcount = here[idx].charges;
                     getitem[idx].count = itemcount;
                     itemcount = 0;
                 }
@@ -786,18 +781,10 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
 
                 if (getitem[idx]) {
-                    if (getitem[idx].count != 0) {
-                        item temp = here[idx];
-                        temp.charges = getitem[idx].count;
-                        new_weight += temp.weight();
-                        if(g->u.amount_of(here[idx].typeId()) != 0) {
-                            temp.charges += g->u.inv.charges_of(here[idx].typeId());
-                            new_volume -= g->u.inv.item_by_type(here[idx].typeId()).volume();
-                        }
-                        new_volume += temp.volume();
+                    if (here[idx].count_by_charges()) {
+                        adjust_weight_and_volume(here[idx],new_weight,new_volume,0,getitem[idx].count);
                     } else {
-                        new_weight += here[idx].weight();
-                        new_volume += here[idx].volume();
+                        adjust_weight_and_volume(here[idx],new_weight,new_volume,0,1);
                     }
                 } else {
                     getitem[idx].count = 0;
@@ -820,11 +807,23 @@ void Pickup::pick_up( const tripoint &pos, int min )
             if (action == "SELECT_ALL") {
                 int count = 0;
                 for (size_t i = 0; i < here.size(); i++) {
-                    if (getitem[i]) {
+                    if (getitem[i] && !here[i].count_by_charges()) {
                         count++;
-                    } else {
-                        new_weight += here[i].weight();
-                        new_volume += here[i].volume();
+                    }
+                    else if(getitem[i] && getitem[i].count == here[i].charges) {
+                        count++;
+                    }
+                    //the item was chosen, but not all charges were selected
+                    else if(getitem[i]) {
+                        adjust_weight_and_volume(here[i], new_weight, new_volume, getitem[i].count, here[i].charges);
+                        getitem[i].count = here[i].charges;
+                    }
+                    else if(here[i].count_by_charges()) {
+                        adjust_weight_and_volume(here[i], new_weight, new_volume, 0, here[i].charges);
+                        getitem[i].count = here[i].charges;
+                    }
+                    else {
+                        adjust_weight_and_volume(here[i], new_weight, new_volume, 0, 1);
                     }
                     getitem[i].pick = true;
                 }
@@ -860,7 +859,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         mvwputch(w_pickup, 1 + (cur_it % maxitems), 0, icolor, ' ');
                     }
                     if (getitem[cur_it]) {
-                        if (getitem[cur_it].count == 0) {
+                        if (getitem[cur_it].count == 0 || (here[cur_it].count_by_charges() &&
+                            getitem[cur_it].count == here[cur_it].charges) ) {
                             wprintz(w_pickup, c_ltblue, " + ");
                         } else {
                             wprintz(w_pickup, c_ltblue, " # ");
@@ -990,5 +990,55 @@ void Pickup::show_pickup_message( const PickupMap &mapPickup )
                 add_msg(_("You pick up: %d %s"), entry.second.second,
                         entry.second.first.display_name(entry.second.second).c_str());
             }
+    }
+}
+
+void Pickup::adjust_weight_and_volume( const item &it, int &weight, int &volume, int old_amt,
+                                       int new_amt )
+{
+    //debug message if old_amt or new_amt are negative
+    if( old_amt < 0 ) {
+        debugmsg( "Called Pickup::adjust_weight_and_volume with a negative old_amt" );
+        return;
+    }
+    if( new_amt < 0 ) {
+        debugmsg( "Called Pickup::adjust_weight_and_volume with a negative new_amt" );
+        return;
+    }
+
+    auto items_in_inventory = g->u.inv.items_with( [it]( const item & i ) {
+        return i.stacks_with( it );
+    } );
+    if( !it.count_by_charges() && new_amt > old_amt ) {
+        weight += it.weight();
+        volume += it.volume();
+    } else if( !it.count_by_charges() && new_amt < old_amt ) {
+        weight -= it.weight();
+        volume -= it.volume();
+    } else if( it.count_by_charges() && items_in_inventory.size() == 0 ) {
+        item temp = it;
+        //subtract weight & volume of old_amt items.
+        if( old_amt > 0 ) {
+            temp.charges = old_amt;
+            weight -= temp.weight();
+            volume -= temp.volume();
+        }
+        //add weight & volume of new_amt items
+        if( new_amt != 0 ) {
+            temp.charges = new_amt;
+            weight += temp.weight();
+            volume += temp.volume();
+        }
+    } else if( it.count_by_charges() ) {
+        item temp = it;
+        //subtract weight & volume of (old_amt + # in inventory) items
+        temp.charges = old_amt + items_in_inventory[0]->charges;
+        weight -= temp.weight();
+        volume -= temp.volume();
+
+        //add weight & volume of (new_amt + # in inventory) items
+        temp.charges = items_in_inventory[0]->charges + new_amt;
+        weight += temp.weight();
+        volume += temp.volume();
     }
 }
