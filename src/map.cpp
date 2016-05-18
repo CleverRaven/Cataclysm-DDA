@@ -5575,15 +5575,17 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
         return false;
     }
 
-    if( density > 3) {
-        density = 3;
-    }
-
+    density = std::min( density, MAX_FIELD_DENSITY );
     if( density <= 0) {
         return false;
     }
 
     int lx, ly;
+
+    if( t == fd_null ) {
+        return false;
+    }
+
     submap *const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
 
