@@ -8917,7 +8917,7 @@
         "symbol" : "%",
         "quench" : 0,
         "healthy" : -1,
-        "nutrition" : 30,
+        "nutrition" : 40,
         "description" : "Low-sodium preserved human meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
         "price" : 0,
         "material" : "hflesh",
