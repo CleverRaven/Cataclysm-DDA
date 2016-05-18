@@ -1551,7 +1551,8 @@ void monster::explode()
                 g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
             }
             if( g->m.impassable( tarp ) ) {
-                if( !g->m.bash( tarp, 3 ).success ) {
+                g->m.bash( tarp, 3 );
+                if( g->m.impassable( tarp ) ) {
                     // Target is obstacle, not destroyed by bashing,
                     // stop trajectory in front of it, if this is the first
                     // point (e.g. wall adjacent to monster) , make it invalid.
