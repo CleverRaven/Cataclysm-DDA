@@ -277,7 +277,8 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_child_scorched",
-    "name": "burned child zombie",
+    "name": "zombie kindling",
+    "name_plural": "zombie kinderling",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"z",
