@@ -12494,78 +12494,6 @@
     ]
 },{
   "type" : "recipe",
-  "result": "seed_thyme",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "thyme", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_garlic",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "garlic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_dogbane",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "dogbane", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_bee_balm",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "bee_balm", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "bee_balm_tea",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -12598,24 +12526,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "seed_mugwort",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "mugwort", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "mugwort_oil",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -12640,42 +12550,6 @@
   "components": [
     [ [ "cooking_oil", 2 ] ],
     [ [ "mugwort", 2 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_rhubarb",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "rhubarb", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_buckwheat",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "buckwheat", 1 ]
-    ]
   ]
 },{
   "type" : "recipe",
