@@ -10389,17 +10389,7 @@ void game::drop(int pos)
     if (pos == INT_MIN) {
         make_drop_activity( ACT_DROP, multidrop(), u.pos() );
     } else {
-        std::vector<item> dropped;
-        std::vector<item> dropped_worn;
-        if (pos <= -2) {
-            if (!u.takeoff(pos, false, &dropped_worn)) {
-                return;
-            }
-            u.moves -= 250; // same as game::takeoff
-        } else {
-            dropped.push_back(u.i_rem(pos));
-        }
-        drop( dropped, dropped_worn, 0, u.pos() );
+        make_drop_activity( ACT_DROP, { std::make_pair( pos, 1 ) }, u.pos() );
     }
 }
 
