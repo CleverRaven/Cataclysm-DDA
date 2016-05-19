@@ -345,8 +345,6 @@ static void move_items( const tripoint &src, bool from_vehicle,
         assert( d_cargo >= 0 );
     }
 
-    std::vector<item> dropped_items;
-
     while( g->u.moves > 0 && !indices.empty() ) {
         int index = indices.back();
         int quantity = quantities.back();
@@ -390,20 +388,15 @@ static void move_items( const tripoint &src, bool from_vehicle,
                 g->u.moves -= int( overweight / 100 );
             }
 
-            // Drop it first since we're going to delete the original.
-            dropped_items.push_back( *temp_item );
             // I changed this to use a tripoint as an argument, but the function is not 3D yet.
-            g->drop( dropped_items, destination, to_vehicle );
-            g->u.mod_moves( -100 * dropped_items.size() );
-
+            g->drop( { *temp_item }, destination, to_vehicle );
             // Remove from map or vehicle.
             if( from_vehicle == true ) {
                 s_veh->remove_item( s_cargo, index );
             } else {
                 g->m.i_rem( source, index );
             }
-            g->u.moves -= 100;
-
+            g->u.mod_moves( -200 ); // I kept the logic. -100 from 'drop' and -100 was here.
         }
 
         // If we didn't pick up a whole stack, put the remainder back where it came from.
@@ -416,8 +409,6 @@ static void move_items( const tripoint &src, bool from_vehicle,
                 g->m.add_item_or_charges( source, leftovers );
             }
         }
-
-        dropped_items.clear();
     }
 }
 
