@@ -1625,14 +1625,11 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     tripoint tarpos = t.pos();
 
     // Bonus attacks!
-    bool shock_them = (has_active_bionic("bio_shock") && power_level >= 2 &&
-                       (unarmed_attack() || weapon.made_of( material_id( "iron" ) ) ||
-                        weapon.made_of( material_id( "steel" ) ) || weapon.made_of( material_id( "silver" ) ) ||
-                        weapon.made_of( material_id( "gold" ) ) || weapon.made_of( material_id( "superalloy" ) )) && one_in(3));
+    bool shock_them = power_level >= 2 && has_active_bionic("bio_shock") &&
+                      (unarmed_attack() || weapon.conductive() );
 
-    bool drain_them = (has_active_bionic("bio_heat_absorb") && power_level >= 1 &&
-                       !is_armed() && t.is_warm());
-    drain_them &= one_in(2); // Only works half the time
+    bool drain_them = power_level >= 1 && has_active_bionic("bio_heat_absorb") &&
+                      !is_armed() && t.is_warm();
 
     bool burn_them = weapon.has_flag("FLAMING");
 
@@ -1715,8 +1712,10 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
 
     handle_melee_wear();
 
-    bool is_hallucination = false; //Check if the target is an hallucination.
-    if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
+    // Check if the target is an hallucination.
+    bool is_hallucination = false;
+    monster *m = dynamic_cast<monster *>(&t);
+    if( m != nullptr ) {
         is_hallucination = m->is_hallucination();
     }
 
@@ -1753,7 +1752,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     }
     // Getting your weapon stuck
     ///\EFFECT_STR decreases chance of getting weapon stuck
-    if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination) {
+    if( !unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination &&
+        !weapon.has_flag( "NO_UNWIELD" ) ) {
         dump << string_format(_("Your %1$s gets stuck in %2$s, pulling it out of your hands!"),
                               weapon.tname().c_str(), target.c_str());
         // TODO: better speed debuffs for target, possibly through effects
