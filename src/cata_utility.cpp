@@ -130,12 +130,6 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
     return id;
 }
 
-/* used by calculate_drop_cost */
-bool compare_items_by_lesser_volume( const item &a, const item &b )
-{
-    return a.volume() < b.volume();
-}
-
 // calculate the time (in player::moves) it takes to drop the
 // items in dropped and dropped_worn.
 // Items in dropped come from the main inventory (or the wielded weapon)
@@ -150,7 +144,10 @@ int calculate_drop_cost( std::vector<item> &dropped, const std::vector<item> &dr
                          int freed_volume_capacity )
 {
     // Prefer to put small items into the backpack
-    std::sort( dropped.begin(), dropped.end(), compare_items_by_lesser_volume );
+    std::sort( dropped.begin(), dropped.end(), []( const item &a, const item &b ) {
+        return a.volume() < b.volume();
+    } );
+
     int drop_item_cnt = dropped_worn.size();
     int total_volume_dropped = 0;
     for( auto &elem : dropped ) {
