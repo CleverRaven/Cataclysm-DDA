@@ -965,11 +965,13 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             draw_points.push_back( tile_render_info( tripoint( x, y, center.z ), height_3d ) );
         }
-        // for each of the drawing layers in order, back to front ...
-        for( auto f : { &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
+	const decltype (&cata_tiles::draw_furniture) drawing_layers[]={
+			 &cata_tiles::draw_furniture, &cata_tiles::draw_trap,
                         &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart,
                         &cata_tiles::draw_vpart_below, &cata_tiles::draw_terrain_below,
-                        &cata_tiles::draw_critter_at } ) {
+                        &cata_tiles::draw_critter_at };
+        // for each of the drawing layers in order, back to front ...
+        for( auto f : drawing_layers ) {
             // ... draw all the points we drew terrain for, in the same order
             for( auto &p : draw_points ) {
                 (this->*f)( p.pos, ch.visibility_cache[p.pos.x][p.pos.y], p.height_3d );
