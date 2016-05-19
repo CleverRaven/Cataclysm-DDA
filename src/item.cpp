@@ -1414,6 +1414,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         for( const auto &method : type->use_methods ) {
+            insert_separation_line();
             method.dump_info( *this, info );
         }
 
@@ -3607,10 +3608,7 @@ bool item::spill_contents( Character &c )
 
     while( !contents.empty() ) {
         if( contents[0].made_of( LIQUID ) ) {
-            long charges_pre = contents[0].charges;
-            if( g->handle_liquid( contents[0], false, false, this, nullptr, 1 ) ) {
-                contents.erase( contents.begin() );
-            } else if( charges_pre == contents[0].charges ) {
+            if( !g->handle_liquid_from_container( *this, 1 ) ) {
                 return false;
             }
         } else {

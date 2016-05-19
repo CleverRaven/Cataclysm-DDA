@@ -126,18 +126,9 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         return DONE;
     }
 
-    case FILL_CONTAINER: {
-        int amt = veh->drain("water_clean", veh->fuel_left("water_clean"));
-        item fill_water( "water_clean", calendar::turn );
-        fill_water.charges = amt;
-        int back = g->move_liquid(fill_water);
-        if (back >= 0) {
-            veh->refill("water_clean", back);
-        } else {
-            veh->refill("water_clean", amt);
-        }
+    case FILL_CONTAINER:
+        g->u.siphon( *veh, "water_clean" );
         return DONE;
-        }
 
     case DRINK: {
         veh->drain("water_clean", 1);

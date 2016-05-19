@@ -81,12 +81,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                     items.erase( item_it );
                 }
             } else {
-                p.moves -= 300;
-                if( g->handle_liquid( *item_it, true, false ) ) {
-                    add_msg(_("With a clang and a shudder, the %s pump goes silent."),
-                            item_it->type_name().c_str() );
-                    items.erase( item_it );
-                }
+                g->handle_liquid_from_ground( item_it, examp );
             }
             return;
         }
@@ -546,22 +541,11 @@ void iexamine::toilet(player &p, const tripoint &examp)
     if( water == items.end() ) {
         add_msg(m_info, _("This toilet is empty."));
     } else {
-        int initial_charges = water->charges;
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in(3) ? 0 : rng(1, 3);
 
-        // First try handling/bottling, then try drinking, but only try
-        // drinking if we don't handle or bottle.
-        bool drained = g->handle_liquid( *water, true, false );
-        if( drained || initial_charges != water->charges ) {
-            // The bottling happens in handle_liquid, but delay of action
-            // does not.
-            p.moves -= 100;
-        }
-
-        if( drained || water->charges <= 0 ) {
-            items.erase( water );
-        }
+        (void) p; // TODO: use me
+        g->handle_liquid_from_ground( water, examp );
     }
 }
 
@@ -2009,23 +1993,30 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    if( g->handle_liquid( brew_i, true, false ) ) {
+    const std::string booze_name = g->m.i_at( examp ).front().tname();
+    if( g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
-        add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.tname().c_str());
-        g->m.i_clear( examp );
+        add_msg(_("You squeeze the last drops of %s from the vat."), booze_name.c_str());
     }
 }
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-static int get_keg_cap( const furn_t &furn ) {
-    if( furn.id == "f_standing_tank" )  { return 1200; } //the furniture was a "standing tank", so can hold 1200
-    else                                { return 600; } //default to old default value
+int iexamine::get_keg_capacity( const tripoint &pos ) {
+    const furn_t &furn = g->m.furn_at( pos );
+    if( furn.id == "f_standing_tank" )  { return 1200; }
+    else if( furn.id == "f_wood_keg" )  { return 600; }
     //add additional cases above
+    else                                { return 0; }
+}
+
+bool iexamine::has_keg( const tripoint &pos )
+{
+    return get_keg_capacity( pos ) > 0;
 }
 
 void iexamine::keg(player &p, const tripoint &examp)
 {
-    int keg_cap = get_keg_cap( g->m.furn_at(examp) );
+    int keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
     for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
         if (!g->m.i_at(examp)[i].made_of( LIQUID ) || liquid_present) {
@@ -2115,12 +2106,13 @@ void iexamine::keg(player &p, const tripoint &examp)
         selectmenu.selected = 0;
         selectmenu.query();
 
+        const auto drink_name = drink->tname();
+
         switch( static_cast<options>( selectmenu.ret ) ) {
         case FILL_CONTAINER:
-            if( g->handle_liquid(*drink, true, false) ) {
-                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink->tname().c_str(),
+            if( g->handle_liquid_from_ground( drink, examp ) ) {
+                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink_name.c_str(),
                         g->m.name(examp).c_str());
-                g->m.i_clear( examp );
             }
             return;
 
@@ -2149,16 +2141,9 @@ void iexamine::keg(player &p, const tripoint &examp)
                         drink->tname().c_str(), g->m.name(examp).c_str());
                 return;
             }
-            for (int i = 0; i < charges_held; i++) {
-                p.use_charges(drink->typeId(), 1);
-                drink->charges++;
-                if( drink->volume() >= keg_cap ) {
-                    add_msg(_("You completely fill the %1$s with %2$s."), g->m.name(examp).c_str(),
-                            drink->tname().c_str());
-                    p.moves -= 250;
-                    return;
-                }
-            }
+            item tmp( drink->typeId(), calendar::turn, charges_held );
+            pour_into_keg( examp, tmp );
+            p.use_charges( drink->typeId(), charges_held - tmp.charges );
             add_msg(_("You fill the %1$s with %2$s."), g->m.name(examp).c_str(),
                     drink->tname().c_str());
             p.moves -= 250;
@@ -2176,6 +2161,40 @@ void iexamine::keg(player &p, const tripoint &examp)
             return;
         }
     }
+}
+
+bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
+{
+    const int keg_cap = get_keg_capacity( pos );
+    if( keg_cap <= 0 ) {
+        return false;
+    }
+    const auto keg_name = g->m.name( pos );
+
+    map_stack stack = g->m.i_at( pos );
+    if( stack.empty() ) {
+        // Not using map functions here because kegs have the NOITEM flags and map functions
+        // will put the liquid on a nearby tile instead.
+        stack.insert_at( stack.begin(), liquid );
+        stack.front().charges = 0; // Will be set later
+    } else if( stack.front().typeId() != liquid.typeId() ) {
+        add_msg( _( "The %s already contains some %s, you can't add a different liquid to it." ),
+                 keg_name.c_str(), stack.front().tname().c_str() );
+        return false;
+    }
+
+    item &drink = stack.front();
+    if( drink.volume() >= keg_cap ) {
+        add_msg( _( "The %s is full." ), keg_name.c_str() );
+        return false;
+    }
+
+    add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), keg_name.c_str() );
+    while( liquid.charges > 0 && drink.volume() < keg_cap ) {
+        drink.charges++;
+        liquid.charges--;
+    }
+    return true;
 }
 
 void pick_plant(player &p, const tripoint &examp,
@@ -2399,16 +2418,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                 if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
                     if( liquid.type->id == "maple_sap" ) {
-                        long initial_charges = liquid.charges;
-                        bool emptied = g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
-
-                        if( emptied || initial_charges != liquid.charges ) {
-                            p.mod_moves( -100 );
-                        }
-
-                        if( emptied || liquid.charges <= 0 ) {
-                            it.contents.clear();
-                        }
+                        g->handle_liquid_from_container( it, PICKUP_RANGE );
                     }
                 }
             }
@@ -2667,10 +2677,8 @@ void iexamine::trap(player &p, const tripoint &examp)
 void iexamine::water_source(player &p, const tripoint &examp)
 {
     item water = g->m.water_from( examp );
-    p.assign_activity(ACT_FILL_LIQUID, -1, -1);
-    p.activity.str_values.push_back(water.typeId());
-    p.activity.values.push_back(water.poison);
-    p.activity.values.push_back(water.bday);
+    (void) p; // TODO: use me
+    g->handle_liquid( water, nullptr, 0, &examp );
 }
 
 const itype * furn_t::crafting_pseudo_item_type() const

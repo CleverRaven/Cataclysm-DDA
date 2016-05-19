@@ -14,6 +14,7 @@ using skill_id = string_id<Skill>;
 enum field_id : int;
 class field;
 class field_entry;
+class vehicle;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -336,6 +337,20 @@ class Character : public Creature, public visitable<Character>
         int get_item_position( const item *it ) const;
 
         item &i_add(item it);
+
+        /**
+         * Try to pour the given liquid into the given container/vehicle. The transferred charges are
+         * removed from the liquid item. Check the charges of afterwards to see if anything has
+         * been transferred at all.
+         * The functions do not consume any move points.
+         * @return Whether anything has been moved at all. `false` indicates the transfer is not
+         * possible at all. `true` indicates at least some of the liquid has been moved.
+         */
+        /**@{*/
+        bool pour_into( item &container, item &liquid );
+        bool pour_into( vehicle &veh, item &liquid );
+        /**@}*/
+
         /**
          * Remove a specific item from player possession. The item is compared
          * by pointer. Contents of the item are removed as well.

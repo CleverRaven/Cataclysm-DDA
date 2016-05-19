@@ -107,6 +107,22 @@ void climb_down( player &p, const tripoint &examp );
 hack_result hack_attempt( player &p );
 
 /**
+ * Pour liquid into a keg (furniture) on the map. The transferred charges (if any)
+ * will be removed from the liquid item.
+ * @return Whether any charges have been transferred at all.
+ */
+bool pour_into_keg( const tripoint &pos, item &liquid );
+/**
+ * Get the capacity of the keg (if any) at given location. If there is no keg it
+ * returns 0.
+ */
+int get_keg_capacity( const tripoint &pos );
+/**
+ * Check whether there is a keg on the map that can be filled via @ref pour_into_keg.
+ */
+bool has_keg( const tripoint &pos );
+
+/**
  * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
  * @param type The seed type, must have a @ref itype::seed slot.
  * @param plant_count Number of fruits to generate. For charge-based items, this
