@@ -24,25 +24,18 @@
   },
   {
     "id": "762_25typeP",
+    "copy-from": "762_25",
     "type": "AMMO",
     "name": "7.62x25mm Type P",
     "name_plural": "7.62x25mm Type P",
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": 6,
-    "volume": 1,
-    "price": 20000, "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
+    "price": 5000, "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "count": 50,
-    "stack_size": 200,
-    "material": [ "steel", "powder" ],
-    "symbol": "=",
-    "color": "light_gray",
-    "ammo_type": "762x25",
-    "casing": "762_casing",
-    "damage": 15,
-    "range": 12,
-    "pierce": 4,
-    "dispersion": 120,
-    "recoil": 150,
-    "effects": [ "COOKOFF" ]
+    "relative": {
+        "damage": -9,
+        "range": -1,
+        "pierce": 2,
+        "recoil": -45
   }
 ]
