@@ -1824,11 +1824,11 @@ void iexamine::kiln_full(player &, const tripoint &examp)
         return;
     }
 
-    int total_volume = 0;
+    units::volume total_volume = 0;
     // Burn stuff that should get charred, leave out the rest
     for( auto item_it = items.begin(); item_it != items.end(); ) {
         if( item_it->typeId() == "unfinished_charcoal" || item_it->typeId() == "charcoal" ) {
-            total_volume += item_it->volume() / units::legacy_volume_factor;
+            total_volume += item_it->volume();
             item_it = items.erase( item_it );
         } else {
             item_it++;
@@ -1836,7 +1836,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     }
 
     item result( "charcoal", calendar::turn.get_turn() );
-    result.charges = total_volume * char_type->ammo->def_charges / ( char_type->volume / units::legacy_volume_factor );
+    result.charges = total_volume * char_type->ammo->def_charges / char_type->volume;
     g->m.add_item( examp, result );
     g->m.furn_set( examp, next_kiln_type);
 }
