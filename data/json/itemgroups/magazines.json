@@ -49,6 +49,9 @@
       ["m1918mag", 5],
       ["m9mag", 10],
       ["stenmag", 40],
+      ["ppsh35mag", 15]
+      ["ppsh71drum", 10]
+      ["ppsh71drum_imp", 7]
       ["thompson_mag", 5]
     ]
   },
@@ -141,6 +144,7 @@
       ["fnp90mag", 15],
       ["mp5bigmag", 10],
       ["thompson_bigmag", 5],
+      ["ppsh35mag", 5]
       ["thompson_drum", 15],
       ["360_400_mag", 5]
     ]
@@ -237,6 +241,8 @@
       ["ak74mag", 10],
       ["makarovmag", 10],
       ["rpk74mag", 10],
+      ["ppsh35mag", 10]
+      ["ppsh71drum", 10]
       ["skorpion61mag", 10],
       ["skorpion82mag", 10]
     ]
