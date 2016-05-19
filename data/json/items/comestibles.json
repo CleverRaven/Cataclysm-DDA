@@ -2922,7 +2922,7 @@
         "quench" : 0,
         "healthy" : 1,
         "nutrition" : 25,
-        "description" : "An assortment of edible-looking wild plants.  Most are quite bitter-tasting.  Some are inedible until cooked.", "//" : "In real life many root vegetables are toxic until cooked"
+        "description" : "An assortment of edible-looking wild plants.  Most are quite bitter-tasting.  Some are inedible until cooked.", "//" : "In real life many root vegetables are mildly toxic until cooked",
         "price" : 60,
         "material" : "veggy",
         "volume" : 1,
