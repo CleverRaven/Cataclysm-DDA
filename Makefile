@@ -150,7 +150,9 @@ ifdef CROSS
 endif
 
 # We don't need scientific precision for our math functions, this lets them run much faster.
-CXXFLAGS += -ffast-math
+CXXFLAGS += -ffast-math 
+#GCC 6.1.1 seems to flag unused attributes as errors. This prevents it from doing that.
+CXXFLAGS += -Wno-ignored-attributes
 LDFLAGS += $(PROFILE)
 
 # enable optimizations. slow to build
