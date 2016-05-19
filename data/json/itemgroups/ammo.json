@@ -44,6 +44,7 @@
     "id" : "ammo_pistol_obscure",
     "//" : "Imported or otherwise very obscure pistol ammmo.",
     "items": [
+      [ "762_25", 50 ],
       [ "454_Casull", 50 ],
       [ "500_Magnum", 50 ],
       [ "9x18mm", 50 ],
