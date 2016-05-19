@@ -76,9 +76,13 @@ void craft_command::execute()
         }
     }
 
-    crafter->assign_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time( batch_size ),
-                              -1, INT_MIN, rec->ident() );
-    crafter->activity.values.push_back( batch_size );
+    auto activity = player_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT,
+                                     rec->batch_time( batch_size ),
+                                     -1, INT_MIN, rec->ident() );
+    activity.values.push_back( batch_size );
+
+    crafter->assign_activity( activity );
+
     /* legacy support for lua bindings to last_batch and lastrecipe */
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();

@@ -53,6 +53,7 @@ enum activity_type : int {    // expanded this enum for readability
 };
 
 class player;
+class Character;
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
@@ -137,7 +138,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * Returns true if activities are similar enough that this activity
          * can be resumed instead of starting the other activity.
          */
-        bool can_resume_with( const player_activity &other ) const;
+        bool can_resume_with( const player_activity &other, const Character &who ) const;
 };
 
 #endif
