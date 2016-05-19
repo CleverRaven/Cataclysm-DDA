@@ -7,6 +7,7 @@
 #include "creature.h"
 #include "pickup.h"
 #include "translations.h"
+#include "messages.h"
 #include "monster.h"
 #include "vehicle.h"
 #include "player.h"
@@ -17,7 +18,8 @@
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
-bool game::make_drop_activity( enum activity_type act, const std::list<std::pair<int, int>> &dropped,
+bool game::make_drop_activity( enum activity_type act,
+                               const std::list<std::pair<int, int>> &dropped,
                                const tripoint &target )
 {
     if( dropped.empty() ) {
@@ -105,56 +107,43 @@ enum item_place_type {
     STASH_NOT_WORN
 };
 
-static void stash_on_pet( item *item_to_stash, monster *pet )
-{
-    item *it = &pet->inv[0];
-    int max_cap = it->get_storage();
-    int max_weight = pet->weight_capacity();
-
-    for( auto &i : pet->inv ) {
-        max_cap -= i.volume();
-        max_weight -= i.weight();
-    }
-
-    int vol = item_to_stash->volume();
-    int weight = item_to_stash->weight();
-    bool too_heavy = max_weight - weight < 0;
-    bool too_big = max_cap - vol < 0;
-
-    // Stay still you little...
-    pet->add_effect( effect_controlled, 5 );
-
-    if( !too_heavy && !too_big ) {
-        pet->inv.push_back( *item_to_stash );
-    } else {
-        g->m.add_item_or_charges( pet->pos(), *item_to_stash, 1 );
-        if( too_big ) {
-            g->u.add_msg_if_player( m_bad, _( "%s did not fit and fell to the ground!" ),
-                                    item_to_stash->display_name().c_str() );
-        } else {
-            g->u.add_msg_if_player( m_bad, _( "%s is too heavy and fell to the ground!" ),
-                                    item_to_stash->display_name().c_str() );
-        }
-    }
-}
-
-static void stash_on_pet( std::vector<item> &dropped_items, std::vector<item> &dropped_worn_items,
-                          const tripoint &drop_target )
+static void stash_on_pet( std::vector<item> &items, const tripoint &drop_target )
 {
     Creature *critter = g->critter_at( drop_target );
-    if( critter == NULL ) {
+    if( critter == nullptr ) {
         return;
     }
     monster *pet = dynamic_cast<monster *>( critter );
-    if( pet == NULL || !pet->has_effect( effect_pet ) ) {
+    if( pet == nullptr || !pet->has_effect( effect_pet ) || pet->inv.empty() ) {
         return;
     }
 
-    for( auto &item_to_stash : dropped_items ) {
-        stash_on_pet( &item_to_stash, pet );
-    }
-    for( auto &item_to_stash : dropped_worn_items ) {
-        stash_on_pet( &item_to_stash, pet );
+    for( auto &item_to_stash : items ) {
+        int max_volume = pet->inv.front().get_storage();
+        int max_weight = pet->weight_capacity();
+
+        for( const auto &it : pet->inv ) {
+            max_volume -= it.volume();
+            max_weight -= it.weight();
+        }
+
+        const bool too_heavy = item_to_stash.weight() > max_weight;
+        const bool too_big = item_to_stash.volume() > max_volume;
+
+        pet->add_effect( effect_controlled, 5 );
+
+        if( too_heavy || too_big ) {
+            g->m.add_item_or_charges( pet->pos(), item_to_stash, 1 );
+            if( too_big ) {
+                add_msg( m_bad, _( "%s did not fit and fell to the ground!" ),
+                         item_to_stash.display_name().c_str() );
+            } else {
+                add_msg( m_bad, _( "%s is too heavy and fell to the ground!" ),
+                         item_to_stash.display_name().c_str() );
+            }
+        } else {
+            pet->inv.push_back( item_to_stash );
+        }
     }
 }
 
@@ -163,11 +152,11 @@ int count_contained_items( const std::vector<item> &items, int volume )
 {
     int count = 0;
     for( const auto &it : items ) {
-         volume -= it.volume();
-         if( volume < 0 ) {
+        volume -= it.volume();
+        if( volume < 0 ) {
             break;
-         }
-         ++count;
+        }
+        ++count;
     }
     return count;
 }
@@ -212,7 +201,7 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
 
     if( type == DROP_WORN || type == DROP_NOT_WORN ) {
         // Prefer to put small items into the backpack
-        std::sort( dropped_items.begin(), dropped_items.end(), []( const item &a, const item &b ) {
+        std::sort( dropped_items.begin(), dropped_items.end(), []( const item & a, const item & b ) {
             return a.volume() < b.volume();
         } );
         dropped_items.insert( dropped_items.end(), dropped_worn_items.begin(), dropped_worn_items.end() );
@@ -221,7 +210,8 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
         const int contained = count_contained_items( dropped_items, g->u.volume_capacity() - prev_volume );
         g->u.mod_moves( -100 * ( dropped_worn_items.size() + dropped_items.size() - contained ) );
     } else { // Stashing on a pet.
-        stash_on_pet( dropped_items, dropped_worn_items, drop_target );
+        dropped_items.insert( dropped_items.end(), dropped_worn_items.begin(), dropped_worn_items.end() );
+        stash_on_pet( dropped_items, drop_target );
     }
 }
 
