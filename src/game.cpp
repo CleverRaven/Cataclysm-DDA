@@ -10409,15 +10409,12 @@ void game::drop_in_direction()
     make_drop_activity( ACT_DROP, multidrop(), dirp );
 }
 
-void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                tripoint dir, bool to_vehicle )
+void game::drop( const std::vector<item> &dropped, tripoint dir, bool to_vehicle )
 {
-    if (dropped.empty() && dropped_worn.empty()) {
+    if( dropped.empty() ) {
         add_msg(_("Never mind."));
         return;
     }
-    dropped.insert(dropped.end(), dropped_worn.begin(), dropped_worn.end());
-
     int veh_part = 0;
     bool to_veh = false;
     vehicle *veh = nullptr;
@@ -10433,8 +10430,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 
     itype_id first = dropped[0].typeId();
     bool same = true;
-    for (std::vector<item>::iterator it = dropped.begin() + 1;
-         it != dropped.end() && same; ++it) {
+    for( auto it = std::next( dropped.begin() ); it != dropped.end() && same; ++it ) {
         if (it->typeId() != first) {
             same = false;
         }
@@ -10475,7 +10471,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 
     if( to_veh ) {
         bool vh_overflow = false;
-        for( auto &elem : dropped ) {
+        for( auto elem : dropped ) {
             if( elem.is_bucket_nonempty() && !elem.spill_contents( u ) ) {
                 add_msg( _("To avoid spilling its contents, you set your %1$s on the %2$s."),
                          elem.display_name().c_str(), m.name(dir).c_str() );

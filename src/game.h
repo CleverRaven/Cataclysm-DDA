@@ -678,8 +678,7 @@ class game
         // at dir, items are dropped into a vehicle part
         // with the cargo flag (if there is one), otherwise they are
         // dropped onto the ground.
-        void drop(std::vector<item> &dropped, std::vector<item> &dropped_worn, tripoint dir,
-                  bool to_vehicle = true); // emulate old behavior normally
+        void drop( const std::vector<item> &items, tripoint dir, bool to_vehicle = true );
         bool make_drop_activity( enum activity_type act, const std::list<std::pair<int, int>> &dropped,
                   const tripoint &target );
 

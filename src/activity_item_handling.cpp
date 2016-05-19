@@ -215,8 +215,9 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
         std::sort( dropped_items.begin(), dropped_items.end(), []( const item &a, const item &b ) {
             return a.volume() < b.volume();
         } );
+        dropped_items.insert( dropped_items.end(), dropped_worn_items.begin(), dropped_worn_items.end() );
         const int prev_volume = g->u.volume_capacity();
-        g->drop( dropped_items, dropped_worn_items, drop_target );
+        g->drop( dropped_items, drop_target );
         const int contained = count_contained_items( dropped_items, g->u.volume_capacity() - prev_volume );
         g->u.mod_moves( -100 * ( dropped_worn_items.size() + dropped_items.size() - contained ) );
     } else { // Stashing on a pet.
@@ -345,7 +346,6 @@ static void move_items( const tripoint &src, bool from_vehicle,
     }
 
     std::vector<item> dropped_items;
-    std::vector<item> dropped_worn;
 
     while( g->u.moves > 0 && !indices.empty() ) {
         int index = indices.back();
@@ -393,7 +393,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
             // Drop it first since we're going to delete the original.
             dropped_items.push_back( *temp_item );
             // I changed this to use a tripoint as an argument, but the function is not 3D yet.
-            g->drop( dropped_items, dropped_worn, destination, to_vehicle );
+            g->drop( dropped_items, destination, to_vehicle );
             g->u.mod_moves( -100 * dropped_items.size() );
 
             // Remove from map or vehicle.
