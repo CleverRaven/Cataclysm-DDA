@@ -48,10 +48,10 @@
       ["m1911mag", 10],
       ["m1918mag", 5],
       ["m9mag", 10],
-      ["stenmag", 40],
       ["ppsh35mag", 15]
       ["ppsh71drum", 10]
       ["ppsh71drum_imp", 10]
+      ["stenmag", 40],
       ["thompson_mag", 5]
     ]
   },
