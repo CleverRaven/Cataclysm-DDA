@@ -12,7 +12,7 @@
     "color": "ltgray",
     "ammo_type": "762x25",
     "capacity": 71,
-    "reliability": 6,
+    "reliability": 7,
     "reload_time": 190,
     "flags": [ "MAG_BULKY" ]
   },
@@ -33,21 +33,4 @@
     "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
   },
-  {
-    "id": "ppsh71drum_imp",
-    "type": "MAGAZINE",
-    "name": "Improved PPsh 71-round drum",
-    "description": "A high-capacity drum magazine for the PPSh-41.  This one has thicker steel.",
-    "weight": 1387, "//": "Placeholder.",
-    "volume": 3,
-    "price": 10000,
-    "material": "steel",
-    "symbol": "#",
-    "color": "ltgray",
-    "ammo_type": "762x25",
-    "capacity": 71,
-    "reliability": 7,
-    "reload_time": 190,  "//": "Placeholder.",
-    "flags": [ "MAG_BULKY" ]
-  }
 ]
