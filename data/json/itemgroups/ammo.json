@@ -44,10 +44,10 @@
     "id" : "ammo_pistol_obscure",
     "//" : "Imported or otherwise very obscure pistol ammmo.",
     "items": [
-      [ "762_25", 50 ],
-      [ "762_25typeP", 20 ],
       [ "454_Casull", 50 ],
       [ "500_Magnum", 50 ],
+      [ "762_25", 50 ],
+      [ "762_25typeP", 20 ],
       [ "9x18mm", 50 ],
       [ "9x18mmfmj", 50 ],
       [ "9x18mmP2", 50 ]
