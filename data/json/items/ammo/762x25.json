@@ -9,7 +9,7 @@
     "volume": 1,
     "price": 10000,
     "count": 50,
-    "stack_size": 200,
+    "stack_size": 40,
     "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "light_gray",
