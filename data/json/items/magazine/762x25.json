@@ -27,8 +27,8 @@
     "material": "steel",
     "symbol": "#",
     "color": "ltgray",
-    "ammo_type": "308",
-    "capacity": 30,
+    "ammo_type": "762x25",
+    "capacity": 35,
     "reliability": 8,
     "reload_time": 100,
     "flags": [ "MAG_COMPACT" ]
