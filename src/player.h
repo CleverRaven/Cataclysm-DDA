@@ -237,6 +237,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void update_body( int from, int to );
         /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
+
+        /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
+        void update_vitamins( const vitamin_id& vit );
+
         /**
           * Handles passive regeneration of pain and maybe hp, except sleep regeneration.
           * Updates health and checks for sickness.
@@ -682,7 +686,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  addiction_level(add_type type) const;
 
         /** Siphons fuel from the specified vehicle into the player's inventory */
-        bool siphon(vehicle *veh, const itype_id &desired_liquid);
+        bool siphon( vehicle &veh, const itype_id &desired_liquid );
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */

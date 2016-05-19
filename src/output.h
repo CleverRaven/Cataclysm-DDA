@@ -230,6 +230,8 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
 void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                     const char *mes, ...);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
+void right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
+                  const char *mes, ... );
 void display_table(WINDOW *w, const std::string &title, int columns,
                    const std::vector<std::string> &data);
 void multipage(WINDOW *w, std::vector<std::string> text, std::string caption = "", int begin_y = 0);

@@ -354,6 +354,19 @@ void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
     mvwprintz(w, y, x, FG, "%s", text.c_str());
 }
 
+void right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
+                  const char *mes, ... )
+{
+    va_list ap;
+    va_start( ap, mes );
+    utf8_wrapper text = vstring_format( mes, ap );
+    va_end( ap );
+
+    const int available_width = std::max( 1, getmaxx( w ) - right_indent );
+    const int x = std::max( 0, available_width - ( int )text.display_width() );
+    trim_and_print( w, line, x, available_width, FG, "%s", text.c_str() );
+}
+
 void mvputch(int y, int x, nc_color FG, const std::string &ch)
 {
     attron(FG);

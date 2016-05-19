@@ -143,11 +143,13 @@ struct points_left {
     std::string to_string()
     {
         if( limit == MULTI_POOL ) {
-            return string_format( _("Points left: %d%c%d%c%d=%d"),
-                stat_points, trait_points >= 0 ? '+' : '-',
-                abs(trait_points), skill_points >= 0 ? '+' : '-',
-                abs(skill_points),
-                stat_points + trait_points + skill_points );
+            return string_format( _("Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>"),
+                stat_points_left() >= 0 ? "ltgray" : "red",	stat_points,
+                trait_points >= 0 ? '+' : '-',
+                trait_points_left() >= 0 ? "ltgray" : "red", abs(trait_points),
+                skill_points >= 0 ? '+' : '-',
+                skill_points_left() >= 0 ? "ltgray" : "red", abs(skill_points),
+                is_valid() ? "ltgray" : "red", stat_points + trait_points + skill_points );
         } else if( limit == ONE_POOL ) {
             return string_format( _("Points left: %4d"), skill_points_left() );
         } else {
@@ -708,8 +710,9 @@ void draw_points( WINDOW *w, points_left &points, int netPointCost )
 {
     mvwprintz( w, 3, 2, c_black, clear_str );
     std::string points_msg = points.to_string();
-    int pMsg_length = utf8_width( points_msg );
-    mvwprintz( w, 3, 2, c_ltgray, points_msg.c_str() );
+    int pMsg_length = utf8_width( points_msg, true );
+    nc_color color = c_ltgray;
+    print_colored_text( w, 3, 2, color, c_ltgray, points_msg );
     if( netPointCost > 0 ) {
         mvwprintz( w, 3, pMsg_length + 2, c_red, "(-%d)", std::abs( netPointCost ) );
     } else if( netPointCost < 0 ) {
@@ -2293,8 +2296,16 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
         const std::string action = ctxt.handle_input();
 
         if (action == "NEXT_TAB") {
-            if( OPTIONS["POINT_DISTRIBUTION"] != "freeform" && !points.is_valid() ) {
-                popup(_("Too many points allocated, change some features and try again."));
+            if (OPTIONS["POINT_DISTRIBUTION"] != "freeform" && !points.is_valid() ) {
+                if( points.skill_points_left() < 0 ) {
+                        popup(_("Too many points allocated, change some features and try again."));
+                } else if( points.trait_points_left() < 0 ) {
+                        popup(_("Too many trait points allocated, change some traits or lower some stats and try again."));
+                } else if( points.stat_points_left() < 0 ) {
+                        popup(_("Too many stat points allocated, lower some stats and try again."));
+                } else {
+                        popup(_("Too many points allocated, change some features and try again."));
+                }
                 redraw = true;
                 continue;
             } else if( points.has_spare() &&
@@ -2336,7 +2347,16 @@ tab_direction set_description(WINDOW *w, player *u, const bool allow_reroll, poi
                     save_template(u);
                 }
             } else if( !points.is_valid() ) {
-                popup(_("You cannot save a template with negative unused points"));
+                if( points.skill_points_left() < 0 ) {
+	                popup(_("You cannot save a template with this many points allocated, change some features and try again."));
+                } else if( points.trait_points_left() < 0 ) {
+                        popup(_("You cannot save a template with this many trait points allocated, change some traits or lower some stats and try again."));
+                } else if( points.stat_points_left() < 0 ) {
+                        popup(_("You cannot save a template with this many stat points allocated, lower some stats and try again."));
+                } else {
+                        popup(_("You cannot save a template with negative unused points."));
+                }
+
             } else {
                 save_template(u);
             }

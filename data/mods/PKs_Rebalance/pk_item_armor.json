@@ -82,7 +82,7 @@
         "covers" : ["FEET"],
         "to_hit" : -1,
         "symbol" : "[",
-        "description" : "Lovingly refered to as \shitstompers\, these polyplastic boots reach up to the knee, where they are sealed with a large strap.  They can be very hard to even walk around in untrained, especially if they are imporperly fitted.",
+        "description" : "Lovingly refered to as `shitstompers`, these polyplastic boots reach up to the knee, where they are sealed with a large strap.  They can be very hard to even walk around in untrained, especially if they are improperly fitted.",
         "price" : 800000,
         "material" : ["spess_plastic", "steel"],
         "volume" : 8,

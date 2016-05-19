@@ -78,7 +78,7 @@ enum mission_type_id {
     MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
     MISSION_RANCH_NURSE_1,                 //Need asprin
     MISSION_RANCH_NURSE_2,                 //Need hotplates
-    MISSION_RANCH_NURSE_3,                 //Need vitamins
+    MISSION_RANCH_NURSE_3,                 //Need multivitamins
     MISSION_RANCH_NURSE_4,                 //Need charcoal water filters
     MISSION_RANCH_NURSE_5,                 //Need chemistry set
     MISSION_RANCH_NURSE_6,                 //Need filter masks

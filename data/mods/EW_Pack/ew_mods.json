@@ -10,7 +10,7 @@
         "loudness_modifier" : 1,
         "to_hit" : -1,
         "price" : 30000,
-        "description" : "Mechanism that allows your CW-24 rifle to fire in fully automatic mode. It is handmade.",
+        "description" : "Mechanism that allows your CW-24 rifle to fire in fully automatic mode.  It is handmade.",
         "symbol" : ":",
         "material" : ["steel"],
         "volume" : 1,
