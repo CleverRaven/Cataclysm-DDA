@@ -10410,16 +10410,12 @@ void game::drop_in_direction()
 }
 
 void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
-                int freed_volume_capacity, tripoint dir, bool to_vehicle)
+                tripoint dir, bool to_vehicle )
 {
     if (dropped.empty() && dropped_worn.empty()) {
         add_msg(_("Never mind."));
         return;
     }
-    const int drop_move_cost = calculate_drop_cost(dropped, dropped_worn, freed_volume_capacity);
-    add_msg( m_debug, "Dropping %d+%d items takes %d moves", dropped.size(), dropped_worn.size(),
-                 drop_move_cost);
-
     dropped.insert(dropped.end(), dropped_worn.begin(), dropped_worn.end());
 
     int veh_part = 0;
@@ -10500,7 +10496,6 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
             m.add_item_or_charges( dir, elem, 2 );
         }
     }
-    u.moves -= drop_move_cost;
 }
 
 void game::reassign_item( int pos )

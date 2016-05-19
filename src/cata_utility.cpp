@@ -130,40 +130,6 @@ int list_filter_low_priority( std::vector<map_item_stack> &stack, int start,
     return id;
 }
 
-// Returns number of items that fit into the volume. Order of the items matters.
-int count_contained_items( const std::vector<item> &items, int volume )
-{
-    int count = 0;
-    for( const auto &it : items ) {
-         volume -= it.volume();
-         if( volume < 0 ) {
-            break;
-         }
-         ++count;
-    }
-    return count;
-}
-
-// calculate the time (in player::moves) it takes to drop the
-// items in dropped and dropped_worn.
-// Items in dropped come from the main inventory (or the wielded weapon)
-// Items in dropped_worn are cloth that had been worn.
-// All items in dropped that fit into the removed storage space
-// (freed_volume_capacity) do not take time to drop.
-// Example: dropping five 2x4 (volume 5*6) and a worn backpack
-// (storage 40) will take only the time for dropping the backpack
-// dropping two more 2x4 takes the time for dropping the backpack and
-// dropping the remaining 2x4 that does not fit into the backpack.
-int calculate_drop_cost( std::vector<item> &dropped, const std::vector<item> &dropped_worn,
-                         int freed_volume_capacity )
-{
-    // Prefer to put small items into the backpack
-    std::sort( dropped.begin(), dropped.end(), []( const item &a, const item &b ) {
-        return a.volume() < b.volume();
-    } );
-    return 100 * ( dropped_worn.size() + dropped.size() - count_contained_items( dropped, freed_volume_capacity ) );
-}
-
 bool compare_by_dist_attitude::operator()( Creature *a, Creature *b ) const
 {
     const auto aa = u.attitude_to( *a );

@@ -158,6 +158,20 @@ static void stash_on_pet( std::vector<item> &dropped_items, std::vector<item> &d
     }
 }
 
+// Returns number of items that fit into the volume. Order of the items matters.
+int count_contained_items( const std::vector<item> &items, int volume )
+{
+    int count = 0;
+    for( const auto &it : items ) {
+         volume -= it.volume();
+         if( volume < 0 ) {
+            break;
+         }
+         ++count;
+    }
+    return count;
+}
+
 static void place_item_activity( std::list<item *> &selected_items, std::list<int> &item_quantities,
                                  std::list<item *> &selected_worn_items,
                                  std::list<int> &worn_item_quantities,
@@ -165,7 +179,6 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
 {
     std::vector<item> dropped_items;
     std::vector<item> dropped_worn_items;
-    int prev_volume = g->u.volume_capacity();
     bool taken_off = false;
     // Make the relative coordinates absolute.
     drop_target += g->u.pos();
@@ -198,9 +211,14 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
     }
 
     if( type == DROP_WORN || type == DROP_NOT_WORN ) {
-        // Drop handles move cost.
-        g->drop( dropped_items, dropped_worn_items, g->u.volume_capacity() - prev_volume, drop_target,
-                 true );
+        // Prefer to put small items into the backpack
+        std::sort( dropped_items.begin(), dropped_items.end(), []( const item &a, const item &b ) {
+            return a.volume() < b.volume();
+        } );
+        const int prev_volume = g->u.volume_capacity();
+        g->drop( dropped_items, dropped_worn_items, drop_target );
+        const int contained = count_contained_items( dropped_items, g->u.volume_capacity() - prev_volume );
+        g->u.mod_moves( -100 * ( dropped_worn_items.size() + dropped_items.size() - contained ) );
     } else { // Stashing on a pet.
         stash_on_pet( dropped_items, dropped_worn_items, drop_target );
     }
@@ -375,7 +393,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
             // Drop it first since we're going to delete the original.
             dropped_items.push_back( *temp_item );
             // I changed this to use a tripoint as an argument, but the function is not 3D yet.
-            g->drop( dropped_items, dropped_worn, 0, destination, to_vehicle );
+            g->drop( dropped_items, dropped_worn, destination, to_vehicle );
+            g->u.mod_moves( -100 * dropped_items.size() );
 
             // Remove from map or vehicle.
             if( from_vehicle == true ) {
