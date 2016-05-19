@@ -1499,6 +1499,10 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
+        if( source != nullptr && source->is_hallucination() ) {
+            wear_modifier = 0.0f;
+        }
+
         handle_melee_wear( shield, wear_modifier );
     } else {
         //Choose which body part to block with, assume left side first
@@ -1527,7 +1531,10 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     std::string damage_blocked_description;
     // good/bad/ugly add_msg color code?
     // none, hardly any, a little, some, most, all
-    float blocked_ratio = (total_damage - damage_blocked) / total_damage;
+    float blocked_ratio = 0.0f;
+    if( total_damage > std::numeric_limits<float>::epsilon() ) {
+        blocked_ratio = (total_damage - damage_blocked) / total_damage;
+    }
     if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
         //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("all");
@@ -1713,7 +1720,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         remove_weapon();
     }
 
-    handle_melee_wear();
+    const float wear_modifier = !t.is_hallucination() ? 1.0f : 0.0f;
+    handle_melee_wear( weapon, wear_modifier );
 
     bool is_hallucination = false; //Check if the target is an hallucination.
     if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
