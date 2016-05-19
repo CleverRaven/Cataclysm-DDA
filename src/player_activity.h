@@ -132,6 +132,12 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * Returns true if the activity is complete.
          */
         bool is_complete() const;
+
+        /**
+         * Returns true if activities are similar enough that this activity
+         * can be resumed instead of starting the other activity.
+         */
+        bool can_resume_with( const player_activity &other ) const;
 };
 
 #endif

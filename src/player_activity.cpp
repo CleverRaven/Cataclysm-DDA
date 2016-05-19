@@ -473,3 +473,52 @@ void player_activity::finish( player *p )
         }
     }
 }
+
+bool player_activity::can_resume_with( const player_activity &other ) const
+{
+    switch( type ) {
+        case ACT_WAIT:
+            // Waiting shouldn't ever be resumed
+            return false;
+        case ACT_READ:
+        case ACT_GAME:
+        case ACT_CRAFT:
+        case ACT_LONGCRAFT:
+        case ACT_DISASSEMBLE:
+        case ACT_BUTCHER:
+        case ACT_LONGSALVAGE:
+        case ACT_FORAGE:
+        case ACT_BUILD:
+        case ACT_VEHICLE:
+        case ACT_TRAIN:
+        case ACT_WAIT_WEATHER:
+        case ACT_FIRSTAID:
+        case ACT_FISH:
+        case ACT_PICKAXE:
+        case ACT_BURROW:
+        case ACT_PULP:
+        case ACT_VIBE:
+        case ACT_MAKE_ZLAVE:
+        case ACT_DROP:
+        case ACT_STASH:
+        case ACT_PICKUP:
+        case ACT_MOVE_ITEMS:
+        case ACT_ADV_INVENTORY:
+        case ACT_ARMOR_LAYERS:
+        case ACT_START_FIRE:
+        case ACT_OPEN_GATE:
+        case ACT_FILL_LIQUID:
+        case ACT_HOTWIRE_CAR:
+        case ACT_AIM:
+        case ACT_ATM:
+        case ACT_START_ENGINES:
+        case ACT_OXYTORCH:
+        case ACT_CRACKING:
+        case ACT_REPAIR_ITEM:
+        case ACT_GUNMOD_ADD:
+        case ACT_WAIT_NPC:
+        default:
+            return !auto_resume && type == other.type && index == other.index &&
+                   position == other.position && name == other.name;
+    }
+}

@@ -12532,17 +12532,21 @@ void player::learn_recipe( const recipe * const rec, bool force )
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
-    if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
-        backlog.front().position == pos && backlog.front().name == name &&
-        !backlog.front().auto_resume) {
-        add_msg_if_player( _("You resume your task."));
+    assign_activity( player_activity( type, moves, index, pos, name ) );
+}
+
+void player::assign_activity( const player_activity &act, bool no_resume )
+{
+    if( !no_resume && !backlog.empty() && backlog.front().can_resume_with( act ) ) {
+        add_msg_if_player( _("You resume your task.") );
         activity = backlog.front();
         backlog.pop_front();
     } else {
         if( activity.type != ACT_NULL ) {
             backlog.push_front( activity );
         }
-        activity = player_activity(type, moves, index, pos, name);
+
+        activity = act;
     }
     if( this->moves <= activity.moves_left ) {
         activity.moves_left -= this->moves;

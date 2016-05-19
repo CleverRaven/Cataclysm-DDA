@@ -14134,34 +14134,34 @@ void game::wait()
 
     switch (as_m.ret) {
     case 1:
-        time = 5000;
+        time = 100 * MINUTES( 5 );
         break;
     case 2:
-        time = 30000;
+        time = 100 * MINUTES( 30 );
         break;
     case 3:
-        time = 60000;
+        time = 100 * HOURS( 1 );
         break;
     case 4:
-        time = 120000;
+        time = 100 * HOURS( 2 );
         break;
     case 5:
-        time = 180000;
+        time = 100 * HOURS( 3 );
         break;
     case 6:
-        time = 360000;
+        time = 100 * HOURS( 6 );
         break;
     case 7:
-        time = 60000 * ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6);
+        time = 100 * HOURS( ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6) );
         break;
     case 8:
-        time = 60000 * ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6);
+        time = 100 * HOURS( ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6) );
         break;
     case 9:
-        time = 60000 * ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6);
+        time = 100 * HOURS( ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6) );
         break;
     case 10:
-        time = 60000 * ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6);
+        time = 100 * HOURS( ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6) );
         break;
     case 11:
         time = 999999999;
@@ -14171,7 +14171,8 @@ void game::wait()
         return;
     }
 
-    u.assign_activity(actType, time, 0);
+    player_activity new_act( actType, time, 0 );
+    u.assign_activity( new_act, true );
     u.rooted_message();
 }
 
