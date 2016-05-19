@@ -556,6 +556,7 @@ std::list<item> Character::remove_worn_items_with( std::function<bool(item &)> f
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
+            iter->on_takeoff( *this );
             result.splice( result.begin(), worn, iter++ );
         } else {
             ++iter;
@@ -615,6 +616,7 @@ item Character::i_rem(int pos)
      auto iter = worn.begin();
      std::advance( iter, worn_position_to_index( pos ) );
      tmp = *iter;
+     tmp.on_takeoff( *this );
      worn.erase( iter );
      return tmp;
  }

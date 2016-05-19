@@ -812,15 +812,15 @@ public:
          */
         void set_curammo( const item &ammo );
         /**
-         * Callback when a player starts wearing the item. The item is already in the worn
+         * Callback when a character starts wearing the item. The item is already in the worn
          * items vector and is called from there.
          */
-        void on_wear( player &p );
+        void on_wear( Character &p );
         /**
-         * Callback when a player takes off an item. The item is still in the worn items
+         * Callback when a character takes off an item. The item is still in the worn items
          * vector but will be removed immediately after the function returns
          */
-        void on_takeoff (player &p);
+        void on_takeoff( Character &p );
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
