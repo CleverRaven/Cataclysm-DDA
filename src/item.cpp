@@ -1927,10 +1927,8 @@ int item::engine_displacement() const
     return type->engine ? type->engine->displacement : 0;
 }
 
-char item::symbol() const
+const std::string &item::symbol() const
 {
-    if( is_null() )
-        return ' ';
     return type->sym;
 }
 

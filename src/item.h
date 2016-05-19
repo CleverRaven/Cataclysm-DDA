@@ -312,7 +312,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     // Legacy function, don't use.
     void load_info( const std::string &data );
- char symbol() const;
+        const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
          * If `practical` is false, returns pre-cataclysm market value,

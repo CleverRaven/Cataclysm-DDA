@@ -5708,7 +5708,7 @@ void map::debug()
   for (int j = 0; j <= SEEY * 2; j++) {
    if (i_at(i, j).size() > 0) {
     mvprintw(1, 0, "%d, %d: %d items", i, j, i_at(i, j).size());
-    mvprintw(2, 0, "%c, %d", i_at(i, j)[0].symbol(), i_at(i, j)[0].color());
+    mvprintw(2, 0, "%s, %d", i_at(i, j)[0].symbol().c_str(), i_at(i, j)[0].color());
     getch();
    }
   }
@@ -6068,6 +6068,11 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         }
     }
 
+    // TODO: change the local variable sym to std::string and use it instead of this hack.
+    // Currently this are different variables because terrain/... uses long as symbol type and
+    // item now use string. Ideally they should all be strings.
+    std::string item_sym;
+
     // If there are items here, draw those instead
     if( show_items && curr_maptile.get_item_count() > 0 && sees_some_items( p, g->u ) ) {
         // if there's furniture/terrain/trap/fields (sym!='.')
@@ -6076,7 +6081,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
             hi = true;
         } else {
             // otherwise override with the symbol of the last item
-            sym = curr_maptile.get_uppermost_item().symbol();
+            item_sym = curr_maptile.get_uppermost_item().symbol();
             if (!draw_item_sym) {
                 tercol = curr_maptile.get_uppermost_item().color();
             }
@@ -6091,6 +6096,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     if( veh != nullptr ) {
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
         tercol = veh->part_color( veh_part );
+        item_sym = ""; // clear the item symbol so `sym` is used instead.
     }
 
     // If there's graffiti here, change background color
@@ -6124,15 +6130,23 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
 
     if( inorder ) {
         // Rastering the whole map, take advantage of automatically moving the cursor.
-        wputch(w, tercol, sym);
+        if( item_sym.empty() ) {
+            wputch(w, tercol, sym);
+        } else {
+            wprintz( w, tercol, "%s", item_sym.c_str() );
+        }
     } else {
         // Otherwise move the cursor before drawing.
         const int k = p.x + getmaxx(w) / 2 - view_center.x;
         const int j = p.y + getmaxy(w) / 2 - view_center.y;
-        mvwputch(w, j, k, tercol, sym);
+        if( item_sym.empty() ) {
+            mvwputch(w, j, k, tercol, sym);
+        } else {
+            mvwprintz( w, j, k, tercol, "%s", item_sym.c_str() );
+        }
     }
 
-    return !zlevels || sym != ' ' || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
+    return !zlevels || sym != ' ' || !item_sym.empty() || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
 }
 
 void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,

@@ -318,7 +318,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
 
         std::string item_name = it.display_name();
         if( OPTIONS["ITEM_SYMBOLS"] ) {
-            item_name = string_format( "%c %s", it.symbol(), item_name.c_str() );
+            item_name = string_format( "%s %s", it.symbol().c_str(), item_name.c_str() );
         }
 
         //print item name
