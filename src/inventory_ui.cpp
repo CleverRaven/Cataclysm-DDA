@@ -168,7 +168,7 @@ class inventory_selector
         player &u;
 
         void print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const;
-        void print_right_column(size_t right_column_width, size_t right_column_offset) const;
+        void print_right_column(size_t drop_column_width, size_t drop_column_offset) const;
 
         /** Returns an entry from @ref items by its invlet */
         const itemstack_or_category *invlet_to_item_entry( long invlet ) const;
@@ -382,12 +382,13 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
     }
 }
 
-void inventory_selector::print_right_column( size_t right_column_width, size_t right_column_offset ) const
+void inventory_selector::print_right_column( size_t drop_column_width, size_t drop_column_offset ) const
 {
-    if (right_column_width == 0) {
+    if (drop_column_width == 0) {
         return;
     }
-    int drp_line = 1;
+    trim_and_print(w_inv, 2, drop_column_offset, drop_column_width - 4, c_ltblue, "DROPPING: ");
+    int drp_line = 3;
     drop_map::const_iterator dit = dropping.find(-1);
     if (dit != dropping.end()) {
         std::string item_name = u.weapname();
@@ -397,7 +398,7 @@ void inventory_selector::print_right_column( size_t right_column_width, size_t r
             item_name = string_format("# %s {%d}", item_name.c_str(), dit->second);
         }
         const char invlet = invlet_or_space(u.weapon);
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_ltblue, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, drop_column_offset, drop_column_width - 4, c_ltblue, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
     auto iter = u.worn.begin();
@@ -407,7 +408,7 @@ void inventory_selector::print_right_column( size_t right_column_width, size_t r
             continue;
         }
         const char invlet = invlet_or_space(*iter);
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, iter->display_name().c_str());
+        trim_and_print(w_inv, drp_line, drop_column_offset, drop_column_width - 4, c_cyan, "%c + %s", invlet, iter->display_name().c_str());
         drp_line++;
     }
     for( const auto &elem : dropping ) {
@@ -430,28 +431,43 @@ void inventory_selector::print_right_column( size_t right_column_width, size_t r
         } else {
             item_name = string_format("# %s {%d}", item_name.c_str(), count);
         }
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 2, col, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, drop_column_offset, drop_column_width - 2, col, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
 }
 
 void inventory_selector::display( const std::string &title, selector_mode mode ) const
 {
-    const size_t left_column_width = ( mode == SM_PICK ) ? TERMX / 2 : 40; // Do we really need this difference?
-    const size_t left_column_offset = 1;
-    const size_t middle_column_width = std::min<int>( TERMX - left_column_width - 1, 40 );
-    const size_t middle_column_offset = left_column_width + left_column_offset + 1;
-    const size_t current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
-
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
+    
+    // Worn Wield gets 40 chars wide, no more no less
+    size_t worn_wield_column_width = 40;
+    // Worn Wield pushed against right border, with one character of buffer
+    size_t worn_wield_column_offset = TERMX - 41;
+    size_t drop_column_width = 0;
+    size_t drop_column_offset = 0;
+    if(mode != SM_PICK) {  // Compare & Multidrop
+        // If terminal not wide enough to support "drop" column, don't show.
+        // If terminal not wide enough to give all three columns 40 char-wide columns, drop column gets skinny.
+        // Otherwise, drop column is 40 char wide.
+        drop_column_width = TERMX <= 82 ? 0 : (TERMX > 123 ? 40 : TERMX - 82);
+        // Column is placed on far right 
+        drop_column_offset = TERMX - drop_column_width - 1;
+        
+        if(drop_column_width > 0) { // If we don't have space for drop column, don't bother rendering
+            // Worn/Wield column is displaced left
+            worn_wield_column_offset = TERMX - drop_column_width - 42;
+            
+            print_right_column( drop_column_width, drop_column_offset );
+        }
+    } 
+    
+    size_t main_inv_width = TERMX - worn_wield_column_width - drop_column_width - 3;
+    
+    size_t current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
 
-    if( mode != SM_PICK ) {
-        const size_t right_column_width = std::max<int>( 0, TERMX - left_column_width - middle_column_width - 2 );
-        const size_t right_column_offset = middle_column_width + middle_column_offset + 1;
-
-        print_right_column( right_column_width, right_column_offset );
-    } else {
+    if(mode == SM_PICK) {
         mvwprintw(w_inv, 0, TERMX - 48, _("Hotkeys"));
         mvwprintw(w_inv, 1, TERMX - 48, _(" %2d/%2d "), u.allocated_invlets().size(), inv_chars.size());
     }
@@ -465,13 +481,13 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         msg_str = _("Item selection; [TAB] switches mode, arrows select.");
         msg_color = h_white;
     }
-    mvwprintz(w_inv, items_per_page + 4, TERMX - utf8_width(msg_str),
+    mvwprintz(w_inv, TERMY - 1, TERMX - utf8_width(msg_str),
               msg_color, msg_str.c_str());
-    print_column(items, left_column_offset, left_column_width, selected_i, current_page_offset_i, mode);
-    print_column(worn, middle_column_offset, middle_column_width, selected_w, current_page_offset_w, mode);
+    print_column(items, 1, main_inv_width, selected_i, current_page_offset_i, mode);
+    print_column(worn, worn_wield_column_offset, worn_wield_column_width, selected_w, current_page_offset_w, mode);
     const size_t max_size = in_inventory ? items.size() : worn.size();
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
-    mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
+    mvwprintw(w_inv, TERMY - 1, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
               max_pages);
     if (mode == SM_MULTIDROP) {
         // Make copy, remove to be dropped items from that
