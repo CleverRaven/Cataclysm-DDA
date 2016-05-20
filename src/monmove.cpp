@@ -174,14 +174,12 @@ bool monster::can_move_to( const tripoint &p ) const
         }
 
         // Don't enter any dangerous fields
-        const field &local_field = g->m.field_at( p );
-        if (is_dangerous_field( local_field )) {
+        if (is_dangerous_field( g->m.field_at( p ) )) {
             return false;
         }
 
         // And don't step on any traps (if we can see)
-        const trap &tr = g->m.tr_at( p );
-        if (has_flag( MF_SEES ) && !tr.is_benign() && g->m.has_floor( p )) {
+        if (has_flag( MF_SEES ) && !g->m.tr_at( p ).is_benign() && g->m.has_floor( p )) {
             return false;
         }
 
