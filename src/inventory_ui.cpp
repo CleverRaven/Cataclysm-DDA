@@ -188,7 +188,7 @@ class inventory_selector
         void set_drop_count(int it_pos, int count, const std::list<item> &stack);
         void set_to_drop(int it_pos, int count);
         void print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected,
-                          size_t current_page_offset, selector_mode mode) const;
+                          size_t current_page_offset, selector_mode mode, bool multicolumn) const;
         void prepare_paging(itemstack_vector &items);
 };
 
@@ -325,7 +325,8 @@ char invlet_or_space(const item &it)
 }
 
 void inventory_selector::print_column(const itemstack_vector &items, size_t y, size_t w,
-                                      size_t selected, size_t current_page_offset, selector_mode mode) const
+                                      size_t selected, size_t current_page_offset, selector_mode mode,
+                                      bool multicolumn) const
 {
     const auto get_drop_icon = [ this, mode ]( const drop_map::const_iterator &dit ) -> std::string {
         if( mode == SM_PICK ) {
@@ -338,21 +339,84 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             return "# ";
         }
     };
+    
+    size_t offset = y; 
+    size_t remaining_width = w;
 
     nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
     if ((&items == &this->items) != in_inventory) {
         selected_line_color = inCategoryMode ? c_ltgray_red : h_ltgray;
     }
     int cur_line = 2;
-    for (size_t a = 0; a + current_page_offset < items.size() && a < items_per_page; a++, cur_line++) {
+    size_t col_width = 3;
+    for (size_t a = 0; a + current_page_offset < items.size() && (multicolumn || a < items_per_page); a++, cur_line++) {
+        if(remaining_width <= 4) { // Not enough width left to print anything meaningful, break now.
+            break;
+        }
         const itemstack_or_category &cur_entry = items[a + current_page_offset];
         if (cur_entry.category == NULL) {
             continue;
         }
         if (cur_entry.it == NULL) {
-            const std::string name = trim_to(cur_entry.category->name, w);
-            mvwprintz(w_inv, cur_line, y, c_magenta, "%s", name.c_str());
-            continue;
+            if(multicolumn) {
+                // If we're at the top, place it unconditionally.
+                if(cur_line == 2) {
+                    const std::string name = trim_to(cur_entry.category->name, remaining_width);
+                    mvwprintz(w_inv, cur_line, offset, c_magenta, "%s", name.c_str());
+                    if(name.length() + 1 > col_width) { // Category long enough to set width of column
+                        col_width = name.length() + 1;
+                    }
+                    continue;
+                }
+                // Need to see if whole category will fit.
+                int item_count = 1; // Include category header as item
+                for(size_t b = a; b + current_page_offset < items.size(); b++) {
+                    const itemstack_or_category &lookahead_entry = items[b + current_page_offset];
+                    if(lookahead_entry.category == NULL) { // Null category, count it anyway (still produces blank line).
+                        item_count++;
+                        continue;
+                    }
+                    if(lookahead_entry.category == cur_entry.category) { // Same category as this one, count it
+                        item_count++;
+                        continue;
+                    }
+                    // Different category, so we're done.
+                    break;
+                } 
+                if(cur_line + item_count > TERMY - 3) {
+                    // We will overflow, new column and begin there.
+                    offset += col_width;
+                    remaining_width -= col_width;
+                    col_width = 3;
+                    cur_line = 2;
+                }
+                // Else we won't overflow, okay to begin here.
+                const std::string name = trim_to(cur_entry.category->name, remaining_width);
+                mvwprintz(w_inv, cur_line, offset, c_magenta, "%s", name.c_str());
+                if(name.length() + 1 > col_width) { // Category long enough to set width of column
+                    col_width = name.length() + 1;
+                }
+                continue;
+            } else {
+                const std::string name = trim_to(cur_entry.category->name, remaining_width);
+                mvwprintz(w_inv, cur_line, offset, c_magenta, "%s", name.c_str());
+                continue;
+            }
+            
+        }
+        if(multicolumn && cur_line > TERMY - 3) {
+            // We're about to overflow, start a new column; will need to reprint column header.
+            mvwputch(w_inv, 2, offset + col_width - 2, c_red, "*"); // DEBUG
+            offset += col_width;
+            remaining_width -= col_width;
+            col_width = 3;
+            cur_line = 2;
+            
+            const std::string name = trim_to(cur_entry.category->name, remaining_width);
+            mvwprintz(w_inv, cur_line++, offset, c_magenta, "%s", name.c_str());
+            if(name.length() + 1 > col_width) { // Category long enough to set width of column
+                col_width = name.length() + 1;
+            }
         }
         const item &it = *cur_entry.it;
         std::string item_name = it.display_name();
@@ -373,12 +437,15 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
         }
         item_name = get_drop_icon(dropping.find(cur_entry.item_pos)) + item_name;
         if (it.invlet != 0) {
-            mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
+            mvwputch(w_inv, cur_line, offset, invlet_color, it.invlet);
         }
         if (OPTIONS["ITEM_SYMBOLS"]) {
             item_name = string_format("%c %s", it.symbol(), item_name.c_str());
         }
-        trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
+        if(multicolumn && item_name.length() + 3 > col_width) { // Invlet, space, item name, space = item_name.length + 3
+            col_width = item_name.length() + 3;
+        }
+        trim_and_print(w_inv, cur_line, offset + 2, remaining_width - 2, name_color, "%s", item_name.c_str());
     }
 }
 
@@ -463,7 +530,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         }
     } 
     
-    size_t main_inv_width = TERMX - worn_wield_column_width - drop_column_width - 3;
+    size_t main_inv_width = TERMX - worn_wield_column_width - drop_column_width - 4;
     
     size_t current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
 
@@ -483,8 +550,8 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     }
     mvwprintz(w_inv, TERMY - 1, TERMX - utf8_width(msg_str),
               msg_color, msg_str.c_str());
-    print_column(items, 1, main_inv_width, selected_i, current_page_offset_i, mode);
-    print_column(worn, worn_wield_column_offset, worn_wield_column_width, selected_w, current_page_offset_w, mode);
+    print_column(items, 1, main_inv_width, selected_i, current_page_offset_i, mode, true);
+    print_column(worn, worn_wield_column_offset, worn_wield_column_width, selected_w, current_page_offset_w, mode, false);
     const size_t max_size = in_inventory ? items.size() : worn.size();
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
     mvwprintw(w_inv, TERMY - 1, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
