@@ -575,9 +575,9 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
 
     ctxt.register_action("DOWN", _("Next item"));
     ctxt.register_action("UP", _("Previous item"));
-    ctxt.register_action("RIGHT", _("Confirm"));
-    ctxt.register_action("LEFT", _("Switch inventory/worn"));
-    ctxt.register_action("CONFIRM", _("Mark selected item"));
+    ctxt.register_action("RIGHT", _("Next column"));
+    ctxt.register_action("LEFT", _("Previous column"));
+    ctxt.register_action("CONFIRM", _("Mark/Confirm"));
     ctxt.register_action("QUIT", _("Cancel"));
     ctxt.register_action("CATEGORY_SELECTION");
     ctxt.register_action("NEXT_TAB", _("Page down"));
@@ -626,9 +626,40 @@ bool inventory_selector::handle_movement(const std::string &action)
     if (action == "CATEGORY_SELECTION") {
         inCategoryMode = !inCategoryMode;
     } else if (action == "LEFT") {
-        if (this->items.size() > 0) {
-            in_inventory = !in_inventory;
+        if(in_inventory) {
+            int new_sel = selected;
+            new_sel -= items_per_page; // Make sure signed
+            if(new_sel < 1) {
+                in_inventory = false; // Went left off far left column, go to wield/worn
+            } else {
+                selected = static_cast<size_t>(new_sel); // Move selector
+                while (selected > items.size() || items[selected].it == NULL) { // Bring selector up to last item
+                    selected--;                                                 // if no item is there
+                }
+            }
+            current_page_offset = selected - (selected % items_per_page);
+        } else {
+            in_inventory = true; // Went left off wield/worn, go to far right column
+            selected_i = (this->items).size() - 1;  // Force select last item in inventory to scroll there
+            current_page_offset_i = selected_i - (selected_i % items_per_page);
         }
+    } else if (action == "RIGHT") {
+        if(in_inventory) {
+            if(selected == items.size() - 1) {
+                in_inventory = false; // Went right off far right column, go to wield/worn
+            } else {
+                selected += items_per_page;
+                while (selected >= items.size() || items[selected].it == NULL) { // Bring selector up to last item
+                    selected--;                                                 // if no item is there
+                }
+            }
+            current_page_offset = selected - (selected % items_per_page);
+        } else {
+            in_inventory = true; // Went right off wield/worn, go to far left column
+            selected_i = 1;  // Force select first item in inventory to scroll there
+            current_page_offset_i = selected_i - (selected_i % items_per_page);
+        }
+        
     } else if (action == "DOWN") {
         selected++;
         if (inCategoryMode) {
@@ -662,6 +693,7 @@ bool inventory_selector::handle_movement(const std::string &action)
             selected = items.size() - 1; // the last is always an item entry
         }
         current_page_offset = selected - (selected % items_per_page);
+        
     } else if (action == "NEXT_TAB") {
         selected += items_per_page;
         // skip non-item entries, those can not be selected!
@@ -896,7 +928,7 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
         } else if( action == "QUIT" ) {
             return item_location();
 
-        } else if( action == "RIGHT" || action == "CONFIRM" ) {
+        } else if( action == "CONFIRM" ) {
             set_selected_to_drop( 0 );
 
             // Item in inventory
