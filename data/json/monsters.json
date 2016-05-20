@@ -2681,7 +2681,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["RESURRECT", 0]],
     "description":"A twisted mockery of the human form, emaciated, with jet black skin and glowing red eyes.  It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "INTELLIGENT_PATHS"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
     },{
     "type" : "MONSTER",
@@ -2713,7 +2713,7 @@
     "special_attacks":[["SCIENCE", 20]],
     "starting_ammo" : { "bot_manhack": 3 },
     "description":"Apart from the jet black eyes it would be easy to believe this scientist was still alive.  Clad in a tattered lab coat, it looks to have some measure of situational awareness and resourcefulness.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM_SCI", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM_SCI", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "INTELLIGENT_PATHS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_soldier",
@@ -2971,7 +2971,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["UPGRADE", 10]],
     "description":"Once human, its features have tightened, its lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath its large, piercing eyes.  It stands tall and its movements are fluid and tightly controlled.  A feeling of danger permeates the air around it, and the light that falls on it seems somehow harsher and more glaring.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "INTELLIGENT_PATHS"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
     },{
     "type" : "MONSTER",
@@ -4940,7 +4940,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["PARROT", 0]],
     "description":"A flexuous monstrosity seeming as a giant crab covered in writhing antennae, clawed tentacles, and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT", "INTELLIGENT_PATHS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_yugg",
@@ -5073,7 +5073,7 @@
     "hp":100,
     "death_function":"NORMAL",
     "description":"A bizarre humanoid creature with a calculating stare.  Its twitching hands move so fast they appear to be nothing but blurs.",
-    "flags":["SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "BONES"]
+    "flags":["SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "BONES", "INTELLIGENT_PATHS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_blank",
@@ -5127,7 +5127,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["FEAR_PARALYZE", 20]],
     "description":"A monster with an obese human body and the head of a cow.  It treads slowly, and milky white drool drips from its mouth.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "FUR", "NO_BREATHE", "BONES", "FAT"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "FUR", "NO_BREATHE", "BONES", "FAT", "INTELLIGENT_PATHS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow",
@@ -6308,7 +6308,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BRANDISH", 10]],
     "description":"Living in the woods, \nkilling for sport, \neating all the bodies, \nactual cannibal Shia LaBeouf.",
-    "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "BONES", "BLEED", "NO_BREATHE"],
+    "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "BONES", "BLEED", "NO_BREATHE", "INTELLIGENT_PATHS"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "fear_triggers":["FIRE"]
     },{
