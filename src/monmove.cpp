@@ -42,10 +42,12 @@ bool monster::wander()
 
 bool monster::is_dangerous_field( const field &fd ) const
 {
+    // No fields = not dangerous (obviously)
     if( fd.fieldCount() == 0 ) {
         return false;
     }
 
+    // Else check each field to see if it's dangerous to us
     for( auto &fld : fd ) {
         if( is_dangerous_field( fld.second ) ) {
             return true;
@@ -58,6 +60,7 @@ bool monster::is_dangerous_field( const field &fd ) const
 bool monster::is_dangerous_field( const field_entry &entry ) const
 {
     const field_id fid = entry.getFieldType();
+    // Check immunity towards fields
     switch( fid ) {
         case fd_smoke:
         case fd_tear_gas:
@@ -93,8 +96,10 @@ bool monster::is_dangerous_field( const field_entry &entry ) const
                 return false;
             }
         default:
-            return entry.is_dangerous();
+            // Suppress warning
+            break;
     }
+    // If we weren't immune to anything return the field's danger level.
     return entry.is_dangerous();
 }
 
