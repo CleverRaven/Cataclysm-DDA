@@ -23,6 +23,21 @@
     "effects": [ "COOKOFF" ]
   },
   {
+    "id": "762_25hot",
+    "copy-from": "762_25",
+    "type": "AMMO",
+    "name": "7.62x25mm FMJ hot load",
+    "name_plural": "7.62x25mm FMJ hot load",  "//": "The 7.62x25mm hot load has a boxer primer.",
+    "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a 85 gr. FMJ bullet.  It is more powerful than the original.",
+    "price": 3500,
+    "relative": {
+        "damage": 3,
+        "range": 2,
+        "pierce": 3,
+        "recoil": 45
+    }
+  },
+  {
     "id": "762_25typeP",
     "copy-from": "762_25",
     "type": "AMMO",
