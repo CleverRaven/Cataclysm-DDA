@@ -369,7 +369,8 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     }
 
     if( edible && has_effect( effect_nausea ) ) {
-        if( !maybe_query( _( "You still feel nauseous and will probably puke it all up again.  Eat anyway?" ) ) ) {
+        if( !maybe_query(
+                _( "You still feel nauseous and will probably puke it all up again.  Eat anyway?" ) ) ) {
             return ALLERGY;
         }
     }
