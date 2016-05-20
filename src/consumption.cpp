@@ -9,6 +9,7 @@
 #include "material.h"
 #include "addiction.h"
 #include "mutation.h"
+#include "translations.h"
 #include "cata_utility.h"
 #include "debug.h"
 

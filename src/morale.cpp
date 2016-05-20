@@ -7,6 +7,7 @@
 #include "itype.h"
 #include "output.h"
 #include "bodypart.h"
+#include "translations.h"
 #include "catacharset.h"
 #include "game.h"
 #include "weather.h"
