@@ -7,7 +7,7 @@
     "description": "A commercial version of the 7.62x25mm cartridge created for the armed forces of Soviet Russia.  It was derived from the 7.63x25mm cartridge used by the C96 pistol.",
     "weight": 9,
     "volume": 1,
-    "price": 10000,
+    "price": 3000,
     "count": 40,
     "material": [ "steel", "powder" ],
     "symbol": "=",
@@ -28,7 +28,7 @@
     "name": "7.62x25mm FMJ hot load",
     "name_plural": "7.62x25mm FMJ hot load",  "//": "The 7.62x25mm hot load has a boxer primer.",
     "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a 85 gr. FMJ bullet.  It is more powerful than the original.",
-    "price": 10000,
+    "price": 3500,
     "relative": {
         "damage": 3,
         "range": 2,
