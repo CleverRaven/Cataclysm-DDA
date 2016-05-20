@@ -64,6 +64,8 @@ enum morale_type : int {
     MORALE_HAIRCUT,
     MORALE_SHAVE,
 
+    MORALE_VOMITED,
+
     NUM_MORALE_TYPES
 };
 

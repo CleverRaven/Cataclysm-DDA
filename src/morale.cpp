@@ -86,6 +86,8 @@ const std::string &get_morale_data( const morale_type id )
 
             { _( "Got a Haircut" ) },
             { _( "Freshly Shaven" ) },
+
+            { _( "Barfed" ) }
         }
     };
 
@@ -191,7 +193,7 @@ bool player_morale::morale_point::is_permanent() const
 
 bool player_morale::morale_point::matches( morale_type _type, const itype *_item_type ) const
 {
-    return ( type == _type ) && ( item_type == _item_type );
+    return ( _type == type ) && ( _item_type == nullptr || _item_type == item_type );
 }
 
 void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new_duration,

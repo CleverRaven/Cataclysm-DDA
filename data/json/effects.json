@@ -387,6 +387,20 @@
     },
     {
         "type": "effect_type",
+        "id": "nausea",
+        "name" : ["Nausea"],
+        "desc": ["You feel nauseous.  Even a thought of food makes you feel sick."],
+        "remove_message": "You no longer feel nauseous.",
+        "rating": "bad",
+        "int_dur_factor": 300,
+        "max_intensity": 3,
+        "max_duration": 900,
+        "base_mods": {
+            "vomit_chance": [60]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lightsnare",
         "name": ["Stuck in a light snare"],
         "desc": ["You can't move until you get free!"],
