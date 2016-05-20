@@ -4323,7 +4323,9 @@ void game::debug()
                         if( !query_yn( "Delete all items from the target?" ) ) {
                             break;
                         }
-
+                        for( auto &it : p.worn ) {
+                            it.on_takeoff( p );
+                        }
                         p.worn.clear();
                         p.inv.clear();
                         p.weapon = p.ret_null;
@@ -4335,6 +4337,7 @@ void game::debug()
                         int item_pos = inv_for_filter( "Make target equip:", filter );
                         item &to_wear = u.i_at( item_pos );
                         if( to_wear.is_armor() ) {
+                            p.on_item_wear( to_wear );
                             p.worn.push_back( to_wear );
                         } else if( !to_wear.is_null() ) {
                             p.weapon = to_wear;

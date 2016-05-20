@@ -8970,6 +8970,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity)
     }
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
         if( a->use_amount( it, quantity, ret ) ) {
+            a->on_takeoff( *this );
             a = worn.erase( a );
         } else {
             ++a;
@@ -10218,8 +10219,6 @@ bool player::wear_item( const item &to_wear, bool interactive )
         add_msg( _("You put on your %s."), to_wear.tname().c_str() );
         moves -= item_wear_cost( to_wear );
 
-        worn.back().on_wear( *this );
-
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {
             if (to_wear.covers(i) && encumb(i) >= 40)
@@ -10234,11 +10233,11 @@ bool player::wear_item( const item &to_wear, bool interactive )
             add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
     } else {
-        on_item_wear( to_wear );
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
     }
 
     item &new_item = worn.back();
+    new_item.on_wear( *this );
     if( new_item.invlet == 0 ) {
         inv.assign_empty_invlet( new_item, false );
     }
@@ -10351,15 +10350,12 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
 
     if( items != nullptr ) {
-        w.on_takeoff(*this);
         items->push_back( w );
         taken_off = true;
     } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
-        w.on_takeoff(*this);
         inv.add_item_keep_invlet(w);
         taken_off = true;
     } else if (query_yn(_("No room in inventory for your %s.  Drop it?"), w.tname().c_str())) {
-        w.on_takeoff(*this);
         g->m.add_item_or_charges( pos(), w );
         taken_off = true;
     } else {
@@ -10370,6 +10366,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
         add_msg_player_or_npc( _("You take off your %s."),
                                _("<npcname> takes off their %s."),
                                w.tname().c_str() );
+        w.on_takeoff( *this );
         worn.erase( first_iter );
     }
 
@@ -12058,6 +12055,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
             if( armor_absorb( elem, armor ) ) {
                 armor_destroyed = true;
+                armor.on_takeoff( *this );
                 worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
                 // decltype is the typename of the iterator, ote that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.
