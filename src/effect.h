@@ -182,10 +182,20 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_intensity() const;
         /** Returns the maximum intensity of an effect. */
         int get_max_intensity() const;
-        /** Sets an effect's intensity, capping at max_intensity. */
-        void set_intensity( int nintensity );
-        /** Mods an effect's intensity, capping at max_intensity. */
-        void mod_intensity( int nintensity );
+
+        /**
+         * Sets inensity of effect capped by range [1..max_intensity]
+         * @param alert whether decay messages should be displayed
+         * @return new intensity of the effect after val subjected to above cap
+         */
+        int set_intensity( int val, bool alert = false );
+
+        /**
+         * Modify inensity of effect capped by range [1..max_intensity]
+         * @param alert whether decay messages should be displayed
+         * @return new intensity of the effect after modification and capping
+         */
+        int mod_intensity( int mod, bool alert = false );
 
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
         const std::vector<std::string> &get_resist_traits() const;

@@ -900,7 +900,7 @@ size_t ter_t::count()
 
 void ter_t::load( JsonObject &jo )
 {
-    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "move_cost", movecost );
     optional( jo, was_loaded, "max_volume", max_volume, MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );

@@ -1744,7 +1744,7 @@
         "species":"ZOMBIE",
         "default_faction":"zombie",
         "symbol":"Z",
-        "color":"brown",
+        "color":"i_brown",
         "size":"MEDIUM",
         "material":"flesh",
         "diff":1,

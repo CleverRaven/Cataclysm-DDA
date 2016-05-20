@@ -203,12 +203,6 @@ class Item_factory
         void load_item_whitelist( JsonObject &jo );
 
         /**
-         * Load a json blob of type item option.
-         * @param jo a JsonObject of type ITEM_OPTION to load.
-         */
-        void load_item_option( JsonObject &jo );
-
-        /**
          * A list of *all* known item type ids. Each is suitable as input to
          * @ref find_template or as parameter to @ref item::item.
          */
