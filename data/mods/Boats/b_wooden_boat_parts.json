@@ -3,7 +3,7 @@
     "type" : "vehicle_part",
     "id" : "boat_board",
     "name" : "boat board",
-    "description": "A wooden board that keeps the boat afloat.  To change a vehicle into a boat, place as you would wheels on a car. Then attach oars or a motor to get the boat to move.",
+    "description": "A wooden board that keeps the boat afloat.  To change a vehicle into a boat, place as you would wheels on a car.  Then attach oars or a motor to get the boat to move.",
     "symbol" : "o",
     "color" : "brown",
     "broken_symbol" : "x",

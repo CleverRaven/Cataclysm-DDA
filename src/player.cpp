@@ -147,6 +147,7 @@ const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_nausea( "nausea" );
 
 const matype_id style_none( "style_none" );
 
@@ -1815,6 +1816,8 @@ bool player::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
     } else if( eff == effect_corroding ) {
         return has_trait( "ACIDPROOF" );
+    } else if( eff == effect_nausea ) {
+        return has_trait( "STRONGSTOMACH" );
     }
 
     return false;
@@ -5231,6 +5234,38 @@ void player::update_body( int from, int to )
     }
 }
 
+void player::update_vitamins( const vitamin_id& vit )
+{
+    if( is_npc() ) {
+        return; // NPCs cannot develop vitamin diseases
+    }
+
+    efftype_id def = vit.obj().deficiency();
+    efftype_id exc = vit.obj().excess();
+
+    int lvl = vit.obj().severity( vitamin_get( vit ) );
+    if( lvl <= 0 ) {
+        remove_effect( def );
+    }
+    if( lvl >= 0 ) {
+        remove_effect( exc );
+    }
+    if( lvl > 0 ) {
+        if( has_effect( def, num_bp ) ) {
+            get_effect( def, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( def, 1, num_bp, true, lvl );
+        }
+    }
+    if( lvl < 0 ) {
+        if( has_effect( exc, num_bp ) ) {
+            get_effect( exc, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( exc, 1, num_bp, true, lvl );
+        }
+    }
+}
+
 void player::get_sick()
 {
     // NPCs are too dumb to handle infections now
@@ -5763,35 +5798,25 @@ int player::addiction_level( add_type type ) const
     return 0;
 }
 
-bool player::siphon(vehicle *veh, const itype_id &desired_liquid)
+bool player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
-    int liquid_amount = veh->drain( desired_liquid, veh->fuel_capacity(desired_liquid) );
-    item used_item( desired_liquid, calendar::turn );
+    const int used_item_amount = veh.drain( desired_liquid, veh.fuel_capacity( desired_liquid ) );
     const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
-    used_item.charges = liquid_amount / fuel_per_charge;
+    item used_item( desired_liquid, calendar::turn, used_item_amount / fuel_per_charge );
     if( used_item.charges <= 0 ) {
         add_msg( _( "There is not enough %s left to siphon it." ), used_item.type_name().c_str() );
-        veh->refill( desired_liquid, liquid_amount );
+        veh.refill( desired_liquid, used_item_amount );
         return false;
     }
-    int extra = g->move_liquid( used_item );
-    if( extra == -1 ) {
-        // Failed somehow, put the liquid back and bail out.
-        veh->refill( desired_liquid, used_item.charges * fuel_per_charge );
+    // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
+    veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
+
+    if( !g->handle_liquid( used_item, nullptr, 0, nullptr, &veh ) ) {
         return false;
     }
-    int siphoned = liquid_amount - extra;
-    veh->refill( desired_liquid, extra );
-    if( siphoned > 0 ) {
-        add_msg(ngettext("Siphoned %1$d unit of %2$s from the %3$s.",
-                            "Siphoned %1$d units of %2$s from the %3$s.",
-                            siphoned),
-                   siphoned, used_item.tname().c_str(), veh->name.c_str());
-        //Don't consume turns if we decided not to siphon
-        return true;
-    } else {
-        return false;
-    }
+    // TODO: maybe add the message about the siphoned amount again.
+    veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
+    return true;
 }
 
 void player::cough(bool harmful, int loudness)
@@ -7589,7 +7614,11 @@ double player::vomit_mod()
     if (has_trait("VOMITOUS")) {
         mod *= 3;
     }
-
+    // If you're already nauseous, any food in your stomach greatly
+    // increases chance of vomiting. Liquids don't provoke vomiting, though.
+    if( get_stomach_food() != 0 && has_effect( effect_nausea ) ) {
+        mod *= 5 * get_effect_int( effect_nausea );
+    }
     return mod;
 }
 
@@ -8479,19 +8508,32 @@ void player::vomit()
     add_memorial_log(pgettext("memorial_male", "Threw up."),
                      pgettext("memorial_female", "Threw up."));
 
-    if (get_stomach_food() != 0 || get_stomach_water() != 0) {
+    const int stomach_contents = get_stomach_food() + get_stomach_water();
+    if( stomach_contents != 0 ) {
         mod_hunger(get_stomach_food());
         mod_thirst(get_stomach_water());
 
         set_stomach_food(0);
         set_stomach_water(0);
+        // Remove all joy form previously eaten food and apply the penalty
+        rem_morale( MORALE_FOOD_GOOD );
+        rem_morale( MORALE_FOOD_HOT );
+        rem_morale( MORALE_HONEY ); // bears must suffer too
+        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90, 45, false ); // 1.5 times longer
 
         g->m.add_field( adjacent_tile(), fd_bile, 1, 0 );
 
         add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
-        add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
+        add_msg_if_player( m_warning, _( "You retched, but your stomach is empty." ) );
     }
+
+    if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
+        const effect dummy_nausea( &effect_nausea.obj(), 0, num_bp, false, 1, 0 );
+        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * stomach_contents / 21,
+                                             dummy_nausea.get_int_dur_factor() ) );
+    }
+
     moves -= 100;
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -9508,7 +9550,7 @@ bool player::can_wear( const item& it, bool alert ) const
         }
         return false;
     }
-    
+
     if( it.is_disgusting_for( g->u ) ) {
         if( alert ) {
             add_msg_if_player( m_info, _( "You can't wear that, it's filthy!" ) );

@@ -44,6 +44,7 @@
                 "C" : "t_floor",
                 "c" : "t_floor",
                 "d" : "t_floor",
+                "e" : "t_gates_mech_control",
                 "f" : "t_floor",
                 "h" : "t_floor",
                 "k" : "t_floor",

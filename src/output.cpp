@@ -301,8 +301,7 @@ void multipage(WINDOW *w, std::vector<std::string> text, std::string caption, in
         if (begin_y + (int)next_paragraph.size() > height - ((i + 1) < (int)text.size() ? 1 : 0)) {
             // Next page
             i--;
-            const std::string cont_str = _("Press any key for more...");
-            mvwprintw(w, height - 1, center_text_pos(cont_str.c_str(), 0, width - 1), cont_str.c_str());
+            center_print( w, height - 1, c_ltgray, _( "Press any key for more..." ) );
             wrefresh(w);
             refresh();
             getch();
@@ -353,6 +352,19 @@ void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...)
         x = (window_width - string_width) / 2;
     }
     mvwprintz(w, y, x, FG, "%s", text.c_str());
+}
+
+void right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
+                  const char *mes, ... )
+{
+    va_list ap;
+    va_start( ap, mes );
+    utf8_wrapper text = vstring_format( mes, ap );
+    va_end( ap );
+
+    const int available_width = std::max( 1, getmaxx( w ) - right_indent );
+    const int x = std::max( 0, available_width - ( int )text.display_width() );
+    trim_and_print( w, line, x, available_width, FG, "%s", text.c_str() );
 }
 
 void mvputch(int y, int x, nc_color FG, const std::string &ch)
