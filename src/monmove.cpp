@@ -124,6 +124,7 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
+    ter_id target = g->m.ter(p);
     // various animal behaviours
     if( has_flag( MF_ANIMAL ) ) {
         // don't enter sharp terrain unless tiny, or attacking
@@ -134,12 +135,12 @@ bool monster::can_move_to( const tripoint &p ) const
 
         // Don't enter open pits ever unless tiny, can fly or climb well
         if( !( type->size == MS_TINY || can_climb ) &&
-            ( g->m.ter( p ) == t_pit || g->m.ter( p ) == t_pit_spiked || g->m.ter( p ) == t_pit_glass ) ) {
+            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
             return false;
         }
 
         // don't enter lava ever
-        if( g->m.ter( p ) == t_lava ) {
+        if( target == t_lava ) {
             return false;
         }
 
@@ -163,12 +164,12 @@ bool monster::can_move_to( const tripoint &p ) const
 
         // Don't enter open pits ever unless tiny, can fly or climb well
         if( !( type->size == MS_TINY || can_climb ) &&
-            ( g->m.ter( p ) == t_pit || g->m.ter( p ) == t_pit_spiked || g->m.ter( p ) == t_pit_glass ) ) {
+            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
             return false;
         }
 
         // Don't enter lava ever
-        if( g->m.ter( p ) == t_lava ) {
+        if( target == t_lava ) {
             return false;
         }
 
