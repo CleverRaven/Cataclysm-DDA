@@ -1861,8 +1861,6 @@ bool Character::is_dangerous_field( const field_entry &entry ) const
         default:
             return !has_trait( debug_nodmg ) && entry.is_dangerous();
     }
-
-    return false;
 }
 
 bool Character::is_dangerous_field( const field_id fid ) const
@@ -1899,8 +1897,6 @@ bool Character::is_dangerous_field( const field_id fid ) const
         default:
             return field_type_dangerous( fid );
     }
-
-    return false;
 }
 
 int Character::throw_range( const item &it ) const
