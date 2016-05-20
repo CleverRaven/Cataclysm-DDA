@@ -4,6 +4,7 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
+#include "field.h"
 #include <vector>
 
 class map;
@@ -163,6 +164,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
+
+        bool is_dangerous_field( const field &fld ) const;
+        bool is_dangerous_field( const field_entry &entry ) const;
 
         /**
          * Attempt to move to p.

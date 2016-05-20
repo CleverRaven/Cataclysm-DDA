@@ -399,6 +399,7 @@ void MonsterGenerator::init_flags()
     flag_map["REVIVES_HEALTHY"] = MF_REVIVES_HEALTHY;
     flag_map["NO_NECRO"] = MF_NO_NECRO;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
+    flag_map["INTELLIGENT_PATHS"] = MF_INTELLIGENT_PATHS;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )

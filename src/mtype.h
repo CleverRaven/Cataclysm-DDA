@@ -148,6 +148,7 @@ enum m_flag : int {
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
     MF_REVIVES_HEALTHY,     // When revived, this monster has full hitpoints and speed
     MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
+    MF_INTELLIGENT_PATHS,   // This monster will path around dangers instead of through them.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

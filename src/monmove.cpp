@@ -26,6 +26,8 @@
 
 #define MONSTER_FOLLOW_DIST 8
 
+const species_id FUNGUS( "FUNGUS" );
+
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
@@ -36,6 +38,64 @@ const efftype_id effect_stunned( "stunned" );
 bool monster::wander()
 {
     return ( goal == pos() );
+}
+
+bool monster::is_dangerous_field( const field &fd ) const
+{
+    if( fd.fieldCount() == 0 ) {
+        return false;
+    }
+
+    for( auto &fld : fd ) {
+        if( is_dangerous_field( fld.second ) ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool monster::is_dangerous_field( const field_entry &entry ) const
+{
+    const field_id fid = entry.getFieldType();
+    switch( fid ) {
+        case fd_smoke:
+        case fd_tear_gas:
+        case fd_toxic_gas:
+        case fd_relax_gas:
+        case fd_nuke_gas:
+            if (has_flag( MF_NO_BREATHE )) {
+                return false;
+            }
+            break;
+        case fd_acid:
+            if (has_flag( MF_ACIDPROOF) || has_flag( MF_FLIES)) {
+                return false;
+            }
+            break;
+        case fd_fire:
+            if (has_flag( MF_FIREPROOF )) {
+                return false;
+            }
+            break;
+        case fd_electricity:
+            if (has_flag( MF_ELECTRIC)) {
+                return false;
+            }
+            break;
+        case fd_fungal_haze:
+            if (has_flag( MF_NO_BREATHE ) || type->in_species(FUNGUS)) {
+                return false;
+            }
+            break;
+        case fd_fungicidal_gas:
+            if (!type->in_species(FUNGUS)) {
+                return false;
+            }
+        default:
+            return entry.is_dangerous();
+    }
+    return entry.is_dangerous();
 }
 
 bool monster::can_move_to( const tripoint &p ) const
@@ -81,6 +141,41 @@ bool monster::can_move_to( const tripoint &p ) const
         // don't enter fire or electricity ever
         const field &local_field = g->m.field_at( p );
         if( local_field.findField( fd_fire ) || local_field.findField( fd_electricity ) ) {
+            return false;
+        }
+
+        if( g->m.has_flag( TFLAG_NO_FLOOR, p ) && !has_flag( MF_FLIES ) ) {
+            return false;
+        }
+    }
+
+    if (has_flag( MF_INTELLIGENT_PATHS)) {
+        // Don't enter sharp terrain unless tiny, or attacking
+        if( g->m.has_flag( "SHARP", p ) && !( attitude( &( g->u ) ) == MATT_ATTACK ||
+                                              type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
+            return false;
+        }
+
+        // Don't enter open pits ever unless tiny, can fly or climb well
+        if( !( type->size == MS_TINY || can_climb ) &&
+            ( g->m.ter( p ) == t_pit || g->m.ter( p ) == t_pit_spiked || g->m.ter( p ) == t_pit_glass ) ) {
+            return false;
+        }
+
+        // Don't enter lava ever
+        if( g->m.ter( p ) == t_lava ) {
+            return false;
+        }
+
+        // Don't enter any dangerous fields
+        const field &local_field = g->m.field_at( p );
+        if (is_dangerous_field( local_field )) {
+            return false;
+        }
+
+        // And don't step on any traps (if we can see)
+        const trap &tr = g->m.tr_at( p );
+        if (has_flag( MF_SEES ) && !tr.is_benign() && g->m.has_floor( p )) {
             return false;
         }
 
@@ -147,10 +242,10 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 void monster::plan( const mfactions &factions )
 {
     // Bots are more intelligent than most living stuff
-    bool electronic = has_flag( MF_ELECTRONIC );
+    bool smart_planning = has_flag( MF_ELECTRONIC ) || has_flag( MF_INTELLIGENT_PATHS );
     Creature *target = nullptr;
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
-    float dist = !electronic ? 1000 : 8.6f;
+    float dist = !smart_planning ? 1000 : 8.6f;
     bool fleeing = false;
     bool docile = friendly != 0 && has_effect( effect_docile );
     bool angers_hostile_weak = type->anger.find( MTRIG_HOSTILE_WEAK ) != type->anger.end();
@@ -162,7 +257,7 @@ void monster::plan( const mfactions &factions )
 
     // If we can see the player, move toward them or flee.
     if( friendly == 0 && sees( g->u ) ) {
-        dist = rate_target( g->u, dist, electronic );
+        dist = rate_target( g->u, dist, smart_planning );
         fleeing = fleeing || is_fleeing( g->u );
         target = &g->u;
         if( dist <= 5 ) {
@@ -174,7 +269,7 @@ void monster::plan( const mfactions &factions )
         for( int i = 0, numz = g->num_zombies(); i < numz; i++ ) {
             monster &tmp = g->zombie( i );
             if( tmp.friendly == 0 ) {
-                float rating = rate_target( tmp, dist, electronic );
+                float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
                     target = &tmp;
                     dist = rating;
@@ -193,7 +288,7 @@ void monster::plan( const mfactions &factions )
 
     for( size_t i = 0; i < g->active_npc.size(); i++ ) {
         npc *me = g->active_npc[i];
-        float rating = rate_target( *me, dist, electronic );
+        float rating = rate_target( *me, dist, smart_planning );
         bool fleeing_from = is_fleeing( *me );
         // Switch targets if closer and hostile or scarier than current target
         if( ( rating < dist && fleeing ) ||
@@ -219,7 +314,7 @@ void monster::plan( const mfactions &factions )
 
             for( int i : fac.second ) { // mon indices
                 monster &mon = g->zombie( i );
-                float rating = rate_target( mon, dist, electronic );
+                float rating = rate_target( mon, dist, smart_planning );
                 if( rating < dist ) {
                     target = &mon;
                     dist = rating;
@@ -246,7 +341,7 @@ void monster::plan( const mfactions &factions )
     if( group_morale || swarms ) {
         for( const int i : myfaction_iter->second ) {
             monster &mon = g->zombie( i );
-            float rating = rate_target( mon, dist, electronic );
+            float rating = rate_target( mon, dist, smart_planning );
             if( group_morale && rating <= 10 ) {
                 morale += 10 - rating;
             }
