@@ -92,7 +92,7 @@ void Item_factory::finalize() {
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
 
-        if( obj.engine && item_options.count( "no_faults" ) ) {
+        if( obj.engine && g->has_option( "no_faults" ) ) {
             obj.engine->faults.clear();
         }
 
