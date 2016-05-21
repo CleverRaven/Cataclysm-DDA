@@ -119,7 +119,7 @@ bool monster::can_move_to( const tripoint &p ) const
         }
     }
 
-    if (has_flag( MF_INTELLIGENT_PATHS)) {
+    if (has_flag( MF_PATH_AVOID_DANGER)) {
         // Don't enter sharp terrain unless tiny, or attacking
         if( g->m.has_flag( "SHARP", p ) && !( attitude( &( g->u ) ) == MATT_ATTACK ||
                                               type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
@@ -210,7 +210,7 @@ float monster::rate_target( Creature &c, float best, bool smart ) const
 void monster::plan( const mfactions &factions )
 {
     // Bots are more intelligent than most living stuff
-    bool smart_planning = has_flag( MF_ELECTRONIC ) || has_flag( MF_INTELLIGENT_PATHS );
+    bool smart_planning = has_flag( MF_PRIORITIZE_TARGETS );
     Creature *target = nullptr;
     // 8.6f is rating for tank drone 60 tiles away, moose 16 or boomer 33
     float dist = !smart_planning ? 1000 : 8.6f;
