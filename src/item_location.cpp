@@ -379,7 +379,7 @@ item_location::type item_location::where() const
 
 tripoint item_location::position() const
 {
-    return ptr ? ptr->position() : tripoint();
+    return ptr ? ptr->position() : tripoint_min;
 }
 
 std::string item_location::describe( const Character *ch ) const
