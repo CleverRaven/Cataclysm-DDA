@@ -29,6 +29,5 @@
     "magazines": [
       [ "762x25", [ "ppsh35mag", "ppsh71drum" ] ],
     ],
-    "flags": [ "RAPIDFIRE" ]
   }
 ]
