@@ -811,7 +811,7 @@ npc_action npc::method_of_attack()
             weapon.ammo_remaining() >= weapon.ammo_required() ) {
 
             const int confident = confident_gun_range( weapon );
-            int burst_size = weapon.gun_has_mode( "AUTO" ).qty;
+            int burst_size = weapon.gun_get_mode( "AUTO" ).qty;
 
             if( dist > confident ) {
                 if( can_reload_current() && (enough_time_to_reload( weapon ) || in_vehicle) ) {

@@ -1220,7 +1220,7 @@ public:
         std::map<std::string, const item::gun_mode> gun_all_modes() const;
 
         /** Check if gun supports a specific mode returning an invalid/empty mode if not */
-        const gun_mode gun_has_mode( const std::string& mode ) const;
+        const gun_mode gun_get_mode( const std::string& mode ) const;
 
         /** Get the current mode for this gun (or an invalid mode if item is not a gun) */
         gun_mode gun_current_mode();

@@ -4232,7 +4232,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
     return res;
 }
 
-const item::gun_mode item::gun_has_mode( const std::string& mode ) const
+const item::gun_mode item::gun_get_mode( const std::string& mode ) const
 {
     if( is_gun() ) {
         for( auto e : gun_all_modes() ) {
@@ -4246,7 +4246,7 @@ const item::gun_mode item::gun_has_mode( const std::string& mode ) const
 
 item::gun_mode item::gun_current_mode()
 {
-    return gun_has_mode( const_cast<item *>( this )->gun_get_mode_id() );
+    return gun_get_mode( const_cast<item *>( this )->gun_get_mode_id() );
 }
 
 std::string item::gun_get_mode_id() const
