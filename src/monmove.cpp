@@ -35,7 +35,7 @@ const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
 
-bool monster::wander( )
+bool monster::wander()
 {
     return ( goal == pos() );
 }
@@ -160,7 +160,7 @@ void monster::set_dest( const tripoint &p )
     goal = p;
 }
 
-void monster::unset_dest( )
+void monster::unset_dest()
 {
     goal = pos();
 }
@@ -530,7 +530,7 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
 // 2) Sight-based tracking
 // 3) Scent-based tracking
 // 4) Sound-based tracking
-void monster::move( )
+void monster::move()
 {
     // We decrement wandf no matter what.  We'll save our wander_to plans until
     // after we finish out set_dest plans, UNLESS they time out first.
@@ -805,7 +805,7 @@ void monster::footsteps( const tripoint &p )
     return;
 }
 
-tripoint monster::scent_move( )
+tripoint monster::scent_move()
 {
     std::vector<tripoint> smoves;
 
@@ -966,7 +966,7 @@ bool monster::bash_at( const tripoint &p )
     return false;
 }
 
-int monster::bash_estimate( )
+int monster::bash_estimate()
 {
     int estimate = bash_skill();
     if( has_flag( MF_GROUP_BASH ) ) {
@@ -977,7 +977,7 @@ int monster::bash_estimate( )
     return estimate;
 }
 
-int monster::bash_skill( )
+int monster::bash_skill()
 {
     int ret = type->melee_dice * type->melee_sides; // IOW, the critter's max bashing damage
     if( has_flag( MF_BORES ) ) {
@@ -1371,7 +1371,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 /**
  * Stumble in a random direction, but with some caveats.
  */
-void monster::stumble( )
+void monster::stumble()
 {
     // Only move every 3rd turn.
     if( !one_in( 3 ) ) {
