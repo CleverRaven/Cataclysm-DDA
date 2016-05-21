@@ -19,8 +19,8 @@ class tripoint_range
             public:
                 typedef tripoint                    value_type;
                 typedef std::ptrdiff_t              difference_type;
-                typedef tripoint*                   pointer;
-                typedef tripoint&                   reference;
+                typedef tripoint                   *pointer;
+                typedef tripoint                   &reference;
                 typedef std::forward_iterator_tag   iterator_category;
 
                 point_generator( const tripoint &_p, const tripoint_range &_range )
