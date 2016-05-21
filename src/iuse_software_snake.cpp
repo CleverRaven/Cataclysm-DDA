@@ -3,11 +3,10 @@
 #include "rng.h"
 #include "input.h"
 #include "output.h"
-#include "catacharset.h"
-#include "options.h"
-#include "debug.h"
+#include "catacharset.h"  // utf8_width()
 #include "translations.h"
 
+#include <algorithm>
 #include <string>
 #include <cassert>
 #include <cmath>
