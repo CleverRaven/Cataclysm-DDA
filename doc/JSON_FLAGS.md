@@ -576,7 +576,7 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 ### Effects
 
 - ```COOKOFF``` Explodes when lit on fire.
-- ```SHOT``` Multiple smaller pellets instead of one singular bullet; less effective against armor but increases chance to hit.
+- ```SHOT``` Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```EXPLOSIVE``` Explodes without any shrapnel.
 - ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
