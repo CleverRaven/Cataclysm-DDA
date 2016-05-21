@@ -19,6 +19,12 @@ inline bool sight_check( const float &transparency, const float &/*intensity*/ )
 }
 
 
+struct ShadowcastingSlope {
+    public:
+        ShadowcastingSlope( int x = 1, int y = 1 );
+        int xdiff, ydiff;
+};
+
 template<int xx, int xy, int yx, int yy,
          float( *calc )( const float &, const float &, const int & ),
          bool( *check )( const float &, const float & )>
@@ -27,7 +33,7 @@ void castLight(
     const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
     const int offsetX, const int offsetY, const int offsetDistance,
     const float numerator = 1.0, const int row = 1,
-    float start = 1.0f, const float end = 0.0f,
+    ShadowcastingSlope start = 1, const ShadowcastingSlope end = 0,
     double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
 // TODO: Generalize the floor check, allow semi-transparent floors
