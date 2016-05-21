@@ -687,10 +687,6 @@ void Item_factory::check_definitions() const
                     msg << string_format("invalid built-in mod.") << "\n";
                 }
             }
-
-            if( !type->gun->modes.count( "DEFAULT" ) ) {
-                msg << "no DEFAULT mode specified" << "\n";
-            }
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->ammo_modifier );
