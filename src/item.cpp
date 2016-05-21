@@ -52,6 +52,9 @@ const skill_id skill_bashing( "bashing" );
 const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 
+const quality_id quality_jack( "JACK" );
+const quality_id quality_lift( "LIFT" );
+
 const species_id FISH( "FISH" );
 const species_id BIRD( "BIRD" );
 const species_id INSECT( "INSECT" );
@@ -1323,24 +1326,33 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
     }
 
-    for( const auto &quality : type->qualities ) {
-        const auto desc = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
-                                         quality.second,
-                                         quality.first.obj().name.c_str() );
-        info.push_back( iteminfo( "QUALITIES", "", desc ) );
+    auto name_quality = [&info]( const std::pair<quality_id,int>& q ) {
+        std::string str;
+        if( q.first == quality_lift ) {
+            str = string_format( _( "Can be used to lift items up to %ikg" ),
+                                 q.second * TOOL_LIFT_FACTOR / 1000 );
+        } else if( q.first == quality_jack ) {
+            str = string_format( _( "Can be used to jack vehicles up to %ikg" ),
+                                 q.second * TOOL_LIFT_FACTOR / 1000 );
+        } else {
+            str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
+                                 q.second, q.first.obj().name.c_str() );
+        }
+        info.emplace_back( "QUALITIES", "", str );
+    };
+
+    for( const auto& e : type->qualities ) {
+        name_quality( e );
     }
+
     bool intro = false; // Did we print the "Contains items with qualities" line
     for( const auto &content : contents ) {
-        for( const auto quality : content.type->qualities ) {
+        for( const auto& e : content.type->qualities ) {
             if( !intro ) {
                 intro = true;
-                info.push_back( iteminfo( "QUALITIES", "", _( "Contains items with qualities:" ) ) );
+                info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
             }
-
-            const auto desc = string_format( space + _( "Level %1$d %2$s quality." ),
-                                             quality.second,
-                                             quality.first.obj().name.c_str() );
-            info.push_back( iteminfo( "QUALITIES", "", desc ) );
+            name_quality( e );
         }
     }
 
