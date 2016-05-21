@@ -1341,18 +1341,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.emplace_back( "QUALITIES", "", str );
     };
 
-    for( const auto& e : type->qualities ) {
-        name_quality( e );
+    for( const auto& q : type->qualities ) {
+        name_quality( q );
     }
 
-    bool intro = false; // Did we print the "Contains items with qualities" line
-    for( const auto &content : contents ) {
-        for( const auto& e : content.type->qualities ) {
-            if( !intro ) {
-                intro = true;
-                info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
-            }
-            name_quality( e );
+    if( std::any_of( contents.begin(), contents.end(), []( const item& e ) { return !e.type->qualities.empty(); } ) ) {
+        info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
+    }
+    for( const auto& e : contents ) {
+        for( const auto& q : e.type->qualities ) {
+            name_quality( q );
         }
     }
 
