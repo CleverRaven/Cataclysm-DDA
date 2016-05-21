@@ -19,15 +19,15 @@
     "aim_speed": 12,
     "durability": 8,
     "loudness": 5,
-    "clip_size": 100,
-    "reload": 450
+    "clip_size": 20,
+    "reload": 50
   },
   {
     "id": "nailrifle",
     "copy-from": "nailgun",
     "type": "GUN",
     "name": "nail rifle",
-    "description": "This is a nailgun that has been jury-rigged to be a more effective weapon with the addition of a short barrel, a stock, and a hand guard.",
+    "description": "This is a nailgun that has been extensively modified with the addition of a short barrel, stock and hand guard.  It can be reloaded using detachable magazines and is an overall much more effective weapon.",
     "bashing": 12,
     "to_hit": -1,
     "skill": "rifle",
@@ -44,7 +44,7 @@
         "aim_speed": 0.5
     },
     "burst": 5,
-    "clip_size": 100,
+    "magazines": [ [ "nail", [ "nailmag" ] ] ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
   }
 ]
