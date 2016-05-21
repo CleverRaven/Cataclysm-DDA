@@ -7,7 +7,7 @@
     "weight": 3904,
     "volume": 3,
     "price": 13000,
-    "bashing": 10,
+    "bashing": 6,
     "to_hit": -2,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
