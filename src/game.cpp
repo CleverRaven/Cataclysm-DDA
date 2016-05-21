@@ -2826,7 +2826,44 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE:
-            // Shell-users may fire a *single-handed* weapon out a port, if need be.
+            // Use vehicle turret or draw a pistol from a holster if unarmed
+            if( !u.is_armed() ) {
+                int part = -1;
+                vehicle *veh = m.veh_at( u.pos(), part );
+                if( veh ) {
+                    int vpturret = veh->part_with_feature( part, "TURRET", true );
+                    int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
+                    if( ( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) ||
+                        ( vpcontrols >= 0 && veh->aim_turrets() ) ) {
+                        break;
+                    }
+                }
+
+                std::vector<std::string> options( 1, _("Cancel") );
+                std::vector<std::function<void()>> actions( 1, []{} );
+
+                for( auto &w : u.worn ) {
+                    if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
+                        !w.contents.empty() && w.contents.front().is_gun() ) {
+                        // draw (first) gun contained in holster
+                        options.push_back( string_format( _("%s from %s (%d)" ),
+                                                          w.contents.front().tname().c_str(),
+                                                          w.type_name().c_str(),
+                                                          w.contents.front().ammo_remaining() ) );
+
+                        actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
+
+                    } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
+                        // wield item currently worn using shoulder strap
+                        options.push_back( w.display_name() );
+                        actions.push_back( [&]{ u.wield( w ); } );
+                    }
+                }
+                if( options.size() > 1 ) {
+                    actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
+                }
+            }
+
             plfire( mouse_target );
             break;
 
@@ -10867,46 +10904,6 @@ void game::plfire( const tripoint &default_target )
             u.moves -= rng(2, 5) * 10;
             add_msg(m_bad, _("You can't fire your weapon, it's too heavy..."));
             return;
-        }
-    }
-    // Use vehicle turret or draw a pistol from a holster if unarmed
-    if( !u.is_armed() ) {
-        // Vehicle turret first, if on our tile
-        int part = -1;
-        vehicle *veh = m.veh_at( u.pos(), part );
-        if( veh != nullptr ) {
-            int vpturret = veh->part_with_feature( part, "TURRET", true );
-            int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-            if( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) {
-                return;
-            } else if( vpcontrols >= 0 && veh->aim_turrets() ) {
-                return;
-            }
-        }
-
-        std::vector<std::string> options( 1, _("Cancel") );
-        std::vector<std::function<void()>> actions( 1, []{} );
-
-        for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
-                !w.contents.empty() && w.contents.front().is_gun() ) {
-                // draw (first) gun contained in holster
-                options.push_back( string_format( _("%s from %s (%d)" ),
-                                                  w.contents.front().tname().c_str(),
-                                                  w.type_name().c_str(),
-                                                  w.contents.front().ammo_remaining() ) );
-
-                actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
-
-            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
-                // wield item currently worn using shoulder strap
-                options.push_back( w.display_name() );
-                actions.push_back( [&]{ u.wield( w ); } );
-            }
-        }
-
-        if( options.size() > 1 ) {
-            actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
         }
     }
 
