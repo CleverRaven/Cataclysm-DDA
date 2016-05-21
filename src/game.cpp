@@ -2864,7 +2864,21 @@ bool game::handle_action()
                 }
             }
 
-            plfire( mouse_target );
+            if( u.weapon.is_gun() ) {
+                plfire( mouse_target );
+
+            } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
+                int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+                temp_exit_fullscreen();
+                m.draw( w_terrain, u.pos() );
+                tripoint p = u.pos();
+                std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_REACH );
+                if( !trajectory.empty() ) {
+                    u.reach_attack( p );
+                }
+                draw_ter();
+                reenter_fullscreen();
+            }
             break;
 
         case ACTION_FIRE_BURST: {
