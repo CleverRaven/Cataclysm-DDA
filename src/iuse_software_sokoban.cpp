@@ -1,3 +1,13 @@
+#include "iuse_software_sokoban.h"
+
+#include "output.h"
+#include "input.h"
+#include "catacharset.h"
+#include "options.h"
+#include "debug.h"
+#include "path_info.h"
+#include "translations.h"
+
 #include <string>
 #include <iostream>
 #include <iterator>
@@ -5,15 +15,6 @@
 #include <fstream>
 #include <map>
 #include <vector>
-
-#include "output.h"
-#include "input.h"
-#include "catacharset.h"
-#include "options.h"
-#include "debug.h"
-#include "iuse_software_sokoban.h"
-#include "path_info.h"
-#include "translations.h"
 
 sokoban_game::sokoban_game()
 {
