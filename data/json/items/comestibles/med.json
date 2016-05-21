@@ -387,6 +387,7 @@
         "material" : "powder",
         "symbol" : "!",
         "color" : "white",
+        "container" : "bag_plastic",
         "stim" : 20,
         "healthy" : -2,
         "fun" : 25,
@@ -452,6 +453,7 @@
         "material" : "powder",
         "symbol" : "!",
         "color" : "white",
+        "container" : "bag_plastic",
         "stim" : 40,
         "healthy" : -2,
         "fun" : 50,
@@ -656,6 +658,7 @@
         "material" : "powder",
         "symbol" : "!",
         "color" : "light_gray",
+        "container" : "bag_plastic",
         "stim" : -10,
         "healthy" : -5,
         "fun" : 50,
@@ -761,6 +764,7 @@
         "material" : "powder",
         "symbol" : "!",
         "color" : "light_cyan",
+        "container" : "bag_plastic",
         "quench" : -2,
         "stim" : 20,
         "healthy" : -7,
@@ -1160,37 +1164,26 @@
         "color" : "magenta",
         "use_action" : {
             "type" : "consume_drug",
-            "activation_message" : "You take some multivitamins.",
+            "activation_message" : "You take the %s.",
             "vitamins": [
-                [ "calcium", 25, 50 ],
-                [ "iron", 25, 50 ],
-                [ "vitA", 25, 50 ],
-                [ "vitB", 25, 50 ],
-                [ "vitC", 25, 50 ]
+                [ "calcium", 24, 48 ],
+                [ "iron", 24, 48 ],
+                [ "vitA", 24, 48 ],
+                [ "vitB", 24, 48 ],
+                [ "vitC", 24, 48 ]
             ]
         }
     },
     {
         "id" : "gummy_vitamins",
+        "copy-from": "vitamins",
         "type" : "COMESTIBLE",
         "comestible_type" : "MED",
-        "copy-from": "vitamins",
         "name" : "gummy vitamin",
         "description" : "Essential dietary nutrients conveniently packaged in a fruit-flavored chewy candy form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
         "fun" : 4,
         "charges" : 10,
-        "stack_size" : 10,
-        "use_action" : {
-            "type" : "consume_drug",
-            "activation_message" : "You eat the gummy vitamin.",
-            "vitamins": [
-                [ "calcium", 25, 50 ],
-                [ "iron", 25, 50 ],
-                [ "vitA", 25, 50 ],
-                [ "vitB", 25, 50 ],
-                [ "vitC", 25, 50 ]
-            ]
-        }
+        "stack_size" : 10
     },
     {
         "id" : "inj_vitb",

@@ -1,11 +1,4 @@
-#include <string>
-#include <iostream>
-#include <iterator>
-#include <sstream>
-#include <fstream>
-#include <map>
-#include <vector>
-#include <cstdlib>
+#include "iuse_software_minesweeper.h"
 
 #include "output.h"
 #include "ui.h"
@@ -13,8 +6,12 @@
 #include "map.h"
 #include "input.h"
 #include "catacharset.h"
-#include "iuse_software_minesweeper.h"
 #include "translations.h"
+
+#include <string>
+#include <sstream>
+#include <vector>
+#include <cstdlib>
 
 minesweeper_game::minesweeper_game()
 {

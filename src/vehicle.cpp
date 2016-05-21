@@ -855,7 +855,7 @@ bool vehicle::interact_vehicle_locked()
     if (is_locked){
         const inventory &crafting_inv = g->u.crafting_inventory();
         add_msg(_("You don't find any keys in the %s."), name.c_str());
-        if( crafting_inv.has_quality( "SCREW" ) ) {
+        if( crafting_inv.has_quality( quality_id( "SCREW" ) ) ) {
             if (query_yn(_("You don't find any keys in the %s. Attempt to hotwire vehicle?"),
                             name.c_str())) {
                 ///\EFFECT_MECHANICS speeds up vehicle hotwiring
@@ -5156,10 +5156,13 @@ void vehicle::place_spawn_items()
                         e.damage = rng( 1, MAX_ITEM_DAMAGE );
                     }
                     if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-                        if( rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
+                        bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
+                        bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current();
+
+                        if( spawn_mag || spawn_ammo ) {
                             e.contents.emplace_back( e.magazine_default(), e.bday );
                         }
-                        if( rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0 ) {
+                        if( spawn_ammo ) {
                             e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
                         }
                     }
@@ -6139,19 +6142,19 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     }
 
     if( only_manual_modes ) {
-        const char *name = parts[ p ].name().c_str();
+        const std::string name = parts[ p ].name();
         if( tr.mode < -1 ) {
-            add_msg( m_info, _("Setting turret %s to burst mode."), name );
+            add_msg( m_info, _("Setting turret %s to burst mode."), name.c_str() );
         } else if( tr.mode == -1 ) {
-            add_msg( m_info, _("Setting turret %s to single-fire mode."), name );
+            add_msg( m_info, _("Setting turret %s to single-fire mode."), name.c_str() );
         } else if( tr.mode == 0 ) {
-            add_msg( m_info, _("Disabling turret %s."), name );
+            add_msg( m_info, _("Disabling turret %s."), name.c_str() );
         } else {
-            add_msg( m_info, _("Setting turret %s to buggy mode."), name );
+            add_msg( m_info, _("Setting turret %s to buggy mode."), name.c_str() );
         }
 
         if( was_auto ) {
-            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name );
+            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name.c_str() );
         }
     }
 }

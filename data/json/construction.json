@@ -717,9 +717,6 @@
         "time" : 60,
         "tools": [
         [
-          [ "goggles_welding", -1 ]
-        ],
-        [
           [ "oxy_torch", 4 ],
           [ "welder", 20 ],
           [ "welder_crude", 30 ],
@@ -727,7 +724,8 @@
         ]
         ],
         "qualities": [ [
-            { "id": "SAW_M", "level": 1 }
+            { "id": "SAW_M", "level": 1 },
+            { "id" : "GLARE", "level" : 2 }
         ] ],
         "components" : [
             [ [ "pipe", 6 ] ],
@@ -897,8 +895,8 @@
         "category" : "CONSTRUCT",
         "difficulty" : 4,
         "time" : 90,
+        "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
-        [ [ "goggles_welding", -1 ] ],
         [
           [ "oxy_torch", 10 ],
           [ "welder", 50 ],
@@ -917,8 +915,8 @@
         "category" : "CONSTRUCT",
         "difficulty" : 4,
         "time" : 90,
+        "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
-        [ [ "goggles_welding", -1 ] ],
         [
           [ "oxy_torch", 10 ],
           [ "welder", 50 ],
@@ -1049,8 +1047,8 @@
         "category" : "CONSTRUCT",
         "difficulty" : 5,
         "time" : 90,
+        "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
         "tools": [
-        [ [ "goggles_welding", -1 ] ],
         [
           [ "oxy_torch", 10 ],
           [ "welder", 50 ],

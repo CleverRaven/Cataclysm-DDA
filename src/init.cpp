@@ -180,7 +180,7 @@ void DynamicDataLoader::initialize()
 
     type_function_map["recipe_category"] = new StaticFunctionAccessor(&load_recipe_category);
     type_function_map["recipe"] = new StaticFunctionAccessor(&load_recipe);
-    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load);
+    type_function_map["tool_quality"] = new StaticFunctionAccessor(&quality::load_static);
     type_function_map["technique"] = new StaticFunctionAccessor(&load_technique);
     type_function_map["martial_art"] = new StaticFunctionAccessor(&load_martial_art);
     type_function_map["effect_type"] = new StaticFunctionAccessor(&load_effect_type);
@@ -201,8 +201,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_whitelist);
-    type_function_map["ITEM_OPTION"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_item_option);
+
+    type_function_map[ "GAME_OPTION" ] = new ClassFunctionAccessor<game>( g, &game::load_game_option );
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
@@ -364,6 +364,7 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     gates::reset();
     reset_overlay_ordering();
+    g->options.clear();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -391,6 +392,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::check_consistency()
 {
+    vitamin::check_consistency();
     item_controller->check_definitions();
     fault::check_consistency();
     vpart_info::check();
@@ -405,4 +407,5 @@ void DynamicDataLoader::check_consistency()
     mutation_branch::check_consistency();
     ammunition_type::check_consistency();
     trap::check_consistency();
+    check_bionics();
 }

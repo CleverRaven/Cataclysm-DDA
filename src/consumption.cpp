@@ -9,6 +9,7 @@
 #include "material.h"
 #include "addiction.h"
 #include "mutation.h"
+#include "translations.h"
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -21,6 +22,7 @@ const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_paincysts( "paincysts" );
+const efftype_id effect_nausea( "nausea" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -110,15 +112,11 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     if( qty > 0 ) {
         // accumulations can never occur from food sources
         it->second = std::min( it->second + qty, capped ? 0 : v.max() );
+        update_vitamins( vit );
 
     } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
-    }
-
-    auto eff = v.effect( it->second );
-    if( !eff.is_null() ) {
-        // consumption rate may vary so extend effect until next check due for this vitamin
-        add_effect( eff, ( std::abs( vitamin_rate( vit ) ) * MINUTES( 1 ) ) - get_effect_dur( eff ) + 1 );
+        update_vitamins( vit );
     }
 
     return it->second;
@@ -126,6 +124,10 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 int player::vitamin_get( const vitamin_id &vit ) const
 {
+    if( g->has_option( "no_vitamins" ) ) {
+        return 0;
+    }
+
     const auto &v = vitamin_levels.find( vit );
     return v != vitamin_levels.end() ? v->second : 0;
 }
@@ -364,6 +366,13 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         //~ Semantic difference, but greatly facilitates people being proud of their character.
         maybe_print( m_info, _( "It's too fresh, let it age a little first." ) );
         return ROTTEN;
+    }
+
+    if( edible && has_effect( effect_nausea ) ) {
+        if( !maybe_query(
+                _( "You still feel nauseous and will probably puke it all up again.  Eat anyway?" ) ) ) {
+            return ALLERGY;
+        }
     }
 
     // Print at most one of those

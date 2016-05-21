@@ -227,7 +227,7 @@
         "id" : "STRONGSTOMACH",
         "name" : "Strong Stomach",
         "points" : 1,
-        "description" : "You are less likely to throw up from food poisoning, alcohol, etc.",
+        "description" : "You are less likely to throw up from food poisoning, alcohol, etc.  If you throw up nevertheless, you won't suffer a residual nausea.",
         "starting_trait" : true,
         "changes_to" : ["NAUSEA"],
         "note" : "nope.  This does NOT lead to EATPOISON.  Stomach problems are part of the GI upgrades--one advantage to not having Robust Genetics.",
@@ -2588,7 +2588,7 @@
         "id" : "PRED4",
         "name" : "Apex Predator",
         "points" : 2,
-        "description" : "Your mind and brain have adapted to your new place in the world: as one on top the food chain. You can effortlessly master and maintain combat skills, but your critical thinking has atrophied further.",
+        "description" : "Your mind and brain have adapted to your new place in the world: as one on top the food chain.  You can effortlessly master and maintain combat skills, but your critical thinking has atrophied further.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
@@ -3926,7 +3926,7 @@
         "cancels" : ["VEGETARIAN", "HERBIVORE", "RUMINANT",  "GRAZER"],
         "leads_to" : ["SAPROVORE"],
         "category" : ["MUTCAT_LIZARD", "MUTCAT_BEAST", "MUTCAT_SPIDER", "MUTCAT_CHIMERA", "MUTCAT_RAPTOR", "MUTCAT_FELINE"],
-        "vitamin_rates": [ [ "vitC", -120 ] ]
+        "vitamin_rates": [ [ "vitC", -1200 ] ]
     },{
         "type" : "mutation",
         "id" : "PONDEROUS1",

@@ -52,7 +52,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 5 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "tools": [
     [
       [ "fire", -1 ],
@@ -85,7 +85,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 6 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "tools": [
     [
       [ "fire", -1 ],
@@ -118,7 +118,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 7 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "tools": [
     [
       [ "fire", -1 ],
@@ -156,7 +156,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 7 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "tools": [
     [
       [ "fire", -1 ],
@@ -189,7 +189,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["textbook_launcher" , 8 ] ],
-  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ],
   "tools": [
     [
       [ "fire", -1 ],

@@ -128,7 +128,7 @@ public:
 static std::map<std::string, json_talk_topic> json_talk_topics;
 
 // Every OWED_VAL that the NPC owes you counts as +1 towards convincing
-#define OWED_VAL 250
+#define OWED_VAL 1000
 
 // Some aliases to help with gen_responses
 #define RESPONSE(txt)      ret.push_back(talk_response());\
@@ -196,6 +196,16 @@ static int calc_ma_style_training_cost( const matype_id & /* id */ )
     return 800;
 }
 
+// Rescale values from "mission scale" to "opinion scale"
+static int cash_to_favor( const npc &, int cash )
+{
+    // @todo It should affect different NPCs to a different degree
+    // Square root of mission value in dollars
+    // ~31 for zed mom, 50 for horde master, ~63 for plutonium cells
+    double scaled_mission_val = sqrt( cash / 100.0 );
+    return roll_remainder( scaled_mission_val );
+}
+
 void npc_chatbin::check_missions()
 {
     // TODO: or simply fail them? Some missions might only need to be reported.
@@ -209,6 +219,10 @@ void npc_chatbin::check_missions()
 
 void npc::talk_to_u()
 {
+    if( g->u.is_dead_state() ) {
+        attitude = NPCATT_NULL;
+        return;
+    }
     const bool has_mind_control = g->u.has_trait( "DEBUG_MIND_CONTROL" );
     // This is necessary so that we don't bug the player over and over
     if( attitude == NPCATT_TALK ) {
@@ -1560,12 +1574,12 @@ void dialogue::gen_responses( const std::string &topic )
         if( miss == nullptr ) {
             debugmsg( "dialogue::gen_responses(\"TALK_MISSION_SUCCESS\") called for null mission" );
         } else {
-            mission_value = miss->get_value();
+            mission_value = cash_to_favor( *p, miss->get_value() );
         }
         RESPONSE(_("Glad to help.  I need no payment."));
             SUCCESS("TALK_NONE");
-                SUCCESS_OPINION(mission_value / (OWED_VAL * 4), -1,
-                                mission_value / (OWED_VAL * 2), -1, 0 - mission_value);
+                SUCCESS_OPINION( mission_value / 4, -1,
+                                 mission_value / 3, -1, 0 );
                 SUCCESS_ACTION(&talk_function::clear_mission);
         add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
                       &talk_function::mission_reward );
@@ -1576,9 +1590,9 @@ void dialogue::gen_responses( const std::string &topic )
         }
         RESPONSE(_("Glad to help.  I need no payment.  Bye!"));
             SUCCESS("TALK_DONE");
-                SUCCESS_ACTION(&talk_function::clear_mission);
-                SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
-                                p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - mission_value);
+                SUCCESS_ACTION( &talk_function::clear_mission );
+                SUCCESS_OPINION( mission_value / 4, -1,
+                                 mission_value / 3, -1, 0 );
 
     } else if( topic == "TALK_MISSION_SUCCESS_LIE" ) {
         add_response( _("Well, um, sorry."), "TALK_NONE", &talk_function::clear_mission );
@@ -2877,12 +2891,15 @@ void talk_function::mission_success(npc *p)
         debugmsg( "mission_success: mission_selected == nullptr" );
         return;
     }
-    npc_opinion tmp( 0, 0, 1 + (miss->get_value() / 1000), -1, miss->get_value());
+
+    int miss_val = cash_to_favor( *p, miss->get_value() );
+    npc_opinion tmp( 0, 0, 1 + miss_val / 5, -1, 0 );
     p->op_of_u += tmp;
-    if (p->my_fac != NULL){
-        p->my_fac->likes_u += 10;
-        p->my_fac->respects_u += 10;
-        p->my_fac->power += 10;
+    if( p->my_fac != nullptr ) {
+        int fac_val = std::min( 1 + miss_val / 10, 10 );
+        p->my_fac->likes_u += fac_val;
+        p->my_fac->respects_u += fac_val;
+        p->my_fac->power += fac_val;
     }
     miss->wrap_up();
 }
@@ -3215,7 +3232,7 @@ void talk_function::buy_10_logs(npc *p)
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+    bay.load(site.x * 2, site.y * 2, site.z, false);
     bay.spawn_item( 7, 15, "log", 10);
     bay.save();
 
@@ -3241,7 +3258,7 @@ void talk_function::buy_100_logs(npc *p)
 
     const tripoint site = random_entry( places_om );
     tinymap bay;
-    bay.load(site.x * 2, site.y * 2, g->get_levz(), false);
+    bay.load(site.x * 2, site.y * 2, site.z, false);
     bay.spawn_item( 7, 15, "log", 100);
     bay.save();
 
@@ -4448,7 +4465,7 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 {
-    const int inv_pos = g->inv( _("Offer what?") );
+    const int inv_pos = g->inv_for_all( _( "Offer what?" ), _( "You have no items to offer." ) );
     item &given = g->u.i_at( inv_pos );
     if( given.is_null() ) {
         return _("Changed your mind?");

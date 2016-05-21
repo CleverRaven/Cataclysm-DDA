@@ -870,7 +870,7 @@
     "symbol": "/",
     "color": "brown",
     "name": "hickory root",
-    "description": "A root from a hickory tree. It has an earthy smell.",
+    "description": "A root from a hickory tree.  It has an earthy smell.",
     "price": 0,
     "material": "wood",
     "weight": 500,

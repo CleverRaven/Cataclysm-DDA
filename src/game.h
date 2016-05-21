@@ -81,6 +81,8 @@ enum action_id : int;
 struct special_game;
 struct mtype;
 using mtype_id = string_id<mtype>;
+using itype_id = std::string;
+using ammotype = std::string;
 class mission;
 class map;
 class Creature;
@@ -306,7 +308,7 @@ class game
          * If the monster was revived, the caller should remove the corpse item.
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
-        bool revive_corpse( const tripoint &location, const item &corpse );
+        bool revive_corpse( const tripoint &location, item &corpse );
         /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
          *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
         void plfire( bool burst, const tripoint &default_target = tripoint_min );
@@ -426,15 +428,19 @@ class game
         std::string sFilter; // this is a member so that it's remembered over time
         std::string list_item_upvote;
         std::string list_item_downvote;
-        int inv(const std::string &title, int position = INT_MIN);
-        int inv_activatable(std::string const &title);
-        int inv_for_liquid(const item &liquid, const std::string &title, bool auto_choose_single);
-        int inv_for_salvage(const std::string &title, const salvage_actor &actor );
+
         item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
-        int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
-        int inv_for_filter(const std::string &title, item_filter filter);
-        int inv_for_unequipped(std::string const &title, item_filter filter);
-        int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
+
+        int inv( int position = INT_MIN );
+        int inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message = "" );
+        int inv_for_all( const std::string &title, const std::string &none_message = "" );
+        int inv_for_activatables( const player &p, const std::string &title );
+        int inv_for_flag( const std::string &flag, const std::string &title );
+        int inv_for_id( const itype_id &id, const std::string &title );
+        int inv_for_tools_powered_by( const ammotype &battery_id, const std::string &title );
+        int inv_for_equipped( const std::string &title );
+        int inv_for_unequipped( const std::string &title );
+
         enum inventory_item_menu_positon {
             RIGHT_TERMINAL_EDGE,
             LEFT_OF_INFO,
@@ -448,8 +454,10 @@ class game
                                       item_filter ground_filter,
                                       item_filter vehicle_filter,
                                       const std::string &title,
-                                      int radius = 0 );
-        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0 );
+                                      int radius = 0,
+                                      const std::string &none_message = "" );
+        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0,
+                                      const std::string &none_message = "" );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -527,12 +535,83 @@ class game
         // the function set the driving offset to (0,0)
         void calc_driving_offset(vehicle *veh = NULL);
 
-        bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
-                           item *cont = NULL, int radius = 0);
+        /**
+         * @name Liquid handling
+         */
+        /**@{*/
+        /**
+         * Consume / handle all of the liquid. The function can be used when the liquid needs
+         * to be handled and can not be put back to where it came from (e.g. when it's a newly
+         * created item from crafting).
+         * The player is forced to handle all of it, which may required them to pour it onto
+         * the ground (if they don't have enough container space available) and essentially
+         * loose the item.
+         * @return Whether any of the liquid has been consumed. `false` indicates the player has
+         * declined all options to handle the liquid (essentially canceled the action) and no
+         * charges of the liquid have been transferred.
+         * `true` indicates some charges have been transferred (but not necessarily all of them).
+         */
+        void handle_all_liquid( item liquid, int radius = 0 );
 
-        //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
-        //otherwise returns sentinel -1, signifies transaction fail.
-        int move_liquid(item &liquid);
+        /**
+         * Consume / handle as much of the liquid as possible in varying ways. This function can
+         * be used when the action can be canceled, which implies the liquid can be put back
+         * to wherever it came from and is *not* lost if the player cancels the action.
+         * It returns when all liquid has been handled or if the player has explicitly canceled
+         * the action (use the charges count to distinguish).
+         * @return Whether any of the liquid has been consumed. `false` indicates the player has
+         * declined all options to handle the liquid and no charges of the liquid have been transferred.
+         * `true` indicates some charges have been transferred (but not necessarily all of them).
+         */
+        bool consume_liquid( item &liquid, int radius = 0 );
+
+        /**
+         * Handle finite liquid from ground. The function also handles consuming move points.
+         * This may start a player activity.
+         * @param on_ground Iterator to the item on the ground. Must be valid and point to an
+         * item in the stack at `m.i_at(pos)`
+         * @param pos The position of the item on the map.
+         * @return Whether the item has been removed (which implies it was handled completely).
+         * The iterator is invalidated in that case. Otherwise the item remains but may have
+         * fewer charges.
+         */
+        bool handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, int radius = 0 );
+
+        /**
+         * Handle liquid from inside a container item. The function also handles consuming move points.
+         * @param in_container Iterator to the liquid. Must be valid and point to an
+         * item in the @ref item::contents of the container.
+         * @return Whether the item has been removed (which implies it was handled completely).
+         * The iterator is invalidated in that case. Otherwise the item remains but may have
+         * fewer charges.
+         */
+        bool handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius = 0 );
+        /**
+         * Shortcut to the above: handles the first item in the container.
+         */
+        bool handle_liquid_from_container( item &container, int radius = 0 );
+
+        /**
+         * This may start a player activity if either \p source_pos or \p source_veh is not
+         * null.
+         * The function consumes moves of the player as needed.
+         * Supply one of the source parameters to prevent the player from pouring the liquid back
+         * into that "container". If no source parameter is given, the liquid must not be in a
+         * container at all (e.g. freshly crafted, or already removed from the container).
+         * @param source The container that currently contains the liquid.
+         * @param source_pos The source of the liquid when it's from the map.
+         * @param source_veh The vehicle that currently contains the liquid in its tank.
+         * @return Whether the user has handled the liquid (at least part of it). `false` indicates
+         * the user has rejected all possible actions. But note that `true` does *not* indicate any
+         * liquid was actually consumed, the user may have chosen an option that turned out to be
+         * invalid (chose to fill into a full/unsuitable container).
+         * Basically `false` indicates the user does not *want* to handle the liquid, `true`
+         * indicates they want to handle it.
+         */
+        bool handle_liquid( item &liquid, item *source = NULL, int radius = 0,
+                            const tripoint *source_pos = nullptr,
+                            const vehicle *source_veh = nullptr );
+        /**@}*/
 
         void open_gate( const tripoint &p );
 
@@ -575,7 +654,8 @@ class game
          * Check whether movement is allowed according to safe mode settings.
          * @return true if the movement is allowed, otherwise false.
          */
-        bool check_safe_mode_allowed();
+        bool check_safe_mode_allowed( bool repeat_safe_mode_warnings = true );
+        void set_safe_mode( safe_mode_type mode );
 
         const int dangerous_proximity;
         bool narrow_sidebar;
@@ -820,6 +900,7 @@ private:
         int last_target; // The last monster targeted
         bool last_target_was_npc;
         safe_mode_type safe_mode;
+        bool safe_mode_warning_logged;
         std::vector<int> new_seen_mon;
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool autosafemode; // is autosafemode enabled?
@@ -857,6 +938,15 @@ private:
 
         void move_save_to_graveyard();
         bool save_player_data();
+
+        /** Options can be specified by mods from JSON using GAME_OPTION */
+        void load_game_option( JsonObject& jo );
+        std::set<std::string> options;
+
+    public:
+        bool has_option( const std::string& opt ) {
+            return options.count( opt );
+        }
 };
 
 #endif

@@ -760,15 +760,16 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         std::string vits;
         for( const auto &v : g->u.vitamins_from( *food_item ) ) {
-            if( v.second != 0 ) {
+            // only display vitamins that we actually require
+            if( g->u.vitamin_rate( v.first ) > 0 && v.second != 0 ) {
                 if( !vits.empty() ) {
                     vits += ", ";
                 }
-                vits += string_format( "%s (%i)", v.first.obj().name().c_str(), v.second );
+                vits += string_format( "%s (%i%%)", v.first.obj().name().c_str(), int( v.second / ( DAYS( 1 ) / float( g->u.vitamin_rate( v.first ) ) ) * 100 ) );
             }
         }
         if( !vits.empty() ) {
-            info.emplace_back( "FOOD", _( "Vitamins: " ), vits.c_str() );
+            info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), vits.c_str() );
         }
     }
 
@@ -1325,7 +1326,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     for( const auto &quality : type->qualities ) {
         const auto desc = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
                                          quality.second,
-                                         quality::get_name( quality.first ).c_str() );
+                                         quality.first.obj().name.c_str() );
         info.push_back( iteminfo( "QUALITIES", "", desc ) );
     }
     bool intro = false; // Did we print the "Contains items with qualities" line
@@ -1338,7 +1339,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
             const auto desc = string_format( space + _( "Level %1$d %2$s quality." ),
                                              quality.second,
-                                             quality::get_name( quality.first ).c_str() );
+                                             quality.first.obj().name.c_str() );
             info.push_back( iteminfo( "QUALITIES", "", desc ) );
         }
     }
@@ -1413,6 +1414,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         for( const auto &method : type->use_methods ) {
+            insert_separation_line();
             method.dump_info( *this, info );
         }
 
@@ -2049,7 +2051,7 @@ nc_color item::color_in_inventory() const
     return ret;
 }
 
-void item::on_wear( player &p )
+void item::on_wear( Character &p )
 {
     if (is_sided() && get_side() == BOTH) {
         // for sided items wear the item on the side which results in least encumbrance
@@ -2078,7 +2080,7 @@ void item::on_wear( player &p )
     p.on_item_wear( *this );
 }
 
-void item::on_takeoff (player &p)
+void item::on_takeoff( Character &p )
 {
     p.on_item_takeoff( *this );
 
@@ -2280,7 +2282,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (has_flag("FIT")) {
         ret << _(" (fits)");
     }
-    
+
     if( is_disgusting_for( g->u ) ) {
         ret << _(" (filthy)" );
     }
@@ -2720,16 +2722,16 @@ long item::get_property_long( const std::string& prop, long def ) const
     return def;
 }
 
-int item::get_quality( const std::string &quality_id ) const
+int item::get_quality( const quality_id &id ) const
 {
     int return_quality = INT_MIN;
     for( const auto &quality : type->qualities ) {
-        if( quality.first == quality_id ) {
+        if( quality.first == id ) {
             return_quality = quality.second;
         }
     }
     for( auto &itm : contents ) {
-        return_quality = std::max( return_quality, itm.get_quality( quality_id ) );
+        return_quality = std::max( return_quality, itm.get_quality( id ) );
     }
 
     return return_quality;
@@ -3615,10 +3617,7 @@ bool item::spill_contents( Character &c )
 
     while( !contents.empty() ) {
         if( contents[0].made_of( LIQUID ) ) {
-            long charges_pre = contents[0].charges;
-            if( g->handle_liquid( contents[0], false, false, this, nullptr, 1 ) ) {
-                contents.erase( contents.begin() );
-            } else if( charges_pre == contents[0].charges ) {
+            if( !g->handle_liquid_from_container( *this, 1 ) ) {
                 return false;
             }
         } else {
@@ -4381,18 +4380,19 @@ item::reload_option::reload_option( const player *who, const item *target, const
     who( who ), target( target ), ammo( std::move( ammo ) ), parent( parent )
 {
     if( this->target->is_ammo_belt() && this->target->type->magazine->linkage != "NULL" ) {
-        max_qty = who->charges_of( this->target->type->magazine->linkage );
+        max_qty = this->who->charges_of( this->target->type->magazine->linkage );
     }
 
-    if( this->ammo->is_ammo() ) {
-        qty( !this->target->has_flag( "RELOAD_ONE" ) ? this->ammo->charges : 1L );
+    // magazine, ammo or ammo container
+    item& tmp = this->ammo->is_ammo_container() ? this->ammo->contents.front() : *this->ammo;
 
-    } else if( this->ammo->is_ammo_container() ) {
-        qty( !this->target->has_flag( "RELOAD_ONE" ) ? this->ammo->contents[ 0 ].charges : 1L );
+    long amt = tmp.is_ammo() ? tmp.charges : 1;
 
-    } else {
-        qty( 1L ); // when reloading target using a magazine
+    if( this->target->is_gun() && this->target->magazine_integral() && tmp.made_of( SOLID ) ) {
+        amt = 1; // guns with integral magazines reload one round at a time
     }
+
+    qty( amt );
 }
 
 
@@ -4757,6 +4757,22 @@ bool item::burn(int amount)
 {
     if( amount < 0 ) {
         return false;
+    }
+
+    if( is_corpse() ) {
+        const mtype *mt = get_mtype();
+        if( active && mt != nullptr && burnt + amount > mt->hp &&
+            !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
+            corpse = &get_mtype()->burn_into.obj();
+            // Delay rezing
+            bday = calendar::turn;
+            burnt = 0;
+            return false;
+        }
+
+        if( burnt + amount > mt->hp ) {
+            active = false;
+        }
     }
 
     if( !count_by_charges() ) {

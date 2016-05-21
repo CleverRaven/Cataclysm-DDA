@@ -1366,6 +1366,34 @@
         "see_cost" : 4
     },{
         "type" : "overmap_terrain",
+        "id" : "shipwreck_river_1",
+        "name" : "shipwreck",
+        "sym" : 119,
+        "color" : "red",
+        "see_cost" : 4
+     },{
+        "type" : "overmap_terrain",
+        "id" : "shipwreck_river_2",
+        "name" : "shipwreck",
+        "sym" : 119,
+        "color" : "red",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "shipwreck_river_3",
+        "name" : "razorclaw nest",
+        "sym" : 119,
+        "color" : "red",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
+        "id" : "shipwreck_river_4",
+        "name" : "shipwreck",
+        "sym" : 119,
+        "color" : "red",
+        "see_cost" : 4
+    },{
+        "type" : "overmap_terrain",
         "id" : "s_gas_rural",
         "name" : "gas station",
         "rotate" : true,

@@ -40,6 +40,7 @@ mtype::mtype()
     half_life = -1;
     upgrade_into = NULL_ID;
     upgrade_group = NULL_ID;
+    burn_into = NULL_ID;
     dies.push_back( &mdeath::normal );
     sp_defense = nullptr;
     luminance = 0;

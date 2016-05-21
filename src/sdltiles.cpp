@@ -8,6 +8,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "player.h"
+#include "translations.h"
 #include <cstring>
 #include <vector>
 #include <fstream>

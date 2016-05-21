@@ -875,10 +875,13 @@ class jmapgen_loot : public jmapgen_piece {
                 }
 
                 for( auto &e: spawn ) {
-                    if( rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current() ) {
+                    bool spawn_ammo = rng( 0, 99 ) < ammo && e.ammo_remaining() == 0;
+                    bool spawn_mag  = rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current();
+
+                    if( spawn_mag || spawn_ammo ) {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
-                    if( rng( 0, 99 ) < ammo && e.ammo_remaining() == 0 ) {
+                    if( spawn_ammo ) {
                         e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
                     }
                 }
@@ -11310,8 +11313,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
                                        "\
 ---\n\
-|c=\n\
----\n",
+|c|\n\
+-=-\n",
                                        mapf::ter_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
                                        mapf::furn_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
@@ -11326,8 +11329,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             biox = x2 - 2;
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
                                        "\
----\n\
-=c|\n\
+-=-\n\
+|c|\n\
 ---\n",
                                        mapf::ter_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
                                        mapf::furn_bind("c", f_counter));
@@ -11344,8 +11347,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
                                        "\
 |-|\n\
-|c|\n\
-|=|\n",
+|c=\n\
+|-|\n",
                                        mapf::ter_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
                                        mapf::furn_bind("c", f_counter));
             m->place_items("bionics_common", 70, biox, bioy, biox, bioy, false, 0);
@@ -11360,8 +11363,8 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
             bioy = y2 - 2;
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
                                        "\
-|=|\n\
-|c|\n\
+|-|\n\
+=c|\n\
 |-|\n",
                                        mapf::ter_bind("- | =", t_concrete_wall, t_concrete_wall, t_reinforced_glass),
                                        mapf::furn_bind("c", f_counter));

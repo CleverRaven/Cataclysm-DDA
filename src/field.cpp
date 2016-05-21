@@ -888,7 +888,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 } else if( fuel->made_of( material_id( "flesh" ) ) || fuel->made_of( material_id( "hflesh" ) ) ||
                                            fuel->made_of( material_id( "iflesh" ) ) ) {
                                     // Slow and smokey
-                                    if( one_in( vol / 50 / cur->getFieldDensity() ) ) {
+                                    if( one_in( vol / 25 / cur->getFieldDensity() ) ) {
                                         time_added += 1;
                                         burn_amt = cur->getFieldDensity();
                                         smoke += 3 * cur->getFieldDensity();

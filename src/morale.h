@@ -131,18 +131,16 @@ class player_morale
         std::vector<morale_point> points;
 
         struct body_part_data {
-            int covered;
-            int covered_fancy;
+            unsigned int covered;
+            unsigned int fancy;
             int hot;
             int cold;
 
             body_part_data() :
                 covered( 0 ),
-                covered_fancy( 0 ),
+                fancy( 0 ),
                 hot( 0 ),
                 cold( 0 ) {};
-            void mod_covered( const int delta );
-            void mod_covered_fancy( const int delta );
         };
         std::array<body_part_data, num_bp> body_parts;
 
@@ -168,13 +166,14 @@ class player_morale
         };
         std::map<std::string, mutation_data> mutations;
 
+        std::map<std::string, int> super_fancy_items;
+
         // Mutability is required for lazy initialization
         mutable int level;
         mutable bool level_is_valid;
 
         bool took_prozac;
         bool stylish;
-        int super_fancy_bonus;
         int perceived_pain;
 };
 

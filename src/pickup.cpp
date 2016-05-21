@@ -7,6 +7,7 @@
 #include "messages.h"
 #include "translations.h"
 #include "input.h"
+#include "output.h"
 #include "options.h"
 #include "ui.h"
 #include "itype.h"
@@ -14,7 +15,6 @@
 #include "mapdata.h"
 #include "cata_utility.h"
 #include "debug.h"
-#include "catacharset.h"
 
 #include <map>
 #include <vector>
@@ -126,18 +126,9 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         return DONE;
     }
 
-    case FILL_CONTAINER: {
-        int amt = veh->drain("water_clean", veh->fuel_left("water_clean"));
-        item fill_water( "water_clean", calendar::turn );
-        fill_water.charges = amt;
-        int back = g->move_liquid(fill_water);
-        if (back >= 0) {
-            veh->refill("water_clean", back);
-        } else {
-            veh->refill("water_clean", amt);
-        }
+    case FILL_CONTAINER:
+        g->u.siphon( *veh, "water_clean" );
         return DONE;
-        }
 
     case DRINK: {
         veh->drain("water_clean", 1);
@@ -878,29 +869,23 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
             }
 
-            utf8_wrapper help_text = utf8_wrapper(string_format(_("[%s] Unmark"), ctxt.get_desc("LEFT", 1).c_str()));
-            size_t help_text_x_pos = 0;
-            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            mvwprintw( w_pickup, maxitems + 1, 0, _( "[%s] Unmark" ),
+                       ctxt.get_desc( "LEFT", 1 ).c_str() );
 
-            help_text = utf8_wrapper(string_format(_("[%s] Help"), ctxt.get_desc("HELP_KEYBINDINGS", 1).c_str()));
-            help_text_x_pos = center_text_pos(help_text, 0, pickupW);
-            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            center_print( w_pickup, maxitems + 1, c_ltgray, _( "[%s] Help" ),
+                          ctxt.get_desc( "HELP_KEYBINDINGS", 1 ).c_str() );
 
-            help_text = utf8_wrapper(string_format(_("[%s] Mark"), ctxt.get_desc("RIGHT", 1).c_str()));
-            help_text_x_pos = pickupW - help_text.display_width();
-            mvwprintw(w_pickup, maxitems + 1, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            right_print( w_pickup, maxitems + 1, 0, c_ltgray, _( "[%s] Mark" ),
+                         ctxt.get_desc( "RIGHT", 1 ).c_str() );
 
-            help_text = utf8_wrapper(string_format(_("[%s] Prev"), ctxt.get_desc("PREV_TAB", 1).c_str()));
-            help_text_x_pos = 0;
-            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            mvwprintw( w_pickup, maxitems + 2, 0, _( "[%s] Prev" ),
+                       ctxt.get_desc( "PREV_TAB", 1 ).c_str() );
 
-            help_text = utf8_wrapper(string_format(_("[%s] All"), ctxt.get_desc("SELECT_ALL", 1).c_str()));
-            help_text_x_pos = center_text_pos(help_text, 0, pickupW);
-            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            center_print( w_pickup, maxitems + 2, c_ltgray, _( "[%s] All" ),
+                          ctxt.get_desc( "SELECT_ALL", 1 ).c_str() );
 
-            help_text = utf8_wrapper(string_format(_("[%s] Next"), ctxt.get_desc("NEXT_TAB", 1).c_str()));
-            help_text_x_pos = pickupW - help_text.display_width();
-            mvwprintw(w_pickup, maxitems + 2, help_text_x_pos, help_text.replace_all("%", "%%").c_str());
+            right_print( w_pickup, maxitems + 2, 0, c_ltgray, _( "[%s] Next" ),
+                         ctxt.get_desc( "NEXT_TAB", 1 ).c_str() );
 
             if (update) { // Update weight & volume information
                 update = false;

@@ -267,28 +267,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "blowgun",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "superglue", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "spear_wood",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
@@ -527,11 +505,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":3,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-      [
-      [ "goggles_welding", -1 ]
-      ],
       [
       [ "oxy_torch", 4 ],
       [ "welder", 20 ],
@@ -828,10 +804,10 @@
     ],
     [
       [ "soap", 3 ],
-      [ "tallow", 1 ],
-      [ "tallow_tainted", 1 ],
-      [ "lard", 1 ],
-      [ "cooking_oil", 1 ]
+      [ "tallow", 2 ],
+      [ "tallow_tainted", 2 ],
+      [ "lard", 2 ],
+      [ "cooking_oil", 2 ]
     ]
   ]
 },{
@@ -865,11 +841,9 @@
   "autolearn": true,
   "book_learn": [[ "manual_shotgun", 2 ] , [ "manual_pistol", 2 ]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
@@ -905,11 +879,9 @@
   "autolearn": true,
   "book_learn": [ [ "manual_pistol", 3 ]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
@@ -943,11 +915,9 @@
   "autolearn": true,
   "book_learn": [ [ "manual_pistol", 5 ]],
   "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
@@ -1528,11 +1498,9 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
     ]
@@ -1561,8 +1529,8 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [ ["goggles_welding", -1] ],
     [
       ["oxy_torch", 30],
       ["welder", 150],
@@ -1591,9 +1559,9 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [ ["goggles_welding", -1] ],
     [
       ["oxy_torch", 40],
       ["welder", 200],
@@ -1883,11 +1851,9 @@
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
-    {"id":"WRENCH","level":1,"amount":1}
+    {"id":"WRENCH","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 20 ],
       [ "welder", 100],
@@ -2290,12 +2256,10 @@
   "qualities":[
     {"id":"HAMMER_FINE","level":1,"amount":1},
     {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 3 ],
       [ "welder", 15 ],
@@ -2330,12 +2294,10 @@
   "qualities":[
     {"id":"HAMMER_FINE","level":1,"amount":1},
     {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 3 ],
       [ "welder", 15 ],
@@ -2398,12 +2360,10 @@
   "qualities":[
     {"id":"HAMMER_FINE","level":1,"amount":1},
     {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 2 ],
       [ "welder", 10 ],
@@ -2625,12 +2585,10 @@
   "qualities":[
     {"id":"HAMMER_FINE","level":1,"amount":1},
     {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 3 ],
       [ "welder", 15 ],
@@ -2709,12 +2667,10 @@
   "qualities":[
     {"id":"HAMMER_FINE","level":1,"amount":1},
     {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 3 ],
       [ "welder", 15 ],
@@ -2960,10 +2916,8 @@
   "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       [ "oxy_torch", 4 ],
       ["welder", 20],
@@ -2997,10 +2951,8 @@
   "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-  [
-    ["goggles_welding", -1]
-  ],
   [
     [ "oxy_torch", 4 ],
     ["welder", 20],
@@ -3034,10 +2986,8 @@
   "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       [ "oxy_torch", 4 ],
       ["welder", 20],
@@ -3071,10 +3021,8 @@
   "decomp_learn": 4,
   "autolearn": false,
   "book_learn": [[ "welding_book", 8 ], ["book_icef", 4]],
+  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
   "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       [ "oxy_torch", 4 ],
       ["welder", 20],
@@ -3136,11 +3084,9 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 30], ["welder", 150], ["welder_crude", 225], ["toolset", 225]
     ]
@@ -3180,11 +3126,9 @@
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 40], ["welder", 200], ["welder_crude", 300], ["toolset", 300]
     ]
@@ -3223,11 +3167,9 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
     ]
@@ -3267,11 +3209,9 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 40], ["welder", 200], ["welder_crude", 300], ["toolset", 300]
     ]
@@ -3311,11 +3251,9 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 20], ["welder", 100], ["welder_crude", 150], ["toolset", 150]
     ]
@@ -3346,11 +3284,9 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"WRENCH_FINE","level":1,"amount":1}
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 60], ["welder", 300], ["welder_crude", 450], ["toolset", 450]
     ]
@@ -5397,10 +5333,10 @@
       [ "log", 1 ]
      ],
      [
-      [ "tallow", 1 ],
-      [ "tallow_tainted", 1 ],
-      [ "cooking_oil", 1 ],
-      [ "lamp_oil", 200 ]
+      [ "tallow", 2 ],
+      [ "tallow_tainted", 2 ],
+      [ "cooking_oil", 2 ],
+      [ "lamp_oil", 250 ]
      ],
      [
       [ "fur", 2 ],
@@ -6648,11 +6584,9 @@
   "autolearn": true,
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ], "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
@@ -6890,11 +6824,9 @@
 "book_learn": [[ "manual_launcher", 7 ]],
 "qualities":[
 {"id":"HAMMER","level":3,"amount":1},
-{"id":"SAW_M","level":1,"amount":1}
+{"id":"SAW_M","level":1,"amount":1},
+{ "id" : "GLARE", "level" : 2 }
 ], "tools": [
-[
-[ "goggles_welding", -1 ]
-],
 [
 [ "oxy_torch", 6 ],
 [ "welder", 30 ],
@@ -6935,7 +6867,8 @@
       {"id":"SAW_M_FINE","level":1,"amount":1},
       {"id":"SCREW_FINE","level":1,"amount":1},
       {"id":"WRENCH_FINE","level":1,"amount":1},
-      {"id":"HAMMER","level":3,"amount":1}
+      {"id":"HAMMER","level":3,"amount":1},
+      { "id" : "GLARE", "level" : 2 }
     ],
   "tools":
     [
@@ -6958,9 +6891,6 @@
       [
         ["forge", 400],
         ["oxy_torch", 80]
-      ],
-      [
-        ["goggles_welding", -1]
       ],
       [
         ["oxy_torch", 100],
@@ -7041,13 +6971,11 @@
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
     {"id":"WRENCH_FINE","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools":
   [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 60],
       ["welder", 300],
@@ -7082,13 +7010,11 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1},
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools":
   [
-    [
-      ["goggles_welding", -1]
-    ],
     [
       ["oxy_torch", 80],
       ["welder", 400],

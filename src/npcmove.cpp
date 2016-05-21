@@ -1062,22 +1062,20 @@ npc_action npc::address_player()
 
     if (attitude == NPCATT_LEAD) {
         if( rl_dist( pos(), g->u.pos() ) >= 12 || !sees( g->u ) ) {
-            if(has_effect( effect_catch_up)) {
-                int intense = get_effect_int( effect_catch_up );
-                if (intense < 10) {
-                    say("<keep_up>");
-                    add_effect( effect_catch_up, 5);
-                    return npc_pause;
-                } else if (intense == 10) {
-                    say("<im_leaving_you>");
-                    add_effect( effect_catch_up, 5);
-                    return npc_pause;
-                } else {
-                    return npc_goto_destination;
-                }
+            int intense = get_effect_int( effect_catch_up );
+            if (intense < 10) {
+                say("<keep_up>");
+                add_effect( effect_catch_up, 5);
+                return npc_pause;
+            } else {
+                say("<im_leaving_you>");
+                attitude = NPCATT_NULL;
+                return npc_pause;
             }
-        } else {
+        } else if( has_destination() ) {
             return npc_goto_destination;
+        } else { // At goal. Now, waiting on nearby player
+            return npc_pause;
         }
     }
     return npc_undecided;
@@ -1306,7 +1304,7 @@ bool npc::need_to_reload() const
 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
-    int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ), calendar::turn ) );
+    int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ) ), gun.ammo_capacity() );
     const float turns_til_reloaded = (float)rltime / get_speed();
 
     Creature *target = current_target();

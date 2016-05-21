@@ -4712,7 +4712,7 @@ item &map::add_item_at( const tripoint &p,
     if( new_item.has_flag("ACT_IN_FIRE") && get_field( p, fd_fire ) != nullptr ) {
         new_item.active = true;
     }
-    
+
     int lx, ly;
     submap * const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
@@ -4729,11 +4729,11 @@ item &map::add_item_at( const tripoint &p,
 item map::water_from(const tripoint &p)
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        item ret( "salt_water", 0 );
+        item ret( "salt_water", 0, std::numeric_limits<int>::max() );
         return ret;
     }
 
-    item ret( "water", 0 );
+    item ret( "water", 0, std::numeric_limits<int>::max() );
     if( ter( p ) == t_water_sh && one_in( 3 ) ) {
         ret.poison = rng(1, 4);
     } else if( ter( p ) == t_water_dp && one_in( 4 ) ) {
@@ -4814,7 +4814,7 @@ static void process_vehicle_items( vehicle *cur_veh, int part )
                 if( cur_veh->discharge_battery( 10, false ) ) {
                     break; // Check car's power before charging
                 }
-                n.charges++;
+                n.ammo_set( "battery", n.ammo_remaining() + 1 );
             }
         }
     }

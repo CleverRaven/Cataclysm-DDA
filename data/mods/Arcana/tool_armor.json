@@ -22,7 +22,6 @@
         },
         "covers" : ["TORSO", "HEAD", "ARMS", "LEGS"],
         "flags" : ["OVERSIZE", "HOOD", "OUTER", "VARSIZE", "NO_SALVAGE"],
-        "storage" : 0,
         "warmth" : 40,
         "environmental_protection" : 3,
         "encumbrance" : 17,
@@ -140,21 +139,13 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "The diamond shimmers with malevolent red light as you feel a strange hunger, a craving for rotting meat and stagnant water...",
-            "effects" : [
-                {
-                   "id": "revenant_hunger",
-                    "duration": 500
-                }
-            ]
+            "effects" : [ { "id" : "revenant_hunger", "duration" : 500 } ]
         },
         "artifact_data" : {
           "effects_worn": ["AEP_STEALTH", "AEP_EXTINGUISH", "AEP_SICK"]
         },
         "covers" : ["HEAD"],
         "flags" : ["VARSIZE", "ALLOWS_NATURAL_ATTACKS"],
-        "storage" : 0,
-        "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 20,
         "material_thickness" : 1
@@ -245,7 +236,6 @@
         "use_action" : "TAZER",
         "covers" : ["HANDS"],
         "flags" : ["VARSIZE", "STURDY", "NO_SALVAGE"],
-        "storage" : 0,
         "warmth" : 20,
         "environmental_protection" : 1,
         "encumbrance" : 20,
@@ -256,8 +246,6 @@
         "id" : "cleric_ring",
         "name" : "ring of the fallen angel",
         "name_plural" : "rings of the fallen angel",
-        "volume" : 0,
-        "material_thickness" : 0,
         "description" : "A simple silver ring, adorned with a small red gem and a wing motif.  Using it cures several anomalous ailments, and provides protection from such effects for a while.",
         "weight" : 10,
         "max_charges": 8,
@@ -266,23 +254,15 @@
         "use_action" : {
             "type" : "consume_drug",
             "activation_message" : "A strange energy radiates from the ring's gem, spreading a calming sensation over you.",
-            "effects" : [
-                {
-                   "id": "cleric_warding",
-                    "duration": 250
-                }
-            ]
+            "effects" : [ { "id" : "cleric_warding", "duration" : 250 } ]
         },
         "artifact_data" : {
           "effects_worn": ["AEP_PSYSHIELD", "AEP_STR_DOWN"]
         },
         "color" : "white",
-        "encumbrance" : 0,
         "price" : 30000,
         "material" : ["silver", "essencemat"],
-        "coverage" : 0,
         "symbol" : "[",
-        "warmth" : 0,
         "flags" : ["FANCY"]
     }
 ]

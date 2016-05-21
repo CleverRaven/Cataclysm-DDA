@@ -15,6 +15,7 @@
 #include "mtype.h"
 #include "player.h"
 #include "mutation.h"
+#include "vehicle.h"
 
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -556,6 +557,7 @@ std::list<item> Character::remove_worn_items_with( std::function<bool(item &)> f
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
+            iter->on_takeoff( *this );
             result.splice( result.begin(), worn, iter++ );
         } else {
             ++iter;
@@ -615,6 +617,7 @@ item Character::i_rem(int pos)
      auto iter = worn.begin();
      std::advance( iter, worn_position_to_index( pos ) );
      tmp = *iter;
+     tmp.on_takeoff( *this );
      worn.erase( iter );
      return tmp;
  }
@@ -896,14 +899,11 @@ bool Character::is_wearing_on_bp(const itype_id & it, body_part bp) const
     return false;
 }
 
-bool Character::worn_with_flag( std::string flag ) const
+bool Character::worn_with_flag( const std::string &flag ) const
 {
-    for (auto &i : worn) {
-        if (i.has_flag( flag )) {
-            return true;
-        }
-    }
-    return false;
+    return std::any_of( worn.begin(), worn.end(), [&flag]( const item &it ) {
+        return it.has_flag( flag );
+    } );
 }
 
 SkillLevel& Character::get_skill_level(const skill_id &ident)
@@ -1954,4 +1954,82 @@ bool Character::is_blind() const
     return ( worn_with_flag( "BLIND" ) ||
              has_effect( effect_blind ) ||
              has_active_bionic( "bio_blindfold" ) );
+}
+
+bool Character::pour_into( item &container, item &liquid )
+{
+    if( liquid.is_ammo() && ( container.is_tool() || container.is_gun() ) ) {
+        // TODO: merge this part with game::reload
+        // for filling up chainsaws, jackhammers and flamethrowers
+
+        if( container.ammo_type() != liquid.ammo_type() ) {
+            add_msg_if_player( m_info, _( "Your %1$s won't hold %2$s." ), container.tname().c_str(),
+                               liquid.tname().c_str() );
+            return false;
+        }
+
+        if( container.ammo_remaining() >= container.ammo_capacity() ) {
+            add_msg_if_player( m_info, _( "Your %1$s can't hold any more %2$s." ), container.tname().c_str(),
+                               liquid.tname().c_str() );
+            return false;
+        }
+
+        if( container.ammo_remaining() && container.ammo_current() != liquid.typeId() ) {
+            add_msg_if_player( m_info, _( "You can't mix loads in your %s." ), container.tname().c_str() );
+            return false;
+        }
+
+        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
+                           container.tname().c_str() );
+        auto qty = std::min( liquid.charges, container.ammo_capacity() - container.ammo_remaining() );
+        liquid.charges -= qty;
+        container.ammo_set( liquid.typeId(), container.ammo_remaining() + qty );
+        if( liquid.charges > 0 ) {
+            add_msg_if_player( _( "There's some left over!" ) );
+        }
+
+    } else {
+        // Filling up normal containers
+        bool allow_bucket = &container == &weapon || !has_item( container );
+        std::string err;
+        if( !container.fill_with( liquid, err, allow_bucket ) ) {
+            add_msg_if_player( m_info, err.c_str() );
+            return false;
+        }
+
+        inv.unsort();
+        add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
+                           container.tname().c_str() );
+        if( liquid.charges > 0 ) {
+            // TODO: maybe not show this if the source is infinite. Best would be to move it to the caller.
+            add_msg_if_player( _( "There's some left over!" ) );
+        }
+    }
+
+    return true;
+}
+
+bool Character::pour_into( vehicle &veh, item &liquid )
+{
+    const itype_id &ftype = liquid.type->id;
+    const int fuel_per_charge = fuel_charges_to_amount_factor( ftype );
+    const int fuel_cap = veh.fuel_capacity( ftype );
+    const int fuel_amnt = veh.fuel_left( ftype );
+    if( fuel_cap <= 0 ) {
+        //~ %1$s - transport name, %2$s liquid fuel name
+        add_msg_if_player( m_info, _( "The %1$s doesn't use %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+        return false;
+    } else if( fuel_amnt >= fuel_cap ) {
+        add_msg_if_player( m_info, _( "The %s is already full." ), veh.name.c_str() );
+        return false;
+    }
+    const int charges_to_move = std::min<int>( liquid.charges, ( fuel_cap - fuel_amnt ) / fuel_per_charge );
+    liquid.charges = veh.refill( ftype, charges_to_move * fuel_per_charge ) / fuel_per_charge;
+    if( veh.fuel_left( ftype ) < fuel_cap ) {
+        add_msg_if_player( _( "You refill the %1$s with %2$s." ), veh.name.c_str(), liquid.type_name().c_str() );
+    } else {
+        add_msg_if_player( _( "You refill the %1$s with %2$s to its maximum." ), veh.name.c_str(),
+                 liquid.type_name().c_str() );
+    }
+    return true;
 }

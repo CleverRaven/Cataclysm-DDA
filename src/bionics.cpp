@@ -80,21 +80,16 @@ bionic_data const &bionic_info( std::string const &id )
 
     debugmsg( "bad bionic id" );
 
-    static bionic_data const null_value {
-        "bad bionic", false, false, 0, 0, 0, 0, 0, "bad_bionic", false, {{bp_torso, 0}}
-    };
+    static bionic_data const null_value;
     return null_value;
 }
 
 void bionics_install_failure( player *u, int difficulty, int success );
 
-bionic_data::bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
-                         int ct, int cap, std::string desc, bool fault, std::map<body_part, size_t> bps
-) : name(std::move(nname)), description(std::move(desc)), power_activate(pac),
-    power_deactivate(pad), power_over_time(pot), charge_time(ct), capacity(cap), faulty(fault),
-    power_source( ps ), activated( tog || pac || ct ), toggled( tog ),
-    occupied_bodyparts( std::move( bps ) )
+bionic_data::bionic_data()
 {
+    name = "bad bionic";
+    description = "This bionic was not set up correctly, this is a bug";
 }
 
 void force_comedown( effect &eff )
@@ -359,13 +354,8 @@ bool player::activate_bionic( int b, bool eff_only )
         if( water_charges == 0 ) {
             add_msg_if_player( m_bad,
                                _( "There was not enough moisture in the air from which to draw water!" ) );
-        } else if( g->handle_liquid( water, true, false ) ) {
-            moves -= 100;
-        } else {
-            water.charges -= drink_from_hands( water );
-            if( water.charges == water_charges ) {
-                charge_power( bionics["bio_evap"].power_activate );
-            }
+        } else if( g->consume_liquid( water ) ) {
+            charge_power(bionics["bio_evap"].power_activate);
         }
     } else if( bio.id == "bio_lighter" ) {
         g->refresh_all();
@@ -438,14 +428,8 @@ bool player::activate_bionic( int b, bool eff_only )
             if( it->is_corpse() ) {
                 const int avail = it->get_var( "remaining_water", it->volume() / 2 );
                 if(avail > 0 && query_yn(_("Extract water from the %s"), it->tname().c_str())) {
-                    item water = item("water_clean", 0);
-                    water.charges = avail;
-                    if (g->handle_liquid(water, true, false)) {
-                        moves -= 100;
-                    } else {
-                        water.charges -= drink_from_hands( water );
-                    }
-                    if( water.charges != avail ) {
+                    item water( "water_clean", calendar::turn, avail );
+                    if( g->consume_liquid( water ) ) {
                         extracted = true;
                         it->set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }
@@ -812,7 +796,7 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
     //If you are paying the doctor to do it, shouldn't use your supplies
-    if( !( has_quality( "CUT" ) && has_amount( "1st_aid", 1 ) ) &&
+    if( !( has_quality( quality_id( "CUT" ) ) && has_amount( "1st_aid", 1 ) ) &&
         skill_level == -1 ) {
         popup( _( "Removing bionics requires a cutting tool and a first aid kit." ) );
         return false;
@@ -1347,47 +1331,70 @@ void reset_bionics()
 
 void load_bionic( JsonObject &jsobj )
 {
+    bionic_data new_bionic;
+
     std::string id = jsobj.get_string( "id" );
-    std::string name = _( jsobj.get_string( "name" ).c_str() );
-    std::string description = _( jsobj.get_string( "description" ).c_str() );
-    int on_cost = jsobj.get_int( "act_cost", 0 );
+    new_bionic.name = _( jsobj.get_string( "name" ).c_str() );
+    new_bionic.description = _( jsobj.get_string( "description" ).c_str() );
+    new_bionic.power_activate = jsobj.get_int( "act_cost", 0 );
 
-    bool toggled = jsobj.get_bool( "toggled", false );
+    new_bionic.toggled = jsobj.get_bool( "toggled", false );
     // Requires ability to toggle
-    int off_cost = jsobj.get_int( "deact_cost", 0 );
+    new_bionic.power_deactivate = jsobj.get_int( "deact_cost", 0 );
 
-    int time = jsobj.get_int( "time", 0 );
+    new_bionic.charge_time = jsobj.get_int( "time", 0 );
     // Requires a non-zero time
-    int react_cost = jsobj.get_int( "react_cost", 0 );
+    new_bionic.power_over_time = jsobj.get_int( "react_cost", 0 );
 
-    int capacity = jsobj.get_int( "capacity", 0 );
+    new_bionic.capacity = jsobj.get_int( "capacity", 0 );
 
-    bool faulty = jsobj.get_bool( "faulty", false );
-    bool power_source = jsobj.get_bool( "power_source", false );
+    new_bionic.faulty = jsobj.get_bool( "faulty", false );
+    new_bionic.power_source = jsobj.get_bool( "power_source", false );
+
+    new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 
     std::map<body_part, size_t> occupied_bodyparts;
     JsonArray jsarr = jsobj.get_array( "occupied_bodyparts" );
     if( !jsarr.empty() ) {
         while( jsarr.has_more() ) {
             JsonArray ja = jsarr.next_array();
-            occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
-                                        ja.get_int( 1 ) );
+            new_bionic.occupied_bodyparts.emplace( get_body_part_token( ja.get_string( 0 ) ),
+                                                   ja.get_int( 1 ) );
         }
     }
 
-    if( faulty ) {
-        faulty_bionics.push_back( id );
-    }
+    new_bionic.activated = new_bionic.toggled ||
+                           new_bionic.power_activate > 0 ||
+                           new_bionic.charge_time > 0;
 
-    auto const result = bionics.insert( std::make_pair( std::move( id ),
-                                        bionic_data( std::move( name ), power_source, toggled,
-                                                on_cost, off_cost, react_cost, time, capacity,
-                                                std::move( description ), faulty,
-                                                std::move( occupied_bodyparts ) ) ) );
+    auto const result = bionics.insert( std::make_pair( id, new_bionic ) );
 
     if( !result.second ) {
         debugmsg( "duplicate bionic id" );
+    } else if( new_bionic.faulty ) {
+        faulty_bionics.push_back( id );
     }
+}
+
+void check_bionics()
+{
+    for( const auto &bio : bionics ) {
+        if( !bio.second.fake_item.empty() &&
+            !item::type_is_defined( bio.second.fake_item ) ) {
+            debugmsg( "Bionic %s has unknown fake_item %s",
+                      bio.first.c_str(), bio.second.fake_item.c_str() );
+        }
+    }
+}
+
+int bionic::get_quality( const quality_id &q ) const
+{
+    const auto &i = info();
+    if( i.fake_item.empty() ) {
+        return INT_MIN;
+    }
+
+    return item( i.fake_item ).get_quality( q );
 }
 
 void bionic::serialize( JsonOut &json ) const

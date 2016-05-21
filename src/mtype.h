@@ -145,7 +145,9 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
-    MF_NIGHT_INVISIBILITY,     // Monsters that are invisible in poor light conditions
+    MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
+    MF_REVIVES_HEALTHY,     // When revived, this monster has full hitpoints and speed
+    MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -306,6 +308,7 @@ struct mtype {
         int half_life;
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
+        mtype_id burn_into;
         // Default constructor
         mtype ();
         /**

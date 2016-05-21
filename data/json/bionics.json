@@ -224,6 +224,7 @@
         "occupied_bodyparts": [
             [ "EYES", 1 ]
         ],
+        "fake_item" : "fake_goggles",
         "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type": "bionic",
@@ -347,6 +348,7 @@
             [ "HAND_L", 3 ],
             [ "HAND_R", 3 ]
         ],
+        "fake_item" : "toolset",
         "toggled": true,
         "description": "Implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, and heating elements.  You can use this in place of many tools when crafting."
     },{
@@ -767,6 +769,7 @@
             [ "HAND_L", 2 ],
             [ "HAND_R", 2 ]
         ],
+        "fake_item" : "fake_razor",
         "description": "You possess razor-sharp retractable claws underneath your fingernails, ten double-edged blades four centimeters in length that do a small amount of unarmed slashing damage whenever your fingertips are uncovered."
     },{
         "type": "bionic",
@@ -800,7 +803,7 @@
             [ "HAND_L", 5 ]
         ],
         "act_cost": 50,
-        "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray; however, you are unable to use or carry two-handed items, and may only fire handguns."
+        "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray. However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand."
     },{
         "type": "bionic",
         "id": "bio_laser",

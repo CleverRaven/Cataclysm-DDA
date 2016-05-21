@@ -19,9 +19,12 @@
 #include "artifact.h"
 #include "veh_type.h"
 #include "init.h"
+#include "game.h"
 
 #include <algorithm>
 #include <sstream>
+
+extern class game *g;
 
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
@@ -42,8 +45,6 @@ typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 static bool item_whitelist_is_exclusive = false;
-
-static std::set<std::string> item_options;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
@@ -128,21 +129,25 @@ void Item_factory::finalize() {
         set_allergy_flags( *e.second );
         hflesh_to_flesh( *e.second );
 
-        // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
-        if( obj.comestible && obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
+        if( obj.comestible ) {
+            if( g->has_option( "no_vitamins" ) ) {
+                obj.comestible->vitamins.clear();
 
-            auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
+            } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
+                // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
+                auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
 
-            auto mat = obj.materials;
-            mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
-                return !m.obj().edible(); // @todo migrate inedible comestibles to appropriate alternative types
-            } ), mat.end() );
+                auto mat = obj.materials;
+                mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
+                    return !m.obj().edible(); // @todo migrate inedible comestibles to appropriate alternative types
+                } ), mat.end() );
 
-            // for comestibles composed of multiple edible materials we calculate the average
-            for( const auto &v : vitamin::all() ) {
-                if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
-                    for( const auto &m : mat ) {
-                        obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
+                // for comestibles composed of multiple edible materials we calculate the average
+                for( const auto &v : vitamin::all() ) {
+                    if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
+                        for( const auto &m : mat ) {
+                            obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
+                        }
                     }
                 }
             }
@@ -166,7 +171,7 @@ void Item_factory::finalize_item_blacklist()
 
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
-    const bool magazines_blacklisted = item_options.count("blacklist_magazines");
+    const bool magazines_blacklisted = g->has_option( "blacklist_magazines" );
 
     if( magazines_blacklisted ) {
         for( auto& e : m_templates ) {
@@ -234,11 +239,6 @@ void Item_factory::load_item_whitelist( JsonObject &json )
         item_whitelist_is_exclusive = true;
     }
     add_to_set( item_whitelist, json, "items" );
-}
-
-void Item_factory::load_item_option( JsonObject &json )
-{
-    add_to_set( item_options, json, "options" );
 }
 
 Item_factory::~Item_factory()
@@ -563,10 +563,9 @@ void Item_factory::check_definitions() const
                 msg << string_format("snippet category %s without any snippets", type->id.c_str(), type->snippet_category.c_str()) << "\n";
             }
         }
-        for (std::map<std::string, int>::const_iterator a = type->qualities.begin();
-             a != type->qualities.end(); ++a) {
-            if( !quality::has( a->first ) ) {
-                msg << string_format("item %s has unknown quality %s", type->id.c_str(), a->first.c_str()) << "\n";
+        for( auto &q : type->qualities ) {
+            if( !q.first.is_valid() ) {
+                msg << string_format("item %s has unknown quality %s", type->id.c_str(), q.first.c_str()) << "\n";
             }
         }
         if( type->default_container != "null" && !has_template( type->default_container ) ) {
@@ -742,7 +741,7 @@ void Item_factory::check_definitions() const
             main_stream.str(std::string());
         }
     }
-    if( item_options.count( "blacklist_magazines" ) == 0 ) {
+    if( !g->has_option( "blacklist_magazines" ) ) {
         for( auto &mag : magazines_defined ) {
             if( magazines_used.count( mag ) == 0 ) {
                 main_stream << "Magazine " << mag << " defined but not used.\n";
@@ -1021,8 +1020,8 @@ void Item_factory::load_armor(JsonObject &jo)
 void Item_factory::load( islot_armor &slot, JsonObject &jo )
 {
     slot.encumber = jo.get_int( "encumbrance", 0 );
-    slot.coverage = jo.get_int( "coverage" );
-    slot.thickness = jo.get_int( "material_thickness" );
+    slot.coverage = jo.get_int( "coverage", 0 );
+    slot.thickness = jo.get_int( "material_thickness", 0 );
     slot.env_resist = jo.get_int( "environmental_protection", 0 );
     slot.warmth = jo.get_int( "warmth", 0 );
     slot.storage = jo.get_int( "storage", 0 );
@@ -1507,7 +1506,7 @@ void Item_factory::set_qualities_from_json(JsonObject &jo, std::string member,
         JsonArray jarr = jo.get_array(member);
         while (jarr.has_more()) {
             JsonArray curr = jarr.next_array();
-            const auto quali = std::pair<std::string, int>(curr.get_string(0), curr.get_int(1));
+            const auto quali = std::pair<quality_id, int>(quality_id(curr.get_string(0)), curr.get_int(1));
             if( new_item_template->qualities.count( quali.first ) > 0 ) {
                 curr.throw_error( "Duplicated quality", 0 );
             }
@@ -1578,7 +1577,6 @@ void Item_factory::clear()
     item_blacklist.clear();
     item_whitelist.clear();
     item_whitelist_is_exclusive = false;
-    item_options.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)

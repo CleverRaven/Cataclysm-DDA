@@ -89,6 +89,7 @@ const efftype_id effect_dazed( "dazed" );
 const efftype_id effect_deaf( "deaf" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_fearparalyze( "fearparalyze" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_grabbed( "grabbed" );
@@ -749,38 +750,37 @@ bool mattack::resurrect(monster *z)
     std::vector<std::pair<tripoint, item*>> corpses;
     // Find all corpses that we can see within 10 tiles.
     int range = 10;
-    tripoint tmp = z->pos();
-    int x = tmp.x;
-    int y = tmp.y;
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
-    for (int i = x - range; i < x + range; i++) {
-        for (int j = y - range; j < y + range; j++) {
-            tmp.x = i;
-            tmp.y = j;
-            if (g->is_empty(tmp) && g->m.sees(z->pos(), tmp, -1)) {
-                for( auto &i : g->m.i_at( tmp ) ) {
-                    if( i.is_corpse() && i.active && i.get_mtype()->has_flag(MF_REVIVES) &&
-                        i.get_mtype()->in_species( ZOMBIE ) ) {
-                        found_eligible_corpse = true;
-                        if( raising_level == 0 ) {
-                            // Since we have a target, start charging to raise it.
-                            if( sees_necromancer ) {
-                                add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
-                            }
-                            while( z->moves >= 0 ) {
-                                z->add_effect( effect_raising, 10 );
-                                z->moves -= 100;
-                            }
-                            return false;
-                        }
-                        int raise_score = (i.damage + 1) * i.get_mtype()->hp;
-                        lowest_raise_score = std::min(lowest_raise_score, raise_score);
-                        if( raise_score <= raising_level ) {
-                            corpses.push_back( std::make_pair(tmp, &i) );
-                        }
-                    }
+    for( const tripoint &p : g->m.points_in_radius( z->pos(), range ) ) {
+        if( !g->is_empty( p ) || g->m.get_field_strength( p, fd_fire ) > 1 ||
+            !g->m.sees( z->pos(), p, -1) ) {
+            continue;
+        }
+
+        for( auto &i : g->m.i_at( p ) ) {
+            const mtype *mt = i.get_mtype();
+            if( !( i.is_corpse() && i.active && mt->has_flag( MF_REVIVES ) &&
+                mt->in_species( ZOMBIE ) && !mt->has_flag( "NO_NECRO" ) ) ) {
+                continue;
+            }
+
+            found_eligible_corpse = true;
+            if( raising_level == 0 ) {
+                // Since we have a target, start charging to raise it.
+                if( sees_necromancer ) {
+                    add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
                 }
+                while( z->moves >= 0 ) {
+                    z->add_effect( effect_raising, 10 );
+                    z->moves -= 100;
+                }
+                return false;
+            }
+            int raise_score = (i.damage + 1) * mt->hp + i.burnt;
+            lowest_raise_score = std::min( lowest_raise_score, raise_score );
+            if( raise_score <= raising_level ) {
+                corpses.push_back( std::make_pair( p, &i ) );
             }
         }
     }
@@ -2590,17 +2590,16 @@ bool mattack::fear_paralyze(monster *z)
     if( z->friendly ) {
         return false; // TODO: handle friendly monsters
     }
-    if (g->u.sees( *z )) {
+    if ( g->u.sees( *z ) && !g->u.has_effect( effect_fearparalyze ) ) {
         if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.is_wearing("tinfoil_hat") && one_in(4))) {
             add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
         ///\EFFECT_INT decreases chance of being paralyzed by fear attack
-        } else if (rng(1, 20) > g->u.int_cur) {
-            add_msg(m_bad, _("The terrifying visage of the %s paralyzes you."),
-                    z->name().c_str());
-            g->u.moves -= 100;
+        } else if ( rng(0, 20) > g->u.get_int() ) {
+            add_msg( m_bad, _("The terrifying visage of the %s paralyzes you."), z->name().c_str() );
+            g->u.add_effect( effect_fearparalyze, 5 );
+            g->u.moves -= 400;
         } else
-            add_msg(_("You manage to avoid staring at the horrendous %s."),
-                    z->name().c_str());
+            add_msg( _("You manage to avoid staring at the horrendous %s."), z->name().c_str() );
     }
 
     return true;

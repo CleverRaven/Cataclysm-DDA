@@ -13,6 +13,8 @@
 #include "veh_type.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "translations.h"
+
 #include <climits>
 
 class item_location::impl

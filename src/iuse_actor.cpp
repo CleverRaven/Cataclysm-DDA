@@ -361,8 +361,25 @@ void consume_drug_iuse::load( JsonObject &obj )
 
 void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
 {
+    std::string vits;
+    for( const auto &v : vitamins ) {
+        // only display vitamins that we actually require
+        int rate = g->u.vitamin_rate( v.first );
+        if( rate > 0 ) {
+            if( !vits.empty() ) {
+                vits += ", ";
+            }
+            int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
+            int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
+            vits += string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
+        }
+    }
+    if( !vits.empty() ) {
+        dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits.c_str() );
+    }
+
     if( tools_needed.count( "syringe" ) ) {
-        dump.emplace_back( "TOOL", _( "You need a syringe to inject this drug" ) );
+        dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug" ) );
     }
 }
 
@@ -413,11 +430,12 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
 
     // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto& v : vitamins ) {
-        p->vitamin_mod( v.first, rng( v.second.first ,v.second.second ), false );
+        // players with mutations that remove the requirement for a vitamin cannot suffer accmulation of it
+        p->vitamin_mod( v.first, rng( v.second.first, v.second.second ), p->vitamin_rate( v.first ) > 0 ? false : true );
     }
 
     // Output message.
-    p->add_msg_if_player( _(activation_message.c_str()) );
+    p->add_msg_if_player( string_format( _( activation_message.c_str() ), it->type_name( 1 ).c_str() ).c_str() );
     // Consume charges.
     for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
          ++consumable ) {
@@ -981,7 +999,10 @@ long salvage_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return 0;
     }
 
-    int inventory_index = g->inv_for_salvage( _("Cut up what?"), *this );
+    int inventory_index = g->inv_for_filter( _("Cut up what?"), [ this ]( const item &it ) {
+        return valid_to_cut_up( &it );
+    } );
+
     item *cut = &( p->i_at( inventory_index ) );
     if( !try_to_cut_up(p, cut) ) {
         // Messages should have already been displayed.
@@ -1289,7 +1310,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
     }
 
-    int pos = g->inv( _("Inscribe which item?") );
+    int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
     if( item_inscription( cut ) ) {
@@ -1338,6 +1359,8 @@ bool cauterize_actor::cauterize_effect( player *p, item *it, bool force )
         if (p->has_effect( effect_bite, bp)) {
             p->add_effect( effect_bite, 2600, bp, true);
         }
+
+        p->moves = 0;
         return true;
     }
 
@@ -2171,14 +2194,12 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( !could_repair( *p, *it, true ) ) {
         return 0;
     }
-
-    int pos = g->inv_for_filter( _("Repair what?"), [this, it]( const item &itm ) {
+    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
         return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
-    } );
+    }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
-    item &fix = p->i_at( pos );
-    if( fix.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
+    if( pos == INT_MIN ) {
+        p->add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
 
@@ -2532,12 +2553,17 @@ const std::string &repair_item_actor::action_description( repair_item_actor::rep
 void heal_actor::load( JsonObject &obj )
 {
     // Mandatory
-    limb_power = obj.get_int( "limb_power" );
     move_cost = obj.get_int( "move_cost" );
+    limb_power = obj.get_float( "limb_power" );
 
     // Optional
-    head_power = obj.get_int( "head_power", 0.8f * limb_power );
-    torso_power = obj.get_int( "torso_power", 1.5f * limb_power );
+    head_power = obj.get_float( "head_power", 0.8f * limb_power );
+    torso_power = obj.get_float( "torso_power", 1.5f * limb_power );
+
+    limb_scaling = obj.get_float( "limb_scaling", 0.25f * limb_power );
+    float scaling_ratio = limb_scaling / limb_power;
+    head_scaling = obj.get_float( "head_scaling", scaling_ratio * head_power );
+    torso_scaling = obj.get_float( "torso_scaling", scaling_ratio * torso_power );
 
     bleed = obj.get_float( "bleed", 0.0f );
     bite = obj.get_float( "bite", 0.0f );
@@ -2593,7 +2619,7 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
     if( long_action ) {
         // A hack: long action healing on NPCs isn't done yet.
         // So just heal at start and paralyze the player for 5 minutes.
-        cost /= (p->get_skill_level( skill_firstaid ) + 1);
+        cost /= std::min( 10, p->get_skill_level( skill_firstaid ) + 1 );
     }
 
     // NPCs can use first aid now, but they can't perform long actions
@@ -2622,19 +2648,18 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     float bonus_mult;
     if( healed == hp_head ) {
         heal_base = head_power;
-        bonus_mult = 0.8f;
+        bonus_mult = head_scaling;
     } else if( healed == hp_torso ) {
         heal_base = torso_power;
-        bonus_mult = 1.5f;
+        bonus_mult = torso_scaling;
     } else {
         heal_base = limb_power;
-        bonus_mult = 1.0f;
+        bonus_mult = limb_scaling;
     }
 
     if( heal_base > 0 ) {
         ///\EFFECT_FIRSTAID increases healing item effects
-        float bonus = healer.get_skill_level( skill_firstaid ) * bonus_scaling;
-        return heal_base + bonus_mult * bonus;
+        return heal_base + bonus_mult * healer.get_skill_level( skill_firstaid );
     }
 
     return heal_base;
@@ -2642,7 +2667,7 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
 
 long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
-    healer.practice( skill_firstaid, 8 );
+    float practice_amount = std::max( 9.0f, limb_power * 3.0f );
     const int dam = get_heal_value( healer, healed );
 
     if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
@@ -2674,11 +2699,13 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
 
     if( patient.has_effect( effect_bleed, bp_healed ) ) {
         if( x_in_y( bleed, 1.0f ) ) {
-            patient.remove_effect( effect_bleed, bp_healed);
+            patient.remove_effect( effect_bleed, bp_healed );
             heal_msg( m_good, _("You stop the bleeding."), _("The bleeding is stopped.") );
         } else {
             heal_msg( m_warning, _("You fail to stop the bleeding."), _("The wound still bleeds.") );
         }
+
+        practice_amount += bleed * 3.0f;
     }
     if( patient.has_effect( effect_bite, bp_healed ) ) {
         if( x_in_y( bite, 1.0f ) ) {
@@ -2687,16 +2714,20 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         } else {
             heal_msg( m_warning, _("Your wound still aches."), _("The wound still looks bad.") );
         }
+
+        practice_amount += bite * 3.0f;
     }
     if( patient.has_effect( effect_infected, bp_healed ) ) {
         if( x_in_y( infect, 1.0f ) ) {
             int infected_dur = patient.get_effect_dur( effect_infected, bp_healed );
-            patient.remove_effect( effect_infected, bp_healed);
-            patient.add_effect( effect_recover, infected_dur);
+            patient.remove_effect( effect_infected, bp_healed );
+            patient.add_effect( effect_recover, infected_dur );
             heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
         } else {
             heal_msg( m_warning, _("Your wound still hurts."), _("The wound still looks nasty.") );
         }
+
+        practice_amount += infect * 10.0f;
     }
 
     if( long_action ) {
@@ -2718,6 +2749,7 @@ long heal_actor::finish_using( player &healer, player &patient, item &it, hp_par
         }
     }
 
+    healer.practice( skill_firstaid, (int)practice_amount );
     return it.type->charges_to_use();
 }
 

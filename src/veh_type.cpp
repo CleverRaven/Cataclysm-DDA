@@ -197,7 +197,7 @@ void vpart_info::load( JsonObject &jo )
     auto qual = jo.get_array( "qualities" );
     while( qual.has_more() ) {
         auto pair = qual.next_array();
-        next_part.qualities[ pair.get_string( 0 ) ] = pair.get_int( 1 );
+        next_part.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
     }
 
     //Calculate and cache z-ordering based off of location
@@ -287,6 +287,11 @@ void vpart_info::check()
         }
         if( part.has_flag( "TURRET" ) && !item::find_type( part.item )->gun ) {
             debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
+        }
+        for( auto &q : part.qualities ) {
+            if( !q.first.is_valid() ) {
+                debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
+            }
         }
     }
 }

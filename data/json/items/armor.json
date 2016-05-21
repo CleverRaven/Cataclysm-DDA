@@ -2645,7 +2645,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 20,
+        "encumbrance" : 25,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2666,7 +2666,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 10,
+        "encumbrance" : 20,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2687,7 +2687,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2708,7 +2708,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -2729,7 +2729,7 @@
         "volume" : 1,
         "warmth" : 5,
         "environmental_protection" : 15,
-        "encumbrance" : 1,
+        "encumbrance" : 20,
         "flags" : ["WATER_FRIENDLY", "SUN_GLASSES", "OVERSIZE", "VARSIZE", "STURDY"],
         "qualities" : [["GLARE", 1]],
         "coverage" : 100,
@@ -5224,7 +5224,7 @@
         "environmental_protection" : 6,
         "encumbrance" : 60,
         "coverage" : 100,
-        "flags" : ["SUN_GLASSES"],
+        "flags" : ["SUN_GLASSES", "FLASH_PROTECTION"],
         "qualities" : [["GLARE", 2]],
         "material_thickness" : 4
     },
@@ -6502,7 +6502,16 @@
         "symbol" : "[",
         "bashing" : 5,
         "warmth" : 0,
-        "flags" : ["WAIST"]
+        "flags" : ["WAIST"],
+        "use_action" : {
+            "type": "holster",
+             "holster_prompt": "Stick what into your belt",
+             "holster_msg": "You tuck your %s into your %s",
+             "max_volume": 2,
+             "max_weight": 400,
+             "draw_cost": 60,
+             "flags": ["BELT_CLIP"]
+        }
     },
     {
         "type" : "ARMOR",
@@ -8346,7 +8355,7 @@
         "volume" : 5,
         "warmth" : 75,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 30,
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -8367,7 +8376,7 @@
         "volume" : 5,
         "warmth" : 75,
         "environmental_protection" : 15,
-        "encumbrance" : 25,
+        "encumbrance" : 35,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3
@@ -8508,7 +8517,7 @@
         "volume" : 5,
         "warmth" : 15,
         "environmental_protection" : 15,
-        "encumbrance" : 30,
+        "encumbrance" : 35,
         "flags" : ["VARSIZE", "STURDY", "OVERSIZE"],
         "coverage" : 100,
         "material_thickness" : 3

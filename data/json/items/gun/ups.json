@@ -11,7 +11,7 @@
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "teal",
+    "color": "cyan",
     "skill": "rifle",
     "range": 35,
     "ranged_damage": 30,

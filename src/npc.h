@@ -136,54 +136,40 @@ struct npc_personality : public JsonSerializer, public JsonDeserializer
 
 struct npc_opinion : public JsonSerializer, public JsonDeserializer
 {
- int trust;
- int fear;
- int value;
- int anger;
- int owed;
- std::vector<npc_favor> favors;
+    int trust;
+    int fear;
+    int value;
+    int anger;
+    int owed;
+    std::vector<npc_favor> favors;
 
- int total_owed() {
-  int ret = owed;
-  return ret;
- }
+    npc_opinion() {
+        trust = 0;
+        fear  = 0;
+        value = 0;
+        anger = 0;
+        owed = 0;
+    }
 
- npc_opinion() {
-  trust = 0;
-  fear  = 0;
-  value = 0;
-  anger = 0;
-  owed = 0;
- };
- npc_opinion(signed char T, signed char F, signed char V, signed char A, int O):
-             trust (T), fear (F), value (V), anger(A), owed (O) { };
+    npc_opinion( int T, int F, int V, int A, int O ) :
+                 trust( T ), fear( F ), value ( V ), anger( A ), owed ( O )
+    {
+    }
 
- npc_opinion& operator+= ( const npc_opinion &rhs )
- {
-  trust += rhs.trust;
-  fear  += rhs.fear;
-  value += rhs.value;
-  anger += rhs.anger;
-  owed  += rhs.owed;
-  return *this;
- };
+    npc_opinion& operator+=( const npc_opinion &rhs )
+    {
+        trust += rhs.trust;
+        fear  += rhs.fear;
+        value += rhs.value;
+        anger += rhs.anger;
+        owed  += rhs.owed;
+        return *this;
+    }
 
-/*
- npc_opinion& operator+= (npc_opinion rhs)
- {
-  trust += rhs.trust;
-  fear  += rhs.fear;
-  value += rhs.value;
-  anger += rhs.anger;
-  owed  += rhs.owed;
-  return *this;
- };
-*/
-
- npc_opinion& operator+ (npc_opinion &rhs)
- {
-  return (npc_opinion(*this) += rhs);
- };
+    npc_opinion& operator+( const npc_opinion &rhs )
+    {
+        return (npc_opinion(*this) += rhs);
+    }
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -943,4 +929,7 @@ struct epilogue {
     epilogue* find_epilogue(std::string ident);
     void random_by_group(std::string group, std::string name);
 };
+
+std::ostream& operator<< (std::ostream & os, npc_need need);
+
 #endif

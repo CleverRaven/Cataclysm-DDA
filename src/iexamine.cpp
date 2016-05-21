@@ -81,12 +81,7 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                     items.erase( item_it );
                 }
             } else {
-                p.moves -= 300;
-                if( g->handle_liquid( *item_it, true, false ) ) {
-                    add_msg(_("With a clang and a shudder, the %s pump goes silent."),
-                            item_it->type_name().c_str() );
-                    items.erase( item_it );
-                }
+                g->handle_liquid_from_ground( item_it, examp );
             }
             return;
         }
@@ -207,22 +202,14 @@ private:
 
     //! Prompt for a card to use (includes worn items).
     item* choose_card(char const *const msg) {
-        const int index = g->inv_for_filter(msg, [](item const& itm) {
-            return itm.type->id == "cash_card";
-        });
+        const int index = g->inv_for_id( itype_id( "cash_card" ), msg );
 
         if (index == INT_MIN) {
             add_msg(m_info, _("Never mind."));
             return nullptr; // player canceled
         }
 
-        auto &itm = u.i_at(index);
-        if (itm.type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return nullptr; // must have selected an equipped item
-        }
-
-        return &itm;
+        return &u.i_at(index);
     };
 
     //! Prompt for an integral value clamped to [0, max].
@@ -391,14 +378,10 @@ void iexamine::vending(player &p, const tripoint &examp)
         return;
     }
 
-    item *card = &p.i_at(g->inv_for_filter(_("Insert card for purchases."),
-        [](item const &i) { return i.type->id == "cash_card"; }));
+    item *card = &p.i_at( g->inv_for_id( itype_id( "cash_card" ), _( "Insert card for purchases." ) ) );
 
     if (card->is_null()) {
         return; // player cancelled selection
-    } else if (card->type->id != "cash_card") {
-        popup(_("Please insert cash cards only!"));
-        return;
     } else if (card->charges == 0) {
         popup(_("You must insert a charged cash card!"));
         return;
@@ -558,22 +541,11 @@ void iexamine::toilet(player &p, const tripoint &examp)
     if( water == items.end() ) {
         add_msg(m_info, _("This toilet is empty."));
     } else {
-        int initial_charges = water->charges;
         // Use a different poison value each time water is drawn from the toilet.
         water->poison = one_in(3) ? 0 : rng(1, 3);
 
-        // First try handling/bottling, then try drinking, but only try
-        // drinking if we don't handle or bottle.
-        bool drained = g->handle_liquid( *water, true, false );
-        if( drained || initial_charges != water->charges ) {
-            // The bottling happens in handle_liquid, but delay of action
-            // does not.
-            p.moves -= 100;
-        }
-
-        if( drained || water->charges <= 0 ) {
-            items.erase( water );
-        }
+        (void) p; // TODO: use me
+        g->handle_liquid_from_ground( water, examp );
     }
 }
 
@@ -653,7 +625,7 @@ void iexamine::cardreader(player &p, const tripoint &examp)
 
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    bool has_digging_tool = p.has_quality( "DIG", 2 );
+    bool has_digging_tool = p.has_quality( quality_id( "DIG" ), 2 );
     if( !has_digging_tool ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
@@ -680,7 +652,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 void iexamine::crate(player &p, const tripoint &examp)
 {
     // Check for a crowbar in the inventory
-    bool has_prying_tool = p.crafting_inventory().has_quality( "PRY", 1 );
+    bool has_prying_tool = p.crafting_inventory().has_quality( quality_id( "PRY" ), 1 );
     if( !has_prying_tool ) {
         add_msg( m_info, _("If only you had a crowbar...") );
         return;
@@ -1362,7 +1334,7 @@ void iexamine::flower_dahlia(player &p, const tripoint &examp)
         return;
     }
 
-    if( !p.has_quality( "DIG" ) ) {
+    if( !p.has_quality( quality_id( "DIG" ) ) ) {
         none( p, examp );
         add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
         return;
@@ -2021,23 +1993,30 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
         return;
     }
 
-    if( g->handle_liquid( brew_i, true, false ) ) {
+    const std::string booze_name = g->m.i_at( examp ).front().tname();
+    if( g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
-        add_msg(_("You squeeze the last drops of %s from the vat."), brew_i.tname().c_str());
-        g->m.i_clear( examp );
+        add_msg(_("You squeeze the last drops of %s from the vat."), booze_name.c_str());
     }
 }
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
-static int get_keg_cap( const furn_t &furn ) {
-    if( furn.id == "f_standing_tank" )  { return 1200; } //the furniture was a "standing tank", so can hold 1200
-    else                                { return 600; } //default to old default value
+int iexamine::get_keg_capacity( const tripoint &pos ) {
+    const furn_t &furn = g->m.furn_at( pos );
+    if( furn.id == "f_standing_tank" )  { return 1200; }
+    else if( furn.id == "f_wood_keg" )  { return 600; }
     //add additional cases above
+    else                                { return 0; }
+}
+
+bool iexamine::has_keg( const tripoint &pos )
+{
+    return get_keg_capacity( pos ) > 0;
 }
 
 void iexamine::keg(player &p, const tripoint &examp)
 {
-    int keg_cap = get_keg_cap( g->m.furn_at(examp) );
+    int keg_cap = get_keg_capacity( examp );
     bool liquid_present = false;
     for (int i = 0; i < (int)g->m.i_at(examp).size(); i++) {
         if (!g->m.i_at(examp)[i].made_of( LIQUID ) || liquid_present) {
@@ -2127,12 +2106,13 @@ void iexamine::keg(player &p, const tripoint &examp)
         selectmenu.selected = 0;
         selectmenu.query();
 
+        const auto drink_name = drink->tname();
+
         switch( static_cast<options>( selectmenu.ret ) ) {
         case FILL_CONTAINER:
-            if( g->handle_liquid(*drink, true, false) ) {
-                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink->tname().c_str(),
+            if( g->handle_liquid_from_ground( drink, examp ) ) {
+                add_msg(_("You squeeze the last drops of %1$s from the %2$s."), drink_name.c_str(),
                         g->m.name(examp).c_str());
-                g->m.i_clear( examp );
             }
             return;
 
@@ -2161,16 +2141,9 @@ void iexamine::keg(player &p, const tripoint &examp)
                         drink->tname().c_str(), g->m.name(examp).c_str());
                 return;
             }
-            for (int i = 0; i < charges_held; i++) {
-                p.use_charges(drink->typeId(), 1);
-                drink->charges++;
-                if( drink->volume() >= keg_cap ) {
-                    add_msg(_("You completely fill the %1$s with %2$s."), g->m.name(examp).c_str(),
-                            drink->tname().c_str());
-                    p.moves -= 250;
-                    return;
-                }
-            }
+            item tmp( drink->typeId(), calendar::turn, charges_held );
+            pour_into_keg( examp, tmp );
+            p.use_charges( drink->typeId(), charges_held - tmp.charges );
             add_msg(_("You fill the %1$s with %2$s."), g->m.name(examp).c_str(),
                     drink->tname().c_str());
             p.moves -= 250;
@@ -2188,6 +2161,40 @@ void iexamine::keg(player &p, const tripoint &examp)
             return;
         }
     }
+}
+
+bool iexamine::pour_into_keg( const tripoint &pos, item &liquid )
+{
+    const int keg_cap = get_keg_capacity( pos );
+    if( keg_cap <= 0 ) {
+        return false;
+    }
+    const auto keg_name = g->m.name( pos );
+
+    map_stack stack = g->m.i_at( pos );
+    if( stack.empty() ) {
+        // Not using map functions here because kegs have the NOITEM flags and map functions
+        // will put the liquid on a nearby tile instead.
+        stack.insert_at( stack.begin(), liquid );
+        stack.front().charges = 0; // Will be set later
+    } else if( stack.front().typeId() != liquid.typeId() ) {
+        add_msg( _( "The %s already contains some %s, you can't add a different liquid to it." ),
+                 keg_name.c_str(), stack.front().tname().c_str() );
+        return false;
+    }
+
+    item &drink = stack.front();
+    if( drink.volume() >= keg_cap ) {
+        add_msg( _( "The %s is full." ), keg_name.c_str() );
+        return false;
+    }
+
+    add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), keg_name.c_str() );
+    while( liquid.charges > 0 && drink.volume() < keg_cap ) {
+        drink.charges++;
+        liquid.charges--;
+    }
+    return true;
 }
 
 void pick_plant(player &p, const tripoint &examp,
@@ -2270,7 +2277,7 @@ void iexamine::tree_hickory(player &p, const tripoint &examp)
     if( !( p.get_skill_level( skill_survival ) > 0 ) ) {
         return;
     }
-    if( !p.has_quality( "DIG" ) ) {
+    if( !p.has_quality( quality_id( "DIG" ) ) ) {
         add_msg(m_info, _("You have no tool to dig with..."));
         return;
     }
@@ -2294,12 +2301,12 @@ item_location maple_tree_sap_container() {
 
 void iexamine::tree_maple(player &p, const tripoint &examp)
 {
-    if( !p.has_quality( "DRILL" ) ) {
+    if( !p.has_quality( quality_id( "DRILL" ) ) ) {
         add_msg( m_info, _( "You need a tool to drill the crust to tap this maple tree." ) );
         return;
     }
 
-    if( !p.has_quality( "HAMMER" ) ) {
+    if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
         add_msg( m_info, _( "You need a tool to hammer the spile into the crust to tap this maple tree." ) );
         return;
     }
@@ -2371,7 +2378,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
 
     switch( static_cast<options>( selectmenu.ret ) ) {
         case REMOVE_TAP: {
-            if( !p.has_quality( "HAMMER" ) ) {
+            if( !p.has_quality( quality_id( "HAMMER" ) ) ) {
                 add_msg( m_info, _( "You need a hammering tool to remove the spile from the crust." ) );
                 return;
             }
@@ -2411,16 +2418,7 @@ void iexamine::tree_maple_tapped(player &p, const tripoint &examp)
                 if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
                     if( liquid.type->id == "maple_sap" ) {
-                        long initial_charges = liquid.charges;
-                        bool emptied = g->handle_liquid( liquid, false, false, &it, NULL, PICKUP_RANGE );
-
-                        if( emptied || initial_charges != liquid.charges ) {
-                            p.mod_moves( -100 );
-                        }
-
-                        if( emptied || liquid.charges <= 0 ) {
-                            it.contents.clear();
-                        }
+                        g->handle_liquid_from_container( it, PICKUP_RANGE );
                     }
                 }
             }
@@ -2679,10 +2677,8 @@ void iexamine::trap(player &p, const tripoint &examp)
 void iexamine::water_source(player &p, const tripoint &examp)
 {
     item water = g->m.water_from( examp );
-    p.assign_activity(ACT_FILL_LIQUID, -1, -1);
-    p.activity.str_values.push_back(water.typeId());
-    p.activity.values.push_back(water.poison);
-    p.activity.values.push_back(water.bday);
+    (void) p; // TODO: use me
+    g->handle_liquid( water, nullptr, 0, &examp );
 }
 
 const itype * furn_t::crafting_pseudo_item_type() const
@@ -3177,21 +3173,17 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     }
 
     if (buy_gas == choice) {
-
-        int pos;
         item *cashcard;
 
-        pos = g->inv(_("Insert card."));
+        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
+
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+
         cashcard = &(p.i_at(pos));
 
-        if (cashcard->is_null()) {
-            popup(_("You do not have that item!"));
-            return;
-        }
-        if (cashcard->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
         if (cashcard->charges < pricePerUnit) {
             popup(str_to_illiterate_str(
                       _("Not enough money, please refill your cash card.")).c_str()); //or ride on a solar car, ha ha ha
@@ -3259,20 +3251,16 @@ void iexamine::pay_gas(player &p, const tripoint &examp)
     }
 
     if (refund == choice) {
-        int pos;
         item *cashcard;
 
-        pos = g->inv(_("Insert card."));
-        cashcard = &(p.i_at(pos));
+        const int pos = g->inv_for_id( itype_id( "cash_card" ), _( "Insert card." ) );
 
-        if (cashcard->is_null()) {
-            popup(_("You do not have that item!"));
+        if( pos == INT_MIN ) {
+            add_msg( _( "Never mind." ) );
             return;
         }
-        if (cashcard->type->id != "cash_card") {
-            popup(_("Please insert cash cards only!"));
-            return;
-        }
+
+        cashcard = &(p.i_at(pos));
         // Ok, we have a cash card. Now we need to know what's left in the pump.
         tripoint pGasPump = getGasPumpByNumber( examp, uistate.ags_pay_gas_selected_pump );
         long amount = fromPumpFuel( pTank, pGasPump );

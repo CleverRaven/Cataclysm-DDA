@@ -237,6 +237,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void update_body( int from, int to );
         /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
+
+        /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
+        void update_vitamins( const vitamin_id& vit );
+
         /**
           * Handles passive regeneration of pain and maybe hp, except sleep regeneration.
           * Updates health and checks for sickness.
@@ -682,7 +686,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  addiction_level(add_type type) const;
 
         /** Siphons fuel from the specified vehicle into the player's inventory */
-        bool siphon(vehicle *veh, const itype_id &desired_liquid);
+        bool siphon( vehicle &veh, const itype_id &desired_liquid );
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
@@ -817,9 +821,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
          * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
          * @param factor base move cost per unit volume before considering any other modifiers
+         * @param qty if specified limits maximum obtained charges
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
-        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST) const;
+        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST, int qty = -1 ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
@@ -833,10 +838,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param ammo either ammo or magazine to use when reloading the item
-         * @param qty maximum units of ammo to reload capped by remaining capacity. Defaults to remaining capacity
-         * (or 1 if RELOAD_ONE). Ignored if reloading using a magazine.
+         * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
          */
-        int item_reload_cost( const item& it, const item& ammo, long qty = -1 ) const;
+        int item_reload_cost( const item& it, const item& ammo, long qty ) const;
 
         /** Calculate (but do not deduct) the number of moves required to wear an item */
         int item_wear_cost( const item& to_wear ) const;
@@ -1036,7 +1040,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Check for free container space for the whole liquid item
         bool has_container_for( const item &liquid ) const;
         // Has a weapon, inventory item or worn item with flag
-        bool has_item_with_flag( std::string flag ) const;
+        bool has_item_with_flag( const std::string &flag ) const;
 
         bool has_mission_item( int mission_id ) const; // Has item with mission_id
         /**
