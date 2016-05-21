@@ -119,6 +119,22 @@ void Item_factory::finalize() {
                                            obj.ammo->recoil / 3 );
         }
         if( obj.gun ) {
+            // @todo add explicit action field to gun definitions
+            std::string defmode = "semi-auto";
+            if( obj.gun->clip == 1 ) {
+                defmode = "manual"; // break-type actions
+            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+                defmode = "revolver";
+            }
+
+            // if the gun doesn't have a DEFAULT mode then add one now
+            obj.gun->modes.emplace( "DEFAULT", std::make_pair<std::string, int>( std::move( defmode ), 1 ) );
+
+            if( obj.gun->burst > 1 ) {
+                // handle legacy JSON format
+                obj.gun->modes.emplace( "AUTO", std::pair<std::string, int>( "auto", obj.gun->burst ) );
+            }
+
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
         }
 
@@ -661,9 +677,6 @@ void Item_factory::check_definitions() const
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
-            if( type->item_tags.count( "BURST_ONLY" ) > 0 && type->item_tags.count( "MODE_BURST" ) < 1 ) {
-                msg << string_format("has BURST_ONLY but no MODE_BURST") << "\n";
-            }
             for( auto &gm : type->gun->default_mods ){
                 if( !has_template( gm ) ){
                     msg << string_format("invalid default mod.") << "\n";
@@ -951,6 +964,10 @@ void Item_factory::load_engine( JsonObject &jo )
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
+    if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
+        jo.throw_error( "cannot specify both burst and modes", "burst" );
+    }
+
     assign( jo, "skill", slot.skill_used );
     assign( jo, "ammo", slot.ammo );
     assign( jo, "range", slot.range );
@@ -979,6 +996,15 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
             slot.valid_mod_locations.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
+        }
+    }
+
+    if( jo.has_array( "modes" ) ) {
+        slot.modes.clear();
+        JsonArray jarr = jo.get_array( "modes" );
+        while( jarr.has_more() ) {
+            JsonArray curr = jarr.next_array();
+            slot.modes.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
         }
     }
 }
@@ -1210,7 +1236,6 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.sight_dispersion = jo.get_int( "sight_dispersion", -1 );
     slot.aim_speed = jo.get_int( "aim_speed", -1 );
     slot.recoil = jo.get_int( "recoil_modifier", 0 );
-    slot.burst = jo.get_int( "burst_modifier", 0 );
     slot.range = jo.get_int( "range_modifier", 0 );
     slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
     slot.ups_charges = jo.get_int( "ups_charges", slot.ups_charges );
@@ -1225,6 +1250,15 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
 
         while( compat.has_more() ) {
             slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
+        }
+    }
+
+    if( jo.has_array( "mode_modifier" ) ) {
+        slot.mode_modifier.clear();
+        JsonArray jarr = jo.get_array( "mode_modifier" );
+        while( jarr.has_more() ) {
+            JsonArray curr = jarr.next_array();
+            slot.mode_modifier.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
         }
     }
 }

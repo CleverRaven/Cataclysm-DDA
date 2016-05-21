@@ -907,7 +907,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square, bo
         if( cont != nullptr ) {
             if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
-                item *it = &( square.get_container( in_vehicle() )->contents[0] );
+                item *it = &( square.get_container( in_vehicle() )->contents.front() );
                 advanced_inv_listitem ait( it, 0, 1, square.id, in_vehicle() );
                 square.volume += ait.volume;
                 square.weight += ait.weight;
@@ -1969,7 +1969,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    item &src = src_container.contents[0];
+    item &src = src_container.contents.front();
 
     if( !src.made_of( LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
@@ -1991,7 +1991,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    uistate.adv_inv_container_content_type = dest_container.contents[0].typeId();
+    uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
     if( src.charges <= 0 ) {
         src_container.contents.clear();
     }
@@ -2248,7 +2248,7 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
         uistate.adv_inv_container_content_type = ( !it->is_container_empty() ) ?
-            it->contents[0].typeId() : "null";
+            it->contents.front().typeId() : "null";
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
@@ -2268,7 +2268,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
                     return true;
                 }
             } else {
-                if( it->contents[0].typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->contents.front().typeId() == uistate.adv_inv_container_content_type ) {
                     return true;
                 }
             }

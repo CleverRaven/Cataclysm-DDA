@@ -27,7 +27,7 @@
     "magazines" : [
       [ "5x50", [ "5x50_100_mag", "5x50_50_mag"] ]
     ],
-    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
     "id": "needlepistol",
@@ -55,6 +55,6 @@
     "magazines" : [
       [ "5x50", [ "5x50_50_mag", "5x50_100_mag"] ]
     ],
-    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   }
 ]

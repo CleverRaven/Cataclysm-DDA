@@ -356,8 +356,8 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
             }
 
             if( !cont.is_container_empty()) {
-                if( cont.contents[0].type->id == prod.type->id) {
-                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents[0]);
+                if( cont.contents.front().typeId() == prod.typeId() ) {
+                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents.front() );
                 }
             } else {
                 charges_to_store -= cont.get_remaining_capacity_for_liquid( prod);
@@ -1331,10 +1331,10 @@ bool player::disassemble( item &dis_item, int dis_pos,
 
     // Checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item.is_food() && dis_item.goes_bad()) ||
-        (dis_item.is_food_container() && dis_item.contents[0].goes_bad()) ) {
+        (dis_item.is_food_container() && dis_item.contents.front().goes_bad()) ) {
         dis_item.calc_rot( global_square_location() );
         if( dis_item.rotten() ||
-            (dis_item.is_food_container() && dis_item.contents[0].rotten())) {
+            (dis_item.is_food_container() && dis_item.contents.front().rotten())) {
             if( msg_and_query ) {
                 add_msg(m_info, _("It's rotten, I'm not taking that apart."));
             }
@@ -1736,24 +1736,15 @@ void drop_or_handle( const item &newit, player &p )
 
 void remove_ammo(item *dis_item, player &p)
 {
-    auto &contents = dis_item->contents;
-    const bool is_gun = dis_item->is_gun();
-    for( size_t i = 0; i < contents.size(); ) {
-        // Gun with gunmods, remove gunmods, remove their ammo
-        if( is_gun ) {
-            // integrated mods stay in the gun, they are part of the item type itself.
-            if( contents[i].has_flag( "IRREMOVABLE" ) ) {
-                remove_ammo( &contents[i], p );
-                i++;
-            } else {
-                p.gunmod_remove( *dis_item, contents[ i ] );
-            }
+    for( auto iter = dis_item->contents.begin(); iter != dis_item->contents.end(); ) {
+        if( iter->has_flag( "IRREMOVABLE" ) ) {
+            iter++;
             continue;
         }
-        item tmp = contents[i];
-        contents.erase( contents.begin() + i );
-        drop_or_handle( tmp, p );
+        drop_or_handle( *iter, p );
+        iter = dis_item->contents.erase( iter );
     }
+
     if( dis_item->has_flag( "NO_UNLOAD" ) ) {
         return;
     }

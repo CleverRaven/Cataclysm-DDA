@@ -50,7 +50,7 @@
     "burst": 2,
     "clip_size": 8,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "flags": [ "RELOAD_ONE", "MODE_BURST" ]
+    "flags": [ "RELOAD_ONE" ]
   },
   {
     "id": "mossberg_500",
@@ -90,8 +90,7 @@
         "price": 5000
     },
     "burst": 2,
-    "clip_size": 2,
-    "extend": { "flags": [ "MODE_BURST" ] }
+    "clip_size": 2
   },
   {
     "id": "pipe_shotgun",
@@ -210,8 +209,7 @@
         "price": 5000
     },
     "burst": 2,
-    "clip_size": 2,
-    "extend": { "flags": [ "MODE_BURST" ] }
+    "clip_size": 2
   },
   {
     "id": "shotgun_s",

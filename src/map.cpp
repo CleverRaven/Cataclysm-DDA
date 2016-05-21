@@ -5314,10 +5314,10 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         }
         trigger_item = true;
     } else if( n->has_flag("RADIO_CONTAINER") && !n->contents.empty() &&
-               n->contents[0].has_flag( signal ) ) {
+               n->contents.front().has_flag( signal ) ) {
         // A bomb is the only thing meaningfully placed in a container,
         // If that changes, this needs logic to handle the alternative.
-        itype_id bomb_type = n->contents[0].type->id;
+        itype_id bomb_type = n->contents.front().type->id;
 
         n->convert( bomb_type );
         if( n->has_flag("RADIO_INVOKE_PROC") ) {

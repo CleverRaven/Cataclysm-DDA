@@ -2147,8 +2147,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         memorial_file << indent << next_item.invlet << " - " << next_item.tname(1, false);
         if( next_item.charges > 0 ) {
             memorial_file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents[0].charges > 0 ) {
-            memorial_file << " (" << next_item.contents[0].charges << ")";
+        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
+            memorial_file << " (" << next_item.contents.front().charges << ")";
         }
         memorial_file << "\n";
     }
@@ -2168,8 +2168,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
         }
         if( next_item.charges > 0 ) {
             memorial_file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents[0].charges > 0 ) {
-            memorial_file << " (" << next_item.contents[0].charges << ")";
+        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
+            memorial_file << " (" << next_item.contents.front().charges << ")";
         }
         memorial_file << "\n";
     }
@@ -3313,23 +3313,17 @@ void player::disp_morale()
 
 static std::string print_gun_mode( const player &p )
 {
-    // Print current weapon, or attachment if active.
-    const item *gunmod = p.weapon.gunmod_current();
-    std::stringstream attachment;
-    if( gunmod != NULL ) {
-        attachment << gunmod->type_name().c_str();
-        if( gunmod->ammo_remaining() ) {
-            attachment << " (" << gunmod->ammo_remaining() << ")";
-        }
-        return string_format( _( "%s (Mod)" ), attachment.str().c_str() );
-    } else {
-        if( p.weapon.get_gun_mode() == "MODE_BURST" ) {
-            return string_format( _( "%s (Burst)" ), p.weapname().c_str() );
-        } else if( p.weapon.get_gun_mode() == "MODE_REACH" ) {
-            return string_format( _( "%s (Bayonet)" ), p.weapname().c_str() );
+    auto m = p.weapon.gun_current_mode();
+    if( m ) {
+        if( m.melee || !m->is_gunmod() ) {
+            return string_format( m.mode.empty() ? "%s": "%s (%s)",
+                                  p.weapname().c_str(), m.mode.c_str() );
         } else {
-            return string_format( _( "%s" ), p.weapname().c_str() );
+            return string_format( "%s (%i/%i)", m->tname().c_str(),
+                                  m->ammo_remaining(), m->ammo_capacity() );
         }
+    } else {
+        return p.weapname();
     }
 }
 
@@ -9287,7 +9281,7 @@ bool player::consume_item( item &target )
     }
     item *to_eat = nullptr;
     if( target.is_food_container( this ) ) {
-        to_eat = &target.contents[0];
+        to_eat = &target.contents.front();
     } else if( target.is_food( this ) ) {
         to_eat = &target;
     } else {
@@ -9384,7 +9378,7 @@ bool player::consume(int target_position)
     const bool was_in_container = target.is_food_container( this );
     if( consume_item( target ) ) {
         if( was_in_container ) {
-            i_rem( &target.contents[0] );
+            i_rem( &target.contents.front() );
         } else {
             i_rem( &target );
         }
@@ -10573,7 +10567,7 @@ void player::use(int inventory_position)
     } else if (used->is_gunmod()) {
 
         // first check at least the minimum requirements are met
-        if( !can_use( *used ) ) {
+        if( !( can_use( *used ) || has_trait( "DEBUG_HS" ) ) ) {
             return;
         }
 
@@ -10742,7 +10736,7 @@ bool player::gunmod_remove( item &gun, item& mod )
         return false;
     }
 
-    gun.set_gun_mode( "NULL" );
+    gun.gun_set_mode( "DEFAULT" );
     moves -= mod.type->gunmod->install_time / 2;
 
     i_add_or_drop( mod );
@@ -10763,7 +10757,7 @@ void player::gunmod_add( item &gun, item &mod )
     }
 
     // first check at least the minimum requirements are met
-    if( !can_use( mod ) ) {
+    if( !( can_use( mod ) || has_trait( "DEBUG_HS" ) ) ) {
         return;
     }
 
@@ -10775,7 +10769,7 @@ void player::gunmod_add( item &gun, item &mod )
     int qty = 0;
 
     // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
-    if( mod.has_flag( "INSTALL_DIFFICULT" ) ) {
+    if( mod.has_flag( "INSTALL_DIFFICULT" ) && !has_trait( "DEBUG_HS" ) ) {
         int chances = 1; // start with 1 in 6 (~17% chance)
 
         for( const auto &sk : mod.type->min_skills ) {
@@ -10851,8 +10845,9 @@ void player::gunmod_add( item &gun, item &mod )
         actions[ prompt.ret ]();
     }
 
-    assign_activity( ACT_GUNMOD_ADD, mod.type->gunmod->install_time, -1, get_item_position( &gun ),
-                     tool );
+    int turns = !has_trait( "DEBUG_HS" ) ? mod.type->gunmod->install_time : 0;
+
+    assign_activity( ACT_GUNMOD_ADD, turns, -1, get_item_position( &gun ), tool );
     activity.values.push_back( get_item_position( &mod ) );
     activity.values.push_back( roll ); // chance of success (%)
     activity.values.push_back( risk ); // chance of damage (%)
@@ -12623,8 +12618,10 @@ std::string player::weapname() const
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );
-        bool aux = std::any_of( weapon.contents.begin(), weapon.contents.end(), [&]( const item& e ) {
-            return e.is_auxiliary_gunmod() && e.ammo_capacity() > 0 && !e.has_flag( "RELOAD_AND_SHOOT" );
+
+        const auto mods = weapon.gunmods();
+        bool aux = std::any_of( mods.begin(), mods.end(), [&]( const item *e ) {
+            return e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" );
         } );
 
         if( base || aux ) {
@@ -12639,11 +12636,11 @@ std::string player::weapname() const
             }
             str << ")";
 
-            for( const auto& mod : weapon.contents ) {
-                if( mod.is_auxiliary_gunmod() && mod.ammo_capacity() > 0 && !mod.has_flag( "RELOAD_AND_SHOOT" ) ) {
-                    str << " (" << mod.ammo_remaining();
-                    if( mod.magazine_integral() ) {
-                        str << "/" << mod.ammo_capacity();
+            for( auto e : mods ) {
+                if( e->is_gun() && e->ammo_capacity() > 0 && !e->has_flag( "RELOAD_AND_SHOOT" ) ) {
+                    str << " (" << e->ammo_remaining();
+                    if( e->magazine_integral() ) {
+                        str << "/" << e->ammo_capacity();
                     }
                     str << ")";
                 }
@@ -12652,7 +12649,7 @@ std::string player::weapname() const
         return str.str();
 
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
-        return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents[0].charges );
+        return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
 
     } else if( weapon.is_null() ) {
         return _( "fists" );
@@ -12683,7 +12680,8 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
         return false;
     }
 
-    if( !can_wield( container->contents[pos] ) ) {
+    auto target = std::next( container->contents.begin(), pos );
+    if( !can_wield( *target ) ) {
         return false;
     }
 
@@ -12696,10 +12694,11 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
         inv.unsort();
     }
 
-    weapon = container->contents[pos];
+    weapon = std::move( *target );
+    container->contents.erase( target );
+
     inv.assign_empty_invlet( weapon, true );
     last_item = itype_id( weapon.type->id );
-    container->contents.erase( container->contents.begin() + pos );
 
     ///\EFFECT_PISTOL decreases time taken to draw pistols from holsters
     ///\EFFECT_SMG decreases time taken to draw smgs from holsters
@@ -13456,7 +13455,7 @@ int player::add_ammo_to_worn_quiver( item &ammo )
         int stored = quiver->quiver_store_arrow( ammo);
         if( stored > 0) {
             add_msg_if_player( ngettext( "You store %1$d %2$s in your %3$s.", "You store %1$d %2$s in your %3$s.", stored),
-                               stored, quiver->contents[0].type_name(stored).c_str(), quiver->type_name().c_str());
+                               stored, quiver->contents.front().type_name(stored).c_str(), quiver->type_name().c_str());
         }
         moves -= std::min( 100, stored * move_cost_per_arrow);
         quivered_sum += stored;

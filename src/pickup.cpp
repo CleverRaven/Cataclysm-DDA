@@ -290,7 +290,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, con
     }
     if( !it.is_container_empty() && u.can_pickVolume( it.volume() ) ) {
         amenu.addentry( SPILL, true, 's', _("Spill %s, then pick up %s"),
-                        it.contents[0].tname().c_str(), it.display_name().c_str() );
+                        it.contents.front().tname().c_str(), it.display_name().c_str() );
     }
 
     amenu.query();

@@ -1491,7 +1491,7 @@ void item::io( Archive& archive )
     std::string mode;
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
-        set_gun_mode(mode);
+        gun_set_mode(mode);
     }
 }
 

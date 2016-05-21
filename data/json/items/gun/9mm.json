@@ -32,7 +32,7 @@
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fnp90mag" ] ]
     ],
-    "flags": ["MODE_BURST", "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS"]
+    "flags": [ "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS" ]
   },
   {
     "id": "calico",
@@ -64,8 +64,7 @@
       [ "22", [ "a180mag" ] ],
       [ "45", [ "thompson_drum" ] ],
       [ "57", [ "fnp90mag" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "cx4",
@@ -158,8 +157,7 @@
       [ "45", [ "ump45mag" ] ],
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fn57mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "ksub2000",
@@ -219,8 +217,7 @@
         "recoil": 15,
         "durability": -1
     },
-    "burst": 3, "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
-    "flags": [ "MODE_BURST" ]
+    "burst": 3, "//": "The M93R can go through up to 110 rounds in six seconds, FWIW."
   },
   {
     "id": "l_sp_9mm",
@@ -335,8 +332,7 @@
         [ "45", [ "mac10mag" ] ],
         [ "46", [ "hk46mag", "hk46bigmag" ] ],
         [ "57", [ "fnp90mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "tec9",
@@ -368,8 +364,7 @@
         [ "45", [ "mac10mag" ] ],
         [ "46", [ "hk46mag", "hk46bigmag" ] ],
         [ "57", [ "fn57mag" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "usp_9mm",
@@ -413,7 +408,6 @@
     "material": "steel",
     "symbol": "(",
     "color": "dark_gray",
-    "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "9mm",
     "ranged_damage": 1,

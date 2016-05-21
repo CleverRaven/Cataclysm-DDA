@@ -25,8 +25,7 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "ar15",
@@ -77,8 +76,7 @@
        [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
        [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "hk_g36",
@@ -104,8 +102,7 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "l_bak_223",
@@ -183,7 +180,7 @@
     },
     "sight_dispersion": 0,
     "durability": 9,
-    "delete": { "flags": [ "MODE_BURST" ] }
+    "burst": 0
   },
   {
     "id": "l_mbr_223",
@@ -243,8 +240,7 @@
     "magazines" : [
       [ "223", [ "stanag50", "stanag30", "belt223" ] ],
       [ "308", [ "belt308" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "m27iar",
@@ -289,8 +285,7 @@
       [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "ruger_mini",
@@ -321,6 +316,34 @@
     ]
   },
   {
+    "id": "sig552",
+    "copy-from": "rifle_auto",
+    "type": "GUN",
+    "name": "SIG 552",
+    "description": "A compact selective fire automatic rifle featuring an integrated folding stock.",
+    "weight": 3200,
+    "volume": 7,
+    "price": 320000,
+    "bashing": 10,
+    "to_hit": -1,
+    "material": ["steel", "plastic"],
+    "ammo": "223",
+    "sight_dispersion": 60,
+    "recoil": 30,
+    "durability": 9,
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "3 rd.", 3 ],
+        [ "AUTO", "auto", 8 ]
+    ],
+    "magazines" : [
+      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
+    ]
+  },
+  {
     "id": "scar_l",
     "copy-from": "rifle_auto",
     "type": "GUN",
@@ -345,8 +368,7 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "scarhmag", "scarhbigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "steyr_aug",
@@ -372,8 +394,7 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "surv_carbine_223",

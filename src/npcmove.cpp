@@ -458,13 +458,18 @@ void npc::execute_action( npc_action action )
 
     case npc_shoot:
         aim();
-        fire_gun( tar, 1 );
+        if( weapon.gun_set_mode( "DEFAULT" ) ) {
+            fire_gun( tar, weapon.gun_current_mode().qty );
+        }
         break;
 
-    case npc_shoot_burst:
+    case npc_shoot_burst: {
         aim();
-        fire_gun( tar, weapon.burst_size() );
+        if( weapon.gun_set_mode( "AUTO" ) ) {
+            fire_gun( tar, weapon.gun_current_mode().qty );
+        }
         break;
+    }
 
     case npc_alt_attack:
         alt_attack();
@@ -804,7 +809,10 @@ npc_action npc::method_of_attack()
         }
         if( weapon.is_gun() && (!use_silent || weapon.is_silent()) &&
             weapon.ammo_remaining() >= weapon.ammo_required() ) {
+
             const int confident = confident_gun_range( weapon );
+            int burst_size = weapon.gun_get_mode( "AUTO" ).qty;
+
             if( dist > confident ) {
                 if( can_reload_current() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
                     return npc_reload;
@@ -837,8 +845,8 @@ npc_action npc::method_of_attack()
                 } else {
                     return npc_aim;
                 }
-            } else if( dist <= confident / 3 &&
-                       weapon.ammo_remaining() >= weapon.burst_size() &&
+            } else if( burst_size > 1 && dist <= confident / 3 &&
+                       weapon.ammo_remaining() >= burst_size &&
                        (target_HP >= weapon.gun_damage() * 3 ||
                         emergency( ai_cache.danger * 2 ) ) ) {
                 return npc_shoot_burst;
@@ -2522,7 +2530,7 @@ bool npc::consume_food()
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
         float cur_weight = it.is_food_container() ?
-            rate_food( it.contents[0], want_hunger, want_quench ) :
+            rate_food( it.contents.front(), want_hunger, want_quench ) :
             rate_food( it, want_hunger, want_quench );
         if( cur_weight > best_weight ) {
             best_weight = cur_weight;

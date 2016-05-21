@@ -22,7 +22,11 @@
     "special_attacks": [ {
         "type": "gun",
         "cooldown": 2,
-        "gun_type": "hk_mp5"
+        "gun_type": "hk_mp5",
+        "ranges": [
+          [ 0, 6, "AUTO" ],
+          [ 7, 12, "DEFAULT" ]
+        ]
     } ],
     "death_drops": {
       "groups": [ ["robots", 4], ["secubot", 1] ]
@@ -54,7 +58,11 @@
     "special_attacks": [ {
         "type": "gun",
         "cooldown": 1,
-        "gun_type": "hk_mp5"
+        "gun_type": "hk_mp5",
+        "ranges": [
+          [ 0, 6, "AUTO" ],
+          [ 7, 12, "DEFAULT" ]
+        ]
     } ],
     "death_drops": {
       "groups": [ ["robots", 10], ["turret", 1] ]

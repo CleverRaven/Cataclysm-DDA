@@ -6041,7 +6041,7 @@ void vehicle::control_turrets() {
             char sym;
             if( parts[p].mode == 0 ) {
                 sym = ' ';
-            } else if( parts[p].mode > 9 && gun.burst_size() > 1 ) {
+            } else if( parts[p].mode > 9 && gun.gun_get_mode( "AUTO" ) ) {
                 sym = 'B'; // Burst
             } else if( parts[p].mode > 0 && parts[p].mode < 10 ) {
                 sym = '0' + parts[p].mode;
@@ -6099,9 +6099,9 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
         tr.mode = 1;
     } else if( tr.mode <= 1 && !only_manual_modes ) {
-        tr.mode = gun.burst_size() > 1 ? 1000 : -1;
+        tr.mode = gun.gun_get_mode( "AUTO" ).qty > 1 ? 1000 : -1;
     } else {
-        tr.mode = gun.burst_size() > 1 ? -1000 : -1;
+        tr.mode = gun.gun_get_mode( "AUTO" ).qty > 1 ? -1000 : -1;
     }
 
     if( only_manual_modes ) {
@@ -6303,7 +6303,7 @@ bool vehicle::fire_turret( int p, bool manual )
 
     // set up for burst shots
     if( abs(parts[p].mode) > 1 ){
-        charges *= turret_data.gun.burst_size();
+        charges *= std::max(turret_data.gun.gun_get_mode( "AUTO" ).qty, 1 );
         charges = std::min(charges, turret_data.charges);
     }
 
@@ -6419,7 +6419,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
 
-    const int to_fire = std::min( abs(parts[p].mode), gun.burst_size() );
+    const int to_fire = std::min( abs(parts[p].mode), std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) );
     res = tmp.fire_gun( targ, to_fire, gun );
 
     // Return whatever is left.
@@ -6458,7 +6458,7 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
 
-        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1;
+        int to_fire = abs(parts[p].mode) > 1 ? std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) : 1;
         res = shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );

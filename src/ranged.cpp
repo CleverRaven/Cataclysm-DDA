@@ -465,7 +465,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
         // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
         if( gun.ammo_type() != "shot" ) {
-            const item *parent = gun.is_auxiliary_gunmod() && has_item( gun ) ? find_parent( gun ) : nullptr;
+            const item *parent = gun.is_gunmod() && has_item( gun ) ? find_parent( gun ) : nullptr;
             dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 
@@ -772,7 +772,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                         relevant->ammo_data()->nname( relevant->ammo_required() ).c_str(),
                         relevant->tname().c_str() );
             } else {
-                title = string_format( _( "Firing %s" ), relevant->tname().c_str() );
+                title = string_format( _( "Firing %s" ), relevant->gun_current_mode()->tname().c_str() );
             }
             title += " ";
             title += print_recoil( p );
@@ -1103,23 +1103,13 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 }
             } else if( relevant == &u.weapon && relevant->is_gun() ) {
                 // firing a gun
-                mvwprintw(w_target, line_number, 1, _("Range: %d/%d, %s"),
-                          rl_dist(from, p), range, enemiesmsg.c_str());
-                // get the current weapon mode or mods
-                std::string mode = "";
-                if( u.weapon.get_gun_mode() == "MODE_BURST" ) {
-                    mode = _("Burst");
-                } else {
-                    item *gunmod = u.weapon.gunmod_current();
-                    if( gunmod != NULL ) {
-                        mode = gunmod->type_name();
-                    }
+                mvwprintw( w_target, line_number++, 1, _( "Range: %d/%d, %s" ),
+                          rl_dist( from, p ), range, enemiesmsg.c_str() );
+
+                auto m = relevant->gun_current_mode();
+                if( !m.mode.empty() ) {
+                    mvwprintw( w_target, line_number++, 1, _("Firing mode: %s"), m.mode.c_str() );
                 }
-                if( mode != "" ) {
-                    mvwprintw( w_target, line_number, 14, _("Firing mode: %s"),
-                               mode.c_str() );
-                }
-                line_number++;
             } else {
                 // throwing something or setting turret's target
                 mvwprintw( w_target, line_number++, 1, _("Range: %d/%d, %s"),
@@ -1153,11 +1143,9 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             } else {
                 predicted_recoil = u.recoil;
             }
-            if( relevant->gunmod_current() ) {
-                line_number = print_aim_bars( u, w_target, line_number, relevant->gunmod_current(), critter, predicted_recoil );
-            } else {
-                line_number = print_aim_bars( u, w_target, line_number, relevant, critter, predicted_recoil );
-            }
+
+            line_number = print_aim_bars( u, w_target, line_number, &*relevant->gun_current_mode(), critter, predicted_recoil );
+
             if( aim_mode->has_threshold ) {
                 mvwprintw(w_target, line_number++, 1, _("%s Delay: %i"), aim_mode->name.c_str(), predicted_delay );
             }

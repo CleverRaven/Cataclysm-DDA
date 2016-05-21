@@ -187,7 +187,7 @@ void player_activity::do_turn( player *p )
                 }
 
                 g->m.build_map_cache( g->get_levz() );
-                g->plfire( false );
+                g->plfire();
             }
             break;
         case ACT_GAME:

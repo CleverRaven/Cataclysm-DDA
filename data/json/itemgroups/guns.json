@@ -186,6 +186,7 @@
       [ "rm51_assault_rifle", 25 ],
       [ "rm614_lmg", 10 ],
       [ "rm88_battle_rifle", 25 ],
+      [ "sig552", 100 ],
       [ "scar_l", 50 ],
       [ "scar_h", 50 ]
     ]

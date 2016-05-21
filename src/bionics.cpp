@@ -387,7 +387,7 @@ bool player::activate_bionic( int b, bool eff_only )
         tmp_item = weapon;
         weapon = item( "bio_blaster_gun", 0 );
         g->refresh_all();
-        g->plfire( false );
+        g->plfire();
         if( weapon.charges == 1 ) { // not fired
             charge_power( bionics[bio.id].power_activate );
         }
@@ -396,7 +396,7 @@ bool player::activate_bionic( int b, bool eff_only )
         tmp_item = weapon;
         weapon = item( "bio_laser_gun", 0 );
         g->refresh_all();
-        g->plfire( false );
+        g->plfire();
         if( weapon.charges == 1 ) { // not fired
             charge_power( bionics[bio.id].power_activate );
         }
@@ -405,7 +405,7 @@ bool player::activate_bionic( int b, bool eff_only )
         tmp_item = weapon;
         weapon = item( "bio_lightning", 0 );
         g->refresh_all();
-        g->plfire( false );
+        g->plfire();
         if( weapon.charges == 1 ) { // not fired
             charge_power( bionics[bio.id].power_activate );
         }

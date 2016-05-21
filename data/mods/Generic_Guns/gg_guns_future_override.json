@@ -152,7 +152,6 @@
      "name_plural": "L39B",
      "description": "A selective-firing handgun introduced in 2039, Leadworks LLC's L39B provides accurate single-shot placement as well as controllable short-range firepower with its three-round burst mode.  Users praised its accuracy and fearsome appearance.",
      "price": 95000,
-     "flags": "MODE_BURST",
      "material": ["steel", "plastic"],
      "skill": "pistol",
      "ammo": "9mm",

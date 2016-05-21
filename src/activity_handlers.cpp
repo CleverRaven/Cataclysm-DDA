@@ -187,7 +187,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     item &corpse_item = items_here[act->index];
     const mtype *corpse = corpse_item.get_mtype();
-    std::vector<item> contents = corpse_item.contents;
+    auto contents = corpse_item.contents;
     const int age = corpse_item.bday;
     g->m.i_rem( p->pos(), act->index );
 

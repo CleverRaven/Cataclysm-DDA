@@ -361,9 +361,9 @@ void computer::activate_function(computer_action action, char ch)
                                     capa = std::min( sewage.charges, capa );
                                     if( elem.contents.empty() ) {
                                         elem.put_in( sewage );
-                                        elem.contents[0].charges = capa;
+                                        elem.contents.front().charges = capa;
                                     } else {
-                                        elem.contents[0].charges += capa;
+                                        elem.contents.front().charges += capa;
                                     }
                                     found_item = true;
                                     break;
@@ -820,10 +820,10 @@ of pureed bone & LSD."));
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
-                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                    } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else { // Success!
-                        const item &blood = g->m.i_at(x, y).front().contents[0];
+                        const item &blood = g->m.i_at(x, y).front().contents.front();
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == NULL_ID ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
@@ -1345,7 +1345,7 @@ void computer::activate_failure(computer_failure fail)
                         print_error(_("ERROR: Please use vacutainer-contained samples."));
                     } else if (g->m.i_at(x, y)[0].contents.empty()) {
                         print_error(_("ERROR: Vacutainer empty."));
-                    } else if (g->m.i_at(x, y)[0].contents[0].type->id != "blood") {
+                    } else if (g->m.i_at(x, y)[0].contents.front().typeId() != "blood") {
                         print_error(_("ERROR: Please only use blood samples."));
                     } else {
                         print_error(_("ERROR: Blood sample destroyed."));
