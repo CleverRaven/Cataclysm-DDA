@@ -307,14 +307,14 @@ bool gun_actor::call( monster &z ) const
             max_range = std::max( { max_range, e.first.first, e.first.second } );
         }
 
-        int obstacles; // friendly targets blocking shots againt hostiles
-        target = z.auto_find_hostile_target( max_range, obstacles );
+        int hostiles; // hostiles which cannot be engaged without risking friendly fire
+        target = z.auto_find_hostile_target( max_range, hostiles );
         if( !target ) {
-            if( obstacles > 0 && g->u.sees( z ) ) {
+            if( hostiles > 0 && g->u.sees( z ) ) {
                 add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                              obstacles ),
-                         z.name().c_str(), obstacles );
+                                              hostiles ),
+                         z.name().c_str(), hostiles );
             }
             return false;
         }
