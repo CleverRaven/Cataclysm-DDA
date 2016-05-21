@@ -5,7 +5,7 @@
     "ident": "no_faults",
     "name": "Perfect Reliability",
     "author": "Mugling",
-    "description": "All items are perfectly reliable and never spawn with faults or develop them during use",
+    "description": "Vehicle parts are perfectly reliable and never spawn with faults or develop them during use",
     "category": "rebalance",
     "path": "modinfo.json"
   },
