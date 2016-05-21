@@ -2872,7 +2872,7 @@ bool game::handle_action()
                 temp_exit_fullscreen();
                 m.draw( w_terrain, u.pos() );
                 tripoint p = u.pos();
-                std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_REACH );
+                std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_REACH, mouse_target );
                 if( !trajectory.empty() ) {
                     u.reach_attack( p );
                 }
