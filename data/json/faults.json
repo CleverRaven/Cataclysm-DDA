@@ -15,7 +15,7 @@
     "id": "fault_engine_glow_plug",
     "type": "fault",
     "name": "glow plugs",
-    "description": "Required to start the vehicle in low ambient temperatures.",
+    "description": "Help when starting an engine in low ambient temperatures.",
     "time": 240000,
     "skills": [ [ "mechanics", 4 ] ],
     "requirements": {
