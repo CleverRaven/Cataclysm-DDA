@@ -772,7 +772,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
                         relevant->ammo_data()->nname( relevant->ammo_required() ).c_str(),
                         relevant->tname().c_str() );
             } else {
-                title = string_format( _( "Firing %s" ), relevant->tname().c_str() );
+                title = string_format( _( "Firing %s" ), relevant->gun_current_mode()->tname().c_str() );
             }
             title += " ";
             title += print_recoil( p );

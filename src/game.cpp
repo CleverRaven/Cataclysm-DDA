@@ -10993,7 +10993,7 @@ void game::plfire( const tripoint &default_target )
     tripoint p = u.pos();
 
     target_mode tmode = gun.melee ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &*gun, tmode, default_target );
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode, default_target );
 
     if (trajectory.empty()) {
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
