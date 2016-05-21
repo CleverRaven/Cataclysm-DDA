@@ -4203,7 +4203,11 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
 std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 {
     if( !is_gun() ) {
-        return {};
+        if( has_flag( "REACH_ATTACK" ) ) {
+            return {};
+        }
+
+        return {{ "REACH", { _( "reach attach" ), const_cast<item *>( this ), reach_range(), true }}};
     }
 
     std::map<std::string, const item::gun_mode> res;
@@ -4251,6 +4255,11 @@ const item::gun_mode item::gun_get_mode( const std::string& mode ) const
             }
         }
     }
+
+    if( has_flag( "REACH_ATTACK" ) ) {
+        return { _( "reach attach" ), const_cast<item *>( this ), reach_range(), true };
+    }
+
     return { "", nullptr, 0, false };
 }
 
@@ -4262,7 +4271,7 @@ item::gun_mode item::gun_current_mode()
 std::string item::gun_get_mode_id() const
 {
     if( !is_gun() || is_gunmod() ) {
-        return "";
+        return has_flag( "REACH_ATTACK" ) ? "REACH" : "";
     }
     return get_var( GUN_MODE_VAR_NAME, "DEFAULT" );
 }
