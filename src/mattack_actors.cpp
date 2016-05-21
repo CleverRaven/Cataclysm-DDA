@@ -257,9 +257,15 @@ void gun_actor::load( JsonObject &obj )
     obj.read( "fake_int", fake_int );
     obj.read( "fake_per", fake_per );
 
-    obj.read( "range", range );
-    obj.read( "burst_limit", burst_limit );
-    obj.read( "range_no_burst", range_no_burst );
+    auto arr = obj.get_array( "ranges" );
+    while( arr.has_more() ) {
+        auto mode = arr.next_array();
+        if( mode.size() < 2 || mode.get_int( 0 ) > mode.get_int( 1 ) ) {
+            obj.throw_error( "incomplete or invalid range specified", "ranges" );
+        }
+        ranges.emplace( std::make_pair<int, int>( mode.get_int( 0 ), mode.get_int( 1 ) ),
+                        mode.size() > 2 ? mode.get_string( 2 ) : "" );
+    }
 
     obj.read( "max_ammo", max_ammo );
 
@@ -293,38 +299,44 @@ mattack_actor *gun_actor::clone() const
 
 bool gun_actor::call( monster &z ) const
 {
-    if( z.friendly != 0 ) {
-        // Attacking monsters, not the player!
-        int boo_hoo;
-        Creature *hostile_target = z.auto_find_hostile_target( range, boo_hoo );
-        if( hostile_target == nullptr ) {
-            // Couldn't find any targets!
-            if( boo_hoo > 0 && g->u.sees( z ) ) {
-                // because that stupid oaf was in the way!
+    Creature *target;
+
+    if( z.friendly ) {
+        int max_range = 0;
+        for( const auto &e : ranges ) {
+            max_range = std::max( { max_range, e.first.first, e.first.second } );
+        }
+
+        int hostiles; // hostiles which cannot be engaged without risking friendly fire
+        target = z.auto_find_hostile_target( max_range, hostiles );
+        if( !target ) {
+            if( hostiles > 0 && g->u.sees( z ) ) {
                 add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                              boo_hoo ),
-                         z.name().c_str(), boo_hoo );
+                                              hostiles ),
+                         z.name().c_str(), hostiles );
             }
             return false;
         }
 
-        shoot( z, *hostile_target );
-        return true;
+    } else {
+        target = z.attack_target();
+        if( !target || !z.sees( *target ) ) {
+            return false;
+        }
     }
 
-    // Not friendly; hence, firing at the player too
-    Creature *target = z.attack_target();
-    if( target == nullptr || rl_dist( z.pos(), target->pos() ) > range ||
-        !z.sees( *target ) ) {
-        return false;
+    int dist = rl_dist( z.pos(), target->pos() );
+    for( const auto &e : ranges ) {
+        if( dist >= e.first.first && dist <= e.first.second ) {
+            shoot( z, *target, e.second );
+            return true;
+        }
     }
-
-    shoot( z, *target );
-    return true;
+    return false;
 }
 
-void gun_actor::shoot( monster &z, Creature &target ) const
+void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) && g->u.sees( z ) ) {
@@ -361,6 +373,8 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     z.moves -= move_cost;
 
     item gun( gun_type );
+    gun.gun_set_mode( mode );
+
     itype_id ammo = ( ammo_type != "NULL" ) ? ammo_type : gun.ammo_default();
 
     if( ammo != "NULL" && z.ammo[ ammo ] < gun.ammo_required() ) {
@@ -399,15 +413,11 @@ void gun_actor::shoot( monster &z, Creature &target ) const
     tmp.weapon = gun;
     tmp.worn.push_back( item( "fake_UPS", calendar::turn, 1000 ) );
 
-    const auto distance = rl_dist( z.pos(), target.pos() );
-
-    const int burst = std::min( distance <= range_no_burst ? burst_limit : 1, tmp.weapon.burst_size() );
-
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.gun_type().c_str() );
     }
 
-    z.ammo[ammo] -= tmp.fire_gun( target.pos(), burst );
+    z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
 
     if( require_targeting ) {
         z.add_effect( effect_targeted, targeting_timeout_extend );

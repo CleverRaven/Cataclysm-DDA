@@ -18,6 +18,7 @@
 #include "itype.h"
 #include "cata_utility.h"
 #include "vehicle_selector.h"
+#include "fault.h"
 
 #include <cmath>
 #include <list>
@@ -48,6 +49,8 @@ const quality_id WRENCH( "WRENCH" );
 const quality_id SAW_M_FINE( "SAW_M_FINE" );
 const skill_id skill_mechanics( "mechanics" );
 } // namespace
+
+void act_vehicle_siphon(vehicle* veh);
 
 /**
  * Creates a blank veh_interact window.
@@ -83,6 +86,7 @@ veh_interact::veh_interact ()
     main_context.register_action("QUIT");
     main_context.register_action("INSTALL");
     main_context.register_action("REPAIR");
+    main_context.register_action("MEND");
     main_context.register_action("REFILL");
     main_context.register_action("REMOVE");
     main_context.register_action("RENAME");
@@ -291,6 +295,8 @@ void veh_interact::do_main_loop()
             do_install();
         } else if (action == "REPAIR") {
             do_repair();
+        } else if (action == "MEND") {
+            do_mend();
         } else if (action == "REFILL") {
             do_refill();
         } else if (action == "REMOVE") {
@@ -299,6 +305,9 @@ void veh_interact::do_main_loop()
             do_rename();
         } else if (action == "SIPHON") {
             do_siphon();
+            // Siphoning may have started a player activity. If so, we should close the
+            // vehicle dialog and continue with the activity.
+            finish = g->u.activity.type != ACT_NULL;
         } else if (action == "TIRE_CHANGE") {
             do_tirechange();
         } else if (action == "RELABEL") {
@@ -433,6 +442,15 @@ task_reason veh_interact::cant_do (char mode)
         enough_morale = g->u.has_morale_to_craft();
         valid_target = !need_repair.empty() && cpart >= 0;
         has_tools = (has_welder && has_goggles) || has_duct_tape;
+        break;
+    case 'm': // mend mode
+        enough_morale = g->u.has_morale_to_craft();
+        valid_target = cpart >= 0 && std::any_of( parts_here.begin(), parts_here.end(), [this]( int e ) {
+            return g->u.has_trait( "DEBUG_HS" ) ?
+                !veh->parts[ e ].faults_potential().empty() :
+                !veh->parts[ e ].faults().empty();
+        } );
+        has_tools = true; // checked later
         break;
     case 'f': // refill mode
         if (!ptanks.empty()) {
@@ -982,6 +1000,83 @@ void veh_interact::do_repair()
     }
 }
 
+void veh_interact::do_mend()
+{
+    display_mode( 'm' );
+    werase( w_msg );
+
+    switch( cant_do( 'm' ) ) {
+        case LOW_MORALE:
+            mvwprintz( w_msg, 0, 1, c_ltred, _( "Your morale is too low to mend..." ) );
+            wrefresh( w_msg );
+            return;
+
+        case INVALID_TARGET:
+            mvwprintz( w_msg, 0, 1, c_ltred, _( "No faulty parts here." ) );
+            wrefresh( w_msg );
+            return;
+
+        case MOVING_VEHICLE:
+            mvwprintz( w_msg, 0, 1, c_ltgray, _( "You can't mend stuff while driving." ) );
+            wrefresh( w_msg );
+            return;
+
+        default:
+            break;
+    }
+
+    std::vector<int> opts;
+    std::copy_if( parts_here.begin(), parts_here.end(), std::back_inserter( opts ), [this]( int e ) {
+        if( g->u.has_trait( "DEBUG_HS" ) ) {
+            return !veh->parts[ e ].faults_potential().empty();
+        }
+        return !veh->parts[ e ].faults().empty();
+    } );
+
+    mvwprintz( w_mode, 0, 1, c_ltgray, _( "Choose a part here to mend:" ) );
+    wrefresh( w_mode );
+    int pos = 0;
+    while ( true ) {
+        sel_vehicle_part = &veh->parts[ opts[ pos ] ];
+        sel_vpart_info = &sel_vehicle_part->info();
+        werase( w_parts );
+        int idx = std::distance( parts_here.begin(), std::find( parts_here.begin(), parts_here.end(), opts[ pos ] ) );
+        veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, idx );
+        wrefresh( w_parts );
+
+        werase( w_list );
+        int y = 0;
+        for( const auto& e : sel_vehicle_part->faults() ) {
+            y += fold_and_print( w_list, y, 1, getmaxx( w_list ) - 2, c_ltgray,
+                                 _( "* <color_red>Faulty %1$s</color>" ), e.obj().name().c_str() );
+            y += fold_and_print( w_list, y, 3, getmaxx( w_list ) - 4, c_ltgray, e.obj().description() );
+            y++;
+        }
+        wrefresh( w_list );
+
+        const std::string action = main_context.handle_input();
+        if( ( action == "MEND" || action == "CONFIRM" ) ) {
+            g->u.mend_item( veh->part_base( opts[ pos ] ) );
+            sel_cmd = 'q';
+            return;
+
+        } else if( action == "QUIT" ) {
+            werase( w_parts );
+            veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1 );
+            wrefresh( w_parts );
+            werase( w_msg );
+            wrefresh( w_msg );
+            werase( w_list );
+            wrefresh( w_list );
+            break;
+
+        } else {
+            move_in_list( pos, action, opts.size() );
+        }
+    }
+
+}
+
 /**
  * Handles refilling a vehicle's fuel tank.
  * @param reason INVALID_TARGET if there's no fuel tank in the spot,
@@ -1228,7 +1323,7 @@ void veh_interact::do_siphon()
     default:
         break; // no reason, all is well
     }
-    sel_cmd = 's';
+    act_vehicle_siphon( veh );
 }
 
 /**
@@ -1568,8 +1663,7 @@ void veh_interact::display_veh ()
         mvwputch (w_disp, hh + y, hw + x, col, special_symbol(sym));
     }
     if (!vertical_menu) {
-        size_t len = utf8_width(_("FWD ->"));
-        mvwprintz(w_disp, 0, disp_w - len, c_dkgray,  _("FWD ->"));
+        right_print( w_disp, 0, 0, c_dkgray, _( "FWD ->" ) );
     }
     wrefresh (w_disp);
 }
@@ -1781,6 +1875,7 @@ void veh_interact::display_mode(char mode)
         const std::array<std::string, 9> actions = { {
             { _("<i>nstall") },
             { _("<r>epair") },
+            { _("<m>end" ) },
             { _("re<f>ill") },
             { _("rem<o>ve") },
             { _("<s>iphon") },
@@ -1792,6 +1887,7 @@ void veh_interact::display_mode(char mode)
         const std::array<bool, std::tuple_size<decltype(actions)>::value> enabled = { {
             !cant_do('i'),
             !cant_do('r'),
+            !cant_do('m'),
             !cant_do('f'),
             !cant_do('o'),
             !cant_do('s'),
@@ -2132,38 +2228,6 @@ item consume_vpart_item( const vpart_str_id &vpid )
     return item_used.front();
 }
 
-const std::list<vehicle*> find_vehicles_around(const tripoint &location, std::function<bool(vehicle*)> pred) {
-    auto found = std::list<vehicle*>{};
-
-    tripoint p = location;
-    int &x = p.x;
-    int &y = p.y;
-    for( x = location.x - 1; x <= location.x + 1; x++ ) {
-        for( y = location.y - 1; y <= location.y + 1; y++ ) {
-            auto veh = g->m.veh_at( p );
-            if(veh == nullptr) {
-                continue; // Nothing to see here, move along...
-            }
-            add_msg(m_debug, "I has a %s at %d,%d...", veh->name.c_str(), x, y);
-            if(std::find(begin(found), end(found), veh) != end(found)) {
-                add_msg(m_debug, "...but we had it already.");
-                continue; // We have this one already.
-            }
-
-            if(!pred(veh)) {
-                add_msg(m_debug, "...but the predicate doesn't want it.");
-                continue; // Can't put any fuel into this one, ignore it.
-            }
-
-            // Okay, there's a vehicle and it's got room for gas and we haven't seen it before.
-            add_msg(m_debug, "...and I'll keep it!");
-            found.emplace_back(veh);
-        }
-    }
-
-    return found;
-}
-
 void act_vehicle_siphon(vehicle* veh) {
     std::vector<itype_id> fuels;
     for( auto & e : veh->fuels_left() ) {
@@ -2196,71 +2260,7 @@ void act_vehicle_siphon(vehicle* veh) {
         fuel = fuels.front();
     }
 
-    const auto foundv = find_vehicles_around(g->u.pos(),
-            [&](vehicle* it) { return it != veh && (it->fuel_capacity(fuel) - it->fuel_left(fuel)) > 0; });
-
-    add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
-
-    // No other vehicles around, just siphon into a can.
-    if(foundv.empty()) {
-        g->u.siphon(veh, fuel);
-        return;
-    } else {
-        uimenu fmenu;
-        fmenu.text = _("Fill what?");
-        fmenu.addentry(_("Nearby vehicle (%d)"), foundv.size());
-        fmenu.addentry(_("Container"));
-        fmenu.addentry(_("Never mind"));
-        fmenu.query();
-        auto choice = fmenu.ret;
-
-        // HAX: if choice is 0 ("Nearby vehicle"), we'll fall through to later code.
-        if(choice == 1) {
-            g->u.siphon(veh, fuel);
-            return;
-        } else if(choice == 2) {
-            add_msg(m_info, _("Never mind."));
-            return;
-        }
-    }
-
-    add_msg(m_debug, "Found %d vehicles carrying %s", foundv.size(), fuel.c_str());
-
-    // If we get here, we're doing vehicle-to-vehicle siphoning for sure.
-    vehicle* fillv = nullptr;
-    if(foundv.size() == 1) {
-        fillv = foundv.front();
-    } else {
-        tripoint posp;
-        g->draw_ter();
-        if(choose_adjacent( _("Fill which vehicle?"), posp ) ) {
-            fillv = g->m.veh_at( posp );
-        } else {
-            add_msg(m_info, _("Never mind."));
-            return; // Bailed out of vehicle selection.
-        }
-    }
-
-    if(fillv == nullptr) { // Ain't nothing there! Go away.
-        add_msg(m_info, _("There's no vehicle there."));
-        return;
-    } else if(fillv == veh) {
-        add_msg(m_info, _("As you bend the hose into a U-shape, you figure out something's not quite right..."));
-        return;
-    }
-
-    auto want = fillv->fuel_capacity(fuel) - fillv->fuel_left(fuel);
-    auto got = veh->drain(fuel, want);
-    fillv->refill(fuel, got);
-    g->u.moves -= 200;
-
-    if(got < want) {
-        add_msg(m_info, _("Siphoned %1$d units of %2$s from the %3$s into the %4$s, draining the tank."),
-                got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
-    } else {
-        add_msg(m_info, _("Siphoned %1$d units of %2$s from the %3$s into the %4$s, receiving tank is full."),
-                got, item::nname( fuel ).c_str(), veh->name.c_str(), fillv->name.c_str() );
-    }
+    g->u.siphon( *veh, fuel );
 }
 
 /**
@@ -2289,7 +2289,7 @@ void complete_vehicle ()
     int welder_oxy_charges = charges_per_use( "oxy_torch" );
     int welder_crude_charges = charges_per_use( "welder_crude" );
     const inventory &crafting_inv = g->u.crafting_inventory();
-    const bool has_goggles = g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( GLARE, 2 );
+    const bool has_goggles = crafting_inv.has_quality( GLARE, 2 );
     const bool has_screwdriver = crafting_inv.has_quality( SCREW );
     const bool has_wrench = crafting_inv.has_quality( WRENCH );
 
@@ -2402,7 +2402,7 @@ void complete_vehicle ()
 
         } else {
             // repairing a damaged part
-            dmg = 1.1 - veh->parts[ vehicle_part ].hp / veh->part_info( vehicle_part ).durability;
+            dmg = 1.1 - (double) (veh->parts[ vehicle_part ].hp) / veh->part_info( vehicle_part ).durability;
             veh->parts[ vehicle_part ].hp = veh->part_info(vehicle_part).durability;
             g->u.practice( skill_mechanics, ( ( veh->part_info( vehicle_part ).difficulty + 2 ) * 5 + 20 ) * dmg );
         }
@@ -2481,9 +2481,6 @@ void complete_vehicle ()
             veh->part_removal_cleanup();
         }
         break;
-    case 's':
-        act_vehicle_siphon(veh);
-    break;
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
         if( parts.size() ) {

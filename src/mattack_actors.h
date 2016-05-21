@@ -75,13 +75,10 @@ class gun_actor : public mattack_actor
         int fake_per = 12;
         /*@}*/
 
-        /*@{*/
-        /** Additional caps above any imposed by either the base gun or monster */
-        int range = 18;
-        int range_no_burst = INT_MAX; /** only burst fire at or below this distance */
-        int burst_limit = INT_MAX;
+        /** Specify weapon mode to use at different engagement distances */
+        std::map<std::pair<int, int>, std::string> ranges;
+
         int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
-        /*@}*/
 
         /** Description of the attack being run */
         std::string description = "The %s fires its %s";
@@ -98,25 +95,25 @@ class gun_actor : public mattack_actor
         /*@{*/
         /** Turrets may need to expend moves targeting before firing on certain targets */
 
-        int targeting_cost = 100; /** moves consumed before first attack can be made */
+        int targeting_cost = 100; /** Moves consumed before first attack can be made */
 
-        bool require_targeting_player = true; /** by default always give player some warning */
+        bool require_targeting_player = true; /** By default always give player some warning */
         bool require_targeting_npc = false;
         bool require_targeting_monster = false;
 
-        int targeting_timeout = 8; /** default turns afer which targeting is lsot and needs repeating */
-        int targeting_timeout_extend = 3; /** increase timeout by this many turns after each shot */
+        int targeting_timeout = 8; /** Default turns afer which targeting is lsot and needs repeating */
+        int targeting_timeout_extend = 3; /** Increase timeout by this many turns after each shot */
 
         std::string targeting_sound = "beep-beep-beep!";
-        int targeting_volume = 6; /** if set to zero don't emit any targetting sounds */
+        int targeting_volume = 6; /** If set to zero don't emit any targetting sounds */
 
-        bool laser_lock = false; /** does switching between targets incur further targeting penalty */
+        bool laser_lock = false; /** Does switching between targets incur further targeting penalty */
         /*@}*/
 
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target ) const;
+        void shoot( monster &z, Creature &target, const std::string &mode ) const;
 
         gun_actor();
         ~gun_actor() { }

@@ -14,7 +14,7 @@
     "color": "light_gray",
     "skill": "pistol",
     "ammo": "57",
-    "ranged_damage": 2,
+    "ranged_damage": -2,
     "dispersion": 75,
     "sight_dispersion": 90,
     "aim_speed" : 4,
@@ -52,7 +52,6 @@
     "magazines" : [
         [ "57", [ "fnp90mag" ] ],
         [ "22", [ "a180mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   }
 ]

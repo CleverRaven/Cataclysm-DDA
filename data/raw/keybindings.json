@@ -940,7 +940,7 @@
                 "input_method": "keyboard",
                 "key": "r"
             }
-        ]        
+        ]
     },
     {
         "type" : "keybinding",
@@ -1392,6 +1392,15 @@
         "name": "Repair part",
         "bindings":[
             { "input_method":"keyboard", "key":"r" }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MEND",
+        "category": "VEH_INTERACT",
+        "name": "Mend part",
+        "bindings":[
+            { "input_method":"keyboard", "key":"m" }
         ]
     },
     {

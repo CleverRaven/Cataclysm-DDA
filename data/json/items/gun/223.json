@@ -14,7 +14,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": 2,
+    "ranged_damage": -1,
     "dispersion": 30,
     "sight_dispersion": 60,
     "recoil": -15,
@@ -25,15 +25,14 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "ar15",
     "copy-from": "rifle_semi",
     "type": "GUN",
-    "name": "AR-15",
-    "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained. This one is a semi automatic civilian version.",
+    "name": "AR-15", "//": "This is assumed to be the standard model matching the (currently not in-game) M16.",
+    "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi automatic civilian version.",
     "weight": 2815,
     "volume": 8,
     "price": 125000,
@@ -67,7 +66,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": 4,
+    "ranged_damage": -2,
     "dispersion": 10,
     "sight_dispersion": 60,
     "recoil": 30,
@@ -77,8 +76,7 @@
        [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
        [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
        [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "hk_g36",
@@ -95,7 +93,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": 6,
     "dispersion": 5,
     "sight_dispersion": 60,
     "recoil": 75,
@@ -105,8 +102,7 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "l_bak_223",
@@ -125,7 +121,7 @@
     "color": "light_gray",
     "ammo": "223",
     "range": -8,
-    "ranged_damage": -2,
+    "ranged_damage": -4, "//": "Most real-life autorevolvers use 6-7.5 inch barrel, but this one's mentioned to be particularly massive.",
     "dispersion": 75,
     "sight_dispersion": 90,
     "recoil": 120,
@@ -146,6 +142,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
+    "ranged_damage": "-1",
     "sight_dispersion": 60,
     "recoil": -150,
     "durability": 3,
@@ -162,7 +159,6 @@
     "price": 520000,
     "relative": {
         "weight": 400,
-        "ranged_damage": -2,
         "range": -6
     },
     "durability": 9,
@@ -178,12 +174,13 @@
     "relative": {
         "weight": 1200,
         "volume": 4,
+        "ranged_damage": 3, "//": "Volume, range, and bullpup all point to a very large barrel on this one.",
         "range": 3,
         "aim_speed": 2
     },
     "sight_dispersion": 0,
     "durability": 9,
-    "delete": { "flags": [ "MODE_BURST" ] }
+    "burst": 0
   },
   {
     "id": "l_mbr_223",
@@ -210,6 +207,7 @@
     "relative": {
         "weight": 2000,
         "volume": 7,
+        "ranged_damage": 2, "//": "Same as the DSR.",
         "dispersion": 60,
         "aim_speed": 2,
         "recoil": -150
@@ -232,7 +230,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": -6,
     "dispersion": 180,
     "sight_dispersion": 75,
     "recoil": 90,
@@ -243,8 +240,7 @@
     "magazines" : [
       [ "223", [ "stanag50", "stanag30", "belt223" ] ],
       [ "308", [ "belt308" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "m27iar",
@@ -254,6 +250,7 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": 3495,
     "relative": {
+        "ranged_damage": 1,
         "durability": 1
     },
     "burst": 15,
@@ -278,7 +275,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "223",
-    "ranged_damage": 4,
+    "ranged_damage": -2,
     "dispersion": 10,
     "sight_dispersion": 60,
     "recoil": 30,
@@ -288,8 +285,7 @@
       [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "ruger_mini",
@@ -306,7 +302,7 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "223",
-    "ranged_damage": 4,
+    "ranged_damage": 1,
     "dispersion": 10,
     "sight_dispersion": 60,
     "recoil": -60,
@@ -317,6 +313,34 @@
       [ "223", [ "stanag10", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag" ] ]
+    ]
+  },
+  {
+    "id": "sig552",
+    "copy-from": "rifle_auto",
+    "type": "GUN",
+    "name": "SIG 552",
+    "description": "A compact selective fire automatic rifle featuring an integrated folding stock.",
+    "weight": 3200,
+    "volume": 7,
+    "price": 320000,
+    "bashing": 10,
+    "to_hit": -1,
+    "material": ["steel", "plastic"],
+    "ammo": "223",
+    "sight_dispersion": 60,
+    "recoil": 30,
+    "durability": 9,
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "3 rd.", 3 ],
+        [ "AUTO", "auto", 8 ]
+    ],
+    "magazines" : [
+      [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
     ]
   },
   {
@@ -334,7 +358,7 @@
     "color": "dark_gray",
     "material": ["steel", "plastic"],
     "ammo": "223",
-    "ranged_damage": 1,
+    "ranged_damage": -2,
     "dispersion": 10,
     "sight_dispersion": 60,
     "recoil": -60,
@@ -344,8 +368,7 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "scarhmag", "scarhbigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "steyr_aug",
@@ -362,7 +385,6 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "223",
-    "ranged_damage": -3,
     "dispersion": 10,
     "sight_dispersion": 60,
     "recoil": -120,
@@ -372,8 +394,7 @@
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "surv_carbine_223",
@@ -390,7 +411,7 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "223",
-    "ranged_damage": -2,
+    "ranged_damage": -4, "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
     "dispersion": 155,
     "sight_dispersion": 60,
     "recoil": 30,

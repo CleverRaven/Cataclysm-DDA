@@ -21,7 +21,7 @@ enum activity_type : int {    // expanded this enum for readability
     ACT_FORAGE,
     ACT_BUILD,
     ACT_VEHICLE,
-    ACT_REFILL_VEHICLE,
+    ACT_REFILL_VEHICLE, // not used anymore.
     ACT_TRAIN,
     ACT_WAIT_WEATHER,
     ACT_FIRSTAID,
@@ -47,6 +47,7 @@ enum activity_type : int {    // expanded this enum for readability
     ACT_OXYTORCH,
     ACT_CRACKING,
     ACT_REPAIR_ITEM,
+    ACT_MEND_ITEM,
     ACT_GUNMOD_ADD,
     ACT_WAIT_NPC,
     NUM_ACTIVITIES

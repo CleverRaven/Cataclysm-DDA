@@ -721,7 +721,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WEED``` Makes you roll with Cheech & Chong. Adds disease `weed_high`.
 - ```COKE``` Decreases hunger. Adds disease `high`.
 - ```CRACK``` Decreases hunger. Adds disease `high`.
-- ```GRACK``` Decreases hunger. Adds disease 'high'.
 - ```METH``` Adds disease `meth`
 - ```VITAMINS``` Increases healthiness (not to be confused with HP)
 - ```VACCINE``` Greatly increases health.
@@ -806,8 +805,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 ## Guns
 
-- ```MODE_BURST``` Has a burst-fire mode.
-- ```BURST_ONLY``` No single-fire mode. Note that this is an additional flag to the above "MODE_BURST" flag.
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo and should not specify an ammo type
@@ -828,6 +825,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NEVER_JAMS``` Never malfunctions.
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
+- ```RAPIDFIRE``` Increases rate of fire by 50% for AUTO firing mode
 
 ## Magazines
 

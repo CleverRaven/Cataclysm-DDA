@@ -25,8 +25,7 @@
     "magazines" : [
         [ "46", [ "hk46mag", "hk46bigmag" ] ],
         [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "hk_ucp",
@@ -43,7 +42,7 @@
     "color": "light_gray",
     "skill": "pistol",
     "ammo": "46",
-    "ranged_damage": 2,
+    "ranged_damage": -1,
     "dispersion": 60,
     "sight_dispersion": 90,
     "aim_speed" : 4,

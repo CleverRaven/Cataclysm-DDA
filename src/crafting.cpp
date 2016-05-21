@@ -356,8 +356,8 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
             }
 
             if( !cont.is_container_empty()) {
-                if( cont.contents[0].type->id == prod.type->id) {
-                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents[0]);
+                if( cont.contents.front().typeId() == prod.typeId() ) {
+                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents.front() );
                 }
             } else {
                 charges_to_store -= cont.get_remaining_capacity_for_liquid( prod);
@@ -483,11 +483,15 @@ const inventory& player::crafting_inventory()
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
-    if (has_active_bionic("bio_tools")) {
-        item tools("toolset", calendar::turn);
-        tools.charges = power_level;
-        cached_crafting_inventory += tools;
+    for( const auto &bio : my_bionics ) {
+        const auto &bio_data = bio.info();
+        if( ( !bio_data.activated || bio.powered ) &&
+            !bio_data.fake_item.empty() ) {
+            cached_crafting_inventory += item( bio.info().fake_item,
+                                               calendar::turn, power_level );
+        }
     }
+
     cached_moves = moves;
     cached_turn = calendar::turn.get_turn();
     cached_position = pos();
@@ -895,9 +899,7 @@ void finalize_crafted_item( item &newit, float used_age_tally, int used_age_coun
 void set_item_inventory(item &newit)
 {
     if( newit.made_of( LIQUID ) ) {
-        while( !g->handle_liquid( newit, false, false, nullptr, nullptr, PICKUP_RANGE ) ) {
-            ;
-        }
+        g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         g->u.inv.assign_empty_invlet( newit );
         // We might not have space for the item
@@ -1304,14 +1306,13 @@ bool query_disassemble(const item &dis_item)
 bool player::disassemble(int dis_pos)
 {
     if (dis_pos == INT_MAX) {
-        dis_pos = g->inv(_("Disassemble item:"));
+        dis_pos = g->inv_for_all( _( "Disassemble item:" ), _( "You don't have any items to disassemble." ) );
     }
-    item &dis_item = i_at(dis_pos);
-    if( !has_item( dis_item ) ) {
-        add_msg(m_info, _("You don't have that item!"), dis_pos);
+    if( dis_pos == INT_MIN ) {
+        add_msg_if_player( m_info, _( "Never mind." ) );
         return false;
     }
-    return disassemble(dis_item, dis_pos, false);
+    return disassemble( i_at( dis_pos ), dis_pos, false );
 }
 
 bool player::disassemble( item &dis_item, int dis_pos,
@@ -1330,10 +1331,10 @@ bool player::disassemble( item &dis_item, int dis_pos,
 
     // Checks to see if you're disassembling rotten food, and will stop you if true
     if( (dis_item.is_food() && dis_item.goes_bad()) ||
-        (dis_item.is_food_container() && dis_item.contents[0].goes_bad()) ) {
+        (dis_item.is_food_container() && dis_item.contents.front().goes_bad()) ) {
         dis_item.calc_rot( global_square_location() );
         if( dis_item.rotten() ||
-            (dis_item.is_food_container() && dis_item.contents[0].rotten())) {
+            (dis_item.is_food_container() && dis_item.contents.front().rotten())) {
             if( msg_and_query ) {
                 add_msg(m_info, _("It's rotten, I'm not taking that apart."));
             }
@@ -1667,9 +1668,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                 }
             }
             if (act_item.made_of(LIQUID)) {
-                while (!g->handle_liquid(act_item, false, false)) {
-                    // Try again, maybe use another container.
-                }
+                g->handle_all_liquid( act_item );
             } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
@@ -1725,45 +1724,34 @@ void remove_ammo(std::list<item> &dis_items, player &p)
     }
 }
 
+void drop_or_handle( const item &newit, player &p )
+{
+    if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
+        g->handle_all_liquid( newit );
+    } else {
+        item tmp( newit );
+        p.i_add_or_drop( tmp );
+    }
+}
+
 void remove_ammo(item *dis_item, player &p)
 {
-    auto &contents = dis_item->contents;
-    const bool is_gun = dis_item->is_gun();
-    for( size_t i = 0; i < contents.size(); ) {
-        // Gun with gunmods, remove gunmods, remove their ammo
-        if( is_gun ) {
-            // integrated mods stay in the gun, they are part of the item type itself.
-            if( contents[i].has_flag( "IRREMOVABLE" ) ) {
-                remove_ammo( &contents[i], p );
-                i++;
-            } else {
-                p.gunmod_remove( *dis_item, contents[ i ] );
-            }
+    for( auto iter = dis_item->contents.begin(); iter != dis_item->contents.end(); ) {
+        if( iter->has_flag( "IRREMOVABLE" ) ) {
+            iter++;
             continue;
         }
-        item tmp = contents[i];
-        contents.erase( contents.begin() + i );
-        if( tmp.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( tmp, false, false ) ) {
-                // Allow selecting several containers
-            }
-        } else {
-            p.i_add_or_drop( tmp );
-        }
+        drop_or_handle( *iter, p );
+        iter = dis_item->contents.erase( iter );
     }
+
     if( dis_item->has_flag( "NO_UNLOAD" ) ) {
         return;
     }
     if( dis_item->is_gun() && dis_item->ammo_current() != "null" ) {
         item ammodrop( dis_item->ammo_current(), calendar::turn );
         ammodrop.charges = dis_item->charges;
-        if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( ammodrop, false, false ) ) {
-                // Allow selecting several containers
-            }
-        } else {
-            p.i_add_or_drop( ammodrop, 1 );
-        }
+        drop_or_handle( ammodrop, p );
         dis_item->charges = 0;
     }
     if( dis_item->is_tool() && dis_item->charges > 0 && dis_item->ammo_type() != "NULL" ) {
@@ -1772,13 +1760,7 @@ void remove_ammo(item *dis_item, player &p)
         if( dis_item->ammo_type() == "plutonium" ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
-        if( ammodrop.made_of( LIQUID ) && &p == &g->u ) {
-            while( !g->handle_liquid( ammodrop, false, false ) ) {
-                // Allow selecting several containers
-            }
-        } else {
-            p.i_add_or_drop( ammodrop, 1 );
-        }
+        drop_or_handle( ammodrop, p );
         dis_item->charges = 0;
     }
 }

@@ -87,6 +87,7 @@
         "id": "catch_up",
         "name": ["Catch Up"],
         "desc": ["AI tag for telling NPCs to catch up.  This is a bug if you have it."],
+        "int_add_val": 1,
         "max_intensity": 15
     },
     {
@@ -386,6 +387,20 @@
     },
     {
         "type": "effect_type",
+        "id": "nausea",
+        "name" : ["Nausea"],
+        "desc": ["You feel nauseous.  Even a thought of food makes you feel sick."],
+        "remove_message": "You no longer feel nauseous.",
+        "rating": "bad",
+        "int_dur_factor": 300,
+        "max_intensity": 3,
+        "max_duration": 900,
+        "base_mods": {
+            "vomit_chance": [60]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lightsnare",
         "name": ["Stuck in a light snare"],
         "desc": ["You can't move until you get free!"],
@@ -681,6 +696,7 @@
         "apply_memorial_log": "Contracted a fungal infection.",
         "remove_memorial_log": "Cured the fungal infection.",
         "miss_messages": [["You feel sick inside.", 1]],
+        "speed_name": "Fungal infection",
         "rating": "bad",
         "max_intensity": 3,
         "resist_traits": ["POISRESIST"],
@@ -776,7 +792,8 @@
     },
     {
         "type": "effect_type",
-        "id": "hallu"
+        "id": "hallu",
+        "max_duration": 3600
     },
     {
         "type": "effect_type",
@@ -1195,20 +1212,6 @@
     },
     {
         "type": "effect_type",
-        "id": "grack",
-        "name": ["Grack"],
-        "desc": ["Unleashed the Gracken."],
-        "apply_message": "RELEASE THE GRACKEN!!!!",
-        "base_mods": {
-            "speed_mod": [20000],
-            "str_mod": [400],
-            "dex_mod": [400],
-            "int_mod": [400],
-            "per_mod": [400]
-        }
-    },
-    {
-        "type": "effect_type",
         "id": "teleglow"
     },
     {
@@ -1524,47 +1527,72 @@
     },
     {
         "type": "effect_type",
-        "id": "brittlebone",
-        "name": [ "Brittle bones" ],
-        "desc": [ "A lack of calcium in your diet has made your bones brittle." ],
-        "apply_message": "Your bones have become brittle.",
+        "id": "hypocalcemia",
+        "name": [ "Hypocalcemia", "Weak bones", "Brittle bones" ],
+        "desc": [ "A lack of calcium in your diet will make your bones progressively weaker." ],
+        "apply_message": "Your bones are becoming more brittle.",
         "remove_message": "Your bones regain their usual strength.",
+        "decay_messages": [
+          [ "Your calcium deficiency is nearly resolved.", "good" ],
+          [ "Your bones become stronger as your calcium deficiency improves.", "good" ]
+        ],
+        "max_intensity": 3,
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "anemia",
-        "name": [ "Anemia" ],
-        "desc": [ "A lack of iron in your diet has made you anemic." ],
-        "apply_message": "You feel tired and listless.",
+        "name": [ "Iron deficiency", "Early anemia", "Anemia" ],
+        "desc": [ "A lack of iron in your diet will result in progressively worsening anemia." ],
+        "apply_message": "You beging feeling increasingly tired and listless.",
         "remove_message": "You no longer feel anemic.",
+        "decay_messages": [
+          [ "Your iron deficiency is nearly resolved.", "good" ],
+          [ "Your feel stronger as your anemia starts to improve.", "good" ]
+        ],
+        "max_intensity": 3,
         "rating": "bad"
     },
     {
         "type": "effect_type",
-        "id": "nightblind",
-        "name": [ "Night blindness" ],
-        "desc": [ "A lack of vitamin A in your diet has affected your vision." ],
-        "apply_message": "You struggle to make out the finer details.",
+        "id": "hypovitA",
+        "name": [ "VitA deficiency", "Poor vision", "Night blindness" ],
+        "desc": [ "A lack of vitamin A in your diet will progressively worsen your vision." ],
+        "apply_message": "You beging struggling to make out the finer details.",
         "remove_message": "Your normal visual accuity returns.",
+        "decay_messages": [ 
+          [ "Your vitamin A deficiency is nearly resolved.", "good" ],
+          [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
+        ],
+        "max_intensity": 3,
         "rating": "bad"
     },
     {
         "type": "effect_type",
-        "id": "slowheal",
-        "name": [ "Slow healing" ],
-        "desc": [ "A lack of vitamin B12 in your diet has affected your ability to heal." ],
-        "apply_message": "Simple wounds concern you more than usual.",
+        "id": "hypovitB",
+        "name": [ "B12 deficiency", "Slow healing", "No healing" ],
+        "desc": [ "A lack of vitamin B12 in your diet will affect your ability to heal." ],
+        "apply_message": "Simple wounds are starting to concern you more than usual.",
         "remove_message": "Your wounds now heal normally.",
+        "decay_messages": [
+          [ "Your vitamin B12 deficiency is starting to resolve.", "good" ],
+          [ "Your ability to heal returns as your Vitamin B12 deficiency improves.", "good" ]
+        ],
+        "max_intensity": 3,
         "rating": "bad"
     },
     {
         "type": "effect_type",
         "id": "scurvy",
-        "name": [ "Scurvy" ],
-        "desc": [ "A lack of vitamin C in your diet has resulted in you developing scurvy." ],
-        "apply_message": "You have contracted scurvy.",
+        "name": [ "Early scurvy", "Scurvy", "Bad Scurvy" ],
+        "desc": [ "A lack of vitamin C in your diet will result in progressively worse symptoms of scurvy." ],
+        "apply_message": "You start to develop symptoms of scurvy.",
         "remove_message": "Your scurvy has resolved.",
+        "decay_messages": [
+          [ "Your vitamin C deficiency is starting to resolve.", "good" ],
+          [ "Your scurvy lessens as your Vitamin C deficiency improves.", "good" ]
+        ],
+        "max_intensity": 3,
         "rating": "bad"
     },
     {

@@ -3,7 +3,7 @@
     "id": "autofire",
     "type": "GUNMOD",
     "name": "auto-fire mechanism",
-    "description": "A simple mechanism that converts a pistol to a fully-automatic weapon, with a burst size of three rounds.  However it reduces accuracy while increasing noise and recoil.",
+    "description": "A simple mechanism that converts a pistol to a selective fire weapon with a burst size of three rounds.  However it reduces accuracy while increasing noise and recoil.",
     "weight": 226,
     "volume": 1,
     "integral_volume": 0,
@@ -16,11 +16,11 @@
     "acceptable_ammo": [ "22", "9mm", "38", "40", "57", "46" ],
     "min_skills" : [ [ "gun", 4 ], [ "mechanics", 3 ] ],
     "install_time" : 60000,
-    "burst_modifier": 3,
     "dispersion_modifier": 30,
     "loudness_modifier": 2,
     "recoil_modifier": 30,
-    "flags": [ "MODE_BURST", "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "mode_modifier": [ [ "AUTO", "auto", 3 ] ],
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   },
   {
     "id": "blowback",
@@ -38,10 +38,9 @@
     "mod_targets": [ "smg", "rifle" ],
     "min_skills" : [ [ "gun", 4 ], [ "mechanics", 3 ] ],
     "install_time" : 60000,
-    "burst_modifier": 6,
     "dispersion_modifier": 45,
     "loudness_modifier": 4,
-    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+    "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE", "RAPIDFIRE" ]
   },
   {
     "id": "match_trigger",

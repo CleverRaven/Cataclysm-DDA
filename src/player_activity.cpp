@@ -53,7 +53,7 @@ const std::string &player_activity::get_stop_phrase() const
         _( " Stop hotwiring the vehicle?" ), _( " Stop aiming?" ),
         _( " Stop using the ATM?" ), _( " Stop trying to start the vehicle?" ),
         _( " Stop welding?" ), _( " Stop cracking?" ), _( " Stop repairing?" ),
-        _( " Stop modifying gun?" )
+        _( " Stop mending?" ), _( " Stop modifying gun?" )
     };
     return stop_phrase[type];
 }
@@ -66,7 +66,6 @@ bool player_activity::is_abortable() const
         case ACT_CRAFT:
         case ACT_LONGCRAFT:
         case ACT_DISASSEMBLE:
-        case ACT_REFILL_VEHICLE:
         case ACT_WAIT:
         case ACT_WAIT_WEATHER:
         case ACT_FIRSTAID:
@@ -88,6 +87,7 @@ bool player_activity::is_abortable() const
         case ACT_OXYTORCH:
         case ACT_CRACKING:
         case ACT_REPAIR_ITEM:
+        case ACT_MEND_ITEM:
         case ACT_GUNMOD_ADD:
             return true;
         default:
@@ -128,6 +128,7 @@ bool player_activity::is_suspendable() const
         case ACT_ATM:
         case ACT_START_ENGINES:
         case ACT_GUNMOD_ADD:
+        case ACT_FILL_LIQUID:
             return false;
         default:
             return true;
@@ -187,7 +188,7 @@ void player_activity::do_turn( player *p )
                 }
 
                 g->m.build_map_cache( g->get_levz() );
-                g->plfire( false );
+                g->plfire();
             }
             break;
         case ACT_GAME:
@@ -199,8 +200,7 @@ void player_activity::do_turn( player *p )
             activity_handlers::vibe_do_turn( this, p );
             break;
         case ACT_REFILL_VEHICLE:
-            // Takes care of u.activity.moves_left
-            activity_handlers::refill_vehicle_do_turn( this, p );
+            type = ACT_NULL; // activity is not used anymore.
             break;
         case ACT_PULP:
             // does not really use u.activity.moves_left, stops itself when finished
@@ -457,6 +457,10 @@ void player_activity::finish( player *p )
         case ACT_REPAIR_ITEM:
             // Unsets activity (if needed) inside function
             activity_handlers::repair_item_finish( this, p );
+            break;
+        case ACT_MEND_ITEM:
+            activity_handlers::mend_item_finish( this, p );
+            type = ACT_NULL;
             break;
         case ACT_GUNMOD_ADD:
             activity_handlers::gunmod_add_finish( this, p );

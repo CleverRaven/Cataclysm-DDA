@@ -139,6 +139,24 @@ bool visitable<vehicle_cursor>::has_quality( const quality_id &qual, int level, 
     return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
 }
 
+template <>
+bool visitable<Character>::has_quality( const quality_id &qual, int level, int qty ) const
+{
+    auto self = static_cast<const Character *>( this );
+
+    for( const auto &bio : self->my_bionics ) {
+        if( bio.get_quality( qual ) >= level ) {
+            if( qty <= 1 ) {
+                return true;
+            }
+
+            qty--;
+        }
+    }
+
+    return qty <= 0 ? true : has_quality_internal( *this, qual, level, qty ) == qty;
+}
+
 template <typename T>
 static int max_quality_internal( const T& self, const quality_id &qual )
 {
@@ -184,13 +202,13 @@ int visitable<Character>::max_quality( const quality_id &qual ) const
 
     auto self = static_cast<const Character *>( this );
 
-    if( self->has_bionic( "bio_tools" ) ) {
-        res = std::max( res, item( "toolset" ).get_quality( qual ) );
+    for( const auto &bio : self->my_bionics ) {
+        res = std::max( res, bio.get_quality( qual ) );
     }
 
     static const quality_id BUTCHER( "BUTCHER" );
     if( qual == BUTCHER ) {
-        if( self->has_bionic( "bio_razor" ) || self->has_trait( "CLAWS_ST" ) ) {
+        if( self->has_trait( "CLAWS_ST" ) ) {
             res = std::max( res, 8 );
         } else if( self->has_trait( "TALONS" ) || self->has_trait( "MANDIBLES" ) ||
                    self->has_trait( "CLAWS" ) || self->has_trait( "CLAWS_RETRACT" ) ||
@@ -515,6 +533,7 @@ std::list<item> visitable<Character>::remove_items_with( const
     // then try any worn items
     for( auto iter = ch->worn.begin(); iter != ch->worn.end(); ) {
         if( filter( *iter ) ) {
+            iter->on_takeoff( *ch );
             res.splice( res.end(), ch->worn, iter++ );
             if( --count == 0 ) {
                 return res;

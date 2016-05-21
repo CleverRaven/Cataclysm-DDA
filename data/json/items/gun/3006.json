@@ -15,6 +15,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "3006",
+    "ranged_damage": -1,
     "sight_dispersion": 60,
     "aim_speed": 6,
     "recoil": -60,
@@ -94,7 +95,6 @@
     "color": "dark_gray",
     "skill": "rifle",
     "ammo": "3006",
-    "ranged_damage": 7,
     "dispersion": 75,
     "sight_dispersion": 60,
     "aim_speed" : 6,
@@ -105,8 +105,7 @@
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
        [ "3006", [ "m1918mag", "m1918bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "remington_700",
@@ -150,7 +149,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "3006",
-    "ranged_damage": 7,
+    "ranged_damage": -2, "//": "It's the same size as the others, but it's still a scrap weapon.",
     "dispersion": 60,
     "sight_dispersion": 150,
     "aim_speed": 6,

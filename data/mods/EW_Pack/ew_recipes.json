@@ -92,12 +92,10 @@
   "book_learn": [["recipe_igm", 1]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 30 ],
       [ "toolset", 40 ],

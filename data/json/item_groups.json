@@ -4839,17 +4839,15 @@
     "id" : "mechanics",
     "ammo" : 100,
     "items":[
-      { "group": "supplies_spares_vehicle", "prob": 200 },
-      ["polisher", 15],
+      { "group": "supplies_spares_vehicle", "prob": 100 },
+      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_mechanic", "prob": 150 },
       ["jumper_cable", 15],
       ["jumper_cable_heavy", 5],
-      ["wrench", 30],
-      ["pliers", 40],
       ["stereo", 25],
       ["frame", 20],
       ["hdframe", 10],
       ["motor", 2],
-      ["motor_small", 2],
       ["wheel", 10],
       ["wheel_wide", 10],
       ["wheel_bicycle", 10],
@@ -4865,9 +4863,6 @@
       ["horn_big", 8],
       ["horn_bicycle", 8],
       ["v8_combustion", 10],
-      ["hacksaw", 17],
-      ["welder", 25],
-      ["oxy_torch", 25],
       ["weldrig", 1],
       ["kitchen_unit", 1],
       ["goggles_welding", 70],
@@ -4890,14 +4885,9 @@
       ["jerrycan_big", 10],
       ["metal_tank", 10],
       ["metal_tank_little", 10],
-      ["jack", 10],
-      ["anvil", 5],
-      ["chisel", 10],
       ["cu_pipe", 15],
       ["eyedrops", 5],
-      ["grapnel", 1],
       ["apron_leather", 5],
-      ["toolbox", 10],
       ["survnote", 1]
     ]
   },{
@@ -6626,6 +6616,13 @@
       ["miner_hat", 10],
       ["bio_blaster", 10],
       ["tool_black_powder_charge", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "razorclaw_nest",
+    "subtype" : "distribution",
+    "entries":[
+      {"item":"razorclaw_roe", "repeat": [ 1,6 ]}
     ]
   },{
     "type" : "item_group",

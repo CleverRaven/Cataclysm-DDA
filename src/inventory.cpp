@@ -127,73 +127,13 @@ inventory inventory::operator+ (const item &rhs)
     return inventory(*this) += rhs;
 }
 
-/*static*/ bool inventory::has_activation(const item &it, const player &u)
-{
-    return u.rate_action_use( it ) != HINT_CANT;
-}
-
-/*static*/ bool inventory::has_capacity_for_liquid(const item &it, const item &liquid)
-{
-    return (it.get_remaining_capacity_for_liquid(liquid) > 0);
-}
-
-indexed_invslice inventory::slice_filter()
+indexed_invslice inventory::indexed_slice_filter_by( item_filter filter ) const
 {
     int i = 0;
     indexed_invslice stacks;
     for( auto &elem : items ) {
-        stacks.push_back( std::make_pair( &elem, i ) );
-        ++i;
-    }
-    return stacks;
-}
-
-indexed_invslice inventory::slice_filter_by_activation(const player &u)
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( has_activation( elem.front(), u ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
-}
-
-indexed_invslice inventory::slice_filter_by_flag(const std::string flag)
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( elem.front().has_flag( flag ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
-}
-
-indexed_invslice inventory::slice_filter_by_capacity_for_liquid(const item &liquid)
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( has_capacity_for_liquid( elem.front(), liquid ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
-        }
-        ++i;
-    }
-    return stacks;
-}
-
-indexed_invslice inventory::slice_filter_by_salvageability(const salvage_actor &actor)
-{
-    int i = 0;
-    indexed_invslice stacks;
-    for( auto &elem : items ) {
-        if( actor.valid_to_cut_up( &elem.front() ) ) {
-            stacks.push_back( std::make_pair( &elem, i ) );
+        if( filter( elem.front() ) ) {
+            stacks.emplace_back( const_cast<std::list<item>*>( &elem ), i );
         }
         ++i;
     }
@@ -812,7 +752,7 @@ item &inventory::item_or_container(itype_id type)
             if( elem_stack_iter.type->id == type ) {
                 return elem_stack_iter;
             } else if( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() ) {
-                if( elem_stack_iter.contents[0].type->id == type ) {
+                if( elem_stack_iter.contents.front().typeId() == type ) {
                     return elem_stack_iter;
                 }
             }
@@ -1032,7 +972,7 @@ std::vector<item *> inventory::active_items()
             if( ( elem_stack_iter.is_artifact() && elem_stack_iter.is_tool() ) ||
                 elem_stack_iter.active ||
                 ( elem_stack_iter.is_container() && !elem_stack_iter.contents.empty() &&
-                  elem_stack_iter.contents[0].active ) ) {
+                  elem_stack_iter.contents.front().active ) ) {
                 ret.push_back( &elem_stack_iter );
             }
         }

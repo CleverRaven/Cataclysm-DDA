@@ -13,14 +13,14 @@
     "copy-from": "engine_combustion",
     "type": "ENGINE",
     "name": "base diesel engine",
-    "faults": [ "fault_engine_belt_drive", "fault_engine_glow_plug", "fault_engine_immobiliser", "fault_engine_pump_diesel", "fault_engine_pump_water", "fault_engine_starter" ]
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_glow_plug", "fault_engine_immobiliser", "fault_engine_pump_diesel", "fault_engine_pump_water", "fault_engine_starter" ]
   },
   {
     "abstract": "engine_gasoline",
     "copy-from": "engine_combustion",
     "type": "ENGINE",
     "name": "base gasoline engine",
-    "faults": [ "fault_engine_belt_drive", "fault_engine_immobiliser", "fault_engine_pump_fuel", "fault_engine_pump_water", "fault_engine_starter" ]
+    "faults": [ "fault_engine_belt_drive", "fault_engine_filter_air", "fault_engine_filter_fuel", "fault_engine_immobiliser", "fault_engine_pump_fuel", "fault_engine_pump_water", "fault_engine_starter" ]
   },
   {
     "id": "1cyl_combustion",

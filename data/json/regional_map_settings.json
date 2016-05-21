@@ -158,7 +158,8 @@
               "museum": 1,
               "s_music": 2,
               "s_laundromat": 1,
-              "veterinarian": 2
+              "veterinarian": 2,
+              "mortuary": 1
           }
       }
    }

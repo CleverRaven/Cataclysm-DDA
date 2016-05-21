@@ -111,6 +111,7 @@ class veh_interact
 
         void do_install();
         void do_repair();
+        void do_mend();
         void do_refill();
         void do_remove();
         void do_rename();

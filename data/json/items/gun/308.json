@@ -14,7 +14,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "308",
-    "ranged_damage": -2,
     "dispersion": 170,
     "sight_dispersion": 75,
     "recoil": 120,
@@ -25,8 +24,7 @@
     "magazines": [
       [ "308", [ "belt308" ] ],
       [ "223", [ "belt223" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "m60",
@@ -43,6 +41,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "308",
+    "ranged_damage": -1,
     "dispersion": 180,
     "sight_dispersion": 75,
     "recoil": 140,
@@ -53,8 +52,7 @@
     "magazines": [
       [ "308", [ "belt308" ] ],
       [ "223", [ "belt223" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "fn_fal",
@@ -72,6 +70,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "308",
+    "ranged_damage": -1,
     "dispersion": 75,
     "sight_dispersion": 60,
     "recoil": -15,
@@ -81,8 +80,7 @@
     "magazines": [
       [ "308", [ "falmag", "falbigmag" ] ],
       [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "hk_g3",
@@ -100,6 +98,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "308",
+    "ranged_damage": -2,
     "dispersion": 30,
     "sight_dispersion": 60,
     "recoil": 60,
@@ -108,8 +107,7 @@
     "magazines": [
       [ "308", [ "g3mag", "g3bigmag" ] ],
       [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "m134",
@@ -126,18 +124,21 @@
     "color": "dark_gray",
     "skill": "rifle",
     "ammo": "308",
+    "ranged_damage": -1,
     "dispersion": 120,
     "sight_dispersion": 200,
     "aim_speed": 0,
     "recoil": 55,
     "durability": 9,
-    "burst": 100,
     "reload": 400,
     "ups_charges": 1,
+    "modes": [
+        [ "DEFAULT", "auto", 100 ]
+    ],
     "magazines": [
       [ "308", [ "belt308" ] ]
     ],
-    "flags": [ "MODE_BURST", "BURST_ONLY", "NEVER_JAMS", "MOUNTED_GUN" ]
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
     "id": "m14a",
@@ -155,6 +156,7 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "308",
+    "ranged_damage": -1,
     "sight_dispersion": 60,
     "recoil": -60,
     "durability": 8,
@@ -192,6 +194,7 @@
     "symbol": "(",
     "color": "brown",
     "ammo": "308",
+    "ranged_damage": -5, "//": "It's amongst the smallest of the .308 firearms, and a scrap weapon as well. This means a short handmade barrel, and considerable loss of energy.",
     "dispersion": 75,
     "sight_dispersion": 60,
     "recoil": 30,
@@ -234,6 +237,7 @@
     "name_plural": "FN SCAR-H",
     "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ammo": "308",
+    "ranged_damage": -3,
     "burst": 8,
     "magazine_well": 1
   }

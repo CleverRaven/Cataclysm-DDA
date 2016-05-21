@@ -97,6 +97,7 @@
 #include <iterator>
 #include <ctime>
 #include <cstring>
+#include <chrono>
 
 #ifdef TILES
 #include "cata_tiles.h"
@@ -175,6 +176,33 @@ bool is_valid_in_w_terrain(int x, int y)
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
 
+class user_turn {
+
+private:
+    std::chrono::time_point<std::chrono::steady_clock> user_turn_start;
+public:
+    user_turn() {
+        user_turn_start = std::chrono::steady_clock::now();
+    }
+
+    bool has_timeout_elapsed() {
+        float turn_duration = OPTIONS["TURN_DURATION"];
+        // Magic number 0.005 chosen due to option menu's 2 digit precision and
+        // the option menu UI rounding <= 0.005 down to "0.00" in the display.
+        // This conditional will catch values (e.g. 0.003) that the options menu
+        // would round down to "0.00" in the options menu display. This prevents
+        // the user from being surprised by floating point rounding near zero.
+        if( turn_duration <= 0.005 ) {
+            return false;
+        }
+
+        auto now = std::chrono::steady_clock::now();
+        std::chrono::milliseconds elapsed_ms =
+            std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
+        return elapsed_ms.count() >= 1000.0 * turn_duration;
+    }
+};
+
 // This is the main game set-up process.
 game::game() :
     map_ptr( new map() ),
@@ -202,6 +230,7 @@ game::game() :
     dangerous_proximity(5),
     pixel_minimap_option(0),
     safe_mode(SAFE_MODE_ON),
+    safe_mode_warning_logged(false),
     mostseen(0),
     gamemode(NULL),
     user_action_counter(0),
@@ -267,7 +296,9 @@ void game::check_all_mod_data()
             // this mod, so there is no need to check this mod now.
             continue;
         }
-        popup_nowait("checking mod %s", mod->name.c_str());
+        erase();
+        refresh();
+        popup_nowait( "Checking mod <color_yellow>%s</color>", mod->name.c_str() );
         // Reset & load core data, than load dependencies
         // and the actual mod and finally finalize all.
         load_core_data();
@@ -2069,6 +2100,8 @@ input_context game::get_player_input(std::string &action)
     const level_cache &map_cache = m.get_cache_ref( u.posz() );
     const auto &visibility_cache = map_cache.visibility_cache;
 
+    user_turn current_turn;
+
     if (OPTIONS["ANIMATIONS"]) {
         int iStartX = (TERRAIN_WINDOW_WIDTH > 121) ? (TERRAIN_WINDOW_WIDTH - 121) / 2 : 0;
         int iStartY = (TERRAIN_WINDOW_HEIGHT > 121) ? (TERRAIN_WINDOW_HEIGHT - 121) / 2 : 0;
@@ -2113,9 +2146,13 @@ input_context game::get_player_input(std::string &action)
         wPrint.endx = iEndX;
         wPrint.endy = iEndY;
 
-        inp_mngr.set_timeout(125);
+        inp_mngr.set_timeout( 125 );
         // Force at least one animation frame if the player is dead.
         while( handle_mouseview(ctxt, action) || uquit == QUIT_WATCH ) {
+            if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
+                break;
+            }
+
             if( bWeatherEffect && OPTIONS["ANIMATION_RAIN"] ) {
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
@@ -2231,7 +2268,13 @@ input_context game::get_player_input(std::string &action)
         }
         inp_mngr.set_timeout(-1);
     } else {
-        while (handle_mouseview(ctxt, action)) {};
+        inp_mngr.set_timeout( 125 );
+        while( handle_mouseview( ctxt, action ) ) {
+            if( action == "TIMEOUT" && current_turn.has_timeout_elapsed() ) {
+                break;
+            }
+        }
+        inp_mngr.set_timeout( -1 );
     }
 
     return ctxt;
@@ -2401,9 +2444,13 @@ bool game::handle_action()
                     return false;
                 }
             }
-        } else {
+        } else if ( act != ACTION_TIMEOUT ) {
             // act has not been set for an auto-move, so clearing possible
-            // auto-move destinations
+            // auto-move destinations. Since initializing an auto-move with
+            // the mouse may span across multiple actions, we do not clear the
+            // auto-move destination if the action is only a timeout, as this
+            // would require the user to double click quicker quicker than the
+            // timeout delay.
             u.clear_destination();
             destination_preview.clear();
         }
@@ -2493,6 +2540,12 @@ bool game::handle_action()
             break; // dummy entries
         case ACTION_ACTIONMENU:
             break; // handled above
+
+        case ACTION_TIMEOUT:
+            if( check_safe_mode_allowed(false) ) {
+                u.pause();
+            }
+            break;
 
         case ACTION_PAUSE:
             if( check_safe_mode_allowed() ) {
@@ -2704,7 +2757,7 @@ bool game::handle_action()
             int cMenu = ' ';
             int position = INT_MIN;
             do {
-                position = inv(_("Inventory:"), position);
+                position = inv( position );
                 cMenu = inventory_item_menu(position);
             } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
                      cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
@@ -2774,12 +2827,17 @@ bool game::handle_action()
 
         case ACTION_FIRE:
             // Shell-users may fire a *single-handed* weapon out a port, if need be.
-            plfire( false, mouse_target );
+            plfire( mouse_target );
             break;
 
-        case ACTION_FIRE_BURST:
-            plfire( true, mouse_target );
+        case ACTION_FIRE_BURST: {
+            auto mode = u.weapon.gun_get_mode_id();
+            if( u.weapon.gun_set_mode( "AUTO" ) ) {
+                plfire( mouse_target );
+                u.weapon.gun_set_mode( mode );
+            }
             break;
+        }
 
         case ACTION_SELECT_FIRE_MODE:
             cycle_item_mode( false );
@@ -2970,12 +3028,12 @@ bool game::handle_action()
 
         case ACTION_TOGGLE_SAFEMODE:
             if (safe_mode == SAFE_MODE_OFF ) {
-                safe_mode = SAFE_MODE_ON;
+                set_safe_mode( SAFE_MODE_ON );
                 mostseen = 0;
                 add_msg(m_info, _("Safe mode ON!"));
             } else {
                 turnssincelastmon = 0;
-                safe_mode = SAFE_MODE_OFF;
+                set_safe_mode( SAFE_MODE_OFF );
                 if (autosafemode) {
                     add_msg(m_info, _("Safe mode OFF! (Auto safe mode still enabled!)"));
                 } else {
@@ -2984,6 +3042,7 @@ bool game::handle_action()
             }
             if( u.has_effect( effect_laserlocked) ) {
                 u.remove_effect( effect_laserlocked);
+                safe_mode_warning_logged = false;
             }
             break;
 
@@ -3004,10 +3063,11 @@ bool game::handle_action()
                     monster &critter = critter_tracker->find( elem );
                     critter.ignoring = rl_dist( u.pos(), critter.pos() );
                 }
-                safe_mode = SAFE_MODE_ON;
+                set_safe_mode( SAFE_MODE_ON );
             } else if( u.has_effect( effect_laserlocked) ) {
                 add_msg(m_info, _("Ignoring laser targeting!"));
                 u.remove_effect( effect_laserlocked);
+                safe_mode_warning_logged = false;
             }
             break;
 
@@ -3551,8 +3611,12 @@ void game::load(std::string worldname, std::string name)
 
 void game::load_world_modfiles(WORLDPTR world)
 {
-    popup_nowait(_("Please wait while the world data loads"));
+    popup_nowait(_("Please wait while the world data loads...\nLoading core JSON..."));
     load_core_data();
+
+    erase();
+    refresh();
+    popup_nowait(_("Please wait while the world data loads...\nLoading mods..."));
     if (world != NULL) {
         load_artifacts(world->world_path + "/artifacts.gsav");
         mod_manager *mm = world_generator->get_mod_manager();
@@ -3575,6 +3639,10 @@ void game::load_world_modfiles(WORLDPTR world)
         // Load additional mods from that world-specific folder
         load_data_from_dir(world->world_path + "/mods");
     }
+
+    erase();
+    refresh();
+    popup_nowait(_("Please wait while the world data loads...\nFinalizing and verifying..."));
     DynamicDataLoader::get_instance().finalize_loaded_data();
 }
 
@@ -4179,6 +4247,11 @@ void game::debug()
                          << string_format( _( "Collector: %d" ), int( np->personality.collector ) ) << " "
                          << string_format( _( "Altruism: %d" ), int( np->personality.altruism ) ) << std::endl;
 
+                    data << _( "Needs:" ) << std::endl;
+                    for( const auto &need : np->needs ) {
+                        data << need << std::endl;
+                    }
+
                     nmenu.text = data.str();
                 } else {
                     nmenu.text = _( "Player" );
@@ -4255,7 +4328,9 @@ void game::debug()
                         if( !query_yn( "Delete all items from the target?" ) ) {
                             break;
                         }
-
+                        for( auto &it : p.worn ) {
+                            it.on_takeoff( p );
+                        }
                         p.worn.clear();
                         p.inv.clear();
                         p.weapon = p.ret_null;
@@ -4267,6 +4342,7 @@ void game::debug()
                         int item_pos = inv_for_filter( "Make target equip:", filter );
                         item &to_wear = u.i_at( item_pos );
                         if( to_wear.is_armor() ) {
+                            p.on_item_wear( to_wear );
                             p.worn.push_back( to_wear );
                         } else if( !to_wear.is_null() ) {
                             p.weapon = to_wear;
@@ -6051,17 +6127,17 @@ int game::mon_info(WINDOW *w)
         }
         turnssincelastmon = 0;
         if (safe_mode == SAFE_MODE_ON) {
-            safe_mode = SAFE_MODE_STOP; // Stop movement!
+            set_safe_mode( SAFE_MODE_STOP );
         }
     } else if (autosafemode && newseen == 0) { // Auto-safemode
         turnssincelastmon++;
         if (turnssincelastmon >= OPTIONS["AUTOSAFEMODETURNS"] && safe_mode == SAFE_MODE_OFF) {
-            safe_mode = SAFE_MODE_ON;
+            set_safe_mode( SAFE_MODE_ON );
         }
     }
 
     if (newseen == 0 && safe_mode == SAFE_MODE_STOP) {
-        safe_mode = SAFE_MODE_ON;
+        set_safe_mode( SAFE_MODE_ON );
     }
 
     mostseen = newseen;
@@ -6390,7 +6466,7 @@ void game::flashbang( const tripoint &p, bool player_immune)
                 flash_mod = 8; // Just retract those and extrude fresh eyes
             } else if( u.has_bionic( "bio_sunglasses" ) || u.is_wearing( "rm13_armor_on" ) ) {
                 flash_mod = 6;
-            } else if( u.worn_with_flag( "BLIND" ) || u.is_wearing( "goggles_welding" ) ) {
+            } else if( u.worn_with_flag( "BLIND" ) || u.worn_with_flag( "FLASH_PROTECTION" ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
             u.add_env_effect( effect_blind, bp_eyes, (12 - flash_mod - dist) / 2, 10 - dist );
@@ -7445,7 +7521,7 @@ void game::smash()
 void game::use_item(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_activatable(_("Use item:"));
+        pos = inv_for_activatables( u, _( "Use item:" ) );
     }
 
     if (pos == INT_MIN) {
@@ -7546,6 +7622,12 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.ddx = cx;
     vehint.ddy = cy;
     vehint.exec(&veh);
+
+    if( vehint.sel_cmd == 'q' ) {
+        refresh_all();
+        return;
+    }
+
     if (vehint.sel_cmd != ' ') {
         int time = 200;
         int skill = u.get_skill_level( skill_id( "mechanics" ) );
@@ -7933,16 +8015,6 @@ bool pet_menu(monster *z)
 
         item *it = &g->u.i_at(pos);
 
-        if (!it->is_armor()) {
-            add_msg(_("This is not a bag!"));
-            return true;
-        }
-
-        if( it->get_storage() <= 0 ) {
-            add_msg(_("This is not a bag!"));
-            return true;
-        }
-
         z->add_item(*it);
 
         add_msg(_("You mount the %1$s on your %2$s, ready to store gear."),
@@ -8106,17 +8178,13 @@ bool npc_menu( npc &who )
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
-        static const std::string npc_use_flag( "USE_ON_NPC" );
-        const int pos = g->inv_for_filter( _("Use which item:"),[]( const item &it ) {
-            return it.has_flag( npc_use_flag );
-        } );
+        const int pos = g->inv_for_flag( "USE_ON_NPC", _("Use which item:") );
 
-        item &used = g->u.i_at( pos );
-        if( !used.has_flag( npc_use_flag ) ) {
+        if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
             return false;
         }
-
+        item &used = g->u.i_at( pos );
         bool did_use = g->u.invoke_item( &used, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
@@ -9542,7 +9610,7 @@ void game::list_items_monsters()
         add_msg(m_info, _("You don't see any items or monsters around you!"));
     } else if (iRetMonsters == 2) {
         refresh_all();
-        plfire(false);
+        plfire();
     }
     refresh_all();
     reenter_fullscreen();
@@ -10249,245 +10317,227 @@ void game::grab()
     refresh_all();
 }
 
-bool vehicle_near( const itype_id &ft )
+std::vector<vehicle*> nearby_vehicles_for( const itype_id &ft )
 {
+    std::vector<vehicle*> result;
     for( auto && p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        vehicle *veh = g->m.veh_at( p );
+        vehicle * const veh = g->m.veh_at( p );
         // TODO: constify fuel_left and fuel_capacity
         // TODO: add a fuel_capacity_left function
+        if( std::find( result.begin(), result.end(), veh ) != result.end() ) {
+            continue;
+        }
         if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
-            return true;
+            result.push_back( veh );
         }
     }
-    return false;
+    return result;
 }
 
-// Handle_liquid returns false if we didn't handle all the liquid.
-bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
-                         item *cont, int radius)
+void game::handle_all_liquid( item liquid, const int radius )
+{
+    while( liquid.charges > 0l ) {
+        // handle_liquid allows to pour onto the ground, which will handle all the liquid and
+        // set charges to 0. This allows terminating the loop.
+        // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
+        handle_liquid( liquid, nullptr, radius );
+    }
+}
+
+bool game::consume_liquid( item &liquid, const int radius )
+{
+    const auto original_charges = liquid.charges;
+    while( liquid.charges > 0 && handle_liquid( liquid, nullptr, radius ) ) {
+        // try again with the remaining charges
+    }
+    return original_charges != liquid.charges;
+}
+
+bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos, const int radius )
+{
+    // TODO: not all code paths on handle_liquid consume move points, fix that.
+    handle_liquid( *on_ground, nullptr, radius, &pos );
+    if( on_ground->charges > 0 ) {
+        return false;
+    }
+    m.i_at( pos ).erase( on_ground );
+    return true;
+}
+
+bool game::handle_liquid_from_container( std::list<item>::iterator in_container, item &container, int radius )
+{
+    // TODO: not all code paths on handle_liquid consume move points, fix that.
+    handle_liquid( *in_container, &container, radius );
+    if( in_container->charges > 0 ) {
+        return false;
+    }
+    container.contents.erase( in_container );
+    return true;
+}
+
+bool game::handle_liquid_from_container( item &container, int radius )
+{
+    return handle_liquid_from_container( container.contents.begin(), container, radius );
+}
+
+extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const itype_id &ftype );
+extern void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid );
+
+extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
+extern void serialize_liquid_target( player_activity &act, int container_item_pos );
+extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
+
+bool game::handle_liquid( item &liquid, item * const source, const int radius,
+                          const tripoint * const source_pos,
+                          const vehicle * const source_veh )
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
         debugmsg("Tried to handle_liquid a non-liquid!");
+        // "canceled by the user" because we *can* not handle it.
         return false;
     }
 
-    if( vehicle_near( liquid.type->id ) && query_yn(_("Refill vehicle?")) ) {
-        tripoint vp;
-        refresh_all();
-        if (!choose_adjacent(_("Refill vehicle where?"), vp)) {
-            return false;
-        }
-        vehicle *veh = m.veh_at(vp);
-        if (veh == NULL) {
-            add_msg(m_info, _("There isn't any vehicle there."));
-            return false;
-        }
-        const itype_id &ftype = liquid.type->id;
-        int fuel_cap = veh->fuel_capacity(ftype);
-        int fuel_amnt = veh->fuel_left(ftype);
-        if (fuel_cap <= 0) {
-            //~ %1$s - transport name, %2$s liquid fuel name
-            add_msg(m_info, _("The %1$s doesn't use %2$s."),
-                    veh->name.c_str(), liquid.type_name().c_str());
-            return false;
-        } else if (fuel_amnt >= fuel_cap) {
-            add_msg(m_info, _("The %s is already full."),
-                    veh->name.c_str());
-            return false;
-        }
-        const int amt = infinite ? INT_MAX : liquid.charges;
-        u.moves -= 100;
-        liquid.charges = veh->refill(ftype, amt);
-        if (veh->fuel_left(ftype) < fuel_cap) {
-            add_msg(_("You refill the %1$s with %2$s."),
-                    veh->name.c_str(), liquid.type_name().c_str());
+    const auto create_activity = [&]() {
+        if( source_veh != nullptr ) {
+            u.assign_activity( ACT_FILL_LIQUID, INT_MAX );
+            serialize_liquid_source( u.activity, *source_veh, liquid.typeId() );
+            return true;
+        } else if( source_pos != nullptr ) {
+            u.assign_activity( ACT_FILL_LIQUID, INT_MAX );
+            serialize_liquid_source( u.activity, *source_pos, liquid );
+            return true;
         } else {
-            add_msg(_("You refill the %1$s with %2$s to its maximum."),
-                    veh->name.c_str(), liquid.type_name().c_str());
-        }
-        // infinite: always handled all, to prevent loops
-        return infinite || liquid.charges == 0;
-    }
-
-    // Ask to pour rotten liquid (milk!) from the get-go
-    int dirx, diry;
-    const std::string liqstr = string_format(_("Pour %s where?"), liquid.tname().c_str());
-    refresh_all();
-    if (!from_ground && liquid.rotten() &&
-        choose_adjacent(liqstr, dirx, diry)) {
-
-        if (!m.can_put_items_ter_furn(dirx, diry)) {
-            add_msg(m_info, _("You can't pour there!"));
             return false;
         }
-        m.add_item_or_charges(dirx, diry, liquid, 1);
+    };
+
+    const bool is_infinite = liquid.charges == std::numeric_limits<long>::max();
+    const std::string liquid_name = is_infinite ? liquid.tname() : liquid.display_name( liquid.charges );
+
+    const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
+    item * const cont = inv_map_for_liquid( liquid, text, radius );
+    if( source != nullptr && cont == source ) {
+        add_msg( m_info, _( "That's the same container!" ) );
+        // The user has intended to do something, but mistyped.
+        return true;
+    }
+    if( cont != nullptr && !cont->is_null() ) {
+        const int item_index = u.get_item_position( cont );
+        // Currently activities can only store item position in the players inventory,
+        // not on ground or similar. TODO: implement storing arbitrary container locations.
+        if( item_index != INT_MIN && create_activity() ) {
+            serialize_liquid_target( u.activity, item_index );
+        } else if( u.pour_into( *cont, liquid ) ) {
+            u.mod_moves( -100 );
+        }
         return true;
     }
 
-    if (cont == NULL || cont->is_null()) {
-        const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
-
-        // Check for suitable containers in inventory or within radius including vehicles
-        cont = inv_map_for_liquid(liquid, text, radius);
-        if (cont == NULL || cont->is_null()) {
-            // Ask the player whether they want to drink from it.
-            if (from_ground && liquid.is_food(&u)) {
-                int charges_consumed = u.drink_from_hands(liquid);
-                if (!infinite) {
-                    liquid.charges -= charges_consumed;
-                }
-                if ( charges_consumed > 0 ) {
-                    return liquid.charges <= 0;
-                }
-            }
-
-            // No container selected (escaped, ...), ask to pour
-            // we asked to pour rotten already
-            if (!from_ground && !liquid.rotten() &&
-                choose_adjacent(liqstr, dirx, diry)) {
-
-                if (!m.can_put_items_ter_furn(dirx, diry)) {
-                    add_msg(m_info, _("You can't pour there!"));
-                    return false;
-                }
-                m.add_item_or_charges(dirx, diry, liquid, 1);
-                return true;
-            }
-            add_msg(_("Never mind."));
-            return false;
-        }
-    }
-
-    if (cont == source) {
-        //Source and destination are the same; abort
-        add_msg(m_info, _("That's the same container!"));
-        return false;
-
-    } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
-        // for filling up chainsaws, jackhammers and flamethrowers
-
-        if( cont->ammo_type() != liquid.ammo_type() ) {
-            add_msg(m_info, _("Your %1$s won't hold %2$s."), cont->tname().c_str(),
-                    liquid.tname().c_str());
-            return false;
-        }
-
-        if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
-            add_msg(m_info, _("Your %1$s can't hold any more %2$s."), cont->tname().c_str(),
-                    liquid.tname().c_str());
-            return false;
-        }
-
-        if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
-            add_msg(m_info, _("You can't mix loads in your %s."), cont->tname().c_str());
-            return false;
-        }
-
-        add_msg(_("You pour %1$s into the %2$s."), liquid.tname().c_str(), cont->tname().c_str());
-        if (infinite) {
-            cont->ammo_set( liquid.typeId() ); // fill to capacity
-        } else {
-            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
-            liquid.charges -= qty;
-            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
-            if( liquid.charges > 0 ) {
-                add_msg(_("There's some left over!"));
-                return false;
-            }
-        }
-        return true;
-
+    uimenu menu;
+    menu.return_invalid = true;
+    if( source_pos != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from %s?" ), liquid_name.c_str(), m.name( *source_pos ).c_str() );
+    } else if( source_veh != nullptr ) {
+        menu.text = string_format( _( "What to do with the %s from the %s?" ), liquid_name.c_str(), source_veh->name.c_str() );
     } else {
-        // Filling up normal containers
-        bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
-        std::string err;
-        if( !cont->fill_with( liquid, err, allow_bucket ) ) {
-            add_msg( m_info, err.c_str() );
-            return false;
-        }
+        menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
+    }
+    std::vector<std::function<void()>> actions;
 
-        u.inv.unsort();
-        add_msg( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
-        if( !infinite && liquid.charges > 0 ) {
-            add_msg( _( "There's some left over!" ) );
-        }
-        return infinite || liquid.charges <= 0;
+    if( liquid.is_food( &u ) ) {
+        menu.addentry( -1, true, 'e', _( "Consume it" ) );
+        actions.emplace_back( [&]() {
+            // consume_item already consumes moves.
+            u.consume_item( liquid );
+        } );
     }
 
-    return false;
-}
-
-//Move_liquid returns the amount of liquid left if we didn't move all the liquid, otherwise returns sentinel -1, signifies transaction fail.
-//One-use, strictly for liquid transactions. Not intended for use with while loops.
-int game::move_liquid(item &liquid)
-{
-    if (!liquid.made_of(LIQUID)) {
-        dbg(D_ERROR) << "game:move_liquid: Tried to move_liquid a non-liquid!";
-        debugmsg("Tried to move_liquid a non-liquid!");
-        return -1;
-    }
-
-    //liquid is in fact a liquid.
-    const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
-    int pos = inv_for_liquid(liquid, text, false);
-
-    //is container selected?
-    item *cont = &( u.i_at( pos ) );
-    if( u.has_item( *cont ) ) {
-        if (cont == NULL || cont->is_null()) {
-            return -1;
-
-        } else if (liquid.is_ammo() && (cont->is_tool() || cont->is_gun())) {
-            // for filling up chainsaws, jackhammers and flamethrowers
-
-            if( cont->ammo_type() != liquid.ammo_type() ) {
-                add_msg( m_info, _( "Your %1$s won't hold %2$s." ),
-                         cont->tname().c_str(), liquid.tname().c_str() );
-                return -1;
-            }
-
-            if( cont->ammo_remaining() >= cont->ammo_capacity() ) {
-                add_msg( m_info, _( "Your %1$s can't hold any more %2$s." ),
-                         cont->tname().c_str(), liquid.tname().c_str() );
-                return -1;
-            }
-
-            if( cont->ammo_remaining() && cont->ammo_current() != liquid.typeId() ) {
-                add_msg( m_info, _( "You can't mix loads in your %s." ), cont->tname().c_str() );
-                return -1;
-            }
-
-            add_msg( _(" You pour %1$s into the %2$s." ), liquid.tname().c_str(), cont->tname().c_str() );
-            auto qty = std::min( liquid.charges, cont->ammo_capacity() - cont->ammo_remaining() );
-            liquid.charges -= qty;
-            cont->ammo_set( liquid.typeId(), cont->ammo_remaining() + qty );
-            if( liquid.charges > 0 ) {
-                add_msg( _( "There's some left over!" ) );
-                return liquid.charges;
-            }
-            return 0;
-
-        } else {
-            item tmp_liquid = liquid;
-            std::string err;
-            bool allow_bucket = cont == &u.weapon || !u.has_item( *cont );
-            if( !cont->fill_with( tmp_liquid, err, allow_bucket ) ) {
-                add_msg( m_info, "%s", err.c_str() );
-                return -1;
-            }
-            u.inv.unsort();
-            if( tmp_liquid.charges == 0 ) {
-                add_msg(_("You pour %1$s into your %2$s."), liquid.tname().c_str(), cont->type_name().c_str());
-            } else {
-                add_msg(_("You fill your %1$s with some of the %2$s."), cont->type_name().c_str(), liquid.tname().c_str());
-                add_msg(_("There's some left over!"));
-            }
-            return tmp_liquid.charges;
+    for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
+        if( veh == source_veh ) {
+            continue;
         }
-        return -1;
+        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Fill nearby vehicle %s" ), veh->name.c_str() );
+        actions.emplace_back( [&, veh]() {
+            if( create_activity() ) {
+                serialize_liquid_target( u.activity, *veh );
+                return;
+            }
+            if( u.pour_into( *veh, liquid ) ) {
+                u.mod_moves( -100 );
+            }
+        } );
     }
-    return -1;
+
+    for( auto &target_pos : m.points_in_radius( u.pos(), 1 ) ) {
+        if( !iexamine::has_keg( target_pos ) ) {
+            continue;
+        }
+        if( source_pos != nullptr && *source_pos == target_pos ) {
+            continue;
+        }
+        const std::string dir = direction_name( direction_from( u.pos(), target_pos ) );
+        menu.addentry( -1, true, MENU_AUTOASSIGN, _( "Pour into an adjacent keg (%s)" ), dir.c_str() );
+        actions.emplace_back( [&, target_pos]() {
+            if( create_activity() ) {
+                serialize_liquid_target( u.activity, target_pos );
+                return;
+            }
+            iexamine::pour_into_keg( target_pos, liquid );
+            u.mod_moves( -100 );
+        } );
+    }
+
+    menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
+    actions.emplace_back( [&]() {
+        tripoint target_pos = u.pos();
+        const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
+        refresh_all();
+        if( !choose_adjacent( liqstr, target_pos ) ) {
+            return;
+        }
+
+        if( source_pos != nullptr && *source_pos == target_pos ) {
+            add_msg( m_info, _( "That's where you took it from!" ) );
+            return;
+        }
+        if( !m.can_put_items_ter_furn( target_pos ) ) {
+            add_msg( m_info, _( "You can't pour there!" ) );
+            return;
+        }
+        // From infinite source to the ground somewhere else. The target has
+        // infinite space and the liquid can not be used from there anyway.
+        if( is_infinite && source_pos != nullptr ) {
+            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
+            return;
+        }
+
+        if( create_activity() ) {
+            serialize_liquid_target( u.activity, target_pos );
+            return;
+        }
+        m.add_item_or_charges( target_pos, liquid, 1 );
+        liquid.charges = 0;
+        u.mod_moves( -100 );
+    } );
+    if( liquid.rotten() ) {
+        // Pre-select this one as it is the most likely one for rotten liquids
+        menu.selected = menu.entries.size() - 1;
+    }
+
+    if( menu.entries.empty() ) {
+        return false;
+    }
+
+    menu.query();
+    const size_t chosen = static_cast<size_t>( menu.ret );
+    if( chosen >= actions.size() ) {
+        add_msg( _( "Never mind." ) );
+        // Explicitly canceled all options (container, drink, pour).
+        return false;
+    }
+    actions[chosen]();
+    return true;
 }
 
 void game::drop(int pos)
@@ -10636,7 +10686,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
 void game::reassign_item( int pos )
 {
     if( pos == INT_MIN ) {
-        pos = inv( _( "Reassign item:" ) );
+        pos = inv_for_all( _( "Reassign item:" ) );
     }
     if( pos == INT_MIN ) {
         add_msg( _( "Never mind." ) );
@@ -10691,7 +10741,7 @@ void game::plthrow(int pos)
     }
 
     if (pos == INT_MIN) {
-        pos = inv(_("Throw item:"));
+        pos = inv_for_all( _( "Throw item:" ), _( "You don't have any items to throw." ) );
         refresh_all();
     }
 
@@ -10808,7 +10858,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
     return trajectory;
 }
 
-void game::plfire( bool burst, const tripoint &default_target )
+void game::plfire( const tripoint &default_target )
 {
     if( u.has_effect( effect_relax_gas) ) {
         if( one_in(5) ) {
@@ -10839,12 +10889,12 @@ void game::plfire( bool burst, const tripoint &default_target )
 
         for( auto &w : u.worn ) {
             if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
-                !w.contents.empty() && w.contents[0].is_gun() ) {
+                !w.contents.empty() && w.contents.front().is_gun() ) {
                 // draw (first) gun contained in holster
                 options.push_back( string_format( _("%s from %s (%d)" ),
-                                                  w.contents[0].tname().c_str(),
+                                                  w.contents.front().tname().c_str(),
                                                   w.type_name().c_str(),
-                                                  w.contents[0].ammo_remaining() ) );
+                                                  w.contents.front().ammo_remaining() ) );
 
                 actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
 
@@ -10860,56 +10910,43 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
     }
 
-    if( u.weapon.is_auxiliary_gunmod() ) {
+    if( u.weapon.is_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
         return;
     }
 
-    item& gun = u.weapon.gunmod_current() ? *u.weapon.gunmod_current() : u.weapon;
+    auto gun = u.weapon.gun_current_mode();
 
-    if( !gun.is_gun() && !gun.has_flag( "REACH_ATTACK" ) ) {
-        return;
+    if( !( gun && u.can_use( *gun ) ) ) {
+        return; // check a valid mode was returned and we are able to use it
     }
-    if( !u.can_use( gun ) ) {
-        return;
-    }
-
-    // Execute reach attack (instead of shooting) if our weapon can reach and
-    // either we're not using a gun or using a gun set to use a non-gun gunmod
-    bool reach_attack = gun.has_flag( "REACH_ATTACK" ) && ( !gun.is_gun() || gun.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos());
-    if( veh != nullptr && veh->player_in_control( u ) && gun.is_two_handed( u ) ) {
+    if( veh != nullptr && veh->player_in_control( u ) && gun->is_two_handed( u ) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
         return;
     }
 
     int reload_time = 0;
-    if( !reach_attack ) {
-        //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
-        //should be fine to place this here, plfire(true,*) only once in code
-        if( burst && !gun.has_flag( "MODE_BURST" ) ) {
+    if( !gun.melee ) {
+        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+            add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
             return;
         }
 
-        if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
-            add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
-            return;
-        }
-
-        if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
-            item::reload_option opt = gun.pick_reload_ammo( u );
+        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
+            item::reload_option opt = gun->pick_reload_ammo( u );
             if( !opt ) {
                 return; // menu cancelled
             }
 
             reload_time += opt.moves();
-            if( !gun.reload( u, std::move( opt.ammo ), 1 ) ) {
+            if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
                 return; // unable to reload
             }
 
             // Burn 2x the strength required to fire in stamina.
-            u.mod_stat( "stamina", gun.type->min_str * -2 );
+            u.mod_stat( "stamina", gun->type->min_str * -2 );
 
             // At low stamina levels, firing starts getting slow.
             int sta_percent = (100 * u.stamina) / u.get_stamina_max();
@@ -10918,17 +10955,17 @@ void game::plfire( bool burst, const tripoint &default_target )
             refresh_all();
         }
 
-        if( gun.ammo_remaining() < gun.ammo_required() && !gun.has_flag("RELOAD_AND_SHOOT") ) {
-            if( gun.ammo_remaining() == 0 ) {
+        if( gun->ammo_remaining() < gun->ammo_required() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
+            if( !gun->ammo_remaining() ) {
                 add_msg(m_info, _("You need to reload!"));
             } else {
-                add_msg(m_info, _("Your %s needs %i charges to fire!"), gun.tname().c_str(), gun.ammo_required() );
+                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
             }
             return;
         }
 
-        if( gun.get_gun_ups_drain() > 0 ) {
-            const int ups_drain       = gun.get_gun_ups_drain();
+        if( gun->get_gun_ups_drain() > 0 ) {
+            const int ups_drain       = gun->get_gun_ups_drain();
             const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
             const int bio_power_drain = std::max( 1, ups_drain / 5 );
 
@@ -10942,7 +10979,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
         }
 
-        if( gun.has_flag( "MOUNTED_GUN" ) ) {
+        if( gun->has_flag( "MOUNTED_GUN" ) ) {
             int vpart = -1;
             vehicle *veh = m.veh_at( u.pos(), vpart );
             if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() ) &&
@@ -10954,24 +10991,19 @@ void game::plfire( bool burst, const tripoint &default_target )
         }
     }
 
-    int range;
-    if( reach_attack ) {
-        range = gun.reach_range();
-    } else {
-        range = gun.gun_range( &u );
-    }
+    int range = gun.melee ? gun.qty : gun->gun_range( &u );
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
     tripoint p = u.pos();
 
-    target_mode tmode = reach_attack ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &gun, tmode, default_target );
+    target_mode tmode = gun.melee ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode, default_target );
 
     if (trajectory.empty()) {
-        if( gun.has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
-            unload( gun );
+        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
+            unload( *gun );
             u.moves -= reload_time / 2; // allow for unloading time
         }
         reenter_fullscreen();
@@ -10979,15 +11011,12 @@ void game::plfire( bool burst, const tripoint &default_target )
     }
     draw_ter(); // Recenter our view
 
-    if( gun.get_gun_mode() == "MODE_BURST" || ( u.has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) && gun.burst_size() >= 2 ) ) {
-        burst = true;
-    }
-
-    if( reach_attack ) {
+    if( gun.melee ) {
         u.reach_attack( p );
     } else {
         u.moves -= reload_time;
-        u.fire_gun( p, burst ? gun.burst_size() : 1, gun );
+        // @todo add check for TRIGGERHAPPY
+        u.fire_gun( p, gun.qty, *gun );
     }
 
     reenter_fullscreen();
@@ -10996,7 +11025,8 @@ void game::plfire( bool burst, const tripoint &default_target )
 void game::cycle_item_mode( bool force_gun )
 {
     if( u.is_armed() ) {
-        u.weapon.next_mode();
+        u.weapon.gun_cycle_mode();
+
     } else if( !force_gun ) {
         int part = -1;
         vehicle *veh = m.veh_at( u.pos(), part );
@@ -11288,7 +11318,7 @@ void game::eat(int pos)
             return false; // temporary fix for #12991
         }
         return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
-    }, _( "Consume item:" ), 1 );
+    }, _( "Consume item:" ), 1, _( "You have nothing to consume." ) );
 
     item *it = item_loc.get_item();
     if( !it ) {
@@ -11313,12 +11343,7 @@ void game::eat(int pos)
 void game::wear(int pos)
 {
     if (pos == INT_MIN) {
-        auto filter = [this]( const item &it ) {
-            // TODO: Add more filter conditions like "not made of wool if allergic to it".
-            return it.is_armor() &&
-                   u.get_item_position( &it ) >= -1; // not already worn
-        };
-        pos = inv_for_filter( _("Wear item:"), filter );
+        pos = inv_for_unequipped( _( "Wear item:" ) );
     }
 
     u.wear(pos);
@@ -11327,35 +11352,27 @@ void game::wear(int pos)
 void game::takeoff(int pos)
 {
     if (pos == INT_MIN) {
-        auto filter = [this]( const item &it ) {
-            return u.get_item_position( &it ) < -1; // means item is worn.
-        };
-        pos = inv_for_filter( _("Take off item:"), filter );
+        pos = inv_for_equipped( _( "Take off item:" ) );
     }
-
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
         return;
     }
-
     u.takeoff( pos );
 }
 
 void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
-        pos = inv_for_filter(_("Change side for item:"),
-                             [&](const item &it) { return u.is_worn(it) && it.is_sided(); });
+        pos = inv_for_filter( _( "Change side for item:" ), [&]( const item &it ) {
+            return u.is_worn(it) && it.is_sided();
+        }, _( "You don't have sided items worn." ) );
     }
-
     if (pos == INT_MIN) {
         add_msg(_("Never mind."));
         return;
     }
-
-    if (!u.change_side(pos)) {
-        add_msg(m_info, _("Invalid selection."));
-    }
+    u.change_side(pos);
 }
 
 void game::reload( int pos, bool prompt )
@@ -11371,7 +11388,7 @@ void game::reload( int pos, bool prompt )
 
     // for holsters and ammo pouches try to reload any contained item
     if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
-        it = &it->contents[ 0 ];
+        it = &it->contents.front();
     }
 
     switch( u.rate_action_reload( *it ) ) {
@@ -11434,7 +11451,7 @@ void game::unload(int pos)
     if( pos == INT_MIN ) {
         it = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item:" ), 1 ).get_item();
+        }, _( "Unload item:" ), 1, _( "You have nothing to unload." ) ).get_item();
 
         if( it == nullptr ) {
             add_msg( _("Never mind.") );
@@ -11474,7 +11491,8 @@ void game::mend( int pos )
 bool add_or_drop_with_msg( player &u, item &it )
 {
     if( it.made_of( LIQUID ) ) {
-        return g->handle_liquid( it, false, false, nullptr, nullptr, 1 );
+        g->consume_liquid( it, 1 );
+        return it.charges <= 0;
     }
     if( !u.can_pickVolume( it.volume() ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
@@ -11510,13 +11528,11 @@ bool game::unload( item &it )
     std::vector<std::string> msgs( 1, it.tname() );
     std::vector<item *> opts( 1, &it );
 
-    if( it.is_gun() ) {
-        for( auto &e : it.contents ) {
-            if( e.is_auxiliary_gunmod() && !e.has_flag( "NO_UNLOAD" ) &&
-                ( e.magazine_current() || e.ammo_remaining() > 0 ) ) {
-                msgs.emplace_back( e.tname() );
-                opts.emplace_back( &e );
-            }
+    for( auto e : it.gunmods() ) {
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+            ( e->magazine_current() || e->ammo_remaining() > 0 ) ) {
+            msgs.emplace_back( e->tname() );
+            opts.emplace_back( e );
         }
     }
 
@@ -11639,7 +11655,7 @@ void game::wield( int pos )
         return;
     }
     if( pos == INT_MIN ) {
-        pos = inv( _( "Wield item:" ) );
+        pos = inv_for_all( _( "Wield item:" ), _( "You have nothing to wield." ) );
     }
 
     if( pos == INT_MIN ) {
@@ -11662,7 +11678,8 @@ void game::wield( int pos )
 void game::read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1 );
+    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1,
+                                _( "You have nothing to read." ) );
 
     item *book = loc.get_item();
     if( !book ) {
@@ -11806,8 +11823,13 @@ void game::pldrive(int x, int y)
     }
 }
 
-bool game::check_safe_mode_allowed()
+bool game::check_safe_mode_allowed( bool repeat_safe_mode_warnings )
 {
+    if ( !repeat_safe_mode_warnings && safe_mode_warning_logged ) {
+        // Already warned player since safe_mode_warning_logged is set.
+        return false;
+    }
+
     std::string msg_ignore = press_x(ACTION_IGNORE_ENEMY);
     if (!msg_ignore.empty()) {
         msg_ignore[0] = tolower(msg_ignore[0]); // TODO this probably isn't localization friendly
@@ -11817,6 +11839,7 @@ bool game::check_safe_mode_allowed()
         // Automatic and mandatory safemode.  Make BLOODY sure the player notices!
         add_msg(m_warning, _("You are being laser-targeted, %s to ignore."),
                 msg_ignore.c_str());
+        safe_mode_warning_logged = true;
         return false;
     }
     if( safe_mode != SAFE_MODE_STOP ) {
@@ -11839,7 +11862,14 @@ bool game::check_safe_mode_allowed()
     add_msg( m_warning,
              _( "Spotted %s--safe mode is on! (%s to turn it off or %s to ignore monster.)" ),
              spotted_creature_name.c_str(), msg_safe_mode.c_str(), msg_ignore.c_str() );
+    safe_mode_warning_logged = true;
     return false;
+}
+
+void game::set_safe_mode( safe_mode_type mode )
+{
+    safe_mode = mode;
+    safe_mode_warning_logged = false;
 }
 
 bool game::disable_robot( const tripoint &p )
@@ -14142,7 +14172,7 @@ void game::gameover()
     erase();
     gamemode->game_over();
     mvprintw(0, 35, _("GAME OVER"));
-    inv(_("Inventory:"));
+    inv();
 }
 
 bool game::game_quit()
@@ -15020,4 +15050,15 @@ overmap &game::get_cur_om() const
     const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
+}
+
+void game::load_game_option( JsonObject &jo )
+{
+    auto arr = jo.get_array( "options" );
+    if( arr.empty() ) {
+        jo.throw_error( "no options specified", "options" );
+    }
+    while( arr.has_more() ) {
+        options.emplace( arr.next_string() );
+    }
 }

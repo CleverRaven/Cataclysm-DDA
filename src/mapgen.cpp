@@ -875,10 +875,13 @@ class jmapgen_loot : public jmapgen_piece {
                 }
 
                 for( auto &e: spawn ) {
-                    if( rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current() ) {
+                    bool spawn_ammo = rng( 0, 99 ) < ammo && e.ammo_remaining() == 0;
+                    bool spawn_mag  = rng( 0, 99 ) < magazine && !e.magazine_integral() && !e.magazine_current();
+
+                    if( spawn_mag || spawn_ammo ) {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
-                    if( rng( 0, 99 ) < ammo && e.ammo_remaining() == 0 ) {
+                    if( spawn_ammo ) {
                         e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
                     }
                 }
@@ -13092,4 +13095,3 @@ void add_corpse( map *m, int x, int y )
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
 
-/////////

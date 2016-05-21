@@ -20,9 +20,12 @@
 #include "veh_type.h"
 #include "init.h"
 #include "generic_factory.h"
+#include "game.h"
 
 #include <algorithm>
 #include <sstream>
+
+extern class game *g;
 
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
@@ -43,8 +46,6 @@ typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 static bool item_whitelist_is_exclusive = false;
-
-static std::set<std::string> item_options;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
@@ -92,6 +93,10 @@ void Item_factory::finalize() {
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
 
+        if( obj.engine && g->has_option( "no_faults" ) ) {
+            obj.engine->faults.clear();
+        }
+
         if( !obj.category ) {
             obj.category = get_category( calc_category( &obj ) );
         }
@@ -119,27 +124,47 @@ void Item_factory::finalize() {
                                            obj.ammo->recoil / 3 );
         }
         if( obj.gun ) {
+            // @todo add explicit action field to gun definitions
+            std::string defmode = "semi-auto";
+            if( obj.gun->clip == 1 ) {
+                defmode = "manual"; // break-type actions
+            } else if( obj.gun->skill_used == skill_id( "pistol" ) && obj.item_tags.count( "RELOAD_ONE" ) ) {
+                defmode = "revolver";
+            }
+
+            // if the gun doesn't have a DEFAULT mode then add one now
+            obj.gun->modes.emplace( "DEFAULT", std::make_pair<std::string, int>( std::move( defmode ), 1 ) );
+
+            if( obj.gun->burst > 1 ) {
+                // handle legacy JSON format
+                obj.gun->modes.emplace( "AUTO", std::pair<std::string, int>( "auto", obj.gun->burst ) );
+            }
+
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
         }
 
         set_allergy_flags( *e.second );
         hflesh_to_flesh( *e.second );
 
-        // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
-        if( obj.comestible && obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
+        if( obj.comestible ) {
+            if( g->has_option( "no_vitamins" ) ) {
+                obj.comestible->vitamins.clear();
 
-            auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
+            } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
+                // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
+                auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
 
-            auto mat = obj.materials;
-            mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
-                return !m.obj().edible(); // @todo migrate inedible comestibles to appropriate alternative types
-            } ), mat.end() );
+                auto mat = obj.materials;
+                mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
+                    return !m.obj().edible(); // @todo migrate inedible comestibles to appropriate alternative types
+                } ), mat.end() );
 
-            // for comestibles composed of multiple edible materials we calculate the average
-            for( const auto &v : vitamin::all() ) {
-                if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
-                    for( const auto &m : mat ) {
-                        obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
+                // for comestibles composed of multiple edible materials we calculate the average
+                for( const auto &v : vitamin::all() ) {
+                    if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
+                        for( const auto &m : mat ) {
+                            obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
+                        }
                     }
                 }
             }
@@ -163,7 +188,7 @@ void Item_factory::finalize_item_blacklist()
 
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
-    const bool magazines_blacklisted = item_options.count("blacklist_magazines");
+    const bool magazines_blacklisted = g->has_option( "blacklist_magazines" );
 
     if( magazines_blacklisted ) {
         for( auto& e : m_templates ) {
@@ -233,11 +258,6 @@ void Item_factory::load_item_whitelist( JsonObject &json )
     add_to_set( item_whitelist, json, "items" );
 }
 
-void Item_factory::load_item_option( JsonObject &json )
-{
-    add_to_set( item_options, json, "options" );
-}
-
 Item_factory::~Item_factory()
 {
     clear();
@@ -292,7 +312,6 @@ void Item_factory::init()
     iuse_function_list["ANTICONVULSANT"] = &iuse::anticonvulsant;
     iuse_function_list["WEED_BROWNIE"] = &iuse::weed_brownie;
     iuse_function_list["COKE"] = &iuse::coke;
-    iuse_function_list["GRACK"] = &iuse::grack;
     iuse_function_list["METH"] = &iuse::meth;
     iuse_function_list["VACCINE"] = &iuse::vaccine;
     iuse_function_list["FLU_VACCINE"] = &iuse::flu_vaccine;
@@ -662,9 +681,6 @@ void Item_factory::check_definitions() const
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
-            if( type->item_tags.count( "BURST_ONLY" ) > 0 && type->item_tags.count( "MODE_BURST" ) < 1 ) {
-                msg << string_format("has BURST_ONLY but no MODE_BURST") << "\n";
-            }
             for( auto &gm : type->gun->default_mods ){
                 if( !has_template( gm ) ){
                     msg << string_format("invalid default mod.") << "\n";
@@ -738,7 +754,7 @@ void Item_factory::check_definitions() const
             main_stream.str(std::string());
         }
     }
-    if( item_options.count( "blacklist_magazines" ) == 0 ) {
+    if( !g->has_option( "blacklist_magazines" ) ) {
         for( auto &mag : magazines_defined ) {
             if( magazines_used.count( mag ) == 0 ) {
                 main_stream << "Magazine " << mag << " defined but not used.\n";
@@ -898,6 +914,10 @@ void Item_factory::load_engine( JsonObject &jo )
 
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
+    if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
+        jo.throw_error( "cannot specify both burst and modes", "burst" );
+    }
+
     assign( jo, "skill", slot.skill_used );
     assign( jo, "ammo", slot.ammo );
     assign( jo, "range", slot.range );
@@ -926,6 +946,15 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
             slot.valid_mod_locations.emplace( curr.get_string( 0 ), curr.get_int( 1 ) );
+        }
+    }
+
+    if( jo.has_array( "modes" ) ) {
+        slot.modes.clear();
+        JsonArray jarr = jo.get_array( "modes" );
+        while( jarr.has_more() ) {
+            JsonArray curr = jarr.next_array();
+            slot.modes.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
         }
     }
 }
@@ -1157,7 +1186,6 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.sight_dispersion = jo.get_int( "sight_dispersion", -1 );
     slot.aim_speed = jo.get_int( "aim_speed", -1 );
     slot.recoil = jo.get_int( "recoil_modifier", 0 );
-    slot.burst = jo.get_int( "burst_modifier", 0 );
     slot.range = jo.get_int( "range_modifier", 0 );
     slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
     slot.ups_charges = jo.get_int( "ups_charges", slot.ups_charges );
@@ -1172,6 +1200,15 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
 
         while( compat.has_more() ) {
             slot.magazine_adaptor[ ammo ].insert( compat.next_string() );
+        }
+    }
+
+    if( jo.has_array( "mode_modifier" ) ) {
+        slot.mode_modifier.clear();
+        JsonArray jarr = jo.get_array( "mode_modifier" );
+        while( jarr.has_more() ) {
+            JsonArray curr = jarr.next_array();
+            slot.mode_modifier.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
         }
     }
 }
@@ -1517,7 +1554,6 @@ void Item_factory::clear()
     item_blacklist.clear();
     item_whitelist.clear();
     item_whitelist_is_exclusive = false;
-    item_options.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)

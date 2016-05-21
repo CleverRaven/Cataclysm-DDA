@@ -1118,6 +1118,62 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_coffin_c",
+        "name": "coffin",
+        "symbol": "0",
+        "bgcolor": "brown",
+        "move_cost_mod": -1,
+        "required_str": 14,
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", 
+                  "ORGANIC", "MOUNTABLE", "SHORT"],
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 6 },
+                { "item": "nail", "charges": [6, 10] },
+                { "item": "rag", "count": [15, 20] }
+            ]
+        },
+        "max_volume": 4000,
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "wham!",
+            "items": [
+                { "item": "2x4", "count": [1, 5] },
+                { "item": "nail", "charges": [2, 10] },
+                { "item": "rag", "count": [ 8, 12] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_coffin_o",
+        "name": "open coffin",
+        "symbol": "O",
+        "bgcolor": "brown",
+        "move_cost_mod": -1,
+        "required_str": 12,
+        "flags": ["TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE",
+          "SHORT"],
+        "deconstruct": {
+            "items": [
+                { "item": "2x4", "count": 6 },
+                { "item": "nail", "charges": [6, 10] },
+                { "item": "rag", "count": [15, 20] }
+            ]
+        },
+        "max_volume": 4000,
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "wham!",
+            "items": [
+                { "item": "2x4", "count": [1, 5] },
+                { "item": "nail", "charges": [2, 10] },
+                { "item": "rag", "count": [ 6, 12] }
+            ]
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_crate_c",
         "name": "crate",
         "symbol": "X",

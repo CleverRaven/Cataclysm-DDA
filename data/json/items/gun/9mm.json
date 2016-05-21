@@ -20,7 +20,6 @@
     },
     "skill": "smg",
     "ammo": "9mm",
-    "ranged_damage": 1,
     "dispersion": 255,
     "sight_dispersion": 75,
     "aim_speed" : 5,
@@ -33,7 +32,7 @@
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fnp90mag" ] ]
     ],
-    "flags": ["MODE_BURST", "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS"]
+    "flags": [ "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS" ]
   },
   {
     "id": "calico",
@@ -51,7 +50,7 @@
     "color": "dark_gray",
     "skill": "smg",
     "ammo": "9mm",
-    "ranged_damage": -3,
+    "ranged_damage": 2,
     "dispersion": 300,
     "sight_dispersion": 105,
     "aim_speed": 3,
@@ -65,8 +64,7 @@
       [ "22", [ "a180mag" ] ],
       [ "45", [ "thompson_drum" ] ],
       [ "57", [ "fnp90mag" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "cx4",
@@ -83,6 +81,7 @@
     "color": "dark_gray",
     "skill": "rifle",
     "ammo": "9mm",
+    "ranged_damage": 2,
     "range": 20,
     "dispersion": 180,
     "sight_dispersion": 75,
@@ -115,6 +114,7 @@
     "bashing": 8,
     "to_hit": -2,
     "ammo": "9mm",
+    "ranged_damage": -1,
     "dispersion": 240,
     "sight_dispersion": 90,
     "recoil": 90,
@@ -157,8 +157,7 @@
       [ "45", [ "ump45mag" ] ],
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fn57mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "ksub2000",
@@ -176,6 +175,7 @@
     "color": "dark_gray",
     "skill": "rifle",
     "ammo": "9mm",
+    "ranged_damage": 3,
     "range": 18,
     "dispersion": 210,
     "sight_dispersion": 85,
@@ -217,14 +217,13 @@
         "recoil": 15,
         "durability": -1
     },
-    "burst": 3, "//": "The M93R can go through up to 110 rounds in six seconds, FWIW.",
-    "flags": [ "MODE_BURST" ]
+    "burst": 3, "//": "The M93R can go through up to 110 rounds in six seconds, FWIW."
   },
   {
     "id": "l_sp_9mm",
     "copy-from": "pistol_base",
     "type": "GUN",
-    "name": "L39",
+    "name": "L39", "//": "L39s are based off the Robocop Auto-9, in turn a dolled-up Beretta 93R.",
     "description": "A semiautomatic 9mm handgun introduced in 2039, Leadworks LLC's L39 provides accurate single-shot placement in a very robust frame.  Several urban legends describe using it in ways that would have destroyed a lesser weapon.",
     "weight": 935,
     "volume": 2,
@@ -236,7 +235,6 @@
     "color": "dark_gray",
     "ammo": "9mm",
     "range": 1,
-    "ranged_damage": 1,
     "dispersion": 150,
     "sight_dispersion": 90,
     "aim_speed" : 4,
@@ -264,7 +262,6 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "9mm",
-    "ranged_damage": -1,
     "range": 1,
     "dispersion": 225,
     "sight_dispersion": 90,
@@ -295,7 +292,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "9mm",
-    "ranged_damage": -2,
+    "ranged_damage": 1, "//": "Despite its quality, it IS a small rifle, although not as effective as a genuine pistol carbine.",
     "dispersion": 105,
     "sight_dispersion": 60,
     "aim_speed": 6,
@@ -335,8 +332,7 @@
         [ "45", [ "mac10mag" ] ],
         [ "46", [ "hk46mag", "hk46bigmag" ] ],
         [ "57", [ "fnp90mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "tec9",
@@ -354,7 +350,6 @@
     "color": "dark_gray",
     "skill": "smg",
     "ammo": "9mm",
-    "ranged_damage": 3,
     "dispersion": 240,
     "sight_dispersion": 105,
     "aim_speed": 3,
@@ -369,8 +364,7 @@
         [ "45", [ "mac10mag" ] ],
         [ "46", [ "hk46mag", "hk46bigmag" ] ],
         [ "57", [ "fn57mag" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "usp_9mm",
@@ -414,9 +408,9 @@
     "material": "steel",
     "symbol": "(",
     "color": "dark_gray",
-    "flags": "MODE_BURST",
     "skill": "smg",
     "ammo": "9mm",
+    "ranged_damage": 1,
     "dispersion": 255,
     "sight_dispersion": 105,
     "aim_speed" : 3,

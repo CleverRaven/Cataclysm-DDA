@@ -1572,8 +1572,8 @@ void npc::decide_needs()
             needrank[ need_food ] += nutrition_for( i->front().type ) / 4;
             needrank[ need_drink ] += i->front().type->comestible->quench / 4;
         } else if( i->front().is_food_container() ) {
-            needrank[ need_food ] += nutrition_for( i->front().contents[0].type ) / 4;
-            needrank[ need_drink ] += i->front().contents[0].type->comestible->quench / 4;
+            needrank[ need_food ] += nutrition_for( i->front().contents.front().type ) / 4;
+            needrank[ need_drink ] += i->front().contents.front().type->comestible->quench / 4;
         }
     }
     needs.clear();
@@ -2766,4 +2766,19 @@ void npc::process_turn()
 
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
+}
+
+std::ostream& operator<< (std::ostream & os, npc_need need)
+{
+    switch (need)
+    {
+        case need_none :   return os << "need_none";
+        case need_ammo :   return os << "need_ammo";
+        case need_weapon : return os << "need_weapon";
+        case need_gun :    return os << "need_gun";
+        case need_food :   return os << "need_food";
+        case need_drink :  return os << "need_drink";
+        case num_needs :   return os << "num_needs";
+    };
+    return os << "unknown need";
 }

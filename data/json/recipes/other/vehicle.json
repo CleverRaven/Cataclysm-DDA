@@ -12,10 +12,10 @@
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id" : "GLARE", "level" : 2 }
     ],
     "tools": [
-      [ [ "goggles_welding", -1 ] ],
       [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ] ]
     ],
     "components": [
@@ -37,10 +37,10 @@
     "qualities": [
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
+      { "id": "WRENCH", "level": 1 },
+      { "id" : "GLARE", "level" : 2 }
     ],
     "tools": [
-      [ [ "goggles_welding", -1 ] ],
       [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ]
     ],
     "components": [
@@ -62,6 +62,40 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_6", 1 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ]
+  },
+  {
+    "result": "filter_air_makeshift",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
+    "time": 2000,
+    "book_learn": [ [ "mag_fieldrepair", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "bottle_plastic", 1 ] ],
+      [ [ "paper", 50 ] ],
+      [ [ "duct_tape", 20 ] ]
+    ]
+  },
+  {
+    "result": "filter_liquid_makeshift",
+    "type" : "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 2,
+    "time": 2000,
+    "book_learn": [ [ "mag_fieldrepair", 2 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "can_drink", 1 ], [ "can_food", 1 ] ],
+      [ [ "paper", 50 ] ],
       [ [ "duct_tape", 20 ] ]
     ]
   }

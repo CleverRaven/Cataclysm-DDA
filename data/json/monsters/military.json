@@ -28,7 +28,9 @@
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "move_cost": 150,
         "targeting_cost": 200,
-        "range": 30,
+        "ranges": [
+          [ 0, 30, "DEFAULT" ]
+        ],
         "laser_lock": true,
         "require_targeting_npc": true,
         "require_targeting_monster": true,
@@ -68,7 +70,11 @@
         "type": "gun",
         "cooldown": 1,
         "gun_type": "laser_cannon",
+        "range" : 18,
         "fake_skills": [ [ "gun", 4 ], [ "rifle", 8 ] ],
+        "ranges": [
+          [ 0, 30, "DEFAULT" ]
+        ],
         "require_sunlight": true
     } ],
     "death_drops": {
@@ -104,8 +110,13 @@
         "ammo_type": "556",
         "cooldown": 1,
         "gun_type": "m4a1",
+        "range" : 18,
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 8 ] ],
-        "fake_dex": 10
+        "fake_dex": 10,
+        "ranges": [
+          [ 0, 8, "AUTO" ],
+          [ 9, 16, "DEFAULT" ]
+        ]
     } ],
     "death_drops": {
       "groups": [ [ "robots", 9 ], [ "turret_rifle", 2 ] ]

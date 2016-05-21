@@ -14,6 +14,7 @@
     "color": "dark_gray",
     "skill": "smg",
     "ammo": "45",
+    "ranged_damage": 1,
     "dispersion": 75,
     "sight_dispersion": 105,
     "aim_speed" : 3,
@@ -24,8 +25,7 @@
     "magazines" : [
       [ "45", [ "ump45mag" ] ],
       [ "9mm", [ "mp5mag", "mp5bigmag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "l_enforcer_45",
@@ -43,7 +43,7 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "45",
-    "ranged_damage": 5,
+    "ranged_damage": 1, "//": "Real-life Autorevolvers tended to vary between 6-7.5 inch barrels, so we'll err on the side of a +1 here.",
     "dispersion": 195,
     "sight_dispersion": 90,
     "recoil": 120,
@@ -66,6 +66,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "45",
+    "ranged_damage": 4, "//": "If it's based off the Winchester 94, it's likely got a 20 inch barrel. For sanity's sake though, let's cap it at +4.",
     "range": 8,
     "dispersion": 5,
     "sight_dispersion": 60,
@@ -108,7 +109,6 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "45",
-    "ranged_damage": 6,
     "dispersion": 255,
     "sight_dispersion": 90,
     "recoil": 130,
@@ -134,7 +134,6 @@
     "color": "dark_gray",
     "skill": "smg",
     "ammo": "45",
-    "ranged_damage": -4,
     "dispersion": 300,
     "sight_dispersion": 105,
     "aim_speed" : 3,
@@ -145,8 +144,7 @@
     "magazines" : [
       ["45", [ "mac10mag" ] ],
       [ "9mm", [ "tec9mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "surv_hand_cannon",
@@ -164,7 +162,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "ammo": "45",
-    "ranged_damage": 3,
+    "ranged_damage": 2, "//": "On one hand, it's very big for a handgun. On the other, it's still a scrap weapon.",
     "dispersion": 255,
     "sight_dispersion": 90,
     "recoil": 140,
@@ -187,7 +185,6 @@
     "color": "dark_gray",
     "skill": "smg",
     "ammo": "45",
-    "ranged_damage": -2,
     "dispersion": 105,
     "sight_dispersion": 90,
     "aim_speed" : 4,
@@ -199,8 +196,7 @@
     "magazines" : [
       [ "45", [ "tdi_mag" ] ],
       [ "9mm", [ "uzimag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "tommygun",
@@ -217,7 +213,7 @@
     "color": "brown",
     "skill": "smg",
     "ammo": "45",
-    "ranged_damage": 1,
+    "ranged_damage": 2,
     "dispersion": 120,
     "sight_dispersion": 90,
     "aim_speed" : 4,
@@ -229,14 +225,14 @@
     "magazines": [
       [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ],
       [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
-    ],
-    "flags": "MODE_BURST"
+    ]
   },
   {
     "id": "usp_45",
     "copy-from": "usp_9mm",
     "type": "GUN",
     "name": "USP .45",
-    "ammo": "45"
+    "ammo": "45",
+    "ranged_damage": 1
   }
 ]

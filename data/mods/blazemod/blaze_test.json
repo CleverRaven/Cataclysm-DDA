@@ -83,12 +83,10 @@
 		"autolearn": true,
 		"qualities":[
 			{"id":"HAMMER","level":2,"amount":1},
-			{"id":"SAW_M","level":1,"amount":1}
+			{"id":"SAW_M","level":1,"amount":1},
+            { "id" : "GLARE", "level" : 2 }
 		],
 		"tools": [
-			[
-			[ "goggles_welding", -1 ]
-			],
 			[
 			[ "welder", 60 ],
 			[ "welder_crude", 75 ],
@@ -131,12 +129,10 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 60 ],
       [ "welder_crude", 75 ],
@@ -183,12 +179,10 @@
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
+    {"id":"SAW_M","level":1,"amount":1},
+    { "id" : "GLARE", "level" : 2 }
   ],
   "tools": [
-    [
-      [ "goggles_welding", -1 ]
-    ],
     [
       [ "welder", 60 ],
       [ "welder_crude", 75 ],
@@ -230,7 +224,7 @@
         "type":"CONTAINER",
         "id" : "vgen",
         "name" : "vortex engine",
-        "description" : "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allows it to be attached to a vehicle to render it mobile. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
+        "description" : "A tornado in a box, so to speak.  Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map.  An external mechanism allows it to be attached to a vehicle to render it mobile.  To activate, install it on a vehicle, insert the vortex core, and activate.  The core must be removed from the machinery before installation, due to its sensitivity.",
         "weight" : 31071,
         "color" : "magenta",
         "symbol" : ",",
@@ -247,7 +241,7 @@
         "type":"CONTAINER",
         "id" : "vgen2",
         "name" : "vortex generator",
-        "description" : "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allow it to be hooked up to a battery to store the power generated. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
+        "description" : "A tornado in a box, so to speak.  Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map.  An external mechanism allow it to be hooked up to a battery to store the power generated.  To activate, install it on a vehicle, insert the vortex core, and activate.  The core must be removed from the machinery before installation, due to its sensitivity.",
         "weight" : 24066,
         "color" : "magenta",
         "symbol" : ",",
@@ -274,7 +268,7 @@
         "name_plural" : "vortex cores",
         "symbol" : "=",
         "color" : "magenta",
-        "description" : "An unknown, but powerful force contained within spiral and vortex stones. Can be harnessed by those with the knowledge to do so.",
+        "description" : "An unknown, but powerful force contained within spiral and vortex stones.  Can be harnessed by those with the knowledge to do so.",
         "volume" : 0,
         "weight" : 0,
         "bashing" : 1,

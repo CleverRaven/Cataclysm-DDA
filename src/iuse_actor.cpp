@@ -361,8 +361,25 @@ void consume_drug_iuse::load( JsonObject &obj )
 
 void consume_drug_iuse::info( const item&, std::vector<iteminfo>& dump ) const
 {
+    std::string vits;
+    for( const auto &v : vitamins ) {
+        // only display vitamins that we actually require
+        int rate = g->u.vitamin_rate( v.first );
+        if( rate > 0 ) {
+            if( !vits.empty() ) {
+                vits += ", ";
+            }
+            int lo = int( v.second.first  / ( DAYS( 1 ) / float( rate ) ) * 100 );
+            int hi = int( v.second.second / ( DAYS( 1 ) / float( rate ) ) * 100 );
+            vits += string_format( lo == hi ? "%s (%i%%)" : "%s (%i-%i%%)", v.first.obj().name().c_str(), lo, hi );
+        }
+    }
+    if( !vits.empty() ) {
+        dump.emplace_back( "TOOL", _( "Vitamins (RDA): " ), vits.c_str() );
+    }
+
     if( tools_needed.count( "syringe" ) ) {
-        dump.emplace_back( "TOOL", _( "You need a syringe to inject this drug" ) );
+        dump.emplace_back( "TOOL", _( "You need a <info>syringe</info> to inject this drug" ) );
     }
 }
 
@@ -413,11 +430,12 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
 
     // for vitamins that accumulate (max > 0) multivitamins risk causing hypervitaminosis
     for( const auto& v : vitamins ) {
-        p->vitamin_mod( v.first, rng( v.second.first ,v.second.second ), false );
+        // players with mutations that remove the requirement for a vitamin cannot suffer accmulation of it
+        p->vitamin_mod( v.first, rng( v.second.first, v.second.second ), p->vitamin_rate( v.first ) > 0 ? false : true );
     }
 
     // Output message.
-    p->add_msg_if_player( _(activation_message.c_str()) );
+    p->add_msg_if_player( string_format( _( activation_message.c_str() ), it->type_name( 1 ).c_str() ).c_str() );
     // Consume charges.
     for( auto consumable = charges_needed.cbegin(); consumable != charges_needed.cend();
          ++consumable ) {
@@ -981,7 +999,10 @@ long salvage_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return 0;
     }
 
-    int inventory_index = g->inv_for_salvage( _("Cut up what?"), *this );
+    int inventory_index = g->inv_for_filter( _("Cut up what?"), [ this ]( const item &it ) {
+        return valid_to_cut_up( &it );
+    } );
+
     item *cut = &( p->i_at( inventory_index ) );
     if( !try_to_cut_up(p, cut) ) {
         // Messages should have already been displayed.
@@ -1289,7 +1310,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
     }
 
-    int pos = g->inv( _("Inscribe which item?") );
+    int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
     if( item_inscription( cut ) ) {
@@ -1926,8 +1947,8 @@ bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
     if( !obj.is_ammo() ) {
         return false;
     }
-    if( !bandolier.contents.empty() && ( bandolier.contents[0].typeId() != obj.typeId() ||
-                                         bandolier.contents[0].charges >= capacity ) ) {
+    if( !bandolier.contents.empty() && ( bandolier.contents.front().typeId() != obj.typeId() ||
+                                         bandolier.contents.front().charges >= capacity ) ) {
         return false;
     }
     return std::count( ammo.begin(), ammo.end(), obj.type->ammo->type );
@@ -1969,9 +1990,9 @@ bool bandolier_actor::store( player &p, item &bandolier, item &obj ) const
             bandolier.put_in( p.i_rem( &obj ) );
         }
     } else {
-        qty = std::min( obj.charges, capacity - bandolier.contents[0].charges );
+        qty = std::min( obj.charges, capacity - bandolier.contents.front().charges );
 
-        if( bandolier.contents[0].typeId() != obj.typeId() ) {
+        if( bandolier.contents.front().typeId() != obj.typeId() ) {
             p.add_msg_if_player( m_info, _( "Your %1$s already contains a different type of ammo" ),
                                  bandolier.type_name().c_str() );
             return false;
@@ -1982,7 +2003,7 @@ bool bandolier_actor::store( player &p, item &bandolier, item &obj ) const
         }
 
         obj.charges -= qty;
-        bandolier.contents[0].charges += qty;
+        bandolier.contents.front().charges += qty;
         if( obj.charges <= 0 ) {
             p.i_rem( &obj );
         }
@@ -2008,7 +2029,7 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
 
     std::vector<std::function<void()>> actions;
 
-    menu.addentry( -1, it->contents.empty() || it->contents[0].charges < capacity,
+    menu.addentry( -1, it->contents.empty() || it->contents.front().charges < capacity,
                    'r', string_format( _( "Store ammo in %s" ), it->type_name().c_str() ) );
 
     actions.emplace_back( [&] {
@@ -2028,7 +2049,7 @@ long bandolier_actor::use( player *p, item *it, bool, const tripoint & ) const
                    it->type_name().c_str() ) );
 
     actions.emplace_back( [&] {
-        if( p->i_add_or_drop( it->contents[0] ) ) {
+        if( p->i_add_or_drop( it->contents.front() ) ) {
             it->contents.erase( it->contents.begin() );
         } else {
             p->add_msg_if_player( _( "Never mind." ) );
@@ -2173,14 +2194,12 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( !could_repair( *p, *it, true ) ) {
         return 0;
     }
-
-    int pos = g->inv_for_filter( _("Repair what?"), [this, it]( const item &itm ) {
+    const int pos = g->inv_for_filter( _( "Repair what?" ), [this, it]( const item &itm ) {
         return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
-    } );
+    }, string_format( _( "You have no items that could be repaired with a %s." ), it->type_name( 1 ).c_str() ) );
 
-    item &fix = p->i_at( pos );
-    if( fix.is_null() ) {
-        p->add_msg_if_player(m_info, _("You do not have that item!"));
+    if( pos == INT_MIN ) {
+        p->add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
 

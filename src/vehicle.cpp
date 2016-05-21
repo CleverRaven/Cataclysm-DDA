@@ -29,6 +29,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "map_iterator.h"
+#include "vehicle_selector.h"
 
 #include <sstream>
 #include <stdlib.h>
@@ -56,7 +57,8 @@ static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
-
+static const fault_id fault_filter_air( "fault_engine_filter_air" );
+static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -2307,6 +2309,19 @@ void vehicle::part_removal_cleanup() {
     refresh(); // Rebuild cached indices
 }
 
+item_location vehicle::part_base( int p )
+{
+    return item_location( vehicle_cursor( *this, p ), &parts[ p ].base );
+}
+
+int vehicle::find_part( const item& it ) const
+{
+    auto idx = std::find_if( parts.begin(), parts.end(), [&it]( const vehicle_part& e ) {
+        return &e.base == &it;
+    } );
+    return idx != parts.end() ? std::distance( parts.begin(), idx ) : INT_MIN;
+}
+
 /**
  * Breaks the specified part into the pieces defined by its breaks_into entry.
  * @param p The index of the part to break.
@@ -3177,8 +3192,12 @@ int vehicle::basic_consumption(const itype_id &ftype) const
                 part_epower( engines[e] ) >= 0 ) {
                 // Electric engine - use epower instead
                 fcon -= epower_to_power( part_epower( engines[e] ) );
+
             } else if( !is_engine_type( e, fuel_type_muscle ) ) {
                 fcon += part_power( engines[e] );
+                if( parts[ e ].faults().count( fault_filter_air ) ) {
+                    fcon *= 2;
+                }
             }
         }
     }
@@ -3212,8 +3231,9 @@ int vehicle::total_power(bool const fueled) const
 
 int vehicle::acceleration(bool const fueled) const
 {
-    if ((engine_on && has_engine_type_not(fuel_type_muscle, true)) || skidding) {
-        return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+    if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
+        return safe_velocity( fueled ) * k_mass() / ( 1 + strain () ) / 10;
+
     } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
         int mass = total_mass();
@@ -3291,6 +3311,10 @@ int vehicle::safe_velocity(bool const fueled) const
                 m2c = 45;
             }
 
+            if( parts[ engines[ e ] ].faults().count( fault_filter_fuel ) ) {
+                m2c *= 0.6;
+            }
+
             pwrs += part_power(engines[e]) * m2c / 100;
             cnt++;
         }
@@ -3306,20 +3330,20 @@ int vehicle::safe_velocity(bool const fueled) const
     return (int) (pwrs * k_dynamics() * k_mass()) * 80;
 }
 
-void vehicle::spew_smoke( double joules, int part )
+void vehicle::spew_smoke( double joules, int part, int density )
 {
-    if( rng(1, 100000) > joules ) {
+    if( rng( 1, 10000 ) > joules ) {
         return;
     }
     point p = parts[part].mount;
-    int smoke = int(std::max(joules / 10000 , 1.0));
+    density = std::max( joules / 10000, double( density ) );
     // Move back from engine/muffler til we find an open space
     while( relative_parts.find(p) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate(p);
     tripoint dest( global_x() + q.x, global_y() + q.y, smz );
-    g->m.add_field( dest, fd_smoke, smoke, 0 );
+    g->m.adjust_field_strength( dest, fd_smoke, density );
 }
 
 /**
@@ -3346,6 +3370,8 @@ void vehicle::noise_and_smoke( double load, double time )
         }
     }
 
+    bool bad_filter = false;
+
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
         if( is_engine_on(e) &&
@@ -3355,14 +3381,25 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-                const double dmg = 1.0 - ((double)parts[p].hp / part_info( p ).durability);
-                if( is_engine_type( e, fuel_type_gasoline ) && dmg > 0.75 &&
-                        one_in( 200 - (150 * dmg) ) ) {
-                    backfire( e );
+
+                if( is_engine_type( e, fuel_type_gasoline ) ) {
+                    double dmg = 1.0 - double( parts[p].hp ) / part_info( p ).durability;
+                    if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
+                        dmg = 1.0;
+                    }
+                    if( dmg > 0.75 && one_in( 200 - ( 150 * dmg ) ) ) {
+                        backfire( e );
+                    }
                 }
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
+
+                if( parts[ p ].base.faults.count( fault_filter_air ) ) {
+                    bad_filter = true;
+                    j *= j;
+                }
+
                 if( (exhaust_part == -1) && engine_on ) {
-                    spew_smoke( j, p );
+                    spew_smoke( j, p, bad_filter ? MAX_FIELD_DENSITY : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3380,7 +3417,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
     if( (exhaust_part != -1) && engine_on &&
         has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
-        spew_smoke( mufflesmoke, exhaust_part );
+        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
     }
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );
@@ -5119,10 +5156,13 @@ void vehicle::place_spawn_items()
                         e.damage = rng( 1, MAX_ITEM_DAMAGE );
                     }
                     if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-                        if( rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
+                        bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
+                        bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() && !e.magazine_current();
+
+                        if( spawn_mag || spawn_ammo ) {
                             e.contents.emplace_back( e.magazine_default(), e.bday );
                         }
-                        if( rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0 ) {
+                        if( spawn_ammo ) {
                             e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
                         }
                     }
@@ -6038,7 +6078,7 @@ void vehicle::control_turrets() {
             char sym;
             if( parts[p].mode == 0 ) {
                 sym = ' ';
-            } else if( parts[p].mode > 9 && gun.burst_size() > 1 ) {
+            } else if( parts[p].mode > 9 && gun.gun_get_mode( "AUTO" ) ) {
                 sym = 'B'; // Burst
             } else if( parts[p].mode > 0 && parts[p].mode < 10 ) {
                 sym = '0' + parts[p].mode;
@@ -6096,9 +6136,9 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
         tr.mode = 1;
     } else if( tr.mode <= 1 && !only_manual_modes ) {
-        tr.mode = gun.burst_size() > 1 ? 1000 : -1;
+        tr.mode = gun.gun_get_mode( "AUTO" ).qty > 1 ? 1000 : -1;
     } else {
-        tr.mode = gun.burst_size() > 1 ? -1000 : -1;
+        tr.mode = gun.gun_get_mode( "AUTO" ).qty > 1 ? -1000 : -1;
     }
 
     if( only_manual_modes ) {
@@ -6300,7 +6340,7 @@ bool vehicle::fire_turret( int p, bool manual )
 
     // set up for burst shots
     if( abs(parts[p].mode) > 1 ){
-        charges *= turret_data.gun.burst_size();
+        charges *= std::max(turret_data.gun.gun_get_mode( "AUTO" ).qty, 1 );
         charges = std::min(charges, turret_data.charges);
     }
 
@@ -6416,7 +6456,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
 
-    const int to_fire = std::min( abs(parts[p].mode), gun.burst_size() );
+    const int to_fire = std::min( abs(parts[p].mode), std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) );
     res = tmp.fire_gun( targ, to_fire, gun );
 
     // Return whatever is left.
@@ -6455,7 +6495,7 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
 
-        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1;
+        int to_fire = abs(parts[p].mode) > 1 ? std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) : 1;
         res = shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
@@ -6897,7 +6937,7 @@ const std::set<fault_id>& vehicle_part::faults() const
 
 std::set<fault_id> vehicle_part::faults_potential() const
 {
-    return base.type->engine ? base.type->engine->faults : std::set<fault_id>();
+    return base.faults_potential();
 }
 
 bool vehicle_part::fault_set( const fault_id &f )

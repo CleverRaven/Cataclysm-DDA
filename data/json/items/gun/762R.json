@@ -11,7 +11,7 @@
         "weight": -500,
         "volume": -2,
         "range": -6,
-        "ranged_damage": -2,
+        "ranged_damage": -3,
         "dispersion": 30,
         "aim_speed": -2,
         "barrel_length": -2

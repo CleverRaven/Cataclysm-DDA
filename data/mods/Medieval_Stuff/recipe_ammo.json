@@ -8,8 +8,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 2,
   "time": 500,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armschina", 2 ]],
   "tools": [
     [
@@ -33,8 +31,6 @@
   "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 500,
-  "reversible": false,
-  "autolearn": false,
   "book_learn": [[ "textbook_armschina", 3 ]],
   "tools": [
     [

@@ -143,7 +143,7 @@ static void stash_on_pet( item *item_to_stash, monster *pet )
     if( !too_heavy && !too_big ) {
         pet->inv.push_back( *item_to_stash );
     } else {
-        g->m.add_item_or_charges( pet->posx(), pet->posy(), *item_to_stash, 1 );
+        g->m.add_item_or_charges( pet->pos(), *item_to_stash, 1 );
         if( too_big ) {
             g->u.add_msg_if_player( m_bad, _( "%s did not fit and fell to the ground!" ),
                                     item_to_stash->display_name().c_str() );

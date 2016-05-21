@@ -195,11 +195,11 @@ void Item_modifier::modify(item &new_item) const
                 new_item.ammo_set( new_item.ammo_type(), qty );
             }
         } else if( !new_item.is_gun() ) {
-            //not gun, food, ammo or tool. 
+            //not gun, food, ammo or tool.
             new_item.charges = ch;
         }
     }
-    
+
     if( new_item.is_gun() && ( ammo.get() != nullptr || ch > 0 ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
@@ -345,10 +345,13 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
 
     for( auto& e : result ) {
         if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-            if( rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current() ) {
+            bool spawn_ammo = rng( 0, 99 ) < with_ammo && e.ammo_remaining() == 0;
+            bool spawn_mag  = rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current();
+
+            if( spawn_mag || spawn_ammo ) {
                 e.contents.emplace_back( e.magazine_default(), e.bday );
             }
-            if( rng( 0, 99 ) < with_ammo && e.ammo_remaining() == 0 ) {
+            if( spawn_ammo ) {
                 e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
             }
         }

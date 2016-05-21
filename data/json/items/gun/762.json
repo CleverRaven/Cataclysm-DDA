@@ -27,7 +27,38 @@
       [ "223", [ "stanag30", "stanag10", "stanag50" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
     ],
-    "flags": ["MODE_BURST", "NEVER_JAMS"]
+    "flags": [ "NEVER_JAMS" ]
+  },
+  {
+    "id": "arx160",
+    "type": "GUN",
+    "name": "Beretta ARX-160",
+    "name_plural": "Beretta ARX-160",
+    "description": "The Beretta ARX-160 was a Phase II contender in the United States Army Individual Carbine competition to replace the M4 carbine.  It failed to replace it, but it is widely used by military all around the world.  This version is chambered for 7.62x39mm.",
+    "weight": 3000,
+    "volume": 7,
+    "price": 450000,
+    "bashing": 11,
+    "to_hit": -1,
+    "material": "steel",
+    "symbol": "(",
+    "color": "blue",
+    "skill": "rifle",
+    "ammo": "762",
+    "dispersion": 30,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": 60,
+    "durability": 9,
+    "burst": 3,
+    "barrel_length" : 1,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "magazines": [
+      [ "762", [ "akmmag", "akmbigmag" ] ],
+      [ "223", [ "stanag30", "stanag10", "stanag50" ] ],
+      [ "308", [ "g3mag", "g3bigmag" ] ]
+    ],
+    "flags": "MODE_BURST"
   },
   {
     "id": "sks",
@@ -44,6 +75,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "762",
+    "ranged_damage": 1,
     "dispersion": 2,
     "sight_dispersion": 60,
     "aim_speed" : 6,

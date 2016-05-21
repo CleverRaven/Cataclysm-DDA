@@ -230,6 +230,8 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
 void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                     const char *mes, ...);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
+int right_print( WINDOW *w, const int line, const int right_indent, const nc_color FG,
+                 const char *mes, ... );
 void display_table(WINDOW *w, const std::string &title, int columns,
                    const std::vector<std::string> &data);
 void multipage(WINDOW *w, std::vector<std::string> text, std::string caption = "", int begin_y = 0);
@@ -249,9 +251,7 @@ void mvputch_hi(int y, int x, nc_color FG, const std::string &ch);
 // Using long ch is deprecated, use an UTF-8 encoded string instead
 void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, long ch);
 void mvwputch_hi(WINDOW *w, int y, int x, nc_color FG, const std::string &ch);
-void mvprintz(int y, int x, nc_color FG, const char *mes, ...);
 void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
-void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 
 void draw_custom_border(WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1, chtype tl = 1, chtype tr = 1,
@@ -446,7 +446,6 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
                     nc_color bar_color = c_white, const bool bTextScroll = false);
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
-void clear_window(WINDOW *w);
 
 class scrollingcombattext
 {

@@ -11,7 +11,7 @@
     "to_hit": -1,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
-    "color": "teal",
+    "color": "cyan",
     "skill": "rifle",
     "range": 35,
     "ranged_damage": 30,
@@ -25,7 +25,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ups_charges": 70,
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "MODE_BURST", "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
     "id": "laser_cannon",
@@ -79,7 +79,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ups_charges": 40,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "MODE_BURST", "NEVER_JAMS", "NO_UNLOAD" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD" ]
   },
   {
     "id": "unbio_blaster_gun",

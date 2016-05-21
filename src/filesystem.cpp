@@ -218,7 +218,7 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
 
         auto const n_dirs    = static_cast<std::ptrdiff_t>(directories.size());
         auto const n_results = static_cast<std::ptrdiff_t>(results.size());
-        
+
         for_each_dir_entry(path, [&](dirent const &entry) {
             // exclude special directories.
             if (is_special_dir(entry)) {
@@ -226,7 +226,7 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
             }
 
             auto const full_path = path + "/" + entry.d_name;
-            
+
             // don't add files ending in '~'.
             if (full_path.back() == '~') {
                 return;

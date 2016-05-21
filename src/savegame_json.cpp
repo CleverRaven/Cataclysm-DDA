@@ -304,6 +304,9 @@ void Character::load(JsonObject &data)
 
     data.read( "my_bionics", my_bionics );
 
+    for( auto &w : worn ) {
+        w.on_takeoff( *this );
+    }
     worn.clear();
     data.read( "worn", worn );
     for( auto &w : worn ) {
@@ -1488,7 +1491,7 @@ void item::io( Archive& archive )
     std::string mode;
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
-        set_gun_mode(mode);
+        gun_set_mode(mode);
     }
 }
 

@@ -404,11 +404,6 @@ std::string quality_requirement::get_color( bool, const inventory &, int ) const
 
 bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 {
-    if( type == "goggles_welding" ) {
-        if( g->u.has_bionic( "bio_sunglasses" ) || g->u.is_wearing( "rm13_armor_on" ) ) {
-            return true;
-        }
-    }
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ) );
     } else {
@@ -418,11 +413,6 @@ bool tool_comp::has( const inventory &crafting_inv, int batch ) const
 
 std::string tool_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
-    if( type == "goggles_welding" ) {
-        if( g->u.has_bionic( "bio_sunglasses" ) || g->u.is_wearing( "rm13_armor_on" ) ) {
-            return "cyan";
-        }
-    }
     if( available == a_insufficent ) {
         return "brown";
     } else if( !by_charges() && crafting_inv.has_tools( type, std::abs( count ) ) ) {
@@ -620,8 +610,7 @@ const requirement_data requirement_data::disassembly_requirements() const
                 break;
             }
 
-            if( type == "goggles_welding" ||
-                type == "crucible" ) {
+            if( type == "crucible" ) {
                 replaced = true;
                 break;
             }

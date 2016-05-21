@@ -296,6 +296,7 @@
   "skill_used": "cooking",
   "difficulty": 2,
   "time": 10000,
+  "result_mult": 2,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
@@ -312,7 +313,7 @@
   ],
   "components": [
     [
-      [ "fat", 2 ]
+      [ "fat", 3 ]
     ],
     [
       [ "water", 1 ],
@@ -2619,15 +2620,10 @@
   "time": 6000,
   "reversible": false,
   "autolearn": true,
-  "batch_time_factors":[80, 4],
-  "qualities":[
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools":[
-      [ "fire" ] ],   "components": [
-    [
-      [ "coffee_bean", 1     ]
-    ]
-  ]
+  "batch_time_factors": [ 80, 4 ],
+  "qualities": [ { "id": "COOK","level": 2,"amount": 1 } ],
+  "tools": [ [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ] ],
+  "components": [ [ [ "coffee_bean", 1 ] ] ]
 },{
   "type" : "recipe",
   "result": "coffee",
@@ -3001,7 +2997,12 @@
       [ "single_malt_whiskey", 1 ]
     ],
     [
-      [ "coffee_syrup", 1 ]
+      [ "coffee_syrup", 1 ],
+      [ "coffee", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ]
     ]
   ]
 },{
@@ -3174,6 +3175,7 @@
         [ "potato_raw", 3 ],
         [ "potato_irradiated", 3 ],
         [ "potato_baked", 3 ],
+        [ "can_corn", 3 ],
         [ "corn", 3 ],
         [ "irradiated_corn", 3 ],
         [ "onion", 9 ],
@@ -3913,9 +3915,9 @@
       [ "cabbage", 1 ],
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
+      [ "can_corn", 1 ],
       [ "corn", 1 ],
       [ "irradiated_corn", 1 ],
-      [ "can_corn", 1 ],
       [ "onion", 1 ],
       [ "irradiated_onion", 1 ],
       [ "carrot", 6 ],
@@ -4340,6 +4342,7 @@
       ["irradiated_cabbage", 1 ],
       ["potato_raw", 1],
       ["potato_irradiated", 1],
+      ["can_corn", 1 ],
       ["corn", 1],
       ["irradiated_corn", 1],
       ["onion", 1],
@@ -4733,6 +4736,7 @@
       ["sauerkraut", 2],
       ["potato_raw", 1],
       ["potato_irradiated", 1],
+      ["can_corn", 1 ],
       ["corn", 1],
       ["irradiated_corn", 1],
       ["onion", 1],
@@ -4879,6 +4883,7 @@
       ["sauerkraut", 2],
       ["potato_raw", 1],
       ["potato_irradiated", 1],
+      ["can_corn", 1 ],
       ["corn", 1],
       ["irradiated_corn", 1],
       ["onion", 1],
@@ -5041,6 +5046,7 @@
       ["sauerkraut", 2 ],
       ["potato_raw", 1],
       ["potato_irradiated", 1],
+      ["can_corn", 1],
       ["corn", 1],
       ["irradiated_corn", 1],
       ["onion", 1],
@@ -6816,11 +6822,8 @@
   "time": 8000,
   "reversible": false,
   "autolearn": true,
-  "tools": [
-    [ [ "hotplate", 8], [ "char_smoker", 8], [ "toolset", 8], [ "fire", -1] ],
-    [ [ "spear_wood", -1 ], [ "spear_steel", -1 ], [ "pointy_stick", -1 ], [ "skewer", -1 ], [ "skewer_bone", -1 ],
-      [ "javelin", -1 ], [ "javelin_iron", -1 ], [ "spear_knife", -1 ], [ "tongs", -1 ] ]
-   ],
+  "qualities" : [ { "id" : "COOK","level" : 1,"amount" : 1 } ],
+  "tools": [ [ [ "hotplate", 8 ], [ "char_smoker", 8 ], [ "toolset", 8 ], [ "fire", -1 ] ] ],
   "components": [
     [ [ "grahmcrackers", 8 ] ],
     [ [ "marshmallow", 8 ] ],
@@ -7367,6 +7370,7 @@
       ["irradiated_raspberries", 2],
       ["irradiated_strawberries", 2],
       ["irradiated_watermelon", 1],
+      ["can_corn", 3],
       ["can_peach", 1],
       ["kiwi", 2],
       ["mango", 2],
@@ -7944,8 +7948,8 @@
       [ "cabbage", 1 ],
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
-      [ "corn", 1 ],
       [ "can_corn", 1 ],
+      [ "corn", 1 ],
       [ "irradiated_corn", 1 ],
       [ "irradiated_onion", 1 ],
       [ "onion", 1 ],
@@ -10033,6 +10037,9 @@
     ],
     [
       [ "salt", 5 ], [ "salt_water", 1 ], [ "saline", 5 ], [ "seasoning_salt", 5 ], [ "soysauce", 1 ]
+    ],
+    [
+      [ "vinegar", 1 ]
     ]
   ]
 },{
@@ -10453,7 +10460,6 @@
     [
       ["apple", 2],
       ["apricot", 2],
-      ["banana", 2],
       ["blackberries", 2],
       ["blueberries", 2],
       ["cherries", 2],
@@ -10474,7 +10480,6 @@
       ["watermelon", 1],
       ["irradiated_apple", 2],
       ["irradiated_apricot", 2],
-      ["irradiated_banana", 2],
       ["irradiated_blackberries", 2],
       ["irradiated_blueberries", 2],
       ["irradiated_cherries", 2],
@@ -11504,9 +11509,9 @@
       [ "cabbage", 1 ],
       [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
+      [ "can_corn", 1 ],
       [ "corn", 1 ],
       [ "irradiated_corn", 1 ],
-      [ "can_corn", 1 ],
       [ "onion", 1 ],
       [ "irradiated_onion", 1 ],
       [ "carrot", 6 ],
@@ -12308,18 +12313,11 @@
       [ "stomach", 1 ]
     ],
     [
-      [ "oatmeal", 1 ],
-      [ "buckwheat", 1 ]
+      [ "offal", 1 ]
     ],
     [
-      [ "meat", 1],
-      [ "rehydrated_meat", 1 ],
-      [ "dry_meat", 1 ],
-      [ "meat_canned", 1 ],
-      [ "can_chicken", 1 ],
-      [ "jerky", 1 ],
-      [ "meat_vac", 1 ],
-      [ "meat_smoked", 1 ]
+      [ "oatmeal", 1 ],
+      [ "buckwheat", 1 ]
     ],
     [
       [ "fat", 1 ],

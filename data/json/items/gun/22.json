@@ -15,7 +15,7 @@
     "color": "light_gray",
     "skill": "smg",
     "ammo": "22",
-    "ranged_damage": 2,
+    "ranged_damage": 4,
     "dispersion": 180,
     "sight_dispersion": 105,
     "aim_speed": 3,
@@ -27,8 +27,7 @@
     "magazines": [
       [ "22", [ "a180mag" ] ],
       [ "57", [ "fnp90mag" ] ]
-    ],
-    "flags": [ "MODE_BURST" ]
+    ]
   },
   {
     "id": "marlin_9a",
@@ -46,6 +45,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "22",
+    "ranged_damage": 5,
     "dispersion": 30,
     "sight_dispersion": 60,
     "aim_speed": 6,
@@ -71,6 +71,7 @@
     "color": "brown",
     "skill": "pistol",
     "ammo": "22",
+    "ranged_damage": -1,
     "range": 3,
     "dispersion": 300,
     "sight_dispersion": 120,
@@ -97,7 +98,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "22",
-    "ranged_damage": -2,
+    "ranged_damage": 1,
     "dispersion": 105,
     "sight_dispersion": 60,
     "aim_speed": 6,
@@ -125,6 +126,7 @@
     "color": "light_gray",
     "skill": "smg",
     "ammo": "22",
+    "ranged_damage": 3,
     "dispersion": 200,
     "sight_dispersion": 80,
     "aim_speed": 2,
@@ -134,7 +136,7 @@
     "reload": 500,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [ [ "22", [ "360_200_mag", "360_400_mag" ] ] ],
-    "flags": [ "MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
     "id": "ruger_1022",
@@ -152,6 +154,7 @@
     "color": "brown",
     "skill": "rifle",
     "ammo": "22",
+    "ranged_damage": 4,
     "dispersion": 10,
     "sight_dispersion": 60,
     "aim_speed": 6,
@@ -191,6 +194,7 @@
     "color": "dark_gray",
     "skill": "pistol",
     "ammo": "22",
+    "ranged_damage": -1,
     "dispersion": 300,
     "sight_dispersion": 90,
     "aim_speed": 4,
