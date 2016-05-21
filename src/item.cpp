@@ -1328,12 +1328,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
     auto name_quality = [&info]( const std::pair<quality_id,int>& q ) {
         std::string str;
-        if( q.first == quality_lift ) {
-            str = string_format( _( "Can be used to lift items up to %ikg" ),
-                                 q.second * TOOL_LIFT_FACTOR / 1000 );
-        } else if( q.first == quality_jack ) {
-            str = string_format( _( "Can be used to jack vehicles up to %ikg" ),
-                                 q.second * TOOL_LIFT_FACTOR / 1000 );
+        if( q.first == quality_lift || q.first == quality_lift ) {
+            str = string_format( _( "Has level <info>%1$d %2$s</info> quality and is rated at %3$dkg" ),
+                                 q.second, q.first.obj().name.c_str(), q.second * TOOL_LIFT_FACTOR / 1000 );
         } else {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
                                  q.second, q.first.obj().name.c_str() );
