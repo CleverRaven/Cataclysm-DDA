@@ -31,6 +31,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "upgrades":{
             "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
             "half_life": 14
@@ -70,6 +71,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":35,
         "death_function":["NORMAL"],
         "special_attacks":[
@@ -111,6 +113,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":15,
         "death_function":["NORMAL"],
         "special_attacks":[["SHRIEK", 15]],
@@ -147,6 +150,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":30,
         "death_function":["NORMAL"],
         "special_attacks":[
@@ -189,6 +193,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":20,
         "death_function":["NORMAL"],
         "special_attacks":[["SHRIEK", 5]],
@@ -225,6 +230,7 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":25,
         "death_function":["NORMAL"],
         "special_attacks":[["SHRIEK", 5]],
@@ -261,11 +267,46 @@
                 [ "child_items", 65 ]
             ]
         },
+        "burn_into" : "mon_zombie_child_scorched",
         "hp":25,
         "death_function":["BOOMER"],
         "special_attacks":[["GRAB", 5]],
         "description":"This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
         "//": "GUILT because it still looks enough like a child to evoke pity",
         "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_child_scorched",
+    "name": "zombie kinderling",
+    "name_plural": "zombie kinderlings",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"z",
+    "color":"i_brown",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":15,
+    "aggression":100,
+    "morale":100,
+    "speed":90,
+    "melee_skill":2,
+    "melee_dice":1,
+    "melee_dice_sides":3,
+    "melee_cut":5,
+    "dodge":0,
+    "armor_bash":4,
+    "armor_cut":5,
+    "armor_fire":15,
+    "armor_acid":3,
+    "vision_day":25,
+    "vision_night":3,
+    "upgrades":{
+      "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
+      "half_life": 14
+    },
+    "hp":35,
+    "death_function":["NORMAL"],
+    "description":"A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
+    "flags":["SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "GUILT", "CLIMBS"]
     }
 ]

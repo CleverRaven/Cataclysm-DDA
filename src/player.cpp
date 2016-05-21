@@ -147,6 +147,7 @@ const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_nausea( "nausea" );
 
 const matype_id style_none( "style_none" );
 
@@ -1815,6 +1816,8 @@ bool player::is_immune_effect( const efftype_id &eff ) const
         return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
     } else if( eff == effect_corroding ) {
         return has_trait( "ACIDPROOF" );
+    } else if( eff == effect_nausea ) {
+        return has_trait( "STRONGSTOMACH" );
     }
 
     return false;
@@ -5225,6 +5228,38 @@ void player::update_body( int from, int to )
     }
 }
 
+void player::update_vitamins( const vitamin_id& vit )
+{
+    if( is_npc() ) {
+        return; // NPCs cannot develop vitamin diseases
+    }
+
+    efftype_id def = vit.obj().deficiency();
+    efftype_id exc = vit.obj().excess();
+
+    int lvl = vit.obj().severity( vitamin_get( vit ) );
+    if( lvl <= 0 ) {
+        remove_effect( def );
+    }
+    if( lvl >= 0 ) {
+        remove_effect( exc );
+    }
+    if( lvl > 0 ) {
+        if( has_effect( def, num_bp ) ) {
+            get_effect( def, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( def, 1, num_bp, true, lvl );
+        }
+    }
+    if( lvl < 0 ) {
+        if( has_effect( exc, num_bp ) ) {
+            get_effect( exc, num_bp ).set_intensity( lvl, true );
+        } else {
+            add_effect( exc, 1, num_bp, true, lvl );
+        }
+    }
+}
+
 void player::get_sick()
 {
     // NPCs are too dumb to handle infections now
@@ -7573,7 +7608,11 @@ double player::vomit_mod()
     if (has_trait("VOMITOUS")) {
         mod *= 3;
     }
-
+    // If you're already nauseous, any food in your stomach greatly
+    // increases chance of vomiting. Liquids don't provoke vomiting, though.
+    if( get_stomach_food() != 0 && has_effect( effect_nausea ) ) {
+        mod *= 5 * get_effect_int( effect_nausea );
+    }
     return mod;
 }
 
@@ -8463,19 +8502,32 @@ void player::vomit()
     add_memorial_log(pgettext("memorial_male", "Threw up."),
                      pgettext("memorial_female", "Threw up."));
 
-    if (get_stomach_food() != 0 || get_stomach_water() != 0) {
+    const int stomach_contents = get_stomach_food() + get_stomach_water();
+    if( stomach_contents != 0 ) {
         mod_hunger(get_stomach_food());
         mod_thirst(get_stomach_water());
 
         set_stomach_food(0);
         set_stomach_water(0);
+        // Remove all joy form previously eaten food and apply the penalty
+        rem_morale( MORALE_FOOD_GOOD );
+        rem_morale( MORALE_FOOD_HOT );
+        rem_morale( MORALE_HONEY ); // bears must suffer too
+        add_morale( MORALE_VOMITED, -2 * stomach_contents, -40, 90, 45, false ); // 1.5 times longer
 
         g->m.add_field( adjacent_tile(), fd_bile, 1, 0 );
 
         add_msg_player_or_npc( m_bad, _("You throw up heavily!"), _("<npcname> throws up heavily!") );
     } else {
-        add_msg_if_player(m_warning, _("You feel nauseous, but your stomach is empty."));
+        add_msg_if_player( m_warning, _( "You retched, but your stomach is empty." ) );
     }
+
+    if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
+        const effect dummy_nausea( &effect_nausea.obj(), 0, num_bp, false, 1, 0 );
+        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * stomach_contents / 21,
+                                             dummy_nausea.get_int_dur_factor() ) );
+    }
+
     moves -= 100;
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -8912,6 +8964,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity)
     }
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
         if( a->use_amount( it, quantity, ret ) ) {
+            a->on_takeoff( *this );
             a = worn.erase( a );
         } else {
             ++a;
@@ -9492,7 +9545,7 @@ bool player::can_wear( const item& it, bool alert ) const
         }
         return false;
     }
-    
+
     if( it.is_disgusting_for( g->u ) ) {
         if( alert ) {
             add_msg_if_player( m_info, _( "You can't wear that, it's filthy!" ) );
@@ -10160,8 +10213,6 @@ bool player::wear_item( const item &to_wear, bool interactive )
         add_msg( _("You put on your %s."), to_wear.tname().c_str() );
         moves -= item_wear_cost( to_wear );
 
-        worn.back().on_wear( *this );
-
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {
             if (to_wear.covers(i) && encumb(i) >= 40)
@@ -10176,11 +10227,11 @@ bool player::wear_item( const item &to_wear, bool interactive )
             add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
     } else {
-        on_item_wear( to_wear );
         add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
     }
 
     item &new_item = worn.back();
+    new_item.on_wear( *this );
     if( new_item.invlet == 0 ) {
         inv.assign_empty_invlet( new_item, false );
     }
@@ -10293,15 +10344,12 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
 
     if( items != nullptr ) {
-        w.on_takeoff(*this);
         items->push_back( w );
         taken_off = true;
     } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
-        w.on_takeoff(*this);
         inv.add_item_keep_invlet(w);
         taken_off = true;
     } else if (query_yn(_("No room in inventory for your %s.  Drop it?"), w.tname().c_str())) {
-        w.on_takeoff(*this);
         g->m.add_item_or_charges( pos(), w );
         taken_off = true;
     } else {
@@ -10312,6 +10360,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
         add_msg_player_or_npc( _("You take off your %s."),
                                _("<npcname> takes off their %s."),
                                w.tname().c_str() );
+        w.on_takeoff( *this );
         worn.erase( first_iter );
     }
 
@@ -12001,6 +12050,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
             if( armor_absorb( elem, armor ) ) {
                 armor_destroyed = true;
+                armor.on_takeoff( *this );
                 worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
                 // decltype is the typename of the iterator, ote that reverse_iterator::base returns the
                 // iterator to the next element, not the one the revers_iterator points to.

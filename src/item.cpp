@@ -1403,6 +1403,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         for( const auto &method : type->use_methods ) {
+            insert_separation_line();
             method.dump_info( *this, info );
         }
 
@@ -2039,7 +2040,7 @@ nc_color item::color_in_inventory() const
     return ret;
 }
 
-void item::on_wear( player &p )
+void item::on_wear( Character &p )
 {
     if (is_sided() && get_side() == BOTH) {
         // for sided items wear the item on the side which results in least encumbrance
@@ -2068,7 +2069,7 @@ void item::on_wear( player &p )
     p.on_item_wear( *this );
 }
 
-void item::on_takeoff (player &p)
+void item::on_takeoff( Character &p )
 {
     p.on_item_takeoff( *this );
 

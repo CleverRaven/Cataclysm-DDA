@@ -1,0 +1,140 @@
+[
+    {
+        "type" : "item_group",
+        "subtype" : "collection",
+        "id" : "corpse_male",
+        "entries" : [
+            { "group" : "male_underwear_top" },
+            { "group" : "male_underwear_bottom" },
+            { "item" : "corpse" },
+            { "item" : "sheet" }
+        ]
+    },{
+        "type" : "item_group",
+        "subtype" : "collection",
+        "id" : "corpse_female",
+        "entries" : [
+            { "group" : "female_underwear_top" },
+            { "group" : "female_underwear_bottom" },
+            { "item" : "corpse" },
+            { "item" : "sheet" }
+        ]
+    },{
+        "type" : "item_group",
+        "subtype" : "collection",
+        "id" : "corpse_viewing",
+        "entries" : [
+            { "group" : "female_underwear_top" },
+            { "group" : "female_underwear_bottom" },
+            { "item" : "ring" },
+            { "item" : "veil_wedding" },
+            { "item" : "dress_wedding"},
+            { "item" : "corpse" }
+        ]
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mortuary",
+        "name" : "mortuary",
+        "rotate" : true,
+        "sym" : 77,
+        "color" : "i_blue",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 6,
+        "sidewalk" : true,
+        "mapgen": [ {
+            "method": "json",
+            "weight": 100,
+            "object": {
+                "rows": [
+                    "..,,,,,...uuuu...,,,,,..",
+                    "..,,,,,..uaaaau..,,,,,..",
+                    "..,,,,,.uaffffau.,,,,,..",
+                    "..,,,,,..uuuuuu..,,,,,..",
+                    "..,,,,,..........,,,,,..",
+                    "..,,,,,,........,,,,,,..",
+                    "..,,,,,,,,,,,,,,,,,,,,..",
+                    "..,,,,,,,,,,,,,,,,,,,,..",
+                    "..,,,,,,,,,,,,,,,,,,,,..",
+                    "..,,,,,,,,,,,,,,,,,,,,..",
+                    "...,,,,,,,,,,,,,,,,,,...",
+                    "....uuuu.|o++o|.uuuu....",
+                    "..|-oooo-|P  P|-oooo-|u.",
+                    "..|P cc P|H  H|      |fu",
+                    ".u|c    c|H  H| H H  ofu",
+                    ".uoc    c|    | H H  |fu",
+                    ".u|c     +    + H H P|u.",
+                    "..|D ll P|P  P| H H C|..",
+                    "..|------|-++-| H H P|u.",
+                    "..|dT~T~L|C  O| H H  |fu",
+                    "..|d~~~~~*   O| H H  ofu",
+                    "..|dT~T~i|C  O|      |fu",
+                    "..|------|-++-|-o--o-|u.",
+                    ".........u.,,.u........."
+                ],
+                "terrain": {
+                    ".": "t_grass",
+                    ",": "t_pavement",
+                    " ": "t_floor",
+                    "H": "t_floor",
+                    "c": "t_floor",
+                    "P": "t_floor",
+                    "C": "t_floor",
+                    "O": "t_floor",
+                    "D": "t_floor",
+                    "l": "t_floor",
+                    "~": "t_linoleum_white",
+                    "T": "t_linoleum_white",
+                    "d": "t_linoleum_white",
+                    "L": "t_linoleum_white",
+                    "i": "t_linoleum_white",
+                    "-": "t_wall",
+                    "|": "t_wall",
+                    "o": "t_window",
+                    "+": "t_door_c",
+                    "*": "t_door_locked_interior",
+                    "u": "t_shrub",
+                    "a": "t_dirt",
+                    "f": "t_dirt"
+                },
+                "furniture": {
+                    "H": "f_bench",
+                    "c": "f_sofa",
+                    "P": "f_indoor_plant",
+                    "C": "f_coffin_c",
+                    "O": "f_coffin_o",
+                    "D": "f_desk",
+                    "l": "f_bookcase",
+                    "T": "f_table",
+                    "d": "f_rack",
+                    "L": "f_locker",
+                    "i": "f_sink",
+                    "a": "f_dahlia",
+                    "f": "f_dandelion"
+                },
+                "place_items": [
+                    { "item": "cleaning", "chance": 50, "x": 3, "y": [ 19, 20 ] },
+                    { "item": "dissection", "chance": 70, "x": 3, "y": 21 },
+                    { "item": "church", "chance": 50, "x": [ 16, 18 ], "y": [ 14, 20 ] },
+                    { "item": "lab_torso", "chance": 50, "x": 8, "y": 19 },
+                    { "item": "bionics_common", "chance": 30, "x": 8, "y": 19 },
+                    { "item": "homebooks", "chance": 50, "x": [ 5, 6 ], "y": 17 },
+                    { "item": "magazines", "chance": 50, "x": 3, "y": 17 }
+                ],
+                "place_loot": [
+                    { "group": "corpse_male", "chance": 40, "x": 4, "y": 19 },
+                    { "group": "corpse_male", "chance": 40, "x": 4, "y": 21 },
+                    { "group": "corpse_female", "chance": 40, "x": 6, "y": 19 },
+                    { "group": "corpse_female", "chance": 40, "x": 6, "y": 21 },
+                    { "group": "corpse_viewing", "chance": 50, "x": 20, "y": 17 }
+                ],
+                "place_signs": [
+                    { "x": 15, "y": 11, "signage": "The mortuary name followed by a hastily written message that reads: 'I am not liable if your loved ones will not stay dead.'" }
+                ],
+                "place_vehicles": [
+                    { "vehicle": "hearse", "x": 12, "y": 7, "chance": 90 }
+                ]
+            }
+        } ]
+    }
+]

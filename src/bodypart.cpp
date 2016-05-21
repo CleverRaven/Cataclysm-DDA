@@ -2,6 +2,7 @@
 #include "translations.h"
 #include "rng.h"
 #include "debug.h"
+#include <map>
 #include <unordered_map>
 
 namespace {

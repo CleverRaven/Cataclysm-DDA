@@ -803,7 +803,7 @@
             [ "HAND_L", 5 ]
         ],
         "act_cost": 50,
-        "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray; however, you are unable to use or carry two-handed items, and may only fire handguns."
+        "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray. However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand."
     },{
         "type": "bionic",
         "id": "bio_laser",

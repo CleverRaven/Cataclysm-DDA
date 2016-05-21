@@ -4247,6 +4247,11 @@ void game::debug()
                          << string_format( _( "Collector: %d" ), int( np->personality.collector ) ) << " "
                          << string_format( _( "Altruism: %d" ), int( np->personality.altruism ) ) << std::endl;
 
+                    data << _( "Needs:" ) << std::endl;
+                    for( const auto &need : np->needs ) {
+                        data << need << std::endl;
+                    }
+
                     nmenu.text = data.str();
                 } else {
                     nmenu.text = _( "Player" );
@@ -4323,7 +4328,9 @@ void game::debug()
                         if( !query_yn( "Delete all items from the target?" ) ) {
                             break;
                         }
-
+                        for( auto &it : p.worn ) {
+                            it.on_takeoff( p );
+                        }
                         p.worn.clear();
                         p.inv.clear();
                         p.weapon = p.ret_null;
@@ -4335,6 +4342,7 @@ void game::debug()
                         int item_pos = inv_for_filter( "Make target equip:", filter );
                         item &to_wear = u.i_at( item_pos );
                         if( to_wear.is_armor() ) {
+                            p.on_item_wear( to_wear );
                             p.worn.push_back( to_wear );
                         } else if( !to_wear.is_null() ) {
                             p.weapon = to_wear;
@@ -15036,4 +15044,15 @@ overmap &game::get_cur_om() const
     const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
+}
+
+void game::load_game_option( JsonObject &jo )
+{
+    auto arr = jo.get_array( "options" );
+    if( arr.empty() ) {
+        jo.throw_error( "no options specified", "options" );
+    }
+    while( arr.has_more() ) {
+        options.emplace( arr.next_string() );
+    }
 }

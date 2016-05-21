@@ -304,6 +304,9 @@ void Character::load(JsonObject &data)
 
     data.read( "my_bionics", my_bionics );
 
+    for( auto &w : worn ) {
+        w.on_takeoff( *this );
+    }
     worn.clear();
     data.read( "worn", worn );
     for( auto &w : worn ) {

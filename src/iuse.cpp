@@ -4884,7 +4884,7 @@ int iuse::oxytorch(player *p, item *it, bool, const tripoint& )
     }
 
     static const quality_id GLARE( "GLARE" );
-    if( p->has_quality( GLARE, 2 ) ) {
+    if( !p->has_quality( GLARE, 2 ) ) {
         add_msg(m_info, _("You need welding goggles to do that."));
         return 0;
     }

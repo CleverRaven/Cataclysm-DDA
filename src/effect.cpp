@@ -775,25 +775,24 @@ int effect::get_max_intensity() const
 {
     return eff_type->max_intensity;
 }
-void effect::set_intensity(int nintensity)
+
+int effect::set_intensity( int val, bool alert )
 {
-    intensity = nintensity;
-    // Cap to [1, max_intensity]
-    if (intensity > eff_type->max_intensity) {
-        intensity = eff_type->max_intensity;
-    } else if (intensity < 1) {
-        intensity = 1;
+    val = std::max( std::min( val, eff_type->max_intensity ), 1 );
+
+    if( alert && val < intensity ) {
+        if ( val - 1 < int( eff_type->decay_msgs.size() ) ) {
+            add_msg( eff_type->decay_msgs[ val - 1 ].second,
+                     eff_type->decay_msgs[ val - 1 ].first.c_str() );
+        }
     }
+
+    return intensity = val;
 }
-void effect::mod_intensity(int nintensity)
+
+int effect::mod_intensity( int mod, bool alert )
 {
-    intensity += nintensity;
-    // Cap to [1, max_intensity]
-    if (intensity > eff_type->max_intensity) {
-        intensity = eff_type->max_intensity;
-    } else if (intensity < 1) {
-        intensity = 1;
-    }
+    return set_intensity( intensity + mod, alert );
 }
 
 const std::vector<std::string> &effect::get_resist_traits() const

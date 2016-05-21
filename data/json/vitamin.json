@@ -3,39 +3,64 @@
     "id": "calcium",
     "type": "vitamin",
     "name": "Calcium",
-    "min": -600,
-    "deficiency": [ [ "brittlebone", -300 ] ]
+    "deficiency": "hypocalcemia",
+    "min": -720,
+    "disease": [
+      [ -288, -336 ],
+      [ -337, -384 ],
+      [ -385, -720 ]
+    ]
   },
   {
     "id": "iron",
     "type": "vitamin",
     "name": "Iron",
-    "min": -600,
-    "max": 200,
-    "deficiency": [ [ "anemia", -300 ] ],
-    "excess": [ [ "hypervitaminosis", 100 ] ]
+    "excess": "hypervitaminosis",
+    "deficiency": "anemia",
+    "min": -720,
+    "max": 216,
+    "disease": [
+      [ -288, -336 ],
+      [ -337, -384 ],
+      [ -385, -720 ]
+    ]
   },
   {
     "id": "vitA",
     "type": "vitamin",
     "name": "Vitamin A",
-    "min": -200,
-    "max": 200,
-    "deficiency": [ [ "nightblind", -100 ] ],
-    "excess": [ [ "hypervitaminosis", 100 ] ]
+    "excess": "hypervitaminosis",
+    "deficiency": "hypovitA",
+    "min": -504,
+    "max": 216,
+    "disease": [
+      [ -240, -288 ],
+      [ -289, -336 ],
+      [ -337, -504 ]
+    ]
   },
   {
     "id": "vitB",
     "type": "vitamin",
     "name": "Vitamin B12",
-    "min": -200,
-    "deficiency": [ [ "slowheal", -100 ] ]
+    "deficiency": "hypovitB",
+    "min": -336,
+    "disease": [
+      [ -168, -216, 1 ],
+      [ -217, -264, 2 ],
+      [ -265, -336, 3 ]
+    ]
   },
   {
     "id": "vitC",
     "type": "vitamin",
     "name": "Vitamin C",
-    "min": -200,
-    "deficiency": [ [ "scurvy", -100 ] ]
+    "deficiency": "scurvy",
+    "min": -336,
+    "disease": [
+      [ -168, -216, 1 ],
+      [ -217, -264, 2 ],
+      [ -265, -336, 3 ]
+    ]
   }
 ]

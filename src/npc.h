@@ -929,4 +929,7 @@ struct epilogue {
     epilogue* find_epilogue(std::string ident);
     void random_by_group(std::string group, std::string name);
 };
+
+std::ostream& operator<< (std::ostream & os, npc_need need);
+
 #endif

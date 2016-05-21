@@ -6619,6 +6619,13 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "razorclaw_nest",
+    "subtype" : "distribution",
+    "entries":[
+      {"item":"razorclaw_roe", "repeat": [ 1,6 ]}
+    ]
+  },{
+    "type" : "item_group",
     "id" : "ant_egg",
     "items":[
       ["ant_egg", 5]
