@@ -458,7 +458,11 @@ void npc::execute_action( npc_action action )
 
     case npc_shoot:
         aim();
-        fire_gun( tar );
+        auto mode = weapon.gun_get_mode();
+        if( weapon.gun_set_mode( "DEFAULT" ) ) {
+            fire_gun( tar, weapon.gun_current_mode().qty );
+            weapon.gun_set_mode( mode );
+        }
         break;
 
     case npc_shoot_burst: {
