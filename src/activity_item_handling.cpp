@@ -12,6 +12,8 @@
 #include "vehicle.h"
 #include "veh_type.h"
 #include "player.h"
+#include "debug.h"
+
 #include <list>
 #include <vector>
 #include <cassert>
@@ -100,13 +102,6 @@ static tripoint get_item_pointers_from_activity(
     g->u.cancel_activity();
     return drop_target;
 }
-
-enum item_place_type {
-    DROP_WORN,
-    DROP_NOT_WORN,
-    STASH_WORN,
-    STASH_NOT_WORN
-};
 
 bool same_type( const std::vector<item> &items )
 {
@@ -257,67 +252,6 @@ int count_contained_items( const std::vector<item> &items, int volume )
     return count;
 }
 
-static void place_item_activity( std::list<item *> &selected_items, std::list<int> &item_quantities,
-                                 std::list<item *> &selected_worn_items,
-                                 std::list<int> &worn_item_quantities,
-                                 enum item_place_type type, tripoint drop_target )
-{
-    std::vector<item> dropped_items;
-    std::vector<item> dropped_worn_items;
-    bool taken_off = false;
-    // Make the relative coordinates absolute.
-    drop_target += g->u.pos();
-    if( type == DROP_WORN || type == STASH_WORN ) {
-        // TODO: Add the logic where dropping a worn container drops a number of contents as well.
-        // Stash previous volume and compare it to volume after taking off each article of clothing.
-        taken_off = g->u.takeoff( selected_worn_items.front(), false, &dropped_worn_items );
-        // Whether it succeeds or fails, we're done processing it.
-        selected_worn_items.pop_front();
-        worn_item_quantities.pop_front();
-        // removed `g->u.moves -= 250', g->drop() below handles move cost changes
-        if( !taken_off ) {
-            // If we failed to take off the item, bail out.
-            return;
-        }
-    } else { // Unworn items.
-        if( selected_items.front()->count_by_charges() ) {
-            dropped_items.push_back(
-                g->u.reduce_charges( selected_items.front(), item_quantities.front() ) );
-            selected_items.pop_front();
-            item_quantities.pop_front();
-        } else {
-            dropped_items.push_back( g->u.i_rem( selected_items.front() ) );
-            // Process one item at a time.
-            if( --item_quantities.front() <= 0 ) {
-                selected_items.pop_front();
-                item_quantities.pop_front();
-            }
-        }
-    }
-
-    if( type == DROP_WORN || type == DROP_NOT_WORN ) {
-        // Prefer to put small items into the backpack
-        std::sort( dropped_items.begin(), dropped_items.end(), []( const item & a, const item & b ) {
-            return a.volume() < b.volume();
-        } );
-        dropped_items.insert( dropped_items.end(), dropped_worn_items.begin(), dropped_worn_items.end() );
-        const int prev_volume = g->u.volume_capacity();
-        put_into_vehicle_or_drop( dropped_items, drop_target );
-        const int contained = count_contained_items( dropped_items, g->u.volume_capacity() - prev_volume );
-        g->u.mod_moves( -100 * ( dropped_worn_items.size() + dropped_items.size() - contained ) );
-    } else { // Stashing on a pet.
-        dropped_items.insert( dropped_items.end(), dropped_worn_items.begin(), dropped_worn_items.end() );
-
-        Creature *critter = g->critter_at( drop_target );
-        if( critter != nullptr ) {
-            monster *pet = dynamic_cast<monster *>( critter );
-            if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-                stash_on_pet( dropped_items, *pet );
-            }
-        }
-    }
-}
-
 static void activity_on_turn_drop_or_stash( enum activity_type act )
 {
     // We build a list of item pointers to act as unique identifiers,
@@ -333,17 +267,55 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     tripoint drop_target = get_item_pointers_from_activity( selected_items, item_quantities,
                            selected_worn_items, worn_item_quantities );
 
+    std::vector<item> items;
     // Consume the list as long as we don't run out of moves.
     while( g->u.moves >= 0 && !selected_items.empty() ) {
-        place_item_activity( selected_items, item_quantities,
-                             selected_worn_items, worn_item_quantities,
-                             ( act == ACT_DROP ) ? DROP_NOT_WORN : STASH_NOT_WORN, drop_target );
+        item *it = selected_items.front();
+
+        if( it->count_by_charges() ) {
+            items.push_back( g->u.reduce_charges( it, item_quantities.front() ) );
+        } else {
+            items.push_back( g->u.i_rem( it ) );
+            if( --item_quantities.front() > 0 ) {
+                continue; // Process one item at a time.
+            }
+        }
+
+        selected_items.pop_front();
+        item_quantities.pop_front();
+
+        g->u.mod_moves( -100 );
     }
+
     while( g->u.moves >= 0 && !selected_worn_items.empty() ) {
-        place_item_activity( selected_items, item_quantities,
-                             selected_worn_items, worn_item_quantities,
-                             ( act == ACT_DROP ) ? DROP_WORN : STASH_WORN, drop_target );
+        item *it = selected_worn_items.front();
+
+        selected_worn_items.pop_front();
+        worn_item_quantities.pop_front();
+
+        // TODO: Add the logic where dropping a worn container drops a number of contents as well.
+        // Stash previous volume and compare it to volume after taking off each article of clothing.
+        if( !g->u.takeoff( it, false, &items ) ) {
+            continue; // If we failed to take off the item, bail out.
+        }
+
+        g->u.mod_moves( -100 );
     }
+
+    if( act == ACT_STASH ) { // Stashing on a pet.
+        Creature *critter = g->critter_at( drop_target + g->u.pos() );
+        if( critter != nullptr ) {
+            monster *pet = dynamic_cast<monster *>( critter );
+            if( pet != nullptr && pet->has_effect( effect_pet ) ) {
+                stash_on_pet( items, *pet );
+            }
+        }
+    } else if( act == ACT_DROP ) {
+        put_into_vehicle_or_drop( items, drop_target + g->u.pos() );
+    } else {
+        debugmsg( "Invalid activity. Should be either 'ACT_DROP' or 'ACT_STASH'." );
+    }
+
     if( selected_items.empty() && selected_worn_items.empty() ) {
         // Yay we're done, just exit.
         return;
