@@ -14,7 +14,6 @@
 // activity_item_handling.cpp
 void activity_on_turn_drop();
 void activity_on_turn_move_items();
-void activity_on_turn_move_all_items();
 void activity_on_turn_pickup();
 void activity_on_turn_stash();
 

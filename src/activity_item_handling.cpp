@@ -10,6 +10,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include "player.h"
 #include <list>
 #include <vector>
@@ -107,44 +108,139 @@ enum item_place_type {
     STASH_NOT_WORN
 };
 
-static void stash_on_pet( std::vector<item> &items, const tripoint &drop_target )
+bool same_type( const std::vector<item> &items )
 {
-    Creature *critter = g->critter_at( drop_target );
-    if( critter == nullptr ) {
-        return;
+    if( items.size() <= 1 ) {
+        return true;
     }
-    monster *pet = dynamic_cast<monster *>( critter );
-    if( pet == nullptr || !pet->has_effect( effect_pet ) || pet->inv.empty() ) {
+    for( auto it = items.begin()++; it != items.end(); ++it ) {
+        if( it->type != items.begin()->type ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+void put_into_vehicle( const std::vector<item> &items, vehicle &veh, int part )
+{
+    if( items.empty() ) {
         return;
     }
 
-    for( auto &item_to_stash : items ) {
-        int max_volume = pet->inv.front().get_storage();
-        int max_weight = pet->weight_capacity();
+    const tripoint where = veh.global_part_pos3( part );
+    const std::string ter_name =  g->m.name( where );
+    int fallen_count = 0;
 
-        for( const auto &it : pet->inv ) {
+    for( auto it : items ) { // cant use constant reference here because of the spill_contents()
+        if( it.is_bucket_nonempty() && !it.spill_contents( g->u ) ) {
+            add_msg( _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+                     it.display_name().c_str(), ter_name.c_str() );
+            g->m.add_item_or_charges( where, it, 2 );
+            continue;
+        }
+        if( !veh.add_item( part, it ) ) {
+            g->m.add_item_or_charges( where, it, 1 );
+            ++fallen_count;
+        }
+    }
+
+    const std::string part_name = veh.part_info( part ).name();
+
+    if( same_type( items ) ) {
+        const item &it = items.front();
+        const int dropcount = items.size() * ( it.count_by_charges() ? it.charges : 1 );
+        add_msg( ngettext( "You put your %1$s in the %2$s's %3$s.",
+                           "You put your %1$s in the %2$s's %3$s.", dropcount ),
+                 it.tname( dropcount ).c_str(), veh.name.c_str(), part_name.c_str() );
+    } else {
+        add_msg( _( "You put several items in the %1$s's %2$s." ), veh.name.c_str(), part_name.c_str() );
+    }
+
+    if( fallen_count > 0 ) {
+        add_msg( m_warning, _( "The trunk is full, so some items fell to the %2$s." ), ter_name.c_str() );
+    }
+}
+
+void stash_on_pet( const std::vector<item> &items, monster &pet )
+{
+    if( pet.inv.empty() ) {
+        return;
+    }
+    for( auto &it : items ) {
+        int max_volume = pet.inv.front().get_storage();
+        int max_weight = pet.weight_capacity();
+
+        for( const auto &it : pet.inv ) {
             max_volume -= it.volume();
             max_weight -= it.weight();
         }
 
-        const bool too_heavy = item_to_stash.weight() > max_weight;
-        const bool too_big = item_to_stash.volume() > max_volume;
+        const bool too_heavy = it.weight() > max_weight;
+        const bool too_big = it.volume() > max_volume;
 
-        pet->add_effect( effect_controlled, 5 );
+        pet.add_effect( effect_controlled, 5 );
 
         if( too_heavy || too_big ) {
-            g->m.add_item_or_charges( pet->pos(), item_to_stash, 1 );
+            const std::string it_name = it.display_name();
+            const std::string ter_name = g->m.name( pet.pos() );
+
             if( too_big ) {
-                add_msg( m_bad, _( "%s did not fit and fell to the ground!" ),
-                         item_to_stash.display_name().c_str() );
+                add_msg( m_bad, _( "%s did not fit and fell to the %1$s." ), it_name.c_str(), ter_name.c_str() );
             } else {
-                add_msg( m_bad, _( "%s is too heavy and fell to the ground!" ),
-                         item_to_stash.display_name().c_str() );
+                add_msg( m_bad, _( "%s is too heavy and fell to the %1$s." ), it_name.c_str(), ter_name.c_str() );
             }
+
+            g->m.add_item_or_charges( pet.pos(), it, 1 );
         } else {
-            pet->inv.push_back( item_to_stash );
+            pet.inv.push_back( it );
         }
     }
+}
+
+void drop_on_map( const std::vector<item> &items, const tripoint &where )
+{
+    if( items.empty() ) {
+        return;
+    }
+    const std::string ter_name = g->m.name( where );
+    const bool can_move_there = g->m.passable( where );
+
+    if( same_type( items ) ) {
+        const item &it = items.front();
+        const int dropcount = items.size() * ( it.count_by_charges() ? it.charges : 1 );
+        const std::string it_name = it.tname( dropcount );
+
+        if( can_move_there ) {
+            add_msg( ngettext( "You drop your %1$s on the %2$s.",
+                               "You drop your %1$s on the %2$s.", dropcount ), it_name.c_str(), ter_name.c_str() );
+        } else {
+            add_msg( ngettext( "You put your %1$s in the %2$s.",
+                               "You put your %1$s in the %2$s.", dropcount ), it_name.c_str(), ter_name.c_str() );
+        }
+    } else {
+        if( can_move_there ) {
+            add_msg( _( "You drop several items on the %s." ), ter_name.c_str() );
+        } else {
+            add_msg( _( "You put several items in the %s." ), ter_name.c_str() );
+        }
+    }
+    for( const auto &it : items ) {
+        g->m.add_item_or_charges( where, it, 2 );
+    }
+}
+
+void put_into_vehicle_or_drop( const std::vector<item> &items, const tripoint &where )
+{
+    int veh_part = 0;
+    vehicle *veh = g->m.veh_at( where, veh_part );
+    if( veh != nullptr ) {
+        veh_part = veh->part_with_feature( veh_part, "CARGO" );
+        if( veh_part >= 0 ) {
+            put_into_vehicle( items, *veh, veh_part );
+            return;
+        }
+    }
+    drop_on_map( items, where );
 }
 
 // Returns number of items that fit into the volume. Order of the items matters.
@@ -206,12 +302,19 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
         } );
         dropped_items.insert( dropped_items.end(), dropped_worn_items.begin(), dropped_worn_items.end() );
         const int prev_volume = g->u.volume_capacity();
-        g->drop( dropped_items, drop_target );
+        put_into_vehicle_or_drop( dropped_items, drop_target );
         const int contained = count_contained_items( dropped_items, g->u.volume_capacity() - prev_volume );
         g->u.mod_moves( -100 * ( dropped_worn_items.size() + dropped_items.size() - contained ) );
     } else { // Stashing on a pet.
         dropped_items.insert( dropped_items.end(), dropped_worn_items.begin(), dropped_worn_items.end() );
-        stash_on_pet( dropped_items, drop_target );
+
+        Creature *critter = g->critter_at( drop_target );
+        if( critter != nullptr ) {
+            monster *pet = dynamic_cast<monster *>( critter );
+            if( pet != nullptr && pet->has_effect( effect_pet ) ) {
+                stash_on_pet( dropped_items, *pet );
+            }
+        }
     }
 }
 
@@ -378,8 +481,11 @@ static void move_items( const tripoint &src, bool from_vehicle,
                 g->u.moves -= int( overweight / 100 );
             }
 
-            // I changed this to use a tripoint as an argument, but the function is not 3D yet.
-            g->drop( { *temp_item }, destination, to_vehicle );
+            if( to_vehicle ) {
+                put_into_vehicle_or_drop( { *temp_item }, destination );
+            } else {
+                drop_on_map( { *temp_item }, destination );
+            }
             // Remove from map or vehicle.
             if( from_vehicle == true ) {
                 s_veh->remove_item( s_cargo, index );
@@ -451,17 +557,4 @@ void activity_on_turn_move_items()
             quantities.pop_front();
         }
     }
-}
-
-/*      values explanation
- *      2: count of following index/amount counts
- *      0: items from vehicle?  ^
- *      1: items to a vehicle?  |
- *      3: index <-+            |
- *      4: amount  |            |
- *      n:   ^-----+            |
- *    n+1: ^--------------------+
- */
-void activity_on_turn_move_all_items()
-{
 }

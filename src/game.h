@@ -674,11 +674,6 @@ class game
         /** open vehicle interaction screen */
         void exam_vehicle(vehicle &veh, int cx = 0, int cy = 0);
 
-        // put items from the item-vector on the map/a vehicle
-        // at dir, items are dropped into a vehicle part
-        // with the cargo flag (if there is one), otherwise they are
-        // dropped onto the ground.
-        void drop( const std::vector<item> &items, tripoint dir, bool to_vehicle = true );
         bool make_drop_activity( enum activity_type act, const std::list<std::pair<int, int>> &dropped,
                   const tripoint &target );
 
