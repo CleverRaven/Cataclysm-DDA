@@ -1212,20 +1212,6 @@
     },
     {
         "type": "effect_type",
-        "id": "grack",
-        "name": ["Grack"],
-        "desc": ["Unleashed the Gracken."],
-        "apply_message": "RELEASE THE GRACKEN!!!!",
-        "base_mods": {
-            "speed_mod": [20000],
-            "str_mod": [400],
-            "dex_mod": [400],
-            "int_mod": [400],
-            "per_mod": [400]
-        }
-    },
-    {
-        "type": "effect_type",
         "id": "teleglow"
     },
     {
