@@ -2831,7 +2831,7 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE_BURST: {
-            auto mode = u.weapon.gun_get_mode();
+            auto mode = u.weapon.gun_get_mode_id();
             if( u.weapon.gun_set_mode( "AUTO" ) ) {
                 plfire( mouse_target );
                 u.weapon.gun_set_mode( mode );

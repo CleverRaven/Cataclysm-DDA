@@ -1226,8 +1226,8 @@ public:
         gun_mode gun_current_mode();
         const gun_mode gun_current_mode() const;
 
-        /** Get the gun mode a gun is currently set to, eg. DEFAULT, AUTO, BURST */
-        std::string gun_get_mode() const;
+        /** Get id of mode a gun is currently set to, eg. DEFAULT, AUTO, BURST */
+        std::string gun_get_mode_id() const;
 
         /** Try to set the mode for a gun, returning false if no such mode is possible */
         bool gun_set_mode( const std::string& mode );

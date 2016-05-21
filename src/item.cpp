@@ -4246,10 +4246,10 @@ const item::gun_mode item::gun_has_mode( const std::string& mode ) const
 
 item::gun_mode item::gun_current_mode()
 {
-    return gun_has_mode( const_cast<item *>( this )->gun_get_mode() );
+    return gun_has_mode( const_cast<item *>( this )->gun_get_mode_id() );
 }
 
-std::string item::gun_get_mode() const
+std::string item::gun_get_mode_id() const
 {
     if( !is_gun() || is_gunmod() ) {
         return "";
@@ -4272,7 +4272,7 @@ void item::gun_cycle_mode()
         return;
     }
 
-    auto cur = gun_get_mode();
+    auto cur = gun_get_mode_id();
     auto modes = gun_all_modes();
 
     for( auto iter = modes.begin(); iter != modes.end(); ++iter ) {
