@@ -6933,6 +6933,22 @@
     },
     {
         "type" : "COMESTIBLE",
+        "id" : "razorclaw_roe",
+        "name" : "razorclaw roe",
+        "weight" : 220,
+        "color" : "red",
+        "comestible_type" : "FOOD",
+        "symbol" : "o",
+        "quench" : 10,
+        "nutrition" : 40,
+        "description" : "A clump of razorclaw eggs.  A post-cataclysm delicacy.",
+        "price" : 3000,
+        "material" : "flesh",
+        "volume" : 1,
+        "fun" : 5
+    },
+    {
+        "type" : "COMESTIBLE",
         "id" : "marloss_berry",
         "name" : "marloss berry",
         "name_plural" : "marloss berries",
