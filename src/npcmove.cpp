@@ -107,7 +107,7 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
 
 bool npc::sees_dangerous_field( const tripoint &p ) const
 {
-    return is_dangerous_field( g->m.field_at( p ) );
+    return is_dangerous_fields( g->m.field_at( p ) );
 }
 
 bool npc::could_move_onto( const tripoint &p ) const
@@ -2012,8 +2012,9 @@ bool npc::find_corpse_to_pulp()
             // Pulp only stuff that revives, but don't pulp acid stuff
             // That is, if you aren't protected from this stuff!
             if( it.can_revive() ) {
-                // If the first encountered corpse is acidic, it is not safe to bash
-                if( is_dangerous_field( it.get_mtype()->bloodType() ) ) {
+                // If the first encountered corpse bleeds something dangerous then
+                // it is not safe to bash.
+                if( is_dangerous_field( field_entry(it.get_mtype()->bloodType(), 1, 0) ) ) {
                     return nullptr;
                 }
 

@@ -13430,7 +13430,7 @@ void game::vertical_move(int movez, bool force)
         for( npc *np : npcs_to_bring ) {
             const auto found = std::find_if( candidates.begin(), candidates.end(),
                 [this, np]( const tripoint &c ) {
-                return !np->is_dangerous_field( m.field_at( c ) ) && m.tr_at( c ).is_benign();
+                return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
             } );
 
             if( found != candidates.end() ) {

@@ -40,67 +40,31 @@ bool monster::wander()
     return ( goal == pos() );
 }
 
-bool monster::is_dangerous_field( const field &fd ) const
+bool monster::is_immune_field( const field_id fid ) const
 {
-    // No fields = not dangerous (obviously)
-    if( fd.fieldCount() == 0 ) {
-        return false;
-    }
-
-    // Else check each field to see if it's dangerous to us
-    for( auto &fld : fd ) {
-        if( is_dangerous_field( fld.second ) ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool monster::is_dangerous_field( const field_entry &entry ) const
-{
-    const field_id fid = entry.getFieldType();
-    // Check immunity towards fields
-    switch( fid ) {
+    switch (fid) {
         case fd_smoke:
         case fd_tear_gas:
         case fd_toxic_gas:
         case fd_relax_gas:
         case fd_nuke_gas:
-            if (has_flag( MF_NO_BREATHE )) {
-                return false;
-            }
-            break;
+            return has_flag(MF_NO_BREATHE);
         case fd_acid:
-            if (has_flag( MF_ACIDPROOF) || has_flag( MF_FLIES)) {
-                return false;
-            }
-            break;
+            return has_flag(MF_ACIDPROOF) || has_flag(MF_FLIES);
         case fd_fire:
-            if (has_flag( MF_FIREPROOF )) {
-                return false;
-            }
-            break;
+            return has_flag(MF_FIREPROOF);
         case fd_electricity:
-            if (has_flag( MF_ELECTRIC)) {
-                return false;
-            }
-            break;
+            return has_flag(MF_ELECTRIC);
         case fd_fungal_haze:
-            if (has_flag( MF_NO_BREATHE ) || type->in_species(FUNGUS)) {
-                return false;
-            }
-            break;
+            return has_flag(MF_NO_BREATHE) || type->in_species(FUNGUS);
         case fd_fungicidal_gas:
-            if (!type->in_species(FUNGUS)) {
-                return false;
-            }
+            return !type->in_species(FUNGUS);
         default:
             // Suppress warning
             break;
     }
-    // If we weren't immune to anything return the field's danger level.
-    return entry.is_dangerous();
+    // No specific immunity was found, so fall upwards
+    return Creature::is_immune_field(fid);
 }
 
 bool monster::can_move_to( const tripoint &p ) const
@@ -174,7 +138,7 @@ bool monster::can_move_to( const tripoint &p ) const
         }
 
         // Don't enter any dangerous fields
-        if (is_dangerous_field( g->m.field_at( p ) )) {
+        if (is_dangerous_fields( g->m.field_at( p ) )) {
             return false;
         }
 

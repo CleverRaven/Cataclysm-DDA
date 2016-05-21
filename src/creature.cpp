@@ -156,6 +156,30 @@ bool Creature::digging() const
     return false;
 }
 
+
+bool Creature::is_dangerous_fields( const field &fld ) const
+{
+    // Can't be dangerous if there are no fields there
+    if( fld.fieldCount() == 0 ) {
+        return false;
+    }
+
+    // Else check each field to see if it's dangerous to us
+    for( auto &dfield : fld ) {
+        if( is_dangerous_field( dfield.second ) ) {
+            return true;
+        }
+    }
+    // No fields were found to be dangerous, so the field set isn't dangerous
+    return false;
+}
+
+bool Creature::is_dangerous_field( const field_entry &entry ) const
+{
+    // If it's dangerous and we're not immune return true, else return false
+    return entry.is_dangerous() && !is_immune_field(entry.getFieldType());
+}
+
 bool Creature::sees( const Creature &critter ) const
 {
     if( critter.is_hallucination() ) {

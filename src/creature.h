@@ -8,6 +8,7 @@
 #include "output.h"
 #include "string_id.h"
 #include "cursesdef.h" // WINDOW
+#include "field.h"
 
 #include <stdlib.h>
 #include <string>
@@ -241,6 +242,18 @@ class Creature
         virtual bool is_elec_immune() const = 0;
         virtual bool is_immune_effect( const efftype_id &type ) const = 0;
         virtual bool is_immune_damage( const damage_type type ) const = 0;
+
+        // Field dangers
+        /** Returns true if there is a field in the field set that is dangerous to us. */
+        bool is_dangerous_fields( const field &fld ) const;
+        /** Returns true if the given field entry is dangerous to us. */
+        bool is_dangerous_field( const field_entry &entry ) const;
+        /** Returns true if we are immune to the field type with the given fid. Does not
+         *  handle density, so this function should only be called through is_dangerous_field().
+         */
+        virtual bool is_immune_field( const field_id ) const {
+            return false;
+        };
 
         /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
         virtual float fall_damage_mod() const = 0;

@@ -459,9 +459,7 @@ class Character : public Creature, public visitable<Character>
          */
         virtual bool query_yn( const char *mes, ... ) const = 0;
 
-        bool is_dangerous_field( const field &fld ) const;
-        bool is_dangerous_field( const field_entry &entry ) const;
-        bool is_dangerous_field( const field_id fid ) const;
+        virtual bool is_immune_field( const field_id fid ) const;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();

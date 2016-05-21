@@ -1829,74 +1829,43 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_dangerous_field( const field &fd ) const
+bool Character::is_immune_field( const field_id fid ) const
 {
-    if( fd.fieldCount() == 0 || has_trait( debug_nodmg ) ) {
-        return false;
-    }
-
-    for( auto &fld : fd ) {
-        if( is_dangerous_field( fld.second ) ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool Character::is_dangerous_field( const field_entry &entry ) const
-{
-    const field_id fid = entry.getFieldType();
-    switch( fid ) {
-        // @todo Lower density fields are less dangerous
-        case fd_smoke:
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-        case fd_fungal_haze:
-        case fd_electricity:
-        case fd_acid:
-            return is_dangerous_field( fid );
-        default:
-            return !has_trait( debug_nodmg ) && entry.is_dangerous();
-    }
-}
-
-bool Character::is_dangerous_field( const field_id fid ) const
-{
+    // Obviously this makes us invincible
     if( has_trait( debug_nodmg ) ) {
-        return false;
+        return true;
     }
 
+    // Check to see if we are immune
     switch( fid ) {
         case fd_smoke:
-            return get_env_resist( bp_mouth ) < 12;
+            return get_env_resist( bp_mouth ) >= 12;
         case fd_tear_gas:
         case fd_toxic_gas:
         case fd_gas_vent:
         case fd_relax_gas:
-            return get_env_resist( bp_mouth ) < 15;
+            return get_env_resist( bp_mouth ) >= 15;
         case fd_fungal_haze:
-            return get_env_resist( bp_mouth ) < 15 ||
-                   get_env_resist( bp_eyes ) < 15 ||
-                   has_trait("M_IMMUNE");
+            return has_trait("M_IMMUNE") || (get_env_resist( bp_mouth ) >= 15 &&
+                   get_env_resist( bp_eyes ) >= 15);
         case fd_electricity:
-            return !is_elec_immune();
+            return is_elec_immune();
         case fd_acid:
-            return !has_trait("ACIDPROOF") &&
-                   (is_on_ground() ||
-                   get_env_resist( bp_foot_l ) < 15 ||
-                   get_env_resist( bp_foot_r ) < 15 ||
-                   get_env_resist( bp_leg_l ) < 15 ||
-                   get_env_resist( bp_leg_r ) < 15 ||
-                   get_armor_type( DT_ACID, bp_foot_l ) < 5 ||
-                   get_armor_type( DT_ACID, bp_foot_r ) < 5 ||
-                   get_armor_type( DT_ACID, bp_leg_l ) < 5 ||
-                   get_armor_type( DT_ACID, bp_leg_r ) < 5);
+            return has_trait("ACIDPROOF") ||
+                   (!is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
+                   get_env_resist( bp_foot_r ) >= 15 &&
+                   get_env_resist( bp_leg_l ) >= 15 &&
+                   get_env_resist( bp_leg_r ) >= 15 &&
+                   get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
+                   get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
+                   get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
+                   get_armor_type( DT_ACID, bp_leg_r ) >= 5);
         default:
-            return field_type_dangerous( fid );
+            // Suppress warning
+            break;
     }
+    // If we haven't found immunity yet fall up to the next level
+    return Creature::is_immune_field(fid);
 }
 
 int Character::throw_range( const item &it ) const
