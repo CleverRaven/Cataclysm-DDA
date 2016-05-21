@@ -1328,7 +1328,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
     auto name_quality = [&info]( const std::pair<quality_id,int>& q ) {
         std::string str;
-        if( q.first == quality_lift || q.first == quality_lift ) {
+        if( q.first == quality_jack || q.first == quality_lift ) {
             str = string_format( _( "Has level <info>%1$d %2$s</info> quality and is rated at %3$dkg" ),
                                  q.second, q.first.obj().name.c_str(), q.second * TOOL_LIFT_FACTOR / 1000 );
         } else {
