@@ -76,7 +76,7 @@ class gun_actor : public mattack_actor
         /*@}*/
 
         /** Specify weapon mode to use at different engagement distances */
-        std::map<std::pair<int,int>, std::string> ranges;
+        std::map<std::pair<int, int>, std::string> ranges;
 
         int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
 
@@ -113,7 +113,7 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target, const std::string& mode ) const;
+        void shoot( monster &z, Creature &target, const std::string &mode ) const;
 
         gun_actor();
         ~gun_actor() { }

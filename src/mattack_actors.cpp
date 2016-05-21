@@ -263,7 +263,7 @@ void gun_actor::load( JsonObject &obj )
         if( mode.size() < 2 || mode.get_int( 0 ) > mode.get_int( 1 ) ) {
             obj.throw_error( "incomplete or invalid range specified", "ranges" );
         }
-        ranges.emplace( std::make_pair<int,int>( mode.get_int( 0 ), mode.get_int( 1 ) ),
+        ranges.emplace( std::make_pair<int, int>( mode.get_int( 0 ), mode.get_int( 1 ) ),
                         mode.size() > 2 ? mode.get_string( 2 ) : "" );
     }
 
@@ -303,7 +303,7 @@ bool gun_actor::call( monster &z ) const
 
     if( z.friendly ) {
         int max_range = 0;
-        for( const auto& e : ranges ) {
+        for( const auto &e : ranges ) {
             max_range = std::max( { max_range, e.first.first, e.first.second } );
         }
 
@@ -327,7 +327,7 @@ bool gun_actor::call( monster &z ) const
     }
 
     int dist = rl_dist( z.pos(), target->pos() );
-    for( const auto& e : ranges ) {
+    for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
             shoot( z, *target, e.second );
             return true;
@@ -336,7 +336,7 @@ bool gun_actor::call( monster &z ) const
     return false;
 }
 
-void gun_actor::shoot( monster &z, Creature &target, const std::string& mode ) const
+void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
         if( one_in( 3 ) && g->u.sees( z ) ) {
