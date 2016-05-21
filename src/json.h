@@ -11,9 +11,6 @@
 #include <set>
 #include <stdexcept>
 
-typedef int nc_color;
-nc_color color_from_string( const std::string &color );
-
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
  *
@@ -706,6 +703,61 @@ class JsonObject
 
         // useful debug info
         std::string line_number(); // for occasional use only
+
+        template <typename T>
+        typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
+            const std::string& name, T& val ) {
+
+            T tmp;
+            if( get_object( "relative" ).read( name, tmp ) ) {
+                val += tmp;
+                return true;
+            }
+
+            double scalar;
+            if( get_object( "proportional" ).read( name, scalar ) && scalar > 0.0 ) {
+                val *= scalar;
+                return true;
+            }
+
+            return read( name, val );
+        }
+
+        template <typename T>
+        typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+            const std::string& name, T& val ) {
+
+            return read( name, val );
+        }
+
+        template <typename T>
+        typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
+            const std::string& name, std::set<T>& val ) {
+
+            if( has_string( name ) || has_array( name ) ) {
+                val = get_tags<T>( name );
+                return true;
+            }
+
+            bool res = false;
+
+            auto add = get_object( "extend" );
+            if( add.has_string( name ) || add.has_array( name ) ) {
+                auto tags = add.get_tags<T>( name );
+                val.insert( tags.begin(), tags.end() );
+                res = true;
+            }
+
+            auto del = get_object( "delete" );
+            if( del.has_string( name ) || del.has_array( name ) ) {
+                for( const auto& e : del.get_tags<T>( name ) ) {
+                    val.erase( e );
+                }
+                res = true;
+            }
+
+            return res;
+        }
 };
 
 

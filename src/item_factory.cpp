@@ -1376,6 +1376,10 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         new_item_template->sym = jo.get_string( "symbol" )[0];
     }
 
+    if( jo.has_string( "color" ) ) {
+        new_item_template->color = color_from_string( jo.get_string( "color" ) );
+    }
+
     if( jo.has_member( "material" ) ) {
         new_item_template->materials.clear();
         for( auto &m : jo.get_tags( "material" ) ) {

@@ -161,8 +161,6 @@ void vpart_info::load( JsonObject &jo )
     assign( jo, "name", def.name_ );
     assign( jo, "item", def.item );
     assign( jo, "location", def.location );
-    assign( jo, "color", def.color );
-    assign( jo, "broken_color", def.color_broken );
     assign( jo, "durability", def.durability );
     assign( jo, "damage_modifier", def.dmg_mod );
     assign( jo, "power", def.power );
@@ -172,7 +170,6 @@ void vpart_info::load( JsonObject &jo )
     assign( jo, "range", def.range );
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
-
     assign( jo, "flags", def.flags );
 
     if( jo.has_member( "symbol" ) ) {
@@ -180,6 +177,13 @@ void vpart_info::load( JsonObject &jo )
     }
     if( jo.has_member( "broken_symbol" ) ) {
         def.sym_broken = jo.get_string( "broken_symbol" )[ 0 ];
+    }
+
+    if( jo.has_member( "color" ) ) {
+        def.color = color_from_string( jo.get_string( "color" ) );
+    }
+    if( jo.has_member( "broken_color" ) ) {
+        def.color_broken = color_from_string( jo.get_string( "broken_color" ) );
     }
 
     if( jo.has_member( "breaks_into" ) ) {
