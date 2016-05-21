@@ -10358,7 +10358,7 @@ bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const
     return true;
 }
 
-bool game::handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius )
+bool game::handle_liquid_from_container( std::list<item>::iterator in_container, item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
     handle_liquid( *in_container, &container, radius );
