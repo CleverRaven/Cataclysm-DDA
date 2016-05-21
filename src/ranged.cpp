@@ -480,14 +480,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         eject_casing( *this, gun );
 
-        if( gun.has_flag( "BIO_WEAPON" ) ) {
-            // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
-            gun.charges--;
-        } else {
-            if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
-                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
-                break;
-            }
+        if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
+            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+            break;
         }
 
         if ( !worn.empty() && worn.back().type->id == "fake_UPS" ) {

@@ -662,10 +662,6 @@ void Item_factory::check_definitions() const
                     msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
                 }
 
-                if( type->item_tags.count( "BIO_WEAPON" ) ) {
-                    msg << "BIO_WEAPON must not be specified with an ammo type" << "\n";
-                }
-
                 if( !type->magazines.empty() && !type->magazine_default.count( type->gun->ammo ) ) {
                     msg << "specified magazine but none provided for default ammo type" << "\n";
                 }
