@@ -269,9 +269,6 @@ enum pickup_answer :int {
 pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, const std::string &explain )
 {
     player &u = g->u;
-    if( !u.is_armed() && !u.keep_hands_free ) {
-        return WIELD;
-    }
 
     uimenu amenu;
     amenu.return_invalid = true;
@@ -285,7 +282,6 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, con
                     _("Dispose of %s and wield %s"), u.weapon.display_name().c_str(),
                     it.display_name().c_str() );
     if( it.is_armor() ) {
-        // @todo Gray out for mutants?
         amenu.addentry( WEAR, u.can_wear( it ), 'W', _("Wear %s"), it.display_name().c_str() );
     }
     if( !it.is_container_empty() && u.can_pickVolume( it.volume() ) ) {
