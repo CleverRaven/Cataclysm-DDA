@@ -311,7 +311,6 @@ void Item_factory::init()
     iuse_function_list["ANTICONVULSANT"] = &iuse::anticonvulsant;
     iuse_function_list["WEED_BROWNIE"] = &iuse::weed_brownie;
     iuse_function_list["COKE"] = &iuse::coke;
-    iuse_function_list["GRACK"] = &iuse::grack;
     iuse_function_list["METH"] = &iuse::meth;
     iuse_function_list["VACCINE"] = &iuse::vaccine;
     iuse_function_list["FLU_VACCINE"] = &iuse::flu_vaccine;

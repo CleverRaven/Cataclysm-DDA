@@ -106,7 +106,6 @@ const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_formication( "formication" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
-const efftype_id effect_grack( "grack" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_infected( "infected" );
@@ -747,25 +746,6 @@ int iuse::coke(player *p, item *it, bool, const tripoint& )
     p->mod_hunger(-8);
     p->add_effect( effect_high, duration);
     return it->type->charges_to_use();
-}
-
-int iuse::grack(player *p, item *it, bool, const tripoint& )
-{
-    // Grack requires a fire source AND a pipe.
-    if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
-        p->add_msg_if_player(m_neutral, _("You smoke some Grack Cocaine."));
-        p->add_msg_if_player(m_good, _("Time seems to stop."));
-        int duration = 1000;
-        if (p->has_trait("TOLERANCE")) {
-            duration -= 10;
-        } else if (p->has_trait("LIGHTWEIGHT")) {
-            duration += 10;
-        }
-        p->mod_hunger(-10);
-        p->add_effect( effect_grack, duration);
-        return it->type->charges_to_use();
-    }
-    return 0;
 }
 
 int iuse::meth(player *p, item *it, bool, const tripoint& )

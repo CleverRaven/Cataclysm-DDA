@@ -721,7 +721,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WEED``` Makes you roll with Cheech & Chong. Adds disease `weed_high`.
 - ```COKE``` Decreases hunger. Adds disease `high`.
 - ```CRACK``` Decreases hunger. Adds disease `high`.
-- ```GRACK``` Decreases hunger. Adds disease 'high'.
 - ```METH``` Adds disease `meth`
 - ```VITAMINS``` Increases healthiness (not to be confused with HP)
 - ```VACCINE``` Greatly increases health.
