@@ -10909,7 +10909,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
     return trajectory;
 }
 
-void game::plfire( const tripoint &default_target )
+bool game::plfire( const tripoint &default_target )
 {
     if( u.has_effect( effect_relax_gas) ) {
         if( one_in(5) ) {
@@ -10917,43 +10917,43 @@ void game::plfire( const tripoint &default_target )
         } else {
             u.moves -= rng(2, 5) * 10;
             add_msg(m_bad, _("You can't fire your weapon, it's too heavy..."));
-            return;
+            return false;
         }
     }
 
     if( u.weapon.is_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
-        return;
+        return false;
     }
 
     auto gun = u.weapon.gun_current_mode();
 
     if( !( gun && u.can_use( *gun ) ) ) {
-        return; // check a valid mode was returned and we are able to use it
+        return false; // check a valid mode was returned and we are able to use it
     }
 
     vehicle *veh = m.veh_at(u.pos());
     if( veh != nullptr && veh->player_in_control( u ) && gun->is_two_handed( u ) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
-        return;
+        return false;
     }
 
     int reload_time = 0;
     if( !gun.melee ) {
         if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
             add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
-            return;
+            return false;
         }
 
         if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
             item::reload_option opt = gun->pick_reload_ammo( u );
             if( !opt ) {
-                return; // menu cancelled
+                return false; // menu cancelled
             }
 
             reload_time += opt.moves();
             if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
-                return; // unable to reload
+                return false; // unable to reload
             }
 
             // Burn 2x the strength required to fire in stamina.
@@ -10972,7 +10972,7 @@ void game::plfire( const tripoint &default_target )
             } else {
                 add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
             }
-            return;
+            return false;
         }
 
         if( gun->get_gun_ups_drain() > 0 ) {
@@ -10986,7 +10986,7 @@ void game::plfire( const tripoint &default_target )
                 add_msg( m_info,
                          _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
                          ups_drain, adv_ups_drain );
-                return;
+                return false;
             }
         }
 
@@ -10997,7 +10997,7 @@ void game::plfire( const tripoint &default_target )
                 (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
                 add_msg(m_info,
                         _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
-                return;
+                return false;
             }
         }
     }
@@ -11018,19 +11018,24 @@ void game::plfire( const tripoint &default_target )
             u.moves -= reload_time / 2; // allow for unloading time
         }
         reenter_fullscreen();
-        return;
+        return false;
     }
     draw_ter(); // Recenter our view
 
+    bool res = false;
+
     if( gun.melee ) {
         u.reach_attack( p );
+        res = true;
+
     } else {
         u.moves -= reload_time;
         // @todo add check for TRIGGERHAPPY
-        u.fire_gun( p, gun.qty, *gun );
+        res = u.fire_gun( p, gun.qty, *gun );
     }
 
     reenter_fullscreen();
+    return res;
 }
 
 void game::cycle_item_mode( bool force_gun )
