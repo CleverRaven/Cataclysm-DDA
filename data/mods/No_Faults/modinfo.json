@@ -10,7 +10,7 @@
     "path": "modinfo.json"
   },
   {
-    "type": "ITEM_OPTION",
+    "type": "GAME_OPTION",
     "options": [ "no_faults" ]
   }
 ]
