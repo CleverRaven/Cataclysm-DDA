@@ -452,9 +452,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     tripoint aim = target;
     int curshot = 0;
     int burst = 0; // count of shots against current target
-    for( ; curshot != shots; ++curshot ) {
-
-
+    while( curshot != shots ) {
         if( !handle_gun_damage( *gun.type, gun.ammo_effects() ) ) {
             break;
         }
@@ -470,6 +468,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         }
 
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
+        curshot++;
 
         // if we are firing a turret don't apply that recoil to the player
         // @todo turrets need to accumulate recoil themselves
