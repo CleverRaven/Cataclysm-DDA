@@ -121,6 +121,7 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 {
     friend vehicle;
     friend visitable<vehicle_cursor>;
+    friend item_location;
 
     enum : int { passenger_flag = 1 };
 
@@ -435,6 +436,12 @@ public:
     bool remove_part (int p);
     void part_removal_cleanup ();
 
+    /** Get handle for base item of part */
+    item_location part_base( int p );
+
+    /** Get index of part with matching base item or INT_MIN if not found */
+    int find_part( const item& it ) const;
+
     /**
      * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
      * a vehicle part on both sides.
@@ -631,7 +638,7 @@ public:
     int safe_velocity (bool fueled = true) const;
 
     // Generate smoke from a part, either at front or back of vehicle depending on velocity.
-    void spew_smoke( double joules, int part );
+    void spew_smoke( double joules, int part, int density = 1 );
 
     // Loop through engines and generate noise and smoke for each one
     void noise_and_smoke( double load, double time = 6.0 );

@@ -3477,6 +3477,15 @@ bool item::is_faulty() const
     return is_engine() ? !faults.empty() : false;
 }
 
+std::set<fault_id> item::faults_potential() const
+{
+    std::set<fault_id> res;
+    if( type->engine ) {
+        res.insert( type->engine->faults.begin(), type->engine->faults.end() );
+    }
+    return res;
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();

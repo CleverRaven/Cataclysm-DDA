@@ -3,10 +3,20 @@
 
 #include <string>
 
-// Convert minutes, hours, days to turns
-#define MINUTES(x) ((x) * 10)
-#define HOURS(x)   ((x) * 600)
-#define DAYS(x)    ((x) * 14400)
+constexpr int MINUTES( int n )
+{
+    return n * 10;
+}
+
+constexpr int HOURS( int n )
+{
+    return n * MINUTES( 60 );
+}
+
+constexpr int DAYS( int n )
+{
+    return n * HOURS( 24 );
+}
 
 // How much light the moon provides per quater
 #define MOONLIGHT_PER_QUATER 2.25
@@ -143,6 +153,8 @@ class calendar
         int day_of_year() const {
             return day + season_length() * season;
         }
+
+        static std::string print_duration( int turns );
 
         /** Returns the current time in a string according to the options set */
         std::string print_time( bool just_hour = false ) const;

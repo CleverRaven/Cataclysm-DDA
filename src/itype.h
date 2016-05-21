@@ -19,6 +19,7 @@
 
 // see item.h
 class item_category;
+class Item_factory;
 struct recipe;
 struct itype;
 class Skill;
@@ -297,11 +298,16 @@ struct common_firing_data : common_ranged_data {
 
 struct islot_engine
 {
-    /** for combustion engines the displacement (cc) */
-    int displacement = 0;
+    friend Item_factory;
+    friend item;
 
-    /** What faults (if any) can occur */
-    std::set<fault_id> faults;
+    public:
+        /** for combustion engines the displacement (cc) */
+        int displacement = 0;
+
+    private:
+        /** What faults (if any) can occur */
+        std::set<fault_id> faults;
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?

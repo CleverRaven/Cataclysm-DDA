@@ -9972,6 +9972,25 @@ bool player::dispose_item( item& obj, const std::string& prompt )
 
 void player::mend_item( item_location&& obj, bool interactive )
 {
+    if( g->u.has_trait( "DEBUG_HS" ) ) {
+        uimenu menu( true, _( "Toggle which fault?" ) );
+        std::vector<std::pair<fault_id, bool>> opts;
+        for( const auto& f : obj->faults_potential() ) {
+            opts.emplace_back( f, obj->faults.count( f ) );
+            menu.addentry( -1, true, -1, string_format( "%s %s", opts.back().second ? _( "Mend" ) : _( "Break" ),
+                                                        f.obj().name().c_str() ) );
+        }
+        menu.query();
+        if( menu.ret >= 0 ) {
+            if( opts[ menu.ret ].second ) {
+                obj->faults.erase( opts[ menu.ret ].first );
+            } else {
+                obj->faults.insert( opts[ menu.ret ].first );
+            }
+        }
+        return;
+    }
+
     std::vector<std::pair<const fault *, bool>> faults;
     std::transform( obj->faults.begin(), obj->faults.end(), std::back_inserter( faults ), []( const fault_id& e ) {
         return std::make_pair<const fault *, bool>( &e.obj(), false );
@@ -10006,6 +10025,8 @@ void player::mend_item( item_location&& obj, bool interactive )
             auto comps = reqs.get_folded_components_list( w, c_white, inv );
 
             std::ostringstream descr;
+            descr << _( "<color_white>Time required:</color>\n" );
+            descr << "> " << calendar::print_duration( f.first->time() / 100 ) << "\n";
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
                 bool hasSkill = get_skill_level( skill_mechanics ) >= e.second;
@@ -10030,7 +10051,6 @@ void player::mend_item( item_location&& obj, bool interactive )
         sel = menu.ret;
     }
 
-    // @todo convert this in to a long activity
     if( sel >= 0 ) {
         if( !faults[ sel ].second ) {
             if( interactive ) {
@@ -10039,16 +10059,26 @@ void player::mend_item( item_location&& obj, bool interactive )
             return;
         }
 
-        const auto& reqs = faults[ sel ].first->requirements();
-        for( const auto& e : reqs.get_components() ) {
-            consume_items( e );
-        }
-        for( const auto& e : reqs.get_tools() ) {
-            consume_tools( e );
-        }
-        invalidate_crafting_inventory();
+        int pos = INT_MIN;
 
-        obj->faults.erase( faults[ sel ].first->id() );
+        switch( obj.where() ) {
+            case item_location::type::character:
+                pos = get_item_position( &*obj );
+                break;
+
+            case item_location::type::vehicle:
+                pos = g->m.veh_at( obj.position() )->find_part( *obj );
+                break;
+
+            default:
+                debugmsg( "unsupported item location type %i", static_cast<int>( obj.where() ) );
+                return;
+        }
+        assign_activity( ACT_MEND_ITEM, faults[ sel ].first->time(),
+                         static_cast<int>( obj.where() ), pos,
+                         faults[ sel ].first->id().str() );
+
+        activity.placement = obj.position();
     }
 }
 
@@ -10427,7 +10457,7 @@ hint_rating player::rate_action_mend( const item &it ) const
     if( !it.faults.empty() ) {
         return HINT_GOOD;
     }
-    return !it.type->engine || it.type->engine->faults.empty() ? HINT_CANT : HINT_IFFY;
+    return it.faults_potential().empty() ? HINT_CANT : HINT_IFFY;
 }
 
 hint_rating player::rate_action_disassemble( const item &it )
