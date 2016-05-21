@@ -276,374 +276,321 @@
     "components": [ [ [ "gold_small", 100 ] ] ]
   },
   {
-  "type" : "recipe",
-  "result": "gold_ear",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "gold_small", 50 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "silver_ear",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "silver_small", 60 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "copper_ear",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 25 ]
-    ]
-  ]
-  },{
-    "type" : "recipe",
-    "result": "tieclip",
+    "result": "gold_ear",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "difficulty": 0,
     "time": 500,
     "reversible": true,
-    "autolearn": false,
-    "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+    "qualities": [ { "id": "HAMMER","level": 1 } ], 
+    "components": [ [ [ "gold_small", 50 ] ] ]
+  },
+  {
+    "result": "silver_ear",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "qualities": [ { "id": "HAMMER","level": 1 } ],
+    "components": [ [ [ "silver_small", 60 ] ] ]
+  },
+  {
+    "result": "copper_ear",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "qualities": [ { "id": "HAMMER","level": 1 } ],
+    "components": [ [ [ "copper", 25 ] ] ]
+  },
+  {
+    "result": "tieclip",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "qualities": [ { "id": "HAMMER","level": 1 } ],
     "components": [ [ [ "silver_small", 100 ] ] ]
-  },{
-  "type" : "recipe",
-  "result": "usb_drive",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "RAM", 1 ]
+  },
+  {
+    "result": "usb_drive",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [ [ [ "RAM", 1 ] ] ]
+  },
+  {
+    "result": "pda",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ [ "small_lcd_screen", 1 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pda",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "small_lcd_screen", 1 ]
-    ],
-    [
-      [ "plastic_chunk", 2 ]
-    ],
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
+  },
+  {
+    "result": "binoculars",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1200,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ [ "lens", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "scrap", 1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "binoculars",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "lens", 2 ]
-    ],
-    [
-      [ "plastic_chunk", 2 ]
-    ],
-    [
-      [ "scrap", 1 ]
+  },
+  {
+    "result": "wristwatch",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "battery", 20 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "wristwatch",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "plastic_chunk", 1 ]
-    ],
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "battery", 20 ]
+  },
+  {
+    "result": "laptop",
+    "type": "recipe",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 60000,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ ["processor", 1] ],
+      [ ["RAM", 4] ],
+      [ ["cable", 6] ],
+      [ ["amplifier", 1] ],
+      [ ["plastic_chunk", 6] ],
+      [ ["small_lcd_screen", 1] ],
+      [ ["small_storage_battery", 2] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "laptop",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 60000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["processor", 1]],
-    [["RAM", 4]],
-    [["cable", 6]],
-    [["amplifier", 1]],
-    [["plastic_chunk", 6]],
-    [["small_lcd_screen", 1]],
-    [["small_storage_battery", 2]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "fan",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [[ "scrap", 1 ]],
-    [[ "plastic_chunk", 3 ]],
-    [[ "motor_small", 1 ]],
-    [[ "cable", 2 ]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pocketwatch",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [[ "scrap", 2 ]],
-    [[ "clockworks", 1 ]]
-  ]
-  },{
-    "type" : "recipe",
-    "result": "gold_watch",
+  },
+  {
+    "result": "fan",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 3 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "cable", 2 ] ]
+    ]
+  },
+  {
+    "result": "pocketwatch",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "difficulty": 0,
     "time": 600,
     "reversible": true,
-    "autolearn": false,
-    "qualities" : [
-      {"id":"HAMMER","level":1,"amount":1},
-      {"id":"SCREW","level":1,"amount":1}
+    "qualities": [ { "id": "SCREW","level": 1 }],
+    "components": [
+      [ [ "scrap", 2 ] ],
+      [ [ "clockworks", 1 ] ]
+    ]
+  },
+  {
+    "result": "gold_watch",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "qualities": [
+      { "id": "HAMMER","level": 1 },
+      { "id": "SCREW","level": 1 }
     ],
     "components": [
       [ [ "scrap", 2 ] ],
       [ [ "gold_small", 150 ] ],
       [ [ "clockworks", 1 ] ]
     ]
-  },{
-    "type" : "recipe",
+  },
+  {
     "result": "sf_watch",
+    "type": "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "difficulty": 0,
     "time": 600,
     "reversible": true,
-    "autolearn": false,
-    "qualities" : [
-      {"id":"HAMMER","level":1,"amount":1},
-      {"id":"SCREW","level":1,"amount":1}
+    "qualities": [
+      { "id": "HAMMER","level": 1 },
+      { "id": "SCREW","level": 1 }
     ],
     "components": [
       [ [ "gold_small", 100 ] ],
       [ [ "silver_small", 100 ] ],
       [ [ "clockworks", 1 ] ]
     ]
+  },
+  {
+    "result": "alarmclock",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 600,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ [ "scrap", 4 ] ],
+      [ [ "clockworks", 2 ] ]
+    ]
+  },
+  {
+    "result": "television",
+    "type": "recipe",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 60000,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ ["processor", 1] ],
+      [ ["RAM", 2] ],
+      [ ["cable", 8] ],
+      [ ["amplifier", 4] ],
+      [ [ "power_supply", 2 ] ],
+      [ ["plastic_chunk", 8] ]
+    ]
+  },
+  {
+    "result": "microwave",
+    "type": "recipe",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 80000,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ ["processor", 1] ],
+      [ ["cable", 4] ],
+      [ ["amplifier", 1] ],
+      [ ["power_supply", 4] ],
+      [ ["plastic_chunk", 8] ]
+    ]
+  },
+  {
+    "result": "toaster",
+    "type": "recipe",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 10000,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ ["cable", 2] ],
+      [ ["power_supply", 1] ],
+      [ ["scrap", 2] ],
+      [ ["element", 4] ]
+    ]
+  },
+  {
+    "result": "clock",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "qualities": [ { "id": "SCREW","level": 1 } ],
+    "components": [
+      [ ["scrap", 3] ],
+      [ ["clockworks", 2] ]
+    ]
+  },
+  {
+    "result": "knife_steak",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ ["spike", 1] ]
+    ]
+  },
+  {
+    "result": "lawnmower",
+    "type": "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "qualities": [ {"id": "WRENCH","level": 1 } ],
+    "components": [
+      [ [ "scrap", 8 ] ],
+      [ [ "spring", 2 ] ],
+      [ [ "blade",  2 ] ],
+      [ [ "1cyl_combustion", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "pipe", 3 ] ]
+    ]
   },{
-  "type" : "recipe",
-  "result": "alarmclock",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [[ "scrap", 4 ]],
-    [[ "clockworks", 2 ]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "television",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 60000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["processor", 1]],
-    [["RAM", 2]],
-    [["cable", 8]],
-    [["amplifier", 4]],
-    [[ "power_supply", 2 ]],
-    [["plastic_chunk", 8]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "microwave",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 80000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["processor", 1]],
-    [["cable", 4]],
-    [["amplifier", 1]],
-    [["power_supply", 4]],
-    [["plastic_chunk", 8]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "toaster",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 10000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["cable", 2]],
-    [["power_supply", 1]],
-    [["scrap", 2]],
-    [["element", 4]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "clock",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "components": [
-    [["scrap", 3]],
-    [["clockworks", 2]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "knife_steak",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [
-    [["spike", 1]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "lawnmower",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"WRENCH","level":1,"amount":1}
-  ], "components": [
-    [[ "scrap", 8 ]],
-    [[ "spring", 2 ]],
-    [[ "blade",  2 ]],
-    [[ "1cyl_combustion", 1 ]],
-    [[ "metal_tank_little", 1 ]],
-    [[ "pipe", 3 ]]
-  ]
-},{
   "type" : "recipe",
   "result": "lighter",
   "id_suffix": "uncraft",
