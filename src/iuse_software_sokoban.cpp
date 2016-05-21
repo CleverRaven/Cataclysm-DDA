@@ -3,18 +3,14 @@
 #include "output.h"
 #include "input.h"
 #include "catacharset.h"
-#include "options.h"
 #include "debug.h"
 #include "path_info.h"
 #include "translations.h"
 
-#include <string>
 #include <iostream>
 #include <iterator>
 #include <sstream>
 #include <fstream>
-#include <map>
-#include <vector>
 
 sokoban_game::sokoban_game()
 {
