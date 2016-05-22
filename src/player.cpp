@@ -12569,6 +12569,7 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
 {
     if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
         backlog.front().position == pos && backlog.front().name == name &&
+        backlog.front().target == item_location::nowhere &&
         !backlog.front().auto_resume) {
         add_msg_if_player( _("You resume your task."));
         activity = std::move( backlog.front() );
@@ -12578,7 +12579,9 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
         if( activity.type != ACT_NULL ) {
             backlog.push_front( std::move( activity ) );
         }
-        activity = player_activity(type, moves, index, pos, name);
+        activity = player_activity( type, item_location(), moves, name );
+        activity.index = index;
+        activity.position = pos;
     }
     if( this->moves <= activity.moves_left ) {
         activity.moves_left -= this->moves;

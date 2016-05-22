@@ -60,41 +60,18 @@ class player_activity : public JsonSerializer, public JsonDeserializer
 {
     private:
         void finish( player *p );
-    public:
-        /** The type of this activity. */
-        activity_type type;
-        /** Total number of moves required to complete the activity */
-        int moves_total;
-        /** The number of moves remaining in this activity before it is complete. */
-        int moves_left;
-        /** An activity specific value */
-        item_location target;
-        /** An activity specific value. */
-        int index;
-        /** An activity specific value. */
-        int position;
-        /** An activity specific value. */
-        std::string name;
-        bool ignore_trivial;
-        std::vector<int> values;
-        std::vector<std::string> str_values;
-        std::vector<tripoint> coords;
-        tripoint placement;
-        /** If true, the player has been warned of dangerously close monsters with
-         * respect to this activity.
-         */
-        bool warned_of_proximity;
-        /** If true, the activity will be auto-resumed next time the player attempts
-         *  an identical activity. This value is set dynamically.
-         */
-        bool auto_resume;
 
-        player_activity( activity_type t = ACT_NULL, int turns = 0, int Index = -1, int pos = INT_MIN,
-                         std::string name_in = "" );
+    public:
+        player_activity() = default;
+        player_activity( const player_activity & ) = delete;
+        player_activity &operator= ( const player_activity & ) = delete;
         player_activity( player_activity && ) = default;
-        player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
-        player_activity &operator=( const player_activity & ) = default;
+
+        player_activity( activity_type type, item_location&& target, int moves,
+                         std::string key = std::string(), const std::vector<int>& vals = {} )
+            : type( type ), moves_total( moves ), moves_left( moves ),
+              target( std::move( target ) ), name( key ), values( vals ) {}
 
         // Question to ask when the activity is to be stoped,
         // e.g. " Stop doing something?", already translated.
@@ -136,6 +113,36 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * Returns true if the activity is complete.
          */
         bool is_complete() const;
+
+        activity_type type = ACT_NULL; /** type of activity. */
+        int moves_total = 0; /** total moves required to complete activity */
+        int moves_left = 0; /** moves remaining before activity complete */
+
+        /*@{*/
+        /** activity specific values */
+        item_location target;
+        std::string name;
+        std::vector<int> values;
+        std::vector<std::string> str_values;
+        std::vector<tripoint> coords;
+        /*@}*/
+
+        /*@{*/
+        /** deprecated activity specific values */
+        int index = -1;
+        int position = INT_MIN;
+        tripoint placement = tripoint_min;
+        /*@}*/
+
+        bool ignore_trivial = false; /** @todo document field */
+
+        /** If true, the player has been warned of dangerously close monsters with
+         * respect to this activity. */
+        bool warned_of_proximity = false;
+
+        /** If true, the activity will be auto-resumed next time the player attempts
+         *  an identical activity. This value is set dynamically */
+        bool auto_resume = false;
 };
 
 #endif
