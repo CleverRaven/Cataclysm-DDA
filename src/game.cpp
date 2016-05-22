@@ -9111,9 +9111,12 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             draw_border(w_info);
 
             if (!select_zone) {
-                mvwprintz(w_info, getmaxy(w_info)-1, 2, c_white, _("Press"));
-                wprintz(w_info, c_ltgreen, " %s ", ctxt.press_x("LIST_ITEMS", "", "").c_str());
-                wprintz(w_info, c_white, _("to list items and monsters"));
+                nc_color clr = c_white;
+                const std::string colored_key = string_format( "<color_ltgreen>%s</color>",
+                                                               ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
+                print_colored_text( w_info, getmaxy(w_info) - 1, 2, clr, clr,
+                                    string_format( _( "Press %s to list items and monsters" ),
+                                                   colored_key.c_str() ) );
             }
         }
 
@@ -9179,8 +9182,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
 
             if (fast_scroll) {
-                // print a light green mark below the top right corner of the w_info window
-                mvwprintz(w_info, 1, lookWidth - 1, c_ltgreen, _("F"));
+                //~ "Fast Scroll" mark below the top right corner of the info window
+                right_print( w_info, 1, 0, c_ltgreen, _( "F" ) );
             }
 
             wrefresh(w_info);
