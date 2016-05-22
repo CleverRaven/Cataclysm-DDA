@@ -46,7 +46,10 @@
     "sight_dispersion": 90,
     "aim_speed" : 4,
     "durability": 8,
-    "burst": 20,
+    "modes" : [
+       [ "DEFAULT", "semi-auto", 1 ],
+       [ "AUTO", "auto", 20 ]
+    ],
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 2,
     "magazines" : [
