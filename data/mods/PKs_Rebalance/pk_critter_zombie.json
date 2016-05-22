@@ -797,7 +797,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["STRETCH_BITE", 15], ["STRETCH_ATTACK", 10]],
     "description":"With empty black sockets this creature surveys its surroundings deliberately.  As it scans, its body pulsates and contorts in a fashion that should break most bones.",
-    "flags":["SEES", "HEARS", "SMELLS", "REVIVES", "WARM", "BASHES", "GRABS", "GROUP_BASH", "POISON", "NO_BREATHE"]   
+    "flags":["SEES", "HEARS", "SMELLS", "REVIVES", "WARM", "BASHES", "GRABS", "GROUP_BASH", "POISON", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_crawler_pk",
