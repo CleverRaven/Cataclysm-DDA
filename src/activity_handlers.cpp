@@ -1598,36 +1598,20 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
 void activity_handlers::mend_item_finish( player_activity *act, player *p )
 {
-    item_location target;
-    switch( static_cast<item_location::type>( act->index ) ) {
-        case item_location::type::character:
-            target = item_location( *p, &p->i_at( act->position ) );
-            break;
-
-        case item_location::type::vehicle: {
-            auto veh = g->m.veh_at( act->placement );
-            if( !veh ) {
-                return; // vehicle moved or destroyed
-            }
-            target = veh->part_base( act->position );
-            break;
-        }
-
-        default:
-            debugmsg( "unknown index in mend item handler" );
-            return;
+    if( !act->target ) {
+        return;
     }
 
-    auto f = target->faults.find( fault_id( act->name ) );
-    if( f == target->faults.end() ) {
-        debugmsg( "item %s does not have fault %s", target->tname().c_str(), act->name.c_str() );
+    auto f = act->target->faults.find( fault_id( act->name ) );
+    if( f == act->target->faults.end() ) {
+        debugmsg( "item %s does not have fault %s", act->target->tname().c_str(), act->name.c_str() );
         return;
     }
 
     auto inv = p->crafting_inventory();
     const auto& reqs = f->obj().requirements();
     if( !reqs.can_make_with_inventory( inv ) ) {
-        add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname().c_str() );
+        add_msg( m_info, _( "You are currently unable to mend the %s." ), act->target->tname().c_str() );
     }
     for( const auto& e : reqs.get_components() ) {
         p->consume_items( e );
@@ -1637,8 +1621,8 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     }
     p->invalidate_crafting_inventory();
 
-    target->faults.erase( *f );
-    add_msg( m_good, _( "You successfully mended the %s." ), target->tname().c_str() );
+    act->target->faults.erase( *f );
+    add_msg( m_good, _( "You successfully mended the %s." ), act->target->tname().c_str() );
 }
 
 void activity_handlers::gunmod_add_finish( player_activity *act, player *p )
