@@ -1,7 +1,7 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "output.h"
+#include "cursesdef.h" // WINDOW
 #include "json.h"
 #include <vector>
 #include <string>

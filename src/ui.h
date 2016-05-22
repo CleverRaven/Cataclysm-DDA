@@ -2,8 +2,8 @@
 #define UI_H
 
 #include "enums.h"
-#include "output.h"
 #include <stdlib.h>
+#include "color.h"
 #include "cursesdef.h"
 ////////////////////////////////////////////////////////////////////////////////////
 /*
