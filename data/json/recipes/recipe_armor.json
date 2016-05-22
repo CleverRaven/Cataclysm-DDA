@@ -9028,11 +9028,8 @@
   "skill_used": "tailor",
   "difficulty": 0,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
-  "qualities" : [
-     {"id":"CUT","level":1,"amount":1}
-   ],
   "components": [
     [
       [ "sheet", 1 ]
