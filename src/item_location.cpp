@@ -23,6 +23,7 @@ class item_location::impl
 
     public:
         virtual ~impl() = default;
+        virtual void serialize( JsonOut &js ) const = 0;
         virtual type where() const = 0;
         virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
@@ -46,6 +47,14 @@ class item_location::item_on_map : public item_location::impl
 
     public:
         item_on_map( const map_cursor &cur, long long uid ) : impl( uid ), cur( cur ) {}
+
+        void serialize( JsonOut &js ) const override {
+            js.start_object();
+            js.member( "type", "map" );
+            js.member( "uid", uid );
+            js.member( "position", position() );
+            js.end_object();
+        }
 
         item *target() const override {
             if( what ) {
@@ -133,6 +142,14 @@ class item_location::item_on_person : public item_location::impl
 
     public:
         item_on_person( Character &who, long long uid ) : impl( uid ), who( who ) {}
+
+        void serialize( JsonOut &js ) const override {
+            js.start_object();
+            js.member( "type", "character" );
+            js.member( "uid", uid );
+            js.member( "position", position() );
+            js.end_object();
+        }
 
         item *target() const override {
             if( what ) {
@@ -265,6 +282,15 @@ class item_location::item_on_vehicle : public item_location::impl
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, long long uid ) : impl( uid ), cur( cur ) {}
+
+        void serialize( JsonOut &js ) const override {
+            js.start_object();
+            js.member( "type", "map" );
+            js.member( "uid", uid );
+            js.member( "position", position() );
+            js.member( "part", cur.part );
+            js.end_object();
+        }
 
         item *target() const override {
             if( what ) {
@@ -410,30 +436,10 @@ const item *item_location::operator->() const
 void item_location::serialize( JsonOut &js ) const
 {
     if( ptr ) {
-        js.start_object();
-        switch( where() ) {
-            case type::character:
-                js.member( "type", "character" );
-                break;
-
-            case type::map:
-                js.member( "type", "map" );
-                break;
-
-            case type::vehicle:
-                js.member( "type", "vehicle" );
-                break;
-
-            case type::invalid:
-                js.member( "type", "null" );
-                js.end_object();
-                return;
-        }
-        js.member( "position", position() );
-        js.member( "uid", get_item()->uid );
-        js.end_object();
+        ptr->serialize( js );
     }
 }
+
 void item_location::deserialize( JsonIn &js )
 {
     auto jo = js.get_object();
