@@ -69,7 +69,7 @@ std::string mod_ui::get_information( MOD_INFORMATION *mod )
     std::string note = ( !mm_tree->is_available( modident ) ) ? mm_tree->get_node(
                            modident )->s_errors() : "";
 
-    std::stringstream info;
+    std::ostringstream info;
 
     // color the note red!
     if( !note.empty() ) {

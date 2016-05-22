@@ -1225,7 +1225,7 @@ void print_damage_info( const damage_instance &di )
     }
 
     int total = 0;
-    std::stringstream ss;
+    std::ostringstream ss;
     for( auto &du : di.damage_units ) {
         int amount = di.type_damage( du.type );
         total += amount;
