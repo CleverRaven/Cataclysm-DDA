@@ -10898,7 +10898,13 @@ hint_rating player::rate_action_read( const item &it ) const
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()) {
             ///\EFFECT_INT_NPC allows NPCs to read harder books for you
             if ((elem->int_cur+1) >= it.type->book->intel) {
-                assistants++;
+                if ( elem->in_sleep_state() ) {
+                    //Sleeping NPCs would need to be awoken first...
+                    //Tell the player about it.
+                    add_msg(m_info, _("%s could read this to you, if they were awake..."), elem->name.c_str());
+                } else {
+                    assistants++;
+                }
             }
        }
     }
