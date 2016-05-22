@@ -9958,6 +9958,11 @@ bool player::dispose_item( item& obj, const std::string& prompt )
 
 void player::mend_item( item_location&& obj, bool interactive )
 {
+    if( !obj ) {
+        debugmsg( "Cannot mend non-existent item" );
+        return;
+    }
+
     if( g->u.has_trait( "DEBUG_HS" ) ) {
         uimenu menu( true, _( "Toggle which fault?" ) );
         std::vector<std::pair<fault_id, bool>> opts;
