@@ -31,7 +31,10 @@ class item_location::impl
         virtual void remove_item() = 0;
 
     protected:
-        item *what = nullptr;
+        virtual item *target() const = 0;
+
+        mutable item *what = nullptr;
+        long long uid = std::numeric_limits<long long>::min();
 };
 
 class item_location::item_on_map : public item_location::impl
@@ -45,7 +48,22 @@ class item_location::item_on_map : public item_location::impl
                 debugmsg( "Cannot locate item on map at %d,%d,%d", cur.x, cur.y, cur.z );
             } else {
                 what = which;
+                uid = which->uid;
             }
+        }
+
+        item *target() const override {
+            if( what ) {
+                return what;
+            }
+            cur.visit_items( [&]( const item *e ) {
+                if( e->uid == uid ) {
+                    this->what = const_cast<item *>( e );
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+            return what;
         }
 
         type where() const override {
@@ -65,31 +83,31 @@ class item_location::item_on_map : public item_location::impl
         }
 
         int obtain( Character &ch, long qty ) override {
-            if( !what ) {
+            if( !target() ) {
                 return INT_MIN;
             }
 
             ch.moves -= obtain_cost( ch, qty );
 
-            item obj = what->split( qty );
+            item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return ch.get_item_position( &ch.i_add( obj ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                int inv = ch.get_item_position( &ch.i_add( *target() ) );
                 remove_item();
                 return inv;
             }
         }
 
         int obtain_cost( const Character &ch, long qty ) const override {
-            if( !what ) {
+            if( !target() ) {
                 return 0;
             }
 
-            item obj = *what;
+            item obj = *target();
             obj = obj.split( qty );
             if( obj.is_null() ) {
-                obj = *what;
+                obj = *target();
             }
 
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
@@ -102,14 +120,14 @@ class item_location::item_on_map : public item_location::impl
         }
 
         void remove_item() override {
-            if( what == nullptr ) {
+            if( !target() ) {
                 return;
             }
-            item obj = cur.remove_item( *what );
+            item obj = cur.remove_item( *target() );
             if( obj.is_null() ) {
                 debugmsg( "Tried to remove an item from a map tile which doesn't contain it" );
             }
-            what = nullptr;
+            uid = std::numeric_limits<decltype(uid)>::min();
         }
 };
 
@@ -124,7 +142,22 @@ class item_location::item_on_person : public item_location::impl
                 debugmsg( "Cannot locate item on character: %s", who.name.c_str() );
             } else {
                 what = which;
+                uid = which->uid;
             }
+        }
+
+        item *target() const override {
+            if( what ) {
+                return what;
+            }
+            who.visit_items( [&]( const item *e ) {
+                if( e->uid == uid ) {
+                    this->what = const_cast<item *>( e );
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+            return what;
         }
 
         type where() const override {
@@ -136,16 +169,16 @@ class item_location::item_on_person : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            if( !what ) {
+            if( !target() ) {
                 return std::string();
             }
 
             if( ch == &who ) {
-                auto parents = who.parents( *what );
+                auto parents = who.parents( *target() );
                 if( !parents.empty() && who.is_worn( *parents.back() ) ) {
                     return parents.back()->type_name();
 
-                } else if( who.is_worn( *what ) ) {
+                } else if( who.is_worn( *target() ) ) {
                     return _( "worn" );
 
                 } else {
@@ -158,26 +191,26 @@ class item_location::item_on_person : public item_location::impl
         }
 
         int obtain( Character &ch, long qty ) override {
-            if( !what ) {
+            if( !target() ) {
                 return INT_MIN;
             }
 
             ch.moves -= obtain_cost( ch, qty );
 
-            if( who.is_worn( *what ) ) {
-                what->on_takeoff( dynamic_cast<player &>( who ) );
+            if( who.is_worn( *target() ) ) {
+                target()->on_takeoff( dynamic_cast<player &>( who ) );
             }
 
-            if( &ch.i_at( ch.get_item_position( what ) ) == what ) {
+            if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
                 // item already in target characters inventory at base of stack
-                return ch.get_item_position( what );
+                return ch.get_item_position( target() );
             }
 
-            item obj = what->split( qty );
+            item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return ch.get_item_position( &ch.i_add( obj ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                int inv = ch.get_item_position( &ch.i_add( *target() ) );
                 remove_item();
                 return inv;
             }
@@ -185,19 +218,19 @@ class item_location::item_on_person : public item_location::impl
 
 
         int obtain_cost( const Character &ch, long qty ) const override {
-            if( !what ) {
+            if( !target() ) {
                 return 0;
             }
 
             int mv = 0;
 
-            item obj = *what;
+            item obj = *target();
             obj = obj.split( qty );
             if( obj.is_null() ) {
-                obj = *what;
+                obj = *target();
             }
 
-            auto parents = who.parents( *what );
+            auto parents = who.parents( *target() );
             if( !parents.empty() && who.is_worn( *parents.back() ) ) {
                 // if outermost parent item is worn status effects (eg. GRABBED) are not applied
                 // holsters may also adjust the volume cost factor
@@ -226,14 +259,14 @@ class item_location::item_on_person : public item_location::impl
         }
 
         void remove_item() override {
-            if( what == nullptr ) {
+            if( !target() ) {
                 return;
             }
-            item obj = who.remove_item( *what );
+            item obj = who.remove_item( *target() );
             if( obj.is_null() ) {
                 debugmsg( "Tried to remove an item from a character who doesn't have it" );
             }
-            what = nullptr;
+            uid = std::numeric_limits<decltype(uid)>::min();
         }
 };
 
@@ -248,7 +281,22 @@ class item_location::item_on_vehicle : public item_location::impl
                 debugmsg( "Cannot locate item on vehicle: %s", cur.veh.name.c_str() );
             } else {
                 what = which;
+                uid = which->uid;
             }
+        }
+
+        item *target() const override {
+            if( what ) {
+                return what;
+            }
+            cur.visit_items( [&]( const item *e ) {
+                if( e->uid == uid ) {
+                    this->what = const_cast<item *>( e );
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+            return what;
         }
 
         type where() const override {
@@ -268,31 +316,31 @@ class item_location::item_on_vehicle : public item_location::impl
         }
 
         int obtain( Character &ch, long qty ) override {
-            if( !what ) {
+            if( !target() ) {
                 return INT_MIN;
             }
 
             ch.moves -= obtain_cost( ch, qty );
 
-            item obj = what->split( qty );
+            item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return ch.get_item_position( &ch.i_add( obj ) );
             } else {
-                int inv = ch.get_item_position( &ch.i_add( *what ) );
+                int inv = ch.get_item_position( &ch.i_add( *target() ) );
                 remove_item();
                 return inv;
             }
         }
 
         int obtain_cost( const Character &ch, long qty ) const override {
-            if( !what ) {
+            if( !target() ) {
                 return 0;
             }
 
-            item obj = *what;
+            item obj = *target();
             obj = obj.split( qty );
             if( obj.is_null() ) {
-                obj = *what;
+                obj = *target();
             }
 
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
@@ -305,18 +353,18 @@ class item_location::item_on_vehicle : public item_location::impl
         }
 
         void remove_item() override {
-            if( what == nullptr ) {
+            if( !target() ) {
                 return;
             }
-            if( &cur.veh.parts[ cur.part ].base == what ) {
+            if( &cur.veh.parts[ cur.part ].base == target() ) {
                 cur.veh.remove_part( cur.part );
             } else {
-                item obj = cur.remove_item( *what );
+                item obj = cur.remove_item( *target() );
                 if( obj.is_null() ) {
                     debugmsg( "Tried to remove an item from a vehicle which doesn't contain it" );
                 }
             }
-            what = nullptr;
+            uid = std::numeric_limits<decltype(uid)>::min();
         }
 };
 
@@ -339,37 +387,82 @@ item_location::item_location( const vehicle_cursor &vc, item *which )
 
 bool item_location::operator==( const item_location &rhs ) const
 {
-    return ( ptr ? ptr->what : nullptr ) == ( rhs.ptr ? rhs.ptr->what : nullptr );
+    return ( ptr ? ptr->target() : nullptr ) == ( rhs.ptr ? rhs.ptr->target() : nullptr );
 }
 
 bool item_location::operator!=( const item_location &rhs ) const
 {
-    return ( ptr ? ptr->what : nullptr ) != ( rhs.ptr ? rhs.ptr->what : nullptr );
+    return ( ptr ? ptr->target() : nullptr ) != ( rhs.ptr ? rhs.ptr->target() : nullptr );
 }
 
 item_location::operator bool() const
 {
-    return ptr && ptr->what;
+    return ptr && ptr->target();
 }
 
 item &item_location::operator*()
 {
-    return *ptr->what;
+    return *ptr->target();
 }
 
 const item &item_location::operator*() const
 {
-    return *ptr->what;
+    return *ptr->target();
 }
 
 item *item_location::operator->()
 {
-    return ptr->what;
+    return ptr->target();
 }
 
 const item *item_location::operator->() const
 {
-    return ptr->what;
+    return ptr->target();
+}
+
+void item_location::serialize( JsonOut &js ) const
+{
+    if( ptr ) {
+        js.start_object();
+        switch( where() ) {
+            case type::character:
+                js.member( "type", "character" );
+                break;
+
+            case type::map:
+                js.member( "type", "map" );
+                break;
+
+            case type::vehicle:
+                js.member( "type", "vehicle" );
+                break;
+
+            case type::invalid:
+                js.member( "type", "null" );
+                js.end_object();
+                return;
+        }
+        js.member( "position", position() );
+        js.member( "uid", get_item()->uid );
+        js.end_object();
+    }
+}
+void item_location::deserialize( JsonIn &js )
+{
+    auto jo = js.get_object();
+    auto type = jo.get_string( "type" );
+    if( type == "character" ) {
+        // @todo
+
+    } else if( type == "map" ) {
+        ptr = new item_on_map( map_cursor( jo.read( "position" ), nullptr );
+
+    } else if( type == "vehicle" ) {
+        // @todo
+
+    } else {
+        return;
+    }
 }
 
 item_location::type item_location::where() const
@@ -406,10 +499,10 @@ void item_location::remove_item()
 
 item *item_location::get_item()
 {
-    return ptr ? ptr->what : nullptr;
+    return ptr ? ptr->target() : nullptr;
 }
 
 const item *item_location::get_item() const
 {
-    return ptr ? ptr->what : nullptr;
+    return ptr ? ptr->target() : nullptr;
 }

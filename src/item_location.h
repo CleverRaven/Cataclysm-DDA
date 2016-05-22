@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "json.h"
+
 struct tripoint;
 class item;
 class Character;
@@ -14,7 +16,7 @@ class vehicle_cursor;
  * Ensures the item exists, but not that the character/vehicle does.
  * Should not be kept, but removed before the end of turn.
  */
-class item_location
+class item_location : public JsonSerializer, public JsonDeserializer
 {
     public:
         enum class type : int {
@@ -47,6 +49,9 @@ class item_location
 
         item *operator->();
         const item *operator->() const;
+
+        void serialize( JsonOut &js ) const;
+        void deserialize( JsonIn &js );
 
         /** Returns the type of location where the item is found */
         type where() const;

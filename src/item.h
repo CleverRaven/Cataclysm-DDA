@@ -107,6 +107,8 @@ class item_category
 
 class item : public JsonSerializer, public JsonDeserializer, public visitable<item>
 {
+    friend item_location;
+
     public:
         item();
 
