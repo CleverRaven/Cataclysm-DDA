@@ -71,11 +71,16 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         player_activity( activity_type type, item_location &&target, int moves,
                          std::string key = std::string(), const std::vector<int> &vals = {} )
             : type( type ), moves_total( moves ), moves_left( moves ),
-              target( std::move( target ) ), name( key ), values( vals ) {}
+              targets( {
+            {
+                std::move( target ), item_location(), item_location()
+            }
+        } ),
+        name( key ), values( vals ) {}
 
         bool operator==( const player_activity &rhs ) const {
             return type == rhs.type &&
-                   target == rhs.target &&
+                   targets == rhs.targets &&
                    values == rhs.values &&
                    str_values == rhs.str_values &&
                    coords == rhs.coords &&
@@ -139,7 +144,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
 
         /*@{*/
         /** activity specific values */
-        item_location target;
+        std::array<item_location, 3> targets = { { item_location(), item_location(), item_location() } };
         std::string name;
         std::vector<int> values;
         std::vector<std::string> str_values;

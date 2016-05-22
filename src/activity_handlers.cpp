@@ -1598,20 +1598,21 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
 void activity_handlers::mend_item_finish( player_activity *act, player *p )
 {
-    if( !act->target ) {
+    auto& obj = act->targets[0];
+    if( !obj ) {
         return;
     }
 
-    auto f = act->target->faults.find( fault_id( act->name ) );
-    if( f == act->target->faults.end() ) {
-        debugmsg( "item %s does not have fault %s", act->target->tname().c_str(), act->name.c_str() );
+    auto f = obj->faults.find( fault_id( act->name ) );
+    if( f == obj->faults.end() ) {
+        debugmsg( "item %s does not have fault %s", obj->tname().c_str(), act->name.c_str() );
         return;
     }
 
     auto inv = p->crafting_inventory();
     const auto& reqs = f->obj().requirements();
     if( !reqs.can_make_with_inventory( inv ) ) {
-        add_msg( m_info, _( "You are currently unable to mend the %s." ), act->target->tname().c_str() );
+        add_msg( m_info, _( "You are currently unable to mend the %s." ), obj->tname().c_str() );
     }
     for( const auto& e : reqs.get_components() ) {
         p->consume_items( e );
@@ -1621,8 +1622,8 @@ void activity_handlers::mend_item_finish( player_activity *act, player *p )
     }
     p->invalidate_crafting_inventory();
 
-    act->target->faults.erase( *f );
-    add_msg( m_good, _( "You successfully mended the %s." ), act->target->tname().c_str() );
+    obj->faults.erase( *f );
+    add_msg( m_good, _( "You successfully mended the %s." ), obj->tname().c_str() );
 }
 
 void activity_handlers::gunmod_add_finish( player_activity *act, player *p )

@@ -12553,30 +12553,26 @@ void player::learn_recipe( const recipe * const rec, bool force )
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
-    if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
-        backlog.front().position == pos && backlog.front().name == name &&
-        backlog.front().target == item_location::nowhere &&
-        !backlog.front().auto_resume) {
-        add_msg_if_player( _("You resume your task."));
+    player_activity act( type, item_location(), moves, name );
+    act.index = index;
+    act.position = pos;
+
+    if( !backlog.empty() && !backlog.front().auto_resume && backlog.front() == act ) {
+        add_msg_if_player( _( "You resume your task." ) );
         activity = std::move( backlog.front() );
         backlog.erase( backlog.begin() );
+        activity.warned_of_proximity = false;
 
     } else {
-        if( activity.type != ACT_NULL ) {
+        if( activity ) {
             backlog.push_front( std::move( activity ) );
         }
-        activity = player_activity( type, item_location(), moves, name );
-        activity.index = index;
-        activity.position = pos;
+        activity = std::move( act );
     }
-    if( this->moves <= activity.moves_left ) {
-        activity.moves_left -= this->moves;
-        this->moves = 0;
-    } else {
-        this->moves -= activity.moves_left;
-        activity.moves_left = 0;
-    }
-    activity.warned_of_proximity = false;
+
+    int mv = std::min( activity.moves_left, this->moves );
+    activity.moves_left -= mv;
+    moves -= mv;
 }
 
 void player::assign_activity( activity_type type, item_location&& target, int moves,

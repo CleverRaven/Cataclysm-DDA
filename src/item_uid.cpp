@@ -25,5 +25,5 @@ void item_uid::deserialize( JsonIn &js )
 
 item_uid item_uid::clone() const
 {
-	return item_uid( val );
+    return item_uid( val );
 }
