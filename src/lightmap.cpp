@@ -935,6 +935,11 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 current_transparency = input_array[ currentX ][ currentY ];
             }
 
+            const int dist = rl_dist( origin, delta ) + offsetDistance;
+            last_intensity = calc( numerator, cumulative_transparency, dist );
+            output_cache[currentX][currentY] =
+                std::max( output_cache[currentX][currentY], last_intensity );
+
             float new_transparency = input_array[ currentX ][ currentY ];
 
             if( new_transparency != current_transparency ) {
@@ -959,11 +964,6 @@ void castLight( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
                 }
                 current_transparency = new_transparency;
             }
-
-            const int dist = rl_dist( origin, delta ) + offsetDistance;
-            last_intensity = calc( numerator, cumulative_transparency, dist );
-            output_cache[currentX][currentY] =
-                std::max( output_cache[currentX][currentY], last_intensity );
 
             newStart = leadingEdge;
         }
