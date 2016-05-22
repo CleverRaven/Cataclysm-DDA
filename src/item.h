@@ -1364,7 +1364,11 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
+
     private:
+        /** unique identifier for each non-null instance */
+        long long uid = std::numeric_limits<long long>::min();
+
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const;

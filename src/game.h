@@ -149,6 +149,15 @@ class game
         std::unique_ptr<player> u_ptr;
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
+
+    private:
+        /** last assigned unique item identifier */
+        long long last_uid = std::numeric_limits<long long>::min();
+
+    public:
+	/** fetch next unique item identifier */
+        long long next_uid() { return ++last_uid; }
+
     public:
 
         /** Initializes the UI. */

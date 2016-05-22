@@ -1414,6 +1414,11 @@ void item::io( Archive& archive )
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
 
+    archive.io( "uid", uid, std::numeric_limits<decltype(uid)>::min() );
+    if( uid == std::numeric_limits<decltype(uid)>::min() ) {
+        uid = g->next_uid(); /** handle legacy saves with uids */
+    }
+
     // normalize legacy saves to always have charges >= 0
     archive.io( "charges", charges, 0L );
     charges = std::max( charges, 0L );
