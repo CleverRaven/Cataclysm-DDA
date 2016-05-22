@@ -22,6 +22,41 @@ void advanced_inv();
 // veh_interact.cpp
 void complete_vehicle();
 
+player_activity::player_activity( const player_activity &rhs )
+    : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
+      name( rhs.name ), values( rhs.values ), str_values( rhs.str_values ),
+      coords( rhs.coords ), index( rhs.index ), position( rhs.position ),
+      placement( rhs.placement ), ignore_trivial( rhs.ignore_trivial ),
+      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
+{
+    for( size_t i = 0; i != targets.size(); ++i ) {
+        targets[ i ] = rhs.targets[ i ].clone();
+    }
+}
+
+player_activity &player_activity::operator= ( const player_activity &rhs )
+{
+    type = rhs.type;
+    moves_total = rhs.moves_total;
+    moves_left = rhs.moves_left;
+    name = rhs.name;
+    values = rhs.values;
+    str_values = rhs.str_values;
+    coords = rhs.coords;
+    index = rhs.index;
+    position = rhs.position;
+    placement = rhs.placement;
+    ignore_trivial = rhs.ignore_trivial;
+    warned_of_proximity = rhs.warned_of_proximity;
+    auto_resume = rhs.auto_resume;
+
+    for( size_t i = 0; i != targets.size(); ++i ) {
+        targets[ i ] = rhs.targets[ i ].clone();
+    }
+
+    return *this;
+}
+
 const std::string &player_activity::get_stop_phrase() const
 {
     static const std::string stop_phrase[NUM_ACTIVITIES] = {

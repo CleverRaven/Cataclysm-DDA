@@ -18,6 +18,8 @@ class vehicle_cursor;
  */
 class item_location : public JsonSerializer, public JsonDeserializer
 {
+        friend class player_activity; /** for clone() */
+
     public:
         enum class type : int {
             invalid = 0,
@@ -84,8 +86,14 @@ class item_location : public JsonSerializer, public JsonDeserializer
         const item *get_item() const;
 
     private:
+        /**
+         * Clones this instance
+         * @warning usage should be restricted to implementing custom copy-constructors
+         */
+        item_location clone() const;
+
         class impl;
-        std::unique_ptr<impl> ptr;
+        std::shared_ptr<impl> ptr;
 
         class item_on_map;
         class item_on_person;

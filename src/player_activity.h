@@ -63,8 +63,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
 
     public:
         player_activity() = default;
-        player_activity( const player_activity & ) = delete;
-        player_activity &operator= ( const player_activity & ) = delete;
+        player_activity( const player_activity & );
+        player_activity &operator= ( const player_activity & );
         player_activity( player_activity && ) = default;
         player_activity &operator=( player_activity && ) = default;
 
