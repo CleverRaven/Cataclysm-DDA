@@ -965,10 +965,11 @@ int Character::skill_dispersion( const item& gun, bool random ) const
         dispersion += 45 * ( 10 - lvl );
     }
 
-    if( get_skill_level( skill_gun ) < 10 ) {
+    const int marksmanship_lvl = get_skill_level( skill_gun );
+    if( marksmanship_lvl < 10 ) {
         // Up to 0.25 deg per each skill point < 10.
         ///\EFFECT_GUN <10 randomly increased dispersion of all gunfire
-        dispersion += 15 * ( 10 - lvl );
+        dispersion += 15 * ( 10 - marksmanship_lvl );
     }
 
     return random ? rng(0, dispersion) : dispersion;
