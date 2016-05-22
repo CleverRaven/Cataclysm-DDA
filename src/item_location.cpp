@@ -451,7 +451,8 @@ void item_location::deserialize( JsonIn &js )
 
     auto type = jo.get_string( "type" );
     if( type == "character" ) {
-        // @todo
+        // @todo support characters other than the player
+        ptr.reset( new item_on_person( g->u, uid ) );
 
     } else if( type == "map" ) {
         ptr.reset( new item_on_map( map_cursor( pos ), uid ) );
