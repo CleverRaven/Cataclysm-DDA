@@ -39,7 +39,7 @@ const efftype_id effect_bounced( "bounced" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
-static inline void eject_casing( player& p, item& weap );
+static void eject_casing( player& p, item_location &obj );
 int recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
@@ -475,7 +475,7 @@ int player::fire_gun( const tripoint &target, int shots, item_location &&obj )
         }
 
         double dispersion = get_weapon_dispersion( &gun, true );
-        int range = rl_dist( pos(), aim );
+        int range = rl_dist( obj.position(), aim );
 
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
         // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
@@ -484,7 +484,7 @@ int player::fire_gun( const tripoint &target, int shots, item_location &&obj )
             dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 
-        auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
+        auto shot = projectile_attack( make_gun_projectile( gun ), obj.position(), aim, dispersion );
         curshot++;
 
         // if we are firing a turret don't apply that recoil to the player
@@ -494,7 +494,7 @@ int player::fire_gun( const tripoint &target, int shots, item_location &&obj )
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
 
-        eject_casing( *this, gun );
+        eject_casing( *this, obj );
 
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
@@ -1396,14 +1396,16 @@ int time_to_fire(player &p, const itype &firingt)
     return std::max(info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ));
 }
 
-static inline void eject_casing( player& p, item& weap ) {
+static void eject_casing( player& p, item_location &obj ) {
+    item& weap = *obj;
+
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    auto tiles = closest_tripoints_first( 1, p.pos() );
+    auto tiles = closest_tripoints_first( 1, obj.position() );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&p]( const tripoint& e ) {
         return !g->m.passable( e );
     } ), tiles.end() );
-    tripoint eject = tiles.empty() ? p.pos() : random_entry( tiles );
+    tripoint eject = tiles.empty() ? obj.position() : random_entry( tiles );
 
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();
