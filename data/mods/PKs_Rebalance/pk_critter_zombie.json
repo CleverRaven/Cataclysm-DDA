@@ -1,5 +1,4 @@
 [
-    
     {
     "type" : "MONSTER",
     "id" : "mon_zoose",
@@ -546,7 +545,7 @@
             "no_infection_chance" : 2
         },
         ["GRAB", 5], ["GRAB_DRAG", 2]],
-    "description":"This zombie seems to be more comfortable in water than out.  Its skin has hardened into a flaky chitonous layer, and its ponderous movements belie its hostility.",
+    "description":"This zombie seems to be more comfortable in water than out.  Its skin has hardened into a flaky chitinous layer, and its ponderous movements belie its hostility.",
     "flags":["CHITIN", "SEES", "HEARS", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BLEED", "SWIMS", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
@@ -572,12 +571,12 @@
     "armor_acid":2,
     "armor_fire":2,
     "vision_day":45,
-    "vision_night":5, 
+    "vision_night":5,
     "hp":140,
     "death_function":"NORMAL",
     "special_attacks":[["STRETCH_BITE", 15], ["STRETCH_ATTACK", 10]],
-    "description":"With empty black sockets this creature surveys its surroundings delibrately.  As it scans, its body pulsates and contorts in a fashion that should break most bones.",
-    "flags":["SEES", "HEARS", "SMELLS", "REVIVES", "WARM", "BASHES", "GRABS", "GROUP_BASH", "POISON", "NO_BREATHE"]   
+    "description":"With empty black sockets this creature surveys its surroundings deliberately.  As it scans, its body pulsates and contorts in a fashion that should break most bones.",
+    "flags":["SEES", "HEARS", "SMELLS", "REVIVES", "WARM", "BASHES", "GRABS", "GROUP_BASH", "POISON", "NO_BREATHE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_crawler_pk",
@@ -867,7 +866,7 @@
         },
         ["LUNGE", 30]
     ],
-    "description":"Its fur pulled taunt and dyed a faint green, this once-dog is now an achomplished pack hunter.",
+    "description":"Its fur pulled taunt and dyed a faint green, this once-dog is now an accomplished pack hunter.",
     "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES"]
     },{
     "type" : "MONSTER",

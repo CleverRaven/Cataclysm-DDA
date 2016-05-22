@@ -1,5 +1,4 @@
 [
-
     {
         "type" : "MONSTER_FACTION",
         "name" : "ant",
@@ -35,6 +34,4 @@
         "name" : "mutant_predator",
         "by_mood" : ["mutant_omnivore"]
     }
-    
-
 ]

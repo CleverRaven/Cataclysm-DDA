@@ -1,5 +1,4 @@
 [
-
     {
     "type": "mapgen",
         "om_terrain": [
@@ -75,13 +74,12 @@
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 15, 23 ], "y": [ 15, 23 ] },
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 6, 10 ], "y": [ 6, 10 ], "chance": 4, "repeat": [ 1, 2 ] }
             ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_victim_corpse", "chance": 55, "x": [ 9 ], "y": [ 9 ] },
                 { "item": "doom_victim_corpse", "chance": 65, "x": [ 23 ], "y": [ 16 ] }
             ]
         }
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -160,14 +158,13 @@
                 { "point": "furniture", "id": "f_shackle", "x": 12, "y": 15 },
                 { "point": "terrain", "id": "t_rock_floor", "x": 12, "y": 7 }
                 ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_victim_corpse", "chance": 65, "x": [ 8 ], "y": [ 10 ] },
                 { "item": "doom_victim_corpse", "chance": 65, "x": [ 18 ], "y": [ 19 ] },
                 { "item": "doom_stimpack", "x": [ 15, 18 ], "y": [ 18, 21 ], "repeat": [ 1, 2 ] }
             ]
         }
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -245,13 +242,12 @@
                 { "point": "furniture", "id": "f_blade", "x": 0, "y": 21 },
                 { "point": "terrain", "id": "t_rock_floor", "x": 15, "y": 8 }
             ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_lootpack", "chance": 15, "x": [ 3, 4 ], "y": [ 6, 10 ] },
                 { "item": "doom_stimpack", "chance": 75, "x": [ 3, 4 ], "y": [ 6, 10 ] }
             ]
         }
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -322,7 +318,7 @@
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 16, 23 ], "y": [ 0, 13 ], "chance": 10 },
                 { "monster": "GROUP_DOOM_HELP", "x": [ 18 ], "y": [ 21 ], "chance": 3 }
             ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_victim_corpse", "chance": 65, "x": [ 23 ], "y": [ 13 ] },
                 { "item": "doom_victim_corpse", "chance": 85, "x": [ 16 ], "y": [ 23 ] },
                 { "item": "doom_victim_corpse", "chance": 85, "x": [ 17 ], "y": [ 23 ] },
@@ -335,7 +331,6 @@
                 ]
         }
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -411,7 +406,7 @@
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 16 ], "y": [ 7 ], "chance": 8 },
                 { "monster": "GROUP_DOOM_HELP", "x": [ 9, 11 ], "y": [ 9, 11 ], "chance": 2, "repeat": [ 0, 2 ] }
             ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_victim_corpse", "chance": 75, "x": [ 1 ], "y": [ 21 ] },
                 { "item": "doom_victim_corpse", "chance": 80, "x": [ 8 ], "y": [ 19 ] },
                 { "item": "doom_victim_corpse", "chance": 45, "x": [ 7 ], "y": [ 13 ] },
@@ -425,7 +420,6 @@
                 ]
         }
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -502,16 +496,14 @@
                 { "point": "furniture", "id": "f_shackle", "x": 1, "y": 6 },
                 { "point": "terrain", "id": "t_rock_floor", "x": 1, "y": 6 }
                 ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_victim_corpse", "chance": 65, "x": [ 8 ], "y": [ 21 ] },
                 { "item": "doom_victim_corpse", "chance": 65, "x": [ 13 ], "y": [ 8 ] },
                 { "item": "doom_armor", "chance": 40, "x": [ 0, 1 ], "y": [ 6, 12 ] },
                 { "item": "doom_stimpack", "chance": 20, "x": [ 0, 1 ], "y": [ 6, 12 ] }
             ]
-                
         }
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -583,7 +575,7 @@
                 { "monster": "GROUP_DOOM_HELP", "x": [ 7, 23 ], "y": [ 0, 16 ], "chance": 3, "repeat": [ 0, 2 ] },
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 6, 10 ], "y": [ 13, 17 ], "chance": 5 }
             ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_victim_corpse", "chance": 25, "x": [ 23 ], "y": [ 2 ] },
                 { "item": "doom_victim_corpse", "chance": 33, "x": [ 16 ], "y": [ 8 ] },
                 { "item": "doom_victim_corpse", "chance": 45, "x": [ 15 ], "y": [ 6 ] },
@@ -599,7 +591,6 @@
                 ]
         }
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -677,7 +668,7 @@
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 4, 6 ], "y": [ 14, 17 ], "chance": 5 },
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 16, 18 ], "y": [ 14, 17 ], "chance": 5 }
             ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_victim_corpse", "chance": 45, "x": [ 1 ], "y": [ 7, 8 ] },
                 { "item": "doom_victim_corpse", "chance": 15, "x": [ 0 ], "y": [ 7, 8 ] },
                 { "item": "doom_victim_corpse", "chance": 15, "x": [ 9 ], "y": [ 10 ] },
@@ -694,7 +685,6 @@
                 ]
         }
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -765,7 +755,7 @@
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 0, 10 ], "y": [ 0, 10 ], "chance": 5 },
                 { "monster": "GROUP_DOOM_INFANTRY", "x": [ 13, 17 ], "y": [ 13, 17 ], "chance": 5 }
             ],
-            "place_items": [ 
+            "place_items": [
                 { "item": "doom_victim_corpse", "chance": 65, "x": [ 13, 17 ], "y": [ 13, 17 ] },
                 { "item": "doom_victim_corpse", "chance": 65, "x": [ 10 ], "y": [ 10 ] },
                 { "item": "doom_stimpack", "chance": 35, "x": [ 0, 10 ], "y": [ 0, 10 ], "repeat": [ 1, 2 ] },
@@ -776,5 +766,4 @@
                 ]
         }
     }
-
 ]

@@ -1,5 +1,4 @@
 [
-
     {
     "type" : "MONSTER",
     "id" : "mon_bear",
@@ -105,7 +104,7 @@
         }],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT", "FRIEND_ATTACKED"],
-    "//" : "Wolves should flee from fire as per their species, but the presence of fire will enrage them into tracking you from a short distance.  the logic behind friend-attacked is to emulate dogs/wolves and their hesitation in the face of opposition.  Besides, theyll be back for you soon anyway."
+    "//" : "Wolves should flee from fire as per their species, but the presence of fire will enrage them into tracking you from a short distance.  the logic behind friend-attacked is to emulate dogs/wolves and their hesitation in the face of opposition.  Besides, they'll be back for you soon anyway."
     },{
     "type" : "MONSTER",
     "id" : "mon_tardigrade",
@@ -181,5 +180,4 @@
     "fear_triggers": ["FIRE", "HURT"],
     "categories":["WILDLIFE"]
     }
-    
 ]

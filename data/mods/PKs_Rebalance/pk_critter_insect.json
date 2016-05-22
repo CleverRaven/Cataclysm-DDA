@@ -1,5 +1,4 @@
 [
-
     {
     "type" : "MONSTER",
     "id" : "mon_ant_larva",
@@ -111,7 +110,7 @@
     "hp":15,
     "death_function":"NORMAL",
     "special_attacks":[["ACID_BARF", 15]],
-    "description":"A writhing mass of yellowing flesh, this little guy has developed a means of expelling stomach contents if distubed.",
+    "description":"A writhing mass of yellowing flesh, this little guy has developed a means of expelling stomach contents if disturbed.",
     "flags":["ACIDPROOF", "HEARS", "SMELLS", "LARVA", "CHITIN"],
     "anger_triggers":["HURT", "PLAYER_WEAK"],
     "placate_triggers":["MEAT"]
@@ -141,7 +140,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "special_attacks":[["SHRIEK_ALERT", 60], ["SHRIEK_STUN", 1]],
-    "description":"A small giant ant with a carapiece shell.  Is capable of a suprising range of vocal expression for a bug, including ear-splitting wails.",
+    "description":"A small giant ant with a carapace shell.  Is capable of a surprising range of vocal expression for a bug, including ear-splitting wails.",
     "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"],
     "anger_triggers":["FRIEND_DIED", "HURT"]
     },{
@@ -406,9 +405,8 @@
     "hp":120,
     "death_function":"NORMAL",
     "special_attacks":[["GRAB", 60], ["SHOCKSTORM", 30]],
-    "description":"You don't know what this thing is, but the ants treat it as one of their own.  Its head looks like a maggot, completely devoid of pincers and with three beady eyes staring in different directions.  While it typically travels on its four limbs, it occassionally stands upon its hind limbs to gaze about.  It claws clumsily wth the three digits on each limb, and rumors exist of it being capable of harnessing electricity for attack.",
+    "description":"You don't know what this thing is, but the ants treat it as one of their own.  Its head looks like a maggot, completely devoid of pincers and with three beady eyes staring in different directions.  While it typically travels on its four limbs, it occasionally stands upon its hind limbs to gaze about.  It claws clumsily with the three digits on each limb, and rumors exist of it being capable of harnessing electricity for attack.",
     "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS", "BASHES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "FIRE"]
     }
-    
 ]

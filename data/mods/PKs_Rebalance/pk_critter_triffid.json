@@ -1,5 +1,4 @@
 [
-    
     {
     "type" : "MONSTER",
     "id" : "mon_creeper_hub",
@@ -110,7 +109,7 @@
     "special_attacks":[["SPIT_SAP", 10], ["IMPALE",20], ["GROW_VINE", 50]],
     "description":"A puckered flower is all that adorns the stalk of this biollante.  Beneath its luminescent petals, something rigid appears to be moving, and consistent wisps of gas can be seen escaping into the surrounding air.",
     "flags":["NOHEAD", "IMMOBILE", "PARALYZEVENOM", "SEES", "LEAKSGAS"],
-    "//": "This thing is pretty awsome.  One of my favorite creations from this faction.  The vine growth keeps it out of melee that much longer in the abscence of a creeper hub, the sap is pretty deadly and accurate, and impale is surpise bleeding."
+    "//": "This thing is pretty awesome.  One of my favorite creations from this faction.  The vine growth keeps it out of melee that much longer in the absence of a creeper hub, the sap is pretty deadly and accurate, and impale is surprise bleeding."
     },{
     "type" : "MONSTER",
     "id" : "mon_creeper_vine_terminal",
@@ -222,10 +221,10 @@
     "hp":70,
     "special_attacks":[["GROW_VINE", 30], ["VINE", 5]],
     "death_function":"NORMAL",
-    "description":"A twisting cluster of roots, with 3 barbed vines curled limply around a wildy cluster of smaller vines.  When disturbed, it can release several of these vines.",
+    "description":"A twisting cluster of roots, with 3 barbed vines curled limply around a wildly cluster of smaller vines.  When disturbed, it can release several of these vines.",
     "flags":["DIGS", "HEARS", "GOODHEARING", "SMELLS", "BASHES", "GROUP_BASH", "SWIMS", "NOHEAD", "PUSH_MON", "PLASTIC", "VENOM"],
     "anger_triggers":["SOUND", "FIRE", "STALK", "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK"],
-    "//": "I honesty dont hate this guy, but I feel like I missing out on some potential by leaving it this way instead of adding something. . .  but what?"
+    "//": "I honesty don't hate this guy, but I feel like I missing out on some potential by leaving it this way instead of adding something. . .  but what?"
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast_terminal",
@@ -330,11 +329,11 @@
         "groups": [
             [ "fungal_sting", 15 ]
         ]
-    },  
+    },
     "special_attacks":[["PARA_STING", 15]],
     "description":"A creeping animate plant, growing as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  This one looks tough.",
     "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD", "PARALYZEVENOM"],
-    "//": "I didnt really want to add bells and whistles to these guys, but I dont think I could not have.  parasting is a pretty weak attack that only fuctions on the player, afaik."
+    "//": "I didn't really want to add bells and whistles to these guys, but I don't think I could not have.  parasting is a pretty weak attack that only functions on the player, afaik."
     },{
         "type" : "MONSTER",
         "id" : "mon_treent",
@@ -378,10 +377,10 @@
             "duration": 50
         }
         ],
-        "description":"A massive slab of bark with faintly glowing flattened blue tendrils and large brown cones instead of leaves.  It looks 'sort' of like a tree in that the tendrils are thickest at the base of the monster and taper into thin, densly packed slivers at the top.  Its actually almost beautiful at night, where it can be seen from a distance pulsating amoung the tallest tree.",
+        "description":"A massive slab of bark with faintly glowing flattened blue tendrils and large brown cones instead of leaves.  It looks 'sort' of like a tree in that the tendrils are thickest at the base of the monster and taper into thin, densely packed slivers at the top.  Its actually almost beautiful at night, where it can be seen from a distance pulsating among the tallest tree.",
         "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "VENOM", "PARALYZEVENOM", "DESTROYS", "ATTACKMON", "PUSH_MON", "NOHEAD"],
         "anger_triggers":["FIRE", "HURT", "PLAYER_CLOSE", "FRIEND_DIED"],
-        "//": "Intentionall keep weaker than they could be.  Numbers, and perhaps an evo if its called for."
+        "//": "Intentionally keep weaker than they could be.  Numbers, and perhaps an evo if its called for."
     },{
         "type" : "MONSTER",
         "id" : "mon_treent_green",
@@ -418,7 +417,7 @@
         "description":"A monster resembling a healthy young tree.  With a little effort, the triffids seem to have produced a guardian that blends into the forest.  Its poisonous barbs are visible upon close examination, but otherwise its not a bad disguise.",
         "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "PARALYZEVENOM", "DESTROYS", "PUSH_MON", "NOHEAD"],
         "anger_triggers":["FIRE", "HURT", "FRIEND_DIED",  "FRIEND_ATTACKED", "PLAYER_CLOSE"],
-        "//": "I like these guys, but feel they are outliers and out of place amoung the triffids.  maybe add other 'alien' plants?  Sounds like a job for compiling my own code."
+        "//": "I like these guys, but feel they are outliers and out of place among the triffids.  maybe add other 'alien' plants?  Sounds like a job for compiling my own code."
     },{
         "type" : "MONSTER",
         "id" : "mon_dionaea_sprout",
@@ -454,9 +453,9 @@
             "type" : "bite",
             "cooldown" : 20,
             "no_infection_chance" : 20,
-            "min_mul" : 0.50, "//" : "babby dionaea bitch"
+            "min_mul" : 0.50, "//" : "baby dionaea bitch"
         }],
-        "description":"An animate plant a little under 2 meters long, this juvenille still packs a wallop with its fetid mouth.",
+        "description":"An animate plant a little under 2 meters long, this juvenile still packs a wallop with its fetid mouth.",
         "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "PUSH_MON", "NOHEAD"],
         "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
@@ -525,7 +524,7 @@
     "description":"a dried up shrub with rustling brown leaves adept at ambushes.  Highly volatile and easily excited.",
     "flags":["SEES", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
-    "//": "I dont know if they fit in well, but they add a means for the tiffids to troll."
+    "//": "I don't know if they fit in well, but they add a means for the tiffids to troll."
     },{
     "type" : "MONSTER",
     "id" : "mon_minecraft_charged",
@@ -553,10 +552,9 @@
     "special_when_hit":["ZAPBACK", 20],
     "starting_ammo": {  "c4": 1, "EMPbomb": 3},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
-    "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby elctronic devices. . .",
+    "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby electronic devices. . .",
     "flags":["SEES", "SMELLS","KEENNOSE", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
-    "//": "And these guys give them some means of taking down elctronics."
+    "//": "And these guys give them some means of taking down electronics."
     }
-    
 ]

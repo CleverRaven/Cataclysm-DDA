@@ -1,5 +1,4 @@
 [
-
     {
         "type" : "overmap_special",
         "id" : "Slime Pit",
@@ -142,5 +141,4 @@
         "rotate" : false, "//":"allow rotation",
         "spawns" : { "group" :  "GROUP_DOOM", "population":[150, 250], "radius":[25,50] }
     }
-    
 ]

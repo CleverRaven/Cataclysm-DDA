@@ -1,5 +1,4 @@
 [
-
     {
         "type" : "material",
         "ident" : "spess_plastic",
@@ -21,5 +20,4 @@
         "chip_resist" : 10,
         "density" : 10
     }
-
 ]
