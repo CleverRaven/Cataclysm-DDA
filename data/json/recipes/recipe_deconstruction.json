@@ -1006,18 +1006,10 @@
     ]
   ],
   "components": [
-    [
-      [ "spike", 2 ]
-    ],
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [ [ "spike", 2 ] ],
+    [ [ "processor", 1 ] ],
+    [ [ "RAM", 1 ] ],
+    [ [ "scrap", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1038,15 +1030,9 @@
     ]
   ],
   "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [ [ "processor", 1 ] ],
+    [ [ "RAM", 1 ] ],
+    [ [ "scrap", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1067,15 +1053,9 @@
     ]
   ],
   "components": [
-    [
-      [ "processor", 2 ]
-    ],
-    [
-      [ "RAM", 2 ]
-    ],
-    [
-      [ "scrap", 2 ]
-    ]
+    [ [ "processor", 1 ] ],
+    [ [ "RAM", 1 ] ],
+    [ [ "scrap", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1096,15 +1076,9 @@
     ]
   ],
   "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [ [ "processor", 1 ] ],
+    [ [ "RAM", 1 ] ],
+    [ [ "scrap", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1125,15 +1099,9 @@
     ]
   ],
   "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [ [ "processor", 1 ] ],
+    [ [ "RAM", 1 ] ],
+    [ [ "scrap", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1154,15 +1122,9 @@
     ]
   ],
   "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [ [ "processor", 1 ] ],
+    [ [ "RAM", 1 ] ],
+    [ [ "scrap", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1183,15 +1145,9 @@
     ]
   ],
   "components": [
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [ [ "processor", 1 ] ],
+    [ [ "RAM", 1 ] ],
+    [ [ "scrap", 1 ] ]
   ]
 },{
     "type" : "recipe",
@@ -1208,6 +1164,7 @@
     ], "tools": [
         [ [ "soldering_iron", 3 ], [ "toolset", 3 ] ]
     ], "components": [
+        [ [ "omnicamera", 1 ] ],
         [ [ "processor", 1 ] ],
         [ [ "lens", 1 ] ],
         [ [ "e_scrap", 1 ] ],
@@ -1317,13 +1274,18 @@
         [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ],
         [ [ "oxy_torch", 20 ],  [ "welder", 100 ], [ "toolset", 150 ], [ "welder_crude", 150 ] ]
     ], "components": [
+        [ [ "flamethrower", 1 ] ],
+        [ [ "plut_cell", 6 ] ],
+        [ [ "motor_enhanced", 1 ] ],
+        [ [ "metal_tank_small", 1 ] ],
         [ [ "power_supply", 12 ] ],
         [ [ "processor", 1 ] ],
         [ [ "RAM", 1 ] ],
-        [ [ "flamethrower", 1 ] ],
+        [ [ "omnicamera", 1 ] ],
+        [ [ "robot_controls", 1 ] ],
         [ [ "wire", 4 ] ],
-        [ [ "motor", 2 ] ],
-        [ [ "steel_chunk", 60 ] ]
+        [ [ "cable", 60 ] ],
+        [ [ "steel_chunk", 40 ] ]
     ]
 },{
     "type" : "recipe",
@@ -1346,13 +1308,20 @@
         [ [ "flamethrower", 1 ] ],
         [ [ "tazer", 1 ] ],
         [ [ "m4a1", 1 ] ],
+        [ [ "mil_plate", 6 ] ],
+        [ [ "alloy_plate", 1 ] ],
+        [ [ "hdframe", 1 ] ],
         [ [ "motor_large", 1 ] ],
+        [ [ "motor_enhanced", 1 ] ],
+        [ [ "minireactor", 1 ] ],
+        [ [ "plut_cell", 10 ] ],
         [ [ "power_supply", 20 ] ],
-        [ [ "plut_cell", 4 ] ],
+        [ [ "metal_tank", 1 ] ],
         [ [ "RAM", 2 ] ],
-        [ [ "steel_chunk", 15 ] ],
-        [ [ "mil_plate", 2 ] ],
-        [ [ "robot_controls", 1 ] ]
+        [ [ "omnicamera", 1 ] ],
+        [ [ "robot_controls", 1 ] ],
+        [ [ "cable", 80 ] ],
+        [ [ "steel_chunk", 10 ] ]
     ]
     },{
         "type" : "recipe",
@@ -2865,6 +2834,8 @@
         [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ]
     ], "components": [
         [ [ "motor_small", 3 ] ],
+        [ [ "antenna", 1 ] ],
+        [ [ "receiver", 1 ] ],
         [ [ "processor", 3 ] ],
         [ [ "RAM", 2 ] ],
         [ [ "plastic_chunk", 2 ] ]
