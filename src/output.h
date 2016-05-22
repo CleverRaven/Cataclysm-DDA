@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 struct iteminfo;
 enum direction : unsigned;

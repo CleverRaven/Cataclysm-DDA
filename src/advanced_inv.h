@@ -1,7 +1,7 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include "output.h"
+#include "cursesdef.h" // WINDOW
 #include "enums.h"
 
 #include <string>

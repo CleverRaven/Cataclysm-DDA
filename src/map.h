@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "game_constants.h"
+#include "cursesdef.h"
 #include "item.h"
 #include "lightmap.h"
 #include "item_stack.h"

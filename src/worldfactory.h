@@ -2,7 +2,7 @@
 #define WORLDFACTORY_H
 
 #include "options.h"
-#include "output.h"
+#include "cursesdef.h"
 #include "enums.h"
 
 #include <functional>
