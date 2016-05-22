@@ -1,6 +1,6 @@
  [
   {
-    "id": "762x25",
+    "id": "762_25",
     "type": "AMMO",
     "name": "7.62x25mm JHP",
     "name_plural": "7.62x25mm JHP",
@@ -23,12 +23,12 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "id" : "762_25hot",
+    "id": "762_25hot",
     "copy-from": "762_25",
-    "type" : "AMMO",
-    "name" : "7.62x25mm FMJ hot load",
-    "name_plural" : "7.62x25mm FMJ hot load",
-    "description" : "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a 85 gr. FMJ bullet.  It is more powerful than the original.",
+    "type": "AMMO",
+    "name": "7.62x25mm FMJ hot load",
+    "name_plural": "7.62x25mm FMJ hot load",
+    "description": "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a 85 gr. FMJ bullet.  It is more powerful than the original.",
     "price": 3500,
     "relative": {
         "damage": 3,
@@ -38,10 +38,10 @@
     }
   },
   {
-    "id" : "762_25typeP",
+    "id":  "762_25typeP",
     "copy-from": "762_25",
-    "type" : "AMMO",
-    "name" : "7.62x25mm Type P",
+    "type": "AMMO",
+    "name": "7.62x25mm Type P",
     "name_plural": "7.62x25mm Type P",
     "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": 12,
