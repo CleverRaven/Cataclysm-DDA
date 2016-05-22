@@ -457,10 +457,10 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new item_on_map( map_cursor( pos ), uid ) );
 
     } else if( type == "vehicle" ) {
-        // @todo
-
-    } else {
-        return;
+        vehicle *veh = g->m.veh_at( pos );
+        if( veh ) {
+            ptr.reset( new item_on_vehicle( vehicle_cursor( *veh, jo.get_int( "part" ) ), uid ) );
+        }
     }
 }
 
