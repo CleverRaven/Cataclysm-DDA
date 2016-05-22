@@ -42,21 +42,6 @@ class Pickup
         static void remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
                                                 int &moves_taken, int curmit );
         static void show_pickup_message( const PickupMap &mapPickup );
-
-        /**
-        * Helper function for pick_up. Adjusts the projected volume and weight when a selection is changed.
-        *
-        * For unstackable items, if new_amt > old_amt, then the weight and volume are increased by the item's.
-        * Otherwise, if new_amt < old_amt, the weight and volume are decreased by the item's.
-        * For stackable items, old_amt and new_amt represent the old/new number of charges that were selected.
-        *@param it The item whose selection was changed.
-        *@param weight Where to store the new weight
-        *@param volume Where to store the new volume
-        *@param prev_amt How many of the item were selected before the change (must be non-negative)
-        *@param old_amt How many of the item were selected after the change (must be non-negative)
-        */
-        static void adjust_weight_and_volume( const item &it, int &weight, int &volume, int old_amt,
-                                              int new_amt );
 };
 
 #endif
