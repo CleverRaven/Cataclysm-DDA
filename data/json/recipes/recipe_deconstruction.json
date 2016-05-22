@@ -2970,7 +2970,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -2990,7 +2990,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3010,7 +3010,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3030,7 +3030,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3050,7 +3050,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3070,7 +3070,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3089,7 +3089,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3108,7 +3108,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3127,7 +3127,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3147,7 +3147,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3167,7 +3167,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3187,7 +3187,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3207,7 +3207,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3228,7 +3228,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3248,7 +3248,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3268,7 +3268,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3288,7 +3288,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3309,7 +3309,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3329,7 +3329,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3349,7 +3349,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3370,7 +3370,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3390,7 +3390,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3411,7 +3411,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3431,7 +3431,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3452,7 +3452,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3472,7 +3472,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3493,7 +3493,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3514,7 +3514,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3534,7 +3534,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3554,7 +3554,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3575,7 +3575,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3596,7 +3596,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3617,7 +3617,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3638,7 +3638,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3659,7 +3659,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3680,7 +3680,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3701,7 +3701,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3722,7 +3722,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3743,7 +3743,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3764,7 +3764,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3785,7 +3785,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3806,7 +3806,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3827,7 +3827,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3848,7 +3848,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3868,7 +3868,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3888,7 +3888,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3909,7 +3909,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3931,7 +3931,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3953,7 +3953,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3974,7 +3974,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -3995,7 +3995,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -4015,7 +4015,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -4035,7 +4035,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
@@ -4056,7 +4056,7 @@
     "difficulty": 5,
     "time": 500,
     "reversible": true,
-    "autolearn": true,
+    "autolearn": false,
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ],
     "tools": [ [ [ "puller", -1 ] ] ],
     "components": [
