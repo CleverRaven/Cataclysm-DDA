@@ -17,10 +17,6 @@
     "armor_cut":8,
     "vision_day":5,
     "vision_night":7,
-    "upgrades":{
-        "into": "mon_spider_jumping_giant_acid",
-        "half_life": 17
-    },
     "hp":70,
     "death_function":"NORMAL",
     "description":"A gigantic spider with a bulbous thorax.  It digs an underground burrow that serves as a pit to trap unwary prey.",
@@ -65,10 +61,6 @@
     "armor_cut":6,
     "vision_day":5,
     "vision_night":5,
-    "upgrades":{
-        "into_group": "WEB_SPIDER_UPGRADE",
-        "half_life": 19
-    },
     "hp":40,
     "death_function":"NORMAL",
     "description":"A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
@@ -93,10 +85,6 @@
     "vision_day":7,
     "vision_night":15,
     "hp":40,
-    "upgrades":{
-        "into": "mon_spider_wolf_giant_pk",
-        "half_life": 35
-    },
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "fear_triggers": ["FRIEND_DIED"]
     }
