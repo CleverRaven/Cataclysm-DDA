@@ -34,7 +34,7 @@
         "damage": 3,
         "range": 2,
         "pierce": 3,
-        "recoil": 2
+        "recoil": 45
     }
   },
   {
@@ -43,9 +43,9 @@
     "type" : "AMMO",
     "name" : "7.62x25mm Type P",
     "name_plural": "7.62x25mm Type P",
-    "description" : "A high-pressure commercial version of the 7.62x25mm cartridge, loaded with a 85 gr. FMJ bullet.  It is more powerful than the original.",
+    "description": "A subsonic cartridge derived from the 7.62x25mm, designed for silenced firearms.  It offers good armor penetration at the cost of slightly less damage.",
     "weight": 12,
-    "price": 350,
+    "price": 5000, "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "count": 50,
     "loudness": 60,
     "relative": {
