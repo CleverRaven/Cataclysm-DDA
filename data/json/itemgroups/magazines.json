@@ -141,7 +141,6 @@
       ["calicomag", 15],
       ["fnp90mag", 15],
       ["mp5bigmag", 10],
-      ["ppsh41mag", 10 ],
       ["thompson_bigmag", 5],
       ["thompson_drum", 15]
     ]
@@ -237,8 +236,8 @@
     "items": [
       ["ak74mag", 10],
       ["makarovmag", 10],
-      ["ppsh41mag", 10],
-      ["ppsh41drum", 10],
+      ["ppshmag", 10],
+      ["ppshdrum", 10],
       ["rpk74mag", 10],
       ["skorpion61mag", 10],
       ["skorpion82mag", 10]
