@@ -45,7 +45,6 @@
     "sight_dispersion": 75,
     "aim_speed" : 4,
     "durability": 9,
-    "burst": 4,
     "modes": [
         [ "DEFAULT", "semi-auto", 1 ],
         [ "BURST", "4 rd.", 4 ]
@@ -77,7 +76,6 @@
     "aim_speed": 4,
     "recoil": 225,
     "durability": 9,
-    "burst": 2,
     "modes": [
         [ "DEFAULT", "semi-auto", 1 ],
         [ "BURST", "double", 2 ]
