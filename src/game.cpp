@@ -9182,8 +9182,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
 
             if (fast_scroll) {
-                // print a light green mark below the top right corner of the w_info window
-                mvwprintz(w_info, 1, lookWidth - 1, c_ltgreen, _("F"));
+                //~ "Fast Scroll" mark below the top right corner of the info window
+                right_print( w_info, 1, 0, c_ltgreen, _( "F" ) );
             }
 
             wrefresh(w_info);
