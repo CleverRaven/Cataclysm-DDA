@@ -166,7 +166,7 @@
     "melee_dice":2,
     "melee_dice_sides":6,
     "melee_cut":8,
-    "melee_damage" : [{"damage_type" : "bash", "amount" : 16}],
+    "melee_damage" : [{"damage_type" : "bash", "amount" : 12}],
     "special_attacks":[{
         "type" : "bite",
         "cooldown" : 15,
