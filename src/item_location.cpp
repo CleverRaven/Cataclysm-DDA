@@ -441,6 +441,10 @@ void item_location::serialize( JsonOut &js ) const
 {
     if( ptr ) {
         ptr->serialize( js );
+    } else {
+        js.start_object();
+        js.member( "type", "null" );
+        js.end_object();
     }
 }
 
