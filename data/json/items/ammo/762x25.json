@@ -47,7 +47,6 @@
     "weight": 12,
     "price": 5000, "//": "Stopgap price of $1 per.  Anti-China prejudice in the pre-Cataclysm US may have made this ammo tougher to come by.",
     "count": 50,
-    "loudness": 60,
     "relative": {
         "damage": -9,
         "range": -1,
