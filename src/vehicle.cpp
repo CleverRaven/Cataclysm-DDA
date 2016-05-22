@@ -6462,12 +6462,6 @@ int vehicle::manual_fire_turret( int p, player &shooter, item_location &&gun )
 {
     int res = 0; // number of shots actually fired
 
-    tripoint pos = global_pos3() + tripoint( parts[p].precalc[0], 0 );
-
-    // Place the shooter at the turret
-    const tripoint &oldpos = shooter.pos();
-    shooter.setpos( pos );
-
     // Spawn a fake UPS to power any turreted weapons that need electricity.
     item tmp_ups( "fake_UPS", 0 );
     // Drain a ton of power
@@ -6475,11 +6469,9 @@ int vehicle::manual_fire_turret( int p, player &shooter, item_location &&gun )
     // Fire_gun expects that the fake UPS is a last worn item
     shooter.worn.insert( shooter.worn.end(), tmp_ups );
 
+    tripoint pos = gun.position();
     const int range = gun->gun_range( &shooter );
-    auto mons = shooter.get_visible_creatures( range );
-    constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
-    tripoint shooter_pos = shooter.pos();
-    auto trajectory = g->pl_target_ui( shooter_pos, range, &*gun, tmode );
+    auto trajectory = g->pl_target_ui( pos, range, &*gun, TARGET_MODE_TURRET_MANUAL );
     shooter.recoil = abs(velocity) / 100 / 4;
     if( !trajectory.empty() ) {
         // Need to redraw before shooting
@@ -6509,9 +6501,6 @@ int vehicle::manual_fire_turret( int p, player &shooter, item_location &&gun )
             refill( fuel_type_battery, up.charges );
         }
     }
-
-    // Place the shooter back where we took them from
-    shooter.setpos( oldpos );
 
     // Deactivate automatic aiming
     if( parts[p].mode > 0 ) {
