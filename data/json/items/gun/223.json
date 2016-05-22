@@ -170,7 +170,10 @@
         "range": -6
     },
     "durability": 9,
-    "burst": 5
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "5 rd.", 5 ]
+    ]
   },
   {
     "id": "l_dsr_223",
@@ -188,7 +191,9 @@
     },
     "sight_dispersion": 0,
     "durability": 9,
-    "burst": 0
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ]
+    ]
   },
   {
     "id": "l_mbr_223",
@@ -221,7 +226,10 @@
         "recoil": -150
     },
     "durability": 9,
-    "burst": 20
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "20 rd.", 20 ]
+    ],
   },
   {
     "id": "m249",
@@ -413,7 +421,7 @@
     "sight_dispersion": 60,
     "recoil": -120,
     "durability": 8,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
     "modes": [
         [ "DEFAULT", "semi-auto", 1 ],
         [ "BURST", "3 rd.", 3 ],
