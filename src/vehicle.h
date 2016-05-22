@@ -4,6 +4,7 @@
 #include "calendar.h"
 #include "tileray.h"
 #include "color.h"
+#include "cursesdef.h" // WINDOW
 #include "damage.h"
 #include "item.h"
 #include "line.h"
