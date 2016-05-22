@@ -1519,40 +1519,5 @@
     "special_attacks":[["SHRIEK", 120], ["FORMBLOB", 150], ["LONGSWIPE", 50]],
     "description":"A scorched chaotic mass of flesh, squirming and writhing to slowly work its way across the ground.  A couple of bony scythes have ruptured the pile and wave around erratically.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "SWIMS", "NIGHT_INVISIBILITY"]
-    },{
-    "type" : "MONSTER",
-    "id" : "mon_zombie_bear_mega",
-    "name": "zombie megabear",
-    "species":"MAMMAL",
-    "default_faction":"zombie",
-    "symbol":"B",
-    "color":"i_brown",
-    "size":"HUGE",
-    "material":"flesh",
-    "diff":30,
-    "aggression":100,
-    "morale":100,
-    "speed":110,
-    "melee_skill":4,
-    "melee_dice":2,
-    "melee_dice_sides":18,
-    "melee_cut":12,
-    "melee_damage" : [{"damage_type" : "bash", "amount" : 4}],
-    "dodge":2,
-    "armor_bash":16,
-    "armor_cut":8,
-    "vision_day":25,
-    "vision_night":10,
-    "hp":380,
-    "death_function":"NORMAL",
-    "special_attacks":[["FLESH_GOLEM", 40], ["SMASH", 40],
-        {
-            "type" : "bite",
-            "cooldown" : 40,
-            "accuracy" : 6,
-            "armor_multiplier" : 0.5
-        }],
-    "description":"Although the elephant bears seem much more capable of avoiding death at the hands of zombies, a few do fall.  Several humanoid zombies can fit into its mere shadow.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "ATTACKMON", "BONES", "FAT", "LEATHER", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES"]
     }
 ]
