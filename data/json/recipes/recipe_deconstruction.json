@@ -590,71 +590,65 @@
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 3 ] ]
     ]
-  },{
-  "type" : "recipe",
-  "result": "lighter",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [["pilot_light", 1]],
-    [["plastic_chunk", 1]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "ref_lighter",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [["pilot_light", 1]],
-    [["scrap", 1]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "tshirt",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "rag", 5 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "tank_top",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "rag", 4 ]
-    ]
-  ]
-},{
+  }, 
+  {
+    "result": "lighter",
     "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "components": [
+      [ ["pilot_light", 1] ],
+      [ ["plastic_chunk", 1] ]
+    ]
+  }, 
+  {
+    "result": "ref_lighter",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "components": [
+      [ ["pilot_light", 1] ],
+      [ ["scrap", 1] ]
+    ]
+  }, 
+  {
+    "result": "tshirt",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "tailor",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "flags": ["BLIND_HARD"],
+    "components": [ [ [ "rag", 5 ] ] ]
+  }, 
+  {
+    "result": "tank_top",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "tailor",
+    "difficulty": 0,
+    "time": 500,
+    "reversible": true,
+    "flags": ["BLIND_HARD"],
+    "components": [ [ [ "rag", 4 ] ] ]
+    ]
+  }, 
+  {
     "result": "boots_steel",
+    "type" : "recipe",
     "id_suffix": "uncraft",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
@@ -662,363 +656,313 @@
     "difficulty": 0,
     "time": 1000,
     "reversible": true,
-    "autolearn": false,
-    "qualities" : [
-        {"id":"CUT","level":1,"amount":1}
-    ], "components": [
-        [ [ "leather", 8 ] ],
-        [ [ "scrap", 2 ] ]
+    "qualities" : [ {"id": "CUT","level": 1,"amount": 1 } ],
+    "components": [
+      [ [ "leather", 8 ] ],
+      [ [ "scrap", 2 ] ]
     ]
-},{
-  "type" : "recipe",
-  "result": "lightstrip_dead",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [["amplifier", 1]],
-    [["e_scrap", 1]]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_recycler",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
+  }, 
+  {
+    "result": "lightstrip_dead",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "qualities":[ {"id": "CUT","level": 1,"amount": 1 } ],
+    "components": [
+      [ ["amplifier", 1] ],
+      [ ["e_scrap", 1] ]
     ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_digestion",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_face_mask",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_nanobots",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_ground_sonar",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_metabolics",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bio_blood_filter",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "skills_required": [ "firstaid", 5 ],
-  "difficulty": 7,
-  "time": 50000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bindle",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "rag", 4 ]
+  }, 
+  {
+    "result": "bio_recycler",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "qualities" : [ {"id": "SCREW","level": 1,"amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 20 ] ],
+      [ [ "toolset", 20 ] ]
     ],
-    [
-      [ "stick", 1 ]
+    "components": [
+      [ [ "burnt_out_bionic", 1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_sling",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_HARD"],
-  "components": [
-    [
-      [ "sheet", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "battletorch_done",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [
-      [ "bat", 1 ]
+  }, 
+  {
+    "result": "bio_digestion",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "qualities" : [ {"id": "SCREW","level": 1,"amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 20 ] ],
+      [ [ "toolset", 20 ] ]
     ],
-    [
-      [ "nomex", 5 ]
+    "components": [
+      [ [ "burnt_out_bionic", 1 ] ]
     ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pipe",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "mechanics",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[ {"id":"SAW_M","level":1,"amount":1} ],
-  "components": [ [ [ "scrap", 7 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_crowbar",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "skill_used": "mechanics",
-  "difficulty": 0,
-  "time": 5000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities": [ {"id":"SAW_M","level":1,"amount":1} ],
-  "components": [
-        [ [ "scrap", 3 ] ],
-        [ [ "steel_chunk", 1] ]
-    ]
-},{
-  "type" : "recipe",
-  "result": "file",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [ [ [ "paper", 3 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "box_cigarette",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [ [ [ "paper", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "flyer",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [ [ [ "paper", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "survnote",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "flags": ["BLIND_EASY"],
-  "components": [ [ [ "paper", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "broken_manhack",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "electronics",
-  "difficulty": 4,
-  "time": 2000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities" : [
-    {"id":"SCREW","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "spike", 2 ]
+  }, 
+  {
+    "result": "bio_face_mask",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "qualities" : [ {"id": "SCREW","level": 1,"amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 20 ] ],
+      [ [ "toolset", 20 ] ]
     ],
-    [
-      [ "processor", 1 ]
-    ],
-    [
-      [ "RAM", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
+    "components": [
+      [ [ "burnt_out_bionic", 1 ] ]
     ]
-  ]
+  }, 
+  {
+    "result": "bio_nanobots",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "qualities" : [ {"id": "SCREW","level": 1,"amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 20 ] ],
+      [ [ "toolset", 20 ]]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "bio_ground_sonar",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "qualities" : [ {"id": "SCREW","level": 1,"amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 20 ] ],
+      [ [ "toolset", 20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "bio_metabolics",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "qualities" : [ {"id": "SCREW","level": 1,"amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 20 ] ],
+      [ [ "toolset", 20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "bio_blood_filter",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": 50000,
+    "reversible": true,
+    "qualities" : [ {"id": "SCREW","level": 1,"amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 20 ] ],
+      [ [ "toolset", 20 ] ]
+    ],
+    "components": [
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "bindle",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "stick", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "makeshift_sling",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "flags": ["BLIND_HARD"],
+    "components": [
+      [ [ "sheet", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "battletorch_done",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "difficulty": 0,
+    "time": 2000,
+    "reversible": true,
+    "components": [
+      [ [ "bat", 1 ] ],
+      [ [ "nomex", 5 ] ]
+    ]
+  }, 
+  {
+    "result": "pipe",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "qualities":[ {"id": "SAW_M","level": 1,"amount": 1 } ],
+    "components": [
+      [ [ "scrap", 7 ] ]
+    ]
+  }, 
+  {
+    "result": "makeshift_crowbar",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "skill_used": "mechanics",
+    "difficulty": 0,
+    "time": 5000,
+    "reversible": true,
+    "qualities": [ {"id": "SAW_M","level": 1,"amount": 1 } ],
+    "components": [
+       [ [ "scrap", 3 ] ],
+       [ [ "steel_chunk", 1] ]
+    ]
+  }, 
+  {
+    "result": "file",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ [ "paper", 3 ] ]
+    ]
+  }, 
+  {
+    "result": "box_cigarette",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ [ "paper", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "flyer",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ [ "paper", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "survnote",
+    "type" : "recipe",
+    "id_suffix": "uncraft",
+    "category": "CC_NONCRAFT",
+    "difficulty": 0,
+    "time": 100,
+    "reversible": true,
+    "flags": ["BLIND_EASY"],
+    "components": [
+      [ [ "paper", 1 ] ]
+    ]
+  }, 
+  {
+    "result": "broken_manhack",
+    "type" : "recipe",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 2000,
+    "reversible": true,
+    "qualities" : [ {"id": "SCREW","level": 1,"amount": 1 } ],
+    "tools": [
+      [ [ "soldering_iron", 5 ] ],
+      [ [ "toolset", 5 ] ]
+    ],
+    "components": [
+      [ [ "spike", 2 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
 },{
   "type" : "recipe",
   "result": "broken_grenade_hack",
