@@ -233,7 +233,7 @@
     "modes" : [
        [ "DEFAULT", "semi-auto", 1 ],
        [ "BURST", "auto", 3 ]
-    ] "//": "The M93R can go through up to 110 rounds in six seconds, FWIW."
+    ], "//": "The M93R can go through up to 110 rounds in six seconds, FWIW."
   },
   {
     "id": "l_sp_9mm",
