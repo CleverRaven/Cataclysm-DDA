@@ -116,6 +116,7 @@
     "id" : "guns_smg_obscure",
     "//" : "Imported or otherwise very SMGs.",
     "items": [
+      [ "ppsh", 150 ],
       [ "skorpion_61", 100 ],
       [ "skorpion_82", 100 ]
     ]
