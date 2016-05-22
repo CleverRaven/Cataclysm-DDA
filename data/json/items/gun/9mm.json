@@ -24,7 +24,11 @@
     "sight_dispersion": 75,
     "aim_speed" : 5,
     "durability": 8,
-    "burst": 3,
+    "modes" : [
+       [ "DEFAULT", "semi-auto", 1 ],
+       [ "BURST", "3 rd.", 3 ],
+       [ "AUTO", "auto", 5 ]
+    ],
     "magazines" : [
       [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
       [ "22", [ "a180mag" ] ],
@@ -57,6 +61,10 @@
     "recoil": -60,
     "durability": 6,
     "burst": 20,
+    "modes" : [
+       [ "DEFAULT", "semi-auto", 1 ],
+       [ "AUTO", "auto", 20 ]
+    ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -150,6 +158,11 @@
     "recoil": -45,
     "durability": 8,
     "burst": 8,
+    "modes" : [
+       [ "DEFAULT", "semi-auto", 1 ],
+       [ "BURST", "3 rd.", 3 ],
+       [ "AUTO", "auto", 8 ]
+    ],
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
       [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
@@ -217,7 +230,10 @@
         "recoil": 15,
         "durability": -1
     },
-    "burst": 3, "//": "The M93R can go through up to 110 rounds in six seconds, FWIW."
+    "modes" : [
+       [ "DEFAULT", "semi-auto", 1 ],
+       [ "BURST", "auto", 3 ]
+    ] "//": "The M93R can go through up to 110 rounds in six seconds, FWIW."
   },
   {
     "id": "l_sp_9mm",
@@ -324,7 +340,9 @@
     "sight_dispersion": 90,
     "aim_speed" : 4,
     "durability": 5,
-    "burst": 3,
+    "modes" : [
+       [ "DEFAULT", "auto", 3 ]
+    ],
     "valid_mod_locations": [[ "accessories", 2 ],[ "muzzle", 1 ],[ "stock", 1 ]],
     "magazines" : [
         [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
@@ -355,7 +373,9 @@
     "aim_speed": 3,
     "recoil": -15,
     "durability": 6,
-    "burst": 8,
+    "modes" : [
+       [ "DEFAULT", "auto", 8 ]
+    ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazine_well": 1,
     "magazines": [
@@ -416,7 +436,10 @@
     "aim_speed" : 3,
     "recoil": -15,
     "durability": 7,
-    "burst": 12,
+    "modes" : [
+       [ "DEFAULT", "semi-auto", 1 ],
+       [ "AUTO", "auto", 12 ]
+    ],
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazines" : [
         [ "9mm", [ "uzimag" ] ],
