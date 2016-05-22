@@ -446,7 +446,7 @@ std::string effect::disp_name() const
     }
 
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
-    std::stringstream ret;
+    std::ostringstream ret;
     if (eff_type->use_name_ints()) {
         if(eff_type->name[intensity - 1] == "") {
             return "";
@@ -479,7 +479,7 @@ struct desc_freq {
 
 std::string effect::disp_desc(bool reduced) const
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod("STR", reduced);
     if (tmp > 0) {

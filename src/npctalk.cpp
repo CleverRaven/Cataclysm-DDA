@@ -1076,7 +1076,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         // TODO: this ignores the z-component
         const tripoint player_pos = p->global_omt_location();
         int dist = rl_dist(player_pos, p->goal);
-        std::stringstream response;
+        std::ostringstream response;
         dist *= 100;
         if (dist >= 1300) {
         int miles = dist / 25; // *100, e.g. quarter mile is "25"

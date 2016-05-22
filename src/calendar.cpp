@@ -297,7 +297,7 @@ std::string calendar::print_duration( int turns )
 
 std::string calendar::print_time(bool just_hour) const
 {
-    std::stringstream time_string;
+    std::ostringstream time_string;
     int hour_param;
 
     if (OPTIONS["24_HOUR"] == "military") {

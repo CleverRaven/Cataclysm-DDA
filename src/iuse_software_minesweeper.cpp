@@ -36,7 +36,7 @@ void minesweeper_game::new_level(WINDOW *w_minesweeper)
     mLevelReveal.clear();
 
     auto set_num = [&](const std::string sType, int &iVal, const int iMin, const int iMax) {
-        std::stringstream ssTemp;
+        std::ostringstream ssTemp;
         ssTemp << _("Min:") << iMin << " " << _("Max:") << " " << iMax;
 
         do {

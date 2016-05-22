@@ -239,7 +239,7 @@ bool computer::hack_attempt(player *p, int Security)
 
 std::string computer::save_data()
 {
-    std::stringstream data;
+    std::ostringstream data;
     std::string savename = name; // Replace " " with "_"
     size_t found = savename.find(" ");
     while (found != std::string::npos) {

@@ -187,7 +187,7 @@ void player::power_mutations()
                     }
                     // TODO: track resource(s) used and specify
                     mvwputch( wBio, list_start_y + i, second_column, type, td.key );
-                    std::stringstream mut_desc;
+                    std::ostringstream mut_desc;
                     mut_desc << md.name;
                     if( md.cost > 0 && md.cooldown > 0 ) {
                         mut_desc << string_format( _( " - %d RU / %d turns" ),
