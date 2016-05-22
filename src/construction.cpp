@@ -711,7 +711,7 @@ void complete_construction()
 
     // Friendly NPCs gain exp from assisting or watching...
     for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
+        if( rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend() && !elem->in_sleep_state() ) {
             //If the NPC can understand what you are doing, they gain more exp
             if (elem->get_skill_level(built.skill) >= built.difficulty){
                 elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
@@ -1451,7 +1451,7 @@ int construction::adjusted_time() const
     int assistants = 0;
 
     for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
+        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() && !elem->in_sleep_state() ) {
             if( elem->get_skill_level( skill ) >= difficulty ) {
                 assistants++;
             }

@@ -534,7 +534,7 @@ int recipe::batch_time( int batch ) const
     // NPCs around you should assist in batch production if they have the skills
     int assistants = 0;
     for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
+        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() && !elem->in_sleep_state() ) {
             if( elem->get_skill_level( skill_used ) >= difficulty ) {
                 assistants++;
             }
@@ -746,7 +746,7 @@ void player::complete_craft()
 
         //NPCs assisting or watching should gain experience...
         for( auto &elem : g->active_npc ) {
-            if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() && !elem->in_sleep_state() ){
                 //If the NPC can understand what you are doing, they gain more exp
                 if (elem->get_skill_level(making->skill_used) >= making->difficulty){
                     elem->practice( making->skill_used, (int)( ( making->difficulty * 15 + 10 ) * ( 1 + making->batch_time( batch_size ) / 30000.0 ) * .50), (int)making->difficulty * 1.25 );
