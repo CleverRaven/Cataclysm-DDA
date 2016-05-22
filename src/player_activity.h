@@ -3,6 +3,7 @@
 
 #include "enums.h"
 #include "json.h"
+#include "item_location.h"
 
 #include <climits>
 #include <vector>
@@ -66,6 +67,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         int moves_total;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left;
+        /** An activity specific value */
+        item_location target;
         /** An activity specific value. */
         int index;
         /** An activity specific value. */

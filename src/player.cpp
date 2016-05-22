@@ -12571,11 +12571,12 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
         backlog.front().position == pos && backlog.front().name == name &&
         !backlog.front().auto_resume) {
         add_msg_if_player( _("You resume your task."));
-        activity = backlog.front();
-        backlog.pop_front();
+        activity = std::move( backlog.front() );
+        backlog.erase( backlog.begin() );
+
     } else {
         if( activity.type != ACT_NULL ) {
-            backlog.push_front( activity );
+            backlog.push_front( std::move( activity ) );
         }
         activity = player_activity(type, moves, index, pos, name);
     }
@@ -12609,7 +12610,7 @@ void player::cancel_activity()
         }
     }
     if( activity.is_suspendable() ) {
-        backlog.push_front( activity );
+        backlog.push_front( std::move( activity ) );
     }
     activity = player_activity();
 }

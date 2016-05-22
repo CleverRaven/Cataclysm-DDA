@@ -473,8 +473,8 @@ void player_activity::finish( player *p )
         // Make sure data of previous activity is cleared
         p->activity = player_activity();
         if( !p->backlog.empty() && p->backlog.front().auto_resume ) {
-            p->activity = p->backlog.front();
-            p->backlog.pop_front();
+            p->activity = std::move( p->backlog.front() );
+            p->backlog.erase( p->backlog.begin() );
         }
     }
 }

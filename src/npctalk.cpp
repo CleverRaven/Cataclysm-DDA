@@ -3880,9 +3880,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     size_t ch, help;
 
     // Make a temporary copy of the NPC to make sure volume calculations are correct
-    npc temp = p;
-    int volume_left = temp.volume_capacity() - temp.volume_carried();
-    int weight_left = temp.weight_capacity() - temp.weight_carried();
+    // npc temp = p;
+    // int volume_left = temp.volume_capacity() - temp.volume_carried();
+    // int weight_left = temp.weight_capacity() - temp.weight_carried();
+    int volume_left = p.volume_capacity() - p.volume_carried();
+    int weight_left = p.weight_capacity() - p.weight_carried();
 
     do {
         auto &target_list = focus_them ? theirs : yours;
@@ -3911,10 +3913,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     without.insert( pricing.itm );
                 }
             }
-            temp.inv = inventory_exchange( p.inv, without, added );
+            // temp.inv = inventory_exchange( p.inv, without, added );
 
-            volume_left = temp.volume_capacity() - temp.volume_carried();
-            weight_left = temp.weight_capacity() - temp.weight_carried();
+            // volume_left = temp.volume_capacity() - temp.volume_carried();
+            // weight_left = temp.weight_capacity() - temp.weight_carried();
             mvwprintz( w_head, 3, 2, (volume_left < 0 || weight_left < 0) ? c_red : c_green,
                        _("Volume: %d, %s"), volume_left,
                        string_format( _( "Weight: %.1f %s" ),
