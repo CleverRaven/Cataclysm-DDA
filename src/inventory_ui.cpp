@@ -443,8 +443,6 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
     mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
               max_pages);
-
-    /** @todo fixme
     if (mode == SM_MULTIDROP) {
         // Make copy, remove to be dropped items from that
         // copy and let the copy recalculate the volume capacity
@@ -464,9 +462,8 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         print_inv_weight_vol(tmp.weight_carried(), tmp.volume_carried(), tmp.volume_capacity());
         mvwprintw(w_inv, 1, 0, _("To drop x items, type a number and then the item hotkey."));
     } else {
-    */
         print_inv_weight_vol(u.weight_carried(), u.volume_carried(), u.volume_capacity());
-    //}
+    }
     if( empty() ) {
         mvwprintw(w_inv, 2, 0, _( "Your inventory is empty." ) );
     }
