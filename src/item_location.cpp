@@ -270,6 +270,12 @@ class item_location::item_on_vehicle : public item_location::impl
             if( what ) {
                 return what;
             }
+
+            /** as a special case item_location can refer to vehicle parts */
+            if( cur.veh.parts[ cur.part ].base.uid == uid ) {
+                return &cur.veh.parts[ cur.part ].base;
+            }
+
             cur.visit_items( [&]( const item *e ) {
                 if( e->uid == uid ) {
                     this->what = const_cast<item *>( e );
