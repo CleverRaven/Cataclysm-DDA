@@ -31,6 +31,8 @@ class item_location::impl
         virtual void remove_item() = 0;
 
     protected:
+        impl( long long uid ) : uid( uid ) {}
+
         virtual item *target() const = 0;
 
         mutable item *what = nullptr;
@@ -43,14 +45,7 @@ class item_location::item_on_map : public item_location::impl
         map_cursor cur;
 
     public:
-        item_on_map( const map_cursor &cur, item *which ) : cur( cur ) {
-            if( !cur.has_item( *which ) ) {
-                debugmsg( "Cannot locate item on map at %d,%d,%d", cur.x, cur.y, cur.z );
-            } else {
-                what = which;
-                uid = which->uid;
-            }
-        }
+        item_on_map( const map_cursor &cur, long long uid ) : impl( uid ), cur( cur ) {}
 
         item *target() const override {
             if( what ) {
@@ -137,14 +132,7 @@ class item_location::item_on_person : public item_location::impl
         Character &who;
 
     public:
-        item_on_person( Character &who, item *which ) : who( who ) {
-            if( !who.has_item( *which ) ) {
-                debugmsg( "Cannot locate item on character: %s", who.name.c_str() );
-            } else {
-                what = which;
-                uid = which->uid;
-            }
-        }
+        item_on_person( Character &who, long long uid ) : impl( uid ), who( who ) {}
 
         item *target() const override {
             if( what ) {
@@ -276,14 +264,7 @@ class item_location::item_on_vehicle : public item_location::impl
         vehicle_cursor cur;
 
     public:
-        item_on_vehicle( const vehicle_cursor &cur, item *which ) : cur( cur ) {
-            if( !( cur.has_item( *which ) || &cur.veh.parts[ cur.part ].base == which ) ) {
-                debugmsg( "Cannot locate item on vehicle: %s", cur.veh.name.c_str() );
-            } else {
-                what = which;
-                uid = which->uid;
-            }
-        }
+        item_on_vehicle( const vehicle_cursor &cur, long long uid ) : impl( uid ), cur( cur ) {}
 
         item *target() const override {
             if( what ) {
@@ -377,13 +358,13 @@ item_location::~item_location() = default;
 const item_location item_location::nowhere;
 
 item_location::item_location( const map_cursor &mc, item *which )
-    : ptr( new item_on_map( mc, which ) ) {}
+    : ptr( new item_on_map( mc, which->uid ) ) {}
 
 item_location::item_location( Character &ch, item *which )
-    : ptr( new item_on_person( ch, which ) ) {}
+    : ptr( new item_on_person( ch, which->uid ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
-    : ptr( new item_on_vehicle( vc, which ) ) {}
+    : ptr( new item_on_vehicle( vc, which->uid ) ) {}
 
 bool item_location::operator==( const item_location &rhs ) const
 {
@@ -450,12 +431,18 @@ void item_location::serialize( JsonOut &js ) const
 void item_location::deserialize( JsonIn &js )
 {
     auto jo = js.get_object();
+
+    tripoint pos;
+    long long uid;
+    jo.read( "position", pos );
+    jo.read( "uid", uid );
+
     auto type = jo.get_string( "type" );
     if( type == "character" ) {
         // @todo
 
     } else if( type == "map" ) {
-        ptr = new item_on_map( map_cursor( jo.read( "position" ), nullptr );
+        ptr.reset( new item_on_map( map_cursor( pos ), uid ) );
 
     } else if( type == "vehicle" ) {
         // @todo
