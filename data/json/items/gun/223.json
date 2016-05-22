@@ -229,7 +229,7 @@
     "modes": [
         [ "DEFAULT", "semi-auto", 1 ],
         [ "BURST", "20 rd.", 20 ]
-    ],
+    ]
   },
   {
     "id": "m249",
