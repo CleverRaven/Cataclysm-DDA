@@ -289,7 +289,7 @@ class item_location::item_on_vehicle : public item_location::impl
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
-            js.member( "type", "map" );
+            js.member( "type", "vehicle" );
             js.member( "uid", uid );
             js.member( "position", position() );
             js.member( "part", cur.part );
