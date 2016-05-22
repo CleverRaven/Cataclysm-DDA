@@ -1635,11 +1635,10 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
                   currentSkill->name().c_str(), cost);
 
         // We want recipes from profession skills displayed, but without boosting the skills
-        // so store the original skill levels and restore them later
-        std::map<skill_id, int> orig_skills;
+        // Hack: copy the entire player, boost the clone's skills
+        player prof_u = *u;
         for( const auto &sk : prof_skills ) {
-            orig_skills[ sk.first ] = u->get_skill_level( sk.first );
-            u->boost_skill_level( sk.first, sk.second );
+            prof_u.boost_skill_level( sk.first, sk.second );
         }
 
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
@@ -1648,20 +1647,15 @@ tab_direction set_skills(WINDOW *w, player *u, points_left &points)
             auto req_skill = cur_recipe->required_skills.find( currentSkill->ident() );
             int skill = (req_skill != cur_recipe->required_skills.end()) ? req_skill->second : 0;
 
-            if( !u->has_recipe_autolearned( *cur_recipe ) &&
+            if( !prof_u.has_recipe_autolearned( *cur_recipe ) &&
                 ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
-                u->has_recipe_requirements( *cur_recipe ) &&
+                prof_u.has_recipe_requirements( *cur_recipe ) &&
                 cur_recipe->ident().find("uncraft") == std::string::npos )  {
 
                 recipes[cur_recipe->skill_used.obj().name()].push_back(
                     make_pair( item::nname( cur_recipe->result ),
                                (skill > 0) ? skill : cur_recipe->difficulty ) );
             }
-        }
-
-        // restore the original skill levels
-        for( const auto &sk : prof_skills ) {
-            u->set_skill_level( sk.first, orig_skills[ sk.first ] );
         }
 
         std::string rec_disp = "";
