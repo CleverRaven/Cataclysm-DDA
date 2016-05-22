@@ -302,7 +302,8 @@ void monster::plan( const mfactions &factions )
     auto const &myfaction_iter = factions.find( actual_faction );
     if( myfaction_iter == factions.end() ) {
         DebugLog( D_ERROR, D_GAME ) << disp_name() << " tried to find faction "
-        << actual_faction.id().str() << " which wasn't loaded in game::monmove";
+                                    << actual_faction.id().str()
+                                    << " which wasn't loaded in game::monmove";
         swarms = false;
         group_morale = false;
     }
