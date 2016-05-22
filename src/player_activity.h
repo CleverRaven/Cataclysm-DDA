@@ -73,6 +73,25 @@ class player_activity : public JsonSerializer, public JsonDeserializer
             : type( type ), moves_total( moves ), moves_left( moves ),
               target( std::move( target ) ), name( key ), values( vals ) {}
 
+        bool operator==( const player_activity &rhs ) const {
+            return type == rhs.type &&
+                   target == rhs.target &&
+                   values == rhs.values &&
+                   str_values == rhs.str_values &&
+                   coords == rhs.coords &&
+                   index == rhs.index &&
+                   position == rhs.position &&
+                   placement == rhs.placement;
+        }
+
+        bool operator!=( const player_activity &rhs ) const {
+            return !this->operator==( rhs );
+        }
+
+        operator bool() const {
+            return type != ACT_NULL;
+        }
+
         // Question to ask when the activity is to be stoped,
         // e.g. " Stop doing something?", already translated.
         const std::string &get_stop_phrase() const;

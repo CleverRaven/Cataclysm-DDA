@@ -12593,6 +12593,29 @@ void player::assign_activity(activity_type type, int moves, int index, int pos, 
     activity.warned_of_proximity = false;
 }
 
+void player::assign_activity( activity_type type, item_location&& target, int moves,
+                              std::string key, const std::vector<int>& vals )
+{
+    player_activity act( type, std::move( target ), moves, key, vals );
+
+    if( !backlog.empty() && !backlog.front().auto_resume && backlog.front() == act ) {
+        add_msg_if_player( _( "You resume your task." ) );
+        activity = std::move( backlog.front() );
+        backlog.erase( backlog.begin() );
+        activity.warned_of_proximity = false;
+
+    } else {
+        if( activity ) {
+            backlog.push_front( std::move( activity ) );
+        }
+        activity = std::move( act );
+    }
+
+    int mv = std::min( activity.moves_left, this->moves );
+    activity.moves_left -= mv;
+    moves -= mv;
+}
+
 bool player::has_activity(const activity_type type) const
 {
     if (activity.type == type) {
