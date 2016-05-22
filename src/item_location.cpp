@@ -72,7 +72,7 @@ class item_location::item_on_map : public item_location::impl
         std::string describe( const Character *ch ) const override {
             std::string res = g->m.name( cur );
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur );
+                res += std::string( " " ) += direction_suffix( ch->pos(), position() );
             }
             return res;
         }
@@ -106,7 +106,7 @@ class item_location::item_on_map : public item_location::impl
             }
 
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
-            mv *= square_dist( ch.pos(), cur ) + 1;
+            mv *= square_dist( ch.pos(), position() ) + 1;
             mv *= MAP_HANDLING_FACTOR;
 
             //@ todo handle unpacking costs
@@ -297,7 +297,7 @@ class item_location::item_on_vehicle : public item_location::impl
         std::string describe( const Character *ch ) const override {
             std::string res = cur.veh.parts[ cur.part ].name();
             if( ch ) {
-                res += std::string( " " ) += direction_suffix( ch->pos(), cur.veh.global_part_pos3( cur.part ) );
+                res += std::string( " " ) += direction_suffix( ch->pos(), position() );
             }
             return res;
         }
@@ -331,7 +331,7 @@ class item_location::item_on_vehicle : public item_location::impl
             }
 
             int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj );
-            mv *= square_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) ) + 1;
+            mv *= square_dist( ch.pos(), position() ) + 1;
             mv *= VEHICLE_HANDLING_FACTOR;
 
             //@ todo handle unpacking costs
