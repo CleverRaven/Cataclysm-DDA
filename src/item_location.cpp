@@ -61,7 +61,7 @@ class item_location::item_on_map : public item_location::impl
             if( what ) {
                 return what;
             }
-            cur.visit_items( [&]( const item *e ) {
+            cur.visit_items( [&]( const item * e ) {
                 if( e->uid == uid ) {
                     this->what = const_cast<item *>( e );
                     return VisitResponse::ABORT;
@@ -156,7 +156,7 @@ class item_location::item_on_person : public item_location::impl
             if( what ) {
                 return what;
             }
-            who.visit_items( [&]( const item *e ) {
+            who.visit_items( [&]( const item * e ) {
                 if( e->uid == uid ) {
                     this->what = const_cast<item *>( e );
                     return VisitResponse::ABORT;
@@ -303,7 +303,7 @@ class item_location::item_on_vehicle : public item_location::impl
                 return &cur.veh.parts[ cur.part ].base;
             }
 
-            cur.visit_items( [&]( const item *e ) {
+            cur.visit_items( [&]( const item * e ) {
                 if( e->uid == uid ) {
                     this->what = const_cast<item *>( e );
                     return VisitResponse::ABORT;

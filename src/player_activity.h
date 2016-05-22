@@ -68,8 +68,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         player_activity( player_activity && ) = default;
         player_activity &operator=( player_activity && ) = default;
 
-        player_activity( activity_type type, item_location&& target, int moves,
-                         std::string key = std::string(), const std::vector<int>& vals = {} )
+        player_activity( activity_type type, item_location &&target, int moves,
+                         std::string key = std::string(), const std::vector<int> &vals = {} )
             : type( type ), moves_total( moves ), moves_left( moves ),
               target( std::move( target ) ), name( key ), values( vals ) {}
 
