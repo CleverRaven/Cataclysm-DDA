@@ -33,7 +33,7 @@ class item_location::impl
         virtual void remove_item() = 0;
 
     protected:
-        impl( item_uid uid ) : uid( uid ) {}
+        impl( item_uid &&uid ) : uid( std::move( uid ) ) {}
 
         virtual item *target() const = 0;
 
@@ -47,7 +47,8 @@ class item_location::item_on_map : public item_location::impl
         map_cursor cur;
 
     public:
-        item_on_map( const map_cursor &cur, item_uid uid ) : impl( uid ), cur( cur ) {}
+        item_on_map( const map_cursor &cur, item_uid &&uid )
+            : impl( std::move( uid ) ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -142,7 +143,8 @@ class item_location::item_on_person : public item_location::impl
         Character &who;
 
     public:
-        item_on_person( Character &who, item_uid uid ) : impl( uid ), who( who ) {}
+        item_on_person( Character &who, item_uid &&uid )
+            : impl( std::move( uid ) ), who( who ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -282,7 +284,8 @@ class item_location::item_on_vehicle : public item_location::impl
         vehicle_cursor cur;
 
     public:
-        item_on_vehicle( const vehicle_cursor &cur, item_uid uid ) : impl( uid ), cur( cur ) {}
+        item_on_vehicle( const vehicle_cursor &cur, item_uid &&uid )
+            : impl( std::move( uid ) ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -391,13 +394,13 @@ item_location::~item_location() = default;
 const item_location item_location::nowhere;
 
 item_location::item_location( const map_cursor &mc, item *which )
-    : ptr( new item_on_map( mc, which->uid ) ) {}
+    : ptr( new item_on_map( mc, std::move( which->uid.clone() ) ) ) {}
 
 item_location::item_location( Character &ch, item *which )
-    : ptr( new item_on_person( ch, which->uid ) ) {}
+    : ptr( new item_on_person( ch, std::move( which->uid.clone() ) ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
-    : ptr( new item_on_vehicle( vc, which->uid ) ) {}
+    : ptr( new item_on_vehicle( vc, std::move( which->uid.clone() ) ) ) {}
 
 bool item_location::operator==( const item_location &rhs ) const
 {
@@ -453,15 +456,15 @@ void item_location::deserialize( JsonIn &js )
     auto type = jo.get_string( "type" );
     if( type == "character" ) {
         // @todo support characters other than the player
-        ptr.reset( new item_on_person( g->u, uid ) );
+        ptr.reset( new item_on_person( g->u, std::move( uid ) ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new item_on_map( map_cursor( pos ), uid ) );
+        ptr.reset( new item_on_map( map_cursor( pos ), std::move( uid ) ) );
 
     } else if( type == "vehicle" ) {
         vehicle *veh = g->m.veh_at( pos );
         if( veh ) {
-            ptr.reset( new item_on_vehicle( vehicle_cursor( *veh, jo.get_int( "part" ) ), uid ) );
+            ptr.reset( new item_on_vehicle( vehicle_cursor( *veh, jo.get_int( "part" ) ), std::move( uid ) ) );
         }
     }
 }

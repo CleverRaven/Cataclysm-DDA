@@ -22,3 +22,8 @@ void item_uid::deserialize( JsonIn &js )
 {
     js.read( val );
 }
+
+item_uid item_uid::clone() const
+{
+	return item_uid( val );
+}

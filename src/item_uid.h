@@ -8,6 +8,7 @@
 class item_uid : public JsonSerializer, public JsonDeserializer
 {
         friend class game;
+        friend class item_location;
 
     public:
         item_uid() = default;
@@ -25,7 +26,7 @@ class item_uid : public JsonSerializer, public JsonDeserializer
             return val != rhs.val;
         }
         bool operator< ( const item_uid &rhs ) const {
-            return val <  rhs.val;
+            return val < rhs.val;
         }
 
         void serialize( JsonOut &js ) const;
@@ -34,6 +35,8 @@ class item_uid : public JsonSerializer, public JsonDeserializer
     private:
         item_uid( long long val ) : val( val ) {}
         long long val = std::numeric_limits<long long>::min();
+
+        item_uid clone() const;
 };
 
 #endif
