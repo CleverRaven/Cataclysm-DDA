@@ -8,6 +8,7 @@
 #include "int_id.h"
 #include "item_location.h"
 #include "cursesdef.h"
+#include "item_uid.h"
 
 #include <vector>
 #include <map>
@@ -125,9 +126,11 @@ typedef std::function<bool(const item &)> item_filter;
 
 class game
 {
+        friend item_uid;
         friend class editmap;
         friend class advanced_inventory;
         friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
+
     public:
         game();
         ~game();
@@ -155,8 +158,8 @@ class game
         long long last_uid = std::numeric_limits<long long>::min();
 
     public:
-	/** fetch next unique item identifier */
-        long long next_uid() { return ++last_uid; }
+        /** fetch next unique item identifier */
+        item_uid next_uid() { return item_uid( ++g->last_uid ); }
 
     public:
 

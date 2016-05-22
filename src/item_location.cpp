@@ -1,5 +1,6 @@
 #include "item_location.h"
 
+#include "item_uid.h"
 #include "game_constants.h"
 #include "enums.h"
 #include "debug.h"
@@ -32,12 +33,12 @@ class item_location::impl
         virtual void remove_item() = 0;
 
     protected:
-        impl( long long uid ) : uid( uid ) {}
+        impl( item_uid uid ) : uid( uid ) {}
 
         virtual item *target() const = 0;
 
         mutable item *what = nullptr;
-        long long uid = std::numeric_limits<long long>::min();
+        item_uid uid;
 };
 
 class item_location::item_on_map : public item_location::impl
@@ -46,7 +47,7 @@ class item_location::item_on_map : public item_location::impl
         map_cursor cur;
 
     public:
-        item_on_map( const map_cursor &cur, long long uid ) : impl( uid ), cur( cur ) {}
+        item_on_map( const map_cursor &cur, item_uid uid ) : impl( uid ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -131,7 +132,7 @@ class item_location::item_on_map : public item_location::impl
             if( obj.is_null() ) {
                 debugmsg( "Tried to remove an item from a map tile which doesn't contain it" );
             }
-            uid = std::numeric_limits<decltype(uid)>::min();
+            uid = item_uid();
         }
 };
 
@@ -141,7 +142,7 @@ class item_location::item_on_person : public item_location::impl
         Character &who;
 
     public:
-        item_on_person( Character &who, long long uid ) : impl( uid ), who( who ) {}
+        item_on_person( Character &who, item_uid uid ) : impl( uid ), who( who ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -271,7 +272,7 @@ class item_location::item_on_person : public item_location::impl
             if( obj.is_null() ) {
                 debugmsg( "Tried to remove an item from a character who doesn't have it" );
             }
-            uid = std::numeric_limits<decltype(uid)>::min();
+            uid = item_uid();
         }
 };
 
@@ -281,7 +282,7 @@ class item_location::item_on_vehicle : public item_location::impl
         vehicle_cursor cur;
 
     public:
-        item_on_vehicle( const vehicle_cursor &cur, long long uid ) : impl( uid ), cur( cur ) {}
+        item_on_vehicle( const vehicle_cursor &cur, item_uid uid ) : impl( uid ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
@@ -377,7 +378,7 @@ class item_location::item_on_vehicle : public item_location::impl
                     debugmsg( "Tried to remove an item from a vehicle which doesn't contain it" );
                 }
             }
-            uid = std::numeric_limits<decltype(uid)>::min();
+            uid = item_uid();
         }
 };
 
@@ -445,7 +446,7 @@ void item_location::deserialize( JsonIn &js )
     auto jo = js.get_object();
 
     tripoint pos;
-    long long uid;
+    item_uid uid;
     jo.read( "position", pos );
     jo.read( "uid", uid );
 

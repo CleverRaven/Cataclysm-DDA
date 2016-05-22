@@ -119,6 +119,8 @@ src/item_action.h
 src/item_factory.h
 src/item_location.h
 src/item_stack.h
+src/item_uid.h
+src/item_uid.cpp
 src/iuse_software.h
 src/iuse_software_kitten.h
 src/iuse_software_minesweeper.h
