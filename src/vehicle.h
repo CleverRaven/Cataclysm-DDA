@@ -800,7 +800,7 @@ public:
      * @param p part number for the turret
      * @return number of shots actually fired (which may be zero)
      */
-    int automatic_fire_turret( int p, item &gun );
+    int automatic_fire_turret( int p, item_location &&gun );
 
     /*
      * Aim and fire turret manually
@@ -808,7 +808,7 @@ public:
      * @return number of shots actually fired (which may be zero)
      */
     // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
-    int manual_fire_turret( int p, player &shooter, item &gun );
+    int manual_fire_turret( int p, player &shooter, item_location &&gun );
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );

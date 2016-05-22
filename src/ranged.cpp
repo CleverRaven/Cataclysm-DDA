@@ -419,11 +419,17 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
 
 int player::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, weapon );
+    return fire_gun( target, shots, item_location( *this, &weapon ) );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item& gun )
+int player::fire_gun( const tripoint &target, int shots, item_location &&obj )
 {
+    if( !obj ) {
+        debugmsg( "tried to fire non-existent item" );
+        return 0;
+    }
+
+    item& gun = *obj;
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return 0;
