@@ -1402,7 +1402,7 @@ int player::bodytemp_modifier_traits( bool overheated ) const
     int mod = 0;
     for( auto &iter : my_mutations ) {
         mod += overheated ? mutation_branch::get( iter.first ).bodytemp_min :
-                            mutation_branch::get( iter.first ).bodytemp_max;
+               mutation_branch::get( iter.first ).bodytemp_max;
     }
     return mod;
 }
@@ -1418,7 +1418,7 @@ int player::bodytemp_modifier_traits_floor() const
 
 int player::temp_corrected_by_climate_control( int temperature ) const
 {
-    const int variation = int(BODYTEMP_NORM * 0.5);
+    const int variation = int( BODYTEMP_NORM * 0.5 );
     if( temperature < BODYTEMP_SCORCHING + variation &&
         temperature > BODYTEMP_FREEZING - variation ) {
         if( temperature > BODYTEMP_SCORCHING ) {
@@ -1429,7 +1429,7 @@ int player::temp_corrected_by_climate_control( int temperature ) const
             temperature = BODYTEMP_NORM;
         } else if( temperature < BODYTEMP_FREEZING ) {
             temperature = BODYTEMP_VERY_COLD;
-        } else if( temperature < BODYTEMP_VERY_COLD) {
+        } else if( temperature < BODYTEMP_VERY_COLD ) {
             temperature = BODYTEMP_COLD;
         } else if( temperature < BODYTEMP_COLD ) {
             temperature = BODYTEMP_NORM;
@@ -1438,28 +1438,28 @@ int player::temp_corrected_by_climate_control( int temperature ) const
     return temperature;
 }
 
-int player::blood_loss(body_part bp) const
+int player::blood_loss( body_part bp ) const
 {
     int blood_loss = 0;
     if( bp == bp_leg_l || bp == bp_leg_r ) {
-        blood_loss = (100 - 100 * (hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) /
-                      (hp_max[hp_leg_l] + hp_max[hp_leg_r]));
+        blood_loss = ( 100 - 100 * ( hp_cur[hp_leg_l] + hp_cur[hp_leg_r] ) /
+                       ( hp_max[hp_leg_l] + hp_max[hp_leg_r] ) );
     } else if( bp == bp_arm_l || bp == bp_arm_r ) {
-        blood_loss = (100 - 100 * (hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) /
-                      (hp_max[hp_arm_l] + hp_max[hp_arm_r]));
+        blood_loss = ( 100 - 100 * ( hp_cur[hp_arm_l] + hp_cur[hp_arm_r] ) /
+                       ( hp_max[hp_arm_l] + hp_max[hp_arm_r] ) );
     } else if( bp == bp_torso ) {
-        blood_loss = (100 - 100 * hp_cur[hp_torso] / hp_max[hp_torso]);
+        blood_loss = ( 100 - 100 * hp_cur[hp_torso] / hp_max[hp_torso] );
     } else if( bp == bp_head ) {
-        blood_loss = (100 - 100 * hp_cur[hp_head] / hp_max[hp_head]);
+        blood_loss = ( 100 - 100 * hp_cur[hp_head] / hp_max[hp_head] );
     }
     return blood_loss;
 }
 
-void player::temp_equalizer(body_part bp1, body_part bp2)
+void player::temp_equalizer( body_part bp1, body_part bp2 )
 {
     // Body heat is moved around.
     // Shift in one direction only, will be shifted in the other direction separately.
-    int diff = int((temp_cur[bp2] - temp_cur[bp1]) * 0.0001); // If bp1 is warmer, it will lose heat
+    int diff = int( ( temp_cur[bp2] - temp_cur[bp1] ) * 0.0001 ); // If bp1 is warmer, it will lose heat
     temp_cur[bp1] += diff;
 }
 
@@ -1468,12 +1468,13 @@ static int hunger_speed_penalty( int hunger )
     // We die at 6000 hunger
     // Hunger hits speed less hard than thirst does
     static const std::vector<std::pair<float, float>> hunger_thresholds = {{
-        std::make_pair( 100.0f, 0.0f ),
-        std::make_pair( 300.0f, -15.0f ),
-        std::make_pair( 1000.0f, -40.0f ),
-        std::make_pair( 6000.0f, -75.0f )
-    }};
-    return (int)multi_lerp( hunger_thresholds, hunger );
+            std::make_pair( 100.0f, 0.0f ),
+            std::make_pair( 300.0f, -15.0f ),
+            std::make_pair( 1000.0f, -40.0f ),
+            std::make_pair( 6000.0f, -75.0f )
+        }
+    };
+    return ( int )multi_lerp( hunger_thresholds, hunger );
 }
 
 static int thirst_speed_penalty( int thirst )
@@ -1481,12 +1482,13 @@ static int thirst_speed_penalty( int thirst )
     // We die at 1200 thirst
     // Start by dropping speed really fast, but then level it off a bit
     static const std::vector<std::pair<float, float>> thirst_thresholds = {{
-        std::make_pair( 40.0f, 0.0f ),
-        std::make_pair( 300.0f, -25.0f ),
-        std::make_pair( 600.0f, -50.0f ),
-        std::make_pair( 1200.0f, -75.0f )
-    }};
-    return (int)multi_lerp( thirst_thresholds, thirst );
+            std::make_pair( 40.0f, 0.0f ),
+            std::make_pair( 300.0f, -25.0f ),
+            std::make_pair( 600.0f, -50.0f ),
+            std::make_pair( 1200.0f, -75.0f )
+        }
+    };
+    return ( int )multi_lerp( thirst_thresholds, thirst );
 }
 
 void player::recalc_speed_bonus()
