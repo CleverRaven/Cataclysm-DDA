@@ -624,6 +624,16 @@ void game::init_ui()
     liveview.init();
 }
 
+unsigned long long game::next_item_uid()
+{
+    unsigned long long val = ++g->last_uid;
+
+    val |= static_cast<unsigned long long>( ITEM_UID_VERSION ) << 55; // high byte is version
+    val |= static_cast<unsigned long long>( g->u.getID() )     << 39; // next two bytes are player id
+
+    return val;
+}
+
 void game::toggle_sidebar_style(void)
 {
     narrow_sidebar = !narrow_sidebar;

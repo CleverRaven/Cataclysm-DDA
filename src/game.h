@@ -159,7 +159,7 @@ class game
 
     public:
         /** fetch next unique item identifier */
-        item_uid next_uid() { return item_uid( ++g->last_uid ); }
+        unsigned long long next_item_uid();
 
     public:
 

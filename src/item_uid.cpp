@@ -4,12 +4,12 @@
 
 item_uid::item_uid( const item_uid & )
 {
-    val = ++g->last_uid;
+    val = g->next_item_uid();
 }
 
 item_uid &item_uid::operator=( const item_uid & )
 {
-    val = ++g->last_uid;
+    val = g->next_item_uid();
     return *this;
 }
 

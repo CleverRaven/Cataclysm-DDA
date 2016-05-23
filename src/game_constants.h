@@ -1,6 +1,9 @@
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
+/** version number for unique item identifiers @see game::next_item_uid */
+#define ITEM_UID_VERSION 0
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif

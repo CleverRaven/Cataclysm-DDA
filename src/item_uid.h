@@ -7,11 +7,10 @@
 
 class item_uid : public JsonSerializer, public JsonDeserializer
 {
-        friend class game;
-        friend class item_location;
+        friend class item_location; /** needs clone() */
 
     public:
-        item_uid() = default;
+        item_uid( unsigned long long val = 0 ) : val( val ) {}
 
         item_uid( item_uid && ) = default;
         item_uid &operator=( item_uid && ) = default;
@@ -33,9 +32,7 @@ class item_uid : public JsonSerializer, public JsonDeserializer
         void deserialize( JsonIn &js );
 
     private:
-        item_uid( unsigned long long val ) : val( val ) {}
-        unsigned long long val = 0;
-
+        unsigned long long val;
         item_uid clone() const;
 };
 
