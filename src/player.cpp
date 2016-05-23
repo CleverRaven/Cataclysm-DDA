@@ -366,13 +366,13 @@ void player::reset_stats()
     // Pain
     if( get_perceived_pain() > 0 ) {
         if( !( has_trait( "CENOBITE" ) ) ) {
-            mod_str_bonus( -get_perceived_pain() / 15  );
+            mod_str_bonus( -get_perceived_pain() / 15 );
             mod_dex_bonus( -get_perceived_pain() / 15 );
-            add_miss_reason( _( "Your pain distracts you!" ), unsigned(get_perceived_pain() / 15) );
+            add_miss_reason( _( "Your pain distracts you!" ), unsigned( get_perceived_pain() / 15 ) );
         }
         mod_per_bonus( -get_perceived_pain() / 20 );
         if( !( has_trait( "INT_SLIME" ) ) ) {
-            mod_int_bonus( -( 1 + (get_perceived_pain() / 25 ) ) );
+            mod_int_bonus( -( 1 + ( get_perceived_pain() / 25 ) ) );
         } else if( has_trait( "INT_SLIME" ) ) {
             // Having one's brain throughout one's body does have its downsides.
             // Be glad we don't assess permanent damage.
@@ -385,7 +385,7 @@ void player::reset_stats()
         int dex_mod = get_morale_level() / 200;
         mod_dex_bonus( dex_mod );
         if( dex_mod < 0 ) {
-            add_miss_reason( _( "What's the point of fighting?" ), unsigned(-dex_mod) );
+            add_miss_reason( _( "What's the point of fighting?" ), unsigned( -dex_mod ) );
         }
         mod_per_bonus( get_morale_level() / 125 );
         mod_int_bonus( get_morale_level() / 100 );
@@ -396,7 +396,7 @@ void player::reset_stats()
         int dex_mod = -radiation / 110;
         mod_dex_bonus( dex_mod );
         if( dex_mod < 0 ) {
-            add_miss_reason( _( "Radiation weakens you." ), unsigned(-dex_mod) );
+            add_miss_reason( _( "Radiation weakens you." ), unsigned( -dex_mod ) );
         }
         mod_per_bonus( -radiation / 100 );
         mod_int_bonus( -radiation / 120 );
@@ -408,7 +408,7 @@ void player::reset_stats()
     if( stim >= 30 ) {
         int dex_mod = -1 * abs( stim - 15 ) / 8;
         mod_dex_bonus( dex_mod );
-        add_miss_reason( _( "You shake with the excess stimulation." ), unsigned(-dex_mod) );
+        add_miss_reason( _( "You shake with the excess stimulation." ), unsigned( -dex_mod ) );
         mod_per_bonus( -1 * abs( stim - 15 ) / 12 );
         mod_int_bonus( -1 * abs( stim - 15 ) / 14 );
     } else if( stim < 0 ) {
@@ -418,7 +418,7 @@ void player::reset_stats()
     if( get_hunger() >= 500 ) {
         // We die at 6000
         const int dex_mod = -get_hunger() / 1000;
-        add_miss_reason( _( "You're weak from hunger." ), unsigned(-dex_mod) );
+        add_miss_reason( _( "You're weak from hunger." ), unsigned( -dex_mod ) );
         mod_str_bonus( -get_hunger() / 500 );
         mod_dex_bonus( dex_mod );
         mod_int_bonus( -get_hunger() / 1000 );
@@ -427,7 +427,7 @@ void player::reset_stats()
     if( get_thirst() >= 200 ) {
         // We die at 1200
         const int dex_mod = -get_thirst() / 200;
-        add_miss_reason( _( "You're weak from thirst." ), unsigned(-dex_mod) );
+        add_miss_reason( _( "You're weak from thirst." ), unsigned( -dex_mod ) );
         mod_str_bonus( -get_thirst() / 200 );
         mod_dex_bonus( dex_mod );
         mod_int_bonus( -get_thirst() / 200 );
@@ -754,7 +754,7 @@ void player::update_bodytemp()
     }
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
-    int Ctemperature = int(100 * temp_to_celsius( g->get_temperature() ));
+    int Ctemperature = int( 100 * temp_to_celsius( g->get_temperature() ) );
     w_point const weather = g->weather_gen->get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
@@ -788,12 +788,12 @@ void player::update_bodytemp()
     // -1333 when starving with light eater
     // -2000 if you managed to get 0 metabolism rate somehow
     const float met_rate = metabolic_rate();
-    const int hunger_warmth = int(2000 * std::min( met_rate, 1.0f ) - 2000);
+    const int hunger_warmth = int( 2000 * std::min( met_rate, 1.0f ) - 2000 );
     // Give SOME bonus to those living furnaces with extreme metabolism
-    const int metabolism_warmth = int(std::max( 0.0f, met_rate - 1.0f ) * 1000);
+    const int metabolism_warmth = int( std::max( 0.0f, met_rate - 1.0f ) * 1000 );
     // Fatigue
     // ~-900 when exhausted
-    const int fatigue_warmth = has_sleep ? 0 : int(std::min( 0.0f, -1.5f * get_fatigue() ));
+    const int fatigue_warmth = has_sleep ? 0 : int( std::min( 0.0f, -1.5f * get_fatigue() ) );
 
     // Sunlight
     const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
@@ -850,11 +850,12 @@ void player::update_bodytemp()
                                     temp_cur[i] );
         // Produces a smooth curve between 30.0 and 60.0.
         double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
-        int clothing_warmth_adjustement = int(homeostasis_adjustement * warmth( body_part( i ) ));
-        int clothing_warmth_adjusted_bonus = int(homeostasis_adjustement * bonus_item_warmth( body_part( i ) ));
+        int clothing_warmth_adjustement = int( homeostasis_adjustement * warmth( body_part( i ) ) );
+        int clothing_warmth_adjusted_bonus = int( homeostasis_adjustement * bonus_item_warmth( body_part(
+                i ) ) );
         // WINDCHILL
 
-        bp_windpower = int(( float )bp_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ));
+        bp_windpower = int( ( float )bp_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ) );
         // Calculate windchill
         int windchill = get_local_windchill( g->get_temperature(),
                                              get_local_humidity( weather.humidity, g->weather,
@@ -863,7 +864,7 @@ void player::update_bodytemp()
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to 0.01C
-        int water_temperature = int(100 * temp_to_celsius( g->weather_gen->get_water_temperature() ));
+        int water_temperature = int( 100 * temp_to_celsius( g->weather_gen->get_water_temperature() ) );
         if( ( ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp ) ||
             ( ( ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage ) &&
               ( i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r ) ) ) {
@@ -958,7 +959,7 @@ void player::update_bodytemp()
                 temp_equalizer( bp_foot_r, bp_leg_r );
                 break;
             default:
-                debugmsg("Wacky body part temperature equalization!");
+                debugmsg( "Wacky body part temperature equalization!" );
                 break;
         }
 
@@ -1048,7 +1049,7 @@ void player::update_bodytemp()
             rounding_error = 1;
         }
         if( temp_cur[i] != temp_conv[i] ) {
-            temp_cur[i] = int(temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error);
+            temp_cur[i] = int( temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error );
         }
         // This statement checks if we should be wearing our bonus warmth.
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
@@ -1062,7 +1063,7 @@ void player::update_bodytemp()
             }
             if( temp_before != temp_conv[i] ) {
                 temp_difference = temp_before - temp_conv[i];
-                temp_cur[i] = int(temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error);
+                temp_cur[i] = int( temp_difference * exp( -0.002 ) + temp_conv[i] + rounding_error );
             }
         }
         int temp_after = temp_cur[i];
@@ -1120,10 +1121,10 @@ void player::update_bodytemp()
             int wetness_percentage = 100 * body_wetness[i] / drench_capacity[i]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
-            int Ftemperature = int(g->get_temperature() +
-                               warmth( ( body_part )i ) * 0.2 - 20 * wetness_percentage / 100);
+            int Ftemperature = int( g->get_temperature() +
+                                    warmth( ( body_part )i ) * 0.2 - 20 * wetness_percentage / 100 );
             // Windchill reduced by your armor
-            int FBwindPower = int(total_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ));
+            int FBwindPower = int( total_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ) );
 
             int intense = get_effect_int( effect_frostbite, ( body_part )i );
 
