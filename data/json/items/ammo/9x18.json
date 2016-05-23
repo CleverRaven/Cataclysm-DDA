@@ -23,9 +23,9 @@
     "effects" : ["COOKOFF"]
   },
   {   
-    "type" : "AMMO",
     "id" : "9x18mmfmj",
     "copy-from": "9x18mm",
+    "type" : "AMMO",
     "name" : "9x18mm RG028",
     "name_plural" : "9x18mm RG028",
     "description" : "9x18mm Makarov RG028 ammunition.  The RG028 round uses bullets with a hardened steel core to improve armor penetration.",
