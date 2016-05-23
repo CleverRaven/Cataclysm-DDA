@@ -1960,6 +1960,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -4477,6 +4478,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "kevlar_plate", 12 ]
      ],
@@ -4528,6 +4530,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "kevlar_plate", 10 ]
      ],
@@ -4597,6 +4600,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "kevlar_plate", 12 ]
      ],
@@ -4933,6 +4937,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -4985,6 +4990,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 16 ]
@@ -5088,6 +5094,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5149,6 +5156,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5209,6 +5217,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5267,6 +5276,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5320,6 +5330,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "swat_armor", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5379,6 +5390,7 @@
      ],
      [
       [ "kevlar", 2 ],
+      [ "makeshift_kevlar", 2 ]
       [ "modularvest", 2 ],
       [ "swat_armor", 2 ],
       [ "kevlar_plate", 42 ]
@@ -8501,6 +8513,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "kevlar_plate", 16 ]
      ],
@@ -8553,6 +8566,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "kevlar_plate", 13 ]
      ],
@@ -9325,6 +9339,7 @@
     ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ]
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
