@@ -79,7 +79,6 @@ const std::string &get_morale_data( const morale_type id )
             { _( "Masochism" ) },
             { _( "Hoarder" ) },
             { _( "Stylish" ) },
-            { _( "Filthy Gear" ) },
             { _( "Optimist" ) },
             { _( "Bad Tempered" ) },
             //~ You really don't like wearing the Uncomfy Gear
@@ -89,7 +88,9 @@ const std::string &get_morale_data( const morale_type id )
             { _( "Got a Haircut" ) },
             { _( "Freshly Shaven" ) },
 
-            { _( "Barfed" ) }
+            { _( "Barfed" ) },
+            
+            { _( "Filthy Gear" ) }
         }
     };
 
