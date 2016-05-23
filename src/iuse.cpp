@@ -8088,7 +8088,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     }
 
     p->add_msg_if_player( _( "You washed your clothing." ) );
-    p->moves -= 3000;
+    p->mod_moves( -3000 );
     mod->item_tags.erase( "FILTHY" );
 
     } else { 
