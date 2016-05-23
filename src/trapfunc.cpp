@@ -31,16 +31,17 @@ const efftype_id effect_tetanus( "tetanus" );
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
 {
-    int corpse_volume = 0;
+    units::volume corpse_volume = 0;
     for( auto &pit_content : g->m.i_at( p ) ) {
         if( pit_content.is_corpse() ) {
-            corpse_volume += pit_content.volume() / units::legacy_volume_factor;
+            corpse_volume += pit_content.volume();
         }
     }
 
-    int filled_volume = 75 * 10; // 10 zombies; see item::volume
+    // 10 zombies; see item::volume
+    const units::volume filled_volume = 10 * units::from_milliliter<float>( 62500 );
 
-    return std::max( 0.0f, 1.0f - float( corpse_volume ) / filled_volume );
+    return std::max( 0.0f, 1.0f - corpse_volume / filled_volume );
 }
 
 void trapfunc::bubble( Creature *c, const tripoint &p )

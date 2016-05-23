@@ -133,7 +133,7 @@ double Character::aim_per_move( const item& gun, double recoil ) const
     int cost = INT_MAX;
     int limit = 0;
     if( effective_dispersion( gun.type->gun->sight_dispersion ) < recoil ) {
-        cost  = std::max( std::min( gun.volume() / units::legacy_volume_factor, 8 ), 1 );
+        cost  = std::max( std::min( gun.volume() / 250_ml, 8 ), 1 );
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
@@ -1929,7 +1929,7 @@ int Character::throw_range( const item &it ) const
     // Increases as weight decreases until 150 g, then decreases again
     ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
-    ret -= int(tmp.volume() / units::legacy_volume_factor / 4);
+    ret -= tmp.volume() / 1000_ml;
     static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic("bio_railgun") && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;

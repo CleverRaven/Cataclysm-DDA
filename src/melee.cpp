@@ -24,6 +24,8 @@
 
 #include "cursesdef.h"
 
+using namespace units::literals;
+
 static const matec_id tec_none( "tec_none" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
@@ -513,7 +515,7 @@ int stumble(player &u)
     // Fist: 0
 
     ///\EFFECT_STR reduces chance of stumbling with heavier weapons
-    return ( 2 * u.weapon.volume() / units::legacy_volume_factor ) +
+    return ( u.weapon.volume() / 125_ml ) +
            ( u.weapon.weight() / ( u.str_cur * 10 + 13.0f ) );
 }
 
@@ -1700,7 +1702,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         }
     }
 
-    const int vol = weapon.volume() / units::legacy_volume_factor;
+    const int vol = weapon.volume() / 250_ml;
     // Glass weapons shatter sometimes
     if (weapon.made_of( material_id( "glass" ) ) &&
         ///\EFFECT_STR increases chance of breaking glass weapons (NEGATIVE)

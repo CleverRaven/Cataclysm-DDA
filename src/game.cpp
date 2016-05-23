@@ -7655,7 +7655,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id door_type, int b
             if( elem.made_of( LIQUID ) ) {
                 // Liquids are OK, will be destroyed later
                 continue;
-            } else if( elem.volume() / units::legacy_volume_factor <= 0 ) {
+            } else if( elem.volume() < units::from_milliliter( 250 ) ) {
                 // Dito for small items, will be moved away
                 continue;
             }

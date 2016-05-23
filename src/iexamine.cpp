@@ -1908,14 +1908,15 @@ void iexamine::fvat_empty(player &p, const tripoint &examp)
             }
     }
     if (to_deposit) {
+        static const auto vat_volume = units::from_liter( 50 );
         item brew(brew_type, 0);
         int charges_held = p.charges_of(brew_type);
         brew.charges = charges_on_ground;
         for (int i = 0; i < charges_held && !vat_full; i++) {
             p.use_charges(brew_type, 1);
             brew.charges++;
-            if ( ( brew.count_by_charges() ? brew.volume() / units::legacy_volume_factor : brew.volume() / units::legacy_volume_factor * brew.charges ) >= 100 ) {
-                vat_full = true; //vats hold 50 units of brew, or 350 charges for a count_by_charges brew
+            if( brew.volume() >= vat_volume ) {
+                vat_full = true;
             }
         }
         add_msg(_("Set %s in the vat."), brew.tname().c_str());
@@ -2009,8 +2010,8 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
 units::volume iexamine::get_keg_capacity( const tripoint &pos ) {
     const furn_t &furn = g->m.furn( pos ).obj();
-    if( furn.id == "f_standing_tank" )  { return units::legacy_volume_factor * 1200; }
-    else if( furn.id == "f_wood_keg" )  { return units::legacy_volume_factor * 600; }
+    if( furn.id == "f_standing_tank" )  { return units::from_liter( 300 ); }
+    else if( furn.id == "f_wood_keg" )  { return units::from_liter( 125 ); }
     //add additional cases above
     else                                { return 0; }
 }

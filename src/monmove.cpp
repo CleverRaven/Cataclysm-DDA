@@ -537,9 +537,9 @@ void monster::move()
                     _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                     name().c_str() );
             }
+            static const auto volume_per_hp = units::from_milliliter( 250 );
             for( auto &elem : g->m.i_at( pos() ) ) {
-                hp += elem.volume() /
-                      units::legacy_volume_factor; // Yeah this means it can get more HP than normal.
+                hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
             }
             g->m.i_clear( pos() );
         }

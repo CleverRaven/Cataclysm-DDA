@@ -31,6 +31,8 @@
 #include <algorithm>
 #include <numeric>
 
+using namespace units::literals;
+
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
@@ -1098,6 +1100,8 @@ long salvage_actor::use( player *p, item *it, bool t, const tripoint& ) const
     return cut_up( p, it, cut );
 }
 
+static const units::volume minimal_volume_to_cut = 250_ml;
+
 bool salvage_actor::valid_to_cut_up(const item *it) const
 {
     if( it->is_null() ) {
@@ -1113,7 +1117,7 @@ bool salvage_actor::valid_to_cut_up(const item *it) const
     if( !it->contents.empty() ) {
         return false;
     }
-    if (it->volume() / units::legacy_volume_factor == 0) {
+    if (it->volume() < minimal_volume_to_cut) {
         return false;
     }
 
@@ -1147,7 +1151,7 @@ bool salvage_actor::try_to_cut_up( player *p, item *it ) const
         add_msg(m_info, _("Please empty the %s before cutting it up."), it->tname().c_str());
         return false;
     }
-    if( it->volume() / units::legacy_volume_factor == 0 ) {
+    if( it->volume() < minimal_volume_to_cut ) {
         add_msg(m_info, _("The %s is too small to salvage material from."), it->tname().c_str());
         return false;
     }
@@ -1176,7 +1180,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     int pos = p->get_item_position(cut);
     // total number of raw components == total volume of item.
     // This can go awry if there is a volume / recipe mismatch.
-    int count = cut->volume() / units::legacy_volume_factor;
+    int count = cut->volume() / minimal_volume_to_cut;
     // Chance of us losing a material component to entropy.
     ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->get_skill_level( skill_fabrication ) );
@@ -2281,9 +2285,10 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // Repairing or modifying items requires at least 1 repair item,
     //  otherwise number is related to size of item
     // Round up if checking, but roll if actually consuming
+    // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
-        ceil( fix.volume() / units::legacy_volume_factor * cost_scaling ) :
-        divide_roll_remainder( fix.volume() / units::legacy_volume_factor * cost_scaling, 1.0f ) );
+        ceil( fix.volume() / 250_ml * cost_scaling ) :
+        divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
 
     // Go through all discovered repair items and see if we have any of them available
     for( const auto &entry : valid_entries ) {

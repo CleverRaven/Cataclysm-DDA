@@ -48,6 +48,8 @@
 #include <tuple>
 #include <iterator>
 
+using namespace units::literals;
+
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
 const skill_id skill_survival( "survival" );
@@ -1371,7 +1373,6 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             temp1 << _( "<good>preserves spoiling</good>, " );
         }
 
-        using namespace units::literals;
         temp1 << string_format( _( "can store <info>%.2f liters</info>." ), c.contains / 1000.0_ml );
 
         info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
@@ -2226,7 +2227,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     std::string burntext = "";
     if (with_prefix && !made_of(LIQUID)) {
-        if (volume() / units::legacy_volume_factor >= 4 && burnt >= volume() / units::legacy_volume_factor * 2) {
+        if( volume() >= 1000_ml && burnt * 125_ml >= volume() ) {
             burntext = pgettext( "burnt adjective", "badly burnt " );
         } else if (burnt > 0) {
             burntext = pgettext( "burnt adjective", "burnt " );
@@ -2603,12 +2604,12 @@ units::volume item::volume( bool integral ) const
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume", type->volume / units::legacy_volume_factor - type->gun->barrel_length );
             if     ( tmpvol <=  3 ) ; // intentional NOP
-            else if( tmpvol <=  5 ) ret -= 2 * units::legacy_volume_factor;
-            else if( tmpvol <=  6 ) ret -= 3 * units::legacy_volume_factor;
-            else if( tmpvol <=  8 ) ret -= 4 * units::legacy_volume_factor;
-            else if( tmpvol <= 11 ) ret -= 5 * units::legacy_volume_factor;
-            else if( tmpvol <= 16 ) ret -= 6 * units::legacy_volume_factor;
-            else                    ret -= 7 * units::legacy_volume_factor;
+            else if( tmpvol <=  5 ) ret -=  500_ml;
+            else if( tmpvol <=  6 ) ret -=  750_ml;
+            else if( tmpvol <=  8 ) ret -= 1000_ml;
+            else if( tmpvol <= 11 ) ret -= 1250_ml;
+            else if( tmpvol <= 16 ) ret -= 1500_ml;
+            else                    ret -= 1750_ml;
         }
 
         if( gunmod_find( "barrel_small" ) ) {
@@ -2618,13 +2619,13 @@ units::volume item::volume( bool integral ) const
 
     // Battery mods also add volume
     if( has_flag("ATOMIC_AMMO") ) {
-        ret += 1 * units::legacy_volume_factor;
+        ret += 250_ml;
     }
 
     if( has_flag("DOUBLE_AMMO") ) {
         // Batteries have volume 1 per 100 charges
         // TODO: De-hardcode this
-        ret += type->maximum_charges() * units::legacy_volume_factor / 100;
+        ret += type->maximum_charges() * 2.50_ml;
     }
 
     return ret;
@@ -2637,7 +2638,7 @@ int item::lift_strength() const
 
 int item::attack_time() const
 {
-    int ret = 65 + 4 * volume() / units::legacy_volume_factor + weight() / 60;
+    int ret = 65 + volume() / 62.5_ml + weight() / 60;
     return ret;
 }
 
@@ -2898,7 +2899,7 @@ int item::get_encumber() const
     const auto t = find_armor_data();
     if( t == nullptr ) {
         // handle wearable guns (eg. shoulder strap) as special case
-        return is_gun() ? volume() / units::legacy_volume_factor / 3 : 0;
+        return is_gun() ? volume() / 750_ml : 0;
     }
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
@@ -2906,7 +2907,7 @@ int item::get_encumber() const
     // Non-rigid items add additional encumbrance proportional to their volume
     if( !type->rigid ) {
         for( const auto &e : contents ) {
-            encumber += e.volume() / units::legacy_volume_factor;
+            encumber += e.volume() / 250_ml;
         }
     }
 
@@ -3016,7 +3017,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         return false;
     }
     int age_in_hours = (int(calendar::turn) - bday) / HOURS( 1 );
-    age_in_hours -= int((float)burnt / ( volume() / units::legacy_volume_factor ) * 24);
+    age_in_hours -= int((float)burnt / ( volume() / 250_ml ) );
     if( damage() > 0 ) {
         age_in_hours /= ( damage() + 1 );
     }

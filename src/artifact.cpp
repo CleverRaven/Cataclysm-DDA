@@ -821,7 +821,7 @@ std::string new_artifact()
                 if( modinfo->volume >= 0 || art->volume > -modinfo->volume ) {
                     art->volume += modinfo->volume;
                 } else {
-                    art->volume = 1 * units::legacy_volume_factor;
+                    art->volume = 250_ml;
                 }
 
                 if( modinfo->weight >= 0 || art->weight > std::abs( modinfo->weight ) ) {
