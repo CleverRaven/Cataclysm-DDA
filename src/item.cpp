@@ -1928,13 +1928,15 @@ nc_color item::color_in_inventory() const
     player* const u = &g->u; // TODO: make a reference, make a const reference
     nc_color ret = c_ltgray;
 
-    if(has_flag("WET")) {
+    if( has_flag( "WET" ) ) {
         ret = c_cyan;
-    } else if(has_flag("LITCIG")) {
-        ret = c_red;
-    } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0 ) {
+    } else if( has_flag( "LITCIG" ) ) {
+        ret = c_red; 
+    } else if( is_disgusting_for( *u ) ) {
+        ret = c_brown;
+    } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage > 0 ) {
         ret = c_ltgreen;
-    } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
+    } else if( active && !is_food() && !is_food_container() ) { // Active items show up as yellow
         ret = c_yellow;
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
