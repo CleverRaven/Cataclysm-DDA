@@ -20,7 +20,7 @@
         "flags" : [ "MUTAGEN_STRONG" ]
     },
     {
-        "abstract" : "mutagen_flavor", "//" : "meta item, not spawned in game but used as a baseline for class of mutagens",
+        "abstract" : "mutagen_flavor",
         "copy-from" : "mutagen",
         "type" : "COMESTIBLE",
         "addiction_potential" : 2
