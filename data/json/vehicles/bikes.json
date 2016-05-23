@@ -97,7 +97,7 @@
             {"x": 1, "y": 0, "part": "frame_handle"},
             {"x": 1, "y": 0, "part": "headlight"},
             {"x": 1, "y": 0, "part": "gas_tank_small"},
-            {"x": 1, "y": 0, "part": "battery_motorbike"},
+            {"x": 1, "y": 0, "part": "battery_car"},
             {"x": 2, "y": 0, "part": "frame_vertical"},
             {"x": 2, "y": 0, "part": "wheel_motorbike_steerable"},
             {"x": -1, "y": 0, "part": "frame_vertical"},
