@@ -119,8 +119,6 @@ src/item_action.h
 src/item_factory.h
 src/item_location.h
 src/item_stack.h
-src/item_uid.h
-src/item_uid.cpp
 src/iuse_software.h
 src/iuse_software_kitten.h
 src/iuse_software_minesweeper.h
@@ -175,6 +173,8 @@ src/translations.h
 src/trap.h
 src/tutorial.h
 src/ui.h
+src/uid.h
+src/uid.cpp
 src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h

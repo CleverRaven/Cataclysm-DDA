@@ -8,7 +8,7 @@
 #include "int_id.h"
 #include "item_location.h"
 #include "cursesdef.h"
-#include "item_uid.h"
+#include "uid.h"
 
 #include <vector>
 #include <map>
@@ -126,7 +126,6 @@ typedef std::function<bool(const item &)> item_filter;
 
 class game
 {
-        friend item_uid;
         friend class editmap;
         friend class advanced_inventory;
         friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
@@ -153,15 +152,8 @@ class game
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
 
-    private:
-        /** last assigned unique item identifier */
-        unsigned long long last_uid = 0;
-
     public:
-        /** fetch next unique item identifier */
-        unsigned long long next_item_uid();
-
-    public:
+        uid_factory item_uid; /** generates unique item identifiers */
 
         /** Initializes the UI. */
         void init_ui();

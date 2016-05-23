@@ -1004,8 +1004,8 @@ void game::unserialize_master(std::istream &fin) {
         jsin.start_object();
         while (!jsin.end_object()) {
             std::string name = jsin.get_member_name();
-            if( name == "last_uid" ) {
-                jsin.read( last_uid );
+            if( name == "item_uid" ) {
+                jsin.read( item_uid );
             } else if( name == "next_mission_id" ) {
                 next_mission_id = jsin.get_int();
             } else if (name == "next_faction_id") {
@@ -1046,7 +1046,7 @@ void game::serialize_master(std::ostream &fout) {
         JsonOut json(fout, true); // pretty-print
         json.start_object();
 
-        json.member( "last_uid", last_uid );
+        json.member( "item_uid", item_uid );
 
         json.member("next_mission_id", next_mission_id);
         json.member("next_faction_id", next_faction_id);
