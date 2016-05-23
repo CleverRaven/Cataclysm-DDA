@@ -50,7 +50,7 @@
         "damage": 4,
         "range": 2,
         "dispersion": -30,
-        "recoil": 30,
+        "recoil": 30
     }
   }
 ]
