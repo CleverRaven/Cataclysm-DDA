@@ -8068,7 +8068,7 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
     return it->type->charges_to_use();
 }
 
-int iuse::WASHCLOTHES( player *p, item *it, bool, const tripoint& )
+int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 {
         if( it->charges < it->type->charges_to_use() ) {
             p->add_msg_if_player( _( "You need soap to use this." ) );
