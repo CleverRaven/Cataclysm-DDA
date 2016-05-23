@@ -1495,46 +1495,46 @@ void player::recalc_speed_bonus()
 {
     // Minus some for weight...
     int carry_penalty = 0;
-    if (weight_carried() > weight_capacity()) {
-        carry_penalty = 25 * (weight_carried() - weight_capacity()) / (weight_capacity());
+    if( weight_carried() > weight_capacity() ) {
+        carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
     }
-    mod_speed_bonus(-carry_penalty);
+    mod_speed_bonus( -carry_penalty );
 
-    if (get_perceived_pain() > 0) {
-        int pain_penalty = int(get_perceived_pain() * .7);
+    if( get_perceived_pain() > 0 ) {
+        int pain_penalty = int( get_perceived_pain() * .7 );
         // Cenobites aren't slowed nearly as much by pain
-        if (has_trait("CENOBITE")) {
+        if( has_trait( "CENOBITE" ) ) {
             pain_penalty /= 4;
         }
-        if (pain_penalty > 60) {
+        if( pain_penalty > 60 ) {
             pain_penalty = 60;
         }
-        mod_speed_bonus(-pain_penalty);
+        mod_speed_bonus( -pain_penalty );
     }
-    if (get_painkiller() >= 10) {
-        int pkill_penalty = int(get_painkiller() * .1);
-        if (pkill_penalty > 30) {
+    if( get_painkiller() >= 10 ) {
+        int pkill_penalty = int( get_painkiller() * .1 );
+        if( pkill_penalty > 30 ) {
             pkill_penalty = 30;
         }
-        mod_speed_bonus(-pkill_penalty);
+        mod_speed_bonus( -pkill_penalty );
     }
 
     if( abs( get_morale_level() ) >= 100 ) {
         int morale_bonus = get_morale_level() / 25;
-        if (morale_bonus < -10) {
+        if( morale_bonus < -10 ) {
             morale_bonus = -10;
-        } else if (morale_bonus > 10) {
+        } else if( morale_bonus > 10 ) {
             morale_bonus = 10;
         }
-        mod_speed_bonus(morale_bonus);
+        mod_speed_bonus( morale_bonus );
     }
 
-    if (radiation >= 40) {
+    if( radiation >= 40 ) {
         int rad_penalty = radiation / 40;
-        if (rad_penalty > 20) {
+        if( rad_penalty > 20 ) {
             rad_penalty = 20;
         }
-        mod_speed_bonus(-rad_penalty);
+        mod_speed_bonus( -rad_penalty );
     }
 
     if( get_thirst() > 40 ) {
@@ -1544,62 +1544,62 @@ void player::recalc_speed_bonus()
         mod_speed_bonus( hunger_speed_penalty( get_hunger() ) );
     }
 
-    mod_speed_bonus( stim > 10 ? 10 : stim / 4);
+    mod_speed_bonus( stim > 10 ? 10 : stim / 4 );
 
-    for (auto maps : effects) {
-        for (auto i : maps.second) {
-            bool reduced = resists_effect(i.second);
-            mod_speed_bonus(i.second.get_mod("SPEED", reduced));
+    for( auto maps : effects ) {
+        for( auto i : maps.second ) {
+            bool reduced = resists_effect( i.second );
+            mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
         }
     }
 
     // add martial arts speed bonus
-    mod_speed_bonus(mabuff_speed_bonus());
+    mod_speed_bonus( mabuff_speed_bonus() );
 
     // Not sure why Sunlight Dependent is here, but OK
     // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
     // Threshold-crossing has its charms ;-)
-    if (g != NULL) {
-        if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(pos())) {
-            mod_speed_bonus(-(g->light_level( posz() ) >= 12 ? 5 : 10));
+    if( g != NULL ) {
+        if( has_trait( "SUNLIGHT_DEPENDENT" ) && !g->is_in_sunlight( pos() ) ) {
+            mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
-        if (has_trait("COLDBLOOD4") || (has_trait("COLDBLOOD3") && g->get_temperature() < 65)) {
-            mod_speed_bonus((g->get_temperature() - 65) / 2);
-        } else if (has_trait("COLDBLOOD2") && g->get_temperature() < 65) {
-            mod_speed_bonus((g->get_temperature() - 65) / 3);
-        } else if (has_trait("COLDBLOOD") && g->get_temperature() < 65) {
-            mod_speed_bonus((g->get_temperature() - 65) / 5);
+        if( has_trait( "COLDBLOOD4" ) || ( has_trait( "COLDBLOOD3" ) && g->get_temperature() < 65 ) ) {
+            mod_speed_bonus( ( g->get_temperature() - 65 ) / 2 );
+        } else if( has_trait( "COLDBLOOD2" ) && g->get_temperature() < 65 ) {
+            mod_speed_bonus( ( g->get_temperature() - 65 ) / 3 );
+        } else if( has_trait( "COLDBLOOD" ) && g->get_temperature() < 65 ) {
+            mod_speed_bonus( ( g->get_temperature() - 65 ) / 5 );
         }
     }
 
-    if (has_trait("M_SKIN2")) {
-        mod_speed_bonus(-20); // Could be worse--you've got the armor from a (sessile!) Spire
+    if( has_trait( "M_SKIN2" ) ) {
+        mod_speed_bonus( -20 ); // Could be worse--you've got the armor from a (sessile!) Spire
     }
 
-    if (has_artifact_with(AEP_SPEED_UP)) {
-        mod_speed_bonus(20);
+    if( has_artifact_with( AEP_SPEED_UP ) ) {
+        mod_speed_bonus( 20 );
     }
-    if (has_artifact_with(AEP_SPEED_DOWN)) {
-        mod_speed_bonus(-20);
+    if( has_artifact_with( AEP_SPEED_DOWN ) ) {
+        mod_speed_bonus( -20 );
     }
 
-    if (has_trait("QUICK")) { // multiply by 1.1
-        set_speed_bonus(int(get_speed() * 1.1) - get_speed_base());
+    if( has_trait( "QUICK" ) ) { // multiply by 1.1
+        set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
-    if (has_bionic("bio_speed")) { // multiply by 1.1
-        set_speed_bonus(int(get_speed() * 1.1) - get_speed_base());
+    if( has_bionic( "bio_speed" ) ) { // multiply by 1.1
+        set_speed_bonus( int( get_speed() * 1.1 ) - get_speed_base() );
     }
 
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
-    const int min_speed_bonus = int(-0.75 * get_speed_base());
-    if (get_speed_bonus() < min_speed_bonus) {
-        set_speed_bonus(min_speed_bonus);
+    const int min_speed_bonus = int( -0.75 * get_speed_base() );
+    if( get_speed_bonus() < min_speed_bonus ) {
+        set_speed_bonus( min_speed_bonus );
     }
 }
 
-int player::run_cost(int base_cost, bool diag) const
+int player::run_cost( int base_cost, bool diag ) const
 {
-    float movecost = float(base_cost);
+    float movecost = float( base_cost );
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
@@ -1608,78 +1608,80 @@ int player::run_cost(int base_cost, bool diag) const
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
 
-    if (has_trait("PARKOUR") && movecost > 100 ) {
+    if( has_trait( "PARKOUR" ) && movecost > 100 ) {
         movecost *= .5f;
-        if (movecost < 100)
+        if( movecost < 100 ) {
             movecost = 100;
+        }
     }
-    if (has_trait("BADKNEES") && movecost > 100 ) {
+    if( has_trait( "BADKNEES" ) && movecost > 100 ) {
         movecost *= 1.25f;
-        if (movecost < 100)
+        if( movecost < 100 ) {
             movecost = 100;
+        }
     }
 
-    if (hp_cur[hp_leg_l] == 0) {
+    if( hp_cur[hp_leg_l] == 0 ) {
         movecost += 50;
-    } else if (hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40) {
+    } else if( hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40 ) {
         movecost += 25;
     }
 
-    if (hp_cur[hp_leg_r] == 0) {
+    if( hp_cur[hp_leg_r] == 0 ) {
         movecost += 50;
-    } else if (hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40) {
+    } else if( hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40 ) {
         movecost += 25;
     }
 
-    if (has_trait("FLEET") && flatground) {
+    if( has_trait( "FLEET" ) && flatground ) {
         movecost *= .85f;
     }
-    if (has_trait("FLEET2") && flatground) {
+    if( has_trait( "FLEET2" ) && flatground ) {
         movecost *= .7f;
     }
-    if (has_trait("SLOWRUNNER") && flatground) {
+    if( has_trait( "SLOWRUNNER" ) && flatground ) {
         movecost *= 1.15f;
     }
-    if (has_trait("PADDED_FEET") && !footwear_factor()) {
+    if( has_trait( "PADDED_FEET" ) && !footwear_factor() ) {
         movecost *= .9f;
     }
-    if (has_trait("LIGHT_BONES")) {
+    if( has_trait( "LIGHT_BONES" ) ) {
         movecost *= .9f;
     }
-    if (has_trait("HOLLOW_BONES")) {
+    if( has_trait( "HOLLOW_BONES" ) ) {
         movecost *= .8f;
     }
-    if (has_active_mutation("WINGS_INSECT")) {
+    if( has_active_mutation( "WINGS_INSECT" ) ) {
         movecost *= .75f;
     }
-    if (has_trait("WINGS_BUTTERFLY")) {
+    if( has_trait( "WINGS_BUTTERFLY" ) ) {
         movecost -= 10; // You can't fly, but you can make life easier on your legs
     }
-    if (has_trait("LEG_TENTACLES")) {
+    if( has_trait( "LEG_TENTACLES" ) ) {
         movecost += 20;
     }
-    if (has_trait("FAT")) {
+    if( has_trait( "FAT" ) ) {
         movecost *= 1.05f;
     }
-    if (has_trait("PONDEROUS1")) {
+    if( has_trait( "PONDEROUS1" ) ) {
         movecost *= 1.1f;
     }
-    if (has_trait("PONDEROUS2")) {
+    if( has_trait( "PONDEROUS2" ) ) {
         movecost *= 1.2f;
     }
-    if (has_trait("AMORPHOUS")) {
+    if( has_trait( "AMORPHOUS" ) ) {
         movecost *= 1.25f;
     }
-    if (has_trait("PONDEROUS3")) {
+    if( has_trait( "PONDEROUS3" ) ) {
         movecost *= 1.3f;
     }
-    if( is_wearing("stillsuit") ) {
+    if( is_wearing( "stillsuit" ) ) {
         movecost *= 1.1f;
     }
-    if( is_wearing("swim_fins") ) {
+    if( is_wearing( "swim_fins" ) ) {
         movecost *= 1.5f;
     }
-    if( is_wearing("roller_blades") ) {
+    if( is_wearing( "roller_blades" ) ) {
         if( on_road ) {
             movecost *= 0.5f;
         } else {
@@ -1688,7 +1690,7 @@ int player::run_cost(int base_cost, bool diag) const
     }
     // Quad skates might be more stable than inlines,
     // but that also translates into a slower speed when on good surfaces.
-    if ( is_wearing("rollerskates") ) {
+    if( is_wearing( "rollerskates" ) ) {
         if( on_road ) {
             movecost *= 0.7f;
         } else {
@@ -1697,40 +1699,40 @@ int player::run_cost(int base_cost, bool diag) const
     }
 
     movecost +=
-        ( ( encumb(bp_foot_l) + encumb(bp_foot_r) ) * 2.5 +
-          ( encumb(bp_leg_l) + encumb(bp_leg_r) ) * 1.5 ) / 10;
+        ( ( encumb( bp_foot_l ) + encumb( bp_foot_r ) ) * 2.5 +
+          ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) * 1.5 ) / 10;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
     // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-    const bool mutfeet = has_trait("LEG_TENTACLES") || has_trait("PADDED_FEET") ||
-        has_trait("HOOVES") || has_trait("TOUGH_FEET") || has_trait("ROOTS2");
-    if( !is_wearing_shoes("left") && !mutfeet ) {
+    const bool mutfeet = has_trait( "LEG_TENTACLES" ) || has_trait( "PADDED_FEET" ) ||
+                         has_trait( "HOOVES" ) || has_trait( "TOUGH_FEET" ) || has_trait( "ROOTS2" );
+    if( !is_wearing_shoes( "left" ) && !mutfeet ) {
         movecost += 8;
     }
-    if( !is_wearing_shoes("right") && !mutfeet ) {
+    if( !is_wearing_shoes( "right" ) && !mutfeet ) {
         movecost += 8;
     }
 
-    if( !footwear_factor() && has_trait("ROOTS3") &&
-        g->m.has_flag("DIGGABLE", pos()) ) {
+    if( !footwear_factor() && has_trait( "ROOTS3" ) &&
+        g->m.has_flag( "DIGGABLE", pos() ) ) {
         movecost += 10 * footwear_factor();
     }
 
     // Both walk and run speed drop to half their maximums as stamina approaches 0.
     // Convert stamina to a float first to allow for decimal place carrying
-    float stamina_modifier = (float(stamina) / get_stamina_max() + 1) / 2;
+    float stamina_modifier = ( float( stamina ) / get_stamina_max() + 1 ) / 2;
     if( move_mode == "run" && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
     }
     movecost /= stamina_modifier;
 
-    if (diag) {
+    if( diag ) {
         movecost *= 1.4142;
     }
 
-    return int(movecost);
+    return int( movecost );
 }
 
 int player::swim_speed() const
@@ -1740,55 +1742,56 @@ int player::swim_speed() const
     float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
     ///\EFFECT_STR increases swim speed bonus from PAWS
-    if (has_trait("PAWS")) {
-        ret -= hand_bonus_mult * (20 + str_cur * 3);
+    if( has_trait( "PAWS" ) ) {
+        ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
     }
     ///\EFFECT_STR increases swim speed bonus from PAWS_LARGE
-    if (has_trait("PAWS_LARGE")) {
-        ret -= hand_bonus_mult * (20 + str_cur * 4);
+    if( has_trait( "PAWS_LARGE" ) ) {
+        ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
     ///\EFFECT_STR increases swim speed bonus from swim_fins
-    if (is_wearing("swim_fins")) {
-        ret -= (15 * str_cur) / (3 - shoe_type_count("swim_fins"));
+    if( is_wearing( "swim_fins" ) ) {
+        ret -= ( 15 * str_cur ) / ( 3 - shoe_type_count( "swim_fins" ) );
     }
     ///\EFFECT_STR increases swim speed bonus from WEBBED
-    if( has_trait("WEBBED") ) {
-        ret -= hand_bonus_mult * (60 + str_cur * 5);
+    if( has_trait( "WEBBED" ) ) {
+        ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
     }
     ///\EFFECT_STR increases swim speed bonus from TAIL_FIN
-    if (has_trait("TAIL_FIN")) {
+    if( has_trait( "TAIL_FIN" ) ) {
         ret -= 100 + str_cur * 10;
     }
-    if (has_trait("SLEEK_SCALES")) {
+    if( has_trait( "SLEEK_SCALES" ) ) {
         ret -= 100;
     }
-    if (has_trait("LEG_TENTACLES")) {
+    if( has_trait( "LEG_TENTACLES" ) ) {
         ret -= 60;
     }
-    if (has_trait("FAT")) {
+    if( has_trait( "FAT" ) ) {
         ret -= 30;
     }
     ///\EFFECT_SWIMMING increases swim speed
-    ret += (50 - get_skill_level( skill_swimming ) * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
-    ret += (80 - get_skill_level( skill_swimming ) * 3) * (encumb(bp_torso) / 10);
-    if (get_skill_level( skill_swimming ) < 10) {
-        for (auto &i : worn) {
-            ret += (i.volume() * (10 - get_skill_level( skill_swimming ))) / 2;
+    ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( bp_leg_l ) + encumb(
+                bp_leg_r ) ) / 10 );
+    ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bp_torso ) / 10 );
+    if( get_skill_level( skill_swimming ) < 10 ) {
+        for( auto &i : worn ) {
+            ret += ( i.volume() * ( 10 - get_skill_level( skill_swimming ) ) ) / 2;
         }
     }
     ///\EFFECT_STR increases swim speed
 
     ///\EFFECT_DEX increases swim speed
     ret -= str_cur * 6 + dex_cur * 4;
-    if( worn_with_flag("FLOTATION") ) {
-        ret = std::min(ret, 400);
-        ret = std::max(ret, 200);
+    if( worn_with_flag( "FLOTATION" ) ) {
+        ret = std::min( ret, 400 );
+        ret = std::max( ret, 200 );
     }
     // If (ret > 500), we can not swim; so do not apply the underwater bonus.
-    if (underwater && ret < 500) {
+    if( underwater && ret < 500 ) {
         ret -= 50;
     }
-    if (ret < 30) {
+    if( ret < 30 ) {
         ret = 30;
     }
     return ret;
