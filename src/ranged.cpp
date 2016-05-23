@@ -441,12 +441,8 @@ int player::fire_gun( const tripoint &target, int shots, item_location &&obj )
     }
 
     // cap our maximum burst size by the amount of UPS power left
-    if( gun.get_gun_ups_drain() > 0 ) {
-        if( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
-            shots = std::min( shots, int( worn.back().charges / gun.get_gun_ups_drain() ) );
-        } else {
-            shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
-        }
+    if( !gun.has_flag( "TURRET" ) && gun.get_gun_ups_drain() > 0 ) {
+        shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
