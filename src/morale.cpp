@@ -79,6 +79,7 @@ const std::string &get_morale_data( const morale_type id )
             { _( "Masochism" ) },
             { _( "Hoarder" ) },
             { _( "Stylish" ) },
+            { _( "Filthy gear" ) },
             { _( "Optimist" ) },
             { _( "Bad Tempered" ) },
             //~ You really don't like wearing the Uncomfy Gear
@@ -266,6 +267,7 @@ player_morale::player_morale() :
     level_is_valid( false ),
     took_prozac( false ),
     stylish( false ),
+    filthy( false ),
     perceived_pain( 0 )
 {
     using namespace std::placeholders;
@@ -275,6 +277,7 @@ player_morale::player_morale() :
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
+    const auto set_filthy         = std::bind( &player_morale::set_filthy, _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
@@ -287,6 +290,9 @@ player_morale::player_morale() :
     mutations["STYLISH"]       = mutation_data(
                                      std::bind( set_stylish, _1, true ),
                                      std::bind( set_stylish, _1, false ) );
+    mutations["SQUEAMISH"]       = mutation_data(
+                                     std::bind( set_filthy, _1, true ),
+                                     std::bind( set_filthy, _1, false ) );
     mutations["FLOWERS"]       = mutation_data( update_constrained );
     mutations["ROOTS"]         = mutation_data( update_constrained );
     mutations["ROOTS2"]        = mutation_data( update_constrained );
@@ -567,12 +573,16 @@ void player_morale::set_worn( const item &it, bool worn )
 {
     const bool fancy = it.has_flag( "FANCY" );
     const bool super_fancy = it.has_flag( "SUPER_FANCY" );
+    const bool filthy_gear = it.has_flag( "FILTHY" );
     const int sign = ( worn ) ? 1 : -1;
 
     for( int i = 0; i < num_bp; ++i ) {
         if( it.covers( static_cast<body_part>( i ) ) ) {
             if( fancy || super_fancy ) {
                 body_parts[i].fancy += sign;
+            }
+            if ( filthy_gear ) {
+                body_parts[i].filthy += sign;
             }
             body_parts[i].covered += sign;
         }
@@ -595,6 +605,9 @@ void player_morale::set_worn( const item &it, bool worn )
     if( fancy || super_fancy ) {
         update_stylish_bonus();
     }
+    if( filthy_gear ) {
+        update_filthy_bonus();
+    }
     update_constrained_penalty();
 }
 
@@ -612,6 +625,14 @@ void player_morale::set_stylish( bool new_stylish )
     if( stylish != new_stylish ) {
         stylish = new_stylish;
         update_stylish_bonus();
+    }
+}
+
+void player_morale::set_filthy( bool new_filthy )
+{
+    if( filthy != new_filthy ) {
+        filthy = new_filthy;
+        update_filthy_bonus();
     }
 }
 
@@ -635,6 +656,30 @@ void player_morale::update_stylish_bonus()
                           bp_bonus( bp_hand_l, 1 ), 20 );
     }
     set_permanent( MORALE_PERM_FANCY, bonus );
+}
+
+void player_morale::update_filthy_bonus()
+{
+    int penalty = 0;
+
+    if( filthy ) {
+        const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
+            return (
+                body_parts[bp].filthy > 0 ||
+                body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
+        };
+        penalty = std::min (bp_pen( bp_torso,  10 ) +
+                            bp_pen( bp_head,   7 ) +
+                            bp_pen( bp_eyes,   5 ) +
+                            bp_pen( bp_mouth,  5 ) +
+                            bp_pen( bp_leg_l,  5 ) +
+                            bp_pen( bp_leg_r,  5 ) +
+                            bp_pen( bp_foot_l, 3 ) +
+                            bp_pen( bp_foot_r, 3 ) +
+                            bp_pen( bp_hand_l, 3 ) +
+                            bp_pen( bp_hand_r, 3 ), 50 );
+    }
+    set_permanent( MORALE_PERM_FILTHY, -penalty );
 }
 
 void player_morale::update_masochist_bonus()
