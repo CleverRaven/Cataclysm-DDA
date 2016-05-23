@@ -290,7 +290,7 @@ player_morale::player_morale() :
     mutations["STYLISH"]       = mutation_data(
                                      std::bind( set_stylish, _1, true ),
                                      std::bind( set_stylish, _1, false ) );
-    mutations["SQUEAMISH"]       = mutation_data(
+    mutations["SQUEAMISH"]     = mutation_data(
                                      std::bind( set_squeamish, _1, true ),
                                      std::bind( set_squeamish, _1, false ) );
     mutations["FLOWERS"]       = mutation_data( update_constrained );
