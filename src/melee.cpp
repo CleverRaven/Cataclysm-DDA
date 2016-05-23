@@ -526,7 +526,7 @@ bool player::scored_crit(int target_dodge) const
  */
 double limit_probability ( double unbounded_probability ) {
     double probability = std::fmin( unbounded_probability, 1.0 );
-    double bounded_probability = std::fmax( probabilty, 0.0 );
+    double bounded_probability = std::fmax( probability, 0.0 );
     return bounded_probability;
 }
 
