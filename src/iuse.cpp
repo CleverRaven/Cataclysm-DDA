@@ -8077,7 +8077,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
             return itm.has_flag( "FILTHY" ); } );
     item *mod = &( p->i_at( pos ) );
 
-    if( mod == NULL || mod->is_null() ) {
+    if( mod == nullptr ) {
         p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
         return 0;
     }
