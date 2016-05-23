@@ -8083,7 +8083,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
 
     p->add_msg_if_player( _( "You washed your clothing." ) );
     p->mod_moves( -3000 );
-    mod->item_tags.erase( "FILTHY" );
+    mod.item_tags.erase( "FILTHY" );
 
     } else { 
         p->add_msg_if_player( _( "You need a source of fresh water to use this." ) );
