@@ -1231,7 +1231,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       get_encumber(), true, "", false, true ) );
         }
 
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), "", get_storage() / units::legacy_volume_factor ) );
+        const std::string unit = string_format( "<num> %s", _( "ml" ) );
+        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ), unit, to_milliliter( get_storage() ) ) );
 
         info.push_back( iteminfo( "ARMOR", _( "Protection: Bash: " ), "", bash_resist(), true, "",
                                   false ) );
