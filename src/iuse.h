@@ -185,6 +185,7 @@ public:
     int cable_attach        ( player*, item*, bool, const tripoint& );
     int shavekit            ( player*, item*, bool, const tripoint& );
     int hairkit             ( player*, item*, bool, const tripoint& );
+    int washclothes         ( player*, item*, bool, const tripoint& );
     int weather_tool        ( player*, item*, bool, const tripoint& );
     int ladder              ( player*, item*, bool, const tripoint& );
     int saw_barrel          ( player*, item*, bool, const tripoint& );
