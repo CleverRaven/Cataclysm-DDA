@@ -21,8 +21,11 @@
     "aim_speed": 3,
     "recoil": 10,
     "durability": 6,
-    "burst": 30,
     "barrel_length": 1,
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "AUTO", "auto", 30 ]
+    ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [
       [ "22", [ "a180mag" ] ],
@@ -132,8 +135,11 @@
     "aim_speed": 2,
     "recoil": 5,
     "durability": 9,
-    "burst": 20,
     "reload": 500,
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "20 rd.", 20 ]
+    ],
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "magazines": [ [ "22", [ "360_200_mag", "360_400_mag" ] ] ],
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]

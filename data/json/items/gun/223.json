@@ -98,6 +98,11 @@
     "recoil": 75,
     "durability": 8,
     "burst": 15,
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "2 rd.", 2 ],
+        [ "AUTO", "auto", 15 ]
+    ],
     "magazines" : [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -146,7 +151,10 @@
     "sight_dispersion": 60,
     "recoil": -150,
     "durability": 3,
-    "burst": 3,
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "3 rd.", 3 ]
+    ],
     "valid_mod_locations": [ [ "accessories", 2 ] ],
     "magazines" : [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ]
   },
@@ -162,7 +170,10 @@
         "range": -6
     },
     "durability": 9,
-    "burst": 5
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "5 rd.", 5 ]
+    ]
   },
   {
     "id": "l_dsr_223",
@@ -180,7 +191,9 @@
     },
     "sight_dispersion": 0,
     "durability": 9,
-    "burst": 0
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ]
+    ]
   },
   {
     "id": "l_mbr_223",
@@ -213,7 +226,10 @@
         "recoil": -150
     },
     "durability": 9,
-    "burst": 20
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "20 rd.", 20 ]
+    ]
   },
   {
     "id": "m249",
@@ -235,7 +251,9 @@
     "recoil": 90,
     "durability": 7,
     "reload": 400,
-    "burst": 30,
+    "modes": [
+        [ "DEFAULT", "auto", 30 ]
+    ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
     "magazines" : [
       [ "223", [ "stanag50", "stanag30", "belt223" ] ],
@@ -253,7 +271,10 @@
         "ranged_damage": 1,
         "durability": 1
     },
-    "burst": 15,
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "AUTO", "auto", 15 ]
+    ],
     "magazines" : [
       [ "223", [ "stanag50", "stanag30", "stanag10" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -280,7 +301,11 @@
     "sight_dispersion": 60,
     "recoil": 30,
     "durability": 6,
-    "burst": 10,
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "3 rd.", 3 ],
+        [ "AUTO", "auto", 10 ]
+    ],
     "magazines" : [
       [ "223", [ "stanag30", "stanag10", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -363,7 +388,11 @@
     "sight_dispersion": 60,
     "recoil": -60,
     "durability": 8,
-    "burst": 10,
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "3 rd.", 3 ],
+        [ "AUTO", "auto", 10 ]
+    ],
     "magazines" : [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
@@ -389,7 +418,12 @@
     "sight_dispersion": 60,
     "recoil": -120,
     "durability": 8,
-    "burst": 6,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "magazine", 1 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
+    "modes": [
+        [ "DEFAULT", "semi-auto", 1 ],
+        [ "BURST", "3 rd.", 3 ],
+        [ "AUTO", "auto", 6 ]
+    ],
     "magazines" : [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
