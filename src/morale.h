@@ -114,7 +114,7 @@ class player_morale
 
         void set_prozac( bool new_took_prozac );
         void set_stylish( bool new_stylish );
-        void set_filthy( bool new_filthy );
+        void set_squeamish( bool new_squeamish );
         void set_worn( const item &it, bool worn );
         void set_mutation( const std::string &mid, bool active );
         bool has_mutation( const std::string &mid );
@@ -124,7 +124,7 @@ class player_morale
         void invalidate();
 
         void update_stylish_bonus();
-        void update_filthy_bonus();
+        void update_squeamish_penalty();
         void update_masochist_bonus();
         void update_bodytemp_penalty( int ticks );
         void update_constrained_penalty();
