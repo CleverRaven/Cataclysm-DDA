@@ -682,8 +682,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                             ( double )price_postapoc / 100, false, "$", true, true ) );
         }
 
-        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume() / units::legacy_volume_factor, true, "", false,
-                                  true ) );
+        const std::string unit = string_format( "<num> %s", _( "ml" ) );
+        info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), unit, to_milliliter( volume() ),
+                                   true, "", false, true ) );
 
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
                                   string_format( "<num> %s", weight_units() ),
