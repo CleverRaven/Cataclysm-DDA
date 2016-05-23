@@ -93,7 +93,7 @@
             {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "vehicle_alarm"},
             {"x": 0, "y": 0, "part": "engine_inline4"},
-            {"x": 0, "y": 0, "part": "alternator_car"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
             {"x": 1, "y": 0, "part": "frame_handle"},
             {"x": 1, "y": 0, "part": "headlight"},
             {"x": 1, "y": 0, "part": "gas_tank_small"},
