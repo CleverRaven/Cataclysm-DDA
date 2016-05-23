@@ -1,7 +1,7 @@
 #ifndef ITEM_UID_H
 #define ITEM_UID_H
 
-#include <limits>
+#include <cstdint>
 
 #include "json.h"
 
@@ -33,8 +33,8 @@ class item_uid : public JsonSerializer, public JsonDeserializer
         void deserialize( JsonIn &js );
 
     private:
-        item_uid( long long val ) : val( val ) {}
-        long long val = std::numeric_limits<long long>::min();
+        item_uid( unsigned long long val ) : val( val ) {}
+        unsigned long long val = 0;
 
         item_uid clone() const;
 };

@@ -1369,7 +1369,7 @@ bool JsonIn::read(unsigned long &ul)
     return true;
 }
 
-bool JsonIn::read( long long &ll )
+bool JsonIn::read( unsigned long long &ll )
 {
     if( !test_number() ) {
         return false;
@@ -1743,7 +1743,7 @@ void JsonOut::write(const unsigned long &ul)
     need_separator = true;
 }
 
-void JsonOut::write( const long long &ll )
+void JsonOut::write( const unsigned long long &ll )
 {
     if( need_separator ) {
         write_separator();

@@ -155,7 +155,7 @@ class game
 
     private:
         /** last assigned unique item identifier */
-        long long last_uid = std::numeric_limits<long long>::min();
+        unsigned long long last_uid = 0;
 
     public:
         /** fetch next unique item identifier */
