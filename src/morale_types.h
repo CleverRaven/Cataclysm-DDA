@@ -56,7 +56,6 @@ enum morale_type : int {
     MORALE_PERM_MASOCHIST,
     MORALE_PERM_HOARDER,
     MORALE_PERM_FANCY,
-    MORALE_PERM_FILTHY,
     MORALE_PERM_OPTIMIST,
     MORALE_PERM_BADTEMPER,
     MORALE_PERM_CONSTRAINED,
@@ -66,7 +65,9 @@ enum morale_type : int {
     MORALE_SHAVE,
 
     MORALE_VOMITED,
-
+    
+    MORALE_PERM_FILTHY,
+    
     NUM_MORALE_TYPES
 };
 
