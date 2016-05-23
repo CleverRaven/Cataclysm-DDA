@@ -33,12 +33,12 @@ class item_location::impl
         virtual void remove_item() = 0;
 
     protected:
-        impl( uid &&item_uid ) : item_uid( std::move( item_uid ) ) {}
+        impl( item_uid &&id ) : id( std::move( id ) ) {}
 
         virtual item *target() const = 0;
 
         mutable item *what = nullptr;
-        uid item_uid;
+        item_uid id;
 };
 
 class item_location::item_on_map : public item_location::impl
@@ -47,13 +47,13 @@ class item_location::item_on_map : public item_location::impl
         map_cursor cur;
 
     public:
-        item_on_map( const map_cursor &cur, uid &&item_uid )
-            : impl( std::move( item_uid ) ), cur( cur ) {}
+        item_on_map( const map_cursor &cur, item_uid &&id )
+            : impl( std::move( id ) ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "map" );
-            js.member( "uid", item_uid );
+            js.member( "uid", id );
             js.member( "position", position() );
             js.end_object();
         }
@@ -63,7 +63,7 @@ class item_location::item_on_map : public item_location::impl
                 return what;
             }
             cur.visit_items( [&]( const item * e ) {
-                if( e->item_uid == item_uid ) {
+                if( e->uid_ == id ) {
                     this->what = const_cast<item *>( e );
                     return VisitResponse::ABORT;
                 }
@@ -133,7 +133,7 @@ class item_location::item_on_map : public item_location::impl
             if( obj.is_null() ) {
                 debugmsg( "Tried to remove an item from a map tile which doesn't contain it" );
             }
-            item_uid = uid();
+            id = item_uid();
         }
 };
 
@@ -143,13 +143,13 @@ class item_location::item_on_person : public item_location::impl
         Character &who;
 
     public:
-        item_on_person( Character &who, uid &&item_uid )
-            : impl( std::move( item_uid ) ), who( who ) {}
+        item_on_person( Character &who, item_uid &&id )
+            : impl( std::move( id ) ), who( who ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "character" );
-            js.member( "uid", item_uid );
+            js.member( "uid", id );
             js.member( "position", position() );
             js.end_object();
         }
@@ -159,7 +159,7 @@ class item_location::item_on_person : public item_location::impl
                 return what;
             }
             who.visit_items( [&]( const item * e ) {
-                if( e->item_uid == item_uid ) {
+                if( e->uid_ == id ) {
                     this->what = const_cast<item *>( e );
                     return VisitResponse::ABORT;
                 }
@@ -274,7 +274,7 @@ class item_location::item_on_person : public item_location::impl
             if( obj.is_null() ) {
                 debugmsg( "Tried to remove an item from a character who doesn't have it" );
             }
-            item_uid = uid();
+            id = item_uid();
         }
 };
 
@@ -284,13 +284,13 @@ class item_location::item_on_vehicle : public item_location::impl
         vehicle_cursor cur;
 
     public:
-        item_on_vehicle( const vehicle_cursor &cur, uid &&item_uid )
-            : impl( std::move( item_uid ) ), cur( cur ) {}
+        item_on_vehicle( const vehicle_cursor &cur, item_uid &&id )
+            : impl( std::move( id ) ), cur( cur ) {}
 
         void serialize( JsonOut &js ) const override {
             js.start_object();
             js.member( "type", "vehicle" );
-            js.member( "uid", item_uid );
+            js.member( "uid", id );
             js.member( "position", position() );
             js.member( "part", cur.part );
             js.end_object();
@@ -302,12 +302,12 @@ class item_location::item_on_vehicle : public item_location::impl
             }
 
             /** as a special case item_location can refer to vehicle parts */
-            if( cur.veh.parts[ cur.part ].base.item_uid == item_uid ) {
+            if( cur.veh.parts[ cur.part ].base.uid_ == id ) {
                 return &cur.veh.parts[ cur.part ].base;
             }
 
             cur.visit_items( [&]( const item * e ) {
-                if( e->item_uid == item_uid ) {
+                if( e->uid_ == id ) {
                     this->what = const_cast<item *>( e );
                     return VisitResponse::ABORT;
                 }
@@ -381,7 +381,7 @@ class item_location::item_on_vehicle : public item_location::impl
                     debugmsg( "Tried to remove an item from a vehicle which doesn't contain it" );
                 }
             }
-            item_uid = uid();
+            id = item_uid();
         }
 };
 
@@ -394,13 +394,13 @@ item_location::~item_location() = default;
 const item_location item_location::nowhere;
 
 item_location::item_location( const map_cursor &mc, item *which )
-    : ptr( new item_on_map( mc, std::move( which->item_uid.clone() ) ) ) {}
+    : ptr( new item_on_map( mc, std::move( which->uid_.clone() ) ) ) {}
 
 item_location::item_location( Character &ch, item *which )
-    : ptr( new item_on_person( ch, std::move( which->item_uid.clone() ) ) ) {}
+    : ptr( new item_on_person( ch, std::move( which->uid_.clone() ) ) ) {}
 
 item_location::item_location( const vehicle_cursor &vc, item *which )
-    : ptr( new item_on_vehicle( vc, std::move( which->item_uid.clone() ) ) ) {}
+    : ptr( new item_on_vehicle( vc, std::move( which->uid_.clone() ) ) ) {}
 
 bool item_location::operator==( const item_location &rhs ) const
 {
@@ -453,22 +453,22 @@ void item_location::deserialize( JsonIn &js )
     auto jo = js.get_object();
 
     tripoint pos;
-    uid item_uid;
+    item_uid id;
     jo.read( "position", pos );
-    jo.read( "uid", item_uid );
+    jo.read( "uid", id );
 
     auto type = jo.get_string( "type" );
     if( type == "character" ) {
         // @todo support characters other than the player
-        ptr.reset( new item_on_person( g->u, std::move( item_uid ) ) );
+        ptr.reset( new item_on_person( g->u, std::move( id ) ) );
 
     } else if( type == "map" ) {
-        ptr.reset( new item_on_map( map_cursor( pos ), std::move( item_uid ) ) );
+        ptr.reset( new item_on_map( map_cursor( pos ), std::move( id ) ) );
 
     } else if( type == "vehicle" ) {
         vehicle *veh = g->m.veh_at( pos );
         if( veh ) {
-            ptr.reset( new item_on_vehicle( vehicle_cursor( *veh, jo.get_int( "part" ) ), std::move( item_uid ) ) );
+            ptr.reset( new item_on_vehicle( vehicle_cursor( *veh, jo.get_int( "part" ) ), std::move( id ) ) );
         }
     }
 }

@@ -153,7 +153,7 @@ class game
         live_view& liveview;
 
     public:
-        uid_factory item_uid; /** generates unique item identifiers */
+        uid_factory<UID_ITEM> item_uid_factory; /** generates unique item identifiers */
 
         /** Initializes the UI. */
         void init_ui();

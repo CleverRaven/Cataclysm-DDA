@@ -1370,7 +1370,7 @@ public:
 
     private:
         /** unique identifier for each non-null instance */
-        uid item_uid;
+        item_uid uid_;
 
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;

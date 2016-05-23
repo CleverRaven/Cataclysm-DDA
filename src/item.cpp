@@ -105,7 +105,7 @@ item::item()
 
 item::item( const itype *type, int turn, int qty ) : type( type )
 {
-    item_uid = g->item_uid.assign();
+    uid_ = g->item_uid_factory.assign();
     bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
     name = type_name();

@@ -1416,9 +1416,9 @@ void item::io( Archive& archive )
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype& i ) { return i.id; }, io::required_tag() );
 
-    archive.io( "uid", item_uid );
-    if( !item_uid.valid() ) {
-        item_uid = g->item_uid.assign(); /** handle legacy saves without item uids */
+    archive.io( "uid", uid_ );
+    if( !uid_.valid() ) {
+        uid_ = g->item_uid_factory.assign(); /** handle legacy saves without item uids */
     }
 
     // normalize legacy saves to always have charges >= 0
