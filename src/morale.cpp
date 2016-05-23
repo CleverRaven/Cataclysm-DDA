@@ -79,7 +79,7 @@ const std::string &get_morale_data( const morale_type id )
             { _( "Masochism" ) },
             { _( "Hoarder" ) },
             { _( "Stylish" ) },
-            { _( "Filthy gear" ) },
+            { _( "Filthy Gear" ) },
             { _( "Optimist" ) },
             { _( "Bad Tempered" ) },
             //~ You really don't like wearing the Uncomfy Gear
@@ -267,7 +267,7 @@ player_morale::player_morale() :
     level_is_valid( false ),
     took_prozac( false ),
     stylish( false ),
-    filthy( false ),
+    squeamish( false ),
     perceived_pain( 0 )
 {
     using namespace std::placeholders;
@@ -277,7 +277,7 @@ player_morale::player_morale() :
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
-    const auto set_filthy         = std::bind( &player_morale::set_filthy, _1, _2 );
+    const auto set_squeamish         = std::bind( &player_morale::set_squeamish, _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
@@ -291,8 +291,8 @@ player_morale::player_morale() :
                                      std::bind( set_stylish, _1, true ),
                                      std::bind( set_stylish, _1, false ) );
     mutations["SQUEAMISH"]       = mutation_data(
-                                     std::bind( set_filthy, _1, true ),
-                                     std::bind( set_filthy, _1, false ) );
+                                     std::bind( set_squeamish, _1, true ),
+                                     std::bind( set_squeamish, _1, false ) );
     mutations["FLOWERS"]       = mutation_data( update_constrained );
     mutations["ROOTS"]         = mutation_data( update_constrained );
     mutations["ROOTS2"]        = mutation_data( update_constrained );
@@ -506,6 +506,7 @@ void player_morale::clear()
     }
     took_prozac = false;
     stylish = false;
+    squeamish = false;
     super_fancy_items.clear();
 
     invalidate();
@@ -606,7 +607,7 @@ void player_morale::set_worn( const item &it, bool worn )
         update_stylish_bonus();
     }
     if( filthy_gear ) {
-        update_filthy_bonus();
+        update_squeamish_penalty();
     }
     update_constrained_penalty();
 }
@@ -628,11 +629,11 @@ void player_morale::set_stylish( bool new_stylish )
     }
 }
 
-void player_morale::set_filthy( bool new_filthy )
+void player_morale::set_squeamish( bool new_squeamish )
 {
-    if( filthy != new_filthy ) {
-        filthy = new_filthy;
-        update_filthy_bonus();
+    if( squeamish != new_squeamish ) {
+        squeamish = new_squeamish;
+        update_squeamish_penalty();
     }
 }
 
@@ -658,11 +659,11 @@ void player_morale::update_stylish_bonus()
     set_permanent( MORALE_PERM_FANCY, bonus );
 }
 
-void player_morale::update_filthy_bonus()
+void player_morale::update_squeamish_penalty()
 {
     int penalty = 0;
 
-    if( filthy ) {
+    if( squeamish ) {
         const auto bp_pen = [ this ]( body_part bp, int penalty ) -> int {
             return (
                 body_parts[bp].filthy > 0 ||
