@@ -5331,8 +5331,8 @@
      [
       [ "kevlar", 1 ],
       [ "makeshift_kevlar", 1 ]
-      [ "swat_armor", 1 ],
       [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
      ]
   ]
