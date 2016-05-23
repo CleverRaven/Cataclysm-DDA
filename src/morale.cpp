@@ -583,7 +583,7 @@ void player_morale::set_worn( const item &it, bool worn )
             if( fancy || super_fancy ) {
                 body_parts[i].fancy += sign;
             }
-            if ( filthy_gear ) {
+            if( filthy_gear ) {
                 body_parts[i].filthy += sign;
             }
             body_parts[i].covered += sign;
@@ -670,16 +670,18 @@ void player_morale::update_squeamish_penalty()
                 body_parts[bp].filthy > 0 ||
                 body_parts[opposite_body_part( bp )].filthy > 0 ) ? penalty : 0;
         };
-        penalty = std::min (bp_pen( bp_torso,  10 ) +
-                            bp_pen( bp_head,   7 ) +
-                            bp_pen( bp_eyes,   5 ) +
-                            bp_pen( bp_mouth,  5 ) +
-                            bp_pen( bp_leg_l,  5 ) +
-                            bp_pen( bp_leg_r,  5 ) +
-                            bp_pen( bp_foot_l, 3 ) +
-                            bp_pen( bp_foot_r, 3 ) +
-                            bp_pen( bp_hand_l, 3 ) +
-                            bp_pen( bp_hand_r, 3 ), 50 );
+        penalty = ( bp_pen( bp_torso,  6 ) +
+                    bp_pen( bp_head,   7 ) +
+                    bp_pen( bp_eyes,   8 ) +
+                    bp_pen( bp_mouth,  9 ) +
+                    bp_pen( bp_leg_l,  5 ) +
+                    bp_pen( bp_leg_r,  5 ) +
+                    bp_pen( bp_arm_l,  5 ) +
+                    bp_pen( bp_arm_r,  5 ) +
+                    bp_pen( bp_foot_l, 3 ) +
+                    bp_pen( bp_foot_r, 3 ) +
+                    bp_pen( bp_hand_l, 3 ) +
+                    bp_pen( bp_hand_r, 3 ) );
     }
     set_permanent( MORALE_PERM_FILTHY, -penalty );
 }
