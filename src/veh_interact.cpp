@@ -1587,11 +1587,11 @@ void veh_interact::display_stats()
     int x[18], y[18], w[18]; // 3 columns * 6 rows = 18 slots max
 
     std::vector<int> cargo_parts = veh->all_parts_with_feature("CARGO");
-    int total_cargo = 0;
-    int free_cargo = 0;
+    units::volume total_cargo = 0;
+    units::volume free_cargo = 0;
     for( const auto &p : cargo_parts ) {
-        total_cargo += veh->max_volume(p) / units::legacy_volume_factor;
-        free_cargo += veh->free_volume(p) / units::legacy_volume_factor;
+        total_cargo += veh->max_volume(p);
+        free_cargo += veh->free_volume(p);
     }
 
     const int second_column = 33 + (extraw / 4);
@@ -1629,7 +1629,7 @@ void veh_interact::display_stats()
                     convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
     fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
                     _( "Cargo Volume: <color_ltgray>%d/%d</color>" ),
-                    total_cargo - free_cargo, total_cargo);
+                    ( total_cargo - free_cargo ) / units::legacy_volume_factor, total_cargo / units::legacy_volume_factor);
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:"));
     x[4] += utf8_width(_("Status:")) + 1;
