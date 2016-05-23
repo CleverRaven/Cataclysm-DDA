@@ -33,7 +33,7 @@
     "relative": {
         "damage": -2,
         "pierce": 8,
-        "recoil": 30,
+        "recoil": 30
     }
   }
 ]
