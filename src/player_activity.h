@@ -93,7 +93,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
             return !this->operator==( rhs );
         }
 
-        operator bool() const {
+        explicit operator bool() const {
             return type != ACT_NULL;
         }
 
