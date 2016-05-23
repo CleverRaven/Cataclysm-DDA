@@ -851,8 +851,8 @@ void player::update_bodytemp()
         // Produces a smooth curve between 30.0 and 60.0.
         double homeostasis_adjustement = 30.0 * ( 1.0 + scaled_temperature );
         int clothing_warmth_adjustement = int( homeostasis_adjustement * warmth( body_part( i ) ) );
-        int clothing_warmth_adjusted_bonus = int( homeostasis_adjustement * bonus_item_warmth( body_part(
-                i ) ) );
+        int clothing_warmth_adjusted_bonus = int( homeostasis_adjustement * bonus_item_warmth(
+                body_part( i ) ) );
         // WINDCHILL
 
         bp_windpower = int( ( float )bp_windpower * ( 1 - get_wind_resistance( body_part( i ) ) / 100.0 ) );
