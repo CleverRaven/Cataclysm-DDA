@@ -277,7 +277,7 @@ player_morale::player_morale() :
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
-    const auto set_squeamish         = std::bind( &player_morale::set_squeamish, _1, _2 );
+    const auto set_squeamish      = std::bind( &player_morale::set_squeamish, _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
 
