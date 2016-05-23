@@ -45,6 +45,20 @@ class uid_factory : public JsonSerializer, public JsonDeserializer
         static uid_factory<N> *instance;
 };
 
+/**
+ * Provides a 64-bit unsigned integer identifier which is unique amongst all non-null
+ * instances of a class within a world. Unlike a C++ pointer it can be serialized to JSON.
+ *
+ * It's value can never be directly accessed however it can be compared to another `uid`
+ * of the same type. If a class is copied then the duplicate is allocated the next
+ * available identifier for that type whereas moving an instance leaves the `uid` unchanged.
+ *
+ * The implementation supports a maximum of 256 possible types of `uid` with the known types
+ * enumerated in `uid.h`. There should only be one `uid_factory` for each type and this will
+ * usually be found within the `game` class.
+ *
+ * Further documenation on implementing new uid types can be found in doc/INTERNALS.md
+ */
 template <unsigned char N>
 class uid : public JsonSerializer, public JsonDeserializer
 {
