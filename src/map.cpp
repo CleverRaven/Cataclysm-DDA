@@ -3102,14 +3102,10 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
 
 bool map::has_nearby_water( const tripoint &p, int radius )
 {
-    for( int dx = -radius; dx <= radius; dx++ ) {
-        for( int dy = -radius; dy <= radius; dy++ ) {
-            const tripoint pt( p.x + dx, p.y + dy, p.z );
-            if( ter( pt ) == t_water_sh || ter( pt ) == t_water_dp || ter( pt ) == t_water_pool ) {
-                return true;
-            }
+    for( const auto &pt : points_in_radius( p, radius ) )
+        if( ter( pt ) == t_water_sh || ter( pt ) == t_water_dp || ter( pt ) == t_water_pool ) {
+            return true;
         }
-    }
     return false;
 }
 
