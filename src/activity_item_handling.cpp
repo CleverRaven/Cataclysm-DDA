@@ -1,3 +1,5 @@
+#include "activity_handlers.h"
+
 #include "game.h"
 #include "map.h"
 #include "item.h"
@@ -37,48 +39,49 @@ bool game::make_drop_activity( enum activity_type act,
     return true;
 }
 
-static void add_drop_pairs( std::list<item *> &items, std::list<int> &quantities )
+static void add_drop_pairs( player_activity &act, const player &p, std::list<const item *> &items,
+                            std::list<int> &quantities )
 {
     while( !items.empty() ) {
-        int position = g->u.get_item_position( items.front() );
-        g->u.activity.values.push_back( position );
+        int position = p.get_item_position( items.front() );
+        act.values.push_back( position );
         items.pop_front();
-        g->u.activity.values.push_back( quantities.front() );
+        act.values.push_back( quantities.front() );
         quantities.pop_front();
         // Items from the same stack will be adjacent,
         // so when detected roll them up into a single entry.
         // This can only happen with inventory items, not weapon or worn items.
-        while( !items.empty() && position == g->u.get_item_position( items.front() ) ) {
+        while( !items.empty() && position == p.get_item_position( items.front() ) ) {
             items.pop_front();
-            g->u.activity.values.back() += quantities.front();
+            act.values.back() += quantities.front();
             quantities.pop_front();
         }
     }
 }
 
-static tripoint get_item_pointers_from_activity(
-    std::list<item *> &selected_items, std::list<int> &item_quantities,
-    std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities )
+void get_item_pointers_from_activity( const player_activity &act, const player &p,
+                                      std::list<const item *> &selected_items, std::list<int> &item_quantities,
+                                      std::list<const item *> &selected_worn_items, std::list<int> &worn_item_quantities )
 {
     // Drop activity has indices of items in inventory and quantities of same.
     // Indices and quantities alternate on the list.
     // First iterate over the indices and quantities, retrieving item references.
-    for( size_t index = 0; index < g->u.activity.values.size(); index += 2 ) {
-        const int position = g->u.activity.values[index];
-        const int quantity = g->u.activity.values[index + 1];
+    for( size_t index = 0; index < act.values.size(); index += 2 ) {
+        const int position = act.values[index];
+        const int quantity = act.values[index + 1];
         const bool is_worn = position < -1;
         const bool is_weapon = position == -1;
         if( is_worn ) {
-            item &armor = g->u.i_at( position );
+            const item &armor = p.i_at( position );
             assert( !armor.is_null() );
             selected_worn_items.push_back( &armor );
             worn_item_quantities.push_back( quantity );
         } else  if( is_weapon ) {
-            selected_items.push_back( &g->u.weapon );
+            selected_items.push_back( &p.weapon );
             item_quantities.push_back( quantity );
         } else {
             // We MUST have pointers to these items, and this is the only way I can see to get them.
-            std::list<item> &stack = ( std::list<item> & )g->u.inv.const_stack( position );
+            std::list<item> &stack = ( std::list<item> & )p.inv.const_stack( position );
             int items_dropped = 0;
             for( auto &elem : stack ) {
                 selected_items.push_back( &elem );
@@ -96,11 +99,6 @@ static tripoint get_item_pointers_from_activity(
             }
         }
     }
-    tripoint drop_target = g->u.activity.placement;
-    // Now that we have all the data, cancel the activity,
-    // if we don't finish it we'll make a new one with the remaining items.
-    g->u.cancel_activity();
-    return drop_target;
 }
 
 bool same_type( const std::vector<item> &items )
@@ -116,7 +114,7 @@ bool same_type( const std::vector<item> &items )
     return true;
 }
 
-void put_into_vehicle( const std::vector<item> &items, vehicle &veh, int part )
+void put_into_vehicle( player &p, const std::vector<item> &items, vehicle &veh, int part )
 {
     if( items.empty() ) {
         return;
@@ -127,9 +125,11 @@ void put_into_vehicle( const std::vector<item> &items, vehicle &veh, int part )
     int fallen_count = 0;
 
     for( auto it : items ) { // cant use constant reference here because of the spill_contents()
-        if( it.is_bucket_nonempty() && !it.spill_contents( g->u ) ) {
-            add_msg( _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
-                     it.display_name().c_str(), ter_name.c_str() );
+        if( it.is_bucket_nonempty() && !it.spill_contents( p ) ) {
+            p.add_msg_player_or_npc(
+                _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
+                _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
+                it.display_name().c_str(), ter_name.c_str() );
             g->m.add_item_or_charges( where, it, 2 );
             continue;
         }
@@ -224,14 +224,14 @@ void drop_on_map( const std::vector<item> &items, const tripoint &where )
     }
 }
 
-void put_into_vehicle_or_drop( const std::vector<item> &items, const tripoint &where )
+void put_into_vehicle_or_drop( player &p, const std::vector<item> &items, const tripoint &where )
 {
     int veh_part = 0;
     vehicle *veh = g->m.veh_at( where, veh_part );
     if( veh != nullptr ) {
         veh_part = veh->part_with_feature( veh_part, "CARGO" );
         if( veh_part >= 0 ) {
-            put_into_vehicle( items, *veh, veh_part );
+            put_into_vehicle( p, items, *veh, veh_part );
             return;
         }
     }
@@ -252,30 +252,33 @@ int count_contained_items( const std::vector<item> &items, int volume )
     return count;
 }
 
-static void activity_on_turn_drop_or_stash( enum activity_type act )
+std::vector<item> withdraw_items_to_dispose( player_activity &act, player &p )
 {
     // We build a list of item pointers to act as unique identifiers,
     // because the process of dropping the items will invalidate the indexes of the items.
     // We assign worn items to their own list to handle dropping containers with their contents.
-    std::list<item *> selected_items;
+    std::list<const item *> selected_items;
     std::list<int> item_quantities;
-    std::list<item *> selected_worn_items;
+    std::list<const item *> selected_worn_items;
     std::list<int> worn_item_quantities;
 
-    bool ignoring_interruptions = g->u.activity.ignore_trivial;
+    const player_activity prev_activity = act;
 
-    tripoint drop_target = get_item_pointers_from_activity( selected_items, item_quantities,
-                           selected_worn_items, worn_item_quantities );
+    get_item_pointers_from_activity( act, p, selected_items, item_quantities, selected_worn_items,
+                                     worn_item_quantities );
+    // Now that we have all the data, cancel the activity,
+    // if we don't finish it we'll make a new one with the remaining items.
+    p.cancel_activity();
 
     std::vector<item> items;
     // Consume the list as long as we don't run out of moves.
-    while( g->u.moves >= 0 && !selected_items.empty() ) {
-        item *it = selected_items.front();
+    while( p.moves >= 0 && !selected_items.empty() ) {
+        const item *it = selected_items.front();
 
         if( it->count_by_charges() ) {
-            items.push_back( g->u.reduce_charges( it, item_quantities.front() ) );
+            items.push_back( p.reduce_charges( const_cast<item *>( it ), item_quantities.front() ) );
         } else {
-            items.push_back( g->u.i_rem( it ) );
+            items.push_back( p.i_rem( it ) );
             if( --item_quantities.front() > 0 ) {
                 continue; // Process one item at a time.
             }
@@ -284,60 +287,56 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
         selected_items.pop_front();
         item_quantities.pop_front();
 
-        g->u.mod_moves( -100 );
+        p.mod_moves( -100 );
     }
 
-    while( g->u.moves >= 0 && !selected_worn_items.empty() ) {
-        item *it = selected_worn_items.front();
+    while( p.moves >= 0 && !selected_worn_items.empty() ) {
+        const item *it = selected_worn_items.front();
 
         selected_worn_items.pop_front();
         worn_item_quantities.pop_front();
 
         // TODO: Add the logic where dropping a worn container drops a number of contents as well.
         // Stash previous volume and compare it to volume after taking off each article of clothing.
-        if( !g->u.takeoff( it, false, &items ) ) {
+        if( !p.takeoff( const_cast<item *>( it ), false, &items ) ) {
             continue; // If we failed to take off the item, bail out.
         }
 
-        g->u.mod_moves( -100 );
+        p.mod_moves( -100 );
     }
 
-    if( act == ACT_STASH ) { // Stashing on a pet.
-        Creature *critter = g->critter_at( drop_target + g->u.pos() );
-        if( critter != nullptr ) {
-            monster *pet = dynamic_cast<monster *>( critter );
-            if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-                stash_on_pet( items, *pet );
-            }
+    if( !selected_items.empty() || !selected_worn_items.empty() ) {
+        // If we make it here load anything left into a new activity.
+        p.assign_activity( prev_activity.type, 0 );
+        // This one is only ever called to re-insert the activity into the activity queue.
+        // It's already relative, so no need to adjust it.
+        p.activity.placement = prev_activity.placement;
+        p.activity.ignore_trivial = prev_activity.ignore_trivial;
+
+        add_drop_pairs( act, p, selected_worn_items, worn_item_quantities );
+        add_drop_pairs( act, p, selected_items, item_quantities );
+    }
+
+    return items;
+}
+
+void activity_handlers::drop_do_turn( player_activity *act, player *p )
+{
+    const tripoint pos = act->placement + p->pos();
+    put_into_vehicle_or_drop( *p, withdraw_items_to_dispose( *act, *p ), pos );
+}
+
+void activity_handlers::stash_do_turn( player_activity *act, player *p )
+{
+    const tripoint pos = act->placement + p->pos();
+    Creature *critter = g->critter_at( pos );
+
+    if( critter != nullptr ) {
+        monster *pet = dynamic_cast<monster *>( critter );
+        if( pet != nullptr && pet->has_effect( effect_pet ) ) {
+            stash_on_pet( withdraw_items_to_dispose( *act, *p ), *pet );
         }
-    } else if( act == ACT_DROP ) {
-        put_into_vehicle_or_drop( items, drop_target + g->u.pos() );
-    } else {
-        debugmsg( "Invalid activity. Should be either 'ACT_DROP' or 'ACT_STASH'." );
     }
-
-    if( selected_items.empty() && selected_worn_items.empty() ) {
-        // Yay we're done, just exit.
-        return;
-    }
-    // If we make it here load anything left into a new activity.
-    g->u.assign_activity( act, 0 );
-    // This one is only ever called to re-insert the activity into the activity queue.
-    // It's already relative, so no need to adjust it.
-    g->u.activity.placement = drop_target;
-    g->u.activity.ignore_trivial = ignoring_interruptions;
-    add_drop_pairs( selected_worn_items, worn_item_quantities );
-    add_drop_pairs( selected_items, item_quantities );
-}
-
-void activity_on_turn_drop()
-{
-    activity_on_turn_drop_or_stash( ACT_DROP );
-}
-
-void activity_on_turn_stash()
-{
-    activity_on_turn_drop_or_stash( ACT_STASH );
 }
 
 void activity_on_turn_pickup()
@@ -454,7 +453,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
             }
 
             if( to_vehicle ) {
-                put_into_vehicle_or_drop( { *temp_item }, destination );
+                put_into_vehicle_or_drop( g->u, { *temp_item }, destination );
             } else {
                 drop_on_map( { *temp_item }, destination );
             }

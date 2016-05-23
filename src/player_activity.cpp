@@ -217,10 +217,10 @@ void player_activity::do_turn( player *p )
             p->pause();
             break;
         case ACT_DROP:
-            activity_on_turn_drop();
+            activity_handlers::drop_do_turn( this, p );
             break;
         case ACT_STASH:
-            activity_on_turn_stash();
+            activity_handlers::stash_do_turn( this, p );
             break;
         case ACT_PICKUP:
             activity_on_turn_pickup();
