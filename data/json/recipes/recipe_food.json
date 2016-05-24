@@ -144,6 +144,32 @@
   ]
 },{
   "type" : "recipe",
+  "result": "offal_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 18000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 7 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "offal", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "stomach_boiled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
