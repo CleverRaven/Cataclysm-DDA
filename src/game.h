@@ -8,6 +8,7 @@
 #include "int_id.h"
 #include "item_location.h"
 #include "cursesdef.h"
+#include "publish.h"
 
 #include <vector>
 #include <map>
@@ -949,6 +950,11 @@ private:
         bool has_option( const std::string& opt ) {
             return options.count( opt );
         }
+
+#ifdef ZMQ
+        /** used to push game statistics when reporting is enabled */
+        publish remote;
+#endif
 };
 
 #endif

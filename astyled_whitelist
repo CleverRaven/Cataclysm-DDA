@@ -157,6 +157,8 @@ src/player_activity.h
 src/pldata.h
 src/posix_time.h
 src/profession.h
+src/publish.h
+src/publish.cpp
 src/recipe_dictionary.h
 src/requirements.h
 src/rng.h

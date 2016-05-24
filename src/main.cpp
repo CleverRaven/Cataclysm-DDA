@@ -428,6 +428,10 @@ int main(int argc, char *argv[])
 
     // Now we do the actual game.
 
+#ifdef ZMQ
+    g->remote = publish( "tcp://localhost:1234" );
+#endif
+
     g->init_ui();
     if(g->game_error()) {
         exit_handler(-999);
