@@ -125,16 +125,14 @@
   },
   {
     "id": "offal_cooked",
-    "copy-from": "meat",
+    "copy-from": "offal",
     "type": "COMESTIBLE",
     "name": "cooked offal",
     "name_plural": "cooked offal",
     "description": "Freshly cooked entrails.  Unappetizing, but filled with essential vitamins.",
-    "relative": {
-        "vitamins": [ [ "vitA", 5 ] ]
-    },
-    "healthy": 0,
+    "parasites": 0,
     "fun": -5,
+    "proportional": { "calories": 2 },
     "flags": [ "EATEN_HOT" ]
   },
   {
