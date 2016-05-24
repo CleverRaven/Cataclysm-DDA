@@ -8952,9 +8952,8 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
       [ "biscuit", 2 ],
-      [ "tortilla_corn", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2]
@@ -9051,9 +9050,8 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
       [ "biscuit", 2 ],
-      [ "tortilla_corn", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2]
