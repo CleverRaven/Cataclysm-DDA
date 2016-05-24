@@ -4,8 +4,8 @@
 
 #include <zmq.h>
 
+#include "game.h"
 #include "debug.h"
-#include "calendar.h"
 
 #define PUBLISH_VERSION "$C1-"
 
@@ -74,7 +74,7 @@ void publish::send( const std::string &type, const std::string &msg )
     fail |= zmq_send( sock, header.c_str(), header.size(), ZMQ_SNDMORE ) == -1;
 
     // 2. UUID
-    // @todo
+    fail |= zmq_send( sock, g->id.c_str(), g->id.size(), ZMQ_SNDMORE ) == -1;
 
     // 3. game turn
     char buf[22]; // max length of 64-bit signed integer printed in decimal including '\0'

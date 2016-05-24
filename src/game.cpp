@@ -754,6 +754,18 @@ bool game::start_game(std::string worldname)
         gamemode = new special_game();
     }
 
+    /** encode a random 128-bit UUID in z-base-32 */
+    std::array<char, 32> b32 = { {
+        'Y', 'B', 'N', 'D', 'R', 'F', 'G', '8',
+        'E', 'J', 'K', 'M', 'C', 'P', 'Q', 'X',
+        'O', 'T', '1', 'U', 'W', 'I', 'S', 'Z',
+        'a', '3', '4', '5', 'h', '7', '6', '9'
+    } };
+    id.clear();
+    for( int i = 0; i != 26; ++i ) {
+        id += random_entry( b32 );
+    }
+
     new_game = true;
     start_calendar();
     nextweather = calendar::turn;

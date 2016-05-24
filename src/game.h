@@ -133,6 +133,9 @@ class game
         game();
         ~game();
 
+        /** 128-bit UUID encoded in z-base-32 that uniquely identifies this game */
+        std::string id;
+
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
         /** Loads core data and all mods. */
