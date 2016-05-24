@@ -278,9 +278,15 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, con
 
     offered_swap = true;
     // @todo Gray out if not enough hands
-    amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
+    if(u.is_armed()) {
+        amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
                     _("Dispose of %s and wield %s"), u.weapon.display_name().c_str(),
                     it.display_name().c_str() );
+    }
+    else {
+        amenu.addentry( WIELD, !u.weapon.has_flag( "NO_UNWIELD" ), 'w',
+                    _("Wield %s"), it.display_name().c_str() );
+    }
     if( it.is_armor() ) {
         amenu.addentry( WEAR, u.can_wear( it ), 'W', _("Wear %s"), it.display_name().c_str() );
     }
