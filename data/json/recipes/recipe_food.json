@@ -9814,7 +9814,10 @@
     [
       [ "meat_cooked", 1 ],
       [ "lunchmeat", 4 ],
-      [ "bologna", 5 ]
+      [ "bologna", 5 ],
+      [ "bacon", 2 ],
+      [ "fried_spam", 2 ],
+      [ "sausage", 1 ]
     ]
   ]
 },{
