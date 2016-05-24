@@ -1,8 +1,9 @@
 #include "speech.h"
+#include "json.h"
 #include "translations.h"
 #include "rng.h"
 #include <map>
-
+#include <vector>
 
 std::map<std::string, std::vector<SpeechBubble> > speech;
 

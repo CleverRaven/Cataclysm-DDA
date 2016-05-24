@@ -14,6 +14,9 @@
 #include "debug.h"
 
 #include <algorithm>
+#include <string>
+#include <vector>
+#include <map>
 
 enum TAB_MODE {
     NORMAL,
