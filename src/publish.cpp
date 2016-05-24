@@ -5,6 +5,7 @@
 #include <zmq.h>
 
 #include "debug.h"
+#include "calendar.h"
 
 #define PUBLISH_VERSION "$C1-"
 
@@ -66,16 +67,24 @@ void publish::send( const std::string &type, const std::string &msg )
         return;
     }
 
-    // the first frame is the header containing the message type
+    bool fail = false;
+
+    // 1. header containing the version and message type
     std::string header = std::string( PUBLISH_VERSION ) + type;
-    int rc = zmq_send( sock, header.c_str(), header.size(), ZMQ_SNDMORE );
+    fail |= zmq_send( sock, header.c_str(), header.size(), ZMQ_SNDMORE ) == -1;
 
-    // the second frame is the payload
-    if( rc != -1 ) {
-        rc = zmq_send( sock, msg.c_str(), msg.size(), 0 );
-    }
+    // 2. UUID
+    // @todo
 
-    if( rc == -1 ) {
+    // 3. game turn
+    char buf[22]; // max length of 64-bit signed integer printed in decimal including '\0'
+    sprintf( buf, "%i", int( calendar::turn ) );
+    fail |= zmq_send( sock, buf, strnlen(buf, sizeof(buf) - 1) + 1, ZMQ_SNDMORE ) == -1;
+
+    // 4. payload
+    fail |= zmq_send( sock, msg.c_str(), msg.size(), 0 ) == -1;
+
+    if( fail ) {
         // warn on the first failure only and make no further attempts
         debugmsg( "send() failed: %s (%i)", zmq_strerror( errno ), errno );
         zmq_close( sock );
