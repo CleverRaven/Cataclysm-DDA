@@ -417,6 +417,8 @@ class Character : public Creature, public visitable<Character>
         int volume_carried() const;
         int weight_capacity() const override;
         int volume_capacity() const;
+        int volume_capacity_reduced_by( int mod ) const;
+
         bool can_pickVolume( const item &it, bool safe = false ) const;
         bool can_pickWeight( const item &it, bool safe = true ) const;
 
