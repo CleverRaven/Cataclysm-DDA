@@ -1382,21 +1382,21 @@
   ],
   "components": [
     [
-      [ "45_casing", 50 ]
+      [ "45_casing", 30 ]
     ],
     [
-      [ "lgpistol_primer", 50 ]
+      [ "lgpistol_primer", 30 ]
     ],
     [
-      [ "gunpowder", 500 ]
+      [ "gunpowder", 300 ]
     ],
     [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
+      [ "lead", 240 ],
+      [ "gold_small", 240 ],
+      [ "silver_small", 240 ],
+      [ "tin", 240 ],
+      [ "bismuth", 240 ],
+      [ "solder_wire", 240 ]
     ]
   ]
 },{
