@@ -11713,11 +11713,9 @@
   "components": [
     [
       [ "flatbread", 2 ],
-      [ "tortilla_corn", 2 ],
-      [ "johnnycake", 2 ],
+      [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
-      [ "bread", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cucumber", 1 ],
