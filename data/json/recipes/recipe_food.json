@@ -150,11 +150,10 @@
   "skill_used": "cooking",
   "difficulty": 0,
   "time": 18000,
-  "reversible": false,
   "autolearn": true,
   "batch_time_factors":[67, 5],
   "qualities":[
-    {"id":"COOK","level":1,"amount":1}
+    {"id":"COOK","level":1}
   ], "tools": [
     [
       [ "hotplate", 7 ],
