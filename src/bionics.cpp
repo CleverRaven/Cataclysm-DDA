@@ -542,7 +542,7 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power(bionics[bio.id].power_activate);
             bio.powered = false;
             return false;
-        } else if( !weapon.is_null() ) {
+        } else if( !is_armed() ) {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
                     weapon.tname().c_str());
             g->m.add_item_or_charges(pos(), weapon);
@@ -560,7 +560,7 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power(bionics[bio.id].power_activate);
             bio.powered = false;
             return false;
-        } else if( !weapon.is_null() ) {
+        } else if( !is_armed() ) {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
                     weapon.tname().c_str());
             g->m.add_item_or_charges(pos(), weapon);

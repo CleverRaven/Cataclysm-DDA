@@ -3867,7 +3867,7 @@ std::list<item *> player::get_radio_items()
         }
     }
 
-    if (!weapon.is_null()) {
+    if( !is_armed() ) {
         if ( weapon.has_flag("RADIO_ACTIVATION")) {
             rc_items.push_back( &weapon );
         }
@@ -8945,7 +8945,7 @@ const martialart &player::get_combat_style() const
 std::vector<item *> player::inv_dump()
 {
     std::vector<item *> ret;
-    if( !weapon.is_null() && can_unwield( weapon, false ) ) {
+    if( !is_armed() && can_unwield( weapon, false ) ) {
         ret.push_back(&weapon);
     }
     for (auto &i : worn) {
@@ -12687,7 +12687,7 @@ std::string player::weapname() const
     } else if( weapon.is_container() && weapon.contents.size() == 1 ) {
         return string_format( "%s (%d)", weapon.tname().c_str(), weapon.contents.front().charges );
 
-    } else if( weapon.is_null() ) {
+    } else if( is_armed() ) {
         return _( "fists" );
 
     } else {
@@ -13436,7 +13436,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
-    if( !weapon.is_null() ) {
+    if( !is_armed() ) {
         rval.push_back( "wielded_" + weapon.typeId() );
     }
     return rval;

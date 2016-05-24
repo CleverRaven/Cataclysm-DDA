@@ -673,7 +673,7 @@ void inventory_selector::set_selected_to_drop(int count)
 void inventory_selector::set_to_drop(int it_pos, int count)
 {
     if (it_pos == -1) { // weapon
-        if (u.weapon.is_null()) {
+        if( !u.is_armed() ) {
             return;
         }
         if (count > 0 && (!u.weapon.count_by_charges() || count >= u.weapon.charges)) {
