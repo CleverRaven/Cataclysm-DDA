@@ -1558,7 +1558,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
         return result;
     }
     const islot_seed &seed_data = *type.seed;
-    const itype_id &seed_type = type.id;
+    const itype_id &seed_type = item( &type ).typeId();
 
     const auto add = [&]( const itype_id &id, const int count ) {
         item new_item( id, calendar::turn );
@@ -2726,7 +2726,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     if( max_reload_amount <= 0 ) {
         return;
     }
-    const int amount_in_inv = p.charges_of( ammo->id );
+    const int amount_in_inv = p.charges_of( item( ammo ).typeId() );
     if( amount_in_inv == 0 ) {
         //~ Reloading or restocking a piece of furniture, for example a forge.
         add_msg(m_info, _("You need some %1$s to reload this %2$s."), ammo->nname(2).c_str(), f.name.c_str());
@@ -2742,7 +2742,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
     if (amount <= 0 || amount > max_amount) {
         return;
     }
-    p.use_charges( ammo->id, amount );
+    p.use_charges( item( ammo ).typeId(), amount );
     auto items = g->m.i_at(examp);
     for( auto & itm : items ) {
         if( itm.type == ammo ) {
@@ -2752,8 +2752,7 @@ void iexamine::reload_furniture(player &p, const tripoint &examp)
         }
     }
     if (amount != 0) {
-        item it(ammo->id, 0);
-        it.charges = amount;
+        item it( ammo, calendar::turn, amount );
         g->m.add_item( examp, it );
     }
     add_msg(_("You reload the %s."), g->m.furnname(examp).c_str());

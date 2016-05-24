@@ -5108,13 +5108,12 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         return;
     }
 
-    const itype *itt = f.crafting_pseudo_item_type();
-    if (itt == NULL || itt->id != type) {
+    item furn_item( f.crafting_pseudo_item_type() );
+    if( furn_item.typeId() != type ) {
         return;
     }
     const itype *ammo = f.crafting_ammo_item_type();
     if (ammo != NULL) {
-        item furn_item(itt->id, 0);
         furn_item.charges = remove_charges_in_list(ammo, m->i_at( p ), quantity);
         if (furn_item.charges > 0) {
             ret.push_back(furn_item);

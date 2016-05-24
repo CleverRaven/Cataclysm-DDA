@@ -4333,8 +4333,7 @@ bool mattack::kamikaze(monster *z)
         if (z->get_effect( effect_countdown).get_duration() == 1) {
             z->die(nullptr);
             // Timer is out, detonate
-            item i_explodes(act_bomb_type->id, 0);
-            i_explodes.charges = 0;
+            item i_explodes( act_bomb_type, calendar::turn, 0 );
             i_explodes.active = true;
             i_explodes.process(nullptr, z->pos(), false);
             return false;

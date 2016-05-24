@@ -136,7 +136,7 @@ private:
     /** The ammo type that should be consumed when the gun has fired. Note that this may be
      * different from the curammo of the @ref gun item (e.g. for charger guns that fire pseudo
      * ammo, but consume battery power). It must not be used when @ref source is @ref NONE. */
-    const itype *ammo = nullptr;
+    itype_id ammo = "null";
     /** Whether the @ref ammo is to be taken from a tank (using @ref vehicle::drain) or from
      * an item in the vehicle part of the turret, or not at all (special UPS guns only). */
     enum {
@@ -4048,14 +4048,14 @@ void vehicle::operate_reaper(){
         const int seed_produced = rng(1, 3);
         const int max_pickup_size = parts[reaper_id].info().size / 20;
         if( g->m.furn(reaper_pos) == f_plant_harvest ){
-            const itype &type = *g->m.i_at(reaper_pos).front().type;
-            if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
+            const item& seed = g->m.i_at(reaper_pos).front();
+            if( seed.typeId() == "fungal_seeds" || seed.typeId() == "marloss_seed" ) {
                 // Otherworldly plants, the earth-made reaper can not handle those.
                 continue;
             }
             g->m.furn_set( reaper_pos, f_null );
             g->m.i_clear( reaper_pos );
-            for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
+            for( auto &i : iexamine::get_harvest_items( *seed.type, plant_produced, seed_produced, false ) ) {
                 g->m.add_item_or_charges( reaper_pos, i );
             }
             sounds::sound( reaper_pos, rng( 10, 25 ), _("Swish") );
@@ -6227,7 +6227,6 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
     // UPS charges will be consumed directly in manual_fire_turret/automatic_fire_turret,
     if( gun.ammo_type() == "NULL" ) {
         source = NONE;
-        ammo = nullptr;
         charges = ammo_for;
         return;
     }
@@ -6255,7 +6254,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
                       veh.part_info( part ).id.c_str(), ammo_id.c_str(), gun.typeId().c_str() );
             return; // charges is still 0, so the caller won't use gun.curammo
         }
-        ammo = gun.ammo_data();
+        ammo = gun.ammo_current();
         source = TANK;
         charges = std::min( ammo_for, liquid_fuel / charge_mult );
         return;
@@ -6273,7 +6272,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
 
     charges = std::min( ammo_for, items.front().charges );
     gun.set_curammo( items.front() );
-    ammo = gun.ammo_data();
+    ammo = gun.ammo_current();
     source = CARGO;
 }
 
@@ -6364,7 +6363,7 @@ void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long cons
 {
     switch( source ) {
         case TANK:
-            veh.drain( ammo->id, charges_consumed * charge_mult );
+            veh.drain( ammo, charges_consumed * charge_mult );
             break;
         case CARGO:
             {

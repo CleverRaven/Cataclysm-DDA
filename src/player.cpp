@@ -9302,13 +9302,13 @@ bool player::consume_item( item &target )
             }
 
         } else if( to_eat->type->comestible->comesttype == "MED" ) {
-            auto req_tool = item::find_type( to_eat->type->comestible->tool );
-            if( req_tool->tool ) {
-                if( !( has_amount( req_tool->id, 1 ) && has_charges( req_tool->id, req_tool->tool->charges_per_use ) ) ) {
-                    add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool->nname(1).c_str() );
+            item req_tool( item::find_type( to_eat->type->comestible->tool ) );
+            if( req_tool.is_tool() ) {
+                if( !( has_amount( req_tool.typeId(), 1 ) && has_charges( req_tool.typeId(), req_tool.ammo_required() ) ) ) {
+                    add_msg_if_player( m_info, _( "You need a %s to consume that!" ), req_tool.tname().c_str() );
                     return false;
                 }
-                use_charges( req_tool->id, req_tool->tool->charges_per_use );
+                use_charges( req_tool.typeId(), req_tool.ammo_required() );
             }
 
             if( to_eat->type->has_use() ) {
@@ -9882,8 +9882,8 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
 
     if( it.magazine_integral() ) {
         if( !ammo.empty() ) {
-            if( it.ammo_data() ) {
-                if( it.ammo_data()->id != ammo ) {
+            if( it.ammo_current() != "null" ) {
+                if( it.ammo_current() != ammo ) {
                     return false;
                 }
             } else {
