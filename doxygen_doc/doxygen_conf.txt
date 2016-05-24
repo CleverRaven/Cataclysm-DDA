@@ -199,6 +199,8 @@ TAB_SIZE               = 4
 
 ALIASES                =
 
+ALIASES += "STAT=\xrefitem Statistical_Reporting \"\" \"\" Statistical Reporting"
+
 ALIASES += "EFFECT_STR=\xrefitem Effects_Stat_Strength \"\" \"\" Strength" 
 ALIASES += "EFFECT_DEX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Dexterity" 
 ALIASES += "EFFECT_INT=\xrefitem Effects_Stat_Intelligence \"\" \"\" Intelligence" 
