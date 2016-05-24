@@ -659,6 +659,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -703,6 +704,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -1596,6 +1598,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -1699,6 +1702,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -3932,6 +3936,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
@@ -7972,6 +7977,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
@@ -11527,6 +11533,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
