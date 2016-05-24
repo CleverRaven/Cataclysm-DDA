@@ -1888,7 +1888,9 @@
       [ "rehydrated_fish", 2],
       [ "fish_canned", 2],
       [ "can_salmon", 2],
-      [ "can_tuna", 2]
+      [ "can_tuna", 2],
+      [ "bacon", 2 ],
+      [ "spam", 1 ]
     ],
     [
       [ "cheese", 1 ],
