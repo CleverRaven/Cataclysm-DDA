@@ -335,7 +335,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
         ( unarmed_allowed && u.unarmed_attack() &&
             ( !strictly_unarmed || !u.is_armed() ) ) ||
         ( is_valid_weapon( u.weapon ) &&
-            ( melee_allowed || u.style_selected.obj().has_weapon( u.weapon.type->id ) ) );
+            ( melee_allowed || u.style_selected.obj().has_weapon( u.weapon.typeId() ) ) );
     if( !valid_weapon ) {
         return false;
     }
@@ -557,7 +557,7 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    if( has_weapon( it.type->id ) ) {
+    if( has_weapon( it.typeId() ) ) {
         return true;
     }
 

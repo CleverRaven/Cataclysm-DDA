@@ -1134,7 +1134,7 @@ int npc::choose_escape_item()
         item &it = slice[i]->front();
         for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
             const auto food = it.type->comestible.get();
-            if (it.type->id == ESCAPE_ITEMS[j] &&
+            if (it.typeId() == ESCAPE_ITEMS[j] &&
                 (food == NULL || stim < food->stim ||            // Avoid guzzling down
                  (food->stim >= 10 && stim < food->stim * 2)) && //  Adderall etc.
                 (j > best || (j == best && it.charges < slice[ret]->front().charges))) {
@@ -2215,13 +2215,13 @@ void npc::alt_attack()
 
     int weapon_index = INT_MIN;
     item *used = nullptr;
-    if (weapon.type->id == which) {
+    if (weapon.typeId() == which) {
         used = &weapon;
         weapon_index = -1;
     } else {
         invslice slice = inv.slice();
         for (size_t i = 0; i < inv.size(); i++) {
-            if (slice[i]->front().type->id == which) {
+            if (slice[i]->front().typeId() == which) {
                 used = &(slice[i]->front());
                 weapon_index = i;
             }
@@ -2355,7 +2355,7 @@ void npc::activate_item(int item_index)
 
 bool thrown_item( item &used )
 {
-    const itype_id &type = used.type->id;
+    const itype_id type = used.typeId();
     // TODO: Remove the horrid hardcode
     return (used.active || type == "knife_combat" || type == "spear_wood");
 }

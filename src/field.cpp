@@ -907,7 +907,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         // Only strong alcohol for now
                                         time_added += 250;
                                         smoke += 1;
-                                    } else if( fuel->type->id == "lamp_oil" ) {
+                                    } else if( fuel->typeId() == "lamp_oil" ) {
                                         time_added += 300;
                                         smoke += 3;
                                     } else {
@@ -1455,7 +1455,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_push_items: {
                         auto items = i_at( p );
                         for( auto pushee = items.begin(); pushee != items.end(); ) {
-                            if( pushee->type->id != "rock" ||
+                            if( pushee->typeId() != "rock" ||
                                 pushee->bday >= int(calendar::turn) - 1 ) {
                                 pushee++;
                             } else {

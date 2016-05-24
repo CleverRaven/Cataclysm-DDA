@@ -1387,7 +1387,7 @@ int npc::player_danger( const player &ur ) const
    ret += 8;
  } else if( u->weapon_value( u->weapon ) > 20 )
   ret++;
- else if (u->weapon.type->id == "null") // Unarmed
+ else if( u->weapon.is_null() ) // Unarmed
   ret -= 3;
 
  if (u->str_cur > 20) // Superhuman strength!
@@ -1674,7 +1674,7 @@ std::vector<npc::item_pricing> npc::init_selling()
         // sort them by types and values
         // allow selling some of them
         auto &it = i->front();
-        if( !found_lighter && it.type->id == "lighter" && it.ammo_remaining() >= 10 ) {
+        if( !found_lighter && it.typeId() == "lighter" && it.ammo_remaining() >= 10 ) {
             found_lighter = true;
             continue;
         }
@@ -1822,7 +1822,7 @@ int npc::value( const item &it, int market_price ) const
     }
 
     // TODO: Sometimes we want more than one tool?  Also we don't want EVERY tool.
-    if( it.is_tool() && !has_amount( itype_id(it.type->id), 1 ) ) {
+    if( it.is_tool() && !has_amount( it.typeId(), 1 ) ) {
         ret += 8;
     }
 

@@ -6503,7 +6503,7 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
 
     // Done shooting, clean up
     item &ups = shooter.worn.back();
-    if( ups.type->id == "fake_UPS" ) {
+    if( ups.typeId() == "fake_UPS" ) {
         refill( fuel_type_battery, ups.charges );
         shooter.worn.pop_back();
     } else {

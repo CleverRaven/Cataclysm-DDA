@@ -111,8 +111,8 @@ bool player::activate_bionic( int b, bool eff_only )
     bionic &bio = my_bionics[b];
 
     // Special compatibility code for people who updated saves with their claws out
-    if( ( weapon.type->id == "bio_claws_weapon" && bio.id == "bio_claws_weapon" ) ||
-        ( weapon.type->id == "bio_blade_weapon" && bio.id == "bio_blade_weapon" ) ) {
+    if( ( weapon.typeId() == "bio_claws_weapon" && bio.id == "bio_claws_weapon" ) ||
+        ( weapon.typeId() == "bio_blade_weapon" && bio.id == "bio_blade_weapon" ) ) {
         return deactivate_bionic( b );
     }
 
@@ -542,7 +542,7 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power(bionics[bio.id].power_activate);
             bio.powered = false;
             return false;
-        } else if(weapon.type->id != "null") {
+        } else if( !weapon.is_null() ) {
             add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
                     weapon.tname().c_str());
             g->m.add_item_or_charges(pos(), weapon);
@@ -560,7 +560,7 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power(bionics[bio.id].power_activate);
             bio.powered = false;
             return false;
-        } else if(weapon.type->id != "null") {
+        } else if( !weapon.is_null() ) {
             add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
                     weapon.tname().c_str());
             g->m.add_item_or_charges(pos(), weapon);
@@ -644,12 +644,12 @@ bool player::deactivate_bionic( int b, bool eff_only )
             }
         }
     } else if( bio.id == "bio_claws" ) {
-        if( weapon.type->id == "bio_claws_weapon" ) {
+        if( weapon.typeId() == "bio_claws_weapon" ) {
             add_msg( m_neutral, _( "You withdraw your claws." ) );
             weapon = ret_null;
         }
     } else if( bio.id == "bio_blade" ) {
-        if( weapon.type->id == "bio_blade_weapon" ) {
+        if( weapon.typeId() == "bio_blade_weapon" ) {
             add_msg( m_neutral, _( "You retract your blade." ) );
             weapon = ret_null;
         }
@@ -856,14 +856,14 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
 
     // surgery is imminent, retract claws or blade if active
     if( has_bionic( "bio_claws" ) && skill_level == -1 ) {
-        if( weapon.type->id == "bio_claws_weapon" ) {
+        if( weapon.typeId() == "bio_claws_weapon" ) {
             add_msg( m_neutral, _( "You withdraw your claws." ) );
             weapon = ret_null;
         }
     }
 
     if( has_bionic( "bio_blade" ) && skill_level == -1 ) {
-        if( weapon.type->id == "bio_blade_weapon" ) {
+        if( weapon.typeId() == "bio_blade_weapon" ) {
             add_msg( m_neutral, _( "You retract your blade." ) );
             weapon = ret_null;
         }
