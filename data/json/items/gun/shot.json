@@ -47,7 +47,6 @@
     "aim_speed": 4,
     "recoil": 120,
     "durability": 9,
-    "burst": 2,
     "clip_size": 8,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
@@ -89,7 +88,10 @@
         "volume": 1,
         "price": 5000
     },
-    "burst": 2,
+    "modes": [
+      [ "DEFAULT", "single", 1 ],
+      [ "AUTO", "double", 2 ]
+    ],
     "clip_size": 2
   },
   {
@@ -208,7 +210,10 @@
         "volume": 1,
         "price": 5000
     },
-    "burst": 2,
+    "modes": [
+      [ "DEFAULT", "single", 1 ],
+      [ "AUTO", "double", 2 ]
+    ],
     "clip_size": 2
   },
   {
