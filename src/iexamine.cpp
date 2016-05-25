@@ -73,12 +73,15 @@ void iexamine::gaspump(player &p, const tripoint &examp)
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
                 const int qty = rng( item_it->liquid_charges( 1 ),
                                      item_it->liquid_charges( 1 ) * 8.0 / std::max( 1, p.get_dex() ) );
-                item spill( item_it->type, calendar::turn, qty );
-                g->m.add_item_or_charges( p.pos(), spill, 1 );
-                item_it->charges -= spill.charges;
-                if( item_it->charges < 1 ) {
+
+                item spill = item_it->split( qty );
+                if( spill.is_null() ) {
+                    g->m.add_item_or_charges( p.pos(), *item_it, 1 );
                     items.erase( item_it );
+                } else {
+                    g->m.add_item_or_charges( p.pos(), spill, 1 );
                 }
+
             } else {
                 g->handle_liquid_from_ground( item_it, examp );
             }
