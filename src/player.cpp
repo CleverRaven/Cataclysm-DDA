@@ -6481,12 +6481,11 @@ void player::hardcoded_effects(effect &it)
     } else if( id == effect_hallu ) {
         // TODO: Redo this to allow for variable durations
         // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
-        static bool puked = false;
-        int maxDuration = 3600;
-        int comeupTime = int(maxDuration*0.9);
-        int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
-        int peakTime = int(maxDuration*0.8);
-        int comedownTime = int(maxDuration*0.3);
+        constexpr int maxDuration = 3600;
+        constexpr int comeupTime = int(maxDuration*0.9);
+        constexpr int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
+        constexpr int peakTime = int(maxDuration*0.8);
+        constexpr int comedownTime = int(maxDuration*0.3);
         // Baseline
         if (dur == noticeTime) {
             add_msg_if_player(m_warning, _("You feel a little strange."));
@@ -6502,41 +6501,29 @@ void player::hardcoded_effects(effect &it)
                 add_msg_if_player(m_warning, _("Something feels very, very wrong."));
             }
         } else if (dur > peakTime && dur < comeupTime) {
-            if ((one_in(200) || x_in_y(vomit_mod(), 50)) && !puked) {
+            if( get_stomach_food() > 0 && (one_in(200) || x_in_y(vomit_mod(), 50)) ) {
                 add_msg_if_player(m_bad, _("You feel sick to your stomach."));
                 mod_hunger(-2);
-                if (one_in(6)) {
+                if( one_in( 6 ) ) {
                     vomit();
-                    if (one_in(2)) {
-                        // we've vomited enough for now
-                        puked = true;
-                    }
                 }
             }
-            if (is_npc() && one_in(200)) {
-                const char *npcText;
-                switch(rng(1,4)) {
-                    case 1:
-                        npcText = _("\"I think it's starting to kick in.\"");
-                        break;
-                    case 2:
-                        npcText = _("\"Oh God, what's happening?\"");
-                        break;
-                    case 3:
-                        npcText = _("\"Of course... it's all fractals!\"");
-                        break;
-                    default:
-                        npcText = _("\"Huh?  What was that?\"");
-                        break;
+            if( is_npc() && one_in( 200 ) ) {
+                static const std::array<std::string, 4> npc_hallu = {{
+                    _("\"I think it's starting to kick in.\""),
+                    _("\"Oh God, what's happening?\""),
+                    _("\"Of course... it's all fractals!\""),
+                    _("\"Huh?  What was that?\"")
+                }};
 
-                }
+                const std::string &npc_text = random_entry( npc_hallu );
                 ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
                 ///\EFFECT_INT_NPC decreases volume of hallucination sounds
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
-                sounds::sound( pos(), loudness, npcText);
+                sounds::sound( pos(), loudness, npc_text );
             }
         } else if (dur == peakTime) {
             // Visuals start
@@ -6549,7 +6536,7 @@ void player::hardcoded_effects(effect &it)
             mod_dex_bonus(-2);
             add_miss_reason(_("Dancing fractals distract you."), 2);
             mod_str_bonus(-1);
-            if (one_in(50)) {
+            if( is_player() && one_in( 50 ) ) {
                 g->spawn_hallucination();
             }
         } else if (dur == comedownTime) {
@@ -6558,7 +6545,6 @@ void player::hardcoded_effects(effect &it)
             } else {
                 add_msg_if_player(_("Things are returning to normal."));
             }
-            puked = false;
         }
     } else if( id == effect_cold ) {
         switch(bp) {
