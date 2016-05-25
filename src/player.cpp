@@ -5805,9 +5805,7 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
     veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
 
-    if( !g->handle_liquid( used_item, nullptr, 0, nullptr, &veh ) ) {
-        return;
-    }
+    g->handle_liquid( used_item, nullptr, 0, nullptr, &veh );
     // TODO: maybe add the message about the siphoned amount again.
     veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
 }
