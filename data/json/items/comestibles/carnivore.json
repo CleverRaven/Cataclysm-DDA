@@ -94,7 +94,8 @@
     "spoils_in": 24,
     "calories": 250,
     "healthy": -1,
-    "fun": -10
+    "fun": -10,
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "meat_cooked",
@@ -106,7 +107,7 @@
     "parasites": 0,
     "healthy": 0,
     "fun": 0,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT", "TRADER_AVOID" ]
   },
   {
     "id": "offal",

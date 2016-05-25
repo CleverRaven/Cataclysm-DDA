@@ -173,6 +173,7 @@
         "color" : "red",
         "symbol" : "0",
         "material" : ["wood"],
+        "flags" : "TRADER_AVOID",
         "volume" : 42,
         "bashing" : 6,
         "category" : "veh_parts",

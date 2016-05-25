@@ -245,7 +245,7 @@
         "warmth" : 0,
         "encumbrance" : 0,
         "coverage" : 90,
-        "flags" : ["SKINTIGHT"],
+        "flags" : ["SKINTIGHT", "TRADER_AVOID"],
         "material_thickness" : 0
     },
     {

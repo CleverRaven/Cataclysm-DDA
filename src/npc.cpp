@@ -927,7 +927,7 @@ std::list<item> starting_inv( npc *me, npc_class type )
     }
 
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item& e ) {
-        return item_group::group_contains_item( "trader_avoid", e.typeId() );
+        return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
 
     return res;
