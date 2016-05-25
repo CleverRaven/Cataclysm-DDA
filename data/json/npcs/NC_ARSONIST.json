@@ -163,7 +163,6 @@
     "type" : "item_group",
     "id" : "NC_ARSONIST_shotgun",
     "items":[
-      ["shotgun_sawn", 50],
       ["mossberg_500", 25],
       ["remington_870", 25]
     ]

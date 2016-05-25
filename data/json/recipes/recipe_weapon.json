@@ -812,24 +812,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "shotgun_sawn",
-  "byproducts": { "id" : "scrap", "amount" : 6 },
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "shotgun_d", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "revolver_shotgun",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
