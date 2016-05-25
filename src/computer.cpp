@@ -308,6 +308,17 @@ void computer::load_data(std::string data)
     }
 }
 
+static item *pick_usb()
+{
+    while( true ) {
+        // while loop because the caller *requires* a valid item pointer as result.
+        const int pos = g->inv_for_id( itype_id( "usb_drive" ), _( "Choose drive:" ) );
+        if( pos != INT_MIN ) {
+            return &g->u.i_at( pos );
+        }
+    }
+}
+
 void computer::activate_function(computer_action action, char ch)
 {
     // Token move cost for any action, if an action takes longer decrement moves further.
@@ -806,7 +817,7 @@ of pureed bone & LSD."));
             g->u.moves -= 30;
             item software(miss->get_item_id(), 0);
             software.mission_id = mission_id;
-            item *usb = g->u.pick_usb();
+            item *usb = pick_usb();
             usb->contents.clear();
             usb->put_in(software);
             print_line(_("Software downloaded."));
@@ -846,7 +857,7 @@ of pureed bone & LSD."));
                                     print_error(_("USB drive required!"));
                                 } else {
                                     item software("software_blood_data", 0);
-                                    item *usb = g->u.pick_usb();
+                                    item *usb = pick_usb();
                                     usb->contents.clear();
                                     usb->put_in(software);
                                     print_line(_("Software downloaded."));

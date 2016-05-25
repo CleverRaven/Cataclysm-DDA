@@ -704,7 +704,6 @@ classes = {
             { name = "pick_style", rval = "bool", args = { } },
             { name = "pick_style", rval = nil, args = { } },
             { name = "pick_technique", rval = "matec_id", args = { "Creature", "item", "bool", "bool", "bool" } },
-            { name = "pick_usb", rval = "item&", args = { } },
             { name = "place_corpse", rval = nil, args = { } },
             { name = "pos", rval = "tripoint", args = { } },
             { name = "posx", rval = "int", args = { } },
