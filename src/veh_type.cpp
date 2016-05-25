@@ -280,6 +280,8 @@ void vpart_info::finalize()
     }
 
     for( auto& e : vehicle_part_types ) {
+        e.second.name_ = _( e.second.name_.c_str() );
+
         if( e.second.folded_volume > 0 ) {
             e.second.set_flag( "FOLDABLE" );
         }
