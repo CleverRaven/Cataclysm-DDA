@@ -74,8 +74,8 @@
     "time": 200000,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
     "qualities" : [
-      { "id":"CUT", "level": 1, "amount": 1 },
-      { "id":"HAMMER", "level": 2, "amount": 1 }
+      { "id":"CUT", "level": 1 },
+      { "id":"HAMMER", "level": 2 }
     ],
     "components": [
       [ [ "pot_copper", 1 ] ],
