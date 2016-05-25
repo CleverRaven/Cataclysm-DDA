@@ -132,10 +132,6 @@ void defense_game::pre_action(action_id &act)
         add_msg(m_info, _("You don't need to sleep!"));
         act = ACTION_NULL;
     }
-    if (act == ACTION_SAVE || act == ACTION_QUICKSAVE) {
-        add_msg(m_info, _("You cannot save in defense mode!"));
-        act = ACTION_NULL;
-    }
 
     // Big ugly block for movement
     if ((act == ACTION_MOVE_N && g->u.posy() == SEEX * int(MAPSIZE / 2) &&
