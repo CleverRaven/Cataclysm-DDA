@@ -1100,6 +1100,11 @@ public:
          * use the various functions above (like @ref get_storage) to access armor data directly.
          */
         const islot_armor *find_armor_data() const;
+        /**
+         * Returns true whether this item can be worn only when @param it is worn.
+         */
+        bool is_worn_only_with( const item &it ) const;
+
         /*@}*/
 
         /**

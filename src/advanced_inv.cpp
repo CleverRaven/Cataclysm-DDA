@@ -1531,9 +1531,10 @@ void advanced_inventory::display()
                     if(srcarea == AIM_INVENTORY) {
                         moving_items = g->u.inv.reduce_stack(idx, amount_to_move);
                     } else if(srcarea == AIM_WORN) {
-                        std::vector<item> mv;
-                        g->u.takeoff(idx, false, &mv);
-                        std::copy(mv.begin(), mv.end(), std::back_inserter(moving_items));
+                        g->u.takeoff( *sitem->items.front(), [ &moving_items ]( const item &it ) {
+                            moving_items.push_back( it );
+                            return true;
+                        } );
                     }
                     int items_left = 0, moved = 0;
                     for(auto &elem : moving_items) {
@@ -1901,7 +1902,7 @@ int advanced_inventory::remove_item( advanced_inv_listitem &sitem, int count )
             assert( &cont->contents.front() == sitem.items.front() );
             cont->contents.erase( cont->contents.begin() );
         } else if( sitem.area == AIM_WORN ) {
-            rc &= g->u.takeoff( sitem.items.front() );
+            rc &= g->u.takeoff( sitem.idx );
         } else if( sitem.from_vehicle ) {
             rc &= s.veh->remove_item( s.vstor, sitem.items.front() );
         } else {

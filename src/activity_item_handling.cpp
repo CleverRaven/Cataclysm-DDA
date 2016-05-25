@@ -298,11 +298,10 @@ std::vector<item> withdraw_items_to_dispose( player_activity &act, player &p )
 
         // TODO: Add the logic where dropping a worn container drops a number of contents as well.
         // Stash previous volume and compare it to volume after taking off each article of clothing.
-        if( !p.takeoff( const_cast<item *>( it ), false, &items ) ) {
-            continue; // If we failed to take off the item, bail out.
-        }
-
-        p.mod_moves( -100 );
+        p.takeoff( *it, [ &items ]( const item & it ) {
+            items.push_back( it );
+            return true;
+        } );
     }
 
     if( !selected_items.empty() || !selected_worn_items.empty() ) {

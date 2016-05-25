@@ -520,7 +520,7 @@ void player::sort_armor()
             if( leftListIndex < ( int ) tmp_worn.size() ) {
                 if( g->u.query_yn( _( "Remove selected armor?" ) ) ) {
                     // remove the item, asking to drop it if necessary
-                    takeoff( tmp_worn[leftListIndex], is_npc() );
+                    takeoff( *tmp_worn[leftListIndex] );
                     wrefresh( w_sort_armor );
                 }
             }
