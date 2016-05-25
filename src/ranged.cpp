@@ -452,9 +452,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     tripoint aim = target;
     int curshot = 0;
     int burst = 0; // count of shots against current target
-    for( ; curshot != shots; ++curshot ) {
-
-
+    while( curshot != shots ) {
         if( !handle_gun_damage( *gun.type, gun.ammo_effects() ) ) {
             break;
         }
@@ -464,12 +462,13 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
         // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
-        if( gun.ammo_type() != "shot" ) {
+        if( !gun.ammo_effects().count( "SHOT" ) ) {
             const item *parent = gun.is_gunmod() && has_item( gun ) ? find_parent( gun ) : nullptr;
             dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 
         auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
+        curshot++;
 
         // if we are firing a turret don't apply that recoil to the player
         // @todo turrets need to accumulate recoil themselves
@@ -480,14 +479,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
 
         eject_casing( *this, gun );
 
-        if( gun.has_flag( "BIO_WEAPON" ) ) {
-            // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
-            gun.charges--;
-        } else {
-            if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
-                debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
-                break;
-            }
+        if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
+            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+            break;
         }
 
         if ( !worn.empty() && worn.back().type->id == "fake_UPS" ) {

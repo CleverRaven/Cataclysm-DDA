@@ -576,7 +576,7 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 ### Effects
 
 - ```COOKOFF``` Explodes when lit on fire.
-- ```SHOT``` Multiple smaller pellets instead of one singular bullet; less effective against armor but increases chance to hit.
+- ```SHOT``` Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```EXPLOSIVE``` Explodes without any shrapnel.
 - ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
@@ -807,7 +807,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
-- ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo and should not specify an ammo type
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```FIRE_50``` Uses 50 shots per firing.
