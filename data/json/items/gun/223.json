@@ -97,11 +97,7 @@
     "sight_dispersion": 60,
     "recoil": 75,
     "durability": 8,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "BURST", "2 rd.", 2 ],
-      [ "AUTO", "auto", 15 ]
-    ],
+    "burst": 15,
     "magazines" : [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],

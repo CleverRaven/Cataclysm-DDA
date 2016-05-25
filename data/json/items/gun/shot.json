@@ -90,7 +90,7 @@
     },
     "modes": [
       [ "DEFAULT", "single", 1 ],
-      [ "AUTO", "double", 2 ]
+      [ "DOUBLE", "double", 2 ]
     ],
     "clip_size": 2
   },
@@ -212,7 +212,7 @@
     },
     "modes": [
       [ "DEFAULT", "single", 1 ],
-      [ "AUTO", "double", 2 ]
+      [ "DOUBLE", "double", 2 ]
     ],
     "clip_size": 2
   },
