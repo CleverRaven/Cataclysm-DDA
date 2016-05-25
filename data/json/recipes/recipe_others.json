@@ -6640,30 +6640,6 @@
       [ "tanned_pelt", 1 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "coal_lump",
-  "result_mult": 5,
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 7,
-  "time": 180000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities": [
-        {"id":"HAMMER","level":3,"amount":1}
-      ],
-  "tools": [
-    [
-        [ "pickaxe", -1 ]
-    ]
-  ],
-  "components": [
-    [
-        [ "coal", 1 ]
-    ]
-  ]
   },{
   "type" : "recipe",
   "result": "chem_sulphur",
