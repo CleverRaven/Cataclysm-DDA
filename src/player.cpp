@@ -13436,7 +13436,7 @@ std::vector<std::string> player::get_overlay_ids() const
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
-    if( !is_armed() ) {
+    if( is_armed() ) {
         rval.push_back( "wielded_" + weapon.typeId() );
     }
     return rval;
