@@ -404,7 +404,9 @@ void draw_hit_player_curses(game const& g, player const &p, const int dam)
                                 : red_background(p.symbol_color());
 
     tripoint const q = relative_view_pos( g.u, p.pos() );
-    hit_animation( q.x, q.y, col, p.symbol() );
+    if( q.z == 0 ) {
+        hit_animation( q.x, q.y, col, p.symbol() );
+    }
 }
 } //namespace
 
