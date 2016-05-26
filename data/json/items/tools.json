@@ -6799,6 +6799,7 @@
     "volume": 0,
     "max_charges": 50,
     "initial_charges": 25,
+    "charges_per_use": 1,
     "turns_per_charge": 10,
     "ammo": "gasoline",
     "revert_to": "ref_lighter",
