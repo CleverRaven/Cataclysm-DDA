@@ -1796,9 +1796,9 @@
         "name": "statue",
         "symbol": "S",
         "color": "dkgray",
-        "move_cost_mod": 2,
+        "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["PLACE_ITEM","BLOCKSDOOR"],
+        "flags": ["PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
             "str_min": 16, "str_max": 40,
             "sound": "smash!",
@@ -2692,7 +2692,7 @@
         "color": "ltgray",
         "move_cost_mod": 0,
         "required_str": -1,
-        "flags": ["MINEABLE","TRANSPARENT", "SHORT", "NOCOLLIDE", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "PLACE_ITEM"],
+        "flags": ["MINEABLE", "TRANSPARENT", "SHORT", "NOCOLLIDE", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "PLACE_ITEM"],
         "bash": {
             "str_min": 50, "str_max": 150,
             "sound": "crash!",
