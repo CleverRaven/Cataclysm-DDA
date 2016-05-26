@@ -5723,5 +5723,16 @@
             {"item": "plastic_chunk", "count": [1, 3]},
             {"item": "scrap", "count": [2,6]}
         ]
+    },{
+		"id": "car_headlight",
+		"type":"GENERIC",
+		"name": "car headlight",
+		"description": "A vehicle headlight to light up the way.",
+		"symbol": ",",
+		"color": "white",
+		"material": ["glass", "plastic"],
+		"weight": 1000,
+		"volume": 4,
+		"price": 3000
     }
 ]
