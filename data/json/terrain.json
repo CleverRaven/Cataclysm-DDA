@@ -2726,6 +2726,7 @@
         "move_cost": 0,
         "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
         "roof": "t_rock_floor",
+        "connects_to": "WALL",
         "bash": {
             "str_min": 120, "str_max": 400,
             "sound": "crash!",
