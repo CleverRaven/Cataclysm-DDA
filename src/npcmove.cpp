@@ -2547,7 +2547,15 @@ bool npc::consume_food()
         return false;
     }
 
-    return consume( index );
+    // consume doesn't return a meaningful answer, we need to compare moves
+    // @todo Make player::consume return false if it fails to consume
+    int old_moves = moves;
+    bool consumed = consume( index ) && old_moves != moves;
+    if( !consumed ) {
+        debugmsg( "%s failed to consume %s", name.c_str(), i_at( index ).tname().c_str() );
+    }
+
+    return consumed;
 }
 
 void npc::mug_player(player &mark)
