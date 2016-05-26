@@ -20,8 +20,12 @@
 #include <vector>
 #include <cassert>
 
+#include <functional>
+
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
+
+typedef std::list<std::pair<const item *, int>> activity_items;
 
 bool game::make_drop_activity( enum activity_type act,
                                const std::list<std::pair<int, int>> &dropped,
@@ -39,66 +43,60 @@ bool game::make_drop_activity( enum activity_type act,
     return true;
 }
 
-static void add_drop_pairs( player_activity &act, const player &p, std::list<const item *> &items,
-                            std::list<int> &quantities )
+activity_items retrieve_items( const player_activity &act,
+                               const std::function<void( activity_items &, int, int )> &retriever )
 {
-    while( !items.empty() ) {
-        int position = p.get_item_position( items.front() );
-        act.values.push_back( position );
-        items.pop_front();
-        act.values.push_back( quantities.front() );
-        quantities.pop_front();
-        // Items from the same stack will be adjacent,
-        // so when detected roll them up into a single entry.
-        // This can only happen with inventory items, not weapon or worn items.
-        while( !items.empty() && position == p.get_item_position( items.front() ) ) {
-            items.pop_front();
-            act.values.back() += quantities.front();
-            quantities.pop_front();
-        }
-    }
-}
+    activity_items retrieved;
 
-void get_item_pointers_from_activity( const player_activity &act, const player &p,
-                                      std::list<const item *> &selected_items, std::list<int> &item_quantities,
-                                      std::list<const item *> &selected_worn_items, std::list<int> &worn_item_quantities )
-{
-    // Drop activity has indices of items in inventory and quantities of same.
-    // Indices and quantities alternate on the list.
-    // First iterate over the indices and quantities, retrieving item references.
+    if( act.values.size() % 2 != 0 ) {
+        debugmsg( "Activity \"%s\"contains odd number of values.", act.name.c_str() );
+        return retrieved;
+    }
     for( size_t index = 0; index < act.values.size(); index += 2 ) {
         const int position = act.values[index];
         const int quantity = act.values[index + 1];
-        const bool is_worn = position < -1;
-        const bool is_weapon = position == -1;
-        if( is_worn ) {
-            const item &armor = p.i_at( position );
-            assert( !armor.is_null() );
-            selected_worn_items.push_back( &armor );
-            worn_item_quantities.push_back( quantity );
-        } else  if( is_weapon ) {
-            selected_items.push_back( &p.weapon );
-            item_quantities.push_back( quantity );
-        } else {
-            // We MUST have pointers to these items, and this is the only way I can see to get them.
-            std::list<item> &stack = ( std::list<item> & )p.inv.const_stack( position );
-            int items_dropped = 0;
-            for( auto &elem : stack ) {
-                selected_items.push_back( &elem );
-                if( elem.count_by_charges() ) {
-                    const int qty_to_drop = std::min( quantity - items_dropped, ( int )elem.charges );
-                    item_quantities.push_back( qty_to_drop );
-                    items_dropped += qty_to_drop;
-                } else {
-                    item_quantities.push_back( 1 );
-                    items_dropped++;
-                }
-                if( items_dropped >= quantity ) {
-                    break;
-                }
+
+        retriever( retrieved, position, quantity );
+    }
+    return retrieved;
+}
+
+activity_items retrieve_weapons( const player_activity &act, const player &p )
+{
+    return retrieve_items( act, [ &p ]( activity_items & retrieved, int position, int quantity ) {
+        if( position == -1 ) {
+            retrieved.emplace_back( &p.weapon, quantity );
+        }
+    } );
+}
+
+activity_items retrieve_inventory_items( const player_activity &act, const player &p )
+{
+    return retrieve_items( act, [ &p ]( activity_items & retrieved, int position, int quantity ) {
+        if( position < 0 ) {
+            return;
+        }
+        int obtained = 0;
+        const auto &stack = p.inv.const_stack( position );
+        for( const auto &it : stack ) {
+            const int qty = it.count_by_charges() ? std::min( ( int )it.charges, quantity - obtained ) : 1;
+            retrieved.emplace_back( &it, qty );
+            obtained += qty;
+
+            if( obtained >= quantity ) {
+                break;
             }
         }
-    }
+    } );
+}
+
+activity_items retrieve_worn_items( const player_activity &act, const player &p )
+{
+    return retrieve_items( act, [ &p ]( activity_items & retrieved, int position, int quantity ) {
+        if( position < -1 ) {
+            retrieved.emplace_back( &p.i_at( position ), quantity );
+        }
+    } );
 }
 
 bool same_type( const std::vector<item> &items )
@@ -254,69 +252,65 @@ int count_contained_items( const std::vector<item> &items, int volume )
 
 std::vector<item> withdraw_items_to_dispose( player_activity &act, player &p )
 {
-    // We build a list of item pointers to act as unique identifiers,
-    // because the process of dropping the items will invalidate the indexes of the items.
-    // We assign worn items to their own list to handle dropping containers with their contents.
-    std::list<const item *> selected_items;
-    std::list<int> item_quantities;
-    std::list<const item *> selected_worn_items;
-    std::list<int> worn_item_quantities;
+    auto weapons = retrieve_weapons( act, p );
+    auto inventory_items = retrieve_inventory_items( act, p );
+    auto worn_items = retrieve_worn_items( act, p );
 
-    const player_activity prev_activity = act;
+    std::vector<item> result;
 
-    get_item_pointers_from_activity( act, p, selected_items, item_quantities, selected_worn_items,
-                                     worn_item_quantities );
-    // Now that we have all the data, cancel the activity,
-    // if we don't finish it we'll make a new one with the remaining items.
-    p.cancel_activity();
+    const auto process_unworn_item = [ &p, &result ]( activity_items & items ) {
+        auto &it = items.front();
 
-    std::vector<item> items;
-    // Consume the list as long as we don't run out of moves.
-    while( p.moves >= 0 && !selected_items.empty() ) {
-        const item *it = selected_items.front();
-
-        if( it->count_by_charges() ) {
-            items.push_back( p.reduce_charges( const_cast<item *>( it ), item_quantities.front() ) );
+        if( it.first->count_by_charges() ) {
+            result.push_back( p.reduce_charges( const_cast<item *>( it.first ), it.second ) );
         } else {
-            items.push_back( p.i_rem( it ) );
-            if( --item_quantities.front() > 0 ) {
-                continue; // Process one item at a time.
+            result.push_back( p.i_rem( it.first ) );
+            if( --it.second > 0 ) {
+                return; // Process one item at a time
             }
         }
+        items.pop_front();
+    };
 
-        selected_items.pop_front();
-        item_quantities.pop_front();
+    while( !weapons.empty() ) {
+        process_unworn_item( weapons ); // Just let go. Don't consume moves.
+    }
 
+    while( p.moves >= 0 && !inventory_items.empty() ) {
+        process_unworn_item( inventory_items );
         p.mod_moves( -100 );
     }
 
-    while( p.moves >= 0 && !selected_worn_items.empty() ) {
-        const item *it = selected_worn_items.front();
-
-        selected_worn_items.pop_front();
-        worn_item_quantities.pop_front();
-
-        // TODO: Add the logic where dropping a worn container drops a number of contents as well.
-        // Stash previous volume and compare it to volume after taking off each article of clothing.
-        p.takeoff( *it, [ &items ]( const item & it ) {
-            items.push_back( it );
+    while( p.moves >= 0 && !worn_items.empty() ) {
+        p.takeoff( *worn_items.front().first, [ &result ]( const item & it ) {
+            result.push_back( it );
             return true;
         } );
+        worn_items.pop_front();
     }
 
-    if( !selected_items.empty() || !selected_worn_items.empty() ) {
-        // If we make it here load anything left into a new activity.
+    // Load anything left (if any) into a new activity.
+    if( !weapons.empty() || !inventory_items.empty() || !worn_items.empty() ) {
+        const player_activity prev_activity = act;
+        const auto append_items = [ &p ]( const activity_items & items ) {
+            for( const auto &it : items ) {
+                p.activity.values.push_back( p.get_item_position( it.first ) );
+                p.activity.values.push_back( it.second );
+            }
+        };
+        p.cancel_activity();
         p.assign_activity( prev_activity.type, 0 );
-        // This one is only ever called to re-insert the activity into the activity queue.
-        // It's already relative, so no need to adjust it.
         p.activity.placement = prev_activity.placement;
         p.activity.ignore_trivial = prev_activity.ignore_trivial;
 
-        add_drop_pairs( act, p, selected_worn_items, worn_item_quantities );
-        add_drop_pairs( act, p, selected_items, item_quantities );
+        append_items( weapons );
+        append_items( inventory_items );
+        append_items( worn_items );
+    } else {
+        p.cancel_activity();
     }
 
-    return items;
+    return result;
 }
 
 void activity_handlers::drop_do_turn( player_activity *act, player *p )
