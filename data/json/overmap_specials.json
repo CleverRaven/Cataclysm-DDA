@@ -1526,7 +1526,7 @@
         "city_distance" : [2, 10],
         "city_sizes" : [2, 16],
         "occurrences" : [0, 4],
-        "rotate" : true,
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     }
 ]
