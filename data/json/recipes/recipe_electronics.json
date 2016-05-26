@@ -409,7 +409,6 @@
   "time": 10000,
   "reversible": true,
   "decomp_learn": 0,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 0 ] , [ "mag_electronics", 1 ]],
   "components": [
     [ [ "amplifier", 1 ] ],
@@ -422,7 +421,7 @@
       [ "bottle_plastic_small", 1 ]
     ],
     [
-	  [ "lightstrip_inactive", 1 ],
+      [ "lightstrip_inactive", 1 ],
       [ "light_bulb", 1 ]
 	],
     [ [ "cable", 10 ] ]
@@ -438,7 +437,6 @@
   "time": 15000,
   "reversible": true,
   "decomp_learn": 1,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
   "components": [
     [ [ "amplifier", 4 ] ],
@@ -463,7 +461,6 @@
   "time": 12000,
   "reversible": true,
   "decomp_learn": 1,
-  "autolearn": false,
   "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
   "components": [
     [ [ "amplifier", 2 ] ],
