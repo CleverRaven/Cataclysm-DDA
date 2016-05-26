@@ -2599,17 +2599,5 @@
 		"weight": 10,
 		"volume": 1,
 		"price": 500
-    },
-	{
-		"id": "car_headlight",
-		"type":"GENERIC",
-		"name": "car headlight",
-		"description": "A vehicle headlight to light up the way.",
-		"symbol": ",",
-		"color": "white",
-		"material": ["glass", "plastic"],
-		"weight": 1000,
-		"volume": 4,
-		"price": 3000
     }
 ]
