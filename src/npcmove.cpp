@@ -2476,12 +2476,12 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( it.rotten() ) {
+    float relative_rot = it.get_relative_rot();
+    if( relative_rot >= 1.0f ) {
         // TODO: Allow sapro mutants to eat it anyway and make them prefer it
         return 0.0f;
     }
 
-    float relative_rot = it.get_relative_rot();
     float weight = std::max( 1.0f, 10.0f * relative_rot );
     if( food->fun < 0 ) {
         // This helps to avoid eating stuff like flour
@@ -2529,10 +2529,11 @@ bool npc::consume_food()
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
-        float cur_weight = it.is_food_container() ?
-            rate_food( it.contents.front(), want_hunger, want_quench ) :
-            rate_food( it, want_hunger, want_quench );
-        if( cur_weight > best_weight ) {
+        const item &food_item = it.is_food_container() ?
+                                it.contents.front() : it;
+        float cur_weight = rate_food( food_item, want_hunger, want_quench );
+        // Note: can_eat is expensive, avoid calling it if possible
+        if( cur_weight > best_weight && can_eat( food_item ) == EDIBLE ) {
             best_weight = cur_weight;
             index = i;
         }
