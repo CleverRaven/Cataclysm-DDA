@@ -9,8 +9,9 @@ TEST_CASE( "reload_gun_with_integral_magazine" ) {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
-    std::vector<item> taken_off_items;
-    while( dummy.takeoff( -2, true, &taken_off_items) );
+    while( dummy.takeoff( dummy.i_at( -2 ), []( const item & ) {
+        return true;
+    } ) );
 
     dummy.remove_weapon();
 
@@ -33,11 +34,12 @@ TEST_CASE( "reload_gun_with_swappable_magazine" ) {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
-    std::vector<item> taken_off_items;
-    while( dummy.takeoff( -2, true, &taken_off_items) );
+    while( dummy.takeoff( dummy.i_at( -2 ), []( const item & ) {
+        return true;
+    } ) );
     // Make sure the player doesn't drop anything :P
     dummy.wear_item( item( "backpack", 0 ) );
-    
+
     dummy.remove_weapon();
 
     // TODO: inline the gun and ammo definitions so this test doesn't rely on json.

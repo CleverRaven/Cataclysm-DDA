@@ -68,8 +68,9 @@ TEST_CASE("Player body temperatures converge on expected values.") {
     player &dummy = g->u;
 
     // Remove first worn item until there are none left.
-    std::vector<item> taken_off_items;
-    while( dummy.takeoff( -2, true, &taken_off_items) );
+    while( dummy.takeoff( dummy.i_at( -2 ), []( const item & ) {
+        return true;
+    } ) );
 
     // See http://personal.cityu.edu.hk/~bsapplec/heat.htm for temperature basis.
     // As we aren't modeling metabolic rate, assume 2 METS when not sleeping.
