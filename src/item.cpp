@@ -4202,11 +4202,11 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
 
 std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 {
-    if( !is_gun() ) {
-        return {};
-    }
-
     std::map<std::string, const item::gun_mode> res;
+
+    if( !is_gun() ) {
+        return res;
+    }
 
     auto opts = gunmods();
     opts.push_back( this );
