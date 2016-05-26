@@ -421,6 +421,10 @@
       [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ]
     ],
+    [
+	  [ "lightstrip_inactive", 1 ],
+      [ "light_bulb", 1 ]
+	],
     [ [ "cable", 10 ] ]
   ]
 },{
@@ -442,6 +446,35 @@
       [ "steel_chunk", 2 ],
       [ "scrap", 6 ]
     ],
+    [
+	  [ "lightstrip_inactive", 4 ],
+      [ "light_bulb", 4 ]
+	],
+    [ [ "cable", 10 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "car_headlight",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "mechanics",
+  "skills_required": [ "electronics", 1 ],
+  "difficulty": 2,
+  "time": 12000,
+  "reversible": true,
+  "decomp_learn": 1,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 2 ]],
+  "components": [
+    [ [ "amplifier", 2 ] ],
+    [
+      [ "plastic_chunk", 2 ],
+      [ "scrap", 3 ]
+    ],
+	[
+	  [ "lightstrip_inactive", 2 ],
+      [ "light_bulb", 2 ]
+	],
     [ [ "cable", 10 ] ]
   ]
 },{
