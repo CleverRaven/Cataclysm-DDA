@@ -767,7 +767,8 @@ void rotate_direction_cw(int &dx, int &dy) {
     // 1 2 5
     // 0 4 8
     // 3 6 7
-    dir_num = (int[]){1,2,5,0,4,8,3,6,7}[dir_num];
+    static const int rotate_direction_vec[] = { 1, 2, 5, 0, 4, 8, 3, 6, 7 };
+    dir_num = rotate_direction_vec[dir_num];
     // convert back to -1,0,+1
     dx = (dir_num%3)-1;
     dy = (dir_num/3)-1;

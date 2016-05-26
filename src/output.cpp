@@ -174,7 +174,7 @@ void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color bas
             iLength += iTempLen;
 
             if ( iLength > width ) {
-                sTempText = sTempText.substr(0, cursorx_to_position(sTempText.c_str(), iTempLen - (iLength - width) - 1, NULL, -1)) + "…";
+                sTempText = sTempText.substr(0, cursorx_to_position(sTempText.c_str(), iTempLen - (iLength - width) - 1, NULL, -1)) + "...";
             }
 
             sText += sColor + sTempText;
