@@ -2305,39 +2305,81 @@ void player::mod_stat( const std::string &stat, int modifier )
 
 std::string swim_cost_text(int moves)
 {
-    return string_format( ngettext( "Swimming costs %+d movement point. ",
-                                    "Swimming costs %+d movement points. ",
-                                     moves ),
-                          moves );
+    return string_format( ngettext( "Swimming costs %+d movement point. ", "Swimming costs %+d movement points. ", moves ), moves );
 }
 
 std::string run_cost_text(int moves)
 {
-    return string_format( ngettext( "Running costs %+d movement point. ",
-                                    "Running costs %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( ngettext( "Walking or running costs %+d movement point. ", "Walking or running costs %+d movement points. ", moves ), moves );
 }
 
 std::string reload_cost_text(int moves)
 {
-    return string_format( ngettext( "Reloading costs %+d movement point. ",
-                                    "Reloading costs %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( ngettext( "Reloading costs %+d movement point. ", "Reloading costs %+d movement points. ", moves ), moves );
 }
 
 std::string melee_cost_text(int moves)
 {
-    return string_format( ngettext( "Melee and thrown attacks cost %+d movement point. ",
-                                    "Melee and thrown attacks cost %+d movement points. ",
-                                    moves ),
-                          moves );
+    return string_format( ngettext( "Melee attacks cost %+d movement point. ", "Melee attacks cost %+d movement points. ", moves ), moves );
+}
+
+std::string thrown_cost_text(int moves)
+{
+    return string_format( ngettext( "Throwing costs %+d movement point. ", "Throwing costs %+d movement points. ", moves ), moves );
+}
+
+std::string item_handling_cost_text(int moves)
+{
+    return string_format( ngettext( "Handling or manipulating items costs %+d movement point.\n", "Handling or manipulating items costs %+d movement points.\n", moves ), moves );
+}
+
+std::string melee_stamina_cost_text( double stamina )
+{
+    return string_format( _( "Melee attacks cost %+.1f stamina. " ), stamina );
+}
+
+std::string stamina_regen_cost_text(int moves)
+{
+    return string_format( ngettext( "Stamina regeneration %+d point per turn.\n", "Stamina regeneration %+d points per turn.\n", ( moves == -1 ? 1 : 2 ) ), moves );
+}
+
+std::string ranged_penalty_text(double mod)
+{
+    return string_format( _( "Ranged penalty %+.0f. " ), mod );
+}
+
+std::string throwing_bonus_text(int mod)
+{
+    return string_format( _( "Throwing bonus %+d. " ), mod );
 }
 
 std::string dodge_skill_text(double mod)
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
+}
+
+// Used a pointer just to avoid touching player.h
+float calc_old_fall_damage_for_encumbrance_penalty( player *player, body_part body_part ) {
+    int torso_encumbrance = player->encumb(bp_torso);
+    int leg_l_encumbrance = player->encumb(bp_leg_l);
+    int leg_r_encumbrance = player->encumb(bp_leg_l);
+    if (body_part == bp_torso) { torso_encumbrance = 0; }
+    if (body_part == bp_leg_l) { leg_l_encumbrance = 0; }
+    if (body_part == bp_leg_r) { leg_r_encumbrance = 0; }
+    float previous_fall_damage = 1.0f;
+    float dex_dodge = player->dex_cur / 2 + player->get_skill_level( skill_dodge );
+    dex_dodge -= ( ( ( leg_l_encumbrance + leg_r_encumbrance ) / 2 ) + ( torso_encumbrance / 1 ) ) / 10;
+    dex_dodge = std::max( 0.0f, dex_dodge );
+    previous_fall_damage *= (100.0f - (dex_dodge * 4.0f)) / 100.0f;
+    if( player->has_trait("PARKOUR") ) {
+        previous_fall_damage *= 2.0f / 3.0f;
+    }
+    return previous_fall_damage;
+}
+
+std::string fall_damage_penalty_text(double unencumbered, double actual)
+{
+    return string_format( _( "Falling damage increases from %.0f%% to %.0f%%. " ), unencumbered, actual );
 }
 
 void player::disp_info()
@@ -2977,43 +3019,50 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
             werase(w_info);
             std::string s;
-            if (line == 0) {
+            if (line == 0) { //Torso
                 const int melee_roll_pen = std::max( -encumb( bp_torso ), -80 );
                 s += string_format( _("Melee attack rolls %+d%%; "), melee_roll_pen );
                 s += dodge_skill_text( - (encumb( bp_torso ) / 10));
                 s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - get_skill_level( skill_swimming ) * 3 ) );
                 s += melee_cost_text( encumb( bp_torso ) );
-            } else if (line == 1) { //Torso
+                s += thrown_cost_text( 2 * encumb( bp_torso ) );
+                s += fall_damage_penalty_text( calc_old_fall_damage_for_encumbrance_penalty( this, bp_torso ) * 100,
+                                               player::fall_damage_mod() * 100 );
+            } else if (line == 1) { //Head
                 s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
-            } else if (line == 2) { //Head
-                s += string_format(_("Perception %+d when checking traps or firing ranged weapons;\n"
-                                     "Perception %+.1f when throwing items."),
-                                   -(encumb(bp_eyes) / 10),
-                                   double(-(encumb(bp_eyes) / 10)) / 2);
-            } else if (line == 3) { //Eyes
-                s += _("Covering your mouth will make it more difficult to breathe and catch your breath.");
+            } else if (line == 2) { //Eyes
+                s += string_format( _( "Perception %+d when checking traps.\n" ), -encumb(bp_eyes) / 10 );
+                s += ranged_penalty_text( -6 * encumb( bp_eyes ) );
+                s += throwing_bonus_text( -encumb(bp_eyes) / 10 );
+            } else if (line == 3) { //Mouth
+                s += stamina_regen_cost_text( std::min( 9, -encumb(bp_mouth) / 10 ) );
+                s += string_format( _("Shouting volume %+d."), -encumb( bp_mouth ) * 3 / 2 );
             } else if (line == 4) { //Left Arm
-                s += _("Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.");
+                s += melee_stamina_cost_text( encumb( bp_arm_l ) / 5.0f);
+                s += ranged_penalty_text( 3 * encumb( bp_arm_l ) );
             } else if (line == 5) { //Right Arm
-                s += _("Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.");
+                s += melee_stamina_cost_text( encumb( bp_arm_r ) / 5.0f);
+                s += ranged_penalty_text( 3 * encumb( bp_arm_r ) );
             } else if (line == 6) { //Left Hand
-                s += _( "Reduces the speed at which you can handle or manipulate items\n" );
-                s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_l )/10) );
+                s += item_handling_cost_text( encumb( bp_hand_l ) );
+                s += throwing_bonus_text( -encumb( bp_hand_l ) / 10 );
                 s += melee_cost_text( encumb( bp_hand_l ) / 2 );
             } else if (line == 7) { //Right Hand
-                s += _( "Reduces the speed at which you can handle or manipulate items\n" );
-                s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
+                s += item_handling_cost_text( encumb( bp_hand_r ) );
+                s += throwing_bonus_text( -encumb( bp_hand_r ) / 10 );
                 s += melee_cost_text( encumb( bp_hand_r ) / 2 );
             } else if (line == 8) { //Left Leg
                 s += run_cost_text( int(encumb( bp_leg_l ) * 0.15) );
                 s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - get_skill_level( skill_swimming ) * 2 ) / 2 );
-                s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
+                s += dodge_skill_text( -(encumb( bp_leg_l ) / 20.0 ) );
+                s += fall_damage_penalty_text( calc_old_fall_damage_for_encumbrance_penalty( this, bp_leg_l ) * 100,
+                                               player::fall_damage_mod() * 100 );
             } else if (line == 9) { //Right Leg
                 s += run_cost_text( int(encumb( bp_leg_r ) * 0.15) );
                 s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - get_skill_level( skill_swimming ) * 2 ) / 2 );
-                s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
+                s += dodge_skill_text( -(encumb( bp_leg_r ) / 20.0 ) );
+                s += fall_damage_penalty_text( calc_old_fall_damage_for_encumbrance_penalty( this, bp_leg_r ) * 100,
+                                               player::fall_damage_mod() * 100 );
             } else if (line == 10) { //Left Foot
                 s += run_cost_text( int(encumb( bp_foot_l ) * 0.25) );
             } else if (line == 11) { //Right Foot
