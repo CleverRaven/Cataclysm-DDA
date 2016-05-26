@@ -2573,6 +2573,12 @@ void npc::on_load()
         update_body( cur, cur + 1 );
     }
 
+    if( dt > 0 ) {
+        // This ensures food is properly rotten at load
+        // Otherwise NPCs try to eat rotten food and fail
+        process_active_items();
+    }
+
     // Not necessarily true, but it's not a bad idea to set this
     has_new_items = true;
 }
