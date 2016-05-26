@@ -302,8 +302,12 @@ void draw_bullet_curses(WINDOW *const w, player &u, map &m, const tripoint &t,
 {
     const tripoint vp = u.pos() + u.view_offset;
 
-    if( p != nullptr ) {
+    if( p != nullptr && p->z == vp.z ) {
         m.drawsq( w, u, *p, false, true, vp );
+    }
+
+    if( vp.z != t.z ) {
+        return;
     }
 
     mvwputch(w, POSY + (t.y - vp.y), POSX + (t.x - vp.x), c_red, bullet);
