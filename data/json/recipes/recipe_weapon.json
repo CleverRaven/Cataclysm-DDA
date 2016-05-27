@@ -1756,7 +1756,7 @@
       [ "rag", 1 ]
     ]
     ]
-    },{
+  },{
     "type" : "recipe",
     "result": "acidbomb_small",
     "category": "CC_WEAPON",
@@ -1777,7 +1777,7 @@
       [ "rag", 1 ]
     ]
     ]
-    },{
+  },{
     "type" : "recipe",
     "result": "acidbomb_large",
     "category": "CC_WEAPON",
@@ -1800,7 +1800,7 @@
       [ "rag", 2 ]
     ]
     ]
-    },{
+  },{
   "type" : "recipe",
   "result": "grenade",
   "category": "CC_WEAPON",
