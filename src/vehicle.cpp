@@ -5827,7 +5827,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
         return dmg;
     }
 
-    dmg -= part_info( p ).damage_reduction[ type ];
+    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ type ] );
     int dres = dmg - parts[p].hp;
     int last_hp = parts[p].hp;
     parts[p].hp -= dmg;
