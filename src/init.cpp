@@ -374,6 +374,7 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
+    vpart_info::finalize();
     mission_type::initialize(); // Needs overmap terrain.
     set_ter_ids();
     set_furn_ids();

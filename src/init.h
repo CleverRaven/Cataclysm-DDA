@@ -8,6 +8,7 @@
 #include <memory>
 
 class Item_factory;
+class vpart_info;
 
 //********** Functor Base, Static and Class member accessors
 class TFunctor
@@ -112,6 +113,7 @@ template <class TClass> class ClassFunctionAccessor : public TFunctor
 class DynamicDataLoader
 {
         friend Item_factory;
+        friend vpart_info;
 
     public:
         typedef std::string type_string;

@@ -23,7 +23,7 @@
 class map;
 class player;
 class vehicle;
-struct vpart_info;
+class vpart_info;
 enum vpart_bitflags : int;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;

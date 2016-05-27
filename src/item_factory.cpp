@@ -19,6 +19,7 @@
 #include "artifact.h"
 #include "veh_type.h"
 #include "init.h"
+#include "generic_factory.h"
 #include "game.h"
 
 #include <algorithm>
@@ -869,60 +870,6 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo )
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
-/** Helpers to handle json entity inheritance logic in a generic way. **/
-template <typename T>
-typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, T& val ) {
-    T tmp;
-    if( jo.get_object( "relative" ).read( name, tmp ) ) {
-        val += tmp;
-        return true;
-    }
-
-    double scalar;
-    if( jo.get_object( "proportional" ).read( name, scalar ) && scalar > 0.0 ) {
-        val *= scalar;
-        return true;
-    }
-
-    return jo.read( name, val );
-}
-
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, T& val ) {
-    return jo.read( name, val );
-}
-
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, std::set<T>& val ) {
-
-    if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags<T>( name );
-        return true;
-    }
-
-    bool res = false;
-
-    auto add = jo.get_object( "extend" );
-    if( add.has_string( name ) || add.has_array( name ) ) {
-        auto tags = add.get_tags<T>( name );
-        val.insert( tags.begin(), tags.end() );
-        res = true;
-    }
-
-    auto del = jo.get_object( "delete" );
-    if( del.has_string( name ) || del.has_array( name ) ) {
-        for( const auto& e : del.get_tags<T>( name ) ) {
-            val.erase( e );
-        }
-        res = true;
-    }
-
-    return res;
-}
-
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
 {
     assign( jo, "ammo_type", slot.type );
@@ -1397,6 +1344,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "price_postapoc", new_item_template->price_post );
     assign( jo, "stack_size", new_item_template->stack_size );
     assign( jo, "integral_volume", new_item_template->integral_volume );
+    assign( jo, "color", new_item_template->color );
     assign( jo, "bashing", new_item_template->melee_dam );
     assign( jo, "cutting", new_item_template->melee_cut );
     assign( jo, "to_hit", new_item_template->m_to_hit );
