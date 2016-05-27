@@ -541,15 +541,16 @@ void game::wishskill( player *p )
             skmenu.ret = -2;
         } else if( skmenu.selected == skmenu.ret &&  sksel >= 0 && sksel < ( int )Skill::skills.size() ) {
             skill_id = sksel;
+            const int NUM_SKILL_LVL = 21;
             uimenu sksetmenu;
+            sksetmenu.w_height = NUM_SKILL_LVL + 4;
             sksetmenu.w_x = skmenu.w_x + skmenu.w_width + 1;
-            sksetmenu.w_y = skmenu.w_y + 2;
-            sksetmenu.w_height = skmenu.w_height - 4;
+            sksetmenu.w_y = std::max( 0, skmenu.w_y + ( skmenu.w_height - sksetmenu.w_height ) / 2 );
             sksetmenu.return_invalid = true;
             sksetmenu.settext( _( "Set '%s' to.." ), Skill::skills[skill_id].name().c_str() );
             int skcur = ( int )p->get_skill_level( Skill::skills[skill_id].ident() );
             sksetmenu.selected = skcur;
-            for( int i = 0; i < 21; i++ ) {
+            for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, ( skcur == i ? _( " (current)" ) : "" ) );
             }
             sksetmenu.query();
