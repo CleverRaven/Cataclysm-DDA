@@ -138,9 +138,14 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          */
         bool is_complete() const;
 
-        activity_type type = ACT_NULL; /** type of activity. */
-        int moves_total = 0; /** total moves required to complete activity */
-        int moves_left = 0; /** moves remaining before activity complete */
+         /** type of activity. */
+        activity_type type = ACT_NULL;
+
+        /** total moves required to complete activity */
+        int moves_total = 0;
+
+        /** moves remaining before activity complete */
+        int moves_left = 0;
 
         /*@{*/
         /** activity specific values */
@@ -158,7 +163,8 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         tripoint placement = tripoint_min;
         /*@}*/
 
-        bool ignore_trivial = false; /** @todo document field */
+        /** @todo document field */
+        bool ignore_trivial = false;
 
         /** If true, the player has been warned of dangerously close monsters with
          * respect to this activity. */
