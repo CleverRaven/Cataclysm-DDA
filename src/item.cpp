@@ -817,7 +817,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
     } else {
         const item *mod = this;
-        if( !is_gunmod() ) {
+        if( gun_current_mode()->is_gunmod() ) {
             mod = &*gun_current_mode();
             info.emplace_back( "DESCRIPTION", string_format( _( "Stats of the active <info>gunmod (%s)</info> are shown." ),
                                                              mod->tname().c_str() ) );
