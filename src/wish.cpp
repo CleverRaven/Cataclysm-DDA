@@ -568,8 +568,8 @@ void game::wishskill( player *p )
                 ( ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
         } else if( skmenu.ret == 0 && sksel == -1 ) {
-            int ret = menu( true, _( "Alter all skill values" ), _( "Add 3" ), _( "Add 1" ), _( "Substract 1" ),
-                            _( "Substract 3" ), _( "Set to 0" ),
+            int ret = menu( true, _( "Alter all skill values" ), _( "Add 3" ), _( "Add 1" ),
+                            _( "Substract 1" ), _( "Substract 3" ), _( "Set to 0" ),
                             _( "Set to 5" ), _( "Set to 10" ), _( "(Reset changes)" ), NULL );
             if( ret > 0 ) {
                 int skmod = 0;
