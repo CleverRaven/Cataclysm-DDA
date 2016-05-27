@@ -1482,6 +1482,9 @@ bool game::do_turn()
     monmove();
     update_stair_monsters();
     u.process_turn();
+    if (u.moves < 0) {
+        draw();
+    }
     u.process_active_items();
 
     if (get_levz() >= 0 && !u.is_underwater()) {
