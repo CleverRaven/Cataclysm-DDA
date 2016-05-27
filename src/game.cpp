@@ -10466,8 +10466,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     };
 
-    const bool is_infinite = liquid.charges == std::numeric_limits<long>::max();
-    const std::string liquid_name = is_infinite ? liquid.tname() : liquid.display_name( liquid.charges );
+    const std::string liquid_name = liquid.has_infinite_charges() ? liquid.tname() : liquid.display_name( liquid.charges );
 
     const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
     item * const cont = inv_map_for_liquid( liquid, text, radius );
@@ -10561,7 +10560,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
         // From infinite source to the ground somewhere else. The target has
         // infinite space and the liquid can not be used from there anyway.
-        if( is_infinite && source_pos != nullptr ) {
+        if( liquid.has_infinite_charges() && source_pos != nullptr ) {
             add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
             return;
         }

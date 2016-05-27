@@ -569,7 +569,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             break;
         case LST_INFINITE_MAP:
             liquid.deserialize( act.str_values.at( 0 ) );
-            liquid.charges = std::numeric_limits<long>::max();
+            liquid.charges = item::INFINITE_CHARGES;
             break;
         case LST_MAP_ITEM:
             if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {

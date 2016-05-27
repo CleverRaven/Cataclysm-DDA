@@ -1364,6 +1364,11 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
+        /**
+         * Returns true if the item has infinite charges
+         */
+        bool has_infinite_charges() const;
+
     private:
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
@@ -1376,6 +1381,8 @@ public:
         light_emission light = nolight;
 
 public:
+    static const long INFINITE_CHARGES;
+
      char invlet = 0;      // Inventory letter
      long charges;
      bool active = false; // If true, it has active effects to be processed

@@ -98,6 +98,8 @@ static const itype *nullitem()
     return &nullitem_m;
 }
 
+const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
+
 item::item()
 {
     type = nullitem();
@@ -5815,6 +5817,11 @@ std::string item::label( unsigned int quantity ) const
     }
 
     return type_name( quantity );
+}
+
+bool item::has_infinite_charges() const
+{
+    return charges == INFINITE_CHARGES;
 }
 
 item_category::item_category() : id(), name(), sort_rank( 0 )
