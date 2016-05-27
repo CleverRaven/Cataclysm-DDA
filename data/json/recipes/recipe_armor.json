@@ -3965,6 +3965,26 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sheet",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "tailor",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "sewing_kit", 50 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "blanket",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_OTHER",
