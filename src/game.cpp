@@ -4072,6 +4072,7 @@ void game::debug()
                        NULL );
     int veh_num;
     std::vector<std::string> opts;
+    refresh_all();
     switch( action ) {
         case 1:
             wishitem( &u );
