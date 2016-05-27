@@ -19,7 +19,9 @@
     "recoil": 120,
     "durability": 7,
     "reload": 400,
-    "burst": 25,
+    "modes": [
+      [ "DEFAULT", "auto", 25 ]
+    ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "308", [ "belt308" ] ],
@@ -48,6 +50,9 @@
     "durability": 7,
     "reload": 400,
     "burst": 20,
+    "modes": [
+      [ "DEFAULT", "auto", 20 ]
+    ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "magazines": [
       [ "308", [ "belt308" ] ],
@@ -104,6 +109,11 @@
     "recoil": 60,
     "durability": 8,
     "burst": 10,
+        "modes": [
+      [ "DEFAULT", "semi-auto", 1 ],
+      [ "BURST", "3 rd.", 3 ],
+      [ "AUTO", "auto", 10 ]
+    ],
     "magazines": [
       [ "308", [ "g3mag", "g3bigmag" ] ],
       [ "223", [ "stanag30", "stanag10", "stanag50" ] ]
