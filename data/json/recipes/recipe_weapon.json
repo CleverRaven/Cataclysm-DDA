@@ -1736,30 +1736,122 @@
     ]
   ]
 },{
-  "type" : "recipe",
-  "result": "acidbomb",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_EXPLOSIVE",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": true,
-  "components": [
+    "type" : "recipe",
+    "result": "acidbomb_micro",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 900,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+    [
+      [ "clay_canister", 1 ],
+      [ "flask_glass", 1 ]
+    ],[
+       [ "acid", 1 ]
+    ],[
+       [ "string_6", 1 ]
+    ],[
+       [ "rag", 1 ]
+    ]
+    ]
+    },{
+    "type" : "recipe",
+    "result": "acidbomb_small",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 1200,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
     [
       [ "jar_glass", 1 ],
-      [ "bottle_glass", 1 ],
       [ "clay_canister", 2 ],
       [ "flask_glass", 2 ]
-    ],
-    [
-      [ "acid", 2 ]
-    ],
-    [
-      [ "string_6", 1 ]
+    ],[
+       [ "acid", 2 ]
+    ],[
+       [ "string_6", 2 ]
+    ],[
+       [ "rag", 1 ]
     ]
-  ]
-},{
+    ]
+    },{
+    "type" : "recipe",
+    "result": "acidbomb_medium",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 1500,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+    [
+      [ "bottle_glass", 1 ],
+      [ "clay_canister", 3 ],
+      [ "flask_glass", 3 ]
+    ],[
+       [ "acid", 3 ]
+    ],[
+       [ "string_6", 2 ]
+    ],[
+       [ "rag", 2 ]
+    ]
+    ]
+    },{
+    "type" : "recipe",
+    "result": "acidbomb_large",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 1800,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+    [
+      [ "bottle_glass", 1 ]
+    ],[
+      [ "clay_canister", 1 ],
+      [ "flask_glass", 1 ]
+    ],[
+       [ "acid", 4 ]
+    ],[
+       [ "string_36", 1 ]
+    ],[
+       [ "rag", 2 ]
+    ]
+    ]
+    },{
+    "type" : "recipe",
+    "result": "acidbomb_large",
+    "id_suffix": "jar",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 1800,
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+    [
+      [ "jar_glass", 2 ],
+      [ "clay_canister", 4 ],
+      [ "flask_glass", 4 ]
+    ],[
+       [ "acid", 4 ]
+    ],[
+       [ "string_36", 1 ]
+    ],[
+       [ "rag", 3 ]
+    ]
+    ]
+    },{
   "type" : "recipe",
   "result": "grenade",
   "category": "CC_WEAPON",
