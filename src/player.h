@@ -685,8 +685,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the intensity of the specified addiction */
         int  addiction_level(add_type type) const;
 
-        /** Siphons fuel from the specified vehicle into the player's inventory */
-        bool siphon( vehicle &veh, const itype_id &desired_liquid );
+        /** Siphons fuel (if available) from the specified vehicle into container or
+         * similar via @ref game::handle_liquid. May start a player activity.
+         */
+        void siphon( vehicle &veh, const itype_id &desired_liquid );
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
