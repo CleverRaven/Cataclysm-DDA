@@ -33,6 +33,7 @@ class item_location::impl
         virtual void remove_item() = 0;
 
     protected:
+        /** prevent auto-incrementation of the uid via move construction */
         impl( item_uid &&id ) : id( std::move( id ) ) {}
 
         virtual item *target() const = 0;
