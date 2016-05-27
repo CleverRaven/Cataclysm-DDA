@@ -10468,25 +10468,6 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     const std::string liquid_name = liquid.has_infinite_charges() ? liquid.tname() : liquid.display_name( liquid.charges );
 
-    const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
-    item * const cont = inv_map_for_liquid( liquid, text, radius );
-    if( source != nullptr && cont == source ) {
-        add_msg( m_info, _( "That's the same container!" ) );
-        // The user has intended to do something, but mistyped.
-        return true;
-    }
-    if( cont != nullptr && !cont->is_null() ) {
-        const int item_index = u.get_item_position( cont );
-        // Currently activities can only store item position in the players inventory,
-        // not on ground or similar. TODO: implement storing arbitrary container locations.
-        if( item_index != INT_MIN && create_activity() ) {
-            serialize_liquid_target( u.activity, item_index );
-        } else if( u.pour_into( *cont, liquid ) ) {
-            u.mod_moves( -100 );
-        }
-        return true;
-    }
-
     uimenu menu;
     menu.return_invalid = true;
     if( source_pos != nullptr ) {
@@ -10496,15 +10477,40 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     } else {
         menu.text = string_format( _( "What to do with the %s?" ), liquid_name.c_str() );
     }
-    std::vector<std::function<void()>> actions;
+    std::vector<std::function<bool()>> actions;
 
     if( liquid.is_food( &u ) ) {
         menu.addentry( -1, true, 'e', _( "Consume it" ) );
         actions.emplace_back( [&]() {
             // consume_item already consumes moves.
             u.consume_item( liquid );
+            return true;
         } );
     }
+
+    menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
+    actions.emplace_back( [&]() {
+        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
+        item * const cont = inv_map_for_liquid( liquid, text, radius );
+
+        if( source != nullptr && cont == source ) {
+            add_msg( m_info, _( "That's the same container!" ) );
+            return true; // The user has intended to do something, but mistyped.
+        }
+        if( cont != nullptr && !cont->is_null() ) {
+            const int item_index = u.get_item_position( cont );
+            // Currently activities can only store item position in the players inventory,
+            // not on ground or similar. TODO: implement storing arbitrary container locations.
+            if( item_index != INT_MIN && create_activity() ) {
+                serialize_liquid_target( u.activity, item_index );
+            } else if( u.pour_into( *cont, liquid ) ) {
+                u.mod_moves( -100 );
+            }
+            return true;
+        }
+        add_msg( _( "Never mind." ) );
+        return false;
+    } );
 
     for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
         if( veh == source_veh ) {
@@ -10514,11 +10520,10 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         actions.emplace_back( [&, veh]() {
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, *veh );
-                return;
-            }
-            if( u.pour_into( *veh, liquid ) ) {
+            } else if( u.pour_into( *veh, liquid ) ) {
                 u.mod_moves( -100 );
             }
+            return true;
         } );
     }
 
@@ -10534,10 +10539,11 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         actions.emplace_back( [&, target_pos]() {
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, target_pos );
-                return;
+            } else {
+                iexamine::pour_into_keg( target_pos, liquid );
+                u.mod_moves( -100 );
             }
-            iexamine::pour_into_keg( target_pos, liquid );
-            u.mod_moves( -100 );
+            return true;
         } );
     }
 
@@ -10547,32 +10553,34 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         // infinite space and the liquid can not be used from there anyway.
         if( liquid.has_infinite_charges() && source_pos != nullptr ) {
             add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
-            return;
+            return false;
         }
 
         tripoint target_pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
+
         refresh_all();
         if( !choose_adjacent( liqstr, target_pos ) ) {
-            return;
+            return false;
         }
 
         if( source_pos != nullptr && *source_pos == target_pos ) {
             add_msg( m_info, _( "That's where you took it from!" ) );
-            return;
+            return false;
         }
         if( !m.can_put_items_ter_furn( target_pos ) ) {
             add_msg( m_info, _( "You can't pour there!" ) );
-            return;
+            return false;
         }
 
         if( create_activity() ) {
             serialize_liquid_target( u.activity, target_pos );
-            return;
+        } else {
+            m.add_item_or_charges( target_pos, liquid, 1 );
+            liquid.charges = 0;
+            u.mod_moves( -100 );
         }
-        m.add_item_or_charges( target_pos, liquid, 1 );
-        liquid.charges = 0;
-        u.mod_moves( -100 );
+        return true;
     } );
     if( liquid.rotten() ) {
         // Pre-select this one as it is the most likely one for rotten liquids
@@ -10584,14 +10592,15 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
 
     menu.query();
+    refresh_all();
     const size_t chosen = static_cast<size_t>( menu.ret );
     if( chosen >= actions.size() ) {
         add_msg( _( "Never mind." ) );
         // Explicitly canceled all options (container, drink, pour).
         return false;
     }
-    actions[chosen]();
-    return true;
+
+    return actions[chosen]();
 }
 
 void game::drop(int pos)
