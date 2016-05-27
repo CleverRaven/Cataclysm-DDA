@@ -228,9 +228,9 @@ void vpart_info::load( JsonObject &jo )
 
     if( jo.has_member( "damage_reduction" ) ) {
         JsonObject dred = jo.get_object( "damage_reduction" );
-        next_part.damage_reduction = load_damage_array( dred );
+        def.damage_reduction = load_damage_array( dred );
     } else {
-        next_part.damage_reduction.fill( 0.0f );
+        def.damage_reduction.fill( 0.0f );
     }
 
     if( jo.has_string( "abstract" ) ) {
