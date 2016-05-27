@@ -61,13 +61,12 @@ void game::do_blast( const tripoint &p, const float power,
     // 1 . 2
     // 6 4 8
     // 9 and 10 are up and down
-    constexpr std::array<int, 10> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1, 0,  0 }};
-    constexpr std::array<int, 10> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1, 0,  0 }};
-    constexpr std::array<int, 10> z_offset{{  0,  0,  0,  0,  0,  0,  0, 0, 1, -1 }};
+    static const int x_offset[10] = { -1, 1,  0, 0,  1, -1, -1, 1, 0, 0  };
+    static const int y_offset[10] = {  0, 0, -1, 1, -1,  1, -1, 1, 0, 0  };
+    static const int z_offset[10] = {  0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
     const size_t max_index = m.has_zlevels() ? 10 : 8;
 
-    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp >
-    open;
+    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp > open;
     std::set<tripoint> closed;
     std::map<tripoint, float> dist_map;
     open.push( std::make_pair( 0.0f, p ) );

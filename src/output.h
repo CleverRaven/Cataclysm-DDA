@@ -3,6 +3,7 @@
 
 #include "color.h"
 #include "cursesdef.h"
+#include "catacharset.h"
 #include <cstdarg>
 #include <string>
 #include <vector>
@@ -427,9 +428,39 @@ std::pair<std::string, nc_color> const& get_light_level(const float light);
  *    p - percentage of the entire bar which can be filled with c.
  *    c - character to fill the segment of the bar with
  */
+
 template<typename RatingIterator>
-std::string get_labeled_bar( const double val, const int width, const std::string &label,
-    RatingIterator begin, RatingIterator end );
+inline std::string get_labeled_bar(const double val, const int width, const std::string &label,
+    RatingIterator begin, RatingIterator end)
+{
+    std::string result;
+
+    result.reserve(width);
+    if (!label.empty()) {
+        result += label;
+        result += ' ';
+    }
+    const int bar_width = width - utf8_width(result) - 2; // - 2 for the brackets
+
+    result += '[';
+    if (bar_width > 0) {
+        int used_width = 0;
+        for (RatingIterator it(begin); it != end; ++it) {
+            const double factor = std::min(1.0, std::max(0.0, it->first * val));
+            const int seg_width = int(factor * bar_width) - used_width;
+
+            if (seg_width <= 0) {
+                continue;
+            }
+            used_width += seg_width;
+            result.insert(result.end(), seg_width, it->second);
+        }
+        result.insert(result.end(), bar_width - used_width, ' ');
+    }
+    result += ']';
+
+    return result;
+}
 
 /**
  * @return String containing the bar. Example: "Label [********    ]".
