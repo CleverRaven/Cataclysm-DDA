@@ -2704,8 +2704,8 @@
         "description" : "This is a serving of crisply brined and canned fish.  Tasty and nutritious.",
         "price" : 250, "//" : "Two charges per jar.",
         "material" : "flesh",
-        "volume" : 2,
-        "charges" : 2,
+        "volume" : 1,
+        "charges" : 1,
         "fun" : 7
     },
     {
@@ -8874,7 +8874,7 @@
         "description" : "Low-sodium preserved meat.  It was boiled and canned.  Contains all of the nutrition, but little of the savor of cooked meat.",
         "price" : 250,
         "material" : "flesh",
-        "volume" : 2,
+        "volume" : 1,
         "charges" : 1,
         "fun" : 2
     },
@@ -9908,8 +9908,8 @@
         "description" : "This is a serving of crisply brined and canned human flesh.  Tasty and nutritious if you're into that sort of thing.",
         "price" : 0,
         "material" : "hflesh",
-        "volume" : 4,
-        "charges" : 2,
+        "volume" : 1,
+        "charges" : 1,
         "fun" : 6
     },
     {   "type" : "AMMO",
