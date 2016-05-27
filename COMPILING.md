@@ -367,6 +367,14 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
+## Visual Studio
+
+MSVC 13 and earlier versions are likely unable to build Cataclysm, so we recommend you to use Visual Studio 2015. Project files are in `msvc140/` directory.
+
+Building Cataclysm with Visual Studio is very simple. Just build it like a normal Visual C++ project. The process may takes a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
+
+After building Cataclysm, you may discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1. That's because the wrong working directory. You need to configure the working directory to `$(ProjectDir)..`. It should be the root directory of Cataclysm, not where `.vcxproj` is stored.
+
 ## MinGW Guide
 To compile under windows MinGW you first need to download mingw. An automated GUI installer assistant called mingw-get-setup.exe will make everything a lot easier. I recommend installing it to `C:\MinGW`
 https://sourceforge.net/projects/mingw/files/latest/download
