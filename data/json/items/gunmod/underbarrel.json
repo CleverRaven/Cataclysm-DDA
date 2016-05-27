@@ -43,7 +43,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
-    "recoil_modifier": 45,
     "flags": [ "NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET" ]
   },
   {
@@ -141,7 +140,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
-    "recoil_modifier": 45,
     "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
   },
   {
@@ -160,7 +158,6 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol", "smg", "crossbow" ],
     "dispersion_modifier": 15,
-    "recoil_modifier": 45,
     "flags": [ "STAB", "BAYONET" ]
   },
   {
@@ -178,7 +175,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
-    "recoil_modifier": 105,
     "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
   },
   {
@@ -398,7 +394,6 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol", "smg", "crossbow" ],
     "dispersion_modifier": 15,
-    "recoil_modifier": 45,
     "flags": [ "STAB", "BAYONET" ]
   },
   {
@@ -447,7 +442,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
-    "recoil_modifier": 105,
     "flags": [ "NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET" ]
   },
   {
