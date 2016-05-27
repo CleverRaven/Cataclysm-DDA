@@ -22,11 +22,9 @@
             ["wine_cabernet",        1],
             ["wine_noir",            1],
             ["brandy",               5],
-            ["drink_boozeberry",     4],
             ["drink_rumcola",       50],
             ["drink_screwdriver",   45],
             ["drink_wild_apple",    20],
-            ["drink_strawberry_surprise", 25],
             ["long_island",         27]
         ]
     },
