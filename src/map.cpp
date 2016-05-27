@@ -3281,10 +3281,6 @@ void map::smash_items(const tripoint &p, const int power)
         // 10 * 20 / 40 = 5 vs 1
         // 5 damage (destruction)
 
-        field_id type_blood = fd_null;
-        if( i->is_corpse() ) {
-            type_blood = i->get_mtype()->bloodType();
-        }
         const bool by_charges = i->count_by_charges();
         // See if they were damaged
         if( by_charges ) {
@@ -3297,17 +3293,12 @@ void map::smash_items(const tripoint &p, const int power)
                 damage_chance -= material_factor;
             }
         } else {
+            const field_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
             while( ( damage_chance > material_factor ||
                      x_in_y( damage_chance, material_factor ) ) &&
-                   i->damage < MAX_ITEM_DAMAGE ) {
+                     i->damage < MAX_ITEM_DAMAGE ) {
                 i->damage++;
-                if( type_blood != fd_null ) {
-                    for( const tripoint &pt : points_in_radius( p, 1 ) ) {
-                        if( !one_in(damage_chance) ) {
-                            g->m.add_field( pt, type_blood, 1, 0 );
-                        }
-                    }
-                }
+                add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
             }
         }
@@ -5589,6 +5580,11 @@ bool map::add_field(const tripoint &p, const field_id t, int density, const int 
     }
 
     int lx, ly;
+
+    if( t == fd_null ) {
+        return false;
+    }
+
     submap *const current_submap = get_submap_at( p, lx, ly );
     current_submap->is_uniform = false;
 
@@ -5637,6 +5633,61 @@ void map::remove_field( const tripoint &p, const field_id field_to_remove )
                 set_pathfinding_cache_dirty( p.z );
                 break;
             }
+        }
+    }
+}
+
+void map::add_splatter( const field_id type, const tripoint &where, int intensity )
+{
+    if( intensity <= 0 ) {
+        return;
+    }
+    if( type == fd_blood || type == fd_gibs_flesh ) { // giblets are also good for painting
+        int anchor_part = -1;
+        vehicle* veh = veh_at( where, anchor_part );
+        if( veh != nullptr ) {
+            const int part = veh->part_displayed_at( veh->parts[anchor_part].mount.x,
+                                                     veh->parts[anchor_part].mount.y );
+            veh->parts[part].blood += 200 * std::min( intensity, 3 ) / 3;
+            return;
+        }
+    }
+    adjust_field_strength( where, type, intensity );
+}
+
+void map::add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to )
+{
+    if( type == fd_null ) {
+        return;
+    }
+    const auto trail = line_to( from, to );
+    int remainder = trail.size();
+    for( const auto &elem : trail ) {
+        add_splatter( type, elem );
+        remainder--;
+        if( impassable( elem ) ) { // Blood splatters stop at walls.
+            add_splatter( type, elem, remainder );
+            return;
+        }
+    }
+}
+
+void map::add_splatter_trail( const field_id type, const std::vector<tripoint> &trajectory, int length )
+{
+    if( length > 0 && !trajectory.empty() ) {
+        add_splatter_trail( type, trajectory.back(), shift_line_end( trajectory, length - 1 ) );
+    }
+}
+
+void map::add_splash( const field_id type, const tripoint &center, int radius, int density )
+{
+    if( type == fd_null ) {
+        return;
+    }
+    // TODO: use bresenham here and take obstacles into account
+    for( const tripoint &pnt : points_in_radius( center, radius ) ) {
+        if( trig_dist( pnt, center ) <= radius && !one_in( density ) ) {
+            add_splatter( type, pnt );
         }
     }
 }

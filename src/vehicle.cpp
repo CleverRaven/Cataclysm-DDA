@@ -4819,7 +4819,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
 
         if( part_flag( ret.part, "SHARP" ) ) {
-            g->m.adjust_field_strength( p, fd_blood, 1 );
+            critter->bleed();
         } else {
             sounds::sound( p, 20, snd );
         }

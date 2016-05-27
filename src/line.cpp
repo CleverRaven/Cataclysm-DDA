@@ -351,29 +351,37 @@ float get_normalized_angle( const point &start, const point &end )
     return min / max;
 }
 
-std::vector<point> continue_line(const std::vector<point> &line, const int distance)
+point shift_line_end( const std::vector<point> &line, const int distance )
 {
-    const point start = line.back();
-    point end = line.back();
-    const std::pair<double, double> slope = slope_of(line);
+    const point start( line.back() );
+    point end( line.back() );
+    const auto slope = slope_of( line );
     end.x += distance * slope.first;
     end.y += distance * slope.second;
-    return line_to( start, end, 0 );
+    return end;
+}
+
+tripoint shift_line_end( const std::vector<tripoint> &line, const int distance )
+{
+    // May want to optimize this, but it's called fairly infrequently as part of specific attack
+    // routines, erring on the side of readability.
+    const tripoint start( line.back() );
+    tripoint end( line.back() );
+    const auto slope = slope_of( line );
+    end.x += distance * slope.first.first;
+    end.y += distance * slope.first.second;
+    end.z += distance * slope.second;
+    return end;
+}
+
+std::vector<point> continue_line(const std::vector<point> &line, const int distance)
+{
+    return line_to( line.back(), shift_line_end( line, distance ) );
 }
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
 {
-    // May want to optimize this, but it's called fairly infrequently as part of specific attack
-    // routines, erring on the side of readability.
-    tripoint start( line.back() );
-    tripoint end( line.back() );
-    // slope <<x,y>,z>
-    std::pair<std::pair<double, double>, double> slope;
-    slope = slope_of(line);
-    end.x += int(distance * slope.first.first);
-    end.y += int(distance * slope.first.second);
-    end.z += int(distance * slope.second);
-    return line_to(start, end, 0, 0);
+    return line_to( line.back(), shift_line_end( line, distance ) );
 }
 
 direction direction_from(int const x, int const y, int const z) noexcept

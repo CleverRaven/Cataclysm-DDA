@@ -6473,7 +6473,7 @@ void player::hardcoded_effects(effect &it)
                                            _("<npcname> loses some blood.") );
             mod_pain(1);
             apply_damage( nullptr, bp, 1 );
-            g->m.add_field( pos(), playerBloodType(), 1, 0 );
+            bleed();
         }
     } else if( id == effect_hallu ) {
         // TODO: Redo this to allow for variable durations
@@ -13029,19 +13029,6 @@ void player::burn_move_stamina( int moves )
             mod_pain(1);
         }
     }
-}
-
-field_id player::playerBloodType() const
-{
-    if (has_trait("ACIDBLOOD"))
-        return fd_acid;
-    if (has_trait("THRESH_PLANT"))
-        return fd_blood_veggy;
-    if (has_trait("THRESH_INSECT") || has_trait("THRESH_SPIDER"))
-        return fd_blood_insect;
-    if (has_trait("THRESH_CEPHALOPOD"))
-        return fd_blood_invertebrate;
-    return fd_blood;
 }
 
 Creature::Attitude player::attitude_to( const Creature &other ) const

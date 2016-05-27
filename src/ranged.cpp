@@ -45,8 +45,6 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
 
-void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target = nullptr );
-
 struct aim_type {
     std::string name;
     std::string action;
@@ -94,6 +92,18 @@ int ranged_skill_offset( const skill_id &skill )
         return 135;
     } else if( skill == skill_throw ) {
         return 195;
+    }
+    return 0;
+}
+
+int blood_trail_len( int damage )
+{
+    if( damage > 50 ) {
+        return 3;
+    } else if( damage > 20 ) {
+        return 2;
+    } else if ( damage > 0 ) {
+        return 1;
     }
     return 0;
 }
@@ -283,7 +293,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                splatter( blood_traj, dealt_dam.total_damage(), critter );
+                g->m.add_splatter_trail( critter->bloodType(), blood_traj,
+                                         blood_trail_len( dealt_dam.total_damage() ) );
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
             } else {
@@ -1570,46 +1581,6 @@ int recoil_add( player& p, const item &gun, int shot )
     qty *= pow( 1.0 / sqrt( shot ), k );
 
     return p.recoil += std::max( qty, 0 );
-}
-
-void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target )
-{
-    if( dam <= 0 ) {
-        return;
-    }
-
-    if( !target->is_npc() && !target->is_player() ) {
-        //Check if the creature isn't an NPC or the player (so the cast works)
-        const monster *mon = dynamic_cast<const monster *>( target );
-        if( mon->is_hallucination() || !mon->made_of( material_id( "flesh" ) ) ) {
-            // If it is a hallucination or not made of flesh don't splatter the blood.
-            return;
-        }
-    }
-    field_id blood = fd_blood;
-    if( target != NULL ) {
-        blood = target->bloodType();
-    }
-    if (blood == fd_null) { //If there is no blood to splatter, return.
-        return;
-    }
-
-    int distance = 1;
-    if( dam > 50 ) {
-        distance = 3;
-    } else if( dam > 20 ) {
-        distance = 2;
-    }
-
-    std::vector<tripoint> spurt = continue_line( trajectory, distance );
-
-    for( auto &elem : spurt ) {
-        g->m.adjust_field_strength( elem, blood, 1 );
-        if( g->m.impassable( elem ) ) {
-            // Blood splatters stop at walls.
-            break;
-        }
-    }
 }
 
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )

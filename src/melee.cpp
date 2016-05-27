@@ -1723,11 +1723,6 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     const float wear_modifier = !t.is_hallucination() ? 1.0f : 0.0f;
     handle_melee_wear( weapon, wear_modifier );
 
-    bool is_hallucination = false; //Check if the target is an hallucination.
-    if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
-        is_hallucination = m->is_hallucination();
-    }
-
     // The skill used to counter stuck penalty
     const bool stab = d.type_damage(DT_STAB) > d.type_damage(DT_CUT);
     int used_skill = stab ? get_skill_level( skill_stabbing ) : get_skill_level( skill_cutting );
@@ -1740,28 +1735,11 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
     if (d.total_damage() > 10 && weapon.has_flag("MESSY") ) { //Check if you do non minor damage
         cutting_penalty /= 6; // Harder to get stuck
-        //Get blood type.
-        field_id type_blood = fd_blood;
-        if( !is_hallucination ) {
-            type_blood = t.bloodType();
-        } else {
-            type_blood = fd_null;
-        }
-        if(type_blood != fd_null) {
-            tripoint tmp;
-            tmp.z = tarpos.z;
-            for( tmp.x = tarpos.x - 1; tmp.x <= tarpos.x + 1; tmp.x++ ) {
-                for( tmp.y = tarpos.y - 1; tmp.y <= tarpos.y + 1; tmp.y++ ) {
-                    if( !one_in(3) ) {
-                        g->m.add_field( tmp, type_blood, 1, 0 );
-                    }
-                }
-            }
-        }
+        g->m.add_splash( t.bloodType(), tarpos, 1, 3 );
     }
     // Getting your weapon stuck
     ///\EFFECT_STR decreases chance of getting weapon stuck
-    if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination) {
+    if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !t.is_hallucination()) {
         dump << string_format(_("Your %1$s gets stuck in %2$s, pulling it out of your hands!"),
                               weapon.tname().c_str(), target.c_str());
         // TODO: better speed debuffs for target, possibly through effects
@@ -1789,7 +1767,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
             ///\EFFECT_CUTTING reduces chance of weapon getting stuck, if CUTTING>STABBING
             cutting_penalty -= rng( used_skill, used_skill * 2 + 2 );
         }
-        if( cutting_penalty >= 50 && !is_hallucination ) {
+        if( cutting_penalty >= 50 && !t.is_hallucination() ) {
             dump << string_format(_("Your %1$s gets stuck in %2$s but you yank it free!"), weapon.tname().c_str(),
                                   target.c_str());
         }
@@ -1801,7 +1779,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
             t.mod_moves(-30);
         }
     }
-    if( cutting_penalty > 0 && !is_hallucination ) {
+    if( cutting_penalty > 0 && !t.is_hallucination() ) {
         // Don't charge more than 1 turn of stuck penalty
         // It scales with attack time and low attack time is bad enough on its own
         mod_moves( std::max( -100, -cutting_penalty ) );
