@@ -846,7 +846,8 @@ class string_id_reader : public generic_typed_reader<string_id_reader<T>>
 
 template <typename T>
 typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
-    JsonObject& jo, const std::string& name, T& val ) {
+    JsonObject &jo, const std::string &name, T &val )
+{
 
     T tmp;
     if( jo.get_object( "relative" ).read( name, tmp ) ) {
@@ -865,13 +866,15 @@ typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject& jo, const std::string& name, T& val ) {
+    JsonObject &jo, const std::string &name, T &val )
+{
 
     return jo.read( name, val );
 }
 
 template <typename T>
-bool assign( JsonObject& jo, const std::string& name, nc_color& val ) {
+bool assign( JsonObject &jo, const std::string &name, nc_color &val )
+{
     if( jo.has_string( name ) ) {
         val = color_from_string( jo.get_string( name ) );
         return true;
@@ -881,7 +884,8 @@ bool assign( JsonObject& jo, const std::string& name, nc_color& val ) {
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject& jo, const std::string& name, std::set<T>& val ) {
+    JsonObject &jo, const std::string &name, std::set<T> &val )
+{
 
     if( jo.has_string( name ) || jo.has_array( name ) ) {
         val = jo.get_tags<T>( name );
@@ -899,7 +903,7 @@ typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::typ
 
     auto del = jo.get_object( "delete" );
     if( del.has_string( name ) || del.has_array( name ) ) {
-        for( const auto& e : del.get_tags<T>( name ) ) {
+        for( const auto &e : del.get_tags<T>( name ) ) {
             val.erase( e );
         }
         res = true;

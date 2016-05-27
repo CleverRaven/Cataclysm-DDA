@@ -70,7 +70,8 @@ enum vpart_bitflags : int {
  * VARIABLE_SIZE - Has 'bigness' for power, wheel radius, etc
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
-class vpart_info {
+class vpart_info
+{
     public:
         /** Unique identifier for this part */
         vpart_str_id id;
