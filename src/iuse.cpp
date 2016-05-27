@@ -5158,34 +5158,31 @@ int iuse::boltcutters(player *p, item *it, bool, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::mop(player *p, item *it, bool, const tripoint& )
+int iuse::mop( player *p, item *it, bool, const tripoint & )
 {
     int dirx, diry;
-    if (!choose_adjacent(_("Mop where?"), dirx, diry)) {
+    if( !choose_adjacent( _( "Mop where?" ), dirx, diry ) ) {
         return 0;
     }
 
     tripoint dirp( dirx, diry, p->posz() );
-    if (dirx == p->posx() && diry == p->posy()) {
-        p->add_msg_if_player(_("You mop yourself up."));
-        p->add_msg_if_player(_("The universe implodes and reforms around you."));
+    if( dirx == p->posx() && diry == p->posy() ) {
+        p->add_msg_if_player( _( "You mop yourself up." ) );
+        p->add_msg_if_player( _( "The universe implodes and reforms around you." ) );
         return 0;
     }
-    if (p->is_blind()) {
-        add_msg(_("You move the mop around, unsure whether it's doing any good."));
+    if( p->is_blind() ) {
+        add_msg( _( "You move the mop around, unsure whether it's doing any good." ) );
         p->moves -= 15;
-        if (one_in(3) && g->m.moppable_items_at( dirp )) {
+        if( one_in( 3 ) ) {
             g->m.mop_spills( dirp );
         }
+    } else if( g->m.mop_spills( dirp ) ) {
+        add_msg( _( "You mop up the spill." ) );
+        p->moves -= 15;
     } else {
-        if (g->m.moppable_items_at( dirp )) {
-            g->m.mop_spills( dirp );
-            add_msg(_("You mop up the spill."));
-            p->moves -= 15;
-        } else {
-            p->add_msg_if_player(m_info, _("There's nothing to mop there."));
-            return 0;
-        }
+        p->add_msg_if_player( m_info, _( "There's nothing to mop there." ) );
+        return 0;
     }
     return it->type->charges_to_use();
 }
