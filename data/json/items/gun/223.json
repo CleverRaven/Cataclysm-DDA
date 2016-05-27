@@ -235,7 +235,6 @@
     "recoil": 90,
     "durability": 7,
     "reload": 400,
-    "burst": 30,
     "modes": [
       [ "DEFAULT", "auto", 30 ]
     ],
