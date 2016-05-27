@@ -5,6 +5,7 @@
 #include "int_id.h"
 #include "enums.h"
 #include "color.h"
+#include "damage.h"
 
 #include <vector>
 #include <bitset>
@@ -142,6 +143,9 @@ class vpart_info
             int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
             int bonus;      // seatbelt (str), muffler (%), horn (vol)
         };
+
+        /** Flat decrease of damage of a given type. */
+        std::array<float, NUM_DT> damage_reduction;
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */

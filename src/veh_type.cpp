@@ -132,6 +132,7 @@ int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
 {
 }
 
+
 /**
  * Reads in a vehicle part from a JsonObject.
  */
@@ -225,6 +226,13 @@ void vpart_info::load( JsonObject &jo )
         def.par1 = 0;
     }
 
+    if( jo.has_member( "damage_reduction" ) ) {
+        JsonObject dred = jo.get_object( "damage_reduction" );
+        def.damage_reduction = load_damage_array( dred );
+    } else {
+        def.damage_reduction.fill( 0.0f );
+    }
+
     if( jo.has_string( "abstract" ) ) {
         abstract_parts[ def.id ] = def;
         return;
@@ -242,7 +250,7 @@ void vpart_info::load( JsonObject &jo )
         vpart_info &new_entry = vehicle_part_types[ def.id ];
         new_entry = def;
         vehicle_part_int_types.push_back( &new_entry );
-    }
+    }    
 }
 
 void vpart_info::set_flag( const std::string &flag )
