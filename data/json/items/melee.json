@@ -54,7 +54,7 @@
         "price": 55000,
         "material": "wood",
         "techniques": ["RAPID", "WBLOCK_2"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "SHEATH_SWORD"],
         "weight": 1133,
         "volume": 8,
         "//" : "MA reference I used held that a bokken crushes rather than cuts (or impales) but is otherwise just as damaging as a katana.  Nerfed by popular demand.",
