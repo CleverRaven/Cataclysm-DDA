@@ -684,6 +684,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -728,6 +729,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -971,7 +973,7 @@
   "type" : "recipe",
   "result": "protein_powder",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_DRY",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 12000,
@@ -997,7 +999,7 @@
   "type" : "recipe",
   "result": "hflesh_powder",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_DRY",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 12000,
@@ -1621,6 +1623,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -1724,6 +1727,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -1909,7 +1913,10 @@
       [ "rehydrated_fish", 2],
       [ "fish_canned", 2],
       [ "can_salmon", 2],
-      [ "can_tuna", 2]
+      [ "can_tuna", 2],
+      [ "bacon", 2 ],
+      [ "spam", 1 ],
+      [ "sausage", 1 ]
     ],
     [
       [ "cheese", 1 ],
@@ -3224,7 +3231,7 @@
   "difficulty": 4,
   "time": 40000,
   "reversible": false,
-  "autolearn": true,
+  "book_learn": [ [ "cookbook_human", 4 ] ],
   "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -3957,6 +3964,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
@@ -7997,6 +8005,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
@@ -8977,9 +8986,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
-      [ "biscuit", 2 ],
-      [ "tortilla_corn", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2]
@@ -9076,9 +9083,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
-      [ "biscuit", 2 ],
-      [ "tortilla_corn", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2]
@@ -9839,7 +9844,10 @@
     [
       [ "meat_cooked", 1 ],
       [ "lunchmeat", 4 ],
-      [ "bologna", 5 ]
+      [ "bologna", 5 ],
+      [ "bacon", 2 ],
+      [ "fried_spam", 2 ],
+      [ "sausage", 1 ]
     ]
   ]
 },{
@@ -11551,6 +11559,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
@@ -11738,11 +11747,9 @@
   "components": [
     [
       [ "flatbread", 2 ],
-      [ "tortilla_corn", 2 ],
-      [ "johnnycake", 2 ],
+      [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
-      [ "bread", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cucumber", 1 ],
@@ -12114,8 +12121,7 @@
       [ "india_pale_ale", 1 ],
       [ "stout", 1 ],
       [ "belgian_ale", 1 ],
-      [ "imperial_stout", 1 ],
-      [ "rootbeer", 1 ]
+      [ "imperial_stout", 1 ]
     ],
     [
       [ "whiskey", 1 ],
