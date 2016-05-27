@@ -4068,6 +4068,26 @@ int iuse::c4(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
+{
+    if( !p->has_item( *it ) ) {
+        tripoint tmp = pos;
+        int &x = tmp.x;
+        int &y = tmp.y;
+        if (tmp.x == -999) {
+            tmp = p->pos();
+        }
+        it->charges = -1;
+        for ( x = pos.x - 1; x <= pos.x + 1; x++) {
+            for ( y = pos.y - 1; y <= pos.y + 1; y++) {
+                g->m.add_field( tmp, fd_acid, 3, 0 );
+            }
+        }
+    }
+    return 0;
+}
+
+
 int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
 {
     if (pos.x == -999 || pos.y == -999) {
