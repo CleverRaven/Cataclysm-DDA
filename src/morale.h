@@ -142,7 +142,7 @@ class player_morale
             body_part_data() :
                 covered( 0 ),
                 fancy( 0 ),
-                filthy ( 0 ),
+                filthy( 0 ),
                 hot( 0 ),
                 cold( 0 ) {};
         };
