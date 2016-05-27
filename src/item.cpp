@@ -103,7 +103,7 @@ item::item()
     type = nullitem();
 }
 
-item::item( const itype *type, int turn, int qty ) : type( type )
+item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
@@ -154,7 +154,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
     }
 }
 
-item::item( const itype_id& id, int turn, int qty )
+item::item( const itype_id& id, int turn, long qty )
     : item( find_type( id ), turn, qty ) {}
 
 item::item( const itype *type, int turn, default_charges_tag )
