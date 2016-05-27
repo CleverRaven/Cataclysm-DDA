@@ -5850,13 +5850,15 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
 void vehicle::leak_fuel( int p )
 {
+    // @todo The whole function is quite ugly, needs a rewrite
+    // @todo Move leak data to a json
+    // @tood Make leaked fuel amount correlate more with fuel amount in tank
     if( !part_flag( p, "FUEL_TANK" ) ) {
         return;
     }
 
     const itype_id &ft = part_info( p ).fuel_type;
 
-    // @todo Move leak data to json
     if( ft != fuel_type_gasoline && ft != fuel_type_diesel ) {
         parts[p].amount = 0;
         return;
