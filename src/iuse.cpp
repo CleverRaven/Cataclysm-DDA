@@ -8074,7 +8074,8 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else if ( g->m.has_nearby_water( g->u.pos() ) ) {
         int pos = g->inv_for_filter( _( "Wash what?" ), []( const item & itm ) {
-            return itm.has_flag( "FILTHY" ); } );
+            return itm.has_flag( "FILTHY" ); 
+        } );
     item &mod = p->i_at( pos );
     if( mod.is_null() ) {
         p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
