@@ -4087,7 +4087,6 @@ int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
     return 0;
 }
 
-
 int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
 {
     if (pos.x == -999 || pos.y == -999) {
