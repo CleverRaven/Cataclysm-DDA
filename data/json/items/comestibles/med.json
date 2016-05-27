@@ -1144,6 +1144,7 @@
         "price" : 5000, "//" : "Yeah, kinda guessing at these ones.",
         "stack_size" : 40,
         "material" : "plastic",
+        "flags" : "TRADER_AVOID",
         "symbol" : "!",
         "color" : "magenta",
         "use_action" : "VACCINE"

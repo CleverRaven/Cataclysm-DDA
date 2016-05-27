@@ -91,7 +91,7 @@
       "reload": 100
     },
     "dispersion_modifier": 15,
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "TRADER_AVOID" ]
   },
   {
     "id": "combination_gun_shotgun_pipe",

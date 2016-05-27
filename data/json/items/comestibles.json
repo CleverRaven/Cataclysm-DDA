@@ -2905,6 +2905,7 @@
         "description" : "A nutrient rich chunk of plant matter, could be eaten raw or cooked.",
         "price" : 600,
         "material" : "veggy",
+        "flags" : "TRADER_AVOID",
         "volume" : 1,
         "charges" : 1,
         "fun" : 0
@@ -3110,6 +3111,7 @@
         "description" : "Meat that's obviously unhealthy.  You could eat it, but it will poison you.",
         "price" : 0,
         "material" : "flesh",
+        "flags" : "TRADER_AVOID",
         "volume" : 1,
         "charges" : 1,
         "fun" : -10
@@ -3230,6 +3232,7 @@
         "description" : "Vegetable that looks poisonous.  You could eat it, but it will poison you.",
         "price" : 0,
         "material" : "veggy",
+        "flags": "TRADER_AVOID",
         "volume" : 1,
         "charges" : 1,
         "fun" : 0
@@ -3632,7 +3635,7 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
         "fun" : 0
     },
     {
@@ -4890,7 +4893,7 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
-        "flags" : "HIDDEN_POISON",
+        "flags" : ["HIDDEN_POISON", "TRADER_AVOID"],
         "fun" : -3
     },
     {
@@ -6243,7 +6246,7 @@
         "material" : "wheat",
         "volume" : 6,
         "charges" : 2,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
         "fun" : 0
     },
     {
@@ -6303,7 +6306,7 @@
         "material" : ["wheat", "milk"],
         "volume" : 4,
         "charges" : 2,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "TRADER_AVOID"],
         "fun" : 5
     },
     {
@@ -6840,7 +6843,7 @@
         "color" : "pink",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
-        "flags" : ["MUTAGEN_WEAK"],
+        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -6862,7 +6865,7 @@
         "color" : "brown",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
-        "flags" : ["MUTAGEN_WEAK"],
+        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -6884,7 +6887,7 @@
         "color" : "brown",
         "spoils_in" : 48,
         "use_action" : "MUTAGEN",
-        "flags" : ["MUTAGEN_WEAK"],
+        "flags" : ["MUTAGEN_WEAK", "TRADER_AVOID"],
         "comestible_type" : "FOOD",
         "symbol" : "%",
         "quench" : 0,
@@ -11803,6 +11806,7 @@
         "description" : "A carefully folded raw skin harvested from an animal.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
         "price" : 50,
         "material" : "flesh",
+        "flags" : "TRADER_AVOID",
         "volume" : 5,
         "charges" : 1,
         "stack_size" : 1,
@@ -11866,7 +11870,7 @@
         "description" : "A carefully folded raw skin harvested from a fur-bearing animal.  It still has the fur attached.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
         "price" : 50,
         "material" : ["fur", "flesh"],
-        "flags": ["NO_SALVAGE"],
+        "flags": ["NO_SALVAGE", "TRADER_AVOID"],
         "volume" : 5,
         "charges" : 1,
         "stack_size" : 1,
