@@ -3052,7 +3052,7 @@
         "target_charges": 0,
         "active": true
     }
-  }
+  },
   {
     "id": "acidbomb_micro_act",
     "type": "TOOL",
