@@ -12,9 +12,10 @@ class map_cursor;
 class vehicle_cursor;
 
 /**
- * A class for easy removal of used items.
- * Ensures the item exists, but not that the character/vehicle does.
- * Should not be kept, but removed before the end of turn.
+ * A lightweight handle to an item independent of it's location
+ * Unlike a raw pointer can be (de-)serialized to/from JSON
+ * Provides a generic interface of querying, obtaining and removing an item
+ * Is invalidated by many operations (including copying of the item)
  */
 class item_location : public JsonSerializer, public JsonDeserializer
 {
