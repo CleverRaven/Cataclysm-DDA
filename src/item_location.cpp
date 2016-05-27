@@ -70,6 +70,10 @@ class item_location::item_on_map : public item_location::impl
                 }
                 return VisitResponse::NEXT;
             } );
+
+            if( !what ) {
+                debugmsg( "Missing item with uid=%lld", id.val );
+            }
             return what;
         }
 
