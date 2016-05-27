@@ -546,7 +546,7 @@ void game::wishskill( player *p )
             sksetmenu.w_y = skmenu.w_y + 2;
             sksetmenu.w_height = skmenu.w_height - 4;
             sksetmenu.return_invalid = true;
-            sksetmenu.settext( _( "Set '%s' to.." ), Skill::skills[skill_id].ident().c_str() );
+            sksetmenu.settext( _( "Set '%s' to.." ), Skill::skills[skill_id].name().c_str() );
             int skcur = ( int )p->get_skill_level( Skill::skills[skill_id].ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < 21; i++ ) {
@@ -559,11 +559,11 @@ void game::wishskill( player *p )
         if( skset != UIMENU_INVALID && skset != -1 && skill_id != -1 ) {
             p->set_skill_level( Skill::skills[skill_id].ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
-                                      Skill::skills[skill_id].ident().c_str(),
+                                      Skill::skills[skill_id].name().c_str(),
                                       ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) ).substr( 0, skmenu.w_width - 4 );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                     ( int )p->get_skill_level( Skill::skills[skill_id].ident() ),
-                    Skill::skills[skill_id].ident().c_str() );
+                    Skill::skills[skill_id].name().c_str() );
             skmenu.entries[skill_id + skoffset].text_color =
                 ( ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
                   skmenu.text_color : c_yellow );
@@ -585,7 +585,7 @@ void game::wishskill( player *p )
                     p->set_skill_level( Skill::skills[skill_id].ident(), changeto );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
                             ( int )p->get_skill_level( Skill::skills[skill_id].ident() ),
-                            Skill::skills[skill_id].ident().c_str() );
+                            Skill::skills[skill_id].name().c_str() );
                     skmenu.entries[skill_id + skoffset].text_color =
                         ( ( int )p->get_skill_level( Skill::skills[skill_id].ident() ) == origskills[skill_id] ?
                           skmenu.text_color : c_yellow );
