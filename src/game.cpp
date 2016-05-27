@@ -10543,6 +10543,13 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
 
     menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
     actions.emplace_back( [&]() {
+        // From infinite source to the ground somewhere else. The target has
+        // infinite space and the liquid can not be used from there anyway.
+        if( liquid.has_infinite_charges() && source_pos != nullptr ) {
+            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
+            return;
+        }
+
         tripoint target_pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
         refresh_all();
@@ -10556,12 +10563,6 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
         if( !m.can_put_items_ter_furn( target_pos ) ) {
             add_msg( m_info, _( "You can't pour there!" ) );
-            return;
-        }
-        // From infinite source to the ground somewhere else. The target has
-        // infinite space and the liquid can not be used from there anyway.
-        if( liquid.has_infinite_charges() && source_pos != nullptr ) {
-            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
             return;
         }
 
