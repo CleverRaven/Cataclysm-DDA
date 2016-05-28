@@ -154,7 +154,8 @@ void draw_description( WINDOW *win, bionic const &bio )
     wrefresh( win );
 }
 
-void draw_connectors( WINDOW *win, const int start_y, const int last_x, const std::string &bio_id )
+void draw_connectors( WINDOW *win, const int start_y, const int start_x, const int last_x,
+                      const std::string &bio_id )
 {
     const int LIST_START_Y = 6;
     // first: pos_y, second: occupied slots
@@ -167,8 +168,7 @@ void draw_connectors( WINDOW *win, const int start_y, const int last_x, const st
     }
 
     // draw horizontal line from selected bionic
-    const int start_x = utf8_width( bionic_info( bio_id ).name ) + 5;
-    const int turn_x = start_x + ( last_x - start_x ) / 2;
+    const int turn_x = start_x + ( last_x - start_x ) * 2 / 3;
     mvwputch( win, start_y, start_x, BORDER_COLOR, '>' );
     mvwhline( win, start_y, start_x + 1, LINE_OXOX, turn_x - start_x - 1 );
 
@@ -211,7 +211,9 @@ void draw_connectors( WINDOW *win, const int start_y, const int last_x, const st
         mvwputch( win, y, last_x, BORDER_COLOR, '<' );
 
         // draw amount of consumed slots by this cbm
-        mvwprintz( win, y, turn_x + ( last_x - turn_x ) / 2, c_yellow, "(%d)", elem.second );
+        const std::string fmt_num = string_format( "(%d)", elem.second );
+        mvwprintz( win, y, turn_x + std::max( 1, ( last_x - turn_x - utf8_width( fmt_num ) ) / 2 ),
+                   c_yellow, "%s", fmt_num.c_str() );
     }
 
     // define and draw a proper intersection character
@@ -418,6 +420,13 @@ void player::power_bionics()
                         break;
                     }
                     const bool is_highlighted = cursor == static_cast<int>( i );
+                    const nc_color col = get_bionic_text_color( *( *current_bionic_list )[i],
+                                         is_highlighted );
+                    const std::string desc = string_format( "%c %s", ( *current_bionic_list )[i]->invlet,
+                                                            build_bionic_powerdesc_string(
+                                                                    *( *current_bionic_list )[i] ).c_str() );
+                    trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
+                                    "%s", desc.c_str() );
                     // draw bodyparts
                     if( is_highlighted && menu_mode != EXAMINING ) {
                         int max_width = 0;
@@ -431,22 +440,19 @@ void player::power_bionics()
                                                                  total );
                             bps.push_back( s );
                             max_width = std::max( max_width, utf8_width( s ) );
-
                         }
                         const int pos_x = WIDTH - 2 - max_width;
                         const std::string bio_id = ( *current_bionic_list )[i]->id;
-                        draw_connectors( wBio, list_start_y + i - scroll_position, pos_x - 2, bio_id );
+                        draw_connectors( wBio, list_start_y + i - scroll_position, utf8_width( desc ) + 3,
+                                         pos_x - 2, bio_id );
+
                         for( int i = 0; i < num_bp; ++i ) {
                             mvwprintz( wBio, i + list_start_y, pos_x,
                                        bionic_info( bio_id ).occupied_bodyparts.count( bp_aBodyPart[i] ) > 0 ?
                                        c_yellow : c_ltgray, "%s", bps[i].c_str() );
                         }
                     }
-                    const nc_color col = get_bionic_text_color( *( *current_bionic_list )[i],
-                                         is_highlighted );
-                    const std::string desc = build_bionic_powerdesc_string( *( *current_bionic_list )[i] );
-                    trim_and_print( wBio, list_start_y + i - scroll_position, 2, WIDTH - 3, col,
-                                    "%c %s", ( *current_bionic_list )[i]->invlet, desc.c_str() );
+
                 }
             }
 
