@@ -83,9 +83,9 @@ std::string build_bionic_poweronly_string( bionic const &bio )
     if( bionic_info( bio.id ).power_over_time > 0 && bionic_info( bio.id ).charge_time > 0 ) {
         power_desc << (
                        bionic_info( bio.id ).charge_time == 1
-                       ? string_format( _( "%d PU / turn" ),
+                       ? string_format( _( "%d PU/turn" ),
                                         bionic_info( bio.id ).power_over_time )
-                       : string_format( _( "%d PU / %d turns" ),
+                       : string_format( _( "%d PU/%d turns" ),
                                         bionic_info( bio.id ).power_over_time,
                                         bionic_info( bio.id ).charge_time ) );
     }
