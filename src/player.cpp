@@ -151,6 +151,8 @@ const efftype_id effect_nausea( "nausea" );
 
 const matype_id style_none( "style_none" );
 
+const vitamin_id vitamin_iron( "iron" );
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
 
@@ -6471,6 +6473,8 @@ void player::hardcoded_effects(effect &it)
         if ( one_in(6 / intense) && activity.type != ACT_FIRSTAID ) {
             add_msg_player_or_npc(m_bad, _("You lose some blood."),
                                            _("<npcname> loses some blood.") );
+            // Prolonged haemorrhage is a significant risk for developing anaemia
+            vitamin_mod( vitamin_iron, rng( -1, -4 ) );
             mod_pain(1);
             apply_damage( nullptr, bp, 1 );
             bleed();
