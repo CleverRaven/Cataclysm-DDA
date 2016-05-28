@@ -1,21 +1,25 @@
 #include "uuid.h"
 
 #include <random>
+#include <limits>
 #include <sstream>
 #include <iomanip>
 
 static std::random_device rd;
-static std::mt19937 gen;
+static std::mt19937 eng;
+
+/** use a distribution as mt19937 only guarantees minimum (not exactly) 32 bits */
+static std::uniform_int_distribution<> distrib( 0, std::numeric_limits<uint32_t>::max() );
 
 static inline void gen_uuid4( uint32_t *data ) {
-	data[ 0 ] = gen();
-	data[ 1 ] = gen();
-	data[ 2 ] = gen();
-	data[ 3 ] = gen();
+	data[ 0 ] = distrib( eng );
+	data[ 1 ] = distrib( eng );
+	data[ 2 ] = distrib( eng );
+	data[ 3 ] = distrib( eng );
 }
 
 void uuid::init() {
-	gen.seed( rd() );
+	eng.seed( rd() );
 }
 
 uuid::uuid() {
