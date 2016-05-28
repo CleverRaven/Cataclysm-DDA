@@ -503,7 +503,7 @@
       { "monster" : "mon_zombie_hollow", "freq" : 3, "cost_multiplier" : 10, "starts" :  2 },
 
       { "monster" : "mon_beekeeper", "freq" : 1, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_technician", "freq" : 2, "cost_multiplier" : 12},
+      { "monster" : "mon_zombie_technician", "freq" : 2, "cost_multiplier" : 12}
     ],
     "replace_monster_group" : true,
     "new_monster_group_id" : "GROUP_ZOMBIE_MID",
@@ -722,7 +722,7 @@
       { "monster" : "mon_treent_green", "freq" : 50, "cost_multiplier" : 7, "starts": 250 },
       { "monster" : "mon_minecraft", "freq" : 3, "cost_multiplier" : 20, "pack_size" : [1,4], "starts" :  125 },
       { "monster" : "mon_minecraft_charged", "freq" : 2, "cost_multiplier" : 25, "pack_size" : [1,4], "starts" :  200 },
-      { "monster" : "mon_triffid_heart", "freq" : 0, "cost_multiplier" : 0 },
+      { "monster" : "mon_triffid_heart", "freq" : 0, "cost_multiplier" : 0 }
     ]
     },{
     "type":"monstergroup",
