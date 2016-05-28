@@ -1264,7 +1264,7 @@ void npc::form_opinion( const player &u )
     }
 
     if (u.has_trait("TERRIFYING")) {
-        op_of_u.fear += 2;
+        op_of_u.fear += 6;
     }
 
     if( u.stim > 20 ) {
