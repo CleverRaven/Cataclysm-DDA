@@ -23,9 +23,10 @@
     "effects": [ "COOKOFF" ]
   },
   {
-    "type": "AMMO",
+
     "id": "545_ap",
-    "copy_from": "545",
+    "copy-from": "545",
+    "type": "AMMO",
     "price": 6500,
     "name": "5.45x39mm 7N22",
     "name_plural": "5.45x39mm 7N22",
