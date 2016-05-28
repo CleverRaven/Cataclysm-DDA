@@ -1362,6 +1362,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool has_enough_charges(const item &it, bool show_msg) const;
 
+        /** Calculate the modifier to detect traps due to encumbrance */
+        int trap_encumbrance() const;
+
     protected:
         // The player's position on the local map.
         tripoint position;
@@ -1455,6 +1458,119 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
+
+        /** Calculate a single encumbrance by multiplying a part's encumbrance by a multipler */
+        template <typename number> number calc_encumbrance( body_part part, number multiplier ) const;
+        /** Calculate a single encumbrance for a paired body part given a multiplier */
+        template <typename number> number calc_pair_encumbrance( body_part part1, number multiplier ) const;
+        /**
+         * Calculate a single encumbrance with one single part and one pair, with different multipliers */
+        template <typename number> number calc_triple_encumbrance( body_part part1,
+                                                                   body_part part2,
+                                                                   number multiplier1,
+                                                                   number multiplier2 ) const;
+        /** Calculate either a total encumbrance or a single body part's worth
+         *
+         * @param part1 an asymmmetric body part, e.g., bp_head, bp_mouth
+         * @param part2 a symmetric body part, e.g., bp_arm_r, bp_hand_l
+         * @param multiplier1 the encumbrance multplier for part1
+         * @param multiplier2 the encumbrance multiplier for part2 and its opposite body part
+         * @param total if true, calculate total encumbrance for all three parts
+         * @param encumbered_part the body part to calculate encumbrance for if total is false
+         * @param both sides if true, calculate encumbrance of encumbered_part and its opposite
+         */
+        template <typename number> number calc_flexible_encumbrance( body_part part1,
+                                                                     body_part part2,
+                                                                     number multiplier1,
+                                                                     number multiplier2,
+                                                                     bool total,
+                                                                     body_part encumbered_part,
+                                                                     bool both_sides) const;
+        /**
+         * Calculate the reduction of melee to-hit rolls due to encumbrance
+         *
+         * @return Returns a negative number from 0.0 to -8.0
+         */
+        double melee_hit_encumbrance() const;
+        /** Calculate how many extra stamina points each melee attack costs */
+        double melee_stamina_encumbrance( bool total = true,
+                                          body_part encumbered_body_part = bp_arm_r,
+                                          bool both_sides = true ) const;
+        /** Appends text about added stamina cost due to encumbrance to a given string */
+        void melee_stamina_cost_text( body_part encumbered_body_part, std::string &s,
+                                      bool both_sides ) const;
+        /** Calculate how many extra movement points each melee attack costs */
+        double melee_speed_encumbrance( bool total = true,
+                                        body_part encumbered_body_part = bp_hand_r,
+                                        bool both_sides = true ) const;
+        /** Appends text about melee movement point cost due to encumbrance to a given string */
+        void melee_speed_cost_text( body_part encumbered_body_part, std::string &s,
+                                    bool both_sides ) const;
+        /** Calculate how many extra movement points each throw costs */
+        int throw_speed_encumbrance () const;
+        /** Appends text about throwing movement point cost due to encumbrance to a given string */
+        void throw_speed_cost_text( std::string &s ) const;
+        /** Calculate the throwing bonus modifier due to encumbrance */
+        double throwing_bonus_encumbrance( bool total = true,
+                                           body_part encumbered_part = bp_hand_r,
+                                           bool both_sides = true ) const;
+        /** Appends text about throwing bonus modifier due to encumbrance to a given string */
+        void throwing_bonus_encumbrance_text( body_part encumbered_part, std::string &s,
+                                              bool both_sides ) const;
+        /** Calculate the ranged penalty due to encumbrance */
+        int ranged_penalty_encumbrance( bool total = true,
+                                        body_part encumbered_part = bp_hand_r,
+                                        bool both_sides = true) const;
+        /** Appends text about ranged penalty due to encumbrance to a given string */
+        void ranged_penalty_encumbrance_text( body_part encumbered_part, std::string &s,
+                                              bool both_sides ) const;
+         /** Calculate the dodge bonus modifier due to encumbrance */
+        double dodge_encumbrance( bool total = true, body_part encumbered_part = bp_leg_r,
+                                  bool both_sides = true ) const;
+        /** Appends text about dodge bonus modifier due to encumbrance to a given string */
+        void dodge_encumbrance_text( body_part encumbered_part, std::string &s,
+                                     bool both_sides ) const;
+        /** Calculate the falling damage modifier due to encumbrance */
+        float fall_damage_encumbrance( const bool exclude = false,
+                                       const body_part excluded_part = bp_torso,
+                                       const bool both_sides = false ) const;
+        /** Appends text about falling damage modifier due to encumbrance to a given string */
+        void fall_damage_encumbrance_text( body_part encumbered_part, std::string &s,
+                                           bool both_sides ) const;
+
+        /** Calculate the walking or running movement cost due to encumbrance */
+        int move_cost_encumbrance( int base_cost, bool diag, bool exclude = false,
+                                   body_part encumbered_part = bp_leg_r,
+                                   bool both_sides = true ) const;
+        /** Appends text about walking or running cost due to encumbrance to a given string */
+        void move_cost_encumbrance_text( body_part encumbered_part, std::string &s,
+                                         bool both_sides ) const;
+        /** Calculate the swimming movement cost due to encumbrance */
+        int swim_speed_encumbrance( const bool exclude = false,
+                                    const bool partial_exclude = false,
+                                    const body_part excluded_part = bp_torso,
+                                    const bool both_sides = false) const;
+        /** Appends text about swimming movement cost due to encumbrance to a given string */
+        void swim_cost_encumbrance_text( body_part encumbered_part, std::string &s,
+                                         bool both_sides ) const;
+        /** Helper function to calculate encumbrances both with and without a given body part */
+        void exclude_body_parts( int &encumb1, const body_part part1, int &encumb2,
+                                 const body_part part2, int &encumb3,const body_part part3,
+                                 const bool exclude, const body_part excluded_part,
+                                 const bool both_sides ) const;
+        /** Calculate the shouting noise modifier due to encumbrance */
+        double shout_encumbrance() const;
+        /** Calculate the stamina regeneration modifier due to encumbrance */
+        int breathing_encumbrance() const;
+        /** Calculate the item handling movement point  cost for each hand due to encumbrance */
+        int item_handling_encumbrance(body_part hand) const;
+        /** Calculate the movement point cost of handling an item with one hand due to encumbrance */
+        int item_handling_one_hand_cost() const;
+        /** Calculate the movement point cost of handling an item with two hands due to encumbrance */
+        int item_handling_two_hand_cost() const;
+        /** Appends text about item handling movement point costs due to encumbrance to a given string */
+        void item_handling_encumbrance_text( body_part encumbered_part, std::string &s,
+                                             bool both_sides) const;
 };
 
 #endif

@@ -556,7 +556,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
-    move_cost += 2 * encumb(bp_torso);
+    move_cost += throw_speed_encumbrance();
     move_cost -= dexbonus;
 
     if( has_trait("LIGHT_BONES") ) {
@@ -604,7 +604,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation -= per_cur - 8;
     }
 
-    deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
+    // for throwing bonus, penalties are negative, so subtract here in order to increase deviation
+    deviation -= rng(0, throwing_bonus_encumbrance() );
     if (thrown.volume() > 5) {
         deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
     }
@@ -1521,8 +1522,9 @@ double player::get_weapon_dispersion( const item *weapon, bool random ) const
     dispersion += rand_or_max( random, ranged_dex_mod() );
     dispersion += rand_or_max( random, ranged_per_mod() );
 
-    dispersion += rand_or_max( random, 3 * (encumb(bp_arm_l) + encumb(bp_arm_r)));
-    dispersion += rand_or_max( random, 6 * encumb(bp_eyes));
+    dispersion += rand_or_max( random, ranged_penalty_encumbrance( false, bp_arm_l, true ) );
+    dispersion += rand_or_max( random, ranged_penalty_encumbrance( false, bp_eyes, false ) );
+
 
     if( weapon->ammo_data() ) {
         dispersion += rand_or_max( random, weapon->ammo_data()->ammo->dispersion );

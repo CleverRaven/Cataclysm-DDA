@@ -435,8 +435,7 @@ void player::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20 - ( encumb(
-                         bp_torso ) / 10 ) );
+    mod_dodge_bonus( mabuff_dodge_bonus() + (int)dodge_encumbrance() );
     // Whiskers don't work so well if they're covered
     if( has_trait( "WHISKERS" ) && !wearing_something_on( bp_mouth ) ) {
         mod_dodge_bonus( 1 );
@@ -1596,6 +1595,19 @@ void player::recalc_speed_bonus()
 
 int player::run_cost(int base_cost, bool diag) const
 {
+    return move_cost_encumbrance( base_cost, diag );
+}
+
+void exclude_part_pair( int &encumb1, int &encumb2, const bool both_sides )
+{
+    encumb1 = 0;
+    if ( both_sides ) {
+        encumb2 = 0;
+    }
+}
+
+int player::move_cost_encumbrance( int base_cost, bool diag, bool exclude, body_part excluded_part, bool both_sides ) const
+{
     float movecost = float(base_cost);
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
@@ -1693,9 +1705,24 @@ int player::run_cost(int base_cost, bool diag) const
         }
     }
 
+    int encumb_foot_l = encumb(bp_foot_l);
+    int encumb_foot_r = encumb(bp_foot_r);
+    int encumb_leg_l = encumb(bp_leg_l);
+    int encumb_leg_r = encumb(bp_leg_r);
+    if ( exclude ) {
+        if ( excluded_part == bp_foot_l ) {
+            exclude_part_pair( encumb_foot_l, encumb_foot_r, both_sides );
+        } else if ( excluded_part == bp_foot_r ) {
+            exclude_part_pair( encumb_foot_r, encumb_foot_l, both_sides );
+        } else if ( excluded_part == bp_leg_l ) {
+            exclude_part_pair( encumb_leg_l, encumb_leg_r, both_sides );
+        } else if ( excluded_part == bp_leg_r ) {
+            exclude_part_pair( encumb_leg_r, encumb_leg_l, both_sides );
+        }
+    }
     movecost +=
-        ( ( encumb(bp_foot_l) + encumb(bp_foot_r) ) * 2.5 +
-          ( encumb(bp_leg_l) + encumb(bp_leg_r) ) * 1.5 ) / 10;
+        ( ( encumb_foot_l + encumb_foot_r ) * 2.5 +
+          ( encumb_leg_l + encumb_leg_r ) * 1.5 ) / 10;
 
     // ROOTS3 does slow you down as your roots are probing around for nutrients,
     // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -1730,7 +1757,14 @@ int player::run_cost(int base_cost, bool diag) const
     return int(movecost);
 }
 
+
 int player::swim_speed() const
+{
+    return swim_speed_encumbrance();
+}
+
+int player::swim_speed_encumbrance( bool exclude, bool partial_exclude, body_part excluded_part,
+                                    bool both_sides ) const
 {
     int ret = 440 + weight_carried() / 60 - 50 * get_skill_level( skill_swimming );
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
@@ -1765,12 +1799,32 @@ int player::swim_speed() const
     if (has_trait("FAT")) {
         ret -= 30;
     }
+    int encumb_leg_l;
+    int encumb_leg_r;
+    int encumb_torso;
+    exclude_body_parts( encumb_torso, bp_torso, encumb_leg_l, bp_leg_l, encumb_leg_r, bp_leg_r,
+                        exclude, excluded_part, both_sides );
     ///\EFFECT_SWIMMING increases swim speed
-    ret += (50 - get_skill_level( skill_swimming ) * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
-    ret += (80 - get_skill_level( skill_swimming ) * 3) * (encumb(bp_torso) / 10);
+    ret += (50 - get_skill_level( skill_swimming ) * 2) * ( ( encumb_leg_l + encumb_leg_r ) / 10 );
+    ret += (80 - get_skill_level( skill_swimming ) * 3) * ( encumb_torso / 10) ;
     if (get_skill_level( skill_swimming ) < 10) {
         for (auto &i : worn) {
-            ret += (i.volume() * (10 - get_skill_level( skill_swimming ))) / 2;
+            if ( !exclude
+                 || ( !both_sides && !i.covers( excluded_part ) )
+                 || ( both_sides && !i.covers( excluded_part ) && !i.covers( opposite_body_part( excluded_part ) ) ) ) {
+                float volume = i.volume();
+                if ( partial_exclude ) {
+                    float covered_count = i.get_covered_body_parts().count();
+                    if (covered_count < 1 ) {
+                        covered_count = 1;
+                    }
+                    if (both_sides && i.covers( opposite_body_part( excluded_part ) ) ) {
+                        volume *= 2;
+                    }
+                volume /= covered_count;
+                }
+                ret += (volume * (10 - get_skill_level( skill_swimming ))) / 2;
+            }
         }
     }
     ///\EFFECT_STR increases swim speed
@@ -2338,6 +2392,268 @@ std::string melee_cost_text(int moves)
 std::string dodge_skill_text(double mod)
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
+}
+
+double player::melee_hit_encumbrance() const
+{
+    constexpr double encumbrance_multiplier = -1 / 10.0f;
+    return fmin( 0.0f, fmax( -8.0f, encumbrance_multiplier * encumb( bp_torso ) ) );
+}
+
+int player::trap_encumbrance() const
+{
+    constexpr int eyes_divisor = 10;
+    return -encumb( bp_eyes ) / eyes_divisor;
+}
+
+template <typename number> number player::calc_encumbrance( body_part part, number multiplier ) const
+{
+    return multiplier * encumb( part );
+}
+
+template <typename number> number player::calc_pair_encumbrance( body_part part1, number multiplier ) const
+{
+    return multiplier * ( encumb( part1 ) + encumb( opposite_body_part( part1 ) ) );
+}
+
+template <typename number> number player::calc_triple_encumbrance( body_part part1,
+                                                                   body_part part2,
+                                                                   number multiplier1,
+                                                                   number multiplier2 ) const
+{
+    return calc_encumbrance( part1, multiplier1 ) + calc_pair_encumbrance( part2, multiplier2 );
+}
+
+template <typename number> number player::calc_flexible_encumbrance( body_part part1,
+                                                                     body_part part2,
+                                                                     number multiplier1,
+                                                                     number multiplier2,
+                                                                     bool total,
+                                                                     body_part encumbered_part,
+                                                                     bool both_sides) const
+{
+    if ( total ) {
+        return calc_triple_encumbrance( part1, part2, multiplier1, multiplier2 );
+    } else if ( encumbered_part == part1 ) {
+        return calc_encumbrance( part1, multiplier1 );
+    } else if ( encumbered_part == part2 || encumbered_part == opposite_body_part( part2 ) ) {
+        if (both_sides) {
+            return calc_pair_encumbrance( encumbered_part, multiplier2 );
+        } else {
+            return calc_encumbrance( encumbered_part, multiplier2 );
+        }
+    }
+    return 0;
+
+}
+
+double player::melee_stamina_encumbrance( bool total, body_part encumbered_part,
+                                          bool both_sides) const
+{
+    constexpr double arm_multiplier = 1 / 5.0f;
+    if ( total || ( both_sides && (encumbered_part == bp_arm_l || encumbered_part == bp_arm_r ) ) ) {
+        return calc_pair_encumbrance( bp_arm_l, arm_multiplier );
+    } else if ( !both_sides && ( encumbered_part == bp_arm_l || encumbered_part == bp_arm_r ) ) {
+        return calc_encumbrance( encumbered_part, arm_multiplier );
+    }
+    return 0.0f;
+}
+
+void player::melee_stamina_cost_text( body_part encumbered_part, std::string &s,
+                                      bool both_sides ) const
+{
+    double stamina_cost = melee_stamina_encumbrance( false, encumbered_part, both_sides );
+    s += string_format( _( "Melee attacks cost %+.1f stamina points. " ), stamina_cost );
+}
+
+double player::melee_speed_encumbrance( bool total, body_part encumbered_part,
+                                          bool both_sides) const
+{
+    constexpr double torso_multiplier = 1.0f;
+    constexpr double hand_multiplier = 1 / 2.0f;
+    return calc_flexible_encumbrance( bp_torso, bp_hand_l, torso_multiplier,
+                                      hand_multiplier, total, encumbered_part, both_sides );
+}
+
+void player::melee_speed_cost_text( body_part encumbered_part, std::string &s,
+                                    bool both_sides ) const
+{
+    double moves = melee_speed_encumbrance( false, encumbered_part, both_sides );
+    s += string_format( _( "Melee attacks cost %+.1f movement points. "), moves );
+}
+
+int player::throw_speed_encumbrance() const
+{
+    constexpr int torso_multiplier = 2;
+    return calc_encumbrance( bp_torso, torso_multiplier );
+}
+
+void player::throw_speed_cost_text( std::string &s ) const
+{
+    int moves = throw_speed_encumbrance();
+    s += string_format( ngettext( "Throwing costs %+d movement point. ",
+                                  "Throwing costs %+d movement points. ",
+                                  ( moves == 0 ? 2 : moves ) ), moves );
+}
+
+double player::throwing_bonus_encumbrance( bool total, body_part encumbered_part,
+                                            bool both_sides) const
+{
+    constexpr double multiplier = -1 / 10.0f;
+    return calc_flexible_encumbrance( bp_eyes, bp_hand_l, multiplier, multiplier, total,
+                                      encumbered_part, both_sides );
+}
+
+void player::throwing_bonus_encumbrance_text( body_part encumbered_part, std::string &s,
+                                    bool both_sides ) const
+{
+    double throwing_bonus = throwing_bonus_encumbrance( false, encumbered_part, both_sides );
+    s += string_format( _( "Throwing bonus %+.1f. "), throwing_bonus );
+}
+
+int player::ranged_penalty_encumbrance( bool total, body_part encumbered_part,
+                                          bool both_sides) const
+{
+    constexpr int eyes_multiplier = 6;
+    constexpr int arms_multiplier = 3;
+    return calc_flexible_encumbrance( bp_eyes, bp_arm_l, eyes_multiplier,
+                                      arms_multiplier, total, encumbered_part, both_sides );
+}
+
+void player::ranged_penalty_encumbrance_text( body_part encumbered_part, std::string &s,
+                                              bool both_sides ) const
+{
+    // for ranged penalty, positive numbers are a penalty and negative numbers are a bonus, which
+    // is confusing on display, so we need a negative sign here.
+    int ranged_penalty = -ranged_penalty_encumbrance( false, encumbered_part, both_sides );
+    s += string_format( _( "Ranged penalty %+d. "), ranged_penalty );
+}
+
+double player::dodge_encumbrance( bool total, body_part encumbered_part,
+                                          bool both_sides) const
+{
+    constexpr double torso_multiplier = -1 / 10.0f;
+    constexpr double leg_multiplier = -1 / 20.0f;
+    return calc_flexible_encumbrance( bp_torso, bp_leg_l, torso_multiplier,
+                                      leg_multiplier, total, encumbered_part, both_sides );
+}
+
+void player::dodge_encumbrance_text( body_part encumbered_part, std::string &s,
+                                    bool both_sides ) const
+{
+    double dodge_penalty = dodge_encumbrance( false, encumbered_part, both_sides );
+    s += string_format( _( "Dodge penalty %+.2f. "), dodge_penalty );
+}
+
+void player::fall_damage_encumbrance_text( body_part encumbered_part, std::string &s,
+                                    bool both_sides ) const
+{
+    float fall_damage_penalty = ( fall_damage_mod() -
+                                  fall_damage_encumbrance( true, encumbered_part, both_sides) ) * 100.0f;
+    s += string_format( _( "Falling damage %+.1f percentage points. "), fall_damage_penalty );
+}
+
+void player::move_cost_encumbrance_text ( body_part encumbered_part, std::string &s,
+                                          bool both_sides ) const
+{
+    constexpr int base_run_cost = 100;
+    bool diagonal = false;
+    bool exclude = true;
+    int move_cost = ( run_cost( base_run_cost, diagonal ) -
+                      move_cost_encumbrance( base_run_cost, diagonal, exclude, encumbered_part,
+                                             both_sides) );
+    s += string_format( ngettext( "Walking or running costs %+d movement point. ",
+                                  "Walking or running costs %+d movement points. ",
+                                  move_cost ), move_cost );
+}
+
+void player::swim_cost_encumbrance_text( body_part encumbered_part, std::string &s,
+                                        bool both_sides ) const
+{
+    bool exclude_encumbered = false;
+    bool exclude_unencumbered = true;
+    bool partial_exclude = true;
+    int swim_cost = ( swim_speed_encumbrance( exclude_encumbered, partial_exclude, encumbered_part,
+                                              both_sides) -
+                      swim_speed_encumbrance( exclude_unencumbered, partial_exclude, encumbered_part,
+                                              both_sides) );
+    s += string_format( ngettext( "Swimming costs %+d movement point. ",
+                                  "Swimming costs %+d movement points. ",
+                                  ( swim_cost == 0 ? 2 : swim_cost ) ), swim_cost );
+}
+
+void player::exclude_body_parts( int &encumb1, const body_part part1, int &encumb2,
+                                 const body_part part2, int &encumb3,const body_part part3,
+                                 const bool exclude, const body_part excluded_part,
+                                 const bool both_sides ) const
+{
+    encumb1 = encumb( part1 );
+    encumb2 = encumb( part2 );
+    encumb3 = encumb( part3 );
+    if ( exclude ) {
+        if ( excluded_part == part1 ) {
+            encumb1 = 0;
+        } else if ( excluded_part == part2 ) {
+            exclude_part_pair( encumb2, encumb3, both_sides );
+        } else if ( excluded_part == part3 ) {
+            exclude_part_pair( encumb3, encumb2, both_sides );
+        }
+    }
+}
+
+double player::shout_encumbrance() const
+{
+    constexpr double shout_multiplier = -3 / 2.0f ;
+    return calc_encumbrance( bp_mouth, shout_multiplier );
+}
+
+int player::breathing_encumbrance() const
+{
+    constexpr int mouth_divisor = -10 ;
+    return encumb( bp_mouth ) / mouth_divisor;
+}
+
+int player::item_handling_encumbrance(body_part hand) const
+{
+    int hand_encumbrance = 0;
+    if ( hand == bp_hand_l || hand == bp_hand_r ) {
+        hand_encumbrance = encumb( hand );
+    }
+    return hand_encumbrance;
+}
+
+int player::item_handling_one_hand_cost() const
+{
+    return std::min( item_handling_encumbrance( bp_hand_l), item_handling_encumbrance( bp_hand_r ) );
+}
+
+int player::item_handling_two_hand_cost() const
+{
+    return item_handling_encumbrance( bp_hand_l ) + item_handling_encumbrance( bp_hand_r );
+}
+
+void player::item_handling_encumbrance_text( body_part encumbered_part, std::string &s,
+                                             bool both_sides) const
+{
+    if ( both_sides ) {
+        const int one_handed_cost = item_handling_one_hand_cost();
+        s += string_format( ngettext( "Manipulating one-handed items costs %+d movement point. ",
+                                      "Manipulating one-handed items costs %+d movement points. ",
+                                      ( one_handed_cost == 0 ? 2 : one_handed_cost ) ),
+                            one_handed_cost );
+        const int two_handed_cost = item_handling_two_hand_cost();
+        s += string_format( ngettext( "Manipulating two-handed items costs %+d movement point. ",
+                                      "Manipulating two-handed items costs %+d movement points. ",
+                                      ( two_handed_cost == 0 ? 2 : two_handed_cost ) ),
+                            two_handed_cost );
+    } else {
+        const int this_hand_cost = item_handling_encumbrance( encumbered_part );
+        s += string_format( ngettext( "Manipulating items with this hand costs %+d movement "
+                                      "point. ", "Handling or manipulating items with this hand "
+                                      "costs %+d movement points. ",
+                                      ( this_hand_cost == 0 ? 2 : this_hand_cost) ),
+                            this_hand_cost );
+    }
 }
 
 void player::disp_info()
@@ -2977,47 +3293,64 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
             werase(w_info);
             std::string s;
-            if (line == 0) {
-                const int melee_roll_pen = std::max( -encumb( bp_torso ), -80 );
-                s += string_format( _("Melee attack rolls %+d%%; "), melee_roll_pen );
-                s += dodge_skill_text( - (encumb( bp_torso ) / 10));
-                s += swim_cost_text( (encumb( bp_torso ) / 10) * ( 80 - get_skill_level( skill_swimming ) * 3 ) );
-                s += melee_cost_text( encumb( bp_torso ) );
-            } else if (line == 1) { //Torso
-                s += _("Head encumbrance has no effect; it simply limits how much you can put on.");
-            } else if (line == 2) { //Head
-                s += string_format(_("Perception %+d when checking traps or firing ranged weapons;\n"
-                                     "Perception %+.1f when throwing items."),
-                                   -(encumb(bp_eyes) / 10),
-                                   double(-(encumb(bp_eyes) / 10)) / 2);
-            } else if (line == 3) { //Eyes
-                s += _("Covering your mouth will make it more difficult to breathe and catch your breath.");
-            } else if (line == 4) { //Left Arm
-                s += _("Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.");
-            } else if (line == 5) { //Right Arm
-                s += _("Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.");
-            } else if (line == 6) { //Left Hand
-                s += _( "Reduces the speed at which you can handle or manipulate items\n" );
-                s += reload_cost_text( (encumb( bp_hand_l ) / 10) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_l )/10) );
-                s += melee_cost_text( encumb( bp_hand_l ) / 2 );
-            } else if (line == 7) { //Right Hand
-                s += _( "Reduces the speed at which you can handle or manipulate items\n" );
-                s += reload_cost_text( (encumb( bp_hand_r ) / 10) * 15 );
-                s += string_format( _("Dexterity %+d when throwing items;\n"), -(encumb( bp_hand_r )/10) );
-                s += melee_cost_text( encumb( bp_hand_r ) / 2 );
-            } else if (line == 8) { //Left Leg
-                s += run_cost_text( int(encumb( bp_leg_l ) * 0.15) );
-                s += swim_cost_text( (encumb( bp_leg_l ) / 10) * ( 50 - get_skill_level( skill_swimming ) * 2 ) / 2 );
-                s += dodge_skill_text( -(encumb( bp_leg_l ) / 10) / 4.0 );
-            } else if (line == 9) { //Right Leg
-                s += run_cost_text( int(encumb( bp_leg_r ) * 0.15) );
-                s += swim_cost_text( (encumb( bp_leg_r ) / 10) * ( 50 - get_skill_level( skill_swimming ) * 2 ) / 2 );
-                s += dodge_skill_text( -(encumb( bp_leg_r ) / 10) / 4.0 );
-            } else if (line == 10) { //Left Foot
-                s += run_cost_text( int(encumb( bp_foot_l ) * 0.25) );
-            } else if (line == 11) { //Right Foot
-                s += run_cost_text( int(encumb( bp_foot_r ) * 0.25) );
+            const bool both_sides = should_combine_bps( *this, line, bp_aiOther[line] );
+            const bool not_both_sides = false;
+            if (line == bp_torso) { //0
+                int melee_hit_encumbrance_percent = melee_hit_encumbrance() * 10.0f;
+                s += string_format( _( "Melee attack rolls %+d%%; "),
+                                       melee_hit_encumbrance_percent);
+                dodge_encumbrance_text( bp_torso, s, not_both_sides );
+                melee_speed_cost_text( bp_torso, s, not_both_sides );
+                throw_speed_cost_text( s );
+                fall_damage_encumbrance_text( bp_torso, s, not_both_sides );
+                swim_cost_encumbrance_text( bp_torso, s, not_both_sides );
+            } else if (line == bp_head) { //1
+                s += _("Head encumbrance limits how much you can put on. ");
+                swim_cost_encumbrance_text( bp_head, s, not_both_sides );
+            } else if (line == bp_eyes) { //2
+                s += string_format(_("Perception %+d when checking traps. "), trap_encumbrance() );
+                ranged_penalty_encumbrance_text( bp_eyes, s, not_both_sides );
+                throwing_bonus_encumbrance_text( bp_eyes, s, not_both_sides );
+                swim_cost_encumbrance_text( bp_eyes, s, not_both_sides );
+            } else if (line == bp_mouth) { //3
+                s += string_format( _( "Stamina regeneration %+d. "), breathing_encumbrance() );
+                int noise = shout_encumbrance();
+                s += string_format( _( "Shouting sound %+d. "), noise );
+                swim_cost_encumbrance_text( bp_mouth, s, not_both_sides );
+            } else if (line == bp_arm_l) { //4
+                melee_stamina_cost_text( bp_arm_l, s, both_sides );
+                ranged_penalty_encumbrance_text( bp_arm_l, s, both_sides );
+                swim_cost_encumbrance_text( bp_arm_l, s, both_sides );
+            } else if (line == bp_arm_r) { //5
+                melee_stamina_cost_text( bp_arm_r, s, both_sides );
+                ranged_penalty_encumbrance_text( bp_arm_r, s, both_sides );
+                swim_cost_encumbrance_text( bp_arm_r, s, both_sides );
+            } else if (line == bp_hand_l) { //6
+                item_handling_encumbrance_text( bp_hand_l, s, both_sides );
+                melee_speed_cost_text( bp_hand_l, s, both_sides );
+                throwing_bonus_encumbrance_text( bp_hand_l, s, both_sides);
+                swim_cost_encumbrance_text( bp_hand_l, s, both_sides );
+            } else if (line == bp_hand_r) { //7
+                item_handling_encumbrance_text( bp_hand_r, s, both_sides );
+                melee_speed_cost_text( bp_hand_r, s, both_sides );
+                throwing_bonus_encumbrance_text( bp_hand_r, s, both_sides);
+                swim_cost_encumbrance_text( bp_hand_r, s, both_sides );
+            } else if (line == bp_leg_l) { //8
+                move_cost_encumbrance_text( bp_leg_l, s, both_sides );
+                dodge_encumbrance_text( bp_leg_l, s, both_sides );
+                fall_damage_encumbrance_text( bp_leg_l, s, both_sides );
+                swim_cost_encumbrance_text( bp_leg_l, s, both_sides );
+            } else if (line == bp_leg_r) { //9
+                move_cost_encumbrance_text( bp_leg_r, s, both_sides );
+                dodge_encumbrance_text( bp_leg_r, s, both_sides );
+                fall_damage_encumbrance_text( bp_leg_r, s, both_sides );
+                swim_cost_encumbrance_text( bp_leg_r, s, both_sides );
+            } else if (line == bp_foot_l) { //10
+                move_cost_encumbrance_text( bp_foot_l, s, both_sides );
+                swim_cost_encumbrance_text( bp_foot_l, s, both_sides );
+            } else if (line == bp_foot_r) { //11
+                move_cost_encumbrance_text( bp_foot_r, s, both_sides );
+                swim_cost_encumbrance_text( bp_foot_r, s, both_sides );
             }
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
@@ -4181,7 +4514,7 @@ void player::shout( std::string msg )
     // Balanced around  whisper for wearing bondage mask
     // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
     ///\EFFECT_STR increases shouting volume
-    int noise = base + str_cur * shout_multiplier - encumb( bp_mouth ) * 3 / 2;
+    int noise = base + str_cur * shout_multiplier + shout_encumbrance();
 
     // Minimum noise volume possible after all reductions.
     // Volume 1 can't be heard even by player
@@ -4907,6 +5240,11 @@ int player::hitall(int dam, int vary, Creature *source)
 
 float player::fall_damage_mod() const
 {
+    return fall_damage_encumbrance();
+}
+
+float player::fall_damage_encumbrance( const bool exclude, const body_part excluded_part, const bool both_sides) const
+{
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself
@@ -4914,8 +5252,15 @@ float player::fall_damage_mod() const
 
     ///\EFFECT_DODGE decreases damage from falling
     float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
+    int encumb_leg_l;
+    int encumb_leg_r;
+    int encumb_torso;
+    exclude_body_parts( encumb_torso, bp_torso, encumb_leg_l, bp_leg_l, encumb_leg_r, bp_leg_r,
+                        exclude, excluded_part, both_sides );
     // Penalize for wearing heavy stuff
-    dex_dodge -= ( ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 2 ) + ( encumb(bp_torso) / 1 ) ) / 10;
+    constexpr float leg_multiplier = -1 / 20.0f;
+    constexpr float torso_multiplier = -1 / 10.0f;
+    dex_dodge += leg_multiplier * ( encumb_leg_l + encumb_leg_r ) + torso_multiplier * encumb_torso;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
@@ -5641,7 +5986,7 @@ void player::update_stamina( int turns )
     // Recover some stamina every turn.
     if( !has_effect( effect_winded ) ) {
         // But mouth encumberance interferes.
-        stamina_recovery += std::max( 1, 10 - (encumb(bp_mouth) / 10) );
+        stamina_recovery += std::max( 1, 10 + breathing_encumbrance() );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
         // TODO: Tiredness slowing recovery
     }
@@ -10081,9 +10426,9 @@ int player::item_handling_cost( const item& it, bool effects, int factor, int qt
 
     // For single handed items use the least encumbered hand
     if( obj.is_two_handed( *this ) ) {
-        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
+        mv += item_handling_two_hand_cost();
     } else {
-        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
+        mv += item_handling_one_hand_cost();
     }
 
     if( effects && has_effect( effect_grabbed ) ) {
