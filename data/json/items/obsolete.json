@@ -562,6 +562,12 @@
     "bashing": 4,
     "to_hit": -1,
     "category": "weapons",
-    "use_action": "ACIDBOMB_ACT"
+    "use_action": {
+        "type": "explosion",
+        "fields_radius": 1,
+        "fields_type": "fd_acid",
+        "fields_min_density": 3,
+        "fields_max_density": 3
+        }
   }
 ]
