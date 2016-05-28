@@ -4809,10 +4809,10 @@
     },{
       "type" : "mutation",
       "id" : "DEBUG_CBM_SLOTS",
-      "name" : "Debug Unlimited CBM Slots",
+      "name" : "Debug CBM Slots Limits",
       "points" : 99,
       "valid" : false,
-      "description" : "Allow to ignore all restrictions of bionics slots system.",
+      "description" : "Limitate the number of bionics which you're able to install in your body.",
       "threshold" : true
     },{
         "type" : "mutation",
