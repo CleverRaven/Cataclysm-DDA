@@ -12787,6 +12787,20 @@ void mx_minefield(map &m, const tripoint &abs_sub)
             }
         }
     }
+    for (int y = 3; y < SEEY * 2 - 3; y++) {
+        if (one_in(2)) {
+            m.ter_set(1, y, t_fence_barbed);
+        } else if (one_in(2)) {
+            m.ter_set(SEEX * 2 - 2, y, t_fence_barbed);
+        }
+    }
+    for (int x = 3; x < SEEX * 2 - 3; x++) {
+        if (one_in(2)) {
+            m.ter_set(x, 1, t_fence_barbed);
+        } else if (one_in(2)) {
+            m.ter_set(x, SEEY * 2 - 2, t_fence_barbed);
+        }
+    }
     for (int i = 0; i < num_mines; i++) {
         // No mines at the extreme edges: safe to walk on a sign tile
         int x = rng(1, SEEX * 2 - 2), y = rng(1, SEEY * 2 - 2);
@@ -12795,18 +12809,50 @@ void mx_minefield(map &m, const tripoint &abs_sub)
         }
         madd_trap(&m, x, y, tr_landmine_buried);
     }
-    int x1 = 0;
-    int y1 = 0;
-    int x2 = (SEEX * 2 - 1);
-    int y2 = (SEEY * 2 - 1);
+    int x1 = 1;
+    int y1 = 1;
+    int x2 = (SEEX * 2 - 2);
+    int y2 = (SEEY * 2 - 2);
     m.furn_set(x1, y1, "f_sign");
     m.set_signage( tripoint( x1,  y1, abs_sub.z ), _("DANGER! MINEFIELD!"));
+    m.ter_set(x1 - 1, y1 - 1, t_fence_barbed);
+    m.ter_set(x1 - 1, y1, t_fence_barbed);
+    m.ter_set(x1 - 1, y1 + 1, t_fence_barbed);
+    m.ter_set(x1, y1 - 1, t_fence_barbed);
+    m.ter_set(x1, y1 + 1, t_fence_barbed);
+    m.ter_set(x1 + 1, y1 - 1, t_fence_barbed);
+    m.ter_set(x1 + 1, y1, t_fence_barbed);
+    m.ter_set(x1 + 1, y1 + 1, t_fence_barbed);
     m.furn_set(x1, y2, "f_sign");
     m.set_signage( tripoint( x1,  y2, abs_sub.z ), _("DANGER! MINEFIELD!"));
+    m.ter_set(x1 - 1, y2 - 1, t_fence_barbed);
+    m.ter_set(x1 - 1, y2, t_fence_barbed);
+    m.ter_set(x1 - 1, y2 + 1, t_fence_barbed);
+    m.ter_set(x1, y2 - 1, t_fence_barbed);
+    m.ter_set(x1, y2 + 1, t_fence_barbed);
+    m.ter_set(x1 + 1, y2 - 1, t_fence_barbed);
+    m.ter_set(x1 + 1, y2, t_fence_barbed);
+    m.ter_set(x1 + 1, y2 + 1, t_fence_barbed);
     m.furn_set(x2, y1, "f_sign");
     m.set_signage( tripoint( x2,  y1, abs_sub.z ), _("DANGER! MINEFIELD!"));
+    m.ter_set(x2 - 1, y1 - 1, t_fence_barbed);
+    m.ter_set(x2 - 1, y1, t_fence_barbed);
+    m.ter_set(x2 - 1, y1 + 1, t_fence_barbed);
+    m.ter_set(x2, y1 - 1, t_fence_barbed);
+    m.ter_set(x2, y1 + 1, t_fence_barbed);
+    m.ter_set(x2 + 1, y1 - 1, t_fence_barbed);
+    m.ter_set(x2 + 1, y1, t_fence_barbed);
+    m.ter_set(x2 + 1, y1 + 1, t_fence_barbed);
     m.furn_set(x2, y2, "f_sign");
     m.set_signage( tripoint( x2,  y2, abs_sub.z ), _("DANGER! MINEFIELD!"));
+    m.ter_set(x2 - 1, y2 - 1, t_fence_barbed);
+    m.ter_set(x2 - 1, y2, t_fence_barbed);
+    m.ter_set(x2 - 1, y2 + 1, t_fence_barbed);
+    m.ter_set(x2, y2 - 1, t_fence_barbed);
+    m.ter_set(x2, y2 + 1, t_fence_barbed);
+    m.ter_set(x2 + 1, y2 - 1, t_fence_barbed);
+    m.ter_set(x2 + 1, y2, t_fence_barbed);
+    m.ter_set(x2 + 1, y2 + 1, t_fence_barbed);
 }
 
 void mx_crater(map &m, const tripoint &abs_sub)
