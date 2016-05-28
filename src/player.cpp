@@ -11918,8 +11918,8 @@ int player::get_armor_acid(body_part bp) const
         }
     }
 
-    if( has_trait( "SLIMY" ) || has_trait( "VISCOUS" ) ) {
-        ret++;
+    if( has_trait( "VISCOUS" ) ) {
+        ret += 2;
     }
 
     return ret;
@@ -11932,10 +11932,6 @@ int player::get_armor_fire(body_part bp) const
         if( i.covers( bp ) ) {
             ret += i.fire_resist();
         }
-    }
-
-    if( has_trait( "VISCOUS" ) ) {
-        ret++;
     }
 
     return ret;
