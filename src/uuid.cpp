@@ -76,6 +76,7 @@ void uuid::deserialize( JsonIn &js ) {
 
   	// deserialize from 32 character hexadecimal string
   	std::istringstream str( val );
+       str >> std::hex;
  	str >> data[ 0 ];
  	str >> data[ 1 ];
  	str >> data[ 2 ];
