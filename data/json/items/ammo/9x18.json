@@ -10,7 +10,7 @@
     "price": 2600,
     "count": 50,
     "stack_size": 50,
-    "material": ["steel", "powder"],
+    "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "9x18",
@@ -20,11 +20,11 @@
     "range": 13,
     "dispersion": 140,
     "recoil": 185,
-    "effects": ["COOKOFF"]
+    "effects": [ "COOKOFF" ]
   },
   {   
     "id": "9x18mmP2",
-    "copy-from": "9x18",
+    "copy-from": "9x18mm",
     "type": "AMMO",
     "name": "9x18mm SP-7",
     "name_plural": "9x18mm SP-7",
@@ -40,7 +40,7 @@
   },
   {   
     "id": "9x18mmfmj",
-    "copy-from": "9x18",
+    "copy-from": "9x18mm",
     "type": "AMMO",
     "name": "9x18mm RG028",
     "name_plural": "9x18mm RG028",

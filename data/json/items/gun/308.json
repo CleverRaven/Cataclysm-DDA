@@ -49,7 +49,6 @@
     "recoil": 140,
     "durability": 7,
     "reload": 400,
-    "burst": 20,
     "modes": [
       [ "DEFAULT", "auto", 20 ]
     ],
@@ -108,8 +107,7 @@
     "sight_dispersion": 60,
     "recoil": 60,
     "durability": 8,
-    "burst": 10,
-        "modes": [
+    "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "BURST", "3 rd.", 3 ],
       [ "AUTO", "auto", 10 ]

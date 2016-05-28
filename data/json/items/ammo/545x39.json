@@ -20,11 +20,12 @@
     "range": 37,
     "dispersion": 5,
     "recoil": 360,
-    "effects": ["COOKOFF"]
+    "effects": [ "COOKOFF" ]
   },
   {
     "type": "AMMO",
     "id": "545_ap",
+    "copy_from": "545",
     "price": 6500,
     "name": "5.45x39mm 7N22",
     "name_plural": "5.45x39mm 7N22",

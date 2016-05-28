@@ -25,7 +25,7 @@
   },
   {   
     "id": "steel_rail",
-    "copy-from": "rebar rail",
+    "copy-from": "rebar_rail",
     "type": "AMMO",
     "name": "steel rail",
     "description": "A short piece of steel which has been forged true and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",

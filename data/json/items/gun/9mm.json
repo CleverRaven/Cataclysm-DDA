@@ -29,6 +29,13 @@
       [ "BURST", "3 rd.", 3 ],
       [ "AUTO", "auto", 5 ]
     ],
+    "magazines": [
+      [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
+      [ "22", [ "a180mag" ] ],
+      [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fnp90mag" ] ]
+    ],
     "flags": [ "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS" ]
   },
   {
