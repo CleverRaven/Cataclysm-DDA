@@ -22,14 +22,39 @@ void advanced_inv();
 // veh_interact.cpp
 void complete_vehicle();
 
-
-player_activity::player_activity( activity_type t, int turns, int Index, int pos,
-                                  std::string name_in ) :
-    JsonSerializer(), JsonDeserializer(), type( t ), moves_total( turns ), moves_left( turns ),
-    index( Index ),
-    position( pos ), name( name_in ), ignore_trivial( false ), values(), str_values(),
-    placement( tripoint_min ), warned_of_proximity( false ), auto_resume( false )
+player_activity::player_activity( const player_activity &rhs )
+    : type( rhs.type ), moves_total( rhs.moves_total ), moves_left( rhs.moves_left ),
+      name( rhs.name ), values( rhs.values ), str_values( rhs.str_values ),
+      coords( rhs.coords ), index( rhs.index ), position( rhs.position ),
+      placement( rhs.placement ), ignore_trivial( rhs.ignore_trivial ),
+      warned_of_proximity( rhs.warned_of_proximity ), auto_resume( rhs.auto_resume )
 {
+    for( size_t i = 0; i != targets.size(); ++i ) {
+        targets[ i ] = rhs.targets[ i ].clone();
+    }
+}
+
+player_activity &player_activity::operator= ( const player_activity &rhs )
+{
+    type = rhs.type;
+    moves_total = rhs.moves_total;
+    moves_left = rhs.moves_left;
+    name = rhs.name;
+    values = rhs.values;
+    str_values = rhs.str_values;
+    coords = rhs.coords;
+    index = rhs.index;
+    position = rhs.position;
+    placement = rhs.placement;
+    ignore_trivial = rhs.ignore_trivial;
+    warned_of_proximity = rhs.warned_of_proximity;
+    auto_resume = rhs.auto_resume;
+
+    for( size_t i = 0; i != targets.size(); ++i ) {
+        targets[ i ] = rhs.targets[ i ].clone();
+    }
+
+    return *this;
 }
 
 const std::string &player_activity::get_stop_phrase() const
@@ -473,8 +498,8 @@ void player_activity::finish( player *p )
         // Make sure data of previous activity is cleared
         p->activity = player_activity();
         if( !p->backlog.empty() && p->backlog.front().auto_resume ) {
-            p->activity = p->backlog.front();
-            p->backlog.pop_front();
+            p->activity = std::move( p->backlog.front() );
+            p->backlog.erase( p->backlog.begin() );
         }
     }
 }

@@ -973,8 +973,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int adjust_for_focus(int amount) const;
         void practice( const skill_id &s, int amount, int cap = 99 );
 
+        /** legacy interface for assigning player activity */
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
                              std::string name = "");
+
+        /** new interface for assigning player activity */
+        void assign_activity( activity_type type, item_location&& target, int moves,
+                              std::string key = std::string(), const std::vector<int>& vals = {} );
+
         bool has_activity(const activity_type type) const;
         void cancel_activity();
 

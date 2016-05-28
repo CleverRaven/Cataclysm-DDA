@@ -173,6 +173,8 @@ src/translations.h
 src/trap.h
 src/tutorial.h
 src/ui.h
+src/uuid.h
+src/uuid.cpp
 src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h

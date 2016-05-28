@@ -999,12 +999,12 @@ void game::unserialize_master(std::istream &fin) {
        popup_nowait(_("Cannot find loader for save data in old version %d, attempting to load as current version %d."),savegame_loading_version, savegame_version);
     }
     try {
-        // single-pass parsing example
         JsonIn jsin(fin);
+        // single-pass parsing example
         jsin.start_object();
         while (!jsin.end_object()) {
             std::string name = jsin.get_member_name();
-            if (name == "next_mission_id") {
+            if( name == "next_mission_id" ) {
                 next_mission_id = jsin.get_int();
             } else if (name == "next_faction_id") {
                 next_faction_id = jsin.get_int();

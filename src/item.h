@@ -15,6 +15,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "line.h"
+#include "uuid.h"
 #include "item_location.h"
 
 class game;
@@ -107,6 +108,8 @@ class item_category
 
 class item : public JsonSerializer, public JsonDeserializer, public visitable<item>
 {
+    friend item_location;
+
     public:
         item();
 
@@ -1364,7 +1367,11 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
+
     private:
+        /** unique identifier for each non-null instance */
+        uuid uid;
+
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const;

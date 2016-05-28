@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "json.h"
+
 struct tripoint;
 class item;
 class Character;
@@ -10,12 +12,15 @@ class map_cursor;
 class vehicle_cursor;
 
 /**
- * A class for easy removal of used items.
- * Ensures the item exists, but not that the character/vehicle does.
- * Should not be kept, but removed before the end of turn.
+ * A lightweight handle to an item independent of it's location
+ * Unlike a raw pointer can be (de-)serialized to/from JSON
+ * Provides a generic interface of querying, obtaining and removing an item
+ * Is invalidated by many operations (including copying of the item)
  */
-class item_location
+class item_location : public JsonSerializer, public JsonDeserializer
 {
+        friend class player_activity; /** for clone() */
+
     public:
         enum class type : int {
             invalid = 0,
@@ -48,6 +53,9 @@ class item_location
         item *operator->();
         const item *operator->() const;
 
+        void serialize( JsonOut &js ) const;
+        void deserialize( JsonIn &js );
+
         /** Returns the type of location where the item is found */
         type where() const;
 
@@ -79,8 +87,14 @@ class item_location
         const item *get_item() const;
 
     private:
+        /**
+         * Clones this instance
+         * @warning usage should be restricted to implementing custom copy-constructors
+         */
+        item_location clone() const;
+
         class impl;
-        std::unique_ptr<impl> ptr;
+        std::shared_ptr<impl> ptr;
 
         class item_on_map;
         class item_on_person;

@@ -128,6 +128,7 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
+
     public:
         game();
         ~game();
@@ -149,8 +150,8 @@ class game
         std::unique_ptr<player> u_ptr;
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
-    public:
 
+    public:
         /** Initializes the UI. */
         void init_ui();
         void setup();

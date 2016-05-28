@@ -9943,6 +9943,11 @@ bool player::dispose_item( item& obj, const std::string& prompt )
 
 void player::mend_item( item_location&& obj, bool interactive )
 {
+    if( !obj ) {
+        debugmsg( "Cannot mend non-existent item" );
+        return;
+    }
+
     if( g->u.has_trait( "DEBUG_HS" ) ) {
         uimenu menu( true, _( "Toggle which fault?" ) );
         std::vector<std::pair<fault_id, bool>> opts;
@@ -10029,27 +10034,8 @@ void player::mend_item( item_location&& obj, bool interactive )
             }
             return;
         }
-
-        int pos = INT_MIN;
-
-        switch( obj.where() ) {
-            case item_location::type::character:
-                pos = get_item_position( &*obj );
-                break;
-
-            case item_location::type::vehicle:
-                pos = g->m.veh_at( obj.position() )->find_part( *obj );
-                break;
-
-            default:
-                debugmsg( "unsupported item location type %i", static_cast<int>( obj.where() ) );
-                return;
-        }
-        assign_activity( ACT_MEND_ITEM, faults[ sel ].first->time(),
-                         static_cast<int>( obj.where() ), pos,
-                         faults[ sel ].first->id().str() );
-
-        activity.placement = obj.position();
+        auto f = faults[ sel ].first;
+        assign_activity( ACT_MEND_ITEM, std::move( obj ), f->time(), f->id().str() );
     }
 }
 
@@ -12561,26 +12547,49 @@ void player::learn_recipe( const recipe * const rec, bool force )
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
-    if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
-        backlog.front().position == pos && backlog.front().name == name &&
-        !backlog.front().auto_resume) {
-        add_msg_if_player( _("You resume your task."));
-        activity = backlog.front();
-        backlog.pop_front();
+    player_activity act( type, item_location(), moves, name );
+    act.index = index;
+    act.position = pos;
+
+    if( !backlog.empty() && !backlog.front().auto_resume && backlog.front() == act ) {
+        add_msg_if_player( _( "You resume your task." ) );
+        activity = std::move( backlog.front() );
+        backlog.erase( backlog.begin() );
+        activity.warned_of_proximity = false;
+
     } else {
-        if( activity.type != ACT_NULL ) {
-            backlog.push_front( activity );
+        if( activity ) {
+            backlog.push_front( std::move( activity ) );
         }
-        activity = player_activity(type, moves, index, pos, name);
+        activity = std::move( act );
     }
-    if( this->moves <= activity.moves_left ) {
-        activity.moves_left -= this->moves;
-        this->moves = 0;
+
+    int mv = std::min( activity.moves_left, this->moves );
+    activity.moves_left -= mv;
+    moves -= mv;
+}
+
+void player::assign_activity( activity_type type, item_location&& target, int moves,
+                              std::string key, const std::vector<int>& vals )
+{
+    player_activity act( type, std::move( target ), moves, key, vals );
+
+    if( !backlog.empty() && !backlog.front().auto_resume && backlog.front() == act ) {
+        add_msg_if_player( _( "You resume your task." ) );
+        activity = std::move( backlog.front() );
+        backlog.erase( backlog.begin() );
+        activity.warned_of_proximity = false;
+
     } else {
-        this->moves -= activity.moves_left;
-        activity.moves_left = 0;
+        if( activity ) {
+            backlog.push_front( std::move( activity ) );
+        }
+        activity = std::move( act );
     }
-    activity.warned_of_proximity = false;
+
+    int mv = std::min( activity.moves_left, this->moves );
+    activity.moves_left -= mv;
+    moves -= mv;
 }
 
 bool player::has_activity(const activity_type type) const
@@ -12603,7 +12612,7 @@ void player::cancel_activity()
         }
     }
     if( activity.is_suspendable() ) {
-        backlog.push_front( activity );
+        backlog.push_front( std::move( activity ) );
     }
     activity = player_activity();
 }
