@@ -1364,9 +1364,7 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
-        /**
-         * Returns true if the item has infinite charges
-         */
+
         bool has_infinite_charges() const;
 
     private:
