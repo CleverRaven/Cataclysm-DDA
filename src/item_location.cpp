@@ -36,6 +36,7 @@ class item_location::impl
         /** prevent auto-incrementation of the uuid via move construction */
         impl( uuid &&uid ) : uid( std::move( uid ) ) {}
 
+        /** search for target item via @ref uuid and cache result in @ref what */
         virtual item *target() const = 0;
 
         mutable item *what = nullptr;
@@ -169,6 +170,7 @@ class item_location::item_on_person : public item_location::impl
                 }
                 return VisitResponse::NEXT;
             } );
+
             if( !what ) {
                 debugmsg( "Missing item with uuid=", static_cast<std::string>( uid ).c_str() );
             }
