@@ -169,6 +169,9 @@ class item_location::item_on_person : public item_location::impl
                 }
                 return VisitResponse::NEXT;
             } );
+            if( !what ) {
+                debugmsg( "Missing item with uuid=", static_cast<std::string>( uid ).c_str() );
+            }
             return what;
         }
 
@@ -316,6 +319,10 @@ class item_location::item_on_vehicle : public item_location::impl
                 }
                 return VisitResponse::NEXT;
             } );
+
+            if( !what ) {
+                debugmsg( "Missing item with uuid=", static_cast<std::string>( uid ).c_str() );
+            }
             return what;
         }
 
