@@ -80,4 +80,8 @@ void uuid::deserialize( JsonIn &js ) {
  	str >> data[ 1 ];
  	str >> data[ 2 ];
  	str >> data[ 3 ];
+
+	if( str.fail() ) {
+		js.error( "invalid RFC4122 v4 UUID" );
+	}
 }
