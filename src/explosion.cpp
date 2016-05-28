@@ -66,7 +66,8 @@ void game::do_blast( const tripoint &p, const float power,
     static const int z_offset[10] = {  0, 0,  0, 0,  0,  0,  0, 0, 1, -1 };
     const size_t max_index = m.has_zlevels() ? 10 : 8;
 
-    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp > open;
+    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp >
+    open;
     std::set<tripoint> closed;
     std::map<tripoint, float> dist_map;
     open.push( std::make_pair( 0.0f, p ) );
