@@ -8282,7 +8282,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
 
     p->add_msg_if_player(_("You set down the ladder."));
     p->moves -= 500;
-    g->m.furn_set( dirp, "f_ladder" );
+    g->m.furn_set( dirp, furn_str_id( "f_ladder" ) );
     return 1;
 }
 

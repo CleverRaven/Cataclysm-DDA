@@ -1466,8 +1466,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if (category == C_FURNITURE) {
-            if (furnmap.count(id) > 0) {
-                const furn_t &f = furnmap[id];
+            const furn_str_id fid( id );
+            if( fid.is_valid() ) {
+                const furn_t &f = fid.obj();
                 sym = f.symbol();
                 col = f.color();
             }
@@ -1959,7 +1960,7 @@ bool cata_tiles::draw_furniture( const tripoint &p, lit_level ll, int &height_3d
     get_tile_values(f_id, neighborhood, subtile, rotation);
 
     // get the name of this furniture piece
-    const std::string& f_name = f_id.obj().id; // replace with furniture names array access
+    const std::string& f_name = f_id.obj().id.str();
     bool ret = draw_from_id_string( f_name, C_FURNITURE, empty_string, p, subtile, rotation, ll,
                                     nv_goggles_activated, height_3d );
     if( ret && g->m.sees_some_items( p, g->u ) ) {
@@ -2723,7 +2724,7 @@ void cata_tiles::do_tile_loading_report() {
     DebugLog( D_INFO, DC_ALL ) << "Loaded tileset: " << OPTIONS["TILES"].getValue();
 
     tile_loading_report<ter_t>( ter_t::count(), "Terrain", "" );
-    tile_loading_report(furnmap, "Furniture", "");
+    tile_loading_report<furn_t>( furn_t::count(), "Furniture", "" );
     //TODO: exclude fake items from Item_factory::init_old()
     tile_loading_report(item_controller->get_all_itypes(), "Items", "");
     auto mtypes = MonsterGenerator::generator().get_all_mtypes();

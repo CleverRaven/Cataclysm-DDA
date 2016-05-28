@@ -1490,7 +1490,7 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
     ter_set(x, y, new_terrain);
 }
 
-void map::set(const int x, const int y, const ter_str_id &new_terrain, const std::string &new_furniture) {
+void map::set(const int x, const int y, const ter_str_id &new_terrain, const furn_str_id &new_furniture) {
     furn_set(x, y, new_furniture);
     ter_set(x, y, new_terrain);
 }
@@ -1505,7 +1505,7 @@ bool map::has_furn(const int x, const int y) const
   return furn(x, y) != f_null;
 }
 
-std::string map::get_furn(const int x, const int y) const
+furn_str_id map::get_furn(const int x, const int y) const
 {
     return furn_at(x, y).id;
 }
@@ -1532,11 +1532,11 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
     furn_set( tripoint( x, y, abs_sub.z ), new_furniture );
 }
 
-void map::furn_set(const int x, const int y, const std::string new_furniture) {
-    if ( furnmap.find(new_furniture) == furnmap.end() ) {
+void map::furn_set(const int x, const int y, const furn_str_id new_furniture) {
+    if( !new_furniture.is_valid() ) {
         return;
     }
-    furn_set(x, y, furnmap[ new_furniture ].loadid );
+    furn_set(x, y, new_furniture.id() );
 }
 
 std::string map::furnname(const int x, const int y) {
@@ -1550,7 +1550,7 @@ void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_fu
     ter_set( p, new_terrain );
 }
 
-void map::set( const tripoint &p, const ter_str_id &new_terrain, const std::string &new_furniture) {
+void map::set( const tripoint &p, const ter_str_id &new_terrain, const furn_str_id &new_furniture) {
     furn_set( p, new_furniture );
     ter_set( p, new_terrain );
 }
@@ -1570,7 +1570,7 @@ bool map::has_furn( const tripoint &p ) const
   return furn( p ) != f_null;
 }
 
-std::string map::get_furn( const tripoint &p ) const
+furn_str_id map::get_furn( const tripoint &p ) const
 {
     return furn_at( p ).id;
 }
@@ -1634,12 +1634,11 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
     support_dirty( above );
 }
 
-void map::furn_set( const tripoint &p, const std::string new_furniture) {
-    if( furnmap.find(new_furniture) == furnmap.end() ) {
+void map::furn_set( const tripoint &p, const furn_str_id new_furniture) {
+    if( !new_furniture.is_valid() ) {
         return;
     }
-
-    furn_set( p, furnmap[ new_furniture ].loadid );
+    furn_set( p, new_furniture.id() );
 }
 
 bool map::can_move_furniture( const tripoint &pos, player *p ) {
@@ -1886,7 +1885,7 @@ std::string map::features( const tripoint &p )
 
 int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const vehicle *veh, const int vpart) const
 {
-    if( terrain.movecost == 0 || ( furniture.loadid != f_null && furniture.movecost < 0 ) ) {
+    if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ) {
         return 0;
     }
 
@@ -1903,7 +1902,7 @@ int map::move_cost_internal(const furn_t &furniture, const ter_t &terrain, const
         }
     }
 
-    if( furniture.loadid != f_null ) {
+    if( furniture.id ) {
         return std::max( terrain.movecost + furniture.movecost, 0 );
     }
 
@@ -2581,7 +2580,7 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
     bool furn_smash = false;
     bool ter_smash = false;
     ///\EFFECT_STR determines what furniture can be smashed
-    if( furniture.loadid != f_null && furniture.bash.str_max != -1 ) {
+    if( furniture.id && furniture.bash.str_max != -1 ) {
         furn_smash = true;
     ///\EFFECT_STR determines what terrain can be smashed
     } else if( terrain.bash.str_max != -1 && ( !terrain.bash.bash_below || allow_floor ) ) {
@@ -3464,7 +3463,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( smash_furn ) {
-        soundfxvariant = furnid.id;
+        soundfxvariant = furnid.id.str();
     } else {
         soundfxvariant = terid.id.str();
     }
@@ -3517,8 +3516,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Get ids of possible centers
         std::set<furn_id> centers;
         for( const auto &center : bash->tent_centers ) {
-            const furn_id cur_id = furnfind( center );
-            if( cur_id != f_null ) {
+            const furn_str_id cur_id( center );
+            if( cur_id.is_valid() ) {
                 centers.insert( cur_id );
             }
         }
@@ -3558,8 +3557,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                 const auto recur_bash = &frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
                 for( const auto &center : recur_bash->tent_centers ) {
-                    const furn_id cur_id = furnfind( center );
-                    if( centers.count( cur_id ) > 0 ) {
+                    const furn_str_id cur_id( center );
+                    if( centers.count( cur_id.id() ) > 0 ) {
                         // Found same center, wreck current tile
                         spawn_items( p, item_group::items_from( recur_bash->drop_group, calendar::turn ) );
                         furn_set( pt, recur_bash->furn_set );
@@ -4126,18 +4125,13 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
         }
 
         return true;
-    } else if ( !furn.open.empty() && furn.open != "t_null" ) {
-        if ( furnmap.find( furn.open ) == furnmap.end() ) {
-            debugmsg("terrain %s.open == non existant furniture '%s'\n", furn.id.c_str(), furn.open.c_str() );
-            return false;
-        }
-
+    } else if( furn.open ) {
         if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
             return false;
         }
 
         if(!check_only) {
-            sounds::sound( p, 6, "", true, "open_door", furn.id );
+            sounds::sound( p, 6, "", true, "open_door", furn.id.str() );
             furn_set(p, furn.open );
         }
 
@@ -4219,16 +4213,12 @@ bool map::close_door( const tripoint &p, const bool inside, const bool check_onl
         ter_set(p, ter.close );
      }
      return true;
- } else if ( !furn.close.empty() && furn.close != "t_null" ) {
-     if ( furnmap.find( furn.close ) == furnmap.end() ) {
-         debugmsg("terrain %s.close == non existant furniture '%s'\n", furn.id.c_str(), furn.close.c_str() );
-         return false;
-     }
+ } else if( furn.close ) {
      if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
          return false;
      }
      if (!check_only) {
-         sounds::sound( p, 10, "", true, "close_door", furn.id );
+         sounds::sound( p, 10, "", true, "close_door", furn.id.str() );
          furn_set(p, furn.close );
      }
      return true;
@@ -6045,7 +6035,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     bool draw_item_sym = false;
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
-    if( curr_furn.loadid != f_null ) {
+    if( curr_furn.id ) {
         sym = curr_furn.symbol();
         tercol = curr_furn.color();
     } else {
@@ -6926,12 +6916,12 @@ void map::grow_plant( const tripoint &p )
     if ( calendar::turn >= seed.bday + plantEpoch ) {
         if (calendar::turn < seed.bday + plantEpoch * 2 ) {
                 i_rem(p, 1);
-                furn_set(p, "f_plant_seedling");
+                furn_set(p, furn_str_id( "f_plant_seedling" ) );
         } else if (calendar::turn < seed.bday + plantEpoch * 3 ) {
                 i_rem(p, 1);
-                furn_set(p, "f_plant_mature");
+                furn_set(p, furn_str_id( "f_plant_mature" ) );
         } else {
-                furn_set(p, "f_plant_harvest");
+                furn_set(p, furn_str_id( "f_plant_harvest" ) );
         }
     }
 }
@@ -7877,14 +7867,10 @@ tinymap::tinymap( int mapsize, bool zlevels )
 {
 }
 
-furn_id find_furn_id( const std::string id, bool complain = true )
+furn_id find_furn_id( const furn_str_id id, bool complain = true )
 {
     ( void )complain; //FIXME: complain unused
-    if( furnmap.find( id ) == furnmap.end() ) {
-        debugmsg( "Can't find furnmap[%s]", id.c_str() );
-        return furn_id( 0 );
-    }
-    return furnmap[id].loadid;
+    return id.id();
 }
 
 void map::draw_line_ter( const ter_id type, int x1, int y1, int x2, int y2 )
@@ -7906,7 +7892,7 @@ void map::draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_line_furn( const std::string type, int x1, int y1, int x2, int y2 )
+void map::draw_line_furn( const furn_str_id type, int x1, int y1, int x2, int y2 )
 {
     draw_line_furn( find_furn_id( type ), x1, y1, x2, y2 );
 }
@@ -7961,7 +7947,7 @@ void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_square_furn( std::string type, int x1, int y1, int x2, int y2 )
+void map::draw_square_furn( furn_str_id type, int x1, int y1, int x2, int y2 )
 {
     draw_square_furn( find_furn_id( type ), x1, y1, x2, y2 );
 }
@@ -7999,7 +7985,7 @@ void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_rough_circle_furn( std::string type, int x, int y, int rad )
+void map::draw_rough_circle_furn( furn_str_id type, int x, int y, int rad )
 {
     draw_rough_circle_furn( find_furn_id( type ), x, y, rad );
 }
@@ -8030,7 +8016,7 @@ void map::draw_circle_furn( furn_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_circle_furn( std::string type, int x, int y, int rad )
+void map::draw_circle_furn( furn_str_id type, int x, int y, int rad )
 {
     draw_circle_furn( find_furn_id( type ), x, y, rad );
 }

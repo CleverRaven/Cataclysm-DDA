@@ -7313,7 +7313,7 @@ void game::close( const tripoint &closep )
         }
     } else if( closep == u.pos() ) {
         add_msg(m_info, _("There's some buffoon in the way!"));
-    } else if (m.has_furn(closep) && m.furn_at(closep).close.empty()) {
+    } else if( m.has_furn( closep ) && !m.furn_at( closep ).close ) {
         // check for open crate
         if (m.furn_at(closep).id == "f_crate_o") {
             add_msg(m_info, _("You'll need to construct a seal to close the crate!"));
