@@ -429,6 +429,8 @@ std::pair<std::string, nc_color> const& get_light_level(const float light);
  *    c - character to fill the segment of the bar with
  */
 
+// MSVC has problem dealing with template functions.
+// Implementing this function in cpp file results link error.
 template<typename RatingIterator>
 inline std::string get_labeled_bar(const double val, const int width, const std::string &label,
     RatingIterator begin, RatingIterator end)

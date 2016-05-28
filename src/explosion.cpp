@@ -50,7 +50,7 @@ shrapnel_data load_shrapnel_data( JsonObject &jo )
     return ret;
 }
 
-// (C1001) Comiler Internal Error on Visual Studio 2015 with Update 2
+// (C1001) Compiler Internal Error on Visual Studio 2015 with Update 2
 void game::do_blast( const tripoint &p, const float power,
                      const float distance_factor, const bool fire )
 {
