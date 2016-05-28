@@ -1815,7 +1815,7 @@ bool player::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_deaf ) {
         return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
     } else if( eff == effect_corroding ) {
-        return has_trait( "ACIDPROOF" );
+        return is_immune_damage( DT_ACID ) || has_trait( "SLIMY" ) || has_trait( "VISCOUS" );
     } else if( eff == effect_nausea ) {
         return has_trait( "STRONGSTOMACH" );
     }
@@ -8012,23 +8012,11 @@ void player::suffer()
             }
         }
     }
-
-    if (has_trait("SLIMY") && !in_vehicle) {
-        g->m.add_field( pos(), fd_slime, 1, 0 );
-    }
         //Web Weavers...weave web
     if (has_active_mutation("WEB_WEAVER") && !in_vehicle) {
       g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
 
      }
-
-    if (has_trait("VISCOUS") && !in_vehicle) {
-        if (one_in(3)){
-            g->m.add_field( pos(), fd_slime, 1, 0 );
-        } else {
-            g->m.add_field( pos(), fd_slime, 2, 0 );
-        }
-    }
 
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
@@ -11930,6 +11918,10 @@ int player::get_armor_acid(body_part bp) const
         }
     }
 
+    if( has_trait( "SLIMY" ) || has_trait( "VISCOUS" ) ) {
+        ret++;
+    }
+
     return ret;
 }
 
@@ -11940,6 +11932,10 @@ int player::get_armor_fire(body_part bp) const
         if( i.covers( bp ) ) {
             ret += i.fire_resist();
         }
+    }
+
+    if( has_trait( "VISCOUS" ) ) {
+        ret++;
     }
 
     return ret;
@@ -12225,6 +12221,11 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
             if (has_trait("HOLLOW_BONES")) {
                 elem.amount *= 1.8;
+            }
+        }
+        if( elem.type == DT_ACID ) {
+            if( has_trait( "VISCOUS" ) ) {
+                elem.amount -= 2;
             }
         }
 
