@@ -3084,16 +3084,13 @@ bool map::mop_spills( const tripoint &p )
         }
     }
 
-    const field &fld = field_at( p );
-    std::vector<field_id> to_check = {fd_blood, fd_blood_veggy,
-                                      fd_blood_insect, fd_blood_invertebrate, fd_gibs_flesh, fd_gibs_veggy,
-                                      fd_gibs_insect, fd_gibs_invertebrate, fd_bile, fd_slime, fd_sludge
+    field &fld = field_at( p );
+    static const std::vector<field_id> to_check = {fd_blood, fd_blood_veggy, fd_blood_insect,
+                                      fd_blood_invertebrate, fd_gibs_flesh, fd_gibs_veggy, fd_gibs_insect, fd_gibs_invertebrate,
+                                      fd_bile, fd_slime, fd_sludge
                                      };
-    for( unsigned i = 0; i < to_check.size(); i++ ) {
-        if( fld.findField( to_check[i] ) != 0 ) {
-            remove_field( p, to_check[i] );
-            retval = true;
-        }
+    for( field_id fid : to_check ) {
+        retval |= fld.removeField( fid );
     }
 
     int vpart;
