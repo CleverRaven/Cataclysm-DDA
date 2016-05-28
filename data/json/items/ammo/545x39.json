@@ -30,6 +30,9 @@
     "name": "5.45x39mm 7N22",
     "name_plural": "5.45x39mm 7N22",
     "description": "Armor piercing 5.45x39mm ammunition with 57gr bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "545x39",
     "relative": {
         "damage": -2,
         "pierce": 8,
