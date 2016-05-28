@@ -690,7 +690,7 @@ void player::deserialize(JsonIn &jsin)
     } else {
         player_activity temp;
         data.read("backlog", temp);
-        backlog.push_front( std::move( temp ) );
+        backlog.push_front( temp );
     }
 
     data.read("driving_recoil", driving_recoil);
