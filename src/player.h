@@ -332,6 +332,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_child_flag( const std::string &mut ) const;
         /** Removes the mutation's child flag from the player's list */
         void remove_child_flag( const std::string &mut );
+        /** Attempts to cross mutation threshold for given category */
+        void test_crossing_threshold( const mutation_category_trait &m_category );
 
         const tripoint &pos() const override;
         /** Returns the player's sight range */
