@@ -8,7 +8,6 @@
 #include "int_id.h"
 #include "item_location.h"
 #include "cursesdef.h"
-#include "uid.h"
 
 #include <vector>
 #include <map>
@@ -153,8 +152,6 @@ class game
         live_view& liveview;
 
     public:
-        uid_factory<UID_ITEM> item_uid_factory; /** generates unique item identifiers */
-
         /** Initializes the UI. */
         void init_ui();
         void setup();

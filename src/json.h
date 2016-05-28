@@ -1,7 +1,6 @@
 #ifndef JSON_H
 #define JSON_H
 
-#include <cstdint>
 #include <type_traits>
 #include <iosfwd>
 #include <string>
@@ -260,7 +259,6 @@ class JsonIn
         bool read(unsigned int &u);
         bool read(long &l);
         bool read(unsigned long &ul);
-        bool read( unsigned long long &ll );
         bool read(float &f);
         bool read(double &d);
         bool read(std::string &s);
@@ -455,7 +453,6 @@ class JsonOut
         void write(const unsigned &u);
         void write(const long &l);
         void write(const unsigned long &ul);
-        void write( const unsigned long long& ll );
         void write(const double &f);
         void write(const std::string &s);
         template<size_t N>

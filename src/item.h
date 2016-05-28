@@ -15,7 +15,7 @@
 #include "bodypart.h"
 #include "string_id.h"
 #include "line.h"
-#include "uid.h"
+#include "uuid.h"
 #include "item_location.h"
 
 class game;
@@ -1370,7 +1370,7 @@ public:
 
     private:
         /** unique identifier for each non-null instance */
-        item_uid uid_;
+        uuid uid;
 
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;

@@ -1369,17 +1369,6 @@ bool JsonIn::read(unsigned long &ul)
     return true;
 }
 
-bool JsonIn::read( unsigned long long &ll )
-{
-    if( !test_number() ) {
-        return false;
-    }
-
-    *stream >> ll;
-    end_value();
-    return true;
-}
-
 bool JsonIn::read(float &f)
 {
     if (!test_number()) {
@@ -1740,16 +1729,6 @@ void JsonOut::write(const unsigned long &ul)
     }
     // format specified in constructor, let's hope it hasn't changed
     *stream << ul;
-    need_separator = true;
-}
-
-void JsonOut::write( const unsigned long long &ll )
-{
-    if( need_separator ) {
-        write_separator();
-    }
-    // format specified in constructor, let's hope it hasn't changed
-    *stream << ll;
     need_separator = true;
 }
 
