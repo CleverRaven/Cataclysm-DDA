@@ -14,7 +14,7 @@
 #include "path_info.h"
 #include "mapsharing.h"
 #include "output.h"
-#include "uid.h"
+#include "uuid.h"
 
 #include <cstring>
 #include <ctime>
@@ -56,7 +56,7 @@ int APIENTRY WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 int main(int argc, char *argv[])
 {
 #endif
-    uid::init();
+    uuid::init();
 
     int seed = time(NULL);
     bool verifyexit = false;
