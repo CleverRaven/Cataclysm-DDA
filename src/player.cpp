@@ -6513,7 +6513,7 @@ void player::hardcoded_effects(effect &it)
                     _("\"Huh?  What was that?\"")
                 }};
 
-                const std::string &npc_text = random_entry( npc_hallu );
+                const std::string &npc_text = random_entry_ref( npc_hallu );
                 ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
                 ///\EFFECT_INT_NPC decreases volume of hallucination sounds

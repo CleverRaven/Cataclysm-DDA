@@ -42,5 +42,5 @@ const SpeechBubble &get_speech( const std::string label )
         return nullSpeech;
     }
 
-    return random_entry( speech_type->second );
+    return random_entry_ref( speech_type->second );
 }
