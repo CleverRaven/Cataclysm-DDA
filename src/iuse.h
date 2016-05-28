@@ -113,6 +113,7 @@ public:
     int granade             ( player*, item*, bool, const tripoint& );
     int granade_act         ( player*, item*, bool, const tripoint& );
     int c4                  ( player*, item*, bool, const tripoint& );
+    int acidbomb_act        ( player*, item*, bool, const tripoint& );
     int arrow_flamable      ( player*, item*, bool, const tripoint& );
     int grenade_inc_act     ( player*, item*, bool, const tripoint& );
     int molotov_lit         ( player*, item*, bool, const tripoint& );
