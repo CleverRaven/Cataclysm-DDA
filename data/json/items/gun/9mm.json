@@ -29,7 +29,7 @@
       [ "BURST", "3 rd.", 3 ],
       [ "AUTO", "auto", 5 ]
     ],
-    "magazines" : [
+    "magazines": [
       [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
       [ "22", [ "a180mag" ] ],
       [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ],
