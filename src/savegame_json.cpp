@@ -30,6 +30,7 @@
 #include "mutation.h"
 #include "io.h"
 #include "mtype.h"
+#include "item_factory.h"
 
 #include "tile_id_data.h" // for monster::json_save
 #include <ctime>
@@ -1388,18 +1389,13 @@ void mon_special_attack::serialize(JsonOut &json) const
 template<typename Archive>
 void item::io( Archive& archive )
 {
-    const auto load_type = [this]( const itype_id& id ) {
-        // only for backward compatibility (there are no "on" versions of those anymore)
-        if( id == "UPS_on" ) {
-            convert( "UPS_off" );
-        } else if( id == "adv_UPS_on" ) {
-            convert( "adv_UPS_off" );
-        } else if( id == "metal_tank_small" ) {
-            convert( "jerrycan" );
-        } else {
-            convert( id );
-        }
+
+    itype_id orig; // original ID as loaded from JSON
+    const auto load_type = [&]( const itype_id& id ) {
+        orig = id;
+        convert( item_controller->migrate_id( id ) );
     };
+
     const auto load_curammo = [this]( const std::string& id ) {
         set_curammo( id );
     };
@@ -1446,6 +1442,8 @@ void item::io( Archive& archive )
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
+
+    item_controller->migrate_item( orig, *this );
 
     if( !Archive::is_input::value ) {
         return;

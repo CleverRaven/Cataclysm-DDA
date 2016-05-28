@@ -808,6 +808,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
         return false;
     }
     if( !choose_adjacent(_("Light where?"), pos ) ) {
+        g->refresh_all();
         return false;
     }
     if( pos == p->pos() ) {

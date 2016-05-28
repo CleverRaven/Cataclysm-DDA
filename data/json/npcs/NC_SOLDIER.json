@@ -112,7 +112,7 @@
     "id" : "NC_SOLDIER_rifle",
     "items":[
       ["m4a1", 90],
-      ["m14a", 10]
+      ["m1a", 10]
     ]
   },{
     "type" : "item_group",

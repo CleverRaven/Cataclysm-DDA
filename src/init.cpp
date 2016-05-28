@@ -172,6 +172,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_veh_part);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_category);
+    type_function_map["MIGRATION"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_migration);
 
     type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>
     (&MonsterGenerator::generator(), &MonsterGenerator::load_monster);

@@ -7954,24 +7954,30 @@ void player::suffer()
         }
     }
 
-    if( (has_trait("ALBINO") || has_effect( effect_datura )) &&
-        g->is_in_sunlight(pos()) && one_in(10) ) {
-        // Umbrellas and rain gear can also keep the sun off!
-        // (No, really, I know someone who uses an umbrella when it's sunny out.)
-        if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
-            add_msg(m_bad, _("The sunlight is really irritating."));
-            if (in_sleep_state()) {
+    if( ( has_trait( "ALBINO" ) || has_effect( effect_datura ) ) &&
+        g->is_in_sunlight( pos() ) && one_in(10) ) {
+        // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
+        if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
+            add_msg( m_bad, _( "The sunlight is really irritating your skin." ) );
+            if( in_sleep_state() ) {
                 wake_up();
             }
-            if (one_in(10)) {
+            if( one_in(10) ) {
                 mod_pain(1);
             }
             else focus_pool --;
         }
+        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) ) ) {
+            add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
+            if( one_in(10) ) {
+                mod_pain(1);
+            }
+            else focus_pool --;
+        }    
     }
 
     if (has_trait("SUNBURN") && g->is_in_sunlight(pos()) && one_in(10)) {
-        if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
+        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
         add_msg(m_bad, _("The sunlight burns your skin!"));
         if (in_sleep_state()) {
             wake_up();
@@ -7981,7 +7987,7 @@ void player::suffer()
         }
     }
 
-    if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
+    if((has_trait("TROGLO") || has_trait("TROGLO2")) &&
         g->is_in_sunlight(pos()) && g->weather == WEATHER_SUNNY) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
@@ -8001,7 +8007,7 @@ void player::suffer()
         mod_dex_bonus(-4);
         add_miss_reason(_("You can't stand the sunlight!"), 4);
         mod_int_bonus(-4);
-        mod_per_bonus(-4);
+        mod_per_bonus(-4); 
     }
 
     if (has_trait("SORES")) {

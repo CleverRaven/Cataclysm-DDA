@@ -766,6 +766,17 @@ void Item_factory::check_definitions() const
     for( const auto &elem : m_template_groups ) {
         elem.second->check_consistency();
     }
+
+    for( const auto& e : migrations ) {
+        if( !m_templates.count( e.second.replace ) ) {
+            main_stream << "Invalid migration target: " << e.second.replace << "\n";
+        }
+        for( const auto& c : e.second.contents ) {
+            if( !m_templates.count( c ) ) {
+                main_stream << "Invalid migration contents: " << c << "\n";
+            }
+        }
+    }
 }
 
 //Returns the template with the given identification tag
@@ -1473,6 +1484,39 @@ void Item_factory::load_item_category(JsonObject &jo)
     }
     if (jo.has_member("sort_rank")) {
         cat.sort_rank = jo.get_int("sort_rank");
+    }
+}
+
+void Item_factory::load_migration( JsonObject &jo )
+{
+    migration m;
+    m.id = jo.get_string( "id" );
+    assign( jo, "replace", m.replace );
+    assign( jo, "flags", m.flags );
+    assign( jo, "charges", m.charges );
+    assign( jo, "contents", m.contents );
+
+    migrations[ jo.get_string( "id" ) ] = m;
+}
+
+itype_id Item_factory::migrate_id( const itype_id& id )
+{
+    auto iter = migrations.find( id );
+    return iter != migrations.end() ? iter->second.replace : id;
+}
+
+void Item_factory::migrate_item( const itype_id& id, item& obj )
+{
+    auto iter = migrations.find( id );
+    if( iter != migrations.end() ) {
+        std::copy( iter->second.flags.begin(), iter->second.flags.end(), std::inserter( obj.item_tags, obj.item_tags.begin() ) );
+        obj.charges = iter->second.charges;
+
+        for( const auto& c: iter->second.contents ) {
+            if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item& e ) { return e.typeId() == c; } ) ) {
+                obj.emplace_back( c, obj.bday );
+            }
+        }
     }
 }
 

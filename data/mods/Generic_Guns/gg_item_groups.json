@@ -112,7 +112,7 @@
       ["cx4", 15],
       ["ruger_mini", 30],
       ["savage_111f", 50],
-      ["m14a", 25],
+      ["m1a", 25],
       ["rm11b_sniper_rifle", 1]
     ]
   },{
@@ -217,7 +217,7 @@
       ["rm99_pistol", 5],
       ["rm103a_pistol", 2],
       ["rm228", 5],
-      ["m14a", 25],
+      ["m1a", 25],
       ["ruger_mini", 10],
       ["rm120c", 3],
       ["hk_mp5", 5],
@@ -341,7 +341,7 @@
     "type" : "item_group",
     "id" : "helicopter",
     "items":[
-      ["m14a", 10],
+      ["m1a", 10],
       ["m249", 1],
       ["m240", 1],
       ["rm614_lmg", 1],

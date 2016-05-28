@@ -402,6 +402,7 @@ bool player::eat( item &food, bool force )
     // Check if it's rotten before eating!
     food.calc_rot( global_square_location() );
     const auto edible = can_eat( food, is_player() && !force, force );
+    g->refresh_all();
     if( edible != EDIBLE ) {
         return false;
     }

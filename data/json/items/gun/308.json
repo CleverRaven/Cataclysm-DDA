@@ -149,7 +149,7 @@
     "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ]
   },
   {
-    "id": "m14a",
+    "id": "m1a",
     "copy-from": "rifle_semi",
     "type": "GUN",
     "name": "M1A",
@@ -177,7 +177,7 @@
   },
   {
     "id": "m14ebr",
-    "copy-from": "m14a",
+    "copy-from": "m1a",
     "type": "GUN",
     "name": "M14 EBR-RI",
     "name_plural": "M14 EBR-RI",
