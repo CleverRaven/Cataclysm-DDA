@@ -20,7 +20,7 @@
     "range": 37,
     "dispersion": 5,
     "recoil": 360,
-    "effects": ["COOKOFF"]
+    "effects": [ "COOKOFF" ]
   },
   {
     "type": "AMMO",
