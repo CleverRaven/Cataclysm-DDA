@@ -36,6 +36,11 @@ extern bool tile_iso;
 extern const int savegame_version;
 extern int savegame_loading_version;
 
+enum class dump_mode {
+    TSV,
+    HTML
+};
+
 enum tut_type {
     TUT_NULL,
     TUT_BASIC, TUT_COMBAT,
@@ -169,7 +174,7 @@ class game
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
         /** write stats of all loaded items of the given type to stdout */
-        void dump_stats( const std::string& what );
+        void dump_stats( const std::string& what, dump_mode mode );
 
         /** Returns false if saving failed. */
         bool save();
