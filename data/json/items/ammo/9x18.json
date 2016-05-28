@@ -10,7 +10,7 @@
     "price": 2600,
     "count": 50,
     "stack_size": 50,
-    "material": ["steel", "powder"],
+    "material": [ "steel", "powder" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "9x18",
@@ -20,7 +20,7 @@
     "range": 13,
     "dispersion": 140,
     "recoil": 185,
-    "effects": ["COOKOFF"]
+    "effects": [ "COOKOFF" ]
   },
   {   
     "id": "9x18mmP2",
