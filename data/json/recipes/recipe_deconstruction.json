@@ -957,6 +957,8 @@
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
+  },
+  {
     "result": "broken_mininuke_hack",
     "type": "recipe",
     "category": "CC_NONCRAFT",
