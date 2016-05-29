@@ -13,7 +13,7 @@
     "diff":15,
     "aggression":100,
     "morale":100,
-    "speed":85,
+    "speed":95,
     "melee_skill":2,
     "melee_dice":2,
     "melee_dice_sides":2,
@@ -29,7 +29,7 @@
     "hp":35,
     "death_function":["NORMAL"],
     "burn_into" : "mon_skeleton_scorched",
-    "description":"A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
+    "description":"A tiny, still-smoldering body, jumping and kicking and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
     "flags":["SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "GUILT", "CLIMBS"]
     },{
     "type" : "MONSTER",
@@ -119,7 +119,7 @@
     "hp":230,
     "special_attacks":[["SMASH", 50]],
     "burn_into" : "mon_horse_zombie_scorched",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT", "POISON"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT", "POISON", "NO_BREATHE", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "FIRE", "FRIEND_ATTACKED"]
     },{
     "type" : "MONSTER",
@@ -130,10 +130,10 @@
     "melee_dice":2,
     "melee_dice_sides":5,
     "melee_cut":5,
-    "dodge":3,
+    "dodge":2,
     "armor_bash":3,
     "armor_cut":1,
-    "hp":80,
+    "hp":75,
     "special_attacks":[
             {
             "type" : "bite",
@@ -170,8 +170,7 @@
     "special_attacks":[{
         "type" : "bite",
         "cooldown" : 15,
-        "no_infection_chance" : 5,
-        "min_mul" : 0.75, "//" : "strong jaws"
+        "min_mul" : 0.8, "//" : "strong jaws"
         }],
     "burn_into" : "mon_bear_smoky"
     },{
@@ -192,7 +191,7 @@
     "melee_dice":2,
     "melee_dice_sides":4,
     "melee_cut":12,
-    "melee_damage" : [{"damage_type" : "bash", "amount" : 12}],
+    "melee_damage" : [{"damage_type" : "bash", "amount" : 16}],
     "dodge":1,
     "armor_bash":6,
     "armor_cut":12,
@@ -268,7 +267,7 @@
     "melee_cut":4,
     "dodge":3,
     "armor_bash":5,
-    "armor_cut":2,
+    "armor_cut":1,
     "vision_day":25,
     "vision_night":15,
     "death_drops": "default_zombie_death_drops",
@@ -341,21 +340,21 @@
     "burn_into" : "mon_zombie_smoker"
     },{
     "type" : "MONSTER",
-    "id" : "mon_zombie_smoker",
-    "edit-mode" : "modify",
-    "upgrades":{
-        "into": "mon_zombie_gasbag_pk",
-        "half_life": 21
-    },
-    "burn_into" : "mon_zombie_scorched_pk"  
-    },{
-    "type" : "MONSTER",
     "id" : "mon_zombie_gasbag",
     "edit-mode" : "modify",
     "upgrades":{
         "into": "mon_zombie_gasbag_pk",
         "half_life": 21
     }
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_smoker",
+    "edit-mode" : "modify",
+    "upgrades":{
+        "into": "mon_zombie_gasbag_pk",
+        "half_life": 28
+    },
+    "burn_into" : "mon_zombie_scorched_pk"  
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_shady",
@@ -422,7 +421,7 @@
     "edit-mode" : "modify",
     "upgrades":{
         "into": "mon_zombie_hulk_pk",
-        "half_life": 42
+        "half_life": 49
     },
     "burn_into" : "mon_zombie_fiend_pk"
     },{
@@ -467,13 +466,12 @@
     "dodge":4,
     "armor_bash":12,
     "armor_cut":6,
-    "armor_stab":10,
     "vision_day":40,
     "vision_night":20,
     "death_drops": "default_zombie_death_drops",
     "burn_into" : "mon_zombie_fiend_pk",
     "hp":220,
-    "special_attacks":[["SMASH", 40], ["STRETCH_ATTACK", 3], ["LONGSWIPE", 20]]
+    "special_attacks":[["SMASH", 40], ["STRETCH_ATTACK", 20], ["LONGSWIPE", 20]]
     },{
     "type" : "MONSTER",
     "edit-mode" : "modify",
@@ -516,8 +514,8 @@
     "speed":180,
     "melee_skill":5,
     "melee_dice":2,
-    "melee_dice_sides":9,
-    "melee_damage" : [{"damage_type" : "stab", "amount" : 12}],
+    "melee_dice_sides":8,
+    "melee_damage" : [{"damage_type" : "stab", "amount" : 14}],
     "dodge":1,
     "armor_bash":4,
     "armor_cut":2,
@@ -526,7 +524,7 @@
     "hp":140,
     "death_function":"NORMAL",
     "burn_into" : "mon_horse_zombie_scorched",
-    "description":"This horse has a brackish liquid coating its bared teeth and occasional, oozing wounds breaking the otherwise glorious sheen of its hair.",
+    "description":"This horse has a brackish liquid coating its bared teeth, as well as the occasional oozing wounds breaking the otherwise glorious sheen of its hair.  Its hooves are fearsome weapons.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "FAT", "NO_BREATHE", "POISON", "REVIVES", "PUSH_MON", "STUMBLES", "BASHES"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers": ["FIRE"]
@@ -604,7 +602,7 @@
     "burn_into" : "mon_zombie_crawler_pk",
     "special_attacks":[        {
             "type" : "bite",
-            "cooldown" : 10,
+            "cooldown" : 5,
             "accuracy" : 7
         },
     ["GRAB", 6]],
@@ -737,11 +735,11 @@
     "color":"blue_cyan",
     "size":"MEDIUM",
     "material":"flesh",
-    "diff":14,
+    "diff":16,
     "aggression":100,
     "morale":100,
     "speed":85,
-    "melee_skill":7,
+    "melee_skill":5,
     "melee_dice":2,
     "melee_dice_sides":8,
     "melee_cut":1,
@@ -765,7 +763,7 @@
             "type" : "bite",
             "cooldown" : 8
         },
-        ["GRAB", 25], ["GRAB_DRAG", 10]],
+        ["GRAB", 25], ["GRAB_DRAG", 15]],
     "description":"This zombie seems to be more comfortable in water than out.  Its skin has hardened into a flaky chitinous layer, and its ponderous movements belie its hostility.",
     "flags":["CHITIN", "SEES", "HEARS", "GOODHEARING", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "BLEED", "SWIMS", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -797,7 +795,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["STRETCH_BITE", 15], ["STRETCH_ATTACK", 10]],
     "description":"With empty black sockets this creature surveys its surroundings deliberately.  As it scans, its body pulsates and contorts in a fashion that should break most bones.",
-    "flags":["SEES", "HEARS", "SMELLS", "REVIVES", "WARM", "BASHES", "GRABS", "GROUP_BASH", "POISON", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "SMELLS", "REVIVES", "WARM", "BASHES", "GRABS", "GROUP_BASH", "POISON", "NO_BREATHE"]   
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_crawler_pk",
@@ -948,7 +946,7 @@
     "hp":180,
     "death_function":["NORMAL", "BLOBSPLIT"],
     "burn_into" : "mon_zombie_scorched_necro",
-    "special_attacks":[["UPGRADE", 30], ["RESURRECT", 30], ["FORMBLOB", 180], ["LONGSWIPE", 10]],
+    "special_attacks":[["UPGRADE", 30], ["RESURRECT", 30], ["FORMBLOB", 180], ["LONGSWIPE", 15]],
     "description":"Standing with erect back and mocking smile, this graceful zombie appears to actually direct nearby zombies with glares and the twitching of its jagged claws.  Its skin is a revolting shade of pink, and every once in a while it stops what it is doing to excrete a few gooey, animate blobs.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
@@ -970,7 +968,7 @@
     "melee_skill":6,
     "melee_dice":3,
     "melee_dice_sides":6,
-    "melee_damage" : [ {"damage_type" : "true", "amount" : 2} ],
+    "melee_damage" : [ {"damage_type" : "true", "amount" : 1} ],
     "dodge":5,
     "armor_bash":6,
     "armor_cut":16,
@@ -1008,7 +1006,7 @@
     "melee_dice_sides":20,
     "melee_cut":4,
     "dodge":4,
-    "armor_bash":16,
+    "armor_bash":14,
     "armor_cut":20,
     "armor_stab":10,
     "armor_fire": 5,
@@ -1220,7 +1218,7 @@
     "speed":95,
     "melee_skill":5,
     "melee_dice":2,
-    "melee_dice_sides":6,
+    "melee_dice_sides":4,
     "melee_cut":4,
     "melee_damage" : [ {"damage_type" : "electric", "amount" : 6} ],
     "dodge":0,
@@ -1474,9 +1472,8 @@
     "speed":135,
     "melee_skill":4,
     "melee_dice":2,
-    "melee_dice_sides":8,
-    "melee_damage" : [{"damage_type" : "stab", "amount" : 8}],
-    "melee_cut":5,
+    "melee_dice_sides":10,
+    "melee_damage" : [{"damage_type" : "stab", "amount" : 10}],
     "dodge":1,
     "armor_bash":10,
     "armor_cut":8,
@@ -1485,20 +1482,21 @@
     "hp":110,
     "burn_into" : "mon_zolf_scorched",
     "death_function":"NORMAL",
+    "special_attacks":[["SMASH", 70]],
     "description":"Blackened hooves adorn the charred limbs of this monstrous being.  It lumbers after prey with horrifying  speed, snuffing them out with brutal force.",
     "flags":["SEES", "HEARS", "WARM", "BONES", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "PUSH_MON", "STUMBLES", "BASHES"],
     "anger_triggers":["FRIEND_ATTACKED"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zolf_scorched",
-    "name": "putrified pile",
+    "name": "torrid beast",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"o",
     "color":"i_green",
     "size":"MEDIUM",
     "material":"flesh",
-    "diff":8,
+    "diff":16,
     "aggression":100,
     "morale":100,
     "speed":40,
@@ -1515,9 +1513,69 @@
     "vision_day":5,
     "vision_night":15,
     "hp":50,
+    "burn_into" : "mon_zanimal_scorched",
     "death_function":"MELT",
     "special_attacks":[["SHRIEK", 120], ["FORMBLOB", 150], ["LONGSWIPE", 50]],
-    "description":"A scorched chaotic mass of flesh, squirming and writhing to slowly work its way across the ground.  A couple of bony scythes have ruptured the pile and wave around erratically.",
+    "description":"A scorched chaotic mass of flesh, squirming and writhing to slowly work its way across the ground.  A couple of bony scythes have ruptured out of the pile and wave around erratically.",
     "flags":["SEES", "HEARS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "SWIMS", "NIGHT_INVISIBILITY"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zanimal_scorched",
+    "name": "putrified pile",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"o",
+    "color":"i_green",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":12,
+    "aggression":100,
+    "morale":100,
+    "speed":70,
+    "melee_skill":2,
+    "melee_dice":1,
+    "melee_dice_sides":8,
+    "melee_damage" : [{"damage_type" : "acid", "amount" : 1}],
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":10,
+    "armor_cut":0,
+    "armor_stab":8,
+    "armor_acid":4,
+    "vision_day":2,
+    "vision_night":5,
+    "hp":50,
+    "burn_into" : "mon_zanimal_skeleton",
+    "death_function": ["MELT", "BLOBSPLIT"],
+    "special_attacks":[["FORMBLOB", 240]],
+    "description":"An appaling black mass of flowing crusted flesh, the liquid of this beast seems to be more fleeing than flowing, such as rats on a sinking ship.",
+    "flags":["SEES", "HEARS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "NO_NECRO", "BONES", "SWIMS", "NIGHT_INVISIBILITY"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zanimal_skeleton",
+    "name": "putrified pile",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"o",
+    "color":"i_green",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":8,
+    "aggression":100,
+    "morale":100,
+    "speed":70,
+    "melee_skill":2,
+    "melee_dice":1,
+    "melee_dice_sides":8,
+    "melee_cut":0,
+    "dodge":0,
+    "armor_bash":10,
+    "armor_cut":0,
+    "armor_stab":8,
+    "armor_acid":4,
+    "hp":30,
+    "death_function": ["MELT", "BLOBSPLIT"],
+    "description":"An appaling black mass of flowing crusted flesh, flailing helplessly about.",
+    "flags":["HEARS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "BONES", "SWIMS", "NIGHT_INVISIBILITY"]
     }
 ]
