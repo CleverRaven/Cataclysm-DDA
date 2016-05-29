@@ -13,7 +13,23 @@
     "type": "COMESTIBLE",
     "name": "base fruit",
     "material": "fruit",
-    "color": "red"
+    "color": "red",
+    "vitamins": [ [ "vitC", 15 ] ]
+  },
+  {
+    "id": "fruit_berry",
+    "copy-from": "fruit",
+    "type": "COMESTIBLE",
+    "name": "fruit berries",
+    "stack_size": 8,
+    "spoils_in": 72
+  },
+  {
+    "id": "fruit_citrus",
+    "copy-from": "fruit",
+    "type": "COMESTIBLE",
+    "name": "citrus fruit",
+    "relative": { "vitamins": [ [ "vitC", 2.0 ] ] }
   },
   {
     "id": "vegetable",
