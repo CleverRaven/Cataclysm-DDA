@@ -37,6 +37,25 @@
     "type": "COMESTIBLE",
     "name": "base vegetable",
     "material": "veggy",
-    "color": "green"
+    "color": "green",
+    "vitamins": [
+      [ "calcium", 1 ],
+      [ "vitA", 10 ],
+      [ "vitC", 5 ]
+    ]
+  },
+  {
+    "id": "vegetable_leafy",
+    "copy-from": "vegetable",
+    "type": "COMESTIBLE",
+    "name": "leafy greens and brassicas",
+    "relative": { "vitamins": [ [ "calcium", 2.0 ] ] }
+  },
+  {
+    "id": "vegetable_root",
+    "copy-from": "vegetable",
+    "type": "COMESTIBLE",
+    "name": "root or bulb vegetables",
+    "spoils_in": 720
   }
 ]

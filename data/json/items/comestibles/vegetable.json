@@ -1,7 +1,7 @@
 [
   {
     "id": "broccoli",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_leafy",
     "type": "COMESTIBLE",
     "name": "broccoli",
     "name_plural": "broccoli",
@@ -30,7 +30,7 @@
   },
   {
     "id": "cabbage",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_leafy",
     "type": "COMESTIBLE",
     "name": "cabbage",
     "description": "A hearty head of crisp white cabbage.",
@@ -44,7 +44,7 @@
   },
   {
     "id": "carrot",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_root",
     "type": "COMESTIBLE",
     "name": "carrot",
     "name_plural": "carrots",
@@ -112,7 +112,7 @@
   },
   {
     "id": "garlic",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_root",
     "type": "COMESTIBLE",
     "name": "garlic bulb",
     "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.",
@@ -125,7 +125,7 @@
   },
   {
     "id": "lettuce",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_leafy",
     "type": "COMESTIBLE",
     "name": "lettuce",
     "description": "A crisp head of iceberg lettuce.",
@@ -152,7 +152,7 @@
   },
   {
     "id": "onion",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_root",
     "type": "COMESTIBLE",
     "name": "onion",
     "description": "An aromatic onion used in cooking.  Cutting these up can make your eyes sting!",
@@ -164,7 +164,7 @@
   },
   {
     "id": "potato_raw",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_root",
     "type": "COMESTIBLE",
     "name": "raw potato",
     "name_plural": "raw potatoes",
@@ -212,7 +212,7 @@
   },
   {
     "id": "raw_dandelion",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_leafy",
     "type": "COMESTIBLE",
     "name": "handful of dandelions",
     "name_plural": "handfuls of dandelions",
@@ -255,7 +255,7 @@
   },
   {
     "id": "veggy_wild",
-    "copy-from": "vegetable",
+    "copy-from": "vegetable_leafy",
     "type": "COMESTIBLE",
     "name": "wild vegetables",
     "name_plural": "wild vegetables",
