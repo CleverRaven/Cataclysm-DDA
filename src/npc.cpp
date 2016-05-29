@@ -105,6 +105,7 @@ npc::npc()
 
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
     ret_null = item( "null", 0 );
+    last_updated = calendar::turn;
 }
 
 npc_map npc::_all_npc;
@@ -2573,6 +2574,12 @@ void npc::on_load()
         update_body( cur, cur + 1 );
     }
 
+    if( dt > 0 ) {
+        // This ensures food is properly rotten at load
+        // Otherwise NPCs try to eat rotten food and fail
+        process_active_items();
+    }
+
     // Not necessarily true, but it's not a bad idea to set this
     has_new_items = true;
 }
@@ -2764,6 +2771,7 @@ void npc::process_turn()
         // TODO: Similar checks for fear and anger
     }
 
+    last_updated = calendar::turn;
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }
