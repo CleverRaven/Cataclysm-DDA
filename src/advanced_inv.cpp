@@ -642,7 +642,7 @@ void advanced_inv_area::init()
             }
             // get graffiti or terrain name
             desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ?
-                g->m.graffiti_at( pos ) : g->m.ter_at( pos ).name;
+                g->m.graffiti_at( pos ) : g->m.name( pos );
         default:
             break;
     }
