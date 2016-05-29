@@ -827,7 +827,7 @@ void talk_function::field_harvest(npc *p, std::string place)
     bay.load(site.x * 2, site.y * 2, site.z, false);
     for (int x = 0; x < 23; x++){
         for (int y = 0; y < 23; y++){
-            if (bay.get_furn(x,y) == "f_plant_harvest" && !bay.i_at(x,y).empty()){
+            if (bay.furn(x,y) == furn_str_id( "f_plant_harvest" ) && !bay.i_at(x,y).empty()){
                 const item &seed = bay.i_at( x,y )[0];
                 if( seed.is_seed() ) {
                     const islot_seed &seed_data = *seed.type->seed;
@@ -873,7 +873,7 @@ void talk_function::field_harvest(npc *p, std::string place)
 
     for (int x = 0; x < 23; x++){
         for (int y = 0; y < 23; y++){
-            if (bay.get_furn(x,y) == "f_plant_harvest" && !bay.i_at(x,y).empty()){
+            if (bay.furn(x,y) == furn_str_id( "f_plant_harvest" ) && !bay.i_at(x,y).empty()){
                 const item &seed = bay.i_at( x,y )[0];
                 if( seed.is_seed() ) {
                     const islot_seed &seed_data = *seed.type->seed;
@@ -1572,8 +1572,8 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                 const map_bash_info &bash = bay.ter(x,y).obj().bash;
                 bay.ter_set( x, y, bash.ter_set);
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if ( bay.has_furn(x,y) && bay.furn_at(x,y).bash.str_max != -1 && one_in(10)) {
-                const map_bash_info &bash = bay.furn_at(x,y).bash;
+            } else if ( bay.has_furn(x,y) && bay.furn(x,y).obj().bash.str_max != -1 && one_in(10)) {
+                const map_bash_info &bash = bay.furn(x,y).obj().bash;
                 bay.furn_set(x,y, bash.furn_set);
                 bay.delete_signage( p );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );

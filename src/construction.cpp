@@ -777,7 +777,7 @@ bool construct::check_support( point p )
 bool construct::check_deconstruct( point p )
 {
     if( g->m.has_furn( p.x, p.y ) ) {
-        return g->m.furn_at( p.x, p.y ).deconstruct.can_do;
+        return g->m.furn( p.x, p.y ).obj().deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
     return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
@@ -870,7 +870,7 @@ void construct::done_deconstruct( point p )
     // TODO: Make this the argument
     tripoint p3( p, g->get_levz() );
     if( g->m.has_furn( p.x, p.y ) ) {
-        const furn_t &f = g->m.furn_at( p.x, p.y );
+        const furn_t &f = g->m.furn( p.x, p.y ).obj();
         if( !f.deconstruct.can_do ) {
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name.c_str() );
             return;

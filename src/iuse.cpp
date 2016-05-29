@@ -3168,7 +3168,7 @@ int iuse::makemound(player *p, item *it, bool, const tripoint& )
 int iuse::dig(player *p, item *it, bool, const tripoint &pos )
 {
     for( const tripoint &pt : closest_tripoints_first( 1, pos ) ) {
-        if( g->m.furn_at( pt ).examine == iexamine::rubble ) {
+        if( g->m.furn( pt ).obj().examine == iexamine::rubble ) {
             p->add_msg_if_player( _("You clear up that %s."), g->m.furnname( pt ).c_str() );
             g->m.furn_set( pt, f_null );
 

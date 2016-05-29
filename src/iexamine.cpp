@@ -753,7 +753,7 @@ void iexamine::bars(player &p, const tripoint &examp)
 
 void iexamine::portable_structure(player &p, const tripoint &examp)
 {
-    const auto &fr = g->m.furn_at( examp );
+    const auto &fr = g->m.furn( examp ).obj();
     std::string name;
     std::string dropped;
     if( fr.id == "f_groundsheet" ) {
@@ -1728,7 +1728,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
     } else if( cur_kiln_type == f_kiln_metal_empty ) {
         next_kiln_type = f_kiln_metal_full;
     } else {
-        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", g->m.get_furn( examp ).c_str() );
+        debugmsg( "Examined furniture has action kiln_empty, but is of type %s", g->m.furn( examp ).id().c_str() );
         return;
     }
 
@@ -1797,7 +1797,7 @@ void iexamine::kiln_full(player &, const tripoint &examp)
     } else if( cur_kiln_type == f_kiln_metal_full ) {
         next_kiln_type = f_kiln_metal_empty;
     } else {
-        debugmsg( "Examined furniture has action kiln_full, but is of type %s", g->m.get_furn( examp ).c_str() );
+        debugmsg( "Examined furniture has action kiln_full, but is of type %s", g->m.furn( examp ).id().c_str() );
         return;
     }
 
@@ -2006,7 +2006,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
 
 //probably should move this functionality into the furniture JSON entries if we want to have more than a few "kegs"
 int iexamine::get_keg_capacity( const tripoint &pos ) {
-    const furn_t &furn = g->m.furn_at( pos );
+    const furn_t &furn = g->m.furn( pos ).obj();
     if( furn.id == "f_standing_tank" )  { return 1200; }
     else if( furn.id == "f_wood_keg" )  { return 600; }
     //add additional cases above
@@ -2714,7 +2714,7 @@ static long count_charges_in_list(const itype *type, const map_stack &items)
 
 void iexamine::reload_furniture(player &p, const tripoint &examp)
 {
-    const furn_t &f = g->m.furn_at(examp);
+    const furn_t &f = g->m.furn(examp).obj();
     const itype *type = f.crafting_pseudo_item_type();
     const itype *ammo = f.crafting_ammo_item_type();
     if (type == NULL || ammo == NULL) {

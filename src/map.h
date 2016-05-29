@@ -536,8 +536,6 @@ public:
     bool has_furn(const int x, const int y) const;
 
     furn_id furn(const int x, const int y) const; // Furniture at coord (x, y); {x|y}=(0, SEE{X|Y}*3]
-    furn_str_id get_furn(const int x, const int y) const;
-    const furn_t & furn_at(const int x, const int y) const;
 
     void furn_set(const int x, const int y, const furn_id new_furniture);
     void furn_set(const int x, const int y, const furn_str_id new_furniture);
@@ -557,8 +555,6 @@ public:
     bool has_furn( const tripoint &p ) const;
 
     furn_id furn( const tripoint &p ) const;
-    furn_str_id get_furn( const tripoint &p ) const;
-    const furn_t & furn_at( const tripoint &p ) const;
 
     void furn_set( const tripoint &p, const furn_id new_furniture );
     void furn_set( const tripoint &p, const furn_str_id new_furniture );
@@ -1118,7 +1114,7 @@ public:
     /**
      * Translates local (to this map) coordinates of a square to
      * global absolute coordinates. (x,y) is in the system that
-     * is used by the ter/furn_at/i_at functions.
+     * is used by the ter/furn/i_at functions.
      * Output is in the same scale, but in global system.
      */
     point getabs(const int x, const int y) const;

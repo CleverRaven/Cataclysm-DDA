@@ -1262,7 +1262,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                 if( veh != nullptr ) {
                     color = cursesColorToSDL( veh->part_color( veh_part ) );
                 } else if( g->m.has_furn( p ) ) {
-                    auto &furniture = g->m.furn_at( p );
+                    auto &furniture = g->m.furn( p ).obj();
                     color = cursesColorToSDL( furniture.color() );
                 } else {
                     auto &terrain = g->m.ter( p ).obj();
@@ -1861,7 +1861,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     SDL_Color tercol = cursesColorToSDL( c_dkgray );
 
     const ter_t &curr_ter = g->m.ter( pbelow ).obj();
-    const furn_t &curr_furn = g->m.furn_at( pbelow );
+    const furn_t &curr_furn = g->m.furn( pbelow ).obj();
     int part_below;
     int sizefactor = 2;
     const vehicle *veh;

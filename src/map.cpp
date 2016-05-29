@@ -1531,16 +1531,6 @@ bool map::has_furn(const int x, const int y) const
   return furn(x, y) != f_null;
 }
 
-furn_str_id map::get_furn(const int x, const int y) const
-{
-    return furn_at(x, y).id;
-}
-
-const furn_t & map::furn_at(const int x, const int y) const
-{
-    return furn(x,y).obj();
-}
-
 furn_id map::furn(const int x, const int y) const
 {
     if( !INBOUNDS(x, y) ) {
@@ -1609,16 +1599,6 @@ bool map::has_furn( const tripoint &p ) const
   return furn( p ) != f_null;
 }
 
-furn_str_id map::get_furn( const tripoint &p ) const
-{
-    return furn_at( p ).id;
-}
-
-const furn_t & map::furn_at( const tripoint &p ) const
-{
-    return furn( p ).obj();
-}
-
 furn_id map::furn( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -1681,7 +1661,7 @@ void map::furn_set( const tripoint &p, const furn_str_id new_furniture) {
 }
 
 bool map::can_move_furniture( const tripoint &pos, player *p ) {
-    furn_t furniture_type = furn_at( pos );
+    const furn_t &furniture_type = furn( pos ).obj();
     int required_str = furniture_type.move_str_req;
 
     // Object can not be moved (or nothing there)
@@ -1698,7 +1678,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p ) {
 }
 
 std::string map::furnname( const tripoint &p ) {
-    const furn_t &f = furn_at( p );
+    const furn_t &f = furn( p ).obj();
     if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
         const item &seed = i_at( p ).front();
         const std::string &plant = seed.get_plant_name();
@@ -1956,7 +1936,7 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
     }
 
     int part;
-    const furn_t &furniture = furn_at( p );
+    const furn_t &furniture = furn( p ).obj();
     const ter_t &terrain = ter( p ).obj();
     const vehicle *veh = veh_at( p, part );
     if( veh == ignored_vehicle ) {
@@ -2505,7 +2485,7 @@ bool map::has_flag_ter( const std::string & flag, const tripoint &p ) const
 
 bool map::has_flag_furn( const std::string & flag, const tripoint &p ) const
 {
-    return furn_at( p ).has_flag( flag );
+    return furn( p ).obj().has_flag( flag );
 }
 
 bool map::has_flag_ter_or_furn( const std::string & flag, const tripoint &p ) const
@@ -2523,7 +2503,7 @@ bool map::has_flag_ter_or_furn( const std::string & flag, const tripoint &p ) co
 
 bool map::has_flag_ter_and_furn( const std::string & flag, const tripoint &p ) const
 {
-    return ter( p ).obj().has_flag( flag ) && furn_at( p ).has_flag( flag );
+    return ter( p ).obj().has_flag( flag ) && furn( p ).obj().has_flag( flag );
 }
 
 bool map::has_flag( const ter_bitflags flag, const tripoint &p ) const
@@ -2538,7 +2518,7 @@ bool map::has_flag_ter( const ter_bitflags flag, const tripoint &p ) const
 
 bool map::has_flag_furn( const ter_bitflags flag, const tripoint &p ) const
 {
-    return furn_at( p ).has_flag( flag );
+    return furn( p ).obj().has_flag( flag );
 }
 
 bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) const
@@ -2667,7 +2647,7 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
         return true;
     }
 
-    if( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
+    if( has_furn( p ) && furn( p ).obj().bash.str_max != -1 ) {
         return true;
     }
 
@@ -2691,7 +2671,7 @@ bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
 
 bool map::is_bashable_furn( const tripoint &p ) const
 {
-    if ( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
+    if ( has_furn( p ) && furn( p ).obj().bash.str_max != -1 ) {
         return true;
     }
     return false;
@@ -2704,8 +2684,8 @@ bool map::is_bashable_ter_furn( const tripoint &p, const bool allow_floor ) cons
 
 int map::bash_strength( const tripoint &p, const bool allow_floor ) const
 {
-    if( has_furn( p ) && furn_at( p ).bash.str_max != -1 ) {
-        return furn_at( p ).bash.str_max;
+    if( has_furn( p ) && furn( p ).obj().bash.str_max != -1 ) {
+        return furn( p ).obj().bash.str_max;
     }
 
     const auto &ter_bash = ter( p ).obj().bash;
@@ -2718,8 +2698,8 @@ int map::bash_strength( const tripoint &p, const bool allow_floor ) const
 
 int map::bash_resistance( const tripoint &p, const bool allow_floor ) const
 {
-    if( has_furn( p ) && furn_at( p ).bash.str_min != -1 ) {
-        return furn_at( p ).bash.str_min;
+    if( has_furn( p ) && furn( p ).obj().bash.str_min != -1 ) {
+        return furn( p ).obj().bash.str_min;
     }
 
     const auto &ter_bash = ter( p ).obj().bash;
@@ -2743,7 +2723,7 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
     }
 
     int part = -1;
-    const furn_t &furniture = furn_at( p );
+    const furn_t &furniture = furn( p ).obj();
     const ter_t &terrain = ter( p ).obj();
     const vehicle *veh = veh_at( p, part );
     return bash_rating_internal( str, furniture, terrain, allow_floor, veh, part );
@@ -3038,7 +3018,7 @@ bool map::has_adjacent_furniture( const tripoint &p )
         const int adj_x = p.x + cx[i];
         const int adj_y = p.y + cy[i];
         if ( has_furn( tripoint( adj_x, adj_y, p.z ) ) &&
-             furn_at( tripoint( adj_x, adj_y, p.z ) ).has_flag("BLOCKSDOOR") ) {
+             furn( tripoint( adj_x, adj_y, p.z ) ).obj().has_flag("BLOCKSDOOR") ) {
             return true;
         }
     }
@@ -3350,15 +3330,15 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     std::string soundfxid;
     std::string soundfxvariant;
     const auto &terid = ter( p ).obj();
-    const auto &furnid = furn_at( p );
+    const auto &furnid = furn( p ).obj();
     bool smash_furn = false;
     bool smash_ter = false;
     const map_bash_info *bash = nullptr;
 
     bool success = false;
 
-    if( has_furn(p) && furn_at(p).bash.str_max != -1 ) {
-        bash = &furn_at(p).bash;
+    if( has_furn(p) && furnid.bash.str_max != -1 ) {
+        bash = &furnid.bash;
         smash_furn = true;
     } else if( ter(p).obj().bash.str_max != -1 ) {
         bash = &ter( p ).obj().bash;
@@ -4098,7 +4078,7 @@ bool map::marlossify( const tripoint &p )
 bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
 {
     const auto &ter = this->ter( p ).obj();
-    const auto &furn = furn_at( p );
+    const auto &furn = this->furn( p ).obj();
     int vpart = -1;
     vehicle *veh = veh_at( p, vpart );
     if( ter.open ) {
@@ -4190,7 +4170,7 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, const
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
     const auto &ter = this->ter( p ).obj();
- const auto &furn = furn_at( p );
+ const auto &furn = this->furn( p ).obj();
  if( ter.close ) {
      if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
          return false;
@@ -4547,7 +4527,7 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
 int map::max_volume(const tripoint &p)
 {
     if (has_furn(p)) {
-        return furn_at(p).max_volume;
+        return furn( p ).obj().max_volume;
     }
     return ter(p).obj().max_volume;
 }
@@ -5131,7 +5111,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
-            use_charges_from_furn( furn_at( p ), type, quantity, this, p, ret );
+            use_charges_from_furn( furn( p ).obj(), type, quantity, this, p, ret );
             if( quantity <= 0 ) {
                 return ret;
             }
@@ -6915,7 +6895,7 @@ void map::fill_funnels( const tripoint &p, int since_turn )
 
 void map::grow_plant( const tripoint &p )
 {
-    const auto &furn = furn_at( p );
+    const auto &furn = this->furn( p ).obj();
     if( !furn.has_flag( "PLANT" ) ) {
         return;
     }
@@ -7074,7 +7054,7 @@ void map::rad_scorch( const tripoint &p, int time_since_last_actualize )
 
     // First destroy the farmable plants (those are furniture)
     // TODO: Rad-resistant mutant plants (that produce radioactive fruit)
-    const furn_t &fid = furn_at( p );
+    const furn_t &fid = furn( p ).obj();
     if( fid.has_flag( "PLANT" ) ) {
         i_clear( p );
         furn_set( p, f_null );
@@ -7122,7 +7102,7 @@ void map::actualize( const int gridx, const int gridy, const int gridz )
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt( gridx * SEEX + x, gridy * SEEY + y, gridz );
 
-            const auto &furn = furn_at( pnt );
+            const auto &furn = this->furn( pnt ).obj();
             // plants contain a seed item which must not be removed under any circumstances
             if( !furn.has_flag( "PLANT" ) ) {
                 remove_rotten_items( tmpsub->itm[x][y], pnt );
