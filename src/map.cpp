@@ -1516,11 +1516,6 @@ void map::set(const int x, const int y, const ter_id new_terrain, const furn_id 
     ter_set(x, y, new_terrain);
 }
 
-void map::set(const int x, const int y, const ter_str_id &new_terrain, const furn_str_id &new_furniture) {
-    furn_set(x, y, new_furniture);
-    ter_set(x, y, new_terrain);
-}
-
 std::string map::name(const int x, const int y)
 {
     return name( tripoint( x, y, abs_sub.z ) );
@@ -1548,13 +1543,6 @@ void map::furn_set(const int x, const int y, const furn_id new_furniture)
     furn_set( tripoint( x, y, abs_sub.z ), new_furniture );
 }
 
-void map::furn_set(const int x, const int y, const furn_str_id new_furniture) {
-    if( !new_furniture.is_valid() ) {
-        return;
-    }
-    furn_set(x, y, new_furniture.id() );
-}
-
 std::string map::furnname(const int x, const int y) {
     return furnname( tripoint( x, y, abs_sub.z ) );
 }
@@ -1562,11 +1550,6 @@ std::string map::furnname(const int x, const int y) {
 
 void map::set( const tripoint &p, const ter_id new_terrain, const furn_id new_furniture)
 {
-    furn_set( p, new_furniture );
-    ter_set( p, new_terrain );
-}
-
-void map::set( const tripoint &p, const ter_str_id &new_terrain, const furn_str_id &new_furniture) {
     furn_set( p, new_furniture );
     ter_set( p, new_terrain );
 }
@@ -1651,13 +1634,6 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
     tripoint above( p.x, p.y, p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
-}
-
-void map::furn_set( const tripoint &p, const furn_str_id new_furniture) {
-    if( !new_furniture.is_valid() ) {
-        return;
-    }
-    furn_set( p, new_furniture.id() );
 }
 
 bool map::can_move_furniture( const tripoint &pos, player *p ) {
@@ -7889,11 +7865,6 @@ void map::draw_line_furn( furn_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_line_furn( const furn_str_id type, int x1, int y1, int x2, int y2 )
-{
-    draw_line_furn( find_furn_id( type ), x1, y1, x2, y2 );
-}
-
 void map::draw_fill_background( ter_id type )
 {
     // Need to explicitly set caches dirty - set_ter would do it before
@@ -7935,11 +7906,6 @@ void map::draw_square_furn( furn_id type, int x1, int y1, int x2, int y2 )
     }, x1, y1, x2, y2 );
 }
 
-void map::draw_square_furn( furn_str_id type, int x1, int y1, int x2, int y2 )
-{
-    draw_square_furn( find_furn_id( type ), x1, y1, x2, y2 );
-}
-
 void map::draw_square_ter( ter_id( *f )(), int x1, int y1, int x2, int y2 )
 {
     draw_square( [this, f]( int x, int y ) {
@@ -7968,11 +7934,6 @@ void map::draw_rough_circle_furn( furn_id type, int x, int y, int rad )
     }, x, y, rad );
 }
 
-void map::draw_rough_circle_furn( furn_str_id type, int x, int y, int rad )
-{
-    draw_rough_circle_furn( find_furn_id( type ), x, y, rad );
-}
-
 void map::draw_circle_ter( ter_id type, double x, double y, double rad )
 {
     draw_circle( [this, type]( int x, int y ) {
@@ -7992,11 +7953,6 @@ void map::draw_circle_furn( furn_id type, int x, int y, int rad )
     draw_circle( [this, type]( int x, int y ) {
         this->furn_set( x, y, type );
     }, x, y, rad );
-}
-
-void map::draw_circle_furn( furn_str_id type, int x, int y, int rad )
-{
-    draw_circle_furn( find_furn_id( type ), x, y, rad );
 }
 
 void map::add_corpse( const tripoint &p )
