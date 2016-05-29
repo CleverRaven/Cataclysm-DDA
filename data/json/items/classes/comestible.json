@@ -1,11 +1,26 @@
 [
   {
-    "id": "vegetable",
+    "id": "food",
     "type": "COMESTIBLE",
+    "name": "edible comestible",
     "comestible_type": "FOOD",
-    "name": "vegetable base",
+    "volume": 1,
+    "symbol": "%"
+  },
+  {
+    "id": "fruit",
+    "copy-from": "food",
+    "type": "COMESTIBLE",
+    "name": "base fruit",
+    "material": "fruit",
+    "color": "red"
+  },
+  {
+    "id": "vegetable",
+    "copy-from": "food",
+    "type": "COMESTIBLE",
+    "name": "base vegetable",
     "material": "veggy",
-    "symbol": "%",
     "color": "green"
   }
 ]
