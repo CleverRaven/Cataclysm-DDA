@@ -243,7 +243,7 @@
     "type": "GUN",
     "name": "FN SCAR-H",
     "name_plural": "FN SCAR-H",
-    "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
+    "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ammo": "308",
     "ranged_damage": -3,
     "burst": 8,
