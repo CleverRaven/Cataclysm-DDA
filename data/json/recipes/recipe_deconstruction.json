@@ -692,8 +692,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+     [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+     ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -710,8 +712,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+     [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+     ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -728,8 +732,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+     [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+     ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -746,8 +752,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+     [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+     ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -764,8 +772,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+     [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+     ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -782,8 +792,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+     [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+     ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -800,8 +812,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+     [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+     ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -929,8 +943,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 5 ] ],
-      [ [ "toolset", 5 ] ]
+     [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+     ]
     ],
     "components": [
       [ [ "spike", 2 ] ],
@@ -938,7 +954,8 @@
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_grenade_hack",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -949,8 +966,10 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 5 ] ],
-      [ ["toolset", 5 ] ]
+     [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+     ]
     ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -969,15 +988,18 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 10 ] ],
-      [ [ "toolset", 10 ] ]
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+     ]
     ],
     "components": [
       [ [ "processor", 2 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "scrap", 2 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_gasbomb_hack",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -988,15 +1010,18 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 5 ] ],
-      [ [ "toolset", 5 ] ]
+     [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+     ]
     ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_EMP_hack",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1007,15 +1032,18 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 5 ] ],
-      [ [ "toolset", 5 ] ]
-  ],
+     [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+     ]
+    ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_flashbang_hack",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1026,15 +1054,18 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 5 ] ],
-      [ [ "toolset", 5 ] ]
+     [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+     ]
     ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_c4_hack",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1045,15 +1076,18 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 5 ] ],
-      [ [ "toolset", 5 ] ]
+     [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+     ]
     ],
     "components": [
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_eyebot",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1064,8 +1098,10 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 3 ] ],
-      [ [ "toolset", 3 ] ]
+     [
+      [ "soldering_iron", 3 ],
+      [ "toolset", 3 ]
+     ]
     ],
     "components": [
       [ [ "processor", 1 ] ],
@@ -1073,7 +1109,8 @@
       [ [ "e_scrap", 1 ] ],
       [ [ "scrap", 1 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_skitterbot",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1084,8 +1121,10 @@
     "reversible": true,
     "qualities" : [{"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 10 ] ],
-      [ [ "toolset", 10 ] ]
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 1 ] ],
@@ -1093,7 +1132,8 @@
       [ [ "e_scrap", 2 ] ],
       [ [ "scrap", 4 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_copbot",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1107,12 +1147,16 @@
       {"id": "SAW_M","level": 1 }
     ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ],
-      [ [ "oxy_torch", 10 ] ],
-      [ [ "welder", 50 ] ],
-      [ [ "toolset", 75 ] ],
-      [ [ "welder_crude", 75 ] ]
+     [ 
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ] 
+     ],
+     [
+      [ "oxy_torch", 10 ],
+      [ "welder", 50 ],
+      [ "toolset", 75 ],
+      [ "welder_crude", 75 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 4 ] ],
@@ -1122,7 +1166,8 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "steel_chunk", 12 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_riotbot",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1136,12 +1181,16 @@
       {"id": "SAW_M","level": 1 }
     ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ],
-      [ [ "oxy_torch", 10 ] ],
-      [ [ "welder", 50 ] ],
-      [ [ "toolset", 75 ] ],
-      [ [ "welder_crude", 75 ] ]
+     [ 
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ] 
+     ],
+     [
+      [ "oxy_torch", 10 ],
+      [ "welder", 50 ],
+      [ "toolset", 75 ],
+      [ "welder_crude", 75 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 4 ] ],
@@ -1151,7 +1200,8 @@
       [ [ "e_scrap", 3 ] ],
       [ [ "steel_chunk", 12 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_molebot",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1162,17 +1212,20 @@
     "reversible": true,
     "qualities" : [ {"id": "SAW_M","level": 1 } ],
     "tools": [
-      [ [ "oxy_torch", 12 ] ],
-      [ [ "welder", 60 ] ],
-      [ [ "toolset", 90 ] ],
-      [ [ "welder_crude", 90 ] ]
+     [
+      [ "oxy_torch", 12 ],
+      [ "welder", 60 ],
+      [ "toolset", 90 ],
+      [ "welder_crude", 90 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 4 ] ],
       [ [ "motor", 1 ] ],
       [ [ "steel_chunk", 20 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_tripod",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1186,12 +1239,16 @@
       {"id": "SAW_M","level": 1 }
     ],
     "tools": [
-      [ [ "soldering_iron", 10 ] ],
-      [ [ "toolset", 10 ] ],
-      [ [ "oxy_torch", 20  ]], 
-      [ [ "welder", 100 ] ],
-      [ [ "toolset", 150 ] ],
-      [ [ "welder_crude", 150 ] ]
+     [ 
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ] 
+     ],
+     [
+      [ "oxy_torch", 20 ],
+      [ "welder", 100 ],
+      [ "toolset", 150 ],
+      [ "welder_crude", 150 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 12 ] ],
@@ -1202,7 +1259,8 @@
       [ [ "motor", 2 ] ],
       [ [ "steel_chunk", 60 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "broken_tankbot",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1217,12 +1275,16 @@
       {"id": "SAW_M","level": 1 }
     ],
     "tools": [
-      [ [ "soldering_iron", 30 ] ],
-      [ [ "toolset", 30 ] ],
-      [ [ "oxy_torch", 40 ] ],
-      [ [ "welder", 200 ] ],
-      [ [ "toolset", 300 ] ],
-      [ [ "welder_crude", 300 ] ]
+     [ 
+      [ "soldering_iron", 30 ],
+      [ "toolset", 30 ] 
+     ],
+     [
+      [ "oxy_torch", 40 ],
+      [ "welder", 200 ],
+      [ "toolset", 300 ],
+      [ "welder_crude", 300 ]
+     ]
     ],
     "components": [
       [ [ "flamethrower", 1 ] ],
@@ -1236,7 +1298,8 @@
       [ [ "mil_plate", 2 ] ],
       [ [ "robot_controls", 1 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "alternator_motorbike",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1247,8 +1310,10 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ ["toolset", 20 ] ]
+     [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 1 ] ],
@@ -1256,7 +1321,8 @@
       [ [ "bearing", 10 ] ],
       [ [ "scrap", 2 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "alternator_car",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1270,8 +1336,10 @@
       {"id": "WRENCH","level": 1 }
     ],
     "tools": [
-      [ [ "soldering_iron", 30 ] ],
-      [ [ "toolset", 30 ] ]
+     [
+      [ "soldering_iron", 30 ],
+      [ "toolset", 30 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 1 ] ],
@@ -1280,7 +1348,8 @@
       [ [ "scrap", 2 ] ],
       [ [ "steel_chunk", 2 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "alternator_truck",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1295,12 +1364,16 @@
       {"id": "SAW_M","level": 1 }
     ],
     "tools": [
-      [ [ "soldering_iron", 40 ] ],
-      [ ["toolset", 40 ] ],
-      [ [ "oxy_torch", 6 ] ],
-      [ ["welder", 30 ] ],
-      [ ["toolset", 45 ] ],
-      [ ["welder_crude", 45 ] ]
+     [ 
+      [ "soldering_iron", 40 ],
+      [ "toolset", 40 ] 
+     ],
+     [
+      [ "oxy_torch", 6 ],
+      [ "welder", 30 ],
+      [ "toolset", 45 ],
+      [ "welder_crude", 45 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 2 ] ],
@@ -1309,7 +1382,8 @@
       [ [ "scrap", 3 ] ],
       [ [ "steel_chunk", 3 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "motor",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1324,12 +1398,16 @@
       {"id": "SAW_M","level": 1 }
     ],
     "tools": [
-      [ [ "soldering_iron", 40 ] ],
-      [ ["toolset", 40 ] ],
-      [ [ "oxy_torch", 6 ] ],
-      [ ["welder", 30 ] ],
-      [ ["toolset", 45 ] ],
-      [ ["welder_crude", 45 ] ]
+     [ 
+      [ "soldering_iron", 40 ],
+      [ "toolset", 40 ] 
+     ],
+     [
+      [ "oxy_torch", 6 ],
+      [ "welder", 30 ],
+      [ "toolset", 45 ],
+      [ "welder_crude", 45 ]
+     ]
     ],
     "components": [
       [ [ "amplifier", 2 ] ],
@@ -1337,7 +1415,8 @@
       [ [ "bearing", 20 ] ],
       [ [ "steel_chunk", 3 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "motor_large",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1352,12 +1431,16 @@
       {"id": "SAW_M","level": 1 }
     ],
     "tools": [
-      [ [ "soldering_iron", 50 ] ],
-      [ ["toolset", 50 ] ],
-      [ [ "oxy_torch", 10 ] ],
-      [ ["welder", 50 ] ],
-      [ ["toolset", 75 ] ],
-      [ ["welder_crude", 75 ] ]
+     [ 
+      [ "soldering_iron", 50 ],
+      [ "toolset", 50 ] 
+     ],
+     [
+      [ "oxy_torch", 10 ],
+      [ "welder", 50 ],
+      [ "toolset", 75 ],
+      [ "welder_crude", 75 ]
+     ]
     ],
     "components": [
       [ [ "power_supply", 2 ] ],
@@ -1366,7 +1449,8 @@
       [ [ "bearing", 40 ] ],
       [ [ "steel_chunk", 7 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "horn_car",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1381,7 +1465,8 @@
       [ [ "amplifier", 1 ] ],
       [ [ "scrap", 2 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "horn_big",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1396,7 +1481,8 @@
       [ [ "amplifier", 2 ] ],
       [ [ "scrap", 4 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "polisher",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1407,15 +1493,18 @@
     "reversible": true,
     "qualities" : [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 10 ] ],
-      [ [ "toolset", 10 ] ]
+     [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+     ]
     ],
     "components": [
       [ [ "plastic_chunk", 8 ] ],
       [ [ "motor_small", 1 ] ],
       [ [ "scrap", 4 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "heavy_flashlight",
     "type": "recipe",
     "category": "CC_NONCRAFT",
@@ -1433,7 +1522,8 @@
       [ [ "amplifier", 2 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
     ]
-  },   {
+  }, 
+  {
     "result": "gold",
     "type": "recipe",
     "id_suffix": "uncraft",
@@ -1446,10 +1536,9 @@
       {"id": "HAMMER","level": 1 },
       {"id": "SCREW","level": 1 }
     ],
-    "components": [
-      [ ["gold_small", 800] ]
-    ]
-  },   {
+    "components": [ [ ["gold_small", 800] ] ]
+  }, 
+  {
     "result": "candlestick",
     "type": "recipe",
     "id_suffix": "uncraft",
@@ -1462,10 +1551,8 @@
       {"id": "HAMMER","level": 1 },
       {"id": "SCREW","level": 1 }
     ],
-    "components": [
-      [ ["gold_small", 100] ]
-    ]
-  },   {
+    "components": [ [ ["gold_small", 100] ] ]
+  },    {
     "result": "char_purifier",
     "type": "recipe",
     "id_suffix": "uncraft",
