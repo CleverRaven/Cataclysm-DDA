@@ -302,8 +302,12 @@ void draw_bullet_curses(WINDOW *const w, player &u, map &m, const tripoint &t,
 {
     const tripoint vp = u.pos() + u.view_offset;
 
-    if( p != nullptr ) {
+    if( p != nullptr && p->z == vp.z ) {
         m.drawsq( w, u, *p, false, true, vp );
+    }
+
+    if( vp.z != t.z ) {
+        return;
     }
 
     mvwputch(w, POSY + (t.y - vp.y), POSX + (t.x - vp.x), c_red, bullet);
@@ -404,7 +408,9 @@ void draw_hit_player_curses(game const& g, player const &p, const int dam)
                                 : red_background(p.symbol_color());
 
     tripoint const q = relative_view_pos( g.u, p.pos() );
-    hit_animation( q.x, q.y, col, p.symbol() );
+    if( q.z == 0 ) {
+        hit_animation( q.x, q.y, col, p.symbol() );
+    }
 }
 } //namespace
 

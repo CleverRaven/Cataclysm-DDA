@@ -5976,10 +5976,6 @@ void map::draw( WINDOW* w, const tripoint &center )
             x++;
         }
     }
-
-    if( g->u.posz() == center.z ) {
-        g->draw_critter( g->u, center );
-    }
 }
 
 void map::drawsq( WINDOW* w, player &u, const tripoint &p,
