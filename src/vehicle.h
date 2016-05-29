@@ -23,7 +23,7 @@
 class map;
 class player;
 class vehicle;
-struct vpart_info;
+class vpart_info;
 enum vpart_bitflags : int;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
@@ -305,6 +305,10 @@ private:
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
     int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
+    // Removes the part, breaks it into pieces and possibly removes parts attached to it
+    int break_off( int p, int dmg );
+    // Returns if it did actually explode
+    bool explode_fuel( int p, damage_type type );
     //damages vehicle controls and security system
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -756,7 +760,7 @@ public:
     void shift_parts( point delta );
     bool shift_if_needed();
 
-    void leak_fuel (int p);
+    void leak_fuel( int p );
     void shed_loose_parts();
 
     // Gets range of part p if it's a turret

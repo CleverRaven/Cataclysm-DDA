@@ -1018,10 +1018,10 @@ void iexamine::gunsafe_ml(player &p, const tripoint &examp)
     if (pick_roll >= door_roll) {
         p.practice( skill_mechanics, 1);
         add_msg(_("You successfully unlock the gun safe."));
-        g->m.furn_set(examp, "f_safe_o");
+        g->m.furn_set(examp, furn_str_id( "f_safe_o" ) );
     } else if (door_roll > (3 * pick_roll)) {
         add_msg(_("Your clumsy attempt jams the lock!"));
-        g->m.furn_set(examp, "f_gunsafe_mj");
+        g->m.furn_set(examp, furn_str_id( "f_gunsafe_mj" ) );
     } else {
         add_msg(_("The gun safe stumps your efforts to pick it."));
     }
@@ -1044,7 +1044,7 @@ void iexamine::gunsafe_el(player &p, const tripoint &examp)
             break;
         case HACK_SUCCESS:
             add_msg(_("You successfully hack the gun safe."));
-            g->m.furn_set(examp, "f_safe_o");
+            g->m.furn_set(examp, furn_str_id( "f_safe_o" ) );
             break;
         case HACK_UNABLE:
             add_msg(

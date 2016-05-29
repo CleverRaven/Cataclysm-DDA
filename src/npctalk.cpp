@@ -4334,7 +4334,7 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
         }
     }
     function = [lines]( const dialogue &d ) {
-        const dynamic_line_t& line = random_entry( lines );
+        const dynamic_line_t& line = random_entry_ref( lines );
         return line( d );
     };
 }

@@ -20,8 +20,8 @@
     "recoil": -15,
     "durability": 8,
     "burst": 3,
-    "barrel_length" : 1,
-    "magazines" : [
+    "barrel_length": 1,
+    "magazines": [
       [ "223", [ "stanag30", "stanag10", "stanag50", "survivor223mag" ] ],
       [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
       [ "308", [ "g3mag", "g3bigmag" ] ]
@@ -235,7 +235,9 @@
     "recoil": 90,
     "durability": 7,
     "reload": 400,
-    "burst": 30,
+    "modes": [
+      [ "DEFAULT", "auto", 30 ]
+    ],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]],
     "magazines" : [
       [ "223", [ "stanag50", "stanag30", "belt223" ] ],

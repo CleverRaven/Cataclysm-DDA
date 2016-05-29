@@ -1524,7 +1524,7 @@ void mission_start::ranch_scavenger_3(mission *miss)
  bay.spawn_item( 16, 21, "wheel_wide" );
  bay.spawn_item( 17, 21, "wheel_wide" );
  bay.spawn_item( 23, 18, "v8_combustion" );
- bay.furn_set(23,17, "f_arcade_machine");
+ bay.furn_set(23,17, furn_str_id( "f_arcade_machine" ) );
  bay.ter_set(23,16, ter_str_id( "t_machinery_light" ) );
  bay.furn_set( 20, 21, f_woodstove);
  bay.save();

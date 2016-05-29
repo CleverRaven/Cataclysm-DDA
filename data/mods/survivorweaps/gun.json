@@ -106,7 +106,7 @@
   },
   {
     "id": "rifle_308",
-    "copy-from": "m14a",
+    "copy-from": "m1a",
     "type": "GUN",
     "name": "survivor lever rifle",
     "description": "A homemade lever-action rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as an integral magazine for rounds, and chambering the more powerful .308 rounds.",

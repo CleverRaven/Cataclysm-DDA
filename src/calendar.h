@@ -141,18 +141,18 @@ class calendar
         static int year_length() { // In days
             return season_length() * 4;
         }
+        static int season_turns() {
+            return DAYS( season_length() );
+        }
         static int season_length(); // In days
 
         static float season_ratio() { //returns relative length of game season to irl season
             return static_cast<float>( season_length() ) / REAL_WORLD_SEASON_LENGTH;
         }
 
-        int turn_of_year() const {
-            return turn_number % year_turns();
-        }
-        int day_of_year() const {
-            return day + season_length() * season;
-        }
+        int turn_of_year() const;
+
+        int day_of_year() const;
 
         static std::string print_duration( int turns );
 
