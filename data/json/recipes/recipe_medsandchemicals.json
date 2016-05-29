@@ -2495,7 +2495,8 @@
   {"id":"CHEM","level":1,"amount":1}
   ],
   "components": [
-  [[ "chem_hydrogen_peroxide_conc", 1 ]]
+  [[ "chem_hydrogen_peroxide_conc", 1 ]],
+  [[ "water", 5 ], ["water_clean", 5]]
   ]
 },
 {
