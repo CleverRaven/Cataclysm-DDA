@@ -5423,7 +5423,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             return true; // removes the item that has just been added to the map
         }
 
-        if(  carrier->has_effect( effect_sleep ) ) {
+        if( carrier->has_effect( effect_sleep ) ) {
             carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
                                         tname().c_str() );
             g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this, 2 );
