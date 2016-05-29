@@ -196,7 +196,7 @@ class Item_factory
          * @param id the original id (before any replacement)
          * @see Item_factory::migrate_id
          */
-        void migrate_item( const itype_id& id, item &obj );
+        void migrate_item( const itype_id &id, item &obj );
 
         /**
          * Check if an item type is known to the Item_factory.
