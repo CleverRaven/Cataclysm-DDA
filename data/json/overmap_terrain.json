@@ -7099,5 +7099,14 @@
         "see_cost" : 5,
         "extras" : "field",
         "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "4way_road",
+        "name" : "road",
+        "sym" : 43,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "forest",
+        "mondensity" : 2
     }
 ]
