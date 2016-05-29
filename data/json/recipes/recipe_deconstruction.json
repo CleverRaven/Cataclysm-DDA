@@ -691,12 +691,7 @@
     "time": 50000,
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
-    "tools": [
-     [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-     ]
-    ],
+    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
   {
