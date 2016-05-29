@@ -1566,7 +1566,7 @@ void map::furn_set(const int x, const int y, const furn_str_id new_furniture) {
 }
 
 std::string map::furnname(const int x, const int y) {
- return furn_at(x, y).name;
+    return furnname( tripoint( x, y, abs_sub.z ) );
 }
 // End of 2D overloads for furniture
 
@@ -1727,15 +1727,15 @@ ter_str_id map::get_ter(const int x, const int y) const {
 }
 
 std::string map::get_ter_harvestable(const int x, const int y) const {
-    return ter_at(x, y).harvestable;
+    return get_ter_harvestable( tripoint( x, y, abs_sub.z ) );
 }
 
 ter_id map::get_ter_transforms_into(const int x, const int y) const {
-    return ter_at( x, y ).transforms_into.id();
+    return get_ter_transforms_into( tripoint( x, y, abs_sub.z ) );
 }
 
 int map::get_ter_harvest_season(const int x, const int y) const {
-    return ter_at(x, y).harvest_season;
+    return get_ter_harvest_season( tripoint( x, y, abs_sub.z ) );
 }
 
 const ter_t & map::ter_at(const int x, const int y) const
@@ -1756,7 +1756,7 @@ void map::ter_set(const int x, const int y, const ter_id new_terrain) {
 
 std::string map::tername(const int x, const int y) const
 {
- return ter_at(x, y).name;
+    return tername( tripoint( x, y, abs_sub.z ) );
 }
 // End of 2D overloads for terrain
 
@@ -2442,7 +2442,7 @@ void map::process_falling()
 
 bool map::has_flag(const std::string &flag, const int x, const int y) const
 {
-    return has_flag_ter_or_furn(flag, x, y); // Does bound checking
+    return has_flag( flag, tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::can_put_items_ter_furn(const int x, const int y) const
@@ -2452,12 +2452,12 @@ bool map::can_put_items_ter_furn(const int x, const int y) const
 
 bool map::has_flag_ter(const std::string & flag, const int x, const int y) const
 {
- return ter_at(x, y).has_flag(flag);
+    return has_flag_ter( flag, tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::has_flag_furn(const std::string & flag, const int x, const int y) const
 {
- return furn_at(x, y).has_flag(flag);
+    return has_flag_furn( flag, tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int y) const
@@ -2474,22 +2474,22 @@ bool map::has_flag_ter_or_furn(const std::string & flag, const int x, const int 
 
 bool map::has_flag_ter_and_furn(const std::string & flag, const int x, const int y) const
 {
- return ter_at(x, y).has_flag(flag) && furn_at(x, y).has_flag(flag);
+    return has_flag_ter_and_furn( flag, tripoint( x, y, abs_sub.z ) );
 }
 /////
 bool map::has_flag(const ter_bitflags flag, const int x, const int y) const
 {
-    return has_flag_ter_or_furn(flag, x, y); // Does bound checking
+    return has_flag( flag, tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::has_flag_ter(const ter_bitflags flag, const int x, const int y) const
 {
- return ter_at(x, y).has_flag(flag);
+    return has_flag_ter( flag, tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::has_flag_furn(const ter_bitflags flag, const int x, const int y) const
 {
- return furn_at(x, y).has_flag(flag);
+    return has_flag_furn( flag, tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::has_flag_ter_or_furn(const ter_bitflags flag, const int x, const int y) const
@@ -4412,11 +4412,7 @@ void map::spawn_item(const int x, const int y, const std::string &type_id,
 
 int map::max_volume(const int x, const int y)
 {
-    const ter_t &ter = ter_at(x, y);
-    if (has_furn(x, y)) {
-        return furn_at(x, y).max_volume;
-    }
-    return ter.max_volume;
+    return max_volume( tripoint( x, y, abs_sub.z ) );
 }
 
 int map::stored_volume(const int x, const int y)
