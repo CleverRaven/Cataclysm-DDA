@@ -219,6 +219,12 @@
     "contents": [ "barrel_small" ]
   },
   {
+    "id": "seed_garlic",
+    "type": "MIGRATION",
+    "replace": "garlic",
+    "charges": 6
+  },
+  {
     "id": "UPS_on",
     "type": "MIGRATION",
     "replace": "UPS_off"

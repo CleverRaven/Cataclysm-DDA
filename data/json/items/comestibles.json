@@ -5067,32 +5067,6 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id" : "seed_garlic",
-        "category": "other",
-        "price" : 50,
-        "name" : "garlic clove",
-        "name_plural" : "garlic cloves",
-        "symbol" : ".",
-        "color" : "brown",
-        "description" : "Cloves of garlic.  Useful as a seasoning, or for planting.",
-        "material" : "veggy",
-        "comestible_type": "FOOD",
-        "quench" : -3,
-        "nutrition" : 3,
-        "volume" : 1,
-        "weight" : 1,
-        "charges" : 6,
-        "stack_size" : 6,
-        "fun" : -3,
-        "seed_data": {
-            "plant_name": "garlic",
-            "fruit": "garlic",
-            "byproducts": [ "withered" ],
-            "grow" : 65
-        }
-    },
-    {
-        "type" : "COMESTIBLE",
         "id" : "seed_carrot",
         "category": "other",
         "price" : 50,

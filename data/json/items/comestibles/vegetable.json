@@ -114,14 +114,23 @@
     "id": "garlic",
     "copy-from": "vegetable_root",
     "type": "COMESTIBLE",
-    "name": "garlic bulb",
-    "description": "A pungent garlic bulb.  Popular as a seasoning for its strong flavor.",
-    "weight": 120,
+    "name": "garlic clove",
+    "description": "Cloves of garlic.  Useful as a seasoning, or for planting.",
+    "weight": 20,
     "price": 600,
-    "nutrition": 18,
-    "quench": -18,
-    "healthy": 1,
-    "fun": -18
+    "charges": 6,
+    "stack_size": 6,
+    "symbol": ".",
+    "color": "brown",
+    "quench": -3,
+    "nutrition": 3,
+    "fun": -3,
+    "seed_data": {
+        "plant_name": "garlic",
+        "fruit": "garlic",
+        "byproducts": [ "withered" ],
+        "grow" : 65
+    }
   },
   {
     "id": "lettuce",
