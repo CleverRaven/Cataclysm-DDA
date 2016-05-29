@@ -189,14 +189,14 @@ class Item_factory
         void load_migration( JsonObject &jo );
 
         /** Applies any migration of the item id */
-        itype_id migrate_id( const itype_id& id );
+        itype_id migrate_id( const itype_id &id );
 
         /**
          * Applies any migrations to an instance of an item
          * @param id the original id (before any replacement)
          * @see Item_factory::migrate_id
          */
-        void migrate_item( const itype_id& id, item& obj );
+        void migrate_item( const itype_id& id, item &obj );
 
         /**
          * Check if an item type is known to the Item_factory.
