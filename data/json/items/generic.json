@@ -10,7 +10,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["NO_UNLOAD"]
+        "flags": ["NO_UNLOAD", "TRADER_AVOID"]
     },
     {
         "type":"GENERIC",
@@ -24,7 +24,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["PSEUDO"]
+        "flags": ["PSEUDO", "TRADER_AVOID"]
     },
     {
         "type" : "GENERIC",
@@ -52,7 +52,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["PSEUDO"]
+        "flags": ["PSEUDO", "TRADER_AVOID"]
     },
     {
         "type":"GENERIC",
@@ -65,7 +65,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["PSEUDO"]
+        "flags": ["PSEUDO", "TRADER_AVOID"]
     },
     {
         "type":"GENERIC",
@@ -78,7 +78,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["PSEUDO", "UNARMED_WEAPON"], "//" : "Fist is internally represented as 'wielding a none as a weapon'"
+        "flags": ["PSEUDO", "UNARMED_WEAPON", "TRADER_AVOID"], "//" : "Fist is internally represented as 'wielding a none as a weapon'"
     },
     {
         "type":"GENERIC",
@@ -618,6 +618,7 @@
         "description": "This is a spent magnesium flare.  It is essentially trash.",
         "price": 0,
         "material": "plastic",
+        "flags": "TRADER_AVOID",
         "weight": 39,
         "volume": 1,
         "to_hit": -1
@@ -1449,7 +1450,7 @@
         "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
         "price": 0,
         "material": "cotton",
-        "flags": ["NO_SALVAGE"],
+        "flags": ["NO_SALVAGE", "TRADER_AVOID"],
         "weight": 80,
         "volume": 1
     },
@@ -1823,7 +1824,7 @@
         "category": "other",
         "price": 20000,
         "material": "iron",
-        "flags": ["DURABLE_MELEE"],
+        "flags": ["DURABLE_MELEE", "TRADER_AVOID"],
         "weight": 36287,
         "volume": 12,
         "bashing": 20,
@@ -2324,6 +2325,7 @@
         "description": "A pile of dry grass.  Can be used if there is nothing else to sleep on.",
         "price": 0,
         "material": ["paper"],
+        "flags": "TRADER_AVOID",
         "weight": 20,
         "volume": 1,
         "to_hit": -2

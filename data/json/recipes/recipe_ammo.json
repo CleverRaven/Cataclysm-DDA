@@ -1341,21 +1341,21 @@
   ],
   "components": [
     [
-      [ "44_casing", 50 ]
+      [ "44_casing", 20 ]
     ],
     [
-      [ "lgpistol_primer", 50 ]
+      [ "lgpistol_primer", 20 ]
     ],
     [
-      [ "gunpowder", 500 ]
+      [ "gunpowder", 200 ]
     ],
     [
-      [ "lead", 500 ],
-      [ "gold_small", 500 ],
-      [ "silver_small", 500 ],
-      [ "tin", 500 ],
-      [ "bismuth", 500 ],
-      [ "solder_wire", 500 ]
+      [ "lead", 200 ],
+      [ "gold_small", 200 ],
+      [ "silver_small", 200 ],
+      [ "tin", 200 ],
+      [ "bismuth", 200 ],
+      [ "solder_wire", 200 ]
     ]
   ]
 },{
@@ -1382,21 +1382,21 @@
   ],
   "components": [
     [
-      [ "45_casing", 50 ]
+      [ "45_casing", 30 ]
     ],
     [
-      [ "lgpistol_primer", 50 ]
+      [ "lgpistol_primer", 30 ]
     ],
     [
-      [ "gunpowder", 500 ]
+      [ "gunpowder", 300 ]
     ],
     [
-      [ "lead", 400 ],
-      [ "gold_small", 400 ],
-      [ "silver_small", 400 ],
-      [ "tin", 400 ],
-      [ "bismuth", 400 ],
-      [ "solder_wire", 400 ]
+      [ "lead", 240 ],
+      [ "gold_small", 240 ],
+      [ "silver_small", 240 ],
+      [ "tin", 240 ],
+      [ "bismuth", 240 ],
+      [ "solder_wire", 240 ]
     ]
   ]
 },{
@@ -1552,24 +1552,24 @@
   ],
   "components": [
     [
-      [ "500_casing", 10 ]
+      [ "500_casing", 15 ]
     ],
     [
-      [ "lgrifle_primer", 10 ]
+      [ "lgrifle_primer", 15 ]
     ],
     [
-      [ "gunpowder", 240 ]
+      [ "gunpowder", 360 ]
     ],
     [
-      [ "lead", 450 ],
-      [ "gold_small", 450],
-      [ "silver_small", 450 ],
-      [ "tin", 450 ],
-      [ "bismuth", 450 ],
-      [ "solder_wire", 450 ]
+      [ "lead", 675 ],
+      [ "gold_small", 675 ],
+      [ "silver_small", 675 ],
+      [ "tin", 675 ],
+      [ "bismuth", 675 ],
+      [ "solder_wire", 675 ]
     ],
     [
-      [ "cu_pipe", 2 ]
+      [ "cu_pipe", 3 ]
     ]
   ]
 },{
@@ -1596,21 +1596,21 @@
   ],
   "components": [
     [
-      [ "57mm_casing", 100 ]
+      [ "57mm_casing", 40 ]
     ],
     [
-      [ "smrifle_primer", 100 ]
+      [ "smrifle_primer", 40 ]
     ],
     [
-      [ "gunpowder", 400 ]
+      [ "gunpowder", 160 ]
     ],
     [
-      [ "lead", 200 ],
-      [ "gold_small", 200 ],
-      [ "silver_small", 200 ],
-      [ "tin", 200 ],
-      [ "bismuth", 200 ],
-      [ "solder_wire", 200 ]
+      [ "lead", 80 ],
+      [ "gold_small", 80 ],
+      [ "silver_small", 80 ],
+      [ "tin", 80 ],
+      [ "bismuth", 80 ],
+      [ "solder_wire", 80 ]
     ]
   ]
 },{
@@ -2329,19 +2329,19 @@
   ],
   "components": [
     [
-      [ "3006_casing", 5 ]
+      [ "3006_casing", 10 ]
     ],
     [
-      [ "lgrifle_primer", 5 ]
+      [ "lgrifle_primer", 10 ]
     ],
     [
-      [ "gunpowder", 60 ]
+      [ "gunpowder", 120 ]
     ],
     [
-      [ "incendiary", 40 ]
+      [ "incendiary", 80 ]
     ],
     [
-      [ "cu_pipe", 3 ]
+      [ "cu_pipe", 6 ]
     ]
   ]
 },{
@@ -2456,19 +2456,19 @@
   ],
   "components": [
     [
-      [ "308_casing", 10 ]
+      [ "308_casing", 20 ]
     ],
     [
-      [ "lgrifle_primer", 10 ]
+      [ "lgrifle_primer", 20 ]
     ],
     [
-      [ "gunpowder", 100 ]
+      [ "gunpowder", 200 ]
     ],
     [
-      [ "incendiary", 60 ]
+      [ "incendiary", 120 ]
     ],
     [
-      [ "cu_pipe", 1 ]
+      [ "cu_pipe", 2 ]
     ]
   ]
 },{

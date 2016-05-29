@@ -144,6 +144,31 @@
   ]
 },{
   "type" : "recipe",
+  "result": "offal_cooked",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 18000,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"COOK","level":1}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 7 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "offal", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "stomach_boiled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -659,6 +684,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -703,6 +729,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -946,7 +973,7 @@
   "type" : "recipe",
   "result": "protein_powder",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_DRY",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 12000,
@@ -972,7 +999,7 @@
   "type" : "recipe",
   "result": "hflesh_powder",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_DRY",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 12000,
@@ -1596,6 +1623,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -1699,6 +1727,7 @@
       [ "bread", 1 ],
       [ "wastebread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "crackers", 1 ]
     ]
@@ -1884,7 +1913,10 @@
       [ "rehydrated_fish", 2],
       [ "fish_canned", 2],
       [ "can_salmon", 2],
-      [ "can_tuna", 2]
+      [ "can_tuna", 2],
+      [ "bacon", 2 ],
+      [ "can_spam", 1 ],
+      [ "sausage", 1 ]
     ],
     [
       [ "cheese", 1 ],
@@ -3199,7 +3231,7 @@
   "difficulty": 4,
   "time": 40000,
   "reversible": false,
-  "autolearn": true,
+  "book_learn": [ [ "cookbook_human", 4 ] ],
   "batch_time_factors":[50, 5],
   "qualities" : [
      {"id":"COOK","level":2,"amount":1} ],
@@ -3932,6 +3964,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
@@ -7972,6 +8005,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
@@ -8952,9 +8986,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
-      [ "biscuit", 2 ],
-      [ "tortilla_corn", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2]
@@ -9051,9 +9083,7 @@
       [ "flatbread", 2 ],
       [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
-      [ "biscuit", 2 ],
-      [ "tortilla_corn", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cheese", 2 ], [ "cheese_hard", 2 ], [ "can_cheese", 2]
@@ -9814,7 +9844,10 @@
     [
       [ "meat_cooked", 1 ],
       [ "lunchmeat", 4 ],
-      [ "bologna", 5 ]
+      [ "bologna", 5 ],
+      [ "bacon", 2 ],
+      [ "fried_spam", 2 ],
+      [ "sausage", 1 ]
     ]
   ]
 },{
@@ -11526,6 +11559,7 @@
       [ "tortilla_corn", 1 ],
       [ "bread", 1 ],
       [ "cornbread", 1 ],
+      [ "biscuit", 1 ],
       [ "hardtack", 1 ],
       [ "wastebread", 1 ],
       [ "flour", 1 ],
@@ -11713,11 +11747,9 @@
   "components": [
     [
       [ "flatbread", 2 ],
-      [ "tortilla_corn", 2 ],
-      [ "johnnycake", 2 ],
+      [ "bread", 2 ],
       [ "cornbread", 2 ],
-      [ "brioche", 2 ],
-      [ "bread", 2 ]
+      [ "wastebread", 2 ]
     ],
     [
       [ "cucumber", 1 ],
@@ -12089,8 +12121,7 @@
       [ "india_pale_ale", 1 ],
       [ "stout", 1 ],
       [ "belgian_ale", 1 ],
-      [ "imperial_stout", 1 ],
-      [ "rootbeer", 1 ]
+      [ "imperial_stout", 1 ]
     ],
     [
       [ "whiskey", 1 ],
@@ -12550,132 +12581,6 @@
   "components": [
     [ [ "cooking_oil", 2 ] ],
     [ [ "mugwort", 2 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_wild_herbs",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "wild_herbs", 20 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_veggy_wild",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "veggy_wild", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_raw_dandelion",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "raw_dandelion", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_mushroom",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 4,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "mushroom", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_mushroom_magic",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 4,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "mushroom_magic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_mushroom_poison",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 4,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "mushroom_poison", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "seed_mushroom_morel",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "survival",
-  "difficulty": 5,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "mushroom_morel", 1 ]
-    ]
   ]
 },{
   "type" : "recipe",

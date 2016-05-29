@@ -19,7 +19,6 @@
       ["ruger_redhawk", 30],
       ["mossberg_500", 35],
       ["rm120c", 4],
-      ["shotgun_sawn", 1],
       ["rm121aux", 1],
       ["shot_flechette", 1],
       ["20x66_shot", 3],
@@ -49,7 +48,6 @@
       ["ruger_redhawk", 30],
       ["rm99_pistol", 1],
       ["rm103a_pistol", 1],
-      ["shotgun_sawn", 15],
       ["rm228", 2]
     ]
   },{
@@ -114,7 +112,7 @@
       ["cx4", 15],
       ["ruger_mini", 30],
       ["savage_111f", 50],
-      ["m14a", 25],
+      ["m1a", 25],
       ["rm11b_sniper_rifle", 1]
     ]
   },{
@@ -219,7 +217,7 @@
       ["rm99_pistol", 5],
       ["rm103a_pistol", 2],
       ["rm228", 5],
-      ["m14a", 25],
+      ["m1a", 25],
       ["ruger_mini", 10],
       ["rm120c", 3],
       ["hk_mp5", 5],
@@ -275,7 +273,6 @@
       ["m4a1", 1],
       ["savage_111f", 4],
       ["mossberg_500", 4],
-      ["shotgun_sawn", 4],
       ["shotgun_d", 4]
     ]
   },{
@@ -344,7 +341,7 @@
     "type" : "item_group",
     "id" : "helicopter",
     "items":[
-      ["m14a", 10],
+      ["m1a", 10],
       ["m249", 1],
       ["m240", 1],
       ["rm614_lmg", 1],
@@ -419,7 +416,6 @@
       ["glock_19", 15],
       ["l_lookout_9mm", 5],
       ["l_sp_9mm", 10],
-      ["shotgun_sawn", 5],
       ["m9", 5],
       ["hk_mp5", 10],
       ["l_bak_223", 4],

@@ -151,6 +151,8 @@ const efftype_id effect_nausea( "nausea" );
 
 const matype_id style_none( "style_none" );
 
+const vitamin_id vitamin_iron( "iron" );
+
 // use this instead of having to type out 26 spaces like before
 static const std::string header_spaces( 26, ' ' );
 
@@ -1815,7 +1817,7 @@ bool player::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_deaf ) {
         return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
     } else if( eff == effect_corroding ) {
-        return has_trait( "ACIDPROOF" );
+        return is_immune_damage( DT_ACID ) || has_trait( "SLIMY" ) || has_trait( "VISCOUS" );
     } else if( eff == effect_nausea ) {
         return has_trait( "STRONGSTOMACH" );
     }
@@ -5792,7 +5794,7 @@ int player::addiction_level( add_type type ) const
     return 0;
 }
 
-bool player::siphon( vehicle &veh, const itype_id &desired_liquid )
+void player::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
     const int used_item_amount = veh.drain( desired_liquid, veh.fuel_capacity( desired_liquid ) );
     const int fuel_per_charge = fuel_charges_to_amount_factor( desired_liquid );
@@ -5800,17 +5802,14 @@ bool player::siphon( vehicle &veh, const itype_id &desired_liquid )
     if( used_item.charges <= 0 ) {
         add_msg( _( "There is not enough %s left to siphon it." ), used_item.type_name().c_str() );
         veh.refill( desired_liquid, used_item_amount );
-        return false;
+        return;
     }
     // refill fraction parts (if fuel_per_charge > 1), so we don't have to consider them later
     veh.refill( desired_liquid, used_item_amount % fuel_per_charge );
 
-    if( !g->handle_liquid( used_item, nullptr, 0, nullptr, &veh ) ) {
-        return false;
-    }
+    g->handle_liquid( used_item, nullptr, 0, nullptr, &veh );
     // TODO: maybe add the message about the siphoned amount again.
     veh.refill( desired_liquid, used_item.charges * fuel_per_charge );
-    return true;
 }
 
 void player::cough(bool harmful, int loudness)
@@ -6474,19 +6473,20 @@ void player::hardcoded_effects(effect &it)
         if ( one_in(6 / intense) && activity.type != ACT_FIRSTAID ) {
             add_msg_player_or_npc(m_bad, _("You lose some blood."),
                                            _("<npcname> loses some blood.") );
+            // Prolonged haemorrhage is a significant risk for developing anaemia
+            vitamin_mod( vitamin_iron, rng( -1, -4 ) );
             mod_pain(1);
             apply_damage( nullptr, bp, 1 );
-            g->m.add_field( pos(), playerBloodType(), 1, 0 );
+            bleed();
         }
     } else if( id == effect_hallu ) {
         // TODO: Redo this to allow for variable durations
         // Time intervals are drawn from the old ones based on 3600 (6-hour) duration.
-        static bool puked = false;
-        int maxDuration = 3600;
-        int comeupTime = int(maxDuration*0.9);
-        int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
-        int peakTime = int(maxDuration*0.8);
-        int comedownTime = int(maxDuration*0.3);
+        constexpr int maxDuration = 3600;
+        constexpr int comeupTime = int(maxDuration*0.9);
+        constexpr int noticeTime = int(comeupTime + (maxDuration-comeupTime)/2);
+        constexpr int peakTime = int(maxDuration*0.8);
+        constexpr int comedownTime = int(maxDuration*0.3);
         // Baseline
         if (dur == noticeTime) {
             add_msg_if_player(m_warning, _("You feel a little strange."));
@@ -6502,41 +6502,29 @@ void player::hardcoded_effects(effect &it)
                 add_msg_if_player(m_warning, _("Something feels very, very wrong."));
             }
         } else if (dur > peakTime && dur < comeupTime) {
-            if ((one_in(200) || x_in_y(vomit_mod(), 50)) && !puked) {
+            if( get_stomach_food() > 0 && (one_in(200) || x_in_y(vomit_mod(), 50)) ) {
                 add_msg_if_player(m_bad, _("You feel sick to your stomach."));
                 mod_hunger(-2);
-                if (one_in(6)) {
+                if( one_in( 6 ) ) {
                     vomit();
-                    if (one_in(2)) {
-                        // we've vomited enough for now
-                        puked = true;
-                    }
                 }
             }
-            if (is_npc() && one_in(200)) {
-                const char *npcText;
-                switch(rng(1,4)) {
-                    case 1:
-                        npcText = _("\"I think it's starting to kick in.\"");
-                        break;
-                    case 2:
-                        npcText = _("\"Oh God, what's happening?\"");
-                        break;
-                    case 3:
-                        npcText = _("\"Of course... it's all fractals!\"");
-                        break;
-                    default:
-                        npcText = _("\"Huh?  What was that?\"");
-                        break;
+            if( is_npc() && one_in( 200 ) ) {
+                static const std::array<std::string, 4> npc_hallu = {{
+                    _("\"I think it's starting to kick in.\""),
+                    _("\"Oh God, what's happening?\""),
+                    _("\"Of course... it's all fractals!\""),
+                    _("\"Huh?  What was that?\"")
+                }};
 
-                }
+                const std::string &npc_text = random_entry_ref( npc_hallu );
                 ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
 
                 ///\EFFECT_INT_NPC decreases volume of hallucination sounds
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
-                sounds::sound( pos(), loudness, npcText);
+                sounds::sound( pos(), loudness, npc_text );
             }
         } else if (dur == peakTime) {
             // Visuals start
@@ -6549,7 +6537,7 @@ void player::hardcoded_effects(effect &it)
             mod_dex_bonus(-2);
             add_miss_reason(_("Dancing fractals distract you."), 2);
             mod_str_bonus(-1);
-            if (one_in(50)) {
+            if( is_player() && one_in( 50 ) ) {
                 g->spawn_hallucination();
             }
         } else if (dur == comedownTime) {
@@ -6558,7 +6546,6 @@ void player::hardcoded_effects(effect &it)
             } else {
                 add_msg_if_player(_("Things are returning to normal."));
             }
-            puked = false;
         }
     } else if( id == effect_cold ) {
         switch(bp) {
@@ -7971,24 +7958,30 @@ void player::suffer()
         }
     }
 
-    if( (has_trait("ALBINO") || has_effect( effect_datura )) &&
-        g->is_in_sunlight(pos()) && one_in(10) ) {
-        // Umbrellas and rain gear can also keep the sun off!
-        // (No, really, I know someone who uses an umbrella when it's sunny out.)
-        if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
-            add_msg(m_bad, _("The sunlight is really irritating."));
-            if (in_sleep_state()) {
+    if( ( has_trait( "ALBINO" ) || has_effect( effect_datura ) ) &&
+        g->is_in_sunlight( pos() ) && one_in(10) ) {
+        // Umbrellas can keep the sun off the skin and sunglasses - off the eyes.
+        if( !weapon.has_flag( "RAIN_PROTECT" ) ) {
+            add_msg( m_bad, _( "The sunlight is really irritating your skin." ) );
+            if( in_sleep_state() ) {
                 wake_up();
             }
-            if (one_in(10)) {
+            if( one_in(10) ) {
                 mod_pain(1);
             }
             else focus_pool --;
         }
+        if( !( ( (worn_with_flag( "SUN_GLASSES" ) ) || worn_with_flag( "BLIND" ) ) && ( wearing_something_on( bp_eyes ) ) ) ) {
+            add_msg( m_bad, _( "The sunlight is really irritating your eyes." ) );
+            if( one_in(10) ) {
+                mod_pain(1);
+            }
+            else focus_pool --;
+        }    
     }
 
     if (has_trait("SUNBURN") && g->is_in_sunlight(pos()) && one_in(10)) {
-        if (!((worn_with_flag("RAINPROOF")) || (weapon.has_flag("RAIN_PROTECT"))) ) {
+        if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
         add_msg(m_bad, _("The sunlight burns your skin!"));
         if (in_sleep_state()) {
             wake_up();
@@ -7998,7 +7991,7 @@ void player::suffer()
         }
     }
 
-    if ((has_trait("TROGLO") || has_trait("TROGLO2")) &&
+    if((has_trait("TROGLO") || has_trait("TROGLO2")) &&
         g->is_in_sunlight(pos()) && g->weather == WEATHER_SUNNY) {
         mod_str_bonus(-1);
         mod_dex_bonus(-1);
@@ -8018,7 +8011,7 @@ void player::suffer()
         mod_dex_bonus(-4);
         add_miss_reason(_("You can't stand the sunlight!"), 4);
         mod_int_bonus(-4);
-        mod_per_bonus(-4);
+        mod_per_bonus(-4); 
     }
 
     if (has_trait("SORES")) {
@@ -8029,23 +8022,11 @@ void player::suffer()
             }
         }
     }
-
-    if (has_trait("SLIMY") && !in_vehicle) {
-        g->m.add_field( pos(), fd_slime, 1, 0 );
-    }
         //Web Weavers...weave web
     if (has_active_mutation("WEB_WEAVER") && !in_vehicle) {
       g->m.add_field( pos(), fd_web, 1, 0 ); //this adds density to if its not already there.
 
      }
-
-    if (has_trait("VISCOUS") && !in_vehicle) {
-        if (one_in(3)){
-            g->m.add_field( pos(), fd_slime, 1, 0 );
-        } else {
-            g->m.add_field( pos(), fd_slime, 2, 0 );
-        }
-    }
 
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
@@ -11947,6 +11928,10 @@ int player::get_armor_acid(body_part bp) const
         }
     }
 
+    if( has_trait( "VISCOUS" ) ) {
+        ret += 2;
+    }
+
     return ret;
 }
 
@@ -12242,6 +12227,11 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
             if (has_trait("HOLLOW_BONES")) {
                 elem.amount *= 1.8;
+            }
+        }
+        if( elem.type == DT_ACID ) {
+            if( has_trait( "VISCOUS" ) ) {
+                elem.amount -= 2;
             }
         }
 
@@ -13046,19 +13036,6 @@ void player::burn_move_stamina( int moves )
             mod_pain(1);
         }
     }
-}
-
-field_id player::playerBloodType() const
-{
-    if (has_trait("ACIDBLOOD"))
-        return fd_acid;
-    if (has_trait("THRESH_PLANT"))
-        return fd_blood_veggy;
-    if (has_trait("THRESH_INSECT") || has_trait("THRESH_SPIDER"))
-        return fd_blood_insect;
-    if (has_trait("THRESH_CEPHALOPOD"))
-        return fd_blood_invertebrate;
-    return fd_blood;
 }
 
 Creature::Attitude player::attitude_to( const Creature &other ) const

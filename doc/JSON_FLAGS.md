@@ -576,7 +576,7 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 ### Effects
 
 - ```COOKOFF``` Explodes when lit on fire.
-- ```SHOT``` Multiple smaller pellets instead of one singular bullet; less effective against armor but increases chance to hit.
+- ```SHOT``` Multiple smaller pellets; less effective against armor but increases chance to hit and no point-blank penalty
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```EXPLOSIVE``` Explodes without any shrapnel.
 - ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
@@ -807,7 +807,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
-- ```BIO_WEAPON``` Weapon is a CBM weapon, uses power as ammo and should not specify an ammo type
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
 - ```NO_UNLOAD``` Cannot be unloaded.
 - ```FIRE_50``` Uses 50 shots per firing.
@@ -1040,6 +1039,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
+- ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 
 ## Skills
 

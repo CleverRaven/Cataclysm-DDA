@@ -19,6 +19,7 @@
 #include "artifact.h"
 #include "veh_type.h"
 #include "init.h"
+#include "generic_factory.h"
 #include "game.h"
 
 #include <algorithm>
@@ -662,10 +663,6 @@ void Item_factory::check_definitions() const
                     msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
                 }
 
-                if( type->item_tags.count( "BIO_WEAPON" ) ) {
-                    msg << "BIO_WEAPON must not be specified with an ammo type" << "\n";
-                }
-
                 if( !type->magazines.empty() && !type->magazine_default.count( type->gun->ammo ) ) {
                     msg << "specified magazine but none provided for default ammo type" << "\n";
                 }
@@ -746,6 +743,10 @@ void Item_factory::check_definitions() const
         main_stream << "warnings for type " << type->id << ":\n" << msg.str() << "\n";
         const std::string &buffer = main_stream.str();
         const size_t lines = std::count(buffer.begin(), buffer.end(), '\n');
+        if( stdscr == nullptr ) {
+            std::cerr << buffer << std::endl;
+            abort();
+        }
         if (lines > 10) {
             fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
             getch();
@@ -762,12 +763,27 @@ void Item_factory::check_definitions() const
     }
     const std::string &buffer = main_stream.str();
     if (!buffer.empty()) {
+        if( stdscr == nullptr ) {
+            std::cerr << buffer << std::endl;
+            abort();
+        }
         fold_and_print(stdscr, 0, 0, getmaxx(stdscr), c_red, "%s\n  Press any key...", buffer.c_str());
         getch();
         werase(stdscr);
     }
     for( const auto &elem : m_template_groups ) {
         elem.second->check_consistency();
+    }
+
+    for( const auto& e : migrations ) {
+        if( !m_templates.count( e.second.replace ) ) {
+            main_stream << "Invalid migration target: " << e.second.replace << "\n";
+        }
+        for( const auto& c : e.second.contents ) {
+            if( !m_templates.count( c ) ) {
+                main_stream << "Invalid migration contents: " << c << "\n";
+            }
+        }
     }
 }
 
@@ -871,60 +887,6 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo )
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
     load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
     load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
-}
-
-/** Helpers to handle json entity inheritance logic in a generic way. **/
-template <typename T>
-typename std::enable_if<std::is_integral<T>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, T& val ) {
-    T tmp;
-    if( jo.get_object( "relative" ).read( name, tmp ) ) {
-        val += tmp;
-        return true;
-    }
-
-    double scalar;
-    if( jo.get_object( "proportional" ).read( name, scalar ) && scalar > 0.0 ) {
-        val *= scalar;
-        return true;
-    }
-
-    return jo.read( name, val );
-}
-
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, T& val ) {
-    return jo.read( name, val );
-}
-
-template <typename T>
-typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    JsonObject &jo, const std::string& name, std::set<T>& val ) {
-
-    if( jo.has_string( name ) || jo.has_array( name ) ) {
-        val = jo.get_tags<T>( name );
-        return true;
-    }
-
-    bool res = false;
-
-    auto add = jo.get_object( "extend" );
-    if( add.has_string( name ) || add.has_array( name ) ) {
-        auto tags = add.get_tags<T>( name );
-        val.insert( tags.begin(), tags.end() );
-        res = true;
-    }
-
-    auto del = jo.get_object( "delete" );
-    if( del.has_string( name ) || del.has_array( name ) ) {
-        for( const auto& e : del.get_tags<T>( name ) ) {
-            val.erase( e );
-        }
-        res = true;
-    }
-
-    return res;
 }
 
 void Item_factory::load( islot_ammo &slot, JsonObject &jo )
@@ -1401,6 +1363,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "price_postapoc", new_item_template->price_post );
     assign( jo, "stack_size", new_item_template->stack_size );
     assign( jo, "integral_volume", new_item_template->integral_volume );
+    assign( jo, "color", new_item_template->color );
     assign( jo, "bashing", new_item_template->melee_dam );
     assign( jo, "cutting", new_item_template->melee_cut );
     assign( jo, "to_hit", new_item_template->m_to_hit );
@@ -1529,6 +1492,39 @@ void Item_factory::load_item_category(JsonObject &jo)
     }
     if (jo.has_member("sort_rank")) {
         cat.sort_rank = jo.get_int("sort_rank");
+    }
+}
+
+void Item_factory::load_migration( JsonObject &jo )
+{
+    migration m;
+    m.id = jo.get_string( "id" );
+    assign( jo, "replace", m.replace );
+    assign( jo, "flags", m.flags );
+    assign( jo, "charges", m.charges );
+    assign( jo, "contents", m.contents );
+
+    migrations[ jo.get_string( "id" ) ] = m;
+}
+
+itype_id Item_factory::migrate_id( const itype_id& id )
+{
+    auto iter = migrations.find( id );
+    return iter != migrations.end() ? iter->second.replace : id;
+}
+
+void Item_factory::migrate_item( const itype_id& id, item& obj )
+{
+    auto iter = migrations.find( id );
+    if( iter != migrations.end() ) {
+        std::copy( iter->second.flags.begin(), iter->second.flags.end(), std::inserter( obj.item_tags, obj.item_tags.begin() ) );
+        obj.charges = iter->second.charges;
+
+        for( const auto& c: iter->second.contents ) {
+            if( std::none_of( obj.contents.begin(), obj.contents.end(), [&]( const item& e ) { return e.typeId() == c; } ) ) {
+                obj.emplace_back( c, obj.bday );
+            }
+        }
     }
 }
 

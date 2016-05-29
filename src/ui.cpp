@@ -511,6 +511,7 @@ void uimenu::setup()
     started = true;
 }
 
+// @todo replace content of this function by draw_scrollbar() from output.(h|cpp)
 void uimenu::apply_scrollbar()
 {
     if ( ! scrollbar_auto ) {
@@ -521,7 +522,7 @@ void uimenu::apply_scrollbar()
         last_fsize = fentries.size();
 
         int sbside = ( scrollbar_side == 0 ? 0 : w_width );
-        int estart = textformatted.size() + 1;
+        int estart = textformatted.size() + 2;
 
         if ( !fentries.empty() && vmax < (int)fentries.size() ) {
             wattron(window, border_color);
@@ -829,6 +830,11 @@ void uimenu::reset()
         wrefresh(window);
         delwin(window);
         window = NULL;
+
+        // window area is lost when owner of uimenu exits its function for SDL
+        #ifdef TILES
+        g->refresh_all();
+        #endif // TILES
     }
 
     init();

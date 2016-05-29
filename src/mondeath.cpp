@@ -57,42 +57,33 @@ void mdeath::normal(monster *z)
     if ( z->type->in_species( ZOMBIE )) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume(z->pos()));
         }
-    m_size monSize = z->type->size;
+    bool is_big_beast = z->type->size >= MS_MEDIUM;
     bool leaveCorpse = !z->no_corpse_quiet;
 
     // leave some blood if we have to
-    field_id type_blood = z->bloodType();
-    if (type_blood != fd_null) {
-        g->m.add_field( z->pos(), type_blood, 1, 0 );
-    }
+    z->bleed();
 
-    int maxHP = z->get_hp_max();
-    if (!maxHP) {
-        maxHP = 1;
-    }
-
-    float overflowDamage = std::max( -z->get_hp(), 0 );
-    float corpseDamage = 5 * (overflowDamage / (maxHP * 2));
+    const int max_hp = std::max( z->get_hp_max(), 1 );
+    const float overflowDamage = std::max( -z->get_hp(), 0 );
+    const float corpseDamage = 2.5 * overflowDamage / max_hp;
 
     if (leaveCorpse) {
-        int gibAmount = int(floor(corpseDamage)) - 1;
-        // allow one extra gib per 5 HP
-        int gibLimit = 1 + (maxHP / 5.0);
-        if (gibAmount > gibLimit) {
-            gibAmount = gibLimit;
-        }
         bool pulverized = (corpseDamage > 5 && overflowDamage > 150);
         if (!pulverized) {
             make_mon_corpse(z, int(floor(corpseDamage)));
-        } else if (monSize >= MS_MEDIUM) {
-            gibAmount += rng(1, 6);
+        } else if( is_big_beast ) {
             sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume(z->pos()));
         }
         // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
         bool leaveGibs = (z->made_of( material_id( "flesh" ) ) || z->made_of( material_id( "hflesh" ) ) || z->made_of( material_id( "veggy" ) ) ||
                           z->made_of( material_id( "iflesh" ) ));
         if (leaveGibs) {
-            make_gibs( z, gibAmount );
+            const auto area = g->m.points_in_radius( z->pos(), 1 );
+            const int number_of_gibs = std::min( floor( corpseDamage ) - 1, 1 + max_hp / 5.0 ) + ( is_big_beast ? rng( 1, 6 ) : 0 );
+            for( int i = 0; i < number_of_gibs; ++i ) {
+                g->m.add_splatter( z->gibType(), random_entry( area ), rng( 1, i + 1 ) );
+                g->m.add_splatter( z->bloodType(), random_entry( area ) );
+            }
         }
     }
 }
@@ -694,38 +685,6 @@ void mdeath::broken_ammo(monster *z)
                             z->name().c_str());
     }
     mdeath::broken(z);
-}
-
-void make_gibs(monster *z, int amount)
-{
-    if (amount <= 0) {
-        return;
-    }
-
-    field_id type_blood = z->bloodType();
-
-    const auto random_pt = []( const tripoint &p ) {
-        return tripoint( p.x + rng( -1, 1 ), p.y + rng( -1, 1 ), p.z );
-    };
-
-    for (int i = 0; i < amount; i++) {
-        // leave gibs, if there are any
-        tripoint pt = random_pt( z->pos() );
-        const int gibDensity = rng(1, i + 1);
-        if( z->gibType() != fd_null ) {
-            if(  g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
-                // Only place gib if there's a clear path for it to get there.
-                g->m.add_field( pt, z->gibType(), gibDensity, 0 );
-            }
-        }
-        pt = random_pt( z->pos() );
-        if( type_blood != fd_null ) {
-            if( g->m.clear_path( z->pos(), pt, 2, 1, 100 ) ) {
-                // Only place blood if there's a clear path for it to get there.
-                g->m.add_field( pt, type_blood, 1, 0 );
-            }
-        }
-    }
 }
 
 void make_mon_corpse(monster *z, int damageLvl)

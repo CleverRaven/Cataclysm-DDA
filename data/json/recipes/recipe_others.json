@@ -2839,7 +2839,7 @@
   "autolearn": true,
   "components": [
     [
-      [ "shotgun_sawn", 1 ]
+      [ "shotgun_s", 1 ]
     ],
     [
       [ "shot_00", 2 ]
@@ -6638,30 +6638,6 @@
       [ "tanned_hide", 1 ],
       [ "fur", 4 ],
       [ "tanned_pelt", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "coal_lump",
-  "result_mult": 5,
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 7,
-  "time": 180000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities": [
-        {"id":"HAMMER","level":3,"amount":1}
-      ],
-  "tools": [
-    [
-        [ "pickaxe", -1 ]
-    ]
-  ],
-  "components": [
-    [
-        [ "coal", 1 ]
     ]
   ]
   },{

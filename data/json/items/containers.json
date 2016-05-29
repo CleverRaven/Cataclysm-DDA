@@ -13,6 +13,7 @@
         "to_hit": -1,
         "contains": 24,
         "rigid": false,
+        "flags": "TRADER_AVOID",
         "material": "plastic"
     },
     {
@@ -598,6 +599,7 @@
         "to_hit": -2,
         "contains": 10,
         "rigid": false,
+        "flags": "TRADER_AVOID",
         "material": "paper"
     },
     {

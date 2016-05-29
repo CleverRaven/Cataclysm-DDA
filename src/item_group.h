@@ -46,8 +46,6 @@ namespace item_group {
     ItemList items_from( const Group_tag &group_id );
     /**
      * Check whether a specific item group contains a specific item type.
-     * This is used for the "trader_avoid" item group to specify what items npc should not spawn
-     * with.
      */
     bool group_contains_item( const Group_tag &group_id, const Item_tag &type_id );
     /**

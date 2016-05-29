@@ -52,6 +52,9 @@ const skill_id skill_bashing( "bashing" );
 const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 
+const quality_id quality_jack( "JACK" );
+const quality_id quality_lift( "LIFT" );
+
 const species_id FISH( "FISH" );
 const species_id BIRD( "BIRD" );
 const species_id INSECT( "INSECT" );
@@ -814,8 +817,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
     } else {
         const item *mod = this;
-        if( !is_gunmod() ) {
-            mod = &*gun_current_mode();
+        const auto aux = gun_current_mode();
+        // if we have an active auxiliary gunmod display stats for this instead
+        if( aux && aux->is_gunmod() && aux->is_gun() ) {
+            mod = &*aux;
             info.emplace_back( "DESCRIPTION", string_format( _( "Stats of the active <info>gunmod (%s)</info> are shown." ),
                                                              mod->tname().c_str() ) );
         }
@@ -1312,24 +1317,28 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
     }
 
-    for( const auto &quality : type->qualities ) {
-        const auto desc = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
-                                         quality.second,
-                                         quality.first.obj().name.c_str() );
-        info.push_back( iteminfo( "QUALITIES", "", desc ) );
-    }
-    bool intro = false; // Did we print the "Contains items with qualities" line
-    for( const auto &content : contents ) {
-        for( const auto quality : content.type->qualities ) {
-            if( !intro ) {
-                intro = true;
-                info.push_back( iteminfo( "QUALITIES", "", _( "Contains items with qualities:" ) ) );
-            }
+    auto name_quality = [&info]( const std::pair<quality_id,int>& q ) {
+        std::string str;
+        if( q.first == quality_jack || q.first == quality_lift ) {
+            str = string_format( _( "Has level <info>%1$d %2$s</info> quality and is rated at <info>%3$dkg</info>" ),
+                                 q.second, q.first.obj().name.c_str(), q.second * TOOL_LIFT_FACTOR / 1000 );
+        } else {
+            str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
+                                 q.second, q.first.obj().name.c_str() );
+        }
+        info.emplace_back( "QUALITIES", "", str );
+    };
 
-            const auto desc = string_format( space + _( "Level %1$d %2$s quality." ),
-                                             quality.second,
-                                             quality.first.obj().name.c_str() );
-            info.push_back( iteminfo( "QUALITIES", "", desc ) );
+    for( const auto& q : type->qualities ) {
+        name_quality( q );
+    }
+
+    if( std::any_of( contents.begin(), contents.end(), []( const item& e ) { return !e.type->qualities.empty(); } ) ) {
+        info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
+    }
+    for( const auto& e : contents ) {
+        for( const auto& q : e.type->qualities ) {
+            name_quality( q );
         }
     }
 
@@ -4202,11 +4211,11 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
 
 std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 {
-    if( !is_gun() ) {
-        return {};
-    }
-
     std::map<std::string, const item::gun_mode> res;
+
+    if( !is_gun() ) {
+        return res;
+    }
 
     auto opts = gunmods();
     opts.push_back( this );

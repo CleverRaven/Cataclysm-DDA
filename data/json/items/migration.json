@@ -1,0 +1,28 @@
+[
+  {
+    "id": "adv_UPS_on",
+    "type": "MIGRATION",
+    "replace": "adv_UPS_off"
+  },
+  {
+    "id": "m14a",
+    "type": "MIGRATION",
+    "replace": "m1a"
+  },
+  {
+    "id": "metal_tank_small",
+    "type": "MIGRATION",
+    "replace": "jerrycan"
+  },
+  {
+    "id": "saiga_sawn",
+    "type": "MIGRATION",
+    "replace": "saiga_12",
+    "contents": [ "barrel_small" ]
+  },
+  {
+    "id": "UPS_on",
+    "type": "MIGRATION",
+    "replace": "UPS_off"
+  }
+]

@@ -31,7 +31,7 @@
     "id": "bayonet",
     "type": "GUNMOD",
     "name": "bayonet",
-    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachinegun or rifle, allowing a melee attack to deal piercing damage.  The added length increases recoil slightly.",
+    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachinegun or rifle, allowing a melee attack to deal piercing damage.",
     "weight": 387,
     "volume": 2,
     "price": 4000,
@@ -43,7 +43,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
-    "recoil_modifier": 45,
     "flags": [ "NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET" ]
   },
   {
@@ -92,7 +91,7 @@
       "reload": 100
     },
     "dispersion_modifier": 15,
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "TRADER_AVOID" ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
@@ -141,7 +140,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
-    "recoil_modifier": 45,
     "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
   },
   {
@@ -160,7 +158,6 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol", "smg", "crossbow" ],
     "dispersion_modifier": 15,
-    "recoil_modifier": 45,
     "flags": [ "STAB", "BAYONET" ]
   },
   {
@@ -178,7 +175,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
-    "recoil_modifier": 105,
     "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
   },
   {
@@ -386,7 +382,7 @@
     "id": "pistol_bayonet",
     "type": "GUNMOD",
     "name": "pistol bayonet",
-    "description": "A pistol bayonet is a stabbing weapon that can be attached to the front of a handgun, allowing a melee attack to deal piercing damage.  The added length reduces the gun's overall handling somewhat.",
+    "description": "A pistol bayonet is a stabbing weapon that can be attached to the front of a handgun, allowing a melee attack to deal piercing damage.",
     "weight": 122,
     "volume": 1,
     "price": 4000,
@@ -398,7 +394,6 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol", "smg", "crossbow" ],
     "dispersion_modifier": 15,
-    "recoil_modifier": 45,
     "flags": [ "STAB", "BAYONET" ]
   },
   {
@@ -436,7 +431,7 @@
     "id": "sword_bayonet",
     "type": "GUNMOD",
     "name": "sword bayonet",
-    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a shotgun or rifle, allowing a melee attack to deal cutting damage.  The added length increases recoil substantially.",
+    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a shotgun or rifle, allowing a melee attack to deal cutting damage.",
     "weight": 923,
     "volume": 3,
     "price": 5000,
@@ -447,7 +442,6 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
-    "recoil_modifier": 105,
     "flags": [ "NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET" ]
   },
   {
