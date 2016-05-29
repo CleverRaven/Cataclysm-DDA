@@ -2489,13 +2489,8 @@
     "time": 6000,
     "autolearn": true,
     "book_learn": [["recipe_labchem", 3 ], ["textbook_chemistry", 3]],
-    "qualities":[
-      {"id":"BOIL","level":2},
-      {"id":"CHEM","level":1}
-    ],
-    "tools": [
-    [[ "hotplate", 10 ], [ "toolset", 10 ], [ "fire", -1 ]]
-    ],
+    "qualities": [{"id":"BOIL","level":2}, {"id":"CHEM","level":1}],
+    "tools": [[[ "hotplate", 10 ], [ "toolset", 10 ], [ "fire", -1 ]]],
     "components": [
       [[ "chem_hydrogen_peroxide_conc", 1 ]],
       [[ "water", 5 ], ["water_clean", 5]]
