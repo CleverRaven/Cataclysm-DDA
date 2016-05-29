@@ -151,6 +151,20 @@
     "fun": -3
   },
   {
+    "id": "mushroom_magic",
+    "copy-from": "mushroom",
+    "type": "COMESTIBLE",
+    "use_action": "FUN_HALLU",
+    "extend": { "flags" : "HIDDEN_HALLU" }
+  },
+  {
+    "id": "mushroom_poison",
+    "copy-from": "mushroom",
+    "type": "COMESTIBLE",
+    "use_action": "POISON",
+    "extend": { "flags" : "HIDDEN_POISON" }
+  },
+  {
     "id": "onion",
     "copy-from": "vegetable_root",
     "type": "COMESTIBLE",
