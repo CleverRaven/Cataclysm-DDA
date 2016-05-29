@@ -166,6 +166,9 @@ class Item_modifier
          */
         std::unique_ptr<Item_spawn_data> contents;
 
+        /** Flags to set when creating the item */
+        std::set<std::string> flags;
+
         Item_modifier();
         ~Item_modifier();
 

@@ -1694,6 +1694,8 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_sub_ref(modifier->ammo, obj, "ammo");
     use_modifier |= load_sub_ref(modifier->container, obj, "container");
     use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
+    use_modifier |= assign( obj, "flags", modifier->flags );
+
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }
