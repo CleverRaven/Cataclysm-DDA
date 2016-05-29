@@ -1,0 +1,11 @@
+[
+  {
+    "id": "vegetable",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "vegetable base",
+    "material": "veggy",
+    "symbol": "%",
+    "color": "green"
+  }
+]
