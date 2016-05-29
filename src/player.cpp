@@ -10010,7 +10010,7 @@ void player::mend_item( item_location&& obj, bool interactive )
             descr << "> " << calendar::print_duration( f.first->time() / 100 ) << "\n";
             descr << _( "<color_white>Skills:</color>\n" );
             for( const auto& e : f.first->skills() ) {
-                bool hasSkill = get_skill_level( skill_mechanics ) >= e.second;
+                bool hasSkill = get_skill_level( e.first ) >= e.second;
                 f.second -= !hasSkill;
                 descr << string_format( "> <color_%1$s>%2$s %3$i</color>\n", hasSkill ? "c_green" : "c_red",
                                         _( e.first.obj().name().c_str() ), e.second );
