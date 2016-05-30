@@ -73,7 +73,7 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 
 const auto separator = []( std::ostringstream &s )
 {
-    return s.tellp() != 0 ? ", " : "";
+    return ( int )( s.tellp() ) != 0 ? ", " : "";
 };
 
 //builds the power usage string of a given bionic
