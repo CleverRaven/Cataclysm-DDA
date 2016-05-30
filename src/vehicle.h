@@ -143,6 +143,13 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Amount of fuel, charges or ammunition currently contained by a part */
     long ammo_remaining() const;
 
+    /**
+     * Consume fuel, charges or ammunition (if available)
+     * @param qty maximum amount of ammo that should be consumed
+     * @return amount consumed which will be between 0 and @ref qty
+     */
+    long ammo_consume( long qty );
+
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
 
