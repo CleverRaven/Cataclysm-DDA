@@ -275,27 +275,6 @@ struct common_ranged_data {
     int recoil = 0;
 };
 
-/**
- * Common data for things that affect firing: guns and gunmods.
- * The values of the gun itself and its mods are usually summed up in the item class
- * and the sum is used.
- */
-struct common_firing_data : common_ranged_data {
-    /**
-     * TODO: this needs documentation, who knows what it is?
-     * A value of -1 in gunmods means it's ignored.
-     */
-    int sight_dispersion = 0;
-    /**
-     * TODO: this needs documentation, who knows what it is?
-     * A value of -1 in gunmods means it's ignored.
-     */
-    int aim_speed = 0;
-
-    /** Modifies base loudness as provided by the currently loaded ammo */
-    int loudness = 0;
-};
-
 struct islot_engine
 {
     friend Item_factory;
@@ -311,7 +290,7 @@ struct islot_engine
 };
 
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
-struct islot_gun : common_firing_data {
+struct islot_gun : common_ranged_data {
     /**
      * What skill this gun uses.
      */
@@ -340,6 +319,16 @@ struct islot_gun : common_firing_data {
      * Volume of the noise made when reloading this weapon.
      */
     int reload_noise_volume = 0;
+
+    /** @todo add documentation */
+    int sight_dispersion = 0;
+
+    /** @todo add documentation */
+    int aim_speed = 0;
+
+    /** Modifies base loudness as provided by the currently loaded ammo */
+    int loudness = 0;
+
     /**
      * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
      */
@@ -374,7 +363,7 @@ struct islot_gun : common_firing_data {
     int burst = 0;
 };
 
-struct islot_gunmod : common_firing_data {
+struct islot_gunmod : common_ranged_data {
     /** Where is this guunmod installed (eg. "stock", "rail")? */
     std::string location;
 
@@ -386,6 +375,15 @@ struct islot_gunmod : common_firing_data {
 
     /** If changed from the default of "NULL" modifies parent guns ammo to this type */
     ammotype ammo_modifier = "NULL";
+
+    /** @todo add documentation */
+    int sight_dispersion = -1;
+
+    /** @todo add documentation */
+    int aim_speed = -1;
+
+    /** Modifies base loudness as provided by the currently loaded ammo */
+    int loudness = 0;
 
     /** How many moves does this gunmod take to install? */
     int install_time = 0;
