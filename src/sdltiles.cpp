@@ -769,9 +769,9 @@ void reinitialize_framebuffer()
     for( int i = 0; i < new_height; i++ ) {
         oversized_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
     }
-    terminal_framebuffer.resize( TERMY );
-    for( int i = 0; i < TERMY; i++ ) {
-        terminal_framebuffer[i].chars.assign( TERMX, cursecell( "" ) );
+    terminal_framebuffer.resize( new_height );
+    for( int i = 0; i < new_height; i++ ) {
+        terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
     }
 }
 
