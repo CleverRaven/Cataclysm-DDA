@@ -3257,20 +3257,6 @@ bool vehicle::do_environmental_effects()
                 parts[p].blood--;
             }
         }
-        if( part_flag(p, VPFLAG_ENGINE) && parts[p].hp <= 0 && parts[p].amount > 0 ) {
-            needed = true;
-            parts[p].amount--;
-            tripoint tmp = part_pos;
-            int &tx = tmp.x;
-            int &ty = tmp.y;
-            for( tx = part_pos.x - 1; tx <= part_pos.x + 1; tx++ ) {
-                for( ty = part_pos.y - 1; ty <= part_pos.y + 1; ty++ ) {
-                    if( !rng(0, 2) ) {
-                        g->m.add_field( tmp, fd_smoke, rng(2, 4), 0 );
-                    }
-                }
-            }
-        }
     }
     return needed;
 }
