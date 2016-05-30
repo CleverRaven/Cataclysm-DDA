@@ -595,6 +595,14 @@ bool player::activate_bionic( int b, bool eff_only )
             tank_plut = 0;
             reactor_plut = 0;
             }
+    } else if (bio.id == "bio_cable") {
+        bool has_cable = has_item_with( []( const item &it ) {
+            return it.has_flag( "CABLE_SPOOL" ) && it.active;
+        });
+
+        if( !has_cable ) {
+            add_msg_if_player( m_info, _( "You need a jumper cable connected to a vehicle to drain power from it." ) );
+        }
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
@@ -723,6 +731,33 @@ void player::process_bionic( int b )
     } else if (bio.id == "bio_hydraulics") {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         sounds::sound( pos(), 19, _("HISISSS!"));
+    } else if( bio.id == "bio_cable" ) {
+        const std::vector<item*> cables = items_with( []( const item &it ) {
+            return it.active && it.has_flag( "CABLE_SPOOL" );
+        });
+
+        constexpr int battery_per_power = 10;
+        int wants_power_amt = battery_per_power;
+        for( const item *cable : cables ) {
+            const auto &target = cable->get_cable_target();
+            vehicle *veh = g->m.veh_at( target );
+            if( veh == nullptr ) {
+                continue;
+            }
+
+            int got_power = wants_power_amt - veh->discharge_battery( wants_power_amt );
+            wants_power_amt -= got_power;
+            if( wants_power_amt == 0 ) {
+                charge_power( 1 );
+                break;
+            }
+        }
+
+        if( wants_power_amt < battery_per_power &&
+            wants_power_amt > 0 &&
+            x_in_y( wants_power_amt, battery_per_power ) ) {
+            charge_power( 1 );
+        }
     }
 }
 
