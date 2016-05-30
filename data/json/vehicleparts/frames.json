@@ -11,8 +11,30 @@
     "flags" : [ "MOUNTABLE" ]
   },
   {
+    "abstract": "frame_wood",
+    "type": "vehicle_part",
+    "name": "wooden frame",
+    "item": "frame_wood",
+    "location": "structure",
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 150,
+    "difficulty": 1,
+    "breaks_into": [
+        { "item": "splinter", "count": [ 7, 9 ] },
+        { "item": "nail", "charges": [ 5, 10 ] }
+    ],
+    "flags": [ "NAILABLE" ]
+  },
+  {
     "id": "frame_cover",
     "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "frame_wood_cover",
+    "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "^"
   },
@@ -23,8 +45,20 @@
     "symbol": "c"
   },
   {
+    "id": "frame_wood_cross",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "c"
+  },
+  {
     "id": "frame_horizontal",
     "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_horizontal",
+    "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "h"
   },
@@ -35,8 +69,20 @@
     "symbol": "="
   },
   {
+    "id": "frame_wood_horizontal_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
     "id": "frame_ne",
     "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "frame_wood_ne",
+    "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "u"
   },
@@ -47,8 +93,20 @@
     "symbol": "y"
   },
   {
+    "id": "frame_wood_nw",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
     "id": "frame_se",
     "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "frame_wood_se",
+    "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "n"
   },
@@ -59,14 +117,32 @@
     "symbol": "b"
   },
   {
+    "id": "frame_wood_sw",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "frame_vertical",
     "copy-from": "frame",
     "type": "vehicle_part",
     "symbol": "j"
   },
   {
+    "id": "frame_wood_vertical",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
     "id": "frame_vertical_2",
     "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "frame_wood_vertical_2",
+    "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "H"
   }
