@@ -6848,25 +6848,25 @@ std::string vehicle_part::name() const {
 itype_id vehicle_part::ammo_current() const
 {
     // @todo currently only support fuel tanks and batteries
-    return has_flag( VPFLAG_FUEL_TANK ) ? info().fuel_type : "null";
+    return info().has_flag( VPFLAG_FUEL_TANK ) ? info().fuel_type : "null";
 }
 
 long vehicle_part::ammo_capacity() const
 {
     // @todo currently only support fuel tanks and batteries
-    return has_flag( VPFLAG_FUEL_TANK ) ? info().size : 0;
+    return info().has_flag( VPFLAG_FUEL_TANK ) ? info().size : 0;
 }
 
 long vehicle_part::ammo_remaining() const
 {
     // @todo currently only support fuel tanks and batteries
-    return has_flag( VPFLAG_FUEL_TANK ) ? amount : 0;
+    return info().has_flag( VPFLAG_FUEL_TANK ) ? amount : 0;
 }
 
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
     // @todo currently only support fuel tanks and batteries
-    if( !has_flag( VPFLAG_FUEL_TANK ) ) {
+    if( !info().has_flag( VPFLAG_FUEL_TANK ) ) {
         return -1;
     }
 
