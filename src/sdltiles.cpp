@@ -61,6 +61,7 @@ static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
 extern bool tile_iso;
+extern WINDOW *w_hit_animation;
 
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
@@ -877,7 +878,8 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
     bool oldWinCompatible = false;
 
     // use the oversize buffer when dealing with windows that can have a different font than the main text font
-    bool use_oversized_framebuffer = g && ( win == g->w_terrain || win == g->w_overmap );
+    bool use_oversized_framebuffer = g && ( win == g->w_terrain || win == g->w_overmap ||
+                                            ( win != nullptr && win == w_hit_animation ) );
 
     /*
     Let's try to keep track of different windows.
