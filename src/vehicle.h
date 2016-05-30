@@ -187,7 +187,6 @@ public:
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
-    int amount = 0;               // amount of fuel for tank/charge in battery
     bool open = false;            // door is open
     int direction = 0;            // direction the part is facing
     int mode = 0;                 // turret mode
@@ -201,6 +200,8 @@ private:
     vpart_id id;         // id in map of parts (vehicle_part_types key)
     item base;
     std::list<item> items; // inventory
+
+    int amount = 0; // amount of fuel for tank/charge in battery
 
 public:
     const vpart_str_id &get_id() const;
