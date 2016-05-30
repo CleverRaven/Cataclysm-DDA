@@ -137,6 +137,12 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
 
+    /** Specific type of fuel, charges or ammunition currently contained by a part */
+    itype_id ammo_current() const;
+
+    /** Amount of fuel, charges or ammunition currently contained by a part */
+    long ammo_remaining() const;
+
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
 

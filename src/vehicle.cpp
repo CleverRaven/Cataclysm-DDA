@@ -1283,7 +1283,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         bool can_toggle = reactor_on;
         if( !can_toggle ) {
             for( int p : reactors ) {
-                if( parts[p].hp > 0 && parts[p].amount > 0 ) {
+                if( parts[p].hp > 0 && parts[p].ammo_remaining() > 0 ) {
                     can_toggle = true;
                     break;
                 }
@@ -3071,12 +3071,9 @@ point vehicle::pivot_displacement() const
 
 int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
 {
-    int fl = 0;
-    for(auto &p : fuel) {
-        if(ftype == part_info(p).fuel_type) {
-            fl += parts[p].amount;
-        }
-    }
+    int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs, const vehicle_part &rhs ) {
+        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
+    } );
 
     if(recurse && ftype == fuel_type_battery) {
         auto fuel_counting_visitor = [&] (vehicle const* veh, int amount, int) {
@@ -6180,12 +6177,10 @@ void vehicle::cycle_global_turret_mode()
 std::map<itype_id, long> vehicle::fuels_left() const
 {
     std::map<itype_id, long> result;
-    for( const auto &part : parts ) {
-        const vpart_info &vpinfo = part.info();
-        if( !vpinfo.has_flag( VPFLAG_FUEL_TANK ) || part.amount <= 0 ) {
-            continue;
+    for( const auto &p : parts ) {
+        if( p.info().has_flag( VPFLAG_FUEL_TANK ) && p.ammo_current() != "null" ) {
+            result[ p.ammo_current() ] += p.ammo_remaining();
         }
-        result[vpinfo.fuel_type] += part.amount;
     }
     return result;
 }
@@ -6923,6 +6918,16 @@ std::string vehicle_part::name() const {
     return res;
 }
 
+itype_id vehicle_part::ammo_current() const
+{
+    return info().fuel_type;
+}
+
+long vehicle_part::ammo_remaining() const
+{
+    return amount;
+}
+
 const std::set<fault_id>& vehicle_part::faults() const
 {
     return base.faults;
@@ -6987,9 +6992,11 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             m_part += p != nullptr ? p->get_weight() : 0;
         }
 
-        if( pi.has_flag( VPFLAG_FUEL_TANK ) && parts[i].amount > 0 &&
-            pi.fuel_type != fuel_type_battery && pi.fuel_type != fuel_type_plasma ) {
-            m_part += item::find_type( pi.fuel_type )->weight * parts[i].amount;
+        if( pi.has_flag( VPFLAG_FUEL_TANK ) ) {
+            auto ammo = parts[ i ].ammo_current();
+            if( ammo != "null" && ammo != fuel_type_battery && ammo != fuel_type_plasma ) {
+                m_part += item::find_type( ammo )->weight * parts[ i ].ammo_remaining();
+            }
         }
 
         if( use_precalc ) {
