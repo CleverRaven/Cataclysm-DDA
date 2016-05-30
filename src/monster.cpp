@@ -1469,12 +1469,12 @@ int monster::impact( const int force, const tripoint &p )
     const float mod = fall_damage_mod();
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
-        const int cut_damage = 10 * mod - get_armor_cut( bp_torso );
+        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_torso ) );
         apply_damage( nullptr, bp_torso, cut_damage );
         total_dealt += 10 * mod;
     }
 
-    const int bash_damage = force * mod - get_armor_bash( bp_torso );
+    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_torso ) );
     apply_damage( nullptr, bp_torso, bash_damage );
     total_dealt += force * mod;
 
