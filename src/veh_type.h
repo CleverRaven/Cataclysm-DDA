@@ -149,8 +149,20 @@ class vpart_info
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = 60000;
 
+        /** Requirements for removal of this component */
+        requirement_data removal_reqs;
+
+        /** Required skills to remove this component */
+        std::map<skill_id, int> removal_skills;
+
+        /** Removal time (in moves) for component (@see removal_time), default is half @ref install_moves */
+        int removal_moves = -1;
+
         /** Installation time (in moves) for this component accounting for player skills */
         int install_time( const Character &ch ) const;
+
+        /** Removal time (in moves) for this component accounting for player skills */
+        int removal_time( const Character &ch ) const;
 
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";

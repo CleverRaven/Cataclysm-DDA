@@ -1,0 +1,28 @@
+[
+  {
+    "id": "headlight",
+    "type": "vehicle_part",
+    "name": "head light",
+    "item": "flashlight",
+    "symbol" : "*",
+    "color" : "light_blue",
+    "broken_symbol" : "*",
+    "broken_color" : "white",
+    "durability": 20,
+    "difficulty": 1,
+    "epower" : -187,
+    "bonus" : 8000,
+    "damage_modifier" : 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ],
+        "time": 30000,
+        "qualities": [ { "id": "SCREW", "level": 1 } ],
+        "components": [ [ [ "flashlight", 1 ] ], [ [ "wire", 20 ] ] ]
+      }
+    },
+    "flags" : [ "CONE_LIGHT", "FOLDABLE" ]
+  }
+]

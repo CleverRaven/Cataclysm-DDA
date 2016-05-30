@@ -4435,25 +4435,6 @@
         }
     },{
         "type" : "vehicle_part",
-        "id" : "headlight",
-        "name" : "head light",
-        "symbol" : "*",
-        "color" : "white",
-        "broken_symbol" : "*",
-        "broken_color" : "white",
-        "damage_modifier" : 10,
-        "durability" : 20,
-        "folded_volume": 1,
-        "epower" : -187,
-        "bonus" : 8000,
-        "item" : "flashlight",
-        "difficulty" : 1,
-        "flags" : ["CONE_LIGHT", "TOOL_SCREWDRIVER", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [0, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "headlight_reinforced",
         "name" : "reinforced head light",
         "symbol" : "*",
