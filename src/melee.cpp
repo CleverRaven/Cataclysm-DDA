@@ -224,8 +224,7 @@ int player::hit_roll() const
         numdice = 1;
     }
 
-    int sides = 10 - divide_roll_remainder( encumb( bp_torso ), 10.0f );
-    sides = std::max( sides, 2 );
+    int sides = 10 + roll_remainder( melee_hit_encumbrance() );
     return dice( numdice, sides );
 }
 
@@ -247,7 +246,7 @@ const char *player::get_miss_reason()
     // in one turn
     add_miss_reason(
         _("Your torso encumbrance throws you off-balance."),
-        divide_roll_remainder( encumb( bp_torso ), 10.0f ) );
+        roll_remainder( melee_hit_encumbrance() ) );
     const int farsightedness = 2 * ( has_trait("HYPEROPIC") &&
                                !is_wearing("glasses_reading") &&
                                !is_wearing("glasses_bifocal") &&
@@ -432,8 +431,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     const int melee = get_skill_level( skill_melee );
     ///\EFFECT_STR reduces stamina cost for melee attack with heavier weapons
     const int weight_cost = weapon.weight() / ( 20 * std::max( 1, str_cur ) );
-    const int encumbrance_cost =
-        divide_roll_remainder( encumb( bp_arm_l ) + encumb( bp_arm_r ), 5.0f );
+    const int encumbrance_cost = roll_remainder( melee_stamina_encumbrance() );
     ///\EFFECT_MELEE reduces stamina cost of melee attacks
     const int mod_sta = ( weight_cost + encumbrance_cost - melee + 20 ) * -1;
     mod_stat("stamina", mod_sta);
@@ -2485,8 +2483,9 @@ int player::attack_speed( const item &weap, const bool average ) const
     const int skill_cost = (int)( base_move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
     ///\EFFECT_DEX increases attack speed
     const int dexbonus = average ? dex_cur / 2 : rng( 0, dex_cur );
-    const int encumbrance_penalty = encumb( bp_torso ) +
-                                    ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
+    const int encumbrance_penalty = average
+                                    ? (int)melee_speed_encumbrance()
+                                    : roll_remainder( melee_speed_encumbrance() );
     const float stamina_ratio = (float)stamina / (float)get_stamina_max();
     // Increase cost multiplier linearly from 1.0 to 2.0 as stamina goes from 25% to 0%.
     const float stamina_penalty = 1.0 + ( (stamina_ratio < 0.25) ?
