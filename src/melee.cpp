@@ -521,6 +521,15 @@ bool player::scored_crit(int target_dodge) const
     return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weapon );
 }
 
+/**
+ * Limits a probability to be between 0.0 and 1.0
+ */
+double limit_probability ( double unbounded_probability ) {
+    double probability = std::fmin( unbounded_probability, 1.0 );
+    double bounded_probability = std::fmax( probability, 0.0 );
+    return bounded_probability;
+}
+
 double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) const
 {
     // TODO: see player.cpp ther eis the same listing of those skill!
@@ -551,12 +560,13 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     } else if( weap.type->m_to_hit < 0 ) {
         weapon_crit_chance += 0.1 * weap.type->m_to_hit;
     }
+    weapon_crit_chance = limit_probability( weapon_crit_chance );
 
     // Dexterity and perception
     ///\EFFECT_DEX increases chance for critical hits
 
     ///\EFFECT_PER increases chance for critical hits
-    const double stat_crit_chance = 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur );
+    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur ) );
 
     // Skill level roll
     int best_skill = 0;
@@ -585,7 +595,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     ///\EFFECT_MELEE slightly increases crit chance with any melee weapon
     best_skill += melee_skill / 2.5;
 
-    const double skill_crit_chance = 0.25 + best_skill * 0.025;
+    const double skill_crit_chance = limit_probability( 0.25 + best_skill * 0.025 );
 
     // Examples (survivor stats/chances of each crit):
     // Fresh (skill-less) 8/8/8/8, unarmed:
@@ -596,8 +606,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     //  60%, 100%, 42%; ~1/4 guaranteed crit + ~3/8 if roll>dodge*1.5
 
     // Note: the formulas below are only valid if none of the 3 crit chance values go above 1.0
-    // But that would require >10 skills/+6 to-hit/75 dex, so it's OK to have minor weirdness there
-    // Things like crit values dropping a bit instead of rising
+    // It is therefore important to limit them to between 0.0 and 1.0
 
     // Chance to get all 3 crits (a guaranteed crit regardless of hit/dodge)
     const double chance_triple = weapon_crit_chance * stat_crit_chance * skill_crit_chance;
@@ -608,7 +617,9 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
             stat_crit_chance * skill_crit_chance +
             weapon_crit_chance * skill_crit_chance -
             ( 3 * chance_triple ) );
-        return chance_triple + chance_double - ( chance_triple * chance_double );
+        // Because chance_double already removed the triples with -( 3 * chance_triple ), chance_triple
+        // and chance_double are mutually exclusive probabilities and can just be added together.
+        return chance_triple + chance_double;
     }
 
     return chance_triple;
