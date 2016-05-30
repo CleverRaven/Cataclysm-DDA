@@ -117,6 +117,20 @@ bool npc::could_move_onto( const tripoint &p ) const
 
 // class npc functions!
 
+double npc::evaluate_enemy( const Creature &target ) const {
+    if( target.is_monster() ) {
+        // effective range [2..42]
+        return std::max( dynamic_cast<const monster&>( target ).type->difficulty - 2, 0 ) / 40.0;
+
+    } else if( target.is_npc() || target.is_player() ) {
+        // @todo determine based upon visible equipment
+        return 1.0;
+
+    } else {
+        return 0.0;
+    }
+}
+
 void npc::assess_danger()
 {
     int assessment = 0;
@@ -774,18 +788,14 @@ npc_action npc::method_of_attack()
 
     tripoint tar = critter->pos();
     int dist = rl_dist( pos(), tar );
-    int target_HP;
-    if( !critter->is_monster() ) {
-        target_HP = critter->hp_percentage() * critter->get_hp( hp_torso );
-    } else {
-        target_HP = critter->get_hp();
-    }
+    double danger = evaluate_enemy( *critter );
 
     // TODO: Change the in_vehicle check to actual "are we driving" check
     const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
 
     // get any suitable modes excluding melee, any forbiden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
+    // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
     std::vector<std::pair<std::string,item::gun_mode>> modes;
     if( rules.use_guns || !is_following() ) {
         for( const auto &e : weapon.gun_all_modes() ) {
@@ -798,6 +808,7 @@ npc_action npc::method_of_attack()
             const auto &m = e.second;
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
+                   ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
                    ( rules.use_silent && is_following() && !m.target->is_silent() );
 
         } ), modes.end() );

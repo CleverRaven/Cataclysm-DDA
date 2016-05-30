@@ -700,6 +700,9 @@ public:
  void execute_action( npc_action action ); // Performs action
     void process_turn() override;
 
+    /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
+    double evaluate_enemy( const Creature &target ) const;
+
     void choose_monster_target();
     void assess_danger();
     // Functions which choose an action for a particular goal
