@@ -3954,6 +3954,10 @@ long item::ammo_required() const
     return 0;
 }
 
+bool item::ammo_sufficient( int qty ) const {
+    return ammo_remaining() >= ammo_required() * qty;
+}
+
 long item::ammo_consume( long qty, const tripoint& pos ) {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );

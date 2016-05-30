@@ -1134,6 +1134,13 @@ public:
         long ammo_required() const;
 
         /**
+         * Is sufficient ammo loaded for at @ref qty uses of tool or shots of gun?
+         * This function is preferred as when support for items consuming multiple ammo types
+         * concurrently is added consumers of this function will not need refactoring
+         */
+        bool ammo_sufficient( int qty = 1 ) const;
+
+        /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
