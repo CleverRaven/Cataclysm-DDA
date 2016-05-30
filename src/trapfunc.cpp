@@ -1185,7 +1185,7 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
         if( g->summon_mon( mon_shadow, monp ) ) {
             add_msg( m_warning, _( "A shadow forms nearby." ) );
             monster *spawned = g->monster_at( monp );
-            spawned->reset_special_rng( 0 );
+            spawned->reset_special_rng( "DISAPPEAR" );
         }
         g->m.remove_trap( p );
     }
