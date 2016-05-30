@@ -755,7 +755,7 @@ void player::process_bionic( int b )
 
         if( wants_power_amt < battery_per_power &&
             wants_power_amt > 0 &&
-            x_in_y( wants_power_amt, battery_per_power ) ) {
+            x_in_y( battery_per_power - wants_power_amt, battery_per_power ) ) {
             charge_power( 1 );
         }
     }
