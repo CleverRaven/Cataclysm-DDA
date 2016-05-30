@@ -1,0 +1,49 @@
+[
+  {
+    "abstract": "board",
+    "type": "vehicle_part",
+    "name": "board",
+    "item": "sheet_metal",
+    "location": "center",
+    "durability": 240,
+    "difficulty": 1,
+    "breaks_into": "ig_vp_sheet_metal",
+    "flags": [ "OPAQUE", "OBSTACLE" ]
+  },
+  {
+    "id": "board_horizontal",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "board_ne",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "board_nw",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "board_se",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "board_sw",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "board_vertical",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "j"
+  }
+]
