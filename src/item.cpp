@@ -2634,13 +2634,27 @@ int item::damage_by_type( damage_type dt ) const
     return 0;
 }
 
-int item::reach_range() const
+int item::reach_range( const player &p ) const
 {
-    if( is_gunmod() || !has_flag( "REACH_ATTACK" ) ) {
-        return 1;
+    int res = 1;
+
+    if( has_flag( "REACH_ATTACK" ) ) {
+        res = has_flag( "REACH3" ) ? 3 : 2;
     }
 
-    return has_flag( "REACH3" ) ? 3 : 2;
+    // for guns consider any attached gunmods
+    if( is_gun() && !is_gunmod() ) {
+        for( const auto &m : gun_all_modes() ) {
+            if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
+                continue;
+            }
+            if( m.second.melee() ) {
+                res = std::max( res, m.second.qty );
+            }
+        }
+    }
+
+    return res;
 }
 
 

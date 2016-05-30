@@ -385,10 +385,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     skill_id weap_skill() const;
     /*@}*/
 
-    /**
-     * Maximum range at which this weapon can be used for melee/reach attacks.
-     */
-    int reach_range() const;
+    /** Max range weapon usable for melee attack accounting for player/NPC abilities */
+    int reach_range( const player &p ) const;
 
     /**
      * Consumes specified charges (or fewer) from this and any contained items

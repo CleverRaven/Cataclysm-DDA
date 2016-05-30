@@ -428,7 +428,7 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_reach_attack:
-        if( weapon.reach_range() >= rl_dist( pos(), tar ) &&
+        if( weapon.reach_range( *this ) >= rl_dist( pos(), tar ) &&
             clear_shot_reach( pos(), tar ) ) {
             reach_attack( tar );
             break;
@@ -663,7 +663,7 @@ void npc::choose_monster_target()
     int highest_priority = 0;
 
     // Radius we can attack without moving
-    const int cur_range = std::max( weapon.reach_range(), confident_range() );
+    const int cur_range = std::max( weapon.reach_range( *this ), confident_range() );
 
     constexpr int def_radius = 6;
 
@@ -777,7 +777,7 @@ npc_action npc::method_of_attack()
 {
     bool can_use_gun = (!is_following() || rules.use_guns);
     bool use_silent = (is_following() && rules.use_silent);
-    int reach_range = weapon.reach_range();
+    int reach_range = weapon.reach_range( *this );
 
     Creature *critter = get_target( ai_cache.target );
     if( critter == nullptr ) {
