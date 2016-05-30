@@ -140,8 +140,19 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Specific type of fuel, charges or ammunition currently contained by a part */
     itype_id ammo_current() const;
 
+    /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
+    long ammo_capacity() const;
+
     /** Amount of fuel, charges or ammunition currently contained by a part */
     long ammo_remaining() const;
+
+    /**
+     * Set fuel, charges or ammunition for this part removing any existing ammo
+     * @param ammo specific type of ammo (must be compatible with vehicle part)
+     * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
+     * @return amount of ammo actually set or negative on failure
+     */
+    int ammo_set( const itype_id &ammo, long qty = -1 );
 
     /**
      * Consume fuel, charges or ammunition (if available)
@@ -773,7 +784,9 @@ public:
     void shift_parts( point delta );
     bool shift_if_needed();
 
+    /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
     void leak_fuel( int p );
+
     void shed_loose_parts();
 
     // Gets range of part p if it's a turret

@@ -524,7 +524,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         }
 
         if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
-            parts[p].amount = part_info(p).size * veh_fuel_mult / 100;
+            parts[ p ].ammo_set( parts[ p ].ammo_current(), parts[ p ].ammo_capacity() * veh_fuel_mult / 100 );
         }
 
         if (part_flag(p, "OPENABLE")) {    // doors are closed
@@ -549,7 +549,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             if(roll < unhurt){
                 if (roll <= broken) {
                     parts[p].hp = 0;
-                    parts[p].amount = 0; //empty broken batteries and fuel tanks
+                    parts[ p ].ammo_set( "null", 0 ); //empty broken batteries and fuel tanks
                 } else {
                     parts[p].hp = ((float)(roll - broken) /
                                    (unhurt - broken)) * part_info(p).durability;
@@ -578,7 +578,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             // Fuel tanks should be emptied as well
             if (destroyTank && (part_flag(p, "FUEL_TANK") || part_flag(p, "NEEDS_BATTERY_MOUNT"))){
                 parts[p].hp = 0;
-                parts[p].amount = 0;
+                parts[ p ].ammo_set( "null", 0 );
             }
 
             //Solar panels have 25% of being destroyed
@@ -666,7 +666,8 @@ void vehicle::smash() {
         parts[part_index].hp -= damage;
         if (parts[part_index].hp <= 0) {
             parts[part_index].hp = 0;
-            parts[part_index].amount = 0;
+            // @todo leak fuel
+            parts[ part_index ].ammo_set( "null", 0 );
         }
     }
 }
@@ -3118,22 +3119,14 @@ int vehicle::fuel_capacity (const itype_id &ftype) const
 
 int vehicle::refill (const itype_id & ftype, int amount)
 {
-    for (size_t p = 0; p < parts.size(); p++)
-    {
-        if (part_flag(p, VPFLAG_FUEL_TANK) &&
-            part_info(p).fuel_type == ftype &&
-            parts[p].amount < part_info(p).size &&
-            parts[p].hp > 0)
-        {
-            int need = part_info(p).size - parts[p].amount;
-            if (amount < need)
-            {
-                parts[p].amount += amount;
-                return 0;
-            } else {
-                parts[p].amount += need;
-                amount -= need;
-            }
+    for( auto &p : parts ) {
+        if( amount <= 0 ) {
+            break;
+        }
+        if( p.hp > 0 && ftype == p.ammo_current() ) {
+            int qty = std::min( long( amount ), p.ammo_capacity() - p.ammo_remaining() );
+            p.ammo_set( p.ammo_current(), p.ammo_remaining() + qty );
+            amount -= qty;
         }
     }
 
@@ -3866,20 +3859,14 @@ int vehicle::traverse_vehicle_graph(Vehicle *start_veh, int amount, Func action)
 
 int vehicle::charge_battery (int amount, bool include_other_vehicles)
 {
-    for(auto &f : fuel) {
-        if(part_info(f).fuel_type == fuel_type_battery && parts[f].hp > 0) {
-            int empty = part_info(f).size - parts[f].amount;
-            if(empty < amount) {
-                amount -= empty;
-                parts[f].amount = part_info(f).size;
-                if (amount <= 0) {
-                    break;
-                }
-            } else {
-                parts[f].amount += amount;
-                amount = 0;
-                break;
-            }
+    for( auto &p : parts ) {
+        if( amount <= 0 ) {
+            break;
+        }
+        if( p.hp > 0 && p.ammo_current() == fuel_type_battery ) {
+            int qty = std::min( long( amount ), p.ammo_capacity() - p.ammo_remaining() );
+            p.ammo_set( fuel_type_battery, p.ammo_remaining() + qty );
+            amount -= qty;
         }
     }
 
@@ -5760,7 +5747,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     }
 
     const fuel_explosion &data = iter->second;
-    const int pow = 120 * (1 - exp(data.explosion_factor / -5000 * (parts[p].amount * data.fuel_size_factor)));
+    const int pow = 120 * (1 - exp(data.explosion_factor / -5000 * (parts[p].ammo_remaining() * data.fuel_size_factor)));
     //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
     if( parts[p].hp <= 0 ) {
         leak_fuel( p );
@@ -5773,7 +5760,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
             name.c_str());
         g->explosion( global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
         parts[p].hp = 0;
-        parts[p].amount = 0;
+        parts[p].ammo_set( "null", 0 );
     }
 
     return true;
@@ -5817,38 +5804,22 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
 void vehicle::leak_fuel( int p )
 {
-    // @todo The whole function is quite ugly, needs a rewrite
-    // @todo Move leak data to a json
-    // @tood Make leaked fuel amount correlate more with fuel amount in tank
-    if( !part_flag( p, "FUEL_TANK" ) ) {
+    if( parts[ p ].ammo_remaining() <= 0 ) {
         return;
     }
 
     const itype_id &ft = part_info( p ).fuel_type;
 
-    if( ft != fuel_type_gasoline && ft != fuel_type_diesel ) {
-        parts[p].amount = 0;
-        return;
-    }
-
-    item leak( ft, calendar::turn );
-
-    for( const tripoint &pt : g->m.points_in_radius( global_part_pos3( p ), 2 ) ) {
-        if( one_in( 2 ) && g->m.passable( pt ) ) {
-            int leak_amount = rng(79, 121);
-
-            if( parts[p].amount < leak_amount ) {
-                parts[p].amount = 0;
-                return;
+    if( ft == fuel_type_gasoline || ft == fuel_type_diesel ) {
+        for( const tripoint &pt : g->m.points_in_radius( global_part_pos3( p ), 2 ) ) {
+            if( one_in( 2 ) && g->m.passable( pt ) ) {
+                int qty = parts[p].ammo_consume( rng( 79, 121 ) );
+                g->m.add_item_or_charges( pt, item( ft, calendar::turn, qty ) );
             }
-
-            leak.charges = leak_amount;
-            g->m.add_item_or_charges( pt, leak );
-            parts[p].amount -= leak_amount;
         }
     }
 
-    parts[p].amount = 0;
+    parts[ p ].ammo_set( "null", 0 );
 }
 
 std::string aim_type( const vehicle_part &part )
@@ -6890,12 +6861,42 @@ std::string vehicle_part::name() const {
 
 itype_id vehicle_part::ammo_current() const
 {
-    return info().fuel_type;
+    // @todo currently only support fuel tanks and batteries
+    return has_flag( VPFLAG_FUEL_TANK ) ? info().fuel_type : "null";
+}
+
+long vehicle_part::ammo_capacity() const
+{
+    // @todo currently only support fuel tanks and batteries
+    return has_flag( VPFLAG_FUEL_TANK ) ? info().size : 0;
 }
 
 long vehicle_part::ammo_remaining() const
 {
-    return amount;
+    // @todo currently only support fuel tanks and batteries
+    return has_flag( VPFLAG_FUEL_TANK ) ? amount : 0;
+}
+
+int vehicle_part::ammo_set( const itype_id &ammo, long qty )
+{
+    // @todo currently only support fuel tanks and batteries
+    if( !has_flag( VPFLAG_FUEL_TANK ) ) {
+        return -1;
+    }
+
+    if( ammo == "null" && qty == 0 ) {
+        return amount = 0;
+    }
+
+    if( info().fuel_type != ammo ) {
+        return -1;
+    }
+
+    if( qty < 0 ) {
+        qty = ammo_capacity();
+    }
+
+    return amount = std::min( qty, ammo_capacity() );
 }
 
 long vehicle_part::ammo_consume( long qty )
