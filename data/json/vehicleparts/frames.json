@@ -27,6 +27,18 @@
     "flags": [ "NAILABLE" ]
   },
   {
+    "abstract": "hdframe",
+    "type": "vehicle_part",
+    "name": "heavy duty frame",
+    "item": "hdframe",
+    "location": "structure",
+    "color": "dark_gray",
+    "durability": 1600,
+    "difficulty": 1,
+    "breaks_into": "ig_vp_hdframe",
+    "flags": [ "MOUNTABLE" ]
+  },
+  {
     "id": "frame_cover",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -35,6 +47,12 @@
   {
     "id": "frame_wood_cover",
     "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "hdframe_cover",
+    "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "^"
   },
@@ -51,6 +69,12 @@
     "symbol": "c"
   },
   {
+    "id": "hdframe_cross",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "c"
+  },
+  {
     "id": "frame_horizontal",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -59,6 +83,12 @@
   {
     "id": "frame_wood_horizontal",
     "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_horizontal",
+    "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "h"
   },
@@ -75,6 +105,12 @@
     "symbol": "="
   },
   {
+    "id": "hdframe_horizontal_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
     "id": "frame_ne",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -83,6 +119,12 @@
   {
     "id": "frame_wood_ne",
     "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "hdframe_ne",
+    "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "u"
   },
@@ -99,6 +141,12 @@
     "symbol": "y"
   },
   {
+    "id": "hdframe_nw",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
     "id": "frame_se",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -107,6 +155,12 @@
   {
     "id": "frame_wood_se",
     "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "hdframe_se",
+    "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "n"
   },
@@ -123,6 +177,12 @@
     "symbol": "b"
   },
   {
+    "id": "hdframe_sw",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "frame_vertical",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -135,6 +195,12 @@
     "symbol": "j"
   },
   {
+    "id": "hdframe_vertical",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
     "id": "frame_vertical_2",
     "copy-from": "frame",
     "type": "vehicle_part",
@@ -143,6 +209,12 @@
   {
     "id": "frame_wood_vertical_2",
     "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "hdframe_vertical_2",
+    "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "H"
   }
