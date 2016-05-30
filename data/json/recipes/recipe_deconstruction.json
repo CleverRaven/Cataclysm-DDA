@@ -959,7 +959,7 @@
     "difficulty": 4,
     "time": 2000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 5 ],
@@ -981,7 +981,7 @@
     "difficulty": 5,
     "time": 4000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 10 ],
@@ -1003,7 +1003,7 @@
     "difficulty": 4,
     "time": 2000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 5 ],
@@ -1025,7 +1025,7 @@
     "difficulty": 4,
     "time": 2000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 5 ],
@@ -1047,7 +1047,7 @@
     "difficulty": 4,
     "time": 2000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 5 ],
@@ -1069,7 +1069,7 @@
     "difficulty": 4,
     "time": 2000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 5 ],
@@ -1091,7 +1091,7 @@
     "difficulty": 2,
     "time": 30000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 3 ],
@@ -1114,7 +1114,7 @@
     "difficulty": 3,
     "time": 60000,
     "reversible": true,
-    "qualities" : [{"id": "SCREW","level": 1 } ],
+    "qualities": [{"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 10 ],
@@ -1137,7 +1137,7 @@
     "difficulty": 6,
     "time": 120000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "SAW_M","level": 1 }
     ],
@@ -1171,7 +1171,7 @@
     "difficulty": 6,
     "time": 120000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "SAW_M","level": 1 }
     ],
@@ -1205,7 +1205,7 @@
     "difficulty": 3,
     "time": 180000,
     "reversible": true,
-    "qualities" : [ {"id": "SAW_M","level": 1 } ],
+    "qualities": [ {"id": "SAW_M","level": 1 } ],
     "tools": [
      [
       [ "oxy_torch", 12 ],
@@ -1229,7 +1229,7 @@
     "difficulty": 8,
     "time": 300000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "SAW_M","level": 1 }
     ],
@@ -1264,7 +1264,7 @@
     "difficulty": 8,
     "time": 600000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "WRENCH","level": 1 },
       {"id": "SAW_M","level": 1 }
@@ -1303,7 +1303,7 @@
     "difficulty": 2,
     "time": 10000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 20 ],
@@ -1326,7 +1326,7 @@
     "difficulty": 3,
     "time": 20000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "WRENCH","level": 1 }
     ],
@@ -1353,7 +1353,7 @@
     "difficulty": 4,
     "time": 30000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "WRENCH","level": 1 },
       {"id": "SAW_M","level": 1 }
@@ -1387,7 +1387,7 @@
     "difficulty": 4,
     "time": 30000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "WRENCH","level": 1 },
       {"id": "SAW_M","level": 1 }
@@ -1420,7 +1420,7 @@
     "difficulty": 6,
     "time": 50000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "WRENCH","level": 1 },
       {"id": "SAW_M","level": 1 }
@@ -1454,7 +1454,7 @@
     "difficulty": 2,
     "time": 10000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "components": [
       [ [ "e_scrap", 2 ] ],
       [ [ "amplifier", 1 ] ],
@@ -1470,7 +1470,7 @@
     "difficulty": 3,
     "time": 10000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "components": [
       [ [ "e_scrap", 4 ] ],
       [ [ "amplifier", 2 ] ],
@@ -1486,7 +1486,7 @@
     "difficulty": 2,
     "time": 10000,
     "reversible": true,
-    "qualities" : [ {"id": "SCREW","level": 1 } ],
+    "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
      [
       [ "soldering_iron", 10 ],
@@ -1508,7 +1508,7 @@
     "difficulty": 3,
     "time": 10000,
     "reversible": true,
-    "qualities" : [
+    "qualities": [
       {"id": "SCREW","level": 1 },
       {"id": "SAW_M","level": 1 }
     ],
