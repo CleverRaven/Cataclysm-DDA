@@ -43,7 +43,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
-    "flags": [ "NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET" ]
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
   },
   {
     "id": "bipod",
@@ -140,6 +141,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
     "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
   },
   {
@@ -158,6 +160,7 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol", "smg", "crossbow" ],
     "dispersion_modifier": 15,
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
     "flags": [ "STAB", "BAYONET" ]
   },
   {
@@ -175,6 +178,7 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
     "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
   },
   {
@@ -394,6 +398,7 @@
     "location": "underbarrel",
     "mod_targets": [ "pistol", "smg", "crossbow" ],
     "dispersion_modifier": 15,
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
     "flags": [ "STAB", "BAYONET" ]
   },
   {
@@ -442,7 +447,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
-    "flags": [ "NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET" ]
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
   },
   {
     "id": "u_shotgun",

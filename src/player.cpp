@@ -3317,7 +3317,7 @@ static std::string print_gun_mode( const player &p )
 {
     auto m = p.weapon.gun_current_mode();
     if( m ) {
-        if( m.melee || !m->is_gunmod() ) {
+        if( m.melee() || !m->is_gunmod() ) {
             return string_format( m.mode.empty() ? "%s": "%s (%s)",
                                   p.weapname().c_str(), m.mode.c_str() );
         } else {

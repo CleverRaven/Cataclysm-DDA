@@ -368,7 +368,7 @@ struct islot_gun : common_firing_data {
     std::set<itype_id> default_mods;
 
     /** Firing modes are supported by the gun. Always contains at least DEFAULT mode */
-    std::map<std::string, std::pair<std::string, int>> modes;
+    std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> modes;
 
     /** Burst size for AUTO mode (legacy field for items not migrated to specify modes ) */
     int burst = 0;
@@ -397,7 +397,7 @@ struct islot_gunmod : common_firing_data {
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 
     /** Firing modes added to or replacing those of the base gun */
-    std::map<std::string, std::pair<std::string, int>> mode_modifier;
+    std::map<std::string, std::tuple<std::string, int, std::set<std::string>>> mode_modifier;
 };
 
 struct islot_magazine {

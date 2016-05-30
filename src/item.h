@@ -1208,7 +1208,12 @@ public:
             std::string mode; /** name of this mode */
             item *target;     /** pointer to base gun or attached gunmod */
             int qty;          /** burst size or melee range */
-            bool melee;       /** if true perform a melee attach as opposed to shooting */
+
+            /** flags change behavior of gun mode and are **not** equivalent to item flags */
+            std::set<std::string> flags;
+
+            /** if true perform a melee attach as opposed to shooting */
+            bool melee() const { return flags.count( "MELEE" ); }
 
             operator bool() const { return target != nullptr; }
 

@@ -10841,7 +10841,7 @@ bool game::plfire( const tripoint &default_target )
     }
 
     int reload_time = 0;
-    if( !gun.melee ) {
+    if( !gun.melee() ) {
         if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
             add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
             return false;
@@ -10904,14 +10904,14 @@ bool game::plfire( const tripoint &default_target )
         }
     }
 
-    int range = gun.melee ? gun.qty : gun->gun_range( &u );
+    int range = gun.melee() ? gun.qty : gun->gun_range( &u );
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
     tripoint p = u.pos();
 
-    target_mode tmode = gun.melee ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
     std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode, default_target );
 
     if (trajectory.empty()) {
@@ -10926,7 +10926,7 @@ bool game::plfire( const tripoint &default_target )
 
     bool res = false;
 
-    if( gun.melee ) {
+    if( gun.melee() ) {
         u.reach_attack( p );
         res = true;
 

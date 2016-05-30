@@ -133,11 +133,11 @@ void Item_factory::finalize() {
             }
 
             // if the gun doesn't have a DEFAULT mode then add one now
-            obj.gun->modes.emplace( "DEFAULT", std::make_pair<std::string, int>( std::move( defmode ), 1 ) );
+            obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1, {} ) );
 
             if( obj.gun->burst > 1 ) {
                 // handle legacy JSON format
-                obj.gun->modes.emplace( "AUTO", std::pair<std::string, int>( "auto", obj.gun->burst ) );
+                obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( "auto", obj.gun->burst, {} ) );
             }
 
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
@@ -969,7 +969,13 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         JsonArray jarr = jo.get_array( "modes" );
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
-            slot.modes.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
+
+            std::tuple<std::string, int, std::set<std::string>> mode(
+                curr.get_string( 1 ),
+                curr.get_int( 2 ),
+                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
+            );
+            slot.modes.emplace( curr.get_string( 0 ), mode );
         }
     }
 }
@@ -1223,7 +1229,13 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
         JsonArray jarr = jo.get_array( "mode_modifier" );
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
-            slot.mode_modifier.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
+
+            std::tuple<std::string, int, std::set<std::string>> mode(
+                curr.get_string( 1 ),
+                curr.get_int( 2 ),
+                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
+            );
+            slot.mode_modifier.emplace( curr.get_string( 0 ), mode );
         }
     }
 }
