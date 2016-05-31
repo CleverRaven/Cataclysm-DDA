@@ -207,5 +207,31 @@
     ],
     "magazine_well": 2,
     "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+  },
+  {
+    "id": "rm99_pistol",
+    "type": "GUN",
+    "name": "RM99 revolver",
+    "description": "Considered overkill by some, the Rivtech M99 remains an exceedingly powerful addition to the arsenal of any gunslinger.",
+    "weight": 1204,
+    "volume": 3,
+    "price": 210000, "//": "Bear in mind that most revolvers don't reach $1K.  Expensive.",
+    "bashing": 12,
+    "to_hit": -2,
+    "material": [ "superalloy", "ceramic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "skill": "pistol",
+    "ammo": "8x40mm",
+    "ranged_damage": 10,
+    "dispersion": 175,
+    "sight_dispersion": 80,
+    "aim_speed": 5,
+    "recoil": 75,
+    "durability": 9,
+    "clip_size": 5,
+    "reload": 100,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ]
   }
 ]
