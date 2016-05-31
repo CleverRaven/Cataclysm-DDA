@@ -135,7 +135,7 @@
     "items": [
       [ "ar15", 30 ],
       [ "browning_blr", 25 ],
-      [ "cane_rifle", 20 ],
+      [ "cane_rifle", 10 ],
       [ "cx4", 45 ],
       [ "garand", 65 ],
       [ "ksub2000", 30 ],
@@ -206,7 +206,7 @@
       [ "carbine_flintlock", 140 ],
       [ "rifle_flintlock", 180 ],
       [ "steyr_aug", 40 ],
-      [ "trex_gun", 60 ],
+      [ "trex_gun", 60 ]
     ]
   },
   {

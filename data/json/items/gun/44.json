@@ -24,7 +24,7 @@
     "clip_size": 1,
     "reload": 120,
     "barrel_length": 11,  "//": "It has a 40in. barrel.",
-    "valid_mod_locations": [[ "accessories", 1 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 1 ],[ "muzzle", 1 ],[ "sights", 1 ]],
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 1 ], [ "muzzle", 1 ], [ "sights", 1 ] ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "techniques": [ "WBLOCK_1" ]
   },
