@@ -5665,7 +5665,7 @@ void map::add_splatter_trail( const field_id type, const tripoint &from, const t
 void map::add_splatter_trail( const field_id type, const std::vector<tripoint> &trajectory, int length )
 {
     if( length > 0 && !trajectory.empty() ) {
-        add_splatter_trail( type, trajectory.back(), shift_line_end( trajectory, length - 1 ) );
+        add_splatter_trail( type, trajectory.back(), move_along_line( trajectory.back(), trajectory, length - 1 ) );
     }
 }
 

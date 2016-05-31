@@ -358,37 +358,35 @@ float get_normalized_angle( const point &start, const point &end )
     return min / max;
 }
 
-point shift_line_end( const std::vector<point> &line, const int distance )
+point move_along_line( const point &loc, const std::vector<point> &line, const int distance )
 {
-    const point start( line.back() );
-    point end( line.back() );
+    point res( loc );
     const auto slope = slope_of( line );
-    end.x += distance * slope.first;
-    end.y += distance * slope.second;
-    return end;
+    res.x += distance * slope.first;
+    res.y += distance * slope.second;
+    return res;
 }
 
-tripoint shift_line_end( const std::vector<tripoint> &line, const int distance )
+tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line, const int distance )
 {
     // May want to optimize this, but it's called fairly infrequently as part of specific attack
     // routines, erring on the side of readability.
-    const tripoint start( line.back() );
-    tripoint end( line.back() );
+    tripoint res( loc );
     const auto slope = slope_of( line );
-    end.x += distance * slope.first.first;
-    end.y += distance * slope.first.second;
-    end.z += distance * slope.second;
-    return end;
+    res.x += distance * slope.first.first;
+    res.y += distance * slope.first.second;
+    res.z += distance * slope.second;
+    return res;
 }
 
 std::vector<point> continue_line(const std::vector<point> &line, const int distance)
 {
-    return line_to( line.back(), shift_line_end( line, distance ) );
+    return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
 {
-    return line_to( line.back(), shift_line_end( line, distance ) );
+    return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
 direction direction_from(int const x, int const y, int const z) noexcept
