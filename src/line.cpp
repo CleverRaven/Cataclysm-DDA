@@ -233,6 +233,11 @@ float trig_dist(const int x1, const int y1, const int x2, const int y2)
     return trig_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
 }
 
+float trig_dist(const point &loc1, const point &loc2)
+{
+    return trig_dist(tripoint(loc1, 0), tripoint(loc2, 0));
+}
+
 float trig_dist(const tripoint &loc1, const tripoint &loc2)
 {
     return sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
@@ -317,7 +322,8 @@ unsigned make_xyz(int const x, int const y, int const z)
 // returns normalized dx and dy for the current line vector.
 std::pair<double, double> slope_of(const std::vector<point> &line)
 {
-    const double len = line.size();
+    assert(!line.empty() && line.front() != line.back());
+    const double len = trig_dist(line.front(), line.back());
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     std::pair<double, double> ret = std::make_pair(normDx, normDy); // slope of x, y
@@ -328,7 +334,8 @@ std::pair<double, double> slope_of(const std::vector<point> &line)
 // ret.second contains z and can be ignored if unused.
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
 {
-    const double len = line.size();
+    assert(!line.empty() && line.front() != line.back());
+    const double len = trig_dist(line.front(), line.back());
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
