@@ -133,10 +133,11 @@
     "id" : "guns_rifle_common",
     "//" : "Rifles commonly owned by citizens and found in many locations.",
     "items": [
-      [ "browning_blr", 25 ],
-      [ "garand", 65 ],
       [ "ar15", 30 ],
+      [ "browning_blr", 25 ],
+      [ "cane_rifle", 20 ],
       [ "cx4", 45 ],
+      [ "garand", 65 ],
       [ "ksub2000", 30 ],
       [ "m14a", 50 ],
       [ "marlin_9a", 80 ],
@@ -200,11 +201,12 @@
       [ "ak47", 100 ],
       [ "ak74", 60 ],
       [ "an94", 40 ],
+      [ "arx160", 40 ],
+      [ "cane_rifle", 80 ],
       [ "carbine_flintlock", 140 ],
       [ "rifle_flintlock", 180 ],
       [ "steyr_aug", 40 ],
       [ "trex_gun", 60 ],
-      [ "arx160", 40 ]
     ]
   },
   {
@@ -261,9 +263,9 @@
     "id" : "guns_shotgun_improvised",
     "//" : "Makeshift or otherwise poor quality shotguns.",
     "items": [
+      [ "blunderbuss", 70 ],
       [ "pipe_double_shotgun", 70 ],
       [ "pipe_shotgun", 100 ],
-      [ "blunderbuss", 70 ],
       [ "revolver_shotgun", 30 ],
       [ "surv_levershotgun", 40 ]
     ]
