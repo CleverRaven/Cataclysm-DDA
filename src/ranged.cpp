@@ -96,7 +96,7 @@ int ranged_skill_offset( const skill_id &skill )
     return 0;
 }
 
-int blood_trail_len( int damage )
+size_t blood_trail_len( int damage )
 {
     if( damage > 50 ) {
         return 3;
@@ -215,8 +215,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     const vehicle *in_veh = has_effect( effect_on_roof ) ?
                             g->m.veh_at( pos() ) : nullptr;
 
-    //Start this now in case we hit something early
-    std::vector<tripoint> blood_traj = std::vector<tripoint>();
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
@@ -224,7 +222,6 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     bool has_momentum = true;
     size_t i = 0; // Outside loop, because we want it for line drawing
     for( ; i < trajectory.size() && ( has_momentum || stream ); i++ ) {
-        blood_traj.push_back(trajectory[i]);
         prev_point = tp;
         tp = trajectory[i];
 
@@ -293,8 +290,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                g->m.add_splatter_trail( critter->bloodType(), blood_traj,
-                                         blood_trail_len( dealt_dam.total_damage() ) );
+                const size_t bt_len = blood_trail_len( dealt_dam.total_damage() );
+                if( bt_len > 0 ) {
+                    const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                    g->m.add_splatter_trail( critter->bloodType(), tp, dest );
+                }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
             } else {
