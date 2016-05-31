@@ -5676,7 +5676,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "meat_canned",
-		"target_charges":2,
+        "target_charges":2,
         "container": "jar_glass"
     }
   },
@@ -5698,7 +5698,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "fish_canned",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5742,7 +5742,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "human_canned",
-		"target_charges":2,
+        "target_charges":2,
         "container": "jar_glass"
     }
   },
@@ -5764,7 +5764,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_canned",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5829,7 +5829,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_pickled",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5873,7 +5873,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "meat_pickled",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5895,7 +5895,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "fish_pickled",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5917,7 +5917,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "human_pickled",
-		"target_charges": 2,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },{
