@@ -369,7 +369,7 @@ void computer::activate_function(computer_action action, char ch)
                                     break;
                                 }
                                 if (!found_item) {
-                                    g->m.add_item_or_charges(x1, y1, sewage);
+                                    g->m.add_item_or_charges( tripoint( x1, y1, g->m.get_abs_sub().z ), sewage );
                                 }
                             }
                         }
@@ -874,7 +874,7 @@ of pureed bone & LSD."));
                         if (g->m.i_at(x, y)[0].type->id == "black_box") {
                             print_line(_("Memory Bank:  Military Hexron Encryption\nPrinting Transcript\n"));
                             item transcript("black_box_transcript", calendar::turn);
-                            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), transcript);
+                            g->m.add_item_or_charges( g->u.pos(), transcript );
                         } else {
                             print_line(_("Memory Bank:  Unencrypted\nNothing of interest.\n"));
                         }

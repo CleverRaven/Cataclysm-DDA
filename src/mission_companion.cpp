@@ -802,7 +802,7 @@ void talk_function::field_plant(npc *p, std::string place)
                     used_seed = g->u.use_amount( seed_id, 1 );
                 }
                 used_seed.front().bday = calendar::turn;
-                bay.add_item_or_charges( x, y, used_seed.front() );
+                bay.add_item_or_charges( tripoint( x, y, bay.get_abs_sub().z ), used_seed.front() );
                 bay.set( x, y, t_dirt, f_plant_seed);
                 limiting_number--;
             }

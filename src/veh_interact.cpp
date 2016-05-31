@@ -2444,7 +2444,7 @@ void complete_vehicle ()
         }*/ //causes runtime errors. not a critical feature; implement with PLY quality.
         // Dump contents of part at player's feet, if any.
         for( auto &elem : veh->get_items(vehicle_part) ) {
-            g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
+            g->m.add_item_or_charges( g->u.pos(), elem );
         }
         while( !veh->get_items(vehicle_part).empty() ) {
             veh->get_items(vehicle_part).erase( veh->get_items(vehicle_part).begin() );
@@ -2500,7 +2500,7 @@ void complete_vehicle ()
             }
             // Place the removed wheel on the map last so consume_vpart_item() doesn't pick it.
             if ( !broken ) {
-                g->m.add_item_or_charges( g->u.posx(), g->u.posy(), removed_wheel );
+                g->m.add_item_or_charges( g->u.pos(), removed_wheel );
             }
             add_msg( _( "You replace one of the %1$s's tires with a %2$s." ),
                      veh->name.c_str(), veh->parts[ partnum ].name().c_str() );
