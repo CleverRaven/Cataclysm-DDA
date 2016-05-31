@@ -115,11 +115,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
 
     // shot_dispersion is in MOA - 1/60 of a degree
     constexpr double moa = M_PI / 180 / 60;
-    // We're approximating the tangent. Multiplying angle*range by ~0.745 does that (kinda).
-    constexpr double to_tangent = 0.745;
+    constexpr double balance_multipler = 0.745;
 
     double range = rl_dist( source, target_arg );
-    double missed_by = shot_dispersion * moa * to_tangent * range;
+    constexpr int thirty_degrees_in_moa = 30 * 60; // 1800 MOA
+    double capped_shot_dispersion = fmax( 0, fmin( thirty_degrees_in_moa, shot_dispersion ) );
+    double missed_by = tan ( capped_shot_dispersion * moa ) * balance_multipler * range;
     // TODO: move to-hit roll back in here
 
     dealt_projectile_attack attack {
@@ -628,7 +629,10 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     deviation = std::max( 0, deviation );
 
     // Rescaling to use the same units as projectile_attack
-    const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
+    constexpr double moa_per_quarter_degree = 60 / 4; // 15
+    // balance_multipler is roughly 3.077
+    constexpr double balance_multiplier = (.01 / 0.00021666666666666666) / moa_per_quarter_degree;
+    const double shot_dispersion = deviation * moa_per_quarter_degree * balance_multiplier;
     static const std::vector<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
     bool do_railgun = has_active_bionic("bio_railgun") &&
