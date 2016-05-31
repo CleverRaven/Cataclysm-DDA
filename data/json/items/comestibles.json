@@ -2427,7 +2427,7 @@
         "price" : 250, "//" : "Two charges per jar.",
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
+        "stack_size" : 2,
         "fun" : 7
     },
     {
@@ -8600,7 +8600,7 @@
         "price" : 250,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
+        "stack_size" : 2,
         "fun" : 2
     },
     {
@@ -8621,7 +8621,7 @@
         "price" : 250,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
+        "stack_size" : 2,
         "fun" : 0
     },
     {
@@ -8642,7 +8642,7 @@
         "price" : 220,
         "material" : "fruit",
         "volume" : 1,
-        "charges" : 1,
+        "stack_size" : 2,
         "fun" : 1
     },
     {
@@ -8663,7 +8663,7 @@
         "price" : 0,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 1,
+        "stack_size" : 2,
         "fun" : 2
     },
     {
@@ -9026,7 +9026,7 @@
         "price" : 450,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
+        "charges" : 2,
         "fun" : -2
     },
     {
@@ -9596,7 +9596,7 @@
         "price" : 250,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 2,
+        "stack_size" : 2,
         "fun" : 7
     },
     {
@@ -9615,7 +9615,7 @@
         "price" : 250,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 2,
+        "stack_size" : 2,
         "fun" : 6
     },
     {
@@ -9634,7 +9634,7 @@
         "price" : 0,
         "material" : "hflesh",
         "volume" : 1,
-        "charges" : 1,
+        "stack_size" : 2,
         "fun" : 6
     },
     {   "type" : "AMMO",
@@ -11638,7 +11638,7 @@
         "price" : 350,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
+        "stack_size" : 2,
         "fun" : 0
     },
     {
