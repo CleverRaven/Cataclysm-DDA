@@ -5097,6 +5097,10 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         auto iter = std::find_if( stack.begin(), stack.end(), [ammo]( const item &i ) { return i.typeId() == ammo; } );
         if( iter != stack.end() ) {
             item furn_item( itt->id, -1, iter->charges );
+            // The item constructor limits the charges to the (type specific) maximum.
+            // Setting it separately circumvents that - syncron with the code that creates
+            // the pseudo item (and fills its charges) in inventory.cpp
+            furn_item.charges = iter->charges;
             if( furn_item.use_charges( type, quantity, ret, p ) ) {
                 stack.erase( iter );
             } else {
