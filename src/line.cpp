@@ -233,11 +233,6 @@ float trig_dist(const int x1, const int y1, const int x2, const int y2)
     return trig_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
 }
 
-float trig_dist(const point &loc1, const point &loc2)
-{
-    return trig_dist(tripoint(loc1, 0), tripoint(loc2, 0));
-}
-
 float trig_dist(const tripoint &loc1, const tripoint &loc2)
 {
     return sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
@@ -319,17 +314,6 @@ unsigned make_xyz(int const x, int const y, int const z)
    }
 }
 
-// returns normalized dx and dy for the current line vector.
-std::pair<double, double> slope_of(const std::vector<point> &line)
-{
-    assert(!line.empty() && line.front() != line.back());
-    const double len = trig_dist(line.front(), line.back());
-    double normDx = (line.back().x - line.front().x) / len;
-    double normDy = (line.back().y - line.front().y) / len;
-    std::pair<double, double> ret = std::make_pair(normDx, normDy); // slope of x, y
-    return ret;
-}
-
 // returns the normalized dx, dy, dz for the current line vector.
 // ret.second contains z and can be ignored if unused.
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
@@ -358,15 +342,6 @@ float get_normalized_angle( const point &start, const point &end )
     return min / max;
 }
 
-point move_along_line( const point &loc, const std::vector<point> &line, const int distance )
-{
-    point res( loc );
-    const auto slope = slope_of( line );
-    res.x += distance * slope.first;
-    res.y += distance * slope.second;
-    return res;
-}
-
 tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line, const int distance )
 {
     // May want to optimize this, but it's called fairly infrequently as part of specific attack
@@ -377,11 +352,6 @@ tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line
     res.y += distance * slope.first.second;
     res.z += distance * slope.second;
     return res;
-}
-
-std::vector<point> continue_line(const std::vector<point> &line, const int distance)
-{
-    return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)

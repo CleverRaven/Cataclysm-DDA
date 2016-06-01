@@ -74,7 +74,6 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool( const tripoint & )> &interact );
 
-point move_along_line( const point &loc, const std::vector<point> &line, const int distance );
 tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line,
                           const int distance );
 // The "t" value decides WHICH Bresenham line is used.
@@ -84,7 +83,6 @@ std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
 float trig_dist( int x1, int y1, int x2, int y2 );
-float trig_dist( const point &loc1, const point &loc2 );
 float trig_dist( const tripoint &loc1, const tripoint &loc2 );
 // Roguelike distance; minimum of dX and dY
 int square_dist( int x1, int y1, int x2, int y2 );
@@ -92,11 +90,9 @@ int square_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( int x1, int y1, int x2, int y2 );
 int rl_dist( const tripoint &loc1, const tripoint &loc2 );
 int rl_dist( const point &a, const point &b );
-std::pair<double, double> slope_of( const std::vector<point> &line );
 std::pair<std::pair<double, double>, double> slope_of( const std::vector<tripoint> &line );
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );
-std::vector<point> continue_line( const std::vector<point> &line, int distance );
 std::vector<tripoint> continue_line( const std::vector<tripoint> &line, int distance );
 std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
