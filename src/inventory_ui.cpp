@@ -96,6 +96,7 @@ class inventory_column {
         bool handle_movement( const std::string &action, navigation_mode mode );
         void add_items( const itemstack_or_category &item_entry, const itemstack_or_category &cat_entry, add_to where );
         void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
+        void prepare_paging();
 
     private:
         size_t width;
@@ -217,7 +218,6 @@ class inventory_selector
         void set_to_drop(int it_pos, int count);
         void print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected,
                           size_t current_page_offset, selector_mode mode) const;
-        void prepare_paging(itemstack_vector &items);
 };
 
 size_t inventory_column::find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const
@@ -334,6 +334,20 @@ void inventory_column::add_items( const indexed_invslice &slice, add_to where, c
     }
 }
 
+void inventory_column::prepare_paging()
+{
+    for( size_t i = 0; i < items.size(); ++i ) {
+        const bool first_on_page = i % height == 0;
+        const bool last_on_page = i % height == height - 1;
+
+        if( last_on_page && is_category( i ) ) {
+            items.insert( items.begin() + i, itemstack_or_category() );
+        } else if( first_on_page && !is_category( i ) ) {
+            items.insert( items.begin() + i, itemstack_or_category( items[i].category ) );
+        }
+    }
+}
+
 void inventory_selector::add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat)
 {
     columns.front().add_items( slice, where, def_cat );
@@ -354,29 +368,8 @@ const itemstack_or_category *inventory_selector::invlet_to_itemstack( long invle
 void inventory_selector::prepare_paging()
 {
     column_index = 0;
-    prepare_paging( columns[0].items );
-    prepare_paging( columns[1].items );
-}
-
-void inventory_selector::prepare_paging(itemstack_vector &items)
-{
-    const item_category *prev_category = NULL;
-    for (size_t a = 0; a < items.size(); a++) {
-        const itemstack_or_category &cur_entry = items[a];
-        if (cur_entry.category != NULL) {
-            prev_category = cur_entry.category;
-        }
-        if (cur_entry.it == NULL && a % items_per_page == items_per_page - 1) {
-            // last entry on a page is a category, insert empty entry
-            // to move category header to next page
-            items.insert(items.begin() + a, itemstack_or_category());
-            continue;
-        }
-        if (cur_entry.it != NULL && a > 0 && a % items_per_page == 0) {
-            // first entry on a page and is not a category, insert previous category
-            items.insert(items.begin() + a, itemstack_or_category(prev_category));
-            continue;
-        }
+    for( auto &column : columns ) {
+        column.prepare_paging();
     }
 }
 
