@@ -3073,15 +3073,13 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
 
 bool map::mop_spills( const tripoint &p )
 {
-    bool retval = false;
     auto items = i_at( p );
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( it->made_of( LIQUID ) ) {
-            it = items.erase( it );
-            retval = true;
-        } else {
-            it++;
-        }
+    auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
+        return it.made_of( LIQUID );
+    } );
+    bool retval = new_end != items.end();
+    while( new_end != items.end() ) {
+        new_end = items.erase( new_end );
     }
 
     field &fld = field_at( p );
