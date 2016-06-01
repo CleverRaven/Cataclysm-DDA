@@ -1722,6 +1722,22 @@
     },
     {
         "type":"GENERIC",
+        "id": "scrap_aluminum",
+        "symbol": ",",
+        "color": "light_gray",
+        "name": "scrap aluminum",
+        "name_plural": "scrap aluminum",
+        "category": "spare_parts",
+        "description": "A small chunk of aluminum, usable for crafting or chemistry.",
+        "price": 1000,
+        "material": "aluminum",
+        "weight": 139,
+        "volume": 1,
+        "bashing": 1,
+        "to_hit": -2
+    },
+    {
+        "type":"GENERIC",
         "id": "lead_plate",
         "symbol": ",",
         "color": "dark_gray",
