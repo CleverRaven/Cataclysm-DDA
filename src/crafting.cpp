@@ -781,7 +781,13 @@ void player::complete_craft()
         if( last_craft.has_cached_selections() ) {
             last_craft.consume_components();
         } else {
-            debugmsg( "No components selected" );
+            // @todo Guarantee that selections are cached
+            for( const auto &it : making->requirements.get_components() ) {
+                consume_items( it, batch_size );
+            }
+            for( const auto &it : making->requirements.get_tools() ) {
+                consume_tools( it, batch_size );
+            }
         }
         activity.type = ACT_NULL;
         return;
@@ -795,16 +801,27 @@ void player::complete_craft()
         return;
     }
 
-    if( !last_craft.has_cached_selections() ) {
-        debugmsg( "No components selected" );
-        return;
-    }
-
     // If we're here, the craft was a success!
     // Use up the components and tools
-    const std::list<item> &used = last_craft.consume_components();
-    if( used.empty() && !has_trait( "DEBUG_HS" ) ) {
-        return;
+    std::list<item> used;
+    if( !last_craft.has_cached_selections() ) {
+        // This should fail and return, but currently crafting_command isn't saved
+        // Meaning there are still cases where has_cached_selections will be false
+        // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
+        if( !has_trait( "DEBUG_HS" ) ) {
+            for( const auto &it : making->requirements.get_components() ) {
+                std::list<item> tmp = consume_items( it, batch_size );
+                used.splice( used.end(), tmp );
+            }
+            for( const auto &it : making->requirements.get_tools() ) {
+                consume_tools( it, batch_size );
+            }
+        }
+    } else if( !has_trait( "DEBUG_HS" ) ) {
+        used = last_craft.consume_components();
+        if( used.empty() ) {
+            return;
+        }
     }
 
     // Set up the new item, and assign an inventory letter if available
