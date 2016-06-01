@@ -252,7 +252,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "triple-barrel 40mm launcher",
-    "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerwul for a homemade weapon.",
+    "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
     "price": 95000,
     "material": ["steel", "wood"],
     "flags": ["RELOAD_ONE", "MODE_BURST", "NEVER_JAMS", "RELOAD_EJECT"],
