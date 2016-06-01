@@ -6199,7 +6199,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
 : gun( veh.part_info( part ).item, 0 )
 {
     // Start out with an infinite amount and lower it based on the available amount
-    long ammo_for = std::numeric_limits<long>::max();
+    long ammo_for = item::INFINITE_CHARGES;
     if( !gun.is_gun() ) {
         return;
     }

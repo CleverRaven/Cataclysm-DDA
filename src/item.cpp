@@ -102,12 +102,14 @@ static const itype *nullitem()
     return &nullitem_m;
 }
 
+const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
+
 item::item()
 {
     type = nullitem();
 }
 
-item::item( const itype *type, int turn, int qty ) : type( type )
+item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
@@ -158,7 +160,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
     }
 }
 
-item::item( const itype_id& id, int turn, int qty )
+item::item( const itype_id& id, int turn, long qty )
     : item( find_type( id ), turn, qty ) {}
 
 item::item( const itype *type, int turn, default_charges_tag )
@@ -5832,6 +5834,11 @@ std::string item::label( unsigned int quantity ) const
     }
 
     return type_name( quantity );
+}
+
+bool item::has_infinite_charges() const
+{
+    return charges == INFINITE_CHARGES;
 }
 
 item_category::item_category() : id(), name(), sort_rank( 0 )

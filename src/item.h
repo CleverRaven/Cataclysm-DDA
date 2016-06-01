@@ -116,8 +116,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item &operator=( const item & ) = default;
         virtual ~item() = default;
 
-        explicit item( const itype_id& id, int turn = -1, int qty = -1 );
-        explicit item( const itype *type, int turn = -1, int qty = -1 );
+        explicit item( const itype_id& id, int turn = -1, long qty = -1 );
+        explicit item( const itype *type, int turn = -1, long qty = -1 );
 
         /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
@@ -1364,6 +1364,9 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
+
+        bool has_infinite_charges() const;
+
     private:
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
@@ -1376,6 +1379,8 @@ public:
         light_emission light = nolight;
 
 public:
+    static const long INFINITE_CHARGES;
+
      char invlet = 0;      // Inventory letter
      long charges;
      bool active = false; // If true, it has active effects to be processed

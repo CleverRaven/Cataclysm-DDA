@@ -10374,27 +10374,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     };
 
-    const bool is_infinite = liquid.charges == std::numeric_limits<long>::max();
-    const std::string liquid_name = is_infinite ? liquid.tname() : liquid.display_name( liquid.charges );
-
-    const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
-    item * const cont = inv_map_for_liquid( liquid, text, radius );
-    if( source != nullptr && cont == source ) {
-        add_msg( m_info, _( "That's the same container!" ) );
-        // The user has intended to do something, but mistyped.
-        return true;
-    }
-    if( cont != nullptr && !cont->is_null() ) {
-        const int item_index = u.get_item_position( cont );
-        // Currently activities can only store item position in the players inventory,
-        // not on ground or similar. TODO: implement storing arbitrary container locations.
-        if( item_index != INT_MIN && create_activity() ) {
-            serialize_liquid_target( u.activity, item_index );
-        } else if( u.pour_into( *cont, liquid ) ) {
-            u.mod_moves( -100 );
-        }
-        return true;
-    }
+    const std::string liquid_name = liquid.has_infinite_charges() ? liquid.tname() : liquid.display_name( liquid.charges );
 
     uimenu menu;
     menu.return_invalid = true;
@@ -10415,6 +10395,29 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } );
     }
 
+    menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
+    actions.emplace_back( [&]() {
+        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
+        item * const cont = inv_map_for_liquid( liquid, text, radius );
+
+        if( cont == nullptr || cont->is_null() ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        if( cont == source && source != nullptr ) {
+            add_msg( m_info, _( "That's the same container!" ) );
+            return; // The user has intended to do something, but mistyped.
+        }
+        const int item_index = u.get_item_position( cont );
+        // Currently activities can only store item position in the players inventory,
+        // not on ground or similar. TODO: implement storing arbitrary container locations.
+        if( item_index != INT_MIN && create_activity() ) {
+            serialize_liquid_target( u.activity, item_index );
+        } else if( u.pour_into( *cont, liquid ) ) {
+            u.mod_moves( -100 );
+        }
+    } );
+
     for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
         if( veh == source_veh ) {
             continue;
@@ -10423,9 +10426,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         actions.emplace_back( [&, veh]() {
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, *veh );
-                return;
-            }
-            if( u.pour_into( *veh, liquid ) ) {
+            } else if( u.pour_into( *veh, liquid ) ) {
                 u.mod_moves( -100 );
             }
         } );
@@ -10443,17 +10444,25 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         actions.emplace_back( [&, target_pos]() {
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, target_pos );
-                return;
+            } else {
+                iexamine::pour_into_keg( target_pos, liquid );
+                u.mod_moves( -100 );
             }
-            iexamine::pour_into_keg( target_pos, liquid );
-            u.mod_moves( -100 );
         } );
     }
 
     menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
     actions.emplace_back( [&]() {
+        // From infinite source to the ground somewhere else. The target has
+        // infinite space and the liquid can not be used from there anyway.
+        if( liquid.has_infinite_charges() && source_pos != nullptr ) {
+            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
+            return;
+        }
+
         tripoint target_pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
+
         refresh_all();
         if( !choose_adjacent( liqstr, target_pos ) ) {
             return;
@@ -10467,20 +10476,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
         }
-        // From infinite source to the ground somewhere else. The target has
-        // infinite space and the liquid can not be used from there anyway.
-        if( is_infinite && source_pos != nullptr ) {
-            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
-            return;
-        }
 
         if( create_activity() ) {
             serialize_liquid_target( u.activity, target_pos );
-            return;
+        } else {
+            m.add_item_or_charges( target_pos, liquid, 1 );
+            liquid.charges = 0;
+            u.mod_moves( -100 );
         }
-        m.add_item_or_charges( target_pos, liquid, 1 );
-        liquid.charges = 0;
-        u.mod_moves( -100 );
     } );
     if( liquid.rotten() ) {
         // Pre-select this one as it is the most likely one for rotten liquids
@@ -10492,12 +10495,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
 
     menu.query();
+    refresh_all();
     const size_t chosen = static_cast<size_t>( menu.ret );
     if( chosen >= actions.size() ) {
         add_msg( _( "Never mind." ) );
         // Explicitly canceled all options (container, drink, pour).
         return false;
     }
+
     actions[chosen]();
     return true;
 }
