@@ -1344,7 +1344,6 @@ classes = {
             { name = "marlossify", rval = "bool", args = { "tripoint" } },
             { name = "max_volume", rval = "int", args = { "tripoint" } },
             { name = "mop_spills", rval = nil, args = { "tripoint" } },
-            { name = "moppable_items_at", rval = "bool", args = { "tripoint" } },
             { name = "move_cost", rval = "int", args = { "tripoint" } },
             { name = "move_cost_ter_furn", rval = "int", args = { "tripoint" } },
             { name = "name", rval = "string", args = { "tripoint" } },
