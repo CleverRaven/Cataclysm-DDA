@@ -59,16 +59,34 @@ struct itemstack_or_category {
     }
 };
 
+enum class navigation_mode : int {
+    ITEM = 0,
+    CATEGORY
+};
+
 class inventory_column {
     public:
         std::vector<itemstack_or_category> items;
         size_t page_offset;
         size_t selected_index;
 
-        inventory_column() :
+        inventory_column( size_t width, size_t height ) :
             items(),
             page_offset( 0 ),
-            selected_index( 1 ) {};
+            selected_index( 1 ),
+            width( width ),
+            height( height ) {};
+
+        bool is_category( size_t index ) const {
+            return items[index].it == nullptr;
+        }
+
+        void select( size_t new_index );
+        bool handle_movement( const std::string &action, navigation_mode mode );
+
+    private:
+        size_t width;
+        size_t height;
 };
 
 const item_filter allow_all_items = []( const item & ) { return true; };
@@ -192,6 +210,61 @@ class inventory_selector
                           size_t current_page_offset, selector_mode mode) const;
         void prepare_paging(itemstack_vector &items);
 };
+
+void inventory_column::select( size_t new_index )
+{
+    assert( new_index < items.size() );
+    selected_index = new_index;
+    page_offset = selected_index - selected_index % height;
+}
+
+bool inventory_column::handle_movement( const std::string &action, navigation_mode mode )
+{
+    const auto is_unsuitable = [ this, mode ]( size_t index ) {
+        return is_category( index ) || ( mode == navigation_mode::CATEGORY &&
+                                         items[index].category == items[selected_index].category );
+    };
+
+    const auto move_forward = [ this, &is_unsuitable ]( size_t step = 1 ) {
+        size_t index = ( selected_index + step <= items.size() - 1 ) ? selected_index + step : 1;
+        while( ( index < items.size() - 1 ) && is_unsuitable( index ) ) {
+            ++index;
+        }
+        if( is_unsuitable( index ) ) {
+            index = 1;
+        }
+        select( index );
+    };
+
+    const auto move_backward = [ this, &is_unsuitable ]( size_t step = 1 ) {
+        size_t index = ( selected_index >= step ) ? selected_index - step : items.size() - 1;
+        while( index > 0 && is_unsuitable( index ) ) {
+            --index;
+        }
+        if( is_unsuitable( index ) ) {
+            index = items.size() - 1;
+        }
+        select( index );
+    };
+
+    if( items.empty() ) {
+        return false;
+    }
+
+    if( action == "DOWN" ) {
+        move_forward();
+    } else if (action == "UP") {
+        move_backward();
+    } else if (action == "NEXT_TAB") {
+        move_forward( height );
+    } else if (action == "PREV_TAB") {
+        move_backward( height );
+    } else {
+        return false;
+    }
+
+    return true;
+}
 
 void inventory_selector::add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat)
 {
@@ -493,14 +566,12 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     , second_item(NULL)
     , ctxt("INVENTORY")
     , items_per_page(TERMY - 5) // gives us 5 lines for messages/help text/status/...
-    , w_inv(NULL)
+    , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , inCategoryMode(false)
     , weapon_cat("WEAPON", _("WEAPON:"), 0)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
     , u(u)
 {
-    w_inv = newwin(TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X);
-
     ctxt.register_action("DOWN", _("Next item"));
     ctxt.register_action("UP", _("Previous item"));
     ctxt.register_action("RIGHT", _("Confirm"));
@@ -511,11 +582,10 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     ctxt.register_action("NEXT_TAB", _("Page down"));
     ctxt.register_action("PREV_TAB", _("Page up"));
     ctxt.register_action("HELP_KEYBINDINGS");
-    // For invlets
-    ctxt.register_action("ANY_INPUT");
+    ctxt.register_action("ANY_INPUT"); // For invlets
 
-    columns.push_back( inventory_column() );
-    columns.push_back( inventory_column() );
+    columns.push_back( inventory_column( 40, items_per_page ) );
+    columns.push_back( inventory_column( 40, items_per_page ) );
 
     inventory_column &worn_column = columns[1];
 
@@ -551,73 +621,17 @@ bool inventory_selector::handle_movement(const std::string &action)
     if( empty() ) {
         return false;
     }
-    const itemstack_vector &items = columns[column_index].items;
-    size_t &selected = columns[column_index].selected_index;
-    size_t &current_page_offset = columns[column_index].page_offset;
-    const item_category *cur_cat = (selected < items.size()) ? items[selected].category : NULL;
 
-    if (action == "CATEGORY_SELECTION") {
+    if( action == "CATEGORY_SELECTION" ) {
         inCategoryMode = !inCategoryMode;
-    } else if (action == "LEFT") {
+    } else if( action == "LEFT" ) {
         if( ++column_index >= columns.size() ) {
             column_index = 0;
         }
-    } else if (action == "DOWN") {
-        selected++;
-        if (inCategoryMode) {
-            while (selected < items.size() && items[selected].category == cur_cat) {
-                selected++;
-            }
-        }
-        // skip non-item entries, those can not be selected!
-        while (selected < items.size() && items[selected].it == NULL) {
-            selected++;
-        }
-        if (selected >= items.size()) { // wrap around
-            selected = 1; // first is the category!
-        }
-        current_page_offset = selected - (selected % items_per_page);
-    } else if (action == "UP") {
-        selected--;
-        if (inCategoryMode && selected == 0) {
-            selected = items.size() - 1;
-        }
-        if (inCategoryMode) {
-            while (selected < items.size() && items[selected].category == cur_cat) {
-                selected--;
-            }
-        }
-        // skip non-item entries, those can not be selected!
-        while (selected < items.size() && items[selected].it == NULL) {
-            selected--;
-        }
-        if (selected >= items.size()) { // wrap around, actually overflow
-            selected = items.size() - 1; // the last is always an item entry
-        }
-        current_page_offset = selected - (selected % items_per_page);
-    } else if (action == "NEXT_TAB") {
-        selected += items_per_page;
-        // skip non-item entries, those can not be selected!
-        while (selected < items.size() && items[selected].it == NULL) {
-            selected++;
-        }
-        if (selected >= items.size()) { // wrap around
-            selected = 1; // first is the category!
-        }
-        current_page_offset = selected - (selected % items_per_page);
-    } else if (action == "PREV_TAB") {
-        selected -= items_per_page;
-        // skip non-item entries, those can not be selected!
-        while (selected < items.size() && items[selected].it == NULL) {
-            selected--;
-        }
-        if (selected >= items.size()) { // wrap around, actually overflow
-            selected = items.size() - 1; // the last is always an item entry
-        }
-        current_page_offset = selected - (selected % items_per_page);
     } else {
-        return false;
+        return columns[column_index].handle_movement( action, inCategoryMode ? navigation_mode::CATEGORY : navigation_mode::ITEM );
     }
+
     return true;
 }
 
