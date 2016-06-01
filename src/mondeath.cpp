@@ -79,7 +79,7 @@ void mdeath::normal(monster *z)
                           z->made_of( material_id( "iflesh" ) ));
         if (leaveGibs) {
             const auto area = g->m.points_in_radius( z->pos(), 1 );
-            const int number_of_gibs = std::min( floor( corpseDamage ) - 1, 1 + max_hp / 5.0f ) + ( is_big_beast ? rng( 1, 6 ) : 0 );
+            const int number_of_gibs = std::min( floor( corpseDamage ) - 1, 1 + max_hp / 5.0 ) + ( is_big_beast ? rng( 1, 6 ) : 0 );
             for( int i = 0; i < number_of_gibs; ++i ) {
                 g->m.add_splatter( z->gibType(), random_entry( area ), rng( 1, i + 1 ) );
                 g->m.add_splatter( z->bloodType(), random_entry( area ) );
