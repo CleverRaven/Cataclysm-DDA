@@ -35745,13 +35745,109 @@
         },
         {
           "id": "teleporter",
-          "fg": 3445,
+          "fg": 3930,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "portal",
-          "fg": 3445,
+          "fg": 3931,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_compsognathus",
+          "fg": 3932,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_eoraptor",
+          "fg": 3932,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_gallimimus",
+          "fg": 3933,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_titanis",
+          "fg": 3934,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_spinosaurus",
+          "fg": 3935,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_tyrannosaurus",
+          "fg": 3936,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_triceratops",
+          "fg": 3937,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_stegosaurus",
+          "fg": 3937,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_ankylosaurus",
+          "fg": 3937,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_allosaurus",
+          "fg": 3937,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_velociraptor",
+          "fg": 3941,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_deinonychus",
+          "fg": 3942,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_utahraptor",
+          "fg": 3943,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_dilophosaurus",
+          "fg": 3944,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_parasaurolophus",
+          "fg": 3945,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_dimorphodon",
+          "fg": 3946,
           "bg": 632,
           "rotates": false
         },
