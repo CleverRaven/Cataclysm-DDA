@@ -4092,8 +4092,6 @@
     "components": [
       [
         [ "corn", 1 ],
-        [ "irradiated_corn", 1 ],
-        [ "irradiated_carrot", 1 ],
         [ "carrot", 1 ]
       ]
     ]

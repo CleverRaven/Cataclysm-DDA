@@ -97,6 +97,10 @@ void Item_factory::finalize() {
             obj.engine->faults.clear();
         }
 
+        if( obj.name_plural.empty() || obj.name_plural == "none" ) {
+            obj.name_plural = obj.name + "s";
+        }
+
         if( !obj.category ) {
             obj.category = get_category( calc_category( &obj ) );
         }
@@ -1357,6 +1361,8 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
         m_templates[ new_item_template->id ].reset( new_item_template );
     }
 
+    assign( jo, "name", new_item_template->name );
+    assign( jo, "name_plural", new_item_template->name_plural );
     assign( jo, "weight", new_item_template->weight );
     assign( jo, "volume", new_item_template->volume );
     assign( jo, "price", new_item_template->price );
@@ -1375,13 +1381,6 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     assign( jo, "min_perception", new_item_template->min_per );
     assign( jo, "magazine_well", new_item_template->magazine_well );
     assign( jo, "explode_in_fire", new_item_template->explode_in_fire );
-
-    new_item_template->name = jo.get_string( "name" );
-    if( jo.has_member( "name_plural" ) ) {
-        new_item_template->name_plural = jo.get_string( "name_plural" );
-    } else {
-        new_item_template->name_plural = jo.get_string( "name" ) += "s";
-    }
 
     if( jo.has_string( "description" ) ) {
         new_item_template->description = _( jo.get_string( "description" ).c_str() );
@@ -1695,6 +1694,8 @@ void Item_factory::add_entry(Item_group *ig, JsonObject &obj)
     use_modifier |= load_sub_ref(modifier->ammo, obj, "ammo");
     use_modifier |= load_sub_ref(modifier->container, obj, "container");
     use_modifier |= load_sub_ref(modifier->contents, obj, "contents");
+    use_modifier |= assign( obj, "flags", modifier->flags );
+
     if (use_modifier) {
         dynamic_cast<Single_item_creator *>(ptr.get())->modifier = std::move(modifier);
     }

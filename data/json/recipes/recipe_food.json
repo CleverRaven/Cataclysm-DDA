@@ -529,7 +529,6 @@
     ],
     [
       [ "lemon", 1 ],
-      [ "irradiated_lemon", 1 ],
       [ "mustard", 1 ],
       [ "horseradish", 1 ],
       [ "pickle", 1],
@@ -796,9 +795,7 @@
     ],
     [
       [ "lettuce", 1 ],
-      [ "irradiated_lettuce", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "veggy_wild_cooked", 1 ],
       [ "veggy_cooked", 1 ]
@@ -831,20 +828,15 @@
     ],
     [
       [ "cucumber", 1 ],
-      [ "irradiated_cucumber", 1],
       [ "carrot", 6],
-      [ "irradiated_carrot", 6],
       [ "celery", 1],
-      [ "irradiated_celery", 1],
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "rehydrated_veggy", 1 ]
     ],
     [
       [ "lettuce", 1 ],
-      [ "irradiated_lettuce", 1],
       [ "cabbage", 1],
-      [ "irradiated_cabbage", 1],
       [ "dandelion_cooked", 1 ],
       [ "veggy_wild_cooked", 1 ],
       [ "veggy_cooked", 1 ]
@@ -880,9 +872,7 @@
     ],
     [
       [ "lettuce", 1 ],
-      [ "irradiated_lettuce", 1],
       [ "cabbage", 1],
-      [ "irradiated_cabbage", 1],
       [ "dandelion_cooked", 1 ],
       [ "veggy_wild_cooked", 1 ],
       [ "veggy_cooked", 1 ]
@@ -918,9 +908,7 @@
     ],
     [
       [ "lettuce", 1 ],
-      [ "irradiated_lettuce", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "veggy_wild_cooked", 1 ],
       [ "veggy_cooked", 1 ]
@@ -953,11 +941,8 @@
     ],
     [
       [ "cucumber", 1 ],
-      [ "irradiated_cucumber", 1],
       [ "carrot", 6],
-      [ "irradiated_carrot", 6],
       [ "celery", 1],
-      [ "irradiated_celery", 1],
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "rehydrated_veggy", 1 ]
@@ -1092,29 +1077,6 @@
       ["dry_fruit", 1],
       ["grapefruit", 1],
       ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["lemon", 1],
@@ -1168,29 +1130,6 @@
       ["dry_fruit", 1],
       ["grapefruit", 1],
       ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
       ["juice_pulp", 2],
       ["kiwi", 1],
       ["lemon", 1],
@@ -1992,11 +1931,7 @@
       [ "fire", -1 ]
     ]
   ],
-  "components": [
-    [
-      [ "pumpkin", 1 ],
-      [ "irradiated_pumpkin", 1 ]
-    ]
+  "components": [ [ [ "pumpkin", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2018,12 +1953,7 @@
       [ "fire", -1 ]
     ]
   ],
-  "components": [
-    [
-      [ "potato_raw", 1 ],
-      [ "potato_irradiated", 1 ]
-    ]
-  ]
+  "components": [ [ [ "potato_raw", 1 ] ] ]
 },{
   "type" : "recipe",
    "result": "chips2",
@@ -2047,14 +1977,8 @@
     ]
   ],
   "components": [
-    [
-      [ "potato_raw", 1 ],
-      [ "potato_irradiated", 1]
-    ],
-    [
-      [ "salt", 10 ],
-      [ "seasoning_salt", 10 ]
-    ]
+    [ [ "potato_raw", 1 ] ],
+    [ [ "salt", 10 ], [ "seasoning_salt", 10 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2318,14 +2242,8 @@
     ]
   ],
   "components": [
-    [
-      [ "potato_raw", 1 ],
-      [ "potato_irradiated", 1 ]
-    ],
-    [
-      [ "salt", 10 ],
-      [ "seasoning_salt", 10 ]
-    ]
+    [ [ "potato_raw", 1 ] ],
+    [ [ "salt", 10 ], [ "seasoning_salt", 10 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2575,30 +2493,6 @@
       ["can_peach", 2],
       ["grapefruit", 4],
       ["grapes", 8],
-      ["irradiated_apple", 4],
-      ["irradiated_apricot", 4],
-      ["irradiated_banana", 4],
-      ["irradiated_blackberries", 4],
-      ["irradiated_blueberries", 4],
-      ["irradiated_cherries", 4],
-      ["irradiated_cranberries", 12],
-      ["irradiated_grapefruit", 4],
-      ["irradiated_grapes", 8],
-      ["irradiated_kiwi", 4],
-      ["irradiated_lemon", 4],
-      ["irradiated_mango", 4],
-      ["irradiated_melon", 8],
-      ["irradiated_orange", 4],
-      ["irradiated_papaya", 4],
-      ["irradiated_peach", 4],
-      ["irradiated_pear", 4],
-      ["irradiated_pineapple", 4],
-      ["irradiated_plums", 4],
-      ["irradiated_pomegranate", 4],
-      ["irradiated_raspberries", 4],
-      ["irradiated_rhubarb", 8],
-      ["irradiated_strawberries", 4],
-      ["irradiated_watermelon", 3],
       ["kiwi", 4],
       ["lemon", 4],
       ["mango", 4],
@@ -2834,7 +2728,6 @@
     [
       [ "dahlia_root", 2 ],
       [ "potato_raw", 2 ],
-      [ "potato_irradiated", 2 ],
       [ "cattail_stalk", 4 ]
     ]
   ]
@@ -2875,12 +2768,7 @@
     {"id":"CONTAIN","level":1,"amount":1}
   ],
   "tools": [ [ ["rag", -1] ] ],
-  "components": [
-    [
-      [ "irradiated_orange", 2 ],
-      [ "orange", 2 ]
-    ]
-  ]
+  "components": [ [ [ "orange", 2 ] ] ]
 },{
   "type" : "recipe",
   "result": "cranberry_juice",
@@ -2898,13 +2786,8 @@
   ],
   "tools": [ [ ["rag", -1] ] ],
   "components": [
-    [
-      [ "cranberries", 6 ],
-      [ "irradiated_cranberries", 6 ]
-    ],
-    [
-      [ "water_clean", 1 ]
-    ]
+    [ [ "cranberries", 6 ] ],
+    [ [ "water_clean", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -2922,12 +2805,7 @@
     {"id":"CONTAIN","level":1,"amount":1}
   ],
   "tools": [ [ ["rag", -1] ] ],
-  "components": [
-    [
-      [ "irradiated_apple", 3 ],
-      [ "apple", 3 ]
-    ]
-  ]
+  "components": [ [ [ "apple", 3 ] ] ]
 },{
   "type" : "recipe",
   "result": "lemonade",
@@ -2941,17 +2819,11 @@
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"CONTAIN","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "irradiated_lemon", 2 ],
-      [ "lemon", 2 ]
-    ],
-    [
-      [ "sugar", 10 ]
-    ],
-    [
-      [ "water_clean", 1 ]
-    ]
+  ],
+  "components": [
+    [ [ "lemon", 2 ] ],
+    [ [ "sugar", 10 ] ],
+    [ [ "water_clean", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -3195,26 +3067,16 @@
         [ "veggy_wild_cooked", 2 ],
         [ "can_tomato", 3 ],
         [ "tomato", 3 ],
-        [ "irradiated_tomato", 3 ],
         [ "pumpkin", 3 ],
-        [ "irradiated_pumpkin", 3 ],
         [ "broccoli", 3 ],
-        [ "irradiated_broccoli", 3 ],
         [ "zucchini", 3 ],
-        [ "irradiated_zucchini", 3 ],
         [ "celery", 9 ],
-        [ "irradiated_celery", 9 ],
         [ "potato_raw", 3 ],
-        [ "potato_irradiated", 3 ],
         [ "potato_baked", 3 ],
         [ "can_corn", 3 ],
         [ "corn", 3 ],
-        [ "irradiated_corn", 3 ],
         [ "onion", 9 ],
-        [ "irradiated_onion", 9 ],
         [ "cabbage", 3 ],
-        [ "irradiated_cabbage", 3 ],
-        [ "irradiated_carrot", 9 ],
         [ "carrot", 9 ]
     ],
     [
@@ -3418,17 +3280,11 @@
       [ "dry_fruit", 2 ],
       [ "dry_mushroom", 2 ],
       [ "juice_pulp", 4 ],
-      [ "irradiated_strawberries", 1 ],
       [ "strawberries", 1 ],
-      [ "irradiated_blueberries", 1 ],
       [ "blueberries", 1 ],
-      [ "irradiated_cherries", 1 ],
       [ "cherries", 1 ],
-      [ "irradiated_cranberries", 3 ],
       [ "cranberries", 3 ],
-      [ "irradiated_raspberries", 1 ],
       [ "raspberries", 1 ],
-      [ "irradiated_blackberries", 1 ],
       [ "blackberries", 1 ]
     ]
   ]
@@ -3443,19 +3299,9 @@
   "reversible": false,
   "autolearn": true,
   "components": [
-    [
-      [ "irradiated_tomato", 1 ],
-      [ "can_tomato", 1 ],
-      [ "tomato", 1 ]
-    ],
-    [
-      [ "irradiated_broccoli", 1 ],
-      [ "broccoli", 1 ]
-    ],
-    [
-      [ "irradiated_zucchini", 1 ],
-      [ "zucchini", 1 ]
-    ]
+    [ [ "can_tomato", 1 ], [ "tomato", 1 ] ],
+    [ [ "broccoli", 1 ] ],
+    [ [ "zucchini", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -3484,22 +3330,10 @@
     ]
   ],
   "components": [
-    [
-      [ "jar_glass", 1 ]
-    ],
-    [
-      [ "irradiated_tomato", 2 ],
-      [ "can_tomato", 2 ],
-      [ "tomato", 2 ]
-    ],
-    [
-      [ "irradiated_broccoli", 2 ],
-      [ "broccoli", 2 ]
-    ],
-    [
-      [ "irradiated_zucchini", 2 ],
-      [ "zucchini", 2 ]
-    ]
+    [ [ "jar_glass", 1 ] ],
+    [ [ "can_tomato", 2 ], [ "tomato", 2 ] ],
+    [ [ "broccoli", 2 ] ],
+    [ [ "zucchini", 2 ] ]
   ]
 },{
   "type" : "recipe",
@@ -3570,12 +3404,9 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "irradiated_broccoli", 1 ],
       [ "broccoli", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "can_tomato", 1 ],
       [ "tomato", 1 ],
-      [ "irradiated_zucchini", 1 ],
       [ "zucchini", 1 ],
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ],
@@ -3595,8 +3426,7 @@
       [ "seasoning_salt", 15 ],
       [ "soysauce", 2 ],
       [ "pepper", 20 ],
-      [ "seed_garlic", 6 ],
-      [ "garlic", 1 ],
+      [ "garlic", 6 ],
       [ "salt_water", 2 ],
       [ "salt", 15 ]
     ]
@@ -3810,12 +3640,9 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -3829,20 +3656,13 @@
       [ "acorns_cooked", 1 ]
     ],
     [
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "tomato", 2 ],
       [ "pumpkin", 2 ],
-      [ "irradiated_pumpkin", 2 ],
-      [ "irradiated_broccoli", 2 ],
       [ "broccoli", 2 ],
-      [ "irradiated_zucchini", 2 ],
       [ "zucchini", 2 ],
-      [ "potato_irradiated", 2 ],
       [ "potato_raw", 2 ],
-      [ "irradiated_onion", 2 ],
       [ "onion", 2 ],
-      [ "irradiated_carrot", 12 ],
       [ "carrot", 12 ],
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
@@ -3884,12 +3704,9 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -3940,22 +3757,16 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "can_corn", 1 ],
       [ "corn", 1 ],
-      [ "irradiated_corn", 1 ],
+      [ "can_corn", 1 ],
       [ "onion", 1 ],
-      [ "irradiated_onion", 1 ],
       [ "carrot", 6 ],
-      [ "irradiated_carrot", 6 ],
       [ "pumpkin", 1 ],
-      [ "irradiated_pumpkin", 1 ],
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "dry_veggy", 1 ],
@@ -4093,12 +3904,9 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -4141,14 +3949,12 @@
       [ "can_clams", 1 ]
     ],
     [
-      [ "potato_irradiated", 1 ],
       [ "potato_raw", 1 ],
       [ "meat_smoked", 1 ],
       [ "dry_meat", 1 ],
       [ "rehydrated_meat", 1 ],
       [ "sausage", 2 ],
       [ "bacon", 2 ],
-      [ "irradiated_onion", 1 ],
       [ "onion", 1 ]
     ],
     [
@@ -4364,23 +4170,14 @@
       ["mushroom_cooked", 1 ],
       ["veggy_wild", 1],
       ["pumpkin", 1],
-      ["irradiated_pumpkin", 1],
       ["broccoli", 1],
-      ["irradiated_broccoli", 1],
       ["zucchini", 1],
-      ["irradiated_zucchini", 1],
       ["celery", 1 ],
-      ["irradiated_celery", 1],
       ["cabbage", 1 ],
-      ["irradiated_cabbage", 1 ],
       ["potato_raw", 1],
-      ["potato_irradiated", 1],
       ["can_corn", 1 ],
       ["corn", 1],
-      ["irradiated_corn", 1],
       ["onion", 1],
-      ["irradiated_onion", 1],
-      ["irradiated_carrot", 1],
       ["carrot", 6]
     ],
     [
@@ -4755,26 +4552,16 @@
       ["rehydrated_veggy", 1 ],
       [ "can_tomato", 1 ],
       ["tomato", 1],
-      ["irradiated_tomato", 1],
       ["pumpkin", 1 ],
-      ["irradiated_pumpkin", 1 ],
       ["broccoli", 1],
-      ["irradiated_broccoli", 1],
       ["zucchini", 1],
-      ["irradiated_zucchini", 1],
       ["celery", 1 ],
-      ["irradiated_celery", 1],
       ["cabbage", 1],
-      ["irradiated_cabbage", 1],
       ["sauerkraut", 2],
       ["potato_raw", 1],
-      ["potato_irradiated", 1],
       ["can_corn", 1 ],
       ["corn", 1],
-      ["irradiated_corn", 1],
       ["onion", 1],
-      ["irradiated_onion", 1],
-      ["irradiated_carrot", 6],
       ["carrot", 6]
     ],
     [
@@ -4902,26 +4689,16 @@
       ["rehydrated_veggy", 1 ],
       [ "can_tomato", 1 ],
       ["tomato", 1],
-      ["irradiated_tomato", 1],
       ["pumpkin", 1 ],
-      ["irradiated_pumpkin", 1 ],
       ["broccoli", 1],
-      ["irradiated_broccoli", 1],
       ["zucchini", 1],
-      ["irradiated_zucchini", 1],
       ["celery", 1 ],
-      ["irradiated_celery", 1],
       ["cabbage", 1],
-      ["irradiated_cabbage", 1],
       ["sauerkraut", 2],
       ["potato_raw", 1],
-      ["potato_irradiated", 1],
       ["can_corn", 1 ],
       ["corn", 1],
-      ["irradiated_corn", 1],
       ["onion", 1],
-      ["irradiated_onion", 1],
-      ["irradiated_carrot", 1],
       ["carrot", 6]
     ],
     [
@@ -5017,7 +4794,7 @@
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "seed_garlic", 3 ],
+      [ "garlic", 3 ],
       [ "pepper", 10 ]
     ],
     [
@@ -5065,33 +4842,23 @@
       ["veggy_wild", 1],
       [ "can_tomato", 1 ],
       ["tomato", 1],
-      ["irradiated_tomato", 1],
       ["pumpkin", 1],
-      ["irradiated_pumpkin", 1],
       ["broccoli", 1],
-      ["irradiated_broccoli", 1],
       ["zucchini", 1],
-      ["irradiated_zucchini", 1],
       ["celery", 1 ],
-      ["irradiated_celery", 1],
       ["cabbage", 1 ],
-      ["irradiated_cabbage", 1 ],
       ["sauerkraut", 2 ],
       ["potato_raw", 1],
-      ["potato_irradiated", 1],
       ["can_corn", 1],
       ["corn", 1],
-      ["irradiated_corn", 1],
       ["onion", 1],
-      ["irradiated_onion", 1],
-      ["irradiated_carrot", 1],
       ["carrot", 6]
     ],
     [
       [ "salt", 5 ],
       [ "soysauce", 1 ],
       [ "seasoning_salt", 5 ],
-      [ "seed_garlic", 3 ],
+      [ "garlic", 3 ],
       [ "pepper", 10 ]
     ],
     [
@@ -5178,23 +4945,14 @@
       [ "jam_strawberries", 1 ],
       [ "jam_blueberries", 1 ],
       [ "jam_fruit", 1 ],
-      [ "irradiated_strawberries", 1 ],
       [ "strawberries", 1 ],
-      [ "irradiated_blueberries", 1 ],
       [ "blueberries", 1 ],
-      [ "irradiated_cherries", 1 ],
       [ "cherries", 1 ],
-      [ "irradiated_plums", 1],
       [ "plums", 1 ],
-      [ "irradiated_grapes", 2 ],
       [ "grapes", 2 ],
-      [ "irradiated_cranberries", 3 ],
       [ "cranberries", 3 ],
-      [ "irradiated_raspberries", 1 ],
       [ "raspberries", 1 ],
-      [ "irradiated_blackberries", 1 ],
       [ "blackberries", 1 ],
-      [ "irradiated_pomegranate", 1],
       [ "pomegranate", 1 ],
       [ "dry_fruit", 1 ],
       [ "juice_pulp", 2 ]
@@ -5401,29 +5159,6 @@
       [ "raspberries", 1 ],
       [ "strawberries", 1 ],
       [ "watermelon", 1 ],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
       [ "dry_fruit", 1 ],
       [ "juice_pulp", 2 ],
       [ "jam_fruit", 1 ],
@@ -5652,29 +5387,6 @@
       ["cranberries", 3],
       ["dry_fruit", 1],
       ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
       ["jam_blueberries", 1],
@@ -5897,29 +5609,6 @@
       ["cranberries", 3],
       ["dry_fruit", 1],
       ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
       ["jam_blueberries", 1],
@@ -6029,29 +5718,6 @@
       ["cranberries", 3],
       ["grapefruit", 1],
       ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
       ["can_peach", 1],
       ["kiwi", 1],
       ["lemon", 1],
@@ -6133,29 +5799,6 @@
       ["cranberries", 3],
       ["grapefruit", 1],
       ["grapes", 2],
-      ["irradiated_apple", 1],
-      ["irradiated_apricot", 1],
-      ["irradiated_banana", 1],
-      ["irradiated_blackberries", 1],
-      ["irradiated_blueberries", 1],
-      ["irradiated_cherries", 1],
-      ["irradiated_cranberries", 3],
-      ["irradiated_grapefruit", 1],
-      ["irradiated_grapes", 2],
-      ["irradiated_kiwi", 1],
-      ["irradiated_lemon", 1],
-      ["irradiated_mango", 1],
-      ["irradiated_melon", 2],
-      ["irradiated_orange", 1],
-      ["irradiated_papaya", 1],
-      ["irradiated_peach", 1],
-      ["irradiated_pear", 1],
-      ["irradiated_pineapple", 1],
-      ["irradiated_plums", 1],
-      ["irradiated_pomegranate", 1],
-      ["irradiated_raspberries", 1],
-      ["irradiated_strawberries", 1],
-      ["irradiated_watermelon", 1],
       ["jam_fruit", 1],
       ["jam_strawberries", 1],
       ["jam_blueberries", 1],
@@ -6275,8 +5918,7 @@
       [ "wild_herbs", 20 ],
       [ "pepper", 20 ],
       [ "cinnamon", 20 ],
-      [ "seed_garlic", 6 ],
-      [ "garlic", 1 ],
+      [ "garlic", 6 ],
       [ "rehydrated_veggy", 1 ],
       [ "dry_mushroom", 1 ],
       [ "dry_veggy", 1 ]
@@ -6307,19 +5949,10 @@
     ]
   ],
   "components": [
-    [
-      [ "salt", 20 ]
-    ],
-    [
-      [ "garlic", 1 ],
-      [ "seed_garlic", 6 ]
-    ],
-    [
-      [ "thyme", 2 ]
-    ],
-    [
-      [ "wild_herbs", 200 ]
-    ]
+    [ [ "salt", 20 ] ],
+    [ [ "garlic", 6 ] ],
+    [ [ "thyme", 2 ] ],
+    [ [ "wild_herbs", 200 ] ]
   ]
 },{
   "type" : "recipe",
@@ -6359,30 +5992,6 @@
       ["dry_fruit", 2],
       ["grapefruit", 2],
       ["grapes", 4],
-      ["irradiated_apple", 2],
-      ["irradiated_apricot", 2],
-      ["irradiated_banana", 2],
-      ["irradiated_blackberries", 2],
-      ["irradiated_blueberries", 2],
-      ["irradiated_cherries", 2],
-      ["irradiated_cranberries", 6],
-      ["irradiated_grapefruit", 2],
-      ["irradiated_grapes", 4],
-      ["irradiated_kiwi", 2],
-      ["irradiated_lemon", 2],
-      ["irradiated_mango", 2],
-      ["irradiated_melon", 4],
-      ["irradiated_orange", 2],
-      ["irradiated_papaya", 2],
-      ["irradiated_peach", 2],
-      ["irradiated_pear", 2],
-      ["irradiated_pineapple", 2],
-      ["irradiated_plums", 2],
-      ["irradiated_pomegranate", 2],
-      ["irradiated_raspberries", 2],
-      ["irradiated_rhubarb", 4],
-      ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 1],
       ["can_peach", 2],
       ["juice_pulp", 4],
       ["kiwi", 2],
@@ -6436,24 +6045,15 @@
     ],
     [
       [ "broccoli", 2 ],
-      [ "irradiated_broccoli", 2 ],
       [ "tomato", 2 ],
-      [ "irradiated_tomato", 2 ],
       [ "pumpkin", 2 ],
-      [ "irradiated_pumpkin", 2 ],
       [ "zucchini", 2 ],
-      [ "irradiated_zucchini", 2 ],
       [ "celery", 2 ],
-      [ "irradiated_celery", 2 ],
       [ "cabbage", 2 ],
-      [ "irradiated_cabbage", 2 ],
       [ "sauerkraut", 4 ],
       [ "potato_raw", 2 ],
-      [ "potato_irradiated", 2 ],
       [ "onion", 2 ],
-      [ "irradiated_onion", 2 ],
       [ "carrot", 12 ],
-      [ "irradiated_carrot", 12 ],
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
       [ "rehydrated_veggy", 2 ],
@@ -6618,7 +6218,6 @@
     ],
     [
       [ "tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "can_tomato", 1 ]
     ],
     [
@@ -6669,7 +6268,6 @@
     ],
     [
       [ "tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "can_tomato", 1 ]
     ],
     [
@@ -6711,7 +6309,6 @@
     ],
     [
       [ "tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "can_tomato", 1 ]
     ],
     [
@@ -6765,7 +6362,6 @@
     ],
     [
       [ "tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "can_tomato", 1 ]
     ],
     [
@@ -6814,20 +6410,13 @@
       [ "veggy_wild", 2 ],
       [ "veggy_vac", 2 ],
       [ "celery", 2 ],
-      [ "irradiated_celery", 2 ],
       [ "cabbage", 2 ],
-      [ "irradiated_cabbage", 2 ],
       [ "sauerkraut", 4 ],
       [ "tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "pumpkin", 2 ],
-      [ "irradiated_pumpkin", 2 ],
       [ "onion", 2 ],
-      [ "irradiated_onion", 2 ],
       [ "broccoli", 1 ],
-      [ "irradiated_tomato", 2 ],
-      [ "irradiated_broccoli", 1 ],
-      [ "rehydrated_veggy", 2 ],
       [ "mushroom", 2 ],
       [ "dry_mushroom", 2 ],
       [ "morel_cooked", 2 ],
@@ -7058,7 +6647,6 @@
       [ "seasoning_italian", 5 ],
       [ "sauce_red", 1 ],
       [ "tomato", 2 ],
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "wild_herbs", 10 ]
     ],
@@ -7104,7 +6692,6 @@
       [ "seasoning_italian", 5 ],
       [ "sauce_red", 1 ],
       [ "tomato", 2 ],
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "wild_herbs", 10 ]
     ],
@@ -7150,7 +6737,6 @@
       [ "seasoning_italian", 5 ],
       [ "sauce_red", 1 ],
       [ "tomato", 2 ],
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "wild_herbs", 10 ]
     ],
@@ -7195,7 +6781,6 @@
       [ "seasoning_italian", 5 ],
       [ "sauce_red", 1 ],
       [ "tomato", 2 ],
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "wild_herbs", 10 ]
     ],
@@ -7379,30 +6964,6 @@
       ["honey_bottled", 1],
       ["honey_glassed", 1],
       ["honeycomb", 1],
-      ["irradiated_apple", 2],
-      ["irradiated_apricot", 2],
-      ["irradiated_banana", 2],
-      ["irradiated_blackberries", 2],
-      ["irradiated_blueberries", 2],
-      ["irradiated_cherries", 2],
-      ["irradiated_corn", 3],
-      ["irradiated_cranberries", 6],
-      ["irradiated_grapefruit", 2],
-      ["irradiated_grapes", 4],
-      ["irradiated_kiwi", 2],
-      ["irradiated_lemon", 2],
-      ["irradiated_mango", 2],
-      ["irradiated_melon", 4],
-      ["irradiated_orange", 2],
-      ["irradiated_papaya", 2],
-      ["irradiated_peach", 2],
-      ["irradiated_pear", 2],
-      ["irradiated_pineapple", 2],
-      ["irradiated_plums", 2],
-      ["irradiated_pomegranate", 2],
-      ["irradiated_raspberries", 2],
-      ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 1],
       ["can_corn", 3],
       ["can_peach", 1],
       ["kiwi", 2],
@@ -7696,30 +7257,7 @@
       [ "pomegranate", 3 ],
       [ "raspberries", 3 ],
       [ "strawberries", 3 ],
-      [ "watermelon", 2 ],
-      [ "irradiated_apple", 3 ],
-      [ "irradiated_apricot", 3 ],
-      [ "irradiated_banana", 3 ],
-      [ "irradiated_blackberries", 3 ],
-      [ "irradiated_blueberries", 3 ],
-      [ "irradiated_cherries", 3 ],
-      [ "irradiated_cranberries", 9 ],
-      [ "irradiated_grapefruit", 3 ],
-      [ "irradiated_grapes", 6 ],
-      [ "irradiated_kiwi", 3 ],
-      [ "irradiated_lemon", 3 ],
-      [ "irradiated_mango", 3 ],
-      [ "irradiated_melon", 6 ],
-      [ "irradiated_orange", 3 ],
-      [ "irradiated_papaya", 3 ],
-      [ "irradiated_peach", 3 ],
-      [ "irradiated_pear", 3 ],
-      [ "irradiated_pineapple", 3 ],
-      [ "irradiated_plums", 3 ],
-      [ "irradiated_pomegranate", 3 ],
-      [ "irradiated_raspberries", 3 ],
-      [ "irradiated_strawberries", 3 ],
-      [ "irradiated_watermelon", 2 ]
+      [ "watermelon", 2 ]
     ]
   ]
 },{
@@ -7829,12 +7367,9 @@
       [ "broth_bone", 1]
     ],
     [
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -7892,12 +7427,9 @@
       [ "broth", 1 ]
     ],
     [
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -7914,21 +7446,14 @@
       [ "acorns_cooked", 1 ]
     ],
     [
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "tomato", 2 ],
       [ "pumpkin", 2 ],
-      [ "irradiated_pumpkin", 2 ],
-      [ "irradiated_broccoli", 2 ],
       [ "broccoli", 2 ],
-      [ "irradiated_zucchini", 2 ],
       [ "zucchini", 2 ],
       [ "potato_raw", 2 ],
-      [ "potato_irradiated", 2 ],
       [ "onion", 2 ],
-      [ "irradiated_onion", 2 ],
       [ "carrot", 12 ],
-      [ "irradiated_carrot", 12 ],
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
       [ "mushroom", 2 ],
@@ -7974,22 +7499,15 @@
       [ "broth_bone", 1]
     ],
     [
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "can_corn", 1 ],
       [ "corn", 1 ],
-      [ "irradiated_corn", 1 ],
-      [ "irradiated_onion", 1 ],
       [ "onion", 1 ],
-      [ "irradiated_carrot", 6 ],
       [ "carrot", 6 ],
       [ "pumpkin", 1 ],
-      [ "irradiated_pumpkin", 1 ],
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "dry_veggy", 1 ],
@@ -8072,12 +7590,9 @@
       [ "broth_bone", 1]
     ],
     [
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -8133,14 +7648,10 @@
       [ "water_clean", 1 ]
     ],
     [
-      [ "irradiated_broccoli", 1 ],
       [ "broccoli", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "can_tomato", 1 ],
       [ "tomato", 1 ],
       [ "pumpkin", 1 ],
-      [ "irradiated_pumpkin", 1 ],
-      [ "irradiated_zucchini", 1 ],
       [ "zucchini", 1 ],
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ],
@@ -8160,8 +7671,7 @@
       [ "seasoning_salt", 15 ],
       [ "soysauce", 2 ],
       [ "pepper", 20 ],
-      [ "seed_garlic", 6 ],
-      [ "garlic", 1 ],
+      [ "garlic", 6 ],
       [ "salt_water", 1 ],
       [ "salt", 15 ]
     ]
@@ -8440,30 +7950,7 @@
       [ "mango", 3 ],
       [ "papaya", 3 ],
       [ "apricot", 3 ],
-      [ "kiwi", 3 ],
-      [ "irradiated_apple", 3 ],
-      [ "irradiated_strawberries", 3 ],
-      [ "irradiated_blueberries", 3 ],
-      [ "irradiated_orange", 3 ],
-      [ "irradiated_lemon", 3 ],
-      [ "irradiated_banana", 3 ],
-      [ "irradiated_pear", 3 ],
-      [ "irradiated_grapefruit", 3 ],
-      [ "irradiated_cherries", 3 ],
-      [ "irradiated_plums", 3 ],
-      [ "irradiated_grapes", 6 ],
-      [ "irradiated_pineapple", 3],
-      [ "irradiated_peach", 3 ],
-      [ "irradiated_cranberries", 9 ],
-      [ "irradiated_watermelon", 2 ],
-      [ "irradiated_melon", 6 ],
-      [ "irradiated_raspberries", 3 ],
-      [ "irradiated_blackberries", 3 ],
-      [ "irradiated_pomegranate", 3 ],
-      [ "irradiated_mango", 3 ],
-      [ "irradiated_papaya", 3 ],
-      [ "irradiated_apricot", 3 ],
-      [ "irradiated_kiwi", 3 ]
+      [ "kiwi", 3 ]
    ],
     [
       [ "sugar", 20 ]
@@ -8512,30 +7999,6 @@
       ["dry_fruit", 4 ],
       ["grapefruit", 4],
       ["grapes", 8],
-      ["irradiated_apple", 4],
-      ["irradiated_apricot", 4],
-      ["irradiated_banana", 4],
-      ["irradiated_blackberries", 4],
-      ["irradiated_blueberries", 4],
-      ["irradiated_cherries", 4],
-      ["irradiated_cranberries", 12],
-      ["irradiated_grapefruit", 4],
-      ["irradiated_grapes", 8],
-      ["irradiated_kiwi", 4],
-      ["irradiated_lemon", 4],
-      ["irradiated_mango", 4],
-      ["irradiated_melon", 8],
-      ["irradiated_orange", 4],
-      ["irradiated_papaya", 4],
-      ["irradiated_peach", 4],
-      ["irradiated_pear", 4],
-      ["irradiated_pineapple", 4],
-      ["irradiated_plums", 4],
-      ["irradiated_pomegranate", 4],
-      ["irradiated_raspberries", 4],
-      ["irradiated_rhubarb", 8],
-      ["irradiated_strawberries", 4],
-      ["irradiated_watermelon", 3],
       ["kiwi", 4],
       ["lemon", 4],
       ["mango", 4],
@@ -8613,7 +8076,7 @@
   "batch_time_factors":[83, 3],
   "tools": [    [ [ "hotplate", 5 ], [ "char_smoker", 5 ], [ "toolset", 5 ], [ "fire", -1 ] ],
                 [ ["rock_quern", -1], ["clay_quern", -1] ] ],
-  "components": [ [ ["corn", 2], ["irradiated_corn", 2] ] ]
+  "components": [ [ ["corn", 2] ] ]
 },{
   "type" : "recipe",
   "result": "meal_bone",
@@ -8787,8 +8250,7 @@
     { "id": "COOK", "level": 2 }
   ], "tools":[
     [ ["fire", -1] ] ],
-  "components": [ [ ["strawberries", 2], ["irradiated_strawberries", 2] ],
-    [ ["vodka", 4] ] ]
+  "components": [ [ [ "strawberries", 2 ] ], [ [ "vodka", 4 ] ] ]
 },{
   "type" : "recipe",
   "result": "drink_boozeberry",
@@ -8803,8 +8265,7 @@
     { "id": "COOK", "level": 2 }
   ], "tools":[
     [ ["fire", -1] ] ],
-  "components": [ [ ["blueberries", 2], ["irradiated_blueberries", 2] ],
-    [ ["vodka", 4] ] ]
+  "components": [ [ [ "strawberries", 2 ] ], [ [ "vodka", 4 ] ] ]
 },{
   "type" : "recipe",
   "result": "cola_meth",
@@ -8874,10 +8335,8 @@
     [
       [ "pickle", 1],
       [ "veggy_pickled", 1],
-      [ "irradiated_onion", 1],
       [ "onion", 1],
       [ "can_tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "tomato", 1]
     ],
     [
@@ -8912,9 +8371,7 @@
       [ "pickle", 1],
       [ "veggy_pickled", 1],
       [ "onion", 1],
-      [ "irradiated_onion", 1],
       [ "can_tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "tomato", 1]
     ],
     [
@@ -8994,18 +8451,12 @@
       [ "veggy_wild_cooked", 1 ],
       [ "veggy_vac", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1 ],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 1 ],
       [ "tomato", 1 ],
       [ "can_tomato", 1 ],
-      [ "irradiated_pumpkin", 1 ],
       [ "onion", 1 ],
-      [ "irradiated_onion", 1 ],
       [ "broccoli", 1 ],
-      [ "irradiated_tomato", 1 ],
-      [ "irradiated_broccoli", 1 ],
       [ "rehydrated_veggy", 1 ],
       [ "morel_cooked", 1 ],
       [ "mushroom_cooked", 1 ],
@@ -9013,9 +8464,6 @@
       [ "pickle", 1 ],
       [ "veggy_canned", 1 ],
       [ "beans_cooked", 1 ],
-      [ "irradiated_carrot", 1 ],
-      [ "irradiated_zucchini", 1 ],
-      [ "irradiated_lettuce", 1 ],
       [ "carrot", 1 ],
       [ "zucchini", 1 ],
       [ "lettuce", 1 ],
@@ -9023,13 +8471,11 @@
       [ "morel_fried", 1 ],
       [ "veggy_aspic", 1 ],
       [ "dahlia_baked", 1 ],
-      [ "irradiated_cucumber", 1 ],
       [ "cucumber", 1 ],
       [ "veggy_pickled", 1 ],
       [ "cooked_cattail_stalk", 1 ],
       [ "cooked_pumpkin", 1 ],
       [ "potato_baked", 1 ],
-      [ "potato_irradiated", 1 ],
       [ "can_tomato", 1 ],
       [ "dandelion_cooked", 1 ]
     ],
@@ -9091,18 +8537,12 @@
       [ "veggy_wild_cooked", 1 ],
       [ "veggy_vac", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1 ],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 1 ],
       [ "tomato", 1 ],
       [ "can_tomato", 1 ],
-      [ "irradiated_pumpkin", 1 ],
       [ "onion", 1 ],
-      [ "irradiated_onion", 1 ],
       [ "broccoli", 1 ],
-      [ "irradiated_tomato", 1 ],
-      [ "irradiated_broccoli", 1 ],
       [ "rehydrated_veggy", 1 ],
       [ "morel_cooked", 1 ],
       [ "mushroom_cooked", 1 ],
@@ -9110,9 +8550,6 @@
       [ "pickle", 1 ],
       [ "veggy_canned", 1 ],
       [ "beans_cooked", 1 ],
-      [ "irradiated_carrot", 1 ],
-      [ "irradiated_zucchini", 1 ],
-      [ "irradiated_lettuce", 1 ],
       [ "carrot", 1 ],
       [ "zucchini", 1 ],
       [ "lettuce", 1 ],
@@ -9120,13 +8557,11 @@
       [ "morel_fried", 1 ],
       [ "veggy_aspic", 1 ],
       [ "dahlia_baked", 1 ],
-      [ "irradiated_cucumber", 1 ],
       [ "cucumber", 1 ],
       [ "veggy_pickled", 1 ],
       [ "cooked_cattail_stalk", 1 ],
       [ "cooked_pumpkin", 1 ],
       [ "potato_baked", 1 ],
-      [ "potato_irradiated", 1 ],
       [ "can_tomato", 1 ],
       [ "dandelion_cooked", 1 ]
     ],
@@ -9172,10 +8607,8 @@
     [
       [ "pickle", 1],
       [ "veggy_pickled", 1],
-      [ "irradiated_onion", 1],
       [ "onion", 1],
       [ "can_tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "tomato", 1]
     ],
     [
@@ -9216,10 +8649,8 @@
     [
       [ "pickle", 1],
       [ "veggy_pickled", 1],
-      [ "irradiated_onion", 1],
       [ "onion", 1],
       [ "can_tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "tomato", 1]
     ],
     [
@@ -9685,10 +9116,8 @@
     [
       [ "pickle", 1],
       [ "veggy_pickled", 1],
-      [ "irradiated_onion", 1 ],
       [ "onion", 1],
       [ "can_tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "tomato", 1]
     ],
     [
@@ -9723,18 +9152,9 @@
       [ "cornbread", 2 ],
       [ "wastebread", 2 ]
     ],
-    [
-      [ "bacon", 1 ]
-    ],
-    [
-      [ "lettuce", 1 ],
-      [ "irradiated_lettuce", 1 ]
-    ],
-    [
-      [ "can_tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
-      [ "tomato", 1 ]
-    ]
+    [ [ "bacon", 1 ] ],
+    [ [ "lettuce", 1 ] ],
+    [ [ "can_tomato", 1 ], [ "tomato", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -9766,7 +9186,6 @@
     ],
     [
       [ "sauce_red", 1],
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 1 ],
       [ "tomato", 2 ]
     ],
@@ -9809,7 +9228,6 @@
     ],
     [
       [ "sauce_red", 1],
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 1 ],
       [ "tomato", 2 ]
     ],
@@ -10031,8 +9449,7 @@
   "components": [
     [
       [ "can_tomato", 1 ],
-      [ "tomato", 1 ],
-      [ "irradiated_tomato", 1 ]
+      [ "tomato", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -10063,7 +9480,6 @@
   "components": [
     [
       [ "can_tomato", 1 ],
-      [ "irradiated_tomato", 1 ],
       [ "tomato", 1 ]
     ],
     [
@@ -10111,22 +9527,13 @@
       ["veggy_wild", 1],
       ["mushroom", 1],
       ["tomato", 1],
-      ["irradiated_tomato", 1],
       ["broccoli", 1],
-      ["irradiated_broccoli", 1],
       ["zucchini", 1],
-      ["irradiated_zucchini", 1],
       ["cucumber", 1],
-      ["irradiated_cucumber", 1],
       ["potato_raw", 1],
-      ["potato_irradiated", 1],
       ["corn", 1],
-      ["irradiated_corn", 1],
       ["onion", 1],
-      ["irradiated_onion", 1],
-      ["garlic", 1],
-      ["seed_garlic", 6],
-      ["irradiated_carrot", 6],
+      ["garlic", 6],
       ["carrot", 6]
     ],
     [
@@ -10195,16 +9602,9 @@
     ]
   ],
   "components": [
-    [
-      [ "sauerkraut", 1 ]
-    ],
-    [
-      [ "cooking_oil", 1 ]
-    ],
-    [
-      [ "irradiated_onion", 1 ],
-      [ "onion", 1 ]
-    ]
+    [ [ "sauerkraut", 1 ] ],
+    [ [ "cooking_oil", 1 ] ],
+    [ [ "onion", 1 ] ]
   ]
   },{
   "type" : "recipe",
@@ -10369,30 +9769,7 @@
       [ "pomegranate", 1 ],
       [ "raspberries", 1 ],
       [ "strawberries", 1 ],
-      [ "watermelon", 1 ],
-      [ "irradiated_apple", 1 ],
-      [ "irradiated_apricot", 1 ],
-      [ "irradiated_banana", 1 ],
-      [ "irradiated_blackberries", 1 ],
-      [ "irradiated_blueberries", 1 ],
-      [ "irradiated_cherries", 1 ],
-      [ "irradiated_cranberries", 3 ],
-      [ "irradiated_grapefruit", 1 ],
-      [ "irradiated_grapes", 2 ],
-      [ "irradiated_kiwi", 1 ],
-      [ "irradiated_lemon", 1 ],
-      [ "irradiated_mango", 1 ],
-      [ "irradiated_melon", 2 ],
-      [ "irradiated_orange", 1 ],
-      [ "irradiated_papaya", 1 ],
-      [ "irradiated_peach", 1 ],
-      [ "irradiated_pear", 1 ],
-      [ "irradiated_pineapple", 1 ],
-      [ "irradiated_plums", 1 ],
-      [ "irradiated_pomegranate", 1 ],
-      [ "irradiated_raspberries", 1 ],
-      [ "irradiated_strawberries", 1 ],
-      [ "irradiated_watermelon", 1 ]
+      [ "watermelon", 1 ]
     ]
   ]
 },{
@@ -10441,31 +9818,7 @@
        [ "rhubarb", 2 ],
        [ "papaya", 1 ],
        [ "apricot", 1 ],
-       [ "kiwi", 1 ],
-       [ "irradiated_apple", 1 ],
-       [ "irradiated_orange", 1 ],
-       [ "irradiated_lemon", 1 ],
-       [ "irradiated_banana", 1 ],
-       [ "irradiated_pear", 1 ],
-       [ "irradiated_grapefruit", 1 ],
-       [ "irradiated_cherries", 1 ],
-       [ "irradiated_plums", 1 ],
-       [ "irradiated_grapes", 2 ],
-       [ "irradiated_pineapple", 1 ],
-       [ "irradiated_peach", 1 ],
-       [ "irradiated_cranberries", 3 ],
-       [ "irradiated_watermelon", 1 ],
-       [ "irradiated_melon", 2 ],
-       [ "irradiated_raspberries", 1 ],
-       [ "irradiated_blackberries", 1 ],
-       [ "irradiated_strawberries", 1 ],
-       [ "irradiated_blueberries", 1 ],
-       [ "irradiated_pomegranate", 1 ],
-       [ "irradiated_mango", 1 ],
-       [ "irradiated_rhubarb", 2 ],
-       [ "irradiated_papaya", 1 ],
-       [ "irradiated_apricot", 1 ],
-       [ "irradiated_kiwi", 1 ]
+       [ "kiwi", 1 ]
     ],
     [
       [ "sugar", 10 ]
@@ -10508,27 +9861,7 @@
       ["pomegranate", 2],
       ["raspberries", 2],
       ["strawberries", 2],
-      ["watermelon", 1],
-      ["irradiated_apple", 2],
-      ["irradiated_apricot", 2],
-      ["irradiated_blackberries", 2],
-      ["irradiated_blueberries", 2],
-      ["irradiated_cherries", 2],
-      ["irradiated_cranberries", 6],
-      ["irradiated_grapefruit", 2],
-      ["irradiated_grapes", 4],
-      ["irradiated_kiwi", 2],
-      ["irradiated_mango", 2],
-      ["irradiated_melon", 4],
-      ["irradiated_papaya", 2],
-      ["irradiated_peach", 2],
-      ["irradiated_pear", 2],
-      ["irradiated_pineapple", 2],
-      ["irradiated_plums", 2],
-      ["irradiated_pomegranate", 2],
-      ["irradiated_raspberries", 2],
-      ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 1]
+      ["watermelon", 1]
     ],
     [
       [ "water_clean", 1 ]
@@ -10643,33 +9976,22 @@
   "components": [
     [
       [ "lettuce", 1 ],
-      [ "irradiated_lettuce", 1],
       [ "broccoli", 1],
-      [ "irradiated_broccoli", 1],
       [ "dandelion_cooked", 1 ],
       [ "veggy_wild_cooked", 1 ],
       [ "sauerkraut", 2 ],
-      [ "irradiated_cabbage", 1 ],
       [ "cabbage", 1 ]
     ],
     [
       [ "cucumber", 2 ],
-      [ "irradiated_cucumber", 2],
       [ "tomato", 2],
       [ "can_tomato", 1 ],
-      [ "irradiated_tomato", 2],
       [ "carrot", 12],
-      [ "irradiated_carrot", 12],
       [ "celery", 2],
-      [ "irradiated_celery", 2],
       [ "pineapple", 2],
-      [ "irradiated_pineapple", 2],
       [ "cranberries", 6],
-      [ "irradiated_cranberries", 6],
       [ "raspberries", 2],
-      [ "irradiated_raspberries", 2],
       [ "blackberries", 2],
-      [ "irradiated_blackberries", 2],
       [ "sugar_beet", 2]
     ],
     [
@@ -10679,7 +10001,7 @@
       [ "seasoning_salt", 10],
       [ "soysauce", 1 ],
       [ "pepper", 10],
-      [ "seed_garlic", 3],
+      [ "garlic", 3],
       [ "vinegar", 1],
       [ "seasoning_italian", 10]
     ]
@@ -10875,17 +10197,9 @@
     ]
   ],
   "components": [
-    [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
-    ],
-    [
-      [ "jar_glass", 1 ]
-    ],
-    [
-      [ "tomato", 3 ],
-      [ "irradiated_tomato", 3]
-    ]
+    [ [ "water", 1 ], [ "water_clean", 1 ] ],
+    [ [ "jar_glass", 1 ] ],
+    [ [ "tomato", 3 ] ]
   ]
 },{
   "type" : "recipe",
@@ -11307,12 +10621,9 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -11326,20 +10637,13 @@
       [ "acorns_cooked", 1 ]
     ],
     [
-      [ "irradiated_tomato", 2 ],
       [ "can_tomato", 2 ],
       [ "tomato", 2 ],
       [ "pumpkin", 2 ],
-      [ "irradiated_pumpkin", 2 ],
-      [ "irradiated_broccoli", 2 ],
       [ "broccoli", 2 ],
-      [ "irradiated_zucchini", 2 ],
       [ "zucchini", 2 ],
-      [ "potato_irradiated", 2 ],
       [ "potato_raw", 2 ],
-      [ "irradiated_onion", 2 ],
       [ "onion", 2 ],
-      [ "irradiated_carrot", 12 ],
       [ "carrot", 12 ],
       [ "veggy", 2 ],
       [ "dry_veggy", 2 ],
@@ -11396,12 +10700,9 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -11465,12 +10766,9 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "powder_eggs", 5 ],
       [ "egg_bird", 1 ],
@@ -11533,22 +10831,16 @@
       [ "spaghetti_raw", 1 ],
       [ "macaroni_raw", 1],
       [ "noodles_fast", 1],
-      [ "potato_irradiated", 1],
       [ "potato_raw", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 2 ],
       [ "can_corn", 1 ],
       [ "corn", 1 ],
-      [ "irradiated_corn", 1 ],
+      [ "can_corn", 1 ],
       [ "onion", 1 ],
-      [ "irradiated_onion", 1 ],
       [ "carrot", 6 ],
-      [ "irradiated_carrot", 6 ],
       [ "pumpkin", 1 ],
-      [ "irradiated_pumpkin", 1 ],
       [ "veggy_wild", 1 ],
       [ "veggy", 1 ],
       [ "dry_veggy", 1 ],
@@ -11688,18 +10980,12 @@
       [ "veggy_wild_cooked", 1 ],
       [ "veggy_vac", 1 ],
       [ "celery", 1 ],
-      [ "irradiated_celery", 1 ],
       [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
       [ "sauerkraut", 1 ],
       [ "tomato", 1 ],
       [ "can_tomato", 1 ],
-      [ "irradiated_pumpkin", 1 ],
       [ "onion", 1 ],
-      [ "irradiated_onion", 1 ],
       [ "broccoli", 1 ],
-      [ "irradiated_tomato", 1 ],
-      [ "irradiated_broccoli", 1 ],
       [ "rehydrated_veggy", 1 ],
       [ "morel_cooked", 1 ],
       [ "mushroom_cooked", 1 ],
@@ -11707,9 +10993,6 @@
       [ "pickle", 1 ],
       [ "veggy_canned", 1 ],
       [ "beans_cooked", 1 ],
-      [ "irradiated_carrot", 1 ],
-      [ "irradiated_zucchini", 1 ],
-      [ "irradiated_lettuce", 1 ],
       [ "carrot", 1 ],
       [ "zucchini", 1 ],
       [ "lettuce", 1 ],
@@ -11717,13 +11000,11 @@
       [ "morel_fried", 1 ],
       [ "veggy_aspic", 1 ],
       [ "dahlia_baked", 1 ],
-      [ "irradiated_cucumber", 1 ],
       [ "cucumber", 1 ],
       [ "veggy_pickled", 1 ],
       [ "cooked_cattail_stalk", 1 ],
       [ "cooked_pumpkin", 1 ],
       [ "potato_baked", 1 ],
-      [ "potato_irradiated", 1 ],
       [ "can_tomato", 1 ],
       [ "dandelion_cooked", 1 ]
     ]
@@ -11749,10 +11030,7 @@
       [ "cornbread", 2 ],
       [ "wastebread", 2 ]
     ],
-    [
-      [ "cucumber", 1 ],
-      [ "irradiated_cucumber", 1 ]
-    ],
+    [ [ "cucumber", 1 ] ],
     [
       [ "mayonnaise", 1 ],
       [ "mustard", 1 ],

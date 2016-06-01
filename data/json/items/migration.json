@@ -5,6 +5,204 @@
     "replace": "adv_UPS_off"
   },
   {
+    "id": "irradiated_apple",
+    "type": "MIGRATION",
+    "replace": "apple",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_apricot",
+    "type": "MIGRATION",
+    "replace": "apricot",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_banana",
+    "type": "MIGRATION",
+    "replace": "irradiated_banana",
+    "flags": "IRRADIATED"
+  },
+  {    
+    "id": "irradiated_blackberries",
+    "type": "MIGRATION",
+    "replace": "blackberries",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_blueberries",
+    "type": "MIGRATION",
+    "replace": "blueberries",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_broccoli",
+    "type": "MIGRATION",
+    "replace": "broccoli",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_cabbage",
+    "type": "MIGRATION",
+    "replace": "cabage",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_carrot",
+    "type": "MIGRATION",
+    "replace": "carrot",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_celery",
+    "type": "MIGRATION",
+    "replace": "celery",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_cherries",
+    "type": "MIGRATION",
+    "replace": "cherries",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_cranberries",
+    "type": "MIGRATION",
+    "replace": "cranberries",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_cucumber",
+    "type": "MIGRATION",
+    "replace": "cucumber",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_grapefruit",
+    "type": "MIGRATION",
+    "replace": "grapefruit",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_grapes",
+    "type": "MIGRATION",
+    "replace": "grapes",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_kiwi",
+    "type": "MIGRATION",
+    "replace": "kiwi",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_lemon",
+    "type": "MIGRATION",
+    "replace": "lemon",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_lettuce",
+    "type": "MIGRATION",
+    "replace": "lettuce",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_mango",
+    "type": "MIGRATION",
+    "replace": "mango",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_melon",
+    "type": "MIGRATION",
+    "replace": "melon",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_onion",
+    "type": "MIGRATION",
+    "replace": "onion",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_orange",
+    "type": "MIGRATION",
+    "replace": "orange",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_papaya",
+    "type": "MIGRATION",
+    "replace": "papaya",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_peach",
+    "type": "MIGRATION",
+    "replace": "peach",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_pear",
+    "type": "MIGRATION",
+    "replace": "pear",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_pineapple",
+    "type": "MIGRATION",
+    "replace": "pineapple",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_plums",
+    "type": "MIGRATION",
+    "replace": "plums",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_pomegranate",
+    "type": "MIGRATION",
+    "replace": "pomegranate",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_pumpkin",
+    "type": "MIGRATION",
+    "replace": "pumpkin",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_raspberries",
+    "type": "MIGRATION",
+    "replace": "raspberries",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_rhubarb",
+    "type": "MIGRATION",
+    "replace": "rhubarb",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_strawberries",
+    "type": "MIGRATION",
+    "replace": "strawberries",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_watermelon",
+    "type": "MIGRATION",
+    "replace": "watermelon",
+    "flags": "IRRADIATED"
+  },
+  {
+    "id": "irradiated_zucchini",
+    "type": "MIGRATION",
+    "replace": "zucchini",
+    "flags": "IRRADIATED"
+  },
+  {
     "id": "m14a",
     "type": "MIGRATION",
     "replace": "m1a"
@@ -19,6 +217,12 @@
     "type": "MIGRATION",
     "replace": "saiga_12",
     "contents": [ "barrel_small" ]
+  },
+  {
+    "id": "seed_garlic",
+    "type": "MIGRATION",
+    "replace": "garlic",
+    "charges": 6
   },
   {
     "id": "UPS_on",

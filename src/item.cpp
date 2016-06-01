@@ -1660,6 +1660,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         if( is_food() ) {
+            if( has_flag( "IRRADIATED" ) ) {
+                info.emplace_back( "DESCRIPTION", _( "* This food is <good>irradiated</good> and will never spoil" ) );
+            }
+
             if( has_flag( "CANNIBALISM" ) ) {
                 if( !g->u.has_trait_flag( "CANNIBAL" ) ) {
                     info.emplace_back( "DESCRIPTION", _( "* This food contains <bad>human flesh</bad>." ) );
@@ -2278,6 +2282,10 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         if (has_flag("COLD")) {
             ret << _(" (cold)");
             }
+
+        if( has_flag( "IRRADIATED" ) ) {
+            ret << _( " (irradiated)" );
+        }
     }
 
     if (has_flag("FIT")) {
@@ -2402,6 +2410,11 @@ int item::price( bool practical ) const
         if( e->damage > 0 ) {
             // maximal damage is 4, maximal reduction is 40% of the value.
             child -= child * static_cast<double>( e->damage ) / 10;
+        }
+
+        if( e->is_food() && e->type->comestible->spoils && e->has_flag( "IRRADIATED" ) ) {
+            // irradiated food that would otherwise spoil is much more valuable
+            child *= 3;
         }
 
         if( e->count_by_charges() || e->made_of( LIQUID ) ) {
@@ -2746,7 +2759,7 @@ std::set<matec_id> item::get_techniques() const
 
 bool item::goes_bad() const
 {
-    return is_food() && type->comestible->spoils;
+    return is_food() && !has_flag( "IRRADIATED" ) && type->comestible->spoils;
 }
 
 double item::get_relative_rot() const

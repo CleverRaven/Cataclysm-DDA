@@ -245,6 +245,8 @@ void Item_modifier::modify(item &new_item) const
         Item_spawn_data::ItemList contentitems = contents->create(new_item.bday);
         new_item.contents.insert(new_item.contents.end(), contentitems.begin(), contentitems.end());
     }
+
+    std::copy( flags.begin(), flags.end(), std::inserter( new_item.item_tags, new_item.item_tags.begin() ) );
 }
 
 void Item_modifier::check_consistency() const

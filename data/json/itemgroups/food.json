@@ -1,0 +1,63 @@
+[
+  {
+    "id": "fruit",
+    "type": "item_group",
+    "//": "Common fresh fruits excluding types only available via foraging or farming",
+    "items": [
+      [ "apple", 200 ],
+      [ "apricot", 60 ],
+      [ "banana", 100 ],
+      [ "blackberries", 30 ],
+      [ "blueberries", 20 ],
+      [ "cherries", 50 ],
+      [ "coconut", 70 ],
+      [ "cranberries", 30 ],
+      [ "grapefruit", 40 ],
+      [ "grapes", 70 ],
+      [ "kiwi", 30 ],
+      [ "lemon", 60 ],
+      [ "mango", 40 ],
+      [ "melon", 40 ],
+      [ "orange", 120 ],
+      [ "papaya", 30 ],
+      [ "peach", 50 ],
+      [ "pear", 70 ],
+      [ "pineapple", 40 ],
+      [ "plums", 60 ],
+      [ "pomegranate", 40 ], 
+      [ "raspberries", 30 ],
+      [ "strawberries", 40 ],
+      [ "watermelon", 40 ]
+    ]
+  },
+  {
+    "id": "fruit_irradiated",
+    "type": "item_group",
+    "items": [ { "group": "fruit", "flags": "IRRADIATED", "container": "bag_plastic" } ]
+  },
+  {
+    "id": "vegetable",
+    "type": "item_group",
+    "//": "Common fresh vegetables excluding types only available via foraging or farming.",
+    "items": [
+      [ "broccoli", 70 ],
+      [ "cabbage", 70 ],
+      [ "carrot", 100 ],
+      [ "celery", 50 ],
+      [ "cucumber", 60 ],
+      [ "garlic", 30 ],
+      [ "lettuce", 80 ],
+      [ "mushroom", 100 ],
+      [ "onion", 120 ],
+      [ "potato_raw", 150 ],
+      [ "pumpkin", 50 ],
+      [ "rhubarb", 40 ],
+      [ "zucchini", 40 ]
+    ]
+  },
+  {
+    "id": "vegetable_irradiated",
+    "type": "item_group",
+    "items": [ { "group": "vegetable", "flags": "IRRADIATED", "container": "bag_plastic" } ]
+  }
+]
