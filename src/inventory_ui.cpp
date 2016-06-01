@@ -59,6 +59,18 @@ struct itemstack_or_category {
     }
 };
 
+class inventory_column {
+    public:
+        std::vector<itemstack_or_category> items;
+        size_t page_offset;
+        size_t selected_index;
+
+        inventory_column() :
+            items(),
+            page_offset( 0 ),
+            selected_index( 1 ) {};
+};
+
 const item_filter allow_all_items = []( const item & ) { return true; };
 
 class inventory_selector
@@ -79,7 +91,12 @@ class inventory_selector
          * Checks the selector for emptiness (absence of available items).
          */
         bool empty() const {
-            return items.empty() && worn.empty();
+            for( const auto &col : columns ) {
+                if( !col.items.empty() ) {
+                    return false;
+                }
+            }
+            return true;
         }
         /** Creates the inventory screen */
         inventory_selector( player &u, item_filter filter = allow_all_items );
@@ -94,6 +111,9 @@ class inventory_selector
 
     private:
         typedef std::vector<itemstack_or_category> itemstack_vector;
+
+        std::vector<inventory_column> columns;
+        size_t column_index;
 
         enum selector_mode{
             SM_PICK,
@@ -137,24 +157,15 @@ class inventory_selector
         /** Select the item at position and set the correct in_inventory and current_page_offset value */
         void select_item_by_position(const int &position);
         void remove_dropping_items( player &u ) const;
-        /** All the items that should be shown in the left column */
-        itemstack_vector items;
-        itemstack_vector worn;
         /** Number of rows that we have for printing the @ref items */
         size_t items_per_page;
         WINDOW *w_inv;
-        /** Index of the first entry in @ref items on the currently shown page */
-        size_t current_page_offset_i;
-        /** Index of the first entry in @ref worn on the currently shown page */
-        size_t current_page_offset_w;
-        /** Index of the currently selected entry of @ref items */
-        size_t selected_i;
-        /** Index of the currently selected entry of @ref worn */
-        size_t selected_w;
+
         bool inCategoryMode;
-        bool in_inventory;
+
         const item_category weapon_cat;
         const item_category worn_cat;
+
         player &u;
 
         void print_inv_weight_vol(int weight_carried, int vol_carried, int vol_capacity) const;
@@ -184,6 +195,8 @@ class inventory_selector
 
 void inventory_selector::add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat)
 {
+    itemstack_vector &items = columns[0].items;
+
     for( const auto &scit : slice ) {
 
         // That entry represents the item stack
@@ -227,21 +240,22 @@ const itemstack_or_category *inventory_selector::invlet_to_itemstack( long invle
         }
         return nullptr;
     };
-    const auto itemstack = find_among( items );
-    if( itemstack != nullptr ) {
-        return itemstack;
+
+    for( const auto &col : columns ) {
+        const auto itemstack = find_among( col.items );
+        if( itemstack != nullptr ) {
+            return itemstack;
+        }
     }
-    return find_among( worn );
+
+    return nullptr;
 }
 
 void inventory_selector::prepare_paging()
 {
-    if (items.size() == 0) {
-        in_inventory = false;
-    }
-
-    prepare_paging(items);
-    prepare_paging(worn);
+    column_index = 0;
+    prepare_paging( columns[0].items );
+    prepare_paging( columns[1].items );
 }
 
 void inventory_selector::prepare_paging(itemstack_vector &items)
@@ -311,7 +325,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
     };
 
     nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
-    if ((&items == &this->items) != in_inventory) {
+    if( &items != &columns[column_index].items ) {
         selected_line_color = inCategoryMode ? c_ltgray_red : h_ltgray;
     }
     int cur_line = 2;
@@ -412,7 +426,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     const size_t left_column_offset = 1;
     const size_t middle_column_width = std::min<int>( TERMX - left_column_width - 1, 40 );
     const size_t middle_column_offset = left_column_width + left_column_offset + 1;
-    const size_t current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
+    const size_t current_page_offset = columns[column_index].page_offset;
 
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
@@ -437,9 +451,11 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     }
     mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str),
               msg_color, msg_str.c_str());
-    print_column(items, left_column_offset, left_column_width, selected_i, current_page_offset_i, mode);
-    print_column(worn, middle_column_offset, middle_column_width, selected_w, current_page_offset_w, mode);
-    const size_t max_size = in_inventory ? items.size() : worn.size();
+
+    print_column( columns[0].items, left_column_offset, left_column_width, columns[0].selected_index , columns[0].page_offset, mode );
+    print_column( columns[1].items, middle_column_offset, middle_column_width, columns[1].selected_index, columns[1].page_offset, mode );
+
+    const size_t max_size = columns[column_index].items.size();
     const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
     mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
               max_pages);
@@ -471,20 +487,14 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
 }
 
 inventory_selector::inventory_selector( player &u, item_filter filter )
-    : dropping()
+    : columns()
+    , dropping()
     , first_item(NULL)
     , second_item(NULL)
     , ctxt("INVENTORY")
-    , items()
-    , worn()
     , items_per_page(TERMY - 5) // gives us 5 lines for messages/help text/status/...
     , w_inv(NULL)
-    , current_page_offset_i(0)
-    , current_page_offset_w(0)
-    , selected_i(1) // first is the category header
-    , selected_w(1) // ^^
     , inCategoryMode(false)
-    , in_inventory(true)
     , weapon_cat("WEAPON", _("WEAPON:"), 0)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
     , u(u)
@@ -504,11 +514,16 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     // For invlets
     ctxt.register_action("ANY_INPUT");
 
+    columns.push_back( inventory_column() );
+    columns.push_back( inventory_column() );
+
+    inventory_column &worn_column = columns[1];
+
     add_items( u.inv.indexed_slice_filter_by( filter ), AT_END );
 
     if( u.is_armed() && filter( u.weapon ) ) {
-        worn.push_back(itemstack_or_category(&weapon_cat));
-        worn.push_back(itemstack_or_category(&u.weapon, -1));
+        worn_column.items.push_back(itemstack_or_category(&weapon_cat));
+        worn_column.items.push_back(itemstack_or_category(&u.weapon, -1));
     }
     auto iter = u.worn.begin();
     for( size_t i = 0, filtered = 0; i < u.worn.size(); ++i, ++iter ) {
@@ -516,9 +531,9 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
             continue;
         }
         if( filtered++ == 0 ) {
-            worn.push_back( itemstack_or_category( &worn_cat ) );
+            worn_column.items.push_back( itemstack_or_category( &worn_cat ) );
         }
-        worn.push_back(itemstack_or_category(&*iter, player::worn_position_to_index(i)));
+        worn_column.items.push_back(itemstack_or_category(&*iter, player::worn_position_to_index(i)));
     }
 }
 
@@ -536,16 +551,16 @@ bool inventory_selector::handle_movement(const std::string &action)
     if( empty() ) {
         return false;
     }
-    const itemstack_vector &items = in_inventory ? this->items : this->worn;
-    size_t &selected = in_inventory ? selected_i : selected_w;
-    size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
+    const itemstack_vector &items = columns[column_index].items;
+    size_t &selected = columns[column_index].selected_index;
+    size_t &current_page_offset = columns[column_index].page_offset;
     const item_category *cur_cat = (selected < items.size()) ? items[selected].category : NULL;
 
     if (action == "CATEGORY_SELECTION") {
         inCategoryMode = !inCategoryMode;
     } else if (action == "LEFT") {
-        if (this->items.size() > 0) {
-            in_inventory = !in_inventory;
+        if( ++column_index >= columns.size() ) {
+            column_index = 0;
         }
     } else if (action == "DOWN") {
         selected++;
@@ -613,18 +628,18 @@ void inventory_selector::select_item_by_position(const int &position)
 
         if (pos == -1) {
             //weapon
-            in_inventory = false;
+            column_index = 1;
             return;
 
         } else if (pos < -1) {
             //worn
-            in_inventory = false;
+            column_index = 1;
             pos = abs(position) - ((u.weapon.is_null()) ? 2 : 1);
         }
 
-        const itemstack_vector &items = in_inventory ? this->items : this->worn;
-        size_t &selected = in_inventory ? selected_i : selected_w;
-        size_t &current_page_offset = in_inventory ? current_page_offset_i : current_page_offset_w;
+        const itemstack_vector &items = columns[column_index].items;
+        size_t &selected = columns[column_index].selected_index;
+        size_t &current_page_offset = columns[column_index].page_offset;
 
         //skip headers
         int iHeaderOffset = 0;
@@ -644,8 +659,8 @@ void inventory_selector::select_item_by_position(const int &position)
 
 int inventory_selector::get_selected_item_position() const
 {
-    const itemstack_vector &items = in_inventory ? this->items : this->worn;
-    const size_t &selected = in_inventory ? selected_i : selected_w;
+    const itemstack_vector &items = columns[column_index].items;
+    const size_t &selected = columns[column_index].selected_index;
     if (selected < items.size() && items[selected].it != NULL) {
         return items[selected].item_pos;
     }
@@ -654,8 +669,8 @@ int inventory_selector::get_selected_item_position() const
 
 void inventory_selector::set_selected_to_drop(int count)
 {
-    const itemstack_vector &items = in_inventory ? this->items : this->worn;
-    const size_t &selected = in_inventory ? selected_i : selected_w;
+    const itemstack_vector &items = columns[column_index].items;
+    const size_t &selected = columns[column_index].selected_index;
     if (selected >= items.size()) {
         return;
     }
