@@ -132,6 +132,12 @@ std::list<item> craft_command::consume_components()
         return used;
     }
 
+    if( !check_item_components_missing( crafter->crafting_inventory() ).empty() &&
+        !crafter->has_trait( "DEBUG_HS" ) ) {
+        debugmsg( "Aborting crafting: couldn't find necessary components" );
+        return used;
+    }
+
     for( const auto &it : item_selections ) {
         std::list<item> tmp = crafter->consume_items( it, batch_size );
         used.splice( used.end(), tmp );

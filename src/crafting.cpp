@@ -781,13 +781,7 @@ void player::complete_craft()
         if( last_craft.has_cached_selections() ) {
             last_craft.consume_components();
         } else {
-            for( const auto &it : making->requirements.get_components() ) {
-                consume_items( it, batch_size );
-            }
-
-            for( const auto &it : making->requirements.get_tools() ) {
-                consume_tools( it, batch_size );
-            }
+            debugmsg( "No components selected" );
         }
         activity.type = ACT_NULL;
         return;
@@ -801,19 +795,16 @@ void player::complete_craft()
         return;
     }
 
+    if( !last_craft.has_cached_selections() ) {
+        debugmsg( "No components selected" );
+        return;
+    }
+
     // If we're here, the craft was a success!
     // Use up the components and tools
-    std::list<item> used;
-    if( last_craft.has_cached_selections() ) {
-        used = last_craft.consume_components();
-    } else {
-        for( const auto &it : making->requirements.get_components() ) {
-            std::list<item> tmp = consume_items( it, batch_size );
-            used.splice( used.end(), tmp );
-        }
-        for( const auto &it : making->requirements.get_tools() ) {
-            consume_tools( it, batch_size );
-        }
+    const std::list<item> &used = last_craft.consume_components();
+    if( used.empty() && !has_trait( "DEBUG_HS" ) ) {
+        return;
     }
 
     // Set up the new item, and assign an inventory letter if available
