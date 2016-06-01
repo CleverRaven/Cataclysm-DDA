@@ -284,13 +284,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
             }
-            dealt_damage_instance dealt_dam;
             attack.missed_by = cur_missed_by;
             critter->deal_projectile_attack( null_source ? nullptr : this, attack );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                const size_t bt_len = blood_trail_len( dealt_dam.total_damage() );
+                const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
                 if( bt_len > 0 ) {
                     const tripoint &dest = move_along_line( tp, trajectory, bt_len );
                     g->m.add_splatter_trail( critter->bloodType(), tp, dest );
