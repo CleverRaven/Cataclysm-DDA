@@ -66,6 +66,8 @@ enum class navigation_mode : int {
 
 class inventory_column {
     public:
+        static const size_t npos = -1; // Returned if no item found
+
         std::vector<itemstack_or_category> items;
         size_t page_offset;
         size_t selected_index;
@@ -80,6 +82,10 @@ class inventory_column {
         bool is_category( size_t index ) const {
             return items[index].it == nullptr;
         }
+
+        size_t find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const;
+        size_t find_by_pos( int pos ) const;
+        size_t find_by_invlet( long invlet ) const;
 
         void select( size_t new_index );
         bool handle_movement( const std::string &action, navigation_mode mode );
@@ -211,6 +217,30 @@ class inventory_selector
         void prepare_paging(itemstack_vector &items);
 };
 
+size_t inventory_column::find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const
+{
+    for( size_t i = 0; i < items.size(); ++i ) {
+        if( pred( items[i] ) ) {
+            return i;
+        }
+    }
+    return npos;
+}
+
+size_t inventory_column::find_by_pos( int pos ) const
+{
+    return find_if( [ pos ]( const itemstack_or_category &it ) {
+        return it.item_pos == pos;
+    } );
+}
+
+size_t inventory_column::find_by_invlet( long invlet ) const
+{
+    return find_if( [ invlet ]( const itemstack_or_category &it ) {
+        return it.it != nullptr && it.it->invlet == invlet;
+    } );
+}
+
 void inventory_column::select( size_t new_index )
 {
     assert( new_index < items.size() );
@@ -305,22 +335,13 @@ void inventory_selector::add_items(const indexed_invslice &slice, add_to where, 
 
 const itemstack_or_category *inventory_selector::invlet_to_itemstack( long invlet ) const
 {
-    const auto find_among = [ invlet ]( const itemstack_vector &stacks ) -> const itemstack_or_category* {
-        for( const auto &it : stacks ) {
-            if( it.it != nullptr && it.it->invlet == invlet ) {
-                return &it;
-            }
-        }
-        return nullptr;
-    };
+    for( const auto &column : columns ) {
+        const size_t index = column.find_by_invlet( invlet );
 
-    for( const auto &col : columns ) {
-        const auto itemstack = find_among( col.items );
-        if( itemstack != nullptr ) {
-            return itemstack;
+        if( index != inventory_column::npos ) {
+            return &column.items[index];
         }
     }
-
     return nullptr;
 }
 
@@ -635,39 +656,19 @@ bool inventory_selector::handle_movement(const std::string &action)
     return true;
 }
 
-void inventory_selector::select_item_by_position(const int &position)
+void inventory_selector::select_item_by_position( const int &position )
 {
-    if (position != INT_MIN) {
-        int pos = position;
+    if( position == INT_MIN ) {
+        return;
+    }
+    for( size_t c = 0; c < columns.size(); ++c ) {
+        const size_t index = columns[c].find_by_pos( position );
 
-        if (pos == -1) {
-            //weapon
-            column_index = 1;
+        if( index != inventory_column::npos ) {
+            column_index = c;
+            columns[column_index].select( index );
             return;
-
-        } else if (pos < -1) {
-            //worn
-            column_index = 1;
-            pos = abs(position) - ((u.weapon.is_null()) ? 2 : 1);
         }
-
-        const itemstack_vector &items = columns[column_index].items;
-        size_t &selected = columns[column_index].selected_index;
-        size_t &current_page_offset = columns[column_index].page_offset;
-
-        //skip headers
-        int iHeaderOffset = 0;
-        for( auto &item : items ) {
-            if( item.it == NULL ) {
-                iHeaderOffset++;
-
-            } else if( item.item_pos == pos ) {
-                break;
-            }
-        }
-
-        selected = pos + iHeaderOffset;
-        current_page_offset = selected - (selected % items_per_page);
     }
 }
 
