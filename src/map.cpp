@@ -5091,10 +5091,10 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 
 
     const itype *itt = f.crafting_pseudo_item_type();
-    const itype *ammo = f.crafting_ammo_item_type();
-    if( itt != nullptr && ammo != nullptr ) {
+    if( itt != nullptr && itt->tool && itt->tool->ammo_id != "NULL" ) {
+        const itype_id ammo = default_ammo( itt->tool->ammo_id );
         auto stack = m->i_at( p );
-        auto iter = std::find_if( stack.begin(), stack.end(), [ammo]( const item &i ) { return i.type == ammo; } );
+        auto iter = std::find_if( stack.begin(), stack.end(), [ammo]( const item &i ) { return i.typeId() == ammo; } );
         if( iter != stack.end() ) {
             item furn_item( itt->id, -1, iter->charges );
             if( furn_item.use_charges( type, quantity, ret, p ) ) {
