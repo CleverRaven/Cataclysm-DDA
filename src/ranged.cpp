@@ -198,6 +198,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
 
+    trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
         // @todo Make it use a more distant point for more realistic extended lines
@@ -221,8 +222,8 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
-    size_t i = 0; // Outside loop, because we want it for line drawing
-    for( ; i < traj_len && ( has_momentum || stream ); i++ ) {
+
+    for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
         prev_point = tp;
         tp = trajectory[i];
 
@@ -231,7 +232,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // Currently strictly no shooting through floor
             // TODO: Bash the floor
             tp = prev_point;
-            i--;
+            traj_len = --i;
             break;
         }
         // Drawing the bullet uses player u, and not player p, because it's drawn
@@ -310,14 +311,16 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         if( !has_momentum && g->m.impassable( tp ) ) {
             // Don't let flamethrowers go through walls
             // TODO: Let them go through bars
+            traj_len = i;
             break;
         }
     } // Done with the trajectory!
 
-    if( do_animation && do_draw_line && i > 0 ) {
-        trajectory.resize( i );
+    if( do_animation && do_draw_line && traj_len > 2 ) {
+        trajectory.erase( trajectory.begin() );
+        trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( g->u, tp, (int)i, trajectory, stream ? '#' : '*' );
+        g->draw_bullet( g->u, tp, int( traj_len-- ), trajectory, stream ? '#' : '*' );
     }
 
     if( g->m.impassable(tp) ) {
