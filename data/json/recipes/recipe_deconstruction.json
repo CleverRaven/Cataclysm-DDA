@@ -692,8 +692,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+      [ 
+        [ "soldering_iron", 20 ],
+        [ "toolset", 20 ]
+      ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -710,8 +712,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+      [ 
+        [ "soldering_iron", 20 ],
+        [ "toolset", 20 ]
+      ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -728,8 +732,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+      [ 
+        [ "soldering_iron", 20 ],
+        [ "toolset", 20 ]
+      ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -746,8 +752,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+      [ 
+        [ "soldering_iron", 20 ],
+        [ "toolset", 20 ]
+      ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -764,8 +772,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+      [ 
+        [ "soldering_iron", 20 ],
+        [ "toolset", 20 ]
+      ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -782,8 +792,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+      [ 
+        [ "soldering_iron", 20 ],
+        [ "toolset", 20 ]
+      ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -800,8 +812,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 20 ] ],
-      [ [ "toolset", 20 ] ]
+      [ 
+        [ "soldering_iron", 20 ],
+        [ "toolset", 20 ]
+      ]
     ],
     "components": [ [ [ "burnt_out_bionic", 1 ] ] ]
   }, 
@@ -929,8 +943,10 @@
     "reversible": true,
     "qualities": [ {"id": "SCREW","level": 1 } ],
     "tools": [
-      [ [ "soldering_iron", 5 ] ],
-      [ [ "toolset", 5 ] ]
+      [ 
+        [ "soldering_iron", 5 ],
+        [ "toolset", 5 ]
+      ]
     ],
     "components": [
       [ [ "spike", 2 ] ],
