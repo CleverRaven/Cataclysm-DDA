@@ -559,7 +559,7 @@ class game
          * charges of the liquid have been transferred.
          * `true` indicates some charges have been transferred (but not necessarily all of them).
          */
-        void handle_all_liquid( item liquid, int radius = 0 );
+        void handle_all_liquid( item liquid, int radius );
 
         /**
          * Consume / handle as much of the liquid as possible in varying ways. This function can
