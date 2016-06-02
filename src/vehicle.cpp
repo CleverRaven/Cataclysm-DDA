@@ -4152,7 +4152,7 @@ void vehicle::slow_leak()
             continue; // not a liquid fuel or battery
         }
 
-        int qty = std::min( ( 0.5 - dmg ) * ( 0.5 - dmg) * p.ammo_remaining() / 10, 1.0 );
+        int qty = std::max( ( 0.5 - dmg ) * ( 0.5 - dmg) * p.ammo_remaining() / 10, 1.0 );
 
         // damaged batteries self-discharge without leaking
         if( fuel != fuel_type_battery ) {
