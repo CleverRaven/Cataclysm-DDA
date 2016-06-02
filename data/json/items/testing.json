@@ -48,5 +48,13 @@
             "move_cost" : 1000,
             "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
         }
+    },
+    {
+        "id": "snowman",
+        "type": "TOOL",
+        "symbol": "\u2603",
+        "color": "white",
+        "name": "snowman",
+        "description": "This is a test item for testing unicode support."
     }
 ]
