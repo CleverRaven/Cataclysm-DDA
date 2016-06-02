@@ -160,11 +160,6 @@ bool Creature::digging() const
 
 bool Creature::is_dangerous_fields( const field &fld ) const
 {
-    // Can't be dangerous if there are no fields there
-    if( fld.fieldCount() == 0 ) {
-        return false;
-    }
-
     // Else check each field to see if it's dangerous to us
     for( auto &dfield : fld ) {
         if( is_dangerous_field( dfield.second ) ) {
