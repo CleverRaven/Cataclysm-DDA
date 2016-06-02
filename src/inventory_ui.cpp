@@ -520,8 +520,10 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     size_t columns_count = 0;
 
     for( const auto &column : columns ) {
-        ++columns_count;
-        column_gap -= column.width;
+        if( !column.empty() ) {
+            ++columns_count;
+            column_gap -= column.width;
+        }
     }
     if( mode != SM_PICK && column_gap >= 40 ) {
         column_gap -= 40;
@@ -534,6 +536,10 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     size_t column_x = 1;
     for( size_t i = 0; i < columns.size(); ++i ) {
         const auto &column = columns[i];
+
+        if( column.empty() ) {
+            continue;
+        }
         const nc_color selection_color = ( i == column_index )
             ? ( navigation == navigation_mode::CATEGORY ) ? c_white_red : h_white
             : ( navigation == navigation_mode::CATEGORY ) ? c_ltgray_red : h_ltgray;
