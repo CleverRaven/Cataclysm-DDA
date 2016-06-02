@@ -700,6 +700,9 @@ public:
  void execute_action( npc_action action ); // Performs action
     void process_turn() override;
 
+    /** rates how dangerous a target is from 0 (harmless) to 1 (max danger) */
+    double evaluate_enemy( const Creature &target ) const;
+
     void choose_monster_target();
     void assess_danger();
     // Functions which choose an action for a particular goal
@@ -720,11 +723,9 @@ public:
     // Multiplier for acceptable angle of inaccuracy
     double confidence_mult() const;
     int confident_range( int weapon_index = -1 ) const;
-    int confident_gun_range( const item & ) const;
-    int confident_gun_range( const item &gun, int at_recoil ) const;
+    int confident_gun_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
     int confident_throw_range( const item & ) const;
     bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
-    bool need_to_reload() const; // Wielding a gun that is empty
     bool enough_time_to_reload( const item &gun ) const;
     /** Can reload currently wielded gun? */
     bool can_reload_current();

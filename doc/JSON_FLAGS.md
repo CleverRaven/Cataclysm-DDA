@@ -826,6 +826,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 - ```RAPIDFIRE``` Increases rate of fire by 50% for AUTO firing mode
 
+### Firing modes
+- ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod
+- ```NPC_AVOID``` NPC's will not attempt to use this mode
+- ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end)
+
 ## Magazines
 
 - ```MAG_COMPACT``` Can be stashed in an appropriate ammo pouch (intended for compact magazines)

@@ -940,7 +940,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         std::vector<std::string> fm;
         for( const auto &e : gun_all_modes() ) {
-            if( e.second.target == this && !e.second.melee ) {
+            if( e.second.target == this && !e.second.melee() ) {
                 fm.emplace_back( string_format( "%s (%i)", e.second.mode.c_str(), e.second.qty ) );
             }
         }
@@ -2639,13 +2639,27 @@ int item::damage_by_type( damage_type dt ) const
     return 0;
 }
 
-int item::reach_range() const
+int item::reach_range( const player &p ) const
 {
-    if( is_gunmod() || !has_flag( "REACH_ATTACK" ) ) {
-        return 1;
+    int res = 1;
+
+    if( has_flag( "REACH_ATTACK" ) ) {
+        res = has_flag( "REACH3" ) ? 3 : 2;
     }
 
-    return has_flag( "REACH3" ) ? 3 : 2;
+    // for guns consider any attached gunmods
+    if( is_gun() && !is_gunmod() ) {
+        for( const auto &m : gun_all_modes() ) {
+            if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
+                continue;
+            }
+            if( m.second.melee() ) {
+                res = std::max( res, m.second.qty );
+            }
+        }
+    }
+
+    return res;
 }
 
 
@@ -3945,6 +3959,10 @@ long item::ammo_required() const
     return 0;
 }
 
+bool item::ammo_sufficient( int qty ) const {
+    return ammo_remaining() >= ammo_required() * qty;
+}
+
 long item::ammo_consume( long qty, const tripoint& pos ) {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
@@ -4216,7 +4234,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 {
     std::map<std::string, const item::gun_mode> res;
 
-    if( !is_gun() ) {
+    if( !is_gun() || is_gunmod() ) {
         return res;
     }
 
@@ -4230,23 +4248,19 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
-                auto qty = m.second.second;
+                auto qty = std::get<1>( m.second );
                 if( m.first == "AUTO" && e == this && has_flag( "RAPIDFIRE" ) ) {
                     qty *= 1.5;
                 }
 
-                res.emplace( prefix += m.first, item::gun_mode { m.second.first, const_cast<item *>( e ),
-                                                                 qty, false } );
+                res.emplace( prefix += m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
+                                                                 qty, std::get<2>( m.second ) } );
             };
-        }
-        if( e->has_flag( "REACH_ATTACK" ) ) {
-            res.emplace( "REACH", item::gun_mode { e->tname(), const_cast<item *>( e ),
-                                                   e->has_flag( "REACH3" ) ? 3 : 2, true } );
         }
         if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { m.second.first, const_cast<item *>( this ),
-                                                       m.second.second, false } );
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
+                                                       std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
     }
@@ -4263,7 +4277,7 @@ const item::gun_mode item::gun_get_mode( const std::string& mode ) const
             }
         }
     }
-    return { "", nullptr, 0, false };
+    return { "", nullptr, 0, {} };
 }
 
 item::gun_mode item::gun_current_mode()

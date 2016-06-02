@@ -43,7 +43,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
-    "flags": [ "NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET" ]
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
   },
   {
     "id": "bipod",
@@ -127,55 +128,35 @@
   {
     "id": "diamond_bayonet",
     "type": "GUNMOD",
+    "copy-from": "bayonet",
     "name": "diamond bayonet",
     "description": "This bayonet incorporates a layer of diamond-like carbon on its edges, increasing its lethality.",
-    "weight": 566,
-    "volume": 2,
-    "price": 40000,
-    "cutting": 22,
-    "to_hit": -1,
-    "material": [ "steel", "diamond" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "dispersion_modifier": 10,
-    "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
+    "proportional": {
+      "price": 4.0,
+      "cutting": 2.0
+    }
   },
   {
     "id": "diamond_pistol_bayonet",
+    "copy-from": "pistol_bayonet",
     "type": "GUNMOD",
     "name": "diamond pistol bayonet",
     "description": "This pistol bayonet incorporates a layer of diamond-like carbon on its edges, increasing its lethality.",
-    "weight": 542,
-    "volume": 1,
-    "price": 40000,
-    "cutting": 22,
-    "to_hit": -4,
-    "material": [ "steel", "diamond" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "pistol", "smg", "crossbow" ],
-    "dispersion_modifier": 15,
-    "flags": [ "STAB", "BAYONET" ]
+    "proportional": {
+      "price": 4.0,
+      "cutting": 2.0
+    }
   },
   {
     "id": "diamond_sword_bayonet",
+    "copy-from": "sword_bayonet",
     "type": "GUNMOD",
     "name": "diamond sword bayonet",
     "description": "This sword bayonet is coated with a layer of diamond-like carbon, greatly augmenting its cutting damage.",
-    "weight": 546,
-    "volume": 3,
-    "price": 50000,
-    "cutting": 28,
-    "material": [ "steel", "diamond" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-    "dispersion_modifier": 20,
-    "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
+    "proportional": {
+      "price": 4.0,
+      "cutting": 2.0
+    }
   },
   {
     "id": "grip",
@@ -392,7 +373,7 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
-    "mod_targets": [ "pistol", "smg", "crossbow" ],
+    "mod_targets": [ "pistol" ],
     "dispersion_modifier": 15,
     "flags": [ "STAB", "BAYONET" ]
   },
@@ -442,7 +423,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
-    "flags": [ "NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET" ]
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
   },
   {
     "id": "u_shotgun",

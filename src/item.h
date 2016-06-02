@@ -385,10 +385,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     skill_id weap_skill() const;
     /*@}*/
 
-    /**
-     * Maximum range at which this weapon can be used for melee/reach attacks.
-     */
-    int reach_range() const;
+    /** Max range weapon usable for melee attack accounting for player/NPC abilities */
+    int reach_range( const player &p ) const;
 
     /**
      * Consumes specified charges (or fewer) from this and any contained items
@@ -1136,6 +1134,13 @@ public:
         long ammo_required() const;
 
         /**
+         * Is sufficient ammo loaded for at @ref qty uses of tool or shots of gun?
+         * This function is preferred as when support for items consuming multiple ammo types
+         * concurrently is added consumers of this function will not need refactoring
+         */
+        bool ammo_sufficient( int qty = 1 ) const;
+
+        /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
@@ -1208,7 +1213,12 @@ public:
             std::string mode; /** name of this mode */
             item *target;     /** pointer to base gun or attached gunmod */
             int qty;          /** burst size or melee range */
-            bool melee;       /** if true perform a melee attach as opposed to shooting */
+
+            /** flags change behavior of gun mode and are **not** equivalent to item flags */
+            std::set<std::string> flags;
+
+            /** if true perform a melee attach as opposed to shooting */
+            bool melee() const { return flags.count( "MELEE" ); }
 
             operator bool() const { return target != nullptr; }
 
