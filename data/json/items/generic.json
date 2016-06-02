@@ -605,7 +605,8 @@
         "weight": 751,
         "volume": 3,
         "bashing": 8,
-        "to_hit": 3
+        "to_hit": 3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -666,7 +667,8 @@
         "weight": 1133,
         "volume": 10,
         "bashing": 4,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -680,7 +682,8 @@
         "weight": 2266,
         "volume": 40,
         "bashing": 4,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -774,7 +777,8 @@
         "volume": 60,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -790,7 +794,8 @@
         "volume": 120,
         "bashing": 4,
         "cutting": 4,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -807,7 +812,8 @@
         "volume": 250,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -824,7 +830,8 @@
         "volume": 250,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -841,7 +848,8 @@
         "volume": 250,
         "bashing": 6,
         "cutting": 10,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -857,7 +865,8 @@
         "volume": 750,
         "bashing": 10,
         "cutting": 6,
-        "to_hit": -2
+        "to_hit": -2,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -873,7 +882,8 @@
         "volume": 3500,
         "bashing": 20,
         "cutting": 15,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -889,7 +899,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -906,7 +917,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -923,7 +935,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -940,7 +953,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -957,7 +971,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -974,7 +989,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -991,7 +1007,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -1124,7 +1141,8 @@
         "material": ["steel", "plastic"],
         "weight": 317,
         "volume": 10,
-        "to_hit": -1
+        "to_hit": -1,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -2408,7 +2426,7 @@
         "symbol" : "!",
         "description" : "The smoke billowing from this cigar has a sweet, musty odor.",
         "category" : "drugs",
-        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4" ]
+        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2417,7 +2435,8 @@
         "color" : "dkgray",
         "symbol" : "!",
         "description" : "A true gentleman always finishes his cigars.",
-        "category" : "other"
+        "category" : "other",
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2427,7 +2446,7 @@
         "symbol" : "!",
         "description" : "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
         "category": "drugs",
-        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4" ]
+        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2436,7 +2455,8 @@
         "color" : "dark_gray",
         "symbol" : "!",
         "description" : "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
-        "category" : "other"
+        "category" : "other",
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2446,7 +2466,7 @@
         "symbol" : "!",
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
         "category" : "drugs",
-        "flags" : [ "LITCIG", "LIGHT_4" ]
+        "flags" : [ "LITCIG", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2456,7 +2476,8 @@
         "color" : "green",
         "symbol" : "!",
         "description" : "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
-        "category" : "other"
+        "category" : "other",
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
