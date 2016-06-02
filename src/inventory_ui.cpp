@@ -293,12 +293,16 @@ bool inventory_column::handle_movement( const std::string &action, navigation_mo
 
     if( action == "DOWN" ) {
         move_forward();
-    } else if (action == "UP") {
+    } else if( action == "UP" ) {
         move_backward();
-    } else if (action == "NEXT_TAB") {
+    } else if( action == "NEXT_TAB" ) {
         move_forward( height );
-    } else if (action == "PREV_TAB") {
+    } else if( action == "PREV_TAB" ) {
         move_backward( height );
+    } else if( action == "HOME" ) {
+        select( 1 );
+    } else if( action == "END" ) {
+        select( items.size() - 1 );
     } else {
         return false;
     }
@@ -618,6 +622,8 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     ctxt.register_action("CATEGORY_SELECTION");
     ctxt.register_action("NEXT_TAB", _("Page down"));
     ctxt.register_action("PREV_TAB", _("Page up"));
+    ctxt.register_action("HOME", _("Home"));
+    ctxt.register_action("END", _("End"));
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("ANY_INPUT"); // For invlets
 
