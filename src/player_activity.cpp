@@ -53,7 +53,7 @@ const std::string &player_activity::get_stop_phrase() const
         _( " Stop hotwiring the vehicle?" ), _( " Stop aiming?" ),
         _( " Stop using the ATM?" ), _( " Stop trying to start the vehicle?" ),
         _( " Stop welding?" ), _( " Stop cracking?" ), _( " Stop repairing?" ),
-        _( " Stop modifying gun?" )
+        _( " Stop mending?" ), _( " Stop modifying gun?" )
     };
     return stop_phrase[type];
 }
@@ -87,6 +87,7 @@ bool player_activity::is_abortable() const
         case ACT_OXYTORCH:
         case ACT_CRACKING:
         case ACT_REPAIR_ITEM:
+        case ACT_MEND_ITEM:
         case ACT_GUNMOD_ADD:
             return true;
         default:
@@ -187,7 +188,7 @@ void player_activity::do_turn( player *p )
                 }
 
                 g->m.build_map_cache( g->get_levz() );
-                g->plfire( false );
+                g->plfire();
             }
             break;
         case ACT_GAME:
@@ -456,6 +457,10 @@ void player_activity::finish( player *p )
         case ACT_REPAIR_ITEM:
             // Unsets activity (if needed) inside function
             activity_handlers::repair_item_finish( this, p );
+            break;
+        case ACT_MEND_ITEM:
+            activity_handlers::mend_item_finish( this, p );
+            type = ACT_NULL;
             break;
         case ACT_GUNMOD_ADD:
             activity_handlers::gunmod_add_finish( this, p );

@@ -2478,6 +2478,25 @@
   "components": [ [ [ "chem_hydrogen_peroxide", 5 ] ] ]
 },
 {
+    "type" : "recipe",
+    "result": "chem_hydrogen_peroxide",
+    "result_mult": 5,
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_DRUGS",
+    "skill_used": "cooking",
+    "skills_required": [["firstaid", 3]],
+    "difficulty": 4,
+    "time": 6000,
+    "autolearn": true,
+    "book_learn": [["recipe_labchem", 3 ], ["textbook_chemistry", 3]],
+    "qualities": [{"id":"BOIL","level":2}, {"id":"CHEM","level":1}],
+    "tools": [[[ "hotplate", 10 ], [ "toolset", 10 ], [ "fire", -1 ]]],
+    "components": [
+      [[ "chem_hydrogen_peroxide_conc", 1 ]],
+      [[ "water", 5 ], ["water_clean", 5]]
+    ]
+},
+{
   "type" : "recipe",
   "result": "chem_sulphuric_acid",
   "category": "CC_CHEM",

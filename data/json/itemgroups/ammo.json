@@ -15,7 +15,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_pistol_rare",
-    "//" : "Less common pistol ammmo including that only used by police/paramilitary forces.",
+    "//" : "Less common pistol ammo including that only used by police/paramilitary forces.",
     "items": [
        [ "10mm", 15 ],
        [ "38_super", 20 ],
@@ -33,7 +33,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_pistol_milspec",
-    "//" : "Military specification pistol ammmo found at military sites.",
+    "//" : "Military specification pistol ammo found at military sites.",
     "items": [
        [ "46mm", 70 ],
        [ "9mmfmj", 100 ]
@@ -42,10 +42,13 @@
   {
     "type" : "item_group",
     "id" : "ammo_pistol_obscure",
-    "//" : "Imported or otherwise very obscure pistol ammmo.",
+    "//" : "Imported or otherwise very obscure pistol ammo.",
     "items": [
       [ "454_Casull", 50 ],
       [ "500_Magnum", 50 ],
+      [ "762_25", 50 ],
+      [ "762_25hot", 50 ],
+      [ "762_25typeP", 50 ],
       [ "9x18mm", 50 ],
       [ "9x18mmfmj", 50 ],
       [ "9x18mmP2", 50 ]
@@ -54,7 +57,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_pistol_reloaded",
-    "//" : "Reloaded pistol ammmo balanced according to rarity.",
+    "//" : "Reloaded pistol ammo balanced according to rarity.",
     "items": [
        [ "reloaded_10mm", 10 ],
        [ "reloaded_32_acp", 50 ],
@@ -98,7 +101,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_smg_milspec",
-    "//" : "Military specification SMG ammmo found at military sites.",
+    "//" : "Military specification SMG ammo found at military sites.",
     "items": [
       { "group": "ammo_pistol_milspec", "prob": 100 }
     ]
@@ -114,7 +117,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_smg_reloaded",
-    "//" : "Reloaded SMG ammmo balanced according to rarity.",
+    "//" : "Reloaded SMG ammo balanced according to rarity.",
     "items": [
       { "group": "ammo_pistol_reloaded", "prob": 100 }
     ]
@@ -122,7 +125,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_rifle_common",
-    "//" : "Rifle ammmo commonly owned by citizens and found in many locations.",
+    "//" : "Rifle ammo commonly owned by citizens and found in many locations.",
     "items": [
       [ "223", 60 ],
       [ "22_cb", 30 ],
@@ -137,7 +140,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_rifle_rare",
-    "//" : "Less common rifle ammmo including that only used by police/paramilitary forces.",
+    "//" : "Less common rifle ammo including that only used by police/paramilitary forces.",
     "items": [
       [ "22_fmj", 50 ],
       [ "3006fmj", 50 ],
@@ -150,7 +153,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_rifle_milspec",
-    "//" : "Military specification rifle ammmo found at military sites.",
+    "//" : "Military specification rifle ammo found at military sites.",
     "items": [
       [ "3006_incendiary", 30 ],
       [ "556_incendiary", 100 ],
@@ -160,15 +163,17 @@
   {
     "type" : "item_group",
     "id" : "ammo_rifle_obscure",
-    "//" : "Imported or otherwise very obscure rifle ammmo.",
+    "//" : "Imported or otherwise very obscure rifle ammo.",
     "items": [
-      [ "700nx", 100 ]
+      [ "545", 150 ],
+      [ "545_ap", 100 ],
+      [ "700nx", 70 ]
     ]
   },
   {
     "type" : "item_group",
     "id" : "ammo_rifle_reloaded",
-    "//" : "Reloaded rifle ammmo balanced according to rarity.",
+    "//" : "Reloaded rifle ammo balanced according to rarity.",
     "items": [
       [ "reloaded_223", 60 ],
       [ "reloaded_22_fmj", 20 ],
@@ -206,7 +211,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_shotgun_milspec",
-    "//" : "Military specification shotgun ammmo found at military sites.",
+    "//" : "Military specification shotgun ammo found at military sites.",
     "items": [
       [ "shot_flechette", 100 ],
       [ "shot_he", 10 ]
@@ -222,7 +227,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_shotgun_reloaded",
-    "//" : "Reloaded shotgun ammmo balanced according to rarity.",
+    "//" : "Reloaded shotgun ammo balanced according to rarity.",
     "items": [
       [ "reloaded_shot_00", 200 ],
       [ "reloaded_shot_bird", 30 ],
@@ -258,7 +263,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_milspec",
-    "//" : "Military specification ammmo found at military sites.",
+    "//" : "Military specification ammo found at military sites.",
     "items": [
       { "group": "ammo_pistol_milspec", "prob": 50 },
       { "group": "ammo_smg_milspec", "prob": 20 },
@@ -280,7 +285,7 @@
   {
     "type" : "item_group",
     "id" : "ammo_reloaded",
-    "//" : "Reloaded ammmo balanced according to rarity.",
+    "//" : "Reloaded ammo balanced according to rarity.",
     "items": [
       { "group": "ammo_pistol_reloaded", "prob": 90 },
       { "group": "ammo_smg_reloaded", "prob": 10 },

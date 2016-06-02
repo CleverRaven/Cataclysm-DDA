@@ -358,7 +358,7 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         }
 
         // create needed directories
-        std::stringstream cur_mod_dir;
+        std::ostringstream cur_mod_dir;
         cur_mod_dir << output_base_path << "/mod_" << number_stream.str();
 
         std::queue<std::string> dir_to_make;

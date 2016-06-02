@@ -24,8 +24,7 @@ extern game *g;
 
 #ifdef TILES
 extern void try_sdl_update();
-extern void invalidate_map_framebuffer();
-extern void invalidate_overmap_framebuffer();
+extern void invalidate_all_framebuffers();
 extern void clear_window_area( WINDOW* win );
 #endif // TILES
 
@@ -36,6 +35,11 @@ extern bool tile_iso;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
+
+enum class dump_mode {
+    TSV,
+    HTML
+};
 
 enum tut_type {
     TUT_NULL,
@@ -170,7 +174,7 @@ class game
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
         /** write stats of all loaded items of the given type to stdout */
-        void dump_stats( const std::string& what );
+        void dump_stats( const std::string& what, dump_mode mode );
 
         /** Returns false if saving failed. */
         bool save();
@@ -309,9 +313,13 @@ class game
          * If reviving failed, the item is unchanged, as is the environment (no new monsters).
          */
         bool revive_corpse( const tripoint &location, item &corpse );
-        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
-         *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
-        void plfire( bool burst, const tripoint &default_target = tripoint_min );
+
+        /**
+         *  Handles interactive parts of gun firing (target selection, etc.).
+         *  @return whether an attack was actually performed
+         */
+        bool plfire( const tripoint &default_target = tripoint_min );
+
         /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
         void cycle_item_mode( bool force_gun );
         /** Target is an interactive function which allows the player to choose a nearby
@@ -585,7 +593,7 @@ class game
          * The iterator is invalidated in that case. Otherwise the item remains but may have
          * fewer charges.
          */
-        bool handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius = 0 );
+        bool handle_liquid_from_container( std::list<item>::iterator in_container, item &container, int radius = 0 );
         /**
          * Shortcut to the above: handles the first item in the container.
          */

@@ -685,7 +685,7 @@ std::string new_artifact()
                 if( weapon->tag != "" ) {
                     art->item_tags.insert(weapon->tag);
                 }
-                std::stringstream newname;
+                std::ostringstream newname;
                 newname << weapon->adjective << " " << info->name;
                 art->create_name(newname.str());
             }
@@ -797,7 +797,7 @@ std::string new_artifact()
         art->armor->env_resist = info->env_resist;
         art->armor->warmth = info->warmth;
         art->armor->storage = info->storage;
-        std::stringstream description;
+        std::ostringstream description;
         description << string_format(info->plural ?
                                      _("This is the %s.\nThey are the only ones of their kind.") :
                                      _("This is the %s.\nIt is the only one of its kind."),

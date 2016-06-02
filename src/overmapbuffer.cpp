@@ -28,7 +28,7 @@ overmapbuffer::overmapbuffer()
 
 std::string overmapbuffer::terrain_filename(int const x, int const y)
 {
-    std::stringstream filename;
+    std::ostringstream filename;
 
     filename << world_generator->active_world->world_path << "/";
     filename << "o." << x << "." << y;
@@ -38,7 +38,7 @@ std::string overmapbuffer::terrain_filename(int const x, int const y)
 
 std::string overmapbuffer::player_filename(int const x, int const y)
 {
-    std::stringstream filename;
+    std::ostringstream filename;
 
     filename << world_generator->active_world->world_path << "/" << base64_encode(
                  g->u.name) << ".seen." << x << "." << y;

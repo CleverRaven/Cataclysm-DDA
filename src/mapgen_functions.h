@@ -5,6 +5,9 @@
 #include "mapdata.h"
 #include "map.h"
 
+#include <string>
+#include <map>
+
 struct mapgendata
 {
 public:

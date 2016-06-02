@@ -1076,7 +1076,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         // TODO: this ignores the z-component
         const tripoint player_pos = p->global_omt_location();
         int dist = rl_dist(player_pos, p->goal);
-        std::stringstream response;
+        std::ostringstream response;
         dist *= 100;
         if (dist >= 1300) {
         int miles = dist / 25; // *100, e.g. quarter mile is "25"
@@ -4334,7 +4334,7 @@ dynamic_line_t::dynamic_line_t( JsonArray ja )
         }
     }
     function = [lines]( const dialogue &d ) {
-        const dynamic_line_t& line = random_entry( lines );
+        const dynamic_line_t& line = random_entry_ref( lines );
         return line( d );
     };
 }
@@ -4402,7 +4402,7 @@ enum consumption_result {
 consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     bool consuming_contents = it.is_food_container( &p );
-    item &to_eat = consuming_contents ? it.contents[0] : it;
+    item &to_eat = consuming_contents ? it.contents.front() : it;
     const auto comest = to_eat.type->comestible.get();
     if( comest == nullptr ) {
         // Don't inform the player that we don't want to eat the lighter

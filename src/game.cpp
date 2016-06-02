@@ -1482,6 +1482,9 @@ bool game::do_turn()
     monmove();
     update_stair_monsters();
     u.process_turn();
+    if (u.moves < 0) {
+        draw();
+    }
     u.process_active_items();
 
     if (get_levz() >= 0 && !u.is_underwater()) {
@@ -2771,6 +2774,7 @@ bool game::handle_action()
 
         case ACTION_ORGANIZE:
             reassign_item();
+            refresh_all();
             break;
 
         case ACTION_USE:
@@ -2826,13 +2830,69 @@ bool game::handle_action()
             break;
 
         case ACTION_FIRE:
-            // Shell-users may fire a *single-handed* weapon out a port, if need be.
-            plfire( false, mouse_target );
+            // Use vehicle turret or draw a pistol from a holster if unarmed
+            if( !u.is_armed() ) {
+                int part = -1;
+                vehicle *veh = m.veh_at( u.pos(), part );
+                if( veh ) {
+                    int vpturret = veh->part_with_feature( part, "TURRET", true );
+                    int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
+                    if( ( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) ||
+                        ( vpcontrols >= 0 && veh->aim_turrets() ) ) {
+                        break;
+                    }
+                }
+
+                std::vector<std::string> options( 1, _("Cancel") );
+                std::vector<std::function<void()>> actions( 1, []{} );
+
+                for( auto &w : u.worn ) {
+                    if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
+                        !w.contents.empty() && w.contents.front().is_gun() ) {
+                        // draw (first) gun contained in holster
+                        options.push_back( string_format( _("%s from %s (%d)" ),
+                                                          w.contents.front().tname().c_str(),
+                                                          w.type_name().c_str(),
+                                                          w.contents.front().ammo_remaining() ) );
+
+                        actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
+
+                    } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
+                        // wield item currently worn using shoulder strap
+                        options.push_back( w.display_name() );
+                        actions.push_back( [&]{ u.wield( w ); } );
+                    }
+                }
+                if( options.size() > 1 ) {
+                    actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
+                }
+            }
+
+            if( u.weapon.is_gun() ) {
+                plfire( mouse_target );
+
+            } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
+                int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
+                temp_exit_fullscreen();
+                m.draw( w_terrain, u.pos() );
+                tripoint p = u.pos();
+                std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, TARGET_MODE_REACH, mouse_target );
+                if( !trajectory.empty() ) {
+                    u.reach_attack( p );
+                }
+                draw_ter();
+                reenter_fullscreen();
+            }
             break;
 
-        case ACTION_FIRE_BURST:
-            plfire( true, mouse_target );
+        case ACTION_FIRE_BURST: {
+            auto mode = u.weapon.gun_get_mode_id();
+            if( u.weapon.gun_set_mode( "AUTO" ) ) {
+                plfire( mouse_target );
+                u.weapon.gun_set_mode( mode );
+            }
             break;
+        }
 
         case ACTION_SELECT_FIRE_MODE:
             cycle_item_mode( false );
@@ -3074,6 +3134,7 @@ bool game::handle_action()
                     uquit = QUIT_SUICIDE;
                 }
             }
+            refresh_all();
             break;
 
         case ACTION_SAVE:
@@ -3083,6 +3144,7 @@ bool game::handle_action()
                     uquit = QUIT_SAVED;
                 }
             }
+            refresh_all();
             break;
 
         case ACTION_QUICKSAVE:
@@ -3100,7 +3162,7 @@ bool game::handle_action()
 
         case ACTION_MAP:
             #ifdef TILES
-            invalidate_overmap_framebuffer();
+            invalidate_all_framebuffers();
             #endif // TILES
             draw_overmap();
             break;
@@ -3702,115 +3764,6 @@ bool game::save_player_data()
     return saved_data && saved_weather && saved_log;
 }
 
-void game::dump_stats( const std::string& what )
-{
-    load_core_data();
-    DynamicDataLoader::get_instance().finalize_loaded_data();
-
-    if( what == "GUN" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Ammo" << "\t"
-            << "Volume" << "\t"
-            << "Weight" << "\t"
-            << "Capacity" << "\t"
-            << "Range" << "\t"
-            << "Dispersion" << "\t"
-            << "Recoil" << "\t"
-            << "Damage" << "\t"
-            << "Pierce" << std::endl;
-
-        auto dump = []( const item& gun ) {
-            std::cout
-                << gun.tname( false ) << "\t"
-                << ( gun.ammo_type() != "NULL" ? gun.ammo_type() : "" ) << "\t"
-                << gun.volume() << "\t"
-                << gun.weight() << "\t"
-                << gun.ammo_capacity() << "\t"
-                << gun.gun_range() << "\t"
-                << gun.gun_dispersion() << "\t"
-                << gun.gun_recoil() << "\t"
-                << gun.gun_damage() << "\t"
-                << gun.gun_pierce() << std::endl;
-        };
-
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->gun.get() ) {
-                item gun( e.first );
-                if( gun.is_reloadable() ) {
-                    gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
-                }
-                dump( gun );
-
-                if( gun.type->gun->barrel_length > 0 ) {
-                    gun.emplace_back( "barrel_small" );
-                    dump( gun );
-                }
-            }
-        }
-    } else if( what == "AMMO" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Ammo" << "\t"
-            << "Volume" << "\t"
-            << "Weight" << "\t"
-            << "Stack" << "\t"
-            << "Range" << "\t"
-            << "Dispersion" << "\t"
-            << "Recoil" << "\t"
-            << "Damage" << "\t"
-            << "Pierce" << std::endl;
-
-        auto dump = []( const item& ammo ) {
-            std::cout
-                << ammo.tname( false ) << "\t"
-                << ammo.type->ammo->type << "\t"
-                << ammo.volume() << "\t"
-                << ammo.weight() << "\t"
-                << ammo.type->stack_size << "\t"
-                << ammo.type->ammo->range << "\t"
-                << ammo.type->ammo->dispersion << "\t"
-                << ammo.type->ammo->recoil << "\t"
-                << ammo.type->ammo->damage << "\t"
-                << ammo.type->ammo->pierce << std::endl;
-        };
-
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->ammo.get() ) {
-                dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
-            }
-        }
-    } else if( what == "VEHICLE" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Weight (empty)" << "\t"
-            << "Weight (fueled)" << std::endl;
-
-        for( auto& e : vehicle_prototype::get_all() ) {
-            auto veh_empty = vehicle( e, 0, 0 );
-            auto veh_fueled = vehicle( e, 100, 0 );
-            std::cout
-                << veh_empty.name << "\t"
-                << veh_empty.total_mass() << "\t"
-                << veh_fueled.total_mass() << std::endl;
-        }
-    } else if( what == "VPART" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Location" << "\t"
-            << "Weight" << "\t"
-            << "Size" << std::endl;
-
-        for( const auto e : vpart_info::get_all() ) {
-            std::cout
-                << e->name() << "\t"
-                << e->location << "\t"
-                << ceil( item( e->item ).weight() / 1000.0 ) << "\t"
-                << e->size << std::endl;
-        }
-    }
-}
-
 bool game::save()
 {
     try {
@@ -4016,6 +3969,7 @@ void game::debug()
                        NULL );
     int veh_num;
     std::vector<std::string> opts;
+    refresh_all();
     switch( action ) {
         case 1:
             wishitem( &u );
@@ -4323,7 +4277,9 @@ void game::debug()
                         if( !query_yn( "Delete all items from the target?" ) ) {
                             break;
                         }
-
+                        for( auto &it : p.worn ) {
+                            it.on_takeoff( p );
+                        }
                         p.worn.clear();
                         p.inv.clear();
                         p.weapon = p.ret_null;
@@ -4335,6 +4291,7 @@ void game::debug()
                         int item_pos = inv_for_filter( "Make target equip:", filter );
                         item &to_wear = u.i_at( item_pos );
                         if( to_wear.is_armor() ) {
+                            p.on_item_wear( to_wear );
                             p.worn.push_back( to_wear );
                         } else if( !to_wear.is_null() ) {
                             p.weapon = to_wear;
@@ -5447,6 +5404,9 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_critter( *n, center );
     }
 
+    // Draw player last
+    draw_critter( u, center );
+
     if( u.has_active_bionic("bio_scent_vision") && u.view_offset.z == 0 ) {
         tripoint tmp = center;
         int &realx = tmp.x;
@@ -5532,7 +5492,7 @@ void game::refresh_all()
     }
 
     #ifdef TILES
-    invalidate_map_framebuffer();
+    invalidate_all_framebuffers();
     clear_window_area( w_terrain );
     #endif // TILES
     draw();
@@ -6420,14 +6380,20 @@ void game::monmove()
                 // Count every time we exit npc::move() without spending any moves.
                 turns++;
             }
+
+            // Turn on debug mode when in infinite loop
+            // It has to be done before the last turn, otherwise
+            // there will be no meaningful debug output.
+            if( turns == 9 ) {
+                debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
+                          np->name.c_str() );
+                debug_mode = true;
+            }
         }
+
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cranial detonation to prevent an infinite loop.
-        if( turns == 9 ) {
-            debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
-                np->name.c_str() );
-            debug_mode = true;
-        } else if( turns == 10 ) {
+        if( turns == 10 ) {
             add_msg( _( "%s's brain explodes!" ), np->name.c_str() );
             np->die( nullptr );
         }
@@ -7357,7 +7323,7 @@ void game::close( const tripoint &closep )
         }
     } else if( closep == u.pos() ) {
         add_msg(m_info, _("There's some buffoon in the way!"));
-    } else if (m.has_furn(closep) && m.furn_at(closep).close.empty()) {
+    } else if( m.has_furn( closep ) && !m.furn_at( closep ).close ) {
         // check for open crate
         if (m.furn_at(closep).id == "f_crate_o") {
             add_msg(m_info, _("You'll need to construct a seal to close the crate!"));
@@ -7614,6 +7580,12 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.ddx = cx;
     vehint.ddy = cy;
     vehint.exec(&veh);
+
+    if( vehint.sel_cmd == 'q' ) {
+        refresh_all();
+        return;
+    }
+
     if (vehint.sel_cmd != ' ') {
         int time = 200;
         int skill = u.get_skill_level( skill_id( "mechanics" ) );
@@ -8307,6 +8279,7 @@ void game::peek()
 {
     tripoint p = u.pos();
     if( !choose_adjacent( _("Peek where?"), p.x, p.y ) ) {
+        refresh_all();
         return;
     }
 
@@ -9097,9 +9070,12 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             draw_border(w_info);
 
             if (!select_zone) {
-                mvwprintz(w_info, getmaxy(w_info)-1, 2, c_white, _("Press"));
-                wprintz(w_info, c_ltgreen, " %s ", ctxt.press_x("LIST_ITEMS", "", "").c_str());
-                wprintz(w_info, c_white, _("to list items and monsters"));
+                nc_color clr = c_white;
+                const std::string colored_key = string_format( "<color_ltgreen>%s</color>",
+                                                               ctxt.get_desc( "LIST_ITEMS", 1 ).c_str() );
+                print_colored_text( w_info, getmaxy(w_info) - 1, 2, clr, clr,
+                                    string_format( _( "Press %s to list items and monsters" ),
+                                                   colored_key.c_str() ) );
             }
         }
 
@@ -9165,8 +9141,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
             print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
 
             if (fast_scroll) {
-                // print a light green mark below the top right corner of the w_info window
-                mvwprintz(w_info, 1, lookWidth - 1, c_ltgreen, _("F"));
+                //~ "Fast Scroll" mark below the top right corner of the info window
+                right_print( w_info, 1, 0, c_ltgreen, _( "F" ) );
             }
 
             wrefresh(w_info);
@@ -9596,7 +9572,7 @@ void game::list_items_monsters()
         add_msg(m_info, _("You don't see any items or monsters around you!"));
     } else if (iRetMonsters == 2) {
         refresh_all();
-        plfire(false);
+        plfire();
     }
     refresh_all();
     reenter_fullscreen();
@@ -10350,7 +10326,7 @@ bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const
     return true;
 }
 
-bool game::handle_liquid_from_container( std::vector<item>::iterator in_container, item &container, int radius )
+bool game::handle_liquid_from_container( std::list<item>::iterator in_container, item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
     handle_liquid( *in_container, &container, radius );
@@ -10398,27 +10374,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     };
 
-    const bool is_infinite = liquid.charges == std::numeric_limits<long>::max();
-    const std::string liquid_name = is_infinite ? liquid.tname() : liquid.display_name( liquid.charges );
-
-    const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
-    item * const cont = inv_map_for_liquid( liquid, text, radius );
-    if( source != nullptr && cont == source ) {
-        add_msg( m_info, _( "That's the same container!" ) );
-        // The user has intended to do something, but mistyped.
-        return true;
-    }
-    if( cont != nullptr && !cont->is_null() ) {
-        const int item_index = u.get_item_position( cont );
-        // Currently activities can only store item position in the players inventory,
-        // not on ground or similar. TODO: implement storing arbitrary container locations.
-        if( item_index != INT_MIN && create_activity() ) {
-            serialize_liquid_target( u.activity, item_index );
-        } else if( u.pour_into( *cont, liquid ) ) {
-            u.mod_moves( -100 );
-        }
-        return true;
-    }
+    const std::string liquid_name = liquid.has_infinite_charges() ? liquid.tname() : liquid.display_name( liquid.charges );
 
     uimenu menu;
     menu.return_invalid = true;
@@ -10439,6 +10395,29 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } );
     }
 
+    menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
+    actions.emplace_back( [&]() {
+        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
+        item * const cont = inv_map_for_liquid( liquid, text, radius );
+
+        if( cont == nullptr || cont->is_null() ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        if( cont == source && source != nullptr ) {
+            add_msg( m_info, _( "That's the same container!" ) );
+            return; // The user has intended to do something, but mistyped.
+        }
+        const int item_index = u.get_item_position( cont );
+        // Currently activities can only store item position in the players inventory,
+        // not on ground or similar. TODO: implement storing arbitrary container locations.
+        if( item_index != INT_MIN && create_activity() ) {
+            serialize_liquid_target( u.activity, item_index );
+        } else if( u.pour_into( *cont, liquid ) ) {
+            u.mod_moves( -100 );
+        }
+    } );
+
     for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
         if( veh == source_veh ) {
             continue;
@@ -10447,9 +10426,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         actions.emplace_back( [&, veh]() {
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, *veh );
-                return;
-            }
-            if( u.pour_into( *veh, liquid ) ) {
+            } else if( u.pour_into( *veh, liquid ) ) {
                 u.mod_moves( -100 );
             }
         } );
@@ -10467,17 +10444,25 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         actions.emplace_back( [&, target_pos]() {
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, target_pos );
-                return;
+            } else {
+                iexamine::pour_into_keg( target_pos, liquid );
+                u.mod_moves( -100 );
             }
-            iexamine::pour_into_keg( target_pos, liquid );
-            u.mod_moves( -100 );
         } );
     }
 
     menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
     actions.emplace_back( [&]() {
+        // From infinite source to the ground somewhere else. The target has
+        // infinite space and the liquid can not be used from there anyway.
+        if( liquid.has_infinite_charges() && source_pos != nullptr ) {
+            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
+            return;
+        }
+
         tripoint target_pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
+
         refresh_all();
         if( !choose_adjacent( liqstr, target_pos ) ) {
             return;
@@ -10491,20 +10476,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
         }
-        // From infinite source to the ground somewhere else. The target has
-        // infinite space and the liquid can not be used from there anyway.
-        if( is_infinite && source_pos != nullptr ) {
-            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
-            return;
-        }
 
         if( create_activity() ) {
             serialize_liquid_target( u.activity, target_pos );
-            return;
+        } else {
+            m.add_item_or_charges( target_pos, liquid, 1 );
+            liquid.charges = 0;
+            u.mod_moves( -100 );
         }
-        m.add_item_or_charges( target_pos, liquid, 1 );
-        liquid.charges = 0;
-        u.mod_moves( -100 );
     } );
     if( liquid.rotten() ) {
         // Pre-select this one as it is the most likely one for rotten liquids
@@ -10516,12 +10495,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
 
     menu.query();
+    refresh_all();
     const size_t chosen = static_cast<size_t>( menu.ret );
     if( chosen >= actions.size() ) {
         add_msg( _( "Never mind." ) );
         // Explicitly canceled all options (container, drink, pour).
         return false;
     }
+
     actions[chosen]();
     return true;
 }
@@ -10565,6 +10546,7 @@ void game::drop_in_direction()
         return;
     }
 
+    refresh_all();
     make_drop_activity( ACT_DROP, dirp );
 }
 
@@ -10844,7 +10826,7 @@ std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant
     return trajectory;
 }
 
-void game::plfire( bool burst, const tripoint &default_target )
+bool game::plfire( const tripoint &default_target )
 {
     if( u.has_effect( effect_relax_gas) ) {
         if( one_in(5) ) {
@@ -10852,100 +10834,47 @@ void game::plfire( bool burst, const tripoint &default_target )
         } else {
             u.moves -= rng(2, 5) * 10;
             add_msg(m_bad, _("You can't fire your weapon, it's too heavy..."));
-            return;
-        }
-    }
-    // Use vehicle turret or draw a pistol from a holster if unarmed
-    if( !u.is_armed() ) {
-        // Vehicle turret first, if on our tile
-        int part = -1;
-        vehicle *veh = m.veh_at( u.pos(), part );
-        if( veh != nullptr ) {
-            int vpturret = veh->part_with_feature( part, "TURRET", true );
-            int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-            if( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) {
-                return;
-            } else if( vpcontrols >= 0 && veh->aim_turrets() ) {
-                return;
-            }
-        }
-
-        std::vector<std::string> options( 1, _("Cancel") );
-        std::vector<std::function<void()>> actions( 1, []{} );
-
-        for( auto &w : u.worn ) {
-            if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
-                !w.contents.empty() && w.contents[0].is_gun() ) {
-                // draw (first) gun contained in holster
-                options.push_back( string_format( _("%s from %s (%d)" ),
-                                                  w.contents[0].tname().c_str(),
-                                                  w.type_name().c_str(),
-                                                  w.contents[0].ammo_remaining() ) );
-
-                actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
-
-            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
-                // wield item currently worn using shoulder strap
-                options.push_back( w.display_name() );
-                actions.push_back( [&]{ u.wield( w ); } );
-            }
-        }
-
-        if( options.size() > 1 ) {
-            actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
+            return false;
         }
     }
 
-    if( u.weapon.is_auxiliary_gunmod() ) {
+    if( u.weapon.is_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
-        return;
+        return false;
     }
 
-    item& gun = u.weapon.gunmod_current() ? *u.weapon.gunmod_current() : u.weapon;
+    auto gun = u.weapon.gun_current_mode();
 
-    if( !gun.is_gun() && !gun.has_flag( "REACH_ATTACK" ) ) {
-        return;
+    if( !( gun && u.can_use( *gun ) ) ) {
+        return false; // check a valid mode was returned and we are able to use it
     }
-    if( !u.can_use( gun ) ) {
-        return;
-    }
-
-    // Execute reach attack (instead of shooting) if our weapon can reach and
-    // either we're not using a gun or using a gun set to use a non-gun gunmod
-    bool reach_attack = gun.has_flag( "REACH_ATTACK" ) && ( !gun.is_gun() || gun.get_gun_mode() == "MODE_REACH" );
 
     vehicle *veh = m.veh_at(u.pos());
-    if( veh != nullptr && veh->player_in_control( u ) && gun.is_two_handed( u ) ) {
+    if( veh != nullptr && veh->player_in_control( u ) && gun->is_two_handed( u ) ) {
         add_msg(m_info, _("You need a free arm to drive!"));
-        return;
+        return false;
     }
 
     int reload_time = 0;
-    if( !reach_attack ) {
-        //below prevents fire burst key from fireing in burst mode in semiautos that have been modded
-        //should be fine to place this here, plfire(true,*) only once in code
-        if( burst && !gun.has_flag( "MODE_BURST" ) ) {
-            return;
+    if( !gun.melee ) {
+        if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
+            add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
+            return false;
         }
 
-        if( gun.has_flag("FIRE_TWOHAND") && ( !u.has_two_arms() || u.worn_with_flag("RESTRICT_HANDS") ) ) {
-            add_msg(m_info, _("You need two free hands to fire your %s."), gun.tname().c_str() );
-            return;
-        }
-
-        if( gun.has_flag("RELOAD_AND_SHOOT") && gun.ammo_remaining() == 0 ) {
-            item::reload_option opt = gun.pick_reload_ammo( u );
+        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && !gun->ammo_remaining() ) {
+            item::reload_option opt = gun->pick_reload_ammo( u );
             if( !opt ) {
-                return; // menu cancelled
+                return false; // menu cancelled
             }
 
             reload_time += opt.moves();
-            if( !gun.reload( u, std::move( opt.ammo ), 1 ) ) {
-                return; // unable to reload
+            if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
+                return false; // unable to reload
             }
 
             // Burn 2x the strength required to fire in stamina.
-            u.mod_stat( "stamina", gun.type->min_str * -2 );
+            u.mod_stat( "stamina", gun->type->min_str * -2 );
 
             // At low stamina levels, firing starts getting slow.
             int sta_percent = (100 * u.stamina) / u.get_stamina_max();
@@ -10954,17 +10883,17 @@ void game::plfire( bool burst, const tripoint &default_target )
             refresh_all();
         }
 
-        if( gun.ammo_remaining() < gun.ammo_required() && !gun.has_flag("RELOAD_AND_SHOOT") ) {
-            if( gun.ammo_remaining() == 0 ) {
+        if( gun->ammo_remaining() < gun->ammo_required() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
+            if( !gun->ammo_remaining() ) {
                 add_msg(m_info, _("You need to reload!"));
             } else {
-                add_msg(m_info, _("Your %s needs %i charges to fire!"), gun.tname().c_str(), gun.ammo_required() );
+                add_msg( m_info, _( "Your %s needs %i charges to fire!" ), gun->tname().c_str(), gun->ammo_required() );
             }
-            return;
+            return false;
         }
 
-        if( gun.get_gun_ups_drain() > 0 ) {
-            const int ups_drain       = gun.get_gun_ups_drain();
+        if( gun->get_gun_ups_drain() > 0 ) {
+            const int ups_drain       = gun->get_gun_ups_drain();
             const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
             const int bio_power_drain = std::max( 1, ups_drain / 5 );
 
@@ -10974,65 +10903,63 @@ void game::plfire( bool burst, const tripoint &default_target )
                 add_msg( m_info,
                          _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
                          ups_drain, adv_ups_drain );
-                return;
+                return false;
             }
         }
 
-        if( gun.has_flag( "MOUNTED_GUN" ) ) {
+        if( gun->has_flag( "MOUNTED_GUN" ) ) {
             int vpart = -1;
             vehicle *veh = m.veh_at( u.pos(), vpart );
             if( !m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() ) &&
                 (veh == NULL || veh->part_with_feature(vpart, "MOUNTABLE") < 0)) {
                 add_msg(m_info,
                         _("You need to be standing near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc."));
-                return;
+                return false;
             }
         }
     }
 
-    int range;
-    if( reach_attack ) {
-        range = gun.reach_range();
-    } else {
-        range = gun.gun_range( &u );
-    }
+    int range = gun.melee ? gun.qty : gun->gun_range( &u );
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
     tripoint p = u.pos();
 
-    target_mode tmode = reach_attack ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
-    std::vector<tripoint> trajectory = pl_target_ui( p, range, &gun, tmode, default_target );
+    target_mode tmode = gun.melee ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode, default_target );
 
     if (trajectory.empty()) {
-        if( gun.has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
-            unload( gun );
+        if( gun->has_flag( "RELOAD_AND_SHOOT" ) && u.activity.type != ACT_AIM ) {
+            unload( *gun );
             u.moves -= reload_time / 2; // allow for unloading time
         }
         reenter_fullscreen();
-        return;
+        return false;
     }
     draw_ter(); // Recenter our view
 
-    if( gun.get_gun_mode() == "MODE_BURST" || ( u.has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) && gun.burst_size() >= 2 ) ) {
-        burst = true;
-    }
+    bool res = false;
 
-    if( reach_attack ) {
+    if( gun.melee ) {
         u.reach_attack( p );
+        res = true;
+
     } else {
         u.moves -= reload_time;
-        u.fire_gun( p, burst ? gun.burst_size() : 1, gun );
+        // @todo add check for TRIGGERHAPPY
+        res = u.fire_gun( p, gun.qty, *gun );
     }
 
     reenter_fullscreen();
+    return res;
 }
 
 void game::cycle_item_mode( bool force_gun )
 {
     if( u.is_armed() ) {
-        u.weapon.next_mode();
+        u.weapon.gun_cycle_mode();
+
     } else if( !force_gun ) {
         int part = -1;
         vehicle *veh = m.veh_at( u.pos(), part );
@@ -11394,7 +11321,7 @@ void game::reload( int pos, bool prompt )
 
     // for holsters and ammo pouches try to reload any contained item
     if( it->type->can_use( "holster" ) && !it->contents.empty() ) {
-        it = &it->contents[ 0 ];
+        it = &it->contents.front();
     }
 
     switch( u.rate_action_reload( *it ) ) {
@@ -11534,13 +11461,11 @@ bool game::unload( item &it )
     std::vector<std::string> msgs( 1, it.tname() );
     std::vector<item *> opts( 1, &it );
 
-    if( it.is_gun() ) {
-        for( auto &e : it.contents ) {
-            if( e.is_auxiliary_gunmod() && !e.has_flag( "NO_UNLOAD" ) &&
-                ( e.magazine_current() || e.ammo_remaining() > 0 ) ) {
-                msgs.emplace_back( e.tname() );
-                opts.emplace_back( &e );
-            }
+    for( auto e : it.gunmods() ) {
+        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
+            ( e->magazine_current() || e->ammo_remaining() > 0 ) ) {
+            msgs.emplace_back( e->tname() );
+            opts.emplace_back( e );
         }
     }
 

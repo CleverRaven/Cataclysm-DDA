@@ -503,6 +503,8 @@ class Character : public Creature, public visitable<Character>
         virtual void on_stat_change( const std::string &, int ) override {};
         virtual void on_mutation_gain( const std::string & ) {};
         virtual void on_mutation_loss( const std::string & ) {};
+
+    public:
         virtual void on_item_wear( const item & ) {};
         virtual void on_item_takeoff( const item & ) {};
 

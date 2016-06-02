@@ -226,7 +226,7 @@ void item::load_info( const std::string &data )
         }
         name = name.substr(2, name.size() - 3); // s/^ '(.*)'$/\1/
     }
-    set_gun_mode( mode );
+    gun_set_mode( mode );
 
     if( idtmp == "UPS_on" ) {
         idtmp = "UPS_off";

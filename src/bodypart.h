@@ -1,10 +1,7 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include "translations.h"
-
 #include <string>
-#include <map>
 
 // The order is important ; pldata.h has to be in the same order
 enum body_part : int {

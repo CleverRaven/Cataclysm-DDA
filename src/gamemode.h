@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "enums.h"
+#include "cursesdef.h" // WINDOW
 #include "itype.h"
 #include "string_id.h"
 

@@ -1,19 +1,23 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
-#include <vector>
-#include "output.h"
 #include "inventory.h"
 #include "input.h"
+#include "color.h"
+#include "cursesdef.h" // WINDOW
 #include "string_id.h"
 #include "int_id.h"
+
+#include <string>
+#include <vector>
+#include <map>
 
 #define DUCT_TAPE_USED 100
 #define NAILS_USED 10
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
 
-struct vpart_info;
+class vpart_info;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
 
@@ -41,7 +45,7 @@ class veh_interact
     public:
         int ddx;
         int ddy;
-        const struct vpart_info *sel_vpart_info;
+        const vpart_info *sel_vpart_info;
         const struct vehicle_part *sel_vehicle_part;
         char sel_cmd; //Command currently being run by the player
         int sel_type;
@@ -111,6 +115,7 @@ class veh_interact
 
         void do_install();
         void do_repair();
+        void do_mend();
         void do_refill();
         void do_remove();
         void do_rename();

@@ -1,6 +1,14 @@
 [
-
     {
+        "type" : "MONSTER_FACTION",
+        "name" : "fungus",
+        "neutral" : ["finfected", "small_animal", "utility_bot"]
+    },{
+        "type" : "MONSTER_FACTION",
+        "name" : "finfected",
+        "base_faction" : "fungus",
+        "by_mood" : ["small_animal", "utility_bot"]
+    },{
         "type" : "MONSTER_FACTION",
         "name" : "ant",
         "base_faction" : "insect",
@@ -35,6 +43,4 @@
         "name" : "mutant_predator",
         "by_mood" : ["mutant_omnivore"]
     }
-    
-
 ]

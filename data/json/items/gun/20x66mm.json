@@ -48,10 +48,10 @@
     "burst": 4,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "magazine_well" : 2,
-    "magazines" : [
+    "magazines": [
         [ "20x66mm", ["20x66_20_mag", "20x66_40_mag"] ]
     ],
-    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
   {
     "id": "rm228",
@@ -73,9 +73,12 @@
     "aim_speed": 4,
     "recoil": 225,
     "durability": 9,
-    "burst": 2,
+    "modes": [
+      [ "DEFAULT", "single", 1 ],
+      [ "DOUBLE", "double", 2 ]
+    ],
     "clip_size": 2,
     "valid_mod_locations": [ [ "accessories", 3 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "flags": [ "MODE_BURST", "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]
   }
 ]

@@ -54,11 +54,8 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 {
     werase( window );
 
-    const std::string pwr = string_format( _( "Power: %i/%i" ), int( p->power_level ),
-                                           int( p->max_power_level ) );
-    const int pwr_str_pos = getmaxx( window ) - utf8_width( pwr ) - 1;
-    mvwprintz( window, 0, pwr_str_pos, c_white, "%s", pwr.c_str() );
-
+    const int pwr_str_pos = right_print( window, 0, 1, c_white, _( "Power: %i/%i" ),
+                                         int( p->power_level ), int( p->max_power_level ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.\nSelect a bionic to reassign or press SPACE to cancel." );
@@ -76,7 +73,7 @@ void draw_bionics_titlebar( WINDOW *window, player *p, bionic_menu_mode mode )
 
 const auto separator = []( std::ostringstream &s )
 {
-    return s.tellp() != 0 ? ", " : "";
+    return ( int )( s.tellp() ) != 0 ? ", " : "";
 };
 
 //builds the power usage string of a given bionic

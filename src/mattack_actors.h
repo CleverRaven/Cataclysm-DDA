@@ -75,13 +75,10 @@ class gun_actor : public mattack_actor
         int fake_per = 12;
         /*@}*/
 
-        /*@{*/
-        /** Additional caps above any imposed by either the base gun or monster. If <= 0, from gun+ammo. */
-        int target_range = -1;
-        int range_no_burst = INT_MAX; /** Only burst fire at or below this distance */
-        int burst_limit = INT_MAX;
-        int max_ammo = INT_MAX; /** Limited also by monster starting_ammo */
-        /*@}*/
+        /** Specify weapon mode to use at different engagement distances */
+        std::map<std::pair<int, int>, std::string> ranges;
+
+        int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
 
         /** Description of the attack being run */
         std::string description = "The %s fires its %s";
@@ -116,8 +113,7 @@ class gun_actor : public mattack_actor
         /** If true then disable this attack completely if not brightly lit */
         bool require_sunlight = false;
 
-        void shoot( monster &z, Creature &target ) const;
-        int get_range() const;
+        void shoot( monster &z, Creature &target, const std::string &mode ) const;
 
         gun_actor();
         ~gun_actor() { }

@@ -1,11 +1,4 @@
-#include <string>
-#include <iostream>
-#include <iterator>
-#include <sstream>
-#include <fstream>
-#include <map>
-#include <vector>
-#include <cstdlib>
+#include "iuse_software_minesweeper.h"
 
 #include "output.h"
 #include "ui.h"
@@ -13,8 +6,12 @@
 #include "map.h"
 #include "input.h"
 #include "catacharset.h"
-#include "iuse_software_minesweeper.h"
 #include "translations.h"
+
+#include <string>
+#include <sstream>
+#include <vector>
+#include <cstdlib>
 
 minesweeper_game::minesweeper_game()
 {
@@ -39,7 +36,7 @@ void minesweeper_game::new_level(WINDOW *w_minesweeper)
     mLevelReveal.clear();
 
     auto set_num = [&](const std::string sType, int &iVal, const int iMin, const int iMax) {
-        std::stringstream ssTemp;
+        std::ostringstream ssTemp;
         ssTemp << _("Min:") << iMin << " " << _("Max:") << " " << iMax;
 
         do {

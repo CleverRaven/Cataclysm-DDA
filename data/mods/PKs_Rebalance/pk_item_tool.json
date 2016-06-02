@@ -1,12 +1,11 @@
 [
-
 {
     "id": "spess_chunk",
     "type": "TOOL",
     "symbol": ",",
     "color": "light_green",
     "name": "polyplatic chunk",
-    "description": "This is a piece of lightweight, microlayered space plastic.  It is unlikely it will ever be manufactered again, so its got to be worth something to somebody . . . right?",
+    "description": "This is a piece of lightweight, microlayered space plastic.  It is unlikely it will ever be manufactured again, so its got to be worth something to somebody . . . right?",
     "price": 15000,
     "material": "spess_plastic",
     "weight": 60,
@@ -27,12 +26,6 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "use_action": {
         "type": "place_monster",
         "monster_id": "mon_manhack_missile",
@@ -51,19 +44,12 @@
     "color": "ltblue",
     "name": "revenant rocket core",
     "description": "The core of a revenant's rocket, exposed to the air.  Seems stable enough at the moment, but will likely explode if you mess with it.",
-    "price": 0,
     "material": ["steel", "plastic"],
     "weight": 240,
     "volume": 2,
     "bashing": 6,
     "to_hit": -1,
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
     "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
-    "revert_to": "null",
     "category": "weapons",
     "use_action": {
         "type": "transform",
@@ -79,7 +65,6 @@
     "color": "ltred",
     "name": "unstable revenant rocket core",
     "description": "The core of a revenant's rocket, exposed to the air.  Will likely explode any moment now.",
-    "price": 0,
     "material": ["steel", "plastic"],
     "weight": 240,
     "volume": 2,
@@ -87,11 +72,8 @@
     "to_hit": -1,
     "max_charges": 3,
     "initial_charges": 3,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
-    "ammo": "NULL",
     "flags": ["BOMB"],
-    "revert_to": "null",
     "category": "weapons",
     "use_action": {
         "type": "explosion",
@@ -113,17 +95,13 @@
     "color" : "red",
     "comestible_type" : "MED",
     "symbol" : "+",
-    "quench" : 0,
-    "healthy" : 0,
-    "nutrition" : 0,
-    "description" : "A PRM brand medikit.  Can be quickly applied in battlefield situations, though it is designed to quickly attatch to damaged tissue, not disinfect.",
+    "description" : "A PRM brand medikit.  Can be quickly applied in battlefield situations, though it is designed to quickly attach to damaged tissue, not disinfect.",
     "price" : 50000,
     "material" : "spess_plastic",
     "volume" : 2,
     "charges" : 3,
     "stack_size" : 6,
     "flags" : ["USE_ON_NPC"],
-    "fun" : 0,
     "revert_to": "",
     "use_action" : {
         "type" : "heal",
@@ -144,13 +122,12 @@
                 "duration": 5
             }
         ]
-    }  
+    }
     },{
     "type" : "TOOL_ARMOR",
     "id" : "berserker_drug",
     "name" : "berserker stimpack",
     "volume" : 2,
-    "material_thickness" : 0,
     "description" : "An iv drip in a protective case.  PRM patented stimulants will push the body to its limits for a brief period, making intense combat easier.",
     "weight" : 360,
     "to_hit" : -1,
@@ -162,14 +139,9 @@
     "material" : ["plastic"],
     "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD", "NO_UNLOAD"],
     "coverage" : 10,
-    "ammo": "NULL",
-    "max_charges": 0,
-    "initial_charges": 0,
-    "charges_per_use": 0,
-    "turns_per_charge": 0,
     "use_action" : {
     "type" : "transform",
-    "move_cost" : 250,     
+    "move_cost" : 250,
     "target": "berserker_drug_act",
     "target_charges": 7,
     "active": true
@@ -180,7 +152,6 @@
     "id" : "berserker_drug_act",
     "name" : "berserker stimpack (active)",
     "volume" : 2,
-    "material_thickness" : 0,
     "description" : "An iv drip in a protective case.  Inside, PRM brand chemicals are surging through the needle, providing incredible strength and agility to its user.",
     "weight" : 360,
     "to_hit" : -1,
@@ -192,11 +163,9 @@
     "material" : ["plastic"],
     "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
     "coverage" : 10,
-    "ammo": "NULL",
     "revert_to": "bag_plastic",
     "max_charges": 7,
     "initial_charges": 7,
-    "charges_per_use": 0,
     "turns_per_charge": 1,
     "use_action" : {
     "type" : "consume_drug",
@@ -204,7 +173,7 @@
         {
             "id": "doom_stimpack",
             "duration": 40
-        }    
+        }
     ]}
     },{
     "type" : "COMESTIBLE",
@@ -216,14 +185,12 @@
     "to_hit" : -1,
     "comestible_type" : "MED",
     "fun" : -5,
-    "healthy" : 0,
     "nutrition" : 12,
     "symbol" : ")",
     "color" : "blue",
     "price" : 1000000,
     "material" : ["glass"],
     "flags" : ["NO_RELOAD", "NO_UNLOAD"],
-    "ammo": "NULL",
     "revert_to": "bottle_glass",
     "charges": 3,
     "use_action" : {
@@ -238,5 +205,4 @@
         }
     ]}
     }
-
 ]

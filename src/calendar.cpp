@@ -260,11 +260,44 @@ float calendar::sunlight() const
     }
 }
 
+std::string calendar::print_duration( int turns )
+{
+    std::string res;
 
+    if( turns < MINUTES( 1 ) ) {
+        int sec = std::max( 1, turns * 6 );
+        res += string_format( ngettext( "%d second", "%d seconds", sec ), sec );
+
+    } else if( turns < HOURS( 1 ) ) {
+        int min = turns / MINUTES( 1 );
+        int sec = turns % MINUTES( 1 );
+        res += string_format( ngettext( "%d minute", "%d minutes", min ), min );
+        if( sec ) {
+            res += string_format( ngettext( " and %d second", " and %d seconds", sec ), sec );
+        }
+
+    } else if( turns < DAYS( 1 ) ) {
+        int hour = turns / HOURS( 1 );
+        int min = turns % HOURS( 1 );
+        res += string_format( ngettext( "%d hour", "%d hours", hour ), hour );
+        if( min ) {
+            res += string_format( ngettext( " and %d minute", " and %d minutes", min ), min );
+        }
+
+    } else {
+        int day = turns / DAYS( 1 );
+        int hour = turns % DAYS( 1 );
+        res += string_format( ngettext( "%d day", "%d days", day ), day );
+        if( hour ) {
+            res += string_format( ngettext( " and %d hour", " and %d hours", hour ), hour );
+        }
+    }
+    return res;
+}
 
 std::string calendar::print_time(bool just_hour) const
 {
-    std::stringstream time_string;
+    std::ostringstream time_string;
     int hour_param;
 
     if (OPTIONS["24_HOUR"] == "military") {
@@ -396,6 +429,16 @@ std::string calendar::day_of_week() const
 int calendar::season_length()
 {
     return cached_season_length;
+}
+
+int calendar::turn_of_year() const
+{
+    return (season * season_turns()) + (turn_number % season_turns());
+}
+
+int calendar::day_of_year() const
+{
+    return day + season_length() * season;
 }
 
 void calendar::sync()

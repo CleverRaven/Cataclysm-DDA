@@ -1,0 +1,37 @@
+[
+  
+  {
+    "id": "ppshmag",
+    "type": "MAGAZINE",
+    "name": "PPSh 35-round magazine",
+    "description": "A 35-round box magazine for the PPSh-41.",
+    "weight": 470,
+    "volume": 2,
+    "price": 2200,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "762x25",
+    "capacity": 35,
+    "reliability": 8,
+    "reload_time": 100,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "ppshdrum",
+    "type": "MAGAZINE",
+    "name": "PPSh 71-round drum",
+    "description": "A high-capacity drum magazine for the PPSh-41.",
+    "weight": 1387, "//": "Provisional.",
+    "volume": 3,
+    "price": 7000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "ammo_type": "762x25",
+    "capacity": 71,
+    "reliability": 7,
+    "reload_time": 190,
+    "flags": [ "MAG_BULKY" ]
+  }
+]

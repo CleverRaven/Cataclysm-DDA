@@ -9,6 +9,7 @@
 #include "material.h"
 #include "addiction.h"
 #include "mutation.h"
+#include "translations.h"
 #include "cata_utility.h"
 #include "debug.h"
 
@@ -368,7 +369,8 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
     }
 
     if( edible && has_effect( effect_nausea ) ) {
-        if( !maybe_query( _( "You still feel nauseous and will probably puke it all up again.  Eat anyway?" ) ) ) {
+        if( !maybe_query(
+                _( "You still feel nauseous and will probably puke it all up again.  Eat anyway?" ) ) ) {
             return ALLERGY;
         }
     }
@@ -379,7 +381,7 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         overfull = !maybe_query( _( "You're full.  Force yourself to eat?" ) );
     } else if( ( ( nutr > 0 && temp_hunger < capacity ) ||
                  ( comest->quench > 0 && temp_thirst < capacity ) ) &&
-               !eathealth && !slimespawner ) {
+               !food.has_infinite_charges() && !eathealth && !slimespawner ) {
         overfull = !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) );
     }
 
@@ -400,6 +402,7 @@ bool player::eat( item &food, bool force )
     // Check if it's rotten before eating!
     food.calc_rot( global_square_location() );
     const auto edible = can_eat( food, is_player() && !force, force );
+    g->refresh_all();
     if( edible != EDIBLE ) {
         return false;
     }

@@ -107,3 +107,7 @@ cataclysm.a
 
 # sublime-text workspace
 *.sublime-workspace
+
+# Visual Studio 2015
+msvc140/*db
+msvc140/ipch

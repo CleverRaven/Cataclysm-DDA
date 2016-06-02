@@ -1,11 +1,10 @@
 [
-
     {
     "id" : "flaming_skull",
     "type" : "AMMO",
     "name" : "skullfire",
     "description" : "a gout of flame.",
-    "//": "This stuff lights you on fire, but not the enviornment.",
+    "//": "This stuff lights you on fire, but not the environment.",
     "weight" : 1,
     "volume" : 1,
     "price" : 100,
@@ -107,7 +106,7 @@
         "name" : "spider laser",
         "symbol" : "|",
         "color" : "magenta",
-        "description" : "a spider laser.  Go on, pick it up.  No need for gloves.",
+        "description" : "A spider laser.  Go on, pick it up.  No need for gloves.",
         "material" : "plastic",
         "volume" : 1,
         "weight" : 68,
@@ -144,7 +143,7 @@
         "name" : "napalm glob",
         "symbol" : "=",
         "color" : "red",
-        "description" : "A sphere that contains 1 'unit' of naplam, whatever that means to the demonic forces.  The contents are ripped out of the sphere mid-flight.",
+        "description" : "A sphere that contains 1 'unit' of napalm, whatever that means to the demonic forces.  The contents are ripped out of the sphere mid-flight.",
         "material" : "powder", "///" : "Not actually powder, here it means 'something that burns fast/explodes'",
         "volume" : 2,
         "weight" : 3,
@@ -156,5 +155,4 @@
         "count" : 1,
         "effects" : ["NAPALM", "PLASMA", "WIDE", "FLAME", "TRAIL", "SMOKE", "NEVER_MISFIRES"]
     }
-
 ]

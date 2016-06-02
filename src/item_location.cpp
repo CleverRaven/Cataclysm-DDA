@@ -13,6 +13,8 @@
 #include "veh_type.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "translations.h"
+
 #include <climits>
 
 class item_location::impl
@@ -21,6 +23,8 @@ class item_location::impl
 
     public:
         virtual ~impl() = default;
+        virtual type where() const = 0;
+        virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
         virtual int obtain( Character &ch, long qty ) = 0;
         virtual int obtain_cost( const Character &ch, long qty ) const = 0;
@@ -42,6 +46,14 @@ class item_location::item_on_map : public item_location::impl
             } else {
                 what = which;
             }
+        }
+
+        type where() const override {
+            return type::map;
+        }
+
+        tripoint position() const override {
+            return cur;
         }
 
         std::string describe( const Character *ch ) const override {
@@ -113,6 +125,14 @@ class item_location::item_on_person : public item_location::impl
             } else {
                 what = which;
             }
+        }
+
+        type where() const override {
+            return type::character;
+        }
+
+        tripoint position() const override {
+            return who.pos();
         }
 
         std::string describe( const Character *ch ) const override {
@@ -224,11 +244,19 @@ class item_location::item_on_vehicle : public item_location::impl
 
     public:
         item_on_vehicle( const vehicle_cursor &cur, item *which ) : cur( cur ) {
-            if( !cur.has_item( *which ) ) {
+            if( !( cur.has_item( *which ) || &cur.veh.parts[ cur.part ].base == which ) ) {
                 debugmsg( "Cannot locate item on vehicle: %s", cur.veh.name.c_str() );
             } else {
                 what = which;
             }
+        }
+
+        type where() const override {
+            return type::vehicle;
+        }
+
+        tripoint position() const override {
+            return cur.veh.global_part_pos3( cur.part );
         }
 
         std::string describe( const Character *ch ) const override {
@@ -280,9 +308,13 @@ class item_location::item_on_vehicle : public item_location::impl
             if( what == nullptr ) {
                 return;
             }
-            item obj = cur.remove_item( *what );
-            if( obj.is_null() ) {
-                debugmsg( "Tried to remove an item from a vehicle which doesn't contain it" );
+            if( &cur.veh.parts[ cur.part ].base == what ) {
+                cur.veh.remove_part( cur.part );
+            } else {
+                item obj = cur.remove_item( *what );
+                if( obj.is_null() ) {
+                    debugmsg( "Tried to remove an item from a vehicle which doesn't contain it" );
+                }
             }
             what = nullptr;
         }
@@ -338,6 +370,16 @@ item *item_location::operator->()
 const item *item_location::operator->() const
 {
     return ptr->what;
+}
+
+item_location::type item_location::where() const
+{
+    return ptr ? ptr->where() : type::invalid;
+}
+
+tripoint item_location::position() const
+{
+    return ptr ? ptr->position() : tripoint_min;
 }
 
 std::string item_location::describe( const Character *ch ) const

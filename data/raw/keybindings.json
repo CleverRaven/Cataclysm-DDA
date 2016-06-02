@@ -1396,6 +1396,15 @@
     },
     {
         "type" : "keybinding",
+        "id": "MEND",
+        "category": "VEH_INTERACT",
+        "name": "Mend part",
+        "bindings":[
+            { "input_method":"keyboard", "key":"m" }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "REFILL",
         "category": "VEH_INTERACT",
         "name": "Refill tank/battery",

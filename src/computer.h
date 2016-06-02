@@ -1,8 +1,7 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "output.h"
-#include "json.h"
+#include "cursesdef.h" // WINDOW
 #include <vector>
 #include <string>
 
@@ -10,6 +9,7 @@
 
 class game;
 class player;
+class JsonObject;
 
 enum computer_action {
     COMPACT_NULL = 0,

@@ -458,13 +458,18 @@ void npc::execute_action( npc_action action )
 
     case npc_shoot:
         aim();
-        fire_gun( tar, 1 );
+        if( weapon.gun_set_mode( "DEFAULT" ) ) {
+            fire_gun( tar, weapon.gun_current_mode().qty );
+        }
         break;
 
-    case npc_shoot_burst:
+    case npc_shoot_burst: {
         aim();
-        fire_gun( tar, weapon.burst_size() );
+        if( weapon.gun_set_mode( "AUTO" ) ) {
+            fire_gun( tar, weapon.gun_current_mode().qty );
+        }
         break;
+    }
 
     case npc_alt_attack:
         alt_attack();
@@ -804,7 +809,10 @@ npc_action npc::method_of_attack()
         }
         if( weapon.is_gun() && (!use_silent || weapon.is_silent()) &&
             weapon.ammo_remaining() >= weapon.ammo_required() ) {
+
             const int confident = confident_gun_range( weapon );
+            int burst_size = weapon.gun_get_mode( "AUTO" ).qty;
+
             if( dist > confident ) {
                 if( can_reload_current() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
                     return npc_reload;
@@ -837,8 +845,8 @@ npc_action npc::method_of_attack()
                 } else {
                     return npc_aim;
                 }
-            } else if( dist <= confident / 3 &&
-                       weapon.ammo_remaining() >= weapon.burst_size() &&
+            } else if( burst_size > 1 && dist <= confident / 3 &&
+                       weapon.ammo_remaining() >= burst_size &&
                        (target_HP >= weapon.gun_damage() * 3 ||
                         emergency( ai_cache.danger * 2 ) ) ) {
                 return npc_shoot_burst;
@@ -2469,12 +2477,12 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( it.rotten() ) {
+    float relative_rot = it.get_relative_rot();
+    if( relative_rot >= 1.0f ) {
         // TODO: Allow sapro mutants to eat it anyway and make them prefer it
         return 0.0f;
     }
 
-    float relative_rot = it.get_relative_rot();
     float weight = std::max( 1.0f, 10.0f * relative_rot );
     if( food->fun < 0 ) {
         // This helps to avoid eating stuff like flour
@@ -2522,10 +2530,11 @@ bool npc::consume_food()
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
-        float cur_weight = it.is_food_container() ?
-            rate_food( it.contents[0], want_hunger, want_quench ) :
-            rate_food( it, want_hunger, want_quench );
-        if( cur_weight > best_weight ) {
+        const item &food_item = it.is_food_container() ?
+                                it.contents.front() : it;
+        float cur_weight = rate_food( food_item, want_hunger, want_quench );
+        // Note: can_eat is expensive, avoid calling it if possible
+        if( cur_weight > best_weight && can_eat( food_item ) == EDIBLE ) {
             best_weight = cur_weight;
             index = i;
         }
@@ -2540,7 +2549,15 @@ bool npc::consume_food()
         return false;
     }
 
-    return consume( index );
+    // consume doesn't return a meaningful answer, we need to compare moves
+    // @todo Make player::consume return false if it fails to consume
+    int old_moves = moves;
+    bool consumed = consume( index ) && old_moves != moves;
+    if( !consumed ) {
+        debugmsg( "%s failed to consume %s", name.c_str(), i_at( index ).tname().c_str() );
+    }
+
+    return consumed;
 }
 
 void npc::mug_player(player &mark)

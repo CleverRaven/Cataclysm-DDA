@@ -119,7 +119,7 @@ void auto_pickup::show()
     ctxt.register_action("SWITCH_AUTO_PICKUP_OPTION");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    std::stringstream sTemp;
+    std::ostringstream sTemp;
 
     while(true) {
         int locx = 17;
@@ -363,7 +363,7 @@ void auto_pickup::test_pattern(const int iCurrentPage, const int iCurrentLine)
     int iStartPos = 0;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 8;
     const int iContentWidth = FULL_SCREEN_WIDTH - 30;
-    std::stringstream sTemp;
+    std::ostringstream sTemp;
 
     WINDOW *w_test_rule_border = newwin(iContentHeight + 2, iContentWidth, iOffsetY, iOffsetX);
     WINDOW_PTR w_test_rule_borderptr( w_test_rule_border );

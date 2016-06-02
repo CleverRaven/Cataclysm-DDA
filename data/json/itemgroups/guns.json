@@ -62,6 +62,7 @@
       [ "pistol_flintlock", 150 ],
       [ "pistol_pepperbox", 150 ],
       [ "raging_bull", 100 ],
+      [ "rm99_pistol", 150 ],
       [ "walther_ppk", 100 ]
     ]
   },
@@ -116,6 +117,7 @@
     "id" : "guns_smg_obscure",
     "//" : "Imported or otherwise very SMGs.",
     "items": [
+      [ "ppsh", 150 ],
       [ "skorpion_61", 100 ],
       [ "skorpion_82", 100 ]
     ]
@@ -137,7 +139,7 @@
       [ "ar15", 30 ],
       [ "cx4", 45 ],
       [ "ksub2000", 30 ],
-      [ "m14a", 50 ],
+      [ "m1a", 50 ],
       [ "marlin_9a", 80 ],
       [ "mosin44", 15 ],
       [ "mosin91_30", 25 ],
@@ -186,6 +188,7 @@
       [ "rm51_assault_rifle", 25 ],
       [ "rm614_lmg", 10 ],
       [ "rm88_battle_rifle", 25 ],
+      [ "sig552", 100 ],
       [ "scar_l", 50 ],
       [ "scar_h", 50 ]
     ]

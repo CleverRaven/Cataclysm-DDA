@@ -533,6 +533,7 @@ std::list<item> visitable<Character>::remove_items_with( const
     // then try any worn items
     for( auto iter = ch->worn.begin(); iter != ch->worn.end(); ) {
         if( filter( *iter ) ) {
+            iter->on_takeoff( *ch );
             res.splice( res.end(), ch->worn, iter++ );
             if( --count == 0 ) {
                 return res;

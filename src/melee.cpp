@@ -521,6 +521,15 @@ bool player::scored_crit(int target_dodge) const
     return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weapon );
 }
 
+/**
+ * Limits a probability to be between 0.0 and 1.0
+ */
+double limit_probability ( double unbounded_probability ) {
+    double probability = std::fmin( unbounded_probability, 1.0 );
+    double bounded_probability = std::fmax( probability, 0.0 );
+    return bounded_probability;
+}
+
 double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) const
 {
     // TODO: see player.cpp ther eis the same listing of those skill!
@@ -551,12 +560,13 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     } else if( weap.type->m_to_hit < 0 ) {
         weapon_crit_chance += 0.1 * weap.type->m_to_hit;
     }
+    weapon_crit_chance = limit_probability( weapon_crit_chance );
 
     // Dexterity and perception
     ///\EFFECT_DEX increases chance for critical hits
 
     ///\EFFECT_PER increases chance for critical hits
-    const double stat_crit_chance = 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur );
+    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur ) );
 
     // Skill level roll
     int best_skill = 0;
@@ -585,7 +595,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     ///\EFFECT_MELEE slightly increases crit chance with any melee weapon
     best_skill += melee_skill / 2.5;
 
-    const double skill_crit_chance = 0.25 + best_skill * 0.025;
+    const double skill_crit_chance = limit_probability( 0.25 + best_skill * 0.025 );
 
     // Examples (survivor stats/chances of each crit):
     // Fresh (skill-less) 8/8/8/8, unarmed:
@@ -596,8 +606,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     //  60%, 100%, 42%; ~1/4 guaranteed crit + ~3/8 if roll>dodge*1.5
 
     // Note: the formulas below are only valid if none of the 3 crit chance values go above 1.0
-    // But that would require >10 skills/+6 to-hit/75 dex, so it's OK to have minor weirdness there
-    // Things like crit values dropping a bit instead of rising
+    // It is therefore important to limit them to between 0.0 and 1.0
 
     // Chance to get all 3 crits (a guaranteed crit regardless of hit/dodge)
     const double chance_triple = weapon_crit_chance * stat_crit_chance * skill_crit_chance;
@@ -608,7 +617,9 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
             stat_crit_chance * skill_crit_chance +
             weapon_crit_chance * skill_crit_chance -
             ( 3 * chance_triple ) );
-        return chance_triple + chance_double - ( chance_triple * chance_double );
+        // Because chance_double already removed the triples with -( 3 * chance_triple ), chance_triple
+        // and chance_double are mutually exclusive probabilities and can just be added together.
+        return chance_triple + chance_double;
     }
 
     return chance_triple;
@@ -1225,7 +1236,7 @@ void print_damage_info( const damage_instance &di )
     }
 
     int total = 0;
-    std::stringstream ss;
+    std::ostringstream ss;
     for( auto &du : di.damage_units ) {
         int amount = di.type_damage( du.type );
         total += amount;
@@ -1499,6 +1510,10 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
+        if( source != nullptr && source->is_hallucination() ) {
+            wear_modifier = 0.0f;
+        }
+
         handle_melee_wear( shield, wear_modifier );
     } else {
         //Choose which body part to block with, assume left side first
@@ -1527,7 +1542,10 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     std::string damage_blocked_description;
     // good/bad/ugly add_msg color code?
     // none, hardly any, a little, some, most, all
-    float blocked_ratio = (total_damage - damage_blocked) / total_damage;
+    float blocked_ratio = 0.0f;
+    if( total_damage > std::numeric_limits<float>::epsilon() ) {
+        blocked_ratio = (total_damage - damage_blocked) / total_damage;
+    }
     if( blocked_ratio < std::numeric_limits<float>::epsilon() ) {
         //~ Adjective in "You block <adjective> of the damage with your <weapon>.
         damage_blocked_description = _("all");
@@ -1713,12 +1731,8 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         remove_weapon();
     }
 
-    handle_melee_wear();
-
-    bool is_hallucination = false; //Check if the target is an hallucination.
-    if(monster *m = dynamic_cast<monster *>(&t)) { //Cast fails if the t is an NPC or the player.
-        is_hallucination = m->is_hallucination();
-    }
+    const float wear_modifier = !t.is_hallucination() ? 1.0f : 0.0f;
+    handle_melee_wear( weapon, wear_modifier );
 
     // The skill used to counter stuck penalty
     const bool stab = d.type_damage(DT_STAB) > d.type_damage(DT_CUT);
@@ -1732,28 +1746,11 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
     // TODO: this function shows total damage done by this attack, not final damage inflicted.
     if (d.total_damage() > 10 && weapon.has_flag("MESSY") ) { //Check if you do non minor damage
         cutting_penalty /= 6; // Harder to get stuck
-        //Get blood type.
-        field_id type_blood = fd_blood;
-        if( !is_hallucination ) {
-            type_blood = t.bloodType();
-        } else {
-            type_blood = fd_null;
-        }
-        if(type_blood != fd_null) {
-            tripoint tmp;
-            tmp.z = tarpos.z;
-            for( tmp.x = tarpos.x - 1; tmp.x <= tarpos.x + 1; tmp.x++ ) {
-                for( tmp.y = tarpos.y - 1; tmp.y <= tarpos.y + 1; tmp.y++ ) {
-                    if( !one_in(3) ) {
-                        g->m.add_field( tmp, type_blood, 1, 0 );
-                    }
-                }
-            }
-        }
+        g->m.add_splash( t.bloodType(), tarpos, 1, 3 );
     }
     // Getting your weapon stuck
     ///\EFFECT_STR decreases chance of getting weapon stuck
-    if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination) {
+    if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !t.is_hallucination()) {
         dump << string_format(_("Your %1$s gets stuck in %2$s, pulling it out of your hands!"),
                               weapon.tname().c_str(), target.c_str());
         // TODO: better speed debuffs for target, possibly through effects
@@ -1781,7 +1778,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
             ///\EFFECT_CUTTING reduces chance of weapon getting stuck, if CUTTING>STABBING
             cutting_penalty -= rng( used_skill, used_skill * 2 + 2 );
         }
-        if( cutting_penalty >= 50 && !is_hallucination ) {
+        if( cutting_penalty >= 50 && !t.is_hallucination() ) {
             dump << string_format(_("Your %1$s gets stuck in %2$s but you yank it free!"), weapon.tname().c_str(),
                                   target.c_str());
         }
@@ -1793,7 +1790,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
             t.mod_moves(-30);
         }
     }
-    if( cutting_penalty > 0 && !is_hallucination ) {
+    if( cutting_penalty > 0 && !t.is_hallucination() ) {
         // Don't charge more than 1 turn of stuck penalty
         // It scales with attack time and low attack time is bad enough on its own
         mod_moves( std::max( -100, -cutting_penalty ) );

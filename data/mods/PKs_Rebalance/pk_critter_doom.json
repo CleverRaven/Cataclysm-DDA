@@ -1,5 +1,4 @@
 [
-
 {
     "type" : "MONSTER",
     "id" : "mon_imp",
@@ -705,7 +704,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[
         ["FEAR_PARALYZE", 10]],
-    "description":"All evidence indicates that this used to be a survivor, who was killed by torture and body reanimated. Its garments lack the weathered look of other zombies but are mutilated none-the-less.  Although it struggles to free itself, it is held fast with spikes, nails, and chains.",
+    "description":"All evidence indicates that this used to be a survivor, who was killed by torture and body reanimated.  Its garments lack the weathered look of other zombies but are mutilated none-the-less.  Although it struggles to free itself, it is held fast with spikes, nails, and chains.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "GUILT", "POISON", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
@@ -763,8 +762,7 @@
     "vision_night":50,
     "hp":300,
     "death_function":["JABBERWOCKY", "EXPLODE"],
-    "description":"A massive face cross-sectioned with large machinery; various tubes of bubbling liquid bury themselves and reemerge from pustulating wounds. Its forehead has been removed, exposing a pulsating brain mass from which sound eminates.",
+    "description":"A massive face cross-sectioned with large machinery; various tubes of bubbling liquid bury themselves and reemerge from pustulating wounds.  Its forehead has been removed, exposing a pulsating brain mass from which sound eminates.",
     "flags":["SEES", "WARM", "POISON", "NO_BREATHE", "IMMOBILE", "ELECTRIC"]
     }
-
 ]

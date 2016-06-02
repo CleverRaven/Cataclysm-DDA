@@ -557,6 +557,7 @@ std::list<item> Character::remove_worn_items_with( std::function<bool(item &)> f
     std::list<item> result;
     for( auto iter = worn.begin(); iter != worn.end(); ) {
         if( filter( *iter ) ) {
+            iter->on_takeoff( *this );
             result.splice( result.begin(), worn, iter++ );
         } else {
             ++iter;
@@ -616,6 +617,7 @@ item Character::i_rem(int pos)
      auto iter = worn.begin();
      std::advance( iter, worn_position_to_index( pos ) );
      tmp = *iter;
+     tmp.on_takeoff( *this );
      worn.erase( iter );
      return tmp;
  }
@@ -716,8 +718,8 @@ void find_ammo_helper( T& src, const item& obj, bool empty, Output out, bool nes
                 // some liquids are ammo but we can't reload with them unless within a container
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo_container() && !node->contents[0].made_of( SOLID ) ) {
-                if( node->contents[0].ammo_type() == ammo ) {
+            if( node->is_ammo_container() && !node->contents.front().made_of( SOLID ) ) {
+                if( node->contents.front().ammo_type() == ammo ) {
                     out = item_location( src, node );
                 }
                 return VisitResponse::SKIP;
@@ -963,10 +965,11 @@ int Character::skill_dispersion( const item& gun, bool random ) const
         dispersion += 45 * ( 10 - lvl );
     }
 
-    if( get_skill_level( skill_gun ) < 10 ) {
+    const int marksmanship_lvl = get_skill_level( skill_gun );
+    if( marksmanship_lvl < 10 ) {
         // Up to 0.25 deg per each skill point < 10.
         ///\EFFECT_GUN <10 randomly increased dispersion of all gunfire
-        dispersion += 15 * ( 10 - lvl );
+        dispersion += 15 * ( 10 - marksmanship_lvl );
     }
 
     return random ? rng(0, dispersion) : dispersion;

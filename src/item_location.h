@@ -3,6 +3,7 @@
 
 #include <memory>
 
+struct tripoint;
 class item;
 class Character;
 class map_cursor;
@@ -16,6 +17,13 @@ class vehicle_cursor;
 class item_location
 {
     public:
+        enum class type : int {
+            invalid = 0,
+            character = 1,
+            map = 2,
+            vehicle = 3
+        };
+
         item_location();
         item_location( const item_location & ) = delete;
         item_location &operator= ( const item_location & ) = delete;
@@ -39,6 +47,12 @@ class item_location
 
         item *operator->();
         const item *operator->() const;
+
+        /** Returns the type of location where the item is found */
+        type where() const;
+
+        /** Returns the position where the item is found */
+        tripoint position() const;
 
         /** Describes the item location
          *  @param ch if set description is relative to character location */
@@ -68,7 +82,6 @@ class item_location
         class impl;
         std::unique_ptr<impl> ptr;
 
-        class item_is_null;
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;

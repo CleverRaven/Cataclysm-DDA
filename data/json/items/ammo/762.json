@@ -53,8 +53,8 @@
     "id" : "reloaded_762_m87",
     "copy-from": "762_m87",
     "type" : "AMMO",
-    "name" : "reloaded 7.62x39mm M87",
-    "name_plural" : "reloaded 7.62x39mm M87",
+    "name" : "reloaded 7.62x39mm M67",
+    "name_plural" : "reloaded 7.62x39mm M67",
     "proportional": {
         "price": 0.7,
         "damage": 0.9,

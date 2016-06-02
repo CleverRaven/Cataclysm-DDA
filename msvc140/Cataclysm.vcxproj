@@ -127,6 +127,7 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="common.props" />
     <Import Project="precompile.props" />
+    <Import Project="arch.props" />
   </ImportGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="PropertySheets">
@@ -160,28 +161,8 @@
       <Message>Generate version.h</Message>
     </PreBuildEvent>
     <ClCompile>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug SDL Tiles|x64'">NotSet</EnableEnhancedInstructionSet>
-    </ClCompile>
-    <ClCompile>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release Localized|x64'">NotSet</EnableEnhancedInstructionSet>
-    </ClCompile>
-    <ClCompile>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotSet</EnableEnhancedInstructionSet>
-    </ClCompile>
-    <ClCompile>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotSet</EnableEnhancedInstructionSet>
-    </ClCompile>
-    <ClCompile>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release SDL Tiles Localized|x64'">NotSet</EnableEnhancedInstructionSet>
-    </ClCompile>
-    <ClCompile>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug SDL Tiles Localized|x64'">NotSet</EnableEnhancedInstructionSet>
-    </ClCompile>
-    <ClCompile>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Release SDL Tiles|x64'">NotSet</EnableEnhancedInstructionSet>
-    </ClCompile>
-    <ClCompile>
-      <EnableEnhancedInstructionSet Condition="'$(Configuration)|$(Platform)'=='Debug Localized|x64'">NotSet</EnableEnhancedInstructionSet>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

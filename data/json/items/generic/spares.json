@@ -31,6 +31,50 @@
     "price": 200
   },
   {
+    "id": "filter_air",
+    "copy-from": "spare_part",
+    "type":"GENERIC",
+    "name": "air filter",
+    "description": "A plastic box containing crêped paper used to filter the air supply for combustion engines or other industrial equipment.",
+    "material": [ "plastic", "paper" ],
+    "weight": 360,
+    "volume": 2,
+    "price": 1900
+  },
+  {
+    "id": "filter_air_makeshift",
+    "copy-from": "spare_part",
+    "type":"GENERIC",
+    "name": "makeshift air filter",
+    "description": "An improvised air filter useful for repairing engines or other industrial equipment when no better alternative is available.",
+    "material": [ "plastic", "paper" ],
+    "weight": 480,
+    "volume": 3,
+    "price": 200
+  },
+  {
+    "id": "filter_liquid",
+    "copy-from": "spare_part",
+    "type":"GENERIC",
+    "name": "automotive filter",
+    "description": "A steel can containing filter paper designed for automotive use.",
+    "material": [ "steel", "paper" ],
+    "weight": 480,
+    "volume": 2,
+    "price": 1900
+  },
+  {
+    "id": "filter_liquid_makeshift",
+    "copy-from": "spare_part",
+    "type":"GENERIC",
+    "name": "makeshift automotive filter",
+    "description": "An improvised automotive filter useful for repairing engines or other industrial equipment when no better alternative is available.",
+    "material": [ "steel", "paper" ],
+    "weight": 690,
+    "volume": 3,
+    "price": 200
+  },
+  {
     "id": "glowplug",
     "copy-from": "spare_part",
     "type":"GENERIC",

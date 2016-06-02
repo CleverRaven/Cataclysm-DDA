@@ -968,7 +968,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         //Get the part of the vehicle in the fire.
                         veh = veh_at_internal( p, part ); // _internal skips the boundary check
                         if( veh != nullptr ) {
-                            veh->damage(part, cur->getFieldDensity() * 10, DT_HEAT, false);
+                            veh->damage(part, cur->getFieldDensity() * 10, DT_HEAT, true);
                             //Damage the vehicle in the fire.
                         }
                         // If the flames are in a brazier, they're fully contained,
@@ -2497,19 +2497,10 @@ field_id field_entry::setFieldType(const field_id new_field_id){
 
 }
 
-int field_entry::setFieldDensity(const int new_density){
-
-    if(new_density > 3) {
-        density = 3;
-    } else if (new_density < 1) {
-        density = 1;
-        is_alive = false;
-    } else {
-        density = new_density;
-    }
-
-    return density;
-
+int field_entry::setFieldDensity(const int new_density)
+{
+    is_alive = new_density > 1;
+    return density = std::max( std::min( new_density, MAX_FIELD_DENSITY ), 1 );
 }
 
 int field_entry::setFieldAge(const int new_age){

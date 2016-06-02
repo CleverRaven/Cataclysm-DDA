@@ -4,15 +4,14 @@
 #include "game.h"
 #include "map.h"
 #include "debug.h"
+#include "input.h"
 #include "output.h"
 #include "player.h"
 #include "inventory.h"
 #include "mapdata.h"
 #include "skill.h"
-#include "catacharset.h"
 #include "action.h"
 #include "translations.h"
-#include "veh_interact.h"
 #include "messages.h"
 #include "rng.h"
 #include "trap.h"
@@ -374,7 +373,7 @@ void construction_menu()
 
                             std::string result_string;
                             if( current_con->post_is_furniture ) {
-                                result_string = furnmap[current_con->post_terrain].name;
+                                result_string = furn_str_id( current_con->post_terrain ).obj().name;
                             } else {
                                 result_string = ter_str_id( current_con->post_terrain ).obj().name;
                             }
@@ -402,7 +401,7 @@ void construction_menu()
                         if( current_con->pre_terrain != "" ) {
                             std::string require_string;
                             if( current_con->pre_is_furniture ) {
-                                require_string = furnmap[current_con->pre_terrain].name;
+                                require_string = furn_str_id( current_con->pre_terrain ).obj().name;
                             } else {
                                 require_string = ter_str_id( current_con->pre_terrain ).obj().name;
                             }
@@ -620,7 +619,7 @@ bool can_construct( construction const *con, int x, int y )
     // see if the terrain type checks out
     if( !con->pre_terrain.empty() ) {
         if( con->pre_is_furniture ) {
-            furn_id f = furnmap[con->pre_terrain].loadid;
+            furn_id f = furn_id( con->pre_terrain );
             place_okay &= ( g->m.furn( x, y ) == f );
         } else {
             ter_id t = ter_id( con->pre_terrain );
@@ -634,7 +633,7 @@ bool can_construct( construction const *con, int x, int y )
     // make sure the construction would actually do something
     if( !con->post_terrain.empty() ) {
         if( con->post_is_furniture ) {
-            furn_id f = furnmap[con->post_terrain].loadid;
+            furn_id f = furn_id( con->post_terrain );
             place_okay &= ( g->m.furn( x, y ) != f );
         } else {
             ter_id t = ter_id( con->post_terrain );
@@ -712,7 +711,7 @@ void complete_construction()
 
     // Friendly NPCs gain exp from assisting or watching...
     for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
+        if( rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend() && !elem->in_sleep_state() ) {
             //If the NPC can understand what you are doing, they gain more exp
             if (elem->get_skill_level(built.skill) >= built.difficulty){
                 elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
@@ -740,7 +739,7 @@ void complete_construction()
     int terx = u.activity.placement.x, tery = u.activity.placement.y;
     if( built.post_terrain != "" ) {
         if( built.post_is_furniture ) {
-            g->m.furn_set( terx, tery, built.post_terrain );
+            g->m.furn_set( terx, tery, furn_str_id( built.post_terrain ) );
         } else {
             g->m.ter_set( terx, tery, ter_str_id( built.post_terrain ) );
         }
@@ -885,7 +884,7 @@ void construct::done_deconstruct( point p )
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name.c_str() );
             return;
         }
-        if( f.deconstruct.furn_set.empty() ) {
+        if( f.deconstruct.furn_set.str().empty() ) {
             g->m.furn_set( p.x, p.y, f_null );
         } else {
             g->m.furn_set( p.x, p.y, f.deconstruct.furn_set );
@@ -1410,7 +1409,7 @@ void check_constructions()
 
         if( !c->pre_terrain.empty() ) {
             if( c->pre_is_furniture ) {
-                if( furnmap.count( c->pre_terrain ) == 0 ) {
+                if( !furn_str_id( c->pre_terrain ).is_valid() ) {
                     debugmsg("Unknown pre_terrain (furniture) %s in %s", c->pre_terrain.c_str(), display_name.c_str() );
                 }
             } else if( !ter_str_id( c->pre_terrain ).is_valid() ) {
@@ -1419,7 +1418,7 @@ void check_constructions()
         }
         if( !c->post_terrain.empty() ) {
             if( c->post_is_furniture ) {
-                if( furnmap.count( c->post_terrain ) == 0 ) {
+                if( !furn_str_id( c->post_terrain ).is_valid() ) {
                     debugmsg("Unknown post_terrain (furniture) %s in %s", c->post_terrain.c_str(), display_name.c_str());
                 }
             } else if( !ter_str_id( c->post_terrain ).is_valid() ) {
@@ -1452,7 +1451,7 @@ int construction::adjusted_time() const
     int assistants = 0;
 
     for( auto &elem : g->active_npc ) {
-        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
+        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() && !elem->in_sleep_state() ) {
             if( elem->get_skill_level( skill ) >= difficulty ) {
                 assistants++;
             }

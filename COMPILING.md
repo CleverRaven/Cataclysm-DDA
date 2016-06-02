@@ -367,6 +367,50 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 # Windows
 
+## Visual Studio Guide
+
+MSVC 13 and earlier versions are likely unable to build Cataclysm, so we recommend you to use Visual Studio 2015. Project files are in `msvc140/` directory.
+
+### Dependencies
+
+For tiles support, the following 3 libraries need to be downloaded and installed:
+
+[http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip](http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip)
+
+[http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.14-VC.zip](http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.14-VC.zip)
+
+[http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip](http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip)
+
+For localization support, pre-built binaries of `libintl` and `libiconv` can be obtained from GNOME FTP.
+
+### Configuration
+
+If your machine doesn't support AVX2 instruction set, edit file `msvc140/arch.props`, change
+
+```
+<ClCompile>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+</ClCompile>
+```
+
+to
+
+```
+<ClCompile>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+</ClCompile>
+```
+
+### Building
+
+Building Cataclysm with Visual Studio is very simple. Just build it like a normal Visual C++ project. The process may takes a long period of time, so you'd better prepare a cup of coffee and some books in front of your computer :)
+
+If you need localization support, execute the bash script `lang/compile_mo.sh` inside Git Bash GUI just like on a UNIX-like system.
+
+### Debugging
+
+After building Cataclysm, you may discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1. That is because of the wrong working directory. You need to configure the working directory to `$(ProjectDir)..`. It should be the root directory of Cataclysm, not `$(ProjectDir)`( = `msvc140/`).
+
 ## MinGW Guide
 To compile under windows MinGW you first need to download mingw. An automated GUI installer assistant called mingw-get-setup.exe will make everything a lot easier. I recommend installing it to `C:\MinGW`
 https://sourceforge.net/projects/mingw/files/latest/download

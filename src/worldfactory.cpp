@@ -8,7 +8,7 @@
 #include "gamemode.h"
 #include "translations.h"
 #include "input.h"
-#include "cursesdef.h"
+#include "output.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "calendar.h"
@@ -35,7 +35,7 @@ std::string get_next_valid_worldname()
 WORLD::WORLD()
 {
     world_name = get_next_valid_worldname();
-    std::stringstream path;
+    std::ostringstream path;
     path << FILENAMES["savedir"] << world_name;
     world_path = path.str();
     WORLD_OPTIONS.clear();
@@ -139,7 +139,7 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
     all_worlds[retworld->world_name] = retworld;
     all_worldnames.push_back(retworld->world_name);
 
-    std::stringstream path;
+    std::ostringstream path;
     path << FILENAMES["savedir"] << retworld->world_name;
     retworld->world_path = path.str();
     //debugmsg("worldpath: %s", path.str().c_str());
@@ -188,7 +188,7 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
     all_worlds[worldname] = special_world;
     all_worldnames.push_back(worldname);
 
-    std::stringstream path;
+    std::ostringstream path;
     path << FILENAMES["savedir"] << worldname;
     special_world->world_path = path.str();
 
@@ -216,7 +216,7 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     WORLDPTR newworld = new WORLD();
     newworld->world_name = worldname;
 
-    std::stringstream path;
+    std::ostringstream path;
     path << FILENAMES["savedir"] << worldname;
     newworld->world_path = path.str();
 
@@ -461,7 +461,7 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("CONFIRM");
 
-    std::stringstream sTemp;
+    std::ostringstream sTemp;
 
     while(true) {
         //Clear the lines
@@ -618,7 +618,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                                       1 + iOffsetX);
     WINDOW_PTR w_options_headerptr( w_options_header );
 
-    std::stringstream sTemp;
+    std::ostringstream sTemp;
 
     std::map<int, bool> mapLines;
     mapLines[4] = true;

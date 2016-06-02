@@ -1,5 +1,4 @@
 [
-
     {
     "type" : "MONSTER",
     "id" : "mon_blob_large",
@@ -15,6 +14,5 @@
     "id" : "mon_blob_small",
     "edit-mode" : "modify",
     "death_function":["MELT"]
-    }   
-    
+    }
 ]

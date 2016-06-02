@@ -3,10 +3,20 @@
 
 #include <string>
 
-// Convert minutes, hours, days to turns
-#define MINUTES(x) ((x) * 10)
-#define HOURS(x)   ((x) * 600)
-#define DAYS(x)    ((x) * 14400)
+constexpr int MINUTES( int n )
+{
+    return n * 10;
+}
+
+constexpr int HOURS( int n )
+{
+    return n * MINUTES( 60 );
+}
+
+constexpr int DAYS( int n )
+{
+    return n * HOURS( 24 );
+}
 
 // How much light the moon provides per quater
 #define MOONLIGHT_PER_QUATER 2.25
@@ -131,18 +141,20 @@ class calendar
         static int year_length() { // In days
             return season_length() * 4;
         }
+        static int season_turns() {
+            return DAYS( season_length() );
+        }
         static int season_length(); // In days
 
         static float season_ratio() { //returns relative length of game season to irl season
             return static_cast<float>( season_length() ) / REAL_WORLD_SEASON_LENGTH;
         }
 
-        int turn_of_year() const {
-            return turn_number % year_turns();
-        }
-        int day_of_year() const {
-            return day + season_length() * season;
-        }
+        int turn_of_year() const;
+
+        int day_of_year() const;
+
+        static std::string print_duration( int turns );
 
         /** Returns the current time in a string according to the options set */
         std::string print_time( bool just_hour = false ) const;

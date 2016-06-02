@@ -40,7 +40,6 @@ public:
     int anticonvulsant      ( player*, item*, bool, const tripoint& );
     int weed_brownie        ( player*, item*, bool, const tripoint& );
     int coke                ( player*, item*, bool, const tripoint& );
-    int grack               ( player*, item*, bool, const tripoint& );
     int meth                ( player*, item*, bool, const tripoint& );
     int vaccine             ( player*, item*, bool, const tripoint& );
     int flu_vaccine         ( player*, item*, bool, const tripoint& );

@@ -20,7 +20,7 @@
     "durability": 10,
     "reload": 500,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
-    "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
     "id": "bio_laser_gun",
@@ -43,7 +43,7 @@
     "durability": 10,
     "reload": 500,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
     "id": "bio_lightning",
@@ -65,6 +65,6 @@
     "durability": 10,
     "reload": 500,
     "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
-    "flags": [ "BIO_WEAPON", "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   }
 ]

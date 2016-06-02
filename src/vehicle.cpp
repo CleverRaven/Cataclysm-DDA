@@ -29,6 +29,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "map_iterator.h"
+#include "vehicle_selector.h"
 
 #include <sstream>
 #include <stdlib.h>
@@ -56,7 +57,8 @@ static const fault_id fault_glowplug( "fault_engine_glow_plug" );
 static const fault_id fault_immobiliser( "fault_engine_immobiliser" );
 static const fault_id fault_pump( "fault_engine_pump_fuel" );
 static const fault_id fault_starter( "fault_engine_starter" );
-
+static const fault_id fault_filter_air( "fault_engine_filter_air" );
+static const fault_id fault_filter_fuel( "fault_engine_filter_fuel" );
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -2307,6 +2309,19 @@ void vehicle::part_removal_cleanup() {
     refresh(); // Rebuild cached indices
 }
 
+item_location vehicle::part_base( int p )
+{
+    return item_location( vehicle_cursor( *this, p ), &parts[ p ].base );
+}
+
+int vehicle::find_part( const item& it ) const
+{
+    auto idx = std::find_if( parts.begin(), parts.end(), [&it]( const vehicle_part& e ) {
+        return &e.base == &it;
+    } );
+    return idx != parts.end() ? std::distance( parts.begin(), idx ) : INT_MIN;
+}
+
 /**
  * Breaks the specified part into the pieces defined by its breaks_into entry.
  * @param p The index of the part to break.
@@ -3177,8 +3192,12 @@ int vehicle::basic_consumption(const itype_id &ftype) const
                 part_epower( engines[e] ) >= 0 ) {
                 // Electric engine - use epower instead
                 fcon -= epower_to_power( part_epower( engines[e] ) );
+
             } else if( !is_engine_type( e, fuel_type_muscle ) ) {
                 fcon += part_power( engines[e] );
+                if( parts[ e ].faults().count( fault_filter_air ) ) {
+                    fcon *= 2;
+                }
             }
         }
     }
@@ -3212,8 +3231,9 @@ int vehicle::total_power(bool const fueled) const
 
 int vehicle::acceleration(bool const fueled) const
 {
-    if ((engine_on && has_engine_type_not(fuel_type_muscle, true)) || skidding) {
-        return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
+    if( ( engine_on && has_engine_type_not( fuel_type_muscle, true ) ) || skidding ) {
+        return safe_velocity( fueled ) * k_mass() / ( 1 + strain () ) / 10;
+
     } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
         int mass = total_mass();
@@ -3291,6 +3311,10 @@ int vehicle::safe_velocity(bool const fueled) const
                 m2c = 45;
             }
 
+            if( parts[ engines[ e ] ].faults().count( fault_filter_fuel ) ) {
+                m2c *= 0.6;
+            }
+
             pwrs += part_power(engines[e]) * m2c / 100;
             cnt++;
         }
@@ -3306,20 +3330,20 @@ int vehicle::safe_velocity(bool const fueled) const
     return (int) (pwrs * k_dynamics() * k_mass()) * 80;
 }
 
-void vehicle::spew_smoke( double joules, int part )
+void vehicle::spew_smoke( double joules, int part, int density )
 {
-    if( rng(1, 100000) > joules ) {
+    if( rng( 1, 10000 ) > joules ) {
         return;
     }
     point p = parts[part].mount;
-    int smoke = int(std::max(joules / 10000 , 1.0));
+    density = std::max( joules / 10000, double( density ) );
     // Move back from engine/muffler til we find an open space
     while( relative_parts.find(p) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
     point q = coord_translate(p);
     tripoint dest( global_x() + q.x, global_y() + q.y, smz );
-    g->m.add_field( dest, fd_smoke, smoke, 0 );
+    g->m.adjust_field_strength( dest, fd_smoke, density );
 }
 
 /**
@@ -3346,6 +3370,8 @@ void vehicle::noise_and_smoke( double load, double time )
         }
     }
 
+    bool bad_filter = false;
+
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
         if( is_engine_on(e) &&
@@ -3355,14 +3381,25 @@ void vehicle::noise_and_smoke( double load, double time )
             double cur_pwr = load * max_pwr;
 
             if( is_engine_type(e, fuel_type_gasoline) || is_engine_type(e, fuel_type_diesel)) {
-                const double dmg = 1.0 - ((double)parts[p].hp / part_info( p ).durability);
-                if( is_engine_type( e, fuel_type_gasoline ) && dmg > 0.75 &&
-                        one_in( 200 - (150 * dmg) ) ) {
-                    backfire( e );
+
+                if( is_engine_type( e, fuel_type_gasoline ) ) {
+                    double dmg = 1.0 - double( parts[p].hp ) / part_info( p ).durability;
+                    if( parts[ p ].base.faults.count( fault_filter_fuel ) ) {
+                        dmg = 1.0;
+                    }
+                    if( dmg > 0.75 && one_in( 200 - ( 150 * dmg ) ) ) {
+                        backfire( e );
+                    }
                 }
                 double j = power_to_epower(part_power(p, true)) * load * time * muffle;
+
+                if( parts[ p ].base.faults.count( fault_filter_air ) ) {
+                    bad_filter = true;
+                    j *= j;
+                }
+
                 if( (exhaust_part == -1) && engine_on ) {
-                    spew_smoke( j, p );
+                    spew_smoke( j, p, bad_filter ? MAX_FIELD_DENSITY : 1 );
                 } else {
                     mufflesmoke += j;
                 }
@@ -3380,7 +3417,7 @@ void vehicle::noise_and_smoke( double load, double time )
 
     if( (exhaust_part != -1) && engine_on &&
         has_engine_type_not(fuel_type_muscle, true)) { // No engine, no smoke
-        spew_smoke( mufflesmoke, exhaust_part );
+        spew_smoke( mufflesmoke, exhaust_part, bad_filter ? MAX_FIELD_DENSITY : 1 );
     }
     // Even a vehicle with engines off will make noise traveling at high speeds
     noise = std::max( noise, double(fabs(velocity/500.0)) );
@@ -4782,7 +4819,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         }
 
         if( part_flag( ret.part, "SHARP" ) ) {
-            g->m.adjust_field_strength( p, fd_blood, 1 );
+            critter->bleed();
         } else {
             sounds::sound( p, 20, snd );
         }
@@ -5565,11 +5602,12 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
     int pdm = random_entry( pl );
     int dres;
     if( parm < 0 ) {
-        // not covered by armor -- damage part
+        // Not covered by armor -- damage part
         dres = damage_direct( pdm, dmg, type );
     } else {
-        // covered by armor -- damage armor first
-        // half damage for internal part(over parts not covered)
+        // Covered by armor -- hit both armor and part, but reduce damage by armor's reduction
+        int protection = part_info( parm ).damage_reduction[ type ];
+        // Parts on roof aren't protected
         bool overhead = part_flag( pdm, "ROOF" ) || part_info( pdm ).location == "on_roof";
         // Calling damage_direct may remove the damaged part
         // completely, therefor the other indes (pdm) becames
@@ -5578,11 +5616,11 @@ int vehicle::damage( int p, int dmg, damage_type type, bool aimed )
         // as removing a part only changes indizes after the
         // removed part.
         if( parm < pdm ) {
-            damage_direct( pdm, overhead ? dmg : dmg / 2, type );
+            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
             dres = damage_direct( parm, dmg, type );
         } else {
             dres = damage_direct( parm, dmg, type );
-            damage_direct( pdm, overhead ? dmg : dmg / 2, type );
+            damage_direct( pdm, overhead ? dmg : dmg - protection, type );
         }
     }
 
@@ -5667,190 +5705,182 @@ bool vehicle::shift_if_needed() {
     return false;
 }
 
-int vehicle::damage_direct( int p, int dmg, damage_type type )
+int vehicle::break_off( int p, int dmg )
 {
-    if (parts[p].hp <= 0) {
-        /* Already-destroyed part - chance it could be torn off into pieces.
-         * Chance increases with damage, and decreases with part max durability
-         * (so lights, etc are easily removed; frames and plating not so much) */
-        if(rng(0, part_info(p).durability / 10) < dmg) {
-            const auto pos = global_pos() + parts[p].precalc[0];
-            if(part_info(p).location == part_location_structure) {
-                //For structural parts, remove other parts first
-                std::vector<int> parts_in_square = parts_at_relative(parts[p].mount.x, parts[p].mount.y);
-                for(int index = parts_in_square.size() - 1; index >= 0; index--) {
-                    //Ignore the frame being destroyed
-                    if(parts_in_square[index] != p) {
-                        if(parts[parts_in_square[index]].hp == 0) {
-                            //Tearing off a broken part - break it up
-                            if(g->u.sees( pos )) {
-                                add_msg(m_bad, _("The %s's %s breaks into pieces!"), name.c_str(),
-                                        parts[ parts_in_square[ index ] ].name().c_str() );
-                            }
-                            break_part_into_pieces(parts_in_square[index], pos.x, pos.y, true);
-                        } else {
-                            //Intact (but possibly damaged) part - remove it in one piece
-                            if(g->u.sees( pos )) {
-                                add_msg(m_bad, _("The %1$s's %2$s is torn off!"), name.c_str(),
-                                        parts[ parts_in_square[ index ] ].name().c_str() );
-                            }
-                            item part_as_item = parts[parts_in_square[index]].properties_to_item();
-                            tripoint dest( pos, smz );
-                            g->m.add_item_or_charges( dest, part_as_item, true );
-                        }
-                        remove_part( parts_in_square[index] );
-                    }
-                }
-                /* After clearing the frame, remove it if normally legal to do
-                 * so (it's not holding the vehicle together). At a later date,
-                 * some more complicated system (such as actually making two
-                 * vehicles from the split parts) would be ideal. */
-                if(can_unmount(p)) {
-                    if(g->u.sees( pos )) {
-                        add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
-                                name.c_str(), parts[ p ].name().c_str() );
-                    }
-                    break_part_into_pieces(p, pos.x, pos.y, true);
-                    remove_part(p);
-                }
-            } else {
-                //Just break it off
-                if(g->u.sees( pos )) {
-                    add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
-                                    name.c_str(), parts[ p ].name().c_str() );
-                }
-                break_part_into_pieces(p, pos.x, pos.y, true);
-                remove_part(p);
-            }
-        }
+    /* Already-destroyed part - chance it could be torn off into pieces.
+     * Chance increases with damage, and decreases with part max durability
+     * (so lights, etc are easily removed; frames and plating not so much) */
+    if( rng( 0, part_info(p).durability / 10 ) >= dmg ) {
         return dmg;
     }
 
-    int tsh = part_info(p).durability / 10;
-    if (tsh > 20) {
-        tsh = 20;
-    }
-    int dres = dmg;
-    if( dmg >= tsh || type == DT_HEAT || type == DT_TRUE )
-    {
-        dres -= parts[p].hp;
-        int last_hp = parts[p].hp;
-        parts[p].hp -= dmg;
-        if( parts[p].hp < 0 ) {
-            parts[p].hp = 0;
-        }
-
-        if( parts[p].hp == 0 && last_hp > 0) {
-            insides_dirty = true;
-            pivot_dirty = true;
-        }
-
-        if( part_flag( p, "FUEL_TANK" ) ) {
-            const itype_id &ft = part_info(p).fuel_type;
-            if( ft == fuel_type_gasoline || ft == fuel_type_diesel || ft == fuel_type_plasma ) {
-                // TODO: Move the values below to jsons
-                // Defaults
-                int explosion_chance = 0;
-                float explosion_factor = 0;
-                bool fiery_explosion = false;
-                float fuel_size_factor = 0;
-
-                // Gasoline
-                if (ft == fuel_type_gasoline) {
-                    if (type == DT_HEAT) {
-                        explosion_chance = 2;
-                    } else {
-                        explosion_chance = 5;
-                    }
-                    fiery_explosion = true; // Produces lasting flames
-                    fuel_size_factor = .1; // Smaller units than normal
-                    explosion_factor = 1;
-
-                // Diesel
-                } else if (ft == fuel_type_diesel) {
-                    if (type == DT_HEAT) {
-                        explosion_chance = 20; // Still somewhat vulnerable to heat damage
-                    } else {
-                        explosion_chance = 1000; // Elsewise very unlikely to explode
-                    }
-                    fiery_explosion = false; // Doesn't produce lasting flames
-                    fuel_size_factor = .1; // Smaller units than normal
-                    explosion_factor = .2; // Only partial explosions
-
-                // Hydrogen
-                } else if (ft == fuel_type_plasma) {
-                    // Very likely to explode; real life tanks are armored to stop this.
-                    if (type == DT_HEAT) {
-                        explosion_chance = 1;
-                    } else {
-                        explosion_chance = 2;
-                    }
-                    fiery_explosion = false; // WOOF!!; but no lasting flames
-                    fuel_size_factor = 1;
-                    explosion_factor = 1.4; // Higher energy density, but dampened by the explosion type
-                }
-                const int pow = 120 * (1 - exp(explosion_factor / -5000 * (parts[p].amount * fuel_size_factor)));
-                //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
-                if(parts[p].hp <= 0) {
-                    leak_fuel( p );
-                }
-                if (one_in(explosion_chance)) {
-                    g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
-                        pgettext("memorial_female", "The fuel tank of the %s exploded!"),
-                        name.c_str());
-                    g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
-                                            global_y() + parts[p].precalc[0].y,
-                                            smz ),
-                                  pow, 0.7, fiery_explosion );
-                    parts[p].hp = 0;
-                    parts[p].amount = 0;
-                }
+    const auto pos = global_part_pos3( p );
+    if( part_info(p).location == part_location_structure ) {
+        // For structural parts, remove other parts first
+        std::vector<int> parts_in_square = parts_at_relative( parts[p].mount.x, parts[p].mount.y );
+        for( int index = parts_in_square.size() - 1; index >= 0; index-- ) {
+            // Ignore the frame being destroyed
+            if( parts_in_square[index] == p ) {
+                continue;
             }
-        } else if (parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE")) {
-            tripoint dest( global_x() + parts[p].precalc[0].x,
-                           global_y() + parts[p].precalc[0].y,
-                           smz );
-            g->m.spawn_item( dest, part_info(p).item, 1, 0, calendar::turn );
-            remove_part( p );
+
+            if( parts[parts_in_square[index]].hp == 0 ) {
+                // Tearing off a broken part - break it up
+                if( g->u.sees( pos ) ) {
+                    add_msg(m_bad, _("The %s's %s breaks into pieces!"), name.c_str(),
+                            parts[ parts_in_square[ index ] ].name().c_str() );
+                }
+                break_part_into_pieces(parts_in_square[index], pos.x, pos.y, true);
+            } else {
+                // Intact (but possibly damaged) part - remove it in one piece
+                if( g->u.sees( pos ) ) {
+                    add_msg(m_bad, _("The %1$s's %2$s is torn off!"), name.c_str(),
+                            parts[ parts_in_square[ index ] ].name().c_str() );
+                }
+                item part_as_item = parts[parts_in_square[index]].properties_to_item();
+                g->m.add_item_or_charges( pos, part_as_item, true );
+            }
+            remove_part( parts_in_square[index] );
         }
+        /* After clearing the frame, remove it if normally legal to do
+         * so (it's not holding the vehicle together). At a later date,
+         * some more complicated system (such as actually making two
+         * vehicles from the split parts) would be ideal. */
+        if( can_unmount(p) ) {
+            if( g->u.sees( pos ) ) {
+                add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
+                        name.c_str(), parts[ p ].name().c_str() );
+            }
+            break_part_into_pieces( p, pos.x, pos.y, true );
+            remove_part(p);
+        }
+    } else {
+        //Just break it off
+        if( g->u.sees( pos ) ) {
+            add_msg(m_bad, _("The %1$s's %2$s is destroyed!"),
+                            name.c_str(), parts[ p ].name().c_str() );
+        }
+
+        break_part_into_pieces( p, pos.x, pos.y, true );
+        remove_part( p );
     }
-    if (dres < 0)
-        dres = 0;
-    return dres;
+
+    return dmg;
 }
 
-void vehicle::leak_fuel (int p)
+bool vehicle::explode_fuel( int p, damage_type type )
 {
-    if (!part_flag(p, "FUEL_TANK")) {
+    const itype_id &ft = part_info(p).fuel_type;
+    struct fuel_explosion {
+        // TODO: Move the values below to jsons
+        int explosion_chance_hot ;
+        int explosion_chance_cold;
+        float explosion_factor;
+        bool fiery_explosion;
+        float fuel_size_factor;
+    };
+
+    static const std::map<itype_id, fuel_explosion> explosive_fuels = {{
+        { fuel_type_gasoline,   { 2, 5, 1.0f, true, 0.1f } },
+        { fuel_type_diesel,     { 20, 1000, 0.2f, false, 0.1f } },
+        { fuel_type_plasma,     { 1, 2, 1.4f, false, 1.0f } }
+    }};
+
+    const auto iter = explosive_fuels.find( ft );
+    if( iter == explosive_fuels.end() ) {
+        // Not on the list means not explosive
+        return false;
+    }
+
+    const fuel_explosion &data = iter->second;
+    const int pow = 120 * (1 - exp(data.explosion_factor / -5000 * (parts[p].amount * data.fuel_size_factor)));
+    //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
+    if( parts[p].hp <= 0 ) {
+        leak_fuel( p );
+    }
+
+    int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
+    if( one_in( explosion_chance ) ) {
+        g->u.add_memorial_log(pgettext("memorial_male","The fuel tank of the %s exploded!"),
+            pgettext("memorial_female", "The fuel tank of the %s exploded!"),
+            name.c_str());
+        g->explosion( global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
+        parts[p].hp = 0;
+        parts[p].amount = 0;
+    }
+
+    return true;
+}
+
+int vehicle::damage_direct( int p, int dmg, damage_type type )
+{
+    if( parts[p].hp <= 0 ) {
+        return break_off( p, dmg );
+    }
+
+    int tsh = std::min( 20, part_info(p).durability / 10 );
+    if( dmg < tsh && type != DT_TRUE ) {
+        if( type == DT_HEAT && part_flag( p, "FUEL_TANK" ) ) {
+            explode_fuel( p, type );
+        }
+
+        return dmg;
+    }
+
+    dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ type ] );
+    int dres = dmg - parts[p].hp;
+    int last_hp = parts[p].hp;
+    parts[p].hp -= dmg;
+    parts[p].hp = std::max( parts[p].hp, 0 );
+
+    if( parts[p].hp == 0 && last_hp > 0 ) {
+        insides_dirty = true;
+        pivot_dirty = true;
+    }
+
+    if( part_flag( p, "FUEL_TANK" ) ) {
+        explode_fuel( p, type );
+    } else if( parts[p].hp <= 0 && part_flag(p, "UNMOUNT_ON_DAMAGE") ) {
+        g->m.spawn_item( global_part_pos3( p ), part_info( p ).item, 1, 0, calendar::turn );
+        remove_part( p );
+    }
+
+    return std::max( dres, 0 );
+}
+
+void vehicle::leak_fuel( int p )
+{
+    // @todo The whole function is quite ugly, needs a rewrite
+    // @todo Move leak data to a json
+    // @tood Make leaked fuel amount correlate more with fuel amount in tank
+    if( !part_flag( p, "FUEL_TANK" ) ) {
         return;
     }
 
-    const itype_id &ft = part_info(p).fuel_type;
+    const itype_id &ft = part_info( p ).fuel_type;
+
+    if( ft != fuel_type_gasoline && ft != fuel_type_diesel ) {
+        parts[p].amount = 0;
+        return;
+    }
+
     item leak( ft, calendar::turn );
 
-    if (ft == fuel_type_gasoline || ft == fuel_type_diesel) {
-        tripoint minp = global_pos3();
-        tripoint maxp = minp;
-        minp.x -= 2;
-        minp.y -= 2;
-        maxp.x += 2;
-        maxp.y += 2;
+    for( const tripoint &pt : g->m.points_in_radius( global_part_pos3( p ), 2 ) ) {
+        if( one_in( 2 ) && g->m.passable( pt ) ) {
+            int leak_amount = rng(79, 121);
 
-        for ( const tripoint &pt : g->m.points_in_rectangle(minp, maxp) ){
-            if (g->m.passable(pt) && one_in(2)) {
-                int leak_amount = rng(79, 121);
-
-                if (parts[p].amount < leak_amount) {
-                    parts[p].amount = 0;
-                    return;
-                }
-
-                leak.charges = leak_amount;
-                g->m.add_item_or_charges( pt, leak );
-                parts[p].amount -= leak_amount;
+            if( parts[p].amount < leak_amount ) {
+                parts[p].amount = 0;
+                return;
             }
+
+            leak.charges = leak_amount;
+            g->m.add_item_or_charges( pt, leak );
+            parts[p].amount -= leak_amount;
         }
     }
+
     parts[p].amount = 0;
 }
 
@@ -6041,7 +6071,7 @@ void vehicle::control_turrets() {
             char sym;
             if( parts[p].mode == 0 ) {
                 sym = ' ';
-            } else if( parts[p].mode > 9 && gun.burst_size() > 1 ) {
+            } else if( parts[p].mode > 9 && gun.gun_get_mode( "AUTO" ) ) {
                 sym = 'B'; // Burst
             } else if( parts[p].mode > 0 && parts[p].mode < 10 ) {
                 sym = '0' + parts[p].mode;
@@ -6099,9 +6129,9 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
     } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
         tr.mode = 1;
     } else if( tr.mode <= 1 && !only_manual_modes ) {
-        tr.mode = gun.burst_size() > 1 ? 1000 : -1;
+        tr.mode = gun.gun_get_mode( "AUTO" ).qty > 1 ? 1000 : -1;
     } else {
-        tr.mode = gun.burst_size() > 1 ? -1000 : -1;
+        tr.mode = gun.gun_get_mode( "AUTO" ).qty > 1 ? -1000 : -1;
     }
 
     if( only_manual_modes ) {
@@ -6169,7 +6199,7 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
 : gun( veh.part_info( part ).item, 0 )
 {
     // Start out with an infinite amount and lower it based on the available amount
-    long ammo_for = std::numeric_limits<long>::max();
+    long ammo_for = item::INFINITE_CHARGES;
     if( !gun.is_gun() ) {
         return;
     }
@@ -6303,7 +6333,7 @@ bool vehicle::fire_turret( int p, bool manual )
 
     // set up for burst shots
     if( abs(parts[p].mode) > 1 ){
-        charges *= turret_data.gun.burst_size();
+        charges *= std::max(turret_data.gun.gun_get_mode( "AUTO" ).qty, 1 );
         charges = std::min(charges, turret_data.charges);
     }
 
@@ -6419,7 +6449,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
     tmp_ups.charges = drain( fuel_type_battery, 1000 );
     tmp.worn.insert( tmp.worn.end(), tmp_ups );
 
-    const int to_fire = std::min( abs(parts[p].mode), gun.burst_size() );
+    const int to_fire = std::min( abs(parts[p].mode), std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) );
     res = tmp.fire_gun( targ, to_fire, gun );
 
     // Return whatever is left.
@@ -6458,7 +6488,7 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
 
-        int to_fire = abs(parts[p].mode) > 1 ? gun.burst_size() : 1;
+        int to_fire = abs(parts[p].mode) > 1 ? std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) : 1;
         res = shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
@@ -6900,7 +6930,7 @@ const std::set<fault_id>& vehicle_part::faults() const
 
 std::set<fault_id> vehicle_part::faults_potential() const
 {
-    return base.type->engine ? base.type->engine->faults : std::set<fault_id>();
+    return base.faults_potential();
 }
 
 bool vehicle_part::fault_set( const fault_id &f )

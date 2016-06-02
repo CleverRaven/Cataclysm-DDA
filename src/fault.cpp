@@ -31,6 +31,8 @@ void fault::load_fault( JsonObject &jo )
     f.name_ = _( jo.get_string( "name" ).c_str() );
     f.description_ = _( jo.get_string( "description" ).c_str() );
 
+    f.time_ = jo.get_int( "time" );
+
     auto sk = jo.get_array( "skills" );
     while( sk.has_more() ) {
         auto cur = sk.next_array();
@@ -61,6 +63,9 @@ void fault::reset()
 void fault::check_consistency()
 {
     for( const auto &f : faults_all ) {
+        if( f.second.time_ < 0 ) {
+            debugmsg( "fault %s has negative time requirement", f.second.id_.c_str() );
+        }
         for( auto &e : f.second.skills_ ) {
             if( !e.first.is_valid() ) {
                 debugmsg( "fault %s has unknown skill %s", f.second.id_.c_str(), e.first.c_str() );

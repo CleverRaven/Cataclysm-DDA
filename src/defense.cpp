@@ -1,5 +1,7 @@
 #include "gamemode.h"
 #include "action.h"
+#include "color.h"
+#include "enums.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -1438,7 +1440,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
 
 std::string defense_game::special_wave_message(std::string name)
 {
-    std::stringstream ret;
+    std::ostringstream ret;
     ret << string_format(_("Wave %d: "), current_wave);
 
     // Capitalize
