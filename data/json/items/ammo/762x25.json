@@ -33,7 +33,7 @@
     "relative": {
         "damage": 3,
         "range": 2,
-        "pierce": 3,
+        "pierce": 5,
         "recoil": 45
     }
   },
@@ -50,7 +50,7 @@
     "relative": {
         "damage": -9,
         "range": -1,
-        "pierce": 2,
+        "pierce": 5,
         "recoil": -45
     }
   }
