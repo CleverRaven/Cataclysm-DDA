@@ -742,7 +742,6 @@ public:
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at( int dx, int dy ) const;
     int global_part_at( int x, int y ) const;
-    int global_part_at( const tripoint &p ) const;
     int part_displayed_at( int local_x, int local_y ) const;
     int roof_at_part( int p ) const;
 
@@ -1125,8 +1124,6 @@ public:
      */
     void open_all_at(int p);
 
-    // upgrades/refilling/etc. see veh_interact.cpp
-    void interact ();
     //scoop operation,pickups, battery drain, etc.
     void operate_scoop();
     void operate_reaper();
@@ -1154,8 +1151,6 @@ public:
     //true if an engine exists without the specified type
     //If enabled true, this engine must be enabled to return true
     bool has_engine_type_not(const itype_id &ft, bool enabled) const;
-    //prints message relating to vehicle start failure
-    void msg_start_engine_fail();
     //if necessary, damage this engine
     void do_engine_damage(size_t p, int strain);
     //remotely open/close doors

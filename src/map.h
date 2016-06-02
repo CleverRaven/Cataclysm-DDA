@@ -443,7 +443,6 @@ public:
   * Points closer to the target come first.
   * This method leads to straighter lines and prevents weird looking movements away from the target.
   */
- std::vector<point> getDirCircle(const int Fx, const int Fy, const int Tx, const int Ty) const;
  std::vector<tripoint> get_dir_circle( const tripoint &f, const tripoint &t ) const;
 
     /**
@@ -679,8 +678,6 @@ public:
                       ter_id floor_type, bool overwrite = false );
     void make_rubble( const tripoint &p );
     void make_rubble( const tripoint &p, furn_id rubble_type, bool items );
-    void make_rubble( int, int, furn_id rubble_type, bool items,
-                      ter_id floor_type, bool overwrite = false) = delete;
 
  bool is_divable(const int x, const int y) const;
  bool is_outside(const int x, const int y) const;

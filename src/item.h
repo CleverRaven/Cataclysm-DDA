@@ -905,7 +905,6 @@ public:
 
  bool is_tool() const;
  bool is_tool_reversible() const;
- bool is_var_veh_part() const;
  bool is_artifact() const;
     bool is_bucket() const;
     bool is_bucket_nonempty() const;
