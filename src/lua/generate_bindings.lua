@@ -212,6 +212,8 @@ A table under the index 'r' is a leaf (this assumes no type of name 'r' is ever 
 The leafs have the following entries:
 - rval: the return value of the function (can be nil).
 - cpp_name: the name of the C++ function to call (can be different from the Lua name of the function).
+- class_name: the name of the C++ class name that contains the function (optional, only present if
+  the function is a class member).
 --]]
 function generate_overload_tree(classes)
     function generate_overload_path(root, args)
@@ -237,7 +239,7 @@ function generate_overload_tree(classes)
         -- and the final table (the leaf) has a `r` entry.
         for _, func in ipairs(value.functions) do
             local leaf = generate_overload_path(functions_by_name[func.name], func.args)
-            leaf.r = { rval = func.rval, cpp_name = func.cpp_name or func.name }
+            leaf.r = { rval = func.rval, cpp_name = func.cpp_name or func.name, class_name = class_name }
         end
         value.functions = functions_by_name
 
@@ -245,7 +247,7 @@ function generate_overload_tree(classes)
             local new_root = {}
             for _, func in ipairs(value.new) do
                 local leaf = generate_overload_path(new_root, func)
-                leaf.r = { rval = nil, cpp_name = class_name .. "::" .. class_name }
+                leaf.r = { rval = nil, cpp_name = class_name .. "::" .. class_name, class_name = class_name }
             end
             value.new = new_root
         end
@@ -328,7 +330,7 @@ end
 -- Generate a wrapper around a class function(method) that allows us to call a method of a specific
 -- C++ instance by calling the method on the corresponding lua wrapper, e.g.
 -- monster:name() in lua translates to monster.name() in C++
-function generate_class_function_wrapper(class_name, function_name, func, cur_class_name)
+function generate_class_function_wrapper(class_name, function_name, func)
     local text = "static int func_" .. class_name .. "_" .. function_name .. "(lua_State *L) {"..br
 
     -- retrieve the object to call the function on from the stack.
@@ -338,7 +340,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
         local tab = string.rep("    ", indentation)
 
         local func_invoc
-        if cur_class_name == class_name then
+        if data.class_name == class_name then
             func_invoc = "instance"
         else
             --[[
@@ -350,7 +352,7 @@ function generate_class_function_wrapper(class_name, function_name, func, cur_cl
             This won't work: B b; b.f();
             But this will:   B b; static_cast<A&>(b).f()
             --]]
-            func_invoc = "static_cast<"..cur_class_name.."&>(instance)"
+            func_invoc = "static_cast<"..data.class_name.."&>(instance)"
         end
         func_invoc = func_invoc .. "."..data.cpp_name .. "("
 
@@ -447,10 +449,61 @@ function generate_accessors(class, class_name)
     end
 end
 
-
-function generate_class_function_wrappers(functions, class_name, cur_class_name)
+function generate_class_function_wrappers(functions, class_name)
     for index, func in pairs(functions) do
-        cpp_output = cpp_output .. generate_class_function_wrapper(class_name, index, func, cur_class_name)
+        cpp_output = cpp_output .. generate_class_function_wrapper(class_name, index, func)
+    end
+end
+
+--[[
+Merges function declaration of the a parent class into the function declarations of a derived
+class. Existing declarations of the same signature are left as they are.
+--]]
+function merge_parent_class_functions(derived_functions, parent_functions)
+    for index, func in pairs(parent_functions) do
+        if index == 'r' then
+            if not derived_functions.r then
+                derived_functions.r = {
+                    rval = func.rval,
+                    cpp_name = func.cpp_name,
+                    class_name = func.class_name
+                }
+            end
+        else
+            if not derived_functions[index] then
+                derived_functions[index] = { }
+            end
+            merge_parent_class_functions(derived_functions[index], func)
+        end
+    end
+end
+
+--[[
+The wrapper does not export the class relationship, that means the Lua part does not
+know anything about class inheritance. Lua can therefor not do the dynamic dispatch
+of function calls to the parent class.
+This loop inserts the functions exported by the parent class to the child class.
+
+Example:
+```C++
+class Parent {
+    void func();
+};
+class Child : public Parent {
+};
+```
+This would produce only one wrapper function for `Parent::func`. Trying to call `func`
+on a wrapped Child object would not work as there is no `Child::func` exported.
+The loop copies the declaration of `Parent::func` into `Child`, which in turn triggers
+exporting `Child::func`.
+--]]
+for class_name, class in pairs(classes) do
+    local derived_functions = class.functions
+    local parent_name = class.parent
+    while parent_name do
+        local parent_class = classes[parent_name]
+        merge_parent_class_functions(derived_functions, parent_class.functions)
+        parent_name = parent_class.parent
     end
 end
 
@@ -468,13 +521,7 @@ for class_name, class in pairs(classes) do
     if class.has_equal then
         cpp_output = cpp_output .. generate_operator(class_name, "eq", "==")
     end
-
-    local cur_class_name = class_name
-    while class do
-        generate_class_function_wrappers(class.functions, class_name, cur_class_name)
-        cur_class_name = class.parent
-        class = classes[class.parent]
-    end
+    generate_class_function_wrappers(class.functions, class_name)
 end
 
 for name, func in pairs(global_functions) do
