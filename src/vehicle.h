@@ -154,6 +154,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
      */
     int ammo_set( const itype_id &ammo, long qty = -1 );
 
+    /** Remove all fuel, charges or ammunition (if any) from this part */
+    void ammo_unset();
+
     /**
      * Consume fuel, charges or ammunition (if available)
      * @param qty maximum amount of ammo that should be consumed

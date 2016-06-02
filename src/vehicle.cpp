@@ -549,7 +549,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             if(roll < unhurt){
                 if (roll <= broken) {
                     parts[p].hp = 0;
-                    parts[ p ].ammo_set( "null", 0 ); //empty broken batteries and fuel tanks
+                    parts[ p ].ammo_unset(); //empty broken batteries and fuel tanks
                 } else {
                     parts[p].hp = ((float)(roll - broken) /
                                    (unhurt - broken)) * part_info(p).durability;
@@ -578,7 +578,7 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             // Fuel tanks should be emptied as well
             if (destroyTank && (part_flag(p, "FUEL_TANK") || part_flag(p, "NEEDS_BATTERY_MOUNT"))){
                 parts[p].hp = 0;
-                parts[ p ].ammo_set( "null", 0 );
+                parts[ p ].ammo_unset();
             }
 
             //Solar panels have 25% of being destroyed
@@ -667,7 +667,7 @@ void vehicle::smash() {
         if (parts[part_index].hp <= 0) {
             parts[part_index].hp = 0;
             // @todo leak fuel
-            parts[ part_index ].ammo_set( "null", 0 );
+            parts[ part_index ].ammo_unset();
         }
     }
 }
@@ -5746,7 +5746,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
             name.c_str());
         g->explosion( global_part_pos3( p ), pow, 0.7, data.fiery_explosion );
         parts[p].hp = 0;
-        parts[p].ammo_set( "null", 0 );
+        parts[p].ammo_unset();
     }
 
     return true;
@@ -5805,7 +5805,7 @@ void vehicle::leak_fuel( int p )
         }
     }
 
-    parts[ p ].ammo_set( "null", 0 );
+    parts[ p ].ammo_unset();
 }
 
 std::string aim_type( const vehicle_part &part )
@@ -6870,10 +6870,6 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
         return -1;
     }
 
-    if( ammo == "null" && qty == 0 ) {
-        return amount = 0;
-    }
-
     if( info().fuel_type != ammo ) {
         return -1;
     }
@@ -6883,6 +6879,10 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
     }
 
     return amount = std::min( qty, ammo_capacity() );
+}
+
+void vehicle_part::ammo_unset() {
+    amount = 0;
 }
 
 long vehicle_part::ammo_consume( long qty )
