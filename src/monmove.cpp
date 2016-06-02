@@ -88,67 +88,49 @@ bool monster::can_move_to( const tripoint &p ) const
         return false;
     }
 
-    ter_id target = g->m.ter( p );
-    // various animal behaviours
-    if( has_flag( MF_ANIMAL ) ) {
-        // don't enter sharp terrain unless tiny, or attacking
-        if( g->m.has_flag( "SHARP", p ) && !( attitude( &( g->u ) ) == MATT_ATTACK ||
-                                              type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
-            return false;
-        }
-
-        // Don't enter open pits ever unless tiny, can fly or climb well
-        if( !( type->size == MS_TINY || can_climb ) &&
-            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-            return false;
-        }
-
-        // don't enter lava ever
-        if( target == t_lava ) {
-            return false;
-        }
-
-        // don't enter fire or electricity ever
-        const field &local_field = g->m.field_at( p );
-        if( local_field.findField( fd_fire ) || local_field.findField( fd_electricity ) ) {
-            return false;
-        }
-
-        if( g->m.has_flag( TFLAG_NO_FLOOR, p ) && !has_flag( MF_FLIES ) ) {
-            return false;
-        }
-    }
-
-    if( has_flag( MF_PATH_AVOID_DANGER ) ) {
-        // Don't enter sharp terrain unless tiny, or attacking
-        if( g->m.has_flag( "SHARP", p ) && !( attitude( &( g->u ) ) == MATT_ATTACK ||
-                                              type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
-            return false;
-        }
-
-        // Don't enter open pits ever unless tiny, can fly or climb well
-        if( !( type->size == MS_TINY || can_climb ) &&
-            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-            return false;
-        }
-
+    const ter_id target = g->m.ter( p );
+    const field &target_field = g->m.field_at( p );
+    const trap &target_trap = g->m.tr_at(p);
+    // Various avoiding behaviors
+    if( has_flag( MF_AVOID_DANGER_1 ) || has_flag( MF_AVOID_DANGER_2 ) ) {
         // Don't enter lava ever
         if( target == t_lava ) {
             return false;
         }
-
-        // Don't enter any dangerous fields
-        if( is_dangerous_fields( g->m.field_at( p ) ) ) {
+        // Don't ever throw ourselves off cliffs
+        if( !g->m.has_floor( p ) && !has_flag( MF_FLIES ) ) {
             return false;
         }
 
-        // And don't step on any traps (if we can see)
-        if( has_flag( MF_SEES ) && !g->m.tr_at( p ).is_benign() && g->m.has_floor( p ) ) {
+        // Don't enter open pits ever unless tiny, can fly or climb well
+        if( !( type->size == MS_TINY || can_climb ) &&
+            ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
             return false;
         }
 
-        if( g->m.has_flag( TFLAG_NO_FLOOR, p ) && !has_flag( MF_FLIES ) ) {
-            return false;
+        // The following behaviors are overridden when attacking
+        if( attitude( &( g->u ) ) != MATT_ATTACK ) {
+            if( g->m.has_flag( "SHARP", p ) &&
+                !( type->size == MS_TINY || has_flag( MF_FLIES ) ) ) {
+                return false;
+            }
+        }
+
+        // Differently handled behaviors
+        if( has_flag( MF_AVOID_DANGER_2 ) ) {
+            // Don't enter any dangerous fields
+            if( is_dangerous_fields( target_field ) ) {
+                return false;
+            }
+            // Don't step on any traps (if we can see)
+            if( has_flag( MF_SEES ) && !target_trap.is_benign() && g->m.has_floor( p ) ) {
+                return false;
+            }
+        } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
+            // Don't enter fire or electricity ever (other dangerous fields are fine though)
+            if( target_field.findField( fd_fire ) || target_field.findField( fd_electricity ) ) {
+                return false;
+            }
         }
     }
 
