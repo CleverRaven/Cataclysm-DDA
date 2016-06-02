@@ -74,23 +74,35 @@ class inventory_column {
         static const size_t npos = -1; // Returned if no item found
 
         std::vector<itemstack_or_category> items;
-        size_t page_offset;
         size_t selected_index;
+        size_t width;
+        size_t height;
 
         inventory_column( size_t width, size_t height ) :
             items(),
-            page_offset( 0 ),
             selected_index( 1 ),
             width( width ),
-            height( height ) {};
+            height( height ),
+            page_offset( 0 ) {};
 
         bool is_category( size_t index ) const {
             return items[index].it == nullptr;
         }
 
+        size_t page_index() const {
+            return page_offset / height;
+        }
+
+        size_t pages_count() const {
+            return ( items.size() + height - 1 ) / height;
+        }
+
         size_t find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const;
         size_t find_by_pos( int pos ) const;
         size_t find_by_invlet( long invlet ) const;
+
+        void draw( WINDOW *win, size_t x, size_t y, nc_color selection_color,
+                   const std::function<char( const itemstack_or_category &entry )> &get_icon ) const;
 
         void select( size_t new_index );
         bool handle_movement( const std::string &action, navigation_mode mode );
@@ -99,8 +111,7 @@ class inventory_column {
         void prepare_paging();
 
     private:
-        size_t width;
-        size_t height;
+        size_t page_offset;
 };
 
 const item_filter allow_all_items = []( const item & ) { return true; };
@@ -185,8 +196,6 @@ class inventory_selector
         /** Select the item at position and set the correct in_inventory and current_page_offset value */
         void select_item_by_position(const int &position);
         void remove_dropping_items( player &u ) const;
-        /** Number of rows that we have for printing the @ref items */
-        size_t items_per_page;
         WINDOW *w_inv;
 
         bool inCategoryMode;
@@ -216,8 +225,6 @@ class inventory_selector
          */
         void set_drop_count(int it_pos, int count, const std::list<item> &stack);
         void set_to_drop(int it_pos, int count);
-        void print_column(const itemstack_vector &items, size_t y, size_t w, size_t selected,
-                          size_t current_page_offset, selector_mode mode) const;
 };
 
 size_t inventory_column::find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const
@@ -348,6 +355,51 @@ void inventory_column::prepare_paging()
     }
 }
 
+void inventory_column::draw( WINDOW *win, size_t x, size_t y, nc_color selection_color,
+                             const std::function<char( const itemstack_or_category &entry )> &get_icon ) const
+{
+    size_t line = 0;
+    for( size_t i = page_offset; i < items.size() && line < height; ++i, ++line ) {
+        if( items[i].category == nullptr ) {
+            continue;
+        }
+        if( is_category( i ) ) {
+            trim_and_print( win, y + line, x, width, c_magenta, "%s", items[i].category->name.c_str() );
+            continue;
+        }
+
+        const item &it = *items[i].it;
+        const char icon = get_icon( items[i] );
+        const size_t count = ( items[i].slice != nullptr ) ? items[i].slice->size() : 1;
+
+        std::ostringstream item_name;
+
+        if( OPTIONS["ITEM_SYMBOLS"] ) {
+            item_name << it.symbol() << ' ';
+        }
+        if( icon != 0 ) {
+            item_name << icon << ' ';
+        }
+        if( count > 1 ) {
+            item_name << count << ' ';
+        }
+
+        item_name << it.display_name( count );
+
+        const nc_color name_color = ( i == selected_index ) ? selection_color : it.color_in_inventory();
+        trim_and_print( win, y + line, x + 2, width - 2, name_color, "%s", item_name.str().c_str() );
+
+        if( it.invlet != 0 ) {
+            const nc_color invlet_color = ( i == selected_index )
+                ? selection_color
+                : g->u.assigned_invlet.count( it.invlet )
+                    ? c_yellow
+                    : c_white;
+            mvwputch( win, y + line, x, invlet_color, it.invlet );
+        }
+    }
+}
+
 void inventory_selector::add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat)
 {
     columns.front().add_items( slice, where, def_cat );
@@ -400,64 +452,6 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
 char invlet_or_space(const item &it)
 {
     return (it.invlet == 0) ? ' ' : it.invlet;
-}
-
-void inventory_selector::print_column(const itemstack_vector &items, size_t y, size_t w,
-                                      size_t selected, size_t current_page_offset, selector_mode mode) const
-{
-    const auto get_drop_icon = [ this, mode ]( const drop_map::const_iterator &dit ) -> std::string {
-        if( mode == SM_PICK ) {
-            return "";
-        } else if( dit == dropping.end() ) {
-            return "- ";
-        } else if( dit->second == -1 ) {
-            return "+ ";
-        } else {
-            return "# ";
-        }
-    };
-
-    nc_color selected_line_color = inCategoryMode ? c_white_red : h_white;
-    if( &items != &columns[column_index].items ) {
-        selected_line_color = inCategoryMode ? c_ltgray_red : h_ltgray;
-    }
-    int cur_line = 2;
-    for (size_t a = 0; a + current_page_offset < items.size() && a < items_per_page; a++, cur_line++) {
-        const itemstack_or_category &cur_entry = items[a + current_page_offset];
-        if (cur_entry.category == NULL) {
-            continue;
-        }
-        if (cur_entry.it == NULL) {
-            trim_and_print( w_inv, cur_line, y, w, c_magenta,
-                            "%s", cur_entry.category->name.c_str() );
-            continue;
-        }
-        const item &it = *cur_entry.it;
-        std::string item_name = it.display_name();
-        if (cur_entry.slice != NULL) {
-            const size_t count = cur_entry.slice->size();
-            if (count > 1) {
-                item_name = string_format("%d %s", count, it.display_name(count).c_str());
-            }
-        }
-        nc_color name_color = it.color_in_inventory();
-        nc_color invlet_color = c_white;
-        if (u.assigned_invlet.count(it.invlet)) {
-            invlet_color = c_yellow;
-        }
-        if (a + current_page_offset == selected) {
-            name_color = selected_line_color;
-            invlet_color = selected_line_color;
-        }
-        item_name = get_drop_icon(dropping.find(cur_entry.item_pos)) + item_name;
-        if (it.invlet != 0) {
-            mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
-        }
-        if (OPTIONS["ITEM_SYMBOLS"]) {
-            item_name = string_format("%s %s", it.symbol().c_str(), item_name.c_str());
-        }
-        trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
-    }
 }
 
 void inventory_selector::print_right_column( size_t right_column_width, size_t right_column_offset ) const
@@ -515,43 +509,60 @@ void inventory_selector::print_right_column( size_t right_column_width, size_t r
 
 void inventory_selector::display( const std::string &title, selector_mode mode ) const
 {
-    const size_t left_column_width = ( mode == SM_PICK ) ? TERMX / 2 : 40; // Do we really need this difference?
-    const size_t left_column_offset = 1;
-    const size_t middle_column_width = std::min<int>( TERMX - left_column_width - 1, 40 );
-    const size_t middle_column_offset = left_column_width + left_column_offset + 1;
-    const size_t current_page_offset = columns[column_index].page_offset;
-
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
 
-    if( mode != SM_PICK ) {
-        const size_t right_column_width = std::max<int>( 0, TERMX - left_column_width - middle_column_width - 2 );
-        const size_t right_column_offset = middle_column_width + middle_column_offset + 1;
+    size_t column_gap = getmaxx( w_inv );
+    size_t columns_count = 0;
 
-        print_right_column( right_column_width, right_column_offset );
+    for( const auto &column : columns ) {
+        ++columns_count;
+        column_gap -= column.width;
+    }
+    if( mode != SM_PICK && column_gap >= 40 ) {
+        column_gap -= 40;
+        ++columns_count;
+    }
+    if( columns_count > 0 ) {
+        column_gap /= columns_count;
+    }
+
+    size_t column_x = 1;
+    for( size_t i = 0; i < columns.size(); ++i ) {
+        const auto &column = columns[i];
+        const nc_color selection_color = ( i == column_index )
+            ? ( inCategoryMode ) ? c_white_red : h_white
+            : ( inCategoryMode ) ? c_ltgray_red : h_ltgray;
+
+        column.draw( w_inv, column_x, 2, selection_color,
+            [ this, mode ]( const itemstack_or_category &entry ) -> char {
+                if( mode == SM_PICK ) {
+                    return 0;
+                }
+                const auto dit = dropping.find( entry.item_pos );
+
+                if( dit == dropping.end() ) {
+                    return '-';
+                } else if( dit->second == -1 ) {
+                    return '+';
+                }
+                return '#';
+            } );
+        if( column.pages_count() > 1 ) {
+            mvwprintw( w_inv, getmaxy( w_inv ) - 2, column_x, _( "Page %d/%d" ),
+                       column.page_index() + 1, column.pages_count() );
+        }
+        column_x += column.width + column_gap;
+    }
+
+    if( mode != SM_PICK ) {
+        if( size_t( getmaxx( w_inv) ) > column_x ) {
+            print_right_column( getmaxx( w_inv) - column_x, column_x );
+        }
     } else {
         mvwprintw(w_inv, 1, 61, _("Hotkeys:  %d/%d "), u.allocated_invlets().size(), inv_chars.size());
     }
 
-    std::string msg_str;
-    nc_color msg_color;
-    if (inCategoryMode) {
-        msg_str = _("Category selection; [TAB] switches mode, arrows select.");
-        msg_color = c_white_red;
-    } else {
-        msg_str = _("Item selection; [TAB] switches mode, arrows select.");
-        msg_color = h_white;
-    }
-    mvwprintz(w_inv, items_per_page + 4, FULL_SCREEN_WIDTH - utf8_width(msg_str),
-              msg_color, msg_str.c_str());
-
-    print_column( columns[0].items, left_column_offset, left_column_width, columns[0].selected_index , columns[0].page_offset, mode );
-    print_column( columns[1].items, middle_column_offset, middle_column_width, columns[1].selected_index, columns[1].page_offset, mode );
-
-    const size_t max_size = columns[column_index].items.size();
-    const size_t max_pages = (max_size + items_per_page - 1) / items_per_page;
-    mvwprintw(w_inv, items_per_page + 4, 1, _("Page %d/%d"), current_page_offset / items_per_page + 1,
-              max_pages);
     if (mode == SM_MULTIDROP) {
         // Make copy, remove to be dropped items from that
         // copy and let the copy recalculate the volume capacity
@@ -576,6 +587,13 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     if( empty() ) {
         mvwprintw(w_inv, 2, 0, _( "Your inventory is empty." ) );
     }
+
+    const std::string msg_str = ( inCategoryMode )
+        ? _( "Category selection; [TAB] switches mode, arrows select." )
+        : _( "Item selection; [TAB] switches mode, arrows select." );
+    const nc_color msg_color = ( inCategoryMode ) ? c_white_red : h_white;
+    center_print( w_inv, getmaxy( w_inv ) - 1, msg_color, msg_str.c_str() );
+
     wrefresh(w_inv);
 }
 
@@ -585,7 +603,6 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     , first_item(NULL)
     , second_item(NULL)
     , ctxt("INVENTORY")
-    , items_per_page(TERMY - 5) // gives us 5 lines for messages/help text/status/...
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , inCategoryMode(false)
     , weapon_cat("WEAPON", _("WEAPON:"), 0)
@@ -604,8 +621,8 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("ANY_INPUT"); // For invlets
 
-    inventory_column first_column( 40, items_per_page );
-    inventory_column second_column( 40, items_per_page );
+    inventory_column first_column( 40, getmaxy( w_inv ) - 5 );
+    inventory_column second_column( 40, getmaxy( w_inv ) - 5 );
 
     first_column.add_items( u.inv.indexed_slice_filter_by( filter ), add_to::END );
 
