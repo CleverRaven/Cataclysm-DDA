@@ -18,6 +18,7 @@
 #include "material.h"
 #include "artifact.h"
 #include "veh_type.h"
+#include "catacharset.h"
 #include "init.h"
 #include "generic_factory.h"
 #include "game.h"
@@ -565,8 +566,10 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->sym == 0 ) {
+        if( type->sym.empty() ) {
             msg << "symbol not defined" << "\n";
+        } else if( utf8_width( type->sym ) != 1 ) {
+            msg << "symbol must be exactly one console cell width" << "\n";
         }
 
         for( const auto &_a : type->techniques ) {
@@ -1413,7 +1416,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     if( jo.has_string( "symbol" ) ) {
-        new_item_template->sym = jo.get_string( "symbol" )[0];
+        new_item_template->sym = jo.get_string( "symbol" );
     }
 
     if( jo.has_string( "color" ) ) {

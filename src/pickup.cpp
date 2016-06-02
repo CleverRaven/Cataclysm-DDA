@@ -873,7 +873,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                     }
                     std::string item_name = here[cur_it].display_name();
                     if( OPTIONS["ITEM_SYMBOLS"] ) {
-                        item_name = string_format( "%c %s", here[cur_it].symbol(), item_name.c_str() );
+                        item_name = string_format( "%s %s", here[cur_it].symbol().c_str(),
+                                                   item_name.c_str() );
                     }
                     trim_and_print( w_pickup, 1 + ( cur_it % maxitems ), 6, pickupW - 4, icolor,
                                     "%s", item_name.c_str() );

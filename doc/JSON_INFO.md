@@ -490,8 +490,8 @@ Mods can modify this via "add:traits" and "remove:traits".
 "name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
 "name_plural" : "pairs of socks", // (Optional)
 "container" : "null",             // What container (if any) this item should spawn within
-"color" : "blue",                 // ASCII character color
-"symbol" : "[",                   // ASCII character used in-game
+"color" : "blue",                 // Color of the item symbol.
+"symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
 "weight" : 350,                   // Weight of the item in grams
