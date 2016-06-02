@@ -211,6 +211,16 @@ Means: `int f()` `int f(string)` `bool f(int)` void f(int, int)` `int f(int, str
 Leafs are marked by the presence of rval entries.
 --]]
 function generate_overload_tree(classes)
+    function generate_overload_path(root, args)
+        for _, arg in pairs(args) do
+            if not root[arg] then
+                root[arg] = { }
+            end
+            root = root[arg]
+        end
+        return root
+    end
+
     for class_name, value in pairs(classes) do
         local functions_by_name = {}
         for _, func in ipairs(value.functions) do
@@ -223,28 +233,16 @@ function generate_overload_tree(classes)
         -- This creates the mentioned tree: each entry has the key matching the parameter type,
         -- and the final table (the leaf) has a `r` entry.
         for _, func in ipairs(value.functions) do
-            local root = functions_by_name[func.name]
-            for _, arg in pairs(func.args) do
-                if not root[arg] then
-                    root[arg] = {}
-                end
-                root = root[arg]
-            end
-            root.r = { rval = func.rval, cpp_name = func.cpp_name or func.name }
+            local leaf = generate_overload_path(functions_by_name[func.name], func.args)
+            leaf.r = { rval = func.rval, cpp_name = func.cpp_name or func.name }
         end
         value.functions = functions_by_name
 
         if value.new then
             local new_root = {}
             for _, func in ipairs(value.new) do
-                local root = new_root
-                for _, arg in pairs(func) do
-                    if not root[arg] then
-                        root[arg] = {}
-                    end
-                    root = root[arg]
-                end
-                root.r = { rval = nil, cpp_name = class_name .. "::" .. class_name }
+                local leaf = generate_overload_path(new_root, func)
+                leaf.r = { rval = nil, cpp_name = class_name .. "::" .. class_name }
             end
             value.new = new_root
         end
