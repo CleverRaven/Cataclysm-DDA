@@ -4541,7 +4541,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     if( !taken && allow_carry &&
-        p.can_pickVolume( given.volume() ) &&
+        p.can_pickVolume( given ) &&
         p.can_pickWeight( given.weight() ) ) {
         taken = true;
         p.i_add( given );
@@ -4573,7 +4573,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
     }
     if( allow_carry ) {
-        if( !p.can_pickVolume( given.volume() ) ) {
+        if( !p.can_pickVolume( given ) ) {
             const int free_space = p.volume_capacity() - p.volume_carried();
             reason << std::endl;
             reason << string_format( _("I have no space to store it.") );

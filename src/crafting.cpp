@@ -913,7 +913,7 @@ void set_item_inventory( item &newit )
     } else {
         g->u.inv.assign_empty_invlet( newit );
         // We might not have space for the item
-        if( !g->u.can_pickVolume( newit.volume() ) ) { //Accounts for result_mult
+        if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );

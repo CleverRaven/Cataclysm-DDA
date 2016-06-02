@@ -1776,9 +1776,9 @@ void npc::find_item()
                     continue;
                 }
                 int itval = value( elem );
-                int wgt = elem.weight(), vol = elem.volume();
+                int wgt = elem.weight();
                 if( itval > best_value &&
-                    ( can_pickWeight( wgt, true ) && can_pickVolume( vol, true ) ) ) {
+                    ( can_pickWeight( wgt, true ) && can_pickVolume( elem, true ) ) ) {
                     wanted_item_pos = p;
                     wanted = &( elem );
                     best_value = itval;
@@ -1848,21 +1848,20 @@ void npc::pick_up_item()
     // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
-    int total_volume = 0;
+    npc projected = *this;
     int total_weight = 0; // How much the items will add
     std::vector<int> pickup; // Indices of items we want
 
     for( size_t i = 0; i < items.size(); i++ ) {
         const item &item = items[i];
         int itval = value( item );
-        int vol = item.volume();
         int wgt = item.weight();
         if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
-             ( can_pickVolume( total_volume + vol, true ) &&
+             ( projected.can_pickVolume( item, true ) &&
                can_pickWeight( total_weight + wgt, true ) ) &&
              !item.made_of( LIQUID ) ) {
             pickup.push_back( i );
-            total_volume += vol;
+            projected.i_add(item);
             total_weight += wgt;
         }
     }
@@ -2599,7 +2598,7 @@ void npc::mug_player(player &mark)
     invslice slice = mark.inv.slice();
     for (size_t i = 0; i < slice.size(); i++) {
         if( value(slice[i]->front()) >= best_value &&
-            can_pickVolume( slice[i]->front().volume(), true ) &&
+            can_pickVolume( slice[i]->front(), true ) &&
             can_pickWeight( slice[i]->front().weight(), true ) ) {
             best_value = value(slice[i]->front());
             item_index = i;
