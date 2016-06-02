@@ -445,9 +445,9 @@
       [ "scrap", 6 ]
     ],
     [
-	  [ "lightstrip_inactive", 4 ],
+      [ "lightstrip_inactive", 4 ],
       [ "light_bulb", 4 ]
-	],
+    ],
     [ [ "cable", 10 ] ]
   ]
 },{
@@ -468,10 +468,10 @@
       [ "plastic_chunk", 2 ],
       [ "scrap", 3 ]
     ],
-	[
-	  [ "lightstrip_inactive", 2 ],
+    [
+      [ "lightstrip_inactive", 2 ],
       [ "light_bulb", 2 ]
-	],
+    ],
     [ [ "cable", 10 ] ]
   ]
 },{
