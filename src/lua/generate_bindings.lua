@@ -462,15 +462,16 @@ for class_name, class in pairs(classes) do
 end
 
 for class_name, class in pairs(classes) do
+    if class.new then
+        cpp_output = cpp_output .. generate_constructor(class_name, class.new)
+    end
+    if class.has_equal then
+        cpp_output = cpp_output .. generate_operator(class_name, "eq", "==")
+    end
+
     local cur_class_name = class_name
     while class do
         generate_class_function_wrappers(class.functions, class_name, cur_class_name)
-        if class.new then
-            cpp_output = cpp_output .. generate_constructor(class_name, class.new)
-        end
-        if class.has_equal then
-            cpp_output = cpp_output .. generate_operator(class_name, "eq", "==")
-        end
         cur_class_name = class.parent
         class = classes[class.parent]
     end
