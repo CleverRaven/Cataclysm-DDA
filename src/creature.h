@@ -8,12 +8,10 @@
 #include "output.h"
 #include "string_id.h"
 #include "cursesdef.h" // WINDOW
-#include "field.h"
 
 #include <stdlib.h>
 #include <string>
 #include <unordered_map>
-
 class game;
 class JsonObject;
 class JsonOut;
@@ -28,6 +26,9 @@ enum field_id : int;
 enum damage_type : int;
 class material_type;
 using material_id = string_id<material_type>;
+class field;
+class field_entry;
+enum field_id : int;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel

@@ -4,7 +4,6 @@
 #include "creature.h"
 #include "enums.h"
 #include "int_id.h"
-#include "field.h"
 #include <vector>
 
 class map;
@@ -14,6 +13,7 @@ class monfaction;
 class player;
 struct mtype;
 enum monster_trigger : int;
+enum field_id : int;
 
 using mfaction_id = int_id<monfaction>;
 using mtype_id = string_id<mtype>;

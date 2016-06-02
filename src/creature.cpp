@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "debug.h"
+#include "field.h"
 
 #include <algorithm>
 #include <numeric>
