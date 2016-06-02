@@ -381,7 +381,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y, nc_color selection
         if( OPTIONS["ITEM_SYMBOLS"] ) {
             item_name << it.symbol() << ' ';
         }
-        if( icon != 0 ) {
+        if( icon != '\0' ) {
             item_name << icon << ' ';
         }
         if( count > 1 ) {
@@ -541,7 +541,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         column.draw( w_inv, column_x, 2, selection_color,
             [ this, mode ]( const itemstack_or_category &entry ) -> char {
                 if( mode == SM_PICK ) {
-                    return 0;
+                    return '\0';
                 }
                 const auto dit = dropping.find( entry.item_pos );
 
