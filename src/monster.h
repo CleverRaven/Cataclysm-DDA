@@ -165,7 +165,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        virtual bool is_immune_field( const field_id fid ) const;
+        virtual bool is_immune_field( const field_id fid ) const override;
 
         /**
          * Attempt to move to p.
