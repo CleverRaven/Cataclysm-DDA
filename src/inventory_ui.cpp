@@ -198,7 +198,7 @@ class inventory_selector
         void remove_dropping_items( player &u ) const;
         WINDOW *w_inv;
 
-        bool inCategoryMode;
+        navigation_mode navigation;
 
         const item_category weapon_cat;
         const item_category worn_cat;
@@ -535,8 +535,8 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     for( size_t i = 0; i < columns.size(); ++i ) {
         const auto &column = columns[i];
         const nc_color selection_color = ( i == column_index )
-            ? ( inCategoryMode ) ? c_white_red : h_white
-            : ( inCategoryMode ) ? c_ltgray_red : h_ltgray;
+            ? ( navigation == navigation_mode::CATEGORY ) ? c_white_red : h_white
+            : ( navigation == navigation_mode::CATEGORY ) ? c_ltgray_red : h_ltgray;
 
         column.draw( w_inv, column_x, 2, selection_color,
             [ this, mode ]( const itemstack_or_category &entry ) -> char {
@@ -592,10 +592,10 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         mvwprintw(w_inv, 2, 0, _( "Your inventory is empty." ) );
     }
 
-    const std::string msg_str = ( inCategoryMode )
+    const std::string msg_str = ( navigation == navigation_mode::CATEGORY )
         ? _( "Category selection; [TAB] switches mode, arrows select." )
         : _( "Item selection; [TAB] switches mode, arrows select." );
-    const nc_color msg_color = ( inCategoryMode ) ? c_white_red : h_white;
+    const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? c_white_red : h_white;
     center_print( w_inv, getmaxy( w_inv ) - 1, msg_color, msg_str.c_str() );
 
     wrefresh(w_inv);
@@ -608,7 +608,7 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     , second_item(NULL)
     , ctxt("INVENTORY")
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
-    , inCategoryMode(false)
+    , navigation( navigation_mode::ITEM )
     , weapon_cat("WEAPON", _("WEAPON:"), 0)
     , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
     , u(u)
@@ -666,13 +666,20 @@ bool inventory_selector::handle_movement(const std::string &action)
     }
 
     if( action == "CATEGORY_SELECTION" ) {
-        inCategoryMode = !inCategoryMode;
+        switch( navigation ) {
+            case navigation_mode::ITEM:
+                navigation = navigation_mode::CATEGORY;
+                break;
+            case navigation_mode::CATEGORY:
+                navigation = navigation_mode::ITEM;
+                break;
+        }
     } else if( action == "LEFT" ) {
         if( ++column_index >= columns.size() ) {
             column_index = 0;
         }
     } else {
-        return columns[column_index].handle_movement( action, inCategoryMode ? navigation_mode::CATEGORY : navigation_mode::ITEM );
+        return columns[column_index].handle_movement( action, navigation );
     }
 
     return true;
