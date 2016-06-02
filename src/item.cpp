@@ -4229,7 +4229,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 {
     std::map<std::string, const item::gun_mode> res;
 
-    if( !is_gun() ) {
+    if( !is_gun() || is_gunmod() ) {
         return res;
     }
 
