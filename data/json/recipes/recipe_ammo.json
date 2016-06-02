@@ -1136,21 +1136,21 @@
   ],
   "components": [
     [
-      [ "9x18mm_casing", 10 ]
+      [ "9x18mm_casing", 25 ]
     ],
     [
-      [ "smpistol_primer", 10 ]
+      [ "smpistol_primer", 25 ]
     ],
     [
-      [ "gunpowder", 50 ]
+      [ "gunpowder", 125 ]
     ],
     [
-      [ "lead", 40 ],
-      [ "gold_small", 40 ],
-      [ "silver_small", 40 ],
-      [ "tin", 40 ],
-      [ "bismuth", 40 ],
-      [ "solder_wire", 40 ]
+      [ "lead", 100 ],
+      [ "gold_small", 100 ],
+      [ "silver_small", 100 ],
+      [ "tin", 100 ],
+      [ "bismuth", 100 ],
+      [ "solder_wire", 100 ]
     ]
   ]
 },{
