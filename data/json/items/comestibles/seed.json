@@ -16,7 +16,7 @@
     },
     {   
         "id": "seed_blackberries",
-        "copyfrom": "seed",
+        "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "blackberry seed",
         "name_plural": "blackberry seeds",
@@ -30,7 +30,7 @@
     },
     {
         "id": "seed_blueberries",
-        "copyfrom": "seed",
+        "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "blueberry seed",
         "name_plural": "blueberry seeds",
@@ -44,7 +44,7 @@
     },
     {
         "id": "seed_cranberries",
-        "copyfrom": "seed",
+        "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "cranberry seed",
         "name_plural": "cranberry seeds",
@@ -58,7 +58,7 @@
     },
     {
         "id": "seed_hops",
-        "copyfrom": "seed",
+        "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "hop rhizome",
         "name_plural": "hop rhizomes",
@@ -77,7 +77,7 @@
     },
     {   
         "id": "seed_raspberries",
-        "copyfrom": "seed",
+        "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "raspberry seed",
         "name_plural": "raspberry seeds",
@@ -91,7 +91,7 @@
     },
     {
         "id": "seed_strawberries",
-        "copyfrom": "seed",
+        "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "strawberry seed",
         "name_plural": "strawberry seeds",
@@ -105,7 +105,7 @@
     },
     {
         "id": "seed_wheat",
-        "copyfrom": "seed",
+        "copy-from": "seed",
         "type": "COMESTIBLE",
         "name": "wheat seed",
         "name_plural": "wheat seeds",
