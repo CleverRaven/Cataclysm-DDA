@@ -1,8 +1,7 @@
 [
     {
         "abstract": "seed",
-        "type": "COMESTIBLE",
-        "comestible_type": "FOOD",
+        "type": "GENERIC",
         "name": "seed",
         "category": "other",
         "volume": 1,
@@ -17,7 +16,7 @@
     {   
         "id": "seed_blackberries",
         "copy-from": "seed",
-        "type": "COMESTIBLE",
+        "type": "GENERIC",
         "name": "blackberry seed",
         "name_plural": "blackberry seeds",
         "description": "Some blackberry seeds.",
@@ -31,7 +30,7 @@
     {
         "id": "seed_blueberries",
         "copy-from": "seed",
-        "type": "COMESTIBLE",
+        "type": "GENERIC",
         "name": "blueberry seed",
         "name_plural": "blueberry seeds",
         "description": "Some blueberry seeds.",
@@ -45,7 +44,7 @@
     {
         "id": "seed_cranberries",
         "copy-from": "seed",
-        "type": "COMESTIBLE",
+        "type": "GENERIC",
         "name": "cranberry seed",
         "name_plural": "cranberry seeds",
         "description": "Some cranberry seeds.",
@@ -59,7 +58,7 @@
     {
         "id": "seed_hops",
         "copy-from": "seed",
-        "type": "COMESTIBLE",
+        "type": "GENERIC",
         "name": "hop rhizome",
         "name_plural": "hop rhizomes",
         "description": "Roots of a hop plant, for growing your own.",
@@ -78,7 +77,7 @@
     {   
         "id": "seed_raspberries",
         "copy-from": "seed",
-        "type": "COMESTIBLE",
+        "type": "GENERIC",
         "name": "raspberry seed",
         "name_plural": "raspberry seeds",
         "description": "Some raspberry seeds.",
@@ -92,7 +91,7 @@
     {
         "id": "seed_strawberries",
         "copy-from": "seed",
-        "type": "COMESTIBLE",
+        "type": "GENERIC",
         "name": "strawberry seed",
         "name_plural": "strawberry seeds",
         "description": "Some strawberry seeds.",
@@ -106,7 +105,7 @@
     {
         "id": "seed_wheat",
         "copy-from": "seed",
-        "type": "COMESTIBLE",
+        "type": "GENERIC",
         "name": "wheat seed",
         "name_plural": "wheat seeds",
         "description": "Some wheat seeds.",
