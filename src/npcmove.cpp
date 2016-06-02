@@ -865,7 +865,7 @@ npc_action npc::method_of_attack()
         return npc_reload;
     }
 
-    if( !modes.empty() && sees( *critter ) ) {
+    if( !modes.empty() && sees( *critter ) && aim_per_time( weapon, recoil ) > 0 ) {
         return npc_aim;
     }
 
