@@ -5089,17 +5089,23 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         return;
     }
 
+
     const itype *itt = f.crafting_pseudo_item_type();
-    if (itt == NULL || itt->id != type) {
-        return;
-    }
-    const itype *ammo = f.crafting_ammo_item_type();
-    if (ammo != NULL) {
-        item furn_item(itt->id, 0);
-        furn_item.charges = remove_charges_in_list(ammo, m->i_at( p ), quantity);
-        if (furn_item.charges > 0) {
-            ret.push_back(furn_item);
-            quantity -= furn_item.charges;
+    if( itt != nullptr && itt->tool && itt->tool->ammo_id != "NULL" ) {
+        const itype_id ammo = default_ammo( itt->tool->ammo_id );
+        auto stack = m->i_at( p );
+        auto iter = std::find_if( stack.begin(), stack.end(), [ammo]( const item &i ) { return i.typeId() == ammo; } );
+        if( iter != stack.end() ) {
+            item furn_item( itt->id, -1, iter->charges );
+            // The item constructor limits the charges to the (type specific) maximum.
+            // Setting it separately circumvents that - syncron with the code that creates
+            // the pseudo item (and fills its charges) in inventory.cpp
+            furn_item.charges = iter->charges;
+            if( furn_item.use_charges( type, quantity, ret, p ) ) {
+                stack.erase( iter );
+            } else {
+                iter->charges = furn_item.charges;
+            }
         }
     }
 }
