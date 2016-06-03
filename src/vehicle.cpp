@@ -3113,13 +3113,9 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
 
 int vehicle::fuel_capacity (const itype_id &ftype) const
 {
-    int cap = 0;
-    for(auto &p : fuel) {
-        if(ftype == part_info(p).fuel_type) {
-            cap += part_info(p).size;
-        }
-    }
-    return cap;
+    return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs, const vehicle_part &rhs ) {
+        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_capacity() : 0 );
+    } );
 }
 
 int vehicle::refill (const itype_id & ftype, int amount)
