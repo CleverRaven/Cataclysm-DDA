@@ -23,7 +23,7 @@ local tab = "    "
 -- Generic helpers to generate C++ source code chunks for use in our lua binding.
 ---------------------------------------------------------------------------------
 
--- Convert a given type such as "string" to the corresponding C++ wrapper class,
+-- Convert a given type such as "std::string" to the corresponding C++ wrapper class,
 -- e.g. `LuaType<std::string>`. The wrapper class has various static functions:
 -- `get` to get a value of that type from Lua stack.
 -- `push` to push a value of that type to Lua stack.
@@ -32,7 +32,7 @@ local tab = "    "
 function member_type_to_cpp_type(member_type)
     if member_type == "bool" then return "LuaType<bool>"
     elseif member_type == "cstring" then return "LuaType<const char*>"
-    elseif member_type == "string" then return "LuaType<std::string>"
+    elseif member_type == "std::string" then return "LuaType<std::string>"
     elseif member_type == "int" then return "LuaType<int>"
     elseif member_type == "float" then return "LuaType<float>"
     else
@@ -194,7 +194,7 @@ we want a decision tree. The leafs of the tree are the rval entries (they can be
 each overload, but they do not affect the overload resolution).
 Example: functions = {
     r = { rval = "int", ... }
-    "string" = {
+    "std::string" = {
         r = { rval = "int", ... }
     },
     "int" = {
@@ -202,12 +202,12 @@ Example: functions = {
         "int" = {
             r = { rval = "void", ... }
         },
-        "string" = {
+        "std::string" = {
             r = { rval = "int", ... }
         }
     }
 }
-Means: `int f()` `int f(string)` `bool f(int)` void f(int, int)` `int f(int, string)`
+Means: `int f()` `int f(std::string)` `bool f(int)` void f(int, int)` `int f(int, std::string)`
 A table under the index 'r' is a leaf (this assumes no type of name 'r' is ever used).
 The leafs have the following entries:
 - rval: the return value of the function (can be nil).
