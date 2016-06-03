@@ -97,6 +97,7 @@ enum vehicle_controls {
  toggle_overhead_lights,
  toggle_dome_lights,
  toggle_aisle_lights,
+ toggle_turrets,
  toggle_stereo,
  toggle_tracker,
  activate_horn,
@@ -112,7 +113,7 @@ enum vehicle_controls {
  trigger_alarm,
  toggle_doors,
  cont_turrets,
- manual_fire,
+ manual_aim,
  toggle_camera,
  release_remote_control,
  toggle_chimes,
@@ -1118,6 +1119,11 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         menu.addentry( toggle_fridge, true, 'f', fridge_on ? _("Turn off fridge") : _("Turn on fridge") );
     }
 
+    // Toggle individual turrets between automated and manual firing
+    if( has_turrets ) {
+        menu.addentry( toggle_turrets, true, 't', _( "Set turret targeting modes" ) );
+    }
+
     // Turn the recharging station on/off
     if ( has_electronic_controls && has_recharger ) {
         menu.addentry( toggle_recharger, true, 'r', recharger_on ? _("Turn off recharger") : _("Turn on recharger") );
@@ -1151,8 +1157,8 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     }
     // cycle individual turret modes
     if( has_turrets ) {
-        menu.addentry( cont_turrets, true, 'x', _("Configure individual turrets") );
-        menu.addentry( manual_fire, true, 'w', _("Aim turrets manually") );
+        menu.addentry( cont_turrets, true, 'x', _( "Set turret firing modes" ) );
+        menu.addentry( manual_aim, true, 'w', _("Aim turrets manually") );
     }
     // toggle cameras
     if( has_electronic_controls && (camera_on || ( has_camera && has_camera_control )) ) {
@@ -1247,6 +1253,9 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     case activate_horn:
         honk_horn();
         break;
+    case toggle_turrets:
+        turrets_set_targeting();
+        break;
     case toggle_fridge:
         if( fridge_on ) {
             fridge_on = false;
@@ -1339,9 +1348,9 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         control_doors();
         break;
     case cont_turrets:
-        control_turrets();
+        turrets_set_mode();
         break;
-    case manual_fire:
+    case manual_aim:
         aim_turrets();
         break;
     case toggle_camera:
@@ -5131,16 +5140,10 @@ void vehicle::gain_moves()
         check_environmental_effects = do_environmental_effects();
     }
 
-    for( size_t p = 0; p < parts.size(); p++ ) {
-        if( !part_flag( p, "TURRET" ) ) {
-            continue;
+    for( size_t p = 0; p != parts.size(); ++p ) {
+        if( parts[ p ].enabled && parts[ p ].base.is_gun() ) {
+            fire_turret( p, false );
         }
-        bool success = fire_turret( p, false );
-        if( !success && parts[p].target.first != parts[p].target.second ) {
-            add_msg( m_bad, _("%s failed to fire! It isn't loaded and/or powered."), parts[ p ].name().c_str() );
-        }
-        // Clear manual target
-        parts[p].target.second = parts[p].target.first;
     }
 
     if( velocity < 0 ) {
@@ -5808,11 +5811,7 @@ int vehicle::get_turret_range( int p )
 
 turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos )
 {
-    if( part_flag( p, "MANUAL" ) ) {
-        return turret_wont_aim;
-    }
-
-    if( parts[p].mode == 0 ) {
+    if( !parts[ p ].enabled ) {
         return turret_is_off;
     }
 
@@ -5843,11 +5842,10 @@ std::map< int, turret_fire_ability > vehicle::turrets_can_shoot( const tripoint 
 bool vehicle::aim_turrets()
 {
     std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
-    // We only want turrets that can aim by themselves and are on
-    auto cant_shoot = [&]( const int tur ) {
-        return part_flag( tur, "MANUAL" ) || parts[tur].mode == 0;
-    };
-    turrets.erase( std::remove_if( turrets.begin(), turrets.end(), cant_shoot ), turrets.end() );
+    turrets.erase( std::remove_if( turrets.begin(), turrets.end(), [&]( const int& p ) {
+        return !parts[ p ].enabled;
+    } ), turrets.end() );
+
     if( turrets.empty() ) {
         add_msg( m_warning, _("Can't aim turrets: all turrets are offline") );
         return false;
@@ -5916,108 +5914,79 @@ bool vehicle::aim_turrets()
     return true;
 }
 
-void vehicle::control_turrets() {
-    std::vector< int > all_turrets = all_parts_with_feature( "TURRET", true );
-    std::vector< int > turrets;
-    std::vector< tripoint > locations;
+void vehicle::turrets_set_mode() {
+    std::vector<vehicle_part *> turrets;
+    std::vector<tripoint> locations;
 
-    uimenu pmenu;
-    for( int p : all_turrets ) {
-        if( !part_flag( p, "MANUAL" ) ) {
-            turrets.push_back( p );
-            locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
+    for( auto& p : parts ) {
+        if( p.base.is_gun() ) {
+            turrets.push_back( &p );
+            locations.push_back( global_part_pos3( p ) );
         }
     }
 
     pointmenu_cb callback( locations );
 
-    int selected = 0;
-
+    int sel = 0;
     while( true ) {
-        pmenu.title = _("Cycle turret mode");
-        pmenu.return_invalid = true;
-        pmenu.callback = &callback;
-        // Regen menu entries
-        for( int i = 0; i < (int)turrets.size(); i++ ) {
-            int p = turrets[i];
-            const item gun( part_info( p ).item, 0 );
-            char sym;
-            if( parts[p].mode == 0 ) {
-                sym = ' ';
-            } else if( parts[p].mode > 9 && gun.gun_get_mode( "AUTO" ) ) {
-                sym = 'B'; // Burst
-            } else if( parts[p].mode > 0 && parts[p].mode < 10 ) {
-                sym = '0' + parts[p].mode;
-            } else if( parts[p].mode < -1 ) {
-                sym = 'M'; // Manual burst
-            } else if( parts[p].mode == -1 ) {
-                sym = 'm'; // Manual
-            } else {
-                sym = 'x';
-            }
-            pmenu.addentry( i, true, MENU_AUTOASSIGN, "[%c] %s", sym, parts[ p ].name().c_str() );
+        uimenu menu;
+        menu.text = _( "Set turret firing modes" );
+        menu.return_invalid = true;
+        menu.callback = &callback;
+        menu.selected = sel;
+        menu.fselected = sel;
+        menu.w_y = 2;
+
+        for( auto& p : turrets ) {
+            menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
+                           p->name().c_str(), p->base.gun_current_mode().mode.c_str() );
         }
 
-        pmenu.addentry( turrets.size(), true, 'q', _("Finish") );
-        pmenu.w_y = 0; // Move the menu so that we can see our vehicle
-
-        pmenu.selected = selected;
-        pmenu.fselected = selected;
-        pmenu.query();
-        if( pmenu.ret < 0 || pmenu.ret >= (int)turrets.size() ) {
+        menu.query();
+        if( menu.ret < 0 || menu.ret >= static_cast<int>( turrets.size() ) ) {
             break;
         }
 
-        selected = pmenu.ret;
-        cycle_turret_mode( turrets[selected], false );
-
-        pmenu.reset();
+        sel = menu.ret;
+        turrets[ sel ]->base.gun_cycle_mode();
     }
 }
 
-void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
-{
-    if( !part_flag( p, "TURRET" ) ) {
-        debugmsg( "vehicle::cycle_turret_mode tried to pick a non-turret part" );
-        return;
+void vehicle::turrets_set_targeting() {
+    std::vector<vehicle_part *> turrets;
+    std::vector<tripoint> locations;
+
+    for( auto& p : parts ) {
+        if( p.base.is_gun() && !p.info().has_flag( "MANUAL" ) ) {
+            turrets.push_back( &p );
+            locations.push_back( global_part_pos3( p ) );
+        }
     }
 
-    const item gun( part_info( p ).item, 0 );
-    if( gun.type->gun == nullptr ) {
-        debugmsg( "vehicle::cycle_turret_mode tried to pick a non-turret part" );
-        return;
-    }
+    pointmenu_cb callback( locations );
 
-    vehicle_part &tr = parts[p];
-    const bool auto_only = gun.has_flag("BURST_ONLY");
-    const bool was_auto = tr.mode > 0;
-    if( tr.mode < -1 && !auto_only ) {
-        tr.mode = -1;
-    } else if( tr.mode < 0 && !only_manual_modes ) {
-        tr.mode = 0;
-    } else if( tr.mode <= 0 && !only_manual_modes && !auto_only ) {
-        tr.mode = 1;
-    } else if( tr.mode <= 1 && !only_manual_modes ) {
-        tr.mode = gun.gun_get_mode( "AUTO" ).qty > 1 ? 1000 : -1;
-    } else {
-        tr.mode = gun.gun_get_mode( "AUTO" ).qty > 1 ? -1000 : -1;
-    }
+    int sel = 0;
+    while( true ) {
+        uimenu menu;
+        menu.text = _( "Set turret targeting" );
+        menu.return_invalid = true;
+        menu.callback = &callback;
+        menu.selected = sel;
+        menu.fselected = sel;
+        menu.w_y = 2;
 
-    if( only_manual_modes ) {
-        const std::string name = parts[ p ].name();
-        if( tr.mode < -1 ) {
-            add_msg( m_info, _("Setting turret %s to burst mode."), name.c_str() );
-        } else if( tr.mode == -1 ) {
-            add_msg( m_info, _("Setting turret %s to single-fire mode."), name.c_str() );
-        } else if( tr.mode == 0 ) {
-            add_msg( m_info, _("Disabling turret %s."), name.c_str() );
-        } else {
-            add_msg( m_info, _("Setting turret %s to buggy mode."), name.c_str() );
+        for( auto& p : turrets ) {
+            menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]", p->name().c_str(),
+                           p->enabled ? _( "auto" ) : _( "manual" ) );
         }
 
-        if( was_auto ) {
-            add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name.c_str() );
+        menu.query();
+        if( menu.ret < 0 || menu.ret >= static_cast<int>( turrets.size() ) ) {
+            break;
         }
+
+        sel = menu.ret;
+        turrets[ sel ]->enabled = !turrets[ sel ]->enabled;
     }
 }
 
@@ -6114,27 +6083,13 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
 
 bool vehicle::fire_turret( int p, bool manual )
 {
-    if( !part_flag ( p, "TURRET" ) ) {
+    item& gun = parts[ p ].base;
+
+    if( !gun.is_gun() ) {
         return false;
-    }
-
-    // Don't let manual-only turrets aim
-    if( !manual && part_flag( p, "MANUAL" ) ) {
-        return false;
-    }
-
-    if( parts[p].mode == 0 ) {
-        if( !manual ) {
-            return false;
-        }
-
-        cycle_turret_mode( p, true );
     }
 
     const auto turret_data = turret_has_ammo( p );
-    if( !turret_data.gun.is_gun() ) {
-        return false;
-    }
 
     if( turret_data.is_missing_ups_charges ) {
         if( manual ) {
@@ -6143,30 +6098,10 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
-    // note that guns that don't use ammo return 0 for ammo_required(), in which case
-    // turret_data.charges will be the number of individual shots we can take
-    long charges = std::max( turret_data.gun.ammo_required(), 1L );
+    auto qty = std::max( gun.ammo_required(), 1L ) * gun.gun_current_mode().qty;
 
-    // check if we can fire at least one shot
-    if( turret_data.charges - charges < 0 ) {
-        if( manual ) {
-            add_msg( m_bad, _("This turret doesn't have enough ammo") );
-        }
-
-        return false;
-    }
-
-    // set up for burst shots
-    if( abs(parts[p].mode) > 1 ){
-        charges *= std::max(turret_data.gun.gun_get_mode( "AUTO" ).qty, 1 );
-        charges = std::min(charges, turret_data.charges);
-    }
-
-    // Create a fake gun
-    // @todo damage the gun based on part hp
-    item& gun = parts[ p ].base;
     if( turret_data.gun.ammo_current() != "null" ) {
-        gun.ammo_set( turret_data.gun.ammo_current(), charges );
+        gun.ammo_set( turret_data.gun.ammo_current(), std::min( qty, turret_data.charges ) );
     }
 
     // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
@@ -6228,7 +6163,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
 
     tripoint targ = pos;
     auto &target = parts[p].target;
-    if( target.first == target.second && !part_flag( p, "MANUAL" ) ) {
+    if( target.first == target.second ) {
         // Manual target not set, find one automatically
         const bool u_see = g->u.sees( pos );
         int boo_hoo;
@@ -6266,8 +6201,8 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), parts[ p ].name().c_str() );
     }
 
-    const int to_fire = std::min( abs(parts[p].mode), std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) );
-    return tmp.fire_gun( targ, to_fire, gun );
+    auto mode = gun.gun_current_mode();
+    return tmp.fire_gun( targ, mode.qty, *mode );
 }
 
 int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
@@ -6290,21 +6225,15 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
 
-        // @todo hack around turret mode selection to prevent debugmsg until mode selection refactored
-        int to_fire = std::max( abs(parts[p].mode) > 1 ? std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) : 1, 1 );
-        res = shooter.fire_gun( trajectory.back(), to_fire, gun );
+        auto mode = gun.gun_current_mode();
+        res = shooter.fire_gun( trajectory.back(), mode.qty, *mode );
+
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
     }
 
     // Place the shooter back where we took them from
     shooter.setpos( oldpos );
-
-    // Deactivate automatic aiming
-    if( parts[p].mode > 0 ) {
-        parts[p].mode = -parts[p].mode;
-        add_msg( m_warning, _("Deactivating automatic target acquisition for this turret" ));
-    }
 
     return res;
 }

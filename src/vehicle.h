@@ -186,7 +186,6 @@ public:
 
     bool open = false;            // door is open
     int direction = 0;            // direction the part is facing
-    int mode = 0;                 // turret mode
 
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
@@ -804,13 +803,11 @@ public:
     std::map< int, turret_fire_ability > turrets_can_shoot( const tripoint &pos );
     turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
 
-    // Cycle mode for this turret
-    // If `from_controls` is false, only manual modes are allowed
-    // and message describing the new mode is printed
-    void cycle_turret_mode( int p, bool from_controls );
+    /** Set targeting mode for specific turrets */
+    void turrets_set_targeting();
 
-    // Per-turret mode selection
-    void control_turrets();
+    /** Set firing mode for specific turrets */
+    void turrets_set_mode();
 
     // Set up the turret to fire
     bool fire_turret( int p, bool manual );
