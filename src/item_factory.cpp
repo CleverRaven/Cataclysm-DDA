@@ -762,7 +762,8 @@ void Item_factory::check_definitions() const
     }
     if( !g->has_option( "blacklist_magazines" ) ) {
         for( auto &mag : magazines_defined ) {
-            if( magazines_used.count( mag ) == 0 ) {
+            // some vehicle parts (currently batteries) are implemented as magazines
+            if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {
                 main_stream << "Magazine " << mag << " defined but not used.\n";
             }
         }

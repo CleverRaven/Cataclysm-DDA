@@ -2999,7 +2999,12 @@ tripoint vehicle::global_pos3() const
 
 tripoint vehicle::global_part_pos3( const int &index ) const
 {
-    return global_pos3() + parts[index].precalc[0];
+    return global_part_pos3( parts[ index ] );
+}
+
+tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
+{
+    return global_pos3() + pt.precalc[ 0 ];
 }
 
 point vehicle::real_global_pos() const
@@ -3108,13 +3113,9 @@ int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
 
 int vehicle::fuel_capacity (const itype_id &ftype) const
 {
-    int cap = 0;
-    for(auto &p : fuel) {
-        if(ftype == part_info(p).fuel_type) {
-            cap += part_info(p).size;
-        }
-    }
-    return cap;
+    return std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs, const vehicle_part &rhs ) {
+        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_capacity() : 0 );
+    } );
 }
 
 int vehicle::refill (const itype_id & ftype, int amount)
@@ -3156,7 +3157,7 @@ int vehicle::drain (const itype_id & ftype, int amount) {
             break;
         }
         if( p.ammo_current() == ftype ) {
-            int qty = p.ammo_consume( amount );
+            int qty = p.ammo_consume( amount, global_part_pos3( p ) );
             drained += qty;
             amount -= qty;
         }
@@ -3707,7 +3708,7 @@ void vehicle::power_parts()
                     fuel_consumed++;
                 }
 
-                parts[ elem ].ammo_consume( fuel_consumed );
+                parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
                 reactor_working = true;
 
                 epower += reactors_output;
@@ -3875,7 +3876,7 @@ int vehicle::discharge_battery (int amount, bool recurse)
             break;
         }
         if( p.hp > 0 && p.ammo_current() == fuel_type_battery ) {
-            amount -= p.ammo_consume( amount );
+            amount -= p.ammo_consume( amount, global_part_pos3( p ) );
         }
     }
 
@@ -4162,7 +4163,7 @@ void vehicle::slow_leak()
             g->m.add_item_or_charges( dest, leak );
         }
 
-        p.ammo_consume( qty );
+        p.ammo_consume( qty, global_part_pos3( p ) );
     }
 }
 
@@ -5799,7 +5800,7 @@ void vehicle::leak_fuel( int p )
     if( ft == fuel_type_gasoline || ft == fuel_type_diesel ) {
         for( const tripoint &pt : g->m.points_in_radius( global_part_pos3( p ), 2 ) ) {
             if( one_in( 2 ) && g->m.passable( pt ) ) {
-                int qty = parts[p].ammo_consume( rng( 79, 121 ) );
+                int qty = parts[p].ammo_consume( rng( 79, 121 ), global_part_pos3( p ) );
                 g->m.add_item_or_charges( pt, item( ft, calendar::turn, qty ) );
             }
         }
@@ -6751,10 +6752,6 @@ vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy,
     health *= vp.durability; // [ 0, durability ]
     health /= ( MAX_ITEM_DAMAGE + 1 );
     hp = std::max( 1, health );
-
-    if( vp.fuel_type == fuel_type_battery ) {
-        amount = base.charges;
-    }
 }
 
 const vpart_str_id &vehicle_part::get_id() const
@@ -6790,7 +6787,7 @@ item vehicle_part::properties_to_item() const
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
 
     if( vpinfo.fuel_type == fuel_type_battery ) {
-        tmp.charges = amount;
+        // Intentional no-op
     } else if( vpinfo.fuel_type == fuel_type_plutonium ) {
         // Do nothing, itemized minireactors with plutonium in them are bugged
     } else if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "null" && amount > 0 ) {
@@ -6826,18 +6823,34 @@ itype_id vehicle_part::ammo_current() const
 long vehicle_part::ammo_capacity() const
 {
     // @todo currently only support fuel tanks and batteries
+
+    if( base.is_magazine() ) {
+        return base.ammo_capacity();
+    }
+
     return info().has_flag( VPFLAG_FUEL_TANK ) ? info().size : 0;
 }
 
 long vehicle_part::ammo_remaining() const
 {
     // @todo currently only support fuel tanks and batteries
+
+    if( base.is_magazine() ) {
+        return base.ammo_remaining();
+    }
+
     return info().has_flag( VPFLAG_FUEL_TANK ) ? amount : 0;
 }
 
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
     // @todo currently only support fuel tanks and batteries
+
+    if( base.is_magazine() ) {
+        base.ammo_set( ammo, qty );
+        return base.ammo_remaining();
+    }
+
     if( !info().has_flag( VPFLAG_FUEL_TANK ) ) {
         return -1;
     }
@@ -6854,11 +6867,19 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 }
 
 void vehicle_part::ammo_unset() {
-    amount = 0;
+    if( base.is_magazine() ) {
+        base.ammo_unset();
+    } else {
+        amount = 0;
+    }
 }
 
-long vehicle_part::ammo_consume( long qty )
+long vehicle_part::ammo_consume( long qty, const tripoint& pos )
 {
+    if( base.is_magazine() ) {
+        return base.ammo_consume( qty, pos );
+    }
+
     int res = std::min( ammo_remaining(), qty );
     amount -= res;
     return res;

@@ -408,6 +408,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
   */
  bool use_amount(const itype_id &it, long &quantity, std::list<item> &used);
 
+    /** Can item can be used as crafting component in current state? */
+    bool allow_crafting_component() const;
+
     /**
      * @name Containers
      *

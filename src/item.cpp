@@ -257,6 +257,10 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     if( is_magazine() ) {
         ammo_unset();
         emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+        if( has_flag( "NO_UNLOAD" ) ) {
+            contents.back().item_tags.insert( "NO_DROP" );
+            contents.back().item_tags.insert( "IRREMOVABLE" );
+        }
 
     } else if( magazine_integral() ) {
         curammo = atype;
@@ -4947,13 +4951,23 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
         }
     }
     // Now check the item itself
-    if (type->id == it && quantity > 0 && contents.empty()) {
+    if( type->id == it && quantity > 0 && allow_crafting_component() ) {
         used.push_back(*this);
         quantity--;
         return true;
     } else {
         return false;
     }
+}
+
+bool item::allow_crafting_component() const
+{
+    // vehicle batteries are implemented as magazines of charge
+    if( is_magazine() && ammo_type() == "battery" ) {
+        return true;
+    }
+
+    return contents.empty();
 }
 
 bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
