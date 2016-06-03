@@ -97,7 +97,6 @@ enum vehicle_controls {
  toggle_overhead_lights,
  toggle_dome_lights,
  toggle_aisle_lights,
- toggle_turrets,
  toggle_stereo,
  toggle_tracker,
  activate_horn,
@@ -1114,12 +1113,6 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         menu.addentry( activate_horn, true, 'o', _("Honk horn") );
     }
 
-    // Turrets: off or burst mode
-    if ( has_electronic_controls && has_turrets ) {
-        menu.addentry( toggle_turrets, true, 't', turret_mode == turret_mode_off ?
-                       _("Enable turrets") : _("Disable turrets") );
-    }
-
     // Turn the fridge on/off
     if ( has_electronic_controls && has_fridge ) {
         menu.addentry( toggle_fridge, true, 'f', fridge_on ? _("Turn off fridge") : _("Turn on fridge") );
@@ -1253,9 +1246,6 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         break;
     case activate_horn:
         honk_horn();
-        break;
-    case toggle_turrets:
-        cycle_global_turret_mode();
         break;
     case toggle_fridge:
         if( fridge_on ) {
@@ -5141,24 +5131,16 @@ void vehicle::gain_moves()
         check_environmental_effects = do_environmental_effects();
     }
 
-    if( turret_mode != turret_mode_off ) { // handle turrets
-        for( size_t p = 0; p < parts.size(); p++ ) {
-            if( !part_flag( p, "TURRET" ) ) {
-                continue;
-            }
-            bool success = fire_turret( p, false );
-            if( !success && parts[p].target.first != parts[p].target.second ) {
-                add_msg( m_bad, _("%s failed to fire! It isn't loaded and/or powered."), parts[ p ].name().c_str() );
-            }
-            // Clear manual target
-            parts[p].target.second = parts[p].target.first;
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        if( !part_flag( p, "TURRET" ) ) {
+            continue;
         }
-
-        if( turret_mode == turret_mode_manual ) {
-            // Manual mode is automatically set when aiming from off, but not from auto
-            // It should only be set for one turn
-            turret_mode = turret_mode_off;
+        bool success = fire_turret( p, false );
+        if( !success && parts[p].target.first != parts[p].target.second ) {
+            add_msg( m_bad, _("%s failed to fire! It isn't loaded and/or powered."), parts[ p ].name().c_str() );
         }
+        // Clear manual target
+        parts[p].target.second = parts[p].target.first;
     }
 
     if( velocity < 0 ) {
@@ -5956,10 +5938,6 @@ bool vehicle::aim_turrets()
         parts[turret_index].target.second = targ;
     }
 
-    if( turret_mode == turret_mode_off ) {
-        turret_mode = turret_mode_manual;
-    }
-
     // Take at least a single whole turn to aim
     ///\EFFECT_INT speeds up aiming of vehicle turrets
     g->u.moves = std::min( 0, g->u.moves - 100 + (5 * g->u.int_cur) );
@@ -6024,10 +6002,6 @@ void vehicle::control_turrets() {
 
         pmenu.reset();
     }
-
-    if( turret_mode == turret_mode_off ) {
-        add_msg( m_warning, _("Turrets have been configured, but the vehicle turret system is off.") );
-    }
 }
 
 void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
@@ -6074,31 +6048,6 @@ void vehicle::cycle_turret_mode( int p, bool only_manual_modes )
             add_msg( m_warning, _("Disabling automatic target acquisition on %s"), name.c_str() );
         }
     }
-}
-
-void vehicle::cycle_global_turret_mode()
-{
-    std::vector< int > turrets = all_parts_with_feature( "TURRET", true );
-    if( turret_mode != turret_mode_off ) {
-        turret_mode = turret_mode_off;
-        add_msg( _("Turrets: Disabled") );
-        // Clear aim points
-        for( int p : turrets ) {
-            parts[p].target.second = parts[p].target.first;
-        }
-
-        return;
-    }
-
-    turret_mode = turret_mode_autotarget;
-    add_msg( _("Turrets: Enabled") );
-    for( int p : turrets ) {
-        if( parts[p].mode > 0 ) {
-            return; // No need to warn
-        }
-    }
-
-    add_msg( m_warning, _("Turret system is on, but all turrets are configured not to shoot.") );
 }
 
 std::map<itype_id, long> vehicle::fuels_left() const
@@ -6198,7 +6147,6 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
-    auto &target = parts[p].target;
     // Don't let manual-only turrets aim
     if( !manual && part_flag( p, "MANUAL" ) ) {
         return false;
@@ -6210,13 +6158,6 @@ bool vehicle::fire_turret( int p, bool manual )
         }
 
         cycle_turret_mode( p, true );
-    }
-
-    // turret_mode_manual means the turrets are globally off, but some are aimed
-    // target.first == target.second means the turret isn't aimed
-    if( !manual && ( turret_mode == turret_mode_manual || parts[p].mode < 0 ) &&
-        target.first == target.second ) {
-        return false;
     }
 
     const auto turret_data = turret_has_ammo( p );

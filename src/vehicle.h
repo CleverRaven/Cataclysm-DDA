@@ -61,13 +61,6 @@ enum veh_coll_type : int {
     num_veh_coll_types
 };
 
-// Saved to file as int, so values should not change
-enum turret_mode_type : int {
-    turret_mode_off = 0,
-    turret_mode_autotarget = 1,
-    turret_mode_manual = 2
-};
-
 // Describes turret's ability to fire (possibly at a particular target)
 enum turret_fire_ability {
     turret_all_ok,
@@ -821,9 +814,6 @@ public:
     // Per-turret mode selection
     void control_turrets();
 
-    // Cycle through available turret modes
-    void cycle_global_turret_mode();
-
     // Set up the turret to fire
     bool fire_turret( int p, bool manual );
 
@@ -994,8 +984,6 @@ public:
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
-
-    int turret_mode = 0;    // turret firing mode: 0 = off, 1 = burst fire
 
     int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
     int overhead_epower     = 0; // total power of components with CIRCLE_LIGHT flag
