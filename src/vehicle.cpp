@@ -6393,7 +6393,8 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
 
-        int to_fire = abs(parts[p].mode) > 1 ? std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) : 1;
+        // @todo hack around turret mode selection to prevent debugmsg until mode selection refactored
+        int to_fire = std::max( abs(parts[p].mode) > 1 ? std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) : 1, 1 );
         res = shooter.fire_gun( targ, to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
