@@ -368,8 +368,7 @@ void game::draw_bullet(Creature const &p, const tripoint &t, int const i,
         return;
     }
 
-    draw_bullet_curses(w_terrain, u, m, t, bullet,
-        (i > 0) ? &trajectory[i - 1] : nullptr, p.is_player());
+    draw_bullet_curses(w_terrain, u, m, t, bullet, &trajectory[i], p.is_player());
 }
 #endif
 

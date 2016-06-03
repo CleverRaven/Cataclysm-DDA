@@ -981,7 +981,6 @@ void add_corpse( const tripoint &p );
         // Splatters of various kind
         void add_splatter( const field_id type, const tripoint &where, int density = 1 );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
-        void add_splatter_trail( const field_id type, const std::vector<tripoint> &trajectory, int length );
         void add_splash( const field_id type, const tripoint &center, int radius, int density );
 
 // End of 3D field function block

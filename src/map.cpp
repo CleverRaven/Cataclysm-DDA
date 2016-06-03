@@ -5668,13 +5668,6 @@ void map::add_splatter_trail( const field_id type, const tripoint &from, const t
     }
 }
 
-void map::add_splatter_trail( const field_id type, const std::vector<tripoint> &trajectory, int length )
-{
-    if( length > 0 && !trajectory.empty() ) {
-        add_splatter_trail( type, trajectory.back(), shift_line_end( trajectory, length - 1 ) );
-    }
-}
-
 void map::add_splash( const field_id type, const tripoint &center, int radius, int density )
 {
     if( type == fd_null ) {

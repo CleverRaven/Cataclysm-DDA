@@ -96,7 +96,7 @@ int ranged_skill_offset( const skill_id &skill )
     return 0;
 }
 
-int blood_trail_len( int damage )
+size_t blood_trail_len( int damage )
 {
     if( damage > 50 ) {
         return 3;
@@ -198,6 +198,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
 
+    trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
         // @todo Make it use a more distant point for more realistic extended lines
@@ -207,24 +208,22 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
     }
     // Range can be 0
-    while( !trajectory.empty() && rl_dist( source, trajectory.back() ) > proj_arg.range ) {
-        trajectory.pop_back();
+    size_t traj_len = trajectory.size();
+    while( traj_len > 0 && rl_dist( source, trajectory[traj_len-1] ) > proj_arg.range ) {
+        --traj_len;
     }
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = has_effect( effect_on_roof ) ?
                             g->m.veh_at( pos() ) : nullptr;
 
-    //Start this now in case we hit something early
-    std::vector<tripoint> blood_traj = std::vector<tripoint>();
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
-    size_t i = 0; // Outside loop, because we want it for line drawing
-    for( ; i < trajectory.size() && ( has_momentum || stream ); i++ ) {
-        blood_traj.push_back(trajectory[i]);
+
+    for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
         prev_point = tp;
         tp = trajectory[i];
 
@@ -233,7 +232,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // Currently strictly no shooting through floor
             // TODO: Bash the floor
             tp = prev_point;
-            i--;
+            traj_len = --i;
             break;
         }
         // Drawing the bullet uses player u, and not player p, because it's drawn
@@ -287,14 +286,16 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
             }
-            dealt_damage_instance dealt_dam;
             attack.missed_by = cur_missed_by;
             critter->deal_projectile_attack( null_source ? nullptr : this, attack );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                g->m.add_splatter_trail( critter->bloodType(), blood_traj,
-                                         blood_trail_len( dealt_dam.total_damage() ) );
+                const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
+                if( bt_len > 0 ) {
+                    const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                    g->m.add_splatter_trail( critter->bloodType(), tp, dest );
+                }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
             } else {
@@ -310,14 +311,16 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         if( !has_momentum && g->m.impassable( tp ) ) {
             // Don't let flamethrowers go through walls
             // TODO: Let them go through bars
+            traj_len = i;
             break;
         }
     } // Done with the trajectory!
 
-    if( do_animation && do_draw_line && i > 0 ) {
-        trajectory.resize( i );
+    if( do_animation && do_draw_line && traj_len > 2 ) {
+        trajectory.erase( trajectory.begin() );
+        trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( g->u, tp, (int)i, trajectory, stream ? '#' : '*' );
+        g->draw_bullet( g->u, tp, int( traj_len-- ), trajectory, stream ? '#' : '*' );
     }
 
     if( g->m.impassable(tp) ) {
