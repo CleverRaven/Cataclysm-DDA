@@ -5670,7 +5670,7 @@
     "description": "This is a sealed glass jar containing some meat.  Use to open and eat to enjoy.",
     "price": 750,
     "material": ["glass", "flesh"],
-    "weight": 567,
+    "weight": 984,
     "volume": 2,
     "bashing": 4,
     "category": "food",
@@ -5678,6 +5678,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "meat_canned",
+        "target_charges":2,
         "container": "jar_glass"
     }
   },
@@ -5691,7 +5692,7 @@
     "description": "This is a sealed glass jar containing some fish.  Use to open and eat to enjoy.",
     "price": 750,
     "material": ["glass", "flesh"],
-    "weight": 512,
+    "weight": 874,
     "volume": 2,
     "bashing": 4,
     "category": "food",
@@ -5699,6 +5700,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "fish_canned",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5734,7 +5736,7 @@
     "description": "This is a sealed glass jar containing human meat.  Use to open and eat to enjoy - if you really want to.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 565,
+    "weight": 980,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5742,6 +5744,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "human_canned",
+        "target_charges":2,
         "container": "jar_glass"
     }
   },
@@ -5755,7 +5758,7 @@
     "description": "This is a sealed glass jar containing mixed vegetables.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 500,
+    "weight": 850,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5763,6 +5766,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_canned",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5776,7 +5780,7 @@
     "description": "This is a sealed glass jar containing sliced fruits.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "veggy"],
-    "weight": 600,
+    "weight": 1050,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5784,7 +5788,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "apple_canned",
-        "target_charges": 3,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5798,7 +5802,7 @@
     "description": "This is a sealed glass jar containing tomatoes.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 600,
+    "weight": 1050,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5806,7 +5810,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "can_tomato",
-        "target_charges": 3,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },{
@@ -5819,7 +5823,7 @@
     "description": "This is a sealed glass jar containing pickled vegetables.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "veggy"],
-    "weight": 533,
+    "weight": 916,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5827,6 +5831,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_pickled",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5862,7 +5867,7 @@
     "description": "This is a sealed glass jar containing pickled meat.  Use to open and eat to enjoy.",
     "price": 700,
     "material": ["glass", "flesh"],
-    "weight": 609,
+    "weight": 1068,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5870,6 +5875,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "meat_pickled",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5883,7 +5889,7 @@
     "description": "This is a sealed glass jar containing pickled fish.  Use to open and eat to enjoy.",
     "price": 700,
     "material": ["glass", "flesh"],
-    "weight": 555,
+    "weight": 960,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5891,6 +5897,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "fish_pickled",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5904,7 +5911,7 @@
     "description": "This is sealed glass jar containing pickled human flesh.  Use to open.  You might even enjoy it.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 609,
+    "weight": 1068,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5912,6 +5919,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "human_pickled",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },{
@@ -5946,7 +5954,7 @@
     "description": "This is a sealed glass jar containing woods soup.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "flesh", "veggy"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5954,7 +5962,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_woods",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -5968,7 +5976,7 @@
     "description": "This is a sealed glass jar containing meat soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "flesh"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5976,7 +5984,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_meat",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -5990,7 +5998,7 @@
     "description": "This is a sealed glass jar containing fish soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "flesh"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5998,7 +6006,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_fish",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -6012,7 +6020,7 @@
     "description": "This is a sealed glass jar containing vegetable soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "veggy"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6020,7 +6028,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_veggy",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -6034,7 +6042,7 @@
     "description": "This is a sealed glass jar containing sap soup.  Use to open and eat to enjoy.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6042,7 +6050,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_human",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -6056,7 +6064,7 @@
     "description": "This is a sealed glass jar containing broth.  Use to open and eat to enjoy.",
     "price": 250,
     "material": ["glass", "veggy"],
-    "weight": 400,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6064,7 +6072,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth",
-        "target_charges": 1,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -6078,7 +6086,7 @@
     "description": "This is a sealed glass jar containing bone broth.  Use to open and eat to enjoy.",
     "price": 200,
     "material": ["glass", "bone"],
-    "weight": 400,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6086,7 +6094,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth_bone",
-        "target_charges": 1,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -6100,7 +6108,7 @@
     "description": "This is a sealed glass jar containing human bone broth.  Use to open and eat to enjoy - if you really want to.",
     "price": 200,
     "material": ["glass", "bone"],
-    "weight": 400,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6108,7 +6116,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth_human",
-        "target_charges": 1,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -6122,7 +6130,7 @@
     "description": "This is a sealed glass jar containing V8.  Use to open and drink to enjoy.",
     "price": 120,
     "material": ["glass", "veggy"],
-    "weight": 522,
+    "weight": 500,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
