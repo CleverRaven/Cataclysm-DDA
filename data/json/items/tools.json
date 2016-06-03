@@ -3467,20 +3467,6 @@
     "ammo": "plutonium"
   },
   {
-    "id": "fake_UPS",
-    "type": "TOOL",
-    "symbol": ";",
-    "color": "light_red",
-    "name": "fake UPS",
-    "name_plural": "fake UPS",
-    "description": "If you can see this, it is a bug.",
-    "price": 0,
-    "weight": 0,
-    "volume": 0,
-    "max_charges": 1000,
-    "ammo": "battery"
-  },
-  {
      "id" : "tazer",
      "type" : "TOOL",
      "symbol" : ";",
