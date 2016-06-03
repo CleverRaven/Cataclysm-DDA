@@ -3283,7 +3283,7 @@ int toolweapon_on( player *p, item *it, bool t,
         "_off";
     if (t) { // Effects while simply on
         if (double_charge_cost && it->ammo_remaining() > 0) {
-            it->charges--;
+            it->ammo_consume( 1, p->pos() );
         }
         if (!works_underwater && p->is_underwater()) {
             p->add_msg_if_player(_("Your %s gurgles in the water and stops."), tname);
@@ -6475,7 +6475,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
     if (t) {
         if( it->get_var( "EIPC_MUSIC_ON" ) != "" && ( it->ammo_remaining() > 0 ) ) {
             if( calendar::once_every(MINUTES(5)) ) {
-                it->charges--;
+                it->ammo_consume( 1, p->pos() );
             }
 
             //the more varied music, the better max mood.
