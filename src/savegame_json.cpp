@@ -1564,8 +1564,8 @@ void vehicle_part::deserialize(JsonIn &jsin)
     if( !base.has_flag( "VEHICLE") ) {
         base.item_tags.insert( "VEHICLE" );
         if( base.is_magazine() ) {
-            amount = 0;
             base.ammo_set( id.obj().fuel_type, amount );
+            amount = 0;
         }
     }
 }
