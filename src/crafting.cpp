@@ -917,7 +917,7 @@ void set_item_inventory( item &newit )
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );
-        } else if( !g->u.can_pickWeight( newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+        } else if( !g->u.can_pickWeight( newit, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
             add_msg( _( "The %s is too heavy to carry, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );

@@ -335,7 +335,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
 
     if( newit.made_of(LIQUID) ) {
         got_water = true;
-    } else if (!u.can_pickWeight(newit.weight(), false)) {
+    } else if ( !u.can_pickWeight( newit, false ) ) {
         add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
     } else if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
         // @todo Make quiver code generic so that ammo pouches can use it too

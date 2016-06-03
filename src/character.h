@@ -404,7 +404,7 @@ class Character : public Creature, public visitable<Character>
         int weight_capacity() const override;
         int volume_capacity() const;
         bool can_pickVolume( const item &it, bool safe = false ) const;
-        bool can_pickWeight(int weight, bool safe = true) const;
+        bool can_pickWeight( const item &it, bool safe = true ) const;
 
         virtual void drop_inventory_overflow();
 

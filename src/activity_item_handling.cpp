@@ -378,7 +378,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
             }
 
             // Is it too heavy? It'll take a while...
-            if( !g->u.can_pickWeight( temp_item->weight(), true ) ) {
+            if( !g->u.can_pickWeight( *temp_item, true ) ) {
                 int overweight = temp_item->weight() - ( g->u.weight_capacity() - g->u.weight_carried() );
 
                 // ...like one move cost per 100 grams over your leftover carry capacity.

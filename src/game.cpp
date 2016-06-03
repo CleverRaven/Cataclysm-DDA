@@ -11431,7 +11431,7 @@ bool add_or_drop_with_msg( player &u, item &it )
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                  it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
-    } else if( !u.can_pickWeight( it.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+    } else if( !u.can_pickWeight( it, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
         add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
     } else {

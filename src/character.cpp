@@ -646,7 +646,7 @@ bool Character::i_add_or_drop(item& it, int qty) {
     bool drop = false;
     inv.assign_empty_invlet(it);
     for (int i = 0; i < qty; ++i) {
-        if (!drop && (!can_pickWeight(it.weight(), !OPTIONS["DANGEROUS_PICKUPS"])
+        if ( !drop && ( !can_pickWeight( it, !OPTIONS["DANGEROUS_PICKUPS"] )
                       || !can_pickVolume( it ) ) ) {
             drop = true;
         }
@@ -843,16 +843,16 @@ bool Character::can_pickVolume( const item &it, bool ) const
    return projected.volume() <= volume_capacity();
 }
 
-bool Character::can_pickWeight( int weight, bool safe ) const
+bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if (!safe)
     {
         // Character can carry up to four times their maximum weight
-        return (weight_carried() + weight <= weight_capacity() * 4);
+        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
     }
     else
     {
-        return (weight_carried() + weight <= weight_capacity());
+        return ( weight_carried() + it.weight() <= weight_capacity() );
     }
 }
 

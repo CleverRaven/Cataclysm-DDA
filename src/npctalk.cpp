@@ -4542,7 +4542,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 
     if( !taken && allow_carry &&
         p.can_pickVolume( given ) &&
-        p.can_pickWeight( given.weight() ) ) {
+        p.can_pickWeight( given ) ) {
         taken = true;
         p.i_add( given );
     }
@@ -4585,7 +4585,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
                 reason << string_format( _("...or to store anything else for that matter.") );
             }
         }
-        if( !p.can_pickWeight( given.weight() ) ) {
+        if( !p.can_pickWeight( given ) ) {
             reason << std::endl;
             reason << string_format( _("It is too heavy for me to carry.") );
         }
