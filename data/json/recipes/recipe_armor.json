@@ -9506,7 +9506,8 @@
     [
       [ "soldering_iron", 20 ],
       [ "welder", 20 ],
-      [ "hotplate", 20 ]
+      [ "hotplate", 20 ],
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -9535,7 +9536,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9564,7 +9566,8 @@
     [
       [ "soldering_iron", 10],
       [ "welder", 10 ],
-      [ "hotplate", 10 ]
+      [ "hotplate", 10 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -9593,7 +9596,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9622,7 +9626,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9651,7 +9656,8 @@
     [
       [ "soldering_iron", 5 ],
       [ "welder", 5 ],
-      [ "hotplate", 5 ]
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -9680,7 +9686,8 @@
     [
       [ "soldering_iron", 5 ],
       [ "welder", 5 ],
-      [ "hotplate", 5 ]
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -9709,7 +9716,8 @@
     [
       [ "soldering_iron", 3 ],
       [ "welder", 3 ],
-      [ "hotplate", 3 ]
+      [ "hotplate", 3 ],
+      [ "toolset", 3 ]
     ]
   ],
   "components": [

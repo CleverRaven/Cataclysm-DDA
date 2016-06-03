@@ -18,6 +18,7 @@
 #include "material.h"
 #include "artifact.h"
 #include "veh_type.h"
+#include "catacharset.h"
 #include "init.h"
 #include "generic_factory.h"
 #include "game.h"
@@ -133,11 +134,11 @@ void Item_factory::finalize() {
             }
 
             // if the gun doesn't have a DEFAULT mode then add one now
-            obj.gun->modes.emplace( "DEFAULT", std::make_pair<std::string, int>( std::move( defmode ), 1 ) );
+            obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1, {} ) );
 
             if( obj.gun->burst > 1 ) {
                 // handle legacy JSON format
-                obj.gun->modes.emplace( "AUTO", std::pair<std::string, int>( "auto", obj.gun->burst ) );
+                obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( "auto", obj.gun->burst, {} ) );
             }
 
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
@@ -167,6 +168,13 @@ void Item_factory::finalize() {
                         }
                     }
                 }
+            }
+        }
+
+        for( use_function &use_fun : obj.use_methods ) {
+            iuse_actor *actor = use_fun.get_actor_ptr();
+            if( actor != nullptr ) {
+                actor->finalize( obj.id );
             }
         }
     }
@@ -344,7 +352,6 @@ void Item_factory::init()
     iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["DOUBLE_REACTOR"] = &iuse::double_reactor;
-    iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
@@ -565,8 +572,10 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->sym == 0 ) {
+        if( type->sym.empty() ) {
             msg << "symbol not defined" << "\n";
+        } else if( utf8_width( type->sym ) != 1 ) {
+            msg << "symbol must be exactly one console cell width" << "\n";
         }
 
         for( const auto &_a : type->techniques ) {
@@ -689,6 +698,10 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->gunmod ) {
+            if( type->gunmod->location.empty() ) {
+                    msg << "gunmod does not specify location" << "\n";
+            }
+
             check_ammo_type( msg, type->gunmod->ammo_modifier );
         }
         if( type->magazine ) {
@@ -756,7 +769,8 @@ void Item_factory::check_definitions() const
     }
     if( !g->has_option( "blacklist_magazines" ) ) {
         for( auto &mag : magazines_defined ) {
-            if( magazines_used.count( mag ) == 0 ) {
+            // some vehicle parts (currently batteries) are implemented as magazines
+            if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {
                 main_stream << "Magazine " << mag << " defined but not used.\n";
             }
         }
@@ -969,7 +983,13 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo )
         JsonArray jarr = jo.get_array( "modes" );
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
-            slot.modes.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
+
+            std::tuple<std::string, int, std::set<std::string>> mode(
+                curr.get_string( 1 ),
+                curr.get_int( 2 ),
+                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
+            );
+            slot.modes.emplace( curr.get_string( 0 ), mode );
         }
     }
 }
@@ -1190,23 +1210,30 @@ void Item_factory::load( islot_container &slot, JsonObject &jo )
 
 void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
 {
-    slot.damage = jo.get_int( "damage_modifier", 0 );
-    slot.loudness = jo.get_int( "loudness_modifier", 0 );
-    slot.ammo_modifier = jo.get_string( "ammo_modifier", slot.ammo_modifier );
-    slot.location = jo.get_string( "location" );
-    // TODO: implement loading this from json (think of a proper name)
-    // slot.pierce = jo.get_string( "mod_pierce", 0 );
-    slot.usable = jo.get_tags( "mod_targets");
-    slot.dispersion = jo.get_int( "dispersion_modifier", 0 );
-    slot.sight_dispersion = jo.get_int( "sight_dispersion", -1 );
-    slot.aim_speed = jo.get_int( "aim_speed", -1 );
-    slot.recoil = jo.get_int( "recoil_modifier", 0 );
-    slot.range = jo.get_int( "range_modifier", 0 );
-    slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
-    slot.ups_charges = jo.get_int( "ups_charges", slot.ups_charges );
-    slot.install_time = jo.get_int( "install_time", slot.install_time );
+    assign( jo, "damage_modifier", slot.damage );
+    assign( jo, "loudness_modifier", slot.loudness );
+    assign( jo, "ammo_modifier", slot.ammo_modifier );
+    assign( jo, "location", slot.location );
+    assign( jo, "dispersion_modifier", slot.dispersion );
+    assign( jo, "sight_dispersion", slot.sight_dispersion );
+    assign( jo, "aim_speed", slot.aim_speed );
+    assign( jo, "recoil_modifier", slot.recoil );
+    assign( jo, "range_modifier", slot.range );
+    assign( jo, "ups_charges", slot.ups_charges );
+    assign( jo, "install_time", slot.install_time );
+
+    if( jo.has_member( "mod_targets" ) ) {
+        slot.usable = jo.get_tags( "mod_targets");
+    }
+
+    if( jo.has_member( "acceptable_ammo" ) ) {
+        slot.acceptable_ammo = jo.get_tags( "acceptable_ammo" );
+    }
 
     JsonArray mags = jo.get_array( "magazine_adaptor" );
+    if( !mags.empty() ) {
+        slot.magazine_adaptor.clear();
+    }
     while( mags.has_more() ) {
         JsonArray arr = mags.next_array();
 
@@ -1223,16 +1250,24 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
         JsonArray jarr = jo.get_array( "mode_modifier" );
         while( jarr.has_more() ) {
             JsonArray curr = jarr.next_array();
-            slot.mode_modifier.emplace( curr.get_string( 0 ), std::make_pair<std::string, int>( curr.get_string( 1 ), curr.get_int( 2 ) ) );
+
+            std::tuple<std::string, int, std::set<std::string>> mode(
+                curr.get_string( 1 ),
+                curr.get_int( 2 ),
+                curr.size() >= 4 ? curr.get_tags( 3 ) : std::set<std::string>()
+            );
+            slot.mode_modifier.emplace( curr.get_string( 0 ), mode );
         }
     }
 }
 
 void Item_factory::load_gunmod(JsonObject &jo)
 {
-    itype *new_item_template = new itype();
-    load_slot( new_item_template->gunmod, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def ) {
+        load_slot( def->gunmod, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load( islot_magazine &slot, JsonObject &jo )
@@ -1388,7 +1423,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
 
     if( jo.has_string( "symbol" ) ) {
-        new_item_template->sym = jo.get_string( "symbol" )[0];
+        new_item_template->sym = jo.get_string( "symbol" );
     }
 
     if( jo.has_string( "color" ) ) {

@@ -1516,7 +1516,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             }
         } else if (category == C_ITEM) {
             const auto tmp = item( id, 0 );
-            sym = tmp.symbol();
+            sym = tmp.symbol().empty() ? ' ' : tmp.symbol().front();
             col = tmp.color();
         }
         // Special cases for walls

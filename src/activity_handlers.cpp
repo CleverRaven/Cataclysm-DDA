@@ -564,7 +564,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             break;
         case LST_INFINITE_MAP:
             liquid.deserialize( act.str_values.at( 0 ) );
-            liquid.charges = std::numeric_limits<long>::max();
+            liquid.charges = item::INFINITE_CHARGES;
             break;
         case LST_MAP_ITEM:
             if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {
@@ -811,10 +811,10 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 
     //Deduct 1 battery charge for every minute spent playing
     if( calendar::once_every(MINUTES(1)) ) {
-        game_item.charges--;
+        game_item.ammo_consume( 1, p->pos() );
         p->add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
     }
-    if( game_item.charges == 0 ) {
+    if( game_item.ammo_remaining() == 0 ) {
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), game_item.tname().c_str());
     }
@@ -1254,13 +1254,13 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     //Deduct 1 battery charge for every minute using the vibrator
     if( calendar::once_every(MINUTES(1)) ) {
-        vibrator_item.charges--;
+        vibrator_item.ammo_consume( 1, p->pos() );
         p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
         // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
         // you pretty close to Dead Tired from a well-rested state.
         p->mod_fatigue(4);
     }
-    if( vibrator_item.charges == 0 ) {
+    if( vibrator_item.ammo_remaining() == 0 ) {
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
     }
@@ -1338,7 +1338,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     const ter_id ter = g->m.ter( pos );
 
     // fast players might still have some charges left to be consumed
-    p->i_at( act->position ).charges -= act->values[0];
+    p->i_at( act->position ).ammo_consume( act->values[0], p->pos() );
 
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
@@ -1500,8 +1500,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // TODO: Allow setting this in the actor
     // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-    const int charges_to_use = used_tool->type->charges_to_use();
-    if( used_tool->charges < charges_to_use ) {
+    if( !used_tool->ammo_sufficient() ) {
         p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname().c_str() );
         act->type = ACT_NULL;
         return;
@@ -1515,7 +1514,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
         if( attempt != repair_item_actor::AS_CANT ) {
-            p->consume_charges( *used_tool, charges_to_use );
+            p->consume_charges( *used_tool, used_tool->ammo_required() );
         }
 
         // Print message explaining why we stopped

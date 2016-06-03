@@ -678,7 +678,6 @@ public:
  bool is_last_ter_wall(const bool no_furn, const int x, const int y,
                        const int xmax, const int ymax, const direction dir) const;
     bool flammable_items_at( const tripoint &p );
-    bool moppable_items_at( const tripoint &p );
  point random_outdoor_tile();
 // mapgen
 
@@ -749,7 +748,11 @@ void add_corpse( const tripoint &p );
     void fungalize( const tripoint &p, Creature *source = nullptr, double spore_chance = 0.0 );
 
     bool has_adjacent_furniture( const tripoint &p );
-    void mop_spills( const tripoint &p );
+     /** Remove moppable fields/items at this location
+     *  @param p the location
+     *  @return true if anything moppable was there, false otherwise.
+     */
+    bool mop_spills( const tripoint &p );
     /**
     * Moved here from weather.cpp for speed. Decays fire, washable fields and scent.
     * Washable fields are decayed only by 1/3 of the amount fire is.
@@ -981,7 +984,6 @@ void add_corpse( const tripoint &p );
         // Splatters of various kind
         void add_splatter( const field_id type, const tripoint &where, int density = 1 );
         void add_splatter_trail( const field_id type, const tripoint &from, const tripoint &to );
-        void add_splatter_trail( const field_id type, const std::vector<tripoint> &trajectory, int length );
         void add_splash( const field_id type, const tripoint &center, int radius, int density );
 
 // End of 3D field function block

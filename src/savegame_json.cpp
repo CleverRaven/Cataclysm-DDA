@@ -1559,6 +1559,15 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_x", target.second.x);
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
+
+    // migrate legacy base items which may not be tagged VEHICLE
+    if( !base.has_flag( "VEHICLE") ) {
+        base.item_tags.insert( "VEHICLE" );
+        if( base.is_magazine() ) {
+            base.ammo_set( id.obj().fuel_type, amount );
+            amount = 0;
+        }
+    }
 }
 
 void vehicle_part::serialize(JsonOut &json) const

@@ -161,8 +161,8 @@
       <Message>Generate version.h</Message>
     </PreBuildEvent>
     <ClCompile>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
   </ItemDefinitionGroup>
 </Project>

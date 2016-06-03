@@ -2918,35 +2918,6 @@ bool map::flammable_items_at( const tripoint &p )
     return false;
 }
 
-bool map::moppable_items_at( const tripoint &p )
-{
-    for (auto &i : i_at(p)) {
-        if (i.made_of(LIQUID)) {
-            return true;
-        }
-    }
-    const field &fld = field_at(p);
-    if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
-          fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
-          || fld.findField(fd_gibs_flesh) != 0 || fld.findField(fd_gibs_veggy) != 0 ||
-          fld.findField(fd_gibs_insect) != 0 || fld.findField(fd_gibs_invertebrate) != 0
-          || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 ||
-          fld.findField(fd_sludge) != 0) {
-        return true;
-    }
-    int vpart;
-    vehicle *veh = veh_at(p, vpart);
-    if(veh != 0) {
-        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount.x, veh->parts[vpart].mount.y);
-        for(auto &i : parts_here) {
-            if(veh->parts[i].blood > 0) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 void map::decay_fields_and_scent( const int amount )
 {
     // Decay scent separately, so that later we can use field count to skip empty submaps
@@ -3099,36 +3070,50 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
     return false;
 }
 
-void map::mop_spills( const tripoint &p ) {
+bool map::mop_spills( const tripoint &p )
+{
     auto items = i_at( p );
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( it->made_of(LIQUID) ) {
-            it = items.erase( it );
-        } else {
-            it++;
-        }
+    auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
+        return it.made_of( LIQUID );
+    } );
+    bool retval = new_end != items.end();
+    while( new_end != items.end() ) {
+        new_end = items.erase( new_end );
     }
-    remove_field( p, fd_blood );
-    remove_field( p, fd_blood_veggy );
-    remove_field( p, fd_blood_insect );
-    remove_field( p, fd_blood_invertebrate );
-    remove_field( p, fd_gibs_flesh );
-    remove_field( p, fd_gibs_veggy );
-    remove_field( p, fd_gibs_insect );
-    remove_field( p, fd_gibs_invertebrate );
-    remove_field( p, fd_bile );
-    remove_field( p, fd_slime );
-    remove_field( p, fd_sludge );
+
+    field &fld = field_at( p );
+    static const std::vector<field_id> to_check = {
+        fd_blood,
+        fd_blood_veggy,
+        fd_blood_insect,
+        fd_blood_invertebrate,
+        fd_gibs_flesh,
+        fd_gibs_veggy,
+        fd_gibs_insect,
+        fd_gibs_invertebrate,
+        fd_bile,
+        fd_slime,
+        fd_sludge
+    };
+    for( field_id fid : to_check ) {
+        retval |= fld.removeField( fid );
+    }
+
     int vpart;
-    vehicle *veh = veh_at(p, vpart);
-    if(veh != 0) {
+    vehicle *veh = veh_at( p, vpart );
+    if( veh != 0 ) {
         std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount.x,
-                                                              veh->parts[vpart].mount.y );
+                                      veh->parts[vpart].mount.y );
         for( auto &elem : parts_here ) {
-            veh->parts[elem].blood = 0;
+            if( veh->parts[elem].blood > 0 ) {
+                veh->parts[elem].blood = 0;
+                retval = true;
+            }
         }
-    }
+    } // if veh != 0
+    return retval;
 }
+
 
 void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chance )
 {
@@ -4710,11 +4695,11 @@ item &map::add_item_at( const tripoint &p,
 item map::water_from(const tripoint &p)
 {
     if( has_flag( "SALT_WATER", p ) ) {
-        item ret( "salt_water", 0, std::numeric_limits<int>::max() );
+        item ret( "salt_water", 0, item::INFINITE_CHARGES );
         return ret;
     }
 
-    item ret( "water", 0, std::numeric_limits<int>::max() );
+    item ret( "water", 0, item::INFINITE_CHARGES );
     if( ter( p ) == t_water_sh && one_in( 3 ) ) {
         ret.poison = rng(1, 4);
     } else if( ter( p ) == t_water_dp && one_in( 4 ) ) {
@@ -5089,17 +5074,23 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
         return;
     }
 
+
     const itype *itt = f.crafting_pseudo_item_type();
-    if (itt == NULL || itt->id != type) {
-        return;
-    }
-    const itype *ammo = f.crafting_ammo_item_type();
-    if (ammo != NULL) {
-        item furn_item(itt->id, 0);
-        furn_item.charges = remove_charges_in_list(ammo, m->i_at( p ), quantity);
-        if (furn_item.charges > 0) {
-            ret.push_back(furn_item);
-            quantity -= furn_item.charges;
+    if( itt != nullptr && itt->tool && itt->tool->ammo_id != "NULL" ) {
+        const itype_id ammo = default_ammo( itt->tool->ammo_id );
+        auto stack = m->i_at( p );
+        auto iter = std::find_if( stack.begin(), stack.end(), [ammo]( const item &i ) { return i.typeId() == ammo; } );
+        if( iter != stack.end() ) {
+            item furn_item( itt->id, -1, iter->charges );
+            // The item constructor limits the charges to the (type specific) maximum.
+            // Setting it separately circumvents that - syncron with the code that creates
+            // the pseudo item (and fills its charges) in inventory.cpp
+            furn_item.charges = iter->charges;
+            if( furn_item.use_charges( type, quantity, ret, p ) ) {
+                stack.erase( iter );
+            } else {
+                iter->charges = furn_item.charges;
+            }
         }
     }
 }
@@ -5662,13 +5653,6 @@ void map::add_splatter_trail( const field_id type, const tripoint &from, const t
     }
 }
 
-void map::add_splatter_trail( const field_id type, const std::vector<tripoint> &trajectory, int length )
-{
-    if( length > 0 && !trajectory.empty() ) {
-        add_splatter_trail( type, trajectory.back(), shift_line_end( trajectory, length - 1 ) );
-    }
-}
-
 void map::add_splash( const field_id type, const tripoint &center, int radius, int density )
 {
     if( type == fd_null ) {
@@ -5745,7 +5729,7 @@ void map::debug()
   for (int j = 0; j <= SEEY * 2; j++) {
    if (i_at(i, j).size() > 0) {
     mvprintw(1, 0, "%d, %d: %d items", i, j, i_at(i, j).size());
-    mvprintw(2, 0, "%c, %d", i_at(i, j)[0].symbol(), i_at(i, j)[0].color());
+    mvprintw(2, 0, "%s, %d", i_at(i, j)[0].symbol().c_str(), i_at(i, j)[0].color());
     getch();
    }
   }
@@ -6101,6 +6085,11 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         }
     }
 
+    // TODO: change the local variable sym to std::string and use it instead of this hack.
+    // Currently this are different variables because terrain/... uses long as symbol type and
+    // item now use string. Ideally they should all be strings.
+    std::string item_sym;
+
     // If there are items here, draw those instead
     if( show_items && curr_maptile.get_item_count() > 0 && sees_some_items( p, g->u ) ) {
         // if there's furniture/terrain/trap/fields (sym!='.')
@@ -6109,7 +6098,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
             hi = true;
         } else {
             // otherwise override with the symbol of the last item
-            sym = curr_maptile.get_uppermost_item().symbol();
+            item_sym = curr_maptile.get_uppermost_item().symbol();
             if (!draw_item_sym) {
                 tercol = curr_maptile.get_uppermost_item().color();
             }
@@ -6124,6 +6113,7 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     if( veh != nullptr ) {
         sym = special_symbol( veh->face.dir_symbol( veh->part_sym( veh_part ) ) );
         tercol = veh->part_color( veh_part );
+        item_sym = ""; // clear the item symbol so `sym` is used instead.
     }
 
     // If there's graffiti here, change background color
@@ -6157,15 +6147,23 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
 
     if( inorder ) {
         // Rastering the whole map, take advantage of automatically moving the cursor.
-        wputch(w, tercol, sym);
+        if( item_sym.empty() ) {
+            wputch(w, tercol, sym);
+        } else {
+            wprintz( w, tercol, "%s", item_sym.c_str() );
+        }
     } else {
         // Otherwise move the cursor before drawing.
         const int k = p.x + getmaxx(w) / 2 - view_center.x;
         const int j = p.y + getmaxy(w) / 2 - view_center.y;
-        mvwputch(w, j, k, tercol, sym);
+        if( item_sym.empty() ) {
+            mvwputch(w, j, k, tercol, sym);
+        } else {
+            mvwprintz( w, j, k, tercol, "%s", item_sym.c_str() );
+        }
     }
 
-    return !zlevels || sym != ' ' || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
+    return !zlevels || sym != ' ' || !item_sym.empty() || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
 }
 
 void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,

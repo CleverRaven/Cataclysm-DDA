@@ -901,7 +901,7 @@ std::list<item> starting_inv( npc *me, npc_class type )
         int qty = 1 + ( type == NC_COWBOY || type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while ( qty-- != 0 && me->can_pickVolume( ammo.volume() ) ) {
+        while ( qty-- != 0 && me->can_pickVolume( ammo ) ) {
             // @todo give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -921,7 +921,7 @@ std::list<item> starting_inv( npc *me, npc_class type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
-            if( me->can_pickVolume( tmp.volume() ) ) {
+            if( me->can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
             }
         }

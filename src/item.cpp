@@ -62,6 +62,7 @@ const species_id ROBOT( "ROBOT" );
 
 const efftype_id effect_cig( "cig" );
 const efftype_id effect_shakes( "shakes" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_weed_high( "weed_high" );
 
 enum item::LIQUID_FILL_ERROR : int {
@@ -101,12 +102,14 @@ static const itype *nullitem()
     return &nullitem_m;
 }
 
+const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
+
 item::item()
 {
     type = nullitem();
 }
 
-item::item( const itype *type, int turn, int qty ) : type( type )
+item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
@@ -157,7 +160,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
     }
 }
 
-item::item( const itype_id& id, int turn, int qty )
+item::item( const itype_id& id, int turn, long qty )
     : item( find_type( id ), turn, qty ) {}
 
 item::item( const itype *type, int turn, default_charges_tag )
@@ -254,6 +257,10 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     if( is_magazine() ) {
         ammo_unset();
         emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+        if( has_flag( "NO_UNLOAD" ) ) {
+            contents.back().item_tags.insert( "NO_DROP" );
+            contents.back().item_tags.insert( "IRREMOVABLE" );
+        }
 
     } else if( magazine_integral() ) {
         curammo = atype;
@@ -937,7 +944,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         std::vector<std::string> fm;
         for( const auto &e : gun_all_modes() ) {
-            if( e.second.target == this && !e.second.melee ) {
+            if( e.second.target == this && !e.second.melee() ) {
                 fm.emplace_back( string_format( "%s (%i)", e.second.mode.c_str(), e.second.qty ) );
             }
         }
@@ -1925,10 +1932,8 @@ int item::engine_displacement() const
     return type->engine ? type->engine->displacement : 0;
 }
 
-char item::symbol() const
+const std::string &item::symbol() const
 {
-    if( is_null() )
-        return ' ';
     return type->sym;
 }
 
@@ -2636,13 +2641,27 @@ int item::damage_by_type( damage_type dt ) const
     return 0;
 }
 
-int item::reach_range() const
+int item::reach_range( const player &p ) const
 {
-    if( is_gunmod() || !has_flag( "REACH_ATTACK" ) ) {
-        return 1;
+    int res = 1;
+
+    if( has_flag( "REACH_ATTACK" ) ) {
+        res = has_flag( "REACH3" ) ? 3 : 2;
     }
 
-    return has_flag( "REACH3" ) ? 3 : 2;
+    // for guns consider any attached gunmods
+    if( is_gun() && !is_gunmod() ) {
+        for( const auto &m : gun_all_modes() ) {
+            if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
+                continue;
+            }
+            if( m.second.melee() ) {
+                res = std::max( res, m.second.qty );
+            }
+        }
+    }
+
+    return res;
 }
 
 
@@ -3942,6 +3961,10 @@ long item::ammo_required() const
     return 0;
 }
 
+bool item::ammo_sufficient( int qty ) const {
+    return ammo_remaining() >= ammo_required() * qty;
+}
+
 long item::ammo_consume( long qty, const tripoint& pos ) {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
@@ -4213,7 +4236,7 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 {
     std::map<std::string, const item::gun_mode> res;
 
-    if( !is_gun() ) {
+    if( !is_gun() || is_gunmod() ) {
         return res;
     }
 
@@ -4227,23 +4250,19 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
-                auto qty = m.second.second;
+                auto qty = std::get<1>( m.second );
                 if( m.first == "AUTO" && e == this && has_flag( "RAPIDFIRE" ) ) {
                     qty *= 1.5;
                 }
 
-                res.emplace( prefix += m.first, item::gun_mode { m.second.first, const_cast<item *>( e ),
-                                                                 qty, false } );
+                res.emplace( prefix += m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
+                                                                 qty, std::get<2>( m.second ) } );
             };
-        }
-        if( e->has_flag( "REACH_ATTACK" ) ) {
-            res.emplace( "REACH", item::gun_mode { e->tname(), const_cast<item *>( e ),
-                                                   e->has_flag( "REACH3" ) ? 3 : 2, true } );
         }
         if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { m.second.first, const_cast<item *>( this ),
-                                                       m.second.second, false } );
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
+                                                       std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
     }
@@ -4260,7 +4279,7 @@ const item::gun_mode item::gun_get_mode( const std::string& mode ) const
             }
         }
     }
-    return { "", nullptr, 0, false };
+    return { "", nullptr, 0, {} };
 }
 
 item::gun_mode item::gun_current_mode()
@@ -4932,13 +4951,23 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
         }
     }
     // Now check the item itself
-    if (type->id == it && quantity > 0 && contents.empty()) {
+    if( type->id == it && quantity > 0 && allow_crafting_component() ) {
         used.push_back(*this);
         quantity--;
         return true;
     } else {
         return false;
     }
+}
+
+bool item::allow_crafting_component() const
+{
+    // vehicle batteries are implemented as magazines of charge
+    if( is_magazine() && ammo_type() == "battery" ) {
+        return true;
+    }
+
+    return contents.empty();
 }
 
 bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
@@ -5430,6 +5459,13 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this, 2 );
             return true; // removes the item that has just been added to the map
         }
+
+        if( carrier->has_effect( effect_sleep ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
+                                        tname().c_str() );
+            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this, 2 );
+            return true; // removes the item that has just been added to the map
+        }
     } else {
         // If not carried by someone, but laying on the ground:
         // release some smoke every five ticks
@@ -5824,6 +5860,11 @@ std::string item::label( unsigned int quantity ) const
     }
 
     return type_name( quantity );
+}
+
+bool item::has_infinite_charges() const
+{
+    return charges == INFINITE_CHARGES;
 }
 
 item_category::item_category() : id(), name(), sort_rank( 0 )

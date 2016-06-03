@@ -314,21 +314,12 @@ unsigned make_xyz(int const x, int const y, int const z)
    }
 }
 
-// returns normalized dx and dy for the current line vector.
-std::pair<double, double> slope_of(const std::vector<point> &line)
-{
-    const double len = line.size();
-    double normDx = (line.back().x - line.front().x) / len;
-    double normDy = (line.back().y - line.front().y) / len;
-    std::pair<double, double> ret = std::make_pair(normDx, normDy); // slope of x, y
-    return ret;
-}
-
 // returns the normalized dx, dy, dz for the current line vector.
 // ret.second contains z and can be ignored if unused.
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line)
 {
-    const double len = line.size();
+    assert(!line.empty() && line.front() != line.back());
+    const double len = trig_dist(line.front(), line.back());
     double normDx = (line.back().x - line.front().x) / len;
     double normDy = (line.back().y - line.front().y) / len;
     double normDz = (line.back().z - line.front().z) / len;
@@ -351,37 +342,21 @@ float get_normalized_angle( const point &start, const point &end )
     return min / max;
 }
 
-point shift_line_end( const std::vector<point> &line, const int distance )
-{
-    const point start( line.back() );
-    point end( line.back() );
-    const auto slope = slope_of( line );
-    end.x += distance * slope.first;
-    end.y += distance * slope.second;
-    return end;
-}
-
-tripoint shift_line_end( const std::vector<tripoint> &line, const int distance )
+tripoint move_along_line( const tripoint &loc, const std::vector<tripoint> &line, const int distance )
 {
     // May want to optimize this, but it's called fairly infrequently as part of specific attack
     // routines, erring on the side of readability.
-    const tripoint start( line.back() );
-    tripoint end( line.back() );
+    tripoint res( loc );
     const auto slope = slope_of( line );
-    end.x += distance * slope.first.first;
-    end.y += distance * slope.first.second;
-    end.z += distance * slope.second;
-    return end;
-}
-
-std::vector<point> continue_line(const std::vector<point> &line, const int distance)
-{
-    return line_to( line.back(), shift_line_end( line, distance ) );
+    res.x += distance * slope.first.first;
+    res.y += distance * slope.first.second;
+    res.z += distance * slope.second;
+    return res;
 }
 
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, const int distance)
 {
-    return line_to( line.back(), shift_line_end( line, distance ) );
+    return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
 direction direction_from(int const x, int const y, int const z) noexcept

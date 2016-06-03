@@ -50,40 +50,48 @@ const efftype_id effect_rat( "rat" );
 
 void mdeath::normal(monster *z)
 {
-    if ((g->u.sees(*z)) && (!z->no_corpse_quiet)) {
-        add_msg(m_good, _("The %s dies!"),
-                z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
+    if( z->no_corpse_quiet ) {
+        return;
     }
-    if ( z->type->in_species( ZOMBIE )) {
-            sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume(z->pos()));
-        }
-    bool is_big_beast = z->type->size >= MS_MEDIUM;
-    bool leaveCorpse = !z->no_corpse_quiet;
 
-    // leave some blood if we have to
-    z->bleed();
+    if( z->type->in_species( ZOMBIE ) ) {
+        sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume( z->pos() ) );
+    }
+
+    if( g->u.sees( *z ) ) {
+        //Currently it is possible to get multiple messages that a monster died.
+        add_msg( m_good, _( "The %s dies!" ), z->name().c_str() );
+    }
 
     const int max_hp = std::max( z->get_hp_max(), 1 );
-    const float overflowDamage = std::max( -z->get_hp(), 0 );
-    const float corpseDamage = 2.5 * overflowDamage / max_hp;
+    const float overflow_damage = std::max( -z->get_hp(), 0 );
+    const float corpse_damage = 2.5 * overflow_damage / max_hp;
+    const bool pulverized = corpse_damage > 5 && overflow_damage > 150;
 
-    if (leaveCorpse) {
-        bool pulverized = (corpseDamage > 5 && overflowDamage > 150);
-        if (!pulverized) {
-            make_mon_corpse(z, int(floor(corpseDamage)));
-        } else if( is_big_beast ) {
-            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume(z->pos()));
+    z->bleed(); // leave some blood if we have to
+
+    if( !pulverized ) {
+        make_mon_corpse( z, int( std::floor( corpse_damage ) ) );
+    }
+
+    // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
+    const bool gibbable = z->made_of( material_id( "flesh" ) )  ||
+                          z->made_of( material_id( "hflesh" ) ) ||
+                          z->made_of( material_id( "veggy" ) )  ||
+                          z->made_of( material_id( "iflesh" ) );
+
+    if( gibbable ) {
+        const auto area = g->m.points_in_radius( z->pos(), 1 );
+        int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
+
+        if( pulverized && z->type->size >= MS_MEDIUM ) {
+            number_of_gibs += rng( 1, 6 );
+            sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z->pos() ) );
         }
-        // Limit chunking to flesh, veggy and insect creatures until other kinds are supported.
-        bool leaveGibs = (z->made_of( material_id( "flesh" ) ) || z->made_of( material_id( "hflesh" ) ) || z->made_of( material_id( "veggy" ) ) ||
-                          z->made_of( material_id( "iflesh" ) ));
-        if (leaveGibs) {
-            const auto area = g->m.points_in_radius( z->pos(), 1 );
-            const int number_of_gibs = std::min( floor( corpseDamage ) - 1, 1 + max_hp / 5.0 ) + ( is_big_beast ? rng( 1, 6 ) : 0 );
-            for( int i = 0; i < number_of_gibs; ++i ) {
-                g->m.add_splatter( z->gibType(), random_entry( area ), rng( 1, i + 1 ) );
-                g->m.add_splatter( z->bloodType(), random_entry( area ) );
-            }
+
+        for( int i = 0; i < number_of_gibs; ++i ) {
+            g->m.add_splatter( z->gibType(), random_entry( area ), rng( 1, i + 1 ) );
+            g->m.add_splatter( z->bloodType(), random_entry( area ) );
         }
     }
 }

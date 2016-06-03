@@ -137,6 +137,34 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
 
+    /** Specific type of fuel, charges or ammunition currently contained by a part */
+    itype_id ammo_current() const;
+
+    /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
+    long ammo_capacity() const;
+
+    /** Amount of fuel, charges or ammunition currently contained by a part */
+    long ammo_remaining() const;
+
+    /**
+     * Set fuel, charges or ammunition for this part removing any existing ammo
+     * @param ammo specific type of ammo (must be compatible with vehicle part)
+     * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
+     * @return amount of ammo actually set or negative on failure
+     */
+    int ammo_set( const itype_id &ammo, long qty = -1 );
+
+    /** Remove all fuel, charges or ammunition (if any) from this part */
+    void ammo_unset();
+
+    /**
+     * Consume fuel, charges or ammunition (if available)
+     * @param qty maximum amount of ammo that should be consumed
+     * @param pos current global location of part from which ammo is being consumed
+     * @return amount consumed which will be between 0 and @ref qty
+     */
+    long ammo_consume( long qty, const tripoint& pos );
+
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
 
@@ -163,7 +191,6 @@ public:
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
-    int amount = 0;               // amount of fuel for tank/charge in battery
     bool open = false;            // door is open
     int direction = 0;            // direction the part is facing
     int mode = 0;                 // turret mode
@@ -177,6 +204,8 @@ private:
     vpart_id id;         // id in map of parts (vehicle_part_types key)
     item base;
     std::list<item> items; // inventory
+
+    int amount = 0; // amount of fuel for tank/charge in battery
 
 public:
     const vpart_str_id &get_id() const;
@@ -561,6 +590,7 @@ public:
      * Get the coordinates of the studied part of the vehicle
      */
     tripoint global_part_pos3( const int &index ) const;
+    tripoint global_part_pos3( const vehicle_part &pt ) const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
@@ -760,7 +790,9 @@ public:
     void shift_parts( point delta );
     bool shift_if_needed();
 
+    /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
     void leak_fuel( int p );
+
     void shed_loose_parts();
 
     // Gets range of part p if it's a turret

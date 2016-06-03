@@ -660,7 +660,7 @@ std::string new_artifact()
         artifact_tool_form_datum *info = &(artifact_tool_form_data[form]);
         art->create_name(info->name);
         art->color = info->color;
-        art->sym = info->sym;
+        art->sym = std::string( 1, info->sym );
         art->materials.push_back(info->material);
         art->volume = rng(info->volume_min, info->volume_max);
         art->weight = rng(info->weight_min, info->weight_max);
@@ -782,7 +782,7 @@ std::string new_artifact()
         artifact_armor_form_datum *info = &(artifact_armor_form_data[form]);
 
         art->create_name(info->name);
-        art->sym = '['; // Armor is always [
+        art->sym = "["; // Armor is always [
         art->color = info->color;
         art->materials.push_back(info->material);
         art->volume = info->volume;
@@ -896,7 +896,7 @@ std::string new_natural_artifact(artifact_natural_property prop)
                                                   ARTPROP_MAX - 1)));
     artifact_property_datum *property_data = &(artifact_property_data[property]);
 
-    art->sym = ':';
+    art->sym = ":";
     art->color = c_yellow;
     art->materials.push_back( material_id( "stone" ) );
     art->volume = rng(shape_data->volume_min, shape_data->volume_max);
@@ -996,7 +996,7 @@ std::string architects_cube()
     artifact_tool_form_datum *info = &(artifact_tool_form_data[ARTTOOLFORM_CUBE]);
     art->create_name(info->name);
     art->color = info->color;
-    art->sym = info->sym;
+    art->sym = std::string( 1, info->sym );
       art->materials.push_back(info->material);
     art->volume = rng(info->volume_min, info->volume_max);
     art->weight = rng(info->weight_min, info->weight_max);
@@ -1109,7 +1109,11 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     id = jo.get_string("id");
     name = jo.get_string("name");
     description = jo.get_string("description");
-    sym = jo.get_int("sym");
+    if( jo.has_int( "sym" ) ) {
+        sym = std::string( 1, jo.get_int( "sym" ) );
+    } else {
+        sym = jo.get_string( "sym" );
+    }
     color = jo.get_int("color");
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
@@ -1175,7 +1179,11 @@ void it_artifact_armor::deserialize(JsonObject &jo)
     id = jo.get_string("id");
     name = jo.get_string("name");
     description = jo.get_string("description");
-    sym = jo.get_int("sym");
+    if( jo.has_int( "sym" ) ) {
+        sym = std::string( 1, jo.get_int( "sym" ) );
+    } else {
+        sym = jo.get_string( "sym" );
+    }
     color = jo.get_int("color");
     price = jo.get_int("price");
     // LEGACY: Since it seems artifacts get serialized out to disk, and they're
