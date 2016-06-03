@@ -69,7 +69,7 @@
     {"id":"SCREW","level":1,"amount":1}
   ], "components": [
     [
-      [ "acidbomb", 1 ]
+      [ "acidbomb_small", 1 ]
     ],
     [
      [ "shotgun_primer", 1 ]
