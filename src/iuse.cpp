@@ -209,7 +209,7 @@ void remove_battery_magazine_mod( item &it, player &p )
         return;
     }
     p.add_msg_if_player( _( "You remove the battery compartment mod from your %s!" ), it.tname().c_str() );
-    item mod( "magazine_battery_mod", calendar::turn );
+    item mod( "magazine_battery_mod" );
     p.i_add_or_drop( mod, 1 );
     for( item &content : it.contents ) {
         p.i_add_or_drop( content, 1 );
