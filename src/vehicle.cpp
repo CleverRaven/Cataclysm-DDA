@@ -5791,27 +5791,6 @@ void vehicle::leak_fuel( int p )
     parts[ p ].ammo_unset();
 }
 
-std::string aim_type( const vehicle_part &part )
-{
-    const auto &target = part.target;
-    if( target.first == target.second ) {
-        return part.mode > 0 ? _("Auto") : _("No target");
-    }
-
-    if( !g->u.sees( target.first ) ) {
-        return _("Unseen");
-    }
-
-    const Creature *critter = g->critter_at( target.first );
-    if( critter != nullptr && g->u.sees( *critter ) ) {
-        return critter->disp_name();
-    } else if( g->m.has_furn( target.first ) ) {
-        return g->m.furn_at( target.first ).name;
-    } else {
-        return g->m.tername( target.first );
-    }
-}
-
 int vehicle::get_turret_range( int p )
 {
     if( !part_flag( p, "TURRET" ) ) {
