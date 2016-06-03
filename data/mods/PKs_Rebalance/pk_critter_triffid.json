@@ -522,7 +522,7 @@
     "starting_ammo": { "grenade": 1, "flashbang": 1},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
     "description":"a dried up shrub with rustling brown leaves adept at ambushes.  Highly volatile and easily excited.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
     "//": "I don't know if they fit in well, but they add a means for the tiffids to troll."
     },{
@@ -553,7 +553,7 @@
     "starting_ammo": {  "c4": 1, "EMPbomb": 3},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
     "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby electronic devices. . .",
-    "flags":["SEES", "SMELLS","KEENNOSE", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
+    "flags":["SEES", "SMELLS","KEENNOSE", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
     "//": "And these guys give them some means of taking down electronics."
     }

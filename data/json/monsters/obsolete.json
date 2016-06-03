@@ -24,7 +24,7 @@
     "hp":4,
     "death_function":"NORMAL",
     "description":"The white-footed mouse, a prolific rodent with a white underbelly and a long fuzzy tail.  A common sight in fields, forests, and research centers.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "VERMIN"],
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "VERMIN"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },{
@@ -51,7 +51,7 @@
     "hp":4,
     "death_function":"NORMAL",
     "description":"The masked shrew, a mouse-like creature with a pointed, whiskery snout.  It digs tunnels into the ground in search of bugs to eat.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "VERMIN"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "VERMIN"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
   },{

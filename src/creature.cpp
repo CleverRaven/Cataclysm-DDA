@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "debug.h"
+#include "field.h"
 
 #include <algorithm>
 #include <numeric>
@@ -160,6 +161,25 @@ void Creature::process_turn()
 bool Creature::digging() const
 {
     return false;
+}
+
+
+bool Creature::is_dangerous_fields( const field &fld ) const
+{
+    // Else check each field to see if it's dangerous to us
+    for( auto &dfield : fld ) {
+        if( is_dangerous_field( dfield.second ) ) {
+            return true;
+        }
+    }
+    // No fields were found to be dangerous, so the field set isn't dangerous
+    return false;
+}
+
+bool Creature::is_dangerous_field( const field_entry &entry ) const
+{
+    // If it's dangerous and we're not immune return true, else return false
+    return entry.is_dangerous() && !is_immune_field(entry.getFieldType());
 }
 
 bool Creature::sees( const Creature &critter ) const
