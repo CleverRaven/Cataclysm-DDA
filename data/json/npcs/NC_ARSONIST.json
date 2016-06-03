@@ -163,7 +163,6 @@
     "type" : "item_group",
     "id" : "NC_ARSONIST_shotgun",
     "items":[
-      ["shotgun_sawn", 50],
       ["mossberg_500", 25],
       ["remington_870", 25]
     ]
@@ -180,7 +179,7 @@
     "id" : "NC_ARSONIST_rifle",
     "items":[
       ["m4a1", 35],
-      ["m14a", 35],
+      ["m1a", 35],
       ["ak47", 35]
     ]
   },{

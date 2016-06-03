@@ -5,7 +5,7 @@
     "type" : "AMMO",
     "name" : ".22 CB",
     "name_plural" : ".22 CB",
-    "description" : "Conical Ball .22 is a variety of .22 ammunition with a very small propellant charge and generally lacks gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
+    "description" : "The .22 Conical Ball is a variety of .22 ammunition that propels its bullet using a primer instead of gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
     "price" : 1800,
     "count" : 100,
     "proportional": {
@@ -55,7 +55,7 @@
     "type" : "AMMO",
     "name" : ".22 rat-shot",
     "name_plural" : ".22 rat-shot",
-    "description" : "Rat-shot is extremely weak ammunition, designed for killing rats, snakes, or other small vermin while being unable to damage walls.  It has an extremely short range and is unable to injure all but the smallest creatures.",
+    "description" : "Rat-shot is an extremely weak .22 shotgun cartridge, designed for killing rats, snakes, or other small vermin while being unable to damage walls.  It has an extremely short range and is unable to injure all but the smallest creatures.",
     "range": 3,
     "proportional": {
         "recoil": 0.5

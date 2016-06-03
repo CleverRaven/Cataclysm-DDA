@@ -234,7 +234,7 @@ const profession *scenario::random_profession() const
     if( _allowed_professions.empty() ) {
         return profession::generic();
     } else {
-        return &random_entry( _allowed_professions ).obj();
+        return &random_entry_ref( _allowed_professions ).obj();
     }
 }
 std::string scenario::start_name() const

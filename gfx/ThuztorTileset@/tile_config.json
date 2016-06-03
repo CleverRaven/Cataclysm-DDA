@@ -5741,13 +5741,6 @@
          "multitile" : false
         },
         {
-         "id" : "saiga_sawn",
-         "fg" : 799,
-         "bg" : 758,
-         "rotates" : false,
-         "multitile" : false
-        },
-        {
          "id" : "shotgun_s",
          "fg" : 800,
          "bg" : 758,
@@ -5902,7 +5895,7 @@
          "multitile" : false
         },
         {
-         "id" : "m14a",
+         "id" : "m1a",
          "fg" : 822,
          "bg" : 758,
          "rotates" : false,

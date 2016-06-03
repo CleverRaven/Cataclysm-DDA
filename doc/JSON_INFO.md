@@ -420,7 +420,25 @@ Mods can modify this via "add:traits" and "remove:traits".
 "breaks_into" : "some_item_group", // or just the id of an item group.
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
-]
+],
+"damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
+    "all" : 10,
+    "physical" : 5
+}
+```
+###PART RESISTANCE
+```C++
+"all" : 0.0f,        // Initial value of all resistances, overriden by more specific types
+"physical" : 10,     // Initial value for bash, cut and stab
+"non_physical" : 10, // Initial value for acid, heat, cold, electricity and biological
+"biological" : 0.2f, // Resistances to specific types. Those override the general ones.
+"bash" : 3,
+"cut" : 3,
+"acid" : 3,
+"stab" : 3,
+"heat" : 3,
+"cold" : 3,
+"electric" : 3
 ```
 ###VEHICLE PLACEMENT
 ```C++
@@ -472,8 +490,8 @@ Mods can modify this via "add:traits" and "remove:traits".
 "name" : "socks",                 // The name appearing in the examine box.  Can be more than one word separated by spaces
 "name_plural" : "pairs of socks", // (Optional)
 "container" : "null",             // What container (if any) this item should spawn within
-"color" : "blue",                 // ASCII character color
-"symbol" : "[",                   // ASCII character used in-game
+"color" : "blue",                 // Color of the item symbol.
+"symbol" : "[",                   // The item symbol as it appears on the map. Must be a Unicode string exactly 1 console cell width.
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "phase" : "solid",                // (Optional, default = "solid") What phase it is
 "weight" : 350,                   // Weight of the item in grams

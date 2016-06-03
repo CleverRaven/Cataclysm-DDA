@@ -443,17 +443,17 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
 
                             if ( tid == "t_rubble" ) {
                                 sm->ter[i][j] = ter_id( "t_dirt" );
-                                sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
+                                sm->frn[i][j] = furn_id( "f_rubble" );
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
                             } else if ( tid == "t_wreckage" ){
                                 sm->ter[i][j] = ter_id( "t_dirt" );
-                                sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
+                                sm->frn[i][j] = furn_id( "f_wreckage" );
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
                             } else if ( tid == "t_ash" ){
                                 sm->ter[i][j] = ter_id(  "t_dirt" );
-                                sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
+                                sm->frn[i][j] = furn_id( "f_ash" );
                             } else if ( tid == "t_pwr_sb_support_l" ){
                                 sm->ter[i][j] = ter_id(  "t_support_l" );
                             } else if ( tid == "t_pwr_sb_switchgear_l" ){
@@ -493,7 +493,7 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                     jsin.start_array();
                     int i = jsin.get_int();
                     int j = jsin.get_int();
-                    sm->frn[i][j] = furnmap[ jsin.get_string() ].loadid;
+                    sm->frn[i][j] = furn_id( jsin.get_string() );
                     jsin.end_array();
                 }
             } else if( submap_member_name == "items" ) {

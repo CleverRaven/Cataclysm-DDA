@@ -208,146 +208,6 @@
         "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
-        "id" : "frame_horizontal",
-        "name" : "frame",
-        "symbol" : "h",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_vertical",
-        "name" : "frame",
-        "symbol" : "j",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_cross",
-        "name" : "frame",
-        "symbol" : "c",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_nw",
-        "name" : "frame",
-        "symbol" : "y",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_ne",
-        "name" : "frame",
-        "symbol" : "u",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_se",
-        "name" : "frame",
-        "symbol" : "n",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_sw",
-        "name" : "frame",
-        "symbol" : "b",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_horizontal_2",
-        "name" : "frame",
-        "symbol" : "=",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_vertical_2",
-        "name" : "frame",
-        "symbol" : "H",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE", "INITIAL_PART"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_cover",
-        "name" : "frame",
-        "symbol" : "^",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "item" : "frame",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_frame"
-    },{
-        "type" : "vehicle_part",
         "id" : "xlframe_horizontal",
         "name" : "extra light frame",
         "symbol" : "h",
@@ -510,146 +370,6 @@
         "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
-        "id" : "hdframe_horizontal",
-        "name" : "heavy duty frame",
-        "symbol" : "h",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_vertical",
-        "name" : "heavy duty frame",
-        "symbol" : "j",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_cross",
-        "name" : "heavy duty frame",
-        "symbol" : "c",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_nw",
-        "name" : "heavy duty frame",
-        "symbol" : "y",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_ne",
-        "name" : "heavy duty frame",
-        "symbol" : "u",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_se",
-        "name" : "heavy duty frame",
-        "symbol" : "n",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_sw",
-        "name" : "heavy duty frame",
-        "symbol" : "b",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_horizontal_2",
-        "name" : "heavy duty frame",
-        "symbol" : "=",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_vertical_2",
-        "name" : "heavy duty frame",
-        "symbol" : "H",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE", "INITIAL_PART"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdframe_cover",
-        "name" : "heavy duty frame",
-        "symbol" : "^",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1600,
-        "item" : "hdframe",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["MOUNTABLE"],
-        "breaks_into": "ig_vp_hdframe"
-    },{
-        "type" : "vehicle_part",
         "id" : "frame_handle",
         "name" : "handle",
         "symbol" : "^",
@@ -666,176 +386,6 @@
             {"item": "steel_lump", "count": [4, 6]},
             {"item": "steel_chunk", "count": [4, 6]},
             {"item": "scrap", "count": [4, 6]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_horizontal",
-        "name" : "wooden frame",
-        "symbol" : "h",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_vertical",
-        "name" : "wooden frame",
-        "symbol" : "j",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_cross",
-        "name" : "wooden frame",
-        "symbol" : "c",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_nw",
-        "name" : "wooden frame",
-        "symbol" : "y",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_ne",
-        "name" : "wooden frame",
-        "symbol" : "u",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_se",
-        "name" : "wooden frame",
-        "symbol" : "n",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_sw",
-        "name" : "wooden frame",
-        "symbol" : "b",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_horizontal_2",
-        "name" : "wooden frame",
-        "symbol" : "=",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_vertical_2",
-        "name" : "wooden frame",
-        "symbol" : "H",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE", "INITIAL_PART"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "frame_wood_cover",
-        "name" : "wooden frame",
-        "symbol" : "^",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 150,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "structure",
-        "flags" : ["NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]},
-            {"item": "nail", "charges": [5, 10]}
         ]
     },{
         "type" : "vehicle_part",
@@ -1024,174 +574,6 @@
             {"item": "splinter", "count": [3, 5]},
             {"item": "string_36", "count": [10, 15]}
         ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "board_horizontal",
-        "name" : "board",
-        "symbol" : "h",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 240,
-        "item" : "sheet_metal",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_sheet_metal"
-    },{
-        "type" : "vehicle_part",
-        "id" : "board_vertical",
-        "name" : "board",
-        "symbol" : "j",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 240,
-        "item" : "sheet_metal",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_sheet_metal"
-    },{
-        "type" : "vehicle_part",
-        "id" : "board_nw",
-        "name" : "board",
-        "symbol" : "y",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 240,
-        "item" : "sheet_metal",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_sheet_metal"
-    },{
-        "type" : "vehicle_part",
-        "id" : "board_ne",
-        "name" : "board",
-        "symbol" : "u",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 240,
-        "item" : "sheet_metal",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_sheet_metal"
-    },{
-        "type" : "vehicle_part",
-        "id" : "board_se",
-        "name" : "board",
-        "symbol" : "n",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 240,
-        "item" : "sheet_metal",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_sheet_metal"
-    },{
-        "type" : "vehicle_part",
-        "id" : "board_sw",
-        "name" : "board",
-        "symbol" : "b",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 240,
-        "item" : "sheet_metal",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_sheet_metal"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdboard_horizontal",
-        "name" : "heavy duty board",
-        "symbol" : "h",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1000,
-        "item" : "steel_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_steel_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdboard_vertical",
-        "name" : "heavy duty board",
-        "symbol" : "j",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1000,
-        "item" : "steel_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_steel_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdboard_nw",
-        "name" : "heavy duty board",
-        "symbol" : "y",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1000,
-        "item" : "steel_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_steel_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdboard_ne",
-        "name" : "heavy duty board",
-        "symbol" : "u",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1000,
-        "item" : "steel_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_steel_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdboard_se",
-        "name" : "heavy duty board",
-        "symbol" : "n",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1000,
-        "item" : "steel_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_steel_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdboard_sw",
-        "name" : "heavy duty board",
-        "symbol" : "b",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 1000,
-        "item" : "steel_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE"],
-        "breaks_into": "ig_vp_steel_plate"
     },{
         "type" : "vehicle_part",
         "id" : "woodboard_horizontal",
@@ -3252,47 +2634,6 @@
         "breaks_into" : []
     },{
         "type" : "vehicle_part",
-        "id" : "small_storage_battery",
-        "name" : "small storage battery",
-        "symbol" : "O",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 100,
-        "size" : 500,
-        "fuel_type" : "battery",
-        "item" : "small_storage_battery",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-        "folded_volume" : 2,
-        "breaks_into" : [
-            {"item": "scrap", "count": [1, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "medium_storage_battery",
-        "name" : "medium storage battery",
-        "symbol" : "O",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 250,
-        "size" : 7000,
-        "fuel_type" : "battery",
-        "item" : "medium_storage_battery",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK", "TOOL_SCREWDRIVER", "FOLDABLE"],
-        "folded_volume" : 10,
-        "breaks_into" : [
-            {"item": "scrap", "count": [1, 4]},
-            {"item": "small_storage_battery", "count": [0, 4]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "storage_battery_mount",
         "name" : "swappable storage battery case",
         "symbol" : "O",
@@ -3309,50 +2650,6 @@
             {"item": "steel_lump", "prob": 50},
             {"item": "steel_chunk", "count": [1, 2]},
             {"item": "scrap", "count": [0, 3]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "storage_battery_removable",
-        "name" : "swappable storage battery",
-        "symbol" : "O",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 300,
-        "size" : 40000,
-        "fuel_type" : "battery",
-        "item" : "storage_battery",
-        "difficulty" : 1,
-        "location" : "on_battery_mount",
-        "flags" : ["FUEL_TANK", "TOOL_NONE", "NEEDS_BATTERY_MOUNT"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [5, 10]},
-            {"item": "steel_chunk", "count": [5, 10]},
-            {"item": "scrap", "count": [5, 10]},
-            {"item": "medium_storage_battery", "count": [1, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "storage_battery",
-        "name" : "storage battery",
-        "symbol" : "O",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 300,
-        "size" : 40000,
-        "fuel_type" : "battery",
-        "item" : "storage_battery",
-        "difficulty" : 2,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [5, 10]},
-            {"item": "steel_chunk", "count": [5, 10]},
-            {"item": "scrap", "count": [5, 10]},
-            {"item": "medium_storage_battery", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -4463,7 +3760,10 @@
         "difficulty" : 2,
         "location" : "armor",
         "flags" : ["ARMOR", "NAILABLE"],
-        "breaks_into": "ig_vp_wood_plate"
+        "breaks_into": "ig_vp_wood_plate",
+        "damage_reduction" : {
+            "all" : 5
+        }
     },{
         "type" : "vehicle_part",
         "id" : "plating_steel",
@@ -4477,7 +3777,10 @@
         "difficulty" : 2,
         "location" : "armor",
         "flags" : ["ARMOR"],
-        "breaks_into": "ig_vp_steel_plate"
+        "breaks_into": "ig_vp_steel_plate",
+        "damage_reduction" : {
+            "all" : 10
+        }
     },{
         "type" : "vehicle_part",
         "id" : "plating_superalloy",
@@ -4495,7 +3798,10 @@
             {"item": "steel_lump", "count": [4, 6]},
             {"item": "steel_chunk", "count": [4, 6]},
             {"item": "scrap", "count": [4, 6]}
-        ]
+        ],
+        "damage_reduction" : {
+            "all" : 12
+        }
     },{
         "type" : "vehicle_part",
         "id" : "plating_spiked",
@@ -4505,7 +3811,7 @@
         "broken_symbol" : ")",
         "broken_color" : "red",
         "damage_modifier" : 150,
-        "durability" : 900,
+        "durability" : 500,
         "item" : "spiked_plate",
         "difficulty" : 3,
         "location" : "armor",
@@ -4515,7 +3821,10 @@
             {"item": "steel_chunk", "count": [4, 6]},
             {"item": "scrap", "count": [4, 6]},
             {"item": "spike", "count": [0, 2]}
-        ]
+        ],
+        "damage_reduction" : {
+            "all" : 7
+        }
     },{
         "type" : "vehicle_part",
         "id" : "plating_hard",
@@ -4524,7 +3833,7 @@
         "color" : "cyan",
         "broken_symbol" : ")",
         "broken_color" : "cyan",
-        "durability" : 2300,
+        "durability" : 1000,
         "item" : "hard_plate",
         "difficulty" : 4,
         "location" : "armor",
@@ -4533,7 +3842,10 @@
             {"item": "steel_lump", "count": [4, 6]},
             {"item": "steel_chunk", "count": [4, 6]},
             {"item": "scrap", "count": [4, 6]}
-        ]
+        ],
+        "damage_reduction" : {
+            "all" : 15
+        }
     },{
         "type" : "vehicle_part",
         "id" : "plating_military",
@@ -4542,7 +3854,7 @@
         "color" : "green",
         "broken_symbol" : ")",
         "broken_color" : "green",
-        "durability" : 3250,
+        "durability" : 2000,
         "item" : "mil_plate",
         "difficulty" : 6,
         "location" : "armor",
@@ -4552,7 +3864,12 @@
             {"item": "steel_chunk", "count": [4, 6]},
             {"item": "scrap", "count": [4, 6]},
             {"item": "ceramic_armor", "count": [0, 4]}
-        ]
+        ],
+        "damage_reduction" : {
+            "all" : 15,
+            "cut" : 30,
+            "stab" : 50
+        }
     },{
         "type" : "vehicle_part",
         "id" : "headlight",
@@ -4678,68 +3995,6 @@
             {"item": "scrap", "count": [0, 2]},
             {"item": "cable", "charges": [1, 3]},
             {"item": "e_scrap", "prob": 50}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "battery_motorbike",
-        "name" : "motorbike battery",
-        "symbol" : "o",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 30,
-        "durability" : 100,
-        "size" : 2000,
-        "fuel_type" : "battery",
-        "item" : "battery_motorbike",
-        "difficulty" : 2,
-        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-        "folded_volume" : 3,
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 7]},
-            {"item": "steel_chunk", "count": [4, 7]},
-            {"item": "scrap", "count": [4, 7]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "battery_car",
-        "name" : "car battery",
-        "symbol" : "o",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 50,
-        "durability" : 120,
-        "size" : 4500,
-        "fuel_type" : "battery",
-        "item" : "battery_car",
-        "difficulty" : 2,
-        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
-        "folded_volume" : 4,
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [6, 9]},
-            {"item": "steel_chunk", "count": [6, 9]},
-            {"item": "scrap", "count": [6, 9]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "battery_truck",
-        "name" : "truck battery",
-        "symbol" : "o",
-        "color" : "yellow",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 60,
-        "durability" : 180,
-        "size" : 8000,
-        "fuel_type" : "battery",
-        "item" : "battery_truck",
-        "difficulty" : 2,
-        "flags" : ["FUEL_TANK", "TOOL_WRENCH"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [8, 12]},
-            {"item": "steel_chunk", "count": [8, 12]},
-            {"item": "scrap", "count": [8, 12]}
         ]
     },{
         "type" : "vehicle_part",
@@ -5259,7 +4514,10 @@
         "flags" : ["ARMOR"],
         "breaks_into" : [
             {"item": "chitin_piece", "count": [5, 15]}
-        ]
+        ],
+        "damage_reduction" : {
+            "all" : 10
+        }
     },
     {
         "type" : "vehicle_part",
@@ -5276,7 +4534,10 @@
         "flags" : ["ARMOR"],
         "breaks_into" : [
             {"item": "bone_tainted", "count": [10, 30]}
-        ]
+        ],
+        "damage_reduction" : {
+            "all" : 5
+        }
     },
     {
         "type" : "vehicle_part",

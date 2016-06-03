@@ -193,7 +193,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     g->m.i_rem( p->pos(), act->index );
 
     const int factor = p->max_quality( quality_id( "BUTCHER" ) );
-    int pieces = 0;
+    int pieces = corpse->get_meat_chunks_count();
     int skins = 0;
     int bones = 0;
     int fats = 0;
@@ -205,7 +205,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     int max_practice = 4;
     switch( corpse->size ) {
         case MS_TINY:
-            pieces = 1;
             skins = 1;
             bones = 1;
             fats = 1;
@@ -214,7 +213,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             wool = 1;
             break;
         case MS_SMALL:
-            pieces = 2;
             skins = 2;
             bones = 4;
             fats = 2;
@@ -223,7 +221,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             wool = 2;
             break;
         case MS_MEDIUM:
-            pieces = 4;
             skins = 4;
             bones = 9;
             fats = 4;
@@ -232,7 +229,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             wool = 4;
             break;
         case MS_LARGE:
-            pieces = 8;
             skins = 8;
             bones = 14;
             fats = 8;
@@ -242,7 +238,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             max_practice = 5;
             break;
         case MS_HUGE:
-            pieces = 16;
             skins = 16;
             bones = 21;
             fats = 16;
@@ -569,7 +564,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
             break;
         case LST_INFINITE_MAP:
             liquid.deserialize( act.str_values.at( 0 ) );
-            liquid.charges = std::numeric_limits<long>::max();
+            liquid.charges = item::INFINITE_CHARGES;
             break;
         case LST_MAP_ITEM:
             if( static_cast<size_t>( act.values.at( 1 ) ) >= source_stack.size() ) {
@@ -816,10 +811,10 @@ void activity_handlers::game_do_turn( player_activity *act, player *p )
 
     //Deduct 1 battery charge for every minute spent playing
     if( calendar::once_every(MINUTES(1)) ) {
-        game_item.charges--;
+        game_item.ammo_consume( 1, p->pos() );
         p->add_morale(MORALE_GAME, 1, 100); //1 points/min, almost 2 hours to fill
     }
-    if( game_item.charges == 0 ) {
+    if( game_item.ammo_remaining() == 0 ) {
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), game_item.tname().c_str());
     }
@@ -1060,32 +1055,14 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
                 }
             }
 
-            // Splatter some blood around
-            tripoint tmp = pos;
-            field_id type_blood = corpse.get_mtype()->bloodType();
-            if( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) {
-                // Make gore instead of blood this time
-                type_blood = corpse.get_mtype()->gibType();
-            }
-            if( type_blood != fd_null && x_in_y( pulp_power, corpse.volume() ) ) {
+            if( x_in_y( pulp_power, corpse.volume() ) ) { // Splatter some blood around
                 // Splatter a bit more randomly, so that it looks cooler
                 const int radius = mess_radius + x_in_y( pulp_power, 500 ) + x_in_y( pulp_power, 1000 );
                 const tripoint dest( pos.x + rng( -radius, radius ), pos.y + rng( -radius, radius ), pos.z );
-                const auto blood_line = line_to( pos, dest );
-                int line_len = blood_line.size();
-                for( const auto &elem : blood_line ) {
-                    g->m.adjust_field_strength( elem, type_blood, 1 );
-                    line_len--;
-                    if( g->m.impassable( elem ) ) {
-                        // Blood splatters stop at walls.
-                        if( line_len > 0 ) {
-                            // But splatter the rest of the blood at the wall
-                            g->m.adjust_field_strength( elem, type_blood, line_len );
-                        }
-
-                        break;
-                    }
-                }
+                const field_id type_blood = ( mess_radius > 1 && x_in_y( pulp_power, 10000 ) ) ?
+                                            corpse.get_mtype()->gibType() :
+                                            corpse.get_mtype()->bloodType();
+                g->m.add_splatter_trail( type_blood, pos, dest );
             }
 
             float stamina_ratio = (float)p->stamina / p->get_stamina_max();
@@ -1277,13 +1254,13 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
 
     //Deduct 1 battery charge for every minute using the vibrator
     if( calendar::once_every(MINUTES(1)) ) {
-        vibrator_item.charges--;
+        vibrator_item.ammo_consume( 1, p->pos() );
         p->add_morale(MORALE_FEELING_GOOD, 4, 320); //4 points/min, one hour to fill
         // 1:1 fatigue:morale ratio, so maxing the morale is possible but will take
         // you pretty close to Dead Tired from a well-rested state.
         p->mod_fatigue(4);
     }
-    if( vibrator_item.charges == 0 ) {
+    if( vibrator_item.ammo_remaining() == 0 ) {
         act->moves_left = 0;
         add_msg(m_info, _("The %s runs out of batteries."), vibrator_item.tname().c_str());
     }
@@ -1361,7 +1338,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     const ter_id ter = g->m.ter( pos );
 
     // fast players might still have some charges left to be consumed
-    p->i_at( act->position ).charges -= act->values[0];
+    p->i_at( act->position ).ammo_consume( act->values[0], p->pos() );
 
     if( g->m.furn( pos ) == f_rack ) {
         g->m.furn_set( pos, f_null );
@@ -1523,8 +1500,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // TODO: Allow setting this in the actor
     // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-    const int charges_to_use = used_tool->type->charges_to_use();
-    if( used_tool->charges < charges_to_use ) {
+    if( !used_tool->ammo_sufficient() ) {
         p->add_msg_if_player( _( "Your %s ran out of charges" ), used_tool->tname().c_str() );
         act->type = ACT_NULL;
         return;
@@ -1538,7 +1514,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const int old_level = p->get_skill_level( actor->used_skill );
         const auto attempt = actor->repair( *p, *used_tool, fix );
         if( attempt != repair_item_actor::AS_CANT ) {
-            p->consume_charges( *used_tool, charges_to_use );
+            p->consume_charges( *used_tool, used_tool->ammo_required() );
         }
 
         // Print message explaining why we stopped

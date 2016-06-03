@@ -1,8 +1,9 @@
 #include "speech.h"
+#include "json.h"
 #include "translations.h"
 #include "rng.h"
 #include <map>
-
+#include <vector>
 
 std::map<std::string, std::vector<SpeechBubble> > speech;
 
@@ -41,5 +42,5 @@ const SpeechBubble &get_speech( const std::string label )
         return nullSpeech;
     }
 
-    return random_entry( speech_type->second );
+    return random_entry_ref( speech_type->second );
 }
