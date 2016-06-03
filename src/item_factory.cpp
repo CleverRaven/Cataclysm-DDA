@@ -344,7 +344,6 @@ void Item_factory::init()
     iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["DOUBLE_REACTOR"] = &iuse::double_reactor;
-    iuse_function_list["RECHARGEABLE_BATTERY"] = &iuse::rechargeable_battery;
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
