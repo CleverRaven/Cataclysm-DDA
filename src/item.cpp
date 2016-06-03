@@ -257,6 +257,9 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     if( is_magazine() ) {
         ammo_unset();
         emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+        if( has_flag( "NO_UNLOAD" ) ) {
+            contents.back().item_tags.insert( "NO_DROP" );
+        }
 
     } else if( magazine_integral() ) {
         curammo = atype;
