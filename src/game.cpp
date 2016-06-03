@@ -10876,7 +10876,7 @@ bool game::plfire( const tripoint &default_target )
             refresh_all();
         }
 
-        if( gun->ammo_remaining() < gun->ammo_required() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
+        if( !gun->ammo_sufficient() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
             if( !gun->ammo_remaining() ) {
                 add_msg(m_info, _("You need to reload!"));
             } else {

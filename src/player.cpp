@@ -10459,7 +10459,7 @@ hint_rating player::rate_action_disassemble( const item &it )
 hint_rating player::rate_action_use( const item &it ) const
 {
     if( it.is_tool() ) {
-        return it.ammo_remaining() < it.ammo_required() ? HINT_IFFY : HINT_GOOD;
+        return it.ammo_sufficient() ? HINT_GOOD : HINT_IFFY;
 
     } else if (it.is_gunmod()) {
         ///\EFFECT_GUN >0 allows rating estimates for gun modifications
@@ -10491,7 +10491,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
         return true;
     }
     if( it.has_flag( "USE_UPS" ) ) {
-        if( has_charges( "UPS", it.ammo_required() ) || it.ammo_remaining() >= it.ammo_required() ) {
+        if( has_charges( "UPS", it.ammo_required() ) || it.ammo_sufficient() ) {
             return true;
         }
         if( show_msg ) {
@@ -10502,7 +10502,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
                     it.tname().c_str(), it.ammo_required() );
         }
         return false;
-    } else if( it.ammo_remaining() < it.ammo_required() ) {
+    } else if( !it.ammo_sufficient() ) {
         if( show_msg ) {
             add_msg_if_player( m_info,
                     ngettext( "Your %s has %d charge but needs %d.",
