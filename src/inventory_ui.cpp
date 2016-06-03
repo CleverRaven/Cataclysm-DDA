@@ -75,24 +75,26 @@ class inventory_column {
 
         std::vector<itemstack_or_category> items;
         size_t selected_index;
-        size_t width;
-        size_t height;
 
-        inventory_column( size_t width, size_t height ) :
+        inventory_column( size_t items_per_page ) :
             items(),
             selected_index( 1 ),
-            width( width ),
-            height( height ),
             mode( navigation_mode::ITEM ),
-            page_offset( 0 ) {}
+            page_offset( 0 ),
+            items_per_page( items_per_page ) {}
+
         virtual ~inventory_column() {}
 
-        bool empty() const {
-            return items.empty();
+        virtual bool visible() const {
+            return items.size() > 1;
         }
 
         virtual bool passive() const {
-            return empty() || ( items.size() == 1 && is_category( 0 ) );
+            return !visible();
+        }
+
+        bool empty() const {
+            return items.empty();
         }
 
         bool is_category( size_t index ) const {
@@ -100,11 +102,11 @@ class inventory_column {
         }
 
         size_t page_index() const {
-            return page_offset / height;
+            return page_offset / items_per_page;
         }
 
         size_t pages_count() const {
-            return ( items.size() + height - 1 ) / height;
+            return ( items.size() + items_per_page - 1 ) / items_per_page;
         }
 
         void set_mode( navigation_mode new_mode ) {
@@ -114,15 +116,16 @@ class inventory_column {
         size_t find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const;
         size_t find_by_pos( int pos ) const;
         size_t find_by_invlet( long invlet ) const;
+        size_t get_max_width() const;
 
-        void draw( WINDOW *win, size_t x, size_t y, bool active,
+        bool handle_movement( const std::string &action );
+        void draw( WINDOW *win, size_t x, size_t y, size_t width, bool active,
                    const std::function<char( const itemstack_or_category &entry )> &get_icon ) const;
 
         void select( size_t new_index );
-        bool handle_movement( const std::string &action );
         void add_item( const itemstack_or_category &item_entry, const itemstack_or_category &cat_entry, add_to where );
-        void remove_item( const itemstack_or_category &entry );
         void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
+        void remove_item( const itemstack_or_category &entry );
         void prepare_paging();
 
         virtual void on_item_include( const item &, int ) {}
@@ -134,12 +137,13 @@ class inventory_column {
 
         navigation_mode mode;
         size_t page_offset;
+        size_t items_per_page;
 };
 
 class selection_column : public inventory_column {
     public:
-        selection_column( size_t width, size_t height ) :
-            inventory_column( width, height ),
+        selection_column( size_t items_per_page ) :
+            inventory_column( items_per_page ),
             selected_cat( "ITEMS SELECTED", _( "ITEMS SELECTED:" ), 0 ) {}
 
         virtual bool passive() const override {
@@ -293,11 +297,23 @@ size_t inventory_column::find_by_invlet( long invlet ) const
     } );
 }
 
+size_t inventory_column::get_max_width() const
+{
+    size_t res = 0;
+    size_t index = 0;
+    for( const auto &entry : items ) {
+        const auto &text = is_category( index ) ? entry.category->name : get_item_text( index );
+        res = std::max( res, size_t( utf8_width( text ) ) );
+        ++index;
+    }
+    return res + 2; // for inventory letters
+}
+
 void inventory_column::select( size_t new_index )
 {
     assert( new_index < items.size() );
     selected_index = new_index;
-    page_offset = selected_index - selected_index % height;
+    page_offset = selected_index - selected_index % items_per_page;
 }
 
 bool inventory_column::handle_movement( const std::string &action )
@@ -339,9 +355,9 @@ bool inventory_column::handle_movement( const std::string &action )
     } else if( action == "UP" ) {
         move_backward();
     } else if( action == "NEXT_TAB" ) {
-        move_forward( height );
+        move_forward( items_per_page );
     } else if( action == "PREV_TAB" ) {
-        move_backward( height );
+        move_backward( items_per_page );
     } else if( action == "HOME" ) {
         select( 1 );
     } else if( action == "END" ) {
@@ -396,8 +412,8 @@ void inventory_column::add_items( const indexed_invslice &slice, add_to where, c
 void inventory_column::prepare_paging()
 {
     for( size_t i = 0; i < items.size(); ++i ) {
-        const bool first_on_page = i % height == 0;
-        const bool last_on_page = i % height == height - 1;
+        const bool first_on_page = i % items_per_page == 0;
+        const bool last_on_page = i % items_per_page == items_per_page - 1;
 
         if( last_on_page && is_category( i ) ) {
             items.insert( items.begin() + i, itemstack_or_category() );
@@ -442,11 +458,11 @@ nc_color inventory_column::get_item_color( size_t index, bool active ) const
     return ( items[index].it != nullptr ) ? items[index].it->color_in_inventory() : c_unset;
 }
 
-void inventory_column::draw( WINDOW *win, size_t x, size_t y, bool active,
+void inventory_column::draw( WINDOW *win, size_t x, size_t y, size_t width, bool active,
                              const std::function<char( const itemstack_or_category &entry )> &get_icon ) const
 {
     size_t line = 0;
-    for( size_t i = page_offset; i < items.size() && line < height; ++i, ++line ) {
+    for( size_t i = page_offset; i < items.size() && line < items_per_page; ++i, ++line ) {
         if( items[i].category == nullptr ) {
             continue;
         }
@@ -455,14 +471,14 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y, bool active,
         } else {
             trim_and_print( win, y + line, x + 2, width - 2, get_item_color( i, active ), "%s", get_item_text( i, get_icon( items[i] ) ).c_str() );
 
-            const item &it = *items[i].it;
-            if( it.invlet != 0 ) {
+            const char invlet = items[i].it->invlet;
+            if( invlet != '\0' ) {
                 const nc_color invlet_color = ( i == selected_index )
                     ? get_item_color( i, active )
-                    : g->u.assigned_invlet.count( it.invlet )
+                    : g->u.assigned_invlet.count( invlet )
                         ? c_yellow
                         : c_white;
-                mvwputch( win, y + line, x, invlet_color, it.invlet );
+                mvwputch( win, y + line, x, invlet_color, invlet );
             }
         }
     }
@@ -549,28 +565,25 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
 
-    size_t column_gap = getmaxx( w_inv );
-    size_t columns_count = 0;
-
+    size_t visible_columns = 0;
     for( const auto column : columns ) {
-        if( !column->empty() ) {
-            ++columns_count;
-            column_gap -= column->width;
+        if( column->visible() ) {
+            ++visible_columns;
         }
     }
-    if( columns_count > 0 ) {
-        column_gap /= columns_count;
-    }
+
+    const size_t column_width =
+        ( visible_columns > 0 ) ? size_t( getmaxx( w_inv ) ) / visible_columns : 0;
 
     size_t column_x = 1;
     for( size_t i = 0; i < columns.size(); ++i ) {
         const auto &column = *columns[i];
 
-        if( column.empty() ) {
+        if( !column.visible() ) {
             continue;
         }
 
-        column.draw( w_inv, column_x, 2, i == column_index,
+        column.draw( w_inv, column_x, 2, column_width, i == column_index,
             [ this, mode ]( const itemstack_or_category &entry ) -> char {
                 if( mode == SM_PICK ) {
                     return '\0';
@@ -588,7 +601,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
             mvwprintw( w_inv, getmaxy( w_inv ) - 2, column_x, _( "Page %d/%d" ),
                        column.page_index() + 1, column.pages_count() );
         }
-        column_x += column.width + column_gap;
+        column_x += column_width;
     }
 
     if( mode == SM_PICK ) {
@@ -655,9 +668,10 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("ANY_INPUT"); // For invlets
 
-    std::shared_ptr<inventory_column> first_column( new inventory_column( 40, getmaxy( w_inv ) - 5 ) );
-    std::shared_ptr<inventory_column> second_column( new inventory_column( 40, getmaxy( w_inv ) - 5 ) );
-    std::shared_ptr<inventory_column> third_column( new selection_column( 40, getmaxy( w_inv ) - 5 ) );
+    const size_t column_height = getmaxy( w_inv ) - 5;
+    std::shared_ptr<inventory_column> first_column( new inventory_column( column_height ) );
+    std::shared_ptr<inventory_column> second_column( new inventory_column( column_height ) );
+    std::shared_ptr<inventory_column> third_column( new selection_column( column_height ) );
 
     first_column->add_items( u.inv.indexed_slice_filter_by( filter ), add_to::END );
 
