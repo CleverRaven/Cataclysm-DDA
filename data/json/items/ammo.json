@@ -13,7 +13,8 @@
         "volume" : 1,
         "weight" : 1,
         "ammo_type" : "battery",
-        "count" : 100
+        "count" : 100,
+        "flags": [ "UNRECOVERABLE" ]
     },
     {
         "type" : "AMMO",
