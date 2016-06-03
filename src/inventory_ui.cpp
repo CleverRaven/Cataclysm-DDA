@@ -85,16 +85,16 @@ class inventory_column {
 
         virtual ~inventory_column() {}
 
+        bool empty() const {
+            return items.empty();
+        }
+
         virtual bool visible() const {
-            return items.size() > 1;
+            return !empty();
         }
 
         virtual bool passive() const {
             return !visible();
-        }
-
-        bool empty() const {
-            return items.empty();
         }
 
         bool is_category( size_t index ) const {
@@ -131,9 +131,12 @@ class inventory_column {
         virtual void on_item_include( const item &, int ) {}
         virtual void on_item_exclude( const item &, int ) {}
 
-    private:
+    protected:
         virtual std::string get_item_text( size_t index, const char icon = '\0' ) const;
         virtual nc_color get_item_color( size_t index, bool active ) const;
+        virtual size_t get_item_indent( size_t index ) const {
+            return is_category( index ) ? 0 : 2;
+        }
 
         navigation_mode mode;
         size_t page_offset;
@@ -144,7 +147,10 @@ class selection_column : public inventory_column {
     public:
         selection_column( size_t items_per_page ) :
             inventory_column( items_per_page ),
-            selected_cat( "ITEMS SELECTED", _( "ITEMS SELECTED:" ), 0 ) {}
+            selected_cat( "ITEMS YOU SELECTED", _( "ITEMS YOU SELECTED:" ), 0 ) {
+
+            items.push_back( itemstack_or_category( &selected_cat ) );
+        }
 
         virtual bool passive() const override {
             return true;
@@ -153,9 +159,10 @@ class selection_column : public inventory_column {
         virtual void on_item_include( const item &it, int pos ) override;
         virtual void on_item_exclude( const item &it, int pos ) override;
 
-    private:
+    protected:
         virtual nc_color get_item_color( size_t index, bool ) const override;
 
+    private:
         const item_category selected_cat;
 };
 
@@ -271,6 +278,7 @@ class inventory_selector
         void set_to_drop(int it_pos, int count);
         void toggle_active_column();
         void toggle_navigation_mode();
+        void add_selection_column();
 };
 
 size_t inventory_column::find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const
@@ -300,13 +308,11 @@ size_t inventory_column::find_by_invlet( long invlet ) const
 size_t inventory_column::get_max_width() const
 {
     size_t res = 0;
-    size_t index = 0;
-    for( const auto &entry : items ) {
-        const auto &text = is_category( index ) ? entry.category->name : get_item_text( index );
-        res = std::max( res, size_t( utf8_width( text ) ) );
-        ++index;
+    for( size_t index = 0; index < items.size(); ++index ) {
+        const size_t text_length = utf8_width( get_item_text( index ) );
+        res = std::max( res, get_item_indent( index ) + text_length );
     }
-    return res + 2; // for inventory letters
+    return res;
 }
 
 void inventory_column::select( size_t new_index )
@@ -425,29 +431,33 @@ void inventory_column::prepare_paging()
 
 std::string inventory_column::get_item_text( size_t index, const char icon ) const
 {
-    const item *it = items[index].it;
-    const auto *slice = items[index].slice;
-    const size_t count = ( slice != nullptr ) ? slice->size() : 1;
     std::ostringstream res;
+    const item *it = items[index].it;
 
-    assert( it != nullptr );
+    if( it != nullptr ) {
+        const size_t count = ( items[index].slice != nullptr ) ? items[index].slice->size() : 1;
 
-    if( OPTIONS["ITEM_SYMBOLS"] ) {
-        res << it->symbol() << ' ';
+        if( OPTIONS["ITEM_SYMBOLS"] ) {
+            res << it->symbol() << ' ';
+        }
+        if( icon != '\0' ) {
+            res << icon << ' ';
+        }
+        if( count > 1 ) {
+            res << count << ' ';
+        }
+        res << it->display_name( count );
+    } else if( items[index].category != nullptr ) {
+        res << items[index].category->name;
     }
-    if( icon != '\0' ) {
-        res << icon << ' ';
-    }
-    if( count > 1 ) {
-        res << count << ' ';
-    }
-    res << it->display_name( count );
     return res.str();
 }
 
 nc_color inventory_column::get_item_color( size_t index, bool active ) const
 {
-    if( index == selected_index ) {
+    if( is_category( index ) ) {
+        return c_magenta;
+    } else if( index == selected_index ) {
         switch( mode ) {
             case navigation_mode::ITEM:
                 return active ? h_white : h_ltgray;
@@ -455,22 +465,18 @@ nc_color inventory_column::get_item_color( size_t index, bool active ) const
                 return active ? c_white_red : c_ltgray_red;
         }
     }
-    return ( items[index].it != nullptr ) ? items[index].it->color_in_inventory() : c_unset;
+    return items[index].it->color_in_inventory();
 }
 
 void inventory_column::draw( WINDOW *win, size_t x, size_t y, size_t width, bool active,
                              const std::function<char( const itemstack_or_category &entry )> &get_icon ) const
 {
-    size_t line = 0;
-    for( size_t i = page_offset; i < items.size() && line < items_per_page; ++i, ++line ) {
+    for( size_t i = page_offset, line = 0; i < items.size() && line < items_per_page; ++i, ++line ) {
         if( items[i].category == nullptr ) {
             continue;
         }
-        if( is_category( i ) ) {
-            trim_and_print( win, y + line, x, width, c_magenta, "%s", items[i].category->name.c_str() );
-        } else {
-            trim_and_print( win, y + line, x + 2, width - 2, get_item_color( i, active ), "%s", get_item_text( i, get_icon( items[i] ) ).c_str() );
 
+        if( !is_category( i ) ) {
             const char invlet = items[i].it->invlet;
             if( invlet != '\0' ) {
                 const nc_color invlet_color = ( i == selected_index )
@@ -481,6 +487,9 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y, size_t width, bool
                 mvwputch( win, y + line, x, invlet_color, invlet );
             }
         }
+
+        trim_and_print( win, y + line, x + get_item_indent( i ), width,
+                        get_item_color( i, active ), "%s", get_item_text( i, get_icon( items[i] ) ).c_str() );
     }
 }
 
@@ -495,17 +504,18 @@ void selection_column::on_item_exclude( const item &it, int pos )
     remove_item( itemstack_or_category( &it, pos ) );
 }
 
-nc_color selection_column::get_item_color( size_t index, bool ) const
+nc_color selection_column::get_item_color( size_t index, bool active ) const
 {
+    if( is_category( index ) ) {
+        return inventory_column::get_item_color( index, active );
+    }
     const int pos = items[index].item_pos;
-
     if( pos == -1 ) {
         return c_ltblue;
     } else if( pos <= -2 ) {
         return c_cyan;
     }
-
-    return ( items[index].it != nullptr ) ? items[index].it->color_in_inventory() : c_unset;
+    return items[index].it->color_in_inventory();
 }
 
 void inventory_selector::add_items(const indexed_invslice &slice, add_to where, const item_category *def_cat)
@@ -565,18 +575,26 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
 
+    const size_t max_x = size_t( getmaxx( w_inv ) );
     size_t visible_columns = 0;
-    for( const auto column : columns ) {
-        if( column->visible() ) {
-            ++visible_columns;
-        }
-    }
+    size_t column_x = 1;
 
+    for( const auto column : columns ) {
+        if( !column->visible() ) {
+            continue;
+        }
+        column_x += column->get_max_width();
+        if( column_x > max_x ) {
+            break;
+        }
+        ++visible_columns;
+    }
     const size_t column_width =
         ( visible_columns > 0 ) ? size_t( getmaxx( w_inv ) ) / visible_columns : 0;
 
-    size_t column_x = 1;
-    for( size_t i = 0; i < columns.size(); ++i ) {
+    for( size_t i = 0, column_x = 1; i < columns.size() && column_x < max_x;
+        ++i, column_x += column_width ) {
+
         const auto &column = *columns[i];
 
         if( !column.visible() ) {
@@ -597,11 +615,11 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
                 }
                 return '#';
             } );
+
         if( column.pages_count() > 1 ) {
             mvwprintw( w_inv, getmaxy( w_inv ) - 2, column_x, _( "Page %d/%d" ),
                        column.page_index() + 1, column.pages_count() );
         }
-        column_x += column_width;
     }
 
     if( mode == SM_PICK ) {
@@ -668,10 +686,8 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("ANY_INPUT"); // For invlets
 
-    const size_t column_height = getmaxy( w_inv ) - 5;
-    std::shared_ptr<inventory_column> first_column( new inventory_column( column_height ) );
-    std::shared_ptr<inventory_column> second_column( new inventory_column( column_height ) );
-    std::shared_ptr<inventory_column> third_column( new selection_column( column_height ) );
+    std::shared_ptr<inventory_column> first_column( new inventory_column( getmaxy( w_inv ) - 5 ) );
+    std::shared_ptr<inventory_column> second_column( new inventory_column( getmaxy( w_inv ) - 5 ) );
 
     first_column->add_items( u.inv.indexed_slice_filter_by( filter ), add_to::END );
 
@@ -691,7 +707,6 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
 
     columns.push_back( first_column );
     columns.push_back( second_column );
-    columns.push_back( third_column );
 
     for( auto column : columns ) {
         column->set_mode( navigation );
@@ -892,6 +907,13 @@ void inventory_selector::toggle_navigation_mode()
     }
 }
 
+void inventory_selector::add_selection_column()
+{
+    std::shared_ptr<inventory_column> column( new selection_column( getmaxy( w_inv ) - 5 ) );
+    column->set_mode( navigation );
+    columns.push_back( column );
+}
+
 int inventory_selector::execute_pick( const std::string &title, const int position )
 {
     prepare_paging();
@@ -958,6 +980,7 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
 
 void inventory_selector::execute_compare( const std::string &title )
 {
+    add_selection_column();
     prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
@@ -1014,6 +1037,7 @@ void inventory_selector::execute_compare( const std::string &title )
 
 std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std::string &title )
 {
+    add_selection_column();
     prepare_paging();
 
     int count = 0;
