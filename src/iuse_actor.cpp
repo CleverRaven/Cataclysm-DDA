@@ -142,6 +142,26 @@ std::string iuse_transform::get_name() const
     return iuse_actor::get_name();
 }
 
+std::string iuse_transform::finalize( const itype_id & )
+{
+    if( !item::type_is_defined( target ) ) {
+        debugmsg( "Invalid transform target: %s", target.c_str() );
+    }
+
+    if( !container.empty() ) {
+        if( !item::type_is_defined( container ) ) {
+            debugmsg( "Invalid transform container: %s", container.c_str() );
+        }
+
+        item dummy( target );
+        if( !dummy.count_by_charges() ) {
+            debugmsg( "Transform target with container must be an item with charges, got non-charged: %s", target.c_str() );
+        }
+    }
+
+    return "";
+}
+
 explosion_iuse::~explosion_iuse()
 {
 }

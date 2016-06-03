@@ -170,6 +170,13 @@ void Item_factory::finalize() {
                 }
             }
         }
+
+        for( use_function &use_fun : obj.use_methods ) {
+            iuse_actor *actor = use_fun.get_actor_ptr();
+            if( actor != nullptr ) {
+                actor->finalize( obj.id );
+            }
+        }
     }
 }
 
