@@ -8068,6 +8068,31 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
     return it->type->charges_to_use();
 }
 
+int iuse::washclothes( player *p, item *it, bool, const tripoint& )
+{
+    if( it->charges < it->type->charges_to_use() ) {
+        p->add_msg_if_player( _( "You need soap to use this." ) );
+    } else if ( g->m.has_nearby_water( g->u.pos() ) ) {
+        int pos = g->inv_for_filter( _( "Wash what?" ), []( const item & itm ) {
+            return itm.has_flag( "FILTHY" ); 
+        } );
+    item &mod = p->i_at( pos );
+    if( mod.is_null() ) {
+        p->add_msg_if_player( m_info, _( "You don't have that item!" ) );
+        return 0;
+    }
+
+    p->add_msg_if_player( _( "You washed your clothing." ) );
+    p->mod_moves( -3000 );
+    mod.item_tags.erase( "FILTHY" );
+
+    } else { 
+        p->add_msg_if_player( _( "You need a source of fresh water to use this." ) );
+        return 0;
+    }
+    return it->type->charges_to_use();
+}
+
 int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
 {
     w_point const weatherPoint = g->weather_gen->get_weather( p->global_square_location(),

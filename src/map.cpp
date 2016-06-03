@@ -3099,6 +3099,16 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
     return false;
 }
 
+bool map::has_nearby_water( const tripoint &p, int radius )
+{
+    for( const auto &pt : points_in_radius( p, radius ) ) {
+        if( ter( pt ) == t_water_sh || ter( pt ) == t_water_dp || ter( pt ) == t_water_pool ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void map::mop_spills( const tripoint &p ) {
     auto items = i_at( p );
     for( auto it = items.begin(); it != items.end(); ) {

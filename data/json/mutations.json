@@ -4826,8 +4826,8 @@
         "type" : "mutation",
         "id" : "SQUEAMISH",
         "name" : "Squeamish",
-        "points" : -2,
+        "points" : -1,
         "starting_trait" : true,
-        "description" : "You can't even think about putting filthy clothes on yourself, especially from zombies' corpses."
+        "description" : "You'll get morale penalties from wearing filthy clothes, especially from zombies' corpses.  You can wash the filth from them, though."
     }
 ]
