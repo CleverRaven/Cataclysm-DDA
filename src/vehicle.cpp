@@ -6765,6 +6765,9 @@ vehicle_part::vehicle_part()
 vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy, item&& obj )
     : mount( dx, dy ), id( str ), base( std::move( obj ) )
 {
+	// Mark base item as being installed as a vehicle part
+	base.item_tags.insert( "VEHICLE" );
+
     const vpart_info& vp = id.obj();
 
     if( base.typeId() != vp.item ) {
@@ -6791,6 +6794,7 @@ const vpart_str_id &vehicle_part::get_id() const
 item vehicle_part::properties_to_item() const
 {
     item tmp = base;
+    tmp.item_tags.erase( "VEHICLE" );
 
     const vpart_info &vpinfo = info();
 

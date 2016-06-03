@@ -1543,6 +1543,7 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );
+    data.read("amount", amount );
     data.read("open", open );
     data.read("direction", direction );
     data.read("mode", mode );
@@ -1559,10 +1560,13 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
 
-    data.read("amount", amount );
-    if( base.is_magazine() ) {
-        amount = 0;
-        base.ammo_set( id.obj().fuel_type, amount );
+    // migrate legacy base items which may not be tagged VEHICLE
+    if( !base.has_flag( "VEHICLE") ) {
+        base.item_tags.insert( "VEHICLE" );
+        if( base.is_magazine() ) {
+            amount = 0;
+            base.ammo_set( id.obj().fuel_type, amount );
+        }
     }
 }
 
