@@ -2918,35 +2918,6 @@ bool map::flammable_items_at( const tripoint &p )
     return false;
 }
 
-bool map::moppable_items_at( const tripoint &p )
-{
-    for (auto &i : i_at(p)) {
-        if (i.made_of(LIQUID)) {
-            return true;
-        }
-    }
-    const field &fld = field_at(p);
-    if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
-          fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
-          || fld.findField(fd_gibs_flesh) != 0 || fld.findField(fd_gibs_veggy) != 0 ||
-          fld.findField(fd_gibs_insect) != 0 || fld.findField(fd_gibs_invertebrate) != 0
-          || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 ||
-          fld.findField(fd_sludge) != 0) {
-        return true;
-    }
-    int vpart;
-    vehicle *veh = veh_at(p, vpart);
-    if(veh != 0) {
-        std::vector<int> parts_here = veh->parts_at_relative(veh->parts[vpart].mount.x, veh->parts[vpart].mount.y);
-        for(auto &i : parts_here) {
-            if(veh->parts[i].blood > 0) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
 void map::decay_fields_and_scent( const int amount )
 {
     // Decay scent separately, so that later we can use field count to skip empty submaps
@@ -3099,36 +3070,50 @@ bool map::has_nearby_fire( const tripoint &p, int radius )
     return false;
 }
 
-void map::mop_spills( const tripoint &p ) {
+bool map::mop_spills( const tripoint &p )
+{
     auto items = i_at( p );
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( it->made_of(LIQUID) ) {
-            it = items.erase( it );
-        } else {
-            it++;
-        }
+    auto new_end = std::remove_if( items.begin(), items.end(), []( const item & it ) {
+        return it.made_of( LIQUID );
+    } );
+    bool retval = new_end != items.end();
+    while( new_end != items.end() ) {
+        new_end = items.erase( new_end );
     }
-    remove_field( p, fd_blood );
-    remove_field( p, fd_blood_veggy );
-    remove_field( p, fd_blood_insect );
-    remove_field( p, fd_blood_invertebrate );
-    remove_field( p, fd_gibs_flesh );
-    remove_field( p, fd_gibs_veggy );
-    remove_field( p, fd_gibs_insect );
-    remove_field( p, fd_gibs_invertebrate );
-    remove_field( p, fd_bile );
-    remove_field( p, fd_slime );
-    remove_field( p, fd_sludge );
+
+    field &fld = field_at( p );
+    static const std::vector<field_id> to_check = {
+        fd_blood,
+        fd_blood_veggy,
+        fd_blood_insect,
+        fd_blood_invertebrate,
+        fd_gibs_flesh,
+        fd_gibs_veggy,
+        fd_gibs_insect,
+        fd_gibs_invertebrate,
+        fd_bile,
+        fd_slime,
+        fd_sludge
+    };
+    for( field_id fid : to_check ) {
+        retval |= fld.removeField( fid );
+    }
+
     int vpart;
-    vehicle *veh = veh_at(p, vpart);
-    if(veh != 0) {
+    vehicle *veh = veh_at( p, vpart );
+    if( veh != 0 ) {
         std::vector<int> parts_here = veh->parts_at_relative( veh->parts[vpart].mount.x,
-                                                              veh->parts[vpart].mount.y );
+                                      veh->parts[vpart].mount.y );
         for( auto &elem : parts_here ) {
-            veh->parts[elem].blood = 0;
+            if( veh->parts[elem].blood > 0 ) {
+                veh->parts[elem].blood = 0;
+                retval = true;
+            }
         }
-    }
+    } // if veh != 0
+    return retval;
 }
+
 
 void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chance )
 {
