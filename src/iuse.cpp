@@ -543,7 +543,7 @@ int iuse::eyedrops(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
-    if( !it->ammo_sufficient() ) {
+    if( it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player(_("You're out of %s."), it->tname().c_str());
         return false;
     }
@@ -3844,7 +3844,7 @@ int iuse::pipebomb_act(player *, item *it, bool t, const tripoint &pos)
     if (t) { // Simple timer effects
         //~ the sound of a lit fuse
         sounds::sound(pos, 0, _("ssss...")); // Vol 0 = only heard if you hold it
-    } else if (it->ammo_remaining() > 0) {
+    } else if (it->charges > 0) {
         add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
         return 0;
     } else { // The timer has run down
@@ -3876,7 +3876,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
     }
     if (t) { // Simple timer effects
         sounds::sound(pos, 0, _("Merged!"));  // Vol 0 = only heard if you hold it
-    } else if (it->ammo_remaining() > 0) {
+    } else if (it->charges > 0) {
         add_msg(m_info, _("You've already pulled the %s's pin, try throwing it instead."),
                 it->tname().c_str());
         return 0;
@@ -4070,7 +4070,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
 
     if (t) { // Simple timer effects
         sounds::sound(pos, 0, _("Tick!")); // Vol 0 = only heard if you hold it
-    } else if (it->ammo_remaining() > 0) {
+    } else if (it->charges > 0) {
         p->add_msg_if_player(m_info, _("You've already released the handle, try throwing it instead."));
         return 0;
     } else {  // blow up
@@ -4225,7 +4225,7 @@ int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
     if (timer < 2) {
         sounds::sound(pos, 0, _("ssss..."));
         it->damage += 1;
-    } else if (it->ammo_remaining() > 0) {
+    } else if (it->charges > 0) {
         int ex = rng(3, 5);
         int i = 0;
         if (ex > it->charges) {
@@ -4266,7 +4266,7 @@ int iuse::firecracker_act(player *, item *it, bool t, const tripoint &pos)
     }
     if (t) {// Simple timer effects
         sounds::sound(pos, 0, _("ssss..."));
-    } else if (it->ammo_remaining() > 0) {
+    } else if (it->charges > 0) {
         add_msg(m_info, _("You've already lit the %s, try throwing it instead."), it->tname().c_str());
         return 0;
     } else { // When that timer runs down...
