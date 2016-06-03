@@ -4156,10 +4156,11 @@ bool item::magazine_integral() const
 {
     // finds first ammo type which specifies at least one magazine
     const auto& mags = type->magazines;
-    if( !std::none_of(
-        mags.begin(), mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
-        return e.second.size();
-    }) ) {
+    if( std::any_of( mags.begin(), mags.end(),
+        []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
+            return !e.second.empty();
+        })
+    ) {
         return false;
     }
 
