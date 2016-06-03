@@ -429,6 +429,7 @@
 		<Unit filename="src/field.h" />
 		<Unit filename="src/filesystem.cpp" />
 		<Unit filename="src/filesystem.h" />
+		<Unit filename="src/fire.h" />
 		<Unit filename="src/game.cpp" />
 		<Unit filename="src/game.h" />
 		<Unit filename="src/game_constants.h" />

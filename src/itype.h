@@ -418,7 +418,10 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-     itype_id linkage = "NULL";
+    itype_id linkage = "NULL";
+
+    /** If false, ammo will cook off if this mag is affected by fire */
+    bool protects_contents = false;
 };
 
 struct islot_ammo : common_ranged_data {
@@ -444,6 +447,12 @@ struct islot_ammo : common_ranged_data {
      * appropriate value is calculated based upon the other properties of the ammo
      */
     int loudness = -1;
+
+    /** Should this ammo explode in fire? */
+    bool cookoff = false;
+
+    /** Should this ammo apply a special explosion effect when in fire? */
+    bool special_cookoff = false;
 };
 
 struct islot_variable_bigness {

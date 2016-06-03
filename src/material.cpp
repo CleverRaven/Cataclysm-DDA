@@ -52,6 +52,17 @@ material_type::material_type()
     _density = 1;
 }
 
+mat_burn_data load_mat_burn_data( JsonObject &jsobj )
+{
+    mat_burn_data bd;
+    bd.immune = jsobj.get_bool( "immune", false );
+    bd.fuel = jsobj.get_int( "fuel", 0 );
+    bd.smoke = jsobj.get_int( "smoke", 0 );
+    bd.burn = jsobj.get_int( "burn", 1 );
+    bd.chance_in_volume = jsobj.get_int( "chance", 0 );
+    return bd;
+}
+
 // load a material object from incoming JSON
 void material_type::load_material( JsonObject &jsobj )
 {
@@ -83,6 +94,20 @@ void material_type::load_material( JsonObject &jsobj )
     mat._dmg_adj[1] = _( jsarr.next_string().c_str() );
     mat._dmg_adj[2] = _( jsarr.next_string().c_str() );
     mat._dmg_adj[3] = _( jsarr.next_string().c_str() );
+
+    JsonArray burn_data_array = jsobj.get_array( "burn_data" );
+    for( size_t intensity = 0; intensity < MAX_FIELD_DENSITY; intensity++ ) {
+        if( burn_data_array.has_more() ) {
+            JsonObject brn = burn_data_array.next_object();
+            mat._burn_data[ intensity ] = load_mat_burn_data( brn );
+        } else if( intensity > 0 ) {
+            // If not specified, copy from earlier data
+            mat._burn_data[ intensity ] = mat._burn_data[ intensity - 1 ];
+        } else {
+            // If not specified and no earlier data, supply default
+            mat._burn_data[ intensity ] = mat_burn_data{ false, 0, 0, 0, 0 };
+        }
+    }
 
     _all_materials[mat._ident] = mat;
     DebugLog( D_INFO, DC_ALL ) << "Loaded material: " << mat._name;
