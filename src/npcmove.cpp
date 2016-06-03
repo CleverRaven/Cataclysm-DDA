@@ -470,10 +470,16 @@ void npc::execute_action( npc_action action )
 
         break;
 
-    case npc_shoot:
+    case npc_shoot: {
+        auto mode = weapon.gun_current_mode();
+        if( !mode ) {
+            debugmsg( "NPC tried to shoot without valid mode" );
+            break;
+        }
         aim();
-        fire_gun( tar, weapon.gun_current_mode().qty );
+        fire_gun( tar, mode.qty, *mode );
         break;
+    }
 
     case npc_alt_attack:
         alt_attack();
