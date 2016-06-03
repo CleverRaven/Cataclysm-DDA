@@ -13436,12 +13436,6 @@
           "rotates": false
         },
         {
-          "id": "saiga_sawn",
-          "fg": 1556,
-          "bg": 632,
-          "rotates": false
-        },
-        {
           "id": "saline",
           "fg": 808,
           "bg": 632,
@@ -27629,7 +27623,7 @@
           "rotates": false
         },
         {
-          "id": "m14a",
+          "id": "m1a",
           "fg": 1478,
           "rotates": false
         },
@@ -27739,7 +27733,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_m14a",
+          "id": "overlay_wielded_m1a",
           "fg": 1501,
           "rotates": false
         },
@@ -28618,11 +28612,6 @@
         },
         {
           "id": "overlay_wielded_rm228",
-          "fg": 1524,
-          "rotates": false
-        },
-        {
-          "id": "overlay_wielded_saiga_sawn",
           "fg": 1524,
           "rotates": false
         },

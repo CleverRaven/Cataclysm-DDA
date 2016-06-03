@@ -172,6 +172,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_veh_part);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_category);
+    type_function_map["MIGRATION"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_migration);
 
     type_function_map["MONSTER"] = new ClassFunctionAccessor<MonsterGenerator>
     (&MonsterGenerator::generator(), &MonsterGenerator::load_monster);
@@ -374,6 +376,7 @@ extern void calculate_mapgen_weights();
 void DynamicDataLoader::finalize_loaded_data()
 {
     item_controller->finalize();
+    vpart_info::finalize();
     mission_type::initialize(); // Needs overmap terrain.
     set_ter_ids();
     set_furn_ids();

@@ -8,6 +8,7 @@
     "difficulty": 0,
     "time": 2000,
     "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
     "components": [
       [ [ "rag", 1 ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "torch_done", 1 ] ],

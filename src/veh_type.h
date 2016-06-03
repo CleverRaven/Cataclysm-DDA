@@ -4,6 +4,8 @@
 #include "string_id.h"
 #include "int_id.h"
 #include "enums.h"
+#include "color.h"
+#include "damage.h"
 
 #include <vector>
 #include <bitset>
@@ -12,7 +14,7 @@
 
 using itype_id = std::string;
 
-struct vpart_info;
+class vpart_info;
 using vpart_str_id = string_id<vpart_info>;
 using vpart_id = int_id<vpart_info>;
 struct vehicle_prototype;
@@ -69,38 +71,81 @@ enum vpart_bitflags : int {
  * VARIABLE_SIZE - Has 'bigness' for power, wheel radius, etc
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
-struct vpart_info {
-        using itype_id = std::string;
-        vpart_str_id id;         // unique identifier for this part
-        vpart_id loadid;             // # of loaded order, non-saved runtime optimization
-        long sym;               // symbol of part as if it's looking north
-        nc_color color;         // color
-        char sym_broken;        // symbol of broken part as if it's looking north
-        nc_color color_broken;  // color of broken part
-        int dmg_mod;            // damage modifier, percent
-        int durability;         // durability
-        int power;              // engine (top spd), solar panel/powered component (% of 1 fuel per turn, can be > 100)
-        int epower;             // electrical power in watts (positive values for generation, negative for consumption)
-        int folded_volume;      // volume of a foldable part when folded
-        int range;              // turret target finder range
-        int size;               // fuel tank or cargo location volume
+class vpart_info
+{
+    public:
+        /** Unique identifier for this part */
+        vpart_str_id id;
+
+        /** integer identifier derived from load order (non-saved runtime optimization) */
+        vpart_id loadid;
+
+        /** Translated name of a part */
+        std::string name() const;
+
+        /** base item for this part */
+        itype_id item;
+
+        /** What slot of the vehicle tile does this part occupy? */
+        std::string location;
+
+        /** Color of part for different states */
+        nc_color color = c_ltgray;
+        nc_color color_broken = c_ltgray;
+
+        /**
+         * Symbol of part which will be translated as follows:
+         * y, u, n, b to NW, NE, SE, SW lines correspondingly
+         * h, j, c to horizontal, vertical, cross correspondingly
+         */
+        long sym = 0;
+        char sym_broken = '#';
+
+        /** Maximum damage part can sustain before being destroyed */
+        int durability = 0;
+
+        /** Damage modifier (percentage) used when damaging other entities upon collision */
+        int dmg_mod = 100;
+
+        // Electrical power (watts). Is positive for generation, negative for consumption
+        int epower = 0;
+
+        /*
+         * For engines this is maximum output
+         * For alternators is engine power consumed (negative value)
+         * For solar panel/powered components (% of 1 fuel per turn, can be > 100)
+         */
+        int power = 0;
+
+        /** Fuel type of engine or tank */
+        itype_id fuel_type = "null";
+
+        /** Volume of a foldable part when folded */
+        int folded_volume = 0;
+
+        /** Maximum turret range */
+        int range = 12;
+
+        /** Fuel tank or cargo location volume */
+        int size = 0;
+
+        /** Mechanics skill required to install item */
+        int difficulty = 0;
+
+        /** @ref item_group this part breaks into when destroyed */
+        std::string breaks_into_group = "EMPTY_GROUP";
+
+        /** Tool qualities this vehicle part can provide when installed */
+        std::map<quality_id, int> qualities;
 
         union {
             int par1;
             int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
             int bonus;      // seatbelt (str), muffler (%), horn (vol)
         };
-        itype_id fuel_type;  // engine, fuel tank
-        itype_id item;      // corresponding item
-        int difficulty;     // installation difficulty (mechanics requirement)
-        std::string location;   //Where in the vehicle this part goes
-        std::string breaks_into_group;
 
-        /** Tool qualities this vehicle part can provide when installed */
-        std::map<quality_id, int> qualities;
-
-        /** Translated name of a part */
-        std::string name() const;
+        /** Flat decrease of damage of a given type. */
+        std::array<float, NUM_DT> damage_reduction;
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */
@@ -122,6 +167,7 @@ struct vpart_info {
         void set_flag( const std::string &flag );
 
         static void load( JsonObject &jo );
+        static void finalize();
         static void check();
         static void reset();
 

@@ -539,10 +539,12 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
                     tmp_i.val = tid.id();
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
-                    if ( furnmap.find( tmpid ) == furnmap.end() ) {
+                    const furn_str_id fid( tmpid );
+
+                    if ( !fid.is_valid() ) {
                         pjo.throw_error( "no such furniture", "id" );
                     }
-                    tmp_i.val = furnmap[ tmpid ].loadid;
+                    tmp_i.val = fid.id();
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
                     const trap_str_id sid( tmpid );
@@ -665,7 +667,7 @@ public:
         const int rx = x.get();
         const int ry = y.get();
         m.furn_set( rx, ry, f_null );
-        m.furn_set( rx, ry, "f_sign" );
+        m.furn_set( rx, ry, furn_str_id( "f_sign" ) );
 
         tripoint abs_sub = m.get_abs_sub();
 
@@ -1056,24 +1058,8 @@ public:
 class jmapgen_furniture : public jmapgen_piece {
 public:
     furn_id id;
-    jmapgen_furniture( JsonObject &jsi ) : jmapgen_piece()
-    , id( 0 )
-    {
-        const auto iter = furnmap.find( jsi.get_string( "furn" ) );
-        if( iter == furnmap.end() ) {
-            jsi.throw_error( "unknown furniture type", "furn" );
-        }
-        id = iter->second.loadid;
-    }
-    jmapgen_furniture( const std::string &tid ) : jmapgen_piece()
-    , id( 0 )
-    {
-        const auto iter = furnmap.find( tid );
-        if( iter == furnmap.end() ) {
-            throw std::runtime_error( "unknown furniture type" );
-        }
-        id = iter->second.loadid;
-    }
+    jmapgen_furniture( JsonObject &jsi ) : jmapgen_furniture( jsi.get_string( "furn" ) ) {}
+    jmapgen_furniture( const std::string &fid ) : jmapgen_piece(), id( furn_id( fid ) ) {}
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         m.furn_set( x.get(), y.get(), id );
@@ -1087,8 +1073,7 @@ class jmapgen_terrain : public jmapgen_piece {
 public:
     ter_id id;
     jmapgen_terrain( JsonObject &jsi ) : jmapgen_terrain( jsi.get_string( "ter" ) ) {}
-
-    jmapgen_terrain( const std::string &ter_name ) : jmapgen_piece(), id( ter_id( ter_name ) ) {}
+    jmapgen_terrain( const std::string &tid ) : jmapgen_piece(), id( ter_id( tid ) ) {}
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mdensity*/ ) const override
     {
         m.ter_set( x.get(), y.get(), id );
@@ -1107,11 +1092,7 @@ public:
     jmapgen_make_rubble( JsonObject &jsi ) : jmapgen_piece()
     {
         if( jsi.has_string( "rubble_type" ) ) {
-            const auto iter = furnmap.find( jsi.get_string( "rubble_type" ) );
-            if( iter == furnmap.end() ) {
-                jsi.throw_error( "unknown furniture type", "rubble_type" );
-            }
-            rubble_type = iter->second.loadid;
+            rubble_type = furn_id( jsi.get_string( "rubble_type" ) );
         }
         jsi.read( "items", items );
         if( jsi.has_string( "floor_type" ) ) {
@@ -1388,12 +1369,7 @@ bool mapgen_function_json::setup() {
                         pjo.throw_error( "format map key must be 1 character", key );
                     }
                     if( pjo.has_string( key ) ) {
-                        const auto tmpval = pjo.get_string( key );
-                        const auto iter = furnmap.find( tmpval );
-                        if( iter == furnmap.end() ) {
-                            pjo.throw_error( "Invalid furniture", key );
-                        }
-                        format_furniture[key[0]] = iter->second.loadid;
+                        format_furniture[key[0]] = furn_id( pjo.get_string( key ) );
                     } else {
                         auto &vect = format_placings[ key[0] ];
                         ::load_place_mapings<jmapgen_furniture>( pjo, key, vect );
@@ -12799,13 +12775,13 @@ void mx_minefield(map &m, const tripoint &abs_sub)
     int y1 = 0;
     int x2 = (SEEX * 2 - 1);
     int y2 = (SEEY * 2 - 1);
-    m.furn_set(x1, y1, "f_sign");
+    m.furn_set( x1, y1, furn_str_id( "f_sign" ) );
     m.set_signage( tripoint( x1,  y1, abs_sub.z ), _("DANGER! MINEFIELD!"));
-    m.furn_set(x1, y2, "f_sign");
+    m.furn_set( x1, y2, furn_str_id( "f_sign" ) );
     m.set_signage( tripoint( x1,  y2, abs_sub.z ), _("DANGER! MINEFIELD!"));
-    m.furn_set(x2, y1, "f_sign");
+    m.furn_set( x2, y1, furn_str_id( "f_sign" ) );
     m.set_signage( tripoint( x2,  y1, abs_sub.z ), _("DANGER! MINEFIELD!"));
-    m.furn_set(x2, y2, "f_sign");
+    m.furn_set( x2, y2, furn_str_id( "f_sign" ) );
     m.set_signage( tripoint( x2,  y2, abs_sub.z ), _("DANGER! MINEFIELD!"));
 }
 

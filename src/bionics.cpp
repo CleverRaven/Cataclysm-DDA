@@ -383,33 +383,34 @@ bool player::activate_bionic( int b, bool eff_only )
         } else {
             add_effect( effect_adrenaline, 200 );
         }
+
     } else if( bio.id == "bio_blaster" ) {
         tmp_item = weapon;
-        weapon = item( "bio_blaster_gun", 0 );
+        weapon = item( "bio_blaster_gun" );
         g->refresh_all();
-        g->plfire();
-        if( weapon.charges == 1 ) { // not fired
+        if( !g->plfire() ) {
             charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
+
     } else if( bio.id == "bio_laser" ) {
         tmp_item = weapon;
-        weapon = item( "bio_laser_gun", 0 );
+        weapon = item( "bio_laser_gun" );
         g->refresh_all();
-        g->plfire();
-        if( weapon.charges == 1 ) { // not fired
+        if( !g->plfire() ) {
             charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
+
     } else if( bio.id == "bio_chain_lightning" ) {
         tmp_item = weapon;
-        weapon = item( "bio_lightning", 0 );
+        weapon = item( "bio_lightning" );
         g->refresh_all();
-        g->plfire();
-        if( weapon.charges == 1 ) { // not fired
+        if( !g->plfire() ) {
             charge_power( bionics[bio.id].power_activate );
         }
         weapon = tmp_item;
+
     } else if (bio.id == "bio_emp") {
         g->refresh_all();
         if(choose_adjacent(_("Create an EMP where?"), dirx, diry)) {

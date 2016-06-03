@@ -102,6 +102,12 @@ void Creature::reset()
     reset_bonuses();
     reset_stats();
 }
+
+void Creature::bleed() const
+{
+    g->m.add_splatter( bloodType(), pos() );
+}
+
 void Creature::reset_bonuses()
 {
     num_blocks = 1;

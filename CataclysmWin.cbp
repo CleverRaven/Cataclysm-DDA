@@ -411,6 +411,7 @@
 		<Unit filename="src/dialogue.h" />
 		<Unit filename="src/drawing_primitives.cpp" />
 		<Unit filename="src/drawing_primitives.h" />
+		<Unit filename="src/dump.cpp" />
 		<Unit filename="src/editmap.cpp" />
 		<Unit filename="src/explosion.cpp" />
 		<Unit filename="src/editmap.h" />

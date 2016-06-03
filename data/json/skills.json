@@ -68,7 +68,7 @@
         "type" : "skill",
         "ident" : "traps",
         "name" : "trapping",
-        "description" : "Your skill in setting and disarming traps safely and effectively.  This skill does not affect the detection of hidden traps, or the evasion of traps that are triggered."
+        "description" : "Your skill in creating, setting, finding and disarming traps safely and effectively.  This skill does not affect the evasion of traps that are triggered."
     },{
         "type" : "skill",
         "ident" : "archery",

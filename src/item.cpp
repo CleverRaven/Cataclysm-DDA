@@ -52,6 +52,9 @@ const skill_id skill_bashing( "bashing" );
 const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 
+const quality_id quality_jack( "JACK" );
+const quality_id quality_lift( "LIFT" );
+
 const species_id FISH( "FISH" );
 const species_id BIRD( "BIRD" );
 const species_id INSECT( "INSECT" );
@@ -59,6 +62,7 @@ const species_id ROBOT( "ROBOT" );
 
 const efftype_id effect_cig( "cig" );
 const efftype_id effect_shakes( "shakes" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_weed_high( "weed_high" );
 
 enum item::LIQUID_FILL_ERROR : int {
@@ -98,12 +102,14 @@ static const itype *nullitem()
     return &nullitem_m;
 }
 
+const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
+
 item::item()
 {
     type = nullitem();
 }
 
-item::item( const itype *type, int turn, int qty ) : type( type )
+item::item( const itype *type, int turn, long qty ) : type( type )
 {
     bday = turn >= 0 ? turn : int( calendar::turn );
     corpse = type->id == "corpse" ? &mtype_id::NULL_ID.obj() : nullptr;
@@ -154,7 +160,7 @@ item::item( const itype *type, int turn, int qty ) : type( type )
     }
 }
 
-item::item( const itype_id& id, int turn, int qty )
+item::item( const itype_id& id, int turn, long qty )
     : item( find_type( id ), turn, qty ) {}
 
 item::item( const itype *type, int turn, default_charges_tag )
@@ -251,6 +257,10 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     if( is_magazine() ) {
         ammo_unset();
         emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+        if( has_flag( "NO_UNLOAD" ) ) {
+            contents.back().item_tags.insert( "NO_DROP" );
+            contents.back().item_tags.insert( "IRREMOVABLE" );
+        }
 
     } else if( magazine_integral() ) {
         curammo = atype;
@@ -814,8 +824,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
     } else {
         const item *mod = this;
-        if( !is_gunmod() ) {
-            mod = &*gun_current_mode();
+        const auto aux = gun_current_mode();
+        // if we have an active auxiliary gunmod display stats for this instead
+        if( aux && aux->is_gunmod() && aux->is_gun() ) {
+            mod = &*aux;
             info.emplace_back( "DESCRIPTION", string_format( _( "Stats of the active <info>gunmod (%s)</info> are shown." ),
                                                              mod->tname().c_str() ) );
         }
@@ -932,7 +944,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         std::vector<std::string> fm;
         for( const auto &e : gun_all_modes() ) {
-            if( e.second.target == this && !e.second.melee ) {
+            if( e.second.target == this && !e.second.melee() ) {
                 fm.emplace_back( string_format( "%s (%i)", e.second.mode.c_str(), e.second.qty ) );
             }
         }
@@ -1312,24 +1324,28 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
     }
 
-    for( const auto &quality : type->qualities ) {
-        const auto desc = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
-                                         quality.second,
-                                         quality.first.obj().name.c_str() );
-        info.push_back( iteminfo( "QUALITIES", "", desc ) );
-    }
-    bool intro = false; // Did we print the "Contains items with qualities" line
-    for( const auto &content : contents ) {
-        for( const auto quality : content.type->qualities ) {
-            if( !intro ) {
-                intro = true;
-                info.push_back( iteminfo( "QUALITIES", "", _( "Contains items with qualities:" ) ) );
-            }
+    auto name_quality = [&info]( const std::pair<quality_id,int>& q ) {
+        std::string str;
+        if( q.first == quality_jack || q.first == quality_lift ) {
+            str = string_format( _( "Has level <info>%1$d %2$s</info> quality and is rated at <info>%3$dkg</info>" ),
+                                 q.second, q.first.obj().name.c_str(), q.second * TOOL_LIFT_FACTOR / 1000 );
+        } else {
+            str = string_format( _( "Has level <info>%1$d %2$s</info> quality." ),
+                                 q.second, q.first.obj().name.c_str() );
+        }
+        info.emplace_back( "QUALITIES", "", str );
+    };
 
-            const auto desc = string_format( space + _( "Level %1$d %2$s quality." ),
-                                             quality.second,
-                                             quality.first.obj().name.c_str() );
-            info.push_back( iteminfo( "QUALITIES", "", desc ) );
+    for( const auto& q : type->qualities ) {
+        name_quality( q );
+    }
+
+    if( std::any_of( contents.begin(), contents.end(), []( const item& e ) { return !e.type->qualities.empty(); } ) ) {
+        info.emplace_back( "QUALITIES", "", _( "Contains items with qualities:" ) );
+    }
+    for( const auto& e : contents ) {
+        for( const auto& q : e.type->qualities ) {
+            name_quality( q );
         }
     }
 
@@ -1916,10 +1932,8 @@ int item::engine_displacement() const
     return type->engine ? type->engine->displacement : 0;
 }
 
-char item::symbol() const
+const std::string &item::symbol() const
 {
-    if( is_null() )
-        return ' ';
     return type->sym;
 }
 
@@ -2627,13 +2641,27 @@ int item::damage_by_type( damage_type dt ) const
     return 0;
 }
 
-int item::reach_range() const
+int item::reach_range( const player &p ) const
 {
-    if( is_gunmod() || !has_flag( "REACH_ATTACK" ) ) {
-        return 1;
+    int res = 1;
+
+    if( has_flag( "REACH_ATTACK" ) ) {
+        res = has_flag( "REACH3" ) ? 3 : 2;
     }
 
-    return has_flag( "REACH3" ) ? 3 : 2;
+    // for guns consider any attached gunmods
+    if( is_gun() && !is_gunmod() ) {
+        for( const auto &m : gun_all_modes() ) {
+            if( p.is_npc() && m.second.flags.count( "NPC_AVOID" ) ) {
+                continue;
+            }
+            if( m.second.melee() ) {
+                res = std::max( res, m.second.qty );
+            }
+        }
+    }
+
+    return res;
 }
 
 
@@ -3933,6 +3961,10 @@ long item::ammo_required() const
     return 0;
 }
 
+bool item::ammo_sufficient( int qty ) const {
+    return ammo_remaining() >= ammo_required() * qty;
+}
+
 long item::ammo_consume( long qty, const tripoint& pos ) {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
@@ -4202,11 +4234,11 @@ bool item::gunmod_compatible( const item& mod, bool alert, bool effects ) const
 
 std::map<std::string, const item::gun_mode> item::gun_all_modes() const
 {
-    if( !is_gun() ) {
-        return {};
-    }
-
     std::map<std::string, const item::gun_mode> res;
+
+    if( !is_gun() || is_gunmod() ) {
+        return res;
+    }
 
     auto opts = gunmods();
     opts.push_back( this );
@@ -4218,23 +4250,19 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                 std::string prefix = e->is_gunmod() ? ( std::string( e->typeId() ) += "_" ) : "";
                 std::transform( prefix.begin(), prefix.end(), prefix.begin(), (int(*)(int))std::toupper );
 
-                auto qty = m.second.second;
+                auto qty = std::get<1>( m.second );
                 if( m.first == "AUTO" && e == this && has_flag( "RAPIDFIRE" ) ) {
                     qty *= 1.5;
                 }
 
-                res.emplace( prefix += m.first, item::gun_mode { m.second.first, const_cast<item *>( e ),
-                                                                 qty, false } );
+                res.emplace( prefix += m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
+                                                                 qty, std::get<2>( m.second ) } );
             };
-        }
-        if( e->has_flag( "REACH_ATTACK" ) ) {
-            res.emplace( "REACH", item::gun_mode { e->tname(), const_cast<item *>( e ),
-                                                   e->has_flag( "REACH3" ) ? 3 : 2, true } );
         }
         if( e->is_gunmod() ) {
             for( auto m : e->type->gunmod->mode_modifier ) {
-                res.emplace( m.first, item::gun_mode { m.second.first, const_cast<item *>( this ),
-                                                       m.second.second, false } );
+                res.emplace( m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( this ),
+                                                       std::get<1>( m.second ), std::get<2>( m.second ) } );
             }
         }
     }
@@ -4251,7 +4279,7 @@ const item::gun_mode item::gun_get_mode( const std::string& mode ) const
             }
         }
     }
-    return { "", nullptr, 0, false };
+    return { "", nullptr, 0, {} };
 }
 
 item::gun_mode item::gun_current_mode()
@@ -4923,13 +4951,23 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
         }
     }
     // Now check the item itself
-    if (type->id == it && quantity > 0 && contents.empty()) {
+    if( type->id == it && quantity > 0 && allow_crafting_component() ) {
         used.push_back(*this);
         quantity--;
         return true;
     } else {
         return false;
     }
+}
+
+bool item::allow_crafting_component() const
+{
+    // vehicle batteries are implemented as magazines of charge
+    if( is_magazine() && ammo_type() == "battery" ) {
+        return true;
+    }
+
+    return contents.empty();
 }
 
 bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
@@ -5421,6 +5459,13 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this, 2 );
             return true; // removes the item that has just been added to the map
         }
+
+        if( carrier->has_effect( effect_sleep ) ) {
+            carrier->add_msg_if_player( m_bad, _( "You fall asleep and drop your %s." ),
+                                        tname().c_str() );
+            g->m.add_item_or_charges( tripoint( pos.x + rng( -1, 1 ), pos.y + rng( -1, 1 ), pos.z ), *this, 2 );
+            return true; // removes the item that has just been added to the map
+        }
     } else {
         // If not carried by someone, but laying on the ground:
         // release some smoke every five ticks
@@ -5815,6 +5860,11 @@ std::string item::label( unsigned int quantity ) const
     }
 
     return type_name( quantity );
+}
+
+bool item::has_infinite_charges() const
+{
+    return charges == INFINITE_CHARGES;
 }
 
 item_category::item_category() : id(), name(), sort_rank( 0 )

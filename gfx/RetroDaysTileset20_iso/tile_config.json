@@ -32010,14 +32010,6 @@
         },
         {
           "fg": [
-            1404
-          ],
-          "id": "saiga_sawn",
-          "multitile": false,
-          "rotates": false
-        },
-        {
-          "fg": [
             1405
           ],
           "id": "shotgun_s",
@@ -32348,7 +32340,7 @@
           "fg": [
             1378
           ],
-          "id": "m14a",
+          "id": "m1a",
           "multitile": false,
           "rotates": false
         },

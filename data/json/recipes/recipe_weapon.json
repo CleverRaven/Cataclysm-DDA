@@ -812,24 +812,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "shotgun_sawn",
-  "byproducts": { "id" : "scrap", "amount" : 6 },
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "shotgun_d", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "revolver_shotgun",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -1153,24 +1135,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "saiga_sawn",
-  "byproducts": { "id" : "scrap", "amount" : 5 },
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 2000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "saiga_12", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "hand_crossbow",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -1414,24 +1378,6 @@
     ],
     [
       [ "2x4", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pipe_shotgunsawn",
-  "byproducts": { "id" : "scrap", "amount" : 3 },
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "difficulty": 0,
-  "time": 12000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe_shotgun", 1 ]
     ]
   ]
 },{
@@ -3042,32 +2988,6 @@
     ],
     [
       ["flamethrower_crude", 1]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "nailrifle",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "fabrication",
-  "skill_sec": ["mechanics", 1, "gun", 2],
-  "difficulty": 1,
-  "time": 12000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities":[
-    {"id":"SAW_M_FINE","level":1,"amount":1},
-    {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      ["pipe", 1]
-    ],
-    [
-      ["2x4", 2],
-      [ "stick", 3 ]
-    ],
-    [
-      ["nailgun", 1]
     ]
   ]
 },{

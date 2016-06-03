@@ -12,6 +12,7 @@ src/clzones.cpp
 src/consumption.cpp
 src/coordinate_conversions.cpp
 src/craft_command.cpp
+src/crafting.cpp
 src/crafting_gui.cpp
 src/creature_tracker.cpp
 src/damage.cpp
@@ -20,10 +21,11 @@ src/dependency_tree.cpp
 src/drawing_primitives.cpp
 src/editmap.cpp
 src/explosion.cpp
+src/fault.cpp
 src/gamemode.cpp
 src/gates.cpp
-src/gates.h
 src/help.cpp
+src/input.cpp
 src/item_action.cpp
 src/item_location.cpp
 src/itype.cpp
@@ -46,6 +48,7 @@ src/morale.cpp
 src/mtype.cpp
 src/mutation_ui.cpp
 src/name.cpp
+src/overlay_ordering.cpp
 src/pathfinding.cpp
 src/player_activity.cpp
 src/posix_time.cpp
@@ -64,6 +67,7 @@ src/trapfunc.cpp
 src/tutorial.cpp
 src/vehicle_selector.cpp
 src/version.cpp
+src/vitamin.cpp
 src/weather_gen.cpp
 src/wish.cpp
 src/action.h
@@ -105,9 +109,9 @@ src/event.h
 src/explosion.h
 src/faction.h
 src/fault.h
-src/fault.cpp
 src/filesystem.h
 src/game_constants.h
+src/gates.h
 src/generic_factory.h
 src/get_version.h
 src/help.h
@@ -148,6 +152,7 @@ src/name.h
 src/npc_favor.h
 src/omdata.h
 src/options.h
+src/overlay_ordering.h
 src/overmap_types.h
 src/path_info.h
 src/pathfinding.h
@@ -177,9 +182,8 @@ src/veh_interact.h
 src/veh_type.h
 src/vehicle_selector.h
 src/version.h
-src/vitamin.h
-src/vitamin.cpp
 src/visitable.h
+src/vitamin.h
 src/weather.h
 src/weighted_list.h
 src/worldfactory.h
