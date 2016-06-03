@@ -130,7 +130,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
         }
     } else {
         it->convert( container );
-        obj = &it->emplace_back( item( target, calendar::turn, ammo_qty >= 0 ? ammo_qty : 1 ) ) ;
+        obj = &it->emplace_back( target, calendar::turn, std::max( ammo_qty, 1l ) );
     }
 
     obj->active = active;
