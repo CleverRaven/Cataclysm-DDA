@@ -410,7 +410,7 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
     }
 
     tmp.weapon = gun;
-    tmp.worn.push_back( item( "fake_UPS", calendar::turn, 1000 ) );
+    tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( description.c_str() ), z.name().c_str(), tmp.weapon.gun_type().c_str() );
