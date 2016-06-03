@@ -259,6 +259,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
         emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
         if( has_flag( "NO_UNLOAD" ) ) {
             contents.back().item_tags.insert( "NO_DROP" );
+            contents.back().item_tags.insert( "IRREMOVABLE" );
         }
 
     } else if( magazine_integral() ) {
