@@ -177,7 +177,7 @@ void remove_atomic_mod( item &it, player &p )
     p.add_msg_if_player( _( "You remove the plutonium cells from your %s!" ), it.tname().c_str() );
     item mod( "battery_atomic" );
     mod.charges = it.charges;
-    it.charges = 0;
+    it.ammo_unset();
     p.i_add_or_drop( mod, 1 );
     it.item_tags.erase( "ATOMIC_AMMO" );
     it.item_tags.erase( "NO_UNLOAD" );
@@ -193,7 +193,7 @@ void remove_ups_mod( item &it, player &p )
     p.add_msg_if_player( _( "You remove the UPS Conversion Pack from your %s!" ), it.tname().c_str() );
     item mod( "battery_ups" );
     p.i_add_or_drop( mod, 1 );
-    it.charges = 0;
+    it.ammo_unset();
     it.item_tags.erase( "USE_UPS" );
     it.item_tags.erase( "NO_UNLOAD" );
     it.item_tags.erase( "NO_RELOAD" );
@@ -2277,7 +2277,7 @@ int iuse::ups_battery(player *p, item *, bool, const tripoint& )
     modded.item_tags.insert("NO_UNLOAD");
     modded.item_tags.insert("NO_RELOAD");
     //Perhaps keep the modded charges at 1 or 0?
-    modded.charges = 0;
+    modded.ammo_unset();
     return 1;
 }
 
@@ -7096,7 +7096,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
 
         if (g->m.has_flag("SWIMMABLE", pos.x, pos.y)) {
             it->item_tags.erase("NO_UNWIELD");
-            it->charges = 0;
+            it->ammo_unset();
             it->active = false;
             add_msg(m_good, _("%s automatically turned off!"), it->tname().c_str());
             return it->type->charges_to_use();
@@ -7120,7 +7120,7 @@ int iuse::ehandcuffs(player *p, item *it, bool t, const tripoint &pos)
                 p->charge_power(-2);
 
                 it->item_tags.erase("NO_UNWIELD");
-                it->charges = 0;
+                it->ammo_unset();
                 it->active = false;
                 add_msg(m_good, _("The %s crackle with electricity from your bionic, then come off your hands!"), it->tname().c_str());
 
@@ -7308,7 +7308,7 @@ void sendRadioSignal(player *p, std::string signal)
             if( it.has_flag("RADIO_INVOKE_PROC") ) {
                 // Invoke twice: first to transform, then later to proc
                 it.type->invoke( p, &it, p->pos() );
-                it.charges = 0;
+                it.ammo_unset();
                 // The type changed
             }
 
