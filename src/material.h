@@ -69,9 +69,7 @@ class material_type
             return iter != _vitamins.end() ? iter->second : 0;
         }
 
-        const mat_burn_data &burn_data( size_t intensity ) const {
-            return _burn_data[ intensity < MAX_FIELD_DENSITY ? intensity : MAX_FIELD_DENSITY ];
-        }
+        const mat_burn_data &burn_data( size_t intensity ) const;
 };
 
 #endif

@@ -4792,6 +4792,9 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
         time_added /= mats.size();
         smoke_added /= mats.size();
         burn_added /= mats.size();
+    } else if( mats.empty() ) {
+        // Non-liquid items with no specified materials will burn at moderate speed
+        burn_added = 1;
     }
 
     frd.fuel_produced += time_added;
@@ -4839,38 +4842,24 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
 
 bool item::flammable() const
 {
-    const auto mats = made_of_types();
+    const auto &mats = made_of_types();
     if( mats.empty() ) {
         // Don't know how to burn down something made of nothing.
         return false;
     }
+
     int flammability = 0;
-    for( auto mat : mats ) {
-        flammability += mat->fire_resist();
+    for( const auto &mat : mats ) {
+        const auto &bd = mat->burn_data( 1 );
+        if( bd.immune ) {
+            // Made to protect from fire
+            return false;
+        }
+
+        flammability += bd.fuel;
     }
 
-    if( flammability == 0 ) {
-        return true;
-    }
-
-    if( made_of( material_id( "nomex" ) ) ) {
-        return false;
-    }
-
-    if( made_of( material_id( "paper" ) ) || made_of( material_id( "powder" ) ) || made_of( material_id( "plastic" ) ) ) {
-        return true;
-    }
-
-    int vol = volume();
-    if( ( made_of( material_id( "wood" ) ) || made_of( material_id( "veggy" ) ) ) && ( burnt < 1 || vol <= 10 ) ) {
-        return true;
-    }
-
-    if( ( made_of( material_id( "cotton" ) ) || made_of( material_id( "wool" ) ) ) && ( burnt / ( vol + 1 ) <= 1 ) ) {
-        return true;
-    }
-
-    return false;
+    return flammability > 0;
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)
@@ -5202,7 +5191,27 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
     bDrawName = DrawName;
 }
 
-bool item::detonate( const tripoint &p, std::vector<item> &drops ) const
+bool item::will_explode_in_fire() const
+{
+    if( type->explode_in_fire ) {
+        return true;
+    }
+
+    if( type->ammo != nullptr && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
+        return true;
+    }
+
+    // Most containers do nothing to protect the contents from fire
+    if( type->magazine == nullptr || !type->magazine->protects_contents ) {
+        return any_of( contents.begin(), contents.end(), []( const item &it ) {
+            return it.will_explode_in_fire();
+        });
+    }
+
+    return false;
+}
+
+bool item::detonate( const tripoint &p, std::vector<item> &drops )
 {
     if( type->explosion.power >= 0 ) {
         g->explosion( p, type->explosion );
@@ -5231,13 +5240,17 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops ) const
 
         return true;
     } else if( !contents.empty() && ( type->magazine == nullptr || !type->magazine->protects_contents ) ) {
-        // Make a copy of all the contents
-        auto cont = contents;
         bool destroyed = false;
 
-        for( const item &it : cont ) {
+        for( auto content = contents.begin(); content != contents.end(); ) {
+            bool content_destroyed = content->detonate( p, drops );
             // If any of the contents explodes, so does the container
-            destroyed |= it.detonate( p, drops );
+            destroyed |= content_destroyed;
+            if( content_destroyed ) {
+                content = contents.erase( content );
+            } else {
+                content++;
+            }
         }
 
         return destroyed;

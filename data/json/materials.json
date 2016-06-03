@@ -44,9 +44,9 @@
           [ "vitC", 0.5 ]
         ],
         "burn_data": [
-            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 1 },
-            { "fuel": 1, "smoke": 1, "burn": 2, "chance": 10 },
-            { "fuel": 1, "smoke": 1, "burn": 3 }
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
+            { "fuel": 2, "smoke": 1, "burn": 2, "chance": 10 },
+            { "fuel": 2, "smoke": 1, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -98,8 +98,8 @@
         "edible": true,
         "burn_data": [
             { "fuel": 1, "smoke": 1, "burn": 1 },
-            { "fuel": 1, "smoke": 1, "burn": 4 },
-            { "fuel": 1, "smoke": 1, "burn": 5 }
+            { "fuel": 1, "smoke": 1, "burn": 2 },
+            { "fuel": 1, "smoke": 1, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -180,8 +180,8 @@
           [ "iron", 2.0 ]
         ],
         "burn_data": [
-            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 15 },
-            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 50 },
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
+            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
             { "fuel": 3, "smoke": 10, "burn": 3 }
         ]
     },{
@@ -230,8 +230,8 @@
         "edible": true,
         "burn_data": [
             { "fuel": -100, "smoke": 1, "burn": 1 },
-            { "fuel": -50, "smoke": 5, "burn": 3 },
-            { "fuel": -10, "smoke": 10, "burn": 5 }
+            { "fuel": -50, "smoke": 2, "burn": 1 },
+            { "fuel": -10, "smoke": 2, "burn": 2 }
         ]
     },{
         "type" : "material",
@@ -259,8 +259,8 @@
         ],
         "burn_data": [
             { "fuel": -100, "smoke": 1, "burn": 1 },
-            { "fuel": -50, "smoke": 5, "burn": 3 },
-            { "fuel": -10, "smoke": 10, "burn": 5 }
+            { "fuel": -50, "smoke": 2, "burn": 1 },
+            { "fuel": -10, "smoke": 2, "burn": 2 }
         ]
     },{
         "type" : "material",
@@ -286,8 +286,8 @@
           [ "calcium", 1.0 ]
         ],
         "burn_data": [
-            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 15 },
-            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 50 },
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
+            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
             { "fuel": 3, "smoke": 10, "burn": 3 }
         ]
     },{
@@ -316,8 +316,8 @@
           [ "iron", 2.0 ]
         ],
         "burn_data": [
-            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 15 },
-            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 50 },
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
+            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
             { "fuel": 3, "smoke": 10, "burn": 3 }
         ]
     },{
@@ -342,8 +342,8 @@
         "density" : 3,
         "burn_data": [
             { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
-            { "fuel": 1, "smoke": 1, "burn": 2 },
-            { "fuel": 1, "smoke": 1, "burn": 5 }
+            { "fuel": 1, "smoke": 1, "burn": 1 },
+            { "fuel": 1, "smoke": 1, "burn": 2 }
         ]
     },{
         "type" : "material",
@@ -577,8 +577,8 @@
         "density" : 4,
         "burn_data": [
             { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
-            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 20 },
-            { "fuel": 1, "smoke": 1, "burn": 1 }
+            { "fuel": 2, "smoke": 1, "burn": 2, "chance": 20 },
+            { "fuel": 3, "smoke": 1, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -601,9 +601,9 @@
         "chip_resist" : 6,
         "density" : 8,
         "burn_data": [
-            { "fuel": 1, "smoke": 3, "burn": 1, "chance": 3 },
+            { "fuel": 1, "smoke": 2, "burn": 1, "chance": 3 },
             { "fuel": 1, "smoke": 3, "burn": 2 },
-            { "fuel": 0, "smoke": 3, "burn": 5 }
+            { "fuel": 1, "smoke": 5, "burn": 5 }
         ]
     },{
         "type" : "material",
@@ -954,8 +954,8 @@
         "edible": true,
         "burn_data": [
             { "fuel": 150, "smoke": 0, "burn": 1 },
-            { "fuel": 150, "smoke": 0, "burn": 2 },
-            { "fuel": 150, "smoke": 0, "burn": 3 }
+            { "fuel": 300, "smoke": 0, "burn": 2 },
+            { "fuel": 450, "smoke": 0, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -979,8 +979,8 @@
         "edible": true,
         "burn_data": [
             { "fuel": 300, "smoke": 3, "burn": 1 },
-            { "fuel": 300, "smoke": 3, "burn": 2 },
-            { "fuel": 300, "smoke": 3, "burn": 3 }
+            { "fuel": 600, "smoke": 6, "burn": 2 },
+            { "fuel": 900, "smoke": 9, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -1003,8 +1003,8 @@
         "density" : 1,
         "burn_data": [
             { "fuel": 300, "smoke": 6, "burn": 1 },
-            { "fuel": 300, "smoke": 6, "burn": 2 },
-            { "fuel": 300, "smoke": 6, "burn": 3 }
+            { "fuel": 600, "smoke": 6, "burn": 2 },
+            { "fuel": 900, "smoke": 6, "burn": 3 }
         ]
     },{
         "type" : "material",

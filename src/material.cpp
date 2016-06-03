@@ -58,7 +58,7 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
     bd.immune = jsobj.get_bool( "immune", false );
     bd.fuel = jsobj.get_int( "fuel", 0 );
     bd.smoke = jsobj.get_int( "smoke", 0 );
-    bd.burn = jsobj.get_int( "burn", 1 );
+    bd.burn = jsobj.get_int( "burn", 0 );
     bd.chance_in_volume = jsobj.get_int( "chance", 0 );
     return bd;
 }
@@ -100,12 +100,10 @@ void material_type::load_material( JsonObject &jsobj )
         if( burn_data_array.has_more() ) {
             JsonObject brn = burn_data_array.next_object();
             mat._burn_data[ intensity ] = load_mat_burn_data( brn );
-        } else if( intensity > 0 ) {
-            // If not specified, copy from earlier data
-            mat._burn_data[ intensity ] = mat._burn_data[ intensity - 1 ];
         } else {
-            // If not specified and no earlier data, supply default
-            mat._burn_data[ intensity ] = mat_burn_data{ false, 0, 0, 0, 0 };
+            // If not specified, supply default
+            bool flammable = mat._fire_resist <= ( int )intensity;
+            mat._burn_data[ intensity ] = mat_burn_data{ false, 0, 0, 0, flammable ? 1 : 0 };
         }
     }
 
@@ -226,4 +224,9 @@ int material_type::density() const
 bool material_type::edible() const
 {
     return _edible;
+}
+
+const mat_burn_data &material_type::burn_data( size_t intensity ) const
+{
+    return _burn_data[ std::min<size_t>( intensity, MAX_FIELD_DENSITY ) - 1 ];
 }

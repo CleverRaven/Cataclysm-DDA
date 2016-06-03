@@ -555,8 +555,11 @@ public:
      * Detonates the item and adds remains (if any) to drops.
      * Returns true if the item actually detonated,
      * potentially destroying other items and invalidating iterators.
+     * Should NOT be called on an item on the map, but on a local copy.
      */
-    bool detonate( const tripoint &p, std::vector<item> &drops ) const;
+    bool detonate( const tripoint &p, std::vector<item> &drops );
+
+    bool will_explode_in_fire() const;
 
     /**
      * @name Material(s) of the item

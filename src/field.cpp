@@ -762,9 +762,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             auto items_here = i_at( p );
                             std::vector<item> new_content;
                             for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                                if( explosive->detonate( p, new_content ) ) {
-                                    // Need to restart, iterators may not be valid
-                                    explosive = items_here.begin();
+                                if( explosive->will_explode_in_fire() ) {
+                                    // We need to make a copy because the iterator validity is not predictable
+                                    item copy = *explosive;
+                                    explosive = items_here.erase( explosive );
+                                    if( copy.detonate( p, new_content ) ) {
+                                        // Need to restart, iterators may not be valid
+                                        explosive = items_here.begin();
+                                    }
                                 } else {
                                     ++explosive;
                                 }
