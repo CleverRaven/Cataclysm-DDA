@@ -5812,18 +5812,10 @@ std::string aim_type( const vehicle_part &part )
     }
 }
 
-int vehicle::get_turret_range( int p, bool manual )
+int vehicle::get_turret_range( int p )
 {
     if( !part_flag( p, "TURRET" ) ) {
         return -1;
-    }
-
-    if( ( !manual && part_flag( p, "MANUAL" ) ) ) {
-        return -1;
-    }
-
-    if( !manual ) {
-        return part_info( p ).range;
     }
 
     const auto turret_data = turret_has_ammo( p );
@@ -5849,7 +5841,7 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos 
         return turret_no_ammo;
     }
 
-    const int turrange = get_turret_range( p, true );
+    const int turrange = get_turret_range( p );
     tripoint tpos( global_pos3() + parts[p].precalc[0] );
     if( rl_dist( tpos, pos ) > turrange ) {
         return turret_out_of_range;
@@ -5888,7 +5880,7 @@ bool vehicle::aim_turrets()
     std::vector< tripoint > bounds;
     bounds.reserve( 4 * turrets.size() );
     for( const int turret_index : turrets ) {
-        const int turrange = get_turret_range( turret_index, true );
+        const int turrange = get_turret_range( turret_index );
         if( turrange <= 0 ) {
             continue;
         }
@@ -5929,7 +5921,7 @@ bool vehicle::aim_turrets()
 
     const tripoint &targ = trajectory.back();
     for( int turret_index : turrets ) {
-        int turrange = get_turret_range( turret_index, true );
+        int turrange = get_turret_range( turret_index );
         tripoint tpos( global_pos() + parts[turret_index].precalc[0], g->u.posz() );
         if( turrange < rl_dist( tpos, targ ) ) {
             continue;

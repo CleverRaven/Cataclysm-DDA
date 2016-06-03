@@ -789,9 +789,7 @@ public:
     void shed_loose_parts();
 
     // Gets range of part p if it's a turret
-    // If `manual` is true, gets the real item range (gun+ammo range)
-    // otherwise gets part range (as in json)
-    int get_turret_range( int p, bool manual = true );
+    int get_turret_range( int p );
 
     // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
     // Does not handle tags like FIRE_100
