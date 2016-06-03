@@ -146,9 +146,7 @@ void remove_double_ammo_mod( item &it, player &p )
     it.item_tags.erase( "DOUBLE_AMMO" );
     // Easier to remove all batteries than to check for the actual real maximum
     if( it.charges > 0 ) {
-        item batteries( "battery" );
-        batteries.charges = it.charges;
-        it.charges = 0;
+        item batteries( "battery", calendar::turn, it.charges );
         p.i_add_or_drop( batteries, 1 );
     }
 }
@@ -165,11 +163,9 @@ void remove_double_plut_mod( item &it, player &p )
     it.item_tags.erase( "DOUBLE_AMMO" );
     it.item_tags.erase( "DOUBLE_REACTOR" );
     // Easier to remove all cells than to check for the actual real maximum
-    if( it.charges > 0 ) {
-        item cells( "plut_cell" );
-        cells.charges = it.charges / 500;
-        it.charges = 0;
-        p.i_add_or_drop( cells, 1 );
+    if( it.charges >= 500 ) {
+        item batteries( "plut_cell", calendar::turn, it.charges / 500 );
+        p.i_add_or_drop( batteries, 1 );
     }
 }
 
