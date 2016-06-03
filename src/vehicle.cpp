@@ -5836,8 +5836,7 @@ int vehicle::get_turret_range( int p, bool manual )
         return -1;
     }
 
-    if( ( !manual && part_flag( p, "MANUAL" ) ) ||
-        ( manual && part_flag( p, "NO_MANUAL" ) ) ) {
+    if( ( !manual && part_flag( p, "MANUAL" ) ) ) {
         return -1;
     }
 
@@ -6205,15 +6204,6 @@ bool vehicle::fire_turret( int p, bool manual )
         return false;
     }
 
-    // Don't let non-manual turrets get aimed manually
-    if( manual && part_flag( p, "NO_MANUAL" ) ) {
-        if( manual ) {
-            add_msg( m_bad, _("This turret can't be aimed manually") );
-        }
-
-        return false;
-    }
-
     if( parts[p].mode == 0 ) {
         if( !manual ) {
             return false;
@@ -6303,10 +6293,7 @@ void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long cons
 
 int vehicle::automatic_fire_turret( int p, item& gun  )
 {
-    tripoint pos = global_pos3();
-    pos.x += parts[p].precalc[0].x;
-    pos.y += parts[p].precalc[0].y;
-    int range = part_info( p ).range;
+    tripoint pos = global_part_pos3( p );
 
     npc tmp;
     tmp.set_fake( true );
@@ -6333,7 +6320,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
         // Manual target not set, find one automatically
         const bool u_see = g->u.sees( pos );
         int boo_hoo;
-        Creature *auto_target = tmp.auto_find_hostile_target( range, boo_hoo, area );
+        Creature *auto_target = tmp.auto_find_hostile_target( gun.gun_range(), boo_hoo, area );
         if( auto_target == nullptr ) {
             if( u_see && boo_hoo ) {
                 add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
@@ -6375,28 +6362,25 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
 {
     int res = 0; // number of shots actually fired
 
-    tripoint pos = global_pos3() + tripoint( parts[p].precalc[0], 0 );
+    tripoint pos = global_part_pos3( p );
 
     // Place the shooter at the turret
     const tripoint &oldpos = shooter.pos();
     shooter.setpos( pos );
 
-    const int range = gun.gun_range( &shooter );
-    auto mons = shooter.get_visible_creatures( range );
-    constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
     tripoint shooter_pos = shooter.pos();
-    auto trajectory = g->pl_target_ui( shooter_pos, range, &gun, tmode );
+    auto trajectory = g->pl_target_ui( shooter_pos, gun.gun_range(), &gun, TARGET_MODE_TURRET_MANUAL );
     shooter.recoil = abs(velocity) / 100 / 4;
     if( !trajectory.empty() ) {
         // Need to redraw before shooting
         g->draw_ter();
-        const tripoint &targ = trajectory.back();
+
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
 
         // @todo hack around turret mode selection to prevent debugmsg until mode selection refactored
         int to_fire = std::max( abs(parts[p].mode) > 1 ? std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) : 1, 1 );
-        res = shooter.fire_gun( targ, to_fire, gun );
+        res = shooter.fire_gun( trajectory.back(), to_fire, gun );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
     }
