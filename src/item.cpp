@@ -4935,13 +4935,23 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
         }
     }
     // Now check the item itself
-    if (type->id == it && quantity > 0 && contents.empty()) {
+    if( type->id == it && quantity > 0 && allow_crafting_component() ) {
         used.push_back(*this);
         quantity--;
         return true;
     } else {
         return false;
     }
+}
+
+bool item::allow_crafting_component() const
+{
+    // vehicle batteries are implemented as magazines of charge
+    if( is_magazine() && ammo_type() == "battery" ) {
+        return true;
+    }
+
+    return contents.empty();
 }
 
 bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )

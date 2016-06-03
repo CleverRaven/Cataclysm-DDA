@@ -1,7 +1,7 @@
 [
   {
     "id": "battery_car",
-    "type": "GENERIC",
+    "type": "MAGAZINE",
     "category": "veh_parts",
     "name": "car battery",
     "name_plural": "car batteries",
@@ -11,35 +11,40 @@
     "price": 4000,
     "material": [ "plastic" ],
     "symbol": ":",
-    "color": "light_cyan"
+    "color": "light_cyan",
+    "ammo_type": "battery",
+    "capacity": 4500,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "battery_motorbike",
     "copy-from": "battery_car",
-    "type": "GENERIC",
+    "type": "MAGAZINE",
     "name": "motorbike battery",
     "name_plural": "motorbike batteries",
     "description": "A 12v lead-acid battery used to power smaller vehicles' electrical systems.",
     "weight": 6000,
     "volume": 3,
-    "price": 2000
+    "price": 2000,
+    "capacity": 2000
   },
   {
     "id": "battery_truck",
     "copy-from": "battery_car",
-    "type":"GENERIC",
+    "type":"MAGAZINE",
     "category": "veh_parts",
     "name": "truck battery",
     "name_plural": "truck batteries",
     "description": "A large 12v lead-acid battery used to power truck electrical systems.",
     "weight": 30000,
     "volume": 6,
-    "price": 6000
+    "price": 6000,
+    "capacity": 8000
   },
   {
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
-    "type": "GENERIC",
+    "type": "MAGAZINE",
     "name": "medium storage battery",
     "name_plural": "medium storage batteries",
     "description": "A medium storage battery.",
@@ -47,12 +52,13 @@
     "volume": 10,
     "price": 50000,
     "price_postapoc": 8000,
-    "bashing": 14
+    "bashing": 14,
+    "capacity": 700
   },
   {
     "id": "small_storage_battery",
     "copy-from": "storage_battery",
-    "type": "GENERIC",
+    "type": "MAGAZINE",
     "name": "small storage battery",
     "name_plural": "small storage batteries",
     "description": "A small storage battery.  Useful for crafting.",
@@ -60,11 +66,12 @@
     "volume": 2,
     "price": 5000,
     "price_postapoc": 1000,
-    "bashing": 7
+    "bashing": 7,
+    "capacity": 500
   },
   {
     "id": "storage_battery",
-    "type": "GENERIC",
+    "type": "MAGAZINE",
     "category": "veh_parts",
     "name": "storage battery",
     "name_plural": "storage batteries",
@@ -78,6 +85,8 @@
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "light_cyan",
-    "flags": [ "NO_SALVAGE" ]
+    "ammo_type": "battery",
+    "capacity": 40000,
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD" ]
   }
 ]

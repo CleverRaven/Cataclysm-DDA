@@ -160,9 +160,10 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /**
      * Consume fuel, charges or ammunition (if available)
      * @param qty maximum amount of ammo that should be consumed
+     * @param pos current global location of part from which ammo is being consumed
      * @return amount consumed which will be between 0 and @ref qty
      */
-    long ammo_consume( long qty );
+    long ammo_consume( long qty, const tripoint& pos );
 
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
@@ -589,6 +590,7 @@ public:
      * Get the coordinates of the studied part of the vehicle
      */
     tripoint global_part_pos3( const int &index ) const;
+    tripoint global_part_pos3( const vehicle_part &pt ) const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.

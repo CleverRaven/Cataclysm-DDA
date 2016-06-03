@@ -10,7 +10,6 @@
     "broken_color":  "red",
     "difficulty": 2,
     "durability": 120,
-    "size": 4500,
     "folded_volume": 4,
     "breaks_into": [
         { "item": "steel_lump", "count": [ 6, 9 ] },
@@ -26,7 +25,6 @@
     "name": "motorbike battery",
     "item": "battery_motorbike",
     "durability": 100,
-    "size": 2000,
     "folded_volume": 3,
     "breaks_into" : [
         { "item": "steel_lump", "count": [ 4, 7 ] },
@@ -42,7 +40,6 @@
     "name": "truck battery",
     "item": "battery_truck",
     "durability": 180,
-    "size": 8000,
     "folded_volume": 0,
     "breaks_into" : [
         { "item": "steel_lump", "count": [ 8, 12 ] },
@@ -59,7 +56,6 @@
     "item": "medium_storage_battery",
     "difficulty": 1,
     "durability": 250,
-    "size": 700,
     "folded_volume": 10,
     "breaks_into": [
       { "item": "scrap", "count": [ 1, 4 ] },
@@ -75,7 +71,6 @@
     "item": "small_storage_battery",
     "difficulty": 1,
     "durability": 100,
-    "size": 500,
     "folded_volume": 2,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "extend": { "flags": [ "TOOL_NONE", "FOLDABLE" ] }
@@ -93,7 +88,6 @@
     "damage_modifier": 80,
     "difficulty": 2,
     "durability": 300,
-    "size": 40000,
     "breaks_into": [
         { "item": "steel_lump", "count": [ 5, 10 ] },
         { "item": "steel_chunk", "count": [ 5, 10 ] },
