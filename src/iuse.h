@@ -249,10 +249,8 @@ public:
 
     /**
      * Finalizes the actor. Must be called after all items are loaded.
-     * Returns a string describing errors in the json such as missing item definitions.
-     * Empty return string means no errors.
      */
-    virtual std::string finalize( const itype_id &/*my_item_type*/ ) { return ""; }
+    virtual void finalize( const itype_id &/*my_item_type*/ ) { }
 };
 
 struct use_function {

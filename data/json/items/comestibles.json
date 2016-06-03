@@ -8444,6 +8444,7 @@
         "material" : "flesh",
         "volume" : 2,
         "charges" : 1,
+        "stack_size" : 2,
         "fun" : 2
     },
     {
@@ -8463,8 +8464,9 @@
         "description" : "This mushy pile of vegetable matter was boiled and canned in an earlier life.  Better eat it before it oozes through your fingers.",
         "price" : 250,
         "material" : "veggy",
-        "volume" : 1,
+        "volume" : 2,
         "charges" : 1,
+        "stack_size" : 2,
         "fun" : 0
     },
     {
@@ -8484,8 +8486,9 @@
         "description" : "This sodden mass of preserved fruit was boiled and canned in an earlier life.  Bland, mushy and losing color.",
         "price" : 220,
         "material" : "fruit",
-        "volume" : 1,
+        "volume" : 2,
         "charges" : 1,
+        "stack_size" : 2,
         "fun" : 1
     },
     {
@@ -8505,8 +8508,9 @@
         "description" : "Low-sodium preserved human meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
         "price" : 0,
         "material" : "hflesh",
-        "volume" : 1,
+        "volume" : 2,
         "charges" : 1,
+        "stack_size" : 2,
         "fun" : 2
     },
     {
@@ -8870,6 +8874,7 @@
         "material" : "veggy",
         "volume" : 1,
         "charges" : 1,
+        "stack_size" : 4,
         "fun" : -2
     },
     {
@@ -11480,8 +11485,9 @@
         "description" : "Canned tomato.  A staple in many pantries, and useful for many recipes.",
         "price" : 350,
         "material" : "veggy",
-        "volume" : 1,
+        "volume" : 2,
         "charges" : 1,
+        "stack_size" : 2,
         "fun" : 0
     },
     {

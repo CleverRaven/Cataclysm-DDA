@@ -61,6 +61,11 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "container", container );
     obj.read( "target_charges", ammo_qty );
     obj.read( "target_ammo", ammo_type );
+
+    if( !ammo_type.empty() && !container.empty() ) {
+        obj.throw_error( "Transform actor specified both ammo type and container type", "target_ammo" );
+    }
+
     obj.read( "active", active );
 
     obj.read( "moves", moves );
@@ -120,13 +125,12 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     item *obj;
     if( container.empty() ) {
         obj = &it->convert( target );
+        if( ammo_qty >= 0 ) {
+            obj->ammo_set( ammo_type.empty() ? obj->ammo_current() : ammo_type, ammo_qty );
+        }
     } else {
         it->convert( container );
-        obj = &it->emplace_back( target );
-    }
-
-    if( ammo_qty >= 0 ) {
-        obj->ammo_set( ammo_type.empty() ? obj->ammo_current() : ammo_type, ammo_qty );
+        obj = &it->emplace_back( item( target, calendar::turn, ammo_qty >= 0 ? ammo_qty : 1 ) ) ;
     }
 
     obj->active = active;
@@ -142,7 +146,7 @@ std::string iuse_transform::get_name() const
     return iuse_actor::get_name();
 }
 
-std::string iuse_transform::finalize( const itype_id & )
+void iuse_transform::finalize( const itype_id & )
 {
     if( !item::type_is_defined( target ) ) {
         debugmsg( "Invalid transform target: %s", target.c_str() );
@@ -154,12 +158,10 @@ std::string iuse_transform::finalize( const itype_id & )
         }
 
         item dummy( target );
-        if( !dummy.count_by_charges() ) {
+        if( ammo_qty > 1 && !dummy.count_by_charges() ) {
             debugmsg( "Transform target with container must be an item with charges, got non-charged: %s", target.c_str() );
         }
     }
-
-    return "";
 }
 
 explosion_iuse::~explosion_iuse()
