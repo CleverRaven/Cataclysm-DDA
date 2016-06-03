@@ -10941,7 +10941,7 @@ bool game::plfire( const tripoint &default_target )
     } else {
         u.moves -= reload_time;
         // @todo add check for TRIGGERHAPPY
-        res = u.fire_gun( p, gun.qty, *gun );
+        res = u.fire_gun( p, gun.qty, item_location( u, &*gun ) );
     }
 
     reenter_fullscreen();

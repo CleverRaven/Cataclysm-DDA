@@ -39,7 +39,7 @@ const efftype_id effect_bounced( "bounced" );
 
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
-static inline void eject_casing( player& p, item& weap );
+static void eject_casing( player& p, item_location &obj );
 int recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
@@ -419,11 +419,17 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
 
 int player::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, weapon );
+    return fire_gun( target, shots, item_location( *this, &weapon ) );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item& gun )
+int player::fire_gun( const tripoint &target, int shots, item_location &&obj )
 {
+    if( !obj ) {
+        debugmsg( "tried to fire non-existent item" );
+        return 0;
+    }
+
+    item& gun = *obj;
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name.c_str(), gun.tname().c_str() );
         return 0;
@@ -435,12 +441,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     }
 
     // cap our maximum burst size by the amount of UPS power left
-    if( gun.get_gun_ups_drain() > 0 ) {
-        if( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
-            shots = std::min( shots, int( worn.back().charges / gun.get_gun_ups_drain() ) );
-        } else {
-            shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
-        }
+    if( !gun.has_flag( "TURRET" ) && gun.get_gun_ups_drain() > 0 ) {
+        shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -469,7 +471,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         }
 
         double dispersion = get_weapon_dispersion( &gun, true );
-        int range = rl_dist( pos(), aim );
+        int range = rl_dist( obj.position(), aim );
 
         // Apply penalty when using bulky weapons at point-blank range (except when loaded with shot)
         // If we are firing an auxiliary gunmod we wan't to use the base guns volume (which includes the gunmod itself)
@@ -478,7 +480,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             dispersion *= std::max( ( ( parent ? parent->volume() : gun.volume() ) / 3.0 ) / range, 1.0 );
         }
 
-        auto shot = projectile_attack( make_gun_projectile( gun ), aim, dispersion );
+        auto shot = projectile_attack( make_gun_projectile( gun ), obj.position(), aim, dispersion );
         curshot++;
 
         // if we are firing a turret don't apply that recoil to the player
@@ -488,7 +490,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
         make_gun_sound_effect( *this, shots > 1, &gun );
         sfx::generate_gun_sound( *this, gun );
 
-        eject_casing( *this, gun );
+        eject_casing( *this, obj );
 
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
@@ -1390,14 +1392,16 @@ int time_to_fire(player &p, const itype &firingt)
     return std::max(info.min_time, info.base - info.reduction * p.get_skill_level( skill_used ));
 }
 
-static inline void eject_casing( player& p, item& weap ) {
+static void eject_casing( player& p, item_location &obj ) {
+    item& weap = *obj;
+
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    auto tiles = closest_tripoints_first( 1, p.pos() );
+    auto tiles = closest_tripoints_first( 1, obj.position() );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&p]( const tripoint& e ) {
         return !g->m.passable( e );
     } ), tiles.end() );
-    tripoint eject = tiles.empty() ? p.pos() : random_entry( tiles );
+    tripoint eject = tiles.empty() ? obj.position() : random_entry( tiles );
 
     // some magazines also eject disintegrating linkages
     const auto mag = weap.magazine_current();

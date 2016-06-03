@@ -6259,20 +6259,25 @@ bool vehicle::fire_turret( int p, bool manual )
         charges = std::min(charges, turret_data.charges);
     }
 
-    // Create a fake gun
-    // @todo damage the gun based on part hp
-    item gun( turret_data.gun.typeId(), turret_data.gun.bday );
+    auto gun = item_location( vehicle_cursor( *this, p ), &parts[ p ].base );
     if( turret_data.gun.ammo_current() != "null" ) {
-        gun.ammo_set( turret_data.gun.ammo_current(), charges );
+        gun->ammo_set( turret_data.gun.ammo_current(), charges );
     }
 
     // TODO sometime: change that g->u to a parameter, so that NPCs can shoot too
     // TODO: unify those two functions.
-    int shots = manual ? manual_fire_turret( p, g->u, gun ) : automatic_fire_turret( p, gun );
-    turret_data.consume( *this, p, shots * gun.ammo_required() );
+    int qty = gun->ammo_required();
+    int ups = gun->get_gun_ups_drain();
+
+    gun->item_tags.insert( "TURRET" );
+    int shots = manual ? manual_fire_turret( p, g->u, std::move( gun ) ) : automatic_fire_turret( p, std::move( gun ) );
+    gun->item_tags.erase( "TURRET" );
+
+    turret_data.consume( *this, p, qty * shots );
+    drain( fuel_type_battery, ups * shots );
 
     // If manual, we need to know if the shot was actually executed
-    return !manual || shots > 0;
+    return !manual || qty;
 }
 
 void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long const charges_consumed ) const
@@ -6298,10 +6303,8 @@ void vehicle::turret_ammo_data::consume( vehicle &veh, int const part, long cons
     }
 }
 
-int vehicle::automatic_fire_turret( int p, item& gun  )
+int vehicle::automatic_fire_turret( int p, item_location &&gun  )
 {
-    int res = 0; // number of shots actually fired
-
     tripoint pos = global_pos3();
     pos.x += parts[p].precalc[0].x;
     pos.y += parts[p].precalc[0].y;
@@ -6311,7 +6314,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
     tmp.set_fake( true );
     tmp.add_effect( effect_on_roof, 1 );
     tmp.name = rmp_format( _( "<veh_player>The %s" ), parts[ p ].name().c_str() );
-    tmp.set_skill_level( gun.gun_skill(), 8 );
+    tmp.set_skill_level( gun->gun_skill(), 8 );
     tmp.set_skill_level( skill_id( "gun" ), 4 );
     tmp.recoil = abs(velocity) / 100 / 4;
     tmp.setpos( pos );
@@ -6321,7 +6324,7 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
     // Assume vehicle turrets are defending the player.
     tmp.attitude = NPCATT_DEFEND;
 
-    int area = aoe_size( gun.ammo_effects() );
+    int area = aoe_size( gun->ammo_effects() );
     if( area > 0 ) {
         area += area == 1 ? 1 : 2; // Pad a bit for less friendly fire
     }
@@ -6365,43 +6368,18 @@ int vehicle::automatic_fire_turret( int p, item& gun  )
     if( g->u.sees( pos ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), parts[ p ].name().c_str() );
     }
-    // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups( "fake_UPS", 0 );
-    // Drain a ton of power
-    tmp_ups.charges = drain( fuel_type_battery, 1000 );
-    tmp.worn.insert( tmp.worn.end(), tmp_ups );
 
-    const int to_fire = std::min( abs(parts[p].mode), std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) );
-    res = tmp.fire_gun( targ, to_fire, gun );
-
-    // Return whatever is left.
-    refill( fuel_type_battery, tmp.worn.back().charges );
-
-    return res;
+    const int to_fire = std::min( abs(parts[p].mode), std::max( gun->gun_get_mode( "AUTO" ).qty, 1 ) );
+    return tmp.fire_gun( targ, to_fire, std::move( gun ) );
 }
 
-int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
+int vehicle::manual_fire_turret( int p, player &shooter, item_location &&gun )
 {
     int res = 0; // number of shots actually fired
 
-    tripoint pos = global_pos3() + tripoint( parts[p].precalc[0], 0 );
-
-    // Place the shooter at the turret
-    const tripoint &oldpos = shooter.pos();
-    shooter.setpos( pos );
-
-    // Spawn a fake UPS to power any turreted weapons that need electricity.
-    item tmp_ups( "fake_UPS", 0 );
-    // Drain a ton of power
-    tmp_ups.charges = drain( fuel_type_battery, 1000 );
-    // Fire_gun expects that the fake UPS is a last worn item
-    shooter.worn.insert( shooter.worn.end(), tmp_ups );
-
-    const int range = gun.gun_range( &shooter );
-    auto mons = shooter.get_visible_creatures( range );
-    constexpr target_mode tmode = TARGET_MODE_TURRET_MANUAL; // No aiming yet!
-    tripoint shooter_pos = shooter.pos();
-    auto trajectory = g->pl_target_ui( shooter_pos, range, &gun, tmode );
+    tripoint pos = gun.position();
+    const int range = gun->gun_range( &shooter );
+    auto trajectory = g->pl_target_ui( pos, range, &*gun, TARGET_MODE_TURRET_MANUAL );
     shooter.recoil = abs(velocity) / 100 / 4;
     if( !trajectory.empty() ) {
         // Need to redraw before shooting
@@ -6410,30 +6388,11 @@ int vehicle::manual_fire_turret( int p, player &shooter, item &gun )
         // Put our shooter on the roof of the vehicle
         shooter.add_effect( effect_on_roof, 1 );
 
-        int to_fire = abs(parts[p].mode) > 1 ? std::max( gun.gun_get_mode( "AUTO" ).qty, 1 ) : 1;
-        res = shooter.fire_gun( targ, to_fire, gun );
+        int to_fire = abs(parts[p].mode) > 1 ? std::max( gun->gun_get_mode( "AUTO" ).qty, 1 ) : 1;
+        res = shooter.fire_gun( targ, to_fire, std::move( gun ) );
         // And now back - we don't want to get any weird behavior
         shooter.remove_effect( effect_on_roof );
     }
-
-    // Done shooting, clean up
-    item &ups = shooter.worn.back();
-    if( ups.type->id == "fake_UPS" ) {
-        refill( fuel_type_battery, ups.charges );
-        shooter.worn.pop_back();
-    } else {
-        // This shouldn't happen, not even if armor below the UPS is destroyed
-        // ...but let's handle anyway
-        auto upses = shooter.remove_items_with( [] ( const item& it ) {
-            return it.typeId() == "fake_UPS";
-        } );
-        for( auto &up : upses ) {
-            refill( fuel_type_battery, up.charges );
-        }
-    }
-
-    // Place the shooter back where we took them from
-    shooter.setpos( oldpos );
 
     // Deactivate automatic aiming
     if( parts[p].mode > 0 ) {

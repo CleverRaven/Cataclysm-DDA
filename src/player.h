@@ -495,11 +495,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  Fires a gun or axuiliary gunmod (ignoring any current mode)
          *  @param target where the first shot is aimed at (may vary for later shots)
          *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @param gun item to fire (which does not necessary have to be in the players possession)
+         *  @param obj item to fire (which does not necessary have to be in the players possession)
          *  @return number of shots actually fired
          */
         int fire_gun( const tripoint &target, int shots = 1 );
-        int fire_gun( const tripoint &target, int shots, item& gun );
+        int fire_gun( const tripoint &target, int shots, item_location &&obj );
 
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
