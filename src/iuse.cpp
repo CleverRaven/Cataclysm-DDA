@@ -203,6 +203,23 @@ void remove_ups_mod( item &it, player &p )
     it.item_tags.erase( "NO_RELOAD" );
 }
 
+void remove_battery_magazine_mod( item &it, player &p )
+{
+    if( !it.has_flag( "BATTERY_AMMO" ) ) {
+        return;
+    }
+    p.add_msg_if_player( _( "You remove the battery compartment mod from your %s!" ), it.tname().c_str() );
+    item mod( "magazine_battery_mod", calendar::turn );
+    p.i_add_or_drop( mod, 1 );
+    for( item &content : it.contents ) {
+        p.i_add_or_drop( content, 1 );
+    }
+
+    it.contents.clear();
+    it.ammo_unset();
+    it.item_tags.erase( "BATTERY_AMMO" );
+}
+
 void remove_radio_mod( item &it, player &p )
 {
     if( !it.has_flag( "RADIO_MOD" ) ) {
@@ -2185,6 +2202,7 @@ void remove_battery_mods( item &modded, player &p )
     remove_ups_mod( modded, p );
     remove_double_ammo_mod( modded, p );
     remove_double_plut_mod( modded, p );
+    remove_battery_magazine_mod( modded, p );
 }
 
 int iuse::extra_battery(player *p, item *, bool, const tripoint& )
@@ -2278,6 +2296,45 @@ int iuse::ups_battery(player *p, item *, bool, const tripoint& )
     modded.item_tags.insert("NO_RELOAD");
     //Perhaps keep the modded charges at 1 or 0?
     modded.ammo_unset();
+    return 1;
+}
+
+int iuse::magazine_battery(player *p, item *mod, bool, const tripoint& )
+{
+    int inventory_index = g->inv_for_tools_powered_by( ammotype( "battery" ), _( "Modify what?" ) );
+    item &modded = p->i_at( inventory_index );
+
+    if( modded.is_null() ) {
+        p->add_msg_if_player(_("You do not have that item!"));
+        return 0;
+    }
+    if( modded.has_flag( "BATTERY_AMMO" ) ) {
+        p->add_msg_if_player( _("That item has already had its battery modified to use a vehicle battery!") );
+        return 0;
+    }
+
+    // @todo Fix NO_UNLOAD items and allow them here
+    if( modded.has_flag( "NO_UNLOAD" ) ) {
+        p->add_msg_if_player( _("That item has a non-standard battery compartment, it can't be modified that way!") );
+        return 0;
+    }
+
+    remove_battery_mods( modded, *p );
+    remove_ammo( &modded, *p );
+
+    p->add_msg_if_player( _( "You modify your %s to run off a vehicle battery!" ), modded.tname().c_str() );
+    modded.item_tags.insert( "BATTERY_AMMO" );
+    modded.ammo_unset();
+
+    if( modded.contents.empty() && !mod->contents.empty() ) {
+        modded.emplace_back( mod->contents.front() );
+        mod->contents.clear();
+    } else {
+        for( auto &cont : mod->contents ) {
+            p->i_add_or_drop( cont );
+        }
+    }
+
     return 1;
 }
 

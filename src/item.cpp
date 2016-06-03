@@ -1545,7 +1545,18 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                     _( "* This tool has a <info>rechargeable power cell</info> and can be recharged in any <neutral>UPS-compatible recharging station</neutral>. You could charge it with <info>standard batteries</info>, but unloading it is impossible." ) ) );
             }
-        }
+            if( has_flag( "BATTERY_AMMO" ) ) {
+                info.push_back( iteminfo( "DESCRIPTION",
+                                          _( "* This tool has been modified to run off <info>vehicle batteries</info> instead of regular compact batteries." ) ) );
+            }
+            if( has_flag( "RADIO_ACTIVATION" ) ) {
+                if( has_flag( "RADIO_MOD" ) ) {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "* This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually." ) ) );
+                } else {
+                    info.push_back( iteminfo( "DESCRIPTION",
+                                              _( "* This item can only be activated by a <info>radio signal</info>." ) ) );
+                }
 
         if( has_flag( "RADIO_ACTIVATION" ) ) {
             if( has_flag( "RADIO_MOD" ) ) {
@@ -2188,7 +2199,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if (is_tool() && has_flag("USE_UPS")){
         ret << _(" (UPS)");
     }
-    if( has_flag( "RADIO_MOD" ) ) {
+
+    if( is_tool() && has_flag( "BATTERY_AMMO" ) ) {
+        ret << _( " (v. battery)" );
+    }
+    
+    if (is_tool() && has_flag("RADIO_MOD")){
         ret << _(" (radio:");
         if( has_flag( "RADIOSIGNAL_1" ) ) {
             ret << _("R)");
@@ -4140,9 +4156,19 @@ bool item::magazine_integral() const
 {
     // finds first ammo type which specifies at least one magazine
     const auto& mags = type->magazines;
-    return std::none_of( mags.begin(), mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
+    if( !std::none_of(
+        mags.begin(), mags.end(), []( const std::pair<ammotype, const std::set<itype_id>>& e ) {
         return e.second.size();
-    } );
+    }) ) {
+        return false;
+    }
+
+    // Now check battery mod
+    if( is_tool() && has_flag( "BATTERY_AMMO" ) ) {
+        return false;
+    }
+
+    return true;
 }
 
 itype_id item::magazine_default( bool conversion ) const
@@ -4161,8 +4187,13 @@ std::set<itype_id> item::magazine_compatible( bool conversion ) const
         }
     }
 
-    auto mags = type->magazines.find( ammo_type( conversion ) );
-    return mags != type->magazines.end() ? mags->second : std::set<itype_id>();
+    // @todo Wrap it in gunmod-like toolmod structure to avoid special cases
+    auto use_type = is_tool() && has_flag( "BATTERY_AMMO" ) ?
+        find_type( "magazine_battery_mod" ) :
+        type;
+
+    auto mags = use_type->magazines.find( ammo_type( conversion ) );
+    return mags != use_type->magazines.end() ? mags->second : std::set<itype_id>();
 }
 
 item * item::magazine_current()
