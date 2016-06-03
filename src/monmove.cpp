@@ -90,7 +90,7 @@ bool monster::can_move_to( const tripoint &p ) const
 
     const ter_id target = g->m.ter( p );
     const field &target_field = g->m.field_at( p );
-    const trap &target_trap = g->m.tr_at(p);
+    const trap &target_trap = g->m.tr_at( p );
     // Various avoiding behaviors
     if( has_flag( MF_AVOID_DANGER_1 ) || has_flag( MF_AVOID_DANGER_2 ) ) {
         // Don't enter lava ever
