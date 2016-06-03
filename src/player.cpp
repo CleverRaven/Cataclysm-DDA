@@ -12635,10 +12635,11 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
 bool player::has_magazine_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [&at]( const item & it ) {
-        return ( it.is_magazine() && it.ammo_type() == at ) ||
-               ( it.is_gun() && it.magazine_integral() && it.ammo_type() == at ) ||
-               ( it.is_gun() && it.magazine_current() != nullptr &&
-                 it.magazine_current()->ammo_type() == at );
+        return !it.has_flag( "NO_RELOAD" ) &&
+               ( ( it.is_magazine() && it.ammo_type() == at ) ||
+                 ( it.is_gun() && it.magazine_integral() && it.ammo_type() == at ) ||
+                 ( it.is_gun() && it.magazine_current() != nullptr &&
+                   it.magazine_current()->ammo_type() == at ) );
     } );
 }
 
