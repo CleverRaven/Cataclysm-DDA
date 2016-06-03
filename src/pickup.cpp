@@ -121,7 +121,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         itype_id ammo = pseudo.ammo_default();
         pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
 
-        if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
+        if ( pseudo.ammo_sufficient() ) {
             g->u.invoke_item( &pseudo );
             pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
             veh->refill( ammo, pseudo.ammo_remaining() );
@@ -146,7 +146,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         itype_id ammo = pseudo.ammo_default();
         pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
 
-        if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
+        if ( pseudo.ammo_sufficient() ) {
             g->u.invoke_item( &pseudo );
             pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
             veh->refill( ammo, pseudo.ammo_remaining() );
@@ -171,7 +171,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         itype_id ammo = pseudo.ammo_default();
         pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
 
-        if ( pseudo.ammo_remaining() >= pseudo.ammo_required() ) {
+        if ( pseudo.ammo_sufficient() ) {
             g->u.invoke_item( &pseudo );
             pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
             veh->refill( ammo, pseudo.ammo_remaining() );
