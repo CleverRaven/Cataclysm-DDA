@@ -11761,11 +11761,14 @@ void game::pldrive(int x, int y)
         u.moves -= std::max( cost, u.get_speed() / 3 + 1 );
     }
 
-    int thr_amount = 10 * 100;
-    if (veh->cruise_on) {
-        veh->cruise_thrust(-y * thr_amount);
-    } else {
-        veh->thrust(-y);
+    if( y != 0 ) {
+        int thr_amount = 10 * 100;
+        if( veh->cruise_on ) {
+            veh->cruise_thrust( -y * thr_amount );
+        } else {
+            veh->thrust( -y );
+            u.moves = std::min( u.moves, 0 );
+        }
     }
 
     if( veh->skidding && veh->valid_wheel_config() ) {
@@ -11779,10 +11782,6 @@ void game::pldrive(int x, int y)
             veh->skidding = false;
             veh->move.init(veh->turn_dir);
         }
-    }
-    // Don't spend turns to adjust cruise speed.
-    if( !veh->cruise_on && y != 0 ) {
-        u.moves = std::min( u.moves, 0 );
     }
 }
 

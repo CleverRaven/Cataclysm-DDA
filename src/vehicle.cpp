@@ -3595,8 +3595,8 @@ float vehicle::steering_effectiveness() const
 float vehicle::handling_difficulty() const
 {
     const float steer = std::max( 0.0f, steering_effectiveness() );
+    const float traction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
     const float kmass = k_mass();
-    const float friction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
     const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).norm() );
 
     constexpr float tile_per_turn = 10 * 100;
@@ -3607,7 +3607,7 @@ float vehicle::handling_difficulty() const
     // TestVehicle but with bad steering (0.5 steer) and overloaded (0.5 kmass) = 10
     // TestVehicle but on fungal bed (0.5 friction), bad steering and overloaded = 15
     // TestVehicle but turned 90 degrees during this turn (0 align) = 10
-    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - friction ) + ( 1.0f - aligned ) );
+    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - traction ) + ( 1.0f - aligned ) );
     return velocity * diff_mod / tile_per_turn;
 }
 
@@ -4231,9 +4231,11 @@ void vehicle::thrust( int thd ) {
        thrusting = (sgn == thd);
     }
 
-    int accel = acceleration();
-    int max_vel = max_velocity();
-    //get braking power
+    // @todo Pass this as an argument to avoid recalculating
+    float traction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
+    int accel = acceleration() * traction;
+    int max_vel = max_velocity() * traction;
+    // Get braking power
     int brake = 30 * k_mass();
     int brk = abs(velocity) * brake / 100;
     if (brk < accel) {
@@ -4269,7 +4271,7 @@ void vehicle::thrust( int thd ) {
     // only consume resources if engine accelerating
     if (load >= 0.01 && thrusting) {
         //abort if engines not operational
-        if (total_power () <= 0 || !engine_on) {
+        if( total_power () <= 0 || !engine_on || accel == 0 ) {
             if (pl_ctrl) {
                 if( total_power( false ) <= 0 ) {
                     add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
@@ -4277,6 +4279,8 @@ void vehicle::thrust( int thd ) {
                     add_msg( m_info, _("The %s's mechanism is out of reach!"), name.c_str() );
                 } else if( !engine_on ) {
                     add_msg( _("The %s's engine isn't on!"), name.c_str() );
+                } else if( traction < 0.01f ) {
+                    add_msg( _("The %s is stuck."), name.c_str() );
                 } else {
                     add_msg( _("The %s's engine emits a sneezing sound."), name.c_str() );
                 }

@@ -508,17 +508,12 @@ bool map::vehact( vehicle &veh )
             }
         }
     }
-    // One-tile step take some of movement
-    //  terrain cost is 1000 on roads.
-    // This is stupid btw, it makes veh magically seem
-    //  to accelerate when exiting rubble areas.
-    // TODO: Replicate this in vehicle::thrust and above in slowdown
-    const float ter_turn_cost = 1000.0f / std::max<float>( 0.0001f, traction * abs( veh.velocity ) );
+    const float turn_cost = 1000.0f / std::max<float>( 0.0001f, abs( veh.velocity ) );
 
     // Can't afford it this turn?
     // Low speed shouldn't prevent vehicle from falling, though
     bool falling_only = false;
-    if( ter_turn_cost >= veh.of_turn ) {
+    if( turn_cost >= veh.of_turn ) {
         if( !should_fall ) {
             veh.of_turn_carry = veh.of_turn;
             veh.of_turn = 0;
@@ -530,7 +525,7 @@ bool map::vehact( vehicle &veh )
 
     // Decrease of_turn if falling+moving, but not when it's lower than move cost
     if( !falling_only ) {
-        veh.of_turn -= ter_turn_cost;
+        veh.of_turn -= turn_cost;
     }
 
     if( one_in( 10 ) ) {
@@ -646,8 +641,8 @@ float map::vehicle_traction( const vehicle &veh ) const
     }
 
     int submerged_wheels = 0;
-    float traction_wheel_area = 0;
-    float total_wheel_area = 0;
+    float traction_wheel_area = 0.0f;
+    float total_wheel_area = 0.0f;
     for( int w = 0; w < num_wheels; w++ ) {
         const int p = wheel_indices[w];
         const tripoint pp = pt + veh.parts[p].precalc[0];
@@ -656,7 +651,7 @@ float map::vehicle_traction( const vehicle &veh ) const
         //  this section will stay correct (ie. proportion of wheel area/total area)
         const int width = veh.part_info( p ).wheel_width;
         const int bigness = veh.parts[p].bigness;
-        const float wheel_area = width * bigness / 9.0f;
+        const float wheel_area = width * bigness;
         total_wheel_area += wheel_area;
 
         const auto &tr = ter_at( pp );
@@ -677,18 +672,18 @@ float map::vehicle_traction( const vehicle &veh ) const
             return 0.0f;
         }
 
-        float traction_mod = 1.0f;
         if( !tr.has_flag( "FLAT" ) ) {
-            traction_mod = 0.5f;
+            // Wheels aren't as good as legs on rough terrain
+            move_mod += 4;
         } else if( !tr.has_flag( "ROAD" ) ) {
-            traction_mod = 0.75f;
+            move_mod += 2;
         }
 
-        traction_wheel_area += 2 * traction_mod * wheel_area / move_mod;
+        traction_wheel_area += 2 * wheel_area / move_mod;
     }
 
     // Submerged wheels threshold is 2/3.
-    if( num_wheels > 0 && (float)submerged_wheels / num_wheels > .666) {
+    if( num_wheels > 0 && submerged_wheels * 3 > num_wheels * 2 ) {
         return -1;
     }
 
@@ -697,7 +692,12 @@ float map::vehicle_traction( const vehicle &veh ) const
         return 0.0f;
     }
 
-    return traction_wheel_area / total_wheel_area;
+    const float mass_penalty = ( 1.0f - traction_wheel_area / total_wheel_area ) * veh.total_mass();
+
+    float traction = std::min( 1.0f, traction_wheel_area / mass_penalty );
+    add_msg( m_debug, "%s has traction %.2f", veh.name.c_str(), traction );
+    // For now make it easy until it gets properly balanced: add a low cap of 0.1
+    return std::max( 0.1f, traction );
 }
 
 float map::vehicle_buoyancy( const vehicle &veh ) const
