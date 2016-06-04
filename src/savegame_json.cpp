@@ -1492,7 +1492,7 @@ void item::io( Archive& archive )
         gun_set_mode(mode);
     }
 
-    // Fixes #16751
+    // Fixes #16751 (items could have null contents due to faulty spawn code)
     contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item &cont ) {
         return cont.is_null();
     } ), contents.end() );
