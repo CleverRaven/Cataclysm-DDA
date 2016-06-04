@@ -50,7 +50,7 @@ const std::string &player_activity::get_stop_phrase() const
             _( "Stop moving items?" ), _( "Stop interacting with inventory?" ),
             _( "Stop fiddling with your clothes?" ), _( "Stop lighting the fire?" ),
             _( "Stop working the winch?" ), _( "Stop filling the container?" ),
-            _( "top hotwiring the vehicle?" ), _( "Stop aiming?" ),
+            _( "Stop hotwiring the vehicle?" ), _( "Stop aiming?" ),
             _( "Stop using the ATM?" ), _( "Stop trying to start the vehicle?" ),
             _( "Stop welding?" ), _( "Stop cracking?" ), _( "Stop repairing?" ),
             _( "Stop modifying gun?" )
