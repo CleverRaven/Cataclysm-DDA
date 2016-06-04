@@ -76,12 +76,12 @@ class inventory_column {
         std::vector<itemstack_or_category> items;
         size_t selected_index;
 
-        inventory_column( size_t items_per_page ) :
+        inventory_column() :
             items(),
             selected_index( 1 ),
             mode( navigation_mode::ITEM ),
             page_offset( 0 ),
-            items_per_page( items_per_page ) {}
+            items_per_page( 1 ) {}
 
         virtual ~inventory_column() {}
 
@@ -126,7 +126,7 @@ class inventory_column {
         void add_item( const itemstack_or_category &item_entry, const itemstack_or_category &cat_entry, add_to where );
         void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
         void remove_item( const itemstack_or_category &entry );
-        void prepare_paging();
+        void prepare_paging( size_t items_per_page );
 
         virtual void on_item_include( const item &, int ) {}
         virtual void on_item_exclude( const item &, int ) {}
@@ -145,8 +145,8 @@ class inventory_column {
 
 class selection_column : public inventory_column {
     public:
-        selection_column( size_t items_per_page ) :
-            inventory_column( items_per_page ),
+        selection_column( ) :
+            inventory_column(),
             selected_cat( "ITEMS YOU SELECTED", _( "ITEMS YOU SELECTED:" ), 0 ) {
 
             items.push_back( itemstack_or_category( &selected_cat ) );
@@ -278,7 +278,8 @@ class inventory_selector
         void set_to_drop(int it_pos, int count);
         void toggle_active_column();
         void toggle_navigation_mode();
-        void add_selection_column();
+
+        void add_column( inventory_column *new_column );
 };
 
 size_t inventory_column::find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const
@@ -337,8 +338,9 @@ bool inventory_column::handle_movement( const std::string &action )
         size_t index = ( selected_index + step < items.size() ) ? selected_index + step : 0;
         while( is_unsuitable( index ) ) {
             if( ++index == items.size() ) {
-                index = 1;
-                break;
+                index = 0;
+            } else if( index == selected_index ) {
+                return; // no movement is possible
             }
         }
         select( index );
@@ -349,9 +351,9 @@ bool inventory_column::handle_movement( const std::string &action )
         while( is_unsuitable( index ) ) {
             if( index == 0 ) {
                 index = items.size() - 1;
-                break;
+            } else if( --index == selected_index ) {
+                return; // no movement is possible
             }
-            --index;
         }
         select( index );
     };
@@ -415,8 +417,9 @@ void inventory_column::add_items( const indexed_invslice &slice, add_to where, c
     }
 }
 
-void inventory_column::prepare_paging()
+void inventory_column::prepare_paging( size_t items_per_page )
 {
+    this->items_per_page = items_per_page;
     for( size_t i = 0; i < items.size(); ++i ) {
         const bool first_on_page = i % items_per_page == 0;
         const bool last_on_page = i % items_per_page == items_per_page - 1;
@@ -537,8 +540,9 @@ const itemstack_or_category *inventory_selector::invlet_to_itemstack( long invle
 
 void inventory_selector::prepare_paging()
 {
+    size_t items_per_page = getmaxy( w_inv ) - 5;
     for( auto column : columns ) {
-        column->prepare_paging();
+        column->prepare_paging( items_per_page );
     }
     column_index = 0;
     if( !columns.empty() && columns[column_index]->passive() ) {
@@ -686,8 +690,8 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("ANY_INPUT"); // For invlets
 
-    std::shared_ptr<inventory_column> first_column( new inventory_column( getmaxy( w_inv ) - 5 ) );
-    std::shared_ptr<inventory_column> second_column( new inventory_column( getmaxy( w_inv ) - 5 ) );
+    auto first_column = new inventory_column();
+    auto second_column = new inventory_column();
 
     first_column->add_items( u.inv.indexed_slice_filter_by( filter ), add_to::END );
 
@@ -705,12 +709,8 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
         ++i;
     }
 
-    columns.push_back( first_column );
-    columns.push_back( second_column );
-
-    for( auto column : columns ) {
-        column->set_mode( navigation );
-    }
+    add_column( first_column );
+    add_column( second_column );
 }
 
 inventory_selector::~inventory_selector()
@@ -907,11 +907,14 @@ void inventory_selector::toggle_navigation_mode()
     }
 }
 
-void inventory_selector::add_selection_column()
+void inventory_selector::add_column( inventory_column *new_column )
 {
-    std::shared_ptr<inventory_column> column( new selection_column( getmaxy( w_inv ) - 5 ) );
-    column->set_mode( navigation );
-    columns.push_back( column );
+    if( new_column != nullptr ) {
+        std::shared_ptr<inventory_column> column( new_column );
+
+        column->set_mode( navigation );
+        columns.push_back( column );
+    }
 }
 
 int inventory_selector::execute_pick( const std::string &title, const int position )
@@ -980,7 +983,7 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
 
 void inventory_selector::execute_compare( const std::string &title )
 {
-    add_selection_column();
+    add_column( new selection_column() );
     prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
@@ -1037,7 +1040,7 @@ void inventory_selector::execute_compare( const std::string &title )
 
 std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std::string &title )
 {
-    add_selection_column();
+    add_column( new selection_column() );
     prepare_paging();
 
     int count = 0;
