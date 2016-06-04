@@ -1196,6 +1196,20 @@ void game::init_lua()
     // Load lua-side metatables etc.
     lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());
     lua_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
+
+    // Callbacks for mods. This function is called from the game. Mods can attach a callback
+    // to the global `mods` table to recieve the callback:
+    // `mods["my_mod"] = { "on_skill_increased" = some_mod_function }`
+    call_lua("\
+        mods = { }\n\
+        function mod_callback(callback_name)\n\
+            for modname, mod_instance in pairs(mods) do\n\
+                if type(mod_instance[callback_name]) == \"function\" then\n\
+                    mod_instance[callback_name]()\n\
+                end\n\
+            end\n\
+        end\n\
+    ");
 }
 
 #endif // #ifdef LUA
