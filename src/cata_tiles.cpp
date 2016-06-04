@@ -1022,7 +1022,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                              {g->ter_view_x, g->ter_view_y, center.z}, 0, 0, LL_LIT, false );
     }
     if( g->u.controlling_vehicle ) {
-        tripoint indicator_offset = g->get_veh_dir_indicator_location();
+        tripoint indicator_offset = g->get_veh_dir_indicator_location( true );
         if( indicator_offset != tripoint_min ) {
             draw_from_id_string( "cursor", C_NONE, empty_string,
                                  { indicator_offset.x + g->u.posx(),
