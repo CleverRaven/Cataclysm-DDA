@@ -137,7 +137,7 @@
         "id" : "hdframe",
         "name" : "heavy duty frame",
         "description" : "A large, reinforced steel frame, used in military vehicle construction.",
-        "weight" : 80000,
+        "weight" : 100000,
         "to_hit" : -6,
         "color" : "green",
         "symbol" : "]",
