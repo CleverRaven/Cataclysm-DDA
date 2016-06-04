@@ -548,8 +548,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
             // Those should have extra limitations
             // But for now it's better to allow too much than too little
             break;
-        default:
-            return false;
     }
 
     return !auto_resume && type == other.type && index == other.index &&
