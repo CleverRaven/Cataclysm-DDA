@@ -77,6 +77,7 @@ class inventory_column {
 
         inventory_column() :
             items(),
+            active( false ),
             mode( navigation_mode::ITEM ),
             selected_index( 1 ),
             page_offset( 0 ),
@@ -112,16 +113,12 @@ class inventory_column {
             return ( items.size() + items_per_page - 1 ) / items_per_page;
         }
 
-        virtual void set_mode( navigation_mode new_mode ) {
-            mode = new_mode;
-        }
-
         size_t find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const;
         size_t find_by_pos( int pos ) const;
         size_t find_by_invlet( long invlet ) const;
         size_t get_max_width() const;
 
-        void draw( WINDOW *win, size_t x, size_t y, size_t width, bool active,
+        void draw( WINDOW *win, size_t x, size_t y, size_t width,
                    const std::function<char( const itemstack_or_category &entry )> &get_icon ) const;
 
         void select( size_t new_index );
@@ -136,13 +133,25 @@ class inventory_column {
         virtual void on_item_include( const item &, int ) {}
         virtual void on_item_exclude( const item &, int ) {}
 
+        virtual void on_activate() {
+            active = true;
+        }
+        virtual void on_deactivate() {
+            active = false;
+        }
+        virtual void on_mode_change( navigation_mode new_mode ) {
+            mode = new_mode;
+        }
+
     protected:
         virtual std::string get_item_text( size_t index, const char icon = '\0' ) const;
-        virtual nc_color get_item_color( size_t index, bool active ) const;
+        virtual nc_color get_item_color( size_t index ) const;
+
         virtual size_t get_item_indent( size_t index ) const {
             return is_category( index ) ? 0 : 2;
         }
 
+        bool active;
         navigation_mode mode;
         size_t selected_index;
         size_t page_offset;
@@ -167,16 +176,16 @@ class selection_column : public inventory_column {
             return false;
         }
 
-        virtual void set_mode( navigation_mode ) override {
-            // ignore assignment of a non-default mode
-        }
-
         virtual void on_item_include( const item &it, int pos ) override;
         virtual void on_item_exclude( const item &it, int pos ) override;
 
+        virtual void on_mode_change( navigation_mode ) override {
+            // ignore assignment of a non-default mode
+        }
+
     protected:
         virtual std::string get_item_text( size_t index, const char icon = '\0' ) const override;
-        virtual nc_color get_item_color( size_t index, bool ) const override;
+        virtual nc_color get_item_color( size_t index ) const override;
 
     private:
         const item_category selected_cat;
@@ -292,6 +301,8 @@ class inventory_selector
          */
         void set_drop_count(int it_pos, int count, const std::list<item> &stack);
         void set_to_drop(int it_pos, int count);
+
+        void set_active_column( size_t index );
         void toggle_active_column();
         void toggle_navigation_mode();
 
@@ -369,6 +380,10 @@ std::vector<int> inventory_column::get_selected() const
 
 void inventory_column::on_action( const std::string &action )
 {
+    if( !active ) {
+        return; // ignore
+    }
+
     const auto is_unsuitable = [ this ]( size_t index ) {
         return is_category( index ) || ( mode == navigation_mode::CATEGORY &&
                                          items[index].category == items[selected_index].category );
@@ -493,7 +508,7 @@ std::string inventory_column::get_item_text( size_t index, const char icon ) con
     return res.str();
 }
 
-nc_color inventory_column::get_item_color( size_t index, bool active ) const
+nc_color inventory_column::get_item_color( size_t index ) const
 {
     if( is_category( index ) ) {
         return c_magenta;
@@ -515,7 +530,7 @@ nc_color inventory_column::get_item_color( size_t index, bool active ) const
     return items[index].it->color_in_inventory();
 }
 
-void inventory_column::draw( WINDOW *win, size_t x, size_t y, size_t width, bool active,
+void inventory_column::draw( WINDOW *win, size_t x, size_t y, size_t width,
                              const std::function<char( const itemstack_or_category &entry )> &get_icon ) const
 {
     for( size_t i = page_offset, line = 0; i < items.size() && line < items_per_page; ++i, ++line ) {
@@ -527,7 +542,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y, size_t width, bool
             const char invlet = items[i].it->invlet;
             if( invlet != '\0' ) {
                 const nc_color invlet_color = ( i == selected_index )
-                    ? get_item_color( i, active )
+                    ? get_item_color( i )
                     : g->u.assigned_invlet.count( invlet )
                         ? c_yellow
                         : c_white;
@@ -536,7 +551,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y, size_t width, bool
         }
 
         trim_and_print( win, y + line, x + get_item_indent( i ), width,
-                        get_item_color( i, active ), "%s", get_item_text( i, get_icon( items[i] ) ).c_str() );
+                        get_item_color( i ), "%s", get_item_text( i, get_icon( items[i] ) ).c_str() );
     }
 }
 
@@ -560,10 +575,10 @@ std::string selection_column::get_item_text( size_t index, const char icon ) con
     return inherited;
 }
 
-nc_color selection_column::get_item_color( size_t index, bool active ) const
+nc_color selection_column::get_item_color( size_t index ) const
 {
     if( is_category( index ) || ( activatable() && active && index == selected_index ) ) {
-        return inventory_column::get_item_color( index, active );
+        return inventory_column::get_item_color( index );
     }
     const int pos = items[index].item_pos;
     if( pos == -1 ) {
@@ -593,13 +608,19 @@ const itemstack_or_category *inventory_selector::invlet_to_itemstack( long invle
 
 void inventory_selector::prepare_paging()
 {
-    size_t items_per_page = getmaxy( w_inv ) - 5;
+    const size_t items_per_page = getmaxy( w_inv ) - 5;
+
     for( auto column : columns ) {
         column->prepare_paging( items_per_page );
     }
-    column_index = 0;
-    if( !columns.empty() && !columns[column_index]->activatable() ) {
-        toggle_active_column();
+
+    if( column_index < columns.size() && !columns[column_index]->activatable() ) {
+        for( size_t i = 0; i < columns.size(); ++i ) {
+            if( columns[i]->activatable() ) {
+                set_active_column( i );
+                break;
+            }
+        }
     }
 }
 
@@ -658,7 +679,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
             continue;
         }
 
-        column.draw( w_inv, column_x, 2, column_width, i == column_index,
+        column.draw( w_inv, column_x, 2, column_width,
             [ this, mode ]( const itemstack_or_category &entry ) -> char {
                 if( mode == SM_PICK ) {
                     return '\0';
@@ -719,6 +740,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
 
 inventory_selector::inventory_selector( player &u, item_filter filter )
     : columns()
+    , column_index( 0 )
     , dropping()
     , first_item(NULL)
     , second_item(NULL)
@@ -764,6 +786,8 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
 
     add_column( first_column );
     add_column( second_column );
+
+    columns[column_index]->on_activate();
 }
 
 inventory_selector::~inventory_selector()
@@ -781,8 +805,10 @@ void inventory_selector::handle_movement(const std::string &action)
         toggle_navigation_mode();
     } else if( action == "LEFT" ) {
         toggle_active_column();
-    } else if( column_index < columns.size() ) {
-        columns[column_index]->on_action( action );
+    } else {
+        for( auto column : columns ) {
+            column->on_action( action );
+        }
     }
 }
 
@@ -934,14 +960,30 @@ void inventory_selector::remove_dropping_items( player &u ) const
     }
 }
 
+void inventory_selector::set_active_column( size_t index )
+{
+    if( index < columns.size() && columns[index]->activatable() ) {
+        columns[column_index]->on_deactivate();
+        column_index = index;
+        columns[column_index]->on_activate();
+    }
+}
+
 void inventory_selector::toggle_active_column()
 {
-    const size_t prev_index = column_index;
+    if( columns.empty() ) {
+        return;
+    }
+    size_t new_index = column_index;
     do {
-        if( ++column_index == columns.size() ) {
-            column_index = 0;
+        if( ++new_index == columns.size() ) {
+            new_index = 0;
+        } else if( new_index == column_index ) {
+            return; // no toggling is possible
         }
-    } while( column_index != prev_index && !columns[column_index]->activatable() );
+    } while( !columns[new_index]->activatable() );
+
+    set_active_column( new_index );
 }
 
 void inventory_selector::toggle_navigation_mode()
@@ -955,7 +997,7 @@ void inventory_selector::toggle_navigation_mode()
             break;
     }
     for( auto column : columns ) {
-        column->set_mode( navigation );
+        column->on_mode_change( navigation );
     }
 }
 
@@ -964,7 +1006,7 @@ void inventory_selector::add_column( inventory_column *new_column )
     if( new_column != nullptr ) {
         std::shared_ptr<inventory_column> column( new_column );
 
-        column->set_mode( navigation );
+        column->on_mode_change( navigation );
         columns.push_back( column );
     }
 }
