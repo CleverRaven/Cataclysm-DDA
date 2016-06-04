@@ -4220,7 +4220,7 @@
     "vision_night":5,
     "hp":20,
     "death_function":"NORMAL",
-    "description":"An enormous mutant mosquito, fluttering erratically, its face dominated by a long, spear-tipped proboscis.",
+    "description":"An enormous mutant mosquito, fluttering erratically.  Its face is dominated by a long, spear-tipped proboscis.",
     "flags":["SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "CHITIN"]
     },{
     "type" : "MONSTER",
