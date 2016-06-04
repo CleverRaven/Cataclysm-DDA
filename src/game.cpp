@@ -14167,7 +14167,7 @@ void game::wait()
 
     constexpr int turns_to_moves = 100;
     player_activity new_act( actType, chosen_turns * turns_to_moves, 0 );
-    u.assign_activity( new_act, true );
+    u.assign_activity( new_act, false );
     u.rooted_message();
 }
 

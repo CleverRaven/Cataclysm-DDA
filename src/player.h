@@ -975,7 +975,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
                              std::string name = "");
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
-        void assign_activity( const player_activity &act, bool no_resume = false );
+        void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity(const activity_type type) const;
         void cancel_activity();
 
