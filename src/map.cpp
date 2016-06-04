@@ -395,7 +395,6 @@ bool map::vehproceed()
     for( auto &vehs_v : vehs ) {
         if( vehs_v.v->of_turn > max_of_turn ) {
             cur_veh = vehs_v.v;
-            pt = tripoint( vehs_v.x, vehs_v.y, vehs_v.z );
             max_of_turn = cur_veh->of_turn;
         }
     }
@@ -406,7 +405,6 @@ bool map::vehproceed()
             vehicle &cveh = *vehs_v.v;
             if( cveh.falling ) {
                 cur_veh = vehs_v.v;
-                pt = tripoint( vehs_v.x, vehs_v.y, vehs_v.z );
                 break;
             }
         }
@@ -416,7 +414,12 @@ bool map::vehproceed()
         return false;
     }
 
-    vehicle &veh = *cur_veh;
+    return vehact( *cur_veh );
+}
+
+bool map::vehact( vehicle &veh )
+{
+    const tripoint pt = veh.global_pos3();
     if( !inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle. (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z << ")";
         veh.stop();
@@ -530,19 +533,29 @@ bool map::vehproceed()
         veh.of_turn -= ter_turn_cost;
     }
 
-    if( veh.skidding ) {
-        if( one_in( 4 ) ) { // might turn uncontrollably while skidding
-            veh.turn( one_in( 2 ) ? -15 : 15 );
+    if( one_in( 10 ) ) {
+        bool controlled = false;
+        // It can even be a NPC, but must be at the controls
+        for( int boarded : veh.boarded_parts() ) {
+            if( veh.part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
+                controlled = true;
+                player *passenger = veh.get_passenger( boarded );
+                if( passenger != nullptr ) {
+                    passenger->practice( skill_driving, 1 );
+                }
+            }
         }
-    ///\EFFECT_DRIVING reduces chance of fumbling vehicle controls
-    } else if( !should_fall && pl_ctrl && rng(0, 4) > g->u.get_skill_level( skill_driving ) && one_in(20) ) {
-        add_msg( m_warning, _("You fumble with the %s's controls."), veh.name.c_str() );
-        veh.turn( one_in( 2 ) ? -15 : 15 );
+
+        // Eventually send it skidding if no control
+        // But not if it's remotely controlled
+        if( !controlled && !pl_ctrl ) {
+            veh.skidding = true;
+        }
     }
-    // Eventually send it skidding if no control
-    // But not if it's remotely controlled
-    if( !pl_ctrl && veh.boarded_parts().empty() && one_in(10) ) {
-        veh.skidding = true;
+
+    if( veh.skidding && one_in( 4 )) {
+        // Might turn uncontrollably while skidding
+        veh.turn( one_in( 2 ) ? -15 : 15 );
     }
 
     if( should_fall ) {
@@ -615,7 +628,7 @@ bool map::vehicle_falling( vehicle &veh )
     return true;
 }
 
-float map::vehicle_traction( vehicle &veh ) const
+float map::vehicle_traction( const vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
     // TODO: Remove this and allow amphibious vehicles
@@ -657,14 +670,21 @@ float map::vehicle_traction( vehicle &veh ) const
             continue;
         }
 
-        const int move_mod = move_cost_ter_furn( pp );
+        int move_mod = move_cost_ter_furn( pp );
         if( move_mod == 0 ) {
             // Vehicle locked in wall
             // Shouldn't happen, but does
             return 0.0f;
-        } else {
-            traction_wheel_area += 2 * wheel_area / move_mod;
         }
+
+        float traction_mod = 1.0f;
+        if( !tr.has_flag( "FLAT" ) ) {
+            traction_mod = 0.5f;
+        } else if( !tr.has_flag( "ROAD" ) ) {
+            traction_mod = 0.75f;
+        }
+
+        traction_wheel_area += 2 * traction_mod * wheel_area / move_mod;
     }
 
     // Submerged wheels threshold is 2/3.
@@ -680,7 +700,7 @@ float map::vehicle_traction( vehicle &veh ) const
     return traction_wheel_area / total_wheel_area;
 }
 
-float map::vehicle_buoyancy( vehicle &veh ) const
+float map::vehicle_buoyancy( const vehicle &veh ) const
 {
     const tripoint pt = veh.global_pos3();
     const auto &float_indices = veh.floating;

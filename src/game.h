@@ -196,9 +196,11 @@ class game
          * Returns the location where the indicator should go relative to the reality bubble,
          * or tripoint_min to indicate no indicator should be drawn.
          * Based on the vehicle the player is driving, if any.
+         * @param next If true, bases it on the vehicle the vehicle will turn to next turn,
+         * instead of the one it is currently facing.
          */
-        tripoint get_veh_dir_indicator_location() const;
-        void draw_veh_dir_indicator(void);
+        tripoint get_veh_dir_indicator_location( bool next ) const;
+        void draw_veh_dir_indicator( bool next );
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
