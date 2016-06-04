@@ -241,9 +241,11 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( is_tool() || is_gun() ) && magazine_integral() && ammo == "null" && ammo_type() == "NULL" ) {
-        curammo = nullptr;
-        charges = std::min( qty, ammo_capacity() );
+    if( ammo == "null" && ammo_type() == "NULL" ) {
+        if( ( is_tool() || is_gun() ) && magazine_integral() ) {
+            curammo = nullptr;
+            charges = std::min( qty, ammo_capacity() );
+        }
         return *this;
     }
 
