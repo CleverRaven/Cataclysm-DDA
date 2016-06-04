@@ -4387,11 +4387,6 @@ int map::free_volume(const int x, const int y)
     return free_volume( tripoint( x, y, abs_sub.z ) );
 }
 
-bool map::add_item_or_charges(const int x, const int y, item new_item, int overflow_radius)
-{
-    return !add_item_or_charges( tripoint( x, y, abs_sub.z ), new_item, overflow_radius ).is_null();
-}
-
 void map::add_item(const int x, const int y, item new_item)
 {
     add_item( tripoint( x, y, abs_sub.z ), new_item );

@@ -962,7 +962,7 @@ void unroll_digging( int const numer_of_2x4s )
     // refund components!
     if( !g->u.has_trait( "WEB_ROPE" ) ) {
         item rope( "rope_30", 0 );
-        g->m.add_item_or_charges( g->u.posx(), g->u.posy(), rope );
+        g->m.add_item_or_charges( g->u.pos(), rope );
     }
     // presuming 2x4 to conserve lumber.
     g->m.spawn_item( g->u.posx(), g->u.posy(), "2x4", numer_of_2x4s );

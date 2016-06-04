@@ -799,7 +799,6 @@ void add_corpse( const tripoint &p );
     int max_volume(const int x, const int y);
     int free_volume(const int x, const int y);
     int stored_volume(const int x, const int y);
-    bool add_item_or_charges(const int x, const int y, item new_item, int overflow_radius = 2);
     void add_item(const int x, const int y, item new_item);
     void spawn_an_item( const int x, const int y, item new_item,
                         const long charges, const int damlevel );

@@ -2419,16 +2419,16 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             return 0;
         }
 
-        int dirx, diry;
+        tripoint loc;
 
-        if (!choose_adjacent(_("Put fish trap where?"), dirx, diry)) {
+        if( !choose_adjacent( _( "Put fish trap where?" ), loc ) ) {
             return 0;
         }
-        if (!g->m.has_flag("FISHABLE", dirx, diry)) {
+        if( !g->m.has_flag( "FISHABLE", loc ) ) {
             p->add_msg_if_player(m_info, _("You can't fish there!"));
             return 0;
         }
-        point op = ms_to_omt_copy(g->m.getabs(dirx, diry));
+        point op = ms_to_omt_copy( g->m.getabs( loc.x, loc.y ) );
         if( !otermap[overmap_buffer.ter(op.x, op.y, g->get_levz())].has_flag(river_tile) ) {
             p->add_msg_if_player(m_info, _("That water does not contain any fish, try a river instead."));
             return 0;
@@ -2440,7 +2440,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
         }
         it->active = true;
         it->bday = calendar::turn;
-        g->m.add_item_or_charges(dirx, diry, *it);
+        g->m.add_item_or_charges( loc, *it );
         p->i_rem(it);
         p->add_msg_if_player(m_info, _("You place the fish trap, in three hours or so you may catch some fish."));
 
