@@ -221,8 +221,8 @@ static bool fontblending = false;
 // Used only while fontlist.txt is created.
 static std::set<std::string> *bitmap_fonts;
 
-static std::vector<curseline> oversized_framebuffer;
-static std::vector<curseline> terminal_framebuffer;
+std::vector<curseline> oversized_framebuffer;
+std::vector<curseline> terminal_framebuffer;
 static WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 

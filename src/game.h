@@ -25,6 +25,8 @@ extern game *g;
 #ifdef TILES
 extern void try_sdl_update();
 extern void invalidate_all_framebuffers();
+extern void invalidate_framebuffer( std::vector<curseline> &framebuffer );
+extern std::vector<curseline> oversized_framebuffer;
 extern void clear_window_area( WINDOW* win );
 #endif // TILES
 
