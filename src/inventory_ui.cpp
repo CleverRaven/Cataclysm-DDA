@@ -121,7 +121,6 @@ class inventory_column {
         size_t find_by_invlet( long invlet ) const;
         size_t get_max_width() const;
 
-        bool handle_movement( const std::string &action );
         void draw( WINDOW *win, size_t x, size_t y, size_t width, bool active,
                    const std::function<char( const itemstack_or_category &entry )> &get_icon ) const;
 
@@ -133,6 +132,7 @@ class inventory_column {
         void remove_item( const itemstack_or_category &entry );
         void prepare_paging( size_t items_per_page );
 
+        virtual void on_action( const std::string &action );
         virtual void on_item_include( const item &, int ) {}
         virtual void on_item_exclude( const item &, int ) {}
 
@@ -253,7 +253,7 @@ class inventory_selector
          * move selection around (next/previous page/item).
          * If not handle by this class it return false, otherwise true (caller should
          * ignore the action in this case). */
-        bool handle_movement(const std::string &action);
+        void handle_movement( const std::string &action );
         /** Update the @ref w_inv window, including wrefresh */
         void display( const std::string &title, selector_mode mode ) const;
         /** Returns the item positions of the currently selected entry, or ITEM_MIN
@@ -367,7 +367,7 @@ std::vector<int> inventory_column::get_selected() const
     return res;
 }
 
-bool inventory_column::handle_movement( const std::string &action )
+void inventory_column::on_action( const std::string &action )
 {
     const auto is_unsuitable = [ this ]( size_t index ) {
         return is_category( index ) || ( mode == navigation_mode::CATEGORY &&
@@ -410,11 +410,7 @@ bool inventory_column::handle_movement( const std::string &action )
         select( 1 );
     } else if( action == "END" ) {
         select( items.size() - 1 );
-    } else {
-        return false;
     }
-
-    return true;
 }
 
 void inventory_column::add_item( const itemstack_or_category &item_entry, const itemstack_or_category &cat_entry, add_to where )
@@ -779,17 +775,15 @@ inventory_selector::~inventory_selector()
     g->refresh_all();
 }
 
-bool inventory_selector::handle_movement(const std::string &action)
+void inventory_selector::handle_movement(const std::string &action)
 {
     if( action == "CATEGORY_SELECTION" ) {
         toggle_navigation_mode();
     } else if( action == "LEFT" ) {
         toggle_active_column();
     } else if( column_index < columns.size() ) {
-        return columns[column_index]->handle_movement( action );
+        columns[column_index]->on_action( action );
     }
-
-    return true;
 }
 
 void inventory_selector::select_item_by_position( const int &position )
@@ -989,8 +983,6 @@ int inventory_selector::execute_pick( const std::string &title, const int positi
 
         if( itemstack != nullptr ) {
             return itemstack->item_pos;
-        } else if ( handle_movement( action ) ) {
-            continue;
         } else if ( action == "CONFIRM" || action == "RIGHT" ) {
             const auto selection( columns[column_index]->get_selected() );
 
@@ -1004,6 +996,8 @@ int inventory_selector::execute_pick( const std::string &title, const int positi
             }
         } else if ( action == "QUIT" ) {
             return INT_MIN;
+        } else {
+            handle_movement( action );
         }
     }
 }
@@ -1026,8 +1020,6 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
             }
             set_to_drop( itemstack->item_pos, 0 );
             return item_location( u, first_item );
-        } else if( handle_movement( action ) ) {
-            // continue with comparison below
         } else if( action == "QUIT" ) {
             return item_location();
 
@@ -1044,6 +1036,8 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
                 return std::move( it->second );
             }
             return item_location();
+        } else {
+            handle_movement( action );
         }
     }
 }
@@ -1063,13 +1057,14 @@ void inventory_selector::execute_compare( const std::string &title )
 
         if( itemstack != nullptr ) {
             set_drop_count( itemstack->item_pos, 0, *itemstack->it );
-        } else if( handle_movement( action ) ) {
-            // continue with comparison below
         } else if( action == "QUIT" ) {
             break;
         } else if(action == "RIGHT") {
             set_selected_to_drop( 0 );
+        } else {
+            handle_movement( action );
         }
+
         if (second_item != NULL) {
             std::vector<iteminfo> vItemLastCh, vItemCh;
             std::string sItemLastCh, sItemCh, sItemTn;
@@ -1125,9 +1120,6 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
         } else if( itemstack != nullptr ) {
             set_to_drop( itemstack->item_pos, count );
             count = 0;
-        } else if( handle_movement( action ) ) {
-            count = 0;
-            continue;
         } else if( action == "RIGHT" ) {
             set_selected_to_drop( count );
             count = 0;
@@ -1135,6 +1127,9 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
             break;
         } else if( action == "QUIT" ) {
             return std::list<std::pair<int, int> >();
+        } else {
+            handle_movement( action );
+            count = 0;
         }
     }
 
