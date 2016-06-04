@@ -3369,7 +3369,7 @@
             "SHRUB", "SHORT"
         ],
         "bash": {
-            "str_min": 4, "str_max": 60,
+            "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
             "ter_set": "t_dirt"
