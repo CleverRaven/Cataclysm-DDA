@@ -1620,8 +1620,8 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
     int ch = (int)' ';
 
-    std::string stop_message = text + u.activity.get_stop_phrase() +
-                               _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
+    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
+                               _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
 
     do {
         ch = popup(stop_message, PF_GET_KEY);
@@ -1651,7 +1651,7 @@ bool game::cancel_activity_query(const char *message, ...)
         }
         return false;
     }
-    if (query_yn("%s%s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
+    if (query_yn("%s %s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
         u.cancel_activity();
         return true;
     }

@@ -35,25 +35,25 @@ player_activity::player_activity( activity_type t, int turns, int Index, int pos
 const std::string &player_activity::get_stop_phrase() const
 {
     static const std::array<std::string, NUM_ACTIVITIES> stop_phrase = {{
-            _( " Stop?" ), _( " Stop reloading?" ),
-            _( " Stop reading?" ), _( " Stop playing?" ),
-            _( " Stop waiting?" ), _( " Stop crafting?" ),
-            _( " Stop crafting?" ), _( " Stop disassembly?" ),
-            _( " Stop butchering?" ), _( " Stop salvaging?" ), _( " Stop foraging?" ),
-            _( " Stop construction?" ), _( " Stop interacting with the vehicle?" ),
-            _( " Stop pumping gas?" ), _( " Stop training?" ),
-            _( " Stop waiting?" ), _( " Stop using first aid?" ),
-            _( " Stop fishing?" ), _( " Stop mining?" ), _( " Stop burrowing?" ),
-            _( " Stop smashing?" ), _( " Stop de-stressing?" ),
-            _( " Stop cutting tissues?" ), _( " Stop dropping?" ),
-            _( " Stop stashing?" ), _( " Stop picking up?" ),
-            _( " Stop moving items?" ), _( " Stop interacting with inventory?" ),
-            _( " Stop fiddling with your clothes?" ), _( " Stop lighting the fire?" ),
-            _( " Stop working the winch?" ), _( " Stop filling the container?" ),
-            _( " Stop hotwiring the vehicle?" ), _( " Stop aiming?" ),
-            _( " Stop using the ATM?" ), _( " Stop trying to start the vehicle?" ),
-            _( " Stop welding?" ), _( " Stop cracking?" ), _( " Stop repairing?" ),
-            _( " Stop modifying gun?" )
+            _( "Stop?" ), _( "Stop reloading?" ),
+            _( "Stop reading?" ), _( "Stop playing?" ),
+            _( "Stop waiting?" ), _( "Stop crafting?" ),
+            _( "Stop crafting?" ), _( "Stop disassembly?" ),
+            _( "Stop butchering?" ), _( "Stop salvaging?" ), _( "Stop foraging?" ),
+            _( "Stop construction?" ), _( "Stop interacting with the vehicle?" ),
+            _( "Stop pumping gas?" ), _( "Stop training?" ),
+            _( "Stop waiting?" ), _( "Stop using first aid?" ),
+            _( "Stop fishing?" ), _( "Stop mining?" ), _( "Stop burrowing?" ),
+            _( "Stop smashing?" ), _( "Stop de-stressing?" ),
+            _( "Stop cutting tissues?" ), _( "Stop dropping?" ),
+            _( "Stop stashing?" ), _( "Stop picking up?" ),
+            _( "Stop moving items?" ), _( "Stop interacting with inventory?" ),
+            _( "Stop fiddling with your clothes?" ), _( "Stop lighting the fire?" ),
+            _( "Stop working the winch?" ), _( "Stop filling the container?" ),
+            _( "top hotwiring the vehicle?" ), _( "Stop aiming?" ),
+            _( "Stop using the ATM?" ), _( "Stop trying to start the vehicle?" ),
+            _( "Stop welding?" ), _( "Stop cracking?" ), _( "Stop repairing?" ),
+            _( "Stop modifying gun?" )
         }
     };
     return stop_phrase[type];
