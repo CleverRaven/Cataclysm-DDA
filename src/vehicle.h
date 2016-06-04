@@ -708,6 +708,9 @@ public:
     // <0 means there is no steering installed at all.
     float steering_effectiveness() const;
 
+    /** Returns roughly driving skill level at which there is no chance of fumbling. */
+    float handling_difficulty() const;
+
     // idle fuel consumption
     void idle(bool on_map = true);
     // continuous processing for running vehicle alarms
@@ -902,6 +905,8 @@ public:
     //normalized vectors, from tilerays face & move
     rl_vec2d face_vec() const;
     rl_vec2d move_vec() const;
+    // As above, but calculated for the actually used variable `dir`
+    rl_vec2d dir_vec() const;
     void on_move();
     /**
      * Update the submap coordinates smx, smy, and update the tracker info in the overmap

@@ -3592,6 +3592,25 @@ float vehicle::steering_effectiveness() const
     return 0.0;
 }
 
+float vehicle::handling_difficulty() const
+{
+    const float steer = std::max( 0.0f, steering_effectiveness() );
+    const float traction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
+    const float kmass = k_mass();
+    const float aligned = std::max( 0.0f, 1.0f - ( face_vec() - dir_vec() ).norm() );
+
+    constexpr float tile_per_turn = 10 * 100;
+
+    // TestVehicle: perfect steering, kmass, moving on road at 100 mph (10 tiles per turn) = 0.0
+    // TestVehicle but on grass (0.75 friction) = 2.5
+    // TestVehicle but overloaded (0.5 kmass) = 5
+    // TestVehicle but with bad steering (0.5 steer) and overloaded (0.5 kmass) = 10
+    // TestVehicle but on fungal bed (0.5 friction), bad steering and overloaded = 15
+    // TestVehicle but turned 90 degrees during this turn (0 align) = 10
+    const float diff_mod = ( ( 1.0f - steer ) + ( 1.0f - kmass ) + ( 1.0f - traction ) + ( 1.0f - aligned ) );
+    return velocity * diff_mod / tile_per_turn;
+}
+
 /**
  * Power for batteries are in W, but usage for rest is in 0.5*HP, so coeff is 373
  * This does not seem to match up for consumption, as old coeff is 100
@@ -4212,9 +4231,11 @@ void vehicle::thrust( int thd ) {
        thrusting = (sgn == thd);
     }
 
-    int accel = acceleration();
-    int max_vel = max_velocity();
-    //get braking power
+    // @todo Pass this as an argument to avoid recalculating
+    float traction = std::max( 0.0f, g->m.vehicle_traction( *this ) );
+    int accel = acceleration() * traction;
+    int max_vel = max_velocity() * traction;
+    // Get braking power
     int brake = 30 * k_mass();
     int brk = abs(velocity) * brake / 100;
     if (brk < accel) {
@@ -4250,7 +4271,7 @@ void vehicle::thrust( int thd ) {
     // only consume resources if engine accelerating
     if (load >= 0.01 && thrusting) {
         //abort if engines not operational
-        if (total_power () <= 0 || !engine_on) {
+        if( total_power () <= 0 || !engine_on || accel == 0 ) {
             if (pl_ctrl) {
                 if( total_power( false ) <= 0 ) {
                     add_msg( m_info, _("The %s doesn't have an engine!"), name.c_str() );
@@ -4258,6 +4279,8 @@ void vehicle::thrust( int thd ) {
                     add_msg( m_info, _("The %s's mechanism is out of reach!"), name.c_str() );
                 } else if( !engine_on ) {
                     add_msg( _("The %s's engine isn't on!"), name.c_str() );
+                } else if( traction < 0.01f ) {
+                    add_msg( _("The %s is stuck."), name.c_str() );
                 } else {
                     add_msg( _("The %s's engine emits a sneezing sound."), name.c_str() );
                 }
@@ -4339,7 +4362,7 @@ void vehicle::cruise_thrust (int amount)
     }
 }
 
-void vehicle::turn (int deg)
+void vehicle::turn( int deg )
 {
     if (deg == 0) {
         return;
@@ -6535,24 +6558,26 @@ rl_vec2d vehicle::velo_vec() const
     return ret;
 }
 
+inline rl_vec2d degree_to_vec( double degrees )
+{
+    return rl_vec2d( cos( degrees * M_PI/180 ), sin( degrees * M_PI/180 ) );
+}
+
 // normalized.
 rl_vec2d vehicle::move_vec() const
 {
-    float mx,my;
-    mx = cos (move.dir() * M_PI/180);
-    my = sin (move.dir() * M_PI/180);
-    rl_vec2d ret(mx,my);
-    return ret;
+    return degree_to_vec( move.dir() );
 }
 
 // normalized.
 rl_vec2d vehicle::face_vec() const
 {
-    float fx,fy;
-    fx = cos (face.dir() * M_PI/180);
-    fy = sin (face.dir() * M_PI/180);
-    rl_vec2d ret(fx,fy);
-    return ret;
+    return degree_to_vec( face.dir() );
+}
+
+rl_vec2d vehicle::dir_vec() const
+{
+    return degree_to_vec( turn_dir );
 }
 
 float get_collision_factor(float const delta_v)
