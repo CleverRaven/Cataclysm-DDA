@@ -5918,7 +5918,7 @@ void vehicle::turrets_set_mode() {
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
 
-    for( auto& p : parts ) {
+    for( auto &p : parts ) {
         if( p.base.is_gun() ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
@@ -5937,7 +5937,7 @@ void vehicle::turrets_set_mode() {
         menu.fselected = sel;
         menu.w_y = 2;
 
-        for( auto& p : turrets ) {
+        for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
                            p->name().c_str(), p->base.gun_current_mode().mode.c_str() );
         }
@@ -5956,7 +5956,7 @@ void vehicle::turrets_set_targeting() {
     std::vector<vehicle_part *> turrets;
     std::vector<tripoint> locations;
 
-    for( auto& p : parts ) {
+    for( auto &p : parts ) {
         if( p.base.is_gun() && !p.info().has_flag( "MANUAL" ) ) {
             turrets.push_back( &p );
             locations.push_back( global_part_pos3( p ) );
@@ -5975,7 +5975,7 @@ void vehicle::turrets_set_targeting() {
         menu.fselected = sel;
         menu.w_y = 2;
 
-        for( auto& p : turrets ) {
+        for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]", p->name().c_str(),
                            p->enabled ? _( "auto" ) : _( "manual" ) );
         }
