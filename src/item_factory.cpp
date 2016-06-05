@@ -1842,20 +1842,20 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     }
 }
 
-template<typename IuseActorType>
-use_function load_actor( JsonObject obj )
+template <typename T>
+use_function load_actor( JsonObject &obj )
 {
-    std::unique_ptr<IuseActorType> actor( new IuseActorType() );
-    actor->load( obj );
-    return use_function( actor.release() );
+    T *res = new T();
+    res->load( obj );
+    return use_function( res );
 }
 
-template<typename IuseActorType>
-use_function load_actor( JsonObject obj, const std::string &type )
+template <typename T>
+use_function load_actor( JsonObject &obj, const std::string &type )
 {
-    std::unique_ptr<IuseActorType> actor( new IuseActorType( type ) );
-    actor->load( obj );
-    return use_function( actor.release() );
+    T *res = new T( type );
+    res->load( obj );
+    return use_function( res );
 }
 
 void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function> &use_methods)
