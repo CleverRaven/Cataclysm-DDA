@@ -1512,5 +1512,22 @@
         "occurrences" : [0,4],
         "rotate" : true,
         "flags" : ["CLASSIC"]
+    },{
+        "type" : "overmap_special",
+        "id" : "cemetery_religious",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "cemetery_4square_00"},
+            { "point":[1,0,0], "overmap": "cemetery_4square_10"},
+            { "point":[0,1,0], "overmap": "cemetery_4square_01"},
+            { "point":[1,1,0], "overmap": "cemetery_4square_11"},
+            { "point":[0,2,0], "overmap": "4way_road", "connect":"road"}
+        ],
+        "locations" : [ "forest" ],
+        "city_distance" : [2, 10],
+        "city_sizes" : [2, 16],
+        "occurrences" : [2, 5],
+        "rotate" : false,
+        "flags" : [ "CLASSIC" ]
     }
 ]
