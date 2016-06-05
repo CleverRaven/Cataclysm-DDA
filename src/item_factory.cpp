@@ -43,6 +43,8 @@ static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_veh_parts("veh_parts");
 static const std::string category_id_other("other");
 
+static quality_id quality_cut( "CUT" );
+
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
@@ -93,6 +95,14 @@ void Item_factory::finalize() {
 
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
+
+        // except where already set add methods (with defaul values) based upon qualities
+        if( obj.qualities.find( quality_cut ) != obj.qualities.end() ) {
+            obj.use_methods.emplace( "salvage", new salvage_actor() );
+            obj.use_methods.emplace( "inscribe", new inscribe_actor() );
+            obj.use_methods.emplace( "cauterize", new cauterize_actor() );
+            obj.use_methods.emplace( "enzlave", new enzlave_actor() );
+        }
 
         if( obj.engine && g->has_option( "no_faults" ) ) {
             obj.engine->faults.clear();
@@ -1909,12 +1919,6 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
         newfun = load_actor<repair_item_actor>( obj, obj.get_string( "item_action_type" ) );
     } else if( type == "heal" ) {
         newfun = load_actor<heal_actor>( obj );
-    } else if( type == "knife" ) {
-        methods.emplace( "salvage", load_actor<salvage_actor>( obj, "salvage" ) );
-        methods.emplace( "inscribe", load_actor<inscribe_actor>( obj, "inscribe" ) );
-        methods.emplace( "cauterize", load_actor<cauterize_actor>( obj, "cauterize" ) );
-        methods.emplace( "enzlave", load_actor<enzlave_actor>( obj, "enzlave" ) );
-        return;
     } else {
         obj.throw_error( "unknown use_action", "type" );
     }

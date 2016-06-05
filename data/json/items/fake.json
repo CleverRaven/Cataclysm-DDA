@@ -14,7 +14,7 @@
         "name": "integrated toolset",
         "flags": "TRADER_AVOID",
         "max_charges": 10000,
-        "use_action": [ "HAMMER", "HACKSAW", "LUMBER", "CROWBAR", "REMOVE_ALL_MODS", { "type": "knife" } ],
+        "use_action": [ "HAMMER", "HACKSAW", "LUMBER", "CROWBAR", "REMOVE_ALL_MODS" ],
         "qualities": [
             [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ],
             [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SAW_M_FINE", 1 ],
