@@ -107,5 +107,9 @@
         "type" : "tool_quality",
         "id" : "CHISEL",
         "name" : "chiseling"
+    },{
+        "type" : "tool_quality",
+        "id" : "MULTIMETER",
+        "name" : "cicuit analysis"
     }
 ]
