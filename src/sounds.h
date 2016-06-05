@@ -79,6 +79,12 @@ void do_player_death_hurt( const player &target, bool death );
 void do_fatigue();
 int get_heard_angle( const tripoint source );
 void do_obstacle();
+void play_panic_music();
+int play_special_music( std::string );
+int consider();
+void play_city_distance_music();
 }
+
+int play_music_int( std::string );
 
 #endif

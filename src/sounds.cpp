@@ -20,6 +20,7 @@
 #include "time.h"
 #include "mapdata.h"
 #include "itype.h"
+#include "overmap.h"
 #include <chrono>
 #ifdef SDL_SOUND
 #   include <SDL_mixer.h>
@@ -940,6 +941,79 @@ void sfx::do_obstacle() {
     }
 }
 
+void sfx::play_panic_music() {
+    play_music( "panic" );
+}
+
+int sfx::play_special_music( std::string playlist ) {
+    return play_music_int( playlist );
+}
+
+int sfx::consider() {
+    bool is_night = calendar::turn.is_night();
+
+    if( is_night && g->u.in_vehicle ) {
+        return play_special_music( "n_driving" );
+    } else if ( !is_night && g->u.in_vehicle ) {
+        return play_special_music( "d_driving" );
+    }
+
+    int hostiles = 0;
+    for( auto &critter : g->u.get_visible_creatures( 40 ) ) {
+        if( g->u.attitude_to( *critter ) == Creature::A_HOSTILE ) {
+            hostiles++;
+        }
+    }
+    if( hostiles == prev_hostiles && hostiles > 1 ) {
+        return 0;
+    } else if( hostiles == prev_hostiles && hostiles <=1 ) {
+        return -1;
+    }
+
+    if( is_night ) {
+        if( hostiles <= 10 && hostiles >= 2 ) {
+            prev_hostiles = hostiles;
+            return play_special_music( "n_lowmon" );
+        } else if( hostiles <= 20 && hostiles > 10 ) {
+            prev_hostiles = hostiles;
+            return play_special_music( "n_medmon" );
+        } else if( hostiles > 20 ){
+            prev_hostiles = hostiles;
+            return play_special_music( "n_horde" );
+        }
+    } else {
+        if( hostiles <= 10 && hostiles >= 2 ) {
+            prev_hostiles = hostiles;
+            return play_special_music( "d_lowmon" );
+        } else if( hostiles <= 20 && hostiles > 10 ) {
+            prev_hostiles = hostiles;
+            return play_special_music( "d_medmon" );
+        } else if( hostiles > 20 ) {
+            prev_hostiles = hostiles;
+            return play_special_music( "d_horde" );
+        } 
+    }
+    prev_hostiles = hostiles;
+    return -1;
+}
+
+void sfx::play_city_distance_music() {
+    const auto wild_fctr = overmap_buffer.closest_city( g->u.global_sm_location() );
+	if( !wild_fctr ) {
+		play_music( "wilderness" );
+		return;
+	}
+    const auto &nearest_city = *wild_fctr.city;
+    const int city_dist = wild_fctr.distance - nearest_city.s;
+    if( city_dist > nearest_city.s + 8 ) {
+        play_music( "wilderness" );
+    } else if( city_dist >= nearest_city.s + 4 ) {
+        play_music( "outskirts" );
+    } else {
+        play_music( "city" );
+    }
+}
+
 #else // ifdef SDL_SOUND
 
 /** Dummy implementations for builds without sound */
@@ -964,6 +1038,10 @@ void sfx::stop_sound_effect_fade( int, int ) { }
 void sfx::do_player_death_hurt( const player &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle() { }
+void sfx::play_panic_music() { }
+int sfx::play_special_music( std::string ) { return -1; }
+int sfx::consider() { return 0; }
+void sfx::play_city_distance_music() { }
 /*@}*/
 
 #endif // ifdef SDL_SOUND

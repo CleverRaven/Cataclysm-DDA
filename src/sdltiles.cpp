@@ -2135,6 +2135,8 @@ void musicFinished() {
     const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 }
+
+
 #endif
 
 void play_music(std::string playlist) {
@@ -2168,6 +2170,40 @@ void play_music(std::string playlist) {
 #else
     (void)playlist;
 #endif
+}
+
+int play_music_int(std::string playlist) {
+#ifdef SDL_SOUND
+    const auto iter = playlists.find( playlist );
+    if( iter == playlists.end() ) {
+        return -1;
+    }
+    const music_playlist &list = iter->second;
+    if( list.entries.empty() ) {
+        return -1;
+    }
+
+    // Don't interrupt playlist that's already playing.
+    if(playlist == current_playlist) {
+        return 0;
+    }
+
+    for( size_t i = 0; i < list.entries.size(); i++ ) {
+        playlist_indexes.push_back( i );
+    }
+    if( list.shuffle ) {
+        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
+    }
+
+    current_playlist = playlist;
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
+
+    const auto &next = list.entries[current_playlist_at];
+    play_music_file( next.file, next.volume );
+    return 1;
+#else
+    (void)playlist;
+#endif // SDL_SOUND
 }
 
 #ifdef SDL_SOUND

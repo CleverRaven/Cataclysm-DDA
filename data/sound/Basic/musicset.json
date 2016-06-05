@@ -8,12 +8,128 @@
                 "shuffle" : false,
                 "files" : [
                     {
-                        "file": "Dark_Days_Ahead_demo_2.wav",
-                        "volume": 128
-                    },
+                        "file": "menu.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "wilderness",
+                "shuffle" : false,
+                "files" : [
                     {
-                        "file": "cataclysmthemeREV6.wav",
-                        "volume": 90
+                        "file": "wilderness.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "outskirts",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "outskirts.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "city",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "city.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "science lab",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "lab.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "n_lowmon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "n_lowmon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "n_medmon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "n_medmon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "n_horde",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "n_horde.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "n_driving",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "n_driving.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_lowmon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_lowmon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_medmon",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_medmon.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_horde",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_horde.wav",
+                        "volume": 100
+                    }
+                ]
+            },
+            {
+                "id" : "d_driving",
+                "shuffle" : false,
+                "files" : [
+                    {
+                        "file": "d_driving.wav",
+                        "volume": 100
                     }
                 ]
             }
