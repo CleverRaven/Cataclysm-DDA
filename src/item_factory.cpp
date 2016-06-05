@@ -44,6 +44,7 @@ static const std::string category_id_veh_parts("veh_parts");
 static const std::string category_id_other("other");
 
 static quality_id quality_cut( "CUT" );
+static quality_id quality_saw_metal( "SAW_M" );
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -96,12 +97,23 @@ void Item_factory::finalize() {
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
 
-        // except where already set add methods (with defaul values) based upon qualities
-        if( obj.qualities.find( quality_cut ) != obj.qualities.end() ) {
+        // add usage methods (with default values) based upon qualities
+        // if a method was already set the specific values remain unchanged
+
+        // [ "CUT", 1 ]
+        auto cut = obj.qualities.find( quality_cut );
+        if( cut != obj.qualities.end() && cut->second >= 1 ) {
             obj.use_methods.emplace( "salvage", new salvage_actor() );
             obj.use_methods.emplace( "inscribe", new inscribe_actor() );
             obj.use_methods.emplace( "cauterize", new cauterize_actor() );
             obj.use_methods.emplace( "enzlave", new enzlave_actor() );
+        }
+
+        // [ "SAW_M", 2 ]
+        auto saw_m = obj.qualities.find( quality_saw_metal );
+        if( saw_m != obj.qualities.end() && saw_m->second >= 2 ) {
+            obj.use_methods.emplace( "HACKSAW", use_from_string( "HACKSAW" ) );
+            obj.use_methods.emplace( "SAW_BARREL", use_from_string( "SAW_BARREL" ) );
         }
 
         if( obj.engine && g->has_option( "no_faults" ) ) {
