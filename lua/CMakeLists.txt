@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 
 SET(CATACLYSM_DDA_LUA_SOURCES
     ${CMAKE_SOURCE_DIR}/lua/class_definitions.lua
+    ${CMAKE_SOURCE_DIR}/lua/generated_class_definitions.lua
 )
 
 # test chain
