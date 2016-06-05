@@ -134,13 +134,15 @@
     "id": "frame_cross",
     "copy-from": "frame",
     "type": "vehicle_part",
-    "symbol": "c"
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
   },
   {
     "id": "frame_wood_cross",
     "copy-from": "frame_wood",
     "type": "vehicle_part",
-    "symbol": "c"
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
   },
   {
     "id": "frame_wood_light_cross",
@@ -153,7 +155,8 @@
     "id": "hdframe_cross",
     "copy-from": "hdframe",
     "type": "vehicle_part",
-    "symbol": "c"
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
   },
   {
     "id": "xlframe_cross",
