@@ -192,30 +192,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "amplifier",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "electronics",
-  "difficulty": 1,
-  "time": 4000,
-  "reversible": true,
-  "decomp_learn": 1,
-  "autolearn": false,
-  "book_learn": [[ "radio_book", 3 ] , [ "manual_electronics", 1 ]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 4 ],
-      [ "toolset", 4 ]
-    ]
-  ],
-  "components": [
-    [ [ "circuit", 1 ] ],
-    [ [ "e_scrap", 3 ] ],
-    [ [ "cable", 1 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "power_supply",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -276,54 +252,6 @@
   ],
   "components": [
     [ [ "lead", 100 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "receiver",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "electronics",
-  "difficulty": 2,
-  "time": 12000,
-  "reversible": true,
-  "decomp_learn": 2,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 1 ] , [ "radio_book", 1 ] , [ "textbook_electronics", 2 ]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 4 ],
-      [ "toolset", 4 ]
-    ]
-  ],
-  "components": [
-    [ [ "circuit", 2 ] ],
-    [ [ "e_scrap", 5 ] ],
-    [ [ "cable", 2 ] ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "transponder",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "electronics",
-  "difficulty": 3,
-  "time": 14000,
-  "reversible": true,
-  "decomp_learn": 3,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 1 ] , [ "textbook_electronics", 2 ] , [ "textbook_anarch", 3 ]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 7 ],
-      [ "toolset", 7 ]
-    ]
-  ],
-  "components": [
-    [ [ "circuit", 3 ] ],
-    [ [ "e_scrap", 7 ] ],
-    [ [ "cable", 3 ] ]
   ]
 },{
   "type" : "recipe",

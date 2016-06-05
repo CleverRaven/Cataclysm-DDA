@@ -1,0 +1,65 @@
+[
+  {
+    "type" : "recipe",
+    "result": "amplifier",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": 30000,
+    "book_learn": [ [ "radio_book", 3 ] , [ "manual_electronics", 1 ] ],
+    "decomp_learn": 1,
+    "qualities" : [
+      { "id": "SCREW", "level": 1 },
+      { "id": "MULTIMETER", "level": 2 }
+    ],
+    "tools": [ [ [ "soldering_iron", 10 ], [ "toolset", 10 ] ] ],
+    "components": [
+      [ [ "circuit", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "cable", 1 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "receiver",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": 60000,
+    "book_learn": [ [ "radio_book", 4 ] , [ "manual_electronics", 2 ] ],
+    "decomp_learn": 2,
+    "qualities" : [
+      { "id": "SCREW", "level": 1 },
+      { "id": "MULTIMETER", "level": 2 }
+    ],
+    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "components": [
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "cable", 2 ] ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "transponder",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "difficulty": 3,
+    "time": 60000,
+    "book_learn": [ [ "radio_book", 5 ] , [ "manual_electronics", 3 ] ],
+    "decomp_learn": 3,
+    "qualities" : [
+      { "id": "SCREW", "level": 1 },
+      { "id": "MULTIMETER", "level": 3 }
+    ],
+    "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
+    "components": [
+      [ [ "circuit", 2 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "cable", 2 ] ]
+    ]
+  }
+]
