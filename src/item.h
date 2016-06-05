@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "debug.h"
 
 class game;
 class Character;
@@ -459,6 +460,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     template<typename ... Args>
     item& emplace_back( Args&&... args ) {
         contents.emplace_back( std::forward<Args>( args )... );
+        if( contents.back().is_null() ) {
+            debugmsg( "Tried to emplace null item" );
+        }
         return contents.back();
     }
 

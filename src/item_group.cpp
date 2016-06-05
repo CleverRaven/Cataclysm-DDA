@@ -348,7 +348,7 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
             bool spawn_ammo = rng( 0, 99 ) < with_ammo && e.ammo_remaining() == 0;
             bool spawn_mag  = rng( 0, 99 ) < with_magazine && !e.magazine_integral() && !e.magazine_current();
 
-            if( spawn_mag || spawn_ammo ) {
+            if( spawn_mag ) {
                 e.contents.emplace_back( e.magazine_default(), e.bday );
             }
             if( spawn_ammo ) {
