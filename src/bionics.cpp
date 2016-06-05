@@ -695,7 +695,7 @@ void player::process_bionic( int b )
                     // We just spent our first turn of charge, so -1 here
                     bio.charge = bionics[bio.id].charge_time - 1;
                 }
-            // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
+                // Some bionics are a 1-shot activation so they just deactivate at 0 charge.
             } else {
                 bio.powered = false;
                 add_msg( m_neutral, _( "Your %s powers down." ), bionics[bio.id].name.c_str() );
@@ -714,23 +714,23 @@ void player::process_bionic( int b )
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() == nullptr && get_value( "remote_controlling" ) == "" ) {
             bio.powered = false;
-            add_msg( m_warning, _("Your %s has lost connection and is turning off."),
+            add_msg( m_warning, _( "Your %s has lost connection and is turning off." ),
                      bionics[bio.id].name.c_str() );
         }
-    } else if (bio.id == "bio_hydraulics") {
+    } else if( bio.id == "bio_hydraulics" ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, _("HISISSS!"));
+        sounds::sound( pos(), 19, _( "HISISSS!" ) );
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] < hp_max[i] ) {
-                heal((hp_part)i, 1);
-                charge_power(-10);
+                heal( ( hp_part )i, 1 );
+                charge_power( -10 );
             }
         }
         for( int i = 0; i < num_bp; i++ ) {
-            if( power_level >= 2 && has_effect(effect_bleed, (body_part)i)) {
-                remove_effect(effect_bleed);
-                charge_power(-2);
+            if( power_level >= 2 && has_effect( effect_bleed, ( body_part )i ) ) {
+                remove_effect( effect_bleed );
+                charge_power( -2 );
             }
         }
         if( calendar::once_every( 5 ) ) {
