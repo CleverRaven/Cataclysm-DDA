@@ -1065,8 +1065,6 @@ void Item_factory::load( islot_book &slot, JsonObject &jo )
     assign( jo, "time", slot.time );
     assign( jo, "skill", slot.skill );
     assign( jo, "chapters", slot.chapters );
-
-    set_use_methods_from_json( jo, "use_action", slot.use_methods );
 }
 
 void Item_factory::load_book( JsonObject &jo )

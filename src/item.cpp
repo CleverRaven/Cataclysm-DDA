@@ -2038,10 +2038,6 @@ nc_color item::color_in_inventory() const
                        u->get_skill_level( tmp.skill ).can_train() &&
                        u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
-            } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
-                // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
-                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart(matype_id( "style_" + type->id.substr(7)))) ) {
-                ret = c_ltblue;
             }
         } else {
             ret = c_red; // Book hasn't been identified yet: red

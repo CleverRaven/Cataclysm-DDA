@@ -241,10 +241,6 @@ struct islot_book {
     };
     typedef std::set<recipe_with_description_t> recipe_list_t;
     recipe_list_t recipes;
-    /**
-     * Special effects that can happen after the item has been read. May be empty.
-     */
-    std::vector<use_function> use_methods;
 };
 
 /**
