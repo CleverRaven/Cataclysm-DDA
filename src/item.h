@@ -390,6 +390,11 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     int reach_range( const player &p ) const;
 
     /**
+     * Sets time until activation for an item that will self-activate in the future.
+     **/
+    void set_countdown( int num_turns );
+
+    /**
      * Consumes specified charges (or fewer) from this and any contained items
      * @param what specific type of charge required, eg. 'battery'
      * @param qty maximum charges to consume. On return set to number of charges not found (or zero)

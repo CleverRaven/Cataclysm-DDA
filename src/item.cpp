@@ -5015,6 +5015,19 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     return true;
 }
 
+void item::set_countdown( int num_turns )
+{
+    if( num_turns < 0 ) {
+        debugmsg( "Tried to set a negative countdown value %d.", num_turns );
+        return;
+    }
+    if( ammo_type() != "NULL" ) {
+        debugmsg( "Tried to set countdown on an item with ammo=%s.", ammo_type().c_str() );
+        return;
+    }
+    charges = num_turns;
+}
+
 bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos )
 {
     std::vector<item *> del;
