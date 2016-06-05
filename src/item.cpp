@@ -224,7 +224,7 @@ item& item::deactivate( const Character *ch, bool alert )
     return *this;
 }
 
-item& item::ammo_set( const itype_id& ammo, long qty )
+item& item::ammo_set( const itype_id& ammo, long qty, bool force_qty )
 {
     // if negative qty completely fill the item
     if( qty < 0 ) {
@@ -240,10 +240,14 @@ item& item::ammo_set( const itype_id& ammo, long qty )
         return *this;
     }
 
+    if( !force_qty ) {
+        qty = std::min( qty, ammo_capacity() );
+    }
+
     // handle reloadable tools and guns with no specific ammo type as special case
     if( ( is_tool() || is_gun() ) && magazine_integral() && ammo == "null" && ammo_type() == "NULL" ) {
         curammo = nullptr;
-        charges = std::min( qty, ammo_capacity() );
+        charges = qty;
         return *this;
     }
 
@@ -256,7 +260,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
 
     if( is_magazine() ) {
         ammo_unset();
-        emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+        emplace_back( ammo, calendar::turn, qty );
         if( has_flag( "NO_UNLOAD" ) ) {
             contents.back().item_tags.insert( "NO_DROP" );
             contents.back().item_tags.insert( "IRREMOVABLE" );
@@ -264,7 +268,7 @@ item& item::ammo_set( const itype_id& ammo, long qty )
 
     } else if( magazine_integral() ) {
         curammo = atype;
-        charges = std::min( qty, ammo_capacity() );
+        charges = qty;
 
     } else {
         if( !magazine_current() ) {

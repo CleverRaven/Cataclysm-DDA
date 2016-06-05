@@ -152,9 +152,10 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
          * Any existing ammo is removed. If necessary a default magazine is also added.
          * @param ammo specific type of ammo (must be compatible with item ammo type)
          * @param qty maximum ammo (capped by item capacity) or negative to fill to capacity
+         * @param force_qty Ignores item type's maximum ammo
          * @return same instance to allow method chaining
          */
-        item& ammo_set( const itype_id& ammo, long qty = -1 );
+        item& ammo_set( const itype_id& ammo, long qty = -1, bool force_qty = false );
 
         /**
          * Filter removing all ammo from this instance
