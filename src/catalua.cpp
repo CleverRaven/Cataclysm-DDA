@@ -1195,7 +1195,6 @@ void game::init_lua()
 
     // Load lua-side metatables etc.
     lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());
-    lua_dofile(lua_state, FILENAMES["autoexeclua"].c_str());
 
     // Callbacks for mods. This function is called from the game. Mods can attach a callback
     // to the global `mods` table to recieve the callback:
