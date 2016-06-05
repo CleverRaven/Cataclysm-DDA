@@ -517,7 +517,9 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             auto hostiles = get_targetable_creatures( gun.gun_range( this ) );
 
             hostiles.erase( std::remove_if( hostiles.begin(), hostiles.end(), [&]( const Creature *z ) {
-                if( rl_dist( z->pos(), aim ) > get_skill_level( skill_gun ) ) {
+                if( z->pos() == pos() ) {
+                    return true; // Don't shoot the alter-ego @todo get rid of fake npcs
+                } else if( rl_dist( z->pos(), aim ) > get_skill_level( skill_gun ) ) {
                     return true; ///\EFFECT_GUN increases range of automatic retargeting during burst fire
 
                 } else if( z->is_dead_state() ) {
