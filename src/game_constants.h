@@ -85,4 +85,7 @@
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
 
+/** Maximum (effective) level for a skill */
+#define MAX_SKILL 10
+
 #endif

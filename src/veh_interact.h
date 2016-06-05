@@ -53,7 +53,6 @@ class veh_interact
         int cpart;
         int page_size;
         int fuel_index;
-        bool vertical_menu;
         WINDOW *w_grid;
         WINDOW *w_mode;
         WINDOW *w_msg;
@@ -61,23 +60,6 @@ class veh_interact
         WINDOW *w_parts;
         WINDOW *w_stats;
         WINDOW *w_list;
-        WINDOW *w_details;
-        WINDOW *w_name;
-
-        int mode_h;
-        int mode_w;
-        int msg_h;
-        int msg_w;
-        int disp_h;
-        int disp_w;
-        int parts_h;
-        int parts_w;
-        int stats_h;
-        int stats_w;
-        int list_h;
-        int list_w;
-        int name_h;
-        int name_w;
 
         vehicle *veh;
         bool has_screwdriver;
@@ -126,7 +108,6 @@ class veh_interact
         void display_grid();
         void display_veh();
         void display_stats();
-        void display_name();
         void display_mode( char mode );
         void display_list( size_t pos, std::vector<const vpart_info *> list, const int header = 0 );
         void display_details( const vpart_info *part );
@@ -146,12 +127,12 @@ class veh_interact
         int mostDamagedPart;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int veh_part_index, int mech_skill, int msg_width );
+        bool can_remove_part( int veh_part_index );
         //do install support, writes requirements to ui
-        bool can_install_part( int msg_width );
+        bool can_install_part();
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
-        bool is_drive_conflict( int msg_width );
+        bool is_drive_conflict();
         /* true if current selected square has part with "FUEL_TANK flag and
          * they are not full. Otherwise will be false.
          */
