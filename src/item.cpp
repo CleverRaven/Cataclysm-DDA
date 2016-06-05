@@ -2377,7 +2377,7 @@ std::string item::display_name(unsigned int quantity) const
         qty = string_format(" (%i)", ammo_remaining());
     } else if( is_ammo_container() && !contents.empty() ) {
         qty = string_format( " (%i)", contents.front().charges );
-    } else if( count_by_charges() ) {
+    } else if( charges > 0 || count_by_charges() ) {
         qty = string_format(" (%i)", charges);
     }
 
