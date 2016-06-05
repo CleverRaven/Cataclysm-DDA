@@ -7,6 +7,9 @@
   <PropertyGroup>
     <_PropertySheetDisplayName>Debug</_PropertySheetDisplayName>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
