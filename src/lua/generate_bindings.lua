@@ -237,6 +237,7 @@ function generate_overload_tree(classes)
     end
 
     for class_name, value in pairs(classes) do
+        if not value.functions then value.functions = { } end
         local functions_by_name = {}
         for _, func in ipairs(value.functions) do
             if not func.name then
