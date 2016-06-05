@@ -8,7 +8,7 @@
     "durability": 400,
     "difficulty": 1,
     "breaks_into": "ig_vp_frame",
-    "flags" : [ "MOUNTABLE" ]
+    "flags": [ "MOUNTABLE" ]
   },
   {
     "abstract": "frame_wood",
