@@ -341,6 +341,8 @@ class Item_factory
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
 
+        void add_iuse( const std::string &type, const use_function_pointer f );
+
         /** JSON data dependent upon as-yet unparsed definitions */
         std::list<std::string> deferred;
 

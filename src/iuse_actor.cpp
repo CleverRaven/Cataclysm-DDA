@@ -2150,9 +2150,6 @@ void repair_item_actor::load( JsonObject &obj )
 
     cost_scaling = obj.get_float( "cost_scaling" );
 
-    // Kinda hacky: get subtype of the actor for item action menu
-    type = obj.get_string( "item_action_type" );
-
     // Optional
     tool_quality = obj.get_int( "tool_quality", 0 );
     move_cost    = obj.get_int( "move_cost", 500 );

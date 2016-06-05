@@ -749,9 +749,7 @@ class lua_iuse_wrapper : public iuse_actor {
 private:
     int lua_function;
 public:
-    lua_iuse_wrapper( const int f, const std::string &type ) : lua_function( f ) {
-        iuse_actor::type = type;
-    }
+    lua_iuse_wrapper( const int f, const std::string &type ) : iuse_actor( type ), lua_function( f ) {}
     ~lua_iuse_wrapper() = default;
     long use( player *, item *it, bool a, const tripoint &pos ) const override {
         // We'll be using lua_state a lot!
