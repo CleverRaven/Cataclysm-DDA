@@ -7,6 +7,7 @@
     "color": "brown",
     "durability": 130,
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
+    "mounts": [ { "name": "on_roof", "volume": 20, "weight": 1000 } ],
     "extend": { "flags": [ "FOLDABLE", "NAILABLE" ] }
   },
   {
@@ -17,6 +18,7 @@
     "durability": 15,
     "folded_volume": 15,
     "breaks_into": [ {"item": "rag", "count": [ 3, 6 ] } ],
+    "mounts": [ { "name": "on_roof", "volume": 20, "weight": 500 } ],
     "extend": { "flags": [ "FOLDABLE", "NAILABLE" ] }
   },
   {
@@ -26,6 +28,7 @@
     "item": "sheet_metal",
     "durability": 240,
     "breaks_into": "ig_vp_sheet_metal",
+    "mounts": [ { "name": "on_roof", "volume": 20, "weight": 1000 } ],
     "flags": [ "ROOF" ]
   },
   {
@@ -36,6 +39,7 @@
     "item": "steel_plate",
     "color": "dark_gray",
     "durability": 1000,
-    "breaks_into": "ig_vp_steel_plate"
+    "breaks_into": "ig_vp_steel_plate",
+    "mounts": [ { "name": "on_roof", "volume": 20, "weight": 50000 } ]
   }
 ]

@@ -89,6 +89,12 @@ class vpart_info
         /** What slot of the vehicle tile does this part occupy? */
         std::string location;
 
+        /**
+         * What other locations are provided for mounting of other parts
+         * first is max volume, second max weight for all mounted parts
+         */
+        std::map<std::string, std::pair<int, int>> mounts;
+
         /** Color of part for different states */
         nc_color color = c_ltgray;
         nc_color color_broken = c_ltgray;
@@ -146,6 +152,12 @@ class vpart_info
 
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;
+
+        /** Base part volume*/
+        int volume() const;
+
+        /** Base part weight (excluding fuel, cargo, ammo etc.) */
+        int weight() const;
 
     private:
         /** Name from vehicle part definition which if set overrides the base item name */

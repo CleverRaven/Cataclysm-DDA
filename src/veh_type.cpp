@@ -173,6 +173,15 @@ void vpart_info::load( JsonObject &jo )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "flags", def.flags );
 
+    if( jo.has_member( "mounts" ) ) {
+        def.mounts.clear();
+        auto arr = jo.get_array( "mounts" );
+        while( arr.has_more() ) {
+            auto mt = arr.next_object();
+            def.mounts[ mt.get_string( "name" ) ] = { mt.get_int( "volume", INT_MAX ), mt.get_int( "weight", INT_MAX ) };
+        }
+    }
+
     if( jo.has_member( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" )[ 0 ];
     }
@@ -253,6 +262,16 @@ void vpart_info::load( JsonObject &jo )
     }    
 }
 
+int vpart_info::volume() const
+{
+    return item::find_type( item )->volume;
+}
+
+int vpart_info::weight() const
+{
+    return item::find_type( item )->weight;
+}
+
 void vpart_info::set_flag( const std::string &flag )
 {
     flags.insert( flag );
@@ -303,6 +322,14 @@ void vpart_info::finalize()
             if( b != vpart_bitflag_map.end() ) {
                 e.second.bitflags.set( b->second );
             }            
+        }
+
+        // handle legacy parts until JSON is updated
+        if( e.second.has_flag( "BELTABLE" ) ) {
+            e.second.mounts[ "on_seat" ] = { INT_MAX, INT_MAX };
+        }
+        if( e.second.has_flag( "WINDOW" ) ) {
+            e.second.mounts[ "on_windshield" ] = { INT_MAX, INT_MAX };
         }
 
         // Calculate and cache z-ordering based off of location

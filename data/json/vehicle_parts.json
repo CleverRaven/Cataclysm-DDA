@@ -2810,6 +2810,7 @@
         "folded_volume": 6,
         "item" : "vehicle_controls",
         "difficulty" : 2,
+        "mounts": [ { "name": "on_controls" } ],
         "flags" : ["CONTROLS", "CTRL_ELECTRONIC", "FOLDABLE", "DOME_LIGHT"],
         "breaks_into" : [
             {"item": "steel_lump"},

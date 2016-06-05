@@ -1805,6 +1805,34 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) cons
         return false;
     }
 
+    // Calculate nett remaining volume and weight capacity for this tile
+    int vol = 0, wt = 0;
+    for( auto idx : parts_in_square ) {
+        auto &vp = parts[ idx ].info();
+        if( vp.location == part.location ) {
+            vol -= vp.volume();
+            wt  -= vp.weight();
+        }
+        auto mt = vp.mounts.find( part.location );
+        if( mt != vp.mounts.end() ) {
+            vol += mt->second.first;
+            wt  += mt->second.second;
+        }
+    }
+
+    // First part in an empty square MUST be a structural part
+    if( parts_in_square.empty() ) {
+        if( part.location != part_location_structure ) {
+            return false;
+        }
+
+    // All subsequent parts require a matching slot with sufficient capacity
+    } else {
+        if( !part.location.empty() && ( part.volume() > vol || part.weight() > wt ) ) {
+            return false;
+        }
+    }
+
     //No other part can be placed on a protrusion
     if(!parts_in_square.empty() && part_info(parts_in_square[0]).has_flag("PROTRUSION")) {
         return false;
@@ -1860,19 +1888,6 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) cons
         }
     }
 
-    //Seatbelts must be installed on a seat
-    if(part.has_flag("SEATBELT")) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "BELTABLE" ) ) {
-                anchor_found = true;
-            }
-        }
-        if(!anchor_found) {
-            return false;
-        }
-    }
-
     //Internal must be installed into a cargo area.
     if(part.has_flag("INTERNAL")) {
         bool anchor_found = false;
@@ -1882,20 +1897,6 @@ bool vehicle::can_mount(int const dx, int const dy, const vpart_str_id &id) cons
             }
         }
         if(!anchor_found) {
-            return false;
-        }
-    }
-
-    // curtains must be installed on (reinforced)windshields
-    // TODO: do this automatically using "location":"on_mountpoint"
-    if (part.has_flag("CURTAIN")) {
-        bool anchor_found = false;
-        for( const auto &elem : parts_in_square ) {
-            if( part_info( elem ).has_flag( "WINDOW" ) ) {
-                anchor_found = true;
-            }
-        }
-        if (!anchor_found) {
             return false;
         }
     }
