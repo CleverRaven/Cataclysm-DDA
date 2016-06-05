@@ -222,42 +222,6 @@
         "breaks_into": "ig_vp_xlframe"
     },{
         "type" : "vehicle_part",
-        "id" : "folding_frame",
-        "name" : "foldable light frame",
-        "symbol" : "h",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 50,
-        "folded_volume": 10,
-        "difficulty" : 2,
-        "item" : "foldframe",
-        "location" : "structure",
-        "flags" : ["MOUNTABLE", "FOLDABLE", "INITIAL_PART"],
-        "breaks_into" : [
-            {"item": "steel_chunk", "count": [0, 2]},
-            {"item": "scrap", "count": [1, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "folding_wooden_frame",
-        "name" : "foldable wooden frame",
-        "symbol" : "h",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 15,
-        "folded_volume": 15,
-        "difficulty" : 2,
-        "item" : "foldwoodframe",
-        "location" : "structure",
-        "flags" : ["MOUNTABLE", "FOLDABLE", "INITIAL_PART", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [0, 6]},
-            {"item": "nail", "charges": [1, 15]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "frame_handle",
         "name" : "handle",
         "symbol" : "^",

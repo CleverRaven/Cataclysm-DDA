@@ -1,5 +1,39 @@
 [
   {
+    "id": "folding_frame",
+    "type": "vehicle_part",
+    "name": "foldable light frame",
+    "item": "foldframe",
+    "location": "structure",
+    "symbol": "h",
+    "durability": 50,
+    "difficulty": 2,
+    "folded_volume": 10,
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
+  },
+  {
+    "id": "folding_wooden_frame",
+    "type": "vehicle_part",
+    "name": "foldable wooden frame",
+    "item": "foldwoodframe",
+    "location": "structure",
+    "symbol": "h",
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 15,
+    "difficulty": 2,
+    "folded_volume": 15,
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE", "NAILABLE" ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 0, 6 ] },
+      { "item": "nail", "charges": [ 1, 15 ] }
+    ]
+  },
+  {
     "abstract": "frame",
     "type": "vehicle_part",
     "name": "frame",
