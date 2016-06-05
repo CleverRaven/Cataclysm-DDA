@@ -126,6 +126,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         proj_arg, nullptr, dealt_damage_instance(), source, missed_by
     };
 
+    if( source == target_arg ) { // No suicidal shots
+        debugmsg( "%s tried to commit suicide.", get_name().c_str() );
+        return attack;
+    }
+
     projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
 
