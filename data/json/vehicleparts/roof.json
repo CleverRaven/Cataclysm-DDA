@@ -1,0 +1,41 @@
+[
+  {
+    "id": "roof_wood",
+    "type": "vehicle_part",
+    "name": "wooden roof",
+    "item": "frame_wood",
+    "color": "brown",
+    "durability": 130,
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
+    "extend": { "flags": [ "FOLDABLE", "NAILABLE" ] }
+  },
+  {
+    "id": "roof_cloth",
+    "type": "vehicle_part",
+    "name": "cloth roof",
+    "item": "sheet",
+    "durability": 15,
+    "folded_volume": 15,
+    "breaks_into": [ {"item": "rag", "count": [ 3, 6 ] } ],
+    "extend": { "flags": [ "FOLDABLE", "NAILABLE" ] }
+  },
+  {
+    "id": "roof",
+    "type": "vehicle_part",
+    "name": "roof",
+    "item": "sheet_metal",
+    "durability": 240,
+    "breaks_into": "ig_vp_sheet_metal",
+    "flags": [ "ROOF" ]
+  },
+  {
+    "id": "hdroof",
+    "type": "vehicle_part",
+    "copy-from": "roof",
+    "name": "heavy duty roof",
+    "item": "steel_plate",
+    "color": "dark_gray",
+    "durability": 1000,
+    "breaks_into": "ig_vp_steel_plate"
+  }
+]

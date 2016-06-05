@@ -1192,49 +1192,6 @@
         "flags" : ["OBSTACLE", "OPAQUE", "CARGO", "COVERED"]
     },{
         "type" : "vehicle_part",
-        "id" : "roof_cloth",
-        "name" : "cloth roof",
-        "symbol" : "#",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 15,
-        "folded_volume": 15,
-        "item" : "sheet",
-        "difficulty" : 1,
-        "location" : "roof",
-        "flags" : ["ROOF", "FOLDABLE", "NAILABLE"],
-        "breaks_into" : "ig_vp_cloth"
-    },{
-        "type" : "vehicle_part",
-        "id" : "roof",
-        "name" : "roof",
-        "symbol" : "#",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 240,
-        "item" : "sheet_metal",
-        "difficulty" : 1,
-        "location" : "roof",
-        "flags" : ["ROOF"],
-        "breaks_into": "ig_vp_sheet_metal"
-    },{
-        "type" : "vehicle_part",
-        "id" : "hdroof",
-        "name" : "heavy duty roof",
-        "symbol" : "#",
-        "color" : "dark_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 1000,
-        "item" : "steel_plate",
-        "difficulty" : 1,
-        "location" : "roof",
-        "flags" : ["ROOF"],
-        "breaks_into": "ig_vp_steel_plate"
-    },{
-        "type" : "vehicle_part",
         "id" : "door",
         "name" : "door",
         "symbol" : "+",
@@ -4177,23 +4134,6 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "splinter", "count": [7, 9]}
-        ]
-    },
-    {
-        "type" : "vehicle_part",
-        "id" : "roof_wood",
-        "name" : "wooden roof",
-        "symbol" : "#",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 130,
-        "item" : "frame_wood",
-        "difficulty" : 1,
-        "location" : "roof",
-        "flags" : ["ROOF", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [7, 9]}
         ]
