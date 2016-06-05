@@ -519,7 +519,9 @@ end
 
 for class_name, class in pairs(classes) do
     while class do
-        generate_accessors(class.attributes, class_name)
+        if class.attributes then
+            generate_accessors(class.attributes, class_name)
+        end
         class = classes[class.parent]
     end
 end
@@ -567,9 +569,11 @@ function generate_read_members_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const " .. cpp_type .. "::MRMap " .. cpp_type .. "::READ_MEMBERS{" .. br
     while class do
-        for key, attribute in pairs(class.attributes) do
-            local function_name = "get_" .. cpp_ident(class_name) .. "_" .. key
-            cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
+        if class.attributes then
+            for key, attribute in pairs(class.attributes) do
+                local function_name = "get_" .. cpp_ident(class_name) .. "_" .. key
+                cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
+            end
         end
         class = classes[class.parent]
     end
@@ -581,10 +585,12 @@ function generate_write_members_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "template<>" .. br
     cpp_output = cpp_output .. "const " .. cpp_type .. "::MWMap " .. cpp_type .. "::WRITE_MEMBERS{" .. br
     while class do
-        for key, attribute in pairs(class.attributes) do
-            if attribute.writable then
-                local function_name = "set_" .. cpp_ident(class_name) .. "_" .. key
-                cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
+        if class.attributes then
+            for key, attribute in pairs(class.attributes) do
+                if attribute.writable then
+                    local function_name = "set_" .. cpp_ident(class_name) .. "_" .. key
+                    cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. function_name .. "}," .. br
+                end
             end
         end
         class = classes[class.parent]
