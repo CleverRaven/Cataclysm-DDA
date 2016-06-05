@@ -77,8 +77,10 @@
     "//": "Portable tools used by electricians and for electronics repair",
     "items": [
       { "group": "tools_common", "prob": 100 },
-      [ "soldering_iron", 100 ],
-      [ "magnifying_glass", 100 ]
+      [ "magnifying_glass", 100 ],
+      [ "multimeter", 100 ],
+      [ "oscilloscope", 10 ],
+      [ "soldering_iron", 100 ]
     ]
   },
   {
