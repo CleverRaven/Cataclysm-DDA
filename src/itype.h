@@ -568,7 +568,9 @@ public:
     // What we're made of (material names). .size() == made of nothing.
     // MATERIALS WORK IN PROGRESS.
     std::vector<material_id> materials;
-    std::vector<use_function> use_methods; // Special effects of use
+
+    /** Actions an instance can perform (if any) indexed by action type */
+    std::map<std::string, use_function> use_methods;
 
     std::set<std::string> item_tags;
     std::set<matec_id> techniques;

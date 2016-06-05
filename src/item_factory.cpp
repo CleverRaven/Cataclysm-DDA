@@ -171,11 +171,8 @@ void Item_factory::finalize() {
             }
         }
 
-        for( use_function &use_fun : obj.use_methods ) {
-            iuse_actor *actor = use_fun.get_actor_ptr();
-            if( actor != nullptr ) {
-                actor->finalize( obj.id );
-            }
+        for( auto &e : obj.use_methods ) {
+            e.second.get_actor_ptr()->finalize( obj.id );
         }
     }
 }
@@ -1809,7 +1806,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 }
 
 void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member,
-        std::vector<use_function> &use_methods )
+                                              std::map<std::string, use_function> &use_methods )
 {
     if( !jo.has_member( member ) ) {
         return;
@@ -1820,9 +1817,11 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
         JsonArray jarr = jo.get_array( member );
         while( jarr.has_more() ) {
             if( jarr.test_string() ) {
-                use_methods.push_back( use_from_string( jarr.next_string() ) );
+                std::string type = jarr.next_string();
+                use_methods.emplace( type, use_from_string( type ) );
             } else if( jarr.test_object() ) {
-                set_uses_from_object( jarr.next_object(), use_methods );
+                auto obj = jarr.next_object();
+                set_uses_from_object( obj, use_methods );
             } else {
                 jarr.throw_error( "array element is neither string nor object." );
             }
@@ -1830,9 +1829,11 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
         }
     } else {
         if( jo.has_string( member ) ) {
-            use_methods.push_back( use_from_string( jo.get_string( member ) ) );
+            std::string type = jo.get_string( member );
+            use_methods.emplace( type, use_from_string( type ) );
         } else if( jo.has_object( member ) ) {
-            set_uses_from_object( jo.get_object( member ), use_methods );
+            auto obj = jo.get_object( member );
+            set_uses_from_object( obj, use_methods );
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );
         }
@@ -1856,7 +1857,7 @@ use_function load_actor( JsonObject &obj, const std::string &type )
     return use_function( res );
 }
 
-void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function> &use_methods)
+void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, use_function> &methods )
 {
     const std::string type = obj.get_string("type");
     use_function newfun;
@@ -1909,16 +1910,16 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
     } else if( type == "heal" ) {
         newfun = load_actor<heal_actor>( obj );
     } else if( type == "knife" ) {
-        use_methods.push_back( load_actor<salvage_actor>( obj, "salvage" ) );
-        use_methods.push_back( load_actor<inscribe_actor>( obj, "inscribe" ) );
-        use_methods.push_back( load_actor<cauterize_actor>( obj, "cauterize" ) );
-        use_methods.push_back( load_actor<enzlave_actor>( obj, "enzlave" ) );
+        methods.emplace( "salvage", load_actor<salvage_actor>( obj, "salvage" ) );
+        methods.emplace( "inscribe", load_actor<inscribe_actor>( obj, "inscribe" ) );
+        methods.emplace( "cauterize", load_actor<cauterize_actor>( obj, "cauterize" ) );
+        methods.emplace( "enzlave", load_actor<enzlave_actor>( obj, "enzlave" ) );
         return;
     } else {
         obj.throw_error( "unknown use_action", "type" );
     }
 
-    use_methods.push_back( newfun );
+    methods.emplace( type, newfun );
 }
 
 use_function Item_factory::use_from_string(std::string function_name)

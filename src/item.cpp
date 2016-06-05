@@ -1420,7 +1420,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         for( const auto &method : type->use_methods ) {
             insert_separation_line();
-            method.dump_info( *this, info );
+            method.second.dump_info( *this, info );
         }
 
         insert_separation_line();
@@ -1757,7 +1757,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         for( auto &u : type->use_methods ) {
-            const auto tt = dynamic_cast<const delayed_transform_iuse *>( u.get_actor_ptr() );
+            const auto tt = dynamic_cast<const delayed_transform_iuse *>( u.second.get_actor_ptr() );
             if( tt == nullptr ) {
                 continue;
             }

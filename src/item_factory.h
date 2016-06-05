@@ -314,9 +314,9 @@ class Item_factory
 
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, std::string member,
-                                        std::vector<use_function> &use_methods );
+                                        std::map<std::string, use_function> &use_methods );
         use_function use_from_string( std::string name );
-        void set_uses_from_object( JsonObject obj, std::vector<use_function> &use_methods );
+        void set_uses_from_object( JsonObject &obj, std::map<std::string, use_function> &methods );
 
         void add_entry( Item_group *sg, JsonObject &obj );
         void load_item_group_entries( Item_group &ig, JsonArray &entries );
