@@ -1,15 +1,5 @@
 --dofile("./class_definitions.lua")
 
-outdated_metatable = {
-    __index = function(userdata, key)
-        error("Attempt to access outdated gamedata.")
-    end,
-
-    __newindex = function(table, key, value)
-        error("Attempt to access outdated gamedata.")
-    end
-}
-
 -- table containing our mods
 mods = { }
 
