@@ -791,6 +791,8 @@ public:
     iuse_actor *clone() const override {
         return new lua_iuse_wrapper( *this );
     }
+
+    void load( JsonObject & ) {}
 };
 
 // iuse abstraction to make iuse's both in lua and C++ possible
