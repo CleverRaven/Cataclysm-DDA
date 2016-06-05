@@ -43,9 +43,6 @@ static const std::string category_id_mutagen("mutagen");
 static const std::string category_id_veh_parts("veh_parts");
 static const std::string category_id_other("other");
 
-static quality_id quality_cut( "CUT" );
-static quality_id quality_saw_metal( "SAW_M" );
-
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
@@ -99,21 +96,12 @@ void Item_factory::finalize() {
 
         // add usage methods (with default values) based upon qualities
         // if a method was already set the specific values remain unchanged
-
-        // [ "CUT", 1 ]
-        auto cut = obj.qualities.find( quality_cut );
-        if( cut != obj.qualities.end() && cut->second >= 1 ) {
-            obj.use_methods.emplace( "salvage", new salvage_actor() );
-            obj.use_methods.emplace( "inscribe", new inscribe_actor() );
-            obj.use_methods.emplace( "cauterize", new cauterize_actor() );
-            obj.use_methods.emplace( "enzlave", new enzlave_actor() );
-        }
-
-        // [ "SAW_M", 2 ]
-        auto saw_m = obj.qualities.find( quality_saw_metal );
-        if( saw_m != obj.qualities.end() && saw_m->second >= 2 ) {
-            obj.use_methods.emplace( "HACKSAW", use_from_string( "HACKSAW" ) );
-            obj.use_methods.emplace( "SAW_BARREL", use_from_string( "SAW_BARREL" ) );
+        for( const auto &q : obj.qualities ) {
+            for( const auto &u : q.first.obj().usages ) {
+                if( q.second >= u.first ) {
+                    obj.use_methods.emplace( u.second, use_from_string( u.second ) );
+                }
+            }
         }
 
         if( obj.engine && g->has_option( "no_faults" ) ) {
@@ -311,13 +299,20 @@ class iuse_function_wrapper : public iuse_actor
         iuse_actor *clone() const override {
             return new iuse_function_wrapper( *this );
         }
+
+        void load( JsonObject & ) {}
 };
 
 use_function::use_function( const std::string &type, const use_function_pointer f )
     : use_function( new iuse_function_wrapper( type, f ) ) {}
 
+
 void Item_factory::add_iuse( const std::string &type, const use_function_pointer f ) {
     iuse_function_list[ type ] = use_function( type, f );
+}
+
+void Item_factory::add_actor( iuse_actor *ptr ) {
+    iuse_function_list[ ptr->type ] = use_function( ptr );
 }
 
 void Item_factory::init()
@@ -484,6 +479,30 @@ void Item_factory::init()
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
     add_iuse( "XANAX", &iuse::xanax );
+
+    add_actor( new ammobelt_actor() );
+    add_actor( new bandolier_actor() );
+    add_actor( new cauterize_actor() );
+    add_actor( new consume_drug_iuse() );
+    add_actor( new delayed_transform_iuse() );
+    add_actor( new enzlave_actor() );
+    add_actor( new explosion_iuse() );
+    add_actor( new extended_firestarter_actor() );
+    add_actor( new firestarter_actor() );
+    add_actor( new fireweapon_off_actor() );
+    add_actor( new fireweapon_on_actor() );
+    add_actor( new heal_actor() );
+    add_actor( new holster_actor() );
+    add_actor( new inscribe_actor() );
+    add_actor( new iuse_transform() );
+    add_actor( new manualnoise_actor() );
+    add_actor( new musical_instrument_actor() );
+    add_actor( new pick_lock_actor() );
+    add_actor( new place_monster_iuse() );
+    add_actor( new reveal_map_actor() );
+    add_actor( new salvage_actor() );
+    add_actor( new unfold_vehicle_iuse() );
+    add_actor( new ups_based_armor_actor() );
 
     create_inital_categories();
 
@@ -1863,93 +1882,35 @@ void Item_factory::set_use_methods_from_json( JsonObject &jo, std::string member
     }
 }
 
-template <typename T>
-use_function load_actor( JsonObject &obj )
-{
-    T *res = new T();
-    res->load( obj );
-    return use_function( res );
-}
-
-template <typename T>
-use_function load_actor( JsonObject &obj, const std::string &type )
-{
-    T *res = new T( type );
-    res->load( obj );
-    return use_function( res );
-}
-
 void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, use_function> &methods )
 {
-    const std::string type = obj.get_string("type");
-    use_function newfun;
-    if (type == "transform") {
-        newfun = load_actor<iuse_transform>( obj );
-    } else if (type == "delayed_transform") {
-        newfun = load_actor<delayed_transform_iuse>( obj );
-    } else if (type == "explosion") {
-        newfun = load_actor<explosion_iuse>( obj );
-    } else if (type == "unfold_vehicle") {
-        newfun = load_actor<unfold_vehicle_iuse>( obj );
-    } else if (type == "picklock") {
-        newfun = load_actor<pick_lock_actor>( obj );
-    } else if (type == "consume_drug") {
-        newfun = load_actor<consume_drug_iuse>( obj );
-    } else if( type == "place_monster" ) {
-        newfun = load_actor<place_monster_iuse>( obj );
-    } else if( type == "ups_based_armor" ) {
-        newfun = load_actor<ups_based_armor_actor>( obj );
-    } else if( type == "reveal_map" ) {
-        newfun = load_actor<reveal_map_actor>( obj );
-    } else if( type == "firestarter" ) {
-        newfun = load_actor<firestarter_actor>( obj );
-    } else if( type == "extended_firestarter" ) {
-        newfun = load_actor<extended_firestarter_actor>( obj );
-    } else if( type == "salvage" ) {
-        newfun = load_actor<salvage_actor>( obj );
-    } else if( type == "inscribe" ) {
-        newfun = load_actor<inscribe_actor>( obj );
-    } else if( type == "cauterize" ) {
-        newfun = load_actor<cauterize_actor>( obj );
-    } else if( type == "enzlave" ) {
-        newfun = load_actor<enzlave_actor>( obj );
-    } else if( type == "fireweapon_off" ) {
-        newfun = load_actor<fireweapon_off_actor>( obj );
-    } else if( type == "fireweapon_on" ) {
-        newfun = load_actor<fireweapon_on_actor>( obj );
-    } else if( type == "manualnoise" ) {
-        newfun = load_actor<manualnoise_actor>( obj );
-    } else if( type == "musical_instrument" ) {
-        newfun = load_actor<musical_instrument_actor>( obj );
-    } else if( type == "holster" ) {
-        newfun = load_actor<holster_actor>( obj );
-    } else if( type == "bandolier" ) {
-        newfun = load_actor<bandolier_actor>( obj );
-    } else if( type == "ammobelt" ) {
-        newfun = load_actor<ammobelt_actor>( obj );
-    } else if( type == "repair_item" ) {
-        newfun = load_actor<repair_item_actor>( obj, obj.get_string( "item_action_type" ) );
-    } else if( type == "heal" ) {
-        newfun = load_actor<heal_actor>( obj );
+    auto type = obj.get_string( "type" );
+
+    use_function method;
+    if( type == "repair_item" ) {
+        method = use_function( new repair_item_actor( obj.get_string( "item_action_type" ) ) );
     } else {
+        method = use_from_string( type );
+    }
+
+    if( !method.get_actor_ptr() ) {
         obj.throw_error( "unknown use_action", "type" );
     }
 
-    methods.emplace( type, newfun );
+    method.get_actor_ptr()->load( obj );
+    methods.emplace( type, method );
 }
 
-use_function Item_factory::use_from_string(std::string function_name)
+use_function Item_factory::use_from_string( const std::string &type )
 {
-    std::map<Item_tag, use_function>::iterator found_function = iuse_function_list.find(function_name);
-
-    //Before returning, make sure sure the function actually exists
-    if (found_function != iuse_function_list.end()) {
-        return found_function->second;
-    } else {
-        //Otherwise, return a hardcoded function we know exists (hopefully)
-        debugmsg("Received unrecognized iuse function %s, using iuse::none instead", function_name.c_str());
-        return use_function();
+    auto func = iuse_function_list.find( type );
+    if( func != iuse_function_list.end() ) {
+        return func->second;
     }
+
+    // Otherwise, return a hardcoded function we know exists (hopefully)
+    debugmsg( "Received unrecognized iuse function %s, using iuse::none instead", type.c_str() );
+    return use_function();
 }
 
 void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std::string &new_flag,

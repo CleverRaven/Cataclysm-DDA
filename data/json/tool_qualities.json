@@ -2,7 +2,10 @@
     {
         "type" : "tool_quality",
         "id" : "CUT",
-        "name" : "cutting"
+        "name" : "cutting",
+        "usages": [
+            [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ]
+        ]
     },{
         "type" : "tool_quality",
         "id" : "GLARE",
@@ -30,7 +33,10 @@
     },{
         "type" : "tool_quality",
         "id" : "SAW_M",
-        "name" : "metal sawing"
+        "name" : "metal sawing",
+        "usages": [
+            [ 2, [ "HACKSAW", "SAW_BARREL" ] ]
+        ]
     },{
         "type" : "tool_quality",
         "id" : "SAW_M_FINE",

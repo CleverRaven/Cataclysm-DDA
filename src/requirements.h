@@ -30,6 +30,8 @@ struct quality {
     // Translated name
     std::string name;
 
+    std::vector<std::pair<int, std::string>> usages;
+
     void load( JsonObject &jo );
 
     static void reset();

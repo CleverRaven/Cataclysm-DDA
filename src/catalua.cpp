@@ -1179,11 +1179,6 @@ void game::init_lua()
 
 #endif // #ifdef LUA
 
-use_function::use_function( iuse_actor * const f )
-: actor( f )
-{
-}
-
 use_function::use_function( const use_function &other )
 : actor( other.actor ? other.actor->clone() : nullptr )
 {

@@ -229,6 +229,7 @@ public:
      */
     const std::string type;
     virtual ~iuse_actor() { }
+    virtual void load( JsonObject &jo ) = 0;
     virtual long use( player*, item*, bool, const tripoint& ) const = 0;
     virtual bool can_use( const player*, const item*, bool, const tripoint& ) const { return true; }
     virtual void info( const item &, std::vector<iteminfo> & ) const {};
@@ -262,7 +263,7 @@ protected:
 public:
     use_function() = default;
     use_function( const std::string &type, use_function_pointer f );
-    use_function( iuse_actor *f );
+    use_function( iuse_actor *f ) : actor( f ) {}
     use_function( use_function && ) = default;
     use_function( const use_function &other );
 
