@@ -177,9 +177,6 @@ bool player::activate_bionic( int b, bool eff_only )
             add_msg( m_info, _( "You change your mind and turn it off." ) );
             return false;
         }
-    } else if( bio.id == "bio_nanobots" ) {
-        remove_effect( effect_bleed );
-        healall( 4 );
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
         sounds::sound( pos(), 30, _( "VRRRRMP!" ) );
@@ -723,6 +720,22 @@ void player::process_bionic( int b )
     } else if (bio.id == "bio_hydraulics") {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         sounds::sound( pos(), 19, _("HISISSS!"));
+    } else if( bio.id == "bio_nanobots" ) {
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            if( power_level >= 5 && hp_cur[i] < hp_max[i] ) {
+                heal((hp_part)i, 1);
+                charge_power(-10);
+            }
+        }
+        for( int i = 0; i < num_bp; i++ ) {
+            if( power_level >= 2 && has_effect(effect_bleed, (body_part)i)) {
+                remove_effect(effect_bleed);
+                charge_power(-2);
+            }
+        }
+        if( calendar::once_every( 5 ) ) {
+            add_msg( m_neutral, _( "You feel a slight buzzing in your extremities." ) );
+        }
     }
 }
 

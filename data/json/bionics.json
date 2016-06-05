@@ -595,7 +595,10 @@
         "occupied_bodyparts": [
             [ "TORSO", 10 ]
         ],
-        "act_cost": 125,
+        "toggled": true,
+        "act_cost": 1,
+        "react_cost": 1,
+        "time": 1,
         "description": "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing damage and stopping bleeding."
     },{
         "type": "bionic",
