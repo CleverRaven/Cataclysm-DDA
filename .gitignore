@@ -111,3 +111,4 @@ cataclysm.a
 # Visual Studio 2015
 msvc140/*db
 msvc140/ipch
+lnk*.tmp
