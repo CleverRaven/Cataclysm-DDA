@@ -2496,6 +2496,32 @@ Before we get into a major fight just make sure we have the gear we need, boss."
         }
         break;
 
+    case MISSION_FIND_ZSG:
+        if( state == "TALK_MISSION_DESCRIBE" ) {
+            return _("I've can an idea about how to improve our chances of surviving");
+        } else if( state == "TALK_MISSION_OFFER" ) {
+            return _("I remember seeing a book called the Zombie Survival Guide. It was full of ideas about "
+                     "how to survive in a zombie apocalypse. Well, we're in one now, so a copy of that book "
+                     "might be really helpful.");
+        } else if( state == "TALK_MISSION_ACCEPTED" ) {
+            return _("Thank you for your assistance.");
+        } else if( state == "TALK_MISSION_REJECTED" ) {
+            return _("Well, I really think that book would help.");
+        } else if( state == "TALK_MISSION_ADVICE" ) {
+            return _("Libraries or bookstores would be the best place to start. Schools have extensive "
+                     "libraries, too. You could also try grocery stores or people's houses - a copy "
+                     "could be anywhere.");
+        } else if( state == "TALK_MISSION_INQUIRE" ) {
+            return _("Do you have the Zombie Survival Guide?");
+        } else if( state == "TALK_MISSION_SUCCESS" ) {
+            return _("Thank you for the book! This will help so much.");
+        } else if( state == "TALK_MISSION_SUCCESS_LIE" ) {
+            return _("What good does this do us?");
+        } else if( state == "TALK_MISSION_FAILURE" ) {
+            return _("I guess we'll figure out how to survive on our own.");
+        }
+        break;
+
     case MISSION_REACH_SAFETY:
         // TODO: SOMEONE FILL THIS OUT!!!
         break;

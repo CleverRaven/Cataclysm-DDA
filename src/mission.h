@@ -97,6 +97,7 @@ enum mission_type_id {
     MISSION_RANCH_BARTENDER_4,             //Need Metal Tanks
     MISSION_RANCH_BARTENDER_5,             //Need 55-Gallon Drums
     MISSION_FREE_MERCHANTS_EVAC_3,         //Info from Commune
+    MISSION_FIND_ZSG,
     NUM_MISSION_IDS
 };
 

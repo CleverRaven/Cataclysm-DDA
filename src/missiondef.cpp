@@ -595,10 +595,11 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
   ITEM("commune_prospectus");
   FOLLOWUP(MISSION_FREE_MERCHANTS_EVAC_4);
 
- MISSION(_("Find a Book"), MGOAL_FIND_ANY_ITEM, 2, 800, false,
-         &mission_place::always, &mission_start::place_book,
+ MISSION(_("Find the Zombie Guide "), MGOAL_FIND_ITEM, 2, 800, false,
+         &mission_place::always, &mission_start::standard,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_ANY_NPC);
+  ITEM("ZSG");
 }
 
 const mission_type *mission_type::get( const mission_type_id id )
