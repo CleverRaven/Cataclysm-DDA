@@ -409,7 +409,7 @@ int main(int argc, char *argv[])
 
     std::srand(seed);
 
-    g = new game;
+    g = &game::get_instance();
     // First load and initialize everything that does not
     // depend on the mods.
     try {
@@ -535,7 +535,6 @@ void exit_handler(int s)
             if( g->game_error() ) {
                 exit_status = 1;
             }
-            delete g;
         }
 
         endwin();

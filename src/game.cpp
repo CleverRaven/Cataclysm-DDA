@@ -162,7 +162,8 @@ void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
 
 //The one and only game instance
-game *g;
+game *g; // @todo replace all occurrences with 'game::get_instance()' and delete the global variable
+
 extern worldfactory *world_generator;
 #ifdef TILES
 extern cata_tiles *tilecontext;
@@ -322,6 +323,12 @@ void game::load_core_data()
 
     init_lua();
     load_data_from_dir(FILENAMES["jsondir"]);
+}
+
+game &game::get_instance()
+{
+    static game instance;
+    return instance;
 }
 
 void game::load_data_from_dir(const std::string &path)
@@ -11720,7 +11727,7 @@ void game::pldrive(int x, int y)
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
             cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
- 
+
         if( penalty > skill || cost > 400 ) {
             add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
             // Anything from a wasted attempt to 2 turns in the intended direction

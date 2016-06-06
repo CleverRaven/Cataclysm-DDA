@@ -20,7 +20,7 @@ extern int save_loading_version;
 
 // The reference to the one and only game instance.
 class game;
-extern game *g;
+extern game *g; // @todo replace all occurrences with 'game::get_instance()' and delete the global variable
 
 #ifdef TILES
 extern void try_sdl_update();
@@ -136,12 +136,15 @@ class game
         game();
         ~game();
 
+        /** Returns a single instance of the game class */
+        static game &get_instance();
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
         /** Loads core data and all mods. */
         void check_all_mod_data();
         /** Loads core dynamic data. */
         void load_core_data();
+
     protected:
         /** Loads dynamic data from the given directory. */
         void load_data_from_dir(const std::string &path);
