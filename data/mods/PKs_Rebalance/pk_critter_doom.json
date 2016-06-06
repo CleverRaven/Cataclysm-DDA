@@ -463,7 +463,7 @@
     "vision_day":45,
     "vision_night":5,
     "hp":140,
-    "death_function":["SMOKEBURST", "BROKEN"],
+    "death_function":["SMOKEBURST", "MELT"],
     "special_attacks":[
     {
             "type" : "gun",
