@@ -65,6 +65,7 @@ DynamicDataLoader::DynamicDataLoader()
 
 DynamicDataLoader::~DynamicDataLoader()
 {
+    unload_data();
     reset();
 }
 
@@ -348,7 +349,6 @@ void DynamicDataLoader::unload_data()
     SNIPPET.clear_snippets();
     vehicle_prototype::reset();
     vpart_info::reset();
-    MonsterGenerator::generator().reset();
     reset_recipe_categories();
     reset_recipes();
     quality::reset();
