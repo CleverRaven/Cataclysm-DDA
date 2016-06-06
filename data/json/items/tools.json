@@ -5843,7 +5843,7 @@
     "description": "This is a sealed glass jar containing sauerkraut.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 550,
+    "weight": 1750,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
