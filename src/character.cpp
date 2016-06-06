@@ -2001,3 +2001,36 @@ bool Character::pour_into( vehicle &veh, item &liquid )
     }
     return true;
 }
+
+long Character::ammo_count_for( const item &gun )
+{
+    // INT_MAX instead of LONG_MAX because some code may not expect > INT_MAX
+    long ret = INT_MAX;
+    if( !gun.is_gun() ) {
+        return ret;
+    }
+
+    long required = gun.ammo_required();
+
+    if( required > 0 ) {
+        long remaining = 0;
+        if( gun.magazine_integral() ) {
+            remaining += gun.ammo_remaining();
+        }
+
+        const auto ammo = find_ammo( gun, true, -1 );
+        long charge_sum = 0;
+        for( const auto &amm : ammo ) {
+            charge_sum += amm->charges;
+        }
+
+        ret = std::min<long>( ret, remaining + charge_sum / required );
+    }
+
+    long ups_drain = gun.get_gun_ups_drain();
+    if( ups_drain > 0 ) {
+        ret = std::min<long>( ret, charges_of( "UPS" ) / ups_drain );
+    }
+
+    return ret;
+}

@@ -2520,7 +2520,7 @@ double player::weapon_value( const item &weap, long ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + (less / 2.0);
-    add_msg( m_debug, "%s sum value: %.1f", weap.tname().c_str(), my_val );
+    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.tname().c_str(), ammo, my_val );
     return my_val;
 }
 

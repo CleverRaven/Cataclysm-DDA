@@ -4463,40 +4463,6 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     return CONSUMED_ALL;
 }
 
-long ammo_count_for( Character &p, const item &gun )
-{
-    long ret = 1000;
-    if( !gun.is_gun() ) {
-        return ret;
-    }
-
-    long required = gun.ammo_required();
-
-    if( required > 0 ) {
-        long remaining = 0;
-        if( gun.magazine_integral() ) {
-            remaining += gun.ammo_remaining();
-        }
-
-        const auto ammo = p.find_ammo( gun, true, -1 );
-        long charge_sum = 0;
-        for( const auto &amm : ammo ) {
-            charge_sum += amm->charges;
-        }
-
-        ret = std::min<long>( ret, remaining + charge_sum / required );
-    }
-
-    long ups_drain = gun.get_gun_ups_drain();
-    if( ups_drain > 0 ) {
-        ret = std::min<long>( ret, p.charges_of( "UPS" ) / ups_drain );
-    }
-
-    add_msg( "%ld charges for %s, req %d, ups %d", ret, gun.tname().c_str(), required, ups_drain );
-
-    return ret;
-}
-
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 {
     const int inv_pos = g->inv_for_all( _( "Offer what?" ), _( "You have no items to offer." ) );
@@ -4528,8 +4494,8 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     bool taken = false;
-    long our_ammo = ammo_count_for( p, p.weapon );
-    long new_ammo = ammo_count_for( p, given );
+    long our_ammo = p.ammo_count_for( p.weapon );
+    long new_ammo = p.ammo_count_for( given );
     const double new_weapon_value = p.weapon_value( given, new_ammo );
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     if( allow_use ) {
