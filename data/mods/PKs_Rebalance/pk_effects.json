@@ -1,0 +1,78 @@
+[
+  {
+    "type": "effect_type",
+    "id": "doom_unhealth",
+    "int_add_val": 1,
+    "max_intensity": 3,
+        "base_mods": {
+            "h_mod_min": [-1]
+        },
+    "scaling_mods": {
+            "h_mod_min": [-1]
+        }
+    },{
+    "type": "effect_type",
+    "id": "spider_web_slow",
+    "name": [
+        "web spider poison"
+    ],
+    "int_add_val": 1,
+    "max_intensity": 10,
+    "resist_trait": ["POISRESIST", "EATPOISON"],
+        "base_mods": {
+            "speed_mod": [-6, -5.5],
+            "pain_amount": [3, 1]
+        },
+    "scaling_mods": {
+            "speed_mod": [-1, -0.5],
+            "pain_amount": [3, 1]
+        }
+    },{
+    "type": "effect_type",
+    "id": "spider_web_alpha",
+    "int_add_val": 1,
+    "max_intensity": 5,
+    "resist_trait": ["POISRESIST", "EATPOISON"],
+        "base_mods": {
+            "speed_mod": [-3, -1],
+            "dex_mod": [-1]
+        },
+    "scaling_mods": {
+            "speed_mod": [-3, -1],
+            "dex_mod": [-0.5, -0.25],
+            "str_mod": [-0.75, -0.5]
+        }
+    },{
+    "type": "effect_type",
+    "id": "spider_web_omega",
+    "int_add_val": 1,
+    "max_intensity": 5,
+    "int_decay_step": -1,
+    "int_decay_tick": 200,
+    "resist_trait": ["POISRESIST", "EATPOISON"],
+        "base_mods": {
+            "speed_mod": [-2, 0],
+            "dex_mod": [-1],
+            "sleep_chance": [100, 150],
+            "sleep_min": [100, 50],
+            "sleep_max": [300, 100]
+        },
+    "scaling_mods": {
+            "speed_mod": [-2, 0],
+            "dex_mod": [-0.75, -0.5],
+            "str_mod": [-0.25, 0],
+            "sleep_chance": [-15],
+            "sleep_min": [50, 25],
+            "sleep_max": [100, 50]
+        }
+    },{
+    "type": "effect_type",
+    "id": "spider_web_mu",
+    "resist_trait": ["POISRESIST", "EATPOISON"],
+        "base_mods": {
+            "speed_mod": [-10],
+            "hurt_min": [3, 2],
+            "hurt_chance": [20, 50]
+        }
+    }
+]
