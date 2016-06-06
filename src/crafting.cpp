@@ -296,7 +296,6 @@ void player::recraft()
 {
     if( lastrecipe.empty() ) {
         popup( _( "Craft something first" ) );
-        g->refresh_all();
     } else if( making_would_work( lastrecipe, last_batch ) ) {
         last_craft.execute();
     }

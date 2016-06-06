@@ -2703,7 +2703,6 @@ bool game::handle_action()
                 examine( mouse_target );
             } else {
                 examine();
-                refresh_all();
             }
             break;
 
@@ -2810,7 +2809,6 @@ bool game::handle_action()
 
         case ACTION_PICK_STYLE:
             u.pick_style();
-            refresh_all();
             break;
 
         case ACTION_RELOAD:
@@ -2926,7 +2924,6 @@ bool game::handle_action()
 
         case ACTION_WAIT:
             wait();
-            refresh_all();
             break;
 
         case ACTION_CRAFT:
@@ -2934,7 +2931,6 @@ bool game::handle_action()
                 add_msg(m_info, _("You can't craft while you're in your shell."));
             } else {
                 u.craft();
-                refresh_all();
             }
             break;
 
@@ -3068,8 +3064,6 @@ bool game::handle_action()
                     u.moves = 0;
                     u.try_to_sleep();
                 }
-
-                refresh_all();
             }
             break;
 
@@ -3161,9 +3155,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MAP:
-            #ifdef TILES
-            invalidate_all_framebuffers();
-            #endif // TILES
+            werase( w_terrain );
             draw_overmap();
             break;
 
@@ -3243,7 +3235,6 @@ bool game::handle_action()
 
         case ACTION_ITEMACTION:
             item_action_menu();
-            refresh_all();
             break;
         default:
             break;
@@ -5493,10 +5484,6 @@ void game::refresh_all()
         m.reset_vehicle_cache( z );
     }
 
-    #ifdef TILES
-    invalidate_all_framebuffers();
-    clear_window_area( w_terrain );
-    #endif // TILES
     draw();
     refresh();
 }
@@ -7217,7 +7204,6 @@ void game::open()
 {
     tripoint openp;
     if (!choose_adjacent_highlight(_("Open where?"), openp, ACTION_OPEN)) {
-        refresh_all();
         return;
     }
 
@@ -7286,7 +7272,6 @@ void game::close()
     if( choose_adjacent_highlight( _("Close where?"), closep, ACTION_CLOSE ) ) {
         close( closep );
     }
-    refresh_all();
 }
 
 void game::close( const tripoint &closep )
@@ -7406,7 +7391,6 @@ void game::smash()
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     if( !choose_adjacent(_("Smash where?"), smashp, allow_floor_bash ) ) {
-        refresh_all();
         return;
     }
 
@@ -7827,7 +7811,6 @@ void game::control_vehicle()
     } else {
         tripoint examp;
         if (!choose_adjacent(_("Control vehicle where?"), examp)) {
-            refresh_all();
             return;
         }
         veh = m.veh_at(examp, veh_part);
@@ -8173,7 +8156,6 @@ void game::examine()
 
     tripoint examp = u.pos();
     if( !choose_adjacent_highlight( _("Examine where?"), examp, ACTION_EXAMINE ) ) {
-        refresh_all();
         return;
     }
     examine( examp );
@@ -10271,7 +10253,6 @@ void game::grab()
     } else {
         add_msg(_("Never mind."));
     }
-    refresh_all();
 }
 
 std::vector<vehicle*> nearby_vehicles_for( const itype_id &ft )
@@ -10532,7 +10513,6 @@ void game::drop_in_direction()
 {
     tripoint dirp;
     if (!choose_adjacent(_("Drop where?"), dirp)) {
-        refresh_all();
         return;
     }
 
@@ -11739,7 +11719,7 @@ void game::pldrive(int x, int y)
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
             cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
- 
+
         if( penalty > skill || cost > 400 ) {
             add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
             // Anything from a wasted attempt to 2 turns in the intended direction

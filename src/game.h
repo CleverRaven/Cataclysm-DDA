@@ -24,8 +24,6 @@ extern game *g;
 
 #ifdef TILES
 extern void try_sdl_update();
-extern void invalidate_all_framebuffers();
-extern void clear_window_area( WINDOW* win );
 #endif // TILES
 
 extern bool trigdist;

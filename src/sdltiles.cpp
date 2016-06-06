@@ -778,6 +778,13 @@ void reinitialize_framebuffer()
 
 void invalidate_framebuffer_proportion( WINDOW* win )
 {
+    const int oversized_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH ) );
+    const int oversized_height = std::max( TERMY, std::max( OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT ) );
+
+    // check if the framebuffers/windows have been prepared yet
+    if ( oversized_height == 0 || oversized_width == 0 ) {
+        return;
+    }
     if ( !g || win == nullptr ) {
         return;
     }
@@ -786,28 +793,28 @@ void invalidate_framebuffer_proportion( WINDOW* win )
     }
 
     // track the dimensions for conversion
-    int termpixel_x = win->x * font->fontwidth;
-    int termpixel_y = win->y * font->fontheight;
-    int termpixel_x2 = termpixel_x + win->width * font->fontwidth - 1;
-    int termpixel_y2 = termpixel_y + win->height * font->fontheight - 1;
+    const int termpixel_x = win->x * font->fontwidth;
+    const int termpixel_y = win->y * font->fontheight;
+    const int termpixel_x2 = termpixel_x + win->width * font->fontwidth - 1;
+    const int termpixel_y2 = termpixel_y + win->height * font->fontheight - 1;
 
-    if ( map_font != nullptr) {
-        int mapfont_x = termpixel_x / map_font->fontwidth;
-        int mapfont_y = termpixel_y / map_font->fontheight;
-        int mapfont_x2 = termpixel_x2 / map_font->fontwidth;
-        int mapfont_y2 = termpixel_y2 / map_font->fontheight;
-        int mapfont_width = mapfont_x2 - mapfont_x + 1;
-        int mapfont_height = mapfont_y2 - mapfont_y + 1;
+    if ( map_font != nullptr && map_font->fontwidth != 0 && map_font->fontheight != 0 ) {
+        const int mapfont_x = termpixel_x / map_font->fontwidth;
+        const int mapfont_y = termpixel_y / map_font->fontheight;
+        const int mapfont_x2 = std::min( termpixel_x2 / map_font->fontwidth, oversized_width - 1 );
+        const int mapfont_y2 = std::min( termpixel_y2 / map_font->fontheight, oversized_height - 1 );
+        const int mapfont_width = mapfont_x2 - mapfont_x + 1;
+        const int mapfont_height = mapfont_y2 - mapfont_y + 1;
         invalidate_framebuffer( oversized_framebuffer, mapfont_x, mapfont_y, mapfont_width, mapfont_height );
     }
 
-    if ( overmap_font != nullptr ) {
-        int overmapfont_x = termpixel_x / overmap_font->fontwidth;
-        int overmapfont_y = termpixel_y / overmap_font->fontheight;
-        int overmapfont_x2 = termpixel_x2 / overmap_font->fontwidth;
-        int overmapfont_y2 = termpixel_y2 / overmap_font->fontheight;
-        int overmapfont_width = overmapfont_x2 - overmapfont_x + 1;
-        int overmapfont_height = overmapfont_y2 - overmapfont_y + 1;
+    if ( overmap_font != nullptr && overmap_font->fontwidth != 0 && overmap_font->fontheight != 0 ) {
+        const int overmapfont_x = termpixel_x / overmap_font->fontwidth;
+        const int overmapfont_y = termpixel_y / overmap_font->fontheight;
+        const int overmapfont_x2 = std::min( termpixel_x2 / overmap_font->fontwidth, oversized_width - 1 );
+        const int overmapfont_y2 = std::min( termpixel_y2 / overmap_font->fontheight, oversized_height - 1 );
+        const int overmapfont_width = overmapfont_x2 - overmapfont_x + 1;
+        const int overmapfont_height = overmapfont_y2 - overmapfont_y + 1;
         invalidate_framebuffer( oversized_framebuffer, overmapfont_x, overmapfont_y, overmapfont_width, overmapfont_height );
     }
 }
