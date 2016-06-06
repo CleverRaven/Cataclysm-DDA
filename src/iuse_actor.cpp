@@ -61,6 +61,11 @@ void iuse_transform::load( JsonObject &obj )
     obj.read( "container", container );
     obj.read( "target_charges", ammo_qty );
     obj.read( "target_ammo", ammo_type );
+
+    if( !ammo_type.empty() && !container.empty() ) {
+        obj.throw_error( "Transform actor specified both ammo type and container type", "target_ammo" );
+    }
+
     obj.read( "active", active );
 
     obj.read( "moves", moves );
@@ -120,13 +125,18 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     item *obj;
     if( container.empty() ) {
         obj = &it->convert( target );
+        if( ammo_qty >= 0 ) {
+            if( !ammo_type.empty() ) {
+                obj->ammo_set( ammo_type, ammo_qty );
+            } else if( obj->ammo_current() != "null" ) {
+                obj->ammo_set( obj->ammo_current(), ammo_qty );
+            } else {
+                obj->set_countdown( ammo_qty );
+            }
+        }
     } else {
         it->convert( container );
-        obj = &it->emplace_back( target );
-    }
-
-    if( ammo_qty >= 0 ) {
-        obj->ammo_set( ammo_type.empty() ? obj->ammo_current() : ammo_type, ammo_qty );
+        obj = &it->emplace_back( target, calendar::turn, std::max( ammo_qty, 1l ) );
     }
 
     obj->active = active;
@@ -140,6 +150,24 @@ std::string iuse_transform::get_name() const
         return menu_option_text;
     }
     return iuse_actor::get_name();
+}
+
+void iuse_transform::finalize( const itype_id & )
+{
+    if( !item::type_is_defined( target ) ) {
+        debugmsg( "Invalid transform target: %s", target.c_str() );
+    }
+
+    if( !container.empty() ) {
+        if( !item::type_is_defined( container ) ) {
+            debugmsg( "Invalid transform container: %s", container.c_str() );
+        }
+
+        item dummy( target );
+        if( ammo_qty > 1 && !dummy.count_by_charges() ) {
+            debugmsg( "Transform target with container must be an item with charges, got non-charged: %s", target.c_str() );
+        }
+    }
 }
 
 explosion_iuse::~explosion_iuse()

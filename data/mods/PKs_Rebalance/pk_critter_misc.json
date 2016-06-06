@@ -74,7 +74,7 @@
     "armor_cut":1,
     "hp":170,
     "special_attacks":[["SMASH", 50]],
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "FIRE", "FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"]
     },{
@@ -134,7 +134,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["GRAB", 30], ["VINE", 15]],
     "description":"One of the most durable creatures in the world, the tardigrade has outlived the dinosaurs and humanity both.  This is a plump and now moose-sized eight-legged critter with a creviced shell with in-laid segments.  Along the length of the shell pairs of sensory tentacles can be seen waving around.  Although its clawed digits seem to be for grasping the tentacles, due to their sheer size, lend themselves to flailing in defense.",
-    "flags":["SEES", "SMELLS", "STUMBLES", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "SWIMS", "ANIMAL", "FAT","CHITIN"],
+    "flags":["SEES", "SMELLS", "STUMBLES", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FAT","CHITIN"],
     "anger_triggers":["HURT", "STALK", "FRIEND_DIED"],
     "placate_triggers":["PLAYER_WEAK"],
     "//" : "Due to the way he was designed, one concern was him getting slaughtered for the oodles of meat.  The solution is to make him candig and uncommon."
@@ -174,7 +174,7 @@
             ]
         }, ["GRAB", 30], ["GRAB_DRAG", 10]],
     "description":"In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like its used to humans as anything other than a meal.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
     "placate_triggers":["MEAT"],
     "fear_triggers": ["FIRE", "HURT"],

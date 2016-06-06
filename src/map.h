@@ -458,8 +458,12 @@ public:
     void update_vehicle_list( submap * const to, const int zlev );
 
     void destroy_vehicle (vehicle *veh);
-    void vehmove();          // Vehicle movement
-    bool vehproceed(); // Returns true if a vehicle moved, false otherwise
+    // Vehicle movement
+    void vehmove();
+    // Selects a vehicle to move, returns false if no moving vehicles
+    bool vehproceed();
+    // Actually moves a vehicle
+    bool vehact( vehicle &veh );
 
 // 3D vehicles
     VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -498,12 +502,12 @@ public:
     // <0.0 when the vehicle should be destroyed (sunk in water)
     // TODO: Add the values between 0.0 and 1.0 for offroading
     // TODO: Remove the ugly sinking vehicle hack
-    float vehicle_traction( vehicle &veh ) const;
+    float vehicle_traction( const vehicle &veh ) const;
 
     // Like traction, except for water
     // TODO: Actually implement (this is a stub)
     // TODO: Test for it when the vehicle sinks rather than when it has VP_FLOATS
-    float vehicle_buoyancy( vehicle &veh ) const;
+    float vehicle_buoyancy( const vehicle &veh ) const;
 
     // Returns if the vehicle should fall down a z-level
     bool vehicle_falling( vehicle &veh );
