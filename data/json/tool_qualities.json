@@ -103,5 +103,9 @@
         "type" : "tool_quality",
         "id" : "JACK",
         "name" : "jacking"
+    },{
+        "type" : "tool_quality",
+        "id" : "CHISEL",
+        "name" : "chiseling"
     }
 ]

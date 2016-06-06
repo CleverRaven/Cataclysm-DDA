@@ -3405,13 +3405,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4179,10 +4177,10 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
     [ ["tongs", -1]  ],
-    [ ["chisel", -1] ],
     [ ["swage", -1]  ],
     [ ["anvil", -1]  ],
     [ ["forge", 50], [ "oxy_torch", 10] ]
