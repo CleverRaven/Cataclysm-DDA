@@ -322,8 +322,6 @@ class game
          */
         bool plfire( const tripoint &default_target = tripoint_min );
 
-        /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
-        void cycle_item_mode( bool force_gun );
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),

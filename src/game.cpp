@@ -2895,7 +2895,9 @@ bool game::handle_action()
         }
 
         case ACTION_SELECT_FIRE_MODE:
-            cycle_item_mode( false );
+            if( u.is_armed() ) {
+                u.weapon.gun_cycle_mode();
+            }
             break;
 
         case ACTION_DROP:
@@ -10948,27 +10950,6 @@ bool game::plfire( const tripoint &default_target )
 
     reenter_fullscreen();
     return res;
-}
-
-void game::cycle_item_mode( bool force_gun )
-{
-    if( u.is_armed() ) {
-        u.weapon.gun_cycle_mode();
-
-    } else if( !force_gun ) {
-        int part = -1;
-        vehicle *veh = m.veh_at( u.pos(), part );
-        if( veh == nullptr ) {
-            return;
-        }
-
-        part = veh->part_with_feature( part, "TURRET" );
-        if( part < 0 ) {
-            return;
-        }
-
-        veh->cycle_turret_mode( part, true );
-    }
 }
 
 // Helper for game::butcher

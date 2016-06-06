@@ -3570,20 +3570,6 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_ltred : c_red ) );
 
-        bool has_turrets = false;
-        for( unsigned int p = 0; p < veh->parts.size(); p++ ) {
-            if( veh->part_flag( p, "TURRET" ) ) {
-                has_turrets = true;
-                break;
-            }
-        }
-
-        if( has_turrets ) {
-            mvwprintz( w, 3, sideStyle ? 16 : 25, col_indf1, _( "Gun:" ) );
-            wprintz( w, veh->turret_mode ? c_ltred : c_ltblue,
-                     veh->turret_mode ? _( "auto" ) : _( "off " ) );
-        }
-
         //
         // Draw the speedometer.
         //
