@@ -118,8 +118,8 @@
     "armor_acid":2,
     "hp":230,
     "special_attacks":[["SMASH", 50]],
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT", "POISON"],
     "burn_into" : "mon_horse_zombie_scorched",
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT", "POISON", "NO_BREATHE", "REVIVES"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "FIRE", "FRIEND_ATTACKED"]
     },{
     "type" : "MONSTER",
@@ -208,7 +208,7 @@
         }],
     "death_function":["SMOKEBURST", "NORMAL"],
     "description":"A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
-    "flags":["SEES", "HEARS", "ANIMAL", "BASHES", "ATTACKMON", "BONES", "FIREPROOF", "NO_BREATHE", "POISON", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO"],
+    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "ANIMAL", "BASHES", "ATTACKMON", "BONES", "FIREPROOF", "NO_BREATHE", "POISON", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO"],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -525,7 +525,7 @@
     "death_function":"NORMAL",
     "burn_into" : "mon_horse_zombie_scorched",
     "description":"This horse has a brackish liquid coating its bared teeth, as well as the occasional oozing wounds breaking the otherwise glorious sheen of its hair.  Its hooves are fearsome weapons.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "FAT", "NO_BREATHE", "POISON", "REVIVES", "PUSH_MON", "STUMBLES", "BASHES"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BONES", "FAT", "NO_BREATHE", "POISON", "REVIVES", "PUSH_MON", "STUMBLES", "BASHES"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers": ["FIRE"]
     },{
@@ -915,7 +915,7 @@
         }
     ],
     "description":"Its face disfigured and scabbed over, this foul child-sized corpse has been forged through constant combat, imbibing it with remarkable agility, speed, and savage brutality.  It bears scars that indicate that this isn't the first (or second) time it has died.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
     },{
     "type" : "MONSTER",
@@ -948,7 +948,7 @@
     "burn_into" : "mon_zombie_scorched_necro",
     "special_attacks":[["UPGRADE", 30], ["RESURRECT", 30], ["FORMBLOB", 180], ["LONGSWIPE", 15]],
     "description":"Standing with erect back and mocking smile, this graceful zombie appears to actually direct nearby zombies with glares and the twitching of its jagged claws.  Its skin is a revolting shade of pink, and every once in a while it stops what it is doing to excrete a few gooey, animate blobs.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
     "fear_triggers":["HURT"]
     },{
@@ -983,7 +983,7 @@
             "cooldown" : 5
         }, ["GRAB", 4]],
     "description":"The permanent shadow around this gaunt figure makes it hard to make out.  What you can see appears translucent and shimmering.  It is disoriented in light, and actively avoids fire.",
-    "flags":["HARDTOSHOOT", "SEES", "HEARS", "SMELLS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY", "SWIMS", "PLASTIC"],
+    "flags":["HARDTOSHOOT", "SEES", "HEARS", "PATH_AVOID_DANGER_1", "SMELLS", "STUMBLES", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY", "SWIMS", "PLASTIC"],
     "categories":["CLASSIC"],
     "anger_triggers":["PLAYER_CLOSE", "FRIEND_DIED", "STALK", "HURT"],
     "placate_triggers":["FIRE"]
@@ -1124,7 +1124,7 @@
         },
         ["SHRIEK_ALERT", 50],  ["SHRIEK_STUN", 1]],
     "description":"Through its smoke you can make out a lithe, tightly wound frame.  From time to time it emits a coarse, rumbling howl that sounds like it came from the bowels of the Earth.",
-    "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BASHES", "WARM"]
+    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BASHES", "WARM"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dog_zombie_cop_pk",
@@ -1389,7 +1389,7 @@
     "death_function":["BLOBSPLIT", "BLOBSPLIT"],
     "special_attacks":[["RESURRECT", 90], ["FORMBLOB", 600]],
     "description":"An encrusted humanoid mass so blackened by fire only the simmering of the liquid oozing from its wounds indicate damage.  Still seems capable of supporting its horde despite it weakened state.",
-    "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "NIGHT_INVISIBILITY"],
+    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_2", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "NIGHT_INVISIBILITY"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
     "fear_triggers":["HURT"]
     },{
@@ -1421,7 +1421,7 @@
     "death_function":["BLOBSPLIT", "BLOBSPLIT"],
     "special_attacks":[["UPGRADE", 90], ["FORMBLOB", 600]],
     "description":"An encrusted humanoid mass so blackened by fire only the simmering of the liquid oozing from its wounds indicate damage.  Still seems capable of controlling its horde despite it weakened state.",
-    "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "NIGHT_INVISIBILITY"],
+    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_2", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "NIGHT_INVISIBILITY"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
     "fear_triggers":["HURT"]
     },{
@@ -1455,7 +1455,7 @@
     "death_function":["NORMAL"],
     "burn_into" : "mon_skeleton_scorched",
     "description":"A tiny charred body, jumping and kicked and flailing around in a mockery of playground exercise.  It does not need a face for you to feel bad about killing it.",
-    "flags":["SEES", "HEARS", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "GUILT", "CLIMBS"]
+    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "STUMBLES", "POISON", "GRABS", "NO_BREATHE", "REVIVES", "REVIVES_HEALTHY", "NO_NECRO", "BONES", "GUILT", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_horse_zombie_scorched",
@@ -1577,5 +1577,40 @@
     "death_function": ["MELT", "BLOBSPLIT"],
     "description":"An appaling black mass of flowing crusted flesh, flailing helplessly about.",
     "flags":["HEARS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "BONES", "SWIMS", "NIGHT_INVISIBILITY"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_bear_mega",
+    "name": "zombie megabear",
+    "species":"MAMMAL",
+    "default_faction":"zombie",
+    "symbol":"B",
+    "color":"i_brown",
+    "size":"HUGE",
+    "material":"flesh",
+    "diff":30,
+    "aggression":100,
+    "morale":100,
+    "speed":110,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":18,
+    "melee_cut":12,
+    "melee_damage" : [{"damage_type" : "bash", "amount" : 4}],
+    "dodge":2,
+    "armor_bash":16,
+    "armor_cut":8,
+    "vision_day":25,
+    "vision_night":10,
+    "hp":380,
+    "death_function":"NORMAL",
+    "special_attacks":[["FLESH_GOLEM", 40], ["SMASH", 40],
+        {
+            "type" : "bite",
+            "cooldown" : 40,
+            "accuracy" : 6,
+            "armor_multiplier" : 0.5
+        }],
+    "description":"Although the elephant bears seem much more capable of avoiding death at the hands of zombies, a few do fall.  Several humanoid zombies can fit into its mere shadow.",
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "ATTACKMON", "BONES", "FAT", "LEATHER", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES"]
     }
 ]
