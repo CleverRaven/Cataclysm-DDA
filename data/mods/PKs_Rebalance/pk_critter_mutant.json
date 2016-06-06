@@ -80,7 +80,7 @@
     "vision_day":5,
     "vision_night":20,
     "special_attacks":[["ACID", 15], ["IMPALE", 40]],
-    "flags":["SEES", "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD", "ACIDTRAIL"],
+    "flags":["SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "POISON", "ACIDPROOF", "ACID_BLOOD", "ACIDTRAIL"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT", "FRIEND_DIED"]
     },{
     "type" : "MONSTER",
@@ -174,7 +174,7 @@
         }
     ],
     "description":"A mutated bat with a narrow, proboscis-like snout.  After its pack stuns the prey, it uses its teeth to gouge a hole into it and its slender tongue to quickly lap up the resulting blood.",
-    "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "BONES", "LEATHER", "HARDTOSHOOT", "SWARMS", "HIT_AND_RUN", "GROUP_MORALE"],
+    "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "ANIMAL", "BONES", "LEATHER", "HARDTOSHOOT", "SWARMS", "HIT_AND_RUN", "GROUP_MORALE"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED", "SOUND", "FIRE"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND", "FRIEND_DIED"],
     "categories":["WILDLIFE"]
@@ -213,7 +213,7 @@
             "allow_no_target" : false
         }],
     "description":"It looks like a brown coyote with black streaks along its side.  Except against either haunch rests a muscular folded limb terminating in a scythe-like bony protrusion.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT", "SWARMS", "GROUP_MORALE"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT", "SWARMS", "GROUP_MORALE"],
     "fear_triggers":["FRIEND_DIED", "HURT"],
     "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
