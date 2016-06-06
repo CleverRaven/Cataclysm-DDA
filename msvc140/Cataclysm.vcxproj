@@ -66,6 +66,18 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FE1372AC-5F90-447E-BBCA-1B253836EB77}</ProjectGuid>
+    <RootNamespace>Cataclysm</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <WindowsAppContainer>false</WindowsAppContainer>
+  </PropertyGroup>
   <ItemGroup>
     <ClInclude Include="pch.hpp" />
     <ClCompile Include="pch.cpp">
@@ -113,21 +125,11 @@
   <ItemGroup>
     <ResourceCompile Include="..\src\resource.rc" />
   </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <ProjectGuid>{FE1372AC-5F90-447E-BBCA-1B253836EB77}</ProjectGuid>
-    <RootNamespace>Cataclysm</RootNamespace>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="PropertySheets">
     <Import Project="common.props" />
     <Import Project="precompile.props" />
-    <Import Project="arch.props" />
   </ImportGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="PropertySheets">
@@ -145,14 +147,6 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)'=='Debug Localized' Or '$(Configuration)'=='Debug SDL Tiles Localized' Or '$(Configuration)'=='Release Localized' Or '$(Configuration)'=='Release SDL Tiles Localized'">
     <Import Project="localize.props" />
   </ImportGroup>
-  <PropertyGroup Condition="'$(BuildConfig)'=='Debug'" Label="Configuration">
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <WholeProgramOptimization>false</WholeProgramOptimization>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(BuildConfig)'=='Release'" Label="Configuration">
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-  </PropertyGroup>
   <ItemDefinitionGroup>
     <PreBuildEvent>
       <Command>getversion.cmd</Command>
@@ -160,9 +154,5 @@
     <PreBuildEvent>
       <Message>Generate version.h</Message>
     </PreBuildEvent>
-    <ClCompile>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
-    </ClCompile>
   </ItemDefinitionGroup>
 </Project>

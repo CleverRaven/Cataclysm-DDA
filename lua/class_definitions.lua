@@ -146,10 +146,10 @@ classes = {
             { name = "add_traits", rval = nil, args = { } },
             { name = "aim_per_time", rval = "int", args = { "item", "int" } },
             { name = "bloodType", rval = "field_id", args = { } },
-            { name = "can_pickVolume", rval = "bool", args = { "int" } },
-            { name = "can_pickVolume", rval = "bool", args = { "int", "bool" } },
-            { name = "can_pickWeight", rval = "bool", args = { "int" } },
-            { name = "can_pickWeight", rval = "bool", args = { "int", "bool" } },
+            { name = "can_pickVolume", rval = "bool", args = { "item" } },
+            { name = "can_pickVolume", rval = "bool", args = { "item", "bool" } },
+            { name = "can_pickWeight", rval = "bool", args = { "item" } },
+            { name = "can_pickWeight", rval = "bool", args = { "item", "bool" } },
             { name = "die", rval = nil, args = { "Creature" } },
             { name = "empty_skills", rval = nil, args = { } },
             { name = "empty_traits", rval = nil, args = { } },
@@ -1430,7 +1430,7 @@ classes = {
     furn_t = {
         int_id = "furn_id",
         string_id = "furn_str_id",
-        
+
         attributes = {
             close = { type = "furn_str_id", writable = true },
             id = { type = "furn_str_id" },

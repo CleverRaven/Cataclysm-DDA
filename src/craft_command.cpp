@@ -126,9 +126,20 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
 std::list<item> craft_command::consume_components()
 {
     std::list<item> used;
+    if( crafter->has_trait( "DEBUG_HS" ) ) {
+        return used;
+    }
 
     if( empty() ) {
         debugmsg( "Warning: attempted to consume items from an empty craft_command" );
+        return used;
+    }
+
+    inventory map_inv;
+    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE );
+
+    if( !check_item_components_missing( map_inv ).empty() ) {
+        debugmsg( "Aborting crafting: couldn't find cached components" );
         return used;
     }
 

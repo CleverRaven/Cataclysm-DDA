@@ -7063,5 +7063,50 @@
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_4square_00",
+        "name" : "religious cemetery",
+        "sym" : 110,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_4square_10",
+        "name" : "religious cemetery",
+        "sym" : 110,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_4square_01",
+        "name" : "religious cemetery",
+        "sym" : 110,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "cemetery_4square_11",
+        "name" : "religious cemetery",
+        "sym" : 110,
+        "color" : "white",
+        "see_cost" : 5,
+        "extras" : "field",
+        "mondensity" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "4way_road",
+        "name" : "road",
+        "sym" : 43,
+        "color" : "ltgray",
+        "see_cost" : 5,
+        "extras" : "forest",
+        "mondensity" : 2
     }
 ]

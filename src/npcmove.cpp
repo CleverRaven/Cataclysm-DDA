@@ -107,7 +107,7 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
 
 bool npc::sees_dangerous_field( const tripoint &p ) const
 {
-    return is_dangerous_field( g->m.field_at( p ) );
+    return is_dangerous_fields( g->m.field_at( p ) );
 }
 
 bool npc::could_move_onto( const tripoint &p ) const
@@ -1783,9 +1783,8 @@ void npc::find_item()
                     continue;
                 }
                 int itval = value( elem );
-                int wgt = elem.weight(), vol = elem.volume();
                 if( itval > best_value &&
-                    ( can_pickWeight( wgt, true ) && can_pickVolume( vol, true ) ) ) {
+                    ( can_pickWeight( elem, true ) && can_pickVolume( elem, true ) ) ) {
                     wanted_item_pos = p;
                     wanted = &( elem );
                     best_value = itval;
@@ -1855,22 +1854,18 @@ void npc::pick_up_item()
     // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
-    int total_volume = 0;
-    int total_weight = 0; // How much the items will add
+    npc projected = *this;
     std::vector<int> pickup; // Indices of items we want
 
     for( size_t i = 0; i < items.size(); i++ ) {
         const item &item = items[i];
         int itval = value( item );
-        int vol = item.volume();
-        int wgt = item.weight();
         if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
-             ( can_pickVolume( total_volume + vol, true ) &&
-               can_pickWeight( total_weight + wgt, true ) ) &&
+             ( projected.can_pickVolume( item, true ) &&
+               projected.can_pickWeight( item, true ) ) &&
              !item.made_of( LIQUID ) ) {
             pickup.push_back( i );
-            total_volume += vol;
-            total_weight += wgt;
+            projected.i_add(item);
         }
     }
     // Describe the pickup to the player
@@ -2027,8 +2022,9 @@ bool npc::find_corpse_to_pulp()
             // Pulp only stuff that revives, but don't pulp acid stuff
             // That is, if you aren't protected from this stuff!
             if( it.can_revive() ) {
-                // If the first encountered corpse is acidic, it is not safe to bash
-                if( is_dangerous_field( it.get_mtype()->bloodType() ) ) {
+                // If the first encountered corpse bleeds something dangerous then
+                // it is not safe to bash.
+                if( is_dangerous_field( field_entry(it.get_mtype()->bloodType(), 1, 0) ) ) {
                     return nullptr;
                 }
 
@@ -2606,8 +2602,8 @@ void npc::mug_player(player &mark)
     invslice slice = mark.inv.slice();
     for (size_t i = 0; i < slice.size(); i++) {
         if( value(slice[i]->front()) >= best_value &&
-            can_pickVolume( slice[i]->front().volume(), true ) &&
-            can_pickWeight( slice[i]->front().weight(), true ) ) {
+            can_pickVolume( slice[i]->front(), true ) &&
+            can_pickWeight( slice[i]->front(), true ) ) {
             best_value = value(slice[i]->front());
             item_index = i;
         }

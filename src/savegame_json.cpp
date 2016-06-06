@@ -1491,6 +1491,11 @@ void item::io( Archive& archive )
         // only for backward compatibility (nowadays mode is stored in item_vars)
         gun_set_mode(mode);
     }
+
+    // Fixes #16751 (items could have null contents due to faulty spawn code)
+    contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item &cont ) {
+        return cont.is_null();
+    } ), contents.end() );
 }
 
 void item::deserialize(JsonObject &data)
@@ -1546,7 +1551,6 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("amount", amount );
     data.read("open", open );
     data.read("direction", direction );
-    data.read("mode", mode );
     data.read("blood", blood );
     data.read("bigness", bigness );
     data.read("enabled", enabled );
@@ -1582,7 +1586,6 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("amount", amount);
     json.member("open", open );
     json.member("direction", direction );
-    json.member("mode", mode );
     json.member("blood", blood);
     json.member("bigness", bigness);
     json.member("enabled", enabled);
@@ -1648,7 +1651,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("fridge_on", fridge_on);
     data.read("recharger_on", recharger_on);
     data.read("skidding", skidding);
-    data.read("turret_mode", turret_mode);
     data.read("of_turn_carry", of_turn_carry);
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
@@ -1745,7 +1747,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "fridge_on", fridge_on );
     json.member( "recharger_on", recharger_on );
     json.member( "skidding", skidding );
-    json.member( "turret_mode", turret_mode );
     json.member( "of_turn_carry", of_turn_carry );
     json.member( "name", name );
     json.member( "parts", parts );

@@ -373,12 +373,12 @@ static void move_items( const tripoint &src, bool from_vehicle,
         // Check that we can pick it up.
         if( !temp_item->made_of( LIQUID ) ) {
             // Is it too bulky? We'll have to use our hands, then.
-            if( !g->u.can_pickVolume( temp_item->volume() ) && g->u.is_armed() ) {
+            if( !g->u.can_pickVolume( *temp_item ) && g->u.is_armed() ) {
                 g->u.moves -= 20; // Pretend to be unwielding our gun.
             }
 
             // Is it too heavy? It'll take a while...
-            if( !g->u.can_pickWeight( temp_item->weight(), true ) ) {
+            if( !g->u.can_pickWeight( *temp_item, true ) ) {
                 int overweight = temp_item->weight() - ( g->u.weight_capacity() - g->u.weight_carried() );
 
                 // ...like one move cost per 100 grams over your leftover carry capacity.

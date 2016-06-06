@@ -6617,7 +6617,7 @@
         "color" : "brown",
         "covers" : ["TORSO"],
         "symbol" : "[",
-        "description" : "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows.\nHistorically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Activate to store arrows.",
+        "description" : "A large leather quiver trimmed with metal, worn on the back, that can hold 60 arrows.  Historically used by horse archers, rather than foot archers, but neither of THEM had to fight zombies.  Activate to store arrows.",
         "price" : 8800,
         "material" : ["leather", "steel"],
         "volume" : 6,
