@@ -255,13 +255,8 @@
                 {"damage_type" : "bash", "amount" : 27, "armor_multiplier" : 0.5}
             ]
         }, ["GRAB", 30], ["GRAB_DRAG", 10]],
-<<<<<<< HEAD
-    "description":"In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it is used to humans as anything other than a meal.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
-=======
     "description":"In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like its used to humans as anything other than a meal.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
->>>>>>> refs/remotes/CleverRaven/master
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
     "placate_triggers":["MEAT"],
     "fear_triggers": ["FIRE", "HURT"],
