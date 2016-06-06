@@ -46,8 +46,7 @@
     "hp":250,
     "vision_day":5,
     "vision_night":25,
-    "special_attacks":[["RATKING", 3], ["GRENADIER", 15]],
-    "starting_ammo": { "bot_rat": 20 },
+    "special_attacks":[["RATKING", 3]],
     "flags":["SEES", "SMELLS", "WARM", "SWIMS", "BONES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "fear_triggers":["PLAYER_CLOSE"]
@@ -296,7 +295,7 @@
             "armor_multiplier" : 0.5
         }],
     "description":"An absolutely enormous bear-like creature, with paws larger than your head.  A dedicated omnivore, it can sometimes decide to scavenge or attack smaller animals; relying upon its thick hide to keep it safe.",
-    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "PUSH_MON", "BONES", "FAT", "LEATHER"],
+    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "PUSH_MON", "BONES", "FAT", "LEATHER"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers": ["HURT", "FRIEND_DIED"],
@@ -376,7 +375,7 @@
             "armor_multiplier" : 0.6
         }],
     "description":"This young megabear hasn't yet developed the muscle or size of the adults, but it would be mistake to think it was weak.  It may still be under its mother's protection.",
-    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE"],
+    "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "FIRE"],
     "placate_triggers":["MEAT"],
     "fear_triggers": ["HURT", "FRIEND_DIED", "FIRE"],
@@ -416,7 +415,7 @@
             "armor_multiplier" : 0.6
         }],
     "description":"A very young elephant bear, still too uncoordinated to walk proficently.  With large eyes and bleating cries, this is the cutest car-sized thing that ever would eat you.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE", "STUMBLES"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE", "STUMBLES"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED", "FIRE"],
     "placate_triggers":["MEAT", "FRIEND_ATTACKED"],
     "fear_triggers": ["HURT", "FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
@@ -454,7 +453,7 @@
             "armor_multiplier" : 0.65
         }],
     "description":"The downward pressure on the canines has produced smaller and more agile versions.  These live in social communities and can be usually seen tenaciously hunting for moles; dragging them out of their tunnels with paws and elongated teeth.  It has also been known to aggressively raid campgrounds.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "SWARMS", "GROUP_MORALE"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "SWARMS", "GROUP_MORALE"],
     "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK", "MEAT", "FIRE", "FIRE"],
     "fear_triggers": ["HURT", "PLAYER_CLOSE", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
