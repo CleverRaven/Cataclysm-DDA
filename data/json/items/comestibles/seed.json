@@ -10,7 +10,6 @@
         "price": 120,
         "charges": 4,
         "stack_size": 100,
-        "material": "veggy",
         "symbol": ".",
         "color": "green"
     },
@@ -22,6 +21,7 @@
         "name_plural": "bee balm seeds",
         "description": "Some bee balm seeds.  You could probably plant these.",
         "charges": 2,
+        "material": "veggy",
         "seed_data": {
             "plant_name": "bee balm",
             "fruit": "bee_balm",
@@ -67,6 +67,7 @@
         "name_plural": "canola seeds",
         "description": "Some canola seeds.  You could probably plant these, or press them into oil.",
         "charges": 2,
+        "material": "veggy",
         "seed_data": {
             "plant_name": "canola",
             "fruit": "seed_canola",
@@ -97,6 +98,7 @@
         "name_plural": "dogbane seeds",
         "description": "Some dogbane seeds.  You could probably plant these.",
         "charges": 2,
+        "material": "veggy",
         "seed_data": {
             "plant_name": "dogbane",
             "fruit": "dogbane",
@@ -115,6 +117,7 @@
         "price": 160,
         "charges": 2,
         "stack_size": 8,
+        "material": "veggy",
         "seed_data": {
             "plant_name": "hops",
             "fruit": "hops",
@@ -132,6 +135,7 @@
         "price": 100,
         "charges": 2,
         "nutrition": 2,
+        "material": "veggy",
         "seed_data": {
             "plant_name": "pumpkin",
             "fruit": "pumpkin",
@@ -180,6 +184,7 @@
         "price": 100,
         "charges": 2,
         "nutrition": 2,
+        "material": "veggy",
         "seed_data": {
             "plant_name": "sunflower",
             "fruit": "seed_sunflower",
@@ -195,6 +200,7 @@
         "name_plural": "thyme seeds",
         "description": "Some thyme seeds.  You could probably plant these.",
         "charges": 2,
+        "material": "veggy",
         "seed_data": {
             "plant_name": "thyme",
             "fruit": "thyme",
