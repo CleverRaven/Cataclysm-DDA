@@ -436,7 +436,7 @@
             "no_ammo_sound" : "HIiiiss?"
         }],
     "starting_ammo": { "hell_plasma_c": 122 },
-    "description":"A dark red sphere with wicked teeth.  Its single eye lights up as it expells plasma from its mouth.",
+    "description":"A dark red sphere with wicked teeth.  Its single eye lights up as it expels plasma from its mouth.",
     "flags":["SEES", "HEARS", "SMELLS", "FLIES", "POISON", "BLEED", "BASHES", "CHITIN", "BONES", "FAT", "PUSH_MON"]
     },{
     "type" : "MONSTER",
