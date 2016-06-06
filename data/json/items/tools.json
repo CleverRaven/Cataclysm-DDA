@@ -5930,7 +5930,7 @@
     "description": "This is a sealed glass jar containing mushroom soup.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "veggy"],
-    "weight": 1302,
+    "weight": 2454,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5938,7 +5938,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_mushroom",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },

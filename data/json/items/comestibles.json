@@ -2448,7 +2448,7 @@
         "price" : 250,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 1,
+        "stack_size" : 2,
         "fun" : 2
     },
     {

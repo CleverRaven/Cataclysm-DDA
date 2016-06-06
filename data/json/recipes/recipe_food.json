@@ -3725,13 +3725,13 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "broth", 1 ]
+      [ "broth", 2 ]
     ],
     [
-      [ "mushroom", 4 ],
-      [ "mushroom_cooked", 4 ],
-      [ "dry_mushroom", 4 ],
-      [ "morel_cooked", 4 ]
+      [ "mushroom", 8 ],
+      [ "mushroom_cooked", 8 ],
+      [ "dry_mushroom", 8 ],
+      [ "morel_cooked", 8 ]
     ]
   ]
 },{
