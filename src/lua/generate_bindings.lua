@@ -253,7 +253,13 @@ function generate_overload_tree(classes)
         -- This creates the mentioned tree: each entry has the key matching the parameter type,
         -- and the final table (the leaf) has a `r` entry.
         for _, func in ipairs(function_list) do
-            local leaf = generate_overload_path(functions_by_name[func.name], func.args)
+            local base = functions_by_name[func.name]
+            -- non-static functions have an implicit first argument `this` of type class_name
+            if not base[class_name] then
+                base[class_name] = { }
+            end
+            base = base[class_name]
+            local leaf = generate_overload_path(base, func.args)
             leaf.r = { rval = func.rval, cpp_name = func.cpp_name or func.name, class_name = class_name }
         end
         return functions_by_name
@@ -352,27 +358,22 @@ end
 function generate_class_function_wrapper(class_name, function_name, func)
     local text = "static int func_" .. cpp_ident(class_name) .. "_" .. function_name .. "(lua_State *L) {"..br
 
-    -- retrieve the object to call the function on from the stack.
-    text = text .. tab .. load_instance(class_name)..br
-
     local cbc = function(indentation, stack_index, data)
         local tab = string.rep("    ", indentation)
 
         local func_invoc
-        if data.class_name == class_name then
-            func_invoc = "instance"
-        else
-            --[[
-            If we call a function of the parent class, we need to call it through
-            a reference to the parent class, otherwise we get into trouble with default parameters:
-            Example:
-            class A {     void f(int = 0); }
-            class B : A { void f(int); }
-            This won't work: B b; b.f();
-            But this will:   B b; static_cast<A&>(b).f()
-            --]]
-            func_invoc = "static_cast<"..data.class_name.."&>(instance)"
-        end
+        --[[
+        The first parameter is implicitly the `this` object. The static case is require for:
+        a) parameter0 is a proxy object with a conversion to `T&` operator that is invoked by the cast.
+        b) If we call a function of the parent class, we need to call it through
+        a reference to the parent class, otherwise we get into trouble with default parameters:
+        Example:
+        class A {     void f(int = 0); }
+        class B : A { void f(int); }
+        This won't work: B b; b.f();
+        But this will:   B b; static_cast<A&>(b).f()
+        --]]
+        func_invoc = "static_cast<"..data.class_name.."&>(parameter0)"
         func_invoc = func_invoc .. "."..data.cpp_name .. "("
 
         for i = 1,stack_index do
@@ -392,7 +393,7 @@ function generate_class_function_wrapper(class_name, function_name, func)
         return text
     end
 
-    text = text .. insert_overload_resolution(function_name, func, cbc, 1, 1)
+    text = text .. insert_overload_resolution(function_name, func, cbc, 1, 0)
 
     text = text .. "}"..br
 
