@@ -6090,11 +6090,13 @@ vehicle::turret_ammo_data::turret_ammo_data( const vehicle &veh, int const part 
 
     auto items = veh.get_items( part );
     if( items.empty() ) {
+        charges = 0;
         return;
     }
 
     const itype *am_type = items.front().type;
     if( !am_type->ammo || am_type->ammo->type != amt || items.front().charges < 1 ) {
+        charges = 0;
         return;
     }
 
@@ -6114,7 +6116,7 @@ bool vehicle::fire_turret( int p, bool manual )
 
     const auto turret_data = turret_has_ammo( p );
 
-    if( turret_data.is_missing_ups_charges ) {
+    if( turret_data.is_missing_ups_charges || turret_data.charges <= 0 ) {
         if( manual ) {
             add_msg( m_bad, _("This turret is not powered") );
         }
