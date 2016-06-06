@@ -5170,6 +5170,10 @@ void game::draw()
 {
     // Draw map
     werase(w_terrain);
+#ifdef TILES
+    // prevent buffer mismatch when exiting menus
+    invalidate_framebuffer(oversized_framebuffer);
+#endif // TILES
 
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;

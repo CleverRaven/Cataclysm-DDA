@@ -2139,6 +2139,11 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     delwin(g->w_overmap);
     g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0);
 
+    #ifdef TILES
+    // handle clearing of framebuffer in SDL mode
+    invalidate_framebuffer(oversized_framebuffer);
+    #endif // TILES
+
     // Draw black padding space to avoid gap between map and legend
     // also clears the pixel minimap in TILES
     delwin(g->w_blackspace);
@@ -2178,6 +2183,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     ictxt.register_action("QUIT");
     std::string action;
     bool show_explored = true;
+    bool need_buffer_cleanup = false;
     do {
         timeout( BLINK_SPEED );
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
@@ -2214,16 +2220,20 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             } else if( old_note != new_note ) {
                 overmap_buffer.add_note( curs, new_note );
             }
+
+            need_buffer_cleanup = true;
         } else if( action == "DELETE_NOTE" ) {
             if( overmap_buffer.has_note( curs ) && query_yn( _( "Really delete note?" ) ) ) {
                 overmap_buffer.delete_note( curs );
             }
+            need_buffer_cleanup = true;
         } else if (action == "LIST_NOTES") {
             const point p = display_notes(curs.z);
             if (p.x != -1 && p.y != -1) {
                 curs.x = p.x;
                 curs.y = p.y;
             }
+            need_buffer_cleanup = true;
         } else if (action == "TOGGLE_BLINKING") {
             uistate.overmap_blinking = !uistate.overmap_blinking;
             // if we turn off overmap blinking, show overlays and explored status
@@ -2250,6 +2260,11 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 continue;
             }
             std::transform( term.begin(), term.end(), term.begin(), tolower );
+
+            #ifdef TILES
+            // reset the buffer to clear the search window
+            invalidate_framebuffer(oversized_framebuffer);
+            #endif // TILES
 
             // This is on purpose only the current overmap, otherwise
             // it would contain way to many entries
@@ -2300,6 +2315,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             } while(action != "CONFIRM" && action != "QUIT");
             delwin(w_search);
             action = "";
+            need_buffer_cleanup = true;
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             uimenu pmenu;
             // This simplifies overmap_special selection using uimenu
@@ -2431,6 +2447,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 delwin( w_editor );
                 action = "";
             }
+            need_buffer_cleanup = true;
         } else if (action == "TIMEOUT") {
             if (uistate.overmap_blinking) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
@@ -2439,6 +2456,13 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             if (uistate.overmap_blinking) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
             }
+        }
+
+        if ( need_buffer_cleanup ) {
+            need_buffer_cleanup = false;
+            #ifdef TILES
+            invalidate_framebuffer(oversized_framebuffer);
+            #endif // TILES
         }
     } while (action != "QUIT" && action != "CONFIRM");
     werase(g->w_overmap);
