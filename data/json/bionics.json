@@ -596,10 +596,7 @@
             [ "TORSO", 10 ]
         ],
         "toggled": true,
-        "act_cost": 1,
-        "react_cost": 1,
-        "time": 1,
-        "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of additional power."
+        "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of power."
     },{
         "type": "bionic",
         "id": "bio_heatsink",

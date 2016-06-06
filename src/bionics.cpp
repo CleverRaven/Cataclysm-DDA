@@ -724,7 +724,7 @@ void player::process_bionic( int b )
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] < hp_max[i] ) {
                 heal( ( hp_part )i, 1 );
-                charge_power( -10 );
+                charge_power( -5 );
             }
         }
         for( int i = 0; i < num_bp; i++ ) {
@@ -732,9 +732,6 @@ void player::process_bionic( int b )
                 remove_effect( effect_bleed );
                 charge_power( -2 );
             }
-        }
-        if( calendar::once_every( 5 ) ) {
-            add_msg( m_neutral, _( "You feel a slight buzzing in your extremities." ) );
         }
     }
 }
