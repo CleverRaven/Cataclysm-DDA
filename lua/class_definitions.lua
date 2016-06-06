@@ -88,6 +88,17 @@ variable can be used long after `some_monster` has been killed and removed from 
 no connection at all to the monster.
 --]]
 
+-- TODO: the parser can't currently interfere this property, needs to be set manually.
+classes['tripoint'].has_equal = true
+classes['point'].has_equal = true
+-- TODO: the parser can't currently export this, needs to be done manually.
+classes['units::volume'] = {
+    by_value = true,
+    functions = {
+        { name = "value", rval = "int", args = { } },
+    }
+}
+
 global_functions = {
     add_msg = {
         cpp_name = "add_msg_wrapper",

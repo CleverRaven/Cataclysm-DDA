@@ -31,6 +31,9 @@
 #include "field.h"
 #include "filesystem.h"
 #include "string_input_popup.h"
+#include "martialarts.h"
+#include "material.h"
+#include "start_location.h"
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
