@@ -118,12 +118,8 @@
     "armor_acid":2,
     "hp":230,
     "special_attacks":[["SMASH", 50]],
-<<<<<<< HEAD
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT", "POISON"],
-=======
     "burn_into" : "mon_horse_zombie_scorched",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT", "POISON", "NO_BREATHE", "REVIVES"],
->>>>>>> refs/remotes/origin/PRM-scorched-Zeds
     "anger_triggers":["HURT", "PLAYER_CLOSE", "FIRE", "FRIEND_ATTACKED"]
     },{
     "type" : "MONSTER",
