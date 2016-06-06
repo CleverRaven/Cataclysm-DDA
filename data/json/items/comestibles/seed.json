@@ -10,7 +10,7 @@
         "price": 120,
         "charges": 4,
         "stack_size": 100,
-        "material": "fruit",
+        "material": "veggy",
         "symbol": ".",
         "color": "green"
     },
@@ -22,7 +22,6 @@
         "name_plural": "bee balm seeds",
         "description": "Some bee balm seeds.  You could probably plant these.",
         "charges": 2,
-        "material": "veggy",
         "seed_data": {
             "plant_name": "bee balm",
             "fruit": "bee_balm",
@@ -37,6 +36,7 @@
         "name": "blackberry seed",
         "name_plural": "blackberry seeds",
         "description": "Some blackberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "blackberry",
             "fruit": "blackberries",
@@ -51,6 +51,7 @@
         "name": "blueberry seed",
         "name_plural": "blueberry seeds",
         "description": "Some blueberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "blueberry",
             "fruit": "blueberries",
@@ -66,7 +67,6 @@
         "name_plural": "canola seeds",
         "description": "Some canola seeds.  You could probably plant these, or press them into oil.",
         "charges": 2,
-        "material": "veggy",
         "seed_data": {
             "plant_name": "canola",
             "fruit": "seed_canola",
@@ -81,6 +81,7 @@
         "name": "cranberry seed",
         "name_plural": "cranberry seeds",
         "description": "Some cranberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "cranberry",
             "fruit": "cranberries",
@@ -96,7 +97,6 @@
         "name_plural": "dogbane seeds",
         "description": "Some dogbane seeds.  You could probably plant these.",
         "charges": 2,
-        "material": "veggy",
         "seed_data": {
             "plant_name": "dogbane",
             "fruit": "dogbane",
@@ -115,7 +115,6 @@
         "price": 160,
         "charges": 2,
         "stack_size": 8,
-        "material": "veggy",
         "seed_data": {
             "plant_name": "hops",
             "fruit": "hops",
@@ -132,7 +131,6 @@
         "description": "Some raw pumpkin seeds.  Could be fried and eaten or planted.",
         "price": 100,
         "charges": 2,
-        "material": "veggy",
         "nutrition": 2,
         "seed_data": {
             "plant_name": "pumpkin",
@@ -149,6 +147,7 @@
         "name": "raspberry seed",
         "name_plural": "raspberry seeds",
         "description": "Some raspberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "raspberry",
             "fruit": "raspberries",
@@ -163,6 +162,7 @@
         "name": "strawberry seed",
         "name_plural": "strawberry seeds",
         "description": "Some strawberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "strawberry",
             "fruit": "strawberries",
@@ -179,7 +179,6 @@
         "description": "Some raw sunflower seeds.  Could be pressed into oil.",
         "price": 100,
         "charges": 2,
-        "material": "veggy",
         "nutrition": 2,
         "seed_data": {
             "plant_name": "sunflower",
@@ -196,7 +195,6 @@
         "name_plural": "thyme seeds",
         "description": "Some thyme seeds.  You could probably plant these.",
         "charges": 2,
-        "material": "veggy",
         "seed_data": {
             "plant_name": "thyme",
             "fruit": "thyme",
