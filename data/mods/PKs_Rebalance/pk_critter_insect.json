@@ -153,12 +153,6 @@
     "vision_night":20,
     "hp":90,
     "death_function":"DISINTEGRATE",
-    "death_drops": {
-        "subtype": "collection",
-        "groups": [
-            [ "spider_eggs", 100 ]
-        ]
-    },
     "description":"A large egg sack with periodically hatching eggs, and a few care-tenders.  This one seems somehow more important than the rest.",
     "flags":["SEES", "NO_BREATHE", "IMMOBILE", "QUEEN"]
     },{
@@ -217,12 +211,6 @@
     "vision_night":20,
     "hp":90,
     "death_function":"DISINTEGRATE",
-    "death_drops": {
-        "subtype": "collection",
-        "groups": [
-            [ "spider_eggs", 100 ]
-        ]
-    },
     "description":"A large egg sack with periodically hatching eggs, and a few care-tenders.  This one seems somehow more important than the rest.",
     "flags":["SEES", "NO_BREATHE", "IMMOBILE", "QUEEN"]
     },{
