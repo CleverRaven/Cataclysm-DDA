@@ -58,7 +58,7 @@
         }
     ],
     "description":"One of the vesper bats, a family of winged insect-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
-    "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "BONES", "LEATHER"],
+    "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "WARM", "FLIES", "ANIMAL", "PATH_AVOID_DANGER_1", "BONES", "LEATHER"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -85,7 +85,7 @@
     "hp":16,
     "death_function":"NORMAL",
     "description":"The North American beaver, the continent's largest rodent.  Its paddle-shaped tail helps ferry it through the water, and its prominent teeth can chew through wood, which it uses to build dam-like nests in lakes and streams.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
     "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
@@ -114,7 +114,7 @@
     "hp":4,
     "death_function":"NORMAL",
     "description":"A mallard duck, often seen around rivers and other bodies of water.  It feeds primarily on insects, seeds, roots, and, pre-cataclysm, bread scraps.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -143,7 +143,7 @@
     "hp":100,
     "death_function":"NORMAL",
     "description":"The American black bear.  A large omnivorous scavenger, it has powerful claws and jaws, and is an effective ambush hunter.  It can pose a considerable threat, although most individuals are shy around humans.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND"],
@@ -174,7 +174,7 @@
     "hp":100,
     "death_function":"SMOKEBURST",
     "description":"A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT", "FIREPROOF", "NO_BREATHE", "POISON"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BLEED", "BASHES", "ATTACKMON", "BONES", "FAT", "FIREPROOF", "NO_BREATHE", "POISON"],
     "special_attacks":[
         ["SMOKECLOUD", 1],
         {
@@ -211,7 +211,7 @@
     "hp":16,
     "death_function":"NORMAL",
     "description":"A spotted wild cat living across much of North America.  It is not a serious threat to humans, but it can be aggressive if not left alone.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "BONES", "FAT"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -241,7 +241,7 @@
     "hp":12,
     "death_function":"NORMAL",
     "description":"A small domesticated predator gone feral in the absence of human stewardship.  Harried by the elements and the rigors of survival, it is scruffy and skittish.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "BONES", "FAT"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "categories":["WILDLIFE"]
@@ -269,7 +269,7 @@
     "hp":8,
     "death_function":"NORMAL",
     "description":"A domesticated descendant of junglefowl, it may still be the most numerous bird in the world.  Before the Cataclysm, it was raised by humans as a source of meat, eggs, and early morning wakeup calls.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT"],
     "categories":["WILDLIFE"]
     },{
     "type" : "MONSTER",
@@ -296,7 +296,7 @@
     "hp":4,
     "death_function":"NORMAL",
     "description":"The eastern chipmunk, a tiny omnivorous rodent with a characteristic striped coat.  It spends much of the day patrolling its elaborate burrow and the precious stores of foraged food within.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "BONES"],
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -332,7 +332,7 @@
         }
     ],
     "description":"The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND"],
@@ -369,7 +369,7 @@
     "hp":100,
     "death_function":"NORMAL",
     "description":"The domestic cow, a baleful, ruminating farm animal.  It is quite muscular, and the males can have a violent streak to accompany their nasty-looking horns.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT"],
     "anger_triggers":["HURT"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["PLAYER_CLOSE"],
@@ -400,7 +400,7 @@
     "hp":22,
     "death_function":"NORMAL",
     "description":"The Eastern coyote, also called the tweed wolf, is a territorial canine descended from the offspring of gray wolves and true coyotes.  It is intimidated by humans and other predators, but will fight if threatened.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -430,7 +430,7 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"The Northeastern coyote, a widespread canine pack hunter.  More timid than a wolf, it is an opportunistic feeder and prefers to hunt smaller and weaker prey.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -459,7 +459,7 @@
     "hp":4,
     "death_function":"NORMAL",
     "description":"A small, elegant black bird, famous for its distinctive call.  An intelligent bird, there is a glitter of mischief behind its eyes.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER"],
     "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -488,7 +488,7 @@
     "hp":60,
     "death_function":"NORMAL",
     "description":"The northern woodland white-tailed deer, a quick and strong grazing animal.  Favored prey of coyotes, wolves, and giant spider mutants.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -517,7 +517,7 @@
     "hp":30,
     "death_function":"NORMAL",
     "description": "With mangy fur and hungry eyes, it's clear that this once domesticated dog has gone feral.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -548,7 +548,7 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"A small omnivorous canine with an almost cat-like manner.  It is a solitary hunter, and one of the only canids able to climb trees.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -580,7 +580,7 @@
     "hp":30,
     "death_function":"NORMAL",
     "description":"The red fox, an omnivorous canine and largest of the true foxes, it is a wily hunter with a combative, suspicious temperament.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -610,7 +610,7 @@
     "hp":12,
     "death_function":"NORMAL",
     "description":"Also known as the woodchuck, this ground squirrel has no actual talent for chucking wood.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -637,7 +637,7 @@
     "hp":10,
     "death_function":"NORMAL",
     "description":"The snowshoe hare, a small grass-eater with a brown fur coat that changes to white in the wintertime.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -665,7 +665,7 @@
     "hp":90,
     "death_function":"NORMAL",
     "description":"A hooved grazing mammal with a mane of hair, a sweeping tail, and powerful-looking muscles.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -695,7 +695,7 @@
     "hp":4,
     "death_function":"NORMAL",
     "description":"The Northern bog lemming, a small, predominantly vegetarian rodent that spends its life in the murk of swamps and other wetlands.  Contrary to popular belief, these creatures are not particularly hapless or suicidal, but they can eat themselves into scarcity within a few generations.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL"],
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -723,7 +723,7 @@
     "hp":30,
     "death_function":"NORMAL",
     "description":"The American mink, a partially-aquatic weasel, once factory-farmed for its fur.  It is a capable fisher, but the presence of otters in these parts makes it rely more on food from the land.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -754,7 +754,7 @@
     "hp":120,
     "death_function":"NORMAL",
     "description":"The Eastern moose, the largest living species of deer.  The bulls are quite ill-tempered, especially in the rutting season.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["HURT", "PLAYER_CLOSE"],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND"],
@@ -784,7 +784,7 @@
     "hp":10,
     "death_function":"NORMAL",
     "description":"A large omnivorous rodent with a thick furry pelt, found in wetlands across the northern hemisphere.  It marks its territory with a musky odor for which it is named.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "BONES", "FAT"],
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -812,7 +812,7 @@
     "hp":12,
     "death_function":"NORMAL",
     "description":"The North American river otter is a shy water dwelling relative of the weasel living in large families along the banks of streams.  It is an excellent fisher and a resourceful survivor, using the abandoned dens of beavers and other animals to raise its own young.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -839,7 +839,7 @@
     "hp":50,
     "death_function":"NORMAL",
     "description":"A domesticated omnivore descended from the wild boar, intelligent and inquisitive.  Left to its own devices, it has gone feral.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED"],
     "placate_triggers":["MEAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
@@ -868,7 +868,7 @@
     "hp":8,
     "death_function":"NORMAL",
     "description":"A small mammal with a cute wiggling nose, cotton tail, and made of delicious flesh.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -897,7 +897,7 @@
     "hp":6,
     "death_function":"NORMAL",
     "description":"The black rat, an omnivorous rodent with sheer black fur and a long, rough tail.  Harbinger of pestilence, famine, and mange, it will sometimes swarm over the dead or dying.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "BONES"],
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES"],
     "anger_triggers":["PLAYER_WEAK"],
     "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -927,7 +927,7 @@
     "hp":10,
     "death_function":"NORMAL",
     "description":"A worm-tailed rodent with long whiskers and beady eyes.  The way it squeaks makes it sound...  hungry.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "BONES"],
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "BONES"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "categories":["WILDLIFE"]
     },{
@@ -955,7 +955,7 @@
     "hp":90,
     "death_function":"NORMAL",
     "description":"A timid, hooved grazing mammal, and one of the first animals ever domesticated, its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "WOOL", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "WOOL", "BONES", "FAT"],
     "anger_triggers":[],
     "placate_triggers":["PLAYER_WEAK"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
@@ -1013,7 +1013,7 @@
     "hp":6,
     "death_function":"NORMAL",
     "description":"A small granivorous rodent with a long bushy tail, often seen darting amid the branches of trees.  A skittish varmint with an expression of unwavering austerity, it is the mortal enemy of cat and dog alike.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "BONES"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -1068,7 +1068,7 @@
     "hp":20,
     "death_function":"NORMAL",
     "description":"The long-tailed weasel, a small but ubiquitous predator whose range extends across the continent.  It forms its den in small burrows, preferring to occupy the nesting holes of its prey.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "SWIMS", "WARM", "FUR", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "FUR", "BONES", "FAT"],
     "fear_triggers":["SOUND", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
@@ -1098,7 +1098,7 @@
     "hp":40,
     "death_function":"NORMAL",
     "description":"A cunning pack predator, once extinct in the New England area, the wolf was successfully reintroduced and their numbers reached record highs in the decade before the cataclysm.  Lucky you.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -2681,7 +2681,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["RESURRECT", 0]],
     "description":"A twisted mockery of the human form, emaciated, with jet black skin and glowing red eyes.  It is somehow painful to look at, awakening fears deep within your psyche, and even the air around it seems more sinister, somehow darker and more dangerous.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
     },{
     "type" : "MONSTER",
@@ -2713,7 +2713,7 @@
     "special_attacks":[["SCIENCE", 20]],
     "starting_ammo" : { "bot_manhack": 3 },
     "description":"Apart from the jet black eyes it would be easy to believe this scientist was still alive.  Clad in a tattered lab coat, it looks to have some measure of situational awareness and resourcefulness.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM_SCI", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "BLEED", "CBM_SCI", "ACIDPROOF", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_soldier",
@@ -2971,7 +2971,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["UPGRADE", 10]],
     "description":"Once human, its features have tightened, its lips pulled back into an unnatural grin, revealing rows of blackened teeth beneath its large, piercing eyes.  It stands tall and its movements are fluid and tightly controlled.  A feeling of danger permeates the air around it, and the light that falls on it seems somehow harsher and more glaring.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "PLAYER_WEAK"]
     },{
     "type" : "MONSTER",
@@ -4220,7 +4220,7 @@
     "vision_night":5,
     "hp":20,
     "death_function":"NORMAL",
-    "description":"An enormous mutant mosquito, fluttering erratically, its face dominated by a long, spear-tipped proboscis.",
+    "description":"An enormous mutant mosquito, fluttering erratically.  Its face is dominated by a long, spear-tipped proboscis.",
     "flags":["SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "CHITIN"]
     },{
     "type" : "MONSTER",
@@ -4731,7 +4731,7 @@
     "death_function":"THING",
     "special_attacks":[["DOGTHING", 40]],
     "description":"A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
-    "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "WARM", "FUR"]
+    "flags":["SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR"]
     },{
     "type" : "MONSTER",
     "id" : "mon_headless_dog_thing",
@@ -4940,7 +4940,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["PARROT", 0]],
     "description":"A flexuous monstrosity seeming as a giant crab covered in writhing antennae, clawed tentacles, and star-shaped growths, with a head like the insides of a fish but for its dire utterance.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "ARTHROPOD_BLOOD", "FAT", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_yugg",
@@ -5073,7 +5073,7 @@
     "hp":100,
     "death_function":"NORMAL",
     "description":"A bizarre humanoid creature with a calculating stare.  Its twitching hands move so fast they appear to be nothing but blurs.",
-    "flags":["SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "BONES"]
+    "flags":["SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "BONES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_blank",
@@ -5100,7 +5100,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["SHRIEK", 10]],
     "description":"This looks like a human body, but its flesh is snow-white, and its face is featureless save for a perfectly round mouth.",
-    "flags":["SMELLS", "HEARS", "WARM", "ANIMAL", "SUNDEATH", "NO_BREATHE", "HUMAN", "BONES"]
+    "flags":["SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_gozu",
@@ -5127,7 +5127,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["FEAR_PARALYZE", 20]],
     "description":"A monster with an obese human body and the head of a cow.  It treads slowly, and milky white drool drips from its mouth.",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "FUR", "NO_BREATHE", "BONES", "FAT"]
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "PATH_AVOID_DANGER_1", "FUR", "NO_BREATHE", "BONES", "FAT", "PATH_AVOID_DANGER_1"]
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow",
@@ -5319,7 +5319,7 @@
         ["IMPALE",20]
     ],
     "description":"Eight-feet-tall ghastly white penguins.  Placid unless otherwise provoked.",
-    "flags":["HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "BONES", "FEATHER", "FAT", "SWIMS", "SUNDEATH"],
+    "flags":["HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BONES", "FEATHER", "FAT", "SWIMS", "SUNDEATH"],
     "anger_triggers":["HURT", "FRIEND_DIED", "FRIEND_ATTACKED"],
     "categories":["WILDLIFE"]
     },{
@@ -5471,7 +5471,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["PHOTOGRAPH", 30]],
     "description":"A fusion-driven UAV largely comprised of a high-resolution camera lens, this spheroid robot hovers above the ground, silent witness to the carnage and mayhem around it.",
-    "flags":["SEES", "FLIES", "ELECTRONIC", "NO_BREATHE", "NOHEAD"]
+    "flags":["SEES", "FLIES", "ELECTRONIC", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_manhack",
@@ -5786,7 +5786,7 @@
     "hp":120,
     "death_function":"EXPLODE",
     "description":"The Ford Sanitron, a utility robot designed for cleaning up waste material in hazardous conditions.",
-    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_copbot",
@@ -5819,7 +5819,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["COPBOT", 3]],
     "description":"One of the many models of armored law enforcement robots employed shortly before the collapse of civilization.  Solar powered like many other robots, it maintains its programmed pursuit of law and order, propelled on a trio of omni wheels.",
-    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_molebot",
@@ -5882,7 +5882,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["FLAMETHROWER", 10]],
     "description":"The Honda Regnal, a tall robot walking on three spidery legs.  For weapons, it has a trio of spiked retractable cables and a flamethrower mounted on its head.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_chickenbot",
@@ -5916,7 +5916,7 @@
     "special_attacks":[["CHICKENBOT", 4]],
     "starting_ammo" : {"556":1000, "40mm_frag":100},
     "description":"The Northrup ATSV, a massive, heavily-armed and armored robot walking on a pair of reverse-jointed legs.  Armed with a 40mm anti-vehicle grenade launcher, 5.56 anti-personnel gun, and the ability to electrify itself against attackers, it is an effective automated sentry, though production was limited due to a legal dispute.",
-    "flags":["SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC"]
+    "flags":["SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_tankbot",
@@ -5950,7 +5950,7 @@
     "special_attacks":[["MULTI_ROBOT", 3]],
     "starting_ammo" : {"556":1000, "40mm_frag":100, "120mm_HEAT":40},
     "description":"The Northrup Emancipator is the first and only automated tank ever produced, made shortly after the split-up of Northrup Grumman.  Clad in depleted uranium plating, and armed with advanced munitions and a 120-mm gun, it is capable of delivering extraordinary firepower.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "NO_BREATHE", "ELECTRONIC"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "DESTROYS", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_turret_searchlight",
@@ -5983,7 +5983,7 @@
     "death_function":"FOCUSEDBEAM",
     "special_attacks":[["SEARCHLIGHT", 1]],
     "description":"Three high-powered searchlights with automated search AI and mounting, continually seeking targets.",
-    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE"]
+    "flags":["SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_exploder",
@@ -6114,7 +6114,7 @@
     "hp":15,
     "death_function":"NORMAL",
     "description":"A large and colorful game bird native to the forests of North America.  Its head and beak are covered in fleshy protuberances.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FLIES", "BONES", "FEATHER", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "BONES", "FEATHER", "FAT"],
     "fear_triggers":["PLAYER_CLOSE", "FRIEND_DIED"],
     "categories":["WILDLIFE"]
     },{
@@ -6143,7 +6143,7 @@
     "hp":14,
     "death_function":"NORMAL",
     "description":"A small mammal native to North America, distinctive for its dexterous paws and facial markings.  It is resourceful and agile enough to open sealed containers with its paws.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT"],
     "categories":["WILDLIFE"]
     },{
@@ -6172,7 +6172,7 @@
     "hp":12,
     "death_function":"NORMAL",
     "description":"The Virginia opossum, a small omnivorous marsupial native to North America.  About the size of a cat, it is hardy and adaptive, and a fairly common sight in urban areas.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "HURT"],
     "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
@@ -6368,7 +6368,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BRANDISH", 10]],
     "description":"Living in the woods, \nkilling for sport, \neating all the bodies, \nactual cannibal Shia LaBeouf.",
-    "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "BONES", "BLEED", "NO_BREATHE"],
+    "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "BONES", "BLEED", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "fear_triggers":["FIRE"]
     },{
@@ -6709,7 +6709,7 @@
     "death_function":"BROKEN",
     "special_attacks":[["RIOTBOT", 1]],
     "description":"Nonviolent riot-control bot.  Designed to suppress riots and make mass arrests of those participating.  Though its relaxation gas is by far its best-known weapon, it carries a blinding flash and a low-powered stungun for self-defense--in addition to its supply of electronic handcuffs.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS"]
     }, {
     "type" : "MONSTER",
     "id" : "mon_zombie_technician",

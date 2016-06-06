@@ -357,10 +357,10 @@ bool recipe::check_eligible_containers_for_crafting( int batch ) const
 
             if( !cont.is_container_empty() ) {
                 if( cont.contents.front().typeId() == prod.typeId() ) {
-                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents.front() );
+                    charges_to_store -= cont.get_remaining_capacity_for_liquid( cont.contents.front(), true );
                 }
             } else {
-                charges_to_store -= cont.get_remaining_capacity_for_liquid( prod );
+                charges_to_store -= cont.get_remaining_capacity_for_liquid( prod, true );
             }
         }
 
@@ -388,10 +388,10 @@ bool recipe::check_eligible_containers_for_crafting( int batch ) const
     return true;
 }
 
-bool is_container_eligible_for_crafting( const item &cont )
+bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
-    if( cont.is_watertight_container() ) {
-        return !cont.is_container_full();
+    if( cont.is_watertight_container() || ( allow_bucket && cont.is_bucket() ) ) {
+        return !cont.is_container_full( allow_bucket );
     }
 
     return false;
@@ -401,17 +401,17 @@ std::vector<item> player::get_eligible_containers_for_crafting()
 {
     std::vector<item> conts;
 
-    if( is_container_eligible_for_crafting( weapon ) ) {
+    if( is_container_eligible_for_crafting( weapon, true ) ) {
         conts.push_back( weapon );
     }
     for( item &i : worn ) {
-        if( is_container_eligible_for_crafting( i ) ) {
+        if( is_container_eligible_for_crafting( i, false ) ) {
             conts.push_back( i );
         }
     }
     for( size_t i = 0; i < inv.size(); i++ ) {
         for( item it : inv.const_stack( i ) ) {
-            if( is_container_eligible_for_crafting( it ) ) {
+            if( is_container_eligible_for_crafting( it, false ) ) {
                 conts.push_back( it );
             }
         }
@@ -421,7 +421,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
     for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
         if( g->m.accessible_items( pos(), loc, PICKUP_RANGE ) ) {
             for( item &it : g->m.i_at( loc ) ) {
-                if( is_container_eligible_for_crafting( it ) ) {
+                if( is_container_eligible_for_crafting( it, true ) ) {
                     conts.emplace_back( it );
                 }
             }
@@ -433,7 +433,7 @@ std::vector<item> player::get_eligible_containers_for_crafting()
             part = veh->part_with_feature( part, "CARGO" );
             if( part != -1 ) {
                 for( item &it : veh->get_items( part ) ) {
-                    if( is_container_eligible_for_crafting( it ) ) {
+                    if( is_container_eligible_for_crafting( it, false ) ) {
                         conts.emplace_back( it );
                     }
                 }
@@ -781,10 +781,10 @@ void player::complete_craft()
         if( last_craft.has_cached_selections() ) {
             last_craft.consume_components();
         } else {
+            // @todo Guarantee that selections are cached
             for( const auto &it : making->requirements.get_components() ) {
                 consume_items( it, batch_size );
             }
-
             for( const auto &it : making->requirements.get_tools() ) {
                 consume_tools( it, batch_size );
             }
@@ -804,15 +804,23 @@ void player::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    if( last_craft.has_cached_selections() ) {
-        used = last_craft.consume_components();
-    } else {
-        for( const auto &it : making->requirements.get_components() ) {
-            std::list<item> tmp = consume_items( it, batch_size );
-            used.splice( used.end(), tmp );
+    if( !last_craft.has_cached_selections() ) {
+        // This should fail and return, but currently crafting_command isn't saved
+        // Meaning there are still cases where has_cached_selections will be false
+        // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
+        if( !has_trait( "DEBUG_HS" ) ) {
+            for( const auto &it : making->requirements.get_components() ) {
+                std::list<item> tmp = consume_items( it, batch_size );
+                used.splice( used.end(), tmp );
+            }
+            for( const auto &it : making->requirements.get_tools() ) {
+                consume_tools( it, batch_size );
+            }
         }
-        for( const auto &it : making->requirements.get_tools() ) {
-            consume_tools( it, batch_size );
+    } else if( !has_trait( "DEBUG_HS" ) ) {
+        used = last_craft.consume_components();
+        if( used.empty() ) {
+            return;
         }
     }
 
@@ -913,11 +921,11 @@ void set_item_inventory( item &newit )
     } else {
         g->u.inv.assign_empty_invlet( newit );
         // We might not have space for the item
-        if( !g->u.can_pickVolume( newit.volume() ) ) { //Accounts for result_mult
+        if( !g->u.can_pickVolume( newit ) ) { //Accounts for result_mult
             add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );
-        } else if( !g->u.can_pickWeight( newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+        } else if( !g->u.can_pickWeight( newit, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
             add_msg( _( "The %s is too heavy to carry, so you drop it." ),
                      newit.tname().c_str() );
             g->m.add_item_or_charges( g->u.pos(), newit );
@@ -1686,7 +1694,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                 }
             }
             if( act_item.made_of( LIQUID ) ) {
-                g->handle_all_liquid( act_item );
+                g->handle_all_liquid( act_item, PICKUP_RANGE );
             } else if( veh != NULL && veh->add_item( veh_part, act_item ) ) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
@@ -1746,7 +1754,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 void drop_or_handle( const item &newit, player &p )
 {
     if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
-        g->handle_all_liquid( newit );
+        g->handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );
         p.i_add_or_drop( tmp );

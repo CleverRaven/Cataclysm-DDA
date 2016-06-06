@@ -291,7 +291,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, con
     if( it.is_armor() ) {
         amenu.addentry( WEAR, u.can_wear( it ), 'W', _("Wear %s"), it.display_name().c_str() );
     }
-    if( !it.is_container_empty() && u.can_pickVolume( it.volume() ) ) {
+    if( !it.is_container_empty() && u.can_pickVolume( it ) ) {
         amenu.addentry( SPILL, true, 's', _("Spill %s, then pick up %s"),
                         it.contents.front().tname().c_str(), it.display_name().c_str() );
     }
@@ -335,7 +335,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
 
     if( newit.made_of(LIQUID) ) {
         got_water = true;
-    } else if (!u.can_pickWeight(newit.weight(), false)) {
+    } else if ( !u.can_pickWeight( newit, false ) ) {
         add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
     } else if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
         // @todo Make quiver code generic so that ammo pouches can use it too
@@ -349,7 +349,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             option = NUM_ANSWERS;
         }
         if( newit.charges > 0 ) {
-            if( !u.can_pickVolume( newit.volume() ) ) {
+            if( !u.can_pickVolume( newit ) ) {
                 if( !autopickup ) {
                     // Silence some messaging if we're doing autopickup.
                     add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
@@ -374,7 +374,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         } else {
             option = CANCEL;
         }
-    } else if( !u.can_pickVolume( newit.volume() ) ) {
+    } else if( !u.can_pickVolume( newit ) ) {
         if( !autopickup ) {
             const std::string &explain = string_format( _("Not enough capacity to stash %s"),
                                                         newit.display_name().c_str() );

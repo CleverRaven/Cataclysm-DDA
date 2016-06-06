@@ -403,8 +403,8 @@ class Character : public Creature, public visitable<Character>
         int volume_carried() const;
         int weight_capacity() const override;
         int volume_capacity() const;
-        bool can_pickVolume(int volume, bool safe = false) const;
-        bool can_pickWeight(int weight, bool safe = true) const;
+        bool can_pickVolume( const item &it, bool safe = false ) const;
+        bool can_pickWeight( const item &it, bool safe = true ) const;
 
         virtual void drop_inventory_overflow();
 
@@ -459,9 +459,7 @@ class Character : public Creature, public visitable<Character>
          */
         virtual bool query_yn( const char *mes, ... ) const = 0;
 
-        bool is_dangerous_field( const field &fld ) const;
-        bool is_dangerous_field( const field_entry &entry ) const;
-        bool is_dangerous_field( const field_id fid ) const;
+        virtual bool is_immune_field( const field_id fid ) const override;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();

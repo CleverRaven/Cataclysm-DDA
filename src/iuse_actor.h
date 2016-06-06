@@ -79,6 +79,7 @@ class iuse_transform : public iuse_actor
         virtual long use(player *, item *, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
         std::string get_name() const override;
+        virtual void finalize( const itype_id &my_item_type ) override;
 };
 
 /**

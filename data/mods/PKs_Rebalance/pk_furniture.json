@@ -1,23 +1,6 @@
 [
     {
         "type" : "furniture",
-        "id" : "f_slab",
-        "name": "stone slab",
-        "symbol": "n",
-        "color": "dkgray",
-        "move_cost_mod": 2,
-        "required_str": 12,
-        "flags": ["PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
-        "bash": {
-            "str_min": 20, "str_max": 40,
-            "sound": "smash!",
-            "sound_fail": "thump.",
-            "items": [
-                { "item": "rock", "count": [2, 7] }
-            ]
-        }
-    },{
-        "type" : "furniture",
         "id" : "f_spike",
         "name": "hooked spike",
         "symbol": "J",
@@ -48,23 +31,6 @@
             "sound_fail": "tyyyng.",
             "items": [
                 { "item": "blade", "count": [1, 2] }
-            ]
-        }
-    },{
-        "type" : "furniture",
-        "id" : "f_shackle",
-        "name": "manacles",
-        "symbol": "8",
-        "color": "ltgray",
-        "move_cost_mod": 1,
-        "required_str": -1,
-        "flags": ["TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
-        "bash": {
-            "str_min": 18, "str_max": 40,
-            "sound": "smash!",
-            "sound_fail": "crack.",
-            "items": [
-                { "item": "chain", "count": [0, 1] }
             ]
         }
     }

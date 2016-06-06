@@ -12,6 +12,7 @@ class player;
 class JsonObject;
 class MonsterGenerator;
 struct iteminfo;
+typedef std::string itype_id;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
 class iuse
@@ -245,6 +246,11 @@ public:
      * Returns the translated name of the action. It is used for the item action menu.
      */
     virtual std::string get_name() const;
+
+    /**
+     * Finalizes the actor. Must be called after all items are loaded.
+     */
+    virtual void finalize( const itype_id &/*my_item_type*/ ) { }
 };
 
 struct use_function {

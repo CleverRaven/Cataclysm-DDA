@@ -3570,20 +3570,6 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_ltred : c_red ) );
 
-        bool has_turrets = false;
-        for( unsigned int p = 0; p < veh->parts.size(); p++ ) {
-            if( veh->part_flag( p, "TURRET" ) ) {
-                has_turrets = true;
-                break;
-            }
-        }
-
-        if( has_turrets ) {
-            mvwprintz( w, 3, sideStyle ? 16 : 25, col_indf1, _( "Gun:" ) );
-            wprintz( w, veh->turret_mode ? c_ltred : c_ltblue,
-                     veh->turret_mode ? _( "auto" ) : _( "off " ) );
-        }
-
         //
         // Draw the speedometer.
         //
@@ -7983,7 +7969,7 @@ void player::suffer()
                 mod_pain(1);
             }
             else focus_pool --;
-        }    
+        }
     }
 
     if (has_trait("SUNBURN") && g->is_in_sunlight(pos()) && one_in(10)) {
@@ -8017,7 +8003,7 @@ void player::suffer()
         mod_dex_bonus(-4);
         add_miss_reason(_("You can't stand the sunlight!"), 4);
         mod_int_bonus(-4);
-        mod_per_bonus(-4); 
+        mod_per_bonus(-4);
     }
 
     if (has_trait("SORES")) {
@@ -13329,26 +13315,27 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
     return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
-        return this != &critter && this->sees(critter) &&
-          rl_dist( this->pos(), critter.pos() ) <= range;
+        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+          rl_dist( pos(), critter.pos() ) <= range && sees( critter );
     } );
 }
 
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
     return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
-        return this != &critter && ( this->sees(critter) || this->sees_with_infrared(critter) ) &&
-          rl_dist( this->pos(), critter.pos() ) <= range;
+        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+          rl_dist( pos(), critter.pos() ) <= range &&
+          ( sees( critter ) || sees_with_infrared( critter ) );
     } );
 }
 
 std::vector<Creature *> player::get_hostile_creatures() const
 {
     return get_creatures_if( [this] ( const Creature &critter ) -> bool {
-        return this != &critter && this->sees(critter) && critter.attitude_to(*this) == A_HOSTILE;
+        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+            critter.attitude_to( *this ) == A_HOSTILE && sees( critter );
     } );
 }
-
 
 void player::place_corpse()
 {

@@ -196,9 +196,11 @@ class game
          * Returns the location where the indicator should go relative to the reality bubble,
          * or tripoint_min to indicate no indicator should be drawn.
          * Based on the vehicle the player is driving, if any.
+         * @param next If true, bases it on the vehicle the vehicle will turn to next turn,
+         * instead of the one it is currently facing.
          */
-        tripoint get_veh_dir_indicator_location() const;
-        void draw_veh_dir_indicator(void);
+        tripoint get_veh_dir_indicator_location( bool next ) const;
+        void draw_veh_dir_indicator( bool next );
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
@@ -320,8 +322,6 @@ class game
          */
         bool plfire( const tripoint &default_target = tripoint_min );
 
-        /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
-        void cycle_item_mode( bool force_gun );
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
@@ -559,7 +559,7 @@ class game
          * charges of the liquid have been transferred.
          * `true` indicates some charges have been transferred (but not necessarily all of them).
          */
-        void handle_all_liquid( item liquid, int radius = 0 );
+        void handle_all_liquid( item liquid, int radius );
 
         /**
          * Consume / handle as much of the liquid as possible in varying ways. This function can

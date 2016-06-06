@@ -421,10 +421,10 @@ void player::activate_mutation( const std::string &mut )
         return;
     } else if (mut == "VINES3"){
         item newit( "vine_30", calendar::turn );
-        if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
+        if ( !can_pickVolume( newit ) ) { //Accounts for result_mult
             add_msg_if_player(_("You detach a vine but don't have room to carry it, so you drop it."));
             g->m.add_item_or_charges(pos(), newit);
-        } else if (!can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
+        } else if ( !can_pickWeight( newit, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
             add_msg_if_player(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
             g->m.add_item_or_charges(pos(), newit);
         } else {
