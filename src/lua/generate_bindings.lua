@@ -235,11 +235,15 @@ function generate_overload_tree(classes)
         end
         return root
     end
-
-    for class_name, value in pairs(classes) do
-        if not value.functions then value.functions = { } end
-        local functions_by_name = {}
-        for _, func in ipairs(value.functions) do
+    -- Input is a list of function declarations (multiple entries with the same name are
+    -- possible). Result is a table with one entry (the overload resolution tree) for each
+    -- function name.
+    function convert_function_list_to_tree_list(function_list, class_name)
+        if not function_list then
+            return { }
+        end
+        local functions_by_name = { }
+        for _, func in ipairs(function_list) do
             if not func.name then
                 print("Every function of " .. class_name .. " needs a name, doesn't it?")
             end
@@ -248,11 +252,15 @@ function generate_overload_tree(classes)
         end
         -- This creates the mentioned tree: each entry has the key matching the parameter type,
         -- and the final table (the leaf) has a `r` entry.
-        for _, func in ipairs(value.functions) do
+        for _, func in ipairs(function_list) do
             local leaf = generate_overload_path(functions_by_name[func.name], func.args)
             leaf.r = { rval = func.rval, cpp_name = func.cpp_name or func.name, class_name = class_name }
         end
-        value.functions = functions_by_name
+        return functions_by_name
+    end
+
+    for class_name, value in pairs(classes) do
+        value.functions = convert_function_list_to_tree_list(value.functions, class_name)
 
         if value.new then
             local new_root = {}
