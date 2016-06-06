@@ -132,9 +132,14 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
-    public:
+
+    private:
         game();
         ~game();
+
+    public:
+        game( const game & ) = delete;
+        void operator = ( const game & ) = delete;
 
         /** Returns a single instance of the game class */
         static game &get_instance();
