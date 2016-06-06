@@ -23,6 +23,16 @@ class Item_group;
 class item;
 class item_category;
 
+class migration
+{
+    public:
+        std::string id;
+        std::string replace;
+        std::set<std::string> flags;
+        int charges = 0;
+        std::set<std::string> contents;
+};
+
 /**
  * Central item type management class.
  * It contains a map of all item types, accessible via @ref find_template. Those item types are
@@ -175,6 +185,18 @@ class Item_factory
         const item_category *get_category( const std::string &id );
         /*@}*/
 
+        /** Migrations transform items loaded from legacy saves */
+        void load_migration( JsonObject &jo );
+
+        /** Applies any migration of the item id */
+        itype_id migrate_id( const itype_id &id );
+
+        /**
+         * Applies any migrations to an instance of an item
+         * @param id the original id (before any replacement)
+         * @see Item_factory::migrate_id
+         */
+        void migrate_item( const itype_id &id, item &obj );
 
         /**
          * Check if an item type is known to the Item_factory.
@@ -321,6 +343,8 @@ class Item_factory
 
         /** JSON data dependent upon as-yet unparsed definitions */
         std::list<std::string> deferred;
+
+        std::map<itype_id, migration> migrations;
 };
 
 extern std::unique_ptr<Item_factory> item_controller;

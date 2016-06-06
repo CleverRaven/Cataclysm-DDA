@@ -68,6 +68,11 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
         return;
     }
 
+    if( stdscr == nullptr ) {
+        std::cerr << text.c_str() << std::endl;
+        abort();
+    }
+
     fold_and_print( stdscr, 0, 0, getmaxx( stdscr ), c_ltred,
                     "\n \n" // Looks nicer with some space
                     " DEBUG    : %s\n \n"

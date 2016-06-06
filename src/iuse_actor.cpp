@@ -310,7 +310,7 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
                 dst.blood = src.blood;
                 dst.bigness = src.bigness;
                 // door state/amount of fuel/direction of headlight
-                dst.amount = src.amount;
+                dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
                 dst.flags = src.flags;
             }
         } catch( const JsonError &e ) {
@@ -808,6 +808,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
         return false;
     }
     if( !choose_adjacent(_("Light where?"), pos ) ) {
+        g->refresh_all();
         return false;
     }
     if( pos == p->pos() ) {

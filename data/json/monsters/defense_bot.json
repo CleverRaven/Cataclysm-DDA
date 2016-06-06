@@ -3,7 +3,7 @@
     "id": "mon_secubot",
     "type": "MONSTER",
     "name": "security bot",
-    "description": "The Northrop Watchman X-1 is a production series of heavily armored combat robots.  Initially designed for military patrol and escort service, it rolls on a set of hydraulic treads and is armed with a 3\"/50 caliber gun.",
+    "description": "The Northrop Watchman X-1 is a production series of heavily armored combat robots.  Initially designed for military patrol and escort service, it rolls on a set of hydraulic treads and is armed with a 9x19mm SMG.",
     "default_faction": "defense_bot",
     "species": "ROBOT",
     "hp": 80,

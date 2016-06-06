@@ -1960,6 +1960,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -4477,6 +4478,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 12 ]
      ],
@@ -4528,6 +4530,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 10 ]
      ],
@@ -4597,6 +4600,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 12 ]
      ],
@@ -4933,6 +4937,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -4985,6 +4990,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 16 ]
@@ -5088,6 +5094,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5149,6 +5156,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5209,6 +5217,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5267,6 +5276,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -5320,8 +5330,9 @@
      ],
      [
       [ "kevlar", 1 ],
-      [ "swat_armor", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
      ]
   ]
@@ -5379,6 +5390,7 @@
      ],
      [
       [ "kevlar", 2 ],
+      [ "makeshift_kevlar", 2 ],
       [ "modularvest", 2 ],
       [ "swat_armor", 2 ],
       [ "kevlar_plate", 42 ]
@@ -6519,7 +6531,7 @@
   "type" : "recipe",
   "result": "goggles_swim",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_OTHER",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "fabrication",
   "difficulty": 4,
   "time": 30000,
@@ -8501,6 +8513,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 16 ]
      ],
@@ -8553,6 +8566,7 @@
      ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "kevlar_plate", 13 ]
      ],
@@ -9033,6 +9047,9 @@
   "components": [
     [
       [ "sheet", 1 ]
+    ],
+    [
+      [ "string_36", 1 ]
     ]
   ]
 },
@@ -9322,6 +9339,7 @@
     ],
      [
       [ "kevlar", 1 ],
+      [ "makeshift_kevlar", 1 ],
       [ "modularvest", 1 ],
       [ "swat_armor", 1 ],
       [ "kevlar_plate", 24 ]
@@ -9488,7 +9506,8 @@
     [
       [ "soldering_iron", 20 ],
       [ "welder", 20 ],
-      [ "hotplate", 20 ]
+      [ "hotplate", 20 ],
+      [ "toolset", 20 ]
     ]
   ],
   "components": [
@@ -9517,7 +9536,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9532,7 +9552,7 @@
   "type" : "recipe",
   "result": "armguard_soft",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 15000,
@@ -9546,7 +9566,8 @@
     [
       [ "soldering_iron", 10],
       [ "welder", 10 ],
-      [ "hotplate", 10 ]
+      [ "hotplate", 10 ],
+      [ "toolset", 10 ]
     ]
   ],
   "components": [
@@ -9561,7 +9582,7 @@
   "type" : "recipe",
   "result": "armguard_hard",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_ARMS",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 25000,
@@ -9575,7 +9596,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9590,7 +9612,7 @@
   "type" : "recipe",
   "result": "legguard_hard",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_LEGS",
   "skill_used": "tailor",
   "difficulty": 3,
   "time": 15000,
@@ -9604,7 +9626,8 @@
     [
       [ "soldering_iron", 15],
       [ "welder", 15 ],
-      [ "hotplate", 15 ]
+      [ "hotplate", 15 ],
+      [ "toolset", 15 ]
     ]
   ],
   "components": [
@@ -9619,7 +9642,7 @@
   "type" : "recipe",
   "result": "wetsuit_hood",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 120000,
@@ -9633,7 +9656,8 @@
     [
       [ "soldering_iron", 5 ],
       [ "welder", 5 ],
-      [ "hotplate", 5 ]
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -9648,7 +9672,7 @@
   "type" : "recipe",
   "result": "wetsuit_booties",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 120000,
@@ -9662,7 +9686,8 @@
     [
       [ "soldering_iron", 5 ],
       [ "welder", 5 ],
-      [ "hotplate", 5 ]
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ]
     ]
   ],
   "components": [
@@ -9677,7 +9702,7 @@
   "type" : "recipe",
   "result": "wetsuit_gloves",
   "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_SUIT",
+  "subcategory": "CSC_ARMOR_HANDS",
   "skill_used": "tailor",
   "difficulty": 4,
   "time": 60000,
@@ -9691,7 +9716,8 @@
     [
       [ "soldering_iron", 3 ],
       [ "welder", 3 ],
-      [ "hotplate", 3 ]
+      [ "hotplate", 3 ],
+      [ "toolset", 3 ]
     ]
   ],
   "components": [

@@ -1535,7 +1535,7 @@ void veh_interact::move_cursor (int dx, int dy)
             if (veh->parts[p].hp < vpinfo.durability) {
                 need_repair.push_back (i);
             }
-            if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].amount < vpinfo.size) {
+            if (veh->part_flag(p, "FUEL_TANK") && veh->parts[p].ammo_remaining() < veh->parts[p].ammo_capacity()) {
                 ptanks.push_back(&veh->parts[p]);
                 has_ptank = true;
             }

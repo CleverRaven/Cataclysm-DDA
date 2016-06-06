@@ -231,6 +231,7 @@
             { "x":  0, "y":  0, "part": "controls" },
             { "x":  0, "y":  0, "part": "horn_big" },
             { "x":  1, "y":  0, "part": "diesel_engine_i6" },
+            { "x":  1, "y":  0, "part": "alternator_truck"},
             { "x":  1, "y":  0, "part": "battery_truck" },
             { "x": -1, "y":  0, "part": "diesel_tank" },
             { "x": -1, "y":  1, "part": "muffler" }

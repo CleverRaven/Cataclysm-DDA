@@ -4466,10 +4466,11 @@ void groundcover_extra::setup()   // fixme return bool for failure
             continue;
         }
         const ter_str_id tid( it->first );
+        const furn_str_id fid( it->first );
         if( tid.is_valid() ) {
             tf_id.ter = tid.id();
-        } else if ( furnmap.find( it->first ) != furnmap.end() ) {
-            tf_id.furn = furnmap[ it->first ].loadid;
+        } else if( fid.is_valid() ) {
+            tf_id.furn = fid.id();
         } else {
             debugmsg("No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
             continue;
@@ -4486,11 +4487,12 @@ void groundcover_extra::setup()   // fixme return bool for failure
             continue;
         }
         const ter_str_id tid( it->first );
+        const furn_str_id fid( it->first );
 
         if( tid.is_valid() ) {
             tf_id.ter = tid.id();
-        } else if ( furnmap.find( it->first ) != furnmap.end() ) {
-            tf_id.furn = furnmap[ it->first ].loadid;
+        } else if( fid.is_valid() ) {
+            tf_id.furn = fid.id();
         } else {
             debugmsg("No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
             continue;

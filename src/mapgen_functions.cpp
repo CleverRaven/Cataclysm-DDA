@@ -3062,7 +3062,7 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     for (int i = 1; i <= 23; i++) {
             for (int j = 1; j <= 23; j++) {
                 if (one_in(1600)) {
-                    m->furn_set(i, j, "f_gun_safe_el");
+                    m->furn_set(i, j, furn_str_id( "f_gun_safe_el" ) );
                     if (one_in(2)){
                         m->spawn_item(i, j, "9mm", 2);
                         m->spawn_item(i, j, "usp_9mm");

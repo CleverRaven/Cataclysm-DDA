@@ -58,16 +58,16 @@ itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
 
 enum npc_action : int {
     npc_undecided = 0,
-    npc_pause, //1
-    npc_reload, npc_sleep, // 2, 3
-    npc_pickup, // 4
+    npc_pause,
+    npc_reload, npc_sleep,
+    npc_pickup,
     npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
-    npc_heal, npc_use_painkiller, npc_drop_items, // 5 - 12
-    npc_flee, npc_melee, npc_shoot, npc_shoot_burst, npc_alt_attack, // 13 - 17
+    npc_heal, npc_use_painkiller, npc_drop_items,
+    npc_flee, npc_melee, npc_shoot, npc_alt_attack,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
-    npc_talk_to_player, npc_mug_player, // 18 - 23
-    npc_goto_destination, npc_avoid_friendly_fire, // 24, 25
-    npc_base_idle, // 26
+    npc_talk_to_player, npc_mug_player,
+    npc_goto_destination, npc_avoid_friendly_fire,
+    npc_base_idle,
     npc_noop,
     npc_reach_attack, npc_aim,
     num_npc_actions
@@ -116,6 +116,20 @@ bool npc::could_move_onto( const tripoint &p ) const
 }
 
 // class npc functions!
+
+double npc::evaluate_enemy( const Creature &target ) const {
+    if( target.is_monster() ) {
+        // effective range [2..42]
+        return std::max( dynamic_cast<const monster&>( target ).type->difficulty - 2, 0 ) / 40.0;
+
+    } else if( target.is_npc() || target.is_player() ) {
+        // @todo determine based upon visible equipment
+        return 1.0;
+
+    } else {
+        return 0.0;
+    }
+}
 
 void npc::assess_danger()
 {
@@ -428,7 +442,7 @@ void npc::execute_action( npc_action action )
         break;
 
     case npc_reach_attack:
-        if( weapon.reach_range() >= rl_dist( pos(), tar ) &&
+        if( weapon.reach_range( *this ) >= rl_dist( pos(), tar ) &&
             clear_shot_reach( pos(), tar ) ) {
             reach_attack( tar );
             break;
@@ -456,18 +470,14 @@ void npc::execute_action( npc_action action )
 
         break;
 
-    case npc_shoot:
-        aim();
-        if( weapon.gun_set_mode( "DEFAULT" ) ) {
-            fire_gun( tar, weapon.gun_current_mode().qty );
+    case npc_shoot: {
+        auto mode = weapon.gun_current_mode();
+        if( !mode ) {
+            debugmsg( "NPC tried to shoot without valid mode" );
+            break;
         }
-        break;
-
-    case npc_shoot_burst: {
         aim();
-        if( weapon.gun_set_mode( "AUTO" ) ) {
-            fire_gun( tar, weapon.gun_current_mode().qty );
-        }
+        fire_gun( tar, mode.qty, *mode );
         break;
     }
 
@@ -663,7 +673,7 @@ void npc::choose_monster_target()
     int highest_priority = 0;
 
     // Radius we can attack without moving
-    const int cur_range = std::max( weapon.reach_range(), confident_range() );
+    const int cur_range = std::max( weapon.reach_range( *this ), confident_range() );
 
     constexpr int def_radius = 6;
 
@@ -775,10 +785,6 @@ npc_action npc::method_of_fleeing()
 
 npc_action npc::method_of_attack()
 {
-    bool can_use_gun = (!is_following() || rules.use_guns);
-    bool use_silent = (is_following() && rules.use_silent);
-    int reach_range = weapon.reach_range();
-
     Creature *critter = get_target( ai_cache.target );
     if( critter == nullptr ) {
         // This function shouldn't be called...
@@ -788,72 +794,72 @@ npc_action npc::method_of_attack()
 
     tripoint tar = critter->pos();
     int dist = rl_dist( pos(), tar );
-    int target_HP;
-    if( !critter->is_monster() ) {
-        target_HP = critter->hp_percentage() * critter->get_hp( hp_torso );
-    } else {
-        target_HP = critter->get_hp();
-    }
+    double danger = evaluate_enemy( *critter );
 
-    const npc_action melee_action = reach_range > 1 ? npc_reach_attack : npc_melee;
     // TODO: Change the in_vehicle check to actual "are we driving" check
     const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
 
-    // TODO: Make NPCs understand reinforced glass and vehicles blocking line of fire
-    if( can_use_gun ) {
-        if( need_to_reload() && can_reload_current() ) {
-            return npc_reload;
+    // get any suitable modes excluding melee, any forbiden to NPCs and those without ammo
+    // if we require a silent weapon inappropriate modes are also removed
+    // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
+    std::vector<std::pair<std::string,item::gun_mode>> modes;
+    if( rules.use_guns || !is_following() ) {
+        for( const auto &e : weapon.gun_all_modes() ) {
+            modes.push_back( e );
         }
-        if( emergency() && alt_attack_available() ) {
-            return npc_alt_attack;
-        }
-        if( weapon.is_gun() && (!use_silent || weapon.is_silent()) &&
-            weapon.ammo_remaining() >= weapon.ammo_required() ) {
 
-            const int confident = confident_gun_range( weapon );
-            int burst_size = weapon.gun_get_mode( "AUTO" ).qty;
+        modes.erase( std::remove_if( modes.begin(), modes.end(),
+                     [&]( const std::pair<std::string, item::gun_mode>& e ) {
 
-            if( dist > confident ) {
-                if( can_reload_current() && (enough_time_to_reload( weapon ) || in_vehicle) ) {
-                    return npc_reload;
-                } else if( dont_move && dist > reach_range ) {
-                    return npc_pause;
-                } else if( dist > confident_gun_range( weapon, weapon.sight_dispersion( -1 ) ) ) {
-                    return melee_action;
-                } else {
-                    return npc_aim;
-                }
-            }
-            if( !wont_hit_friend( tar ) ) {
-                if( dont_move ) {
-                    if( can_reload_current() ) {
-                        return npc_reload;
-                    } else {
-                        // Wait for clear shot
-                        return npc_pause;
-                    }
-                } else {
-                    return npc_avoid_friendly_fire;
-                }
-            } else if( !sees( *critter ) ) {
-                // Can't see target
-                return melee_action;
-            } else if( dist > confident && sees( tar ) ) {
-                // If out of confident range, aim or move closer to the target
-                if( dist > confident_gun_range( weapon, weapon.sight_dispersion( -1 ) ) ) {
-                    return melee_action;
-                } else {
-                    return npc_aim;
-                }
-            } else if( burst_size > 1 && dist <= confident / 3 &&
-                       weapon.ammo_remaining() >= burst_size &&
-                       (target_HP >= weapon.gun_damage() * 3 ||
-                        emergency( ai_cache.danger * 2 ) ) ) {
-                return npc_shoot_burst;
-            } else {
-                return npc_shoot;
+            const auto &m = e.second;
+            return m.melee() || m.flags.count( "NPC_AVOID" ) ||
+                   !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
+                   ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
+                   ( rules.use_silent && is_following() && !m.target->is_silent() );
+
+        } ), modes.end() );
+    }
+
+    // prefer modes that result in more total damage
+    std::stable_sort( modes.begin(), modes.end(), [&]( const std::pair<std::string, item::gun_mode>& lhs,
+                                                       const std::pair<std::string, item::gun_mode>& rhs ) {
+        return ( lhs.second->gun_damage() * lhs.second.qty ) > ( rhs.second->gun_damage() * rhs.second.qty );
+    } );
+
+    // modes outside confident range should always be the last option(s)
+    std::stable_sort( modes.begin(), modes.end(), [&]( const std::pair<std::string, item::gun_mode>& lhs,
+                                                       const std::pair<std::string, item::gun_mode>& rhs ) {
+        return ( confident_gun_range( lhs.second ) >= dist ) > ( confident_gun_range( rhs.second ) >= dist );
+    } );
+
+    if( emergency() && alt_attack_available() ) {
+        return npc_alt_attack;
+    }
+
+    // reach attacks are silent and consume no ammo so prefer these if available
+    int reach_range = weapon.reach_range( *this );
+    if( reach_range > 1 && reach_range >= dist && clear_shot_reach( pos(), tar ) ) {
+        return npc_reach_attack;
+    }
+
+    // if the best mode is within the confident range try for a shot
+    if( !modes.empty() && sees( *critter ) && confident_gun_range( modes[ 0 ].second ) >= dist ) {
+
+        // @todo Make NPCs understand reinforced glass and vehicles blocking line of fire
+
+        if( wont_hit_friend( tar ) ) {
+            weapon.gun_set_mode( modes[ 0 ].first );
+            return npc_shoot;
+
+        } else {
+            if( !dont_move ) {
+                return npc_avoid_friendly_fire;
             }
         }
+    }
+
+    if( dist == 1 ) {
+        return npc_melee;
     }
 
     // TODO: Add a time check now that wielding takes a lot of time
@@ -861,11 +867,15 @@ npc_action npc::method_of_attack()
         return npc_noop;
     }
 
-    if( dont_move && (dist > reach_range || !clear_shot_reach( pos(), tar ) ) ) {
-        return npc_pause;
+    if( !weapon.ammo_sufficient() && can_reload_current() ) {
+        return npc_reload;
     }
 
-    return melee_action;
+    if( !modes.empty() && sees( *critter ) && aim_per_time( weapon, recoil ) > 0 ) {
+        return npc_aim;
+    }
+
+    return npc_melee;
 }
 
 bool need_heal( const Character &n )
@@ -1203,32 +1213,39 @@ double npc::confidence_mult() const
 int npc::confident_range( int position ) const
 {
     if( position == -1 ) {
-        return confident_gun_range( weapon );
+        int res = 0;
+        for( const auto &m : weapon.gun_all_modes() ) {
+            res = std::max( res, confident_gun_range( m.second ) );
+        }
+        return res;
     }
 
     return confident_throw_range( i_at( position ) );
 }
 
-int npc::confident_gun_range( const item &gun ) const
+int npc::confident_gun_range( const item::gun_mode &gun, int at_recoil ) const
 {
-    return confident_gun_range( gun, recoil + driving_recoil );
-}
+    if( at_recoil < 0 ) {
+        at_recoil = recoil + driving_recoil;
+    }
 
-int npc::confident_gun_range( const item &gun, int at_recoil ) const
-{
-    if( !gun.is_gun() || gun.ammo_remaining() < gun.ammo_required() ) {
+    if( !gun || gun.melee() ) {
         return 0;
     }
 
-    double deviation = get_weapon_dispersion( &gun, false ) + at_recoil;
+    double deviation = get_weapon_dispersion( gun.target, false ) + at_recoil;
     // Halve to get expected values
     deviation /= 2;
     // Convert from MoA back to quarter-degrees.
     deviation /= 15;
 
-    const int ret = std::min( int( confidence_mult() * 360 / deviation ), gun.gun_range( this ) );
-    add_msg( m_debug, "confident_gun_range == %d", ret );
-    return ret;
+    int ret = std::min( int( confidence_mult() * 360 / deviation ), gun->gun_range( this ) );
+
+    // 5 round burst equivalent to ~2 individually aimed shots
+    ret /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
+
+    add_msg( m_debug, "confident_gun_range (%s=%d)", gun.mode.c_str(), ret );
+    return std::max( ret, 1 );
 }
 
 int npc::confident_throw_range( const item &thrown ) const
@@ -1298,16 +1315,6 @@ bool npc::wont_hit_friend( const tripoint &tar, int weapon_index ) const
         }
     }
     return true;
-}
-
-bool npc::need_to_reload() const
-{
-    if( !can_reload( weapon ) ) {
-        return false;
-    }
-
-    return ( weapon.ammo_remaining() < weapon.ammo_required() ||
-             weapon.ammo_remaining() < weapon.ammo_capacity() * 0.1 );
 }
 
 bool npc::enough_time_to_reload( const item &gun ) const
@@ -2476,12 +2483,12 @@ float rate_food( const item &it, int want_nutr, int want_quench )
         return 0.0f;
     }
 
-    if( it.rotten() ) {
+    float relative_rot = it.get_relative_rot();
+    if( relative_rot >= 1.0f ) {
         // TODO: Allow sapro mutants to eat it anyway and make them prefer it
         return 0.0f;
     }
 
-    float relative_rot = it.get_relative_rot();
     float weight = std::max( 1.0f, 10.0f * relative_rot );
     if( food->fun < 0 ) {
         // This helps to avoid eating stuff like flour
@@ -2529,10 +2536,11 @@ bool npc::consume_food()
     invslice slice = inv.slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         const item &it = slice[i]->front();
-        float cur_weight = it.is_food_container() ?
-            rate_food( it.contents.front(), want_hunger, want_quench ) :
-            rate_food( it, want_hunger, want_quench );
-        if( cur_weight > best_weight ) {
+        const item &food_item = it.is_food_container() ?
+                                it.contents.front() : it;
+        float cur_weight = rate_food( food_item, want_hunger, want_quench );
+        // Note: can_eat is expensive, avoid calling it if possible
+        if( cur_weight > best_weight && can_eat( food_item ) == EDIBLE ) {
             best_weight = cur_weight;
             index = i;
         }
@@ -2547,7 +2555,15 @@ bool npc::consume_food()
         return false;
     }
 
-    return consume( index );
+    // consume doesn't return a meaningful answer, we need to compare moves
+    // @todo Make player::consume return false if it fails to consume
+    int old_moves = moves;
+    bool consumed = consume( index ) && old_moves != moves;
+    if( !consumed ) {
+        debugmsg( "%s failed to consume %s", name.c_str(), i_at( index ).tname().c_str() );
+    }
+
+    return consumed;
 }
 
 void npc::mug_player(player &mark)
@@ -2882,8 +2898,6 @@ std::string npc_action_name(npc_action action)
         return _("Aim");
     case npc_shoot:
         return _("Shoot");
-    case npc_shoot_burst:
-        return _("Fire a burst");
     case npc_alt_attack:
         return _("Use alternate attack");
     case npc_look_for_player:

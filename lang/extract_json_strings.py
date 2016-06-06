@@ -32,10 +32,12 @@ ignorable = {
     "BULLET_PULLING",
     "colordef",
     "epilogue", # FIXME right now this object can't be translated correctly
+    "GAME_OPTION",
     "ITEM_BLACKLIST",
     "item_group",
     "ITEM_OPTION",
     "ITEM_WHITELIST",
+    "MIGRATION",
     "monitems",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",

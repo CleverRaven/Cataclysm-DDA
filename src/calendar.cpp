@@ -431,6 +431,16 @@ int calendar::season_length()
     return cached_season_length;
 }
 
+int calendar::turn_of_year() const
+{
+    return (season * season_turns()) + (turn_number % season_turns());
+}
+
+int calendar::day_of_year() const
+{
+    return day + season_length() * season;
+}
+
 void calendar::sync()
 {
     const int sl = season_length();

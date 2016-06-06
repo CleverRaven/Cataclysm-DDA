@@ -37,7 +37,6 @@
     "skill_used": "cooking",
     "difficulty": 2,
     "time": 18000,
-    "reversible": false,
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
     "tools": [

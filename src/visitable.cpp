@@ -745,7 +745,7 @@ static int amount_of_internal( const T& self, const itype_id& id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit] ( const item *e ) {
-        qty += ( e->typeId() == id && e->contents.empty() && ( pseudo || !e->has_flag( "PSEUDO" ) ) );
+        qty += ( e->typeId() == id && e->allow_crafting_component() && ( pseudo || !e->has_flag( "PSEUDO" ) ) );
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
     return qty;
