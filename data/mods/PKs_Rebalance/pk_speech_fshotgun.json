@@ -12,7 +12,7 @@
     },{
         "type" : "speech",
         "speaker" : "mon_furvivor_shotgun",
-        "sound" : "\You put the lime in the coco nuts and shake your body round!\"",
+        "sound" : "You put the lime in the coco nuts and shake your body round!",
         "volume" : 10
     },{
         "type" : "speech",
