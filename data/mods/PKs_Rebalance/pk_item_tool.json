@@ -165,7 +165,6 @@
     "material" : ["plastic"],
     "flags" : ["WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "NO_RELOAD"],
     "coverage" : 10,
-    "ammo": "NULL",
     "revert_to": "bag_plastic",
     "max_charges": 7,
     "initial_charges": 7,
@@ -194,7 +193,6 @@
     "price" : 1000000,
     "material" : ["glass"],
     "flags" : ["NO_RELOAD", "NO_UNLOAD"],
-    "ammo": "NULL",
     "revert_to": "bottle_glass",
     "charges": 3,
     "use_action" : {
