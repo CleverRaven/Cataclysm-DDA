@@ -4463,6 +4463,40 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
     return CONSUMED_ALL;
 }
 
+long ammo_count_for( Character &p, const item &gun )
+{
+    long ret = 1000;
+    if( !gun.is_gun() ) {
+        return ret;
+    }
+
+    long required = gun.ammo_required();
+
+    if( required > 0 ) {
+        long remaining = 0;
+        if( gun.magazine_integral() ) {
+            remaining += gun.ammo_remaining();
+        }
+
+        const auto ammo = p.find_ammo( gun, true, -1 );
+        long charge_sum = 0;
+        for( const auto &amm : ammo ) {
+            charge_sum += amm->charges;
+        }
+
+        ret = std::min<long>( ret, remaining + charge_sum / required );
+    }
+
+    long ups_drain = gun.get_gun_ups_drain();
+    if( ups_drain > 0 ) {
+        ret = std::min<long>( ret, p.charges_of( "UPS" ) / ups_drain );
+    }
+
+    add_msg( "%ld charges for %s, req %d, ups %d", ret, gun.tname().c_str(), required, ups_drain );
+
+    return ret;
+}
+
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 {
     const int inv_pos = g->inv_for_all( _( "Offer what?" ), _( "You have no items to offer." ) );
@@ -4493,45 +4527,19 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
     }
 
-    long our_ammo = 0;
-    if( p.weapon.is_gun() ) {
-        our_ammo = p.weapon.charges;
-        const auto other_ammo = p.get_ammo( p.weapon.ammo_type() );
-        for( const auto &amm : other_ammo ) {
-            our_ammo += amm->charges;
-        }
-    }
-
     bool taken = false;
-    const double new_melee_value = p.melee_value( given );
-    double new_weapon_value = new_melee_value;
+    long our_ammo = ammo_count_for( p, p.weapon );
+    long new_ammo = ammo_count_for( p, given );
+    const double new_weapon_value = p.weapon_value( given, new_ammo );
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     if( allow_use ) {
         add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
                  p.weapon.tname().c_str(), our_ammo, cur_weapon_value );
-        add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
-                 given.tname().c_str(), new_melee_value );
-        if( new_melee_value > cur_weapon_value ) {
+        add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
+                 given.tname().c_str(), new_ammo, new_weapon_value );
+        if( new_weapon_value > cur_weapon_value ) {
             p.wield( given );
             taken = true;
-        }
-
-        if( !taken && given.is_gun() ) {
-            // Don't take guns for which we have no ammo, even if they look cool
-            int ammo_count = given.charges;
-            const auto other_ammo = p.get_ammo( given.ammo_type() );
-            for( const auto &amm : other_ammo ) {
-                ammo_count += amm->charges;
-            }
-            // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
-            new_weapon_value = p.weapon_value( given, ammo_count );
-
-            add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                     given.tname().c_str(), ammo_count, new_weapon_value );
-            if( new_weapon_value > cur_weapon_value ) {
-                p.wield( given );
-                taken = true;
-            }
         }
 
         // is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
