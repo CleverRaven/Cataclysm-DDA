@@ -1229,6 +1229,15 @@ public:
             /** flags change behavior of gun mode and are **not** equivalent to item flags */
             std::set<std::string> flags;
 
+            gun_mode( const std::string &mode = "", item *target = nullptr, int qty = 0 ) :
+                gun_mode( mode, target, qty, std::set<std::string>() ) {}
+
+            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
+                mode( mode ),
+                target( target ),
+                qty( qty ),
+                flags( flags ) {}
+
             /** if true perform a melee attach as opposed to shooting */
             bool melee() const { return flags.count( "MELEE" ); }
 
