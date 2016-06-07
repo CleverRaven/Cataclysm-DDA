@@ -74,7 +74,7 @@ bool string_id<species_type>::is_valid() const
 }
 
 MonsterGenerator::MonsterGenerator()
-: mon_templates( new generic_factory<mtype>( "monster type" ) )
+: mon_templates( new generic_factory<mtype>( "monster type", "id", "alias" ) )
 , mon_species( new generic_factory<species_type>( "species" ) )
 {
     mon_templates->insert( mtype() );
