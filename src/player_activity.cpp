@@ -497,6 +497,14 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
     // And to forbid resuming now-invalid crafting
     ( void )who;
     switch( type ) {
+        case ACT_NULL:
+        case NUM_ACTIVITIES:
+            return false;
+        case ACT_RELOAD:
+        case ACT_READ:
+        case ACT_GAME:
+        case ACT_REFILL_VEHICLE:
+            break;
         case ACT_WAIT:
         case ACT_WAIT_NPC:
         case ACT_WAIT_WEATHER:
