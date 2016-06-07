@@ -1,12 +1,23 @@
 [
-{
+    {
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "PK_REBALANCE",
     "name": "PKs Reimagining",
-    "description": "Adds many new creatures and rebalances existing ones to make the game more challenging.",
+    "description": "Adds many new creatures and rebalances existing spawns to make the game more challenging.",
     "category": "creatures",
     "author": "pisskop",
     "path": ""
-}
+    },{
+    "type": "ITEM_BLACKLIST",
+    "items": [
+        "acidbomb",
+        "acidbomb_act"
+    ]
+    },{
+    "type" : "MONSTER_WHITELIST",
+    "monsters" : [
+        "mon_bear_smoky"
+    ]
+    }
 ]
