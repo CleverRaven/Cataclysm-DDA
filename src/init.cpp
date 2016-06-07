@@ -205,7 +205,7 @@ void DynamicDataLoader::initialize()
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_whitelist);
 
-    type_function_map[ "GAME_OPTION" ] = new ClassFunctionAccessor<game>( g, &game::load_game_option );
+    type_function_map[ "GAME_OPTION" ] = new ClassFunctionAccessor<game>( &game::get_instance(), &game::load_game_option );
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
