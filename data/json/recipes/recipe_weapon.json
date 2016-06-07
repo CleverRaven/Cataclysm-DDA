@@ -1692,10 +1692,10 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-    [[ "clay_canister", 1 ], [ "flask_glass", 1 ]],
-    [[ "acid", 1 ]],
-    [[ "string_6", 1 ]],
-    [[ "rag", 1 ]]
+        [[ "clay_canister", 1 ], [ "flask_glass", 1 ]],
+        [[ "acid", 1 ]],
+        [[ "string_6", 1 ]],
+        [[ "rag", 1 ]]
     ]
   },{
     "type" : "recipe",
@@ -1708,10 +1708,10 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-    [[ "jar_glass", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ]],
-    [[ "acid", 2]],
-    [[ "string_6", 2 ]],
-    [[ "rag", 1 ]]
+        [[ "jar_glass", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ]],
+        [[ "acid", 2]],
+        [[ "string_6", 2 ]],
+        [[ "rag", 1 ]]
     ]
   },{
     "type" : "recipe",
@@ -1724,11 +1724,11 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-    [[ "bottle_glass", 1 ], [ "jar_glass", 1 ], [ "clay_canister", 3 ], [ "flask_glass", 3 ]],
-    [[ "flask_glass", 1 ], [ "clay_canister", 1 ], [ "jar_glass", 1 ]],
-    [[ "acid", 4 ]],
-    [[ "string_36", 1 ]],
-    [[ "rag", 2 ]]
+        [[ "bottle_glass", 1 ], [ "jar_glass", 1 ], [ "clay_canister", 3 ], [ "flask_glass", 3 ]],
+        [[ "flask_glass", 1 ], [ "clay_canister", 1 ], [ "jar_glass", 1 ]],
+        [[ "acid", 4 ]],
+        [[ "string_36", 1 ]],
+        [[ "rag", 2 ]]
     ]
   },{
   "type" : "recipe",
