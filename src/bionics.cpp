@@ -728,8 +728,7 @@ void player::process_bionic( int b )
             }
         }
         for( int i = 0; i < num_bp; i++ ) {
-            if( power_level >= 2 && has_effect( effect_bleed, ( body_part )i ) ) {
-                remove_effect( effect_bleed );
+            if( power_level >= 2 && remove_effect( effect_bleed, ( body_part )i ) ) {
                 charge_power( -2 );
             }
         }
