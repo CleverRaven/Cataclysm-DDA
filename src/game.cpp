@@ -3376,8 +3376,9 @@ void game::update_scent()
     int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
 
     // these are for caching flag lookups
-    bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // currently only TFLAG_WALL blocks scent
-    bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
+    std::array<std::array<bool, SEEX * MAPSIZE>, SEEY * MAPSIZE> blocks_scent; // currently only TFLAG_WALL blocks scent
+    std::array<std::array<bool, SEEX * MAPSIZE>, SEEY * MAPSIZE> reduces_scent;
+
 
 
     // for loop constants
