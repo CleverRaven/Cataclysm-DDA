@@ -10696,7 +10696,7 @@ bool player::invoke_item( item* used, const tripoint &pt )
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     umenu.return_invalid = true;
     for( const auto &e : used->type->use_methods ) {
-        umenu.addentry( -1, e.second.can_call( this, used, false, pt ),
+        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( this, used, false, pt ),
                         MENU_AUTOASSIGN, e.second.get_name() );
     }
 
