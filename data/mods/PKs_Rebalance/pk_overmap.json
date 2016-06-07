@@ -129,7 +129,7 @@
         "locations": [ "forest" ],
         "city_distance": [0, -1],
         "city_sizes": [4, 12],
-        "occurrences": [200, 500],
+        "occurrences": [150, 450],
         "rotate": true,
         "spawns": { "group":  "GROUP_SPIDER", "population":[20,50], "radius":[3,6] }
     },{
@@ -142,7 +142,7 @@
         "locations": [ "field" ],
         "city_distance": [2, -1],
         "city_sizes": [4, 16],
-        "occurrences": [100, 250],
+        "occurrences": [75, 225],
         "rotate": true,
         "spawns": { "group":  "GROUP_SPIDER_TRAP", "population":[15,40], "radius":[3,6] }
     },{
@@ -155,7 +155,7 @@
         "locations": [ "field" ],
         "city_distance": [3, -1],
         "city_sizes": [4, 16],
-        "occurrences": [0, 150],
+        "occurrences": [50, 150],
         "rotate": true,
         "spawns": { "group":  "GROUP_SPIDER_TRAP_LONER", "population":[10,25], "radius":[3,6] }
     },{
