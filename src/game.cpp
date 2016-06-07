@@ -1623,8 +1623,8 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
     int ch = (int)' ';
 
-    std::string stop_message = text + u.activity.get_stop_phrase() +
-                               _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
+    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
+                               _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
 
     do {
         ch = popup(stop_message, PF_GET_KEY);
@@ -1654,7 +1654,7 @@ bool game::cancel_activity_query(const char *message, ...)
         }
         return false;
     }
-    if (query_yn("%s%s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
+    if (query_yn("%s %s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
         u.cancel_activity();
         return true;
     }
@@ -14034,6 +14034,37 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 }
 
+// Helper function for game::wait().
+static int convert_wait_chosen_to_turns( int choice ) {
+    const int iHour = calendar::turn.hours();
+
+    switch( choice ) {
+    case 1:
+        return MINUTES( 5 );
+    case 2:
+        return MINUTES( 30 );
+    case 3:
+        return HOURS( 1 );
+    case 4:
+        return HOURS( 2 );
+    case 5:
+        return HOURS( 3 );
+    case 6:
+        return HOURS( 6 );
+    case 7:
+        return HOURS( ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6) );
+    case 8:
+        return HOURS( ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6) );
+    case 9:
+        return HOURS( ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6) );
+    case 10:
+        return HOURS( ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6) );
+    case 11:
+    default:
+        return 999999999;
+    }
+}
+
 void game::wait()
 {
     const bool bHasWatch = u.has_watch();
@@ -14062,51 +14093,16 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(12, true, 'q', _("Exit")));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    const int iHour = calendar::turn.hours();
-
-    int time = 0;
-    activity_type actType = ACT_WAIT;
-
-    switch (as_m.ret) {
-    case 1:
-        time = 5000;
-        break;
-    case 2:
-        time = 30000;
-        break;
-    case 3:
-        time = 60000;
-        break;
-    case 4:
-        time = 120000;
-        break;
-    case 5:
-        time = 180000;
-        break;
-    case 6:
-        time = 360000;
-        break;
-    case 7:
-        time = 60000 * ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6);
-        break;
-    case 8:
-        time = 60000 * ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6);
-        break;
-    case 9:
-        time = 60000 * ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6);
-        break;
-    case 10:
-        time = 60000 * ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6);
-        break;
-    case 11:
-        time = 999999999;
-        actType = ACT_WAIT_WEATHER;
-        break;
-    default:
+    if( as_m.ret < 1 || as_m.ret > 11 ) {
         return;
     }
 
-    u.assign_activity(actType, time, 0);
+    int chosen_turns = convert_wait_chosen_to_turns( as_m.ret );
+    activity_type actType = ( as_m.ret == 11 ) ? ACT_WAIT_WEATHER : ACT_WAIT;
+
+    constexpr int turns_to_moves = 100;
+    player_activity new_act( actType, chosen_turns * turns_to_moves, 0 );
+    u.assign_activity( new_act, false );
     u.rooted_message();
 }
 
