@@ -21,12 +21,9 @@
 #include "catacharset.h"
 #include "init.h"
 #include "generic_factory.h"
-#include "game.h"
 
 #include <algorithm>
 #include <sstream>
-
-extern class game *g;
 
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
@@ -47,6 +44,8 @@ typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
 static t_string_set item_whitelist;
 static bool item_whitelist_is_exclusive = false;
+
+static std::set<std::string> item_options;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
@@ -147,25 +146,21 @@ void Item_factory::finalize() {
         set_allergy_flags( *e.second );
         hflesh_to_flesh( *e.second );
 
-        if( obj.comestible ) {
-            if( g->has_option( "no_vitamins" ) ) {
-                obj.comestible->vitamins.clear();
+        // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
+        if( obj.comestible && obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
 
-            } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
-                // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
-                auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
+            auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
 
-                auto mat = obj.materials;
-                mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
-                    return !m.obj().edible(); // @todo migrate inedible comestibles to appropriate alternative types
-                } ), mat.end() );
+            auto mat = obj.materials;
+            mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
+                return !m.obj().edible(); // @todo migrate inedible comestibles to appropriate alternative types
+            } ), mat.end() );
 
-                // for comestibles composed of multiple edible materials we calculate the average
-                for( const auto &v : vitamin::all() ) {
-                    if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
-                        for( const auto &m : mat ) {
-                            obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
-                        }
+            // for comestibles composed of multiple edible materials we calculate the average
+            for( const auto &v : vitamin::all() ) {
+                if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
+                    for( const auto &m : mat ) {
+                        obj.comestible->vitamins[ v.first ] += ceil( m.obj().vitamin( v.first ) * healthy / mat.size() );
                     }
                 }
             }
@@ -196,7 +191,7 @@ void Item_factory::finalize_item_blacklist()
 
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
-    const bool magazines_blacklisted = g->has_option( "blacklist_magazines" );
+    const bool magazines_blacklisted = item_options.count("blacklist_magazines");
 
     if( magazines_blacklisted ) {
         for( auto& e : m_templates ) {
@@ -264,6 +259,11 @@ void Item_factory::load_item_whitelist( JsonObject &json )
         item_whitelist_is_exclusive = true;
     }
     add_to_set( item_whitelist, json, "items" );
+}
+
+void Item_factory::load_item_option( JsonObject &json )
+{
+    add_to_set( item_options, json, "options" );
 }
 
 Item_factory::~Item_factory()
@@ -767,7 +767,7 @@ void Item_factory::check_definitions() const
             main_stream.str(std::string());
         }
     }
-    if( !g->has_option( "blacklist_magazines" ) ) {
+    if( item_options.count( "blacklist_magazines" ) == 0 ) {
         for( auto &mag : magazines_defined ) {
             // some vehicle parts (currently batteries) are implemented as magazines
             if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {
@@ -1641,6 +1641,7 @@ void Item_factory::clear()
     item_blacklist.clear();
     item_whitelist.clear();
     item_whitelist_is_exclusive = false;
+    item_options.clear();
 }
 
 Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)

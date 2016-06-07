@@ -945,15 +945,6 @@ private:
 
         void move_save_to_graveyard();
         bool save_player_data();
-
-        /** Options can be specified by mods from JSON using GAME_OPTION */
-        void load_game_option( JsonObject& jo );
-        std::set<std::string> options;
-
-    public:
-        bool has_option( const std::string& opt ) {
-            return options.count( opt );
-        }
 };
 
 #endif

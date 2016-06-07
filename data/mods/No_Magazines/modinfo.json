@@ -9,7 +9,7 @@
     "category": "item_exclude",
     "path": "modinfo.json"
   },{
-    "type": "GAME_OPTION",
+    "type": "ITEM_OPTION",
     "options": [ "blacklist_magazines" ]
   }
 ]

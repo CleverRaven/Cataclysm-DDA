@@ -124,10 +124,6 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 int player::vitamin_get( const vitamin_id &vit ) const
 {
-    if( g->has_option( "no_vitamins" ) ) {
-        return 0;
-    }
-
     const auto &v = vitamin_levels.find( vit );
     return v != vitamin_levels.end() ? v->second : 0;
 }

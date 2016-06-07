@@ -203,8 +203,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_whitelist);
-
-    type_function_map[ "GAME_OPTION" ] = new ClassFunctionAccessor<game>( g, &game::load_game_option );
+    type_function_map["ITEM_OPTION"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_item_option);
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
@@ -366,7 +366,6 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     gates::reset();
     reset_overlay_ordering();
-    g->options.clear();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
