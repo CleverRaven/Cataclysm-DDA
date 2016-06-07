@@ -3129,6 +3129,15 @@ bool map::mop_spills( const tripoint &p )
                 veh->parts[elem].blood = 0;
                 retval = true;
             }
+            //remove any liquids that somehow didn't fall through to the ground
+            vehicle_stack here = veh->get_items( elem );
+            auto new_end = std::remove_if( here.begin(), here.end(), []( const item & it ) {
+                return it.made_of( LIQUID );
+            } );
+            retval |= ( new_end != here.end() );
+            while( new_end != here.end() ) {
+                new_end = here.erase( new_end );
+            }
         }
     } // if veh != 0
     return retval;
