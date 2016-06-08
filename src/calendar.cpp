@@ -25,6 +25,25 @@ bool calendar::eternal_season = false;
 // How long, in seconds, does sunrise/sunset last?
 #define TWILIGHT_SECONDS (60 * 60)
 
+constexpr int FULL_SECONDS_IN( int n )
+{
+    return n * 6;
+}
+
+constexpr int FULL_MINUTES_IN( int n )
+{
+    return n / MINUTES( 1 );
+}
+
+constexpr int FULL_HOURS_IN( int n )
+{
+    return n / HOURS( 1 );
+}
+
+constexpr int FULL_DAYS_IN( int n )
+{
+    return n / DAYS( 1 );
+}
 
 calendar::calendar()
 {
