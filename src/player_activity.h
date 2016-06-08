@@ -54,6 +54,7 @@ enum activity_type : int {    // expanded this enum for readability
 };
 
 class player;
+class Character;
 
 class player_activity : public JsonSerializer, public JsonDeserializer
 {
@@ -94,7 +95,7 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         player_activity &operator=( const player_activity & ) = default;
 
         // Question to ask when the activity is to be stoped,
-        // e.g. " Stop doing something?", already translated.
+        // e.g. "Stop doing something?", already translated.
         const std::string &get_stop_phrase() const;
         /**
          * If this returns true, the activity can be aborted with
@@ -133,6 +134,12 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * Returns true if the activity is complete.
          */
         bool is_complete() const;
+
+        /**
+         * Returns true if activities are similar enough that this activity
+         * can be resumed instead of starting the other activity.
+         */
+        bool can_resume_with( const player_activity &other, const Character &who ) const;
 };
 
 #endif

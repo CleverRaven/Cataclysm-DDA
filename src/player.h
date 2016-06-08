@@ -973,8 +973,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int adjust_for_focus(int amount) const;
         void practice( const skill_id &s, int amount, int cap = 99 );
 
+        /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
                              std::string name = "");
+        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
+        void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity(const activity_type type) const;
         void cancel_activity();
 

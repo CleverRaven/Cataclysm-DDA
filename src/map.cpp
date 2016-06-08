@@ -4712,22 +4712,32 @@ item &map::add_item_at( const tripoint &p,
     return *new_pos;
 }
 
-item map::water_from(const tripoint &p)
+item map::water_from( const tripoint &p )
 {
     if( has_flag( "SALT_WATER", p ) ) {
         item ret( "salt_water", 0, item::INFINITE_CHARGES );
         return ret;
     }
 
+    const ter_id terrain_id = g->m.ter( p );
     item ret( "water", 0, item::INFINITE_CHARGES );
-    if( ter( p ) == t_water_sh && one_in( 3 ) ) {
-        ret.poison = rng(1, 4);
-    } else if( ter( p ) == t_water_dp && one_in( 4 ) ) {
-        ret.poison = rng(1, 4);
-    } else if( ter( p ) == t_sewage ) {
-        ret.poison = rng( 1, 7 );
+    if( terrain_id == t_water_sh ) {
+        if( one_in( 3 ) ) {
+            ret.poison = rng( 1, 4 );
+        }
+        return ret;
     }
-    return ret;
+    if( terrain_id == t_water_dp ) {
+        if( one_in( 4 ) ) {
+            ret.poison = rng( 1, 4 );
+        }
+        return ret;
+    }
+    if( terrain_id == t_sewage ) {
+        ret.poison = rng( 1, 7 );
+        return ret;
+    }
+    return item();
 }
 
 // Check if it's in a fridge and is food, set the fridge
@@ -4991,6 +5001,13 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
                                         long &quantity )
 {
     std::list<item> ret;
+    // Handle infinite map sources.
+    item water = water_from( p );
+    if( water.typeId() == type ) {
+        ret.push_back( water );
+        quantity = 0;
+        return ret;
+    }
     int vpart = -1;
     vehicle *veh = veh_at( p, vpart );
 
@@ -5120,6 +5137,14 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
 {
     std::list<item> ret;
     for( const tripoint &p : closest_tripoints_first( range, origin ) ) {
+        // Handle infinite map sources.
+        item water = water_from( p );
+        if( water.typeId() == type ) {
+            ret.push_back( water );
+            quantity = 0;
+            return ret;
+        }
+
         if( has_furn( p ) && accessible_furniture( origin, p, range ) ) {
             use_charges_from_furn( furn_at( p ), type, quantity, this, p, ret );
             if( quantity <= 0 ) {
