@@ -11299,6 +11299,11 @@ void player::do_read( item *book )
         add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
     }
 
+    auto m = book->type->use_methods.find( "MA_MANUAL" );
+    if( m != book->type->use_methods.end() ) {
+        m->second.call( this, book, false, pos() );
+    }
+
     activity.type = ACT_NULL;
 }
 
