@@ -25,7 +25,7 @@
         "type" : "COMESTIBLE",
         "name" : "abstract mutagen flavor",
         "addiction_potential" : 2
-    },    
+    },
     {
         "id" : "mutagen_alpha",
         "copy-from" : "mutagen_flavor",
