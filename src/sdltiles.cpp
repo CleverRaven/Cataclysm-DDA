@@ -14,6 +14,7 @@
 #include <fstream>
 #include <sstream>
 #include <sys/stat.h>
+#include <memory>
 #include <stdexcept>
 #include "cata_tiles.h"
 #include "get_version.h"
@@ -56,7 +57,7 @@
 //Globals                           *
 //***********************************
 
-cata_tiles *tilecontext;
+std::unique_ptr<cata_tiles> tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
@@ -1581,7 +1582,7 @@ WINDOW *curses_init(void)
     }
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext = new cata_tiles(renderer);
+    tilecontext.reset(new cata_tiles(renderer));
     try {
         tilecontext->init();
         dbg( D_INFO ) << "Tiles initialized successfully.";
@@ -2040,14 +2041,14 @@ void CachedTTFFont::load_font(std::string typeface, int fontsize)
 }
 
 int map_font_width() {
-    if (use_tiles && tilecontext != NULL) {
+    if (use_tiles && tilecontext ) {
         return tilecontext->get_tile_width();
     }
     return (map_font != NULL ? map_font : font)->fontwidth;
 }
 
 int map_font_height() {
-    if (use_tiles && tilecontext != NULL) {
+    if (use_tiles && tilecontext ) {
         return tilecontext->get_tile_height();
     }
     return (map_font != NULL ? map_font : font)->fontheight;

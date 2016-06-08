@@ -164,7 +164,7 @@ nc_color sev(int a); // Right now, ONLY used for scent debugging....
 //The one and only game instance
 game *g;
 #ifdef TILES
-extern cata_tiles *tilecontext;
+extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 input_context get_default_mode_input_context();
 
