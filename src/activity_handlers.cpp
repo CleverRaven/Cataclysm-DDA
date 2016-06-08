@@ -627,6 +627,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 if( g->m.ter_at( source_pos ).examine == &iexamine::gaspump ) {
                     add_msg( _( "With a clang and a shudder, the %s pump goes silent."),
                              liquid.type_name( 1 ).c_str() );
+                } else if( g->m.furn_at( source_pos ).examine == &iexamine::fvat_full ) {
+                    g->m.furn_set( source_pos, f_fvat_empty );
+                    add_msg( _( "You squeeze the last drops of %s from the vat." ),
+                             liquid.type_name( 1 ).c_str() );
                 }
                 act.type = ACT_NULL;
             }

@@ -4737,6 +4737,13 @@ item map::water_from( const tripoint &p )
         ret.poison = rng( 1, 7 );
         return ret;
     }
+    // iexamine::water_source requires a valid liquid from this function.
+    if( terrain_id.obj().examine == &iexamine::water_source ) {
+        return ret;
+    }
+    if( furn( p ).obj().examine == &iexamine::water_source ) {
+        return ret;
+    }
     return item();
 }
 
