@@ -4,6 +4,8 @@
 #include "map.h"
 #include "output.h"
 
+#include <cassert>
+
 static constexpr int SCENT_RADIUS = 40;
 
 nc_color sev( const int a )
@@ -79,6 +81,7 @@ void scent_map::decay()
 
 void scent_map::draw( WINDOW *const win, const int div, const tripoint &center ) const
 {
+    assert( div != 0 );
     const int maxx = getmaxx( win );
     const int maxy = getmaxy( win );
     for( int x = 0; x < maxx; ++x ) {
