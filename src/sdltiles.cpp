@@ -219,7 +219,7 @@ static bool fontblending = false;
 
 // Cache of bitmap fonts family.
 // Used only while fontlist.txt is created.
-static std::set<std::string> *bitmap_fonts;
+static std::set<std::string> bitmap_fonts;
 
 static std::vector<curseline> oversized_framebuffer;
 static std::vector<curseline> terminal_framebuffer;
@@ -1326,10 +1326,10 @@ static void font_folder_list(std::ofstream& fout, std::string path)
                 }
                 if (isbitmap) {
                     std::set<std::string>::iterator it;
-                    it = bitmap_fonts->find(std::string(fami));
-                    if (it == bitmap_fonts->end()) {
+                    it = bitmap_fonts.find(std::string(fami));
+                    if (it == bitmap_fonts.end()) {
                         // First appearance of this font family
-                        bitmap_fonts->insert(fami);
+                        bitmap_fonts.insert(fami);
                     } else { // Font in set. Add filename to family string
                         size_t start = f.find_last_of("/\\");
                         size_t end = f.find_last_of(".");
@@ -1362,7 +1362,6 @@ static void font_folder_list(std::ofstream& fout, std::string path)
 static void save_font_list()
 {
     std::ofstream fout(FILENAMES["fontlist"].c_str(), std::ios_base::trunc);
-    bitmap_fonts = new std::set<std::string>;
 
     font_folder_list(fout, FILENAMES["fontdir"]);
 
@@ -1392,8 +1391,7 @@ static void save_font_list()
     }
 #endif
 
-    bitmap_fonts->clear();
-    delete bitmap_fonts;
+    bitmap_fonts.clear();
 
     fout << "end of list" << std::endl;
 }
