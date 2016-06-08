@@ -1,6 +1,6 @@
 
 [
-  {   
+  {
     "type": "AMMO",
     "id": "rebar_rail",
     "name": "rebar rail",
@@ -23,7 +23,7 @@
     "recoil": 300,
     "effects": [ "RECYCLED" ]
   },
-  {   
+  {
     "id": "steel_rail",
     "copy-from": "rebar_rail",
     "type": "AMMO",

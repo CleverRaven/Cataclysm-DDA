@@ -85,7 +85,7 @@
       "half_life": 14
     },
     "special_attacks":[["ANTQUEEN", 3], ["SHRIEK_ALERT", 30]],
-    "flags":["SEES", "SMELLS", "QUEEN", "CHITIN", "FAT", "CLIMBS", "BASHES"],
+    "flags":["SEES", "SMELLS", "PATH_AVOID_DANGER_1", "QUEEN", "CHITIN", "FAT", "CLIMBS", "BASHES"],
     "anger_triggers":["FRIEND_DIED", "HURT", "FIRE"]
     },{
     "type" : "MONSTER",
@@ -125,7 +125,7 @@
     "species":"INSECT",
     "default_faction":"ant",
     "symbol":"s",
-    "color":"ltgrey",
+    "color":"ltgray",
     "size":"SMALL",
     "material":"iflesh",
     "diff":7,
@@ -147,7 +147,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["SHRIEK_ALERT", 50], ["SHRIEK_STUN", 1]],
     "description":"A small giant ant with a carapace shell.  Is capable of a surprising range of vocal expression for a bug, including ear-splitting wails.",
-    "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "CHITIN", "CLIMBS"],
     "anger_triggers":["FRIEND_DIED", "HURT"]
     },{
     "type" : "MONSTER",
@@ -357,7 +357,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["ANTQUEEN", 3], ["FLAMETHROWER", 10], ["SHRIEK_ALERT", 15]],
     "description":"A colossal red ant with a bulging, bloated thorax.  It moves slowly and deliberately, tending to nearby eggs and continually laying more.  Its antennae seem almost aesthetic, or at the least not used for sensing . . .",
-    "flags":["SEES", "SMELLS", "QUEEN", "CHITIN", "FAT", "CLIMBS", "FIREPROOF", "BASHES"],
+    "flags":["SEES", "SMELLS", "PATH_AVOID_DANGER_1", "QUEEN", "CHITIN", "FAT", "CLIMBS", "FIREPROOF", "BASHES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "FIRE"]
     },{
     "type" : "MONSTER",
@@ -388,8 +388,40 @@
     "death_function":"NORMAL",
     "special_attacks":[["ANTQUEEN", 21], ["FLAMETHROWER", 30], ["SHRIEK_ALERT", 30], ["SHRIEK_STUN", 1]],
     "description":"A fecund female ant.  It still bears its wings, and likely either s preparing for or just completed its nuptial flight.  Its body is well-laden with stores of nutrients for its future young.",
-    "flags":["SEES", "SMELLS", "CHITIN", "FAT", "CLIMBS", "FIREPROOF", "FLIES", "BASHES"],
+    "flags":["SEES", "SMELLS", "PATH_AVOID_DANGER_1", "CHITIN", "FAT", "CLIMBS", "FIREPROOF", "FLIES", "BASHES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "FIRE"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_ant_male",
+    "name": "male ant",
+    "species":"INSECT",
+    "default_faction":"ant_male",
+    "symbol":"a",
+    "color":"dkgray",
+    "size":"MEDIUM",
+    "material":"iflesh",
+    "diff":16,
+    "aggression":30,
+    "morale":70,
+    "speed":105,
+    "melee_skill":6,
+    "melee_dice":1,
+    "melee_dice_sides":12,
+    "melee_damage" : [ {"damage_type" : "stab", "amount" : 6} ],
+    "dodge":5,
+    "armor_bash":5,
+    "armor_cut":8,
+    "armor_fire":12,
+    "armor_acid":3,
+    "vision_day":25,
+    "vision_night":7,
+    "hp":80,
+    "death_function":"NORMAL",
+    "description":"The male giant ant, seen often during the spring and rarely anytime else.  Spends its short life jockeying with other male ants for mating rights, only actually mating once before death.",
+    "flags":["SEES", "SMELLS", "CHITIN", "FAT", "CLIMBS", "FLIES", "BASHES"],
+    "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FIRE"],
+    "fear_triggers":["FRIEND_DIED", "HURT"],
+    "placate_triggers": ["FRIEND_ATTACKED"]
     },{
     "type" : "MONSTER",
     "id" : "mon_ant_kwama",

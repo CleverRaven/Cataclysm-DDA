@@ -1,5 +1,5 @@
 [
-  {   
+  {
     "id": "5x50dart",
     "type": "AMMO",
     "name": "RA110 5x50mm flechette",
@@ -21,7 +21,7 @@
     "recoil": 60,
     "effects": ["COOKOFF", "NEVER_MISFIRES"]
   },
-  {   
+  {
     "id": "5x50heavy",
     "copy-from": "5x50dart",
     "type": "AMMO",

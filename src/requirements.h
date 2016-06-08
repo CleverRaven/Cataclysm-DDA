@@ -163,6 +163,7 @@ struct requirement_data {
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
         const alter_item_comp_vector &get_components() const;
+        alter_item_comp_vector &get_components();
 
         bool can_make_with_inventory( const inventory &crafting_inv, int batch = 1 ) const;
 

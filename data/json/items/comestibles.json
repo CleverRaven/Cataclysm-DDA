@@ -2426,8 +2426,8 @@
         "description" : "This is a serving of crisply brined and canned fish.  Tasty and nutritious.",
         "price" : 250, "//" : "Two charges per jar.",
         "material" : "flesh",
-        "volume" : 2,
-        "charges" : 2,
+        "volume" : 1,
+        "stack_size" : 2,
         "fun" : 7
     },
     {
@@ -2447,8 +2447,8 @@
         "description" : "Low-sodium preserved fish.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked fish.",
         "price" : 250,
         "material" : "flesh",
-        "volume" : 2,
-        "charges" : 1,
+        "volume" : 1,
+        "stack_size" : 2,
         "fun" : 2
     },
     {
@@ -8442,8 +8442,7 @@
         "description" : "Low-sodium preserved meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
         "price" : 250,
         "material" : "flesh",
-        "volume" : 2,
-        "charges" : 1,
+        "volume" : 1,
         "stack_size" : 2,
         "fun" : 2
     },
@@ -8464,8 +8463,7 @@
         "description" : "This mushy pile of vegetable matter was boiled and canned in an earlier life.  Better eat it before it oozes through your fingers.",
         "price" : 250,
         "material" : "veggy",
-        "volume" : 2,
-        "charges" : 1,
+        "volume" : 1,
         "stack_size" : 2,
         "fun" : 0
     },
@@ -8486,8 +8484,7 @@
         "description" : "This sodden mass of preserved fruit was boiled and canned in an earlier life.  Bland, mushy and losing color.",
         "price" : 220,
         "material" : "fruit",
-        "volume" : 2,
-        "charges" : 1,
+        "volume" : 1,
         "stack_size" : 2,
         "fun" : 1
     },
@@ -8508,8 +8505,7 @@
         "description" : "Low-sodium preserved human meat.  It was boiled and canned.  Contains most of the nutrition, but little of the savor of cooked meat.",
         "price" : 0,
         "material" : "hflesh",
-        "volume" : 2,
-        "charges" : 1,
+        "volume" : 1,
         "stack_size" : 2,
         "fun" : 2
     },
@@ -8873,8 +8869,7 @@
         "price" : 450,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 1,
-        "stack_size" : 4,
+        "charges" : 2,
         "fun" : -2
     },
     {
@@ -9444,7 +9439,7 @@
         "price" : 250,
         "material" : "veggy",
         "volume" : 1,
-        "charges" : 2,
+        "stack_size" : 2,
         "fun" : 7
     },
     {
@@ -9463,7 +9458,7 @@
         "price" : 250,
         "material" : "flesh",
         "volume" : 1,
-        "charges" : 2,
+        "stack_size" : 2,
         "fun" : 6
     },
     {
@@ -9481,8 +9476,8 @@
         "description" : "This is a serving of crisply brined and canned human flesh.  Tasty and nutritious if you're into that sort of thing.",
         "price" : 0,
         "material" : "hflesh",
-        "volume" : 4,
-        "charges" : 2,
+        "volume" : 1,
+        "stack_size" : 2,
         "fun" : 6
     },
     {   "type" : "AMMO",
@@ -11485,8 +11480,7 @@
         "description" : "Canned tomato.  A staple in many pantries, and useful for many recipes.",
         "price" : 350,
         "material" : "veggy",
-        "volume" : 2,
-        "charges" : 1,
+        "volume" : 1,
         "stack_size" : 2,
         "fun" : 0
     },

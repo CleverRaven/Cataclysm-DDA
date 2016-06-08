@@ -1,0 +1,73 @@
+[
+    {
+    "type" : "MONSTER",
+    "id" : "mon_eyebot",
+    "edit-mode" : "modify",
+      "vision_night":20
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_secubot",
+    "edit-mode" : "modify",
+      "vision_night":10
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_copbot",
+    "edit-mode" : "modify",
+      "vision_night":15
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_tripod",
+    "edit-mode" : "modify",
+      "vision_night":30
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_chickenbot",
+    "edit-mode" : "modify",
+      "vision_night":20
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_tankbot",
+    "edit-mode" : "modify",
+      "vision_night":20
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_turret_searchlight",
+    "edit-mode" : "modify",
+      "vision_night":50
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_laserturret",
+    "edit-mode" : "modify",
+      "vision_night":10
+    },
+    {
+    "type" : "MONSTER",
+    "id" : "mon_manhack_missile",
+    "name": "revenant rocket",
+    "species":"ROBOT",
+    "default_faction":"doom",
+    "symbol":",",
+    "color":"cyan",
+    "size":"TINY",
+    "material":"steel",
+    "diff":12,
+    "aggression":100,
+    "morale":100,
+    "speed":110,
+    "melee_skill":0,
+    "melee_dice":0,
+    "melee_dice_sides":0,
+    "dodge":0,
+    "armor_bash":5,
+    "armor_cut":5,
+    "vision_day":50,
+    "vision_night":25,
+    "revert_to_itype": "bot_manhack_missile",
+    "hp":5,
+    "death_function":["EXPLODE"],
+    "special_attacks":[["KAMIKAZE", 0], ["DISAPPEAR", 600]],
+    "starting_ammo": { "rocket_core": 1},
+    "description":"A revenant's homing missile, working its way towards you.  If only you could disable it . . .",
+    "flags":["SEES", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO"]
+    }
+]

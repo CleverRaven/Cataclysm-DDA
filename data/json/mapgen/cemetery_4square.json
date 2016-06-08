@@ -49,7 +49,6 @@
       ["cigar_butt", 10]
     ]
     },
-    
     {
     "type": "mapgen",
         "om_terrain": [
@@ -125,7 +124,7 @@
                 "8": "f_shackle",
                 "P": "f_sign"
             },
-        "place_items": [ 
+        "place_items": [
                 { "item": "grave_memories", "chance": 45, "x": [ 5, 11 ], "y": [ 3, 21], "repeat": [ 1, 2 ] },
                 { "item": "grave_memories", "chance": 45, "x": [ 15, 21 ], "y": [ 3, 21], "repeat": [ 1, 2 ] }
             ]
@@ -205,7 +204,7 @@
                 "8": "f_shackle",
                 "P": "f_sign"
             },
-        "place_items": [ 
+        "place_items": [
                 { "item": "grave_memories", "chance": 45, "x": [ 2, 8 ], "y": [ 3, 21], "repeat": [ 1, 2 ] },
                 { "item": "grave_memories", "chance": 45, "x": [ 12, 18 ], "y": [ 3, 21], "repeat": [ 1, 2 ] }
             ]
@@ -290,7 +289,7 @@
                 "P": "Closed at sunset.",
                 "p": "Maintained by the the <city> church."
             },
-        "place_items": [ 
+        "place_items": [
                 { "item": "trash", "chance": 20, "x": [ 2, 21 ], "y": [ 7, 14 ], "repeat": [ 1, 2 ] }
             ],
             "place_loot" : [
