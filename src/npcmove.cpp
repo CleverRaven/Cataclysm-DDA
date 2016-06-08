@@ -2137,7 +2137,7 @@ bool npc::wield_better_weapon()
 
     compare_weapon( weapon );
     // To prevent changing to barely better stuff
-    best_value *= 1.1;
+    best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
     // Fists aren't checked below
     compare_weapon( ret_null );
@@ -3081,4 +3081,7 @@ void npc::do_reload( item &it )
         sfx::play_variant_sound( "reload", it.typeId(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
     }
+
+    // Otherwise the NPC may not equip the weapon until they see danger
+    has_new_items = true;
 }
