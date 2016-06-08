@@ -13904,36 +13904,46 @@ static int convert_wait_chosen_to_turns( int choice ) {
         return calendar::turn.diurnal_time_before( HOURS( 0 ) );
     case 11:
     default:
-        return 999999999;
+        return calendar::INDEFINITELY_LONG;
     }
 }
 
 void game::wait()
 {
-    const bool bHasWatch = u.has_watch();
+    const bool has_watch = u.has_watch();
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");
     as_m.return_invalid = true;
-    as_m.entries.push_back(uimenu_entry(1, true, '1',
-                                        (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats")));
-    as_m.entries.push_back(uimenu_entry(2, true, '2',
-                                        (bHasWatch) ? _("30 Minutes") : _("Wait 1800 heartbeats")));
 
-    if (bHasWatch) {
-        as_m.entries.push_back(uimenu_entry(3, true, '3', _("1 hour")));
-        as_m.entries.push_back(uimenu_entry(4, true, '4', _("2 hours")));
-        as_m.entries.push_back(uimenu_entry(5, true, '5', _("3 hours")));
-        as_m.entries.push_back(uimenu_entry(6, true, '6', _("6 hours")));
+    const auto add_menu_item = [ &as_m, has_watch ]( int R, int K, const std::string &T = "" ) {
+        const int duration = convert_wait_chosen_to_turns( R );
+        std::string text( T );
+
+        if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
+            const std::string dur_str( calendar::print_duration( duration ) );
+            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
+        }
+        as_m.entries.push_back( uimenu_entry( R, true, K, text ) );
+    };
+
+    add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "" );
+    add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "" );
+
+    if( has_watch ) {
+        add_menu_item( 3, '3' );
+        add_menu_item( 4, '4' );
+        add_menu_item( 5, '5' );
+        add_menu_item( 6, '6' );
     }
 
-    as_m.entries.push_back(uimenu_entry(7, true, 'd', _("Wait till dawn")));
-    as_m.entries.push_back(uimenu_entry(8, true, 'n', _("Wait till noon")));
-    as_m.entries.push_back(uimenu_entry(9, true, 'k', _("Wait till dusk")));
-    as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight")));
-    as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes")));
+    add_menu_item( 7, 'd', _( "Wait till dawn" ) );
+    add_menu_item( 8, 'n', _( "Wait till noon" ) );
+    add_menu_item( 9, 'k', _( "Wait till dusk" ) );
+    add_menu_item( 10, 'm', _( "Wait till midnight" ) );
+    add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+    add_menu_item( 12, 'q', _( "Exit" ) );
 
-    as_m.entries.push_back(uimenu_entry(12, true, 'q', _("Exit")));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     if( as_m.ret < 1 || as_m.ret > 11 ) {

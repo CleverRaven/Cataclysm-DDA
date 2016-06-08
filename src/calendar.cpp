@@ -1,11 +1,16 @@
 #include <cmath>
 #include <sstream>
+#include <limits>
+
 #include "calendar.h"
 #include "output.h"
 #include "options.h"
 #include "translations.h"
 #include "game.h"
 #include "debug.h"
+
+// Divided by 100 to prevent overflowing when converted to turns
+const int calendar::INDEFINITELY_LONG( int( std::numeric_limits<int>::max() / 100 ) );
 
 calendar calendar::start;
 calendar calendar::turn;
