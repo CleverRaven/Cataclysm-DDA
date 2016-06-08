@@ -416,16 +416,10 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
             fire.charges = 1;
             add_item(fire);
         }
-        if (terrain_id == t_water_sh || terrain_id == t_water_dp ||
-            terrain_id == t_water_pool || terrain_id == t_water_pump) {
-            item water("water", 0);
-            water.charges = 50;
-            add_item(water);
-        }
-        if (terrain_id == t_swater_sh || terrain_id == t_swater_dp) {
-            item swater("salt_water", 0);
-            swater.charges = 50;
-            add_item(swater);
+        // Handle any water from infinite map sources.
+        item water = g->m.water_from( p );
+        if( !water.is_null() ) {
+            add_item( water );
         }
         // add cvd forge from terrain
         if (terrain_id == t_cvdmachine) {
