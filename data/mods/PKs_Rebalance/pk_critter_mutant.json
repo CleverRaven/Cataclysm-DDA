@@ -1,6 +1,15 @@
 [
     {
     "type" : "MONSTER",
+    "id" : "mon_coyote_wolf",
+    "edit-mode" : "modify",
+    "hp": 25,
+    "upgrades":{
+        "into": "mon_coyote_wolf_zerg",
+        "half_life": 19
+    }
+    },{
+    "type" : "MONSTER",
     "id" :"mon_sewer_fish",
     "edit-mode" : "modify",
     "default_faction":"mutant_predator"
@@ -55,19 +64,53 @@
     "type" : "MONSTER",
     "id" :"mon_human_snail",
     "edit-mode" : "modify",
-    "default_faction": "mutant_omnivore"
+    "default_faction": "mutant_omnivore",
+    "aggression":0,
+    "morale":30,
+    "speed":60,
+    "melee_skill":4,
+    "melee_dice":1,
+    "melee_dice_sides":4,
+    "melee_cut":0,
+    "melee_damage" : [{"damage_type" : "acid", "amount" : 2}],
+    "dodge":0,
+    "armor_bash":6,
+    "armor_cut":12,
+    "hp":80,
+    "vision_day":5,
+    "vision_night":20,
+    "special_attacks":[["ACID", 15], ["IMPALE", 40]],
+    "flags":["SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "POISON", "ACIDPROOF", "ACID_BLOOD", "ACIDTRAIL"],
+    "anger_triggers":["FRIEND_ATTACKED", "HURT", "FRIEND_DIED"]
     },{
     "type" : "MONSTER",
     "id" :"mon_twisted_body",
     "edit-mode" : "modify",
-    "default_faction":"twisted_body"
+    "default_faction":"twisted_body",
+    "aggression":0,
+    "morale":100,
+    "speed": 110,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":5,
+    "melee_cut":3,
+    "dodge":6,
+    "armor_bash":2,
+    "armor_cut":2,
+    "vision_day":40,
+    "vision_night":7,
+    "hp":60,
+    "description":"A human body, but with its limbs impossibly twisted.  It clambers around swiftly, making awful rasping moans.",
+    "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "LEATHER", "CLIMBS", "SWARMS", "REGENERATES_10"],
+    "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED"]
     },{
     "type" : "MONSTER",
     "id" : "mon_jabberwock",
     "edit-mode" : "modify",
         "upgrades":{
       "into": "mon_jabberwock_pk",
-      "half_life": 28
+      "half_life": 28,
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "LEATHER", "BONES", "POISON", "BONES", "FAT", "REVIVES", "NO_NECRO"]
       }
     },{
         "type" : "MONSTER",
@@ -94,10 +137,86 @@
         "vision_night":5,
         "hp":600,
         "death_function":"JABBERWOCKY",
-        "special_attacks":[["FLESH_GOLEM", 5], ["SMASH", 60],  ["FEAR_PARALYZE", 5]],
+        "special_attacks":[["FLESH_GOLEM", 5], ["SMASH", 60],  ["FEAR_PARALYZE", 3]],
         "description":"A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.  Its coming for you",
-        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS",
-                 "ATTACKMON", "LEATHER", "BONES", "POISON", "BONES", "FAT"],
+        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "DESTROYS", "ATTACKMON", "LEATHER", "BONES", "POISON", "BONES", "FAT", "REVIVES", "NO_NECRO"],
         "//" : "zombie tank will beat this guy with about 20% health.  Most because its faster and this guy cant smash as often as him.  And oc the tank has more armor."
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_bat_vampire",
+    "name": "vampire bat",
+    "species":"ABERRATION",
+    "default_faction":"mutant_small",
+    "symbol":"w",
+    "color":"brown_red",
+    "size":"SMALL",
+    "material":"flesh",
+    "diff":12,
+    "aggression":-5,
+    "morale":20,
+    "speed":170,
+    "melee_skill":4,
+    "melee_dice":1,
+    "melee_dice_sides":2,
+    "melee_cut":4,
+    "melee_damage" : [{"damage_type" : "biological", "amount" : 1}],
+    "dodge":3,
+    "armor_bash":6,
+    "vision_day":10,
+    "vision_night":20,
+    "hp":25,
+    "death_function":"NORMAL",
+    "special_attacks":[["SHRIEK_ALERT", 30], ["SHRIEK_STUN", 1],
+        {
+            "type" : "bite",
+            "cooldown" : 3,
+            "no_infection_chance" : 5
+        }
+    ],
+    "description":"A mutated bat with a narrow, proboscis-like snout.  After its pack stuns the prey, it uses its teeth to gouge a hole into it and its slender tongue to quickly lap up the resulting blood.",
+    "flags":["SEES", "SMELLS", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "ANIMAL", "BONES", "LEATHER", "HARDTOSHOOT", "SWARMS", "HIT_AND_RUN", "GROUP_MORALE"],
+    "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED", "SOUND", "FIRE"],
+    "fear_triggers":["PLAYER_CLOSE", "SOUND", "FRIEND_DIED"],
+    "categories":["WILDLIFE"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_coyote_wolf_zerg",
+    "name": "scythed coyote",
+    "species":"MAMMAL",
+    "default_faction":"dog",
+    "symbol":"d",
+    "color":"brown_white",
+    "size":"MEDIUM",
+    "material":"flesh",
+    "diff":16,
+    "aggression":0,
+    "morale":15,
+    "speed":145,
+    "melee_skill":6,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":12,
+    "dodge":5,
+    "armor_bash":3,
+    "armor_cut":1,
+    "vision_day":40,
+    "vision_night":5,
+    "hp":45,
+    "death_function":"NORMAL",
+    "special_attacks":[["LONGSWIPE", 20], ["IMPALE", 50],
+        {
+            "type" : "leap",
+            "cooldown" : 20,
+            "max_range" : 3,
+            "min_consider_range" : 2,
+            "max_consider_range" : 7,
+            "allow_no_target" : false
+        }],
+    "description":"It looks like a brown coyote with black streaks along its side.  Except against either haunch rests a muscular folded limb terminating in a scythe-like bony protrusion.",
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT", "SWARMS", "GROUP_MORALE"],
+    "fear_triggers":["FRIEND_DIED", "HURT"],
+    "anger_triggers":["FRIEND_ATTACKED", "PLAYER_WEAK", "PLAYER_CLOSE"],
+    "placate_triggers":["MEAT"],
+    "categories":["WILDLIFE"]
     }
 ]
