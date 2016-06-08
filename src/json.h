@@ -824,6 +824,10 @@ class JsonArray
         JsonArray get_array(int index);
         JsonObject get_object(int index);
 
+        // get_tags returns empty set if none found
+        template <typename T = std::string>
+        std::set<T> get_tags( int index );
+
         // iterative type checking
         bool test_null();
         bool test_bool();
@@ -872,6 +876,28 @@ class JsonArray
             return jsin->read(t);
         }
 };
+
+template <typename T>
+std::set<T> JsonArray::get_tags( int index )
+{
+    std::set<T> res;
+
+    verify_index( index );
+    jsin->seek(positions[ index ]);
+
+    // allow single string as tag
+    if( jsin->test_string() ) {
+        res.insert( T( jsin->get_string() ) );
+        return res;
+    }
+
+    JsonArray jsarr = jsin->get_array();
+    while( jsarr.has_more() ) {
+        res.insert( T( jsarr.next_string() ) );
+    }
+
+    return res;
+}
 
 template <typename T>
 std::set<T> JsonObject::get_tags( const std::string &name )

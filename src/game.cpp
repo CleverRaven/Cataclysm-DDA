@@ -1482,6 +1482,9 @@ bool game::do_turn()
     monmove();
     update_stair_monsters();
     u.process_turn();
+    if (u.moves < 0) {
+        draw();
+    }
     u.process_active_items();
 
     if (get_levz() >= 0 && !u.is_underwater()) {
@@ -1620,8 +1623,8 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
     int ch = (int)' ';
 
-    std::string stop_message = text + u.activity.get_stop_phrase() +
-                               _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
+    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
+                               _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
 
     do {
         ch = popup(stop_message, PF_GET_KEY);
@@ -1651,7 +1654,7 @@ bool game::cancel_activity_query(const char *message, ...)
         }
         return false;
     }
-    if (query_yn("%s%s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
+    if (query_yn("%s %s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
         u.cancel_activity();
         return true;
     }
@@ -2771,6 +2774,7 @@ bool game::handle_action()
 
         case ACTION_ORGANIZE:
             reassign_item();
+            refresh_all();
             break;
 
         case ACTION_USE:
@@ -2891,7 +2895,9 @@ bool game::handle_action()
         }
 
         case ACTION_SELECT_FIRE_MODE:
-            cycle_item_mode( false );
+            if( u.is_armed() ) {
+                u.weapon.gun_cycle_mode();
+            }
             break;
 
         case ACTION_DROP:
@@ -3130,6 +3136,7 @@ bool game::handle_action()
                     uquit = QUIT_SUICIDE;
                 }
             }
+            refresh_all();
             break;
 
         case ACTION_SAVE:
@@ -3139,6 +3146,7 @@ bool game::handle_action()
                     uquit = QUIT_SAVED;
                 }
             }
+            refresh_all();
             break;
 
         case ACTION_QUICKSAVE:
@@ -3156,7 +3164,7 @@ bool game::handle_action()
 
         case ACTION_MAP:
             #ifdef TILES
-            invalidate_overmap_framebuffer();
+            invalidate_all_framebuffers();
             #endif // TILES
             draw_overmap();
             break;
@@ -3758,115 +3766,6 @@ bool game::save_player_data()
     return saved_data && saved_weather && saved_log;
 }
 
-void game::dump_stats( const std::string& what )
-{
-    load_core_data();
-    DynamicDataLoader::get_instance().finalize_loaded_data();
-
-    if( what == "GUN" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Ammo" << "\t"
-            << "Volume" << "\t"
-            << "Weight" << "\t"
-            << "Capacity" << "\t"
-            << "Range" << "\t"
-            << "Dispersion" << "\t"
-            << "Recoil" << "\t"
-            << "Damage" << "\t"
-            << "Pierce" << std::endl;
-
-        auto dump = []( const item& gun ) {
-            std::cout
-                << gun.tname( false ) << "\t"
-                << ( gun.ammo_type() != "NULL" ? gun.ammo_type() : "" ) << "\t"
-                << gun.volume() << "\t"
-                << gun.weight() << "\t"
-                << gun.ammo_capacity() << "\t"
-                << gun.gun_range() << "\t"
-                << gun.gun_dispersion() << "\t"
-                << gun.gun_recoil() << "\t"
-                << gun.gun_damage() << "\t"
-                << gun.gun_pierce() << std::endl;
-        };
-
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->gun.get() ) {
-                item gun( e.first );
-                if( gun.is_reloadable() ) {
-                    gun.ammo_set( default_ammo( gun.ammo_type() ), gun.ammo_capacity() );
-                }
-                dump( gun );
-
-                if( gun.type->gun->barrel_length > 0 ) {
-                    gun.emplace_back( "barrel_small" );
-                    dump( gun );
-                }
-            }
-        }
-    } else if( what == "AMMO" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Ammo" << "\t"
-            << "Volume" << "\t"
-            << "Weight" << "\t"
-            << "Stack" << "\t"
-            << "Range" << "\t"
-            << "Dispersion" << "\t"
-            << "Recoil" << "\t"
-            << "Damage" << "\t"
-            << "Pierce" << std::endl;
-
-        auto dump = []( const item& ammo ) {
-            std::cout
-                << ammo.tname( false ) << "\t"
-                << ammo.type->ammo->type << "\t"
-                << ammo.volume() << "\t"
-                << ammo.weight() << "\t"
-                << ammo.type->stack_size << "\t"
-                << ammo.type->ammo->range << "\t"
-                << ammo.type->ammo->dispersion << "\t"
-                << ammo.type->ammo->recoil << "\t"
-                << ammo.type->ammo->damage << "\t"
-                << ammo.type->ammo->pierce << std::endl;
-        };
-
-        for( auto& e : item_controller->get_all_itypes() ) {
-            if( e.second->ammo.get() ) {
-                dump( item( e.first, calendar::turn, item::solitary_tag {} ) );
-            }
-        }
-    } else if( what == "VEHICLE" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Weight (empty)" << "\t"
-            << "Weight (fueled)" << std::endl;
-
-        for( auto& e : vehicle_prototype::get_all() ) {
-            auto veh_empty = vehicle( e, 0, 0 );
-            auto veh_fueled = vehicle( e, 100, 0 );
-            std::cout
-                << veh_empty.name << "\t"
-                << veh_empty.total_mass() << "\t"
-                << veh_fueled.total_mass() << std::endl;
-        }
-    } else if( what == "VPART" ) {
-        std::cout
-            << "Name" << "\t"
-            << "Location" << "\t"
-            << "Weight" << "\t"
-            << "Size" << std::endl;
-
-        for( const auto e : vpart_info::get_all() ) {
-            std::cout
-                << e->name() << "\t"
-                << e->location << "\t"
-                << ceil( item( e->item ).weight() / 1000.0 ) << "\t"
-                << e->size << std::endl;
-        }
-    }
-}
-
 bool game::save()
 {
     try {
@@ -4072,6 +3971,7 @@ void game::debug()
                        NULL );
     int veh_num;
     std::vector<std::string> opts;
+    refresh_all();
     switch( action ) {
         case 1:
             wishitem( &u );
@@ -5506,6 +5406,9 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_critter( *n, center );
     }
 
+    // Draw player last
+    draw_critter( u, center );
+
     if( u.has_active_bionic("bio_scent_vision") && u.view_offset.z == 0 ) {
         tripoint tmp = center;
         int &realx = tmp.x;
@@ -5539,7 +5442,8 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     }
 
     if( u.controlling_vehicle && !looking ) {
-        draw_veh_dir_indicator();
+        draw_veh_dir_indicator( false );
+        draw_veh_dir_indicator( true );
     }
     if(uquit == QUIT_WATCH) {
         // This should remove the flickering the bar receives
@@ -5559,7 +5463,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
 
 }
 
-tripoint game::get_veh_dir_indicator_location() const
+tripoint game::get_veh_dir_indicator_location( bool next ) const
 {
     if( !OPTIONS["VEHICLE_DIR_INDICATOR"] ) {
         return tripoint_min;
@@ -5568,17 +5472,18 @@ tripoint game::get_veh_dir_indicator_location() const
     if( !veh ) {
         return tripoint_min;
     }
-    rl_vec2d face = veh->face_vec();
+    rl_vec2d face = next ? veh->dir_vec() : veh->face_vec();
     float r = 10.0;
     return { static_cast<int>(r * face.x), static_cast<int>(r * face.y), u.pos().z };
 }
 
-void game::draw_veh_dir_indicator(void)
+void game::draw_veh_dir_indicator( bool next )
 {
-    tripoint indicator_offset = get_veh_dir_indicator_location();
+    tripoint indicator_offset = get_veh_dir_indicator_location( next );
     if( indicator_offset != tripoint_min ) {
+        auto col = next ? c_white : c_dkgray;
         mvwputch( w_terrain, POSY + indicator_offset.y - u.view_offset.y,
-                  POSX + indicator_offset.x - u.view_offset.x, c_white, 'X' );
+                  POSX + indicator_offset.x - u.view_offset.x, col, 'X' );
     }
 }
 
@@ -5591,7 +5496,7 @@ void game::refresh_all()
     }
 
     #ifdef TILES
-    invalidate_map_framebuffer();
+    invalidate_all_framebuffers();
     clear_window_area( w_terrain );
     #endif // TILES
     draw();
@@ -6479,14 +6384,20 @@ void game::monmove()
                 // Count every time we exit npc::move() without spending any moves.
                 turns++;
             }
+
+            // Turn on debug mode when in infinite loop
+            // It has to be done before the last turn, otherwise
+            // there will be no meaningful debug output.
+            if( turns == 9 ) {
+                debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
+                          np->name.c_str() );
+                debug_mode = true;
+            }
         }
+
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cranial detonation to prevent an infinite loop.
-        if( turns == 9 ) {
-            debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
-                np->name.c_str() );
-            debug_mode = true;
-        } else if( turns == 10 ) {
+        if( turns == 10 ) {
             add_msg( _( "%s's brain explodes!" ), np->name.c_str() );
             np->die( nullptr );
         }
@@ -7416,7 +7327,7 @@ void game::close( const tripoint &closep )
         }
     } else if( closep == u.pos() ) {
         add_msg(m_info, _("There's some buffoon in the way!"));
-    } else if (m.has_furn(closep) && m.furn_at(closep).close.empty()) {
+    } else if( m.has_furn( closep ) && !m.furn_at( closep ).close ) {
         // check for open crate
         if (m.furn_at(closep).id == "f_crate_o") {
             add_msg(m_info, _("You'll need to construct a seal to close the crate!"));
@@ -7595,45 +7506,38 @@ bool game::refill_vehicle_part(vehicle &veh, vehicle_part *part, bool test)
     if (!part_info.has_flag("FUEL_TANK")) {
         return false;
     }
-    const itype_id &ftype = part_info.fuel_type;
-    const long min_charges = u.charges_of( ftype );
-    if( min_charges <= 0 ) {
+    const itype_id &ftype = part->ammo_current();
+    const long avail = u.charges_of( ftype );
+    if( avail <= 0 ) {
         return false;
     } else if (test) {
         return true;
     }
 
     const long fuel_per_charge = fuel_charges_to_amount_factor( ftype );
-    const long max_fuel = part_info.size;
-    long charge_difference = (max_fuel - part->amount) / fuel_per_charge;
-    if (charge_difference < 1) {
-        charge_difference = 1;
-    }
-    const long used_charges = std::min( min_charges, charge_difference );
-    part->amount += used_charges * fuel_per_charge;
-    if (part->amount > max_fuel) {
-        part->amount = max_fuel;
-    }
+    long req = ceil( ( part->ammo_capacity() - part->ammo_remaining() ) / double( fuel_per_charge ) );
+    long qty = std::min( req, avail );
+    part->ammo_set( ftype, part->ammo_remaining() + qty );
 
     veh.invalidate_mass();
     if (ftype == "battery") {
         add_msg(_("You recharge %s's battery."), veh.name.c_str());
-        if (part->amount == max_fuel) {
+        if ( part->ammo_remaining() == part->ammo_capacity() ) {
             add_msg(m_good, _("The battery is fully charged."));
         }
     } else if (ftype == "gasoline" || ftype == "diesel") {
         add_msg(_("You refill %s's fuel tank."), veh.name.c_str());
-        if (part->amount == max_fuel) {
+        if ( part->ammo_remaining() == part->ammo_capacity() ) {
             add_msg(m_good, _("The tank is full."));
         }
     } else if (ftype == "plut_cell") {
         add_msg(_("You refill %s's reactor."), veh.name.c_str());
-        if (part->amount == max_fuel) {
+        if ( part->ammo_remaining() == part->ammo_capacity() ) {
             add_msg(m_good, _("The reactor is full."));
         }
     }
 
-    u.use_charges( ftype, used_charges );
+    u.use_charges( ftype, qty );
     return true;
 }
 
@@ -8372,6 +8276,7 @@ void game::peek()
 {
     tripoint p = u.pos();
     if( !choose_adjacent( _("Peek where?"), p.x, p.y ) ) {
+        refresh_all();
         return;
     }
 
@@ -10466,27 +10371,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         }
     };
 
-    const bool is_infinite = liquid.charges == std::numeric_limits<long>::max();
-    const std::string liquid_name = is_infinite ? liquid.tname() : liquid.display_name( liquid.charges );
-
-    const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
-    item * const cont = inv_map_for_liquid( liquid, text, radius );
-    if( source != nullptr && cont == source ) {
-        add_msg( m_info, _( "That's the same container!" ) );
-        // The user has intended to do something, but mistyped.
-        return true;
-    }
-    if( cont != nullptr && !cont->is_null() ) {
-        const int item_index = u.get_item_position( cont );
-        // Currently activities can only store item position in the players inventory,
-        // not on ground or similar. TODO: implement storing arbitrary container locations.
-        if( item_index != INT_MIN && create_activity() ) {
-            serialize_liquid_target( u.activity, item_index );
-        } else if( u.pour_into( *cont, liquid ) ) {
-            u.mod_moves( -100 );
-        }
-        return true;
-    }
+    const std::string liquid_name = liquid.has_infinite_charges() ? liquid.tname() : liquid.display_name( liquid.charges );
 
     uimenu menu;
     menu.return_invalid = true;
@@ -10507,6 +10392,29 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         } );
     }
 
+    menu.addentry( -1, true, 'c', _( "Pour into a container" ) );
+    actions.emplace_back( [&]() {
+        const std::string text = string_format( _( "Container for %s" ), liquid_name.c_str() );
+        item * const cont = inv_map_for_liquid( liquid, text, radius );
+
+        if( cont == nullptr || cont->is_null() ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+        if( cont == source && source != nullptr ) {
+            add_msg( m_info, _( "That's the same container!" ) );
+            return; // The user has intended to do something, but mistyped.
+        }
+        const int item_index = u.get_item_position( cont );
+        // Currently activities can only store item position in the players inventory,
+        // not on ground or similar. TODO: implement storing arbitrary container locations.
+        if( item_index != INT_MIN && create_activity() ) {
+            serialize_liquid_target( u.activity, item_index );
+        } else if( u.pour_into( *cont, liquid ) ) {
+            u.mod_moves( -100 );
+        }
+    } );
+
     for( auto &veh : nearby_vehicles_for( liquid.typeId() ) ) {
         if( veh == source_veh ) {
             continue;
@@ -10515,9 +10423,7 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         actions.emplace_back( [&, veh]() {
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, *veh );
-                return;
-            }
-            if( u.pour_into( *veh, liquid ) ) {
+            } else if( u.pour_into( *veh, liquid ) ) {
                 u.mod_moves( -100 );
             }
         } );
@@ -10535,17 +10441,25 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
         actions.emplace_back( [&, target_pos]() {
             if( create_activity() ) {
                 serialize_liquid_target( u.activity, target_pos );
-                return;
+            } else {
+                iexamine::pour_into_keg( target_pos, liquid );
+                u.mod_moves( -100 );
             }
-            iexamine::pour_into_keg( target_pos, liquid );
-            u.mod_moves( -100 );
         } );
     }
 
     menu.addentry( -1, true, 'g', _( "Pour on the ground" ) );
     actions.emplace_back( [&]() {
+        // From infinite source to the ground somewhere else. The target has
+        // infinite space and the liquid can not be used from there anyway.
+        if( liquid.has_infinite_charges() && source_pos != nullptr ) {
+            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
+            return;
+        }
+
         tripoint target_pos = u.pos();
         const std::string liqstr = string_format( _( "Pour %s where?" ), liquid_name.c_str() );
+
         refresh_all();
         if( !choose_adjacent( liqstr, target_pos ) ) {
             return;
@@ -10559,20 +10473,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
             add_msg( m_info, _( "You can't pour there!" ) );
             return;
         }
-        // From infinite source to the ground somewhere else. The target has
-        // infinite space and the liquid can not be used from there anyway.
-        if( is_infinite && source_pos != nullptr ) {
-            add_msg( m_info, _( "Clearing out the %s would take forever." ), m.name( *source_pos ).c_str() );
-            return;
-        }
 
         if( create_activity() ) {
             serialize_liquid_target( u.activity, target_pos );
-            return;
+        } else {
+            m.add_item_or_charges( target_pos, liquid, 1 );
+            liquid.charges = 0;
+            u.mod_moves( -100 );
         }
-        m.add_item_or_charges( target_pos, liquid, 1 );
-        liquid.charges = 0;
-        u.mod_moves( -100 );
     } );
     if( liquid.rotten() ) {
         // Pre-select this one as it is the most likely one for rotten liquids
@@ -10584,12 +10492,14 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     }
 
     menu.query();
+    refresh_all();
     const size_t chosen = static_cast<size_t>( menu.ret );
     if( chosen >= actions.size() ) {
         add_msg( _( "Never mind." ) );
         // Explicitly canceled all options (container, drink, pour).
         return false;
     }
+
     actions[chosen]();
     return true;
 }
@@ -10633,6 +10543,7 @@ void game::drop_in_direction()
         return;
     }
 
+    refresh_all();
     make_drop_activity( ACT_DROP, dirp );
 }
 
@@ -10942,7 +10853,7 @@ bool game::plfire( const tripoint &default_target )
     }
 
     int reload_time = 0;
-    if( !gun.melee ) {
+    if( !gun.melee() ) {
         if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() || u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
             add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname().c_str() );
             return false;
@@ -10969,7 +10880,7 @@ bool game::plfire( const tripoint &default_target )
             refresh_all();
         }
 
-        if( gun->ammo_remaining() < gun->ammo_required() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
+        if( !gun->ammo_sufficient() && !gun->has_flag("RELOAD_AND_SHOOT") ) {
             if( !gun->ammo_remaining() ) {
                 add_msg(m_info, _("You need to reload!"));
             } else {
@@ -11005,14 +10916,14 @@ bool game::plfire( const tripoint &default_target )
         }
     }
 
-    int range = gun.melee ? gun.qty : gun->gun_range( &u );
+    int range = gun.melee() ? gun.qty : gun->gun_range( &u );
 
     temp_exit_fullscreen();
     m.draw( w_terrain, u.pos() );
 
     tripoint p = u.pos();
 
-    target_mode tmode = gun.melee ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
+    target_mode tmode = gun.melee() ? TARGET_MODE_REACH : TARGET_MODE_FIRE;
     std::vector<tripoint> trajectory = pl_target_ui( p, range, &u.weapon, tmode, default_target );
 
     if (trajectory.empty()) {
@@ -11027,7 +10938,7 @@ bool game::plfire( const tripoint &default_target )
 
     bool res = false;
 
-    if( gun.melee ) {
+    if( gun.melee() ) {
         u.reach_attack( p );
         res = true;
 
@@ -11039,27 +10950,6 @@ bool game::plfire( const tripoint &default_target )
 
     reenter_fullscreen();
     return res;
-}
-
-void game::cycle_item_mode( bool force_gun )
-{
-    if( u.is_armed() ) {
-        u.weapon.gun_cycle_mode();
-
-    } else if( !force_gun ) {
-        int part = -1;
-        vehicle *veh = m.veh_at( u.pos(), part );
-        if( veh == nullptr ) {
-            return;
-        }
-
-        part = veh->part_with_feature( part, "TURRET" );
-        if( part < 0 ) {
-            return;
-        }
-
-        veh->cycle_turret_mode( part, true );
-    }
 }
 
 // Helper for game::butcher
@@ -11513,11 +11403,11 @@ bool add_or_drop_with_msg( player &u, item &it )
         g->consume_liquid( it, 1 );
         return it.charges <= 0;
     }
-    if( !u.can_pickVolume( it.volume() ) ) {
+    if( !u.can_pickVolume( it ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
                  it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
-    } else if( !u.can_pickWeight( it.weight(), !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
+    } else if( !u.can_pickWeight( it, !OPTIONS["DANGEROUS_PICKUPS"] ) ) {
         add_msg( _( "The %s is too heavy to carry, so you drop it." ), it.tname().c_str() );
         g->m.add_item_or_charges( u.pos(), it );
     } else {
@@ -11791,54 +11681,88 @@ void game::pldrive(int x, int y)
             return;
         }
     } else {
-        if ( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).size() == 0 ) {
+        if ( veh->all_parts_with_feature( "REMOTE_CONTROLS", true ).empty() ) {
             add_msg(m_info, _("Can't drive this vehicle remotely. It has no working controls."));
             return;
         }
     }
 
     int turn_delta = 15 * x;
-    if (turn_delta != 0) {
+    const float handling_diff = veh->handling_difficulty();
+    if( turn_delta != 0 ) {
         float eff = veh->steering_effectiveness();
-        if (eff < 0) {
-            add_msg(m_info, _("This vehicle has no steering system installed, you can't turn it."));
+        if( eff < 0 ) {
+            add_msg( m_info, _("This vehicle has no steering system installed, you can't turn it.") );
             return;
         }
 
-        turn_delta = round(turn_delta * eff);
-        if (turn_delta == 0) {
-            add_msg(m_bad, _("The steering is completely broken!"));
-            // Maybe not return here and let them find out the hard way?
+        if( eff == 0 ) {
+            add_msg( m_bad, _("The steering is completely broken!") );
             return;
+        }
+
+        // If you've got more moves than speed, it's most likely time stop
+        // Let's get rid of that
+        u.moves = std::min( u.moves, u.get_speed() );
+
+        ///\EFFECT_DEX reduces chance of losing control of vehicle when turning
+
+        ///\EFFECT_PER reduces chance of losing control of vehicle when turning
+
+        ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
+        float skill = std::min( 10.0f, u.get_skill_level( skill_driving ) + ( u.get_dex() + u.get_per() ) / 10.0f );
+        float penalty = rng_float( 0.0f, handling_diff ) - skill;
+        int cost;
+        if( penalty > 0.0f ) {
+            // At 10 penalty (rather hard to get), we're taking 4 turns per turn
+            cost = 100 * ( 1.0f + penalty / 2.5f );
+        } else {
+            // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
+            cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
+        }
+ 
+        if( penalty > skill || cost > 400 ) {
+            add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
+            // Anything from a wasted attempt to 2 turns in the intended direction
+            turn_delta *= rng( 0, 2 );
+            // Also wastes next turn
+            cost = std::max( cost, u.moves + 100 );
+        } else if( one_in( 10 ) ) {
+            // Don't warn all the time or it gets spammy
+            if( cost >= u.get_speed() * 2 ) {
+                add_msg( m_warning, _( "It takes you a very long time to steer that vehicle!" ) );
+            } else if( cost >= u.get_speed() * 1.5f ) {
+                add_msg( m_warning, _( "It takes you a long time to steer that vehicle!" ) );
+            }
+        }
+
+        veh->turn( turn_delta );
+
+        // At most 3 turns per turn, because otherwise it looks really weird and jumpy
+        u.moves -= std::max( cost, u.get_speed() / 3 + 1 );
+    }
+
+    if( y != 0 ) {
+        int thr_amount = 10 * 100;
+        if( veh->cruise_on ) {
+            veh->cruise_thrust( -y * thr_amount );
+        } else {
+            veh->thrust( -y );
+            u.moves = std::min( u.moves, 0 );
         }
     }
 
-    int thr_amount = 10 * 100;
-    if (veh->cruise_on) {
-        veh->cruise_thrust(-y * thr_amount);
-    } else {
-        veh->thrust(-y);
-    }
-    veh->turn(turn_delta);
-    if (veh->skidding && veh->valid_wheel_config()) {
+    if( veh->skidding && veh->valid_wheel_config() ) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
-        if (rng(0, veh->velocity) < u.dex_cur + u.get_skill_level( skill_driving ) * 2) {
+        if( handling_diff * rng( 1, 10 ) < u.dex_cur + u.get_skill_level( skill_driving ) * 2 ) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
             u.practice( skill_driving, veh->velocity / 5 );
             veh->velocity = int(veh->forward_velocity());
             veh->skidding = false;
             veh->move.init(veh->turn_dir);
         }
-    }
-    // Don't spend turns to adjust cruise speed.
-    if (x != 0 || !veh->cruise_on) {
-        u.moves = 0;
-    }
-
-    if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice( skill_driving, 1 );
     }
 }
 
@@ -13441,7 +13365,7 @@ void game::vertical_move(int movez, bool force)
         for( npc *np : npcs_to_bring ) {
             const auto found = std::find_if( candidates.begin(), candidates.end(),
                 [this, np]( const tripoint &c ) {
-                return !np->is_dangerous_field( m.field_at( c ) ) && m.tr_at( c ).is_benign();
+                return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
             } );
 
             if( found != candidates.end() ) {
@@ -14110,6 +14034,37 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 }
 
+// Helper function for game::wait().
+static int convert_wait_chosen_to_turns( int choice ) {
+    const int iHour = calendar::turn.hours();
+
+    switch( choice ) {
+    case 1:
+        return MINUTES( 5 );
+    case 2:
+        return MINUTES( 30 );
+    case 3:
+        return HOURS( 1 );
+    case 4:
+        return HOURS( 2 );
+    case 5:
+        return HOURS( 3 );
+    case 6:
+        return HOURS( 6 );
+    case 7:
+        return HOURS( ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6) );
+    case 8:
+        return HOURS( ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6) );
+    case 9:
+        return HOURS( ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6) );
+    case 10:
+        return HOURS( ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6) );
+    case 11:
+    default:
+        return 999999999;
+    }
+}
+
 void game::wait()
 {
     const bool bHasWatch = u.has_watch();
@@ -14138,51 +14093,16 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(12, true, 'q', _("Exit")));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    const int iHour = calendar::turn.hours();
-
-    int time = 0;
-    activity_type actType = ACT_WAIT;
-
-    switch (as_m.ret) {
-    case 1:
-        time = 5000;
-        break;
-    case 2:
-        time = 30000;
-        break;
-    case 3:
-        time = 60000;
-        break;
-    case 4:
-        time = 120000;
-        break;
-    case 5:
-        time = 180000;
-        break;
-    case 6:
-        time = 360000;
-        break;
-    case 7:
-        time = 60000 * ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6);
-        break;
-    case 8:
-        time = 60000 * ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6);
-        break;
-    case 9:
-        time = 60000 * ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6);
-        break;
-    case 10:
-        time = 60000 * ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6);
-        break;
-    case 11:
-        time = 999999999;
-        actType = ACT_WAIT_WEATHER;
-        break;
-    default:
+    if( as_m.ret < 1 || as_m.ret > 11 ) {
         return;
     }
 
-    u.assign_activity(actType, time, 0);
+    int chosen_turns = convert_wait_chosen_to_turns( as_m.ret );
+    activity_type actType = ( as_m.ret == 11 ) ? ACT_WAIT_WEATHER : ACT_WAIT;
+
+    constexpr int turns_to_moves = 100;
+    player_activity new_act( actType, chosen_turns * turns_to_moves, 0 );
+    u.assign_activity( new_act, false );
     u.rooted_message();
 }
 

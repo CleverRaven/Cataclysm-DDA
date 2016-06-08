@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "debug.h"
 
 class game;
 class Character;
@@ -116,8 +117,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item &operator=( const item & ) = default;
         virtual ~item() = default;
 
-        explicit item( const itype_id& id, int turn = -1, int qty = -1 );
-        explicit item( const itype *type, int turn = -1, int qty = -1 );
+        explicit item( const itype_id& id, int turn = -1, long qty = -1 );
+        explicit item( const itype *type, int turn = -1, long qty = -1 );
 
         /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
@@ -312,7 +313,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     // Legacy function, don't use.
     void load_info( const std::string &data );
- char symbol() const;
+        const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
          * If `practical` is false, returns pre-cataclysm market value,
@@ -385,10 +386,13 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     skill_id weap_skill() const;
     /*@}*/
 
+    /** Max range weapon usable for melee attack accounting for player/NPC abilities */
+    int reach_range( const player &p ) const;
+
     /**
-     * Maximum range at which this weapon can be used for melee/reach attacks.
-     */
-    int reach_range() const;
+     * Sets time until activation for an item that will self-activate in the future.
+     **/
+    void set_countdown( int num_turns );
 
     /**
      * Consumes specified charges (or fewer) from this and any contained items
@@ -409,6 +413,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
   * @param used On success all consumed items will be stored here.
   */
  bool use_amount(const itype_id &it, long &quantity, std::list<item> &used);
+
+    /** Can item can be used as crafting component in current state? */
+    bool allow_crafting_component() const;
 
     /**
      * @name Containers
@@ -458,6 +465,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     template<typename ... Args>
     item& emplace_back( Args&&... args ) {
         contents.emplace_back( std::forward<Args>( args )... );
+        if( contents.back().is_null() ) {
+            debugmsg( "Tried to emplace null item" );
+        }
         return contents.back();
     }
 
@@ -1136,6 +1146,13 @@ public:
         long ammo_required() const;
 
         /**
+         * Is sufficient ammo loaded for at @ref qty uses of tool or shots of gun?
+         * This function is preferred as when support for items consuming multiple ammo types
+         * concurrently is added consumers of this function will not need refactoring
+         */
+        bool ammo_sufficient( int qty = 1 ) const;
+
+        /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
@@ -1208,7 +1225,12 @@ public:
             std::string mode; /** name of this mode */
             item *target;     /** pointer to base gun or attached gunmod */
             int qty;          /** burst size or melee range */
-            bool melee;       /** if true perform a melee attach as opposed to shooting */
+
+            /** flags change behavior of gun mode and are **not** equivalent to item flags */
+            std::set<std::string> flags;
+
+            /** if true perform a melee attach as opposed to shooting */
+            bool melee() const { return flags.count( "MELEE" ); }
 
             operator bool() const { return target != nullptr; }
 
@@ -1364,6 +1386,9 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
+
+        bool has_infinite_charges() const;
+
     private:
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
@@ -1376,6 +1401,8 @@ public:
         light_emission light = nolight;
 
 public:
+    static const long INFINITE_CHARGES;
+
      char invlet = 0;      // Inventory letter
      long charges;
      bool active = false; // If true, it has active effects to be processed

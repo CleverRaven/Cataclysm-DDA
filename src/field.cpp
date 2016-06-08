@@ -38,6 +38,7 @@ field_t fieldlist[num_fields];
 
 void game::init_fields()
 {
+    // ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}
     field_t tmp_fields[num_fields] =
     {
         {
@@ -967,7 +968,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         //Get the part of the vehicle in the fire.
                         veh = veh_at_internal( p, part ); // _internal skips the boundary check
                         if( veh != nullptr ) {
-                            veh->damage(part, cur->getFieldDensity() * 10, DT_HEAT, false);
+                            veh->damage(part, cur->getFieldDensity() * 10, DT_HEAT, true);
                             //Damage the vehicle in the fire.
                         }
                         // If the flames are in a brazier, they're fully contained,

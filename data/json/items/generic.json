@@ -10,7 +10,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["NO_UNLOAD"]
+        "flags": ["NO_UNLOAD", "TRADER_AVOID"]
     },
     {
         "type":"GENERIC",
@@ -24,7 +24,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["PSEUDO"]
+        "flags": ["PSEUDO", "TRADER_AVOID"]
     },
     {
         "type" : "GENERIC",
@@ -52,7 +52,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["PSEUDO"]
+        "flags": ["PSEUDO", "TRADER_AVOID"]
     },
     {
         "type":"GENERIC",
@@ -65,7 +65,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["PSEUDO"]
+        "flags": ["PSEUDO", "TRADER_AVOID"]
     },
     {
         "type":"GENERIC",
@@ -78,7 +78,7 @@
         "price": 0,
         "weight": 0,
         "volume": 0,
-        "flags": ["PSEUDO", "UNARMED_WEAPON"], "//" : "Fist is internally represented as 'wielding a none as a weapon'"
+        "flags": ["PSEUDO", "UNARMED_WEAPON", "TRADER_AVOID"], "//" : "Fist is internally represented as 'wielding a none as a weapon'"
     },
     {
         "type":"GENERIC",
@@ -605,7 +605,8 @@
         "weight": 751,
         "volume": 3,
         "bashing": 8,
-        "to_hit": 3
+        "to_hit": 3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -618,6 +619,7 @@
         "description": "This is a spent magnesium flare.  It is essentially trash.",
         "price": 0,
         "material": "plastic",
+        "flags": "TRADER_AVOID",
         "weight": 39,
         "volume": 1,
         "to_hit": -1
@@ -665,7 +667,8 @@
         "weight": 1133,
         "volume": 10,
         "bashing": 4,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -679,7 +682,8 @@
         "weight": 2266,
         "volume": 40,
         "bashing": 4,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -773,7 +777,8 @@
         "volume": 60,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -789,7 +794,8 @@
         "volume": 120,
         "bashing": 4,
         "cutting": 4,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -806,7 +812,8 @@
         "volume": 250,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -823,7 +830,8 @@
         "volume": 250,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -840,7 +848,8 @@
         "volume": 250,
         "bashing": 6,
         "cutting": 10,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -856,7 +865,8 @@
         "volume": 750,
         "bashing": 10,
         "cutting": 6,
-        "to_hit": -2
+        "to_hit": -2,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -872,7 +882,8 @@
         "volume": 3500,
         "bashing": 20,
         "cutting": 15,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -888,7 +899,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -905,7 +917,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -922,7 +935,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -939,7 +953,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -956,7 +971,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -973,7 +989,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -990,7 +1007,8 @@
         "volume": 3,
         "bashing": 6,
         "cutting": 6,
-        "to_hit": -3
+        "to_hit": -3,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -1123,7 +1141,8 @@
         "material": ["steel", "plastic"],
         "weight": 317,
         "volume": 10,
-        "to_hit": -1
+        "to_hit": -1,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -1449,7 +1468,7 @@
         "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
         "price": 0,
         "material": "cotton",
-        "flags": ["NO_SALVAGE"],
+        "flags": ["NO_SALVAGE", "TRADER_AVOID"],
         "weight": 80,
         "volume": 1
     },
@@ -1823,7 +1842,7 @@
         "category": "other",
         "price": 20000,
         "material": "iron",
-        "flags": ["DURABLE_MELEE"],
+        "flags": ["DURABLE_MELEE", "TRADER_AVOID"],
         "weight": 36287,
         "volume": 12,
         "bashing": 20,
@@ -2324,6 +2343,7 @@
         "description": "A pile of dry grass.  Can be used if there is nothing else to sleep on.",
         "price": 0,
         "material": ["paper"],
+        "flags": "TRADER_AVOID",
         "weight": 20,
         "volume": 1,
         "to_hit": -2
@@ -2406,7 +2426,7 @@
         "symbol" : "!",
         "description" : "The smoke billowing from this cigar has a sweet, musty odor.",
         "category" : "drugs",
-        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4" ]
+        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2415,7 +2435,8 @@
         "color" : "dkgray",
         "symbol" : "!",
         "description" : "A true gentleman always finishes his cigars.",
-        "category" : "other"
+        "category" : "other",
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2425,7 +2446,7 @@
         "symbol" : "!",
         "description" : "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
         "category": "drugs",
-        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4" ]
+        "flags" : [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2434,7 +2455,8 @@
         "color" : "dark_gray",
         "symbol" : "!",
         "description" : "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far...",
-        "category" : "other"
+        "category" : "other",
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2444,7 +2466,7 @@
         "symbol" : "!",
         "description" : "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
         "category" : "drugs",
-        "flags" : [ "LITCIG", "LIGHT_4" ]
+        "flags" : [ "LITCIG", "LIGHT_4", "TRADER_AVOID" ]
     },
     {
         "type" : "GENERIC",
@@ -2454,7 +2476,8 @@
         "color" : "green",
         "symbol" : "!",
         "description" : "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
-        "category" : "other"
+        "category" : "other",
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",

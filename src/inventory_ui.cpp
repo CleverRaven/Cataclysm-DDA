@@ -347,7 +347,7 @@ void inventory_selector::print_column(const itemstack_vector &items, size_t y, s
             mvwputch(w_inv, cur_line, y, invlet_color, it.invlet);
         }
         if (OPTIONS["ITEM_SYMBOLS"]) {
-            item_name = string_format("%c %s", it.symbol(), item_name.c_str());
+            item_name = string_format("%s %s", it.symbol().c_str(), item_name.c_str());
         }
         trim_and_print(w_inv, cur_line, y + 2, w - 2, name_color, "%s", item_name.c_str());
     }
@@ -1128,16 +1128,22 @@ item_location game::inv_map_splice(
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int radius)
 {
+    // Vehicle filter shouldn't allow buckets
     auto sealable_filter = [&]( const item &candidate ) {
         return candidate.get_remaining_capacity_for_liquid( liquid, false ) > 0;
     };
 
+    // Map filter should allow buckets
     auto bucket_filter = [&]( const item &candidate ) {
         return candidate.get_remaining_capacity_for_liquid( liquid, true ) > 0;
     };
 
-    // Buckets can only be filled when on the ground
-    return inv_map_splice( sealable_filter, bucket_filter, sealable_filter, title, radius,
+    // Inventory filter should allow only held buckets
+    auto inv_filter = [&]( const item &candidate ) {
+        return candidate.get_remaining_capacity_for_liquid( liquid, &candidate == &g->u.weapon ) > 0;
+    };
+
+    return inv_map_splice( inv_filter, bucket_filter, sealable_filter, title, radius,
                            string_format( _( "You don't have a suitable container for carrying %s." ),
                            liquid.type_name( 1 ).c_str() ) ).get_item();
 }

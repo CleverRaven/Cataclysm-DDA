@@ -105,6 +105,7 @@ npc::npc()
 
     // ret_null is a bit more than just a regular "null", it is the "fist" for unarmed attacks
     ret_null = item( "null", 0 );
+    last_updated = calendar::turn;
 }
 
 npc_map npc::_all_npc;
@@ -900,7 +901,7 @@ std::list<item> starting_inv( npc *me, npc_class type )
         int qty = 1 + ( type == NC_COWBOY || type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while ( qty-- != 0 && me->can_pickVolume( ammo.volume() ) ) {
+        while ( qty-- != 0 && me->can_pickVolume( ammo ) ) {
             // @todo give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -920,14 +921,14 @@ std::list<item> starting_inv( npc *me, npc_class type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
-            if( me->can_pickVolume( tmp.volume() ) ) {
+            if( me->can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
             }
         }
     }
 
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item& e ) {
-        return item_group::group_contains_item( "trader_avoid", e.typeId() );
+        return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
 
     return res;
@@ -2573,6 +2574,12 @@ void npc::on_load()
         update_body( cur, cur + 1 );
     }
 
+    if( dt > 0 ) {
+        // This ensures food is properly rotten at load
+        // Otherwise NPCs try to eat rotten food and fail
+        process_active_items();
+    }
+
     // Not necessarily true, but it's not a bad idea to set this
     has_new_items = true;
 }
@@ -2764,6 +2771,7 @@ void npc::process_turn()
         // TODO: Similar checks for fear and anger
     }
 
+    last_updated = calendar::turn;
     // TODO: Add decreasing trust/value/etc. here when player doesn't provide food
     // TODO: Make NPCs leave the player if there's a path out of map and player is sleeping/unseen/etc.
 }

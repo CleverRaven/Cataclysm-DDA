@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
     bool verifyexit = false;
     bool check_all_mods = false;
     std::string dump;
+    dump_mode dmode = dump_mode::TSV;
 
     // Set default file paths
 #ifdef PREFIX
@@ -112,14 +113,25 @@ int main(int argc, char *argv[])
                 }
             },
             {
-                "--dump-stats", "<what>",
+                "--dump-stats", "<what> [mode = TSV]",
                 "Dumps item stats",
                 section_default,
-                [&dump](int n, const char *params[]) -> int {
-                    if(n != 1 ) {
+                [&dump,&dmode](int n, const char *params[]) -> int {
+                    if( n < 1 ) {
                         return -1;
                     }
                     dump = params[ 0 ];
+                    if( n == 2 ) {
+                        if( !strcmp( params[ 1 ], "TSV" ) ) {
+                            dmode = dump_mode::TSV;
+                            return 0;
+                        } else if( !strcmp( params[ 1 ], "HTML" ) ) {
+                            dmode = dump_mode::HTML;
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
                     return 0;
                 }
             },
@@ -375,14 +387,19 @@ int main(int argc, char *argv[])
 
     set_language(true);
 
-    if (initscr() == NULL) { // Initialize ncurses
-        DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
-        return 1;
+    // if we are dumping stats don't initialize curses to avoid escape sequences
+    // being inserted in to the output stream
+    if( dump.empty() ) {
+         if( initscr() == nullptr ) { // Initialize ncurses
+            DebugLog( D_ERROR, DC_ALL ) << "initscr failed!";
+            return 1;
+        }
+        init_interface();
+        noecho();  // Don't echo keypresses
+        cbreak();  // C-style breaks (e.g. ^C to SIGINT)
+        keypad(stdscr, true); // Numpad is numbers
     }
-    init_interface();
-    noecho();  // Don't echo keypresses
-    cbreak();  // C-style breaks (e.g. ^C to SIGINT)
-    keypad(stdscr, true); // Numpad is numbers
+
 #if !(defined TILES || defined _WIN32 || defined WINDOWS)
     // For tiles or windows, this is handled already in initscr().
     init_colors();
@@ -403,8 +420,8 @@ int main(int argc, char *argv[])
             }
             exit_handler(0);
         }
-        if( ! dump.empty() ) {
-            g->dump_stats( dump );
+        if( !dump.empty() ) {
+            g->dump_stats( dump, dmode );
             exit_handler( 0 );
         }
         if (check_all_mods) {

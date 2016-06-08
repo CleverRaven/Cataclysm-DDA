@@ -45,8 +45,6 @@ void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
 void drop_or_embed_projectile( const dealt_projectile_attack &attack );
 
-void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target = nullptr );
-
 struct aim_type {
     std::string name;
     std::string action;
@@ -98,6 +96,18 @@ int ranged_skill_offset( const skill_id &skill )
     return 0;
 }
 
+size_t blood_trail_len( int damage )
+{
+    if( damage > 50 ) {
+        return 3;
+    } else if( damage > 20 ) {
+        return 2;
+    } else if ( damage > 0 ) {
+        return 1;
+    }
+    return 0;
+}
+
 dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg, const tripoint &source,
                                                      const tripoint &target_arg, double shot_dispersion )
 {
@@ -115,6 +125,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     dealt_projectile_attack attack {
         proj_arg, nullptr, dealt_damage_instance(), source, missed_by
     };
+
+    if( source == target_arg ) { // No suicidal shots
+        debugmsg( "%s tried to commit suicide.", get_name().c_str() );
+        return attack;
+    }
 
     projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
@@ -188,6 +203,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     tripoint &tp = attack.end_point;
     tripoint prev_point = source;
 
+    trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
         // @todo Make it use a more distant point for more realistic extended lines
@@ -197,24 +213,22 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory.insert( trajectory.end(), trajectory_extension.begin(), trajectory_extension.end() );
     }
     // Range can be 0
-    while( !trajectory.empty() && rl_dist( source, trajectory.back() ) > proj_arg.range ) {
-        trajectory.pop_back();
+    size_t traj_len = trajectory.size();
+    while( traj_len > 0 && rl_dist( source, trajectory[traj_len-1] ) > proj_arg.range ) {
+        --traj_len;
     }
 
     // If this is a vehicle mounted turret, which vehicle is it mounted on?
     const vehicle *in_veh = has_effect( effect_on_roof ) ?
                             g->m.veh_at( pos() ) : nullptr;
 
-    //Start this now in case we hit something early
-    std::vector<tripoint> blood_traj = std::vector<tripoint>();
     const float projectile_skip_multiplier = 0.1;
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );
     bool has_momentum = true;
-    size_t i = 0; // Outside loop, because we want it for line drawing
-    for( ; i < trajectory.size() && ( has_momentum || stream ); i++ ) {
-        blood_traj.push_back(trajectory[i]);
+
+    for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
         prev_point = tp;
         tp = trajectory[i];
 
@@ -223,7 +237,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
             // Currently strictly no shooting through floor
             // TODO: Bash the floor
             tp = prev_point;
-            i--;
+            traj_len = --i;
             break;
         }
         // Drawing the bullet uses player u, and not player p, because it's drawn
@@ -277,13 +291,16 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;
             }
-            dealt_damage_instance dealt_dam;
             attack.missed_by = cur_missed_by;
             critter->deal_projectile_attack( null_source ? nullptr : this, attack );
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                splatter( blood_traj, dealt_dam.total_damage(), critter );
+                const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
+                if( bt_len > 0 ) {
+                    const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                    g->m.add_splatter_trail( critter->bloodType(), tp, dest );
+                }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;
             } else {
@@ -299,14 +316,16 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         if( !has_momentum && g->m.impassable( tp ) ) {
             // Don't let flamethrowers go through walls
             // TODO: Let them go through bars
+            traj_len = i;
             break;
         }
     } // Done with the trajectory!
 
-    if( do_animation && do_draw_line && i > 0 ) {
-        trajectory.resize( i );
+    if( do_animation && do_draw_line && traj_len > 2 ) {
+        trajectory.erase( trajectory.begin() );
+        trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( g->u, tp, (int)i, trajectory, stream ? '#' : '*' );
+        g->draw_bullet( g->u, tp, int( traj_len-- ), trajectory, stream ? '#' : '*' );
     }
 
     if( g->m.impassable(tp) ) {
@@ -424,12 +443,8 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
     }
 
     // cap our maximum burst size by the amount of UPS power left
-    if( gun.get_gun_ups_drain() > 0 ) {
-        if( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
-            shots = std::min( shots, int( worn.back().charges / gun.get_gun_ups_drain() ) );
-        } else {
-            shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
-        }
+    if( !gun.has_flag( "VEHICLE" ) && gun.get_gun_ups_drain() > 0 ) {
+        shots = std::min( shots, int( charges_of( "UPS" ) / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -484,9 +499,7 @@ int player::fire_gun( const tripoint &target, int shots, item& gun )
             break;
         }
 
-        if ( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
-            use_charges( "fake_UPS", gun.get_gun_ups_drain() );
-        } else {
+        if( !gun.has_flag( "VEHICLE" ) ) {
             use_charges( "UPS", gun.get_gun_ups_drain() );
         }
 
@@ -1570,46 +1583,6 @@ int recoil_add( player& p, const item &gun, int shot )
     qty *= pow( 1.0 / sqrt( shot ), k );
 
     return p.recoil += std::max( qty, 0 );
-}
-
-void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature *target )
-{
-    if( dam <= 0 ) {
-        return;
-    }
-
-    if( !target->is_npc() && !target->is_player() ) {
-        //Check if the creature isn't an NPC or the player (so the cast works)
-        const monster *mon = dynamic_cast<const monster *>( target );
-        if( mon->is_hallucination() || !mon->made_of( material_id( "flesh" ) ) ) {
-            // If it is a hallucination or not made of flesh don't splatter the blood.
-            return;
-        }
-    }
-    field_id blood = fd_blood;
-    if( target != NULL ) {
-        blood = target->bloodType();
-    }
-    if (blood == fd_null) { //If there is no blood to splatter, return.
-        return;
-    }
-
-    int distance = 1;
-    if( dam > 50 ) {
-        distance = 3;
-    } else if( dam > 20 ) {
-        distance = 2;
-    }
-
-    std::vector<tripoint> spurt = continue_line( trajectory, distance );
-
-    for( auto &elem : spurt ) {
-        g->m.adjust_field_strength( elem, blood, 1 );
-        if( g->m.impassable( elem ) ) {
-            // Blood splatters stop at walls.
-            break;
-        }
-    }
 }
 
 void drop_or_embed_projectile( const dealt_projectile_attack &attack )

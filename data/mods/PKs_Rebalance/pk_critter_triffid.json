@@ -15,6 +15,12 @@
     "armor_cut":4,
     "armor_acid":4,
     "death_function":["VINE_CUT", "ACID"],
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "biollante", 35 ]
+        ]
+    },
     "hp":140,
     "vision_day":9,
     "vision_night":4,
@@ -22,7 +28,7 @@
     "special_when_hit":["ACIDSPLASH", 35],
     "description":"A thick stalk with rapidly sprouting tendrils at the base and a 'crown' of deep magenta pitchers at its head.  The pitchers taper into o-rings, pointing at various angles away from the hub.  From the center of the crown stems a single large, mace-like tentacle that flails around menacingly.",
     "flags":["NOHEAD", "IMMOBILE", "SEES"],
-    "//" : "When making this guy I was really unsure if it was a good idea.  I love the idea of an acid spitting critter that grabs you with thousands of minions.  But its the thousands of minions part that worries me.  Hopefully I fixed that by catrating the life-span of the minions."
+    "//" : "When making this guy I was really unsure if it was a good idea.  I love the idea of an acid spitting critter that grabs you with thousands of minions.  But it's the thousands of minions part that worries me.  Hopefully I fixed that by castrating the life-span of the minions."
     },{
     "type" : "MONSTER",
     "id" : "mon_creeper_vine",
@@ -43,11 +49,20 @@
     "id" : "mon_biollante",
     "edit-mode" : "modify",
     "armor_acid":4,
-        "upgrades":{
+    "upgrades":{
       "into": "mon_biollante_pk",
       "half_life": 14
-      }
-      },{
+    },
+    "death_drops": {
+        "subtype": "collection",
+        "//": "do duplicate item_groups work here?",
+        "groups": [
+            [ "biollante", 35 ],
+            [ "biollante", 35 ],
+            [ "biollante", 35 ]
+        ]
+    }
+    },{
     "type" : "MONSTER",
     "id" : "mon_triffid",
     "edit-mode" : "modify",
@@ -63,7 +78,14 @@
         "upgrades":{
       "into_group": "GROUP_HISSER",
       "half_life": 21
-      }
+    },
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "fungal_sting", 100 ],
+            ["fungal_fighter_sting", 75]
+        ]
+    }
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast",
@@ -90,7 +112,6 @@
     "melee_skill":0,
     "melee_dice":0,
     "melee_dice_sides":0,
-    "melee_cut":0,
     "dodge":0,
     "armor_bash":2,
     "armor_cut":2,
@@ -99,9 +120,11 @@
     "vision_night":3,
     "death_drops": {
         "subtype": "collection",
-        "//": "15% chance of an item from group biollante",
+        "//": "do duplicate item_groups work here?",
         "groups": [
-            [ "biollante", 20 ]
+            [ "biollante", 35 ],
+            [ "biollante", 35 ],
+            [ "biollante", 35 ]
         ]
     },
     "hp":120,
@@ -127,10 +150,8 @@
     "melee_skill":0,
     "melee_dice":0,
     "melee_dice_sides":0,
-    "melee_cut":0,
     "dodge":0,
     "armor_bash":5,
-    "armor_cut":0,
     "hp":5,
     "death_function":"MELT",
     "special_attacks":[["VINE", 3], ["DISAPPEAR", 20]],
@@ -152,11 +173,11 @@
     "speed":40,
     "melee_skill":5,
     "melee_dice":1,
-    "melee_dice_sides":6,
+    "melee_dice_sides":8,
     "melee_cut":4,
-    "dodge":3,
+    "melee_damage" : [ {"damage_type" : "acid", "amount" : 2} ],
+    "dodge":1,
     "armor_bash":8,
-    "armor_cut":0,
     "armor_stab":8,
     "upgrades":{
       "into_group": "GROUP_CREEPER_VINE_PK",
@@ -182,18 +203,19 @@
     "aggression":15,
     "morale":100,
     "speed":45,
-    "melee_skill":6,
+    "melee_skill":5,
     "melee_dice":1,
     "melee_dice_sides":12,
-    "melee_cut":5,
-    "dodge":3,
+    "melee_cut":4,
+    "melee_damage" : [ {"damage_type" : "acid", "amount" : 2} ],
+    "dodge":2,
     "armor_bash":10,
     "armor_cut":4,
     "armor_stab":10,
     "hp":25,
     "special_attacks":[["VINE", 10], ["GROW_VINE", 120]],
     "description":"A long thorned length of line the width of your wrist found tunneling through the shallow dirt.  Acts in a chaotic manner.",
-    "flags":["SMELLS", "HEARS", "GOODHEARING", "DIGS", "SWIMS", "NOHEAD", "HARDTOSHOOT", "PUSH_MON", "PLASTIC", "GRABS", "BASHES", "NOGIB"],
+    "flags":["SMELLS", "HEARS", "GOODHEARING", "DIGS", "NOHEAD", "HARDTOSHOOT", "PUSH_MON", "PLASTIC", "GRABS", "BASHES", "NOGIB"],
     "anger_triggers":["SOUND", "PLAYER_WEAK", "FRIEND_ATTACKED"]
     },{
     "type" : "MONSTER",
@@ -211,8 +233,9 @@
     "speed":60,
     "melee_skill":5,
     "melee_dice":3,
-    "melee_dice_sides":4,
+    "melee_dice_sides":3,
     "melee_cut":6,
+    "melee_damage" : [ {"damage_type" : "acid", "amount" : 8} ],
     "dodge":2,
     "armor_bash":8,
     "armor_cut":6,
@@ -221,10 +244,15 @@
     "hp":70,
     "special_attacks":[["GROW_VINE", 30], ["VINE", 5]],
     "death_function":"NORMAL",
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "biollante", 35 ]
+        ]
+    },
     "description":"A twisting cluster of roots, with 3 barbed vines curled limply around a wildly cluster of smaller vines.  When disturbed, it can release several of these vines.",
-    "flags":["DIGS", "HEARS", "GOODHEARING", "SMELLS", "BASHES", "GROUP_BASH", "SWIMS", "NOHEAD", "PUSH_MON", "PLASTIC", "VENOM"],
-    "anger_triggers":["SOUND", "FIRE", "STALK", "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK"],
-    "//": "I honesty don't hate this guy, but I feel like I missing out on some potential by leaving it this way instead of adding something. . .  but what?"
+    "flags":["DIGS", "HEARS", "GOODHEARING", "SMELLS", "PATH_AVOID_DANGER_1", "BASHES", "GROUP_BASH", "SWIMS", "NOHEAD", "PUSH_MON", "PLASTIC", "VENOM"],
+    "anger_triggers":["SOUND", "FIRE", "STALK", "HURT", "FRIEND_ATTACKED", "PLAYER_WEAK"]
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast_terminal",
@@ -256,7 +284,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast_pk",
-    "name": "tangela",
+    "name": "tangala",
     "species":"PLANT",
     "default_faction":"triffid",
     "symbol":"V",
@@ -269,8 +297,9 @@
     "speed":105,
     "melee_skill":10,
     "melee_dice":6,
-    "melee_dice_sides":5,
+    "melee_dice_sides":3,
     "melee_cut":6,
+    "melee_damage" : [ {"damage_type" : "acid", "amount" : 6} ],
     "dodge":4,
     "armor_bash":16,
     "armor_cut":8,
@@ -281,22 +310,19 @@
     "death_function":"NORMAL",
     "death_drops": {
         "subtype": "collection",
-        "//": "5% chance of an item from group biollante",
+        "//": "15% chance of an item from group biollante",
         "groups": [
-            [ "biollante", 5 ]
+            ["biollante", 35],
+            ["biollante", 35],
+            ["biollante", 35],
+            ["fungal_sting", 65]
         ]
     },
-    "attack_effs": [
-        {
-            "id": "paralyzepoison",
-            "duration": 33
-        }
-        ],
     "special_attacks":[["GROW_VINE", 30], ["VINE", 5], ["SPIT_SAP", 15]],
     "description":"A walking mass of vines.  Its body concealed in writhing vines, this deadly monster is a meter or so from being pocket-sized, but carries several deadly toxins within it.",
-    "flags":["SEES", "HEARS", "NOHEAD", "HARDTOSHOOT", "GRABS", "PUSH_MON", "VENOM", "PLASTIC", "PARALYZEVENOM"],
+    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "NOHEAD", "HARDTOSHOOT", "GRABS", "PUSH_MON", "VENOM", "PLASTIC", "PARALYZEVENOM"],
     "anger_triggers":["FIRE", "HURT", "FRIEND_DIED", "PLAYER_CLOSE"],
-    "//": "Tangela/ala is pretty neat, but, by design, not exactly 'a thug', to borrow the term from the Dominions series of games.  Hes not going to slug it out well with the big guys."
+    "//": "Tangela is pretty neat, but, by design, not exactly 'a thug', to borrow the term from the Dominions series of games.  It's not going to slug it out well with the big guys."
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_pk",
@@ -314,7 +340,8 @@
     "melee_skill":7,
     "melee_dice":2,
     "melee_dice_sides":8,
-    "melee_cut":6,
+    "melee_cut":4,
+    "melee_damage" : [ {"damage_type" : "biological", "amount" : 2} ],
     "dodge":3,
     "armor_bash":14,
     "armor_cut":7,
@@ -325,176 +352,191 @@
     "death_function":"NORMAL",
     "death_drops": {
         "subtype": "collection",
-        "//": "15% chance of an item from group fungal_sting",
         "groups": [
-            [ "fungal_sting", 15 ]
+            ["fungal_sting", 95],
+            ["fungal_fighter_sting", 75]
         ]
     },
     "special_attacks":[["PARA_STING", 15]],
     "description":"A creeping animate plant, growing as tall as a moose.  It has a single bark-covered stalk supporting a flowery head with a paralyzing sting concealed within.  This one looks tough.",
     "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD", "PARALYZEVENOM"],
-    "//": "I didn't really want to add bells and whistles to these guys, but I don't think I could not have.  parasting is a pretty weak attack that only functions on the player, afaik."
+    "//": "I didn't really want to add bells and whistles to these guys, but I don't think I could not have.  parasting is a pretty weak attack that only functions on funguses or (N)PCs, afaik."
     },{
-        "type" : "MONSTER",
-        "id" : "mon_treent",
-        "name": "blue aurora",
-        "species":"PLANT",
-        "default_faction":"triffid",
-        "symbol":"7",
-        "color":"brown_cyan",
-        "size":"HUGE",
-        "material":"veggy",
-        "diff":30,
-        "aggression":5,
-        "morale":200,
-        "speed":40,
-        "melee_skill":5,
-        "melee_dice":6,
-        "melee_dice_sides":6,
-        "melee_cut":3,
-        "dodge":1,
-        "armor_bash":16,
-        "armor_cut":16,
-        "armor_fire":5,
-        "armor_acid":5,
-        "vision_day":30,
-        "vision_night":25,
-        "hp":500,
-        "luminance":1,
-        "special_attacks":[["TRIFFID_HEARTBEAT", 50], ["PARA_STING", 10], ["SMASH", 40], ["RANGED_PULL", 15]],
-        "attack_effs": [
+    "type" : "MONSTER",
+    "id" : "mon_treent",
+    "name": "blue aurora",
+    "species":"PLANT",
+    "default_faction":"triffid",
+    "symbol":"7",
+    "color":"brown_cyan",
+    "size":"HUGE",
+    "material":"veggy",
+    "diff":30,
+    "aggression":5,
+    "morale":200,
+    "speed":40,
+    "melee_skill":4,
+    "melee_dice":6,
+    "melee_dice_sides":6,
+    "melee_cut":3,
+    "melee_damage" : [ {"damage_type" : "acid", "amount" : 2} ],
+    "dodge":1,
+    "armor_bash":16,
+    "armor_cut":16,
+    "armor_fire":5,
+    "armor_acid":5,
+    "vision_day":30,
+    "vision_night":25,
+    "hp":500,
+    "luminance":1,
+    "special_attacks":[["TRIFFID_HEARTBEAT", 50], ["PARA_STING", 10], ["SMASH", 40], ["RANGED_PULL", 15]],
+    "attack_effs": [
         {
-            "//": "applying this multiple times makes intensity go up by 3 instead of 1",
+        "id": "paralyzepoison",
+        "duration": 50
+        },{
             "id": "paralyzepoison",
             "duration": 50
-        },
-        {
-            "id": "paralyzepoison",
-            "duration": 50
-        },
-        {
+        },{
             "id": "paralyzepoison",
             "duration": 50
         }
-        ],
-        "description":"A massive slab of bark with faintly glowing flattened blue tendrils and large brown cones instead of leaves.  It looks 'sort' of like a tree in that the tendrils are thickest at the base of the monster and taper into thin, densely packed slivers at the top.  Its actually almost beautiful at night, where it can be seen from a distance pulsating among the tallest tree.",
-        "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "VENOM", "PARALYZEVENOM", "DESTROYS", "ATTACKMON", "PUSH_MON", "NOHEAD"],
-        "anger_triggers":["FIRE", "HURT", "PLAYER_CLOSE", "FRIEND_DIED"],
-        "//": "Intentionally keep weaker than they could be.  Numbers, and perhaps an evo if its called for."
+    ],
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            ["fungal_sting", 100],
+            ["fungal_fighter_sting", 75],
+            ["biollante", 35]
+        ]
+    },
+    "description":"A massive slab of bark with faintly glowing flattened blue tendrils and large brown cones instead of leaves.  It looks 'sort' of like a tree in that the tendrils are thickest at the base of the monster and taper into thin, densely packed slivers at the top.  Its actually almost beautiful at night, where it can be seen from a distance pulsating among the tallest tree.",
+    "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "VENOM", "DESTROYS", "ATTACKMON", "PUSH_MON", "NOHEAD"],
+    "anger_triggers":["FIRE", "HURT", "PLAYER_CLOSE", "FRIEND_DIED"],
+    "//": "Intentionall keep weaker than they could be.  Numbers, and perhaps an evo if its called for."
     },{
-        "type" : "MONSTER",
-        "id" : "mon_treent_green",
-        "name": "treunt",
-        "species":"PLANT",
-        "default_faction":"triffid",
-        "symbol":"7",
-        "color":"ltgreen",
-        "size":"HUGE",
-        "material":"veggy",
-        "diff":25,
-        "aggression":0,
-        "morale":200,
-        "speed":45,
-        "melee_skill":7,
-        "melee_dice":5,
-        "melee_dice_sides":5,
-        "melee_cut":5,
-        "dodge":2,
-        "armor_bash":12,
-        "armor_cut":14,
-        "armor_stab":18,
-        "armor_fire":4,
-        "armor_acid":3,
-        "vision_day":40,
-        "vision_night":30,
-        "hp":350,
-        "special_attacks":[["GROWPLANTS", 50], ["SMASH", 30], ["PARA_STING", 10]],
-        "attack_effs": [
+    "type" : "MONSTER",
+    "id" : "mon_treent_green",
+    "name": "treunt",
+    "species":"PLANT",
+    "default_faction":"triffid",
+    "symbol":"7",
+    "color":"ltgreen",
+    "size":"HUGE",
+    "material":"veggy",
+    "diff":25,
+    "aggression":0,
+    "morale":200,
+    "speed":45,
+    "melee_skill":7,
+    "melee_dice":5,
+    "melee_dice_sides":5,
+    "melee_cut":5,
+    "dodge":2,
+    "armor_bash":12,
+    "armor_cut":14,
+    "armor_stab":18,
+    "armor_fire":4,
+    "armor_acid":3,
+    "vision_day":40,
+    "vision_night":30,
+    "hp":350,
+    "special_attacks":[["GROWPLANTS", 50], ["SMASH", 30], ["PARA_STING", 10]],
+    "attack_effs": [
         {
-            "id": "paralyzepoison",
-            "duration": 50
-        }],
-        "description":"A monster resembling a healthy young tree.  With a little effort, the triffids seem to have produced a guardian that blends into the forest.  Its poisonous barbs are visible upon close examination, but otherwise its not a bad disguise.",
-        "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "PARALYZEVENOM", "DESTROYS", "PUSH_MON", "NOHEAD"],
-        "anger_triggers":["FIRE", "HURT", "FRIEND_DIED",  "FRIEND_ATTACKED", "PLAYER_CLOSE"],
-        "//": "I like these guys, but feel they are outliers and out of place among the triffids.  maybe add other 'alien' plants?  Sounds like a job for compiling my own code."
+        "id": "paralyzepoison",
+        "duration": 50
+    }],
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            ["fungal_sting", 100],
+            ["fungal_fighter_sting", 75]
+        ]
+    },
+    "description":"A monster resembling a healthy young tree.  With a little effort, the triffids seem to have produced a guardian that blends into the forest.  Its poisonous barbs are visible upon close examination, but otherwise its not a bad disguise.",
+    "flags":["SEES", "SMELLS", "BASHES", "GROUP_BASH", "DESTROYS", "PUSH_MON", "NOHEAD"],
+    "anger_triggers":["FIRE", "HURT", "FRIEND_DIED",  "FRIEND_ATTACKED", "PLAYER_CLOSE"],
+    "//": "I like these guys, but feel they are outliers and out of place among the triffids.  Maybe add other 'alien' plants?  Sounds like a job for compiling my own code."
     },{
-        "type" : "MONSTER",
-        "id" : "mon_dionaea_sprout",
-        "name": "dionaea sprout",
-        "species":"PLANT",
-        "default_faction":"triffid",
-        "symbol":"D",
-        "color":"ltgreen",
-        "size":"MEDIUM",
-        "material":"veggy",
-        "diff":10,
-        "aggression":25,
-        "morale":100,
-        "speed":70,
-        "melee_skill":4,
-        "melee_dice":3,
-        "melee_dice_sides":4,
-        "melee_cut":4,
-        "dodge":1,
-        "armor_bash":5,
-        "armor_cut":8,
-        "armor_fire":2,
-        "armor_acid":2,
-        "vision_day":30,
-        "vision_night":3,
-        "upgrades":{
-      "into_group": "GROUP_DIONAEA",
-      "half_life": 14
-      },
-        "hp":80,
-        "special_attacks":[["VINE", 15],
+    "type" : "MONSTER",
+    "id" : "mon_dionaea_sprout",
+    "name": "dionaea sprout",
+    "species":"PLANT",
+    "default_faction":"triffid",
+    "symbol":"D",
+    "color":"ltgreen",
+    "size":"MEDIUM",
+    "material":"veggy",
+    "diff":10,
+    "aggression":25,
+    "morale":100,
+    "speed":70,
+    "melee_skill":4,
+    "melee_dice":3,
+    "melee_dice_sides":4,
+    "melee_cut":3,
+    "dodge":1,
+    "armor_bash":5,
+    "armor_cut":8,
+    "armor_fire":2,
+    "armor_acid":2,
+    "vision_day":30,
+    "vision_night":3,
+    "upgrades":{
+        "into_group": "GROUP_DIONAEA",
+        "half_life": 14
+    },
+    "hp":80,
+    "special_attacks":[["VINE", 15],
         {
-            "type" : "bite",
-            "cooldown" : 20,
-            "no_infection_chance" : 20,
-            "min_mul" : 0.50, "//" : "baby dionaea bitch"
-        }],
-        "description":"An animate plant a little under 2 meters long, this juvenile still packs a wallop with its fetid mouth.",
-        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "PUSH_MON", "NOHEAD"],
-        "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
+        "type" : "bite",
+        "cooldown" : 20,
+        "no_infection_chance" : 20,
+        "min_mul" : 0.50, "//" : "baby dionaea bitch"
+    }],
+    "description":"An animate plant a little under 2 meters long, this juvenile still packs a wallop with its fetid mouth.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "PUSH_MON", "NOHEAD"],
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
     },{
-        "type" : "MONSTER",
-        "id" : "mon_dionaea",
-        "name": "dionaea",
-        "species":"PLANT",
-        "default_faction":"triffid",
-        "symbol":"D",
-        "color":"green",
-        "size":"LARGE",
-        "material":"veggy",
-        "diff":25,
-        "aggression":25,
-        "morale":120,
-        "speed":60,
-        "melee_skill":7,
-        "melee_dice":4,
-        "melee_dice_sides":6,
-        "melee_cut":4,
-        "dodge":2,
-        "armor_bash":12,
-        "armor_cut":16,
-        "armor_fire":3,
-        "armor_acid":3,
-        "vision_day":35,
-        "vision_night":10,
-        "hp":200,
-        "special_attacks":[
+    "type" : "MONSTER",
+    "id" : "mon_dionaea",
+    "name": "dionaea",
+    "species":"PLANT",
+    "default_faction":"triffid",
+    "symbol":"D",
+    "color":"green",
+    "size":"LARGE",
+    "material":"veggy",
+    "diff":25,
+    "aggression":25,
+    "morale":120,
+    "speed":60,
+    "melee_skill":7,
+    "melee_dice":4,
+    "melee_dice_sides":4,
+    "melee_cut":5,
+    "melee_damage" : [ {"damage_type" : "bash", "amount" : 6} ],
+    "dodge":2,
+    "armor_bash":10,
+    "armor_cut":16,
+    "armor_fire":3,
+    "armor_acid":3,
+    "vision_day":35,
+    "vision_night":10,
+    "hp":200,
+    "special_attacks":[
         {
-            "type" : "bite",
-            "cooldown" : 12,
-            "no_infection_chance" : 10,
-            "min_mul" : 0.80, "//" : "dionaea bitch"
+        "type" : "bite",
+        "cooldown" : 12,
+        "no_infection_chance" : 10,
+        "min_mul" : 0.85, "//" : "dionaea bitch"
         },
         ["VINE", 15], ["RANGED_PULL", 3]],
-        "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving energy for its coordinated slither along the ground.",
-        "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD"],
-        "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"]
+    "description":"A rotund armored 'head' with a massive maw dominates this monster's form.  Its head hangs low when its not in use, saving energy for its coordinated slither along the ground.",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "VENOM", "BASHES", "GROUP_BASH", "PUSH_MON", "NOHEAD"],
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
+    "//": "Minor concerns about their strength, but they add real meat to the triffid front lines."
     },{
     "type" : "MONSTER",
     "id" : "mon_minecraft",
@@ -522,9 +564,9 @@
     "starting_ammo": { "grenade": 1, "flashbang": 1},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
     "description":"a dried up shrub with rustling brown leaves adept at ambushes.  Highly volatile and easily excited.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "CAN_DIG", "ANIMAL", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
-    "//": "I don't know if they fit in well, but they add a means for the tiffids to troll."
+    "//": "I don't know if they fit in well, but they add a means for the triffids to troll."
     },{
     "type" : "MONSTER",
     "id" : "mon_minecraft_charged",
@@ -553,7 +595,7 @@
     "starting_ammo": {  "c4": 1, "EMPbomb": 3},
     "death_function":["EXPLODE", "ACID", "SMOKEBURST"],
     "description":"Somehow this dessicated plant has become charged up with some lightning?  Probably not good for nearby electronic devices. . .",
-    "flags":["SEES", "SMELLS","KEENNOSE", "HEARS", "GOODHEARING", "CAN_DIG", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
+    "flags":["SEES", "SMELLS","KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "CAN_DIG", "ANIMAL", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK"],
     "//": "And these guys give them some means of taking down electronics."
     }

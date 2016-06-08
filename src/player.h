@@ -685,8 +685,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the intensity of the specified addiction */
         int  addiction_level(add_type type) const;
 
-        /** Siphons fuel from the specified vehicle into the player's inventory */
-        bool siphon( vehicle &veh, const itype_id &desired_liquid );
+        /** Siphons fuel (if available) from the specified vehicle into container or
+         * similar via @ref game::handle_liquid. May start a player activity.
+         */
+        void siphon( vehicle &veh, const itype_id &desired_liquid );
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
@@ -971,8 +973,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int adjust_for_focus(int amount) const;
         void practice( const skill_id &s, int amount, int cap = 99 );
 
+        /** Legacy activity assignment, should not be used where resuming is important. */
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
                              std::string name = "");
+        /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
+        void assign_activity( const player_activity &act, bool allow_resume = true );
         bool has_activity(const activity_type type) const;
         void cancel_activity();
 
@@ -1266,8 +1271,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_hp_max( hp_part bp ) const override;
         int get_stamina_max() const;
         void burn_move_stamina( int moves );
-
-        field_id playerBloodType() const;
 
         //message related stuff
         virtual void add_msg_if_player(const char *msg, ...) const override;

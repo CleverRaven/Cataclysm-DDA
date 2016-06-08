@@ -5968,12 +5968,6 @@
           "rotates": false
         },
         {
-          "id": "saiga_sawn",
-          "fg": 1605,
-          "bg": 621,
-          "rotates": false
-        },
-        {
           "id": "salt",
           "fg": 956,
           "bg": 621,
@@ -19702,7 +19696,7 @@
           "rotates": false
         },
         {
-          "id": "m14a",
+          "id": "m1a",
           "fg": 1547,
           "rotates": false
         },

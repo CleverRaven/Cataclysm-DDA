@@ -23,7 +23,7 @@
 class map;
 class player;
 class vehicle;
-struct vpart_info;
+class vpart_info;
 enum vpart_bitflags : int;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
@@ -59,13 +59,6 @@ enum veh_coll_type : int {
     veh_coll_bashable, // 3 - bashable
     veh_coll_other,    // 4 - other
     num_veh_coll_types
-};
-
-// Saved to file as int, so values should not change
-enum turret_mode_type : int {
-    turret_mode_off = 0,
-    turret_mode_autotarget = 1,
-    turret_mode_manual = 2
 };
 
 // Describes turret's ability to fire (possibly at a particular target)
@@ -137,6 +130,34 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
 
+    /** Specific type of fuel, charges or ammunition currently contained by a part */
+    itype_id ammo_current() const;
+
+    /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
+    long ammo_capacity() const;
+
+    /** Amount of fuel, charges or ammunition currently contained by a part */
+    long ammo_remaining() const;
+
+    /**
+     * Set fuel, charges or ammunition for this part removing any existing ammo
+     * @param ammo specific type of ammo (must be compatible with vehicle part)
+     * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
+     * @return amount of ammo actually set or negative on failure
+     */
+    int ammo_set( const itype_id &ammo, long qty = -1 );
+
+    /** Remove all fuel, charges or ammunition (if any) from this part */
+    void ammo_unset();
+
+    /**
+     * Consume fuel, charges or ammunition (if available)
+     * @param qty maximum amount of ammo that should be consumed
+     * @param pos current global location of part from which ammo is being consumed
+     * @return amount consumed which will be between 0 and @ref qty
+     */
+    long ammo_consume( long qty, const tripoint& pos );
+
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
 
@@ -163,10 +184,8 @@ public:
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
-    int amount = 0;               // amount of fuel for tank/charge in battery
     bool open = false;            // door is open
     int direction = 0;            // direction the part is facing
-    int mode = 0;                 // turret mode
 
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
@@ -177,6 +196,8 @@ private:
     vpart_id id;         // id in map of parts (vehicle_part_types key)
     item base;
     std::list<item> items; // inventory
+
+    int amount = 0; // amount of fuel for tank/charge in battery
 
 public:
     const vpart_str_id &get_id() const;
@@ -305,6 +326,10 @@ private:
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
     int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
+    // Removes the part, breaks it into pieces and possibly removes parts attached to it
+    int break_off( int p, int dmg );
+    // Returns if it did actually explode
+    bool explode_fuel( int p, damage_type type );
     //damages vehicle controls and security system
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -557,6 +582,7 @@ public:
      * Get the coordinates of the studied part of the vehicle
      */
     tripoint global_part_pos3( const int &index ) const;
+    tripoint global_part_pos3( const vehicle_part &pt ) const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
@@ -674,6 +700,9 @@ public:
     // <0 means there is no steering installed at all.
     float steering_effectiveness() const;
 
+    /** Returns roughly driving skill level at which there is no chance of fumbling. */
+    float handling_difficulty() const;
+
     // idle fuel consumption
     void idle(bool on_map = true);
     // continuous processing for running vehicle alarms
@@ -756,13 +785,13 @@ public:
     void shift_parts( point delta );
     bool shift_if_needed();
 
-    void leak_fuel (int p);
+    /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
+    void leak_fuel( int p );
+
     void shed_loose_parts();
 
     // Gets range of part p if it's a turret
-    // If `manual` is true, gets the real item range (gun+ammo range)
-    // otherwise gets part range (as in json)
-    int get_turret_range( int p, bool manual = true );
+    int get_turret_range( int p );
 
     // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
     // Does not handle tags like FIRE_100
@@ -777,16 +806,11 @@ public:
     std::map< int, turret_fire_ability > turrets_can_shoot( const tripoint &pos );
     turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
 
-    // Cycle mode for this turret
-    // If `from_controls` is false, only manual modes are allowed
-    // and message describing the new mode is printed
-    void cycle_turret_mode( int p, bool from_controls );
+    /** Set targeting mode for specific turrets */
+    void turrets_set_targeting();
 
-    // Per-turret mode selection
-    void control_turrets();
-
-    // Cycle through available turret modes
-    void cycle_global_turret_mode();
+    /** Set firing mode for specific turrets */
+    void turrets_set_mode();
 
     // Set up the turret to fire
     bool fire_turret( int p, bool manual );
@@ -866,6 +890,8 @@ public:
     //normalized vectors, from tilerays face & move
     rl_vec2d face_vec() const;
     rl_vec2d move_vec() const;
+    // As above, but calculated for the actually used variable `dir`
+    rl_vec2d dir_vec() const;
     void on_move();
     /**
      * Update the submap coordinates smx, smy, and update the tracker info in the overmap
@@ -958,8 +984,6 @@ public:
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
-
-    int turret_mode = 0;    // turret firing mode: 0 = off, 1 = burst fire
 
     int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
     int overhead_epower     = 0; // total power of components with CIRCLE_LIGHT flag

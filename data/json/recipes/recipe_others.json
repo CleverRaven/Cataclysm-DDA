@@ -11,13 +11,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
       ],
       [
       ["anvil", -1]
@@ -350,11 +348,7 @@
   "reversible": true,
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "manual_tailor", 3 ]],
-  "tools": [
-     [
-      ["soldering_iron", 5]
-     ]
-    ],
+  "tools": [ [ [ "soldering_iron", 5], [ "toolset", 5 ] ] ],
   "//" : "The tailoring kit is an expanded sewing kit, so a bone/wood needle is inappropriate.",
   "components": [
     [
@@ -2011,13 +2005,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -3530,13 +3522,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4011,13 +4001,11 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4] , ["textbook_weapeast", 5] , ["textbook_weapwest", 5] , ["textbook_armeast", 5] , ["textbook_armwest", 5]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
       ],
       [
       ["anvil", -1]
@@ -4119,10 +4107,10 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
     [ ["tongs", -1]  ],
-    [ ["chisel", -1] ],
     [ ["swage", -1]  ],
     [ ["anvil", -1]  ],
     [ ["forge", 50], [ "oxy_torch", 10] ]
@@ -4144,10 +4132,10 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
+    {"id":"HAMMER","level":2,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
     [ ["tongs", -1]  ],
-    [ ["chisel", -1] ],
     [ ["swage", -1]  ],
     [ ["anvil", -1]  ],
     [ ["forge", 100], [ "oxy_torch", 20] ]
@@ -4219,10 +4207,10 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [ ["tongs", -1] ],
-      [ ["chisel", -1]],
       [ ["anvil", -1] ],
       [ ["forge", 100], [ "oxy_torch", 20] ]
       ],
@@ -4246,13 +4234,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["swage", -1]
@@ -4282,13 +4268,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4320,13 +4304,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4361,13 +4343,11 @@
   "autolearn": true,
   "book_learn": [["manual_mechanics", 3] , ["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4403,13 +4383,11 @@
   "autolearn": true,
   "book_learn": [["manual_mechanics", 4] , ["manual_fabrication", 4] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4445,13 +4423,11 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 2] , ["textbook_fabrication", 3]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4488,13 +4464,11 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["swage", -1]
@@ -4530,13 +4504,11 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4573,13 +4545,11 @@
   "autolearn": true,
   "book_learn": [["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4616,13 +4586,11 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4659,13 +4627,11 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 3] , ["textbook_fabrication", 4]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4700,13 +4666,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4740,13 +4704,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -4818,13 +4780,11 @@
   "autolearn": false,
   "book_learn": [[ "textbook_carpentry", 6 ] , [ "textbook_fabrication", 7 ]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -5095,13 +5055,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
       ],
       [
       ["anvil", -1]
@@ -5133,13 +5091,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
       ],
       [
       ["anvil", -1]
@@ -5262,13 +5218,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
       [
       ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
       ],
       [
       ["anvil", -1]
@@ -5417,13 +5371,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -5454,13 +5406,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -5592,12 +5542,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 5 ]],
+  "qualities" : [ { "id": "CHISEL", "level": 3 } ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["pipe", -1]
@@ -5629,12 +5577,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 5 ]],
+  "qualities": [ { "id": "CHISEL", "level": 3 } ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["pipe", -1]
@@ -5666,12 +5612,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 4 ]],
+  "qualities": [ { "id": "CHISEL", "level": 3 } ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["pipe", -1]
@@ -5702,12 +5646,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 4 ]],
+  "qualities": [ { "id": "CHISEL", "level": 3 } ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["pipe", -1]
@@ -5806,12 +5748,10 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "glassblowing_book", 6 ]],
+  "qualities": [ { "id": "CHISEL", "level": 3 } ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["pipe", -1]
@@ -6178,10 +6118,12 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+    "qualities":[
+        {"id":"HAMMER","level":3,"amount":1},
+        { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
     [ ["tongs", -1] ],
-    [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["swage", -1] ],
     [
@@ -6311,11 +6253,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ ["tongs", -1] ],
-    [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["swage", -1] ],
     [ ["forge", 50], ["oxy_torch", 10] ]
@@ -6403,13 +6345,12 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}],
+      {"id":"HAMMER","level":3,"amount":1},
+      { "id": "CHISEL", "level": 3 }
+  ],
   "tools": [
     [
      ["tongs", -1]
-    ],
-    [
-     ["chisel", -1]
     ],
     [
      ["anvil", -1]
@@ -6441,11 +6382,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ ["tongs", -1] ],
-    [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["swage", -1] ],
     [ ["forge", 50], ["oxy_torch", 10] ]
@@ -6464,11 +6405,11 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ],
   "tools": [
     [ ["tongs", -1] ],
-    [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["swage", -1] ],
     [ ["forge", 50], ["oxy_torch", 10] ]
@@ -6921,13 +6862,11 @@
   "autolearn": true,
   "book_learn": [["manual_fabrication", 8] , ["textbook_fabrication", 6]],
   "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
   ], "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["swage", -1]

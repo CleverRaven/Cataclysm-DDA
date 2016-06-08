@@ -13,6 +13,7 @@ class monfaction;
 class player;
 struct mtype;
 enum monster_trigger : int;
+enum field_id : int;
 
 using mfaction_id = int_id<monfaction>;
 using mtype_id = string_id<mtype>;
@@ -163,6 +164,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         tripoint scent_move();
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
+
+        virtual bool is_immune_field( const field_id fid ) const override;
 
         /**
          * Attempt to move to p.

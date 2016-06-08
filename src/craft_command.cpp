@@ -76,9 +76,13 @@ void craft_command::execute()
         }
     }
 
-    crafter->assign_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time( batch_size ),
-                              -1, INT_MIN, rec->ident() );
-    crafter->activity.values.push_back( batch_size );
+    auto activity = player_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT,
+                                     rec->batch_time( batch_size ),
+                                     -1, INT_MIN, rec->ident() );
+    activity.values.push_back( batch_size );
+
+    crafter->assign_activity( activity );
+
     /* legacy support for lua bindings to last_batch and lastrecipe */
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident();
@@ -126,9 +130,20 @@ bool craft_command::query_continue( const std::vector<comp_selection<item_comp>>
 std::list<item> craft_command::consume_components()
 {
     std::list<item> used;
+    if( crafter->has_trait( "DEBUG_HS" ) ) {
+        return used;
+    }
 
     if( empty() ) {
         debugmsg( "Warning: attempted to consume items from an empty craft_command" );
+        return used;
+    }
+
+    inventory map_inv;
+    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE );
+
+    if( !check_item_components_missing( map_inv ).empty() ) {
+        debugmsg( "Aborting crafting: couldn't find cached components" );
         return used;
     }
 

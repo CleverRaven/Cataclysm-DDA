@@ -826,6 +826,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 - ```RAPIDFIRE``` Increases rate of fire by 50% for AUTO firing mode
 
+### Firing modes
+- ```MELEE``` Melee attack using properties of the gun or auxiliary gunmod
+- ```NPC_AVOID``` NPC's will not attempt to use this mode
+- ```SIMULTANEOUS``` All rounds fired concurrently (not sequentially) with recoil added only once (at the end)
+
 ## Magazines
 
 - ```MAG_COMPACT``` Can be stashed in an appropriate ammo pouch (intended for compact magazines)
@@ -1039,6 +1044,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
+- ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 
 ## Skills
 

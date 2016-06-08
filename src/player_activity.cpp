@@ -34,26 +34,27 @@ player_activity::player_activity( activity_type t, int turns, int Index, int pos
 
 const std::string &player_activity::get_stop_phrase() const
 {
-    static const std::string stop_phrase[NUM_ACTIVITIES] = {
-        _( " Stop?" ), _( " Stop reloading?" ),
-        _( " Stop reading?" ), _( " Stop playing?" ),
-        _( " Stop waiting?" ), _( " Stop crafting?" ),
-        _( " Stop crafting?" ), _( " Stop disassembly?" ),
-        _( " Stop butchering?" ), _( " Stop salvaging?" ), _( " Stop foraging?" ),
-        _( " Stop construction?" ), _( " Stop interacting with the vehicle?" ),
-        _( " Stop pumping gas?" ), _( " Stop training?" ),
-        _( " Stop waiting?" ), _( " Stop using first aid?" ),
-        _( " Stop fishing?" ), _( " Stop mining?" ), _( " Stop burrowing?" ),
-        _( " Stop smashing?" ), _( " Stop de-stressing?" ),
-        _( " Stop cutting tissues?" ), _( " Stop dropping?" ),
-        _( " Stop stashing?" ), _( " Stop picking up?" ),
-        _( " Stop moving items?" ), _( " Stop interacting with inventory?" ),
-        _( " Stop fiddling with your clothes?" ), _( " Stop lighting the fire?" ),
-        _( " Stop working the winch?" ), _( " Stop filling the container?" ),
-        _( " Stop hotwiring the vehicle?" ), _( " Stop aiming?" ),
-        _( " Stop using the ATM?" ), _( " Stop trying to start the vehicle?" ),
-        _( " Stop welding?" ), _( " Stop cracking?" ), _( " Stop repairing?" ),
-        _( " Stop mending?" ), _( " Stop modifying gun?" )
+    static const std::array<std::string, NUM_ACTIVITIES> stop_phrase = {{
+            _( "Stop?" ), _( "Stop reloading?" ),
+            _( "Stop reading?" ), _( "Stop playing?" ),
+            _( "Stop waiting?" ), _( "Stop crafting?" ),
+            _( "Stop crafting?" ), _( "Stop disassembly?" ),
+            _( "Stop butchering?" ), _( "Stop salvaging?" ), _( "Stop foraging?" ),
+            _( "Stop construction?" ), _( "Stop interacting with the vehicle?" ),
+            _( "Stop pumping gas?" ), _( "Stop training?" ),
+            _( "Stop waiting?" ), _( "Stop using first aid?" ),
+            _( "Stop fishing?" ), _( "Stop mining?" ), _( "Stop burrowing?" ),
+            _( "Stop smashing?" ), _( "Stop de-stressing?" ),
+            _( "Stop cutting tissues?" ), _( "Stop dropping?" ),
+            _( "Stop stashing?" ), _( "Stop picking up?" ),
+            _( "Stop moving items?" ), _( "Stop interacting with inventory?" ),
+            _( "Stop fiddling with your clothes?" ), _( "Stop lighting the fire?" ),
+            _( "Stop working the winch?" ), _( "Stop filling the container?" ),
+            _( "Stop hotwiring the vehicle?" ), _( "Stop aiming?" ),
+            _( "Stop using the ATM?" ), _( "Stop trying to start the vehicle?" ),
+            _( "Stop welding?" ), _( "Stop cracking?" ), _( "Stop repairing?" ),
+            _( "Stop mending?" ), _( "Stop modifying gun?" )
+        }
     };
     return stop_phrase[type];
 }
@@ -89,6 +90,7 @@ bool player_activity::is_abortable() const
         case ACT_REPAIR_ITEM:
         case ACT_MEND_ITEM:
         case ACT_GUNMOD_ADD:
+        case ACT_BUTCHER:
             return true;
         default:
             return false;
@@ -366,7 +368,7 @@ void player_activity::finish( player *p )
             type = ACT_NULL;
             // Workaround for a bug where longcraft can be unset in complete_craft().
             if( p->making_would_work( p->lastrecipe, batch_size ) ) {
-                p->make_all_craft( p->lastrecipe, batch_size );
+                p->last_craft.execute();
             }
         }
         break;
@@ -477,4 +479,91 @@ void player_activity::finish( player *p )
             p->backlog.pop_front();
         }
     }
+}
+
+template <typename T>
+bool containers_equal( const T &left, const T &right )
+{
+    if( left.size() != right.size() ) {
+        return false;
+    }
+
+    return std::equal( left.begin(), left.end(), right.begin() );
+}
+
+bool player_activity::can_resume_with( const player_activity &other, const Character &who ) const
+{
+    // Should be used for relative positions
+    // And to forbid resuming now-invalid crafting
+    ( void )who;
+    switch( type ) {
+        case ACT_NULL:
+        case NUM_ACTIVITIES:
+            return false;
+        case ACT_RELOAD:
+        case ACT_READ:
+        case ACT_GAME:
+        case ACT_REFILL_VEHICLE:
+            break;
+        case ACT_WAIT:
+        case ACT_WAIT_NPC:
+        case ACT_WAIT_WEATHER:
+        case ACT_ARMOR_LAYERS:
+        case ACT_PULP:
+        case ACT_AIM:
+        case ACT_LONGSALVAGE:
+        case ACT_ATM:
+        case ACT_DROP:
+        case ACT_STASH:
+        case ACT_PICKUP:
+        case ACT_MOVE_ITEMS:
+        case ACT_ADV_INVENTORY:
+        case ACT_START_FIRE:
+        case ACT_FILL_LIQUID:
+            // Those shouldn't be resumed
+            // They don't store their progress in moves
+            return false;
+        case ACT_CRAFT:
+        case ACT_LONGCRAFT:
+            // Batch size is stored in values
+            // Coords may be matched incorrectly in some rare cases
+            // But it will not result in a false negative
+            if( !containers_equal( values, other.values ) ||
+                !containers_equal( coords, other.coords ) ) {
+                return false;
+            }
+
+            break;
+        case ACT_DISASSEMBLE:
+        // Disassembling is currently hardcoded in such a way
+        // that easy resuming isn't possible
+        case ACT_FORAGE:
+        case ACT_OPEN_GATE:
+        case ACT_OXYTORCH:
+        case ACT_CRACKING:
+        case ACT_FISH:
+        case ACT_PICKAXE:
+        case ACT_BURROW:
+        // Those should check position
+        // But position isn't set here yet!
+        // @todo Update the functions that set those activities
+        case ACT_BUTCHER:
+        case ACT_TRAIN:
+        case ACT_HOTWIRE_CAR:
+        case ACT_START_ENGINES:
+        case ACT_BUILD:
+        case ACT_VEHICLE:
+        case ACT_FIRSTAID:
+        case ACT_VIBE:
+        case ACT_MAKE_ZLAVE:
+        case ACT_GUNMOD_ADD:
+        case ACT_REPAIR_ITEM:
+        case ACT_MEND_ITEM:
+            // Those should have extra limitations
+            // But for now it's better to allow too much than too little
+            break;
+    }
+
+    return !auto_resume && type == other.type && index == other.index &&
+           position == other.position && name == other.name;
 }
