@@ -13916,7 +13916,8 @@ void game::wait()
     add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
     add_menu_item( 12, 'q', _( "Exit" ) );
 
-    as_m.text = _( "Wait for how long?" );
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), calendar::turn.print_time().c_str() ) : "";
+    as_m.text += _( "Wait for how long?" );
     as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
