@@ -5,6 +5,14 @@
         "name" : "cutting"
     },{
         "type" : "tool_quality",
+        "id" : "CUT_FINE",
+        "name" : "fine cutting"
+    },{
+        "type" : "tool_quality",
+        "id" : "GRIP",
+        "name" : "firm gripping"
+    },{
+        "type" : "tool_quality",
         "id" : "GLARE",
         "name" : "glare protection"
     },{
@@ -91,6 +99,10 @@
         "type" : "tool_quality",
         "id" : "DRILL",
         "name" : "drilling"
+    },{
+        "type" : "tool_quality",
+        "id" : "DRILL_FINE",
+        "name" : "fine drilling"
     },{
         "type" : "tool_quality",
         "id" : "PRY",
