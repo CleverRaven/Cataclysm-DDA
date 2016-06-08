@@ -740,6 +740,10 @@ endif  # ifndef FRAMEWORK
 
 appclean:
 	rm -rf $(APPTARGETDIR)
+	rm -f data/options.txt
+	rm -f data/keymap.txt
+	rm -f data/auto_pickup.txt
+	rm -f data/fontlist.txt
 
 data/osx/AppIcon.icns: data/osx/AppIcon.iconset
 	iconutil -c icns $<
@@ -800,8 +804,9 @@ endif  # ifdef TILES
 
 dmgdistclean:
 	rm -f Cataclysm.dmg
+	rm -rf lang/mo
 
-dmgdist: app dmgdistclean
+dmgdist: dmgdistclean app $(L10N)
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)
