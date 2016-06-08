@@ -5645,7 +5645,7 @@ void game::hallucinate( const tripoint &center )
     for (int i = 0; i <= TERRAIN_WINDOW_WIDTH; i++) {
         for (int j = 0; j <= TERRAIN_WINDOW_HEIGHT; j++) {
             if( one_in(10) ) {
-                const ter_t &t = m.ter_at( p );
+                const ter_t &t = m.ter( p ).obj();
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
                 char ter_sym = t.symbol();
@@ -7133,7 +7133,7 @@ void game::open()
     bool didit = m.open_door( openp, !m.is_outside( u.pos() ) );
 
     if (!didit) {
-        const ter_str_id tid = m.get_ter( openp );
+        const ter_str_id tid = m.ter( openp ).id();
 
         if( tid.str().find("t_door") != std::string::npos ) {
             if( tid.str().find("_locked") != std::string::npos ) {
@@ -7209,7 +7209,7 @@ void game::close( const tripoint &closep )
         if (m.has_furn(closep)) {
             door_name = m.furn_at(closep).name;
         } else {
-            door_name = m.ter_at(closep).name;
+            door_name = m.tername( closep );
         }
         // Print a message that we either can not close whatever is there
         // or (if we're outside) that we can only close it from the
@@ -8093,7 +8093,7 @@ void game::examine( const tripoint &examp )
         return;
     }
     const furn_t &xfurn_t = m.furn_at(examp);
-    const ter_t &xter_t = m.ter_at(examp);
+    const ter_t &xter_t = m.ter( examp ).obj();
 
     const tripoint player_pos = u.pos();
 
@@ -12635,7 +12635,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     if( pushing_furniture && m.impassable( fpos ) ) {
         // Not sure how that chair got into a wall, but don't let player follow.
         add_msg( _("You let go of the %1$s as it slides past %2$s"),
-                 furntype.name.c_str(), m.ter_at( fdest ).name.c_str() );
+                 furntype.name.c_str(), m.tername( fdest ).c_str() );
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return true;

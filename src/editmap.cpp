@@ -240,9 +240,9 @@ void editmap_hilight::draw( editmap *hm, bool update )
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
-                char t_sym = g->m.ter_at( p ).symbol();
-                nc_color t_col = g->m.ter_at( p ).color();
-
+                const ter_t &terrain = g->m.ter( p ).obj();
+                char t_sym = terrain.symbol();
+                nc_color t_col = terrain.color();
 
                 if( g->m.furn( p ) > 0 ) {
                     const furn_t &furniture_type = g->m.furn_at( p );
@@ -550,8 +550,9 @@ void editmap::update_view( bool update_info )
             int vpart = 0;
             // but only if there's no vehicles/mobs/npcs on a point
             if( ! g->m.veh_at( p, vpart ) && ( g->mon_at( p ) == -1 ) && ( g->npc_at( p ) == -1 ) ) {
-                char t_sym = g->m.ter_at( p ).symbol();
-                nc_color t_col = g->m.ter_at( p ).color();
+                const ter_t &terrain = g->m.ter( p ).obj();
+                char t_sym = terrain.symbol();
+                nc_color t_col = terrain.color();
 
 
                 if( g->m.has_furn( p ) ) {

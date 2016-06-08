@@ -660,7 +660,7 @@ float map::vehicle_traction( const vehicle &veh ) const
         const float wheel_area = width * veh.parts[ p ].wheel_diameter();
         total_wheel_area += wheel_area;
 
-        const auto &tr = ter_at( pp );
+        const auto &tr = ter( pp ).obj();
         // Deep water and air
         if( tr.has_flag( TFLAG_DEEP_WATER ) ) {
             submerged_wheels++;
@@ -1722,10 +1722,6 @@ ter_id map::ter(const int x, const int y) const
     return current_submap->get_ter( lx, ly );
 }
 
-ter_str_id map::get_ter(const int x, const int y) const {
-    return ter_at(x, y).id;
-}
-
 std::string map::get_ter_harvestable(const int x, const int y) const {
     return get_ter_harvestable( tripoint( x, y, abs_sub.z ) );
 }
@@ -1736,11 +1732,6 @@ ter_id map::get_ter_transforms_into(const int x, const int y) const {
 
 int map::get_ter_harvest_season(const int x, const int y) const {
     return get_ter_harvest_season( tripoint( x, y, abs_sub.z ) );
-}
-
-const ter_t & map::ter_at(const int x, const int y) const
-{
-    return ter(x,y).obj();
 }
 
 void map::ter_set(const int x, const int y, const ter_str_id &new_terrain) {
@@ -1782,41 +1773,24 @@ ter_id map::ter( const tripoint &p ) const
 }
 
 /*
- * Get the terrain string id. This will remain the same across revisions,
- * unless a mod eliminates or changes it. Generally this is less efficient
- * than ter_id, but only an issue if thousands of comparisons are made.
- */
-ter_str_id map::get_ter( const tripoint &p ) const {
-    return ter_at( p ).id;
-}
-
-/*
  * Get the terrain harvestable string (what will get harvested from the terrain)
  */
 std::string map::get_ter_harvestable( const tripoint &p ) const {
-    return ter_at( p ).harvestable;
+    return ter( p ).obj().harvestable;
 }
 
 /*
  * Get the terrain transforms_into id (what will the terrain transforms into)
  */
 ter_id map::get_ter_transforms_into( const tripoint &p ) const {
-    return ter_at( p ).transforms_into.id();
+    return ter( p ).obj().transforms_into.id();
 }
 
 /*
  * Get the harvest season from the terrain
  */
 int map::get_ter_harvest_season( const tripoint &p ) const {
-    return ter_at( p ).harvest_season;
-}
-
-/*
- * Get a reference to the actual terrain struct.
- */
-const ter_t & map::ter_at( const tripoint &p ) const
-{
-    return ter( p ).obj();
+    return ter( p ).obj().harvest_season;
 }
 
 /*
@@ -1886,7 +1860,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
 
 std::string map::tername( const tripoint &p ) const
 {
- return ter_at( p ).name;
+    return ter( p ).obj().name;
 }
 
 std::string map::features(const int x, const int y)
@@ -1998,7 +1972,7 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 
     int part;
     const furn_t &furniture = furn_at( p );
-    const ter_t &terrain = ter_at( p );
+    const ter_t &terrain = ter( p ).obj();
     const vehicle *veh = veh_at( p, part );
     if( veh == ignored_vehicle ) {
         veh = nullptr;
@@ -2541,7 +2515,7 @@ bool map::can_put_items_ter_furn( const tripoint &p ) const
 
 bool map::has_flag_ter( const std::string & flag, const tripoint &p ) const
 {
-    return ter_at( p ).has_flag( flag );
+    return ter( p ).obj().has_flag( flag );
 }
 
 bool map::has_flag_furn( const std::string & flag, const tripoint &p ) const
@@ -2564,7 +2538,7 @@ bool map::has_flag_ter_or_furn( const std::string & flag, const tripoint &p ) co
 
 bool map::has_flag_ter_and_furn( const std::string & flag, const tripoint &p ) const
 {
-    return ter_at( p ).has_flag( flag ) && furn_at( p ).has_flag( flag );
+    return ter( p ).obj().has_flag( flag ) && furn_at( p ).has_flag( flag );
 }
 
 bool map::has_flag( const ter_bitflags flag, const tripoint &p ) const
@@ -2574,7 +2548,7 @@ bool map::has_flag( const ter_bitflags flag, const tripoint &p ) const
 
 bool map::has_flag_ter( const ter_bitflags flag, const tripoint &p ) const
 {
-    return ter_at( p ).has_flag( flag );
+    return ter( p ).obj().has_flag( flag );
 }
 
 bool map::has_flag_furn( const ter_bitflags flag, const tripoint &p ) const
@@ -2712,7 +2686,7 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
         return true;
     }
 
-    const auto &ter_bash = ter_at( p ).bash;
+    const auto &ter_bash = ter( p ).obj().bash;
     if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
         return true;
     }
@@ -2722,7 +2696,7 @@ bool map::is_bashable( const tripoint &p, const bool allow_floor ) const
 
 bool map::is_bashable_ter( const tripoint &p, const bool allow_floor ) const
 {
-    const auto &ter_bash = ter_at( p ).bash;
+    const auto &ter_bash = ter( p ).obj().bash;
     if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
         return true;
     }
@@ -2749,7 +2723,7 @@ int map::bash_strength( const tripoint &p, const bool allow_floor ) const
         return furn_at( p ).bash.str_max;
     }
 
-    const auto &ter_bash = ter_at( p ).bash;
+    const auto &ter_bash = ter( p ).obj().bash;
     if( ter_bash.str_max != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
         return ter_bash.str_max;
     }
@@ -2763,7 +2737,7 @@ int map::bash_resistance( const tripoint &p, const bool allow_floor ) const
         return furn_at( p ).bash.str_min;
     }
 
-    const auto &ter_bash = ter_at( p ).bash;
+    const auto &ter_bash = ter( p ).obj().bash;
     if( ter_bash.str_min != -1 && ( !ter_bash.bash_below || allow_floor ) ) {
         return ter_bash.str_min;
     }
@@ -2785,7 +2759,7 @@ int map::bash_rating( const int str, const tripoint &p, const bool allow_floor )
 
     int part = -1;
     const furn_t &furniture = furn_at( p );
-    const ter_t &terrain = ter_at( p );
+    const ter_t &terrain = ter( p ).obj();
     const vehicle *veh = veh_at( p, part );
     return bash_rating_internal( str, furniture, terrain, allow_floor, veh, part );
 }
@@ -3357,7 +3331,7 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
         return t_rock_floor;
     }
 
-    const auto &ter_there = ter_at( p );
+    const auto &ter_there = ter( p ).obj();
     const auto &roof = ter_there.roof;
     if( !roof ) {
         // No roof
@@ -3390,7 +3364,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     int sound_volume = 0;
     std::string soundfxid;
     std::string soundfxvariant;
-    const auto &terid = ter_at( p );
+    const auto &terid = ter( p ).obj();
     const auto &furnid = furn_at( p );
     bool smash_furn = false;
     bool smash_ter = false;
@@ -3401,8 +3375,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     if( has_furn(p) && furn_at(p).bash.str_max != -1 ) {
         bash = &furn_at(p).bash;
         smash_furn = true;
-    } else if( ter_at(p).bash.str_max != -1 ) {
-        bash = &ter_at( p ).bash;
+    } else if( ter(p).obj().bash.str_max != -1 ) {
+        bash = &ter( p ).obj().bash;
         smash_ter = true;
     }
 
@@ -3606,13 +3580,13 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     } else if( !smash_ter ) {
         // Handle error earlier so that we can assume smash_ter is true below
         debugmsg( "data/json/terrain.json does not have %s.bash.ter_set set!",
-                  ter_at(p).id.c_str() );
+                  ter(p).obj().id.c_str() );
     } else if( bash->ter_set ) {
         // If the terrain has a valid post-destroy terrain, set it
         ter_set( p, bash->ter_set );
     } else {
         tripoint below( p.x, p.y, p.z - 1 );
-        const auto &ter_below = ter_at( below );
+        const auto &ter_below = ter( below ).obj();
         if( bash->bash_below && ter_below.has_flag( "SUPPORTS_ROOF" ) ) {
             // When bashing the tile below, don't allow bashing the floor
             bash_params params_below = params; // Make a copy
@@ -3632,7 +3606,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
             ter_set( p, t_dirt );
         } else {
             tripoint below( p.x, p.y, p.z - 1 );
-            const auto roof = get_roof( below, params.bash_floor && ter_at( below ).movecost != 0 );
+            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
             ter_set( p, roof );
         }
     }
@@ -4122,8 +4096,9 @@ bool map::hit_with_fire( const tripoint &p )
 
 bool map::marlossify( const tripoint &p )
 {
-    if (one_in(25) && (ter_at(p).movecost != 0 && !has_furn(p))
-            && !ter_at(p).has_flag(TFLAG_DEEP_WATER)) {
+    auto &terrain = ter( p ).obj();
+    if (one_in(25) && (terrain.movecost != 0 && !has_furn(p))
+            && !terrain.has_flag(TFLAG_DEEP_WATER)) {
         ter_set(p, t_marloss);
         return true;
     }
@@ -4137,7 +4112,7 @@ bool map::marlossify( const tripoint &p )
 
 bool map::open_door( const tripoint &p, const bool inside, const bool check_only )
 {
-    const auto &ter = ter_at( p );
+    const auto &ter = this->ter( p ).obj();
     const auto &furn = furn_at( p );
     int vpart = -1;
     vehicle *veh = veh_at( p, vpart );
@@ -4229,7 +4204,7 @@ void map::translate_radius(const ter_id from, const ter_id to, float radi, const
 
 bool map::close_door( const tripoint &p, const bool inside, const bool check_only )
 {
- const auto &ter = ter_at( p );
+    const auto &ter = this->ter( p ).obj();
  const auto &furn = furn_at( p );
  if( ter.close ) {
      if ( has_flag("OPENCLOSE_INSIDE", p) && inside == false ) {
@@ -4586,11 +4561,10 @@ void map::spawn_item(const tripoint &p, const std::string &type_id,
 
 int map::max_volume(const tripoint &p)
 {
-    const ter_t &ter = ter_at(p);
     if (has_furn(p)) {
         return furn_at(p).max_volume;
     }
-    return ter.max_volume;
+    return ter(p).obj().max_volume;
 }
 
 // total volume of all the things
@@ -6066,7 +6040,7 @@ void map::drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert_arg
 // a check to see if the lower floor needs to be rendered in tiles
 bool map::need_draw_lower_floor( const tripoint &p )
 {
-    return !( !zlevels || p.z <= -OVERMAP_DEPTH || !ter_at( p ).has_flag( TFLAG_NO_FLOOR ) );
+    return !( !zlevels || p.z <= -OVERMAP_DEPTH || !ter( p ).obj().has_flag( TFLAG_NO_FLOOR ) );
 }
 
 bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
@@ -6992,7 +6966,7 @@ void map::grow_plant( const tripoint &p )
 
 void map::restock_fruits( const tripoint &p, int time_since_last_actualize )
 {
-    const auto &ter = ter_at( p );
+    const auto &ter = this->ter( p ).obj();
     //if the fruit-bearing season of the already harvested terrain has passed, make it harvestable again
     if( !ter.has_flag( TFLAG_HARVESTED ) ) {
         return;
@@ -7545,11 +7519,11 @@ bool map::has_graffiti_at( const tripoint &p ) const
 long map::determine_wall_corner( const tripoint &p ) const
 {
     // This could be cached nicely
-    int test_connect_group = ter_at( tripoint ( p.x, p.y, p.z ) ).connect_group;
-    const bool above_connects = ter_at( tripoint( p.x, p.y - 1, p.z ) ).connects_to( test_connect_group );
-    const bool below_connects = ter_at( tripoint( p.x, p.y + 1, p.z ) ).connects_to( test_connect_group );
-    const bool left_connects  = ter_at( tripoint( p.x - 1, p.y, p.z ) ).connects_to( test_connect_group );
-    const bool right_connects = ter_at( tripoint( p.x + 1, p.y, p.z ) ).connects_to( test_connect_group );
+    int test_connect_group = ter( tripoint( p.x, p.y, p.z ) ).obj().connect_group;
+    const bool above_connects = ter( tripoint( p.x, p.y - 1, p.z ) ).obj().connects_to( test_connect_group );
+    const bool below_connects = ter( tripoint( p.x, p.y + 1, p.z ) ).obj().connects_to( test_connect_group );
+    const bool left_connects  = ter( tripoint( p.x - 1, p.y, p.z ) ).obj().connects_to( test_connect_group );
+    const bool right_connects = ter( tripoint( p.x + 1, p.y, p.z ) ).obj().connects_to( test_connect_group );
     const auto bits = ( above_connects ? 1 : 0 ) +
                       ( right_connects ? 2 : 0 ) +
                       ( below_connects ? 4 : 0 ) +
@@ -7574,7 +7548,7 @@ long map::determine_wall_corner( const tripoint &p ) const
         case 0 | 2 | 0 | 0: return LINE_OXOX; // LINE_OXOO would be better
         case 1 | 0 | 0 | 0: return LINE_XOXO; // LINE_XOOO would be better
 
-        case 0 | 0 | 0 | 0: return ter_at( p ).symbol(); // technically just a column
+        case 0 | 0 | 0 | 0: return ter( p ).obj().symbol(); // technically just a column
 
         default:
             // assert( false );

@@ -780,7 +780,7 @@ bool construct::check_deconstruct( point p )
         return g->m.furn_at( p.x, p.y ).deconstruct.can_do;
     }
     // terrain can only be deconstructed when there is no furniture in the way
-    return g->m.ter_at( p.x, p.y ).deconstruct.can_do;
+    return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
 }
 
 bool construct::check_up_OK( point )
@@ -889,7 +889,7 @@ void construct::done_deconstruct( point p )
         // writing from the submap.
         g->m.delete_signage( p3 );
     } else {
-        const ter_t &t = g->m.ter_at( p.x, p.y );
+        const ter_t &t = g->m.ter( p.x, p.y ).obj();
         if( !t.deconstruct.can_do ) {
             add_msg( _( "That %s can not be disassembled!" ), t.name.c_str() );
             return;

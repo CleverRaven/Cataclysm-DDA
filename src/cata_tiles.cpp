@@ -1265,7 +1265,7 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                     auto &furniture = g->m.furn_at( p );
                     color = cursesColorToSDL( furniture.color() );
                 } else {
-                    auto &terrain = g->m.ter_at( p );
+                    auto &terrain = g->m.ter( p ).obj();
                     color = cursesColorToSDL( terrain.color() );
                 }
             }
@@ -1860,7 +1860,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, lit_level /*ll*/, int &/
     tripoint pbelow = tripoint( p.x, p.y, p.z - 1 );
     SDL_Color tercol = cursesColorToSDL( c_dkgray );
 
-    const ter_t &curr_ter = g->m.ter_at( pbelow );
+    const ter_t &curr_ter = g->m.ter( pbelow ).obj();
     const furn_t &curr_furn = g->m.furn_at( pbelow );
     int part_below;
     int sizefactor = 2;
@@ -1928,7 +1928,7 @@ bool cata_tiles::draw_terrain( const tripoint &p, lit_level ll, int &height_3d )
     int subtile = 0, rotation = 0;
 
     int connect_group;
-    if( g->m.ter_at( p ).connects( connect_group ) ) {
+    if( g->m.ter( p ).obj().connects( connect_group ) ) {
         get_connect_values( p, subtile, rotation, connect_group );
     } else {
         get_terrain_orientation( p, rotation, subtile );
@@ -2690,10 +2690,10 @@ void cata_tiles::get_rotation_and_subtile(const char val, const int num_connects
 void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group )
 {
     const bool connects[4] = {
-        g->m.ter_at( tripoint( p.x, p.y + 1, p.z ) ).connects_to( connect_group ),
-        g->m.ter_at( tripoint( p.x + 1, p.y, p.z ) ).connects_to( connect_group ),
-        g->m.ter_at( tripoint( p.x - 1, p.y, p.z ) ).connects_to( connect_group ),
-        g->m.ter_at( tripoint( p.x, p.y - 1, p.z ) ).connects_to( connect_group )
+        g->m.ter( tripoint( p.x, p.y + 1, p.z ) ).obj().connects_to( connect_group ),
+        g->m.ter( tripoint( p.x + 1, p.y, p.z ) ).obj().connects_to( connect_group ),
+        g->m.ter( tripoint( p.x - 1, p.y, p.z ) ).obj().connects_to( connect_group ),
+        g->m.ter( tripoint( p.x, p.y - 1, p.z ) ).obj().connects_to( connect_group )
     };
     char val = 0;
     int num_connects = 0;

@@ -492,7 +492,7 @@ bool can_examine_at( const tripoint &p )
         return true;
     }
     const furn_t &xfurn_t = g->m.furn_at( p );
-    const ter_t &xter_t = g->m.ter_at( p );
+    const ter_t &xter_t = g->m.ter( p ).obj();
 
     if( g->m.has_furn( p ) && xfurn_t.examine != &iexamine::none ) {
         return true;
