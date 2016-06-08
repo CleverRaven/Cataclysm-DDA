@@ -1,0 +1,11 @@
+[
+  {
+    "id": "belt40mm",
+    "copy-from": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "40mm grenade belt",
+    "ammo_type": "40mm",
+    "count": 32,
+    "linkage": "ammolink40mm"
+  }
+]

@@ -151,6 +151,7 @@
     "//" : "Factory specification rifle magazines commonly owned by citizens.",
     "items": [
       ["blrmag", 5 ],
+      ["m2010mag", 10 ],
       ["m14mag", 40 ],
       ["m14smallmag", 40 ],
       ["ruger1022mag", 100 ],
@@ -169,6 +170,7 @@
       ["falbigmag", 50],
       ["g3mag", 80],
       ["g3bigmag", 40],
+      ["m107a1mag", 50],
       ["m1918bigmag", 40],
       ["ruger1022bigmag", 70]
     ]
@@ -236,6 +238,7 @@
     "items": [
       ["ak74mag", 10],
       ["makarovmag", 10],
+      ["tokarevmag", 10],
       ["ppshmag", 10],
       ["ppshdrum", 10],
       ["rpk74mag", 10],
