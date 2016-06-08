@@ -10,9 +10,24 @@
         "price": 120,
         "charges": 4,
         "stack_size": 100,
-        "material": "fruit",
         "symbol": ".",
-        "color": "brown"
+        "color": "green"
+    },
+    {
+        "id": "seed_bee_balm",
+        "copy-from": "seed",
+        "type": "COMESTIBLE",
+        "name": "bee balm seeds",
+        "name_plural": "bee balm seeds",
+        "description": "Some bee balm seeds.  You could probably plant these.",
+        "charges": 2,
+        "material": "veggy",
+        "seed_data": {
+            "plant_name": "bee balm",
+            "fruit": "bee_balm",
+            "byproducts": [ "withered" ],
+            "grow": 91
+        }
     },
     {   
         "id": "seed_blackberries",
@@ -21,6 +36,7 @@
         "name": "blackberry seed",
         "name_plural": "blackberry seeds",
         "description": "Some blackberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "blackberry",
             "fruit": "blackberries",
@@ -35,9 +51,26 @@
         "name": "blueberry seed",
         "name_plural": "blueberry seeds",
         "description": "Some blueberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "blueberry",
             "fruit": "blueberries",
+            "byproducts": [ "withered" ],
+            "grow": 91
+        }
+    },
+    {
+        "id": "seed_canola",
+        "copy-from": "seed",
+        "type": "COMESTIBLE",
+        "name": "canola seeds",
+        "name_plural": "canola seeds",
+        "description": "Some canola seeds.  You could probably plant these, or press them into oil.",
+        "charges": 2,
+        "material": "veggy",
+        "seed_data": {
+            "plant_name": "canola",
+            "fruit": "seed_canola",
             "byproducts": [ "withered" ],
             "grow": 91
         }
@@ -49,9 +82,26 @@
         "name": "cranberry seed",
         "name_plural": "cranberry seeds",
         "description": "Some cranberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "cranberry",
             "fruit": "cranberries",
+            "byproducts": [ "withered" ],
+            "grow": 91
+        }
+    },
+    {
+        "id": "seed_dogbane",
+        "copy-from": "seed",
+        "type": "COMESTIBLE",
+        "name": "dogbane seeds",
+        "name_plural": "dogbane seeds",
+        "description": "Some dogbane seeds.  You could probably plant these.",
+        "charges": 2,
+        "material": "veggy",
+        "seed_data": {
+            "plant_name": "dogbane",
+            "fruit": "dogbane",
             "byproducts": [ "withered" ],
             "grow": 91
         }
@@ -75,6 +125,25 @@
             "grow": 120
         }
     },
+    {
+        "id": "seed_pumpkin",
+        "copy-from": "seed",
+        "type": "COMESTIBLE",
+        "name": "pumpkin seeds",
+        "name_plural": "pumpkin seeds",
+        "description": "Some raw pumpkin seeds.  Could be fried and eaten or planted.",
+        "price": 100,
+        "charges": 2,
+        "nutrition": 2,
+        "material": "veggy",
+        "seed_data": {
+            "plant_name": "pumpkin",
+            "fruit": "pumpkin",
+            "fruit_div": 3,
+            "byproducts": [ "withered" ],
+            "grow": 91
+        }
+    },
     {   
         "id": "seed_raspberries",
         "copy-from": "seed",
@@ -82,6 +151,7 @@
         "name": "raspberry seed",
         "name_plural": "raspberry seeds",
         "description": "Some raspberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "raspberry",
             "fruit": "raspberries",
@@ -96,10 +166,44 @@
         "name": "strawberry seed",
         "name_plural": "strawberry seeds",
         "description": "Some strawberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "strawberry",
             "fruit": "strawberries",
             "byproducts": [ "withered" ],
+            "grow": 91
+        }
+    },
+    {
+        "id": "seed_sunflower",
+        "copy-from": "seed",
+        "type": "COMESTIBLE",
+        "name": "sunflower seeds",
+        "name_plural": "sunflower seeds",
+        "description": "Some raw sunflower seeds.  Could be pressed into oil.",
+        "price": 100,
+        "charges": 2,
+        "nutrition": 2,
+        "material": "veggy",
+        "seed_data": {
+            "plant_name": "sunflower",
+            "fruit": "seed_sunflower",
+            "byproducts": [ "withered" ],
+            "grow": 91
+        }
+    },
+    {
+        "id": "seed_thyme",
+        "copy-from": "seed",
+        "type": "COMESTIBLE",
+        "name": "thyme seeds",
+        "name_plural": "thyme seeds",
+        "description": "Some thyme seeds.  You could probably plant these.",
+        "charges": 2,
+        "material": "veggy",
+        "seed_data": {
+            "plant_name": "thyme",
+            "fruit": "thyme",
             "grow": 91
         }
     },
