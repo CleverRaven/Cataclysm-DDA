@@ -21,6 +21,7 @@
 #include "mapdata.h"
 #include "translations.h"
 #include "mongroup.h"
+#include "scent.h"
 
 #include <map>
 #include <set>
@@ -86,26 +87,7 @@ void game::serialize(std::ostream & fout) {
         json.member( "om_y", pos_om.y );
 
         // Next, the scent map.
-        std::stringstream rle_out;
-        int rle_lastval = -1;
-        int rle_count = 0;
-        for( auto &elem : grscent ) {
-            for( auto val : elem ) {
-
-               if (val == rle_lastval) {
-                   rle_count++;
-               } else {
-                   if ( rle_count ) {
-                       rle_out << rle_count << " ";
-                   }
-                   rle_out << val << " ";
-                   rle_lastval = val;
-                   rle_count = 1;
-               }
-            }
-        }
-        rle_out << rle_count;
-        json.member( "grscent", rle_out.str() );
+        json.member( "scents", *scents );
 
         // Then each monster
         json.member( "active_monsters", critter_tracker->list() );
@@ -208,21 +190,11 @@ void game::unserialize(std::istream & fin)
         last_target = tmptar;
 
         linebuf="";
-        if ( data.read("grscent",linebuf) ) {
-            linein.clear();
-            linein.str(linebuf);
-
-            int stmp;
-            int count = 0;
-            for( auto &elem : grscent ) {
-                for( auto &elem_j : elem ) {
-                    if (count == 0) {
-                        linein >> stmp >> count;
-                    }
-                    count--;
-                    elem_j = stmp;
-                }
-            }
+        if( data.has_object( "scents" ) ) {
+            data.read( "scents", *scents );
+        } else if( data.read("grscent",linebuf) ) {
+            scents->clear();
+            scents->deserialize_level( levz, linebuf );
         }
 
         JsonArray vdata = data.get_array("active_monsters");
@@ -292,6 +264,85 @@ void game::save_weather(std::ostream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
     fout << "seed: " << weather_gen->get_seed();
+}
+
+std::string serialize_scent_array( const scent_array &grscent )
+{
+    std::stringstream rle_out;
+    int rle_lastval = -1;
+    int rle_count = 0;
+    for( auto &elem : grscent ) {
+        for( auto val : elem ) {
+            if( val == rle_lastval ) {
+                rle_count++;
+            } else {
+                if( rle_count ) {
+                    rle_out << rle_count << " ";
+                }
+                rle_out << val << " ";
+                rle_lastval = val;
+                rle_count = 1;
+            }
+        }
+    }
+    rle_out << rle_count;
+    return rle_out.str();
+}
+
+void scent_cache::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "layers" );
+    jsout.start_array();
+    for( const auto &layer : scents ) {
+        const std::string &s = serialize_scent_array( layer->values );
+        jsout.write( s );
+    }
+
+    jsout.end_array();
+
+    jsout.end_object();
+}
+
+void scent_cache::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    JsonArray parray;
+
+    JsonArray layer_arr = data.get_array( "layers" );
+    int zlev = -OVERMAP_DEPTH;
+    while( layer_arr.has_more() ) {
+        if( zlev > OVERMAP_HEIGHT ) {
+            // Print error, but allow it - it's just scentmap
+            debugmsg( "Too many z-levels of scentmap" );
+            return;
+        }
+
+        deserialize_level( zlev, layer_arr.next_string() );
+        zlev++;
+    }
+}
+
+void scent_cache::deserialize_level( int zlev, const std::string &line )
+{
+    std::stringstream linein;
+    linein.clear();
+    linein.str( line );
+
+    scent_array &grscent = get_layer( zlev ).values;
+
+    int stmp;
+    int count = 0;
+    for( auto &elem : grscent ) {
+        for( auto &elem_j : elem ) {
+            if( count == 0 ) {
+                linein >> stmp >> count;
+            }
+            count--;
+            elem_j = stmp;
+        }
+    }
 }
 
 bool overmap::obsolete_terrain( const std::string &ter ) {

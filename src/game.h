@@ -102,6 +102,7 @@ class DynamicDataLoader;
 class salvage_actor;
 class input_context;
 class map_item_stack;
+class scent_cache;
 struct WORLD;
 typedef WORLD *WORLDPTR;
 class overmap;
@@ -207,6 +208,7 @@ class game
         player &u;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
+        std::unique_ptr<scent_cache> scents;
         /**
          * Add an entry to @ref events. For further information see event.h
          * @param type Type of event.
@@ -383,7 +385,8 @@ class game
         void nuke( const tripoint &p );
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
-        int &scent( const tripoint &p );
+        int get_scent( const tripoint &p ) const;
+        void set_scent( const tripoint &p, int val );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -919,8 +922,6 @@ private:
         calendar nextspawn; // The turn on which monsters will spawn next.
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-        int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
-        int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
@@ -938,6 +939,10 @@ private:
 
         /** How far the tileset should be zoomed out, 16 is default. 32 is zoomed in by x2, 8 is zoomed out by x0.5 */
         int tileset_zoom;
+
+        // Used for scent calculations
+        tripoint player_last_position;
+        int player_last_moved;
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;

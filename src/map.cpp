@@ -32,6 +32,7 @@
 #include "weather.h"
 #include "item_group.h"
 #include "pathfinding.h"
+#include "scent.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -355,6 +356,7 @@ void map::on_vehicle_moved( const int smz ) {
     set_transparency_cache_dirty( smz );
     set_floor_cache_dirty( smz );
     set_pathfinding_cache_dirty( smz );
+    set_scent_cache_dirty( smz );
 }
 
 void map::vehmove()
@@ -1644,6 +1646,11 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
         set_floor_cache_dirty( p.z );
     }
 
+    if( ( old_t.has_flag( TFLAG_WALL ) != new_t.has_flag( TFLAG_WALL ) ) ||
+        ( old_t.has_flag( TFLAG_REDUCE_SCENT ) != new_t.has_flag( TFLAG_REDUCE_SCENT ) ) ) {
+        set_scent_cache_dirty( p.z );
+    }
+
     // @todo Limit to changes that affect move cost, traps and stairs
     set_pathfinding_cache_dirty( p.z );
 
@@ -1855,6 +1862,11 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
         set_floor_cache_dirty( p.z );
         // It's a set, not a flag
         support_cache_dirty.insert( p );
+    }
+
+    if( ( old_t.has_flag( TFLAG_WALL ) != new_t.has_flag( TFLAG_WALL ) ) ||
+        ( old_t.has_flag( TFLAG_REDUCE_SCENT ) != new_t.has_flag( TFLAG_REDUCE_SCENT ) ) ) {
+        set_scent_cache_dirty( p.z );
     }
 
     // @todo Limit to changes that affect move cost, traps and stairs
@@ -2940,105 +2952,101 @@ bool map::flammable_items_at( const tripoint &p )
 
 void map::decay_fields_and_scent( const int amount )
 {
+    const int minz = zlevels ? 0 : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     // Decay scent separately, so that later we can use field count to skip empty submaps
-    tripoint tmp;
-    tmp.z = abs_sub.z; // TODO: Make this happen on all z-levels
-    for( tmp.x = 0; tmp.x < my_MAPSIZE * SEEX; tmp.x++ ) {
-        for( tmp.y = 0; tmp.y < my_MAPSIZE * SEEY; tmp.y++ ) {
-            if( g->scent( tmp ) > 0 ) {
-                g->scent( tmp )--;
-            }
-        }
+    for( int smz = minz; smz <= maxz; smz++ ) {
+        g->scents->decay( smz, 1 );
     }
 
     const int amount_fire = amount / 3; // Decay fire by this much
     const int amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
     const int amount_gas = amount / 5; // Decay gas type fields by this
     // Coord code copied from lightmap calculations
-    // TODO: Z
-    const int smz = abs_sub.z;
-    const auto &outside_cache = get_cache_ref( smz ).outside_cache;
-    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
-        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            auto const cur_submap = get_submap_at_grid( smx, smy, smz );
-            int to_proc = cur_submap->field_count;
-            if( to_proc < 1 ) {
-                if( to_proc < 0 ) {
-                    cur_submap->field_count = 0;
-                    dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
-                                   << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
-                                   << "has " << to_proc << " field_count";
-                }
-                // This submap has no fields
-                continue;
-            }
-
-            for( int sx = 0; sx < SEEX; ++sx ) {
+    for( int smz = minz; smz <= maxz; smz++ ) {
+        const auto &outside_cache = get_cache_ref( smz ).outside_cache;
+        for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+            for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+                auto const cur_submap = get_submap_at_grid( smx, smy, smz );
+                int to_proc = cur_submap->field_count;
                 if( to_proc < 1 ) {
-                    // This submap had some fields, but all got proc'd already
-                    break;
+                    if( to_proc < 0 ) {
+                        cur_submap->field_count = 0;
+                        dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
+                                       << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
+                                       << "has " << to_proc << " field_count";
+                    }
+                    // This submap has no fields
+                    continue;
                 }
 
-                for( int sy = 0; sy < SEEY; ++sy ) {
-                    const int x = sx + smx * SEEX;
-                    const int y = sy + smy * SEEY;
-
-                    field &fields = cur_submap->fld[sx][sy];
-                    if( !outside_cache[x][y] ) {
-                        to_proc -= fields.fieldCount();
-                        continue;
+                for( int sx = 0; sx < SEEX; ++sx ) {
+                    if( to_proc < 1 ) {
+                        // This submap had some fields, but all got proc'd already
+                        break;
                     }
 
-                    for( auto &fp : fields ) {
-                        to_proc--;
-                        field_entry &cur = fp.second;
-                        const field_id type = cur.getFieldType();
-                        switch( type ) {
-                            case fd_fire:
-                                cur.setFieldAge( cur.getFieldAge() + amount_fire );
-                                break;
-                            case fd_blood:
-                            case fd_bile:
-                            case fd_gibs_flesh:
-                            case fd_gibs_veggy:
-                            case fd_slime:
-                            case fd_blood_veggy:
-                            case fd_blood_insect:
-                            case fd_blood_invertebrate:
-                            case fd_gibs_insect:
-                            case fd_gibs_invertebrate:
-                                cur.setFieldAge( cur.getFieldAge() + amount_liquid );
-                                break;
-                            case fd_smoke:
-                            case fd_toxic_gas:
-                            case fd_fungicidal_gas:
-                            case fd_tear_gas:
-                            case fd_nuke_gas:
-                            case fd_cigsmoke:
-                            case fd_weedsmoke:
-                            case fd_cracksmoke:
-                            case fd_methsmoke:
-                            case fd_relax_gas:
-                            case fd_fungal_haze:
-                            case fd_hot_air1:
-                            case fd_hot_air2:
-                            case fd_hot_air3:
-                            case fd_hot_air4:
-                                cur.setFieldAge( cur.getFieldAge() + amount_gas );
-                                break;
-                            default:
-                                break;
+                    for( int sy = 0; sy < SEEY; ++sy ) {
+                        const int x = sx + smx * SEEX;
+                        const int y = sy + smy * SEEY;
+
+                        field &fields = cur_submap->fld[sx][sy];
+                        if( !outside_cache[x][y] ) {
+                            to_proc -= fields.fieldCount();
+                            continue;
+                        }
+
+                        for( auto &fp : fields ) {
+                            to_proc--;
+                            field_entry &cur = fp.second;
+                            const field_id type = cur.getFieldType();
+                            switch( type ) {
+                                case fd_fire:
+                                    cur.setFieldAge( cur.getFieldAge() + amount_fire );
+                                    break;
+                                case fd_blood:
+                                case fd_bile:
+                                case fd_gibs_flesh:
+                                case fd_gibs_veggy:
+                                case fd_slime:
+                                case fd_blood_veggy:
+                                case fd_blood_insect:
+                                case fd_blood_invertebrate:
+                                case fd_gibs_insect:
+                                case fd_gibs_invertebrate:
+                                    cur.setFieldAge( cur.getFieldAge() + amount_liquid );
+                                    break;
+                                case fd_smoke:
+                                case fd_toxic_gas:
+                                case fd_fungicidal_gas:
+                                case fd_tear_gas:
+                                case fd_nuke_gas:
+                                case fd_cigsmoke:
+                                case fd_weedsmoke:
+                                case fd_cracksmoke:
+                                case fd_methsmoke:
+                                case fd_relax_gas:
+                                case fd_fungal_haze:
+                                case fd_hot_air1:
+                                case fd_hot_air2:
+                                case fd_hot_air3:
+                                case fd_hot_air4:
+                                    cur.setFieldAge( cur.getFieldAge() + amount_gas );
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
-            }
 
-            if( to_proc > 0 ) {
-                cur_submap->field_count = cur_submap->field_count - to_proc;
-                dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
-                               << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
-                               << "has " << cur_submap->field_count - to_proc << "fields, but "
-                               << cur_submap->field_count << " field_count";
+                if( to_proc > 0 ) {
+                    cur_submap->field_count = cur_submap->field_count - to_proc;
+                    dbg( D_ERROR ) << "map::decay_fields_and_scent: submap at "
+                                   << abs_sub.x + smx << "," << abs_sub.y + smy << "," << abs_sub.z
+                                   << "has " << cur_submap->field_count - to_proc << "fields, but "
+                                   << cur_submap->field_count << " field_count";
+                }
             }
         }
     }
@@ -6843,6 +6851,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_outside_cache_dirty( gridz );
     set_floor_cache_dirty( gridz );
     set_pathfinding_cache_dirty( gridz );
+    set_scent_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
     for( auto it : tmpsub->vehicles ) {
@@ -7670,6 +7679,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         build_outside_cache( z );
         build_transparency_cache( z );
         build_floor_cache( z );
+        build_scent_cache( z );
     }
 
     tripoint start( 0, 0, minz );
@@ -8128,12 +8138,12 @@ template<typename Functor>
 {
     // start and end are just two points, end can be "before" start
     // Also clip the area to map area
-    const int minx = std::max( std::min(stx, enx ), 0 );
-    const int miny = std::max( std::min(sty, eny ), 0 );
-    const int minz = std::max( std::min(stz, enz ), -OVERMAP_DEPTH );
-    const int maxx = std::min( std::max(stx, enx ), my_MAPSIZE * SEEX );
-    const int maxy = std::min( std::max(sty, eny ), my_MAPSIZE * SEEY );
-    const int maxz = std::min( std::max(stz, enz ), OVERMAP_HEIGHT );
+    const int minx = std::max( std::min( stx, enx ), 0 );
+    const int miny = std::max( std::min( sty, eny ), 0 );
+    const int minz = std::max( std::min( stz, enz ), -OVERMAP_DEPTH );
+    const int maxx = std::min( std::max( stx, enx ), my_MAPSIZE * SEEX - 1 );
+    const int maxy = std::min( std::max( sty, eny ), my_MAPSIZE * SEEY - 1 );
+    const int maxz = std::min( std::max( stz, enz ), OVERMAP_HEIGHT );
 
     // Submaps that contain the bounding points
     const int min_smx = minx / SEEX;
@@ -8182,44 +8192,51 @@ template<typename Functor>
     }
 }
 
-void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                          bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                          const int minx, const int miny, const int maxx, const int maxy )
+void map::build_scent_cache( int zlev )
 {
-    auto reduce = TFLAG_REDUCE_SCENT;
-    auto block = TFLAG_WALL;
+    auto &ch = get_cache( zlev );
+    if( !ch.scent_cache_dirty ) {
+        return;
+    }
+
+    ch.scent_cache_dirty = false;
+
+    constexpr int minx = 0;
+    constexpr int miny = 0;
+    constexpr int maxx = MAPSIZE * SEEX;
+    constexpr int maxy = MAPSIZE * SEEY;
+
     auto fill_values = [&]( const tripoint &gp, const submap *sm, const point &lp ) {
+        constexpr auto reduce = TFLAG_REDUCE_SCENT;
+        constexpr auto block = TFLAG_WALL;
         if( sm->get_ter( lp.x, lp.y ).obj().has_flag( block ) ) {
             // We need to generate the x/y coords, because we can't get them "for free"
             const int x = ( gp.x * SEEX ) + lp.x;
             const int y = ( gp.y * SEEY ) + lp.y;
-            blocks_scent[x][y] = true;
-        } else if( sm->get_ter( lp.x, lp.y ).obj().has_flag( reduce ) || sm->get_furn( lp.x, lp.y ).obj().has_flag( reduce ) ) {
+            ch.blocks_scent[x][y] = true;
+        } else if( sm->get_ter( lp.x, lp.y ).obj().has_flag( reduce ) ||
+                   sm->get_furn( lp.x, lp.y ).obj().has_flag( reduce ) ) {
             const int x = ( gp.x * SEEX ) + lp.x;
             const int y = ( gp.y * SEEY ) + lp.y;
-            reduces_scent[x][y] = true;
+            ch.reduces_scent[x][y] = true;
         }
 
         return ITER_CONTINUE;
     };
 
-    function_over( minx, miny, abs_sub.z, maxx, maxy, abs_sub.z, fill_values );
+    std::fill_n( &ch.blocks_scent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
+    std::fill_n( &ch.reduces_scent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
+    function_over( minx, miny, zlev, maxx, maxy, zlev, fill_values );
 
     // Now vehicles
-
-    // Currently the scentmap is limited to an area around the player rather than entire map
-    auto local_bounds = [=]( const point &coord ) {
-        return coord.x >= minx && coord.x <= maxx && coord.y >= miny && coord.y <= maxy;
-    };
-
-    auto vehs = get_vehicles();
+    auto vehs = get_vehicles( tripoint( minx, miny, zlev ), tripoint( maxx, maxy, zlev ) );
     for( auto &wrapped_veh : vehs ) {
         vehicle &veh = *(wrapped_veh.v);
         auto obstacles = veh.all_parts_with_feature( VPFLAG_OBSTACLE, true );
         for( const int p : obstacles ) {
             const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
-            if( local_bounds( part_pos ) ) {
-                reduces_scent[part_pos.x][part_pos.y] = true;
+            if( inbounds( part_pos.x, part_pos.y ) ) {
+                ch.reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
 
@@ -8231,8 +8248,8 @@ void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
             }
 
             const point part_pos = veh.global_pos() + veh.parts[p].precalc[0];
-            if( local_bounds( part_pos ) ) {
-                reduces_scent[part_pos.x][part_pos.y] = true;
+            if( inbounds( part_pos.x, part_pos.y ) ) {
+                ch.reduces_scent[part_pos.x][part_pos.y] = true;
             }
         }
     }
@@ -8285,6 +8302,7 @@ level_cache::level_cache()
     transparency_cache_dirty = true;
     outside_cache_dirty = true;
     veh_in_active_range = false;
+    scent_cache_dirty = true;
     std::fill_n( &veh_exists_at[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, false );
 }
 

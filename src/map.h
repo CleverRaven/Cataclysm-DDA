@@ -142,6 +142,7 @@ struct level_cache {
     bool transparency_cache_dirty;
     bool outside_cache_dirty;
     bool floor_cache_dirty;
+    bool scent_cache_dirty;
 
     float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
@@ -153,6 +154,9 @@ struct level_cache {
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+
+    bool blocks_scent[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    bool reduces_scent[MAPSIZE * SEEX][MAPSIZE * SEEY];
 
     bool veh_in_active_range;
     bool veh_exists_at[SEEX * MAPSIZE][SEEY * MAPSIZE];
@@ -222,6 +226,12 @@ class map
     void set_floor_cache_dirty( const int zlev ) {
         if( inbounds_z( zlev ) ) {
             get_cache( zlev ).floor_cache_dirty = true;
+        }
+    }
+
+    void set_scent_cache_dirty( const int zlev ) {
+        if( inbounds_z( zlev ) ) {
+            get_cache( zlev ).scent_cache_dirty = true;
         }
     }
 
@@ -994,13 +1004,14 @@ void add_corpse( const tripoint &p );
 
 // Scent propagation helpers
     /**
-     * Build the map of scent-resistant tiles.
-     * Should be way faster than if done in `game.cpp` using public map functions.
+     * Rebuilds the scent blocker cache where needed.
      */
-    void scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                         bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                         int minx, int miny, int maxx, int maxy );
+    void build_scent_caches( int zlev );
+    private:
+        // Updates one z-level of scent blocker cache
+        void scent_cache_on_zlev( int zlev );
 
+    public:
 // Computers
     computer* computer_at( const tripoint &p );
     computer* add_computer( const tripoint &p, std::string name, const int security );
@@ -1237,6 +1248,7 @@ protected:
                 const int zlevel, const regional_settings * rsettings);
 
  void build_transparency_cache( int zlev );
+    void build_scent_cache( int zlev );
 public:
  void build_outside_cache( int zlev );
     void build_floor_cache( int zlev );
