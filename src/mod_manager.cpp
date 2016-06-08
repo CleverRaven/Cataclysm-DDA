@@ -92,10 +92,7 @@ mod_manager::mod_manager()
     }
 }
 
-mod_manager::~mod_manager()
-{
-    clear();
-}
+mod_manager::~mod_manager() = default;
 
 dependency_tree &mod_manager::get_tree()
 {
