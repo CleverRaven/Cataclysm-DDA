@@ -131,6 +131,10 @@ void npc::load_npc(JsonObject &jsobj)
         guy.myclass = npc_class::from_legacy_int( jsobj.get_int("class") );
     } else if( jsobj.has_string( "class" ) ) {
         guy.myclass = npc_class_id( jsobj.get_string("class") );
+        if( !guy.myclass.is_valid() ) {
+            debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
+            guy.myclass = NC_NONE;
+        }
     }
 
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));

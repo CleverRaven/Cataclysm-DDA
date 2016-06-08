@@ -1795,7 +1795,13 @@ void mission::deserialize(JsonIn &jsin)
     if( !omid.empty() ) {
         target_id = oter_id( omid );
     }
-    recruit_class = npc_class::from_legacy_int( jo.get_int( "recruit_class", 0 ) );
+
+    if( jo.has_int( "recruit_class" ) ) {
+        recruit_class = npc_class::from_legacy_int( jo.get_int( "recruit_class" ) );
+    } else {
+        recruit_class = npc_class_id( jo.get_string( "recruit_class", "NC_NONE" ) );
+    }
+
     jo.read( "target_npc_id", target_npc_id );
     jo.read( "monster_type", monster_type );
     jo.read( "monster_kill_goal", monster_kill_goal );
