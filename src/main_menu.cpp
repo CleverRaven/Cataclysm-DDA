@@ -602,8 +602,7 @@ bool game::opening_screen()
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
-                        delete gamemode;
-                        gamemode = get_special_game( special_game_id( sel2 + 1 ) );
+                        gamemode.reset( get_special_game( special_game_id( sel2 + 1 ) ) );
                         // check world
                         WORLDPTR world = world_generator->make_new_world( special_game_id( sel2 + 1 ) );
                         if( world == NULL ) {
@@ -612,8 +611,7 @@ bool game::opening_screen()
                         world_generator->set_active_world( world );
                         setup();
                         if( !gamemode->init() ) {
-                            delete gamemode;
-                            gamemode = NULL;
+                            gamemode.reset();
                             u = player();
                             continue;
                         }

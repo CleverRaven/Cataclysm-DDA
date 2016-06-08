@@ -231,7 +231,7 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
-    gamemode(NULL),
+    gamemode(),
     user_action_counter(0),
     lookHeight(13),
     tileset_zoom(16)
@@ -345,7 +345,6 @@ game::~game()
 {
     DynamicDataLoader::get_instance().unload_data();
     MAPBUFFER.reset();
-    delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
     delwin(w_pixel_minimap);
@@ -736,7 +735,7 @@ bool game::has_gametype() const
 
 special_game_id game::gametype() const
 {
-    return gamemode != nullptr ? gamemode->id() : SGAME_NULL;
+    return gamemode ? gamemode->id() : SGAME_NULL;
 }
 
 void game::load_map( tripoint pos_sm )
@@ -747,8 +746,8 @@ void game::load_map( tripoint pos_sm )
 // Set up all default values for a new game
 bool game::start_game(std::string worldname)
 {
-    if (gamemode == NULL) {
-        gamemode = new special_game();
+    if( !gamemode ) {
+        gamemode.reset( new special_game() );
     }
 
     new_game = true;
@@ -1211,9 +1210,8 @@ bool game::cleanup_at_end()
             message << string_format(_("World retained. Characters remaining:%s"),tmpmessage.c_str());
             popup(message.str(), PF_NONE);
         }
-        if (gamemode) {
-            delete gamemode;
-            gamemode = new special_game; // null gamemode or something..
+        if( gamemode ) {
+            gamemode.reset( new special_game() ); // null gamemode or something..
         }
     }
 
@@ -3629,8 +3627,8 @@ void game::load(std::string worldname, std::string name)
     // recalculated. (This would be cleaner if u.worn were private.)
     u.recalc_sight_limits();
 
-    if (gamemode == NULL) {
-        gamemode = new special_game();
+    if( !gamemode ) {
+        gamemode.reset( new special_game() );
     }
 
     safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
