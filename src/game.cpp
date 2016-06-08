@@ -283,12 +283,12 @@ void game::check_all_mod_data()
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
     for (mod_manager::t_mod_map::iterator a = mm->mod_map.begin(); a != mm->mod_map.end(); ++a) {
-        MOD_INFORMATION *mod = a->second;
-        if (!dtree.is_available(mod->ident)) {
-            debugmsg("Skipping mod %s (%s)", mod->name.c_str(), dtree.get_node(mod->ident)->s_errors().c_str());
+        MOD_INFORMATION &mod = *a->second;
+        if (!dtree.is_available(mod.ident)) {
+            debugmsg("Skipping mod %s (%s)", mod.name.c_str(), dtree.get_node(mod.ident)->s_errors().c_str());
             continue;
         }
-        std::vector<std::string> deps = dtree.get_dependents_of_X_as_strings(mod->ident);
+        std::vector<std::string> deps = dtree.get_dependents_of_X_as_strings(mod.ident);
         if (!deps.empty()) {
             // mod is dependency of another mod(s)
             // When those mods get checked, they will pull in
@@ -297,18 +297,18 @@ void game::check_all_mod_data()
         }
         erase();
         refresh();
-        popup_nowait( "Checking mod <color_yellow>%s</color>", mod->name.c_str() );
+        popup_nowait( "Checking mod <color_yellow>%s</color>", mod.name.c_str() );
         // Reset & load core data, than load dependencies
         // and the actual mod and finally finalize all.
         load_core_data();
-        deps = dtree.get_dependencies_of_X_as_strings(mod->ident);
+        deps = dtree.get_dependencies_of_X_as_strings(mod.ident);
         for( auto &dep : deps ) {
             // assert(mm->has_mod(deps[i]));
             // ^^ dependency tree takes care of that case
-            MOD_INFORMATION *dmod = mm->mod_map[dep];
-            load_data_from_dir(dmod->path);
+            MOD_INFORMATION &dmod = *mm->mod_map[dep];
+            load_data_from_dir(dmod.path);
         }
-        load_data_from_dir(mod->path);
+        load_data_from_dir(mod.path);
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 }
@@ -3681,10 +3681,10 @@ void game::load_world_modfiles(WORLDPTR world)
         // of mods in the correct order.
         for( const auto &mod_ident : world->active_mod_order ) {
             if (mm->has_mod(mod_ident)) {
-                MOD_INFORMATION *mod = mm->mod_map[mod_ident];
-                if( !mod->obsolete ) {
+                MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
+                if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
-                    load_data_from_dir(mod->path);
+                    load_data_from_dir(mod.path);
                 }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());

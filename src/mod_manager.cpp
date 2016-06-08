@@ -151,9 +151,9 @@ bool mod_manager::set_default_mods(const std::string &ident)
     if (!has_mod(ident)) {
         return false;
     }
-    MOD_INFORMATION *mod = mod_map[ident];
-    remove_invalid_mods( mod->dependencies );
-    default_mods = mod->dependencies;
+    MOD_INFORMATION &mod = *mod_map[ident];
+    remove_invalid_mods( mod.dependencies );
+    default_mods = mod.dependencies;
     return true;
 }
 
@@ -337,17 +337,17 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
         number_stream.width(5);
         number_stream.fill('0');
         number_stream << (i + 1);
-        MOD_INFORMATION *mod = mod_map[mods_to_copy[i]];
-        size_t start_index = mod->path.size();
+        MOD_INFORMATION &mod = *mod_map[mods_to_copy[i]];
+        size_t start_index = mod.path.size();
 
         // now to get all of the json files inside of the mod and get them ready to copy
-        auto input_files = get_files_from_path(".json", mod->path, true, true);
-        auto input_dirs  = get_directories_with(search_extensions, mod->path, true);
+        auto input_files = get_files_from_path(".json", mod.path, true, true);
+        auto input_dirs  = get_directories_with(search_extensions, mod.path, true);
 
-        if (input_files.empty() && mod->path.find(MOD_SEARCH_FILE) != std::string::npos) {
+        if (input_files.empty() && mod.path.find(MOD_SEARCH_FILE) != std::string::npos) {
             // Self contained mod, all data is inside the modinfo.json file
-            input_files.push_back(mod->path);
-            start_index = mod->path.find_last_of("/\\");
+            input_files.push_back(mod.path);
+            start_index = mod.path.find_last_of("/\\");
             if (start_index == std::string::npos) {
                 start_index = 0;
             }
