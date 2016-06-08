@@ -597,7 +597,7 @@ bool player::activate_bionic( int b, bool eff_only )
             }
     } else if (bio.id == "bio_cable") {
         bool has_cable = has_item_with( []( const item &it ) {
-            return it.has_flag( "CABLE_SPOOL" ) && it.active;
+            return it.active && it.has_flag( "CABLE_SPOOL" );
         });
 
         if( !has_cable ) {
@@ -745,8 +745,7 @@ void player::process_bionic( int b )
                 continue;
             }
 
-            int got_power = wants_power_amt - veh->discharge_battery( wants_power_amt );
-            wants_power_amt -= got_power;
+            wants_power_amt = veh->discharge_battery( wants_power_amt );
             if( wants_power_amt == 0 ) {
                 charge_power( 1 );
                 break;
