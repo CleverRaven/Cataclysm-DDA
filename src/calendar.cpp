@@ -447,11 +447,6 @@ int calendar::diurnal_time_before( int turn ) const
     return ( remainder >= 0 ) ? remainder : DAYS( 1 ) + remainder;
 }
 
-int calendar::diurnal_time_before( const calendar &time ) const
-{
-    return diurnal_time_before( time.get_turn() );
-}
-
 void calendar::sync()
 {
     const int sl = season_length();

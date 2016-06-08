@@ -156,7 +156,6 @@ class calendar
 
         /** Returns the remaining time (in turns) before the specified diurnal time (in turns) */
         int diurnal_time_before( int turn ) const;
-        int diurnal_time_before( const calendar &time ) const;
 
         static std::string print_duration( int turns );
 
