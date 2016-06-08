@@ -2272,7 +2272,7 @@
         "price" : 1500,
         "material" : ["cotton", "plastic"],
         "volume" : 3,
-        "warmth" : 15,
+        "warmth" : 5,
         "encumbrance" : 0,
         "flags" : ["VARSIZE","WATER_FRIENDLY"],
         "coverage" : 80,
