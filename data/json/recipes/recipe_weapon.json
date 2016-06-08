@@ -1724,8 +1724,9 @@
     "reversible": true,
     "autolearn": true,
     "components": [
-        [[ "bottle_glass", 1 ], [ "jar_glass", 2 ], [ "clay_canister", 3 ], [ "flask_glass", 3 ]],
-        [[ "acid", 3 ]],
+        [[ "bottle_glass", 1 ], [ "jar_glass", 1 ], [ "clay_canister", 3 ], [ "flask_glass", 3 ]],
+        [[ "flask_glass", 1 ], [ "clay_canister", 1 ], [ "jar_glass", 1 ]],
+        [[ "acid", 4 ]],
         [[ "string_36", 1 ]],
         [[ "rag", 2 ]]
     ]
