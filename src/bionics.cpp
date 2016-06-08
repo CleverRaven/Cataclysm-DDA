@@ -354,7 +354,7 @@ bool player::activate_bionic( int b, bool eff_only )
         if( water_charges == 0 ) {
             add_msg_if_player( m_bad,
                                _( "There was not enough moisture in the air from which to draw water!" ) );
-        } else if( g->consume_liquid( water ) ) {
+        } else if( !g->consume_liquid( water ) ) {
             charge_power(bionics["bio_evap"].power_activate);
         }
     } else if( bio.id == "bio_lighter" ) {
