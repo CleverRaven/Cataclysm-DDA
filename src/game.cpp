@@ -83,6 +83,7 @@
 #include "pathfinding.h"
 #include "gates.h"
 #include "item_factory.h"
+#include "scent_map.h"
 
 #include <map>
 #include <set>
@@ -208,10 +209,12 @@ game::game() :
     u_ptr( new player() ),
     liveview_ptr( new live_view() ),
     liveview( *liveview_ptr ),
+    scent_ptr( new scent_map() ),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
     u( *u_ptr ),
+    scent( *scent_ptr ),
     critter_tracker( new Creature_tracker() ),
     weather_gen( new weather_generator() ),
     weather_precise( new w_point() ),

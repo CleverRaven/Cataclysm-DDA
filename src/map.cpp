@@ -32,6 +32,7 @@
 #include "weather.h"
 #include "item_group.h"
 #include "pathfinding.h"
+#include "scent_map.h"
 
 #include <cmath>
 #include <stdlib.h>

@@ -8,7 +8,6 @@
 #include "int_id.h"
 #include "item_location.h"
 #include "cursesdef.h"
-#include "scent_map.h"
 
 #include <vector>
 #include <map>
@@ -119,6 +118,7 @@ typedef int nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;
+class scent_map;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -154,6 +154,7 @@ class game
         std::unique_ptr<player> u_ptr;
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
+        std::unique_ptr<scent_map> scent_ptr;
     public:
 
         /** Initializes the UI. */
@@ -206,6 +207,7 @@ class game
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         player &u;
+        scent_map &scent;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
         /**
@@ -384,7 +386,6 @@ class game
         void nuke( const tripoint &p );
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
-        scent_map scent; // The scent map
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.

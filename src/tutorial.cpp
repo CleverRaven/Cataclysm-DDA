@@ -12,6 +12,7 @@
 #include "overmap.h"
 #include "trap.h"
 #include "player.h"
+#include "scent_map.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 

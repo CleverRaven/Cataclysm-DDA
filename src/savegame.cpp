@@ -21,6 +21,7 @@
 #include "mapdata.h"
 #include "translations.h"
 #include "mongroup.h"
+#include "scent_map.h"
 
 #include <map>
 #include <set>
