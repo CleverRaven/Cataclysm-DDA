@@ -671,7 +671,6 @@ int curses_start_color(void)
 {
     //TODO: this should be reviewed in the future.
 
-    colorpairs = new pairs[100];
     windowsPalette = new RGBQUAD[16];
 
     //Load the console colors from colors.json

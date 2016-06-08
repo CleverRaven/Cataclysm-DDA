@@ -1706,7 +1706,6 @@ inline SDL_Color ccolor( const std::string &color )
 int curses_start_color( void )
 {
     const std::string path = FILENAMES["colors"];
-    colorpairs = new pairs[100];
     std::ifstream colorfile( path.c_str(), std::ifstream::in | std::ifstream::binary );
     try {
         JsonIn jsin( colorfile );

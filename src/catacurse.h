@@ -165,7 +165,7 @@ int echo( void );
 int noecho( void );
 //non-curses functions, Do not call these in the main game code
 extern WINDOW *mainwin;
-extern pairs *colorpairs;
+extern std::array<pairs, 100> colorpairs;
 // key is a color name from main_color_names,
 // value is a color in *BGR*. each vector has exactly 3 values.
 // see load_colors(Json...)
