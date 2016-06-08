@@ -10358,9 +10358,11 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
         items->push_back( w );
         taken_off = true;
     } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
+        w.on_takeoff( *this );
         inv.add_item_keep_invlet(w);
         taken_off = true;
     } else if (query_yn(_("No room in inventory for your %s.  Drop it?"), w.tname().c_str())) {
+        w.on_takeoff( *this );
         g->m.add_item_or_charges( pos(), w );
         taken_off = true;
     } else {
