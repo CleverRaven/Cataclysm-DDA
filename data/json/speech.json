@@ -1202,12 +1202,12 @@
     },{
         "type" : "speech",
         "speaker" : "mon_broken_cyborg",
-        "sound" : "an electronic voice saying \"CONNECTION FAILED. Abort, Retry, Fail?\"",
+        "sound" : "an electronic voice saying \"CONNECTION FAILED.  Abort, Retry, Fail?\"",
         "volume" : 20
     },{
         "type" : "speech",
         "speaker" : "mon_broken_cyborg",
-        "sound" : "\"I was once a man. A MAN!\"",
+        "sound" : "\"I was once a man.  A MAN!\"",
         "volume" : 10
     },{
         "type" : "speech",
