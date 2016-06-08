@@ -282,30 +282,30 @@ std::string calendar::print_duration( int turns )
     std::string res;
 
     if( turns < MINUTES( 1 ) ) {
-        int sec = std::max( 1, turns * 6 );
+        const int sec = FULL_SECONDS_IN( turns );
         res += string_format( ngettext( "%d second", "%d seconds", sec ), sec );
 
     } else if( turns < HOURS( 1 ) ) {
-        int min = turns / MINUTES( 1 );
-        int sec = turns % MINUTES( 1 );
+        const int min = FULL_MINUTES_IN( turns );
+        const int sec = FULL_SECONDS_IN( turns % MINUTES( 1 ) );
         res += string_format( ngettext( "%d minute", "%d minutes", min ), min );
-        if( sec ) {
+        if( sec != 0 ) {
             res += string_format( ngettext( " and %d second", " and %d seconds", sec ), sec );
         }
 
     } else if( turns < DAYS( 1 ) ) {
-        int hour = turns / HOURS( 1 );
-        int min = turns % HOURS( 1 );
+        const int hour = FULL_HOURS_IN( turns );
+        const int min = FULL_MINUTES_IN( turns % HOURS( 1 ) );
         res += string_format( ngettext( "%d hour", "%d hours", hour ), hour );
-        if( min ) {
+        if( min != 0 ) {
             res += string_format( ngettext( " and %d minute", " and %d minutes", min ), min );
         }
 
     } else {
-        int day = turns / DAYS( 1 );
-        int hour = turns % DAYS( 1 );
+        const int day = FULL_DAYS_IN( turns );
+        const int hour = FULL_HOURS_IN( turns % DAYS( 1 ) );
         res += string_format( ngettext( "%d day", "%d days", day ), day );
-        if( hour ) {
+        if( hour != 0 ) {
             res += string_format( ngettext( " and %d hour", " and %d hours", hour ), hour );
         }
     }
