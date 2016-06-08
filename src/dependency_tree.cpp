@@ -288,7 +288,7 @@ void dependency_tree::build_node_map(
         // check to see if the master node map knows the key
         if( master_node_map.find( elem.first ) == master_node_map.end() ) {
             // it does, so get the Node
-            master_node_map[elem.first] = new dependency_node( elem.first );
+            master_node_map[elem.first].reset( new dependency_node( elem.first ) );
         }
     }
 }
@@ -300,13 +300,13 @@ void dependency_tree::build_connections(
         // check to see if the master node map knows the key
         if( master_node_map.find( elem.first ) != master_node_map.end() ) {
             // it does, so get the Node
-            dependency_node *knode = master_node_map[elem.first];
+            dependency_node *knode = master_node_map[elem.first].get();
 
             // apply parents list
             std::vector<std::string> vnode_parents = elem.second;
             for( auto &vnode_parent : vnode_parents ) {
                 if( master_node_map.find( vnode_parent ) != master_node_map.end() ) {
-                    dependency_node *vnode = master_node_map[vnode_parent];
+                    dependency_node *vnode = master_node_map[vnode_parent].get();
 
                     knode->add_parent( vnode );
                     vnode->add_child( knode );
@@ -369,18 +369,12 @@ bool dependency_tree::is_available( std::string key )
 void dependency_tree::clear()
 {
     // remove all keys and nodes from the master_node_map
-    if( !master_node_map.empty() ) {
-        for( auto &elem : master_node_map ) {
-            delete elem.second;
-        }
-
-        master_node_map.clear();
-    }
+    master_node_map.clear();
 }
 dependency_node *dependency_tree::get_node( std::string key )
 {
     if( master_node_map.find( key ) != master_node_map.end() ) {
-        return master_node_map[key];
+        return master_node_map[key].get();
     }
     return NULL;
 }
@@ -396,7 +390,7 @@ void dependency_tree::check_for_strongly_connected_components()
         //nodes_on_stack = std::vector<dependency_node*>();
         // clear it for the next stack to run
         if( elem.second->index < 0 ) {
-            strong_connect( elem.second );
+            strong_connect( elem.second.get() );
         }
     }
 
