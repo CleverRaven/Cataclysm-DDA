@@ -354,8 +354,6 @@
             ]
         }
     }
-
-    
     ,{
     "type": "mapgen",
         "om_terrain": [
@@ -453,7 +451,7 @@
                 "^": "f_rubble_rock",
                 "o": ["f_boulder_small", "f_boulder_small", "f_boulder_small", "f_boulder_medium", "f_boulder_medium", "f_boulder_large"]
             },
-        "place_items": [ 
+        "place_items": [
                 { "item": "spider", "chance": 55, "x": [ 10, 12 ], "y": [ 9, 12 ], "repeat": [ 1, 2 ] }
             ]
         }
