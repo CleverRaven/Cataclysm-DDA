@@ -3,6 +3,11 @@
 
 #include <string>
 
+constexpr int SECONDS( int n )
+{
+    return n / 6;
+}
+
 constexpr int MINUTES( int n )
 {
     return n * 10;
