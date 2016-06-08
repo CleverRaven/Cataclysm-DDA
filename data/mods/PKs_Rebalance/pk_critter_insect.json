@@ -440,7 +440,7 @@
         }
     ],
     "special_when_hit":["ACIDSPLASH", 5],
-    "description":"A spider the size of a large dog with slender forelegs and massive hind legs. From its maw corrosive saliva drips, and can be manipulated by its agile limbs.",
+    "description":"A spider the size of a large dog with slender forelegs and massive hind legs.  From its maw corrosive saliva drips, and can be manipulated by its agile limbs.",
     "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "BADVENOM", "CHITIN", "CLIMBS", "ACIDPROOF", "ACID_BLOOD", "PUSH_MON"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "STALK"],
     "fear_triggers": ["HURT", "FIRE"]

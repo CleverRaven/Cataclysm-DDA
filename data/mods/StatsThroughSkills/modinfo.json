@@ -4,7 +4,7 @@
     "ident": "StatsThroughSkills",
     "name": "StatsThoughSkills",
     "author": "Ryan \"DeNarr\" Saige",
-    "description": "Allows stats to raise naturally via skill progression. Changes to starting stats will be disregarded",
+    "description": "Allows stats to raise naturally via skill progression.  Changes to starting stats will be disregarded",
     "category": "rebalance",
     "path": ""
 }

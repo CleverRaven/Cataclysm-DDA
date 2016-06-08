@@ -8815,7 +8815,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
-  "qualities": [ { "id": "COOK", "level": 2 } ], 
+  "qualities": [ { "id": "COOK", "level": 2 } ],
   "tools": [ [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ] ],
   "components": [ [ ["meth", 4] ],
     [ ["cola", 2] ] ]
