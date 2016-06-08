@@ -1656,6 +1656,7 @@ int curses_getch(WINDOW* win)
 //Ends the terminal, destroy everything
 int curses_destroy(void)
 {
+    tilecontext.reset();
     font.reset();
     map_font.reset();
     overmap_font.reset();
