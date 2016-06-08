@@ -93,6 +93,6 @@ class worldfactory
         std::vector<std::string> tab_strings;
 };
 
-extern worldfactory *world_generator;
+extern std::unique_ptr<worldfactory> world_generator;
 
 #endif

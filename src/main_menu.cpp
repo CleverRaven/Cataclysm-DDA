@@ -28,7 +28,6 @@
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-extern worldfactory *world_generator;
 
 namespace
 {

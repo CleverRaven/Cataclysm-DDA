@@ -23,7 +23,7 @@ using namespace std::placeholders;
 #define SAVE_EXTENSION ".sav"
 
 // single instance of world generator
-worldfactory *world_generator;
+std::unique_ptr<worldfactory> world_generator;
 
 std::string get_next_valid_worldname()
 {

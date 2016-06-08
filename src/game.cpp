@@ -163,7 +163,6 @@ nc_color sev(int a); // Right now, ONLY used for scent debugging....
 
 //The one and only game instance
 game *g;
-extern worldfactory *world_generator;
 #ifdef TILES
 extern cata_tiles *tilecontext;
 #endif // TILES
@@ -237,7 +236,7 @@ game::game() :
     lookHeight(13),
     tileset_zoom(16)
 {
-    world_generator = new worldfactory();
+    world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
@@ -356,8 +355,6 @@ game::~game()
     delwin(w_location);
     delwin(w_status);
     delwin(w_status2);
-
-    delete world_generator;
 }
 
 // Fixed window sizes
@@ -11720,7 +11717,7 @@ void game::pldrive(int x, int y)
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
             cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
- 
+
         if( penalty > skill || cost > 400 ) {
             add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
             // Anything from a wasted attempt to 2 turns in the intended direction
