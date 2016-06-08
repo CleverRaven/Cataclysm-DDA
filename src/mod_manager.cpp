@@ -105,9 +105,6 @@ dependency_tree &mod_manager::get_tree()
 void mod_manager::clear()
 {
     tree.clear();
-    for( auto &elem : mod_map ) {
-        delete elem.second;
-    }
     mod_map.clear();
     default_mods.clear();
 }
@@ -134,7 +131,6 @@ void mod_manager::remove_mod(const std::string &ident)
 {
     t_mod_map::iterator a = mod_map.find(ident);
     if (a != mod_map.end()) {
-        delete a->second;
         mod_map.erase(a);
     }
 }
@@ -285,7 +281,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         jo.throw_error( std::string("Invalid mod type: ") + t_type + " for mod " + m_ident );
     }
 
-    MOD_INFORMATION *modfile = new MOD_INFORMATION;
+    std::unique_ptr<MOD_INFORMATION> modfile( new MOD_INFORMATION );
     modfile->ident = m_ident;
     modfile->_type = m_type;
     modfile->authors = m_authors;
@@ -296,7 +292,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->path = m_path;
     modfile->need_lua = m_need_lua;
 
-    mod_map[modfile->ident] = modfile;
+    mod_map[modfile->ident] = std::move( modfile );
 }
 
 bool mod_manager::set_default_mods(const t_mod_list &mods)

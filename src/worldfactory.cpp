@@ -988,9 +988,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             if( current_tab_mods.empty() ) {
                 // Do nothing, leave selmod == NULL
             } else if( active_header == 0 ) {
-                selmod = mman->mod_map[current_tab_mods[cursel[0]]];
+                selmod = mman->mod_map[current_tab_mods[cursel[0]]].get();
             } else if( !active_mod_order.empty() ) {
-                selmod = mman->mod_map[active_mod_order[cursel[1]]];
+                selmod = mman->mod_map[active_mod_order[cursel[1]]].get();
             }
 
             if( selmod != NULL ) {
