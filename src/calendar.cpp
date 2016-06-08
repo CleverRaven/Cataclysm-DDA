@@ -443,7 +443,8 @@ int calendar::day_of_year() const
 
 int calendar::diurnal_time_before( int turn ) const
 {
-    return ( turn >= get_turn() ) ? turn - get_turn() : DAYS( 1 ) - get_turn() + turn;
+    const int remainder = turn - get_turn() % DAYS( 1 );
+    return ( remainder >= 0 ) ? remainder : DAYS( 1 ) + remainder;
 }
 
 int calendar::diurnal_time_before( const calendar &time ) const
