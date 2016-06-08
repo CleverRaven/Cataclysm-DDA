@@ -11720,7 +11720,7 @@ void game::pldrive(int x, int y)
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
             cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
- 
+
         if( penalty > skill || cost > 400 ) {
             add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
             // Anything from a wasted attempt to 2 turns in the intended direction
@@ -14036,8 +14036,6 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
 
 // Helper function for game::wait().
 static int convert_wait_chosen_to_turns( int choice ) {
-    const int iHour = calendar::turn.hours();
-
     switch( choice ) {
     case 1:
         return MINUTES( 5 );
@@ -14052,13 +14050,13 @@ static int convert_wait_chosen_to_turns( int choice ) {
     case 6:
         return HOURS( 6 );
     case 7:
-        return HOURS( ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6) );
+        return calendar::turn.diurnal_time_before( calendar::turn.sunrise() );
     case 8:
-        return HOURS( ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6) );
+        return calendar::turn.diurnal_time_before( HOURS( 12 ) );
     case 9:
-        return HOURS( ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6) );
+        return calendar::turn.diurnal_time_before( calendar::turn.sunset() );
     case 10:
-        return HOURS( ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6) );
+        return calendar::turn.diurnal_time_before( HOURS( 0 ) );
     case 11:
     default:
         return 999999999;
