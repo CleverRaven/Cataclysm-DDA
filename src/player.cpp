@@ -9996,41 +9996,32 @@ bool player::wield( item& target )
 
     int mv = 0;
 
-    bool target_removed = false;
-    item target_copy = target;
     if( is_armed() ) {
-        inventory old_inv = inv;
-        if( inv.has_item( target ) ) {
-            i_rem( &target );
-            target_removed = true;
-        }
         if( !wield( ret_null ) ) {
-            inv = old_inv;
             return false;
         }
         inv.unsort();
     }
-    item &new_target = target_removed ? i_add( target_copy ) : target;
 
     // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
     // Worn items (including guns with shoulder straps) are faster but still slower
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    mv += item_handling_cost( new_target );
+    mv += item_handling_cost( target );
 
-    if( is_worn( new_target ) ) {
-        new_target.on_takeoff( *this );
+    if( is_worn( target ) ) {
+        target.on_takeoff( *this );
     } else {
         mv *= INVENTORY_HANDLING_FACTOR;
     }
 
     moves -= mv;
 
-    if( has_item( new_target ) ) {
-        weapon = i_rem( &new_target );
+    if( has_item( target ) ) {
+        weapon = i_rem( &target );
     } else {
-        weapon = new_target;
+        weapon = target;
     }
 
     last_item = weapon.typeId();
