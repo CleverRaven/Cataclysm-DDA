@@ -159,7 +159,6 @@ const efftype_id effect_winded( "winded" );
 
 void advanced_inv(); // player_activity.cpp
 void intro();
-nc_color sev(int a); // Right now, ONLY used for scent debugging....
 
 //The one and only game instance
 game *g;
@@ -720,12 +719,7 @@ void game::setup()
 
     // reset kill counts
     kills.clear();
-    // Set the scent map to 0
-    for( auto &elem : grscent ) {
-        for( auto &elem_j : elem ) {
-            elem_j = 0;
-        }
-    }
+    scent.reset();
 
     remoteveh_cache_turn = INT_MIN;
     remoteveh_cache = nullptr;
@@ -1447,7 +1441,13 @@ bool game::do_turn()
             calc_driving_offset(veh);
         }
     }
-    update_scent();
+
+    // No-scent debug mutation has to be processed here or else it takes time to start working
+    if( !u.has_active_bionic( "bio_scent_mask" ) && !u.has_trait( "DEBUG_NOSCENT" ) ) {
+        scent( u.pos() ) = u.scent;
+        overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
+    }
+    scent.update( u.pos(), m );
 
     // We need floor cache before checking falling 'n stuff
     m.build_floor_caches();
@@ -3341,59 +3341,38 @@ bool outside_scent_radius( const tripoint &p ) {
            p.y < (SEEY * MAPSIZE / 2) - SCENT_RADIUS || p.y >= (SEEY * MAPSIZE / 2) + SCENT_RADIUS;
 }
 
-int &game::scent( const tripoint &p )
+void scent_map::update( const tripoint &center, map &m )
 {
-    if( outside_scent_radius( p ) ) {
-        nulscent = 0;
-        return nulscent; // Out-of-bounds - null scent
-    }
-    return grscent[p.x][p.y];
-}
-
-void game::update_scent()
-{
-    static tripoint player_last_position = tripoint_min;
-    static int player_last_moved = calendar::turn;
     // Stop updating scent after X turns of the player not moving.
     // Once wind is added, need to reset this on wind shifts as well.
-    if( u.pos() == player_last_position ) {
-        if( player_last_moved + 1000 < calendar::turn ) {
-            return;
-        }
-    } else {
-        player_last_position = u.pos();
-        player_last_moved = calendar::turn;
+    if( center == player_last_position && player_last_moved + 1000 < calendar::turn ) {
+        return;
     }
-
-    overmap_buffer.set_scent( u.global_omt_location(), u.scent );
+    player_last_position = center;
+    player_last_moved = calendar::turn;
 
     // note: the next four intermediate matrices need to be at least
     // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
     // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
 
+
     // These two matrices are transposed so that x addresses are contiguous in memory
-    int sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE];  //intermediate variable
-    int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
+    scent_array<int> sum_3_scent_y;
+    scent_array<int> squares_used_y;
 
     // these are for caching flag lookups
-    std::array<std::array<bool, SEEX * MAPSIZE>, SEEY * MAPSIZE> blocks_scent; // currently only TFLAG_WALL blocks scent
-    std::array<std::array<bool, SEEX * MAPSIZE>, SEEY * MAPSIZE> reduces_scent;
-
+    scent_array<bool> blocks_scent; // currently only TFLAG_WALL blocks scent
+    scent_array<bool> reduces_scent;
 
 
     // for loop constants
-    const int scentmap_minx = u.posx() - SCENT_RADIUS;
-    const int scentmap_maxx = u.posx() + SCENT_RADIUS;
-    const int scentmap_miny = u.posy() - SCENT_RADIUS;
-    const int scentmap_maxy = u.posy() + SCENT_RADIUS;
+    const int scentmap_minx = center.x - SCENT_RADIUS;
+    const int scentmap_maxx = center.x + SCENT_RADIUS;
+    const int scentmap_miny = center.y - SCENT_RADIUS;
+    const int scentmap_maxy = center.y + SCENT_RADIUS;
 
     const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for
     // stability. This is essentially a decimal number * 1000.
-
-    // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_active_bionic("bio_scent_mask") && !u.has_trait("DEBUG_NOSCENT") ) {
-        grscent[u.posx()][u.posy()] = u.scent;
-    }
 
     // The new scent flag searching function. Should be wayyy faster than the old one.
     m.scent_blockers( blocks_scent, reduces_scent,
@@ -3427,6 +3406,7 @@ void game::update_scent()
     // Rest of the scent map
     for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
         for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
+            auto &scent_here = grscent[x][y];
             if (! blocks_scent[x][y]) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
@@ -3442,27 +3422,20 @@ void game::update_scent()
                 }
                 int temp_scent;
                 // take the old scent and subtract what diffuses out
-                temp_scent = grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity);
+                temp_scent = scent_here * (10 * 1000 - squares_used * this_diffusivity);
                 // neighboring walls and reduce_scent squares absorb some scent
-                temp_scent -= grscent[x][y] * this_diffusivity * (90 - squares_used) / 5;
+                temp_scent -= scent_here * this_diffusivity * (90 - squares_used) / 5;
                 // we've already summed neighboring scent values in the y direction in the previous
                 // loop. Now we do it for the x direction, multiply by diffusion, and this is what
                 // diffuses into our current square.
-                grscent[x][y] =
+                scent_here =
                     (temp_scent
                      + this_diffusivity * (sum_3_scent_y[y][x - 1]
                                            + sum_3_scent_y[y][x]
                                            + sum_3_scent_y[y][x + 1])
                     ) / (1000 * 10);
-
-                if (grscent[x][y] > 10000) {
-                    dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
-                                 << y << " (" << grscent[x][y] << ")";
-                    debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
-                    grscent[x][y] = 0; // Scent should never be higher
-                }
             } else { // this cell blocks scent
-                grscent[x][y] = 0;
+                scent_here = 0;
             }
         }
     }
@@ -11721,7 +11694,7 @@ void game::pldrive(int x, int y)
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
             cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
- 
+
         if( penalty > skill || cost > 400 ) {
             add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
             // Anything from a wasted attempt to 2 turns in the intended direction
@@ -13519,12 +13492,7 @@ void game::vertical_shift( const int z_after )
     u.grab_point = tripoint_zero;
     u.grab_type = OBJECT_NONE;
 
-    // Clear current scents.
-    for( auto &elem : grscent ) {
-        for( auto &elem_j : elem ) {
-            elem_j = 0;
-        }
-    }
+    scent.reset();
 
     u.setz( z_after );
     const int z_before = get_levz();
@@ -13652,22 +13620,7 @@ void game::update_map(int &x, int &y)
         spawn_mon(shiftx, shifty);
     }
 
-    // Shift scent
-    const int sm_shift_x = (shiftx * SEEX);
-    const int sm_shift_y = (shifty * SEEY);
-    unsigned int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    std::fill_n( &newscent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
-    tripoint tmp = u.pos();
-    for( tmp.x = sm_shift_x; tmp.x < SEEX * MAPSIZE + sm_shift_x; tmp.x++ ) {
-        for( tmp.y = sm_shift_y; tmp.y < SEEY * MAPSIZE + sm_shift_y; tmp.y++ ) {
-            newscent[tmp.x - sm_shift_x][tmp.y - sm_shift_y] = scent(tmp);
-        }
-    }
-    for( tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++ ) {
-        for( tmp.y = 0; tmp.y < SEEY * MAPSIZE; tmp.y++ ) {
-            scent(tmp) = newscent[tmp.x][tmp.y];
-        }
-    }
+    scent.shift( shiftx * SEEX, shifty * SEEY );
 
     // Make sure map cache is consistent since it may have shifted.
     m.build_map_cache( get_levz() );
@@ -14412,57 +14365,6 @@ std::vector<faction *> game::factions_at( const tripoint &p )
     return ret;
 }
 
-nc_color sev(int a)
-{
-    switch (a) {
-    case 0:
-        return c_cyan;
-    case 1:
-        return c_ltcyan;
-    case 2:
-        return c_ltblue;
-    case 3:
-        return c_blue;
-    case 4:
-        return c_ltgreen;
-    case 5:
-        return c_green;
-    case 6:
-        return c_yellow;
-    case 7:
-        return c_pink;
-    case 8:
-        return c_ltred;
-    case 9:
-        return c_red;
-    case 10:
-        return c_magenta;
-    case 11:
-        return c_brown;
-    case 12:
-        return c_cyan_red;
-    case 13:
-        return c_ltcyan_red;
-    case 14:
-        return c_ltblue_red;
-    case 15:
-        return c_blue_red;
-    case 16:
-        return c_ltgreen_red;
-    case 17:
-        return c_green_red;
-    case 18:
-        return c_yellow_red;
-    case 19:
-        return c_pink_red;
-    case 20:
-        return c_magenta_red;
-    case 21:
-        return c_brown_red;
-    }
-    return c_dkgray;
-}
-
 void game::display_scent()
 {
     int div = query_int(_("Set the Scent Map sensitivity to (0 to cancel)?"));
@@ -14471,14 +14373,7 @@ void game::display_scent()
         return;
     };
     draw_ter();
-    for (int x = u.posx() - getmaxx(w_terrain) / 2; x <= u.posx() + getmaxx(w_terrain) / 2; x++) {
-        for (int y = u.posy() - getmaxy(w_terrain) / 2; y <= u.posy() + getmaxy(w_terrain) / 2; y++) {
-            int sn = scent({x, y, u.posz()}) / (div * 2);
-            mvwprintz(w_terrain, getmaxy(w_terrain) / 2 + y - u.posy(), getmaxx(w_terrain) / 2 + x - u.posx(),
-                      sev(sn / 10), "%d",
-                      sn % 10);
-        }
-    }
+    scent.draw( w_terrain, div * 2, u.pos() );
     wrefresh(w_terrain);
     getch();
 }
