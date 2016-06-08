@@ -553,6 +553,8 @@
 		<Unit filename="src/newcharacter.cpp" />
 		<Unit filename="src/npc.cpp" />
 		<Unit filename="src/npc.h" />
+		<Unit filename="src/npc_class.cpp" />
+		<Unit filename="src/npc_class.h" />
 		<Unit filename="src/npc_favor.h" />
 		<Unit filename="src/npcmove.cpp" />
 		<Unit filename="src/npctalk.cpp" />

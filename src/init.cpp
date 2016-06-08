@@ -52,6 +52,7 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overlay_ordering.h"
+#include "npc_class.h"
 
 #include <string>
 #include <vector>
@@ -217,6 +218,8 @@ void DynamicDataLoader::initialize()
         &faction::load_faction);
     type_function_map["npc"] = new StaticFunctionAccessor(
         &npc::load_npc);
+    type_function_map["npc_class"] = new StaticFunctionAccessor(
+        &npc_class::load_npc_class );
     type_function_map["talk_topic"] = new StaticFunctionAccessor(
         &load_talk_topic);
     type_function_map["epilogue"] = new StaticFunctionAccessor(
@@ -367,6 +370,7 @@ void DynamicDataLoader::unload_data()
     gates::reset();
     reset_overlay_ordering();
     g->options.clear();
+    npc_class::reset_npc_classes();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -411,4 +415,5 @@ void DynamicDataLoader::check_consistency()
     ammunition_type::check_consistency();
     trap::check_consistency();
     check_bionics();
+    npc_class::check_consistency();
 }

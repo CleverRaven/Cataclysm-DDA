@@ -14,9 +14,11 @@ class game;
 class npc;
 class Creature;
 class calendar;
+class npc_class;
 
-enum npc_class : int;
 enum npc_mission : int;
+
+using npc_class_id = string_id<npc_class>;
 
 enum mission_type_id {
     MISSION_NULL,
@@ -236,7 +238,7 @@ struct mission_type {
     std::vector<mission_origin> origins; // Points of origin
     itype_id item_id;
     int item_count;
-    npc_class recruit_class;  // The type of NPC you are to recruit
+    npc_class_id recruit_class;  // The type of NPC you are to recruit
     int target_npc_id;
     std::string monster_type;
     int monster_kill_goal;
@@ -302,7 +304,7 @@ private:
         itype_id item_id;       // Item that needs to be found (or whatever)
         int item_count;         // The number of above items needed
         oter_id target_id;      // Destination type to be reached
-        npc_class recruit_class;// The type of NPC you are to recruit
+        npc_class_id recruit_class;// The type of NPC you are to recruit
         int target_npc_id;     // The ID of a specific NPC to interact with
         std::string monster_type;    // Monster ID that are to be killed
         int monster_kill_goal;  // the kill count you wish to reach

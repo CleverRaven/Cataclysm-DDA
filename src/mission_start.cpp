@@ -18,6 +18,7 @@
 #include "mapgen_functions.h"
 #include "field.h"
 #include "npc.h"
+#include "npc_class.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -372,20 +373,16 @@ void mission_start::place_npc_software( mission *miss )
 
     std::string type = "house";
 
-    switch( dev->myclass ) {
-        case NC_HACKER:
-            miss->item_id = "software_hacking";
-            break;
-        case NC_DOCTOR:
-            miss->item_id = "software_medical";
-            type = "s_pharm";
-            miss->follow_up = MISSION_GET_ZOMBIE_BLOOD_ANAL;
-            break;
-        case NC_SCIENTIST:
-            miss->item_id = "software_math";
-            break;
-        default:
-            miss->item_id = "software_useless";
+    if( dev->myclass == NC_HACKER ) {
+        miss->item_id = "software_hacking";
+    } else if( dev->myclass == NC_DOCTOR ) {
+        miss->item_id = "software_medical";
+        type = "s_pharm";
+        miss->follow_up = MISSION_GET_ZOMBIE_BLOOD_ANAL;
+    } else if( dev->myclass == NC_SCIENTIST ) {
+        miss->item_id = "software_math";
+    } else {
+        miss->item_id = "software_useless";
     }
 
     tripoint place;

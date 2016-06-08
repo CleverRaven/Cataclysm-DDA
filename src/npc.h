@@ -17,7 +17,10 @@ class item;
 class overmap;
 class player;
 class field_entry;
+class npc_class;
 enum game_message_type : int;
+
+using npc_class_id = string_id<npc_class>;
 
 void parse_tags( std::string &phrase, const player &u, const npc &me );
 
@@ -71,29 +74,8 @@ enum npc_mission : int {
 
 //std::string npc_mission_name(npc_mission);
 
-enum npc_class : int {
- NC_NONE,
- NC_EVAC_SHOPKEEP,  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
- NC_SHOPKEEP,       // Found in towns.  Stays in his shop mostly.
- NC_HACKER,         // Weak in combat but has hacking skills and equipment
- NC_DOCTOR,         // Found in towns, or roaming.  Stays in the clinic.
- NC_TRADER,         // Roaming trader, journeying between towns.
- NC_NINJA,          // Specializes in unarmed combat, carries few items
- NC_COWBOY,         // Gunslinger and survivalist
- NC_SCIENTIST,      // Uses intelligence-based skills and high-tech items
- NC_BOUNTY_HUNTER,  // Resourceful and well-armored
- NC_THUG,           // Moderate melee skills and poor equipment
- NC_SCAVENGER,      // Good with pistols light weapons
- NC_ARSONIST,       // Evacuation Center, restocks moltovs and anarcist type stuff
- NC_HUNTER,         // Survivor type good with bow or rifle
- NC_SOLDIER,        // Well equiped and trained combatant, good with rifles and melee
- NC_BARTENDER,      // Stocks alcohol
- NC_JUNK_SHOPKEEP,  // Stocks wide range of items...
- NC_MAX
-};
-
-std::string npc_class_name(npc_class);
-std::string npc_class_name_str(npc_class);
+std::string npc_class_name( const npc_class_id & );
+std::string npc_class_name_str( const npc_class_id & );
 
 enum npc_action : int;
 
@@ -104,14 +86,13 @@ enum npc_need {
  num_needs
 };
 
-enum npc_flag {
- NF_NULL,
-// Items desired
- NF_FOOD_HOARDER,
- NF_DRUGGIE,
- NF_TECHNOPHILE,
- NF_BOOKWORM,
- NF_MAX
+// @todo Turn the personality struct into a vector/map?
+enum npc_personality_type : int {
+    NPE_AGGRESSION,
+    NPE_BRAVERY,
+    NPE_COLLECTOR,
+    NPE_ALTRUISM,
+    NUM_NPE
 };
 
 struct npc_personality : public JsonSerializer, public JsonDeserializer
@@ -547,7 +528,7 @@ public:
  void load_npc_template(std::string ident);
 
 // Generating our stats, etc.
- void randomize(npc_class type = NC_NONE);
+ void randomize( const npc_class_id &type );
  void randomize_from_faction(faction *fac);
  void set_fac(std::string fac_name);
     /**
@@ -574,7 +555,7 @@ public:
      */
     void add_new_mission( mission *miss );
     skill_id best_skill() const;
- void starting_weapon(npc_class type);
+ void starting_weapon( const npc_class_id &type );
 
 // Save & load
     virtual void load_info(std::string data) override;// Overloaded from player
@@ -811,7 +792,7 @@ public:
 // #############   VALUES   ################
 
  npc_attitude attitude; // What we want to do to the player
- npc_class myclass; // What's our archetype?
+    npc_class_id myclass; // What's our archetype?
  std::string idz; // A temp variable used to inform the game which npc json to use as a template
  int miss_id; // A temp variable used to link to the correct mission
 
@@ -889,7 +870,6 @@ public:
  bool marked_for_death; // If true, we die as soon as we respawn!
  bool hit_by_player;
  std::vector<npc_need> needs;
- unsigned flags : NF_MAX;
  // Dummy point that indicates that the goal is invalid.
  static const tripoint no_goal_point;
 
