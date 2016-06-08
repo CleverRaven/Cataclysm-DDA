@@ -21,6 +21,7 @@
 #include "mapdata.h"
 #include "translations.h"
 #include "mongroup.h"
+#include "scent_map.h"
 
 #include <map>
 #include <set>
@@ -85,27 +86,8 @@ void game::serialize(std::ostream & fout) {
         json.member( "om_x", pos_om.x );
         json.member( "om_y", pos_om.y );
 
-        // Next, the scent map.
-        std::stringstream rle_out;
-        int rle_lastval = -1;
-        int rle_count = 0;
-        for( auto &elem : grscent ) {
-            for( auto val : elem ) {
 
-               if (val == rle_lastval) {
-                   rle_count++;
-               } else {
-                   if ( rle_count ) {
-                       rle_out << rle_count << " ";
-                   }
-                   rle_out << val << " ";
-                   rle_lastval = val;
-                   rle_count = 1;
-               }
-            }
-        }
-        rle_out << rle_count;
-        json.member( "grscent", rle_out.str() );
+        json.member( "grscent", scent.serialize() );
 
         // Then each monster
         json.member( "active_monsters", critter_tracker->list() );
@@ -124,6 +106,30 @@ void game::serialize(std::ostream & fout) {
 
         json.end_object();
 }
+
+std::string scent_map::serialize() const
+{
+    std::stringstream rle_out;
+    int rle_lastval = -1;
+    int rle_count = 0;
+    for( auto &elem : grscent ) {
+        for( auto &val : elem ) {
+            if( val == rle_lastval ) {
+                rle_count++;
+            } else {
+                if( rle_count ) {
+                    rle_out << rle_count << " ";
+                }
+                rle_out << val << " ";
+                rle_lastval = val;
+                rle_count = 1;
+            }
+        }
+    }
+    rle_out << rle_count;
+    return rle_out.str();
+}
+
 
 /*
  * Properly reuse a stringstream object for line by line parsing
@@ -209,20 +215,9 @@ void game::unserialize(std::istream & fin)
 
         linebuf="";
         if ( data.read("grscent",linebuf) ) {
-            linein.clear();
-            linein.str(linebuf);
-
-            int stmp;
-            int count = 0;
-            for( auto &elem : grscent ) {
-                for( auto &elem_j : elem ) {
-                    if (count == 0) {
-                        linein >> stmp >> count;
-                    }
-                    count--;
-                    elem_j = stmp;
-                }
-            }
+            scent.deserialize( linebuf );
+        } else {
+            scent.reset();
         }
 
         JsonArray vdata = data.get_array("active_monsters");
@@ -253,6 +248,22 @@ void game::unserialize(std::istream & fin)
     } catch( const JsonError &jsonerr ) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );
         return;
+    }
+}
+
+void scent_map::deserialize( const std::string &data )
+{
+    std::istringstream buffer( data );
+    int stmp;
+    int count = 0;
+    for( auto &elem : grscent ) {
+        for( auto &val : elem ) {
+            if( count == 0 ) {
+                buffer >> stmp >> count;
+            }
+            count--;
+            val = stmp;
+        }
     }
 }
 

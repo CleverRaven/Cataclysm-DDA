@@ -8,11 +8,16 @@
     "type" : "MONSTER",
     "id" : "mon_blob",
     "edit-mode" : "modify",
-    "special_attacks":[["FORMBLOB", 90]]
+    "special_attacks":[["FORMBLOB", 120]]
     },{
     "type" : "MONSTER",
     "id" : "mon_blob_small",
     "edit-mode" : "modify",
     "death_function":["MELT"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_gelatin",
+    "edit-mode" : "modify",
+    "flags":["SMELLS", "HEARS", "PLASTIC", "NO_BREATHE", "NOHEAD", "NOGIB", "ABSORBS"]
     }
 ]

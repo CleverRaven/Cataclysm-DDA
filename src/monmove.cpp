@@ -18,6 +18,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
+#include "scent_map.h"
 
 #include <stdlib.h>
 //Used for e^(x) functions

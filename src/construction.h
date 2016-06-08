@@ -55,5 +55,6 @@ void reset_constructions();
 void construction_menu();
 void complete_construction();
 void check_constructions();
+void finalize_constructions();
 
 #endif

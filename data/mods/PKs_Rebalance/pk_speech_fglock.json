@@ -1,0 +1,113 @@
+[
+    {
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"H-Hello?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"I SEEE YOUUU\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"It puts the lotion on the skin, or else it breaks the skin again.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"Urrgh, the world is spinning.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"Its not real, its not real, its all a bad dream.\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"Hey!  Im looking for some butter.  Got any?\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"Selling reloaded ammo, Cheap!\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"I should have never gone hunting.  No money in it.  Gotta shoot me some people instead.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"No.  More.  Money.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"I had no choice.  Better that kid than me anyway, how would he have lived?\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"Oil Rig?  Wayda think I am, stupid or somethin'?\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"My head.  My pounding, aching head.\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"QUIT.  YELLING!\"",
+        "volume" : 20
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"Fucking trees.  I ever say I hate trees, man?\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"NO!  He sent you for me, didnt he?\"",
+        "volume" : 30
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"HELP US!!  How can you act like they don't exist?\"",
+        "volume" : 35
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"I shot it.  It died.  So why do I feel like its a part of me?\"",
+        "volume" : 25
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"Gonna get me some heavy action when I get back.  Man, they'll see.\"",
+        "volume" : 15
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"I AM DODAK BEESMASHER, SLAYER OF YOUR MOM, WHO VANISHED LIKE SMOKE UNDER MY WRATH!\"",
+        "volume" : 45
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"The cooker, I saw it eyeing me earlier.  Why doesn't it ever move?\"",
+        "volume" : 25
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"Libraries?  Fucks wrong with you??  Get back to work smoothing the stones.\"",
+        "volume" : 25
+    },{
+        "type" : "speech",
+        "speaker" : "mon_furvivor_glock",
+        "sound" : "\"FUCK THE FREE WORLD\"",
+        "volume" : 35
+    }
+]
