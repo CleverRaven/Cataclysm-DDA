@@ -5,6 +5,7 @@
     "type": "MAGAZINE",
     "name": "M13 7.62x51mm ammo belt",
     "ammo_type": "308",
+    "capacity": 200,
     "count": 100,
     "linkage": "ammolink308"
   },
