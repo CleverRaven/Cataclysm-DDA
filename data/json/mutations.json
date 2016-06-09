@@ -4377,7 +4377,7 @@
         "active"     :    true,
         "restricts_gear" : [ "TORSO" ],
         "destroys_gear" : true,
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 9, "cut" : 17 } ] ]
+        "armor" : [ [ [ "TORSO" ], { "bash" : 9, "cut" : 17 } ] ]
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",
