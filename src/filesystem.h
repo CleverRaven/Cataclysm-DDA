@@ -14,18 +14,19 @@ bool rename_file( const std::string &old_path, const std::string &new_path );
 
 //--------------------------------------------------------------------------------------------------
 /**
- * Returns a vector of files or directories matching pattern at @p root_path.
+ * Get a vector of files or directories matching pattern at @p root_path.
  *
  * Searches through the directory tree breadth-first. Directories are searched in lexical
  * order. Matching files within in each directory are also ordered lexically.
  *
+ * @param result The vector that stores results
  * @param pattern The sub-string to match.
  * @param root_path The path relative to the current working directory to search; empty means ".".
  * @param recursive_search Whether to recursively search sub directories.
  * @param match_extension If true, match pattern at the end of file names. Otherwise, match anywhere
  *                        in the file name.
  */
-std::vector<std::string> get_files_from_path( std::string const &pattern,
+void get_files_from_path( std::vector<std::string> &result, std::string const &pattern,
         std::string const &root_path = "", bool recursive_search = false,
         bool match_extension = false );
 
@@ -33,12 +34,14 @@ std::vector<std::string> get_files_from_path( std::string const &pattern,
 /**
  * Returns a vector of directories which contain files matching any of @p patterns.
  *
+ * @param result The vector that stores results
  * @param patterns A vector or patterns to match.
  * @see get_files_from_path
  */
-std::vector<std::string> get_directories_with( std::vector<std::string> const &patterns,
-        std::string const &root_path = "", bool recursive_search = false );
+void get_directories_with(std::vector<std::string> &result, 
+	std::vector<std::string> const &patterns, std::string const &root_path = "",
+	bool recursive_search = false );
 
-std::vector<std::string> get_directories_with( std::string const &pattern,
+void get_directories_with( std::vector<std::string> &result, std::string const &pattern,
         std::string const &root_path = "", bool const recurse = false );
 #endif //CATA_FILE_SYSTEM_H

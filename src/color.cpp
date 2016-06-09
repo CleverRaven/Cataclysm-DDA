@@ -698,6 +698,8 @@ void color_manager::show_gui()
         name_color_map[pr.first] = color_array[pr.second];
     }
 
+	std::vector<std::string> vFiles;
+
     while(true) {
         // Clear all lines
         for (int i = 0; i < iContentHeight; i++) {
@@ -789,7 +791,8 @@ void color_manager::show_gui()
             finalize(); // Need to recalculate caches
 
         } else if (action == "LOAD_TEMPLATE") {
-            auto vFiles = get_files_from_path(".json", FILENAMES["color_templates"], false, true);
+			vFiles.clear();
+            get_files_from_path(vFiles, ".json", FILENAMES["color_templates"], false, true);
 
             if ( vFiles.size() > 0 ) {
                 uimenu ui_templates;

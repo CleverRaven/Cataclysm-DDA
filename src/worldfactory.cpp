@@ -223,9 +223,11 @@ WORLDPTR worldfactory::convert_to_world(std::string origin_path)
     // save world as conversion world
     if (save_world(newworld, true)) {
         // move files from origin_path into new world path
-        for( auto &origin_file : get_files_from_path(".", origin_path, false) ) {
-            std::string filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
-
+		std::vector<std::string> origin_files;
+		get_files_from_path(origin_files, ".", origin_path, false);
+		std::string filename;
+        for( std::string &origin_file : origin_files ) {
+            filename = origin_file.substr( origin_file.find_last_of( "/\\" ) );
             rename( origin_file.c_str(), std::string( newworld->world_path + filename ).c_str() );
         }
 
@@ -316,11 +318,14 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
     // get the master files. These determine the validity of a world
     // worlds exist by having an option file
     // create worlds
-    for( const auto &world_dir : get_directories_with(qualifiers, FILENAMES["savedir"], true) ) {
+	std::vector<std::string> world_dirs, world_sav_files;
+	get_directories_with(world_dirs, qualifiers, FILENAMES["savedir"], true);
+    for( const std::string &world_dir : world_dirs ) {
         // get the save files
-        auto world_sav_files = get_files_from_path( SAVE_EXTENSION, world_dir, false );
+		world_sav_files.clear();
+		get_files_from_path(world_sav_files, SAVE_EXTENSION, world_dir, false);
         // split the save file names between the directory and the extension
-        for( auto &world_sav_file : world_sav_files ) {
+        for( std::string &world_sav_file : world_sav_files ) {
             size_t save_index = world_sav_file.find( SAVE_EXTENSION );
             world_sav_file = world_sav_file.substr( world_dir.size() + 1,
                                                     save_index - ( world_dir.size() + 1 ) );
@@ -336,7 +341,7 @@ std::map<std::string, WORLDPTR> worldfactory::get_all_worlds()
         retworlds[worldname]->world_name = worldname;
         all_worldnames.push_back(worldname);
         // add sav files
-        for( auto &world_sav_file : world_sav_files ) {
+        for( std::string &world_sav_file : world_sav_files ) {
             retworlds[worldname]->world_saves.push_back( world_sav_file );
         }
         // set world path
