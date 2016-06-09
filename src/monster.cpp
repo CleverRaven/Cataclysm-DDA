@@ -120,7 +120,6 @@ monster::monster()
     wandf = 0;
     hp = 60;
     moves = 0;
-    def_chance = 0;
     friendly = 0;
     anger = 0;
     morale = 2;
@@ -147,7 +146,6 @@ monster::monster( const mtype_id& id ) : monster()
         auto &entry = special_attacks[sa.first];
         entry.cooldown = rng( 0, sa.second.get_cooldown() );
     }
-    def_chance = type->def_chance;
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
@@ -198,7 +196,6 @@ void monster::poly( const mtype_id& id )
         auto &entry = special_attacks[sa.first];
         entry.cooldown = sa.second.get_cooldown();
     }
-    def_chance = type->def_chance;
     faction = type->default_faction;
     upgrades = type->upgrades;
 }
@@ -2018,7 +2015,9 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    type->sp_defense( *this, source, proj );
+    if( rng( 0, 100 ) <= type->def_chance ) {
+        type->sp_defense( *this, source, proj );
+    }
 
     // Adjust anger/morale of same-species monsters, if appropriate
     int anger_adjust = 0;
