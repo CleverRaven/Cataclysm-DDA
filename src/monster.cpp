@@ -2015,7 +2015,7 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    if( rng( 0, 100 ) <= type->def_chance ) {
+    if( rng( 0, 100 ) <= (long)type->def_chance ) {
         type->sp_defense( *this, source, proj );
     }
 
