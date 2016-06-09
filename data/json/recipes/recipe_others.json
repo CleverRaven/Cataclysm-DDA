@@ -3702,7 +3702,7 @@
   "skill_used" : "fabrication",
   "difficulty" : 1,
   "time": 2000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "components": [
     [

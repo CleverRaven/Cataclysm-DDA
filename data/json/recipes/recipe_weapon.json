@@ -3239,14 +3239,10 @@
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "survival",
   "difficulty": 1,
-  "time": 5000,
+  "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
   "components": [ [ ["spray_can", 1] ],
-    [ ["duct_tape", 25] ],
     [ ["lighter", 1] ] ]
 },{
   "type" : "recipe",

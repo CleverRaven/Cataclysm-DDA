@@ -9240,7 +9240,8 @@
         "encumbrance" : 50,
         "bashing" : 10,
         "coverage" : 55,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
     },
     {
         "type" : "ARMOR",
