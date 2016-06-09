@@ -1,8 +1,8 @@
 [
     {
-    "type" : "MONSTER",
-    "id" : "mon_black_rat",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_black_rat",
+    "edit-mode": "modify",
     "diff":3,
     "aggression":5,
     "morale":10,
@@ -24,14 +24,14 @@
     "vision_night":12,
     "hp":8,
     "death_function":"NORMAL",
-    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "FUR", "BONES", "SWARMS", "GROUP_MORALE"],
+    "flags":["SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "PATH_AVOID_DANGER_1", "ANIMAL", "FUR", "BONES", "SWARMS", "GROUP_MORALE"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED", "HURT"],
     "fear_triggers":["PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_rat_king",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_rat_king",
+    "edit-mode": "modify",
     "diff":18,
     "aggression":0,
     "morale":100,
@@ -46,21 +46,22 @@
     "hp":250,
     "vision_day":5,
     "vision_night":25,
-    "special_attacks":[["RATKING", 3]],
+    "special_attacks":[["RATKING", 3], ["GRENADIER", 15]],
+    "starting_ammo": { "bot_rat": 20 },
     "flags":["SEES", "SMELLS", "WARM", "SWIMS", "BONES"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED"],
     "fear_triggers":["PLAYER_CLOSE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_horse",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_horse",
+    "edit-mode": "modify",
     "aggression":-5,
     "morale":20,
     "speed":210,
     "melee_skill":6,
     "melee_dice":2,
     "melee_dice_sides":8,
-    "melee_damage" : {"damage_type" : "stab", "amount" : 10},
+    "melee_damage": {"damage_type": "stab", "amount": 10},
     "melee_cut":0,
     "dodge":2,
     "armor_bash":4,
@@ -73,9 +74,9 @@
     "fear_triggers":["SOUND"],
     "categories":["WILDLIFE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_bear",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_bear",
+    "edit-mode": "modify",
     "aggression":-10,
     "morale":60,
     "speed":140,
@@ -83,7 +84,7 @@
     "melee_dice":2,
     "melee_dice_sides":8,
     "melee_cut":8,
-    "melee_damage" : [{"damage_type" : "bash", "amount" : 8}],
+    "melee_damage": [{"damage_type": "bash", "amount": 8}],
     "dodge":3,
     "armor_bash":1,
     "armor_cut":3,
@@ -91,15 +92,15 @@
     "vision_night":15,
     "hp":140,
     "special_attacks":[{
-            "type" : "bite",
-            "cooldown" : 20,
-            "no_infection_chance" : 3,
-            "min_mul" : 0.75, "//" : "strong jaws"
+            "type": "bite",
+            "cooldown": 20,
+            "no_infection_chance": 3,
+            "min_mul": 0.75, "//": "strong jaws"
         }]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_cougar",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_cougar",
+    "edit-mode": "modify",
     "melee_dice":2,
     "melee_dice_sides":4,
     "melee_cut":8,
@@ -107,15 +108,15 @@
     "hp":70,
     "special_attacks":[
     {
-            "type" : "leap",
-            "cooldown" : 5,
-            "max_range" : 5
+            "type": "leap",
+            "cooldown": 5,
+            "max_range": 5
         },
         ["LUNGE", 40]]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_dog",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_dog",
+    "edit-mode": "modify",
     "aggression":2,
     "morale":15,
     "speed":150,
@@ -132,9 +133,9 @@
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK"],
     "placate_triggers":["MEAT", "SOUND"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_moose",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_moose",
+    "edit-mode": "modify",
     "diff":1,
     "aggression":-15,
     "morale":80,
@@ -149,13 +150,13 @@
     "armor_acid":2,
     "hp":170,
     "special_attacks":[["SMASH", 50]],
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["HURT", "PLAYER_CLOSE", "FIRE", "FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_wolf",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_wolf",
+    "edit-mode": "modify",
     "diff":12,
     "aggression":-1,
     "morale":25,
@@ -164,7 +165,7 @@
     "melee_dice":2,
     "melee_dice_sides":2,
     "melee_cut":3,
-    "melee_damage" : [ {"damage_type" : "stab", "amount" : 5} ],
+    "melee_damage": [ {"damage_type": "stab", "amount": 5} ],
     "dodge":4,
     "armor_bash":2,
     "vision_day":40,
@@ -172,25 +173,25 @@
     "hp":55,
     "special_attacks":[
             {
-            "type" : "bite",
-            "cooldown" : 7,
-            "no_infection_chance" : 20,
-            "min_mul" : 0.5, "//" : "strong jaws"
+            "type": "bite",
+            "cooldown": 7,
+            "no_infection_chance": 20,
+            "min_mul": 0.5, "//": "strong jaws"
         }],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_WEAK", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT", "FRIEND_ATTACKED"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_coyote",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_coyote",
+    "edit-mode": "modify",
     "hp": 28,
     "upgrades":{
         "into": "mon_coyote_small",
         "half_life": 17
     }
     },{
-    "type" : "MONSTER",
-    "id" : "mon_tardigrade",
+    "type": "MONSTER",
+    "id": "mon_tardigrade",
     "name": "tardigrade",
     "species":"INSECT",
     "default_faction":"herbivore",
@@ -216,12 +217,12 @@
     "death_function":"NORMAL",
     "special_attacks":[["GRAB", 30], ["VINE", 15]],
     "description":"One of the most durable creatures in the world, the tardigrade has outlived the dinosaurs and humanity both.  This is a plump and now moose-sized eight-legged critter with a creviced shell with in-laid segments.  Along the length of the shell pairs of sensory tentacles can be seen waving around.  Although its clawed digits seem to be for grasping the tentacles, due to their sheer size, lend themselves to flailing in defense.",
-    "flags":["SEES", "SMELLS", "STUMBLES", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "FAT","CHITIN"],
+    "flags":["SEES", "SMELLS", "PATH_AVOID_DANGER_1", "STUMBLES", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "SWIMS", "ANIMAL", "FAT","CHITIN"],
     "anger_triggers":["HURT", "STALK", "FRIEND_DIED"],
     "placate_triggers":["PLAYER_WEAK"]
    },{
-    "type" : "MONSTER",
-    "id" : "mon_gator",
+    "type": "MONSTER",
+    "id": "mon_gator",
     "name": "sewer gator",
     "species":"REPTILE",
     "default_faction":"gator",
@@ -246,23 +247,23 @@
     "death_function":"NORMAL",
     "special_attacks":[
         {
-            "type" : "bite",
-            "cooldown" : 20,
-            "accuracy" : 6,
-            "damage_max_instance" : [
-                {"damage_type" : "stab", "amount" : 9, "armor_multiplier" : 0.5},
-                {"damage_type" : "bash", "amount" : 27, "armor_multiplier" : 0.5}
+            "type": "bite",
+            "cooldown": 20,
+            "accuracy": 6,
+            "damage_max_instance": [
+                {"damage_type": "stab", "amount": 9, "armor_multiplier": 0.5},
+                {"damage_type": "bash", "amount": 27, "armor_multiplier": 0.5}
             ]
         }, ["GRAB", 30], ["GRAB_DRAG", 10]],
-    "description":"In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like its used to humans as anything other than a meal.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "ANIMAL", "PATH_AVOID_DANGER_1", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
+    "description":"In the late 20th century there was an urban legend about pet alligators getting flushed down the toilet and growing to adulthood in sewers.  This large specimen doesn't look like it is used to humans as anything other than a meal.",
+    "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "BONES", "LEATHER", "SWIMS"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK"],
     "placate_triggers":["MEAT"],
     "fear_triggers": ["FIRE", "HURT"],
     "categories":["WILDLIFE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_bear_mega",
+    "type": "MONSTER",
+    "id": "mon_bear_mega",
     "name": "elephant bear",
     "species":"MAMMAL",
     "default_faction":"bear",
@@ -278,7 +279,7 @@
     "melee_dice":2,
     "melee_dice_sides":10,
     "melee_cut":6,
-    "melee_damage" : [{"damage_type" : "bash", "amount" : 16}],
+    "melee_damage": [{"damage_type": "bash", "amount": 16}],
     "dodge":5,
     "armor_bash":14,
     "armor_cut":6,
@@ -288,11 +289,11 @@
     "death_function":"NORMAL",
     "special_attacks":[["FLESH_GOLEM", 20],
         {
-            "type" : "bite",
-            "cooldown" : 30,
-            "accuracy" : 7,
-            "no_infection_chance" : 3,
-            "armor_multiplier" : 0.5
+            "type": "bite",
+            "cooldown": 30,
+            "accuracy": 7,
+            "no_infection_chance": 3,
+            "armor_multiplier": 0.5
         }],
     "description":"An absolutely enormous bear-like creature, with paws larger than your head.  A dedicated omnivore, it can sometimes decide to scavenge or attack smaller animals; relying upon its thick hide to keep it safe.",
     "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "PUSH_MON", "BONES", "FAT", "LEATHER"],
@@ -301,8 +302,8 @@
     "fear_triggers": ["HURT", "FRIEND_DIED"],
     "categories":["WILDLIFE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_bear_mega_mating",
+    "type": "MONSTER",
+    "id": "mon_bear_mega_mating",
     "name": "elephant bear",
     "species":"MAMMAL",
     "default_faction":"bear_mating",
@@ -318,7 +319,7 @@
     "melee_dice":2,
     "melee_dice_sides":18,
     "melee_cut":4,
-    "melee_damage" : [{"damage_type" : "bash", "amount" : 8}],
+    "melee_damage": [{"damage_type": "bash", "amount": 8}],
     "dodge":3,
     "armor_bash":14,
     "armor_cut":6,
@@ -328,11 +329,11 @@
     "death_function":"NORMAL",
     "special_attacks":[["FLESH_GOLEM", 20], ["SMASH", 60],
         {
-            "type" : "bite",
-            "cooldown" : 30,
-            "accuracy" : 8,
-            "no_infection_chance" : 3,
-            "armor_multiplier" : 0.5
+            "type": "bite",
+            "cooldown": 30,
+            "accuracy": 8,
+            "no_infection_chance": 3,
+            "armor_multiplier": 0.5
         }],
     "description":"It appears that its megabear mating season.  It's probably best not to disturb them.  Or get anywhere close them.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "DESTROYS", "ATTACKMON", "BONES", "FAT", "LEATHER", "SWARMS"],
@@ -341,8 +342,8 @@
     "fear_triggers": ["HURT", "FIRE"],
     "categories":["WILDLIFE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_bear_mega_kid",
+    "type": "MONSTER",
+    "id": "mon_bear_mega_kid",
     "name": "juvenile elephant bear",
     "species":"MAMMAL",
     "default_faction":"bear",
@@ -358,7 +359,7 @@
     "melee_dice":2,
     "melee_dice_sides":8,
     "melee_cut":6,
-    "melee_damage" : [{"damage_type" : "bash", "amount" : 12}],
+    "melee_damage": [{"damage_type": "bash", "amount": 12}],
     "dodge":3,
     "armor_bash":10,
     "armor_cut":6,
@@ -368,11 +369,11 @@
     "death_function":"NORMAL",
     "special_attacks":[
         {
-            "type" : "bite",
-            "cooldown" : 20,
-            "accuracy" : 6,
-            "no_infection_chance" : 3,
-            "armor_multiplier" : 0.6
+            "type": "bite",
+            "cooldown": 20,
+            "accuracy": 6,
+            "no_infection_chance": 3,
+            "armor_multiplier": 0.6
         }],
     "description":"This young megabear hasn't yet developed the muscle or size of the adults, but it would be mistake to think it was weak.  It may still be under its mother's protection.",
     "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE"],
@@ -381,8 +382,8 @@
     "fear_triggers": ["HURT", "FRIEND_DIED", "FIRE"],
     "categories":["WILDLIFE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_bear_mega_baby",
+    "type": "MONSTER",
+    "id": "mon_bear_mega_baby",
     "name": "elephant bear cub",
     "species":"MAMMAL",
     "default_faction":"bear",
@@ -398,7 +399,7 @@
     "melee_dice":1,
     "melee_dice_sides":16,
     "melee_cut":4,
-    "melee_damage" : [{"damage_type" : "bash", "amount" : 6}],
+    "melee_damage": [{"damage_type": "bash", "amount": 6}],
     "dodge":2,
     "armor_bash":10,
     "armor_cut":6,
@@ -408,21 +409,21 @@
     "death_function":"NORMAL",
     "special_attacks":[
         {
-            "type" : "bite",
-            "cooldown" : 20,
-            "accuracy" : 5,
-            "no_infection_chance" : 3,
-            "armor_multiplier" : 0.6
+            "type": "bite",
+            "cooldown": 20,
+            "accuracy": 5,
+            "no_infection_chance": 3,
+            "armor_multiplier": 0.6
         }],
     "description":"A very young elephant bear, still too uncoordinated to walk proficently.  With large eyes and bleating cries, this is the cutest car-sized thing that ever would eat you.",
-    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE", "STUMBLES"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "BLEED", "BASHES", "PUSH_MON", "BONES", "FAT", "LEATHER", "SWARMS", "GROUP_MORALE", "STUMBLES"],
     "anger_triggers":["PLAYER_WEAK", "FRIEND_ATTACKED", "FIRE"],
     "placate_triggers":["MEAT", "FRIEND_ATTACKED"],
     "fear_triggers": ["HURT", "FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "categories":["WILDLIFE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_coyote_small",
+    "type": "MONSTER",
+    "id": "mon_coyote_small",
     "name": "dwarf coyote",
     "species":"MAMMAL",
     "default_faction":"small_animal",
@@ -438,7 +439,7 @@
     "melee_dice":1,
     "melee_dice_sides":3,
     "melee_cut":4,
-    "melee_damage" : [{"damage_type" : "stab", "amount" : 6}],
+    "melee_damage": [{"damage_type": "stab", "amount": 6}],
     "dodge":6,
     "armor_bash":1,
     "vision_day":40,
@@ -447,10 +448,10 @@
     "death_function":"NORMAL",
     "special_attacks":[["GRAB", 40],
         {
-            "type" : "bite",
-            "cooldown" : 30,
-            "accuracy" : 9,
-            "armor_multiplier" : 0.65
+            "type": "bite",
+            "cooldown": 30,
+            "accuracy": 9,
+            "armor_multiplier": 0.65
         }],
     "description":"The downward pressure on the canines has produced smaller and more agile versions.  These live in social communities and can be usually seen tenaciously hunting for moles; dragging them out of their tunnels with paws and elongated teeth.  It has also been known to aggressively raid campgrounds.",
     "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "BONES", "SWARMS", "GROUP_MORALE"],
