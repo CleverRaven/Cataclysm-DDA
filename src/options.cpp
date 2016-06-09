@@ -1746,8 +1746,10 @@ void options_manager::show(bool ingame)
 
     if (options_changed) {
         if(query_yn(_("Save changes?"))) {
-            save(ingame && world_options_changed);
-            if( world_options_changed ) {
+            save();
+            if( ingame && world_options_changed ) {
+                calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
+                world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
                 world_generator->save_world( world_generator->active_world, false );
             }
         } else {
@@ -1778,7 +1780,6 @@ void options_manager::serialize(JsonOut &json) const
     json.start_array();
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
-        bool update_wopt = (bIngame && (int)j == iWorldOptPage );
         for( auto &elem : mPageItems[j] ) {
             if( OPTIONS[elem].getDefaultText() != "" ) {
                 json.start_object();
@@ -1789,15 +1790,7 @@ void options_manager::serialize(JsonOut &json) const
                 json.member( "value", OPTIONS[elem].getValue() );
 
                 json.end_object();
-
-                if ( update_wopt ) {
-                    world_generator->active_world->WORLD_OPTIONS[elem] = ACTIVE_WORLD_OPTIONS[elem];
-                }
             }
-        }
-
-        if( update_wopt ) {
-            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
         }
     }
 
@@ -1818,9 +1811,8 @@ void options_manager::deserialize(JsonIn &jsin)
     }
 }
 
-bool options_manager::save(bool ingame)
+bool options_manager::save()
 {
-    bIngame = ingame;
     const auto savefile = FILENAMES["options"];
 
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
