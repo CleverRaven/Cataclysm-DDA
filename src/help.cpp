@@ -399,6 +399,12 @@ requires high levels of intelligence, first aid, mechanics, and electronics. Bew
 cripple you! Many bionic canisters are difficult to find, but may be purchased from certain \
 wandering vagabonds for a very high price." ) );
 
+    text.push_back( _( "\
+As you may note, all of your body parts have only limited space for containing bionics, \
+so you should choose bionics for installation wisely. Of course, any bionic can be removed \
+from your body but it's not any easier than its installation; \
+this non-trivial surgical procedure requires special tools (and many, many painkillers)." ) );
+
     return text;
 }
 
