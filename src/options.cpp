@@ -1748,7 +1748,6 @@ void options_manager::show(bool ingame)
         if(query_yn(_("Save changes?"))) {
             save();
             if( ingame && world_options_changed ) {
-                calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
                 world_generator->save_world( world_generator->active_world, false );
             }
