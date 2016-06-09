@@ -235,8 +235,7 @@
     ["smoxygen_tank", 3],
     ["aspirin", 3],
     ["oxycodone", 1],
-    ["morphine", 1],
-    ["soulcube_charging", 1]
+    ["morphine", 1]
     ]
     },{
         "type": "item_group",
