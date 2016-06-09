@@ -105,20 +105,59 @@
         "rotate" : false,
         "spawns" : { "group" : "GROUP_ANT", "population":[1500,2500], "radius":[15,40] }
     },{
-        "type" : "overmap_special",
-        "id" : "LMOE Shelter",
-        "overmaps" :
+        "type": "overmap_special",
+        "id": "LMOE Shelter",
+        "overmaps":
         [
             { "point":[0,0,0], "overmap": "lmoe"},
             { "point":[0,0,-1], "overmap": "lmoe_under"}
         ],
-        "locations" : [ "wilderness" ],
-        "city_distance" : [20, -1],
-        "city_sizes" : [4, 12],
-        "occurrences" : [0, 3],
-        "rotate" : false,
-        "spawns" : { "group" :  "GROUP_MAYBE_ZOMBIE", "population":[0,20], "radius":[1,5] },
-        "flags" : [ "CLASSIC" ]
+        "locations": [ "wilderness" ],
+        "city_distance": [20, -1],
+        "city_sizes": [4, 12],
+        "occurrences": [0, 3],
+        "rotate": true,
+        "spawns": { "group":  "GROUP_MAYBE_ZOMBIE", "population":[1,20], "radius":[3,6] },
+        "flags": [ "CLASSIC" ]
+    },{
+        "type": "overmap_special",
+        "id": "Spider Pit",
+        "overmaps": [
+            { "point":[0,0,0], "overmap": "spider_pit"},
+            { "point":[0,0,-1], "overmap": "spider_pit_under"}
+        ],
+        "locations": [ "forest" ],
+        "city_distance": [0, -1],
+        "city_sizes": [4, 12],
+        "occurrences": [150, 450],
+        "rotate": true,
+        "spawns": { "group":  "GROUP_SPIDER", "population":[20,50], "radius":[3,6] }
+    },{
+        "type": "overmap_special",
+        "id": "trapdoor_spider_pit",
+        "overmaps": [
+            { "point":[0,0,0], "overmap": "trapdoor_pit"},
+            { "point":[0,0,-1], "overmap": "trapdoor_pit_b1"}
+        ],
+        "locations": [ "field" ],
+        "city_distance": [2, -1],
+        "city_sizes": [4, 16],
+        "occurrences": [75, 225],
+        "rotate": true,
+        "spawns": { "group":  "GROUP_SPIDER_TRAP", "population":[15,40], "radius":[3,6] }
+    },{
+        "type": "overmap_special",
+        "id": "trapdoor_spider_pit_loner",
+        "overmaps": [
+            { "point":[0,0,0], "overmap": "trapdoor_pit_loner"},
+            { "point":[0,0,-1], "overmap": "trapdoor_pit_b1"}
+        ],
+        "locations": [ "field" ],
+        "city_distance": [3, -1],
+        "city_sizes": [4, 16],
+        "occurrences": [50, 150],
+        "rotate": true,
+        "spawns": { "group":  "GROUP_SPIDER_TRAP_LONER", "population":[10,25], "radius":[3,6] }
     },{
         "type" : "overmap_special",
         "id" : "hell_castle",

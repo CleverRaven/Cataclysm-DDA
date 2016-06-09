@@ -27,6 +27,7 @@
 #include "overmap.h"
 #include "field.h"
 #include "ui.h"
+#include "scent_map.h"
 
 #include <fstream>
 #include <sstream>

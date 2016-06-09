@@ -14,7 +14,7 @@
         "symbol": ".",
         "color": "brown"
     },
-    {   
+    {
         "id": "seed_blackberries",
         "copy-from": "seed",
         "type": "COMESTIBLE",
@@ -75,7 +75,7 @@
             "grow": 120
         }
     },
-    {   
+    {
         "id": "seed_raspberries",
         "copy-from": "seed",
         "type": "COMESTIBLE",

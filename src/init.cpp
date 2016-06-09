@@ -390,6 +390,7 @@ void DynamicDataLoader::finalize_loaded_data()
     monfactions::finalize();
     finalize_recipes();
     finialize_martial_arts();
+    finalize_constructions();
     check_consistency();
 }
 

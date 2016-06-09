@@ -154,6 +154,9 @@ class calendar
 
         int day_of_year() const;
 
+        /** Returns the remaining time (in turns) before the specified diurnal time (in turns) */
+        int diurnal_time_before( int turn ) const;
+
         static std::string print_duration( int turns );
 
         /** Returns the current time in a string according to the options set */
@@ -168,4 +171,5 @@ class calendar
         static season_type initial_season;
         static bool eternal_season;
 };
+
 #endif

@@ -118,6 +118,7 @@ typedef int nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;
+class scent_map;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -153,6 +154,7 @@ class game
         std::unique_ptr<player> u_ptr;
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
+        std::unique_ptr<scent_map> scent_ptr;
     public:
 
         /** Initializes the UI. */
@@ -205,6 +207,7 @@ class game
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         player &u;
+        scent_map &scent;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
         /**
@@ -383,7 +386,6 @@ class game
         void nuke( const tripoint &p );
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
-        int &scent( const tripoint &p );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -869,7 +871,6 @@ private:
          */
         bool disable_robot( const tripoint &p );
 
-        void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void gameover();         // Ends the game
@@ -919,8 +920,6 @@ private:
         calendar nextspawn; // The turn on which monsters will spawn next.
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-        int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
-        int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
