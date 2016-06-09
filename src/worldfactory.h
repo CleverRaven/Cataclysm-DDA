@@ -1,9 +1,10 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include "options.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "json.h"
+#include "options.h"
 
 #include <functional>
 #include <map>
@@ -92,6 +93,8 @@ class worldfactory
         std::vector<worldgen_display> tabs;
         std::vector<std::string> tab_strings;
 };
+
+void load_world_option( JsonObject &jo );
 
 extern worldfactory *world_generator;
 

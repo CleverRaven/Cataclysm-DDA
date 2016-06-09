@@ -1502,6 +1502,17 @@ bool worldfactory::load_world_options(WORLDPTR &world)
     return true;
 }
 
+void load_world_option( JsonObject &jo )
+{
+    auto arr = jo.get_array( "options" );
+    if( arr.empty() ) {
+        jo.throw_error( "no options specified", "options" );
+    }
+    while( arr.has_more() ) {
+        ACTIVE_WORLD_OPTIONS[ arr.next_string() ].setValue( "true" );
+    }
+}
+
 mod_manager *worldfactory::get_mod_manager()
 {
     return mman.get();

@@ -52,6 +52,7 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overlay_ordering.h"
+#include "worldfactory.h"
 
 #include <string>
 #include <vector>
@@ -203,8 +204,7 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_whitelist);
-    type_function_map["ITEM_OPTION"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_item_option);
+    type_function_map["WORLD_OPTION"] = new StaticFunctionAccessor(&load_world_option);
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
