@@ -651,7 +651,7 @@
         "symbol" : "=",
         "color" : "blue",
         "description" : "The Heckler & Koch 12mm projectiles are used in H&K railguns.  It's made of a ferromagnetic metal, probably cobalt.",
-        "material" : ["steel", "powder"],
+        "material" : "steel",
         "volume" : 1,
         "weight" : 11,
         "ammo_type" : "12mm",
@@ -661,8 +661,7 @@
         "dispersion" : 45,
         "recoil" : 105,
         "count" : 20,
-        "stack_size" : 40,
-        "effects" : ["COOKOFF"]
+        "stack_size" : 40
     },
     {   "type" : "AMMO",
         "id" : "plasma",
@@ -680,7 +679,7 @@
         "pierce" : 14,
         "range" : 12,
         "count" : 25,
-        "effects" : ["INCENDIARY"],
+        "effects" : ["COOKOFF", "INCENDIARY"],
         "flags" : ["UNRECOVERABLE"]
     },
     {   "type" : "AMMO",
@@ -1630,7 +1629,7 @@
         "dispersion" : 30,
         "recoil" : 525,
         "count" : 10,
-        "effects" : ["INCENDIARY"]
+        "effects" : ["COOKOFF", "INCENDIARY"]
     },
     {   "type" : "AMMO",
         "id" : "signal_flare",
@@ -1651,7 +1650,7 @@
         "recoil" : 210,
         "count" : 4,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY", "FLARE", "NEVER_MISFIRES"]
+        "effects" : ["COOKOFF","INCENDIARY", "FLARE", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "mininuke_mod",
@@ -1668,7 +1667,7 @@
         "damage" : 14,
         "count" : 1,
         "stack_size" : 2,
-        "effects" : ["MININUKE_MOD", "NEVER_MISFIRES"]
+        "effects" : ["COOKOFF", "MININUKE_MOD", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "20x66_shot",
@@ -1786,7 +1785,7 @@
         "recoil" : 510,
         "count" : 20,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY", "FLARE", "NEVER_MISFIRES"]
+        "effects" : ["COOKOFF", "INCENDIARY", "FLARE", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "20x66_inc",
@@ -1807,7 +1806,7 @@
         "recoil" : 570,
         "count" : 20,
         "stack_size" : 20,
-        "effects" : ["INCENDIARY", "NEVER_MISFIRES"]
+        "effects" : ["COOKOFF", "INCENDIARY", "NEVER_MISFIRES"]
     },
     {   "type" : "AMMO",
         "id" : "20x66_beanbag",

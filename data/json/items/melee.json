@@ -1000,7 +1000,7 @@
         "volume" : 2,
         "bashing" : 8,
         "cutting" : 16,
-        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID"],
+        "flags" : ["ALWAYS_TWOHAND", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID"],
         "qualities": [["BUTCHER", 12]]
     },
     {

@@ -24,7 +24,7 @@
     "copy-from": "flamethrower_base",
     "type": "GUN",
     "name": "spraycan flamethrower",
-    "description": "A favorite of hooligans around the world, this lighter duct-taped to a spray can is probably as dangerous to the user as anyone else.  The nozzle has been crudely modified to disperse gasoline, and a small pump attached to the side allows for repressurization, though this process takes a few minutes.",
+    "description": "A favorite of hooligans around the world, this lighter with a spray can is probably as dangerous to the user as anyone else.  The nozzle has been crudely modified to disperse gasoline, and a small pump attached to the side allows for repressurization, though this process takes a few minutes.",
     "price": 16000,
     "material": "steel",
     "weight": 451,
@@ -34,8 +34,8 @@
     "sight_dispersion": 150,
     "durability": 8,
     "clip_size": 100,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "stock", 1 ] ],
-    "relative": { "reload": 4.0 }
+    "relative": { "reload": 4.0 },
+    "extend": { "flags": ["FIRE_TWOHAND"] }
   },
   {
     "id": "flamethrower_simple",
