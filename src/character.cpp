@@ -2001,3 +2001,24 @@ bool Character::pour_into( vehicle &veh, item &liquid )
     }
     return true;
 }
+
+resistances Character::mutation_armor( body_part bp ) const
+{
+    resistances res;
+    for( auto &iter : my_mutations ) {
+        const mutation_branch &mb = mutation_branch::get( iter.first );
+        res += mb.damage_resistance( bp );
+    }
+
+    return res;
+}
+
+float Character::mutation_armor( body_part bp, damage_type dt ) const
+{
+    return mutation_armor( bp ).type_resist( dt );
+}
+
+float Character::mutation_armor( body_part bp, const damage_unit &du ) const
+{
+    return mutation_armor( bp ).get_effective_resist( du );
+}

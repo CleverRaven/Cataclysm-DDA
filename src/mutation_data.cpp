@@ -172,6 +172,32 @@ void mutation_branch::load( JsonObject &jsobj )
     while( jsarr.has_more() ) {
         new_mut.restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
     }
+
+    jsarr = jsobj.get_array("armor");
+    while( jsarr.has_more() ) {
+        JsonArray sub = jsarr.next_array();
+        // Any cleaner way to do it?
+        JsonArray subsub = sub.next_array();
+        std::set<body_part> bps;
+        while( subsub.test_string() ) {
+            body_part bp = get_body_part_token( subsub.next_string() );
+            if( bp != num_bp ) {
+                bps.insert( bp );
+            } else {
+                // Shorthand, since many muts protect whole body
+                for( size_t i = 0; i < num_bp; i++ ) {
+                    bps.insert( static_cast<body_part>( i ) );
+                }
+            }
+        }
+
+        JsonObject res_obj = sub.next_object();
+        resistances res = load_resistances_instance( res_obj );
+
+        for( body_part bp : bps ) {
+            new_mut.armor[ bp ] = res;
+        }
+    }
 }
 
 static void check_consistency( const std::vector<std::string> &mvec, const std::string &mid, const std::string &what )
