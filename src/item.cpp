@@ -2939,7 +2939,7 @@ int item::get_warmth() const
 
 int item::brewing_time() const
 {
-    return ( is_brewable() ? type->brewable->time : 0 ) * ( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14.0 );
+    return ( is_brewable() ? type->brewable->time : 0 ) * ( calendar::season_length() / 14.0 );
 }
 
 const std::vector<itype_id> &item::brewing_results() const

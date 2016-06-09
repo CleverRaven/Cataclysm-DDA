@@ -14561,11 +14561,11 @@ void game::start_calendar()
         if( scen->has_flag("SPR_START") ) {
             ; // Do nothing;
         } else if( scen->has_flag("SUM_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+            calendar::start += DAYS( calendar::season_length() );
         } else if( scen->has_flag("AUT_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+            calendar::start += DAYS( calendar::season_length() * 2 );
         } else if( scen->has_flag("WIN_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+            calendar::start += DAYS( calendar::season_length() * 3 );
         } else {
             debugmsg("The Unicorn");
         }
@@ -14575,13 +14575,13 @@ void game::start_calendar()
             ; // Do nothing.
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
             calendar::initial_season = SUMMER;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+            calendar::start += DAYS( calendar::season_length() );
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
             calendar::initial_season = AUTUMN;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+            calendar::start += DAYS( calendar::season_length() * 2 );
         } else {
             calendar::initial_season = WINTER;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+            calendar::start += DAYS( calendar::season_length() * 3 );
         }
     }
     calendar::turn = calendar::start;
