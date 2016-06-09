@@ -373,6 +373,8 @@ MSVC 13 and earlier versions are likely unable to build Cataclysm, so we recomme
 
 ### Dependencies
 
+#### SDL
+
 For tiles support, the following 3 libraries need to be downloaded and installed:
 
 [http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip](http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip)
@@ -381,21 +383,30 @@ For tiles support, the following 3 libraries need to be downloaded and installed
 
 [http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip](http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip)
 
-For localization support, pre-built binaries of `libintl` and `libiconv` can be obtained from GNOME FTP.
 
-### Configuration
+#### Localization
 
-If your machine doesn't support SSE2 instruction set, edit file `msvc140/common.props`, change
+For localization support, `libintl` and `libiconv` are required. You can obtain pre-built binaries of these two libraries from GNOME FTP, but they only offer 32bit build, and there are some ABI issues. So we recommend you to build those two libraries yourself.
 
-```
-<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-```
+On GitHub, kahrl created a repo offering MSVC solution files for `gettext-0.19.4` and `libiconv-1.14`:
 
-to
+ [https://github.com/kahrl/gettext-msvc](https://github.com/kahrl/gettext-msvc)
 
-```
-<EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-```
+Follow the instructions in `README.txt` to extract source code of `gettext` and `libiconv` to proper location. Then, the code need some modifications to export functions required by Cataclysm.
+
+Open `libgnuintl.h` in `gettext-0.19.4` folder, add `__declspec(dllexport)` prefix to the following functions:
+
+| Function Name | Line Number |
+|-----|-----|
+| gettext | 135 |
+| dcgettext | 173 |
+| ngettext | 195 |
+| dngettext | 216 |
+| textdomain | 263 |
+| bindtextdomain | 281 |
+| bind_textdomain_codeset | 299 |
+
+Then build the solution. Install libraries and header files to their proper location, and congratulations, the preparation for localize support is done.
 
 ### Building
 
