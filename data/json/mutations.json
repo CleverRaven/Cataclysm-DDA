@@ -4366,7 +4366,7 @@
         "bodytemp_modifiers" : [500, 750],
         "bodytemp_sleep" : 200,
         "mixed_effect" : true,
-        "description" : "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
+        "description" : "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth and shelter.",
         "encumbrance_always" : [[ "TORSO", 10 ]],
         "prereqs" : ["SHELL"],
         "threshreq" : ["THRESH_CEPHALOPOD"],
