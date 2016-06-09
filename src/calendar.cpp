@@ -9,8 +9,8 @@
 #include "game.h"
 #include "debug.h"
 
-// Divided by 100 to prevent overflowing when converted to turns
-const int calendar::INDEFINITELY_LONG( int( std::numeric_limits<int>::max() / 100 ) );
+// Divided by 100 to prevent overflowing when converted to moves
+const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
 
 calendar calendar::start;
 calendar calendar::turn;

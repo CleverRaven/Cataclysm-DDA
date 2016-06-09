@@ -13895,7 +13895,7 @@ void game::wait()
             const std::string dur_str( calendar::print_duration( duration ) );
             text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
         }
-        as_m.entries.push_back( uimenu_entry( retval, enabled, hotkey, text ) );
+        as_m.addentry( retval, enabled, hotkey, text );
         durations[retval] = duration;
     };
 
