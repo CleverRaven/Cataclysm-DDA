@@ -1,8 +1,8 @@
 [
     {
-    "type" : "MONSTER",
-    "id" : "mon_spider_trapdoor_giant",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_spider_trapdoor_giant",
+    "edit-mode": "modify",
     "diff":15,
     "aggression":60,
     "morale":100,
@@ -11,7 +11,7 @@
     "melee_dice":1,
     "melee_dice_sides":2,
     "melee_cut":10,
-    "melee_damage" : [ {"damage_type" : "acid", "amount" : 3} ],
+    "melee_damage": [ {"damage_type": "acid", "amount": 3} ],
     "dodge":2,
     "armor_bash":4,
     "armor_cut":8,
@@ -26,9 +26,9 @@
     "description":"A gigantic spider with a bulbous thorax.  It digs an underground burrow that serves as a pit to trap unwary prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS", "PUSH_MON"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_web_s",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_spider_web_s",
+    "edit-mode": "modify",
     "diff":7,
     "aggression":20,
     "morale":100,
@@ -37,7 +37,7 @@
     "melee_dice":1,
     "melee_dice_sides":2,
     "melee_cut":2,
-    "melee_damage" : [ {"damage_type" : "stab", "amount" : 4} ],
+    "melee_damage": [ {"damage_type": "stab", "amount": 4} ],
     "dodge":1,
     "armor_bash":2,
     "armor_cut":6,
@@ -48,9 +48,9 @@
     "description":"A still immature giant grass spider.  Too young to be truly venomous, or to walk proficiently for that matter",
     "flags":["SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CHITIN", "CLIMBS", "VENOM", "PUSH_MON"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_web",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_spider_web",
+    "edit-mode": "modify",
     "diff":14,
     "aggression":20,
     "morale":100,
@@ -59,7 +59,7 @@
     "melee_dice":1,
     "melee_dice_sides":6,
     "melee_cut":4,
-    "melee_damage" : [ {"damage_type" : "stab", "amount" : 8} ],
+    "melee_damage": [ {"damage_type": "stab", "amount": 8} ],
     "dodge":2,
     "armor_bash":2,
     "armor_cut":6,
@@ -74,9 +74,9 @@
     "description":"A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_wolf_giant",
-    "edit-mode" : "modify",
+    "type": "MONSTER",
+    "id": "mon_spider_wolf_giant",
+    "edit-mode": "modify",
     "size":"MEDIUM",
     "diff":20,
     "aggression":30,
@@ -101,8 +101,8 @@
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE"],
     "fear_triggers": ["FRIEND_DIED"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_wolf_giant_pk",
+    "type": "MONSTER",
+    "id": "mon_spider_wolf_giant_pk",
     "name": "huge wolf spider",
     "species":"SPIDER",
     "default_faction":"spider_wolf",
@@ -131,8 +131,8 @@
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "fear_triggers": ["HURT", "FRIEND_DIED"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_web_queen",
+    "type": "MONSTER",
+    "id": "mon_spider_web_queen",
     "name": "large egg sack",
     "species":"ABERRATION",
     "default_faction":"spider_web",
@@ -154,11 +154,19 @@
     "vision_night":20,
     "hp":90,
     "death_function":"DISINTEGRATE",
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "spider_eggs", 100 ]
+        ]
+    },
+    "special_attacks":[["GRENADIER_ELITE", 30], ["GRENADIER", 20]],
+    "starting_ammo": { "bot_spider_web_s": 40, "bot_spider_web_omega": 10 },
     "description":"A large egg sack with periodically hatching eggs, and a few care-tenders.  This one seems somehow more important than the rest.",
     "flags":["SEES", "NO_BREATHE", "IMMOBILE", "QUEEN"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_trapdoor_egg",
+    "type": "MONSTER",
+    "id": "mon_trapdoor_egg",
     "name": "egg sack",
     "species":"ABERRATION",
     "default_faction":"spider_trapdoor",
@@ -180,11 +188,19 @@
     "vision_night":20,
     "hp":40,
     "death_function":"DISINTEGRATE",
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "spider_eggs", 100 ]
+        ]
+    },
+    "special_attacks":[["GRENADIER", 20]],
+    "starting_ammo": { "bot_trapdoor_s": 17, "bot_spider_trapdoor_giant": 3 },
     "description":"An egg sack with periodically hatching eggs.",
     "flags":["SEES", "NO_BREATHE", "IMMOBILE"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_trapdoor_queen",
+    "type": "MONSTER",
+    "id": "mon_trapdoor_queen",
     "name": "large egg sack",
     "species":"ABERRATION",
     "default_faction":"spider_trapdoor",
@@ -206,11 +222,19 @@
     "vision_night":20,
     "hp":90,
     "death_function":"DISINTEGRATE",
+    "death_drops": {
+        "subtype": "collection",
+        "groups": [
+            [ "spider_eggs", 100 ]
+        ]
+    },
+    "special_attacks":[["GRENADIER_ELITE", 30], ["GRENADIER", 20]],
+    "starting_ammo": { "bot_trapdoor_s": 30, "bot_spider_trapdoor_giant": 7, "bot_spider_trapdoor_giant_guardian": 3  },
     "description":"A large egg sack with periodically hatching eggs, and a few care-tenders.  This one seems somehow more important than the rest.",
     "flags":["SEES", "NO_BREATHE", "IMMOBILE", "QUEEN"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_trapdoor_giant_s",
+    "type": "MONSTER",
+    "id": "mon_spider_trapdoor_giant_s",
     "name": "giant immature trapdoor spider",
     "species":"SPIDER",
     "default_faction":"spider_trapdoor",
@@ -236,8 +260,8 @@
     "description":"A small trapdoor spider.  Too small to hunt effectively on its own, the loose commune of mutated trapdoor spiders offers limited protection from predators, although it places the spider at increased risk of being cannibalized.",
     "flags":["SEES", "SMELLS", "STUMBLES", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS", "PUSH_MON"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_trapdoor_giant_guardian",
+    "type": "MONSTER",
+    "id": "mon_spider_trapdoor_giant_guardian",
     "name": "alpha giant trapdoor spider",
     "species":"SPIDER",
     "default_faction":"spider_trapdoor",
@@ -253,7 +277,7 @@
     "melee_dice":1,
     "melee_dice_sides":8,
     "melee_cut":14,
-    "melee_damage" : [ {"damage_type" : "acid", "amount" : 6} ],
+    "melee_damage": [ {"damage_type": "acid", "amount": 6} ],
     "dodge":3,
     "armor_bash":9,
     "armor_cut":14,
@@ -264,8 +288,8 @@
     "description": "A large and heavily armored trapdoor spider.  Primarily found at the center of larger congregations of trapdoor spiders that can keep it fed if food becomes scarce.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS", "PUSH_MON", "PATH_AVOID_DANGER_1"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_trapdoor_giant_pk",
+    "type": "MONSTER",
+    "id": "mon_spider_trapdoor_giant_pk",
     "name": "giant trapdoor spider",
     "species":"SPIDER",
     "default_faction":"spider_trapdoor",
@@ -281,7 +305,7 @@
     "melee_dice":2,
     "melee_dice_sides":4,
     "melee_cut":10,
-    "melee_damage" : [ {"damage_type" : "acid", "amount" : 3} ],
+    "melee_damage": [ {"damage_type": "acid", "amount": 3} ],
     "dodge":3,
     "armor_bash":4,
     "armor_cut":8,
@@ -293,8 +317,8 @@
     "description":"A gigantic, nimble spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit from which to ambush unwary prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "CAN_DIG", "WEBWALK", "CHITIN", "FAT", "CLIMBS", "PUSH_MON"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_web_alpha",
+    "type": "MONSTER",
+    "id": "mon_spider_web_alpha",
     "name": "giant web spider",
     "species":"SPIDER",
     "default_faction":"spider_web",
@@ -310,7 +334,7 @@
     "melee_dice":2,
     "melee_dice_sides":4,
     "melee_cut":8,
-    "melee_damage" : [ {"damage_type" : "stab", "amount" : 8} ],
+    "melee_damage": [ {"damage_type": "stab", "amount": 8} ],
         "attack_effs": [
         {
             "id": "spider_web_slow",
@@ -331,8 +355,8 @@
     "description":"A larger, more aggressive ambush predator, this web spider uses force to catch its prey.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_web_omega",
+    "type": "MONSTER",
+    "id": "mon_spider_web_omega",
     "name": "giant web spider",
     "species":"SPIDER",
     "default_faction":"spider_web",
@@ -348,7 +372,7 @@
     "melee_dice":2,
     "melee_dice_sides":3,
     "melee_cut":6,
-    "melee_damage" : [ {"damage_type" : "stab", "amount" : 6} ],
+    "melee_damage": [ {"damage_type": "stab", "amount": 6} ],
         "attack_effs": [
         {
             "id": "spider_web_slow",
@@ -369,8 +393,8 @@
     "description":"This web spider uses long-lasting toxins to incapacitate stronger foes.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PUSH_MON", "PRIORITIZE_TARGETS"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_web_mu",
+    "type": "MONSTER",
+    "id": "mon_spider_web_mu",
     "name": "giant web spider",
     "species":"SPIDER",
     "default_faction":"spider_web",
@@ -386,7 +410,7 @@
     "melee_dice":2,
     "melee_dice_sides":3,
     "melee_cut":2,
-    "melee_damage" : [ {"damage_type" : "stab", "amount" : 12} ],
+    "melee_damage": [ {"damage_type": "stab", "amount": 12} ],
         "attack_effs": [
         {
             "id": "spider_web_slow",
@@ -407,8 +431,8 @@
     "description":"This web spider seems to have specialized to take down creatures infected with fungal spores; a surely underutilized food source.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CHITIN", "CLIMBS", "PARALYZEVENOM", "HIT_AND_RUN", "PUSH_MON"]
     },{
-    "type" : "MONSTER",
-    "id" : "mon_spider_jumping_giant_acid",
+    "type": "MONSTER",
+    "id": "mon_spider_jumping_giant_acid",
     "name": "medusa spider",
     "species":"SPIDER",
     "default_faction":"spider_jumping",
@@ -424,7 +448,7 @@
     "melee_dice":1,
     "melee_dice_sides":4,
     "melee_cut":2,
-    "melee_damage" : [ {"damage_type" : "stab", "amount" : 10}, {"damage_type" : "acid", "amount" : 3} ],
+    "melee_damage": [ {"damage_type": "stab", "amount": 10}, {"damage_type": "acid", "amount": 3} ],
     "dodge":3,
     "armor_bash":2,
     "armor_cut":6,
@@ -434,13 +458,13 @@
     "death_function":"NORMAL",
     "special_attacks":[["ACID_ACCURATE", 25], ["ACID_BARF", 25],
         {
-            "type" : "leap",
-            "cooldown" : 2,
-            "max_range" : 7
+            "type": "leap",
+            "cooldown": 2,
+            "max_range": 7
         }
     ],
     "special_when_hit":["ACIDSPLASH", 5],
-    "description":"A spider the size of a large dog with slender forelegs and massive hind legs.  From its maw corrosive saliva drips, and can be manipulated by its agile limbs.",
+    "description":"A spider the size of a large dog with slender forelegs and massive hind legs. From its maw corrosive saliva drips, and can be manipulated by its agile limbs.",
     "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "BADVENOM", "CHITIN", "CLIMBS", "ACIDPROOF", "ACID_BLOOD", "PUSH_MON"],
     "anger_triggers":["PLAYER_CLOSE", "PLAYER_WEAK", "FRIEND_ATTACKED", "STALK"],
     "fear_triggers": ["HURT", "FIRE"]
