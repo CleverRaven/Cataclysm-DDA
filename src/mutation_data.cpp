@@ -180,14 +180,14 @@ void mutation_branch::load( JsonObject &jsobj )
         JsonArray subsub = sub.next_array();
         std::set<body_part> bps;
         while( subsub.test_string() ) {
-            body_part bp = get_body_part_token( subsub.next_string() );
-            if( bp != num_bp ) {
-                bps.insert( bp );
-            } else {
+            const std::string part_string = subsub.next_string();
+            if( part_string == "ALL" ) {
                 // Shorthand, since many muts protect whole body
                 for( size_t i = 0; i < num_bp; i++ ) {
                     bps.insert( static_cast<body_part>( i ) );
                 }
+            } else {
+                bps.insert( get_body_part_token( part_string ) );
             }
         }
 

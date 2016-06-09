@@ -195,7 +195,7 @@
             { "part" : "ARM_R", "neutral" : 2 },
             { "part" : "TORSO", "neutral" : 4 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : 1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : 1 } ] ]
     },{
         "type" : "mutation",
         "id" : "PACKMULE",
@@ -641,7 +641,7 @@
         "description" : "Your skin is fragile.  Cutting damage is slightly increased for you.",
         "starting_trait" : true,
         "cancels" : ["THICKSKIN"],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : -1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : -1 } ] ]
     },{
         "type" : "mutation",
         "id" : "MEATARIAN",
@@ -1212,7 +1212,7 @@
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 40 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : 1, "bash" : 2 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : 1, "bash" : 2 } ] ]
     },{
         "type" : "mutation",
         "id" : "M_SKIN2",
@@ -1239,7 +1239,7 @@
             { "part" : "HAND_R", "ignored" : 6 },
             { "part" : "TORSO", "ignored" : 60 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : 2, "bash" : 3 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : 2, "bash" : 3 } ] ]
     },{
         "type" : "mutation",
         "id" : "SCALES",
@@ -1263,7 +1263,7 @@
             { "part" : "HAND_R", "ignored" : 2 },
             { "part" : "TORSO", "ignored" : 20 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : 2 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : 2 } ] ]
     },{
         "type" : "mutation",
         "id" : "THICK_SCALES",
@@ -1289,7 +1289,7 @@
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 30 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : 4 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : 4 } ] ]
     },{
         "type" : "mutation",
         "id" : "SLEEK_SCALES",
@@ -1313,7 +1313,7 @@
             { "part" : "HAND_R", "good" : 5 },
             { "part" : "TORSO", "good" : 40 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : 1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : 1 } ] ]
     },{
         "type" : "mutation",
         "id" : "LIGHT_BONES",
@@ -1334,7 +1334,7 @@
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["THICK_SCALES", "SLEEK_SCALES"],
         "category" : ["MUTCAT_BIRD"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 1 } ] ]
     },{
         "type" : "mutation",
         "id" : "DOWN",
@@ -1376,7 +1376,7 @@
         "changes_to" : ["URSINE_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 1 } ] ]
     },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
@@ -1390,7 +1390,7 @@
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_URSINE"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 1 } ] ]
     },{
         "type" : "mutation",
         "id" : "LUPINE_FUR",
@@ -1404,7 +1404,7 @@
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_LUPINE"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 1 } ] ]
     },{
         "type" : "mutation",
         "id" : "FELINE_FUR",
@@ -1454,7 +1454,7 @@
             { "part" : "HAND_R", "ignored" : 1 },
             { "part" : "TORSO", "ignored" : 10 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 2, "cut" : 2 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 2, "cut" : 2 } ] ]
     },{
         "type" : "mutation",
         "id" : "CHITIN2",
@@ -1479,7 +1479,7 @@
             { "part" : "HAND_R", "ignored" : 2 },
             { "part" : "TORSO", "ignored" : 18 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 4, "cut" : 4 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 4, "cut" : 4 } ] ]
     },{
         "type" : "mutation",
         "id" : "CHITIN3",
@@ -1516,7 +1516,7 @@
             [ "FOOT_R", 10 ]
         ],
         "restricts_gear" : [ "HEAD" ],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 8, "cut" : 8 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 8, "cut" : 8 } ] ]
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR",
@@ -1530,7 +1530,7 @@
         "prereqs" : ["CHITIN", "LIGHTFUR"],
         "category" : ["MUTCAT_SPIDER"],
         "changes_to" : ["CHITIN_FUR2"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 2, "cut" : 2 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 2, "cut" : 2 } ] ]
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR2",
@@ -1544,7 +1544,7 @@
         "prereqs" : ["CHITIN_FUR"],
         "category" : ["MUTCAT_SPIDER"],
         "changes_to" : ["CHITIN_FUR3", "CHITIN3"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 4, "cut" : 4 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 4, "cut" : 4 } ] ]
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR3",
@@ -1571,7 +1571,7 @@
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"],
         "restricts_gear" : [ "HEAD" ],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 8, "cut" : 8 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 8, "cut" : 8 } ] ]
     },{
         "type" : "mutation",
         "id" : "CF_HAIR",
@@ -1619,7 +1619,7 @@
             { "part" : "HAND_R", "neutral" : 1 },
             { "part" : "TORSO", "neutral" : 10 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : 1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : 1 } ] ]
     },{
         "type" : "mutation",
         "id" : "BARK",
@@ -1642,7 +1642,7 @@
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 30 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "cut" : 2 } ] ]
+        "armor" : [ [ [ "ALL" ], { "cut" : 2 } ] ]
     },{
         "type" : "mutation",
         "id" : "THORNS",
@@ -2860,7 +2860,7 @@
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "leads_to" : ["HIBERNATE"],
         "category" : ["MUTCAT_URSINE"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 1 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 1 } ] ]
     },{
         "type" : "mutation",
         "id" : "LARGE",
@@ -3129,7 +3129,7 @@
         "prereqs2" : ["AMORPHOUS"],
         "threshreq" : ["THRESH_SLIME"],
         "category" : ["MUTCAT_SLIME"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : -3 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : -3 } ] ]
     },{
         "type" : "mutation",
         "id" : "PER_UP",
@@ -3900,7 +3900,7 @@
             { "part" : "HAND_R", "neutral" : 3, "good" : 4 },
             { "part" : "TORSO", "neutral" : 15, "good" : 27 }
         ],
-        "armor" : [ [ [ "NUM_BP" ], { "acid" : 2 } ] ]
+        "armor" : [ [ [ "ALL" ], { "acid" : 2 } ] ]
     },{
         "type" : "mutation",
         "id" : "AMORPHOUS",
@@ -3915,7 +3915,7 @@
         "prereqs2" : ["BENDY2", "SLIME_HANDS"],
         "threshreq" : ["THRESH_SLIME"],
         "category" : ["MUTCAT_SLIME"],
-        "armor" : [ [ [ "NUM_BP" ], { "bash" : 4 } ] ]
+        "armor" : [ [ [ "ALL" ], { "bash" : 4 } ] ]
     },{
         "type" : "mutation",
         "id" : "SLIMESPAWNER",
