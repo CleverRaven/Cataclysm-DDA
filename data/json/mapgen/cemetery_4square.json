@@ -1,5 +1,14 @@
 [
     {
+        "type": "vehicle_group",
+        "id": "FUNERAL",
+        "vehicles": [
+            [ "car", 300 ],
+            [ "hearse", 200 ],
+            [ "suv", 100 ],
+            [ "policecar", 50 ]
+        ]
+    },{
     "type" : "item_group",
     "id" : "grave_memories",
     "items":[
@@ -286,6 +295,13 @@
             "place_loot" : [
                 { "item": "chain", "chance": 50, "x": [ 4, 11 ], "y": [22, 23], "repeat": [ 1, 2 ] },
                 { "item": "chain", "chance": 50, "x": [ 12, 19 ], "y": [22, 23], "repeat": [ 1, 2 ] }
+            ],
+            "place_vehicles": [
+                { "x": 2, "y": 9, "vehicle": "FUNERAL", "chance": 10 },
+                { "x": 6, "y": 9, "vehicle": "FUNERAL", "chance": 15 },
+                { "x": 10, "y": 9, "vehicle": "FUNERAL", "chance": 20 },
+                { "x": 15, "y": 9, "vehicle": "FUNERAL", "chance": 15 },
+                { "x": 19, "y": 9, "vehicle": "FUNERAL", "chance": 15 }
             ]
         }
     },{
@@ -363,10 +379,10 @@
                 "8": "f_shackle",
                 "P": "f_sign"
             },
-        "place_items": [
-                { "item": "church", "chance": 85, "x": [14, 18], "y": [ 5, 14] },
-                { "item": "church", "chance": 85, "x": [ 11, 12 ], "y": [ 5, 6 ] },
-                { "item": "jackets", "chance": 95, "x": [12], "y": [14] }
+        "place_items": [ 
+                { "item": "church", "chance": 65, "x": [14, 18], "y": [ 5, 14] },
+                { "item": "church", "chance": 65, "x": [ 11, 12 ], "y": [ 5, 6 ] },
+                { "item": "jackets", "chance": 50, "x": [12], "y": [14] }
             ]
         }
     }
