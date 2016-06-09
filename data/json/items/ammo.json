@@ -2318,18 +2318,6 @@
       }
     },
     {
-      "id": "ammolink50",
-      "copy-from": "ammolink",
-      "type": "AMMO",
-      "name": ".50 ammo belt linkage",
-      "weight": 3,
-      "count": 50,
-      "use_action": {
-        "type": "ammobelt",
-        "belt": "belt50"
-      }
-    },
-    {
       "id": "ammolink40mm",
       "copy-from": "ammolink",
       "type": "AMMO",
@@ -2339,6 +2327,18 @@
       "use_action": {
         "type": "ammobelt",
         "belt": "belt40mm"
+      }
+    },
+    {
+      "id": "ammolink50",
+      "copy-from": "ammolink",
+      "type": "AMMO",
+      "name": ".50 ammo belt linkage",
+      "weight": 3,
+      "count": 50,
+      "use_action": {
+        "type": "ammobelt",
+        "belt": "belt50"
       }
     }
 ]
