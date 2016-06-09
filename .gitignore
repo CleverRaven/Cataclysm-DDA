@@ -112,3 +112,7 @@ cataclysm.a
 msvc-full-features/*db
 msvc-full-features/ipch
 lnk*.tmp
+
+# cppcheck
+*cppcheck.xml
+*.cppcheck
