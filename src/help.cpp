@@ -388,7 +388,7 @@ constantly working, whereas others need to be toggled on and off as needed." ) )
 
     text.push_back( _( "\
 Most bionics require a source of power, and you will need an internal battery \
-to store energy for them. Your current amount of energy is displayed below \
+to store energy for them. Your current amount of energy is displayed in the sidebar right below \
 your health. Replenishing energy can be done in a variety of ways, but all \
 require the installation of a special bionic just for fuel consumption." ) );
 
