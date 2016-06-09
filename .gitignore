@@ -109,6 +109,6 @@ cataclysm.a
 *.sublime-workspace
 
 # Visual Studio 2015
-msvc140/*db
-msvc140/ipch
+msvc-full-features/*db
+msvc-full-features/ipch
 lnk*.tmp
