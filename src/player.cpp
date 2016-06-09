@@ -12087,7 +12087,15 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
 
         // >0 check because some mutations provide negative armor
         if( elem.amount > 0.0f ) {
-            elem.amount -= mutation_armor( bp, elem );
+            // Horrible hack warning!
+            // Get rid of this as soon as CUT and STAB are split
+            if( elem.type == DT_STAB ) {
+                damage_unit elem_copy = elem;
+                elem_copy.type = DT_CUT;
+                elem.amount -= 0.8f * mutation_armor( bp, elem_copy );
+            } else {
+                elem.amount -= mutation_armor( bp, elem );
+            }
         }
 
         if( elem.type == DT_BASH ) {
