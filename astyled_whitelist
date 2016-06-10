@@ -50,6 +50,7 @@ src/mutation_ui.cpp
 src/name.cpp
 src/overlay_ordering.cpp
 src/pathfinding.cpp
+src/pickup.cpp
 src/player_activity.cpp
 src/posix_time.cpp
 src/profession.cpp
