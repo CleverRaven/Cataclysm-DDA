@@ -223,7 +223,7 @@ ifndef RELEASE
   CXXFLAGS += $(OPTLEVEL)
 endif
 
-OTHERS += -std=c++11
+OTHERS += -std=gnu++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
