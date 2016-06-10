@@ -214,7 +214,6 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     return DONE;
 }
 
-
 static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup_count> &getitem )
 {
     bool bFoundSomething = false;
@@ -308,7 +307,6 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
 
     return static_cast<pickup_answer>( choice );
 }
-
 
 void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
                           int cargo_part, int index, int quantity, bool &got_water,
@@ -506,7 +504,6 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
         add_msg( m_bad, _( "You struggle to carry such a large volume!" ) );
     }
 }
-
 
 // Pick up items at (pos).
 void Pickup::pick_up( const tripoint &pos, int min )
@@ -1001,4 +998,3 @@ void Pickup::show_pickup_message( const PickupMap &mapPickup )
         }
     }
 }
-
