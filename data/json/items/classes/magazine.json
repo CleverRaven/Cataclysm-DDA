@@ -12,7 +12,6 @@
     "color": "ltgray",
     "rigid": false,
     "reliability": 6,
-    "capacity": 9999,
     "armor_data": {
        "covers": [ "TORSO" ],
        "coverage": 5,
