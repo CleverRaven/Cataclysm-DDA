@@ -963,7 +963,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
 //helper function for Pickup::pick_up
 //return value is amount of ammo added to quiver
-int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &picked_up)
+int Pickup::handle_quiver_insertion( item &here, int &moves_to_decrement, bool &picked_up )
 {
     //add ammo to quiver
     int quivered = g->u.add_ammo_to_worn_quiver( here );
@@ -978,7 +978,7 @@ int Pickup::handle_quiver_insertion(item &here, int &moves_to_decrement, bool &p
 
 //helper function for Pickup::pick_up (singular item)
 void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int cargo_part,
-                                        int &moves_taken, int curmit )
+        int &moves_taken, int curmit )
 {
     if( veh != nullptr ) {
         veh->remove_item( cargo_part, curmit );
@@ -992,12 +992,13 @@ void Pickup::remove_from_map_or_vehicle( const tripoint &pos, vehicle *veh, int 
 void Pickup::show_pickup_message( const PickupMap &mapPickup )
 {
     for( auto &entry : mapPickup ) {
-            if( entry.second.first.invlet != 0 ) {
-                add_msg(_("You pick up: %d %s [%c]"), entry.second.second,
-                        entry.second.first.display_name(entry.second.second).c_str(), entry.second.first.invlet);
-            } else {
-                add_msg(_("You pick up: %d %s"), entry.second.second,
-                        entry.second.first.display_name(entry.second.second).c_str());
-            }
+        if( entry.second.first.invlet != 0 ) {
+            add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
+                     entry.second.first.display_name( entry.second.second ).c_str(), entry.second.first.invlet );
+        } else {
+            add_msg( _( "You pick up: %d %s" ), entry.second.second,
+                     entry.second.first.display_name( entry.second.second ).c_str() );
+        }
     }
 }
+
