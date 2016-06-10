@@ -1,32 +1,31 @@
 #include "item_factory.h"
-#include "enums.h"
-#include "json.h"
+
 #include "addiction.h"
-#include "translations.h"
-#include "item_group.h"
-#include "crafting.h"
-#include "recipe_dictionary.h"
-#include "iuse_actor.h"
-#include "item.h"
-#include "mapdata.h"
-#include "debug.h"
+#include "artifact.h"
+#include "bionics.h"
+#include "catacharset.h"
 #include "construction.h"
+#include "crafting.h"
+#include "debug.h"
+#include "enums.h"
+#include "generic_factory.h"
+#include "init.h"
+#include "item.h"
+#include "item_group.h"
+#include "iuse_actor.h"
+#include "json.h"
+#include "mapdata.h"
+#include "material.h"
+#include "options.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
+#include "translations.h"
 #include "text_snippets.h"
 #include "ui.h"
-#include "skill.h"
-#include "bionics.h"
-#include "material.h"
-#include "artifact.h"
 #include "veh_type.h"
-#include "catacharset.h"
-#include "init.h"
-#include "generic_factory.h"
-#include "game.h"
 
 #include <algorithm>
 #include <sstream>
-
-extern class game *g;
 
 static const std::string category_id_guns("guns");
 static const std::string category_id_ammo("ammo");
@@ -94,7 +93,7 @@ void Item_factory::finalize() {
     for( auto& e : m_templates ) {
         itype& obj = *e.second;
 
-        if( obj.engine && g->has_option( "no_faults" ) ) {
+        if( obj.engine && ACTIVE_WORLD_OPTIONS[ "NO_FAULTS" ] ) {
             obj.engine->faults.clear();
         }
 
@@ -148,19 +147,19 @@ void Item_factory::finalize() {
         hflesh_to_flesh( *e.second );
 
         if( obj.comestible ) {
-            if( g->has_option( "no_vitamins" ) ) {
+            if( ACTIVE_WORLD_OPTIONS[ "NO_VITAMINS" ] ) {
                 obj.comestible->vitamins.clear();
-
             } else if( obj.comestible->vitamins.empty() && obj.comestible->healthy >= 0 ) {
-                // default vitamins of healthy comestibles to their edible base materials if none explicitly specified
+                // Default vitamins of healthy comestibles to their edible base materials if none explicitly specified.
                 auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
-
                 auto mat = obj.materials;
-                mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
-                    return !m.obj().edible(); // @todo migrate inedible comestibles to appropriate alternative types
-                } ), mat.end() );
 
-                // for comestibles composed of multiple edible materials we calculate the average
+                // @todo migrate inedible comestibles to appropriate alternative types.
+                mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
+                            return !m.obj().edible();
+                        } ), mat.end() );
+
+                // For comestibles composed of multiple edible materials we calculate the average.
                 for( const auto &v : vitamin::all() ) {
                     if( obj.comestible->vitamins.find( v.first ) == obj.comestible->vitamins.end() ) {
                         for( const auto &m : mat ) {
@@ -196,7 +195,7 @@ void Item_factory::finalize_item_blacklist()
 
     // Can't be part of the blacklist loop because the magazines might be
     // deleted before the guns are processed.
-    const bool magazines_blacklisted = g->has_option( "blacklist_magazines" );
+    const bool magazines_blacklisted = ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ];
 
     if( magazines_blacklisted ) {
         for( auto& e : m_templates ) {
@@ -767,7 +766,7 @@ void Item_factory::check_definitions() const
             main_stream.str(std::string());
         }
     }
-    if( !g->has_option( "blacklist_magazines" ) ) {
+    if( !ACTIVE_WORLD_OPTIONS[ "BLACKLIST_MAGAZINES" ] ) {
         for( auto &mag : magazines_defined ) {
             // some vehicle parts (currently batteries) are implemented as magazines
             if( magazines_used.count( mag ) == 0 && find_template( mag )->category->id != category_id_veh_parts ) {

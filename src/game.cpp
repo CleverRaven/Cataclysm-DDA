@@ -14779,14 +14779,3 @@ overmap &game::get_cur_om() const
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
 }
-
-void game::load_game_option( JsonObject &jo )
-{
-    auto arr = jo.get_array( "options" );
-    if( arr.empty() ) {
-        jo.throw_error( "no options specified", "options" );
-    }
-    while( arr.has_more() ) {
-        options.emplace( arr.next_string() );
-    }
-}
