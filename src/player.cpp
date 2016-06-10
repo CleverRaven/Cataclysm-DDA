@@ -10251,15 +10251,14 @@ bool player::dispose_item( item &obj, const item *const swap_obj, const std::str
 
     //see if it can be stored in inventory
     player projected = *this;
-    projected.i_add( obj );
     if( swap_obj ) {
         int swap_pos = get_item_position( swap_obj );
         if( swap_pos != INT_MIN ) {
             projected.i_rem( swap_pos );
         }
     }
+    projected.i_add( obj );
     const bool bucket = obj.is_bucket_nonempty();
-
     opts.emplace_back( dispose_option {
         bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
         projected.volume_carried() <= volume_capacity(), '1',

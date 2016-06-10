@@ -2383,13 +2383,14 @@ bool npc::dispose_item( item &obj, const item *const swap_obj, const std::string
 
     //see if it can be stored in inventory
     npc projected = *this;
-    projected.i_add( obj );
     if( swap_obj ) {
         int swap_pos = get_item_position( swap_obj );
         if( swap_pos != INT_MIN ) {
             projected.i_rem( swap_pos );
         }
     }
+    projected.i_add( obj );
+    
     if( projected.volume_carried() <= projected.volume_capacity() ) {
         opts.emplace_back( dispose_option {
             item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
