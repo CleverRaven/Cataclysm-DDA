@@ -31,15 +31,13 @@
   },
   {
     "id": "tokarev",
+    "copy-from": "pistol_base",
     "type": "GUN",
-    "symbol": "(",
-    "color": "dark_gray",
     "name": "Tokarev TT-30",
     "name_plural": "Tokarev TT-30",
     "description": "The Norinco manufactured Tokarev TT-30 is the standard sidearm of the Chinese military, it does not see extensive use outside of China.",
     "price": 140000, "//" : "And it's therefore expensive.",
     "material": ["steel", "plastic"],
-    "skill": "pistol",
     "ammo": "762x25",
     "weight": 798,
     "volume": 2,
@@ -47,11 +45,9 @@
     "to_hit": -2,
     "dispersion": 225,
     "sight_dispersion": 90,
-    "aim_speed" : 4,
     "recoil": 60,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [ [ "762x25", [ "tokarevmag" ] ] ],
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "magazines": [ [ "762x25", [ "tokarevmag" ] ] ]
   }
 ]

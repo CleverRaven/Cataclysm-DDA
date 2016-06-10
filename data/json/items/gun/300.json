@@ -1,28 +1,22 @@
 [
   {
     "id": "m2010",
+    "copy-from": "rifle_base",
     "type": "GUN",
-    "symbol": "(",
-    "color": "dkgray",
     "name": "M2010 ESR",
     "name_plural": "M2010 ESR",
     "description": "A bolt-action, box-magazine-fed, sniper rifle chambered in the powerful .300 Winchester Magnum round.  The M2010 had completely replaced the M24 rifle series by 2017.",
     "price": 1701000, "//" : "http://www.guns.com/2012/05/17/remington-xm2010-army-sniper-system-esr-now-in-stores/.",
     "material": ["steel", "plastic"],
-    "flags": "NEVER_JAMS",
-    "skill": "rifle",
     "ammo": "300",
     "weight": 4002,
     "volume": 11,
     "bashing": 12,
     "to_hit": -1,
-    "dispersion": 0,
     "sight_dispersion": 60,
-    "aim_speed" : 6,
-    "recoil": 0,
     "durability": 8,
     "barrel_length" : 2,
     "magazines": [ [ "300", [ "m2010mag" ] ] ],
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "flags": "NEVER_JAMS"
   }
 ]
