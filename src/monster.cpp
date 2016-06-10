@@ -535,11 +535,11 @@ int monster::sight_range( const int light_level ) const
         return 1;
     }
 
-    int range = ( light_level * type->vision_day ) +
-                ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
+    float range = ( light_level * type->vision_day ) +
+                  ( ( DAYLIGHT_LEVEL - light_level ) * type->vision_night );
     range /= DAYLIGHT_LEVEL;
 
-    return range;
+    return (int)std::round( range );
 }
 
 bool monster::made_of( const material_id &m ) const
