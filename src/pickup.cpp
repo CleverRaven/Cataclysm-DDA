@@ -337,11 +337,11 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         leftovers.charges = 0;
     }
 
-    if( newit.made_of(LIQUID) ) {
+    if( newit.made_of( LIQUID ) ) {
         got_water = true;
-    } else if ( !u.can_pickWeight( newit, false ) ) {
-        add_msg(m_info, _("The %s is too heavy!"), newit.display_name().c_str());
-    } else if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt")) {
+    } else if( !u.can_pickWeight( newit, false ) ) {
+        add_msg( m_info, _( "The %s is too heavy!" ), newit.display_name().c_str() );
+    } else if( newit.is_ammo() && ( newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt" ) ) {
         // @todo Make quiver code generic so that ammo pouches can use it too
         //add ammo to quiver
         int quivered = handle_quiver_insertion( newit, moves_taken, picked_up );
@@ -356,9 +356,9 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             if( !u.can_pickVolume( newit ) ) {
                 if( !autopickup ) {
                     // Silence some messaging if we're doing autopickup.
-                    add_msg(m_info, ngettext("There's no room in your inventory for the %s.",
-                                             "There's no room in your inventory for the %s.",
-                                             newit.charges), newit.tname(newit.charges).c_str());
+                    add_msg( m_info, ngettext( "There's no room in your inventory for the %s.",
+                                               "There's no room in your inventory for the %s.",
+                                               newit.charges ), newit.tname( newit.charges ).c_str() );
                 }
             } else {
                 // Add to inventory instead
@@ -372,16 +372,16 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
         }
     } else if( newit.is_bucket() && !newit.is_container_empty() ) {
         if( !autopickup ) {
-            const std::string &explain = string_format( _("Can't stash %s while it's not empty"),
-                                                        newit.display_name().c_str() );
+            const std::string &explain = string_format( _( "Can't stash %s while it's not empty" ),
+                                         newit.display_name().c_str() );
             option = handle_problematic_pickup( newit, offered_swap, explain );
         } else {
             option = CANCEL;
         }
     } else if( !u.can_pickVolume( newit ) ) {
         if( !autopickup ) {
-            const std::string &explain = string_format( _("Not enough capacity to stash %s"),
-                                                        newit.display_name().c_str() );
+            const std::string &explain = string_format( _( "Not enough capacity to stash %s" ),
+                                         newit.display_name().c_str() );
             option = handle_problematic_pickup( newit, offered_swap, explain );
         } else {
             option = CANCEL;
@@ -407,10 +407,10 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             }
 
             if( u.weapon.invlet ) {
-                add_msg( m_info, _("Wielding %c - %s"), u.weapon.invlet,
+                add_msg( m_info, _( "Wielding %c - %s" ), u.weapon.invlet,
                          u.weapon.display_name().c_str() );
             } else {
-                add_msg( m_info, _("Wielding - %s"), u.weapon.display_name().c_str() );
+                add_msg( m_info, _( "Wielding - %s" ), u.weapon.display_name().c_str() );
             }
             break;
         case SPILL:
@@ -423,7 +423,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             if( !picked_up ) {
                 break;
             }
-            // Intentional fallthrough
+        // Intentional fallthrough
         case STASH:
             auto &entry = mapPickup[newit.tname()];
             entry.second += newit.count_by_charges() ? newit.charges : 1;
@@ -452,8 +452,8 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     bool got_water = false;
     int cargo_part = -1;
     vehicle *veh = nullptr;
-    bool weight_is_okay = (g->u.weight_carried() <= g->u.weight_capacity());
-    bool volume_is_okay = (g->u.volume_carried() <= g->u.volume_capacity());
+    bool weight_is_okay = ( g->u.weight_carried() <= g->u.weight_capacity() );
+    bool volume_is_okay = ( g->u.volume_carried() <= g->u.volume_capacity() );
     bool offered_swap = false;
     // Convert from player-relative to map-relative.
     tripoint pickup_target = pickup_target_arg + g->u.pos();
@@ -493,19 +493,20 @@ void Pickup::do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
     }
 
     if( !mapPickup.empty() ) {
-        show_pickup_message(mapPickup);
+        show_pickup_message( mapPickup );
     }
 
-    if (got_water) {
-        add_msg(m_info, _("You can't pick up a liquid!"));
+    if( got_water ) {
+        add_msg( m_info, _( "You can't pick up a liquid!" ) );
     }
-    if (weight_is_okay && g->u.weight_carried() > g->u.weight_capacity()) {
-        add_msg(m_bad, _("You're overburdened!"));
+    if( weight_is_okay && g->u.weight_carried() > g->u.weight_capacity() ) {
+        add_msg( m_bad, _( "You're overburdened!" ) );
     }
-    if (volume_is_okay && g->u.volume_carried() > g->u.volume_capacity()) {
-        add_msg(m_bad, _("You struggle to carry such a large volume!"));
+    if( volume_is_okay && g->u.volume_carried() > g->u.volume_capacity() ) {
+        add_msg( m_bad, _( "You struggle to carry such a large volume!" ) );
     }
 }
+
 
 // Pick up items at (pos).
 void Pickup::pick_up( const tripoint &pos, int min )
