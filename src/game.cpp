@@ -162,7 +162,8 @@ void advanced_inv(); // player_activity.cpp
 void intro();
 
 //The one and only game instance
-game *g;
+game *g; // @todo replace all occurrences with 'game::get_instance()' and delete the global variable
+
 extern worldfactory *world_generator;
 #ifdef TILES
 extern cata_tiles *tilecontext;
@@ -321,9 +322,16 @@ void game::load_core_data()
     // core data can be loaded only once and must be first
     // anyway.
     DynamicDataLoader::get_instance().unload_data();
+    MonsterGenerator::generator().reset(); // @todo Separate clearing from destroying. It's not the best place for keeping it.
 
     init_lua();
     load_data_from_dir(FILENAMES["jsondir"]);
+}
+
+game &game::get_instance()
+{
+    static game instance;
+    return instance;
 }
 
 void game::load_data_from_dir(const std::string &path)
@@ -346,7 +354,6 @@ void game::load_data_from_dir(const std::string &path)
 
 game::~game()
 {
-    DynamicDataLoader::get_instance().unload_data();
     MAPBUFFER.reset();
     delete gamemode;
     delwin(w_terrain);

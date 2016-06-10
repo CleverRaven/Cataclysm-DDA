@@ -47,7 +47,6 @@ class MonsterGenerator
 
             return generator;
         }
-        ~MonsterGenerator();
 
         // clear monster & species definitions
         void reset();
@@ -72,6 +71,7 @@ class MonsterGenerator
     private:
         /** Default constructor */
         MonsterGenerator();
+        ~MonsterGenerator();
 
         // Init functions
         void init_phases();

@@ -32,7 +32,7 @@ void init_global_game_state() {
     get_options().load();
     init_colors();
 
-    g = new game;
+    g = &game::get_instance();
 
     g->load_static_data();
     g->load_core_data();
