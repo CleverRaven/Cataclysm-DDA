@@ -8,6 +8,7 @@
 #include "int_id.h"
 #include "item_location.h"
 #include "cursesdef.h"
+#include "publish.h"
 
 #include <vector>
 #include <map>
@@ -136,6 +137,9 @@ class game
     public:
         game();
         ~game();
+
+        /** 128-bit UUID encoded in z-base-32 that uniquely identifies this game */
+        std::string id;
 
         /** Loads static data that does not depend on mods or similar. */
         void load_static_data();
@@ -954,6 +958,11 @@ private:
         bool has_option( const std::string& opt ) {
             return options.count( opt );
         }
+
+#ifdef ZMQ
+        /** used to push game statistics when reporting is enabled */
+        publish remote;
+#endif
 };
 
 #endif

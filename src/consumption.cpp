@@ -416,6 +416,9 @@ bool player::eat( item &food, bool force )
     // Note: the block below assumes we decided to eat it
     // No coming back from here
 
+    ///\STAT report what a players diet is comprised of
+    report( "FOOD", food.typeId() );
+
     const bool hibernate = has_active_mutation( "HIBERNATE" );
     const int nutr = nutrition_for( food.type );
     const int quench = food.type->comestible->quench;

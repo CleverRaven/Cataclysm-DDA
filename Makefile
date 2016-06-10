@@ -27,6 +27,8 @@
 #  make TILES=1
 # Sound (requires SDL, so TILES must be enabled)
 #  make TILES=1 SOUND=1
+#  ZeroMQ support is required for reporting game statistics
+#  make ZMQ=1
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
 # Disable backtrace support, not available on all platforms
@@ -416,6 +418,33 @@ ifdef LUA
   CXXFLAGS += -DLUA
   LUA_DEPENDENCIES = $(LUASRC_DIR)/catabindings.cpp
   BINDIST_EXTRAS  += $(LUA_DIR)
+endif
+
+ifdef ZMQ
+  ifeq ($(TARGETSYSTEM),WINDOWS)
+    ifdef MSYS2
+      ZMQ_PKGCONFIG := 1
+    else
+      # Windows expects to have zmq unpacked at a specific location
+      ZMQ_LIBS := -lzmq
+    endif
+  else
+    ZMQ_USE_PKGCONFIG := 1
+  endif
+
+  ifdef ZMQ_USE_PKGCONFIG
+    # On unix-like systems, use pkg-config to find zmq
+    ZMQ_CANDIDATES = libzmq
+    ZMQ_FOUND = $(firstword $(foreach zmq,$(ZMQ_CANDIDATES),\
+        $(shell if $(PKG_CONFIG) --silence-errors --exists $(zmq); then echo $(zmq);fi)))
+    ZMQ_PKG = $(if $(ZMQ_FOUND),$(ZMQ_FOUND),$(error "ZeroMQ not found by $(PKG_CONFIG), install it or make without 'ZMQ=1'"))
+    ZMQ_LIBS := $(shell $(PKG_CONFIG) --silence-errors --libs $(ZMQ_PKG))
+    ZMQ_CFLAGS := $(shell $(PKG_CONFIG) --silence-errors --cflags $(ZMQ_PKG))
+  endif
+
+  LDFLAGS += $(ZMQ_LIBS)
+  CXXFLAGS += $(ZMQ_CFLAGS)
+  CXXFLAGS += -DZMQ
 endif
 
 ifdef SDL

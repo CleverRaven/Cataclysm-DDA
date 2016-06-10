@@ -68,6 +68,8 @@ void game::serialize(std::ostream & fout) {
         JsonOut json(fout, true); // pretty-print
 
         json.start_object();
+        json.member( "id", id );
+
         // basic game state information.
         json.member("turn", (int)calendar::turn);
         json.member("calendar_start", (int)calendar::start);
@@ -185,6 +187,7 @@ void game::unserialize(std::istream & fin)
     try {
         JsonObject data = jsin.get_object();
 
+        data.read("id", id);
         data.read("turn",tmpturn);
         data.read("calendar_start",tmpcalstart);
         calendar::initial_season = (season_type)data.get_int("initial_season",(int)SPRING);

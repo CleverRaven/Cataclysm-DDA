@@ -24,6 +24,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/posix_time.cpp
     ${CMAKE_SOURCE_DIR}/src/tutorial.cpp
     ${CMAKE_SOURCE_DIR}/src/catacharset.cpp
+    ${CMAKE_SOURCE_DIR}/src/publish.cpp
     ${CMAKE_SOURCE_DIR}/src/item_factory.cpp
     ${CMAKE_SOURCE_DIR}/src/activity_handlers.cpp
     ${CMAKE_SOURCE_DIR}/src/mongroup.cpp
@@ -210,6 +211,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/calendar.h
     ${CMAKE_SOURCE_DIR}/src/mod_manager.h
     ${CMAKE_SOURCE_DIR}/src/catacharset.h
+    ${CMAKE_SOURCE_DIR}/src/publish.h
     ${CMAKE_SOURCE_DIR}/src/omdata.h
     ${CMAKE_SOURCE_DIR}/src/game_constants.h
     ${CMAKE_SOURCE_DIR}/src/mission.h
