@@ -230,7 +230,7 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         return false;
     }
 
-    const int range_cur = sight_range( g->m.ambient_light_at( pos() ) );
+    const int range_cur = sight_range( g->m.ambient_light_at( t ) );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
     const int range_night = sight_range( 0 );
     const int range_max = std::max( range_day, range_night );
