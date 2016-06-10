@@ -32,7 +32,8 @@ struct pickup_count {
 };
 
 // Handles interactions with a vehicle in the examine menu.
-Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos, int veh_root_part )
+Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const tripoint &pos,
+        int veh_root_part )
 {
     if( veh == nullptr ) {
         return ITEMS_FROM_GROUND;
@@ -43,17 +44,17 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    const bool has_kitchen = (veh->part_with_feature(veh_root_part, "KITCHEN") >= 0);
-    const bool has_faucet = (veh->part_with_feature(veh_root_part, "FAUCET") >= 0);
-    const bool has_weldrig = (veh->part_with_feature(veh_root_part, "WELDRIG") >= 0);
-    const bool has_chemlab = (veh->part_with_feature(veh_root_part, "CHEMLAB") >= 0);
-    const bool has_purify = (veh->part_with_feature(veh_root_part, "WATER_PURIFIER") >=0);
-    const bool has_controls = ((veh->part_with_feature(veh_root_part, "CONTROLS") >= 0) ||
-                               (veh->part_with_feature(veh_root_part, "CTRL_ELECTRONIC") >=0));
-    const int cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
-    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
+    const bool has_kitchen = ( veh->part_with_feature( veh_root_part, "KITCHEN" ) >= 0 );
+    const bool has_faucet = ( veh->part_with_feature( veh_root_part, "FAUCET" ) >= 0 );
+    const bool has_weldrig = ( veh->part_with_feature( veh_root_part, "WELDRIG" ) >= 0 );
+    const bool has_chemlab = ( veh->part_with_feature( veh_root_part, "CHEMLAB" ) >= 0 );
+    const bool has_purify = ( veh->part_with_feature( veh_root_part, "WATER_PURIFIER" ) >= 0 );
+    const bool has_controls = ( ( veh->part_with_feature( veh_root_part, "CONTROLS" ) >= 0 ) ||
+                                ( veh->part_with_feature( veh_root_part, "CTRL_ELECTRONIC" ) >= 0 ) );
+    const int cargo_part = veh->part_with_feature( veh_root_part, "CARGO", false );
+    const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items( cargo_part ).empty();
     const bool can_be_folded = veh->is_foldable();
-    const bool is_convertible = (veh->tags.count("convertible") > 0);
+    const bool is_convertible = ( veh->tags.count( "convertible" ) > 0 );
     const bool remotely_controlled = g->remoteveh() == veh;
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, USE_HOTPLATE,
@@ -61,46 +62,46 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     } options;
     uimenu selectmenu;
 
-    selectmenu.addentry( EXAMINE, true, 'e', _("Examine vehicle") );
+    selectmenu.addentry( EXAMINE, true, 'e', _( "Examine vehicle" ) );
 
     if( has_controls ) {
-        selectmenu.addentry( CONTROL, true, 'v', _("Control vehicle") );
+        selectmenu.addentry( CONTROL, true, 'v', _( "Control vehicle" ) );
     }
 
     if( from_vehicle ) {
-        selectmenu.addentry( GET_ITEMS, true, 'g', _("Get items") );
+        selectmenu.addentry( GET_ITEMS, true, 'g', _( "Get items" ) );
     }
 
     if( has_items_on_ground && !items_are_sealed ) {
-        selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _("Get items on the ground") );
+        selectmenu.addentry( GET_ITEMS_ON_GROUND, true, 'i', _( "Get items on the ground" ) );
     }
 
     if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
-        selectmenu.addentry( FOLD_VEHICLE, true, 'f', _("Fold vehicle") );
+        selectmenu.addentry( FOLD_VEHICLE, true, 'f', _( "Fold vehicle" ) );
     }
 
-    if( ( has_kitchen || has_chemlab ) && veh->fuel_left("battery") > 0) {
-        selectmenu.addentry( USE_HOTPLATE, true, 'h', _("Use the hotplate") );
+    if( ( has_kitchen || has_chemlab ) && veh->fuel_left( "battery" ) > 0 ) {
+        selectmenu.addentry( USE_HOTPLATE, true, 'h', _( "Use the hotplate" ) );
     }
 
-    if( has_faucet && veh->fuel_left("water_clean") > 0) {
-        selectmenu.addentry( FILL_CONTAINER, true, 'c', _("Fill a container with water") );
+    if( has_faucet && veh->fuel_left( "water_clean" ) > 0 ) {
+        selectmenu.addentry( FILL_CONTAINER, true, 'c', _( "Fill a container with water" ) );
 
-        selectmenu.addentry( DRINK, true, 'd', _("Have a drink") );
+        selectmenu.addentry( DRINK, true, 'd', _( "Have a drink" ) );
     }
 
-    if( has_weldrig && veh->fuel_left("battery") > 0 ) {
-        selectmenu.addentry( USE_WELDER, true, 'w', _("Use the welding rig?") );
+    if( has_weldrig && veh->fuel_left( "battery" ) > 0 ) {
+        selectmenu.addentry( USE_WELDER, true, 'w', _( "Use the welding rig?" ) );
     }
 
-    if( has_purify && veh->fuel_left("battery") > 0 ) {
-        selectmenu.addentry( USE_PURIFIER, true, 'p', _("Purify water in carried container") );
+    if( has_purify && veh->fuel_left( "battery" ) > 0 ) {
+        selectmenu.addentry( USE_PURIFIER, true, 'p', _( "Purify water in carried container" ) );
     }
 
-    if( has_purify && veh->fuel_left("battery") > 0 &&
-        veh->fuel_left("water") > 0 &&
-        veh->fuel_capacity("water_clean") > veh->fuel_left("water_clean") ) {
-        selectmenu.addentry( PURIFY_TANK, true, 'P', _("Purify water in vehicle's tank") );
+    if( has_purify && veh->fuel_left( "battery" ) > 0 &&
+        veh->fuel_left( "water" ) > 0 &&
+        veh->fuel_capacity( "water_clean" ) > veh->fuel_left( "water_clean" ) ) {
+        selectmenu.addentry( PURIFY_TANK, true, 'P', _( "Purify water in vehicle's tank" ) );
     }
 
     int choice;
@@ -108,7 +109,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         choice = selectmenu.entries.front().retval;
     } else {
         selectmenu.return_invalid = true;
-        selectmenu.text = _("Select an action");
+        selectmenu.text = _( "Select an action" );
         selectmenu.selected = 0;
         selectmenu.query();
         choice = selectmenu.ret;
@@ -116,102 +117,103 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
     switch( static_cast<options>( choice ) ) {
 
-    case USE_HOTPLATE: {
-        item pseudo( "hotplate" );
-        itype_id ammo = pseudo.ammo_default();
-        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
+        case USE_HOTPLATE: {
+            item pseudo( "hotplate" );
+            itype_id ammo = pseudo.ammo_default();
+            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
 
-        if ( pseudo.ammo_sufficient() ) {
-            g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-            veh->refill( ammo, pseudo.ammo_remaining() );
-        }
-        return DONE;
-    }
-
-    case FILL_CONTAINER:
-        g->u.siphon( *veh, "water_clean" );
-        return DONE;
-
-    case DRINK: {
-        veh->drain("water_clean", 1);
-        item water( "water_clean", 0 );
-        g->u.eat( water );
-        g->u.moves -= 250;
-        return DONE;
-        }
-
-    case USE_WELDER: {
-        item pseudo( "welder" );
-        itype_id ammo = pseudo.ammo_default();
-        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
-
-        if ( pseudo.ammo_sufficient() ) {
-            g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-            veh->refill( ammo, pseudo.ammo_remaining() );
-
-            // Evil hack incoming
-            auto &act = g->u.activity;
-            if( act.type == ACT_REPAIR_ITEM ) {
-                // Magic: first tell activity the item doesn't really exist
-                act.index = INT_MIN;
-                // Then tell it to search it on `pos`
-                act.coords.push_back( pos );
-                // Finally tell it it is the vehicle part with weldrig
-                act.values.resize( 2 );
-                act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
+            if( pseudo.ammo_sufficient() ) {
+                g->u.invoke_item( &pseudo );
+                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+                veh->refill( ammo, pseudo.ammo_remaining() );
             }
-        }
-        return DONE;
-    }
-
-    case USE_PURIFIER: {
-        item pseudo( "water_purifier" );
-        itype_id ammo = pseudo.ammo_default();
-        pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
-
-        if ( pseudo.ammo_sufficient() ) {
-            g->u.invoke_item( &pseudo );
-            pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
-            veh->refill( ammo, pseudo.ammo_remaining() );
-        }
-        return DONE;
-    }
-
-    case PURIFY_TANK: {
-        const int max_water = std::min( veh->fuel_left("water"),
-            veh->fuel_capacity("water_clean") - veh->fuel_left("water_clean") );
-        const int purify_amount = std::min( veh->fuel_left("battery"), max_water );
-        veh->drain( "battery", purify_amount );
-        veh->drain( "water", purify_amount );
-        veh->refill( "water_clean", purify_amount );
-        return DONE;
+            return DONE;
         }
 
-    case FOLD_VEHICLE:
-        veh->fold_up();
-        return DONE;
+        case FILL_CONTAINER:
+            g->u.siphon( *veh, "water_clean" );
+            return DONE;
 
-    case CONTROL:
-        if( veh->interact_vehicle_locked() ) {
-            veh->use_controls(pos);
+        case DRINK: {
+            veh->drain( "water_clean", 1 );
+            item water( "water_clean", 0 );
+            g->u.eat( water );
+            g->u.moves -= 250;
+            return DONE;
         }
-        return DONE;
 
-    case EXAMINE:
-        g->exam_vehicle(*veh, pos );
-        return DONE;
+        case USE_WELDER: {
+            item pseudo( "welder" );
+            itype_id ammo = pseudo.ammo_default();
+            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
 
-    case GET_ITEMS_ON_GROUND:
-        return ITEMS_FROM_GROUND;
+            if( pseudo.ammo_sufficient() ) {
+                g->u.invoke_item( &pseudo );
+                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+                veh->refill( ammo, pseudo.ammo_remaining() );
 
-    case GET_ITEMS:
-        return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
+                // Evil hack incoming
+                auto &act = g->u.activity;
+                if( act.type == ACT_REPAIR_ITEM ) {
+                    // Magic: first tell activity the item doesn't really exist
+                    act.index = INT_MIN;
+                    // Then tell it to search it on `pos`
+                    act.coords.push_back( pos );
+                    // Finally tell it it is the vehicle part with weldrig
+                    act.values.resize( 2 );
+                    act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
+                }
+            }
+            return DONE;
+        }
+
+        case USE_PURIFIER: {
+            item pseudo( "water_purifier" );
+            itype_id ammo = pseudo.ammo_default();
+            pseudo.ammo_set( ammo, veh->drain( ammo, pseudo.ammo_capacity() ) );
+
+            if( pseudo.ammo_sufficient() ) {
+                g->u.invoke_item( &pseudo );
+                pseudo.ammo_consume( pseudo.ammo_required(), g->u.pos() );
+                veh->refill( ammo, pseudo.ammo_remaining() );
+            }
+            return DONE;
+        }
+
+        case PURIFY_TANK: {
+            const int max_water = std::min( veh->fuel_left( "water" ),
+                                            veh->fuel_capacity( "water_clean" ) - veh->fuel_left( "water_clean" ) );
+            const int purify_amount = std::min( veh->fuel_left( "battery" ), max_water );
+            veh->drain( "battery", purify_amount );
+            veh->drain( "water", purify_amount );
+            veh->refill( "water_clean", purify_amount );
+            return DONE;
+        }
+
+        case FOLD_VEHICLE:
+            veh->fold_up();
+            return DONE;
+
+        case CONTROL:
+            if( veh->interact_vehicle_locked() ) {
+                veh->use_controls( pos );
+            }
+            return DONE;
+
+        case EXAMINE:
+            g->exam_vehicle( *veh, pos );
+            return DONE;
+
+        case GET_ITEMS_ON_GROUND:
+            return ITEMS_FROM_GROUND;
+
+        case GET_ITEMS:
+            return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
     }
 
     return DONE;
 }
+
 
 static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup_count> &getitem )
 {
