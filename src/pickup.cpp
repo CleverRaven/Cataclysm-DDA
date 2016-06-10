@@ -222,38 +222,38 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
     //Loop through Items lowest Volume first
     bool bPickup = false;
 
-    for(size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++) {
-        for (size_t i = 0; i < here.size(); i++) {
+    for( size_t iVol = 0, iNumChecked = 0; iNumChecked < here.size(); iVol++ ) {
+        for( size_t i = 0; i < here.size(); i++ ) {
             bPickup = false;
-            if (here[i].volume() == (int)iVol) {
+            if( here[i].volume() == ( int )iVol ) {
                 iNumChecked++;
                 const std::string sItemName = here[i].tname( 1, false );
 
                 //Check the Pickup Rules
-                if ( get_auto_pickup().check_item(sItemName) == "true" ) {
+                if( get_auto_pickup().check_item( sItemName ) == "true" ) {
                     bPickup = true;
-                } else if ( get_auto_pickup().check_item(sItemName) != "false" ) {
+                } else if( get_auto_pickup().check_item( sItemName ) != "false" ) {
                     //No prematched pickup rule found
                     //items with damage, (fits) or a container
-                    get_auto_pickup().create_rules(sItemName);
+                    get_auto_pickup().create_rules( sItemName );
 
-                    if ( get_auto_pickup().check_item(sItemName) == "true" ) {
+                    if( get_auto_pickup().check_item( sItemName ) == "true" ) {
                         bPickup = true;
                     }
                 }
 
                 //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
-                if (!bPickup && OPTIONS["AUTO_PICKUP_ZERO"]) {
-                    if (here[i].volume() == 0 &&
+                if( !bPickup && OPTIONS["AUTO_PICKUP_ZERO"] ) {
+                    if( here[i].volume() == 0 &&
                         here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
-                        get_auto_pickup().check_item(sItemName) != "false") {
+                        get_auto_pickup().check_item( sItemName ) != "false" ) {
                         bPickup = true;
                     }
                 }
             }
 
-            if (bPickup) {
+            if( bPickup ) {
                 getitem[i].pick = bPickup;
                 bFoundSomething = true;
             }
@@ -262,7 +262,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<pickup
     return bFoundSomething;
 }
 
-enum pickup_answer :int {
+enum pickup_answer : int {
     CANCEL = -1,
     WIELD,
     WEAR,
@@ -271,7 +271,8 @@ enum pickup_answer :int {
     NUM_ANSWERS
 };
 
-pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, const std::string &explain )
+pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
+        const std::string &explain )
 {
     player &u = g->u;
 
@@ -291,10 +292,10 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, con
         amenu.addentry( WIELD, true, 'w', _( "Wield %s" ), it.display_name().c_str() );
     }
     if( it.is_armor() ) {
-        amenu.addentry( WEAR, u.can_wear( it ), 'W', _("Wear %s"), it.display_name().c_str() );
+        amenu.addentry( WEAR, u.can_wear( it ), 'W', _( "Wear %s" ), it.display_name().c_str() );
     }
     if( !it.is_container_empty() && u.can_pickVolume( it ) ) {
-        amenu.addentry( SPILL, true, 's', _("Spill %s, then pick up %s"),
+        amenu.addentry( SPILL, true, 's', _( "Spill %s, then pick up %s" ),
                         it.contents.front().tname().c_str(), it.display_name().c_str() );
     }
 
@@ -307,6 +308,7 @@ pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap, con
 
     return static_cast<pickup_answer>( choice );
 }
+
 
 void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
                           int cargo_part, int index, int quantity, bool &got_water,
