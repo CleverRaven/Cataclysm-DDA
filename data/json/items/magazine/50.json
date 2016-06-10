@@ -5,6 +5,7 @@
     "type": "MAGAZINE",
     "name": ".50 ammo belt",
     "ammo_type": "50",
+    "capacity": 100,
     "count": 100,
     "linkage": "ammolink50"
   },

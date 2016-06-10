@@ -5,6 +5,7 @@
     "type": "MAGAZINE",
     "name": "40mm grenade belt",
     "ammo_type": "40mm",
+    "capacity": 100,
     "count": 32,
     "linkage": "ammolink40mm"
   }

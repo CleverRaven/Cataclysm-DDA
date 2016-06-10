@@ -1,23 +1,12 @@
 [
   {
     "id": "mark19",
-<<<<<<< HEAD
+    "copy-from": "launcher_base",
     "type": "GUN",
-    "symbol": "(",
-    "color": "dark_gray",
-=======
-    "copy-from": "gun_base",
-    "type": "GUN",
->>>>>>> 38cf3b165770887c6e11117e648d6c088b87e249
     "name": "Mark 19 grenade launcher",
     "description": "A heavy, tripod-mounted belt-fed grenade launcher used by the US Military since the start of the cold war all the way to the cataclysm, and if you can find some 40mm grenades, maybe even beyond.",
     "price": 1650000,
     "material": "hardsteel",
-<<<<<<< HEAD
-    "flags": ["MODE_BURST", "MOUNTED_GUN"],
-=======
->>>>>>> 38cf3b165770887c6e11117e648d6c088b87e249
-    "skill": "launcher",
     "ammo": "40mm",
     "weight": 35200,
     "volume": 16,
@@ -27,21 +16,12 @@
     "range": 30,
     "dispersion": 180,
     "sight_dispersion": 120,
-<<<<<<< HEAD
-    "aim_speed" : 2,
-=======
     "aim_speed" : 6,
->>>>>>> 38cf3b165770887c6e11117e648d6c088b87e249
     "recoil": 270,
     "durability": 8,
     "burst": 10,
     "reload": 400,
     "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
-<<<<<<< HEAD
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ]]
-=======
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ]],
     "flags": "MOUNTED_GUN"
->>>>>>> 38cf3b165770887c6e11117e648d6c088b87e249
   }
 ]
