@@ -66,7 +66,6 @@
         "barrel_length" : -1
     },
     "material": [ "steel", "wood" ],
-    "loudness" : 40,
     "clip_size": 1,
     "magazines": [],
     "valid_mod_locations": [ ["accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "sights", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "grip", 1 ] ]
