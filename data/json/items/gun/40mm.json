@@ -1,0 +1,27 @@
+[
+  {
+    "id": "mark19",
+    "copy-from": "launcher_base",
+    "type": "GUN",
+    "name": "Mark 19 grenade launcher",
+    "description": "A heavy, tripod-mounted belt-fed grenade launcher used by the US Military since the start of the cold war all the way to the cataclysm, and if you can find some 40mm grenades, maybe even beyond.",
+    "weight": 35200,
+    "volume": 16,
+    "price": 1650000,
+    "bashing": 14,
+    "to_hit": -1,
+    "material": "steel",
+    "ammo": "40mm",
+    "ranged_damage": 1,
+    "range": 30,
+    "dispersion": 180,
+    "sight_dispersion": 120,
+    "aim_speed" : 6,
+    "recoil": 270,
+    "durability": 8,
+    "burst": 10,
+    "reload": 400,
+    "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
+    "flags": "MOUNTED_GUN"
+  }
+]

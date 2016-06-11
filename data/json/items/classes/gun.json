@@ -19,6 +19,14 @@
     "flags": [ "FIRE_100", "NEVER_JAMS" ]
   },
   {
+    "abstract": "launcher_base",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "name": "base launcher",
+    "skill": "launcher",
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "sights", 1 ], [ "mechanism", 4 ] ]
+  },
+  {
     "abstract": "pistol_base",
     "copy-from": "gun_base",
     "type": "GUN",
