@@ -223,7 +223,11 @@ ifndef RELEASE
   CXXFLAGS += $(OPTLEVEL)
 endif
 
-OTHERS += -std=c++11
+ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+    OTHERS += -std=gnu++11
+  else
+    OTHERS += -std=c++11
+endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
