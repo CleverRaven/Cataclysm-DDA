@@ -194,7 +194,8 @@
             { "part" : "ARM_L", "neutral" : 2 },
             { "part" : "ARM_R", "neutral" : 2 },
             { "part" : "TORSO", "neutral" : 4 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "PACKMULE",
@@ -639,7 +640,8 @@
         "points" : -1,
         "description" : "Your skin is fragile.  Cutting damage is slightly increased for you.",
         "starting_trait" : true,
-        "cancels" : ["THICKSKIN"]
+        "cancels" : ["THICKSKIN"],
+        "armor" : [ { "parts" : "ALL", "cut" : -1 } ]
     },{
         "type" : "mutation",
         "id" : "MEATARIAN",
@@ -1209,7 +1211,8 @@
             { "part" : "HAND_L", "ignored" : 4 },
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 40 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 1, "bash" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "M_SKIN2",
@@ -1235,7 +1238,8 @@
             { "part" : "HAND_L", "ignored" : 6 },
             { "part" : "HAND_R", "ignored" : 6 },
             { "part" : "TORSO", "ignored" : 60 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 2, "bash" : 3 } ]
     },{
         "type" : "mutation",
         "id" : "SCALES",
@@ -1258,7 +1262,8 @@
             { "part" : "HAND_L", "ignored" : 2 },
             { "part" : "HAND_R", "ignored" : 2 },
             { "part" : "TORSO", "ignored" : 20 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "THICK_SCALES",
@@ -1283,7 +1288,8 @@
             { "part" : "HAND_L", "ignored" : 4 },
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 30 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 4 } ]
     },{
         "type" : "mutation",
         "id" : "SLEEK_SCALES",
@@ -1306,7 +1312,8 @@
             { "part" : "HAND_L", "good" : 5 },
             { "part" : "HAND_R", "good" : 5 },
             { "part" : "TORSO", "good" : 40 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "LIGHT_BONES",
@@ -1326,7 +1333,8 @@
         "leads_to" : ["DOWN"],
         "prereqs" : ["SKIN_ROUGH"],
         "cancels" : ["THICK_SCALES", "SLEEK_SCALES"],
-        "category" : ["MUTCAT_BIRD"]
+        "category" : ["MUTCAT_BIRD"],
+        "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "DOWN",
@@ -1367,7 +1375,8 @@
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "changes_to" : ["URSINE_FUR"],
         "prereqs" : ["LIGHTFUR"],
-        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT"]
+        "category" : ["MUTCAT_BEAST", "MUTCAT_CATTLE", "MUTCAT_RAT"],
+        "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "URSINE_FUR",
@@ -1380,7 +1389,8 @@
         "description" : "Your fur has grown out and thickened, providing noticeable protection from attacks as well as considerable insulation.",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "LUPINE_FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "LUPINE_FUR",
@@ -1393,7 +1403,8 @@
         "description" : "Dense gray fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
-        "category" : ["MUTCAT_LUPINE"]
+        "category" : ["MUTCAT_LUPINE"],
+        "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "FELINE_FUR",
@@ -1417,7 +1428,8 @@
         "ugliness" : 1,
         "description" : "Your fur's grown out significantly around your cheeks and neck.  It provides minor protection against attacks.",
         "prereqs" : ["FELINE_FUR"],
-        "category" : ["MUTCAT_FELINE"]
+        "category" : ["MUTCAT_FELINE"],
+        "armor" : [ { "parts" : [ "HEAD", "MOUTH" ], "bash" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "CHITIN",
@@ -1441,7 +1453,8 @@
             { "part" : "HAND_L", "ignored" : 1 },
             { "part" : "HAND_R", "ignored" : 1 },
             { "part" : "TORSO", "ignored" : 10 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "bash" : 2, "cut" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "CHITIN2",
@@ -1465,7 +1478,8 @@
             { "part" : "HAND_L", "ignored" : 2 },
             { "part" : "HAND_R", "ignored" : 2 },
             { "part" : "TORSO", "ignored" : 18 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "bash" : 4, "cut" : 4 } ]
     },{
         "type" : "mutation",
         "id" : "CHITIN3",
@@ -1501,7 +1515,8 @@
             [ "FOOT_L", 10 ],
             [ "FOOT_R", 10 ]
         ],
-        "restricts_gear" : [ "HEAD" ]
+        "restricts_gear" : [ "HEAD" ],
+        "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ]
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR",
@@ -1514,7 +1529,8 @@
         "description" : "You've developed some sort of hair growing out of your chitin.  It's a bit warmer than not having hair.",
         "prereqs" : ["CHITIN", "LIGHTFUR"],
         "category" : ["MUTCAT_SPIDER"],
-        "changes_to" : ["CHITIN_FUR2"]
+        "changes_to" : ["CHITIN_FUR2"],
+        "armor" : [ { "parts" : "ALL", "bash" : 2, "cut" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR2",
@@ -1527,7 +1543,8 @@
         "description" : "Your chitin hair has thickened and spread across your body.  It provides minor warmth and helps you sense nearby vibrations.",
         "prereqs" : ["CHITIN_FUR"],
         "category" : ["MUTCAT_SPIDER"],
-        "changes_to" : ["CHITIN_FUR3", "CHITIN3"]
+        "changes_to" : ["CHITIN_FUR3", "CHITIN3"],
+        "armor" : [ { "parts" : "ALL", "bash" : 4, "cut" : 4 } ]
     },{
         "type" : "mutation",
         "id" : "CHITIN_FUR3",
@@ -1552,7 +1569,9 @@
         ],
         "prereqs" : ["CHITIN_FUR2", "CHITIN3"],
         "threshreq" : ["THRESH_SPIDER"],
-        "category" : ["MUTCAT_SPIDER"]
+        "category" : ["MUTCAT_SPIDER"],
+        "restricts_gear" : [ "HEAD" ],
+        "armor" : [ { "parts" : "ALL", "bash" : 8, "cut" : 8 } ]
     },{
         "type" : "mutation",
         "id" : "CF_HAIR",
@@ -1599,7 +1618,8 @@
             { "part" : "HAND_L", "neutral" : 1 },
             { "part" : "HAND_R", "neutral" : 1 },
             { "part" : "TORSO", "neutral" : 10 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "BARK",
@@ -1621,7 +1641,8 @@
             { "part" : "HAND_L", "ignored" : 4 },
             { "part" : "HAND_R", "ignored" : 4 },
             { "part" : "TORSO", "ignored" : 30 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "cut" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "THORNS",
@@ -2058,7 +2079,8 @@
             { "part" : "FOOT_R", "neutral" : 10 }
         ],
         "restricts_gear" : [ "FOOT_L", "FOOT_R" ],
-        "destroys_gear" : true
+        "destroys_gear" : true,
+        "armor" : [ { "parts" : [ "FOOT_L", "FOOT_R" ], "bash" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "ALCMET",
@@ -2837,7 +2859,8 @@
         "description" : "You've put on some additional weight around your body.  It slows you down a little, but helps your swimming and warmth.",
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "leads_to" : ["HIBERNATE"],
-        "category" : ["MUTCAT_URSINE"]
+        "category" : ["MUTCAT_URSINE"],
+        "armor" : [ { "parts" : "ALL", "bash" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "LARGE",
@@ -3105,7 +3128,8 @@
         "prereqs" : ["INT_UP"],
         "prereqs2" : ["AMORPHOUS"],
         "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "armor" : [ { "parts" : "ALL", "bash" : -3 } ]
     },{
         "type" : "mutation",
         "id" : "PER_UP",
@@ -3875,7 +3899,8 @@
             { "part" : "HAND_L", "neutral" : 3, "good" : 4 },
             { "part" : "HAND_R", "neutral" : 3, "good" : 4 },
             { "part" : "TORSO", "neutral" : 15, "good" : 27 }
-        ]
+        ],
+        "armor" : [ { "parts" : "ALL", "acid" : 2 } ]
     },{
         "type" : "mutation",
         "id" : "AMORPHOUS",
@@ -3889,7 +3914,8 @@
         "prereqs" : ["VISCOUS"],
         "prereqs2" : ["BENDY2", "SLIME_HANDS"],
         "threshreq" : ["THRESH_SLIME"],
-        "category" : ["MUTCAT_SLIME"]
+        "category" : ["MUTCAT_SLIME"],
+        "armor" : [ { "parts" : "ALL", "bash" : 4 } ]
     },{
         "type" : "mutation",
         "id" : "SLIMESPAWNER",
@@ -4170,7 +4196,8 @@
         "encumbrance_always" : [
             [ "ARM_L", 20 ],
             [ "ARM_R", 20 ]
-        ]
+        ],
+        "armor" : [ { "parts" : [ "ARM_L", "ARM_R" ], "bash" : 1 } ]
     },{
         "type" : "mutation",
         "id" : "INSECT_ARMS",
@@ -4327,7 +4354,8 @@
             { "part" : "TORSO", "ignored" : 26 }
         ],
         "restricts_gear" : [ "TORSO" ],
-        "destroys_gear" : true
+        "destroys_gear" : true,
+        "armor" : [ { "parts" : "TORSO", "bash" : 6, "cut" : 14 } ]
     },{
         "type" : "mutation",
         "id" : "SHELL2",
@@ -4338,7 +4366,7 @@
         "bodytemp_modifiers" : [500, 750],
         "bodytemp_sleep" : 200,
         "mixed_effect" : true,
-        "description" : "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth, protection, and shelter.",
+        "description" : "Your protective shell has grown large enough to accommodate--if need be--your whole body.  Activate to pull your head and limbs into your shell, trading mobility and vision for warmth and shelter.",
         "encumbrance_always" : [[ "TORSO", 10 ]],
         "prereqs" : ["SHELL"],
         "threshreq" : ["THRESH_CEPHALOPOD"],
@@ -4348,7 +4376,8 @@
         ],
         "active"     :    true,
         "restricts_gear" : [ "TORSO" ],
-        "destroys_gear" : true
+        "destroys_gear" : true,
+        "armor" : [ { "parts" : "TORSO", "bash" : 9, "cut" : 17 } ]
     },{
         "type" : "mutation",
         "id" : "LEG_TENTACLES",

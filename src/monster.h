@@ -348,7 +348,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::vector<item> inv; // Inventory
 
         // DEFINING VALUES
-        int def_chance;
         int friendly;
         int anger, morale;
         mfaction_id faction; // Our faction (species, for most monsters)

@@ -27,7 +27,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
     private:
         static std::string build_tilesets_list();
         static std::string build_soundpacks_list();
-        bool bIngame;
 
         bool load_legacy();
 
@@ -163,7 +162,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
         void init();
         void load();
-        bool save( bool ingame = false );
+        bool save();
         void show( bool ingame = false );
 
         using JsonSerializer::serialize;

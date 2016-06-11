@@ -1,5 +1,6 @@
 #include "player.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "profession.h"
 #include "bionics.h"
 #include "mission.h"
@@ -986,14 +987,16 @@ void npc::load(JsonObject &data)
     // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
-    int misstmp, classtmp, flagstmp, atttmp, comp_miss_t, stock;
-    std::string facID, comp_miss;
+    int misstmp, classtmp, atttmp, comp_miss_t, stock;
+    std::string facID, comp_miss, classid;
 
     data.read("name", name);
     data.read("marked_for_death", marked_for_death);
     data.read("dead", dead);
-    if ( data.read( "myclass", classtmp) ) {
-        myclass = npc_class( classtmp );
+    if( data.read( "myclass", classtmp ) ) {
+        myclass = npc_class::from_legacy_int( classtmp );
+    } else if( data.read( "myclass", classid ) ) {
+        myclass = npc_class_id( classid );
     }
 
     data.read("personality", personality);
@@ -1038,10 +1041,6 @@ void npc::load(JsonObject &data)
 
     if ( data.read("mission", misstmp) ) {
         mission = npc_mission( misstmp );
-    }
-
-    if ( data.read( "flags", flagstmp) ) {
-        flags = flagstmp;
     }
 
     if ( data.read( "my_fac", facID) ) {
@@ -1099,7 +1098,7 @@ void npc::store(JsonOut &json) const
     json.member( "marked_for_death", marked_for_death );
     json.member( "dead", dead );
     json.member( "patience", patience );
-    json.member( "myclass", (int)myclass );
+    json.member( "myclass", myclass.str() );
 
     json.member( "personality", personality );
     json.member( "wandf", wander_time );
@@ -1127,7 +1126,6 @@ void npc::store(JsonOut &json) const
     json.member( "pulp_locationz", pulp_location.z );
 
     json.member( "mission", mission ); // todo: stringid
-    json.member( "flags", flags );
     if ( fac_id != "" ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
@@ -1797,7 +1795,13 @@ void mission::deserialize(JsonIn &jsin)
     if( !omid.empty() ) {
         target_id = oter_id( omid );
     }
-    recruit_class = static_cast<npc_class>( jo.get_int( "recruit_class", recruit_class ) );
+
+    if( jo.has_int( "recruit_class" ) ) {
+        recruit_class = npc_class::from_legacy_int( jo.get_int( "recruit_class" ) );
+    } else {
+        recruit_class = npc_class_id( jo.get_string( "recruit_class", "NC_NONE" ) );
+    }
+
     jo.read( "target_npc_id", target_npc_id );
     jo.read( "monster_type", monster_type );
     jo.read( "monster_kill_goal", monster_kill_goal );

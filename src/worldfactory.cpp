@@ -243,7 +243,6 @@ void worldfactory::set_active_world(WORLDPTR world)
     world_generator->active_world = world;
     if (world) {
         ACTIVE_WORLD_OPTIONS = world->WORLD_OPTIONS;
-        calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
     } else {
         ACTIVE_WORLD_OPTIONS.clear();
     }

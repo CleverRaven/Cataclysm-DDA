@@ -7,8 +7,6 @@
 #include "game.h"
 #include "debug.h"
 
-int calendar::cached_season_length = 14;
-
 calendar calendar::start;
 calendar calendar::turn;
 season_type calendar::initial_season;
@@ -428,7 +426,16 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
-    return cached_season_length;
+    const auto iter = ACTIVE_WORLD_OPTIONS.find( "SEASON_LENGTH" );
+    if( iter != ACTIVE_WORLD_OPTIONS.end() ) {
+        const int length = iter->second;
+        if( length > 0 ) {
+            return length;
+        }
+    }
+    // 14 is the default and it's used whenever the input is invalid so
+    // everyone using this can rely on it being larger than 0.
+    return 14;
 }
 
 int calendar::turn_of_year() const
@@ -468,9 +475,3 @@ bool calendar::once_every(int event_frequency) {
     return (calendar::turn % event_frequency) == 0;
 }
 
-void calendar::set_season_length( const int length )
-{
-    // 14 is the default and it's used whenever the input is invalid so
-    // everyone using the cached value can rely on it being larger than 0.
-    cached_season_length = length <= 0 ? 14 : length;
-}

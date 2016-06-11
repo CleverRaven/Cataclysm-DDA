@@ -58,6 +58,7 @@
 #include "construction.h"
 #include "lightmap.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "scenario.h"
 #include "mission.h"
 #include "compatibility.h"
@@ -952,7 +953,7 @@ void game::create_starting_npcs()
 
     npc *tmp = new npc();
     tmp->normalize();
-    tmp->randomize((one_in(2) ? NC_DOCTOR : NC_NONE));
+    tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
     // spawn the npc in the overmap, sets its overmap and submap coordinates
     tmp->spawn_at( get_levx(), get_levy(), get_levz() );
     tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
@@ -3919,7 +3920,7 @@ void game::debug()
         case 5: {
             npc *temp = new npc();
             temp->normalize();
-            temp->randomize();
+            temp->randomize( NC_NONE );
             temp->spawn_at( get_levx(), get_levy(), get_levz() );
             temp->setx( u.posx() - 4 );
             temp->sety( u.posy() - 4 );
@@ -4047,7 +4048,7 @@ void game::debug()
                 if( np != nullptr ) {
                     std::stringstream data;
                     data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
-                    data << npc_class_name( np->myclass ) << "; " <<
+                    data << np->myclass.obj().get_name() << "; " <<
                          npc_attitude_name( np->attitude ) << std::endl;
                     if( np->has_destination() ) {
                         data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -13848,7 +13849,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     if( x_in_y( density, 100 ) ) {
         npc *tmp = new npc();
         tmp->normalize();
-        tmp->randomize();
+        tmp->randomize( NC_NONE );
         //tmp->stock_missions();
         // Create the NPC in one of the outermost submaps,
         // hopefully far away to be invisible to the player,
@@ -14561,11 +14562,11 @@ void game::start_calendar()
         if( scen->has_flag("SPR_START") ) {
             ; // Do nothing;
         } else if( scen->has_flag("SUM_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+            calendar::start += DAYS( calendar::season_length() );
         } else if( scen->has_flag("AUT_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+            calendar::start += DAYS( calendar::season_length() * 2 );
         } else if( scen->has_flag("WIN_START") ) {
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+            calendar::start += DAYS( calendar::season_length() * 3 );
         } else {
             debugmsg("The Unicorn");
         }
@@ -14575,13 +14576,13 @@ void game::start_calendar()
             ; // Do nothing.
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
             calendar::initial_season = SUMMER;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+            calendar::start += DAYS( calendar::season_length() );
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
             calendar::initial_season = AUTUMN;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
+            calendar::start += DAYS( calendar::season_length() * 2 );
         } else {
             calendar::initial_season = WINTER;
-            calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
+            calendar::start += DAYS( calendar::season_length() * 3 );
         }
     }
     calendar::turn = calendar::start;

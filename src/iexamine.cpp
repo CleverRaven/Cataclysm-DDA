@@ -13,7 +13,6 @@
 #include "messages.h"
 #include "compatibility.h"
 #include "sounds.h"
-#include "worldfactory.h"
 #include "input.h"
 #include "monster.h"
 #include "event.h"
@@ -1690,11 +1689,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             }
             // Reduce the amount of time it takes until the next stage of the plant by
             // 20% of a seasons length. (default 2.8 days).
-            WORLDPTR world = world_generator->active_world;
-            int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
-            if (!world->WORLD_OPTIONS.empty()) {
-                fertilizerEpoch = 14400 * (world->WORLD_OPTIONS["SEASON_LENGTH"] * 0.2) ;
-            }
+            const int fertilizerEpoch = 14400 * calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
 

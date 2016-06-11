@@ -2162,6 +2162,7 @@ void repair_item_actor::load( JsonObject &obj )
     // Optional
     tool_quality = obj.get_int( "tool_quality", 0 );
     move_cost    = obj.get_int( "move_cost", 500 );
+    trains_skill_to = obj.get_int( "trains_skill_to", 5 ) - 1;
 }
 
 // TODO: This should be a property of material json, not a hardcoded hack
@@ -2431,6 +2432,9 @@ std::pair<float, float> repair_item_actor::repair_chance(
             // Reinforcing is at least as hard as refitting
             action_difficulty = std::max( MAX_ITEM_DAMAGE, recipe_difficulty );
             break;
+        case RT_PRACTICE:
+            // Skill gain scales with recipe difficulty, so practice difficulty should too
+            action_difficulty = recipe_difficulty;
         default:
             std::make_pair( 0.0f, 0.0f );
     }
@@ -2456,7 +2460,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     return std::make_pair( success_chance, damage_chance );
 }
 
-repair_item_actor::repair_type repair_item_actor::default_action( const item &fix ) const
+repair_item_actor::repair_type repair_item_actor::default_action( const item &fix, int current_skill_level ) const
 {
     if( fix.damage > 0 ) {
         return RT_REPAIR;
@@ -2470,7 +2474,31 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REINFORCE;
     }
 
+    if( current_skill_level <= trains_skill_to ) {
+        return RT_PRACTICE;
+    }
+
     return RT_NOTHING;
+}
+
+bool damage_item( player &pl, item &fix )
+{
+    pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
+    fix.damage++;
+    if( fix.damage >= 5 ) {
+        pl.add_msg_if_player(m_bad, _("You destroy it!"));
+        const int pos = pl.get_item_position( &fix );
+        if( pos != INT_MIN ) {
+            pl.i_rem_keep_contents( pos );
+        } else {
+            // NOTE: Repairing items outside inventory is NOT yet supported!
+            debugmsg( "Tried to remove an item that doesn't exist" );
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix ) const
@@ -2479,10 +2507,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         return AS_CANT;
     }
 
-    const auto action = default_action( fix );
+    const int current_skill_level = pl.get_skill_level( used_skill );
+    const auto action = default_action( fix, current_skill_level );
     const auto chance = repair_chance( pl, fix, action );
     const int practice_amount = repair_recipe_difficulty( pl, fix, true );
-    pl.practice( used_skill, practice_amount );
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -2498,26 +2526,25 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         roll = NEUTRAL;
     }
 
+    if( action == RT_NOTHING ) {
+        pl.add_msg_if_player( m_bad, _("You won't learn anything more by doing that.") );
+        return AS_CANT;
+    }
+
+    // If not for this if, it would spam a lot
+    if( current_skill_level <= trains_skill_to ) {
+        pl.practice( used_skill, practice_amount / 2 + 1, trains_skill_to );
+    }
+
+    if( roll == FAILURE ) {
+        return damage_item( pl, fix ) ? AS_DESTROYED : AS_FAILURE;
+    }
+
+    if( action == RT_PRACTICE ) {
+        return AS_RETRY;
+    }
+
     if( action == RT_REPAIR ) {
-        if( roll == FAILURE ) {
-            pl.add_msg_if_player(m_bad, _("You damage your %s further!"), fix.tname().c_str());
-            fix.damage++;
-            if( fix.damage >= 5 ) {
-                pl.add_msg_if_player(m_bad, _("You destroy it!"));
-                const int pos = pl.get_item_position( &fix );
-                if( pos != INT_MIN ) {
-                    pl.i_rem_keep_contents( pos );
-                } else {
-                    // NOTE: Repairing items outside inventory is NOT yet supported!
-                    debugmsg( "Tried to remove an item that doesn't exist" );
-                }
-
-                return AS_DESTROYED;
-            }
-
-            return AS_FAILURE;
-        }
-
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
             handle_components( pl, fix, false, false );
@@ -2529,12 +2556,6 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_REFIT ) {
-        if( roll == FAILURE ) {
-            pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
-            fix.damage++;
-            return AS_FAILURE;
-        }
-
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
                                  fix.tname().c_str());

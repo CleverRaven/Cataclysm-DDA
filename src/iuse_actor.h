@@ -694,6 +694,8 @@ class repair_item_actor : public iuse_actor
         std::vector<material_id> materials;
         /** Skill used */
         skill_id used_skill;
+        /** Maximum skill level that can be gained by using this actor. */
+        int trains_skill_to;
         /**
           * Volume of materials required (and used up) as percentage of repaired item's volume.
           * Set to 0 to always use just 1 component.
@@ -733,7 +735,7 @@ class repair_item_actor : public iuse_actor
         std::pair<float, float> repair_chance(
             const player &pl, const item &fix, repair_type action_type ) const;
         /** What are we most likely trying to do with this item? */
-        repair_type default_action( const item &fix ) const;
+        repair_type default_action( const item &fix, int current_skill_level ) const;
         /**
          * Calculates the difficulty to repair an item
          * based on recipes to craft it and player's knowledge of them.

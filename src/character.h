@@ -15,6 +15,7 @@ enum field_id : int;
 class field;
 class field_entry;
 class vehicle;
+struct resistances;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -280,6 +281,14 @@ class Character : public Creature, public visitable<Character>
         void mutation_loss_effect(std::string mut);
 
         bool has_active_mutation(const std::string &b) const;
+
+        /**
+         * Returns resistances on a body part provided by mutations
+         */
+        // @todo Cache this, it's kinda expensive to compute
+        resistances mutation_armor( body_part bp ) const;
+        float mutation_armor( body_part bp, damage_type dt ) const;
+        float mutation_armor( body_part bp, const damage_unit &dt ) const;
 
         // --------------- Bionic Stuff ---------------
         /** Returns true if the player has the entered bionic id */

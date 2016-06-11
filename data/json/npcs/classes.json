@@ -1,0 +1,71 @@
+[
+    {
+        "type" : "npc_class",
+        "id" : "NC_NONE",
+        "name" : "No class"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_EVAC_SHOPKEEP",
+        "name" : "Merchant"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_SHOPKEEP",
+        "name" : "Shopkeep"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_HACKER",
+        "name" : "Hacker"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_DOCTOR",
+        "name" : "Doctor"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_TRADER",
+        "name" : "Trader"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_NINJA",
+        "name" : "Ninja"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_COWBOY",
+        "name" : "Cowboy"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_SCIENTIST",
+        "name" : "Scientist"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_BOUNTY_HUNTER",
+        "name" : "Bounty Hunter"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_THUG",
+        "name" : "Thug"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_SCAVENGER",
+        "name" : "Scavenger"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_ARSONIST",
+        "name" : "Arsonist"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_HUNTER",
+        "name" : "Hunter"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_SOLDIER",
+        "name" : "Soldier"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_BARTENDER",
+        "name" : "Bartender"
+    },{
+        "type" : "npc_class",
+        "id" : "NC_JUNK_SHOPKEEP",
+        "name" : "Shopkeep"
+    }
+]

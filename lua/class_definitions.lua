@@ -1613,7 +1613,6 @@ classes = {
         parent = "Creature",
         attributes = {
             anger = { type = "int", writable = true },
-            def_chance = { type = "int", writable = true },
             friendly = { type = "int", writable = true },
             hallucination = { type = "bool", writable = true },
             ignoring = { type = "int", writable = true },

@@ -10358,9 +10358,11 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
         items->push_back( w );
         taken_off = true;
     } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
+        w.on_takeoff( *this );
         inv.add_item_keep_invlet(w);
         taken_off = true;
     } else if (query_yn(_("No room in inventory for your %s.  Drop it?"), w.tname().c_str())) {
+        w.on_takeoff( *this );
         g->m.add_item_or_charges( pos(), w );
         taken_off = true;
     } else {
@@ -11777,16 +11779,23 @@ int player::get_armor_type( damage_type dt, body_part bp ) const
             return get_armor_bash( bp );
         case DT_CUT:
             return get_armor_cut( bp );
-        case DT_ACID:
-            return get_armor_acid( bp );
         case DT_STAB:
             return get_armor_cut( bp ) * 0.8f;
+        case DT_ACID:
         case DT_HEAT:
-            return get_armor_fire( bp );
         case DT_COLD:
-            return 0;
         case DT_ELECTRIC:
-            return 0;
+        {
+            int ret = 0;
+            for( auto &i : worn ) {
+                if( i.covers( bp ) ) {
+                    ret += i.damage_resist( dt );
+                }
+            }
+
+            ret += mutation_armor( bp, dt );
+            return ret;
+        }
         case DT_NULL:
         case NUM_DT:
             // Let it error below
@@ -11823,34 +11832,8 @@ int player::get_armor_bash_base(body_part bp) const
     if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
         ret += 3;
     }
-    if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-        ret++;
-    }
-    if (bp == bp_head && has_trait("LYNX_FUR")) {
-        ret++;
-    }
-    if (has_trait("FAT")) {
-        ret ++;
-    }
-    if (has_trait("M_SKIN")) {
-        ret += 2;
-    }
-    if (has_trait("M_SKIN2")) {
-        ret += 3;
-    }
-    if (has_trait("CHITIN")) {
-        ret += 2;
-    }
-    if (has_trait("SHELL") && bp == bp_torso) {
-        ret += 6;
-    }
-    if (has_trait("SHELL2") && !has_active_mutation("SHELL2") && bp == bp_torso) {
-        ret += 9;
-    }
-    if (has_active_mutation("SHELL2")) {
-        // Limbs & head are safe inside the shell! :D
-        ret += 9;
-    }
+
+    ret += mutation_armor( bp, DT_BASH );
     return ret;
 }
 
@@ -11876,75 +11859,19 @@ int player::get_armor_cut_base(body_part bp) const
     } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
         ret += 3;
     }
-    if (has_trait("THICKSKIN")) {
-        ret++;
-    }
-    if (has_trait("THINSKIN")) {
-        ret--;
-    }
-    if (has_trait("M_SKIN")) {
-        ret ++;
-    }
-    if (has_trait("M_SKIN2")) {
-        ret += 3;
-    }
-    if (has_trait("SCALES")) {
-        ret += 2;
-    }
-    if (has_trait("THICK_SCALES")) {
-        ret += 4;
-    }
-    if (has_trait("SLEEK_SCALES")) {
-        ret += 1;
-    }
-    if (has_trait("CHITIN") || has_trait("CHITIN_FUR")) {
-        ret += 2;
-    }
-    if (has_trait("CHITIN2") || has_trait("CHITIN_FUR2")) {
-        ret += 4;
-    }
-    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-        ret += 8;
-    }
-    if (has_trait("SHELL") && bp == bp_torso) {
-        ret += 14;
-    }
-    if (has_trait("SHELL2") && !has_active_mutation("SHELL2") && bp == bp_torso) {
-        ret += 17;
-    }
-    if (has_active_mutation("SHELL2")) {
-        // Limbs & head are safe inside the shell! :D
-        ret += 17;
-    }
+
+    ret += mutation_armor( bp, DT_CUT );
     return ret;
 }
 
 int player::get_armor_acid(body_part bp) const
 {
-    int ret = 0;
-    for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
-            ret += i.acid_resist();
-        }
-    }
-
-    if( has_trait( "VISCOUS" ) ) {
-        ret += 2;
-    }
-
-    return ret;
+    return get_armor_type( DT_ACID, bp );
 }
 
 int player::get_armor_fire(body_part bp) const
 {
-    int ret = 0;
-    for( auto &i : worn ) {
-        if( i.covers( bp ) ) {
-            ret += i.fire_resist();
-        }
-    }
-
-    return ret;
+    return get_armor_type( DT_HEAT, bp );
 }
 
 bool player::armor_absorb(damage_unit& du, item& armor) {
@@ -12159,87 +12086,32 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 break;
             }
         }
-        if( elem.type == DT_CUT ) {
-            if( has_trait("THICKSKIN") ) {
-                elem.amount -= 1;
-            }
-            if( elem.amount > 0 && has_trait("THINSKIN") ) {
-                elem.amount += 1;
-            }
-            if (has_trait("SCALES")) {
-                elem.amount -= 2;
-            }
-            if (has_trait("THICK_SCALES")) {
-                elem.amount -= 4;
-            }
-            if (has_trait("SLEEK_SCALES")) {
-                elem.amount -= 1;
-            }
-            if (has_trait("FAT")) {
-                elem.amount --;
-            }
-            if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
-                elem.amount -= 2;
-            }
-            if ((bp == bp_foot_l || bp == bp_foot_r) && has_trait("HOOVES")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN2")) {
-                elem.amount -= 4;
-            }
-            if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-                elem.amount -= 8;
+
+        // >0 check because some mutations provide negative armor
+        if( elem.amount > 0.0f ) {
+            // Horrible hack warning!
+            // Get rid of this as soon as CUT and STAB are split
+            if( elem.type == DT_STAB ) {
+                damage_unit elem_copy = elem;
+                elem_copy.type = DT_CUT;
+                elem.amount -= 0.8f * mutation_armor( bp, elem_copy );
+            } else {
+                elem.amount -= mutation_armor( bp, elem );
             }
         }
+
         if( elem.type == DT_BASH ) {
-            if (has_trait("FEATHERS")) {
-                elem.amount--;
-            }
-            if (has_trait("AMORPHOUS")) {
-                elem.amount--;
-                if (!(has_trait("INT_SLIME"))) {
-                    elem.amount -= 3;
-                }
-            }
-            if ((bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARM_FEATHERS")) {
-                elem.amount--;
-            }
-            if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-                elem.amount--;
-            }
-            if (bp == bp_head && has_trait("LYNX_FUR")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN2")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-                elem.amount -= 2;
-            }
-            if (has_trait("PLANTSKIN")) {
-                elem.amount--;
-            }
-            if (has_trait("BARK")) {
-                elem.amount -= 2;
-            }
-            if (has_trait("LIGHT_BONES")) {
+            if( has_trait( "LIGHT_BONES" ) ) {
                 elem.amount *= 1.4;
             }
-            if (has_trait("HOLLOW_BONES")) {
+            if( has_trait( "HOLLOW_BONES" ) ) {
                 elem.amount *= 1.8;
-            }
-        }
-        if( elem.type == DT_ACID ) {
-            if( has_trait( "VISCOUS" ) ) {
-                elem.amount -= 2;
             }
         }
 
         elem.amount -= mabuff_armor_bonus( elem.type );
 
-        if( elem.amount < 0 ) {
-            elem.amount = 0;
-        }
+        elem.amount = std::max( elem.amount, 0.0f );
     }
     for( item& remain : worn_remains ) {
         g->m.add_item_or_charges( pos(), remain );

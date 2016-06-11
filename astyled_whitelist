@@ -48,6 +48,7 @@ src/morale.cpp
 src/mtype.cpp
 src/mutation_ui.cpp
 src/name.cpp
+src/npc_class.cpp
 src/overlay_ordering.cpp
 src/pathfinding.cpp
 src/player_activity.cpp
@@ -151,6 +152,7 @@ src/morale.h
 src/morale_types.h
 src/mutation.h
 src/name.h
+src/npc_class.h
 src/npc_favor.h
 src/omdata.h
 src/options.h
