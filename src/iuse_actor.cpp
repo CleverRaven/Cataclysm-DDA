@@ -991,6 +991,8 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
 void salvage_actor::load( JsonObject &obj )
 {
+    cost = obj.get_long( "cost", 0 );
+
     moves_per_part = obj.get_int( "moves_per_part", 25 );
     if( obj.has_array( "material_whitelist" ) ) {
         JsonArray jarr = obj.get_array( "material_whitelist" );
@@ -1198,11 +1200,13 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         }
     }
     // No matter what, cutting has been done by the time we get here.
-    return it->type->charges_to_use();
+    return cost >= 0 ? cost : it->ammo_required();
 }
 
 void inscribe_actor::load( JsonObject &obj )
 {
+    cost = obj.get_long( "cost", 0 );
+
     on_items = obj.get_bool( "on_items", true );
     on_terrain = obj.get_bool( "on_terrain", false );
     material_restricted = obj.get_bool( "material_restricted", true );
@@ -1340,11 +1344,12 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
         return it->type->charges_to_use();
     }
 
-    return 0;
+    return cost >= 0 ? cost : it->ammo_required();
 }
 
 void cauterize_actor::load( JsonObject &obj )
 {
+    cost = obj.get_long( "cost", -1 );
     flame = obj.get_bool( "flame", true );
 }
 
@@ -1401,8 +1406,8 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     if( flame && !p->has_charges("fire", 4) ) {
         p->add_msg_if_player( m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself.") );
         return 0;
-    } else if( !flame && it->type->charges_to_use() > it->charges ) {
-        p->add_msg_if_player( m_info, _("You need at least %d charges to cauterize wounds."), it->type->charges_to_use() );
+    } else if( !flame && !it->ammo_sufficient() ) {
+        p->add_msg_if_player( m_info, _("You need at least %d charges to cauterize wounds."), it->ammo_required() );
         return 0;
     } else if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _("You can't cauterize anything underwater.") );
@@ -1425,9 +1430,10 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     if( flame ) {
         p->use_charges("fire", 4);
         return 0;
-    }
 
-    return it->type->charges_to_use();
+    } else {
+        return cost >= 0 ? cost : it->ammo_required();
+    }
 }
 
 bool cauterize_actor::can_use( const player *p, const item *it, bool, const tripoint& ) const
@@ -1447,8 +1453,9 @@ bool cauterize_actor::can_use( const player *p, const item *it, bool, const trip
     return false;
 }
 
-void enzlave_actor::load( JsonObject & )
+void enzlave_actor::load( JsonObject &obj )
 {
+    cost = obj.get_long( "cost", 0 );
 }
 
 iuse_actor *enzlave_actor::clone() const
@@ -1565,7 +1572,8 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(success);
     p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
-    return it->type->charges_to_use();
+
+    return cost >= 0 ? cost : it->ammo_required();
 }
 
 bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
