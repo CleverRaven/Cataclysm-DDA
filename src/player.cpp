@@ -9546,6 +9546,13 @@ bool player::can_wear( const item& it, bool alert ) const
         return false;
     }
 
+    if( it.is_disgusting_for( g->u ) && has_trait( "SQUEAMISH" ) ) {
+        if( alert ) {
+            add_msg_if_player( m_info, _( "You can't wear that, it's filthy!" ) );
+        }
+        return false;
+    }
+
     if( !it.has_flag( "OVERSIZE" ) ) {
         for( const std::string &mut : get_mutations() ) {
             const auto &branch = mutation_branch::get( mut );
