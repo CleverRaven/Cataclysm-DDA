@@ -173,14 +173,12 @@ void mutation_branch::load( JsonObject &jsobj )
         new_mut.restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
     }
 
-    jsarr = jsobj.get_array("armor");
+    jsarr = jsobj.get_array( "armor" );
     while( jsarr.has_more() ) {
-        JsonArray sub = jsarr.next_array();
-        // Any cleaner way to do it?
-        JsonArray subsub = sub.next_array();
+        JsonObject jo = jsarr.next_object();
+        auto parts = jo.get_tags( "parts" );
         std::set<body_part> bps;
-        while( subsub.test_string() ) {
-            const std::string part_string = subsub.next_string();
+        for( const std::string &part_string : parts ) {
             if( part_string == "ALL" ) {
                 // Shorthand, since many muts protect whole body
                 for( size_t i = 0; i < num_bp; i++ ) {
@@ -191,8 +189,7 @@ void mutation_branch::load( JsonObject &jsobj )
             }
         }
 
-        JsonObject res_obj = sub.next_object();
-        resistances res = load_resistances_instance( res_obj );
+        resistances res = load_resistances_instance( jo );
 
         for( body_part bp : bps ) {
             new_mut.armor[ bp ] = res;
