@@ -2194,6 +2194,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_dog",
+    "alias" : "mon_zombie_fast",
     "name": "zombie dog",
     "species":"ZOMBIE",
     "default_faction":"zombie",
@@ -3643,6 +3644,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid",
+    "alias" : "mon_fungaloid_dormant",
     "name": "fungaloid",
     "species":"FUNGUS",
     "default_faction":"fungus",

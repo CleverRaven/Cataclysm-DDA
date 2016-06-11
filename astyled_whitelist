@@ -56,6 +56,8 @@ src/profession.cpp
 src/recipe_dictionary.cpp
 src/rng.cpp
 src/scenario.cpp
+src/scent_map.cpp
+src/scent_map.h
 src/speech.cpp
 src/start_location.cpp
 src/submap.cpp

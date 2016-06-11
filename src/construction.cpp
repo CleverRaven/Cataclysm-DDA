@@ -1500,3 +1500,20 @@ std::vector<std::string> construction::get_folded_time_string( int width ) const
     std::vector<std::string> folded_time = foldstring( time_text, width );
     return folded_time;
 }
+
+void finalize_constructions()
+{
+    std::vector<item_comp> frame_items;
+    for( auto &vp : vpart_info::get_all() ) {
+        if( !vp->has_flag( "INITIAL_PART" ) ) {
+            continue;
+        }
+        frame_items.push_back( item_comp( vp->item, 1 ) );
+    }
+
+    for( construction &con : constructions ) {
+        if( con.post_special == &construct::done_vehicle ) {
+            con.requirements.get_components().push_back( frame_items );
+        }
+    }
+}

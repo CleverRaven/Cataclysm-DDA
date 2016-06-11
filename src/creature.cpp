@@ -230,12 +230,14 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         return false;
     }
 
-    const int range_cur = sight_range( g->m.ambient_light_at(t) );
+    const int range_cur = sight_range( g->m.ambient_light_at( t ) );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
-    const int range_min = std::min( range_cur, range_day );
+    const int range_night = sight_range( 0 );
+    const int range_max = std::max( range_day, range_night );
+    const int range_min = std::min( range_cur, range_max );
     const int wanted_range = rl_dist( pos(), t );
     if( wanted_range <= range_min ||
-        ( wanted_range <= range_day &&
+        ( wanted_range <= range_max &&
           g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
         int range = 0;
         if( g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) {

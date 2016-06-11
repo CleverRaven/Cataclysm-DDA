@@ -579,6 +579,11 @@ const requirement_data::alter_item_comp_vector &requirement_data::get_components
     return components;
 }
 
+requirement_data::alter_item_comp_vector &requirement_data::get_components()
+{
+    return components;
+}
+
 const requirement_data requirement_data::disassembly_requirements() const
 {
     // TODO:

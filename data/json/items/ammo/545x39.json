@@ -23,7 +23,6 @@
     "effects": [ "COOKOFF" ]
   },
   {
-
     "id": "545_ap",
     "copy-from": "545",
     "type": "AMMO",

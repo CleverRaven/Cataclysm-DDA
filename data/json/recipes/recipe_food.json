@@ -3725,13 +3725,13 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "broth", 1 ]
+      [ "broth", 2 ]
     ],
     [
-      [ "mushroom", 4 ],
-      [ "mushroom_cooked", 4 ],
-      [ "dry_mushroom", 4 ],
-      [ "morel_cooked", 4 ]
+      [ "mushroom", 8 ],
+      [ "mushroom_cooked", 8 ],
+      [ "dry_mushroom", 8 ],
+      [ "morel_cooked", 8 ]
     ]
   ]
 },{
@@ -7535,7 +7535,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "meat", 1 ]
+      [ "meat", 2 ]
     ]
   ]
 },{
@@ -7569,7 +7569,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "fish", 1 ]
+      [ "fish", 2 ]
     ]
   ]
 },{
@@ -7604,7 +7604,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "human_flesh", 1 ]
+      [ "human_flesh", 2 ]
     ]
   ]
 },{
@@ -7638,9 +7638,9 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "mushroom", 1 ],
-      [ "veggy", 1 ],
-      [ "veggy_wild", 1 ]
+      [ "mushroom", 2 ],
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ]
     ]
   ]
 },{
@@ -7674,51 +7674,51 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "apple", 3 ],
-      [ "apricot", 3 ],
-      [ "banana", 3 ],
-      [ "blackberries", 3 ],
-      [ "blueberries", 3 ],
-      [ "cherries", 3 ],
-      [ "cranberries", 9 ],
-      [ "grapefruit", 3 ],
-      [ "grapes", 6 ],
-      [ "kiwi", 3 ],
-      [ "lemon", 3 ],
-      [ "mango", 3 ],
-      [ "melon", 6 ],
-      [ "orange", 3 ],
-      [ "papaya", 3 ],
-      [ "peach", 3 ],
-      [ "pear", 3 ],
-      [ "pineapple", 3 ],
-      [ "plums", 3 ],
-      [ "pomegranate", 3 ],
-      [ "raspberries", 3 ],
-      [ "strawberries", 3 ],
+      [ "apple", 2 ],
+      [ "apricot", 2 ],
+      [ "banana", 2 ],
+      [ "blackberries", 2 ],
+      [ "blueberries", 2 ],
+      [ "cherries", 2 ],
+      [ "cranberries", 6 ],
+      [ "grapefruit", 2 ],
+      [ "grapes", 4 ],
+      [ "kiwi", 2 ],
+      [ "lemon", 2 ],
+      [ "mango", 2 ],
+      [ "melon", 4 ],
+      [ "orange", 2 ],
+      [ "papaya", 2 ],
+      [ "peach", 2 ],
+      [ "pear", 2 ],
+      [ "pineapple", 2 ],
+      [ "plums", 2 ],
+      [ "pomegranate", 2 ],
+      [ "raspberries", 2 ],
+      [ "strawberries", 2 ],
       [ "watermelon", 2 ],
-      [ "irradiated_apple", 3 ],
-      [ "irradiated_apricot", 3 ],
-      [ "irradiated_banana", 3 ],
-      [ "irradiated_blackberries", 3 ],
-      [ "irradiated_blueberries", 3 ],
-      [ "irradiated_cherries", 3 ],
-      [ "irradiated_cranberries", 9 ],
-      [ "irradiated_grapefruit", 3 ],
-      [ "irradiated_grapes", 6 ],
-      [ "irradiated_kiwi", 3 ],
-      [ "irradiated_lemon", 3 ],
-      [ "irradiated_mango", 3 ],
-      [ "irradiated_melon", 6 ],
-      [ "irradiated_orange", 3 ],
-      [ "irradiated_papaya", 3 ],
-      [ "irradiated_peach", 3 ],
-      [ "irradiated_pear", 3 ],
-      [ "irradiated_pineapple", 3 ],
-      [ "irradiated_plums", 3 ],
-      [ "irradiated_pomegranate", 3 ],
-      [ "irradiated_raspberries", 3 ],
-      [ "irradiated_strawberries", 3 ],
+      [ "irradiated_apple", 2 ],
+      [ "irradiated_apricot", 2 ],
+      [ "irradiated_banana", 2 ],
+      [ "irradiated_blackberries", 2 ],
+      [ "irradiated_blueberries", 2 ],
+      [ "irradiated_cherries", 2 ],
+      [ "irradiated_cranberries", 6 ],
+      [ "irradiated_grapefruit", 2 ],
+      [ "irradiated_grapes", 4 ],
+      [ "irradiated_kiwi", 2 ],
+      [ "irradiated_lemon", 2 ],
+      [ "irradiated_mango", 2 ],
+      [ "irradiated_melon", 4 ],
+      [ "irradiated_orange", 2 ],
+      [ "irradiated_papaya", 2 ],
+      [ "irradiated_peach", 2 ],
+      [ "irradiated_pear", 2 ],
+      [ "irradiated_pineapple", 2 ],
+      [ "irradiated_plums", 2 ],
+      [ "irradiated_pomegranate", 2 ],
+      [ "irradiated_raspberries", 2 ],
+      [ "irradiated_strawberries", 2 ],
       [ "irradiated_watermelon", 2 ]
     ]
   ]
@@ -7753,45 +7753,45 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "broth", 1 ],
-      [ "broth_bone", 1 ],
-      [ "pine_tea", 1 ]
+      [ "broth", 2 ],
+      [ "broth_bone", 2 ],
+      [ "pine_tea", 2 ]
     ],
     [
-      [ "meat", 1 ],
-      [ "meat_smoked", 1 ],
-      [ "dry_meat", 1 ],
-      [ "rehydrated_meat", 1 ],
-      [ "meat_canned", 1],
-      [ "can_chicken", 1 ],
-      [ "fish", 1 ],
-      [ "fish_smoked", 1 ],
-      [ "dry_fish", 1 ],
-      [ "rehydrated_fish", 1 ],
-      [ "fish_canned", 1],
-      [ "can_salmon", 1 ],
-      [ "can_tuna", 1 ],
-      [ "sausage", 2 ],
-      [ "bacon", 2 ],
-      [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
-      [ "egg_reptile", 2 ]
+      [ "meat", 2 ],
+      [ "meat_smoked", 2 ],
+      [ "dry_meat", 2 ],
+      [ "rehydrated_meat", 2 ],
+      [ "meat_canned", 2],
+      [ "can_chicken", 2 ],
+      [ "fish", 2 ],
+      [ "fish_smoked", 2 ],
+      [ "dry_fish", 2 ],
+      [ "rehydrated_fish", 2 ],
+      [ "fish_canned", 2],
+      [ "can_salmon", 2 ],
+      [ "can_tuna", 2 ],
+      [ "sausage", 4 ],
+      [ "bacon", 4 ],
+      [ "powder_eggs", 40 ],
+      [ "egg_bird", 4 ],
+      [ "egg_reptile", 4 ]
     ],
     [
-      [ "veggy_wild", 1 ],
-      [ "veggy", 1 ],
-      [ "rehydrated_veggy", 1 ],
-      [ "dry_veggy", 1 ],
-      [ "dry_beans", 1 ],
-      [ "can_beans", 1 ],
-      [ "raw_beans", 1 ],
-      [ "beans_cooked", 1 ],
-      [ "dandelion_cooked", 1 ],
-      [ "mushroom", 1 ],
-      [ "dry_mushroom", 1 ],
-      [ "mushroom_cooked", 1 ],
-      [ "morel_cooked", 1 ],
-      [ "acorns_cooked", 1 ]
+      [ "veggy_wild", 2 ],
+      [ "veggy", 2 ],
+      [ "rehydrated_veggy", 2 ],
+      [ "dry_veggy", 2 ],
+      [ "dry_beans", 2 ],
+      [ "can_beans", 2 ],
+      [ "raw_beans", 2 ],
+      [ "beans_cooked", 2 ],
+      [ "dandelion_cooked", 2 ],
+      [ "mushroom", 2 ],
+      [ "dry_mushroom", 2 ],
+      [ "mushroom_cooked", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "acorns_cooked", 2 ]
     ]
   ]
 },{
@@ -7825,37 +7825,37 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "broth", 1 ],
-      [ "broth_bone", 1]
+      [ "broth", 2 ],
+      [ "broth_bone", 2]
     ],
     [
-      [ "potato_irradiated", 1],
-      [ "potato_raw", 1 ],
-      [ "celery", 1 ],
-      [ "irradiated_celery", 1],
-      [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
-      [ "sauerkraut", 2 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "can_beans", 1 ],
-      [ "beans_cooked", 1 ],
-      [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1],
-      [ "dry_beans", 1 ],
-      [ "raw_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "dandelion_cooked", 1 ],
-      [ "acorns_cooked", 1 ]
+      [ "potato_irradiated", 2],
+      [ "potato_raw", 2 ],
+      [ "celery", 2 ],
+      [ "irradiated_celery", 2],
+      [ "cabbage", 2 ],
+      [ "irradiated_cabbage", 2 ],
+      [ "sauerkraut", 4 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ],
+      [ "can_beans", 2 ],
+      [ "beans_cooked", 2 ],
+      [ "spaghetti_raw", 2 ],
+      [ "macaroni_raw", 2],
+      [ "noodles_fast", 2],
+      [ "dry_beans", 2 ],
+      [ "raw_beans", 2 ],
+      [ "dry_rice", 2 ],
+      [ "dandelion_cooked", 2 ],
+      [ "acorns_cooked", 2 ]
     ],
     [
-      [ "meat", 2],
-      [ "rehydrated_meat", 2 ],
-      [ "dry_meat", 2 ],
-      [ "meat_canned", 2 ],
-      [ "can_chicken", 2 ]
+      [ "meat", 4],
+      [ "rehydrated_meat", 4 ],
+      [ "dry_meat", 4 ],
+      [ "meat_canned", 4 ],
+      [ "can_chicken", 4 ]
     ]
   ]
 },{
@@ -7889,54 +7889,54 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "broth", 1 ]
+      [ "broth", 2 ]
     ],
     [
-      [ "potato_irradiated", 1],
-      [ "potato_raw", 1 ],
-      [ "celery", 1 ],
-      [ "irradiated_celery", 1],
-      [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
-      [ "sauerkraut", 2 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "can_beans", 1 ],
-      [ "beans_cooked", 1 ],
-      [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1],
-      [ "dry_beans", 1 ],
-      [ "raw_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "dandelion_cooked", 1 ],
-      [ "acorns_cooked", 1 ]
-    ],
-    [
-      [ "irradiated_tomato", 2 ],
-      [ "can_tomato", 2 ],
-      [ "tomato", 2 ],
-      [ "pumpkin", 2 ],
-      [ "irradiated_pumpkin", 2 ],
-      [ "irradiated_broccoli", 2 ],
-      [ "broccoli", 2 ],
-      [ "irradiated_zucchini", 2 ],
-      [ "zucchini", 2 ],
-      [ "potato_raw", 2 ],
       [ "potato_irradiated", 2 ],
-      [ "onion", 2 ],
-      [ "irradiated_onion", 2 ],
-      [ "carrot", 12 ],
-      [ "irradiated_carrot", 12 ],
-      [ "veggy", 2 ],
-      [ "dry_veggy", 2 ],
-      [ "mushroom", 2 ],
-      [ "dry_mushroom", 2 ],
-      [ "mushroom_cooked", 2 ],
-      [ "morel_cooked", 2 ],
-      [ "rehydrated_veggy", 2 ],
-      [ "veggy_wild", 2 ]
+      [ "potato_raw", 2 ],
+      [ "celery", 2 ],
+      [ "irradiated_celery", 2 ],
+      [ "cabbage", 2 ],
+      [ "irradiated_cabbage", 2 ],
+      [ "sauerkraut", 4 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ],
+      [ "can_beans", 2 ],
+      [ "beans_cooked", 2 ],
+      [ "spaghetti_raw", 2 ],
+      [ "macaroni_raw", 2 ],
+      [ "noodles_fast", 2 ],
+      [ "dry_beans", 2 ],
+      [ "raw_beans", 2 ],
+      [ "dry_rice", 2 ],
+      [ "dandelion_cooked", 2 ],
+      [ "acorns_cooked", 2 ]
+    ],
+    [
+      [ "irradiated_tomato", 4 ],
+      [ "can_tomato", 4 ],
+      [ "tomato", 4 ],
+      [ "pumpkin", 4 ],
+      [ "irradiated_pumpkin", 4 ],
+      [ "irradiated_broccoli", 4 ],
+      [ "broccoli", 4 ],
+      [ "irradiated_zucchini", 4 ],
+      [ "zucchini", 4 ],
+      [ "potato_raw", 4 ],
+      [ "potato_irradiated", 4 ],
+      [ "onion", 4 ],
+      [ "irradiated_onion", 4 ],
+      [ "carrot", 24 ],
+      [ "irradiated_carrot", 24 ],
+      [ "veggy", 4 ],
+      [ "dry_veggy", 4 ],
+      [ "mushroom", 4 ],
+      [ "dry_mushroom", 4 ],
+      [ "mushroom_cooked", 4 ],
+      [ "morel_cooked", 4 ],
+      [ "rehydrated_veggy", 4 ],
+      [ "veggy_wild", 4 ]
     ]
   ]
 },{
@@ -7970,69 +7970,69 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "broth", 1 ],
-      [ "broth_bone", 1]
+      [ "broth", 2 ],
+      [ "broth_bone", 2 ]
     ],
     [
-      [ "potato_irradiated", 1],
-      [ "potato_raw", 1 ],
-      [ "celery", 1 ],
-      [ "irradiated_celery", 1],
-      [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
-      [ "sauerkraut", 2 ],
-      [ "can_corn", 1 ],
-      [ "corn", 1 ],
-      [ "irradiated_corn", 1 ],
-      [ "irradiated_onion", 1 ],
-      [ "onion", 1 ],
-      [ "irradiated_carrot", 6 ],
-      [ "carrot", 6 ],
-      [ "pumpkin", 1 ],
-      [ "irradiated_pumpkin", 1 ],
-      [ "veggy_wild", 1 ],
-      [ "veggy", 1 ],
-      [ "dry_veggy", 1 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "can_beans", 1 ],
-      [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1],
-      [ "con_milk", 1 ],
-      [ "flatbread", 1 ],
-      [ "tortilla_corn", 1 ],
-      [ "bread", 1 ],
-      [ "cornbread", 1 ],
-      [ "biscuit", 1 ],
-      [ "hardtack", 1 ],
-      [ "wastebread", 1 ],
-      [ "flour", 1 ],
-      [ "cornmeal", 1 ],
-      [ "milk_powder", 1 ],
-      [ "crackers", 2 ],
-      [ "dry_beans", 1 ],
-      [ "raw_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "beans_cooked", 1 ],
-      [ "dandelion_cooked", 1 ],
-      [ "mushroom", 1 ],
-      [ "dry_mushroom", 1 ],
-      [ "morel_cooked", 1 ],
-      [ "mushroom_cooked", 1 ],
-      [ "acorns_cooked", 1 ]
+      [ "potato_irradiated", 2 ],
+      [ "potato_raw", 2 ],
+      [ "celery", 2 ],
+      [ "irradiated_celery", 2 ],
+      [ "cabbage", 2 ],
+      [ "irradiated_cabbage", 2 ],
+      [ "sauerkraut", 4 ],
+      [ "can_corn", 2 ],
+      [ "corn", 2 ],
+      [ "irradiated_corn", 2 ],
+      [ "irradiated_onion", 2 ],
+      [ "onion", 2 ],
+      [ "irradiated_carrot", 12 ],
+      [ "carrot", 12 ],
+      [ "pumpkin", 2 ],
+      [ "irradiated_pumpkin", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "veggy", 2 ],
+      [ "dry_veggy", 2 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ],
+      [ "can_beans", 2 ],
+      [ "spaghetti_raw", 2 ],
+      [ "macaroni_raw", 2 ],
+      [ "noodles_fast", 2 ],
+      [ "con_milk", 2 ],
+      [ "flatbread", 2 ],
+      [ "tortilla_corn", 2 ],
+      [ "bread", 2 ],
+      [ "cornbread", 2 ],
+      [ "biscuit", 2 ],
+      [ "hardtack", 2 ],
+      [ "wastebread", 2 ],
+      [ "flour", 2 ],
+      [ "cornmeal", 2 ],
+      [ "milk_powder", 2 ],
+      [ "crackers", 4 ],
+      [ "dry_beans", 2 ],
+      [ "raw_beans", 2 ],
+      [ "dry_rice", 2 ],
+      [ "beans_cooked", 2 ],
+      [ "dandelion_cooked", 2 ],
+      [ "mushroom", 2 ],
+      [ "dry_mushroom", 2 ],
+      [ "morel_cooked", 2 ],
+      [ "mushroom_cooked", 2 ],
+      [ "acorns_cooked", 2 ]
     ],
     [
-      [ "fish", 2 ],
-      [ "dry_fish", 2],
+      [ "fish", 4 ],
+      [ "dry_fish", 4 ],
       [ "salted_fish", 3 ],
-      [ "fish_smoked", 2],
-      [ "fish_pickled", 1 ],
-      [ "fish_vac", 2 ],
-      [ "fish_canned", 1 ],
-      [ "can_salmon", 1 ],
-      [ "can_tuna", 1 ]
+      [ "fish_smoked", 4 ],
+      [ "fish_pickled", 2 ],
+      [ "fish_vac", 4 ],
+      [ "fish_canned", 2 ],
+      [ "can_salmon", 2 ],
+      [ "can_tuna", 2 ]
     ]
   ]
 },{
@@ -8067,35 +8067,35 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "broth", 1 ],
-      [ "broth_human", 1 ],
+      [ "broth", 2 ],
+      [ "broth_human", 2 ],
       [ "broth_bone", 1]
     ],
     [
-      [ "potato_irradiated", 1],
-      [ "potato_raw", 1 ],
-      [ "celery", 1 ],
-      [ "irradiated_celery", 1],
-      [ "cabbage", 1 ],
-      [ "irradiated_cabbage", 1 ],
-      [ "sauerkraut", 2 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "can_beans", 1 ],
-      [ "spaghetti_raw", 1 ],
-      [ "macaroni_raw", 1],
-      [ "noodles_fast", 1],
-      [ "dry_beans", 1 ],
-      [ "raw_beans", 1 ],
-      [ "dry_rice", 1 ],
-      [ "beans_cooked", 1 ],
-      [ "acorns_cooked", 1 ]
+      [ "potato_irradiated", 2 ],
+      [ "potato_raw", 2 ],
+      [ "celery", 2 ],
+      [ "irradiated_celery", 2 ],
+      [ "cabbage", 2 ],
+      [ "irradiated_cabbage", 2 ],
+      [ "sauerkraut", 4 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ],
+      [ "can_beans", 2 ],
+      [ "spaghetti_raw", 2 ],
+      [ "macaroni_raw", 2 ],
+      [ "noodles_fast", 2 ],
+      [ "dry_beans", 2 ],
+      [ "raw_beans", 2 ],
+      [ "dry_rice", 2 ],
+      [ "beans_cooked", 2 ],
+      [ "acorns_cooked", 2 ]
     ],
     [
-      [ "dry_hflesh", 2 ],
-      [ "rehydrated_hflesh", 2 ],
-      [ "human_flesh", 2 ]
+      [ "dry_hflesh", 4 ],
+      [ "rehydrated_hflesh", 4 ],
+      [ "human_flesh", 4 ]
     ]
   ]
 },{
@@ -8129,41 +8129,41 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
     ],
     [
-      [ "irradiated_broccoli", 1 ],
-      [ "broccoli", 1 ],
-      [ "irradiated_tomato", 1 ],
-      [ "can_tomato", 1 ],
-      [ "tomato", 1 ],
-      [ "pumpkin", 1 ],
-      [ "irradiated_pumpkin", 1 ],
-      [ "irradiated_zucchini", 1 ],
-      [ "zucchini", 1 ],
-      [ "veggy", 1 ],
-      [ "veggy_wild", 1 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "dry_veggy", 2 ],
-      [ "dandelion_cooked", 2 ],
-      [ "mushroom_cooked", 2 ],
-      [ "morel_cooked", 2 ],
-      [ "mushroom", 2 ],
-      [ "dry_mushroom", 2 ]
+      [ "irradiated_broccoli", 2 ],
+      [ "broccoli", 2 ],
+      [ "irradiated_tomato", 2 ],
+      [ "can_tomato", 2 ],
+      [ "tomato", 2 ],
+      [ "pumpkin", 2 ],
+      [ "irradiated_pumpkin", 2 ],
+      [ "irradiated_zucchini", 2 ],
+      [ "zucchini", 2 ],
+      [ "veggy", 2 ],
+      [ "veggy_wild", 2 ],
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ],
+      [ "dry_veggy", 4 ],
+      [ "dandelion_cooked", 4 ],
+      [ "mushroom_cooked", 4 ],
+      [ "morel_cooked", 4 ],
+      [ "mushroom", 4 ],
+      [ "dry_mushroom", 4 ]
     ],
     [
-      [ "seasoning_italian", 15 ],
-      [ "wild_herbs", 15 ],
-      [ "seasoning_salt", 15 ],
-      [ "soysauce", 2 ],
-      [ "pepper", 20 ],
-      [ "seed_garlic", 6 ],
-      [ "garlic", 1 ],
-      [ "salt_water", 1 ],
-      [ "salt", 15 ]
+      [ "seasoning_italian", 30 ],
+      [ "wild_herbs", 30 ],
+      [ "seasoning_salt", 30 ],
+      [ "soysauce", 4 ],
+      [ "pepper", 40 ],
+      [ "seed_garlic", 12 ],
+      [ "garlic", 2 ],
+      [ "salt_water", 2 ],
+      [ "salt", 30 ]
     ]
   ]
 },{
@@ -8197,11 +8197,11 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "bone", 10 ]
+      [ "bone", 20 ]
     ],
     [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
     ]
   ]
 },{
@@ -8236,11 +8236,11 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "bone_human", 10 ]
+      [ "bone_human", 20 ]
     ],
     [
-      [ "water", 1 ],
-      [ "water_clean", 1 ]
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
     ]
   ]
 },{
@@ -8815,7 +8815,7 @@
   "time": 7000,
   "reversible": false,
   "autolearn": true,
-  "qualities": [ { "id": "COOK", "level": 2 } ], 
+  "qualities": [ { "id": "COOK", "level": 2 } ],
   "tools": [ [ [ "hotplate", 4 ], [ "char_smoker", 4 ], [ "toolset", 4 ], [ "fire", -1 ] ] ],
   "components": [ [ ["meth", 4] ],
     [ ["cola", 2] ] ]
@@ -10107,27 +10107,27 @@
       [ "jar_glass", 1 ]
     ],
     [
-      ["veggy", 1],
-      ["veggy_wild", 1],
-      ["mushroom", 1],
-      ["tomato", 1],
-      ["irradiated_tomato", 1],
-      ["broccoli", 1],
-      ["irradiated_broccoli", 1],
-      ["zucchini", 1],
-      ["irradiated_zucchini", 1],
-      ["cucumber", 1],
-      ["irradiated_cucumber", 1],
-      ["potato_raw", 1],
-      ["potato_irradiated", 1],
-      ["corn", 1],
-      ["irradiated_corn", 1],
-      ["onion", 1],
-      ["irradiated_onion", 1],
-      ["garlic", 1],
-      ["seed_garlic", 6],
-      ["irradiated_carrot", 6],
-      ["carrot", 6]
+      ["veggy", 2],
+      ["veggy_wild", 2],
+      ["mushroom", 2],
+      ["tomato", 2],
+      ["irradiated_tomato", 2],
+      ["broccoli", 2],
+      ["irradiated_broccoli", 2],
+      ["zucchini", 2],
+      ["irradiated_zucchini", 2],
+      ["cucumber", 2],
+      ["irradiated_cucumber", 2],
+      ["potato_raw", 2],
+      ["potato_irradiated", 2],
+      ["corn", 2],
+      ["irradiated_corn", 2],
+      ["onion", 2],
+      ["irradiated_onion", 2],
+      ["garlic", 2],
+      ["seed_garlic", 12],
+      ["irradiated_carrot", 12],
+      ["carrot", 12]
     ],
     [
       [ "vinegar", 1 ]
@@ -10239,7 +10239,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "meat", 1 ]
+      [ "meat", 2 ]
     ],
     [
       [ "vinegar", 1 ]
@@ -10278,7 +10278,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "fish", 1 ]
+      [ "fish", 2 ]
     ],
     [
       [ "vinegar", 1 ]
@@ -10318,7 +10318,7 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "human_flesh", 1 ]
+      [ "human_flesh", 2 ]
     ],
     [
       [ "vinegar", 1 ]
@@ -10883,8 +10883,8 @@
       [ "jar_glass", 1 ]
     ],
     [
-      [ "tomato", 3 ],
-      [ "irradiated_tomato", 3]
+      [ "tomato", 2 ],
+      [ "irradiated_tomato", 2]
     ]
   ]
 },{

@@ -32,6 +32,7 @@
 #include "weather.h"
 #include "item_group.h"
 #include "pathfinding.h"
+#include "scent_map.h"
 
 #include <cmath>
 #include <stdlib.h>
@@ -2943,13 +2944,7 @@ void map::decay_fields_and_scent( const int amount )
     // Decay scent separately, so that later we can use field count to skip empty submaps
     tripoint tmp;
     tmp.z = abs_sub.z; // TODO: Make this happen on all z-levels
-    for( tmp.x = 0; tmp.x < my_MAPSIZE * SEEX; tmp.x++ ) {
-        for( tmp.y = 0; tmp.y < my_MAPSIZE * SEEY; tmp.y++ ) {
-            if( g->scent( tmp ) > 0 ) {
-                g->scent( tmp )--;
-            }
-        }
-    }
+    g->scent.decay();
 
     const int amount_fire = amount / 3; // Decay fire by this much
     const int amount_liquid = amount / 2; // Decay washable fields (blood, guts etc.) by this
@@ -3128,6 +3123,15 @@ bool map::mop_spills( const tripoint &p )
             if( veh->parts[elem].blood > 0 ) {
                 veh->parts[elem].blood = 0;
                 retval = true;
+            }
+            //remove any liquids that somehow didn't fall through to the ground
+            vehicle_stack here = veh->get_items( elem );
+            auto new_end = std::remove_if( here.begin(), here.end(), []( const item & it ) {
+                return it.made_of( LIQUID );
+            } );
+            retval |= ( new_end != here.end() );
+            while( new_end != here.end() ) {
+                new_end = here.erase( new_end );
             }
         }
     } // if veh != 0
@@ -8182,22 +8186,25 @@ template<typename Functor>
     }
 }
 
-void map::scent_blockers( bool (&blocks_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
-                          bool (&reduces_scent)[SEEX * MAPSIZE][SEEY * MAPSIZE],
+void map::scent_blockers( std::array<std::array<bool, SEEX * MAPSIZE>, SEEY * MAPSIZE> &blocks_scent,
+                          std::array<std::array<bool, SEEX * MAPSIZE>, SEEY * MAPSIZE> &reduces_scent,
                           const int minx, const int miny, const int maxx, const int maxy )
 {
     auto reduce = TFLAG_REDUCE_SCENT;
     auto block = TFLAG_WALL;
     auto fill_values = [&]( const tripoint &gp, const submap *sm, const point &lp ) {
+        // We need to generate the x/y coords, because we can't get them "for free"
+        const int x = gp.x * SEEX + lp.x;
+        const int y = gp.y * SEEY + lp.y;
         if( sm->get_ter( lp.x, lp.y ).obj().has_flag( block ) ) {
-            // We need to generate the x/y coords, because we can't get them "for free"
-            const int x = ( gp.x * SEEX ) + lp.x;
-            const int y = ( gp.y * SEEY ) + lp.y;
             blocks_scent[x][y] = true;
+            reduces_scent[x][y] = false;
         } else if( sm->get_ter( lp.x, lp.y ).obj().has_flag( reduce ) || sm->get_furn( lp.x, lp.y ).obj().has_flag( reduce ) ) {
-            const int x = ( gp.x * SEEX ) + lp.x;
-            const int y = ( gp.y * SEEY ) + lp.y;
+            blocks_scent[x][y] = false;
             reduces_scent[x][y] = true;
+        } else {
+            blocks_scent[x][y] = false;
+            reduces_scent[x][y] = false;
         }
 
         return ITER_CONTINUE;

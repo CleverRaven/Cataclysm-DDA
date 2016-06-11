@@ -40,7 +40,6 @@
     "edit-mode" : "modify",
       "vision_night":10
     },
-    
     {
     "type" : "MONSTER",
     "id" : "mon_manhack_missile",
