@@ -164,9 +164,8 @@ void intro();
 
 //The one and only game instance
 game *g;
-extern worldfactory *world_generator;
 #ifdef TILES
-extern cata_tiles *tilecontext;
+extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 input_context get_default_mode_input_context();
 
@@ -235,12 +234,12 @@ game::game() :
     safe_mode(SAFE_MODE_ON),
     safe_mode_warning_logged(false),
     mostseen(0),
-    gamemode(NULL),
+    gamemode(),
     user_action_counter(0),
     lookHeight(13),
     tileset_zoom(16)
 {
-    world_generator = new worldfactory();
+    world_generator.reset( new worldfactory() );
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
 }
@@ -287,12 +286,12 @@ void game::check_all_mod_data()
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
     for (mod_manager::t_mod_map::iterator a = mm->mod_map.begin(); a != mm->mod_map.end(); ++a) {
-        MOD_INFORMATION *mod = a->second;
-        if (!dtree.is_available(mod->ident)) {
-            debugmsg("Skipping mod %s (%s)", mod->name.c_str(), dtree.get_node(mod->ident)->s_errors().c_str());
+        MOD_INFORMATION &mod = *a->second;
+        if (!dtree.is_available(mod.ident)) {
+            debugmsg("Skipping mod %s (%s)", mod.name.c_str(), dtree.get_node(mod.ident)->s_errors().c_str());
             continue;
         }
-        std::vector<std::string> deps = dtree.get_dependents_of_X_as_strings(mod->ident);
+        std::vector<std::string> deps = dtree.get_dependents_of_X_as_strings(mod.ident);
         if (!deps.empty()) {
             // mod is dependency of another mod(s)
             // When those mods get checked, they will pull in
@@ -301,18 +300,18 @@ void game::check_all_mod_data()
         }
         erase();
         refresh();
-        popup_nowait( "Checking mod <color_yellow>%s</color>", mod->name.c_str() );
+        popup_nowait( "Checking mod <color_yellow>%s</color>", mod.name.c_str() );
         // Reset & load core data, than load dependencies
         // and the actual mod and finally finalize all.
         load_core_data();
-        deps = dtree.get_dependencies_of_X_as_strings(mod->ident);
+        deps = dtree.get_dependencies_of_X_as_strings(mod.ident);
         for( auto &dep : deps ) {
             // assert(mm->has_mod(deps[i]));
             // ^^ dependency tree takes care of that case
-            MOD_INFORMATION *dmod = mm->mod_map[dep];
-            load_data_from_dir(dmod->path);
+            MOD_INFORMATION &dmod = *mm->mod_map[dep];
+            load_data_from_dir(dmod.path);
         }
-        load_data_from_dir(mod->path);
+        load_data_from_dir(mod.path);
         DynamicDataLoader::get_instance().finalize_loaded_data();
     }
 }
@@ -349,7 +348,6 @@ game::~game()
 {
     DynamicDataLoader::get_instance().unload_data();
     MAPBUFFER.reset();
-    delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
     delwin(w_pixel_minimap);
@@ -359,8 +357,6 @@ game::~game()
     delwin(w_location);
     delwin(w_status);
     delwin(w_status2);
-
-    delete world_generator;
 }
 
 // Fixed window sizes
@@ -737,7 +733,7 @@ bool game::has_gametype() const
 
 special_game_id game::gametype() const
 {
-    return gamemode != nullptr ? gamemode->id() : SGAME_NULL;
+    return gamemode ? gamemode->id() : SGAME_NULL;
 }
 
 void game::load_map( tripoint pos_sm )
@@ -748,8 +744,8 @@ void game::load_map( tripoint pos_sm )
 // Set up all default values for a new game
 bool game::start_game(std::string worldname)
 {
-    if (gamemode == NULL) {
-        gamemode = new special_game();
+    if( !gamemode ) {
+        gamemode.reset( new special_game() );
     }
 
     new_game = true;
@@ -1212,9 +1208,8 @@ bool game::cleanup_at_end()
             message << string_format(_("World retained. Characters remaining:%s"),tmpmessage.c_str());
             popup(message.str(), PF_NONE);
         }
-        if (gamemode) {
-            delete gamemode;
-            gamemode = new special_game; // null gamemode or something..
+        if( gamemode ) {
+            gamemode.reset( new special_game() ); // null gamemode or something..
         }
     }
 
@@ -3502,8 +3497,8 @@ void game::load(std::string worldname, std::string name)
     // recalculated. (This would be cleaner if u.worn were private.)
     u.recalc_sight_limits();
 
-    if (gamemode == NULL) {
-        gamemode = new special_game();
+    if( !gamemode ) {
+        gamemode.reset( new special_game() );
     }
 
     safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
@@ -3556,10 +3551,10 @@ void game::load_world_modfiles(WORLDPTR world)
         // of mods in the correct order.
         for( const auto &mod_ident : world->active_mod_order ) {
             if (mm->has_mod(mod_ident)) {
-                MOD_INFORMATION *mod = mm->mod_map[mod_ident];
-                if( !mod->obsolete ) {
+                MOD_INFORMATION &mod = *mm->mod_map[mod_ident];
+                if( !mod.obsolete ) {
                     // Silently ignore mods marked as obsolete.
-                    load_data_from_dir(mod->path);
+                    load_data_from_dir(mod.path);
                 }
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
@@ -8169,11 +8164,8 @@ void game::peek( const tripoint &p )
 ////////////////////////////////////////////////////////////////////////////////////////////
 tripoint game::look_debug()
 {
-    editmap *edit = new editmap();
-    tripoint ret = edit->edit();
-    delete edit;
-    edit = 0;
-    return ret;
+    editmap edit;
+    return edit.edit();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
 

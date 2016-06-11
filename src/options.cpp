@@ -23,6 +23,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <memory>
 
 bool trigdist;
 bool use_tiles;
@@ -32,7 +33,7 @@ bool fov_3d;
 bool tile_iso;
 
 #ifdef TILES
-extern cata_tiles *tilecontext;
+extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>

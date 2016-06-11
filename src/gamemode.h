@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 #include "cursesdef.h" // WINDOW
 #include "itype.h"
 #include "string_id.h"
@@ -14,7 +15,7 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 
 std::string special_game_name(special_game_id id);
-special_game *get_special_game(special_game_id id);
+std::unique_ptr<special_game> get_special_game(special_game_id id);
 
 struct special_game {
     virtual ~special_game() {

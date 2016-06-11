@@ -37,7 +37,7 @@ void mod_ui::set_usable_mods()
     std::vector<MOD_INFORMATION *> mods;
     for( auto &modinfo_pair : active_manager->mod_map ) {
         if( !modinfo_pair.second->obsolete ) {
-            mods.push_back( modinfo_pair.second );
+            mods.push_back( modinfo_pair.second.get() );
         }
     }
     std::sort( mods.begin(), mods.end(), &compare_mod_by_name_and_category );

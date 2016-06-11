@@ -929,7 +929,7 @@ private:
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;
 
-        special_game *gamemode;
+        std::unique_ptr<special_game> gamemode;
 
         int moveCount; //Times the player has moved (not pause, sleep, etc)
         int user_action_counter; // Times the user has input an action
