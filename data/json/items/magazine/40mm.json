@@ -8,6 +8,7 @@
     "volume": 0,
     "price": 0,
     "material": "steel",
+    "ammo_type": "40mm",
     "symbol": "#",
     "color": "ltgray",
     "rigid": false,

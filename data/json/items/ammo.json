@@ -2324,6 +2324,7 @@
       "name": "40mm grenade belt linkage",
       "weight": 6,
       "count": 25,
+      "stack_size": 25,
       "use_action": {
         "type": "ammobelt",
         "belt": "belt40mm"
@@ -2336,6 +2337,7 @@
       "name": ".50 ammo belt linkage",
       "weight": 3,
       "count": 50,
+      "stack_size": 50,
       "use_action": {
         "type": "ammobelt",
         "belt": "belt50"
