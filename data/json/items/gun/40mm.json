@@ -10,7 +10,7 @@
     "price": 1650000,
     "bashing": 14,
     "to_hit": -1,
-    "material": "hardsteel",
+    "material": "steel",
     "ammo": "40mm",
     "ranged_damage": 1,
     "range": 30,
