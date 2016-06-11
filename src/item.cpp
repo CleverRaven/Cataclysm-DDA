@@ -5851,5 +5851,5 @@ bool item_category::operator!=( const item_category &rhs ) const
 }
 
 bool item::is_disgusting_for( const player &p ) const {
-    return has_flag( "FILTHY" ) && p.has_trait( "SQUEAMISH" );
+    return has_flag( "FILTHY" );
 }
