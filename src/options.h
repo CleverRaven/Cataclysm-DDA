@@ -42,7 +42,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer
             /** Hide this option in non-Windows Curses builds */
             COPT_POSIX_CURSES_HIDE,
             /** Hide this option in builds without sound support */
-            COPT_NO_SOUND_HIDE
+            COPT_NO_SOUND_HIDE,
+            /** Hide this option always, it is set as a mod. **/
+            COPT_ALWAYS_HIDE
         };
 
         class cOpt

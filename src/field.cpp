@@ -14,6 +14,7 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "scent_map.h"
 
 const species_id FUNGUS( "FUNGUS" );
 

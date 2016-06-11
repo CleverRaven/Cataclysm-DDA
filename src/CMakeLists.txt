@@ -111,6 +111,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/ui.cpp
     ${CMAKE_SOURCE_DIR}/src/newcharacter.cpp
     ${CMAKE_SOURCE_DIR}/src/scenario.cpp
+    ${CMAKE_SOURCE_DIR}/src/scent_map.cpp
     ${CMAKE_SOURCE_DIR}/src/faction.cpp
     ${CMAKE_SOURCE_DIR}/src/wish.cpp
     ${CMAKE_SOURCE_DIR}/src/bionics.cpp
@@ -237,6 +238,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/simplexnoise.h
     ${CMAKE_SOURCE_DIR}/src/shadowcasting.h
     ${CMAKE_SOURCE_DIR}/src/scenario.h
+    ${CMAKE_SOURCE_DIR}/src/scent_map.h
     ${CMAKE_SOURCE_DIR}/src/auto_pickup.h
     ${CMAKE_SOURCE_DIR}/src/cata_tiles.h
     ${CMAKE_SOURCE_DIR}/src/cata_utility.h

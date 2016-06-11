@@ -441,6 +441,12 @@ int calendar::day_of_year() const
     return day + season_length() * season;
 }
 
+int calendar::diurnal_time_before( int turn ) const
+{
+    const int remainder = turn - get_turn() % DAYS( 1 );
+    return ( remainder >= 0 ) ? remainder : DAYS( 1 ) + remainder;
+}
+
 void calendar::sync()
 {
     const int sl = season_length();

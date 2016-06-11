@@ -267,7 +267,7 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
 //helper functions
 bool options_manager::cOpt::is_hidden()
 {
-    switch(hide) {
+    switch( hide ) {
     case COPT_NO_HIDE:
         return false;
 
@@ -300,9 +300,11 @@ bool options_manager::cOpt::is_hidden()
         return false;
 #endif
 
-    default:
-        return false; // No hide on default
+    case COPT_ALWAYS_HIDE:
+        return true;
     }
+    // Make compiler happy, this is unreachable.
+    return false;
 }
 
 void options_manager::cOpt::setSortPos(const std::string sPageIn)
@@ -1358,6 +1360,29 @@ void options_manager::init()
                               _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
                               false
                              );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["NO_FAULTS"] = cOpt("world_default", _("Disables vehicle part faults."),
+                              _("If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement."),
+                                false, COPT_ALWAYS_HIDE
+                             );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["BLACKLIST_MAGAZINES"] = cOpt("world_default", _("Disables removable gun magaziones."),
+                              _("If true, disables removeable gun magazines, guns will all act as if they have integral magazines."),
+                                false, COPT_ALWAYS_HIDE
+                             );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["NO_VITAMINS"] = cOpt("world_default", _("Disables tracking vitamins in food items."),
+                              _("If true, disables vitamin tracking and vitamin disorders."),
+                                false, COPT_ALWAYS_HIDE
+                             );
+
+
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);

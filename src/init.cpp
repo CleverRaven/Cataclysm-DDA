@@ -52,6 +52,7 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overlay_ordering.h"
+#include "worldfactory.h"
 #include "npc_class.h"
 
 #include <string>
@@ -204,8 +205,7 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_whitelist);
-
-    type_function_map[ "GAME_OPTION" ] = new ClassFunctionAccessor<game>( g, &game::load_game_option );
+    type_function_map["WORLD_OPTION"] = new StaticFunctionAccessor(&load_world_option);
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
@@ -369,7 +369,6 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     gates::reset();
     reset_overlay_ordering();
-    g->options.clear();
     npc_class::reset_npc_classes();
 
     // TODO:
@@ -394,6 +393,7 @@ void DynamicDataLoader::finalize_loaded_data()
     monfactions::finalize();
     finalize_recipes();
     finialize_martial_arts();
+    finalize_constructions();
     check_consistency();
 }
 
