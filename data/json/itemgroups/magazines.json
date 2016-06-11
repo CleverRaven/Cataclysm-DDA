@@ -238,12 +238,12 @@
     "items": [
       ["ak74mag", 10],
       ["makarovmag", 10],
-      ["tokarevmag", 10],
       ["ppshmag", 10],
       ["ppshdrum", 10],
       ["rpk74mag", 10],
       ["skorpion61mag", 10],
-      ["skorpion82mag", 10]
+      ["skorpion82mag", 10],
+      ["tokarevmag", 10]
     ]
   },
   {
