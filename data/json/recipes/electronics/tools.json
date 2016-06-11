@@ -8,6 +8,7 @@
     "difficulty": 4,
     "skills_required": [ "fabrication", 2 ],
     "time": 240000,
+    "reversible": true,
     "book_learn": [ [ "advanced_electronics", 4 ], [ "mag_electronics", 6 ] , [ "manual_electronics", 5 ] ],
     "qualities": [
       { "id": "SCREW_FINE", "level": 1 },
@@ -16,6 +17,7 @@
     "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
       [ [ "television", 1 ] ],
+      [ [ "processor", 1 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "circuit", 2 ] ],
       [ [ "cable", 50 ] ]

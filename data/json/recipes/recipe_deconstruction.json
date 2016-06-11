@@ -497,31 +497,13 @@
     "reversible": true,
     "qualities": [ { "id": "SCREW","level": 1 } ],
     "components": [
+      [ [ "small_lcd_screen", 1 ] ],
       [ ["processor", 1] ],
       [ ["RAM", 2] ],
       [ ["cable", 8] ],
       [ ["amplifier", 4] ],
       [ [ "power_supply", 2 ] ],
       [ ["plastic_chunk", 8] ]
-    ]
-  },
-  {
-    "result": "makeshift_oscilloscope",
-    "id_suffix": "uncraft",
-    "type": "recipe",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "skill_used": "electronics",
-    "difficulty": 0,
-    "time": 60000,
-    "qualities": [ { "id": "SCREW","level": 1 } ],
-    "components": [
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "cable", 8 ] ],
-      [ [ "amplifier", 4 ] ],
-      [ [ "power_supply", 2 ] ],
-      [ [ "plastic_chunk", 8 ] ]
     ]
   },
   {
@@ -536,6 +518,7 @@
     "qualities": [ { "id": "SCREW","level": 1 } ],
     "components": [
       [ [ "processor", 1 ] ],
+      [ [ "small_lcd_screen", 1 ] ],
       [ [ "RAM", 2 ] ],
       [ [ "cable", 8 ] ],
       [ [ "amplifier", 4 ] ],

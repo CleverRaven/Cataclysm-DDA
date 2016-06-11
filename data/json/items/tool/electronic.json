@@ -17,7 +17,7 @@
     "copy-from": "oscilloscope",
     "type": "TOOL",
     "name": "makeshift oscilloscope",
-    "description": "Improvised from an old CRT television display this makeshift oscilloscope is bulky but functional.",
+    "description": "Improvised from an LCD television display this makeshift oscilloscope is bulky but functional.",
     "proportional": {
         "weight": 1.5,
         "volume": 2.0,
