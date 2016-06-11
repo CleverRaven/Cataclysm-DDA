@@ -215,17 +215,18 @@ bool name_contains(dirent const &entry, std::string const &match, bool const at_
 // Files ending in ~ are excluded.
 //--------------------------------------------------------------------------------------------------
 template <typename Predicate>
-void find_file_if_bfs(std::vector<std::string> &result, std::string const &root_path,
-	bool const recurse, Predicate predicate)
+std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool const recurse,
+    Predicate predicate)
 {
     std::deque<std::string>  directories {!root_path.empty() ? root_path : "."};
+    std::vector<std::string> results;
 
     while (!directories.empty()) {
         auto const path = std::move(directories.front());
         directories.pop_front();
 
         auto const n_dirs    = static_cast<std::ptrdiff_t>(directories.size());
-        auto const n_result = static_cast<std::ptrdiff_t>(result.size());
+        auto const n_results = static_cast<std::ptrdiff_t>(results.size());
 
         for_each_dir_entry(path, [&](dirent const &entry) {
             // exclude special directories.
@@ -251,77 +252,80 @@ void find_file_if_bfs(std::vector<std::string> &result, std::string const &root_
                 return;
             }
 
-            result.emplace_back(full_path);
+            results.emplace_back(full_path);
         });
 
         // Keep files and directories to recurse ordered consistently
         // by sorting from the old end to the new end.
         std::sort(std::begin(directories) + n_dirs,    std::end(directories));
-        std::sort(std::begin(result)     + n_result, std::end(result));
+        std::sort(std::begin(results)     + n_results, std::end(results));
     }
+
+    return results;
 }
 
 } //anonymous namespace
 
 //--------------------------------------------------------------------------------------------------
-void get_files_from_path(std::vector<std::string> &result, std::string const &pattern,
+std::vector<std::string> get_files_from_path(std::string const &pattern,
     std::string const &root_path, bool const recurse, bool const match_extension)
 {
-    find_file_if_bfs(result, root_path, recurse, [&](dirent const &entry, bool) {
+    return find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
         return name_contains(entry, pattern, match_extension);
     });
 }
 
 /** Find directories which containing pattern.
-  * @param result The vector that stores results
   * @param pattern Search pattern.
   * @param root_path Search root.
   * @param recurse Be recurse or not.
   * @return vector or directories without pattern filename at end.
   */
-void get_directories_with(std::vector<std::string> &result,
-	std::string const &pattern, std::string const &root_path, bool const recurse)
+std::vector<std::string> get_directories_with(std::string const &pattern,
+    std::string const &root_path, bool const recurse)
 {
     if (pattern.empty()) {
-		result = std::vector<std::string>();
-		return;
+        return std::vector<std::string>();
     }
 
-    find_file_if_bfs(result, root_path, recurse, [&](dirent const &entry, bool) {
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
         return name_contains(entry, pattern, true);
     });
 
     // Chop off the file names. Dir path MUST be splitted by '/'
-    for (auto &file : result) {
+    for (auto &file : files) {
         file.erase(file.rfind('/'), std::string::npos);
     }
 
-    result.erase(std::unique(std::begin(result), std::end(result)), std::end(result));
+    files.erase(std::unique(std::begin(files), std::end(files)), std::end(files));
+
+    return files;
 }
 
 //--------------------------------------------------------------------------------------------------
-void get_directories_with(std::vector<std::string> &result, 
-	std::vector<std::string> const &patterns, std::string const &root_path, bool const recurse)
+std::vector<std::string> get_directories_with(std::vector<std::string> const &patterns,
+    std::string const &root_path, bool const recurse)
 {
     if (patterns.empty()) {
-		result = std::vector<std::string>();
-		return;
+        return std::vector<std::string>();
     }
 
     auto const ext_beg = std::begin(patterns);
     auto const ext_end = std::end(patterns);
 
-    find_file_if_bfs(result, root_path, recurse, [&](dirent const &entry, bool) {
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
         return std::any_of(ext_beg, ext_end, [&](std::string const& ext) {
             return name_contains(entry, ext, true);
         });
     });
 
     //chop off the file names
-    for (auto &file : result) {
+    for (auto &file : files) {
         file.erase(file.rfind('/'), std::string::npos);
     }
 
     //remove resulting duplicates
-    result.erase(std::unique(std::begin(result), std::end(result)), std::end(result));
+    files.erase(std::unique(std::begin(files), std::end(files)), std::end(files));
+
+    return files;
 }

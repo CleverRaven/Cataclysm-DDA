@@ -3400,13 +3400,12 @@ void game::move_save_to_graveyard()
         debugmsg("could not create graveyard path '%s'", graveyard_dir.c_str());
     }
 
-	std::vector<std::string> save_files;
-	get_files_from_path(save_files, prefix, save_dir);
+    auto const save_files = get_files_from_path(prefix, save_dir);
     if (save_files.empty()) {
         debugmsg("could not find save files in '%s'", save_dir.c_str());
     }
 
-    for ( const std::string &src_path : save_files ) {
+    for (auto const &src_path : save_files) {
         const std::string dst_path = graveyard_dir +
             src_path.substr(src_path.rfind('/'), std::string::npos);
 
@@ -3673,8 +3672,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
     std::string worldpath = world_generator->all_worlds[worldname]->world_path;
     std::set<std::string> directory_paths;
 
-	std::vector<std::string> file_paths;
-	get_files_from_path(file_paths, "", worldpath, true, true);
+    auto file_paths = get_files_from_path("", worldpath, true, true);
     if (!delete_folder) {
         std::vector<std::string>::iterator forbidden = find_if(file_paths.begin(), file_paths.end(),
                 isForbidden);
@@ -3683,7 +3681,7 @@ void game::delete_world(std::string worldname, bool delete_folder)
             forbidden = find_if(file_paths.begin(), file_paths.end(), isForbidden);
         }
     }
-    for( std::string &file_path : file_paths ) {
+    for( auto &file_path : file_paths ) {
         // strip to path and remove worldpath from it
         std::string part = file_path.substr( worldpath.size(),
                                              file_path.find_last_of( "/\\" ) - worldpath.size() );

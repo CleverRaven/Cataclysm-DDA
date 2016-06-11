@@ -638,10 +638,10 @@ static std::string build_resource_list(
     std::string resource_names;
 
     resource_option.clear();
-	std::vector<std::string> resource_dirs;
-	get_directories_with(resource_dirs, FILENAMES[filename_label], FILENAMES[dirname_label], true );
+    auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
+                                                     FILENAMES[dirname_label], true );
 
-    for( std::string &resource_dir : resource_dirs ) {
+    for( auto &resource_dir : resource_dirs ) {
         std::ifstream fin;
         std::string file = resource_dir + "/" + FILENAMES[filename_label];
 
