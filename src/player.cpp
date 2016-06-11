@@ -2016,8 +2016,8 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
 
     //HP
 
-    const auto limb_hp = [this, &memorial_file, &indent]( const std::string & desc,
-    const body_part bp ) {
+    const auto limb_hp =
+    [this, &memorial_file, &indent]( const std::string & desc, const body_part bp ) {
         memorial_file << indent << string_format( desc, hp_cur[bp], hp_max[bp] ) << "\n";
     };
 
