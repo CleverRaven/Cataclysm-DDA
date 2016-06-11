@@ -213,13 +213,10 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 1 ] ],
+    [ [ "2x4", 1 ] ]
   ]
 },
 {
@@ -236,13 +233,10 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 1 ] ],
+    [ [ "2x4", 1 ] ]
   ]
 },
 {
@@ -259,13 +253,10 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 1 ] ],
+    [ [ "2x4", 1 ] ]
   ]
 },
 {
@@ -282,13 +273,10 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 1 ]
-    ],
-    [
-      [ "2x4", 1 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 1 ] ],
+    [ [ "2x4", 1 ] ]
   ]
 },
 {
@@ -305,16 +293,11 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 3 ]
-    ],
-    [
-      [ "scrap", 2]
-    ],
-    [
-      [ "2x4", 2 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 3 ] ],
+    [ [ "scrap", 2] ],
+    [ [ "2x4", 2 ] ]
   ]
 },
 {
@@ -331,16 +314,11 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 3 ]
-    ],
-    [
-      [ "scrap", 2]
-    ],
-    [
-      [ "2x4", 2 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 3 ] ],
+    [ [ "scrap", 2] ],
+    [ [ "2x4", 2 ] ]
   ]
 },
 {
@@ -357,16 +335,11 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 3 ]
-    ],
-    [
-      [ "scrap", 2]
-    ],
-    [
-      [ "2x4", 2 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 3 ] ],
+    [ [ "scrap", 2] ],
+    [ [ "2x4", 2 ] ]
   ]
 },
 {
@@ -383,16 +356,11 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 3 ]
-    ],
-    [
-      [ "scrap", 2]
-    ],
-    [
-      [ "2x4", 2 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 3 ] ],
+    [ [ "scrap", 2] ],
+    [ [ "2x4", 2 ] ]
   ]
 },
 {
@@ -409,16 +377,11 @@
   "qualities":[
     {"id":"SAW_M_FINE","level":1,"amount":1},
     {"id":"SCREW_FINE","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pipe", 3 ]
-    ],
-    [
-      [ "scrap", 2]
-    ],
-    [
-      [ "2x4", 2 ]
-    ]
+  ],
+  "components": [
+    [ [ "pipe", 3 ] ],
+    [ [ "scrap", 2] ],
+    [ [ "2x4", 2 ] ]
   ]
 }
 ]
