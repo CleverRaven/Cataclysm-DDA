@@ -694,7 +694,7 @@
     "color": "white",
     "name": "lightstrip (unpowered)",
     "name_plural": "lightstrips (unpowered)",
-    "description": "This is a unpowered lightstrip.  You could connect it to batteries to get some light-emitting circuit.",
+    "description": "This is a unpowered lightstrip.  You could connect it to batteries to get a light-emitting circuit.",
     "price": 0,
     "material": ["plastic", "aluminum"],
     "weight": 27,
