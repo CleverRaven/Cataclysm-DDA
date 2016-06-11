@@ -126,7 +126,13 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     if( container.empty() ) {
         obj = &it->convert( target );
         if( ammo_qty >= 0 ) {
-            obj->ammo_set( ammo_type.empty() ? obj->ammo_current() : ammo_type, ammo_qty );
+            if( !ammo_type.empty() ) {
+                obj->ammo_set( ammo_type, ammo_qty );
+            } else if( obj->ammo_current() != "null" ) {
+                obj->ammo_set( obj->ammo_current(), ammo_qty );
+            } else {
+                obj->set_countdown( ammo_qty );
+            }
         }
     } else {
         it->convert( container );

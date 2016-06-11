@@ -61,13 +61,6 @@ enum veh_coll_type : int {
     num_veh_coll_types
 };
 
-// Saved to file as int, so values should not change
-enum turret_mode_type : int {
-    turret_mode_off = 0,
-    turret_mode_autotarget = 1,
-    turret_mode_manual = 2
-};
-
 // Describes turret's ability to fire (possibly at a particular target)
 enum turret_fire_ability {
     turret_all_ok,
@@ -193,7 +186,6 @@ public:
 
     bool open = false;            // door is open
     int direction = 0;            // direction the part is facing
-    int mode = 0;                 // turret mode
 
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
@@ -799,9 +791,7 @@ public:
     void shed_loose_parts();
 
     // Gets range of part p if it's a turret
-    // If `manual` is true, gets the real item range (gun+ammo range)
-    // otherwise gets part range (as in json)
-    int get_turret_range( int p, bool manual = true );
+    int get_turret_range( int p );
 
     // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
     // Does not handle tags like FIRE_100
@@ -816,16 +806,11 @@ public:
     std::map< int, turret_fire_ability > turrets_can_shoot( const tripoint &pos );
     turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
 
-    // Cycle mode for this turret
-    // If `from_controls` is false, only manual modes are allowed
-    // and message describing the new mode is printed
-    void cycle_turret_mode( int p, bool from_controls );
+    /** Set targeting mode for specific turrets */
+    void turrets_set_targeting();
 
-    // Per-turret mode selection
-    void control_turrets();
-
-    // Cycle through available turret modes
-    void cycle_global_turret_mode();
+    /** Set firing mode for specific turrets */
+    void turrets_set_mode();
 
     // Set up the turret to fire
     bool fire_turret( int p, bool manual );
@@ -999,8 +984,6 @@ public:
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
-
-    int turret_mode = 0;    // turret firing mode: 0 = off, 1 = burst fire
 
     int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
     int overhead_epower     = 0; // total power of components with CIRCLE_LIGHT flag

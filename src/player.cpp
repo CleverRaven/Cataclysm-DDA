@@ -1817,11 +1817,11 @@ bool player::is_elec_immune() const
 bool player::is_immune_effect( const efftype_id &eff ) const
 {
     if( eff == effect_downed ) {
-        return is_throw_immune() || ( has_trait("LEG_TENT_BRACE") && footwear_factor() == 0 );
+        return is_throw_immune() || ( has_trait( "LEG_TENT_BRACE" ) && footwear_factor() == 0 );
     } else if( eff == effect_onfire ) {
         return is_immune_damage( DT_HEAT );
     } else if( eff == effect_deaf ) {
-        return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
+        return worn_with_flag( "DEAF" ) || has_bionic( "bio_ears" ) || is_wearing( "rm13_armor_on" );
     } else if( eff == effect_corroding ) {
         return is_immune_damage( DT_ACID ) || has_trait( "SLIMY" ) || has_trait( "VISCOUS" );
     } else if( eff == effect_nausea ) {
@@ -1840,37 +1840,37 @@ int player::stability_roll() const
     ///\EFFECT_DEX slightly improves player stability roll
 
     ///\EFFECT_MELEE improves player stability roll
-    int stability = (get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4);
-        return stability;
+    int stability = ( get_melee() ) + get_str() + ( get_per() / 3 ) + ( get_dex() / 4 );
+    return stability;
 }
 
 bool player::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-    case DT_NULL:
-        return true;
-    case DT_TRUE:
-        return false;
-    case DT_BIOLOGICAL:
-        return false;
-    case DT_BASH:
-        return false;
-    case DT_CUT:
-        return false;
-    case DT_ACID:
-        return has_trait( "ACIDPROOF" );
-    case DT_STAB:
-        return false;
-    case DT_HEAT:
-        return has_trait("M_SKIN2");
-    case DT_COLD:
-        return false;
-    case DT_ELECTRIC:
-        return has_active_bionic( "bio_faraday" ) ||
-               worn_with_flag( "ELECTRIC_IMMUNE" ) ||
-               has_artifact_with( AEP_RESIST_ELECTRICITY );
-    default:
-        return true;
+        case DT_NULL:
+            return true;
+        case DT_TRUE:
+            return false;
+        case DT_BIOLOGICAL:
+            return false;
+        case DT_BASH:
+            return false;
+        case DT_CUT:
+            return false;
+        case DT_ACID:
+            return has_trait( "ACIDPROOF" );
+        case DT_STAB:
+            return false;
+        case DT_HEAT:
+            return has_trait( "M_SKIN2" );
+        case DT_COLD:
+            return false;
+        case DT_ELECTRIC:
+            return has_active_bionic( "bio_faraday" ) ||
+                   worn_with_flag( "ELECTRIC_IMMUNE" ) ||
+                   has_artifact_with( AEP_RESIST_ELECTRICITY );
+        default:
+            return true;
     }
 }
 
@@ -1884,9 +1884,9 @@ bool player::is_hallucination() const
     return false;
 }
 
-void player::set_underwater(bool u)
+void player::set_underwater( bool u )
 {
-    if (underwater != u) {
+    if( underwater != u ) {
         underwater = u;
         recalc_sight_limits();
     }
@@ -1904,29 +1904,29 @@ nc_color player::basic_symbol_color() const
     if( has_effect( effect_boomered ) ) {
         return c_pink;
     }
-    if (has_active_mutation("SHELL2")) {
+    if( has_active_mutation( "SHELL2" ) ) {
         return c_magenta;
     }
-    if (underwater) {
+    if( underwater ) {
         return c_blue;
     }
-    if (has_active_bionic("bio_cloak") || has_artifact_with(AEP_INVISIBLE) ||
-          has_active_optcloak() || has_trait("DEBUG_CLOAK")) {
+    if( has_active_bionic( "bio_cloak" ) || has_artifact_with( AEP_INVISIBLE ) ||
+        has_active_optcloak() || has_trait( "DEBUG_CLOAK" ) ) {
         return c_dkgray;
     }
     return c_white;
 }
 
-void player::load_info(std::string data)
+void player::load_info( std::string data )
 {
     std::stringstream dump;
     dump << data;
 
-    JsonIn jsin(dump);
+    JsonIn jsin( dump );
     try {
-        deserialize(jsin);
+        deserialize( jsin );
     } catch( const JsonError &jsonerr ) {
-        debugmsg("Bad player json\n%s", jsonerr.c_str() );
+        debugmsg( "Bad player json\n%s", jsonerr.c_str() );
     }
 }
 
@@ -1944,18 +1944,18 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //Size of indents in the memorial file
     const std::string indent = "  ";
 
-    const std::string pronoun = male ? _("He") : _("She");
+    const std::string pronoun = male ? _( "He" ) : _( "She" );
 
     //Avoid saying "a male unemployed" or similar
     std::string profession_name;
-    if(prof == prof->generic()) {
-        if (male) {
-            profession_name = _("an unemployed male");
+    if( prof == prof->generic() ) {
+        if( male ) {
+            profession_name = _( "an unemployed male" );
         } else {
-            profession_name = _("an unemployed female");
+            profession_name = _( "an unemployed female" );
         }
     } else {
-        profession_name = string_format(_("a %s"), prof->gender_appropriate_name(male).c_str());
+        profession_name = string_format( _( "a %s" ), prof->gender_appropriate_name( male ).c_str() );
     }
 
     //Figure out the location
@@ -1968,96 +1968,104 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     std::string kill_place;
     if( !closest_city ) {
         //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
-        kill_place = string_format(_("%1$s was killed in a %2$s in the middle of nowhere."),
-                     pronoun.c_str(), tername.c_str());
+        kill_place = string_format( _( "%1$s was killed in a %2$s in the middle of nowhere." ),
+                                    pronoun.c_str(), tername.c_str() );
     } else {
         const auto &nearest_city = *closest_city.city;
         //Give slightly different messages based on how far we are from the middle
         const int distance_from_city = closest_city.distance - nearest_city.s;
-        if(distance_from_city > nearest_city.s + 4) {
+        if( distance_from_city > nearest_city.s + 4 ) {
             //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name.
-            kill_place = string_format(_("%1$s was killed in a %2$s in the wilderness."),
-                         pronoun.c_str(), tername.c_str());
+            kill_place = string_format( _( "%1$s was killed in a %2$s in the wilderness." ),
+                                        pronoun.c_str(), tername.c_str() );
 
-        } else if(distance_from_city >= nearest_city.s) {
+        } else if( distance_from_city >= nearest_city.s ) {
             //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
-            kill_place = string_format(_("%1$s was killed in a %2$s on the outskirts of %3$s."),
-                         pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
+            kill_place = string_format( _( "%1$s was killed in a %2$s on the outskirts of %3$s." ),
+                                        pronoun.c_str(), tername.c_str(), nearest_city.name.c_str() );
         } else {
             //~ First parameter is a pronoun ("He"/"She"), second parameter is a terrain name, third parameter is a city name.
-            kill_place = string_format(_("%1$s was killed in a %2$s in %3$s."),
-                         pronoun.c_str(), tername.c_str(), nearest_city.name.c_str());
+            kill_place = string_format( _( "%1$s was killed in a %2$s in %3$s." ),
+                                        pronoun.c_str(), tername.c_str(), nearest_city.name.c_str() );
         }
     }
 
     //Header
-    std::string version = string_format("%s", getVersionString());
-    memorial_file << string_format(_("Cataclysm - Dark Days Ahead version %s memorial file"), version.c_str()) << "\n";
+    std::string version = string_format( "%s", getVersionString() );
+    memorial_file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
+                                    version.c_str() ) << "\n";
     memorial_file << "\n";
-    memorial_file << string_format(_("In memory of: %s"), name.c_str()) << "\n";
-    if(epitaph.length() > 0) { //Don't record empty epitaphs
+    memorial_file << string_format( _( "In memory of: %s" ), name.c_str() ) << "\n";
+    if( epitaph.length() > 0 ) { //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displyed in the memorial files. Replace the quotation marks as appropriate for your language.
-        memorial_file << string_format(pgettext("epitaph","\"%s\""), epitaph.c_str()) << "\n\n";
+        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph.c_str() ) << "\n\n";
     }
     //~ First parameter: Pronoun, second parameter: a profession name (with article)
-    memorial_file << string_format(_("%1$s was %2$s when the apocalypse began."),
-                                   pronoun.c_str(), profession_name.c_str()) << "\n";
-    memorial_file << string_format(_("%1$s died on %2$s of year %3$d, day %4$d, at %5$s."),
-                     pronoun.c_str(), season_name_upper(calendar::turn.get_season()).c_str(), (calendar::turn.years() + 1),
-                     (calendar::turn.days() + 1), calendar::turn.print_time().c_str()) << "\n";
+    memorial_file << string_format( _( "%1$s was %2$s when the apocalypse began." ),
+                                    pronoun.c_str(), profession_name.c_str() ) << "\n";
+    memorial_file << string_format( _( "%1$s died on %2$s of year %3$d, day %4$d, at %5$s." ),
+                                    pronoun.c_str(), season_name_upper( calendar::turn.get_season() ).c_str(),
+                                    ( calendar::turn.years() + 1 ),
+                                    ( calendar::turn.days() + 1 ), calendar::turn.print_time().c_str() ) << "\n";
     memorial_file << kill_place << "\n";
     memorial_file << "\n";
 
     //Misc
-    memorial_file << string_format(_("Cash on hand: $%d"), cash) << "\n";
+    memorial_file << string_format( _( "Cash on hand: $%d" ), cash ) << "\n";
     memorial_file << "\n";
 
     //HP
-    memorial_file << _("Final HP:") << "\n";
-    memorial_file << indent << string_format(_(" Head: %d/%d"), hp_cur[hp_head],  hp_max[hp_head] ) << "\n";
-    memorial_file << indent << string_format(_("Torso: %d/%d"), hp_cur[hp_torso], hp_max[hp_torso]) << "\n";
-    memorial_file << indent << string_format(_("L Arm: %d/%d"), hp_cur[hp_arm_l], hp_max[hp_arm_l]) << "\n";
-    memorial_file << indent << string_format(_("R Arm: %d/%d"), hp_cur[hp_arm_r], hp_max[hp_arm_r]) << "\n";
-    memorial_file << indent << string_format(_("L Leg: %d/%d"), hp_cur[hp_leg_l], hp_max[hp_leg_l]) << "\n";
-    memorial_file << indent << string_format(_("R Leg: %d/%d"), hp_cur[hp_leg_r], hp_max[hp_leg_r]) << "\n";
+
+    const auto limb_hp = [this, &memorial_file, &indent]( const std::string & desc,
+                                                          const body_part bp ) {
+        memorial_file << indent << string_format( desc, hp_cur[bp], hp_max[bp] ) << "\n";
+    };
+
+    memorial_file << _( "Final HP:" ) << "\n";
+    limb_hp( _( " Head: %d/%d" ), bp_head );
+    limb_hp( _( "Torso: %d/%d" ), bp_torso );
+    limb_hp( _( "L Arm: %d/%d" ), bp_arm_l );
+    limb_hp( _( "R Arm: %d/%d" ), bp_arm_r );
+    limb_hp( _( "L Leg: %d/%d" ), bp_leg_l );
+    limb_hp( _( "R Leg: %d/%d" ), bp_leg_r );
     memorial_file << "\n";
 
     //Stats
-    memorial_file << _("Final Stats:") << "\n";
-    memorial_file << indent << string_format(_("Str %d"), str_cur)
-                  << indent << string_format(_("Dex %d"), dex_cur)
-                  << indent << string_format(_("Int %d"), int_cur)
-                  << indent << string_format(_("Per %d"), per_cur) << "\n";
-    memorial_file << _("Base Stats:") << "\n";
-    memorial_file << indent << string_format(_("Str %d"), str_max)
-                  << indent << string_format(_("Dex %d"), dex_max)
-                  << indent << string_format(_("Int %d"), int_max)
-                  << indent << string_format(_("Per %d"), per_max) << "\n";
+    memorial_file << _( "Final Stats:" ) << "\n";
+    memorial_file << indent << string_format( _( "Str %d" ), str_cur )
+                  << indent << string_format( _( "Dex %d" ), dex_cur )
+                  << indent << string_format( _( "Int %d" ), int_cur )
+                  << indent << string_format( _( "Per %d" ), per_cur ) << "\n";
+    memorial_file << _( "Base Stats:" ) << "\n";
+    memorial_file << indent << string_format( _( "Str %d" ), str_max )
+                  << indent << string_format( _( "Dex %d" ), dex_max )
+                  << indent << string_format( _( "Int %d" ), int_max )
+                  << indent << string_format( _( "Per %d" ), per_max ) << "\n";
     memorial_file << "\n";
 
     //Last 20 messages
-    memorial_file << _("Final Messages:") << "\n";
-    std::vector<std::pair<std::string, std::string> > recent_messages = Messages::recent_messages(20);
+    memorial_file << _( "Final Messages:" ) << "\n";
+    std::vector<std::pair<std::string, std::string> > recent_messages = Messages::recent_messages( 20 );
     for( auto &recent_message : recent_messages ) {
         memorial_file << indent << recent_message.first << " " << recent_message.second;
-      memorial_file << "\n";
+        memorial_file << "\n";
     }
     memorial_file << "\n";
 
     //Kill list
-    memorial_file << _("Kills:") << "\n";
+    memorial_file << _( "Kills:" ) << "\n";
 
     int total_kills = 0;
 
-    std::map<std::tuple<std::string,std::string>,int> kill_counts;
+    std::map<std::tuple<std::string, std::string>, int> kill_counts;
 
     // map <name, sym> to kill count
     for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
         if( g->kill_count( type.id ) > 0 ) {
-            kill_counts[std::tuple<std::string,std::string>(
-                type.nname(),
-                type.sym
-            )] += g->kill_count( type.id );
+            kill_counts[std::tuple<std::string, std::string>(
+                            type.nname(),
+                            type.sym
+                        )] += g->kill_count( type.id );
             total_kills += g->kill_count( type.id );
         }
     }
@@ -2069,9 +2077,9 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     }
 
     if( total_kills == 0 ) {
-      memorial_file << indent << _( "No monsters were killed." ) << "\n";
+        memorial_file << indent << _( "No monsters were killed." ) << "\n";
     } else {
-      memorial_file << string_format( _( "Total kills: %d" ), total_kills ) << "\n";
+        memorial_file << string_format( _( "Total kills: %d" ), total_kills ) << "\n";
     }
     memorial_file << "\n";
 
@@ -2085,74 +2093,74 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     memorial_file << "\n";
 
     //Traits
-    memorial_file << _("Traits:") << "\n";
+    memorial_file << _( "Traits:" ) << "\n";
     for( auto &iter : my_mutations ) {
         memorial_file << indent << mutation_branch::get_name( iter.first ) << "\n";
     }
     if( !my_mutations.empty() ) {
-      memorial_file << indent << _("(None)") << "\n";
+        memorial_file << indent << _( "(None)" ) << "\n";
     }
     memorial_file << "\n";
 
     //Effects (illnesses)
-    memorial_file << _("Ongoing Effects:") << "\n";
+    memorial_file << _( "Ongoing Effects:" ) << "\n";
     bool had_effect = false;
     if( get_morale_level() >= 100 ) {
-      had_effect = true;
-      memorial_file << indent << _("Elated") << "\n";
+        had_effect = true;
+        memorial_file << indent << _( "Elated" ) << "\n";
     }
     if( get_morale_level() <= -100 ) {
-      had_effect = true;
-      memorial_file << indent << _("Depressed") << "\n";
+        had_effect = true;
+        memorial_file << indent << _( "Depressed" ) << "\n";
     }
-    if(get_perceived_pain() > 0) {
-      had_effect = true;
-      memorial_file << indent << _("Pain") << " (" << get_perceived_pain() << ")";
+    if( get_perceived_pain() > 0 ) {
+        had_effect = true;
+        memorial_file << indent << _( "Pain" ) << " (" << get_perceived_pain() << ")";
     }
-    if(stim > 0) {
-      had_effect = true;
-      int dexbonus = stim / 10;
-      if (abs(stim) >= 30) {
-        dexbonus -= abs(stim - 15) /  8;
-      }
-      if(dexbonus < 0) {
-        memorial_file << indent << _("Stimulant Overdose") << "\n";
-      } else {
-        memorial_file << indent << _("Stimulant") << "\n";
-      }
-    } else if(stim < 0) {
-      had_effect = true;
-      memorial_file << indent << _("Depressants") << "\n";
+    if( stim > 0 ) {
+        had_effect = true;
+        int dexbonus = stim / 10;
+        if( abs( stim ) >= 30 ) {
+            dexbonus -= abs( stim - 15 ) /  8;
+        }
+        if( dexbonus < 0 ) {
+            memorial_file << indent << _( "Stimulant Overdose" ) << "\n";
+        } else {
+            memorial_file << indent << _( "Stimulant" ) << "\n";
+        }
+    } else if( stim < 0 ) {
+        had_effect = true;
+        memorial_file << indent << _( "Depressants" ) << "\n";
     }
-    if(!had_effect) {
-      memorial_file << indent << _("(None)") << "\n";
+    if( !had_effect ) {
+        memorial_file << indent << _( "(None)" ) << "\n";
     }
     memorial_file << "\n";
 
     //Bionics
-    memorial_file << _("Bionics:") << "\n";
+    memorial_file << _( "Bionics:" ) << "\n";
     int total_bionics = 0;
     for( size_t i = 0; i < my_bionics.size(); ++i ) {
-      memorial_file << indent << (i+1) << ": " << bionic_info(my_bionics[i].id).name << "\n";
-      total_bionics++;
+        memorial_file << indent << ( i + 1 ) << ": " << bionic_info( my_bionics[i].id ).name << "\n";
+        total_bionics++;
     }
-    if(total_bionics == 0) {
-      memorial_file << indent << _("No bionics were installed.") << "\n";
+    if( total_bionics == 0 ) {
+        memorial_file << indent << _( "No bionics were installed." ) << "\n";
     } else {
-      memorial_file << string_format(_("Total bionics: %d"), total_bionics) << "\n";
+        memorial_file << string_format( _( "Total bionics: %d" ), total_bionics ) << "\n";
     }
-    memorial_file << string_format(_("Power: %d/%d"), power_level,  max_power_level) << "\n";
+    memorial_file << string_format( _( "Power: %d/%d" ), power_level,  max_power_level ) << "\n";
     memorial_file << "\n";
 
     //Equipment
-    memorial_file << _("Weapon:") << "\n";
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname(1, false) << "\n";
+    memorial_file << _( "Weapon:" ) << "\n";
+    memorial_file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << "\n";
     memorial_file << "\n";
 
-    memorial_file << _("Equipment:") << "\n";
+    memorial_file << _( "Equipment:" ) << "\n";
     for( auto &elem : worn ) {
         item next_item = elem;
-        memorial_file << indent << next_item.invlet << " - " << next_item.tname(1, false);
+        memorial_file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
         if( next_item.charges > 0 ) {
             memorial_file << " (" << next_item.charges << ")";
         } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
@@ -2163,14 +2171,14 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     memorial_file << "\n";
 
     //Inventory
-    memorial_file << _("Inventory:") << "\n";
-    inv.restack(this);
+    memorial_file << _( "Inventory:" ) << "\n";
+    inv.restack( this );
     inv.sort();
     invslice slice = inv.slice();
     for( auto &elem : slice ) {
         item &next_item = elem->front();
         memorial_file << indent << next_item.invlet << " - " <<
-            next_item.tname(unsigned(elem->size()), false);
+                      next_item.tname( unsigned( elem->size() ), false );
         if( elem->size() > 1 ) {
             memorial_file << " [" << elem->size() << "]";
         }
@@ -2184,19 +2192,19 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     memorial_file << "\n";
 
     //Lifetime stats
-    memorial_file << _("Lifetime Stats") << "\n";
-    memorial_file << indent << string_format(_("Distance walked: %d squares"),
-                       player_stats.squares_walked) << "\n";
-    memorial_file << indent << string_format(_("Damage taken: %d damage"),
-                       player_stats.damage_taken) << "\n";
-    memorial_file << indent << string_format(_("Damage healed: %d damage"),
-                       player_stats.damage_healed) << "\n";
-    memorial_file << indent << string_format(_("Headshots: %d"),
-                       player_stats.headshots) << "\n";
+    memorial_file << _( "Lifetime Stats" ) << "\n";
+    memorial_file << indent << string_format( _( "Distance walked: %d squares" ),
+                  player_stats.squares_walked ) << "\n";
+    memorial_file << indent << string_format( _( "Damage taken: %d damage" ),
+                  player_stats.damage_taken ) << "\n";
+    memorial_file << indent << string_format( _( "Damage healed: %d damage" ),
+                  player_stats.damage_healed ) << "\n";
+    memorial_file << indent << string_format( _( "Headshots: %d" ),
+                  player_stats.headshots ) << "\n";
     memorial_file << "\n";
 
     //History
-    memorial_file << _("Game History") << "\n";
+    memorial_file << _( "Game History" ) << "\n";
     memorial_file << dump_memorial();
 
 }
@@ -2206,30 +2214,30 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
  * the character dies. The message should contain only the informational string,
  * as the timestamp and location will be automatically prepended.
  */
-void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
+void player::add_memorial_log( const char *male_msg, const char *female_msg, ... )
 {
 
     va_list ap;
 
-    va_start(ap, female_msg);
+    va_start( ap, female_msg );
     std::string msg;
-    if(this->male) {
-        msg = vstring_format(male_msg, ap);
+    if( this->male ) {
+        msg = vstring_format( male_msg, ap );
     } else {
-        msg = vstring_format(female_msg, ap);
+        msg = vstring_format( female_msg, ap );
     }
-    va_end(ap);
+    va_end( ap );
 
-    if(msg.empty()) {
+    if( msg.empty() ) {
         return;
     }
 
     std::stringstream timestamp;
     //~ A timestamp. Parameters from left to right: Year, season, day, time
-    timestamp << string_format(_("Year %1$d, %2$s %3$d, %4$s"), calendar::turn.years() + 1,
-                               season_name_upper(calendar::turn.get_season()).c_str(),
-                               calendar::turn.days() + 1, calendar::turn.print_time().c_str()
-                               );
+    timestamp << string_format( _( "Year %1$d, %2$s %3$d, %4$s" ), calendar::turn.years() + 1,
+                                season_name_upper( calendar::turn.get_season() ).c_str(),
+                                calendar::turn.days() + 1, calendar::turn.print_time().c_str()
+                              );
 
     const oter_id &cur_ter = overmap_buffer.ter( global_omt_location() );
     std::string location = otermap[cur_ter].name;
@@ -2237,7 +2245,7 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
     std::stringstream log_message;
     log_message << "| " << timestamp.str() << " | " << location.c_str() << " | " << msg;
 
-    memorial_log.push_back(log_message.str());
+    memorial_log.push_back( log_message.str() );
 
 }
 
@@ -2246,14 +2254,14 @@ void player::add_memorial_log(const char* male_msg, const char* female_msg, ...)
  * entry lines begin with a pipe (|).
  * @param fin The ifstream to read the memorial entries from.
  */
-void player::load_memorial_file(std::istream &fin)
+void player::load_memorial_file( std::istream &fin )
 {
-  std::string entry;
-  memorial_log.clear();
-  while(fin.peek() == '|') {
-    getline(fin, entry);
-    memorial_log.push_back(entry);
-  }
+    std::string entry;
+    memorial_log.clear();
+    while( fin.peek() == '|' ) {
+        getline( fin, entry );
+        memorial_log.push_back( entry );
+    }
 }
 
 /**
@@ -2264,13 +2272,13 @@ void player::load_memorial_file(std::istream &fin)
 std::string player::dump_memorial() const
 {
 
-  std::stringstream output;
+    std::stringstream output;
 
-  for( auto &elem : memorial_log ) {
-      output << elem << "\n";
-  }
+    for( auto &elem : memorial_log ) {
+        output << elem << "\n";
+    }
 
-  return output.str();
+    return output.str();
 
 }
 
@@ -2282,7 +2290,7 @@ std::string player::dump_memorial() const
  * @return A pointer to the stats struct being used to track this player's
  *         lifetime stats.
  */
-stats* player::lifetime_stats()
+stats *player::lifetime_stats()
 {
     return &player_stats;
 }
@@ -3569,20 +3577,6 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
         nc_color col_vel = strain <= 0 ? c_ltblue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_ltred : c_red ) );
-
-        bool has_turrets = false;
-        for( unsigned int p = 0; p < veh->parts.size(); p++ ) {
-            if( veh->part_flag( p, "TURRET" ) ) {
-                has_turrets = true;
-                break;
-            }
-        }
-
-        if( has_turrets ) {
-            mvwprintz( w, 3, sideStyle ? 16 : 25, col_indf1, _( "Gun:" ) );
-            wprintz( w, veh->turret_mode ? c_ltred : c_ltblue,
-                     veh->turret_mode ? _( "auto" ) : _( "off " ) );
-        }
 
         //
         // Draw the speedometer.
@@ -7983,7 +7977,7 @@ void player::suffer()
                 mod_pain(1);
             }
             else focus_pool --;
-        }    
+        }
     }
 
     if (has_trait("SUNBURN") && g->is_in_sunlight(pos()) && one_in(10)) {
@@ -8017,7 +8011,7 @@ void player::suffer()
         mod_dex_bonus(-4);
         add_miss_reason(_("You can't stand the sunlight!"), 4);
         mod_int_bonus(-4);
-        mod_per_bonus(-4); 
+        mod_per_bonus(-4);
     }
 
     if (has_trait("SORES")) {
@@ -12575,17 +12569,21 @@ void player::learn_recipe( const recipe * const rec, bool force )
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
 {
-    if( !backlog.empty() && backlog.front().type == type && backlog.front().index == index &&
-        backlog.front().position == pos && backlog.front().name == name &&
-        !backlog.front().auto_resume) {
-        add_msg_if_player( _("You resume your task."));
+    assign_activity( player_activity( type, moves, index, pos, name ) );
+}
+
+void player::assign_activity( const player_activity &act, bool allow_resume )
+{
+    if( allow_resume && !backlog.empty() && backlog.front().can_resume_with( act, *this ) ) {
+        add_msg_if_player( _("You resume your task.") );
         activity = backlog.front();
         backlog.pop_front();
     } else {
         if( activity.type != ACT_NULL ) {
             backlog.push_front( activity );
         }
-        activity = player_activity(type, moves, index, pos, name);
+
+        activity = act;
     }
     if( this->moves <= activity.moves_left ) {
         activity.moves_left -= this->moves;
@@ -13327,26 +13325,27 @@ bool player::is_visible_in_range( const Creature &critter, const int range ) con
 std::vector<Creature *> player::get_visible_creatures( const int range ) const
 {
     return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
-        return this != &critter && this->sees(critter) &&
-          rl_dist( this->pos(), critter.pos() ) <= range;
+        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+          rl_dist( pos(), critter.pos() ) <= range && sees( critter );
     } );
 }
 
 std::vector<Creature *> player::get_targetable_creatures( const int range ) const
 {
     return get_creatures_if( [this, range]( const Creature &critter ) -> bool {
-        return this != &critter && ( this->sees(critter) || this->sees_with_infrared(critter) ) &&
-          rl_dist( this->pos(), critter.pos() ) <= range;
+        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+          rl_dist( pos(), critter.pos() ) <= range &&
+          ( sees( critter ) || sees_with_infrared( critter ) );
     } );
 }
 
 std::vector<Creature *> player::get_hostile_creatures() const
 {
     return get_creatures_if( [this] ( const Creature &critter ) -> bool {
-        return this != &critter && this->sees(critter) && critter.attitude_to(*this) == A_HOSTILE;
+        return this != &critter && pos() != critter.pos() && // @todo get rid of fake npcs (pos() check)
+            critter.attitude_to( *this ) == A_HOSTILE && sees( critter );
     } );
 }
-
 
 void player::place_corpse()
 {

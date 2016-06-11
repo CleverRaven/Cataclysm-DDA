@@ -11,7 +11,7 @@
     "hp":50,
     "vision_day":2,
     "vision_night":2,
-    "special_attacks":[["FUNGUS_BRISTLE", 10], ["FUNGUS", 300], ["TENTACLE", 50], ["GRENADIER", 120]],
+    "special_attacks":[["FUNGUS_BRISTLE", 10], ["FUNGUS", 300], ["TENTACLE", 50], ["GRENADIER", 90]],
     "starting_ammo": { "bot_fungal_boil": 4 },
     "death_function":["FUNGUS", "DISINTEGRATE"],
     "flags":["SEES", "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE"]
@@ -25,10 +25,10 @@
     "armor_fire":1,
     "armor_acid":1,
     "hp":30,
-    "vision_day":5,
-    "vision_night":5,
-    "special_attacks":[["FUNGUS_BRISTLE", 30], ["FUNGUS", 20], ["GRENADIER", 120]],
-    "starting_ammo": { "bot_fungal_boil": 4 },
+    "vision_day":30,
+    "vision_night":30,
+    "special_attacks":[["FUNGUS_BRISTLE", 30], ["FUNGUS", 20], ["GRENADIER", 60]],
+    "starting_ammo": { "bot_fungal_boil": 8 },
     "death_function":["FUNGUS", "DISINTEGRATE"],
     "flags":["SEES", "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE", "REGENERATES_10"]
     },{
@@ -134,10 +134,10 @@
     "aggression":0,
     "morale":70,
     "speed":115,
-    "melee_skill":6,
+    "melee_skill":5,
     "melee_dice":2,
     "melee_dice_sides":5,
-    "melee_cut":3,
+    "melee_cut":5,
     "dodge":4,
     "armor_bash":3,
     "armor_cut":2,
@@ -151,9 +151,9 @@
             "cooldown" : 10,
             "max_range" : 4
         },
-        ["LUNGE", 60], ["FUNGUS", 180], ["FUNGUS_INJECT", 70]],
+        ["LUNGE", 60], ["FUNGUS", 180], ["FUNGUS_INJECT", 40]],
     "description":"The Eastern cougar, now an aspiring fungaloid.  Although it appears its transformation has affected its agility some, it still bounds after targets with savagery.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "POISON", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "POISON", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["PLAYER_WEAK", "HURT", "FRIEND_ATTACKED"],
     "fear_triggers":["SOUND", "FIRE"]
     },{
@@ -202,7 +202,7 @@
     "speed":170,
     "melee_skill":7,
     "melee_dice":3,
-    "melee_dice_sides":5,
+    "melee_dice_sides":6,
     "melee_cut":1,
     "dodge":2,
     "armor_bash":5,
@@ -214,7 +214,7 @@
     "death_function":["NORMAL", "FUNGUS"],
     "special_attacks":[["SMASH", 40], ["FUNGUS", 180], ["HOWL", 60]],
     "description":"The 'foose' is an ill-tempered beast, fighting a battle it must inevitably lose.  Occasionally it gives unearthly voice to its anguish.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "POISON", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "POISON", "BASHES", "WARM", "FUR", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["FIRE", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK", "SOUND"],
     "//" : "The mighty foose.  Not mighty enough.  Ever."
@@ -237,7 +237,7 @@
     "melee_dice":2,
     "melee_dice_sides":3,
     "melee_cut":3,
-    "melee_damage" : [ {"damage_type" : "stab", "amount" : 3} ],
+    "melee_damage" : [ {"damage_type" : "stab", "amount" : 2} ],
     "dodge":3,
     "armor_bash":2,
     "armor_cut":1,
@@ -250,10 +250,10 @@
             "type" : "bite",
             "cooldown" : 7,
             "no_infection_chance" : 20,
-            "min_mul" : 0.5, "//" : "strong jaws"
+            "min_mul" : 0.65, "//" : "strong jaws"
         }],
     "description":"Whether wolf or dog, this canine is clearly sick.  The slavering of its mouth is consistent, at least.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "ANIMAL", "WARM", "FUR", "KEENNOSE", "BLEED", "BONES", "FAT"],
     "anger_triggers":["FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "fear_triggers": "FIRE"
@@ -322,10 +322,10 @@
     "hp":130,
     "vision_day":2,
     "vision_night":2,
-    "death_function":["FUNGUS"],
+    "death_function":["FUNGUS", "NORMAL"],
     "special_attacks":[["TENTACLE", 20], ["FUNGUS_INJECT", 10], ["FUNGUS", 300]],
     "description":"A stout stalk of gray matter, this fungus pulls itself along with several tipped tendrils.  Two of these tendrils are raised ominously when the fungaloid finds a suitable host for its crop of spores.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD", "CAN_DIG"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "STUMBLES", "POISON", "NO_BREATHE", "NOHEAD", "CAN_DIG"],
     "anger_triggers":["SOUND", "HURT"],
     "placate_triggers":["PLAYER_WEAK"]
     },{
@@ -357,7 +357,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["GRAB", 30], ["VINE", 7], ["FUNGUS", 90], ["TENTACLE", 20], ["FUNGUS_BRISTLE", 20]],
     "description":"A giant water bear that is host to the fungal invasion.  Its body has softened as a result of the infection, and its sensory tentacles have lengthened significantly where fungal buds have formed.  Even as this gentle beast ignores you the fungal tentacles seek new flesh to pollinate.",
-    "flags":["SEES", "SMELLS","POISON", "STUMBLES", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "SWIMS", "ANIMAL", "FAT","CHITIN"],
+    "flags":["SEES", "SMELLS", "PATH_AVOID_DANGER_1","POISON", "STUMBLES", "BASHES", "ARTHROPOD_BLOOD", "NO_BREATHE", "SWIMS", "ANIMAL", "FAT","CHITIN"],
     "anger_triggers":["HURT", "STALK", "FRIEND_ATTACKED"],
     "placate_triggers":["PLAYER_WEAK"],
     "//" : "As it currently stands this guy will whip at you even if it is peaceful.  The tentacle attacks were taken from the Dog-Thing, and can cover quite a distance.  So the reduced vision radius keeps the max distance of the tentacle down.  It's a neat effect caused by what I'm sure is an unintended bug."
@@ -466,7 +466,7 @@
         }],
     "starting_ammo" : {"9mm": 31},
     "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"],
     "//" : "I'm vaguely aware that the way I compiled the loot item_groups for these gun-toting Zs is pretty inefficient.  Just sayin'''"
@@ -532,7 +532,7 @@
     ],
     "starting_ammo" : {"shot_00": 10},
     "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"]
     },{
@@ -596,7 +596,7 @@
     ],
     "starting_ammo" : {"44fmj": 17},
     "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "PLAYER_WEAK", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"]
     },{
@@ -660,7 +660,7 @@
     ],
     "starting_ammo" : {"9mm":128},
     "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"]
     },{
@@ -705,7 +705,7 @@
         },
         ["GRAB", 30], ["IMPALE", 30], ["FUNGUS", 180]],
     "description":"A survivor of the apocalypse, this individual is succumbing to their infection; displaying paranoia, and incoherency.  Unpredictable and terminally-ill, they will not respond to any attempts to communicate.  You can't help but notice they still wear their armor and holster, despite the fresh fungal budding that threatens to rip through it  . . .",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
+    "flags":["SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_2", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "FAT", "BONES", "PUSH_MON", "GUILT"],
     "anger_triggers":["FRIEND_DIED", "FIRE", "PLAYER_CLOSE"],
     "placate_triggers":["FRIEND_ATTACKED"]
     },{
@@ -766,7 +766,7 @@
         }],
     "starting_ammo" : {"223":150},
     "description":"This survivor has willingly given their body to the fungus in some strange, ill-described ritual.  As a result they have retained much of their personality and hold unnatural abilities.  They don't seem interested in talking to you; you cannot even discern their gender.",
-    "flags":["SEES", "HEARS", "BASHES", "GROUP_BASH", "DESTROYS", "POISON", "HUMAN", "NO_BREATHE", "FIREPROOF", "BONES", "PUSH_MON"],
+    "flags":["SEES", "HEARS", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "BASHES", "GROUP_BASH", "DESTROYS", "POISON", "HUMAN", "NO_BREATHE", "FIREPROOF", "BONES", "PUSH_MON"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FIRE", "PLAYER_CLOSE"],
     "//" : "Very dangerous to anyone not in a PA suit.  Will be evolving into a laser-wielding monstrosity."
     },{
@@ -861,7 +861,7 @@
     "starting_ammo": { "EMPbomb": 3},
     "death_function":["EXPLODE", "ACID", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS", "FUNGUS"],
     "description":"This plant's dry body is now host to moist fluid sacs that hang off haphazardly; occasionally bursting into a cloud of haze.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "CAN_DIG", "POISON", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
+    "flags":["SEES", "HEARS", "GOODHEARING", "PATH_AVOID_DANGER_1", "CAN_DIG", "POISON", "ANIMAL", "SWIMS", "NOHEAD", "BASHES"],
     "anger_triggers":["SOUND", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "//" : "While I feel the triffid HB is somewhat forced into their fold, this guy works pretty well for the fungus and their themes.  Doesn't seem to want to blow up of his own volition though.  The fungal mdeaths def stack, but its diminishing returns."
     },{
@@ -920,11 +920,11 @@
     "melee_dice_sides":3,
     "melee_cut":20,
     "dodge":2,
-    "armor_bash":4,
-    "armor_cut":4,
+    "armor_bash":2,
+    "armor_cut":2,
     "vision_day":35,
     "vision_night":5,
-    "hp":85,
+    "hp":65,
     "death_function":"NORMAL",
     "special_attacks":[["FUNGUS", 60],
         {
@@ -932,7 +932,7 @@
             "cooldown" : 3
         }
     ],
-    "description":"A large, astoundingly tough creature that used to be a dog or boar.  Its massive maw takes up almost half its body. Rows of teeth pushing older rows forward; creating a jutting smile only made more terrifying by the beady red eyes, socketed above behind the maw, looking down at its prey.",
+    "description":"A large, astoundingly tough creature that used to be a dog or boar.  Its massive maw takes up almost half its body.  Rows of teeth pushing older rows forward; creating a jutting smile only made more terrifying by the beady red eyes, socketed above behind the maw, looking down at its prey.",
     "flags":["SEES", "HEARS", "SMELLS", "KEENNOSE", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "BONES", "FAT", "REGENERATES_10", "PLASTIC"],
     "anger_triggers":["PLAYER_WEAK", "PLAYER_CLOSE"]
     }

@@ -7654,13 +7654,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 8 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools":[
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7696,13 +7695,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 7 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7739,13 +7737,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7782,13 +7779,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 4 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+       ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7826,13 +7822,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 6 ]],
     "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+       ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7868,13 +7863,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armwest", 5 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7910,13 +7904,12 @@
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
   "qualities": [
-       {"id":"HAMMER","level":3,"amount":1} ],
+       {"id":"HAMMER","level":3,"amount":1},
+       { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
      [
       ["tongs", -1]
-     ],
-     [
-      ["chisel", -1]
      ],
      [
       ["anvil", -1]
@@ -7955,10 +7948,12 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_armeast", 8 ]],
-  "qualities": [ {"id":"HAMMER","level":3,"amount":1} ],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1},
+    { "id": "CHISEL", "level": 3 }
+    ],
   "tools": [
     [ ["tongs", -1] ],
-    [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["crucible", -1], ["crucible_clay", -1] ],
     [ ["forge", 450], ["oxy_torch", 90] ]

@@ -13,6 +13,7 @@
       <SDLCheck>false</SDLCheck>
       <StringPooling>true</StringPooling>
       <MinimalRebuild>true</MinimalRebuild>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <CompileAs>CompileAsCpp</CompileAs>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <AdditionalOptions>/Zc:inline /Zc:rvalueCast /Zc:strictStrings %(AdditionalOptions)</AdditionalOptions>
@@ -27,6 +28,8 @@
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <LargeAddressAware>true</LargeAddressAware>
       <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
+      <AdditionalOptions>/LTCG:OFF %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

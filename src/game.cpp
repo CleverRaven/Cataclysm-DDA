@@ -83,6 +83,7 @@
 #include "pathfinding.h"
 #include "gates.h"
 #include "item_factory.h"
+#include "scent_map.h"
 
 #include <map>
 #include <set>
@@ -159,7 +160,6 @@ const efftype_id effect_winded( "winded" );
 
 void advanced_inv(); // player_activity.cpp
 void intro();
-nc_color sev(int a); // Right now, ONLY used for scent debugging....
 
 //The one and only game instance
 game *g;
@@ -209,10 +209,12 @@ game::game() :
     u_ptr( new player() ),
     liveview_ptr( new live_view() ),
     liveview( *liveview_ptr ),
+    scent_ptr( new scent_map() ),
     new_game(false),
     uquit(QUIT_NO),
     m( *map_ptr ),
     u( *u_ptr ),
+    scent( *scent_ptr ),
     critter_tracker( new Creature_tracker() ),
     weather_gen( new weather_generator() ),
     weather_precise( new w_point() ),
@@ -720,12 +722,7 @@ void game::setup()
 
     // reset kill counts
     kills.clear();
-    // Set the scent map to 0
-    for( auto &elem : grscent ) {
-        for( auto &elem_j : elem ) {
-            elem_j = 0;
-        }
-    }
+    scent.reset();
 
     remoteveh_cache_turn = INT_MIN;
     remoteveh_cache = nullptr;
@@ -1447,7 +1444,13 @@ bool game::do_turn()
             calc_driving_offset(veh);
         }
     }
-    update_scent();
+
+    // No-scent debug mutation has to be processed here or else it takes time to start working
+    if( !u.has_active_bionic( "bio_scent_mask" ) && !u.has_trait( "DEBUG_NOSCENT" ) ) {
+        scent( u.pos() ) = u.scent;
+        overmap_buffer.set_scent( u.global_omt_location(),  u.scent );
+    }
+    scent.update( u.pos(), m );
 
     // We need floor cache before checking falling 'n stuff
     m.build_floor_caches();
@@ -1623,8 +1626,8 @@ bool game::cancel_activity_or_ignore_query(const char *reason, ...)
     bool force_uc = OPTIONS["FORCE_CAPITAL_YN"];
     int ch = (int)' ';
 
-    std::string stop_message = text + u.activity.get_stop_phrase() +
-                               _(" (Y)es, (N)o, (I)gnore further distractions and finish.");
+    std::string stop_message = text + " " + u.activity.get_stop_phrase() + " " +
+                               _( "(Y)es, (N)o, (I)gnore further distractions and finish." );
 
     do {
         ch = popup(stop_message, PF_GET_KEY);
@@ -1654,7 +1657,7 @@ bool game::cancel_activity_query(const char *message, ...)
         }
         return false;
     }
-    if (query_yn("%s%s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
+    if (query_yn("%s %s", text.c_str(), u.activity.get_stop_phrase().c_str())) {
         u.cancel_activity();
         return true;
     }
@@ -2895,7 +2898,9 @@ bool game::handle_action()
         }
 
         case ACTION_SELECT_FIRE_MODE:
-            cycle_item_mode( false );
+            if( u.is_armed() ) {
+                u.weapon.gun_cycle_mode();
+            }
             break;
 
         case ACTION_DROP:
@@ -3329,140 +3334,6 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
     }
 
     return true;
-}
-
-#define SCENT_RADIUS 40
-
-// TODO: Unify this and scent area used in update_scent to fix "scent pocket" bug
-bool outside_scent_radius( const tripoint &p ) {
-    return p.x < (SEEX * MAPSIZE / 2) - SCENT_RADIUS || p.x >= (SEEX * MAPSIZE / 2) + SCENT_RADIUS ||
-           p.y < (SEEY * MAPSIZE / 2) - SCENT_RADIUS || p.y >= (SEEY * MAPSIZE / 2) + SCENT_RADIUS;
-}
-
-int &game::scent( const tripoint &p )
-{
-    if( outside_scent_radius( p ) ) {
-        nulscent = 0;
-        return nulscent; // Out-of-bounds - null scent
-    }
-    return grscent[p.x][p.y];
-}
-
-void game::update_scent()
-{
-    static tripoint player_last_position = tripoint_min;
-    static int player_last_moved = calendar::turn;
-    // Stop updating scent after X turns of the player not moving.
-    // Once wind is added, need to reset this on wind shifts as well.
-    if( u.pos() == player_last_position ) {
-        if( player_last_moved + 1000 < calendar::turn ) {
-            return;
-        }
-    } else {
-        player_last_position = u.pos();
-        player_last_moved = calendar::turn;
-    }
-
-    overmap_buffer.set_scent( u.global_omt_location(), u.scent );
-
-    // note: the next four intermediate matrices need to be at least
-    // [2*SCENT_RADIUS+3][2*SCENT_RADIUS+1] in size to hold enough data
-    // The code I'm modifying used [SEEX * MAPSIZE]. I'm staying with that to avoid new bugs.
-
-    // These two matrices are transposed so that x addresses are contiguous in memory
-    int sum_3_scent_y[SEEY * MAPSIZE][SEEX * MAPSIZE];  //intermediate variable
-    int squares_used_y[SEEY * MAPSIZE][SEEX * MAPSIZE]; //intermediate variable
-
-    // these are for caching flag lookups
-    bool blocks_scent[SEEX * MAPSIZE][SEEY * MAPSIZE]; // currently only TFLAG_WALL blocks scent
-    bool reduces_scent[SEEX * MAPSIZE][SEEY * MAPSIZE];
-
-
-    // for loop constants
-    const int scentmap_minx = u.posx() - SCENT_RADIUS;
-    const int scentmap_maxx = u.posx() + SCENT_RADIUS;
-    const int scentmap_miny = u.posy() - SCENT_RADIUS;
-    const int scentmap_maxy = u.posy() + SCENT_RADIUS;
-
-    const int diffusivity = 100; // decrease this to reduce gas spread. Keep it under 125 for
-    // stability. This is essentially a decimal number * 1000.
-
-    // No-scent debug mutation has to be processed here or else it takes time to start working
-    if( !u.has_active_bionic("bio_scent_mask") && !u.has_trait("DEBUG_NOSCENT") ) {
-        grscent[u.posx()][u.posy()] = u.scent;
-    }
-
-    // The new scent flag searching function. Should be wayyy faster than the old one.
-    m.scent_blockers( blocks_scent, reduces_scent,
-                      scentmap_minx, scentmap_miny, scentmap_maxx, scentmap_maxy );
-    // Sum neighbors in the y direction.  This way, each square gets called 3 times instead of 9
-    // times. This cost us an extra loop here, but it also eliminated a loop at the end, so there
-    // is a net performance improvement over the old code. Could probably still be better.
-    // note: this method needs an array that is one square larger on each side in the x direction
-    // than the final scent matrix. I think this is fine since SCENT_RADIUS is less than
-    // SEEX*MAPSIZE, but if that changes, this may need tweaking.
-    for (int x = scentmap_minx - 1; x <= scentmap_maxx + 1; ++x) {
-        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
-            // remember the sum of the scent val for the 3 neighboring squares that can defuse into
-            sum_3_scent_y[y][x] = 0;
-            squares_used_y[y][x] = 0;
-            for (int i = y - 1; i <= y + 1; ++i) {
-                if (! blocks_scent[x][i]) {
-                    if (reduces_scent[x][i]) {
-                        // only 20% of scent can diffuse on REDUCE_SCENT squares
-                        sum_3_scent_y[y][x] += 2 * grscent[x][i];
-                        squares_used_y[y][x] += 2;
-                    } else {
-                        sum_3_scent_y[y][x] += 10 * grscent[x][i];
-                        squares_used_y[y][x] += 10;
-                    }
-                }
-            }
-        }
-    }
-
-    // Rest of the scent map
-    for (int x = scentmap_minx; x <= scentmap_maxx; ++x) {
-        for (int y = scentmap_miny; y <= scentmap_maxy; ++y) {
-            if (! blocks_scent[x][y]) {
-                // to how many neighboring squares do we diffuse out? (include our own square
-                // since we also include our own square when diffusing in)
-                int squares_used = squares_used_y[y][x - 1]
-                                   + squares_used_y[y][x]
-                                   + squares_used_y[y][x + 1];
-
-                int this_diffusivity;
-                if (! reduces_scent[x][y]) {
-                    this_diffusivity = diffusivity;
-                } else {
-                    this_diffusivity = diffusivity / 5; //less air movement for REDUCE_SCENT square
-                }
-                int temp_scent;
-                // take the old scent and subtract what diffuses out
-                temp_scent = grscent[x][y] * (10 * 1000 - squares_used * this_diffusivity);
-                // neighboring walls and reduce_scent squares absorb some scent
-                temp_scent -= grscent[x][y] * this_diffusivity * (90 - squares_used) / 5;
-                // we've already summed neighboring scent values in the y direction in the previous
-                // loop. Now we do it for the x direction, multiply by diffusion, and this is what
-                // diffuses into our current square.
-                grscent[x][y] =
-                    (temp_scent
-                     + this_diffusivity * (sum_3_scent_y[y][x - 1]
-                                           + sum_3_scent_y[y][x]
-                                           + sum_3_scent_y[y][x + 1])
-                    ) / (1000 * 10);
-
-                if (grscent[x][y] > 10000) {
-                    dbg(D_ERROR) << "game:update_scent: Wacky scent at " << x << ","
-                                 << y << " (" << grscent[x][y] << ")";
-                    debugmsg("Wacky scent at %d, %d (%d)", x, y, grscent[x][y]);
-                    grscent[x][y] = 0; // Scent should never be higher
-                }
-            } else { // this cell blocks scent
-                grscent[x][y] = 0;
-            }
-        }
-    }
 }
 
 bool game::is_game_over()
@@ -10950,27 +10821,6 @@ bool game::plfire( const tripoint &default_target )
     return res;
 }
 
-void game::cycle_item_mode( bool force_gun )
-{
-    if( u.is_armed() ) {
-        u.weapon.gun_cycle_mode();
-
-    } else if( !force_gun ) {
-        int part = -1;
-        vehicle *veh = m.veh_at( u.pos(), part );
-        if( veh == nullptr ) {
-            return;
-        }
-
-        part = veh->part_with_feature( part, "TURRET" );
-        if( part < 0 ) {
-            return;
-        }
-
-        veh->cycle_turret_mode( part, true );
-    }
-}
-
 // Helper for game::butcher
 void add_corpses_to_menu( uimenu &kmenu, map_stack &items,
     const std::vector<int> &indices, size_t &menu_index,
@@ -11739,7 +11589,7 @@ void game::pldrive(int x, int y)
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
             cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
- 
+
         if( penalty > skill || cost > 400 ) {
             add_msg( m_warning, _("You fumble with the %s's controls."), veh->name.c_str() );
             // Anything from a wasted attempt to 2 turns in the intended direction
@@ -13537,12 +13387,7 @@ void game::vertical_shift( const int z_after )
     u.grab_point = tripoint_zero;
     u.grab_type = OBJECT_NONE;
 
-    // Clear current scents.
-    for( auto &elem : grscent ) {
-        for( auto &elem_j : elem ) {
-            elem_j = 0;
-        }
-    }
+    scent.reset();
 
     u.setz( z_after );
     const int z_before = get_levz();
@@ -13670,22 +13515,7 @@ void game::update_map(int &x, int &y)
         spawn_mon(shiftx, shifty);
     }
 
-    // Shift scent
-    const int sm_shift_x = (shiftx * SEEX);
-    const int sm_shift_y = (shifty * SEEY);
-    unsigned int newscent[SEEX * MAPSIZE][SEEY * MAPSIZE];
-    std::fill_n( &newscent[0][0], SEEX * MAPSIZE * SEEY * MAPSIZE, 0 );
-    tripoint tmp = u.pos();
-    for( tmp.x = sm_shift_x; tmp.x < SEEX * MAPSIZE + sm_shift_x; tmp.x++ ) {
-        for( tmp.y = sm_shift_y; tmp.y < SEEY * MAPSIZE + sm_shift_y; tmp.y++ ) {
-            newscent[tmp.x - sm_shift_x][tmp.y - sm_shift_y] = scent(tmp);
-        }
-    }
-    for( tmp.x = 0; tmp.x < SEEX * MAPSIZE; tmp.x++ ) {
-        for( tmp.y = 0; tmp.y < SEEY * MAPSIZE; tmp.y++ ) {
-            scent(tmp) = newscent[tmp.x][tmp.y];
-        }
-    }
+    scent.shift( shiftx * SEEX, shifty * SEEY );
 
     // Make sure map cache is consistent since it may have shifted.
     m.build_map_cache( get_levz() );
@@ -14053,6 +13883,35 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 }
 
+// Helper function for game::wait().
+static int convert_wait_chosen_to_turns( int choice ) {
+    switch( choice ) {
+    case 1:
+        return MINUTES( 5 );
+    case 2:
+        return MINUTES( 30 );
+    case 3:
+        return HOURS( 1 );
+    case 4:
+        return HOURS( 2 );
+    case 5:
+        return HOURS( 3 );
+    case 6:
+        return HOURS( 6 );
+    case 7:
+        return calendar::turn.diurnal_time_before( calendar::turn.sunrise() );
+    case 8:
+        return calendar::turn.diurnal_time_before( HOURS( 12 ) );
+    case 9:
+        return calendar::turn.diurnal_time_before( calendar::turn.sunset() );
+    case 10:
+        return calendar::turn.diurnal_time_before( HOURS( 0 ) );
+    case 11:
+    default:
+        return 999999999;
+    }
+}
+
 void game::wait()
 {
     const bool bHasWatch = u.has_watch();
@@ -14081,51 +13940,16 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(12, true, 'q', _("Exit")));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    const int iHour = calendar::turn.hours();
-
-    int time = 0;
-    activity_type actType = ACT_WAIT;
-
-    switch (as_m.ret) {
-    case 1:
-        time = 5000;
-        break;
-    case 2:
-        time = 30000;
-        break;
-    case 3:
-        time = 60000;
-        break;
-    case 4:
-        time = 120000;
-        break;
-    case 5:
-        time = 180000;
-        break;
-    case 6:
-        time = 360000;
-        break;
-    case 7:
-        time = 60000 * ((iHour <= 6) ? 6 - iHour : 24 - iHour + 6);
-        break;
-    case 8:
-        time = 60000 * ((iHour <= 12) ? 12 - iHour : 12 - iHour + 6);
-        break;
-    case 9:
-        time = 60000 * ((iHour <= 18) ? 18 - iHour : 18 - iHour + 6);
-        break;
-    case 10:
-        time = 60000 * ((iHour <= 24) ? 24 - iHour : 24 - iHour + 6);
-        break;
-    case 11:
-        time = 999999999;
-        actType = ACT_WAIT_WEATHER;
-        break;
-    default:
+    if( as_m.ret < 1 || as_m.ret > 11 ) {
         return;
     }
 
-    u.assign_activity(actType, time, 0);
+    int chosen_turns = convert_wait_chosen_to_turns( as_m.ret );
+    activity_type actType = ( as_m.ret == 11 ) ? ACT_WAIT_WEATHER : ACT_WAIT;
+
+    constexpr int turns_to_moves = 100;
+    player_activity new_act( actType, chosen_turns * turns_to_moves, 0 );
+    u.assign_activity( new_act, false );
     u.rooted_message();
 }
 
@@ -14434,57 +14258,6 @@ std::vector<faction *> game::factions_at( const tripoint &p )
     return ret;
 }
 
-nc_color sev(int a)
-{
-    switch (a) {
-    case 0:
-        return c_cyan;
-    case 1:
-        return c_ltcyan;
-    case 2:
-        return c_ltblue;
-    case 3:
-        return c_blue;
-    case 4:
-        return c_ltgreen;
-    case 5:
-        return c_green;
-    case 6:
-        return c_yellow;
-    case 7:
-        return c_pink;
-    case 8:
-        return c_ltred;
-    case 9:
-        return c_red;
-    case 10:
-        return c_magenta;
-    case 11:
-        return c_brown;
-    case 12:
-        return c_cyan_red;
-    case 13:
-        return c_ltcyan_red;
-    case 14:
-        return c_ltblue_red;
-    case 15:
-        return c_blue_red;
-    case 16:
-        return c_ltgreen_red;
-    case 17:
-        return c_green_red;
-    case 18:
-        return c_yellow_red;
-    case 19:
-        return c_pink_red;
-    case 20:
-        return c_magenta_red;
-    case 21:
-        return c_brown_red;
-    }
-    return c_dkgray;
-}
-
 void game::display_scent()
 {
     int div = query_int(_("Set the Scent Map sensitivity to (0 to cancel)?"));
@@ -14493,14 +14266,7 @@ void game::display_scent()
         return;
     };
     draw_ter();
-    for (int x = u.posx() - getmaxx(w_terrain) / 2; x <= u.posx() + getmaxx(w_terrain) / 2; x++) {
-        for (int y = u.posy() - getmaxy(w_terrain) / 2; y <= u.posy() + getmaxy(w_terrain) / 2; y++) {
-            int sn = scent({x, y, u.posz()}) / (div * 2);
-            mvwprintz(w_terrain, getmaxy(w_terrain) / 2 + y - u.posy(), getmaxx(w_terrain) / 2 + x - u.posx(),
-                      sev(sn / 10), "%d",
-                      sn % 10);
-        }
-    }
+    scent.draw( w_terrain, div * 2, u.pos() );
     wrefresh(w_terrain);
     getch();
 }
@@ -15012,15 +14778,4 @@ overmap &game::get_cur_om() const
     const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
-}
-
-void game::load_game_option( JsonObject &jo )
-{
-    auto arr = jo.get_array( "options" );
-    if( arr.empty() ) {
-        jo.throw_error( "no options specified", "options" );
-    }
-    while( arr.has_more() ) {
-        options.emplace( arr.next_string() );
-    }
 }

@@ -1560,7 +1560,7 @@
         "desc": [ "A lack of vitamin A in your diet will progressively worsen your vision." ],
         "apply_message": "You beging struggling to make out the finer details.",
         "remove_message": "Your normal visual accuity returns.",
-        "decay_messages": [ 
+        "decay_messages": [
           [ "Your vitamin A deficiency is nearly resolved.", "good" ],
           [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
         ],

@@ -241,9 +241,11 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( is_tool() || is_gun() ) && magazine_integral() && ammo == "null" && ammo_type() == "NULL" ) {
-        curammo = nullptr;
-        charges = std::min( qty, ammo_capacity() );
+    if( ammo == "null" && ammo_type() == "NULL" ) {
+        if( ( is_tool() || is_gun() ) && magazine_integral() ) {
+            curammo = nullptr;
+            charges = std::min( qty, ammo_capacity() );
+        }
         return *this;
     }
 
@@ -5007,6 +5009,19 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     liquid.charges -= amount;
 
     return true;
+}
+
+void item::set_countdown( int num_turns )
+{
+    if( num_turns < 0 ) {
+        debugmsg( "Tried to set a negative countdown value %d.", num_turns );
+        return;
+    }
+    if( ammo_type() != "NULL" ) {
+        debugmsg( "Tried to set countdown on an item with ammo=%s.", ammo_type().c_str() );
+        return;
+    }
+    charges = num_turns;
 }
 
 bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos )
