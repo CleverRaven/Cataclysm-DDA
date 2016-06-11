@@ -352,7 +352,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "lightstrip_inactive",
+  "result": "lightstrip_dead",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_LIGHTING",
   "skill_used": "electronics",
@@ -364,8 +364,22 @@
   "components": [
     [ [ "amplifier", 1 ] ],
     [ [ "cable", 5 ] ],
-    [ [ "battery", 15 ] ],
     [ [ "e_scrap", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "lightstrip_inactive",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_LIGHTING",
+  "skill_used": "electronics",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 1 ] , [ "mag_electronics", 1 ]],
+  "components": [
+    [ [ "lightstrip_dead", 1 ] ],
+    [ [ "battery", 15 ] ]
   ]
 },{
   "type" : "recipe",
@@ -421,8 +435,8 @@
       [ "bottle_plastic_small", 1 ]
     ],
     [
-      [ "lightstrip_inactive", 1 ],
-      [ "light_bulb", 1 ]
+      [ "light_bulb", 1 ],
+      [ "lightstrip_dead", 1 ]
     ],
     [ [ "cable", 10 ] ]
   ]
@@ -446,7 +460,7 @@
     ],
     [
       [ "light_bulb", 4 ],
-      [ "lightstrip_inactive", 4 ]
+      [ "lightstrip_dead", 4 ]
     ],
     [ [ "cable", 10 ] ]
   ]
@@ -470,7 +484,7 @@
     ],
     [
       [ "light_bulb", 2 ],
-      [ "lightstrip_inactive", 2 ]
+      [ "lightstrip_dead", 2 ]
     ],
     [ [ "cable", 10 ] ]
   ]
