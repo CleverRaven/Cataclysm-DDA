@@ -124,7 +124,7 @@ class inventory_column {
         void select( size_t new_index );
         std::vector<int> get_selected() const;
 
-        void add_item( const itemstack_or_category &item_entry, const itemstack_or_category &cat_entry, add_to where );
+        size_t add_item( const itemstack_or_category &item_entry, const itemstack_or_category &cat_entry, add_to where );
         void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
         void remove_item( const itemstack_or_category &entry );
         void prepare_paging( size_t items_per_page );
@@ -162,7 +162,7 @@ class selection_column : public inventory_column {
     public:
         selection_column( ) :
             inventory_column(),
-            selected_cat( "ITEMS YOU SELECTED", _( "ITEMS YOU SELECTED:" ), 0 ) {
+            selected_cat( "ITEMS YOU SELECTED", _( "ITEMS YOU SELECTED" ), 0 ) {
 
             items.push_back( itemstack_or_category( &selected_cat ) );
         }
@@ -341,7 +341,7 @@ size_t inventory_column::get_max_width() const
 {
     size_t res = 0;
     for( size_t index = 0; index < items.size(); ++index ) {
-        const size_t text_length = utf8_width( get_item_text( index ) );
+        const size_t text_length = utf8_width( get_item_text( index ), true );
         res = std::max( res, get_item_indent( index ) + text_length );
     }
     return res;
@@ -432,7 +432,7 @@ void inventory_column::on_action( const std::string &action )
     }
 }
 
-void inventory_column::add_item( const itemstack_or_category &item_entry, const itemstack_or_category &cat_entry, add_to where )
+size_t inventory_column::add_item( const itemstack_or_category &item_entry, const itemstack_or_category &cat_entry, add_to where )
 {
     auto cat_iter = std::find( items.begin(), items.end(), cat_entry );
 
@@ -454,7 +454,7 @@ void inventory_column::add_item( const itemstack_or_category &item_entry, const 
             ++cat_iter;
         } while( cat_iter != items.end() && cat_iter->it != nullptr );
     }
-    items.insert( cat_iter, item_entry );
+    return std::distance( items.begin(), items.insert( cat_iter, item_entry ) );
 }
 
 void inventory_column::remove_item( const itemstack_or_category &entry )
@@ -517,16 +517,16 @@ nc_color inventory_column::get_item_color( size_t index ) const
     if( is_category( index ) ) {
         return c_magenta;
     }
-
+    const nc_color highlight_color( active ? h_white : h_ltgray );
     switch( mode ) {
         case navigation_mode::ITEM:
             if( index == selected_index ) {
-                return active ? h_white : h_ltgray;
+                return highlight_color;
             }
             break;
         case navigation_mode::CATEGORY:
             if( items[index].category == items[selected_index].category ) {
-                return active ? c_white_red : c_ltgray_red;
+                return highlight_color;
             }
             break;
     }
@@ -542,27 +542,24 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y, size_t width,
             continue;
         }
 
+        trim_and_print( win, y + line, x + get_item_indent( i ), width,
+                        get_item_color( i ), "%s", get_item_text( i, get_icon( items[i] ) ).c_str() );
+
         if( !is_category( i ) ) {
             const char invlet = items[i].it->invlet;
             if( invlet != '\0' ) {
-                const nc_color invlet_color = ( i == selected_index )
-                    ? get_item_color( i )
-                    : g->u.assigned_invlet.count( invlet )
-                        ? c_yellow
-                        : c_white;
+                const nc_color invlet_color = g->u.assigned_invlet.count( invlet ) ? c_yellow : c_white;
                 mvwputch( win, y + line, x, invlet_color, invlet );
             }
         }
-
-        trim_and_print( win, y + line, x + get_item_indent( i ), width,
-                        get_item_color( i ), "%s", get_item_text( i, get_icon( items[i] ) ).c_str() );
     }
 }
 
 void selection_column::on_item_include( const item &it, int pos )
 {
-    add_item( itemstack_or_category( &it, pos ),
-              itemstack_or_category( &selected_cat ), add_to::END );
+    const size_t index = add_item( itemstack_or_category( &it, pos ),
+                                   itemstack_or_category( &selected_cat ), add_to::END );
+    select( index );
 }
 
 void selection_column::on_item_exclude( const item &it, int pos )
@@ -572,18 +569,25 @@ void selection_column::on_item_exclude( const item &it, int pos )
 
 std::string selection_column::get_item_text( size_t index, const char icon ) const
 {
-    const std::string inherited( inventory_column::get_item_text( index, icon ) );
+    std::ostringstream res;
+
+    res << inventory_column::get_item_text( index, icon );
     if( is_category( index ) && items[index].category == &selected_cat ) {
-        return string_format( "%s (%d)", inherited.c_str(), items.size() - 1 );
+        if( items.size() > 1 ) { // not only category
+            res << string_format( " (%d)", items.size() - 1 );
+        } else {
+            res << _( " (NONE)");
+        }
     }
-    return inherited;
+    return res.str();
 }
 
 nc_color selection_column::get_item_color( size_t index ) const
 {
-    if( is_category( index ) || ( activatable() && active && index == selected_index ) ) {
+    if( is_category( index ) || ( activatable() && index == selected_index ) ) {
         return inventory_column::get_item_color( index );
     }
+
     const int pos = items[index].item_pos;
     if( pos == -1 ) {
         return c_ltblue;
@@ -730,13 +734,13 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         print_inv_weight_vol(u.weight_carried(), u.volume_carried(), u.volume_capacity());
     }
     if( empty() ) {
-        mvwprintw(w_inv, 2, 0, _( "Your inventory is empty." ) );
+        center_print( w_inv, getmaxy( w_inv ) / 2, c_dkgray, _( "Your inventory is empty." ) );
     }
 
     const std::string msg_str = ( navigation == navigation_mode::CATEGORY )
         ? _( "Category selection; [TAB] switches mode, arrows select." )
         : _( "Item selection; [TAB] switches mode, arrows select." );
-    const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? c_white_red : h_white;
+    const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? h_white : c_ltgray;
     center_print( w_inv, getmaxy( w_inv ) - 1, msg_color, msg_str.c_str() );
 
     wrefresh(w_inv);
@@ -751,8 +755,8 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     , ctxt("INVENTORY")
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , navigation( navigation_mode::ITEM )
-    , weapon_cat("WEAPON", _("WEAPON:"), 0)
-    , worn_cat("ITEMS WORN", _("ITEMS WORN:"), 0)
+    , weapon_cat("WEAPON", _("WEAPON HELD"), 0)
+    , worn_cat("ITEMS WORN", _("ITEMS WORN"), 0)
     , u(u)
 {
     ctxt.register_action("DOWN", _("Next item"));
@@ -1486,11 +1490,8 @@ void game::compare( const tripoint &offset )
             grounditems_slice.push_back(indexed_invslice::value_type(&grounditems[a], INT_MIN + a + 1));
         }
     }
-    static const item_category category_on_ground(
-        "GROUND:",
-        _("GROUND:"),
-        -1000
-    );
+
+    static const item_category category_on_ground( "GROUND", _( "GROUND" ), -1000 );
 
     u.inv.restack(&u);
     u.inv.sort();
