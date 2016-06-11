@@ -1,12 +1,17 @@
 [
   {
     "id": "belt40mm",
-    "copy-from": "magazine_belt",
     "type": "MAGAZINE",
     "name": "40mm grenade belt",
-    "ammo_type": "40mm",
-    "capacity": 100,
-    "count": 32,
-    "linkage": "ammolink40mm"
+    "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.  This one holds 40mm grenades and is too bulky to be worn like other ammo belts.",
+    "weight": 0,
+    "volume": 0,
+    "price": 0,
+    "material": "steel",
+    "symbol": "#",
+    "color": "ltgray",
+    "rigid": false,
+    "reliability": 6,
+    "flags": [ "MAG_BELT", "MAG_DESTROY" ]
   }
 ]
