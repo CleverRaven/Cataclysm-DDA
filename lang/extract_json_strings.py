@@ -81,7 +81,6 @@ automatically_convertible = {
     "GENERIC",
     "GUN",
     "GUNMOD",
-    "hint",
     "item_action",
     "ITEM_CATEGORY",
     "keybinding",

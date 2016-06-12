@@ -17,7 +17,6 @@
 #include "vehicle_group.h"
 #include "crafting.h"
 #include "crafting_gui.h"
-#include "help.h"
 #include "mapdata.h"
 #include "color.h"
 #include "trap.h"
@@ -111,7 +110,6 @@ void DynamicDataLoader::initialize()
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
     type_function_map["mutation_category"] = new StaticFunctionAccessor(&load_mutation_category);
     type_function_map["mutation"] = new StaticFunctionAccessor(&mutation_branch::load);
-    type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     type_function_map["monstergroup"] = new StaticFunctionAccessor(
@@ -331,7 +329,6 @@ void DynamicDataLoader::unload_data()
     profession::reset();
     Skill::reset();
     dreams.clear();
-    clear_hints();
     // clear techniques, martial arts, and ma buffs
     clear_techniques_and_martial_arts();
     // Mission types are not loaded from json, but they depend on
