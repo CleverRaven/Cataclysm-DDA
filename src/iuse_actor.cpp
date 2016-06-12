@@ -1202,29 +1202,17 @@ void inscribe_actor::load( JsonObject &obj )
 {
     cost = obj.get_long( "cost", 0 );
 
-    on_items = obj.get_bool( "on_items", true );
-    on_terrain = obj.get_bool( "on_terrain", false );
-    material_restricted = obj.get_bool( "material_restricted", true );
+    assign( obj, "on_items", on_items );
+    assign( obj, "on_terrain", on_terrain );
+    assign( obj, "material_restricted", material_restricted );
 
     if( obj.has_array( "material_whitelist" ) ) {
-        JsonArray jarr = obj.get_array( "material_whitelist" );
-        while( jarr.has_more() ) {
-            material_whitelist.push_back( material_id( jarr.next_string() ) );
-        }
-    } else if( material_restricted ) {
-        material_whitelist.reserve( 7 );
-        // Default to old carveable materials
-        material_whitelist.push_back( material_id( "wood" ) );
-        material_whitelist.push_back( material_id( "plastic" ) );
-        material_whitelist.push_back( material_id( "glass" ) );
-        material_whitelist.push_back( material_id( "chitin" ) );
-        material_whitelist.push_back( material_id( "iron" ) );
-        material_whitelist.push_back( material_id( "steel" ) );
-        material_whitelist.push_back( material_id( "silver" ) );
+        material_whitelist.clear();
+        assign( obj, "material_whitelist", material_whitelist );
     }
 
-    verb = _(obj.get_string( "verb", "Carve" ).c_str());
-    gerund = _(obj.get_string( "gerund", "Carved" ).c_str());
+    assign( obj, "verb", verb );
+    assign( obj, "gerund", gerund );
 
     if( !on_items && !on_terrain ) {
         obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
@@ -1258,7 +1246,7 @@ bool inscribe_actor::item_inscription( item *cut ) const
     };
 
     uimenu menu;
-    menu.text = string_format(_("%s meaning?"), verb.c_str());
+    menu.text = string_format(_("%s meaning?"), _( verb.c_str() ) );
     menu.addentry(INSCRIPTION_LABEL, true, -1, _("It's a label"));
     menu.addentry(INSCRIPTION_NOTE, true, -1, _("It's a note"));
     menu.addentry(INSCRIPTION_CANCEL, true, 'q', _("Cancel"));
@@ -1283,8 +1271,8 @@ bool inscribe_actor::item_inscription( item *cut ) const
     std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
-                                        gerund.c_str(), cut->type_name().c_str());
-    message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
+                                        _( gerund.c_str() ), cut->type_name().c_str());
+    message = string_input_popup(string_format(_("%s what?"), _( verb.c_str() ) ), 64,
                                  (hasnote ? cut->get_var( carving ) : message),
                                  messageprefix, "inscribe_item", 128);
 
@@ -1295,7 +1283,7 @@ bool inscribe_actor::item_inscription( item *cut ) const
             cut->erase_var( carving_type );
         } else {
             cut->set_var( carving, message );
-            cut->set_var( carving_type, gerund );
+            cut->set_var( carving_type, _( gerund.c_str() ) );
         }
     }
 
@@ -1312,7 +1300,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uimenu imenu;
-        imenu.text = string_format( _("%s on what?"), verb.c_str() );
+        imenu.text = string_format( _("%s on what?"), _( verb.c_str() ) );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _("The ground") );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _("An item") );
         imenu.addentry( 2, true, MENU_AUTOASSIGN, _("Cancel") );
@@ -1329,7 +1317,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
+        return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), _( verb.c_str() ) ) );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
@@ -2141,7 +2129,7 @@ void repair_item_actor::load( JsonObject &obj )
     // Mandatory:
     JsonArray jarr = obj.get_array( "materials" );
     while( jarr.has_more() ) {
-        materials.push_back( material_id( jarr.next_string() ) );
+        materials.emplace( jarr.next_string() );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill

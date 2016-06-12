@@ -427,11 +427,19 @@ class inscribe_actor : public iuse_actor
         bool material_restricted = true;
 
         // Materials it can write on
-        std::vector<material_id> material_whitelist;
+        std::set<material_id> material_whitelist = {
+            material_id( "wood" ),
+            material_id( "plastic" ),
+            material_id( "glass" ),
+            material_id( "chitin" ),
+            material_id( "iron" ),
+            material_id( "steel" ),
+            material_id( "silver" )
+        };
 
         // How will the inscription be described
-        std::string verb; // "Write", "Carve"
-        std::string gerund; // "Written", "Carved"
+        std::string verb = "Carve";
+        std::string gerund = "Carved";
 
         bool item_inscription( item *cut ) const;
 
@@ -672,7 +680,7 @@ class repair_item_actor : public iuse_actor
 {
     public:
         /** Materials we are allowed to repair */
-        std::vector<material_id> materials;
+        std::set<material_id> materials;
         /** Skill used */
         skill_id used_skill;
         /**

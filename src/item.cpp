@@ -3231,18 +3231,16 @@ std::vector<const material_type*> item::made_of_types() const
     return material_types_composed_of;
 }
 
-bool item::made_of_any( const std::vector<material_id> &mat_idents ) const
+bool item::made_of_any( const std::set<material_id> &mat_idents ) const
 {
     const auto mats = made_of();
     if( mats.empty() ) {
         return false;
     }
-    for( auto candidate_material : mat_idents ) {
-        if( std::find( mats.begin(), mats.end(), candidate_material ) != mats.end() ) {
-            return true;
-        }
-    }
-    return false;
+
+    return std::any_of( mats.begin(), mats.end(), [&mat_idents]( const material_id &e ) {
+        return mat_idents.count( e );
+    } );
 }
 
 bool item::only_made_of( const std::set<material_id> &mat_idents ) const
@@ -5772,7 +5770,7 @@ bool item::is_soft() const
 {
     // @todo Make this a material property
     // @todo Add a SOFT flag (for chainmail and the like)
-    static const std::vector<material_id> soft_mats = {{
+    static const std::set<material_id> soft_mats = {{
         material_id( "cotton" ), material_id( "leather" ), material_id( "wool" ), material_id( "nomex" )
     }};
 
