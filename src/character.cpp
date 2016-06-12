@@ -2022,3 +2022,44 @@ float Character::mutation_armor( body_part bp, const damage_unit &du ) const
 {
     return mutation_armor( bp ).get_effective_resist( du );
 }
+
+long Character::ammo_count_for( const item &gun )
+{
+    long ret = item::INFINITE_CHARGES;
+    if( !gun.is_gun() ) {
+        return ret;
+    }
+
+    long required = gun.ammo_required();
+
+    if( required > 0 ) {
+        long total_ammo = 0;
+        total_ammo += gun.ammo_remaining();
+
+        bool has_mag = gun.magazine_integral();
+
+        const auto found_ammo = find_ammo( gun, true, -1 );
+        long loose_ammo = 0;
+        for( const auto &ammo : found_ammo ) {
+            if( ammo->is_magazine() ) {
+                has_mag = true;
+                total_ammo += ammo->ammo_remaining();
+            } else if( ammo->is_ammo() ) {
+                loose_ammo += ammo->charges;
+            }
+        }
+
+        if( has_mag ) {
+            total_ammo += loose_ammo;
+        }
+
+        ret = std::min<long>( ret, total_ammo / required );
+    }
+
+    long ups_drain = gun.get_gun_ups_drain();
+    if( ups_drain > 0 ) {
+        ret = std::min<long>( ret, charges_of( "UPS" ) / ups_drain );
+    }
+
+    return ret;
+}

@@ -405,6 +405,11 @@ class Character : public Creature, public visitable<Character>
          */
         std::vector<item_location> find_ammo( const item& obj, bool empty = true, int radius = 1 );
 
+        /**
+         * Counts ammo and UPS charges (lower of) for a given gun on the character.
+         */
+        long ammo_count_for( const item &gun );
+
         /** Maximum thrown range with a given item, taking all active effects into account. */
         int throw_range( const item & ) const;
 
