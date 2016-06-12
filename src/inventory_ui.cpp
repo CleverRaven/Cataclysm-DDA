@@ -210,7 +210,7 @@ class inventory_selector
          * Checks the selector for emptiness (absence of available items).
          */
         bool empty() const {
-            for( const auto column : columns ) {
+            for( const auto &column : columns ) {
                 if( !column->empty() ) {
                     return false;
                 }
@@ -231,7 +231,7 @@ class inventory_selector
     private:
         typedef std::vector<itemstack_or_category> itemstack_vector;
 
-        std::vector<std::shared_ptr<inventory_column>> columns;
+        std::vector<std::unique_ptr<inventory_column>> columns;
         size_t active_column_index;
 
         enum selector_mode{
@@ -630,7 +630,7 @@ void inventory_selector::add_items(const indexed_invslice &slice, add_to where, 
 
 itemstack_or_category *inventory_selector::invlet_to_itemstack( long invlet ) const
 {
-    for( const auto column : columns ) {
+    for( const auto &column : columns ) {
         const size_t index = column->find_by_invlet( invlet );
 
         if( index != inventory_column::npos ) {
@@ -644,7 +644,7 @@ void inventory_selector::prepare_columns( bool markers )
 {
     const size_t items_per_page = getmaxy( w_inv ) - 5;
 
-    for( auto column : columns ) {
+    for( auto &column : columns ) {
         column->prepare_paging( items_per_page );
         column->set_markers( markers );
     }
@@ -692,7 +692,7 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     size_t visible_columns = 0;
     size_t column_x = 1;
 
-    for( const auto column : columns ) {
+    for( const auto &column : columns ) {
         if( !column->visible() ) {
             continue;
         }
@@ -825,7 +825,7 @@ void inventory_selector::handle_movement(const std::string &action)
     } else if( action == "LEFT" ) {
         toggle_active_column();
     } else {
-        for( auto column : columns ) {
+        for( auto &column : columns ) {
             column->on_action( action );
         }
     }
@@ -879,7 +879,7 @@ void inventory_selector::set_drop_count( itemstack_or_category &entry, size_t co
         }
     }
 
-    for( auto column : columns ) {
+    for( auto &column : columns ) {
         column->on_change( entry );
     }
 }
@@ -958,7 +958,7 @@ void inventory_selector::toggle_navigation_mode()
     };
 
     navigation = next_mode.at( navigation );
-    for( auto column : columns ) {
+    for( auto &column : columns ) {
         column->on_mode_change( navigation );
     }
 }
@@ -966,13 +966,13 @@ void inventory_selector::toggle_navigation_mode()
 void inventory_selector::add_column( inventory_column *new_column )
 {
     if( new_column != nullptr ) {
-        std::shared_ptr<inventory_column> column( new_column );
+        std::unique_ptr<inventory_column> column( new_column );
 
         if( columns.empty() ) {
             column->on_activate();
         }
         column->on_mode_change( navigation );
-        columns.push_back( column );
+        columns.push_back( std::move( column ) );
     }
 }
 
