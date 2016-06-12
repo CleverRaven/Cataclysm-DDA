@@ -172,6 +172,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/fault.cpp
     ${CMAKE_SOURCE_DIR}/src/dump.cpp
     ${CMAKE_SOURCE_DIR}/src/overlay_ordering.cpp
+    ${CMAKE_SOURCE_DIR}/src/snapshot.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
@@ -336,6 +337,7 @@ SET (CATACLYSM_DDA_HEADERS
 	${CMAKE_SOURCE_DIR}/src/overmap_types.h
 	${CMAKE_SOURCE_DIR}/src/string_id.h
 	${CMAKE_SOURCE_DIR}/src/weighted_list.h
+	${CMAKE_SOURCE_DIR}/src/snapshot.h
 )
 
 # Get GIT version strings
