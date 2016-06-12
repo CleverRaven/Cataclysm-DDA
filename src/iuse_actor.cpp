@@ -23,6 +23,7 @@
 #include "pldata.h"
 #include "recipe_dictionary.h"
 #include "player.h"
+#include "generic_factory.h"
 
 #include <sstream>
 #include <algorithm>
@@ -999,23 +1000,11 @@ void salvage_actor::load( JsonObject &obj )
 {
     cost = obj.get_long( "cost", 0 );
 
-    moves_per_part = obj.get_int( "moves_per_part", 25 );
+    assign( obj, "moves_per_part", moves_per_part );
+
     if( obj.has_array( "material_whitelist" ) ) {
-        JsonArray jarr = obj.get_array( "material_whitelist" );
-        while( jarr.has_more() ) {
-            material_whitelist.push_back( material_id( jarr.next_string() ) );
-        }
-    } else {
-        // Default to old salvageable materials
-        material_whitelist.push_back( material_id( "cotton" ) );
-        material_whitelist.push_back( material_id( "leather" ) );
-        material_whitelist.push_back( material_id( "fur" ) );
-        material_whitelist.push_back( material_id( "nomex" ) );
-        material_whitelist.push_back( material_id( "kevlar" ) );
-        material_whitelist.push_back( material_id( "plastic" ) );
-        material_whitelist.push_back( material_id( "wood" ) );
-        material_whitelist.push_back( material_id( "wool" ) );
-        material_whitelist.push_back( material_id( "neoprene" ) );
+        material_whitelist.clear();
+        assign( obj, "material_whitelist", material_whitelist );
     }
 }
 

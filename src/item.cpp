@@ -3245,18 +3245,16 @@ bool item::made_of_any( const std::vector<material_id> &mat_idents ) const
     return false;
 }
 
-bool item::only_made_of( const std::vector<material_id> &mat_idents ) const
+bool item::only_made_of( const std::set<material_id> &mat_idents ) const
 {
     const auto mats = made_of();
     if( mats.empty() ) {
         return false;
     }
-    for( auto target_material : mats ) {
-        if( std::find( mat_idents.begin(), mat_idents.end(), target_material ) == mat_idents.end() ) {
-            return false;
-        }
-    }
-    return true;
+
+    return std::all_of( mats.begin(), mats.end(), [&mat_idents]( const material_id &e ) {
+        return mat_idents.count( e );
+    } );
 }
 
 bool item::made_of( const material_id &mat_ident ) const

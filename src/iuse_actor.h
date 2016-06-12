@@ -385,14 +385,21 @@ class extended_firestarter_actor : public firestarter_actor
 class salvage_actor : public iuse_actor
 {
     public:
-        /**
-         * Moves used per unit of volume of cut item.
-         */
+        /** Moves used per unit of volume of cut item */
         int moves_per_part = 25;
-        /**
-         * Materials it can cut.
-         */
-        std::vector<material_id> material_whitelist;
+
+        /** Materials it can cut */
+        std::set<material_id> material_whitelist = {
+            material_id( "cotton" ),
+            material_id( "leather" ),
+            material_id( "fur" ),
+            material_id( "nomex" ),
+            material_id( "kevlar" ),
+            material_id( "plastic" ),
+            material_id( "wood" ),
+            material_id( "wool" ),
+            material_id( "neoprene" )
+        };
 
         bool try_to_cut_up( player *p, item *it ) const;
         int cut_up( player *p, item *it, item *cut ) const;
