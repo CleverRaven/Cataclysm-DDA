@@ -100,10 +100,10 @@ int dealt_damage_instance::total_damage() const
 }
 
 
-resistances::resistances() : resist_vals( { } )
+resistances::resistances()
 { }
 
-resistances::resistances( item &armor, bool to_self ) : resist_vals( { } )
+resistances::resistances( item &armor, bool to_self )
 {
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() ) {
@@ -113,7 +113,7 @@ resistances::resistances( item &armor, bool to_self ) : resist_vals( { } )
         }
     }
 }
-resistances::resistances( monster &monster ) : resist_vals( { } )
+resistances::resistances( monster &monster )
 {
     set_resist( DT_BASH, monster.type->armor_bash );
     set_resist( DT_CUT,  monster.type->armor_cut );
