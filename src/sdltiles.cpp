@@ -1620,7 +1620,7 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
         try {
             bm_font->load_font(FILENAMES["fontdir"] + typeface);
             // It worked, tell the world to use bitmap_font.
-            return bm_font;
+            return std::unique_ptr<Font>( std::move( bm_font ) );
         } catch(std::exception &err) {
             dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
             // Continue to load as truetype font
@@ -1631,7 +1631,7 @@ std::unique_ptr<Font> Font::load_font(const std::string &typeface, int fontsize,
     try {
         ttf_font->load_font(typeface, fontsize);
         // It worked, tell the world to use cached_ttf_font
-        return ttf_font;
+        return std::unique_ptr<Font>( std::move( ttf_font ) );
     } catch(std::exception &err) {
         dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
     }
