@@ -16,7 +16,15 @@ class snippet_library
          * Load snippet from the standalone entry, used by the @ref DynamicDataLoader.
          */
         void load_snippet( JsonObject &jsobj );
+        /**
+         * Returns the id of a random snippet out of the given category.
+         */
         int assign( const std::string &category ) const;
+        /**
+         * Like @ref assign, but with an explicit seed to the RNG. The seed decides which
+         * snippet out of the category is returned (same seed yields same snippet).
+         */
+        int assign( const std::string &category, int seed ) const;
         const std::string &get( const int index ) const;
         bool has_category( const std::string &category ) const;
         int get_snippet_by_id( const std::string &id ) const;

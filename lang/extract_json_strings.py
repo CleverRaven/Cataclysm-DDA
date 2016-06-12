@@ -85,7 +85,6 @@ automatically_convertible = {
     "item_action",
     "ITEM_CATEGORY",
     "keybinding",
-    "lab_note",
     "MAGAZINE",
     "MOD_INFO",
     "MONSTER",

@@ -17,7 +17,6 @@
 #include "vehicle_group.h"
 #include "crafting.h"
 #include "crafting_gui.h"
-#include "computer.h"
 #include "help.h"
 #include "mapdata.h"
 #include "color.h"
@@ -112,7 +111,6 @@ void DynamicDataLoader::initialize()
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
     type_function_map["mutation_category"] = new StaticFunctionAccessor(&load_mutation_category);
     type_function_map["mutation"] = new StaticFunctionAccessor(&mutation_branch::load);
-    type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
     type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
@@ -332,7 +330,6 @@ void DynamicDataLoader::unload_data()
     material_type::reset();
     profession::reset();
     Skill::reset();
-    computer::clear_lab_notes();
     dreams.clear();
     clear_hints();
     // clear techniques, martial arts, and ma buffs
