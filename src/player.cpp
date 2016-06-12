@@ -3708,9 +3708,6 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
 }
 
 void player::disp_blood_test_results() {
-    WINDOW *w = newwin( 20, 40, 3 + ( ( TERMY > 25 ) ? ( TERMY - 25 ) / 2 : 0 ),
-                        10 + ( ( TERMX > 80 ) ? ( TERMX - 80 ) / 2 : 0 ) );
-    draw_border( w );
     std::vector<std::string> good;
     std::vector<std::string> bad;
     if( has_effect( effect_fungus ) ) {
@@ -3801,14 +3798,20 @@ void player::disp_blood_test_results() {
         // Tetanus infection.
         good.push_back( _( "Clostridium Tetani Infection" ) );
     }
+
+    const size_t win_h = std::min( static_cast<size_t>( TERMY ), bad.size() + good.size() + 2 );
+    const int win_w = 46;
+    WINDOW *w = newwin( win_h, win_w, ( TERMY - win_h ) / 2, ( TERMX - win_w ) / 2 );
+    draw_border( w, c_red, string_format( " %s ", _( "Blood Tests Results" ) ) );
     if( good.empty() && bad.empty() ) {
-        mvwprintz( w, 1, 1, c_white, _( "No effects." ) );
+        trim_and_print( w, 1, 2, win_w - 3, c_white, _( "No effects." ) );
     } else {
-        for( unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++ ) {
+        for( size_t line = 1; line < ( win_h - 1 ) && line <= good.size() + bad.size(); line++ ) {
             if( line <= bad.size() ) {
-                mvwprintz( w, line, 1, c_red, "%s", bad[line - 1].c_str() );
+                trim_and_print( w, line, 2, win_w - 3, c_red, "%s", bad[line - 1].c_str() );
             } else {
-                mvwprintz( w, line, 1, c_green, "%s", good[line - 1 - bad.size()].c_str() );
+                trim_and_print( w, line, 2, win_w - 3, c_green, "%s",
+                                good[line - 1 - bad.size()].c_str() );
             }
         }
     }
