@@ -8,10 +8,9 @@
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
+#include "text_snippets.h"
 #include <cmath>  // max in help_main
 #include <vector>
-
-std::vector<std::string> hints;
 
 void help_draw_dir( WINDOW *win, int line_y )
 {
@@ -1141,17 +1140,7 @@ void display_help()
     delwin( w_help_border );
 }
 
-void load_hint( JsonObject &jsobj )
-{
-    hints.push_back( _( jsobj.get_string( "text" ).c_str() ) );
-}
-
-void clear_hints()
-{
-    hints.clear();
-}
-
 std::string get_hint()
 {
-    return random_entry( hints, "???" );
+    return SNIPPET.get( SNIPPET.assign( "hint" ) );
 }

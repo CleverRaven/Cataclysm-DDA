@@ -1222,12 +1222,19 @@ public:
         bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         struct gun_mode {
-            std::string mode; /** name of this mode */
-            item *target;     /** pointer to base gun or attached gunmod */
-            int qty;          /** burst size or melee range */
+            std::string mode;           /** name of this mode */
+            item *target = nullptr;     /** pointer to base gun or attached gunmod */
+            int qty = 0;                /** burst size or melee range */
 
             /** flags change behavior of gun mode and are **not** equivalent to item flags */
             std::set<std::string> flags;
+
+            gun_mode() = default;
+            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
+                mode( mode ),
+                target( target ),
+                qty( qty ),
+                flags( flags ) {}
 
             /** if true perform a melee attach as opposed to shooting */
             bool melee() const { return flags.count( "MELEE" ); }

@@ -133,11 +133,13 @@ void Item_factory::finalize() {
             }
 
             // if the gun doesn't have a DEFAULT mode then add one now
-            obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1, {} ) );
+            obj.gun->modes.emplace( "DEFAULT", std::tuple<std::string, int, std::set<std::string>>( defmode, 1,
+                                    std::set<std::string>() ) );
 
             if( obj.gun->burst > 1 ) {
                 // handle legacy JSON format
-                obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( "auto", obj.gun->burst, {} ) );
+                obj.gun->modes.emplace( "AUTO", std::tuple<std::string, int, std::set<std::string>>( "auto", obj.gun->burst,
+                                        std::set<std::string>() ) );
             }
 
             obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );

@@ -4257,8 +4257,8 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                     qty *= 1.5;
                 }
 
-                res.emplace( prefix += m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
-                                                                 qty, std::get<2>( m.second ) } );
+                res.emplace( prefix += m.first, item::gun_mode( std::get<0>( m.second ), const_cast<item *>( e ),
+                                                                qty, std::get<2>( m.second ) ) );
             };
         }
         if( e->is_gunmod() ) {
@@ -4281,7 +4281,7 @@ const item::gun_mode item::gun_get_mode( const std::string& mode ) const
             }
         }
     }
-    return { "", nullptr, 0, {} };
+    return gun_mode();
 }
 
 item::gun_mode item::gun_current_mode()
