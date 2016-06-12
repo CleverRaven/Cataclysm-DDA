@@ -84,6 +84,7 @@ const skill_id skill_throw( "throw" );
 const skill_id skill_unarmed( "unarmed" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
+const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
@@ -117,6 +118,7 @@ const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_high( "high" );
 const efftype_id effect_hot( "hot" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_iodine( "iodine" );
@@ -127,9 +129,11 @@ const efftype_id effect_meth( "meth" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
+const efftype_id effect_pblue( "pblue" );
 const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
+const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_rat( "rat" );
 const efftype_id effect_recover( "recover" );
@@ -137,10 +141,12 @@ const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_spores( "spores" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
+const efftype_id effect_stung( "stung" );
 const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_valium( "valium" );
@@ -3699,6 +3705,117 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
             print_stamina_bar( w );
         }
     }
+}
+
+void player::disp_blood_test_results() {
+    WINDOW *w = newwin( 20, 40, 3 + ( ( TERMY > 25 ) ? ( TERMY - 25 ) / 2 : 0 ),
+                        10 + ( ( TERMX > 80 ) ? ( TERMX - 80 ) / 2 : 0 ) );
+    draw_border( w );
+    std::vector<std::string> good;
+    std::vector<std::string> bad;
+    if( has_effect( effect_fungus ) ) {
+        bad.push_back( _( "Fungal Parasite" ) );
+    }
+    if( has_effect( effect_dermatik ) ) {
+        bad.push_back( _( "Insect Parasite" ) );
+    }
+    if( has_effect( effect_stung ) ) {
+        bad.push_back( _( "Stung" ) );
+    }
+    if( has_effect( effect_poison ) ) {
+        bad.push_back( _( "Poison" ) );
+    }
+    if( radiation > 0 ) {
+        bad.push_back( _( "Irradiated" ) );
+    }
+    if( has_effect( effect_pkill1 ) ) {
+        good.push_back( _( "Minor Painkiller" ) );
+    }
+    if( has_effect( effect_pkill2 ) ) {
+        good.push_back( _( "Moderate Painkiller" ) );
+    }
+    if( has_effect( effect_pkill3 ) ) {
+        good.push_back( _( "Heavy Painkiller" ) );
+    }
+    if( has_effect( effect_pkill_l ) ) {
+        good.push_back( _( "Slow-Release Painkiller" ) );
+    }
+    if( has_effect( effect_drunk ) ) {
+        good.push_back( _( "Alcohol" ) );
+    }
+    if( has_effect( effect_cig ) ) {
+        good.push_back( _( "Nicotine" ) );
+    }
+    if( has_effect( effect_meth ) ) {
+        good.push_back( _( "Methamphetamines" ) );
+    }
+    if( has_effect( effect_high ) ) {
+        good.push_back( _( "Intoxicant: Other" ) );
+    }
+    if( has_effect( effect_weed_high ) ) {
+        good.push_back( _( "THC Intoxication" ) );
+    }
+    if( has_effect( effect_hallu ) || has_effect( effect_visuals ) ) {
+        bad.push_back( _( "Hallucinations" ) );
+    }
+    if( has_effect( effect_pblue ) ) {
+        good.push_back( _( "Prussian Blue" ) );
+    }
+    if( has_effect( effect_iodine ) ) {
+        good.push_back( _( "Potassium Iodide" ) );
+    }
+    if( has_effect( effect_datura ) ) {
+        good.push_back( _( "Anticholinergic Tropane Alkaloids" ) );
+    }
+    if( has_effect( effect_took_xanax ) ) {
+        good.push_back( _( "Xanax" ) );
+    }
+    if( has_effect( effect_took_prozac ) ) {
+        good.push_back( _( "Prozac" ) );
+    }
+    if( has_effect( effect_took_flumed ) ) {
+        good.push_back( _( "Antihistamines" ) );
+    }
+    if( has_effect( effect_adrenaline ) ) {
+        good.push_back( _( "Adrenaline Spike" ) );
+    }
+    if( has_effect( effect_adrenaline_mycus ) ) {
+        good.push_back( _( "Mycal Spike" ) );
+    }
+    if( has_effect( effect_tapeworm ) ) {
+        // This little guy is immune to the blood filter though, as he lives in your bowels.
+        good.push_back( _( "Intestinal Parasite" ) );
+    }
+    if( has_effect( effect_bloodworms ) ) {
+        good.push_back( _( "Hemolytic Parasites" ) );
+    }
+    if( has_effect( effect_brainworms ) ) {
+        // These little guys are immune to the blood filter too, as they live in your brain.
+        good.push_back( _( "Intracranial Parasite" ) );
+    }
+    if( has_effect( effect_paincysts ) ) {
+        // These little guys are immune to the blood filter too, as they live in your muscles.
+        good.push_back( _( "Intramuscular Parasites" ) );
+    }
+    if( has_effect( effect_tetanus ) ) {
+        // Tetanus infection.
+        good.push_back( _( "Clostridium Tetani Infection" ) );
+    }
+    if( good.empty() && bad.empty() ) {
+        mvwprintz( w, 1, 1, c_white, _( "No effects." ) );
+    } else {
+        for( unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++ ) {
+            if( line <= bad.size() ) {
+                mvwprintz( w, line, 1, c_red, "%s", bad[line - 1].c_str() );
+            } else {
+                mvwprintz( w, line, 1, c_green, "%s", good[line - 1 - bad.size()].c_str() );
+            }
+        }
+    }
+    wrefresh( w );
+    refresh();
+    getch();
+    delwin( w );
 }
 
 bool player::has_conflicting_trait(const std::string &flag) const

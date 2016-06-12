@@ -6236,8 +6236,9 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::blood_test(player *, item *, bool, const tripoint& )
+int iuse::blood_test(player *p, item *, bool, const tripoint& )
 {
+    p->disp_blood_test_results();
     return 0;
 }
 
