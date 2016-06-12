@@ -2918,7 +2918,7 @@
       [ "plastic_chunk", 5 ]
     ],
     [
-      [ "oxy_powder", 100 ]
+      [ "gunpowder", 100 ]
     ],
     [
       [ "incendiary", 100 ]
@@ -2965,7 +2965,7 @@
       [ "plastic_chunk", 5 ]
     ],
     [
-      [ "oxy_powder", 100 ]
+      [ "gunpowder", 100 ]
     ],
     [
       [ "incendiary", 100 ]
@@ -3015,7 +3015,7 @@
       [ "plastic_chunk", 4 ]
     ],
     [
-      [ "oxy_powder", 120 ]
+      [ "gunpowder", 120 ]
     ],
     [
       [ "incendiary", 120 ]
@@ -3066,7 +3066,7 @@
       [ "plastic_chunk", 4 ]
     ],
     [
-      [ "oxy_powder", 120 ]
+      [ "gunpowder", 120 ]
     ],
     [
       [ "incendiary", 120 ]
@@ -3108,7 +3108,7 @@
       [ "plastic_chunk", 4 ]
     ],
     [
-      [ "oxy_powder", 160 ]
+      [ "gunpowder", 160 ]
     ],
     [
       [ "incendiary", 160 ]
