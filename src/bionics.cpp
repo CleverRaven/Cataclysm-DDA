@@ -29,12 +29,9 @@ const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
 
-// for blood filter:
 const efftype_id effect_adrenaline( "adrenaline" );
-const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bloodworms( "bloodworms" );
-const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cig( "cig" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_dermatik( "dermatik" );
@@ -44,7 +41,6 @@ const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_meth( "meth" );
-const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pblue( "pblue" );
 const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
@@ -52,14 +48,12 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_stung( "stung" );
-const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
 const efftype_id effect_took_xanax( "took_xanax" );
 const efftype_id effect_visuals( "visuals" );
-const efftype_id effect_weed_high( "weed_high" );
 
 namespace
 {
@@ -209,6 +203,11 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_blood_anal" ) {
         disp_blood_test_results();
     } else if( bio.id == "bio_blood_filter" ) {
+        /** These little guys are immune to the blood filter:
+        Intestinal Parasite (effect_tapeworm) lives in your bowels;
+        Intracranial Parasite (effect_brainworms) lives in your brain;
+        Intramuscular Parasites (effect_paincysts) live in your muscles;
+        */
         remove_effect( effect_fungus );
         remove_effect( effect_dermatik );
         remove_effect( effect_bloodworms );

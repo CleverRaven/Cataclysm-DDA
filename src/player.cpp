@@ -3780,22 +3780,18 @@ void player::disp_blood_test_results() {
         good.push_back( _( "Mycal Spike" ) );
     }
     if( has_effect( effect_tapeworm ) ) {
-        // This little guy is immune to the blood filter though, as he lives in your bowels.
         good.push_back( _( "Intestinal Parasite" ) );
     }
     if( has_effect( effect_bloodworms ) ) {
         good.push_back( _( "Hemolytic Parasites" ) );
     }
     if( has_effect( effect_brainworms ) ) {
-        // These little guys are immune to the blood filter too, as they live in your brain.
         good.push_back( _( "Intracranial Parasite" ) );
     }
     if( has_effect( effect_paincysts ) ) {
-        // These little guys are immune to the blood filter too, as they live in your muscles.
         good.push_back( _( "Intramuscular Parasites" ) );
     }
     if( has_effect( effect_tetanus ) ) {
-        // Tetanus infection.
         good.push_back( _( "Clostridium Tetani Infection" ) );
     }
 
