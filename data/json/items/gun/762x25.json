@@ -9,22 +9,22 @@
     "price": 280000,
     "bashing": 10,
     "to_hit": -2,
-    "material": ["steel", "wood"],
+    "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
     "skill": "smg",
     "ammo": "762x25",
     "dispersion": 120,
     "sight_dispersion": 90,
-    "aim_speed" : 4,
+    "aim_speed": 4,
     "recoil": -15,
     "barrel_length": 2,
     "durability": 8,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
-      [ "MODE_AUTO", "auto", 8 ]
+      [ "AUTO", "auto", 8 ]
     ],
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
+    "valid_mod_locations": [[ "accessories", 3 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ]],
     "magazines": [
       [ "762x25", [ "ppshmag", "ppshdrum" ] ]
     ]
