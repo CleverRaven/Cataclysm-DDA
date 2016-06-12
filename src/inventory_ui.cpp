@@ -478,13 +478,13 @@ std::string inventory_column::get_item_text( size_t index ) const
 
         if( markers ) {
             if( entry.chosen_count == 0 ) {
-                res << '-';
+                res << "<color_c_dkgray>-";
             } else if( entry.chosen_count >= entry.get_available_count() ) {
-                res << '+';
+                res << "<color_c_ltgreen>+";
             } else {
-                res << '#';
+                res << "<color_c_ltgreen>#";
             }
-            res << ' ';
+            res << " </color>";
         }
 
         const size_t count = ( entry.slice != nullptr ) ? entry.slice->size() : 1;
