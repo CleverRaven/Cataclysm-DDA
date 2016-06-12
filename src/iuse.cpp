@@ -6236,6 +6236,11 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+int iuse::blood_test(player *, item *, bool, const tripoint& )
+{
+    return 0;
+}
+
 void init_memory_card_with_random_stuff(player *, item *it)
 {
 
