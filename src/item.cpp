@@ -2944,7 +2944,7 @@ int item::brewing_time() const
 
 const std::vector<itype_id> &item::brewing_results() const
 {
-    static const std::vector<itype_id> nulresult;
+    static const std::vector<itype_id> nulresult{};
     return is_brewable() ? type->brewable->results : nulresult;
 }
 
