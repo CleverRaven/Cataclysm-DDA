@@ -61,6 +61,7 @@
 
 DynamicDataLoader::DynamicDataLoader()
 {
+    initialize();
 }
 
 DynamicDataLoader::~DynamicDataLoader()
@@ -71,9 +72,6 @@ DynamicDataLoader::~DynamicDataLoader()
 DynamicDataLoader &DynamicDataLoader::get_instance()
 {
     static DynamicDataLoader theDynamicDataLoader;
-    if (theDynamicDataLoader.type_function_map.empty()) {
-        theDynamicDataLoader.initialize();
-    }
     return theDynamicDataLoader;
 }
 
