@@ -1546,7 +1546,6 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );
-    data.read("amount", amount );
     data.read("open", open );
     data.read("direction", direction );
     data.read("blood", blood );
@@ -1562,13 +1561,18 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
 
+    // legacy items may specify ammo via the deprecated amount field
+    // items tagged VEHICLE are already migrated so we can ignore those
+    int amount;
+    if( data.read( "amount", amount ) ) {
+        if( !base.has_flag( "VEHICLE" ) && ammo_capacity() > 0 ) {
+            ammo_set( id.obj().fuel_type, amount );
+        }
+    }
+
     // migrate legacy base items which may not be tagged VEHICLE
     if( !base.has_flag( "VEHICLE") ) {
         base.item_tags.insert( "VEHICLE" );
-        if( base.is_magazine() ) {
-            base.ammo_set( id.obj().fuel_type, amount );
-            amount = 0;
-        }
     }
 }
 
@@ -1581,7 +1585,6 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
     json.member("hp", hp);
-    json.member("amount", amount);
     json.member("open", open );
     json.member("direction", direction );
     json.member("blood", blood);
