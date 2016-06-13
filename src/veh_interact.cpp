@@ -2165,7 +2165,7 @@ std::string veh_interact::getDurabilityDescription(const int &dur)
 /**
  * Given a vpart id, gives the choice of inventory and nearby items to consume
  * for install/repair/etc. Doesn't use consume_items in crafting.cpp, as it got
- * into weird cases and doesn't consider properties like HP and bigness. The
+ * into weird cases and doesn't consider properties like HP. The
  * item will be removed by this function.
  * @param vpid The id of the vpart type to look for.
  * @return The item that was consumed.

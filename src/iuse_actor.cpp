@@ -337,7 +337,6 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
                 // expected to be consistent.
                 dst.hp = src.hp;
                 dst.blood = src.blood;
-                dst.bigness = src.bigness;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
                 dst.flags = src.flags;
