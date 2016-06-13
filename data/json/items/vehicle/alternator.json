@@ -1,0 +1,51 @@
+[
+  {
+    "abstract": "vehicle_alternator",
+    "type": "GENERIC",
+    "name": "vehicle alternator",
+    "category": "veh_parts",
+    "material": [ "steel" ],
+    "symbol": ",",
+    "color": "light_cyan"
+  },
+  {
+    "id": "alternator_car",
+    "copy-from": "vehicle_alternator",
+    "type": "GENERIC",
+    "name": "car alternator",
+    "description": "An alternator used to power car electrical systems.",
+    "weight": 9000,
+    "volume": 6,
+    "price": 9000
+  },
+  {
+    "id": "alternator_motorbike",
+    "copy-from": "vehicle_alternator",
+    "type": "GENERIC",
+    "name": "motorbike alternator",
+    "description": "A small alternator used to power small vehicle electrical systems.",
+    "weight": 6000,
+    "volume": 5,
+    "price": 6000
+  },
+  {
+    "id": "alternator_truck",
+    "copy-from": "vehicle_alternator",
+    "type": "GENERIC",
+    "name": "truck alternator",
+    "description": "A large alternator used to power truck electrical systems.",
+    "weight": 12000,
+    "volume": 7,
+    "price": 12000
+  },
+  {
+    "id": "generator_7500w",
+    "copy-from": "vehicle_alternator",
+    "type": "GENERIC",
+    "name": "7.5kW generator",
+    "description": "An electrical generator designed to be attached to an engine.",
+    "weight": 48000,
+    "volume": 30,
+    "price": 30000
+  }
+]
