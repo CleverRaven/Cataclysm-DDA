@@ -6742,7 +6742,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint& pos )
 
     int res = std::min( ammo_remaining(), qty );
 
-    if( base.is_watertight_container() ) {
+    if( base.is_watertight_container() && !base.contents.empty() ) {
         item& liquid = base.contents.back();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
