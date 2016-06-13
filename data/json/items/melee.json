@@ -1643,8 +1643,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
     },
     {
     "id": "nodachi_fake",

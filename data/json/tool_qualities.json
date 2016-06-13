@@ -29,7 +29,10 @@
     },{
         "type" : "tool_quality",
         "id" : "SAW_W",
-        "name" : "wood sawing"
+        "name" : "wood sawing",
+        "usages": [
+            [ 2, [ "LUMBER" ] ]
+        ]
     },{
         "type" : "tool_quality",
         "id" : "SAW_M",
@@ -68,7 +71,10 @@
     },{
         "type" : "tool_quality",
         "id" : "AXE",
-        "name" : "tree cutting"
+        "name" : "tree cutting",
+        "usages": [
+            [ 2, [ "LUMBER" ] ]
+        ]
     },{
         "type" : "tool_quality",
         "id" : "DIG",

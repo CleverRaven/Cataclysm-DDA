@@ -548,8 +548,7 @@
     "bashing": 11,
     "cutting": 8,
     "flags" : ["CHOP"],
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },{
     "id": "makeshift_shovel",
     "type": "TOOL",
