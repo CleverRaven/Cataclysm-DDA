@@ -17,8 +17,8 @@
     "difficulty": 2,
     "damage_modifier": 80,
     "durability": 250,
-    "power": -4,
-    "epower": 800,
+    "power": -2,
+    "epower": 360, "//": "30A @12VDC ~ 1HP drain @ 48% effficiency",
     "folded_volume": 5,
     "breaks_into": [
         { "item": "steel_lump", "count": [ 2, 5 ] },
@@ -36,8 +36,8 @@
     "difficulty": 2,
     "damage_modifier": 80,
     "durability": 275,
-    "power": -7,
-    "epower": 1500,
+    "power": -4,
+    "epower": 780, "//": "65A @12VDC ~ 2HP drain @ 52% effficiency",
     "breaks_into": [
         { "item": "steel_lump", "count": [ 3, 6 ] },
         { "item": "steel_chunk", "count": [ 3, 6 ] },
@@ -54,8 +54,8 @@
     "difficulty": 2,
     "damage_modifier": 80,
     "durability": 325,
-    "power": -10,
-    "epower": 2200,
+    "power": -6,
+    "epower": 1320, "//": "110A @12VDC ~ 3HP drain @ 60% effficiency",
     "breaks_into": [
         { "item": "steel_lump", "count": [ 4, 7 ] },
         { "item": "steel_chunk", "count": [ 4, 7 ] },
@@ -72,8 +72,8 @@
     "difficulty": 3,
     "damage_modifier": 80,
     "durability": 400,
-    "power": -32,
-    "epower": 7500,
+    "power": -28,
+    "epower": 7500, "//": "625A @12VDC ~ 14HP drain @ 72% effficiency",
     "breaks_into": [
         { "item": "steel_lump", "count": [ 10, 18 ] },
         { "item": "steel_chunk", "count": [ 10, 18 ] },
