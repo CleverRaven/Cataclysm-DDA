@@ -1321,11 +1321,12 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
+
     if( item_inscription( cut ) ) {
-        return it->type->charges_to_use();
+        return cost >= 0 ? cost : it->ammo_required();
     }
 
-    return cost >= 0 ? cost : it->ammo_required();
+    return 0;
 }
 
 void cauterize_actor::load( JsonObject &obj )
