@@ -1947,25 +1947,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "gas_tank_small",
-        "name" : "gasoline tank (10L)",
-        "symbol" : "O",
-        "color" : "light_red",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 100,
-        "size" : 10000,
-        "fuel_type" : "gasoline",
-        "item" : "jerrycan",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "plastic_chunk", "count": [ 10, 40 ] }
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "gas_tank",
         "name" : "gasoline tank (60L)",
         "symbol" : "O",
@@ -2059,25 +2040,6 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
         "breaks_into" : []
-    },{
-        "type" : "vehicle_part",
-        "id" : "diesel_tank_small",
-        "name" : "diesel tank (10L)",
-        "symbol" : "O",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 100,
-        "size" : 10000,
-        "fuel_type" : "diesel",
-        "item" : "jerrycan",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "plastic_chunk", "count": [ 10, 40 ] }
-        ]
     },{
         "type" : "vehicle_part",
         "id" : "diesel_tank",
@@ -2217,25 +2179,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "water_tank_small",
-        "name" : "clean water tank (10L)",
-        "symbol" : "O",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 100,
-        "size" : 40,
-        "fuel_type" : "water_clean",
-        "item" : "jerrycan",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            { "item": "plastic_chunk", "count": [ 10, 40 ] }
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "water_tank_little",
         "name" : "clean water tank (2L)",
         "symbol" : "O",
@@ -2308,25 +2251,6 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
         "breaks_into" : []
-    },{
-        "type" : "vehicle_part",
-        "id" : "water_dirty_tank_small",
-        "name" : "dirty water tank (10L)",
-        "symbol" : "O",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 100,
-        "size" : 40,
-        "fuel_type" : "water",
-        "item" : "jerrycan",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            { "item": "plastic_chunk", "count": [ 10, 40 ] }
-        ]
     },{
         "type" : "vehicle_part",
         "id" : "water_dirty_tank_little",

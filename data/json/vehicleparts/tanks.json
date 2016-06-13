@@ -1,0 +1,49 @@
+[
+  {
+    "abstract": "tank_small",
+    "type": "vehicle_part",
+    "name": "vehicle tank (10L)",
+    "item": "jerrycan",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color" : "red",
+    "size": 10000,
+    "durability" : 100,
+    "difficulty": 1,
+    "damage_modifier" : 80,
+    "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
+    "flags": [ "FUEL_TANK" ]
+  },
+  {
+    "id": "diesel_tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "name": "diesel tank (10L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "gas_tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "name": "gasoline tank (10L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
+    "id": "water_dirty_tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "name": "dirty water tank (10L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
+    "id": "water_tank_small",
+    "copy-from": "tank_small",
+    "type": "vehicle_part",
+    "name": "clean water tank (10L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  }
+]
