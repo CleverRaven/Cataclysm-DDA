@@ -97,7 +97,10 @@ void load_ingored_type(JsonObject &jo)
 
 void DynamicDataLoader::add( const std::string &type, std::function<void(JsonObject&)> f )
 {
-    type_function_map.insert( std::make_pair( type, std::move( f ) ) );
+    const auto pair = type_function_map.insert( std::make_pair( type, std::move( f ) ) );
+    if( !pair.second ) {
+        debugmsg( "tried to insert a second handler for type %s into the DynamicDataLoader", type.c_str() );
+    }
 }
 
 void DynamicDataLoader::initialize()
