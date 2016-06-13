@@ -31,6 +31,15 @@ void quality::load_static( JsonObject &jo )
 void quality::load( JsonObject &jo )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
+
+    JsonArray arr = jo.get_array( "usages" );
+    while( arr.has_more() ) {
+        auto lvl = arr.next_array();
+        auto funcs = lvl.get_array( 1 );
+        while( funcs.has_more() ) {
+            usages.emplace_back( lvl.get_int( 0 ), funcs.next_string() );
+        }
+    }
 }
 
 template<>

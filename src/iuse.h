@@ -218,15 +218,22 @@ public:
 typedef int (iuse::*use_function_pointer)( player*, item*, bool, const tripoint& );
 
 class iuse_actor {
+
 protected:
-    iuse_actor() { }
+    iuse_actor( const std::string& type, long cost = -1 ) : type( type ), cost( cost ) {}
+
 public:
     /**
      * The type of the action. It's not translated. Different iuse_actor instances may have the
      * same type, but different data.
      */
-    std::string type;
+    const std::string type;
+
+    /** Units of ammo required per invocation (or use value from base item if negative) */
+    long cost;
+
     virtual ~iuse_actor() { }
+    virtual void load( JsonObject &jo ) = 0;
     virtual long use( player*, item*, bool, const tripoint& ) const = 0;
     virtual bool can_use( const player*, const item*, bool, const tripoint& ) const { return true; }
     virtual void info( const item &, std::vector<iteminfo> & ) const {};
@@ -259,8 +266,8 @@ protected:
 
 public:
     use_function() = default;
-    use_function( use_function_pointer f );
-    use_function( iuse_actor *f );
+    use_function( const std::string &type, use_function_pointer f );
+    use_function( iuse_actor *f ) : actor( f ) {}
     use_function( use_function && ) = default;
     use_function( const use_function &other );
 

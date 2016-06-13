@@ -76,9 +76,6 @@
     "category": "weapons",
     "use_action": [
       {
-          "type": "knife"
-      },
-      {
          "type": "transform",
          "target": "blood_athame_active",
          "active": true,
@@ -134,7 +131,6 @@
     "ammo": "essence_dull_type",
     "use_action": [
       "MEDITATE",
-      { "type": "knife" },
       {
         "type": "fireweapon_off",
         "target_id": "sun_sword_on",
@@ -166,7 +162,6 @@
     "ammo": "essence_dull_type",
     "revert_to": "sun_sword",
     "use_action": [
-      { "type": "knife" },
       {
         "type": "firestarter",
         "moves_cost": 15
@@ -541,7 +536,6 @@
     "category": "weapons",
     "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]],
     "use_action": [
-      { "type": "knife" },
       {
          "type": "transform",
          "target": "bloodaxe_act",
@@ -832,7 +826,6 @@
     "max_charges": 9,
     "ammo": "essence_blood_type",
     "use_action": [
-      { "type": "knife" },
       {
         "type": "transform",
         "target": "stormbringer_on",

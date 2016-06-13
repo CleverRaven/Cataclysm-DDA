@@ -633,7 +633,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Rescaling to use the same units as projectile_attack
     const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
-    static const std::vector<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
     bool do_railgun = has_active_bionic("bio_railgun") &&
                       thrown.made_of_any( ferric );

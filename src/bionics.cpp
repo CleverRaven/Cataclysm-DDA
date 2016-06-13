@@ -451,7 +451,7 @@ bool player::activate_bionic( int b, bool eff_only )
                 }
                 for (unsigned k = 0; k < g->m.i_at(i, j).size(); k++) {
                     tmp_item = g->m.i_at(i, j)[k];
-                    static const std::vector<material_id> affected_materials =
+                    static const std::set<material_id> affected_materials =
                         { material_id( "iron" ), material_id( "steel" ) };
                     if( tmp_item.made_of_any( affected_materials ) &&
                         tmp_item.weight() < weight_capacity() ) {

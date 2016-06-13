@@ -1422,7 +1422,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         for( const auto &method : type->use_methods ) {
             insert_separation_line();
-            method.dump_info( *this, info );
+            method.second.dump_info( *this, info );
         }
 
         insert_separation_line();
@@ -1759,7 +1759,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         for( auto &u : type->use_methods ) {
-            const auto tt = dynamic_cast<const delayed_transform_iuse *>( u.get_actor_ptr() );
+            const auto tt = dynamic_cast<const delayed_transform_iuse *>( u.second.get_actor_ptr() );
             if( tt == nullptr ) {
                 continue;
             }
@@ -2040,10 +2040,6 @@ nc_color item::color_in_inventory() const
                        u->get_skill_level( tmp.skill ).can_train() &&
                        u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
-            } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
-                // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
-                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart(matype_id( "style_" + type->id.substr(7)))) ) {
-                ret = c_ltblue;
             }
         } else {
             ret = c_red; // Book hasn't been identified yet: red
@@ -3235,32 +3231,28 @@ std::vector<const material_type*> item::made_of_types() const
     return material_types_composed_of;
 }
 
-bool item::made_of_any( const std::vector<material_id> &mat_idents ) const
+bool item::made_of_any( const std::set<material_id> &mat_idents ) const
 {
     const auto mats = made_of();
     if( mats.empty() ) {
         return false;
     }
-    for( auto candidate_material : mat_idents ) {
-        if( std::find( mats.begin(), mats.end(), candidate_material ) != mats.end() ) {
-            return true;
-        }
-    }
-    return false;
+
+    return std::any_of( mats.begin(), mats.end(), [&mat_idents]( const material_id &e ) {
+        return mat_idents.count( e );
+    } );
 }
 
-bool item::only_made_of( const std::vector<material_id> &mat_idents ) const
+bool item::only_made_of( const std::set<material_id> &mat_idents ) const
 {
     const auto mats = made_of();
     if( mats.empty() ) {
         return false;
     }
-    for( auto target_material : mats ) {
-        if( std::find( mat_idents.begin(), mat_idents.end(), target_material ) == mat_idents.end() ) {
-            return false;
-        }
-    }
-    return true;
+
+    return std::all_of( mats.begin(), mats.end(), [&mat_idents]( const material_id &e ) {
+        return mat_idents.count( e );
+    } );
 }
 
 bool item::made_of( const material_id &mat_ident ) const
@@ -5778,7 +5770,7 @@ bool item::is_soft() const
 {
     // @todo Make this a material property
     // @todo Add a SOFT flag (for chainmail and the like)
-    static const std::vector<material_id> soft_mats = {{
+    static const std::set<material_id> soft_mats = {{
         material_id( "cotton" ), material_id( "leather" ), material_id( "wool" ), material_id( "nomex" )
     }};
 
