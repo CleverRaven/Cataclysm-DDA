@@ -5053,7 +5053,7 @@
           "rotates": false
         },
         {
-          "id": "overlay_wielded_55gal_drum",
+          "id": "overlay_wielded_metal_bigdrum",
           "fg": 1003,
           "bg": 632,
           "rotates": false
@@ -26830,7 +26830,7 @@
           "rotates": false
         },
         {
-          "id": "55gal_drum",
+          "id": "metal_bigdrum",
           "fg": 1003,
           "bg": 632,
           "rotates": false

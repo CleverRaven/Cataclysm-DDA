@@ -5362,7 +5362,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "55gal_drum",
+  "result": "metal_bigdrum",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",

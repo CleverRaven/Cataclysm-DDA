@@ -586,11 +586,11 @@
         "material": "paper"
     },
     {
-        "id": "55gal_drum",
+        "id": "metal_bigdrum",
         "type": "CONTAINER",
         "symbol": "0",
         "color": "dark_gray",
-        "name": "55 gallon drum",
+        "name": "steel drum (200L)",
         "category": "other",
         "description": "A massive steel barrel with a resealable lid.",
         "price": 10000,
@@ -599,7 +599,7 @@
         "bashing": 8,
         "to_hit": -5,
         "material": "steel",
-        "contains": 825,
+        "contains": 800,
         "watertight": true,
         "seals": true
     },
@@ -613,7 +613,7 @@
         "description": "A huge steel barrel with a resealable lid.",
         "price": 8000,
         "weight": 12000,
-        "volume": 450,
+        "volume": 400,
         "bashing": 8,
         "to_hit": -5,
         "material": "steel",

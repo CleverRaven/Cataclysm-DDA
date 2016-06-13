@@ -2113,7 +2113,7 @@
         "components" : [
             [ [ "2x4",   8 ] ],
             [ [ "rope_30", 1 ], [ "vine_30", 1 ] ],
-            [ [ "55gal_drum", 2 ], [ "metal_drum", 2 ], [ "wooden_barrel", 2 ] ]
+            [ [ "metal_bigdrum", 2 ], [ "metal_drum", 2 ], [ "wooden_barrel", 2 ] ]
         ],
         "pre_terrain" : "t_water_dp",
         "post_terrain" : "t_pontoon_dp"
