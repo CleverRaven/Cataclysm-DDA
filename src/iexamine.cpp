@@ -624,8 +624,12 @@ void iexamine::cardreader(player &p, const tripoint &examp)
 
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    bool has_digging_tool = p.has_quality( quality_id( "DIG" ), 2 );
-    if( !has_digging_tool ) {
+    static quality_id quality_dig( "DIG" );
+    auto shovels = p.items_with( []( const item &e ) {
+        return e.get_quality( quality_dig ) >= 2;
+    } );
+
+    if( shovels.empty() ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
@@ -640,12 +644,12 @@ void iexamine::rubble(player &p, const tripoint &examp)
         return;
     }
 
-    // "Remove"
-    p.moves -= 200;
-    g->m.furn_set(examp, f_null);
+    // Select our best shovel
+    std::sort( shovels.begin(), shovels.end(), []( const item *lhs, const item *rhs ) {
+        return lhs->get_quality( quality_dig ) > rhs->get_quality( quality_dig );
+    } );
 
-    // "Remind"
-    add_msg(_("You clear up that %s."), xname.c_str());
+    p.invoke_item( shovels.front(), "DIG", examp );
 }
 
 void iexamine::crate(player &p, const tripoint &examp)
