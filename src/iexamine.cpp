@@ -645,11 +645,11 @@ void iexamine::rubble(player &p, const tripoint &examp)
     }
 
     // Select our best shovel
-    std::sort( shovels.begin(), shovels.end(), []( const item *lhs, const item *rhs ) {
+    auto it = std::max_element( shovels.begin(), shovels.end(), []( const item *lhs, const item *rhs ) {
         return lhs->get_quality( quality_dig ) > rhs->get_quality( quality_dig );
     } );
 
-    p.invoke_item( shovels.front(), "DIG", examp );
+    p.invoke_item( *it, "DIG", examp );
 }
 
 void iexamine::crate(player &p, const tripoint &examp)

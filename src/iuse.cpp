@@ -3172,17 +3172,16 @@ int iuse::dig(player *p, item *it, bool, const tripoint &pos )
             g->m.furn_set( pt, f_null );
 
             // costs per tile:
-            // DIG 2 = 300 seconds, 10 fatigue, hunger and thirst
-            // DIG 3 =  75 seconds,  2 fatigue, hunger and thirst
-            // DIG 4 =  33 seconds,  1 fatigue, hunger and thirst
-            // DIG 5 =  18 seconds,  0 fatigue, hunger and thirst
+            // DIG 2 = 300 seconds, 10 hunger and thirst
+            // DIG 3 =  75 seconds,  2 hunger and thirst
+            // DIG 4 =  33 seconds,  1 hunger and thirst
+            // DIG 5 =  18 seconds,  0 hunger and thirst
             int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
             bonus *= bonus;
 
             p->moves -= 5000 / ( bonus * bonus );
 
             if( p ) {
-                p->mod_fatigue( 10 / bonus );
                 p->mod_hunger ( 10 / bonus );
                 p->mod_thirst ( 10 / bonus );
             }
