@@ -167,8 +167,8 @@
                 { "group" : "sewage_plant", "chance" : 70, "x" : [ 4, 5], "y" : [ 0, 2], "repeat" : [1,3] },
                 { "group" : "sewage_plant", "chance" : 70, "x" : [ 4, 5], "y" : [ 4, 6], "repeat" : [1,3] },
                 { "group" : "sewage_plant", "chance" : 60, "x" : [ 4, 5], "y" : [ 8,13], "repeat" : [1,2] },
-                { "item" :  "metal_bigdrum",   "chance" : 50, "x" : [21,21], "y" : [11,13], "repeat" : [1,2] },
-                { "item" :  "metal_bigdrum",   "chance" : 30, "x" : [10,13], "y" : [ 4, 4], "repeat" : [1,2] },
+                { "item" :  "55gal_drum",   "chance" : 50, "x" : [21,21], "y" : [11,13], "repeat" : [1,2] },
+                { "item" :  "55gal_drum",   "chance" : 30, "x" : [10,13], "y" : [ 4, 4], "repeat" : [1,2] },
                 { "item" :  "pipe",         "chance" : 60, "x" : [16,16], "y" : [ 0, 1], "repeat" : [1,3] },
                 { "item" :  "pipe",         "chance" : 75, "x" : [12,13], "y" : [ 1, 2], "repeat" : [1,5] },
                 { "item" :  "steel_plate",  "chance" : 40, "x" : [12,13], "y" : [ 1, 2], "repeat" : [1,3] }

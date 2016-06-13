@@ -7298,7 +7298,7 @@
           "rotates": false
         },
         {
-          "id": "metal_drum",
+          "id": "30gal_drum",
           "fg": 1002,
           "bg": 632,
           "rotates": false
@@ -7322,7 +7322,7 @@
           "rotates": false
         },
         {
-          "id": "metal_bigdrum",
+          "id": "55gal_drum",
           "fg": 1003,
           "bg": 632,
           "rotates": false

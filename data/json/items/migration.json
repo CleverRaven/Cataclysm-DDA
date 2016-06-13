@@ -1,15 +1,5 @@
 [
   {
-    "id": "30gal_drum",
-    "type": "MIGRATION",
-    "replace": "steel_drum"
-  },
-  {
-    "id": "55gal_drum",
-    "type": "MIGRATION",
-    "replace": "steel_bigdrum"
-  },
-  {
     "id": "adv_UPS_on",
     "type": "MIGRATION",
     "replace": "adv_UPS_off"

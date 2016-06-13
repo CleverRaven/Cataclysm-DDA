@@ -8609,7 +8609,7 @@
           "fg": [
             1002
           ],
-          "id": "metal_drum",
+          "id": "30gal_drum",
           "rotates": false
         },
         {
@@ -8619,7 +8619,7 @@
           "fg": [
             1003
           ],
-          "id": "metal_bigdrum",
+          "id": "55gal_drum",
           "rotates": false
         },
         {

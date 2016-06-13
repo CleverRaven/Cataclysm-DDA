@@ -586,7 +586,7 @@
         "material": "paper"
     },
     {
-        "id": "metal_bigdrum",
+        "id": "55gal_drum",
         "type": "CONTAINER",
         "symbol": "0",
         "color": "dark_gray",
@@ -604,7 +604,7 @@
         "seals": true
     },
     {
-        "id": "metal_drum",
+        "id": "30gal_drum",
         "type": "CONTAINER",
         "symbol": "0",
         "color": "dark_gray",

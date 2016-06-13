@@ -53,7 +53,7 @@
     "type": "vehicle_part",
     "name": "external tank (100L)",
     "location": "structure",
-    "item": "metal_drum",
+    "item": "30gal_drum",
     "symbol": "O",
     "broken_color": "red",
     "size": 100000,
@@ -67,7 +67,7 @@
     "copy-from": "external_tank_small",
     "type": "vehicle_part",
     "name": "external tank (200L)",
-    "item": "metal_bigdrum",
+    "item": "55gal_drum",
     "size": 200000
   },
   {

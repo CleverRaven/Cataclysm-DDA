@@ -583,7 +583,7 @@ MISSION(_("Find Flag"), MGOAL_FIND_ITEM, 2, 100000, false,
          &mission_place::always, &mission_start::ranch_bartender_4,
          &mission_end::standard, &mission_fail::standard);
   ORIGINS(ORIGIN_SECONDARY);
-  ITEM("metal_bigdrum");
+  ITEM("55gal_drum");
   COUNT(2);
   FOLLOWUP(MISSION_RANCH_BARTENDER_5);
 

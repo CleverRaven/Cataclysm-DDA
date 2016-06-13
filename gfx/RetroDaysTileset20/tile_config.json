@@ -25621,12 +25621,12 @@
             "rotates":false
         },
         {
-            "id":"metal_bigdrum",
+            "id":"55gal_drum",
             "fg":982,
             "rotates":false
         },
         {
-            "id":"metal_drum",
+            "id":"30gal_drum",
             "fg":982,
             "rotates":false
         },

@@ -1481,7 +1481,7 @@ void mission_start::ranch_scavenger_1(mission *miss)
  bay.place_items( "mechanics", 65, 9, 13, 10, 16, true, 0 );
  bay.draw_square_ter(t_chainfence_h, 0, 22, 7, 22);
  bay.draw_square_ter(t_dirt, 2, 22, 3, 22);
- bay.spawn_item( 7, 19, "metal_drum" );
+ bay.spawn_item( 7, 19, "30gal_drum" );
  bay.save();
 }
 
@@ -1503,7 +1503,7 @@ void mission_start::ranch_scavenger_2(mission *miss)
  bay.load(site.x * 2, site.y * 2, site.z, false);
  bay.place_items( "mischw", 65, 12, 13, 13, 16, true, 0 );
  bay.draw_square_ter(t_chaingate_l, 2, 22, 3, 22);
- bay.spawn_item( 7, 20, "metal_drum" );
+ bay.spawn_item( 7, 20, "30gal_drum" );
  bay.save();
 }
 
