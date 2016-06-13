@@ -66,7 +66,6 @@ DynamicDataLoader::DynamicDataLoader()
 
 DynamicDataLoader::~DynamicDataLoader()
 {
-    reset();
 }
 
 DynamicDataLoader &DynamicDataLoader::get_instance()
@@ -103,7 +102,6 @@ void DynamicDataLoader::add( const std::string &type, std::function<void(JsonObj
 
 void DynamicDataLoader::initialize()
 {
-    reset();
     // all of the applicable types that can be loaded, along with their loading functions
     // Add to this as needed with new StaticFunctionAccessors or new ClassFunctionAccessors for new applicable types
     // Static Function Access
@@ -197,11 +195,6 @@ void DynamicDataLoader::initialize()
 
     add( "gate", &gates::load_gates );
     add( "overlay_order", &load_overlay_ordering );
-}
-
-void DynamicDataLoader::reset()
-{
-    type_function_map.clear();
 }
 
 void DynamicDataLoader::load_data_from_path(const std::string &path)

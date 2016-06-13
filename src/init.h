@@ -86,11 +86,6 @@ class DynamicDataLoader
          */
         void initialize();
         /**
-         * Clears and deletes the contents of
-         * @ref type_function_map
-         */
-        void reset();
-        /**
          * Check the consistency of all the loaded data.
          * May print a debugmsg if something seems wrong.
          */
