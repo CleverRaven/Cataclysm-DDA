@@ -51,6 +51,7 @@ src/name.cpp
 src/npc_class.cpp
 src/overlay_ordering.cpp
 src/pathfinding.cpp
+src/pickup.cpp
 src/player_activity.cpp
 src/posix_time.cpp
 src/profession.cpp
