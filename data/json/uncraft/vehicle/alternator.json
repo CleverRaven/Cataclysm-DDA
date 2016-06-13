@@ -6,16 +6,17 @@
     "subcategory": "CSC_NONCRAFT",
     "skill_used": "mechanics",
     "difficulty": 3,
-    "time": 20000,
+    "time": 30000,
     "qualities": [
         { "id": "SCREW","level": 1 },
-        { "id": "WRENCH","level": 1 }
+        { "id": "WRENCH","level": 1 },
+        { "id": "SAW_M","level": 1 }
     ],
-    "tools": [ [ [ "soldering_iron", 30 ], [ "toolset", 30 ] ] ],
+    "tools": [ [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ] ],
     "components": [
         [ [ "power_supply", 1 ] ],
-        [ [ "cable", 15 ] ],
-        [ [ "bearing", 15 ] ],
+        [ [ "cable", 40 ] ],
+        [ [ "bearing", 20 ] ],
         [ [ "scrap", 2 ] ],
         [ [ "steel_chunk", 2 ] ]
     ]
@@ -34,8 +35,8 @@
     "tools": [ [ [ "soldering_iron", 20 ], [ "toolset", 20 ] ] ],
     "components": [
         [ [ "power_supply", 1 ] ],
-        [ [ "cable", 10 ] ],
-        [ [ "bearing", 10 ] ],
+        [ [ "cable", 20 ] ],
+        [ [ "bearing", 5 ] ],
         [ [ "scrap", 2 ] ]
     ]
   },
@@ -45,20 +46,17 @@
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",
     "skill_used": "mechanics",
-    "difficulty": 4,
+    "difficulty": 3,
     "time": 30000,
     "qualities": [
         { "id": "SCREW","level": 1 },
         { "id": "WRENCH","level": 1 },
         { "id": "SAW_M","level": 1 }
     ],
-    "tools": [
-      [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ],
-      [ [ "oxy_torch", 6 ], [ "welder", 30 ], [ "toolset", 45 ], [ "welder_crude", 45 ] ]
-    ],
+    "tools": [ [ [ "soldering_iron", 40 ], [ "toolset", 40 ] ] ],
     "components": [
-        [ [ "power_supply", 2 ] ],
-        [ [ "cable", 20 ] ],
+        [ [ "power_supply", 1 ] ],
+        [ [ "cable", 60 ] ],
         [ [ "bearing", 20 ] ],
         [ [ "scrap", 3 ] ],
         [ [ "steel_chunk", 3 ] ]
