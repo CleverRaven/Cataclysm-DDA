@@ -2610,5 +2610,17 @@
         "weight": 5000,
         "volume": 3,
         "category": "spare_parts"
+    },
+    {
+        "id": "light_bulb",
+        "type":"GENERIC",
+        "name": "light bulb",
+        "description": "A rather outdated light bulb used in all sorts of light equipment.",
+        "symbol": ",",
+        "color": "white",
+        "material": "glass",
+        "weight": 10,
+        "volume": 1,
+        "price": 500
     }
 ]

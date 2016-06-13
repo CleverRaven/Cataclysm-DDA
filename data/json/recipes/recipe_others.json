@@ -559,7 +559,7 @@
   ],
   "components": [
     [
-      [ "flashlight", 1 ]
+      [ "car_headlight", 1 ]
     ],
     [
       [ "wire", 2 ]
