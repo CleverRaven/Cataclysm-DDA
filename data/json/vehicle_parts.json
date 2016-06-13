@@ -1989,25 +1989,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "gas_tank_little",
-        "name" : "gasoline tank (2L)",
-        "symbol" : "O",
-        "color" : "light_red",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 75,
-        "size" : 2000,
-        "fuel_type" : "gasoline",
-        "item" : "metal_tank_little",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [1, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "external_gas_tank_small",
         "name" : "external gas tank (small)",
         "symbol" : "O",
@@ -2059,25 +2040,6 @@
         "breaks_into" : [
             {"item": "steel_lump"},
             {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [1, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "diesel_tank_little",
-        "name" : "diesel tank (2L)",
-        "symbol" : "O",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 75,
-        "size" : 2000,
-        "fuel_type" : "diesel",
-        "item" : "metal_tank_little",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
             {"item": "scrap", "count": [1, 2]}
         ]
     },{
@@ -2179,25 +2141,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "water_tank_little",
-        "name" : "clean water tank (2L)",
-        "symbol" : "O",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 75,
-        "size" : 8,
-        "fuel_type" : "water_clean",
-        "item" : "metal_tank_little",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [1, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "water_tank",
         "name" : "clean water tank (60L)",
         "symbol" : "O",
@@ -2251,25 +2194,6 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
         "breaks_into" : []
-    },{
-        "type" : "vehicle_part",
-        "id" : "water_dirty_tank_little",
-        "name" : "dirty water tank (2L)",
-        "symbol" : "O",
-        "color" : "light_blue",
-        "broken_symbol" : "#",
-        "broken_color" : "light_blue",
-        "damage_modifier" : 80,
-        "durability" : 75,
-        "size" : 8,
-        "fuel_type" : "water",
-        "item" : "metal_tank_little",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [1, 2]}
-        ]
     },{
         "type" : "vehicle_part",
         "id" : "water_dirty_tank",

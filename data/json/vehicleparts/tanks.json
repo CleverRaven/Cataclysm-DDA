@@ -1,5 +1,20 @@
 [
   {
+    "abstract": "tank_little",
+    "type": "vehicle_part",
+    "name": "vehicle tank (2L)",
+    "item": "metal_tank_little",
+    "location": "fuel_source",
+    "symbol": "O",
+    "broken_color" : "red",
+    "size": 2000,
+    "durability" : 75,
+    "difficulty": 1,
+    "damage_modifier" : 80,
+    "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
+    "flags": [ "FUEL_TANK" ]
+  },
+  {
     "abstract": "tank_small",
     "type": "vehicle_part",
     "name": "vehicle tank (10L)",
@@ -15,12 +30,28 @@
     "flags": [ "FUEL_TANK" ]
   },
   {
+    "id": "diesel_tank_little",
+    "copy-from": "tank_little",
+    "type": "vehicle_part",
+    "name": "diesel tank (2L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
     "id": "diesel_tank_small",
     "copy-from": "tank_small",
     "type": "vehicle_part",
     "name": "diesel tank (10L)",
     "fuel_type": "diesel",
     "color": "green"
+  },
+  {
+    "id": "gas_tank_little",
+    "copy-from": "tank_little",
+    "type": "vehicle_part",
+    "name": "gasoline tank (2L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
   },
   {
     "id": "gas_tank_small",
@@ -31,12 +62,28 @@
     "color": "light_red"
   },
   {
+    "id": "water_dirty_tank_little",
+    "copy-from": "tank_little",
+    "type": "vehicle_part",
+    "name": "dirty water tank (2L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
     "id": "water_dirty_tank_small",
     "copy-from": "tank_small",
     "type": "vehicle_part",
     "name": "dirty water tank (10L)",
     "fuel_type": "water",
     "color": "light_cyan"
+  },
+  {
+    "id": "water_tank_little",
+    "copy-from": "tank_little",
+    "type": "vehicle_part",
+    "name": "clean water tank (2L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
   },
   {
     "id": "water_tank_small",
