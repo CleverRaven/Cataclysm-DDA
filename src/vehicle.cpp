@@ -6668,7 +6668,7 @@ long vehicle_part::ammo_capacity() const
 {
     // @todo currently only support fuel tanks and batteries
 
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_capacity();
     }
 
@@ -6683,7 +6683,7 @@ long vehicle_part::ammo_remaining() const
 {
     // @todo currently only support fuel tanks and batteries
 
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_remaining();
     }
 
@@ -6711,7 +6711,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
         qty = ammo_capacity();
     }
 
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         base.ammo_set( ammo, qty );
         return base.ammo_remaining();
     }
@@ -6726,7 +6726,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 }
 
 void vehicle_part::ammo_unset() {
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         base.ammo_unset();
 
     } else if( base.is_watertight_container() ) {
@@ -6736,7 +6736,7 @@ void vehicle_part::ammo_unset() {
 
 long vehicle_part::ammo_consume( long qty, const tripoint& pos )
 {
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_consume( qty, pos );
     }
 

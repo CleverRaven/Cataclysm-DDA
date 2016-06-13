@@ -1974,7 +1974,6 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 580,
-        "size" : 10000,
         "power" : 100, "//" : "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
         "epower" : 149200,
         "fuel_type" : "plut_cell",
