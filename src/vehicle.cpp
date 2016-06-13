@@ -6719,7 +6719,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
     if( base.is_watertight_container() ) {
         base.contents.clear();
         base.emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
-        return qty;
+        return std::min( qty, ammo_capacity() );
     }
 
     return -1;
