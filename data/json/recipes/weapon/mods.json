@@ -1,0 +1,27 @@
+[
+  {
+    "result": "improve_sights",
+    "type" : "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ [ "gun", 1 ] ],
+    "time": 5000,
+    "book_learn": [
+       [ "mag_guns", 1 ], [ "mag_pistol", 1 ], [ "mag_shotgun", 1 ], [ "mag_smg", 1 ], [ "mag_rifle", 1 ],
+       [ "manual_gun", 1 ], [ "manual_pistol", 1 ], [ "manual_shotgun", 1 ], [ "manual_smg", 1 ] , [ "manual_rifle", 1 ]
+    ],
+    "qualities": [
+      { "id":"HAMMER_FINE", "level": 1 },
+      { "id":"SAW_M_FINE", "level": 1 }
+    ],
+    "tools": [
+      [ [ "large_repairkit", 5 ], [ "small_repairkit", 15 ], [ "soldering_iron", 15 ], [ "toolset", 15 ] ]
+    ],
+    "components": [
+      [ [ "scrap", 1 ] ],
+      [ [ "plastic_chunk", 1 ] ]
+    ]
+  }
+]
