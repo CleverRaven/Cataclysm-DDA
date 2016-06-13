@@ -1729,8 +1729,7 @@
     "bashing": 14,
     "cutting": 3,
     "to_hit": 3,
-    "qualities": [["DIG", 3]],
-    "use_action": "DIG"
+    "qualities": [ [ "DIG", 3 ] ]
   },
   {
     "id": "stethoscope",
@@ -5457,8 +5456,7 @@
     "volume": 16,
     "bashing": 15,
     "cutting": 1,
-    "qualities": [["DIG", 2]],
-    "use_action": "DIG"
+    "qualities": [ [ "DIG", 2 ] ]
   },{
     "id": "primitive_knife",
     "type": "TOOL",
@@ -7500,7 +7498,6 @@
     "volume": 2,
     "bashing": 3,
     "cutting": 5,
-    "use_action": "DIG",
     "flags" : ["CHOP"],
     "to_hit": 1,
     "qualities": [["DIG", 1], ["BUTCHER", -4]]

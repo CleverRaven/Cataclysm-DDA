@@ -78,7 +78,8 @@
     },{
         "type" : "tool_quality",
         "id" : "DIG",
-        "name" : "digging"
+        "name" : "digging",
+        "usages": [ [ 2, [ "DIG" ] ] ]
     },{
         "type" : "tool_quality",
         "id" : "WRENCH",
