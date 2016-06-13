@@ -175,8 +175,6 @@ void DynamicDataLoader::initialize()
     add( "ITEM_WHITELIST", []( JsonObject &jo ) { item_controller->load_item_whitelist( jo ); } );
     add( "WORLD_OPTION", &load_world_option );
 
-    // ...unimplemented?
-    add( "INSTRUMENT", &load_ingored_type );
     // loaded earlier.
     add( "colordef", &load_ingored_type );
     // mod information, ignored, handled by the mod manager
