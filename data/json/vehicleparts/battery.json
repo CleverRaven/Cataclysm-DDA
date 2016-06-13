@@ -34,21 +34,6 @@
     "flags": [ "FUEL_TANK", "TOOL_NONE", "FOLDABLE" ]
   },
   {
-    "id": "battery_truck",
-    "copy-from": "battery_car",
-    "type": "vehicle_part",
-    "name": "truck battery",
-    "item": "battery_truck",
-    "durability": 180,
-    "folded_volume": 0,
-    "breaks_into" : [
-        { "item": "steel_lump", "count": [ 8, 12 ] },
-        { "item": "steel_chunk", "count": [ 8, 12 ] },
-        { "item": "scrap", "count": [ 8, 12 ] }
-    ],
-    "flags": [ "FUEL_TANK", "TOOL_WRENCH" ]
-  },
-  {
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
     "type": "vehicle_part",

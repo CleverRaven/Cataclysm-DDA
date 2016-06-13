@@ -29,19 +29,6 @@
     "capacity": 2000
   },
   {
-    "id": "battery_truck",
-    "copy-from": "battery_car",
-    "type":"MAGAZINE",
-    "category": "veh_parts",
-    "name": "truck battery",
-    "name_plural": "truck batteries",
-    "description": "A large 12v lead-acid battery used to power truck electrical systems.",
-    "weight": 30000,
-    "volume": 6,
-    "price": 6000,
-    "capacity": 8000
-  },
-  {
     "id": "medium_storage_battery",
     "copy-from": "storage_battery",
     "type": "MAGAZINE",

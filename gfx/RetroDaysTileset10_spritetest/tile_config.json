@@ -8686,19 +8686,6 @@
             ]
         },
         {
-            "id":"vp_battery_truck",
-            "fg":437,
-            "rotates":true,
-            "multitile":true,
-            "additional_tiles":
-            [
-                {
-                    "id":"broken",
-                    "fg":431
-                }
-            ]
-        },
-        {
             "id":"vp_fuel_tank_plut",
             "fg":438,
             "rotates":true,
@@ -9877,11 +9864,6 @@
         },
         {
             "id":"battery_car",
-            "fg":369,
-            "rotates":false
-        },
-        {
-            "id":"battery_truck",
             "fg":369,
             "rotates":false
         },

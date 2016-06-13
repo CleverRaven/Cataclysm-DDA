@@ -5668,12 +5668,6 @@
             "rotates":true
         },
         {
-            "id":"vp_battery_truck",
-            "fg":347,
-            "bg":320,
-            "rotates":true
-        },
-        {
             "id":"vp_minireactor",
             "rotates":true
         },
@@ -14302,13 +14296,6 @@
       },
       {
          "id" : "battery_car",
-         "fg" : 1179,
-         "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
-         "id" : "battery_truck",
          "fg" : 1179,
          "bg" : -1,
          "rotates" : false,

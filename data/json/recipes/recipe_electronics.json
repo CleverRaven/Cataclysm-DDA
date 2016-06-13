@@ -1943,41 +1943,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "battery_truck",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
-  "skill_used": "electronics",
-  "skills_required": [ "fabrication", 1 ],
-  "difficulty": 3,
-  "time": 30000,
-  "reversible": true,
-  "decomp_learn": 2,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 20 ],
-      [ "toolset", 20 ]
-    ],
-    [ ["mold_plastic", -1] ],
-    [
-      ["hotplate", 12],
-      ["toolset", 12],
-      ["fire", -1]
-    ]
-  ],
-  "components": [
-    [ [ "plastic_chunk", 20 ] ],
-    [ [ "scrap", 6 ] ],
-    [ [ "lead_plate", 8 ] ],
-    [ [ "water_clean", 16 ] ],
-    [ [ "acid", 6 ] ],
-    [ [ "rag", 5 ] ],
-    [ [ "cable", 6 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "bot_turret",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -2557,7 +2522,7 @@
     [ [ "e_scrap", 2 ] ],
     [ [ "amplifier", 2 ] ],
     [ [ "cable", 1 ] ],
-    [ [ "battery_truck", 1 ] ]
+    [ [ "battery_car", 1 ] ]
   ]
 },{
   "type" : "recipe",

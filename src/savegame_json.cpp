@@ -1522,6 +1522,10 @@ void vehicle_part::deserialize(JsonIn &jsin)
         pid = vpart_str_id( "laser_rifle" );
     }
 
+    if( pid.str() == "battery_truck" ) {
+        pid = vpart_str_id( "battery_car" );
+    }
+
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
         if( pid.str() == "wheel_underbody" ) {
