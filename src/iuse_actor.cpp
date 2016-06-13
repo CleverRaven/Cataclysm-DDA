@@ -998,8 +998,7 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
 void salvage_actor::load( JsonObject &obj )
 {
-    cost = obj.get_long( "cost", 0 );
-
+    assign( obj, "cost", cost );
     assign( obj, "moves_per_part", moves_per_part );
 
     if( obj.has_array( "material_whitelist" ) ) {
@@ -1200,8 +1199,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
 
 void inscribe_actor::load( JsonObject &obj )
 {
-    cost = obj.get_long( "cost", 0 );
-
+    assign( obj, "cost", cost );
     assign( obj, "on_items", on_items );
     assign( obj, "on_terrain", on_terrain );
     assign( obj, "material_restricted", material_restricted );
@@ -1332,8 +1330,8 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
 void cauterize_actor::load( JsonObject &obj )
 {
-    cost = obj.get_long( "cost", -1 );
-    flame = obj.get_bool( "flame", true );
+    assign( obj, "cost", cost );
+    assign( obj, "flame", flame );
 }
 
 iuse_actor *cauterize_actor::clone() const
@@ -1438,7 +1436,7 @@ bool cauterize_actor::can_use( const player *p, const item *it, bool, const trip
 
 void enzlave_actor::load( JsonObject &obj )
 {
-    cost = obj.get_long( "cost", 0 );
+    assign( obj, "cost", cost );
 }
 
 iuse_actor *enzlave_actor::clone() const

@@ -405,7 +405,7 @@ class salvage_actor : public iuse_actor
         int cut_up( player *p, item *it, item *cut ) const;
         bool valid_to_cut_up( const item *it ) const;
 
-        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type ) {}
+        salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type, 0 ) {}
 
         virtual ~salvage_actor() { }
         virtual void load( JsonObject &jo );
@@ -443,7 +443,7 @@ class inscribe_actor : public iuse_actor
 
         bool item_inscription( item *cut ) const;
 
-        inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type ) {}
+        inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type, 0 ) {}
 
         virtual ~inscribe_actor() { }
         virtual void load( JsonObject &jo );
@@ -477,7 +477,7 @@ class cauterize_actor : public iuse_actor
 class enzlave_actor : public iuse_actor
 {
     public:
-        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type ) {}
+        enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type, 0 ) {}
 
         virtual ~enzlave_actor() { }
         virtual void load( JsonObject &jo );

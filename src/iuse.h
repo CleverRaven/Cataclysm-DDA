@@ -220,7 +220,7 @@ typedef int (iuse::*use_function_pointer)( player*, item*, bool, const tripoint&
 class iuse_actor {
 
 protected:
-    iuse_actor( const std::string& type ) : type( type ) { }
+    iuse_actor( const std::string& type, long cost = -1 ) : type( type ), cost( cost ) {}
 
 public:
     /**
@@ -230,7 +230,7 @@ public:
     const std::string type;
 
     /** Units of ammo required per invocation (or use value from base item if negative) */
-    long cost = -1;
+    long cost;
 
     virtual ~iuse_actor() { }
     virtual void load( JsonObject &jo ) = 0;
