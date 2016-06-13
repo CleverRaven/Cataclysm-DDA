@@ -986,6 +986,11 @@ void options_manager::init()
                                             false
                                            );
 
+    OPTIONS["REDRAW_FREQUENCY"] = cOpt( "interface", _( "Redraw screen frequency" ),
+                                             _( "The game will redraw the screen every this many 'ticks', regardless of if the player is stunned or not. Select a value of 0 to disable redraws completely." ),
+                                             0, 50, 2, COPT_POSIX_CURSES_HIDE
+    );
+
     mOptionsSort["interface"]++;
 
     //~ sidebar position
