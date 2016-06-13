@@ -1914,18 +1914,18 @@ get_hp_bar( const int cur_hp, const int max_hp, const bool is_mon )
     static std::array<pair_t, 12> const strings {
         {
             //~ creature health bars
-            pair_t {_( R"(|||||)" ), c_green},
-                   pair_t {_( R"(||||\)" ), c_green},
-                   pair_t {_( R"(||||)" ),  c_ltgreen},
-                   pair_t {_( R"(|||\)" ),  c_ltgreen},
-                   pair_t {_( R"(|||)" ),   c_yellow},
-                   pair_t {_( R"(||\)" ),   c_yellow},
-                   pair_t {_( R"(||)" ),    c_ltred},
-                   pair_t {_( R"(|\)" ),    c_ltred},
-                   pair_t {_( R"(|)" ),     c_red},
-                   pair_t {_( R"(\)" ),     c_red},
-                   pair_t {_( R"(:)" ),     c_red},
-                   pair_t {_( R"(-----)" ), c_ltgray},
+            pair_t { R"(|||||)", c_green },
+            pair_t { R"(||||\)", c_green },
+            pair_t { R"(||||)",  c_ltgreen },
+            pair_t { R"(|||\)",  c_ltgreen },
+            pair_t { R"(|||)",   c_yellow },
+            pair_t { R"(||\)",   c_yellow },
+            pair_t { R"(||)",    c_ltred },
+            pair_t { R"(|\)",    c_ltred },
+            pair_t { R"(|)",     c_red },
+            pair_t { R"(\)",     c_red },
+            pair_t { R"(:)",     c_red },
+            pair_t { R"(-----)", c_ltgray },
         }
     };
 
