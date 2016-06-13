@@ -172,6 +172,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/fault.cpp
     ${CMAKE_SOURCE_DIR}/src/dump.cpp
     ${CMAKE_SOURCE_DIR}/src/overlay_ordering.cpp
+    ${CMAKE_SOURCE_DIR}/src/turret.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS

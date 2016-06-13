@@ -927,15 +927,14 @@ static int draw_turret_aim( const player &p, WINDOW *w, int line_number, const t
         return line_number;
     }
 
-    const auto turret_state = veh->turrets_can_shoot( targ );
-    int num_ok = 0;
-    for( const auto &pr : turret_state ) {
-        if( pr.second == turret_all_ok ) {
-            num_ok++;
-        }
+    // fetch and display list of turrets that are ready to fire at the target
+    auto turrets = veh->turrets( targ );
+
+    mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), turrets.size() );
+    for( const auto e : turrets ) {
+        mvwprintw( w, line_number++, 1, "*  %s", e->name().c_str() );
     }
 
-    mvwprintw( w, line_number++, 1, _("Turrets in range: %d"), num_ok );
     return line_number;
 }
 

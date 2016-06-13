@@ -2836,8 +2836,8 @@ bool game::handle_action()
                 if( veh ) {
                     int vpturret = veh->part_with_feature( part, "TURRET", true );
                     int vpcontrols = veh->part_with_feature( part, "CONTROLS", true );
-                    if( ( vpturret >= 0 && veh->fire_turret( vpturret, true ) ) ||
-                        ( vpcontrols >= 0 && veh->aim_turrets() ) ) {
+                    if( ( vpturret >= 0 && veh->turret_fire( veh->parts[ vpturret ] ) ) ||
+                        ( vpcontrols >= 0 && veh->turrets_aim() ) ) {
                         break;
                     }
                 }
