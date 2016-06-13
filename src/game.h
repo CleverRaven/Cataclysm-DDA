@@ -132,7 +132,6 @@ class game
 {
         friend class editmap;
         friend class advanced_inventory;
-        friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
     public:
         game();
         ~game();
