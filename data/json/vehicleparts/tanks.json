@@ -6,11 +6,11 @@
     "item": "metal_tank_little",
     "location": "fuel_source",
     "symbol": "O",
-    "broken_color" : "red",
+    "broken_color": "red",
     "size": 2000,
-    "durability" : 75,
+    "durability": 75,
     "difficulty": 1,
-    "damage_modifier" : 80,
+    "damage_modifier": 80,
     "breaks_into": [ { "item": "scrap", "count": [ 1, 2 ] } ],
     "flags": [ "FUEL_TANK" ]
   },
@@ -21,11 +21,11 @@
     "item": "jerrycan",
     "location": "fuel_source",
     "symbol": "O",
-    "broken_color" : "red",
+    "broken_color": "red",
     "size": 10000,
-    "durability" : 100,
+    "durability": 100,
     "difficulty": 1,
-    "damage_modifier" : 80,
+    "damage_modifier": 80,
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 40 ] } ],
     "flags": [ "FUEL_TANK" ]
   },
@@ -36,11 +36,11 @@
     "item": "metal_tank",
     "location": "fuel_source",
     "symbol": "O",
-    "broken_color" : "red",
+    "broken_color": "red",
     "size": 60000,
-    "durability" : 150,
+    "durability": 150,
     "difficulty": 1,
-    "damage_modifier" : 80,
+    "damage_modifier": 80,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
@@ -143,5 +143,5 @@
     "name": "clean water tank (60L)",
     "fuel_type": "water_clean",
     "color": "light_blue"
-  },
+  }
 ]
