@@ -1947,27 +1947,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "gas_tank",
-        "name" : "gasoline tank (60L)",
-        "symbol" : "O",
-        "color" : "light_red",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 150,
-        "size" : 60000,
-        "fuel_type" : "gasoline",
-        "item" : "metal_tank",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump"},
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [1, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "napalm_tank",
         "name" : "napalm tank (60L)",
         "symbol" : "O",
@@ -2021,27 +2000,6 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
         "breaks_into" : []
-    },{
-        "type" : "vehicle_part",
-        "id" : "diesel_tank",
-        "name" : "diesel tank (60L)",
-        "symbol" : "O",
-        "color" : "green",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 150,
-        "size" : 60000,
-        "fuel_type" : "diesel",
-        "item" : "metal_tank",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump"},
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [1, 2]}
-        ]
     },{
         "type" : "vehicle_part",
         "id" : "external_diesel_tank_small",
@@ -2141,27 +2099,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "water_tank",
-        "name" : "clean water tank (60L)",
-        "symbol" : "O",
-        "color" : "light_cyan",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 150,
-        "size" : 240,
-        "fuel_type" : "water_clean",
-        "item" : "metal_tank",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [2, 2]},
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [1, 5]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "external_water_tank_small",
         "name" : "external clean water tank (30 gal)",
         "symbol" : "O",
@@ -2194,27 +2131,6 @@
         "location" : "structure",
         "flags" : ["UNMOUNT_ON_DAMAGE", "FUEL_TANK", "PROTRUSION"],
         "breaks_into" : []
-    },{
-        "type" : "vehicle_part",
-        "id" : "water_dirty_tank",
-        "name" : "dirty water tank (60L)",
-        "symbol" : "O",
-        "color" : "light_cyan",
-        "broken_symbol" : "#",
-        "broken_color" : "red",
-        "damage_modifier" : 80,
-        "durability" : 150,
-        "size" : 240,
-        "fuel_type" : "water",
-        "item" : "metal_tank",
-        "difficulty" : 1,
-        "location" : "fuel_source",
-        "flags" : ["FUEL_TANK"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [2, 2]},
-            {"item": "steel_chunk", "count": [1, 2]},
-            {"item": "scrap", "count": [1, 5]}
-        ]
     },{
         "type" : "vehicle_part",
         "id" : "external_water_dirty_tank_small",
