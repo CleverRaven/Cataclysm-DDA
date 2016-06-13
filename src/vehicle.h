@@ -197,8 +197,6 @@ private:
     item base;
     std::list<item> items; // inventory
 
-    int amount = 0; // amount of fuel for tank/charge in battery
-
 public:
     const vpart_str_id &get_id() const;
     const vpart_info &info() const;

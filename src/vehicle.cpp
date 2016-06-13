@@ -6638,14 +6638,6 @@ item vehicle_part::properties_to_item() const
     float hpofdur = ( float )hp / vpinfo.durability;
     tmp.damage = std::min( 4, std::max<int>( 0, ( 1 - hpofdur ) * 5 ) );
 
-    if( vpinfo.fuel_type == fuel_type_battery ) {
-        // Intentional no-op
-    } else if( vpinfo.fuel_type == fuel_type_plutonium ) {
-        // Do nothing, itemized minireactors with plutonium in them are bugged
-    } else if( !vpinfo.fuel_type.empty() && vpinfo.fuel_type != "null" && amount > 0 ) {
-        tmp.emplace_back( vpinfo.fuel_type, calendar::turn, amount / fuel_charges_to_amount_factor( vpinfo.fuel_type ) );
-    }
-
     return tmp;
 }
 
@@ -6676,64 +6668,88 @@ long vehicle_part::ammo_capacity() const
 {
     // @todo currently only support fuel tanks and batteries
 
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_capacity();
     }
 
-    return info().has_flag( VPFLAG_FUEL_TANK ) ? info().size : 0;
+    if( base.is_watertight_container() ) {
+        return base.type->container->contains * std::max( item::find_type( ammo_current() )->stack_size, 1 );
+    }
+
+    return 0;
 }
 
 long vehicle_part::ammo_remaining() const
 {
     // @todo currently only support fuel tanks and batteries
 
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_remaining();
     }
 
-    return info().has_flag( VPFLAG_FUEL_TANK ) ? amount : 0;
+    if( base.is_watertight_container() ) {
+        return base.contents.empty() ? 0 : base.contents.back().charges;
+    }
+
+    return 0;
 }
 
 int vehicle_part::ammo_set( const itype_id &ammo, long qty )
 {
     // @todo currently only support fuel tanks and batteries
 
-    if( base.is_magazine() ) {
-        base.ammo_set( ammo, qty );
-        return base.ammo_remaining();
-    }
-
-    if( !info().has_flag( VPFLAG_FUEL_TANK ) ) {
-        return -1;
-    }
-
     if( info().fuel_type != ammo ) {
         return -1;
+    }
+
+    if( qty == 0 ) {
+        ammo_unset();
+        return 0;
     }
 
     if( qty < 0 ) {
         qty = ammo_capacity();
     }
 
-    return amount = std::min( qty, ammo_capacity() );
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
+        base.ammo_set( ammo, qty );
+        return base.ammo_remaining();
+    }
+
+    if( base.is_watertight_container() ) {
+        base.contents.clear();
+        base.emplace_back( ammo, calendar::turn, std::min( qty, ammo_capacity() ) );
+        return std::min( qty, ammo_capacity() );
+    }
+
+    return -1;
 }
 
 void vehicle_part::ammo_unset() {
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         base.ammo_unset();
-    } else {
-        amount = 0;
+
+    } else if( base.is_watertight_container() ) {
+        base.contents.clear();
     }
 }
 
 long vehicle_part::ammo_consume( long qty, const tripoint& pos )
 {
-    if( base.is_magazine() ) {
+    if( base.is_magazine() || base.typeId() == "minireactor" ) {
         return base.ammo_consume( qty, pos );
     }
 
     int res = std::min( ammo_remaining(), qty );
-    amount -= res;
+
+    if( base.is_watertight_container() && !base.contents.empty() ) {
+        item& liquid = base.contents.back();
+        liquid.charges -= res;
+        if( liquid.charges == 0 ) {
+    	     base.contents.clear();
+        }
+    }
+
     return res;
 }
 
@@ -6799,13 +6815,6 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             const player *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : 0;
-        }
-
-        if( pi.has_flag( VPFLAG_FUEL_TANK ) ) {
-            auto ammo = parts[ i ].ammo_current();
-            if( ammo != "null" && ammo != fuel_type_battery && ammo != fuel_type_plasma ) {
-                m_part += item::find_type( ammo )->weight * parts[ i ].ammo_remaining();
-            }
         }
 
         if( use_precalc ) {

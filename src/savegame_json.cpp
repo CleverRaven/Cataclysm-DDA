@@ -1546,7 +1546,6 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("mount_dx", mount.x);
     data.read("mount_dy", mount.y);
     data.read("hp", hp );
-    data.read("amount", amount );
     data.read("open", open );
     data.read("direction", direction );
     data.read("blood", blood );
@@ -1562,13 +1561,18 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
 
-    // migrate legacy base items which may not be tagged VEHICLE
-    if( !base.has_flag( "VEHICLE") ) {
-        base.item_tags.insert( "VEHICLE" );
-        if( base.is_magazine() ) {
-            base.ammo_set( id.obj().fuel_type, amount );
-            amount = 0;
+    // with VEHICLE tag migrate fuel tanks only if amount field exists
+    if( base.has_flag( "VEHICLE") ) {
+        if( data.has_int( "amount" ) && ammo_capacity() > 0 && id.obj().fuel_type != "battery" ) {
+            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
         }
+
+    // without VEHICLE flag always migrate both batteries and fuel tanks
+    } else {
+        if( ammo_capacity() > 0 ) {
+            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
+        }
+        base.item_tags.insert( "VEHICLE" );
     }
 }
 
@@ -1581,7 +1585,6 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("mount_dx", mount.x);
     json.member("mount_dy", mount.y);
     json.member("hp", hp);
-    json.member("amount", amount);
     json.member("open", open );
     json.member("direction", direction );
     json.member("blood", blood);

@@ -1561,6 +1561,13 @@ void Item_factory::migrate_item( const itype_id& id, item& obj )
                 obj.emplace_back( c, obj.bday );
             }
         }
+
+        // check contents of migrated containers do not exceed capacity
+        if( obj.is_container() && !obj.contents.empty() ) {
+            item &child = obj.contents.back();
+            long capacity = obj.type->container->contains * std::max( child.type->stack_size, 1 );
+            child.charges = std::min( child.charges, capacity );
+        }
     }
 }
 

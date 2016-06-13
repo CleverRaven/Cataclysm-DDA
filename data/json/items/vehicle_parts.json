@@ -436,7 +436,7 @@
         "price" : 1000
     },
     {
-        "type":"GENERIC",
+        "type": "TOOL",
         "id" : "minireactor",
         "name" : "minireactor",
         "description" : "A small portable plutonium reactor.  Handle with great care!",
@@ -448,7 +448,9 @@
         "volume" : 6,
         "bashing" : 7,
         "category" : "veh_parts",
-        "price" : 90000
+        "price" : 90000,
+        "ammo": "plutonium",
+        "max_charges": 10000
     },
     {
         "type":"GENERIC",
