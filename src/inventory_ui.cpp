@@ -127,7 +127,7 @@ class inventory_column {
         void draw( WINDOW *win, size_t x, size_t y, size_t width ) const;
 
         void select( size_t new_index );
-        std::vector<int> get_selected() const;
+        std::vector<itemstack_or_category *> get_selected() const;
 
         void add_item( const itemstack_or_category &item_entry, add_to where );
         void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
@@ -254,10 +254,6 @@ class inventory_selector
          */
         typedef std::map<int, int> drop_map;
         drop_map dropping;
-        /** when comparing: the first item to be compared, or NULL */
-        item *first_item;
-        /** when comparing: the second item or NULL */
-        item *second_item;
         /** The input context for navigation, already contains some actions for movement.
          * See @ref handle_movement */
         input_context ctxt;
@@ -268,8 +264,6 @@ class inventory_selector
         void handle_movement( const std::string &action );
         /** Update the @ref w_inv window, including wrefresh */
         void display( const std::string &title, selector_mode mode ) const;
-        /** Set/toggle dropping count items of currently selected item stack, see @ref set_drop_count */
-        void set_selected_to_drop(int count);
         /** Select the item at position and set the correct in_inventory and current_page_offset value */
         void select_item_by_position(const int &position);
         void remove_dropping_items( player &u ) const;
@@ -290,7 +284,6 @@ class inventory_selector
          * If count is > 0: set dropping to count
          * If the item is already marked for dropping: deactivate dropping,
          * If the item is not marked for dropping: set dropping to -1
-         * The item reference is used to update @ref first_item / @ref second_item
          */
         void set_drop_count(int it_pos, int count, const item &it);
         /**
@@ -353,9 +346,9 @@ void inventory_column::select( size_t new_index )
     }
 }
 
-std::vector<int> inventory_column::get_selected() const
+std::vector<itemstack_or_category *> inventory_column::get_selected() const
 {
-    std::vector<int> res;
+    std::vector<itemstack_or_category *> res;
 
     if( !allows_selecting() || selected_index >= items.size() ) {
         return res;
@@ -364,14 +357,14 @@ std::vector<int> inventory_column::get_selected() const
     switch( mode ) {
         case navigation_mode::ITEM:
             if( !is_category( selected_index ) ) {
-                res.push_back( selected_index );
+                res.push_back( const_cast<itemstack_or_category *>( &items[selected_index] ) );
             }
             break;
         case navigation_mode::CATEGORY:
             const auto cur_cat = items[selected_index].category;
             for( size_t i = 0; i < items.size(); ++i ) {
                 if( !is_category( i ) && items[i].category == cur_cat ) {
-                    res.push_back( i );
+                    res.push_back( const_cast<itemstack_or_category *>( &items[i] ) );
                 }
             }
             break;
@@ -764,8 +757,6 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     : columns()
     , active_column_index( 0 )
     , dropping()
-    , first_item(NULL)
-    , second_item(NULL)
     , ctxt("INVENTORY")
     , w_inv( newwin( TERMY, TERMX, VIEW_OFFSET_Y, VIEW_OFFSET_X ) )
     , navigation( navigation_mode::ITEM )
@@ -847,13 +838,6 @@ void inventory_selector::select_item_by_position( const int &position )
     }
 }
 
-void inventory_selector::set_selected_to_drop(int count)
-{
-    for( const int index : get_active_column().get_selected() ) {
-        set_drop_count( get_active_column().items[index], count );
-    }
-}
-
 void inventory_selector::set_drop_count( itemstack_or_category &entry, size_t count )
 {
     const auto iter = dropping.find( entry.item_pos );
@@ -861,22 +845,11 @@ void inventory_selector::set_drop_count( itemstack_or_category &entry, size_t co
     if( count == 0 && iter != dropping.end() ) {
         entry.chosen_count = 0;
         dropping.erase( iter );
-        if( first_item == entry.it ) {
-            first_item = second_item;
-            second_item = nullptr;
-        } else if( second_item == entry.it ) {
-            second_item = nullptr;
-        }
     } else {
         entry.chosen_count = ( count == 0 )
             ? entry.get_available_count()
             : std::min( count, entry.get_available_count() );
         dropping[entry.item_pos] = entry.chosen_count;
-        if( first_item == nullptr || first_item == entry.it ) {
-            first_item = const_cast<item *>( entry.it );
-        } else {
-            second_item = const_cast<item *>( entry.it );
-        }
     }
 
     for( auto &column : columns ) {
@@ -996,7 +969,7 @@ int inventory_selector::execute_pick( const std::string &title, const int positi
             if( selection.empty() ) {
                 return INT_MIN;
             } else if( selection.size() == 1 ) {
-                return get_active_column().items[selection.front()].item_pos;
+                return selection.front()->item_pos;
             } else {
                 const std::string msg( _( "Please pick only one item." ) );
                 popup( msg , PF_GET_KEY );
@@ -1033,10 +1006,9 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
             if( selection.empty() ) {
                 return item_location();
             } else if( selection.size() == 1 ) {
-                auto entry = get_active_column().items[selection.front()];
-                item *it = const_cast<item *>( entry.it );
+                item *it = const_cast<item *>( selection.front()->it );
                 // Item in inventory
-                if( entry.item_pos != INT_MIN ) {
+                if( selection.front()->item_pos != INT_MIN ) {
                     return item_location( u, it );
                 }
                 // Item on ground or in vehicle
@@ -1059,7 +1031,24 @@ void inventory_selector::execute_compare( const std::string &title )
     add_column( new selection_column( "ITEMS TO COMPARE", _( "ITEMS TO COMPARE" ) ) );
     prepare_columns( true );
 
-    inventory_selector::drop_map prev_droppings;
+    std::vector<itemstack_or_category *> compared;
+
+    const auto toggle_entry = [ this, &compared ]( itemstack_or_category *entry ) {
+        const auto iter = std::find( compared.begin(), compared.end(), entry );
+
+        entry->chosen_count = ( iter == compared.end() ) ? 1 : 0;
+
+        if( entry->chosen_count != 0 ) {
+            compared.push_back( entry );
+        } else {
+            compared.erase( iter );
+        }
+
+        for( auto &column : columns ) {
+            column->on_change( *entry );
+        }
+    };
+
     while(true) {
         display( title, SM_COMPARE );
 
@@ -1068,18 +1057,31 @@ void inventory_selector::execute_compare( const std::string &title )
         const auto itemstack = invlet_to_itemstack( ch );
 
         if( itemstack != nullptr ) {
-            set_drop_count( *itemstack, 0 );
+            toggle_entry( itemstack );
+        } else if(action == "RIGHT") {
+            const auto selection( get_active_column().get_selected() );
+
+            for( auto &entry : selection ) {
+                if( entry->chosen_count == 0 || selection.size() == 1 ) {
+                    toggle_entry( entry );
+                    if( compared.size() == 2 ) {
+                        break;
+                    }
+                }
+            }
         } else if( action == "QUIT" ) {
             break;
-        } else if(action == "RIGHT") {
-            set_selected_to_drop( 0 );
         } else {
             handle_movement( action );
         }
 
-        if (second_item != NULL) {
+        if( compared.size() == 2 ) {
+            const item *first_item = compared.back()->it;
+            const item *second_item = compared.front()->it;
+
             std::vector<iteminfo> vItemLastCh, vItemCh;
             std::string sItemLastCh, sItemCh, sItemTn;
+
             first_item->info( true, vItemCh );
             sItemCh = first_item->tname();
             sItemTn = first_item->type_name();
@@ -1104,10 +1106,7 @@ void inventory_selector::execute_compare( const std::string &title )
                 }
             } while ( ch == KEY_PPAGE || ch == KEY_NPAGE );
 
-            dropping = prev_droppings;
-            second_item = NULL;
-        } else {
-            prev_droppings = dropping;
+            toggle_entry( compared.back() );
         }
     }
 }
@@ -1133,7 +1132,9 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
             set_drop_count( *itemstack, count );
             count = 0;
         } else if( action == "RIGHT" ) {
-            set_selected_to_drop( count );
+            for( const auto &entry : get_active_column().get_selected() ) {
+                set_drop_count( *entry, count );
+            }
             count = 0;
         } else if( action == "CONFIRM" ) {
             break;
@@ -1254,7 +1255,6 @@ item_location game::inv_map_splice(
     // each list of items created above for the tile will be added to it
     std::vector<indexed_invslice> slices;
 
-    // inv_s.first_item will later contain the chosen item as a pointer to first item
     // of one of the above lists so use this as the key when storing the item location
     std::unordered_map<item *, item_location> opts;
 
