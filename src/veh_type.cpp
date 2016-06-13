@@ -150,7 +150,6 @@ void vpart_info::load( JsonObject &jo )
         } else {
             deferred.emplace_back( jo.str() );
         }
-        def.id = vpart_str_id( jo.get_string( "id" ) );
     }
 
     if( jo.has_string( "abstract" ) ) {
