@@ -126,7 +126,7 @@ class vpart_info
         /** Maximum turret range */
         int range = 12;
 
-        /** Fuel tank or cargo location volume */
+        /** Cargo location volume */
         int size = 0;
 
         /** Mechanics skill required to install item */
