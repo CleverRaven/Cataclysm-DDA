@@ -1491,6 +1491,26 @@
     "flags": ["NO_UNLOAD", "RECHARGE"]
   },
   {
+    "type": "TOOL",
+    "copy-from": "laptop",
+    "id": "medical_laptop",
+    "name": "medical laptop",
+    "color": "red",
+    "description": "More than just a laptop, it's a portable medical lab for instant blood tests and other chemical experiments.",
+    "//": "TODO: medical skill buff?",
+    "max_charges": 1000,
+    "charges_per_use": 5,
+    "ammo": "battery",
+    "use_action": "BLOOD_TEST",
+    "relative": {
+        "weight": 1250,
+        "volume": 6,
+        "price": 10400
+    },
+    "flags": ["NO_UNLOAD", "RECHARGE"],
+    "qualities": [ [ "CHEM", 2 ] ]
+  },
+  {
     "id": "sarcophagus_access_code",
     "type": "TOOL",
     "symbol": ";",

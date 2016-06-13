@@ -6236,6 +6236,27 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
+int iuse::blood_test(player *p, item *it, bool, const tripoint& )
+{
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+
+    if( p->has_trait( "ILLITERATE" ) ) {
+        p->add_msg_if_player( _( "You cannot read a computer screen." ) );
+        return 0;
+    }
+
+    if( !it->ammo_sufficient() ) {
+        p->add_msg_if_player( _( "The %s's batteries are dead." ), it->tname().c_str() );
+        return 0;
+    }
+
+    p->disp_blood_test_results();
+    return it->type->charges_to_use();
+}
+
 void init_memory_card_with_random_stuff(player *, item *it)
 {
 

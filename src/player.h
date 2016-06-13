@@ -202,6 +202,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void print_stamina_bar( WINDOW *w ) const;
         /** Generates the sidebar and it's data in-game */
         void disp_status(WINDOW *w, WINDOW *w2);
+        /** Print results of blood test */
+        void disp_blood_test_results();
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;

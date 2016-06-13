@@ -2109,6 +2109,30 @@
   ]
 },{
   "type" : "recipe",
+  "result": "medical_laptop",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "electronics",
+  "skills_required": [ [ "computer", 4 ], [ "firstaid", 3 ] ],
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ [ "recipe_lab_elec", 5 ], [ "recipe_medicalmut", 6 ], [ "recipe_labchem", 7] ],
+  "qualities" : [ {"id" : "SCREW", "level" : 1} ],
+  "tools": [
+    [ [ "software_medical", -1 ] ],
+    [ [ "soldering_iron", 14 ], [ "toolset", 14 ] ]
+  ],
+  "components": [
+    [ [ "laptop", 1 ] ],
+    [ [ "chemistry_set_basic", 1 ], [ "chemistry_set", 1 ] ],
+    [ [ "vacutainer", 1 ] ],
+    [ [ "e_scrap", 1 ] ],
+    [ [ "cable", 3 ] ]
+  ]
+},{
+  "type" : "recipe",
   "result": "dehydrator",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",

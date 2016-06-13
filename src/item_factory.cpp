@@ -448,6 +448,7 @@ void Item_factory::init()
     iuse_function_list["PACK_ITEM"] = &iuse::pack_item;
     iuse_function_list["RADGLOVE"] = &iuse::radglove;
     iuse_function_list["ROBOTCONTROL"] = &iuse::robotcontrol;
+    iuse_function_list["BLOOD_TEST"] = &iuse::blood_test;
     iuse_function_list["EINKTABLETPC"] = &iuse::einktabletpc;
     iuse_function_list["CAMERA"] = &iuse::camera;
     iuse_function_list["EHANDCUFFS"] = &iuse::ehandcuffs;
