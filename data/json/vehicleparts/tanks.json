@@ -1,91 +1,5 @@
 [
   {
-    "id": "external_diesel_tank",
-    "copy-from": "external_tank",
-    "type": "vehicle_part",
-    "name": "external diesel tank (200L)",
-    "fuel_type": "diesel",
-    "color": "green"
-  },
-  {
-    "id": "external_diesel_tank_small",
-    "copy-from": "external_tank_small",
-    "type": "vehicle_part",
-    "name": "external diesel tank (100L)",
-    "fuel_type": "diesel",
-    "color": "green"
-  },
-  {
-    "id": "external_gas_tank",
-    "copy-from": "external_tank",
-    "type": "vehicle_part",
-    "name": "external gasoline tank (200L)",
-    "fuel_type": "gasoline",
-    "color": "light_red"
-  },
-  {
-    "id": "external_gas_tank_small",
-    "copy-from": "external_tank_small",
-    "type": "vehicle_part",
-    "name": "external gasoline tank (100L)",
-    "fuel_type": "gasoline",
-    "color": "light_red"
-  },
-  {
-    "id": "external_water_dirty_tank",
-    "copy-from": "external_tank",
-    "type": "vehicle_part",
-    "name": "external dirty water tank (200L)",
-    "fuel_type": "water",
-    "color": "light_cyan"
-  },
-  {
-    "id": "external_water_dirty_tank_small",
-    "copy-from": "external_tank_small",
-    "type": "vehicle_part",
-    "name": "external dirty water tank (100L)",
-    "fuel_type": "water",
-    "color": "light_cyan"
-  },
-  {
-    "id": "external_water_tank",
-    "copy-from": "external_tank",
-    "type": "vehicle_part",
-    "name": "external clean water tank (200L)",
-    "fuel_type": "water_clean",
-    "color": "light_blue"
-  },
-  {
-    "id": "external_water_tank_small",
-    "copy-from": "external_tank_small",
-    "type": "vehicle_part",
-    "name": "external clean water tank (100L)",
-    "fuel_type": "water_clean",
-    "color": "light_blue"
-  },
-  {
-    "abstract": "external_tank",
-    "type": "vehicle_part",
-    "name": "external tank (200L)",
-    "location": "structure",
-    "item": "metal_bigdrum",
-    "symbol": "O",
-    "broken_color": "red",
-    "size": 200000,
-    "durability": 160,
-    "difficulty": 1,
-    "damage_modifier": 80,
-    "flags": [ "FUEL_TANK", "PROTRUSION", "UNMOUNT_ON_DAMAGE" ]
-  },
-  {
-    "abstract": "external_tank_small",
-    "copy-from": "external_tank",
-    "type": "vehicle_part",
-    "name": "external tank (100L)",
-    "item": "metal_drum",
-    "size": 100000
-  },
-  {
     "abstract": "tank_little",
     "type": "vehicle_part",
     "name": "vehicle tank (2L)",
@@ -135,6 +49,28 @@
     "flags": [ "FUEL_TANK" ]
   },
   {
+    "abstract": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external tank (100L)",
+    "location": "structure",
+    "item": "metal_drum",
+    "symbol": "O",
+    "broken_color": "red",
+    "size": 100000,
+    "durability": 160,
+    "difficulty": 1,
+    "damage_modifier": 80,
+    "flags": [ "FUEL_TANK", "PROTRUSION", "UNMOUNT_ON_DAMAGE" ]
+  },
+  {
+    "abstract": "external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external tank (200L)",
+    "item": "metal_bigdrum",
+    "size": 200000
+  },
+  {
     "id": "diesel_tank_little",
     "copy-from": "tank_little",
     "type": "vehicle_part",
@@ -155,6 +91,22 @@
     "copy-from": "tank",
     "type": "vehicle_part",
     "name": "diesel tank (60L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "external_diesel_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external diesel tank (100L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "external_diesel_tank",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": "external diesel tank (200L)",
     "fuel_type": "diesel",
     "color": "green"
   },
@@ -183,6 +135,22 @@
     "color": "light_red"
   },
   {
+    "id": "external_gas_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external gasoline tank (100L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
+    "id": "external_gas_tank",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": "external gasoline tank (200L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
     "id": "water_dirty_tank_little",
     "copy-from": "tank_little",
     "type": "vehicle_part",
@@ -207,6 +175,22 @@
     "color": "light_cyan"
   },
   {
+    "id": "external_water_dirty_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external dirty water tank (100L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
+    "id": "external_water_dirty_tank",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": "external dirty water tank (200L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
     "id": "water_tank_little",
     "copy-from": "tank_little",
     "type": "vehicle_part",
@@ -227,6 +211,22 @@
     "copy-from": "tank",
     "type": "vehicle_part",
     "name": "clean water tank (60L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "id": "external_water_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external clean water tank (100L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "id": "external_water_tank",
+    "copy-from": "external_tank",
+    "type": "vehicle_part",
+    "name": "external clean water tank (200L)",
     "fuel_type": "water_clean",
     "color": "light_blue"
   }
