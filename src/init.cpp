@@ -64,9 +64,7 @@ DynamicDataLoader::DynamicDataLoader()
     initialize();
 }
 
-DynamicDataLoader::~DynamicDataLoader()
-{
-}
+DynamicDataLoader::~DynamicDataLoader() = default;
 
 DynamicDataLoader &DynamicDataLoader::get_instance()
 {
