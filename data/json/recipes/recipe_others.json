@@ -5397,7 +5397,7 @@
     ]
 },{
   "type" : "recipe",
-  "result": "30gal_drum",
+  "result": "metal_drum",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_CONTAINERS",
   "skill_used": "fabrication",

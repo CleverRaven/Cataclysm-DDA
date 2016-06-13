@@ -604,11 +604,11 @@
         "seals": true
     },
     {
-        "id": "30gal_drum",
+        "id": "metal_drum",
         "type": "CONTAINER",
         "symbol": "0",
         "color": "dark_gray",
-        "name": "30 gallon drum",
+        "name": "steel drum (100L)",
         "category": "other",
         "description": "A huge steel barrel with a resealable lid.",
         "price": 8000,
@@ -617,7 +617,7 @@
         "bashing": 8,
         "to_hit": -5,
         "material": "steel",
-        "contains": 450,
+        "contains": 400,
         "watertight": true,
         "seals": true
     },

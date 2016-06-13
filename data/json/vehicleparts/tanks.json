@@ -1,5 +1,51 @@
 [
   {
+    "id": "external_diesel_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external diesel tank (100L)",
+    "fuel_type": "diesel",
+    "color": "green"
+  },
+  {
+    "id": "external_gas_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external gasoline tank (100L)",
+    "fuel_type": "gasoline",
+    "color": "light_red"
+  },
+  {
+    "id": "external_water_dirty_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external dirty water tank (100L)",
+    "fuel_type": "water",
+    "color": "light_cyan"
+  },
+  {
+    "id": "external_water_tank_small",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "external clean water tank (100L)",
+    "fuel_type": "water_clean",
+    "color": "light_blue"
+  },
+  {
+    "abstract": "external_tank_small",
+    "type": "vehicle_part",
+    "name":  "external tank (100L)",
+    "location": "structure",
+    "item": "metal_drum",
+    "symbol": "O",
+    "broken_color": "red",
+    "size": 90000,
+    "durability": 155,
+    "difficulty": 1,
+    "damage_modifier": 80,
+    "flags": [ "FUEL_TANK", "PROTRUSION", "UNMOUNT_ON_DAMAGE" ]
+  },
+  {
     "abstract": "tank_little",
     "type": "vehicle_part",
     "name": "vehicle tank (2L)",
