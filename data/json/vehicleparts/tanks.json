@@ -229,5 +229,49 @@
     "name": "external clean water tank (200L)",
     "fuel_type": "water_clean",
     "color": "light_blue"
+  },
+  {
+    "id": "napalm_tank",
+    "copy-from": "tank",
+    "type": "vehicle_part",
+    "name": "naplm tank (60L)",
+    "fuel_type": "napalm",
+    "color": "red"
+  },
+  {
+    "id": "hydrogen_tank",
+    "copy-from": "tank",
+    "type": "vehicle_part",
+    "name": "hydrogen tank",
+    "fuel_type": "plasma",
+    "color": "light_blue"
+  },
+  {
+    "id": "water_tank_barrel",
+    "type": "vehicle_part",
+    "name": "water barrel",
+    "item": "wooden_barrel",
+    "location": "fuel_source",
+    "symbol": "O",
+    "color": "brown",
+    "broken_color": "brown",
+    "size": 400,
+    "durability": 120,
+    "difficulty": 0,
+    "damage_modifier": 80,
+    "fuel_type": "water_clean",
+    "breaks_into": [
+        { "item": "splinter", "count": [ 3, 8 ] },
+        { "item": "2x4", "count": [ 2, 8 ] },
+        { "item": "scrap", "count": [ 1, 3 ] }
+    ],
+    "flags": [ "FUEL_TANK", "NAILABLE" ]
+  },
+  {
+    "id": "dirty_water_tank_barrel",
+    "copy-from": "water_tank_barrel",
+    "type": "vehicle_part",
+    "name": "dirty water barrel",
+    "fuel_type": "water"
   }
 ]
