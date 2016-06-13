@@ -1561,17 +1561,17 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("target_second_y", target.second.y);
     data.read("target_second_z", target.second.z);
 
-    // legacy items may specify ammo via the deprecated amount field
-    // items tagged VEHICLE are already migrated so we can ignore those
-    int amount;
-    if( data.read( "amount", amount ) ) {
-        if( !base.has_flag( "VEHICLE" ) && ammo_capacity() > 0 ) {
-            ammo_set( id.obj().fuel_type, amount );
+    // with VEHICLE tag migrate fuel tanks only if amount field exists
+    if( base.has_flag( "VEHICLE") ) {
+        if( data.has_int( "amount" ) && ammo_capacity() > 0 && id.obj().fuel_type != "battery" ) {
+            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
         }
-    }
 
-    // migrate legacy base items which may not be tagged VEHICLE
-    if( !base.has_flag( "VEHICLE") ) {
+    // without VEHICLE flag always migrate both batteries and fuel tanks
+    } else {
+        if( ammo_capacity() > 0 ) {
+            ammo_set( id.obj().fuel_type, data.get_int( "amount" ) );
+        }
         base.item_tags.insert( "VEHICLE" );
     }
 }
