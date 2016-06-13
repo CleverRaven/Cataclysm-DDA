@@ -6817,13 +6817,6 @@ void vehicle::calc_mass_center( bool use_precalc ) const
             m_part += p != nullptr ? p->get_weight() : 0;
         }
 
-        if( pi.has_flag( VPFLAG_FUEL_TANK ) ) {
-            auto ammo = parts[ i ].ammo_current();
-            if( ammo != "null" && ammo != fuel_type_battery && ammo != fuel_type_plasma ) {
-                m_part += item::find_type( ammo )->weight * parts[ i ].ammo_remaining();
-            }
-        }
-
         if( use_precalc ) {
             xf += parts[i].precalc[0].x * m_part / 1000.0f;
             yf += parts[i].precalc[0].y * m_part / 1000.0f;
