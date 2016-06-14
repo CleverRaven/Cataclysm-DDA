@@ -1896,7 +1896,8 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
 
     use_function method;
     if( type == "repair_item" ) {
-        method = use_function( new repair_item_actor( obj.get_string( "item_action_type" ) ) );
+        type = obj.get_string( "item_action_type" );
+        method = use_function( new repair_item_actor( type ) );
     } else {
         method = use_from_string( type );
     }
