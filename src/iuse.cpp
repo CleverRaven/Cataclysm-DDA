@@ -6098,16 +6098,6 @@ int iuse::bell(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::seed(player *p, item *it, bool, const tripoint& )
-{
-    if( p->is_npc() ||
-        query_yn(_("Sure you want to eat the %s? You could plant it in a mound of dirt."),
-            it->tname().c_str())) {
-        return it->type->charges_to_use(); //This eats the seed object.
-    }
-    return 0;
-}
-
 int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
 {
     if( !it->ammo_sufficient() ) {

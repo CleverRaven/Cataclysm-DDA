@@ -470,7 +470,6 @@ void Item_factory::init()
     add_iuse( "ROBOTCONTROL", &iuse::robotcontrol );
     add_iuse( "ROYAL_JELLY", &iuse::royal_jelly );
     add_iuse( "SAW_BARREL", &iuse::saw_barrel );
-    add_iuse( "SEED", &iuse::seed );
     add_iuse( "SET_TRAP", &iuse::set_trap );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SEW_ADVANCED", &iuse::sew_advanced );
