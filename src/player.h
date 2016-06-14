@@ -1418,8 +1418,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void react_to_felt_pain( int intensity );
 
-        bool can_study_recipe(const itype &book) const;
-        bool try_study_recipe(const itype &book);
+        bool can_learn_recipe( const itype &book ) const;
+        bool try_study_recipe( const itype &book );
 
         int pkill;
 
