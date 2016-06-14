@@ -121,9 +121,6 @@ class vpart_info
         /** Volume of a foldable part when folded */
         int folded_volume = 0;
 
-        /** Maximum turret range */
-        int range = 12;
-
         /** Cargo location volume */
         int size = 0;
 
