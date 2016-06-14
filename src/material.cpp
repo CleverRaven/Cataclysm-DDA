@@ -55,11 +55,11 @@ material_type::material_type()
 mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {
     mat_burn_data bd;
-    bd.immune = jsobj.get_bool( "immune", bd.immune );
-    bd.fuel = jsobj.get_int( "fuel", bd.fuel );
-    bd.smoke = jsobj.get_int( "smoke", bd.smoke );
-    bd.burn = jsobj.get_int( "burn", bd.burn );
-    bd.chance_in_volume = jsobj.get_int( "chance", bd.chance_in_volume );
+    jsobj.read( "immune", bd.immune );
+    jsobj.read( "fuel", bd.fuel );
+    jsobj.read( "smoke", bd.smoke );
+    jsobj.read( "burn", bd.burn );
+    jsobj.read( "chance", bd.chance_in_volume );
     return bd;
 }
 
