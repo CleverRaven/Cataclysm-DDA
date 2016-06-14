@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "debug.h"
+#include "field.h"
 
 #include <algorithm>
 #include <numeric>
@@ -162,6 +163,25 @@ bool Creature::digging() const
     return false;
 }
 
+
+bool Creature::is_dangerous_fields( const field &fld ) const
+{
+    // Else check each field to see if it's dangerous to us
+    for( auto &dfield : fld ) {
+        if( is_dangerous_field( dfield.second ) ) {
+            return true;
+        }
+    }
+    // No fields were found to be dangerous, so the field set isn't dangerous
+    return false;
+}
+
+bool Creature::is_dangerous_field( const field_entry &entry ) const
+{
+    // If it's dangerous and we're not immune return true, else return false
+    return entry.is_dangerous() && !is_immune_field(entry.getFieldType());
+}
+
 bool Creature::sees( const Creature &critter ) const
 {
     if( critter.is_hallucination() ) {
@@ -210,12 +230,14 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         return false;
     }
 
-    const int range_cur = sight_range( g->m.ambient_light_at(t) );
+    const int range_cur = sight_range( g->m.ambient_light_at( t ) );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
-    const int range_min = std::min( range_cur, range_day );
+    const int range_night = sight_range( 0 );
+    const int range_max = std::max( range_day, range_night );
+    const int range_min = std::min( range_cur, range_max );
     const int wanted_range = rl_dist( pos(), t );
     if( wanted_range <= range_min ||
-        ( wanted_range <= range_day &&
+        ( wanted_range <= range_max &&
           g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
         int range = 0;
         if( g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) {

@@ -50,7 +50,8 @@ ignorable = {
     "region_settings",
     "SPECIES",
     "vehicle_group",
-    "vehicle_placement"
+    "vehicle_placement",
+    "WORLD_OPTION"
 }
 
 # these objects can have their strings automatically extracted.
@@ -63,9 +64,6 @@ ignorable = {
 #   "sound" member
 #   "messages" member containing an array of translatable strings
 automatically_convertible = {
-    "fault",
-    "vitamin",
-    "ENGINE",
     "AMMO",
     "ammunition_type",
     "ARMOR",
@@ -76,20 +74,21 @@ automatically_convertible = {
     "construction",
     "CONTAINER",
     "dream",
+    "ENGINE",
     "faction",
+    "fault",
     "furniture",
     "GENERIC",
     "GUN",
     "GUNMOD",
-    "hint",
     "item_action",
     "ITEM_CATEGORY",
     "keybinding",
-    "lab_note",
     "MAGAZINE",
     "MOD_INFO",
     "MONSTER",
     "mutation",
+    "npc_class",
     "overmap_terrain",
     "skill",
     "snippet",
@@ -105,6 +104,7 @@ automatically_convertible = {
     "VAR_VEH_PART",
     "vehicle",
     "vehicle_part",
+    "vitamin"
 }
 
 # for these objects a plural form is needed

@@ -107,7 +107,7 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
 
 bool npc::sees_dangerous_field( const tripoint &p ) const
 {
-    return is_dangerous_field( g->m.field_at( p ) );
+    return is_dangerous_fields( g->m.field_at( p ) );
 }
 
 bool npc::could_move_onto( const tripoint &p ) const
@@ -799,6 +799,8 @@ npc_action npc::method_of_attack()
     // TODO: Change the in_vehicle check to actual "are we driving" check
     const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
 
+    long ups_charges = charges_of( "UPS" );
+
     // get any suitable modes excluding melee, any forbiden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
     // except in emergency only fire bursts if danger > 0.5 and don't shoot at all at harmless targets
@@ -814,6 +816,7 @@ npc_action npc::method_of_attack()
             const auto &m = e.second;
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
+                   m->get_gun_ups_drain() > ups_charges ||
                    ( danger <= ( ( m.qty == 1 ) ? 0.0 : 0.5 ) && !emergency() ) ||
                    ( rules.use_silent && is_following() && !m.target->is_silent() );
 
@@ -933,7 +936,7 @@ item &npc::find_reloadable()
     item *reloadable = nullptr;
     visit_items( [this, &reloadable]( item *node ) {
         if( !wants_to_reload( *this, *node ) ) {
-            return VisitResponse::SKIP;
+            return VisitResponse::NEXT;
         }
         const auto it_loc = node->pick_reload_ammo( *this ).ammo;
         if( it_loc && wants_to_reload_with( *node, *it_loc ) ) {
@@ -941,7 +944,7 @@ item &npc::find_reloadable()
             return VisitResponse::ABORT;
         }
 
-        return VisitResponse::SKIP;
+        return VisitResponse::NEXT;
     } );
 
     if( reloadable != nullptr ) {
@@ -1783,9 +1786,8 @@ void npc::find_item()
                     continue;
                 }
                 int itval = value( elem );
-                int wgt = elem.weight(), vol = elem.volume();
                 if( itval > best_value &&
-                    ( can_pickWeight( wgt, true ) && can_pickVolume( vol, true ) ) ) {
+                    ( can_pickWeight( elem, true ) && can_pickVolume( elem, true ) ) ) {
                     wanted_item_pos = p;
                     wanted = &( elem );
                     best_value = itval;
@@ -1855,22 +1857,18 @@ void npc::pick_up_item()
     // We're adjacent to the item; grab it!
     moves -= 100;
     fetching_item = false;
-    int total_volume = 0;
-    int total_weight = 0; // How much the items will add
+    npc projected = *this;
     std::vector<int> pickup; // Indices of items we want
 
     for( size_t i = 0; i < items.size(); i++ ) {
         const item &item = items[i];
         int itval = value( item );
-        int vol = item.volume();
-        int wgt = item.weight();
         if ( itval >= minimum_item_value() && // (itval >= worst_item_value ||
-             ( can_pickVolume( total_volume + vol, true ) &&
-               can_pickWeight( total_weight + wgt, true ) ) &&
+             ( projected.can_pickVolume( item, true ) &&
+               projected.can_pickWeight( item, true ) ) &&
              !item.made_of( LIQUID ) ) {
             pickup.push_back( i );
-            total_volume += vol;
-            total_weight += wgt;
+            projected.i_add(item);
         }
     }
     // Describe the pickup to the player
@@ -2027,8 +2025,9 @@ bool npc::find_corpse_to_pulp()
             // Pulp only stuff that revives, but don't pulp acid stuff
             // That is, if you aren't protected from this stuff!
             if( it.can_revive() ) {
-                // If the first encountered corpse is acidic, it is not safe to bash
-                if( is_dangerous_field( it.get_mtype()->bloodType() ) ) {
+                // If the first encountered corpse bleeds something dangerous then
+                // it is not safe to bash.
+                if( is_dangerous_field( field_entry(it.get_mtype()->bloodType(), 1, 0) ) ) {
                     return nullptr;
                 }
 
@@ -2112,41 +2111,51 @@ bool npc::wield_better_weapon()
     item *best = &weapon;
     double best_value = -100.0;
 
+    const long ups_charges = charges_of( "UPS" );
+
     const auto compare_weapon =
-        [this, &best, &best_value, can_use_gun, use_silent]( item &it, bool allow_ranged ) {
-        double val = allow_ranged ? weapon_value( it ) : melee_value( it );
+        [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( item &it ) {
+        bool allowed = can_use_gun && it.is_gun() && ( !use_silent || it.is_silent() );
+        double val;
+        if( !allowed ) {
+            val = weapon_value( it, 0 );
+        } else {
+            long ammo_count = it.ammo_remaining();
+            long ups_drain = it.get_gun_ups_drain();
+            if( ups_drain > 0 ) {
+                ammo_count = std::min( ammo_count, ups_charges / ups_drain );
+            }
+
+            val = weapon_value( it, ammo_count );
+        }
+
         if( val > best_value ) {
             best = &it;
             best_value = val;
         }
     };
 
-    compare_weapon( weapon, can_use_gun );
+    compare_weapon( weapon );
     // To prevent changing to barely better stuff
-    best_value *= 1.1;
+    best_value *= std::max<float>( 1.0f, ai_cache.danger_assessment / 10.0f );
 
-    std::vector<item *> empty_guns;
-    visit_items( [this, &compare_weapon, &empty_guns, can_use_gun, use_silent]( item *node ) {
+    // Fists aren't checked below
+    compare_weapon( ret_null );
+
+    visit_items( [this, &compare_weapon]( item *node ) {
         // Skip some bad items
         if( !node->is_gun() && node->type->melee_dam + node->type->melee_cut < 5 ) {
             return VisitResponse::SKIP;
         }
 
-        bool allowed = can_use_gun && node->is_gun() && ( !use_silent || node->is_silent() );
-        if( allowed && node->ammo_remaining() >= node->ammo_required() ) {
-            compare_weapon( *node, true );
-        } else if( allowed && enough_time_to_reload( *node ) ) {
-            empty_guns.push_back( node );
-        } else {
-            compare_weapon( *node, false );
-        }
+        compare_weapon( *node );
 
         return VisitResponse::SKIP;
     } );
 
-    for( auto &i : empty_guns ) {
-        compare_weapon( *i, find_usable_ammo( *i ) );
-    }
+    // @todo Reimplement switching to empty guns
+    // Needs to check reload speed, RELOAD_ONE etc.
+    // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
         add_msg( m_debug, "Wielded %s is best at %.1f, not switching",
@@ -2606,8 +2615,8 @@ void npc::mug_player(player &mark)
     invslice slice = mark.inv.slice();
     for (size_t i = 0; i < slice.size(); i++) {
         if( value(slice[i]->front()) >= best_value &&
-            can_pickVolume( slice[i]->front().volume(), true ) &&
-            can_pickWeight( slice[i]->front().weight(), true ) ) {
+            can_pickVolume( slice[i]->front(), true ) &&
+            can_pickWeight( slice[i]->front(), true ) ) {
             best_value = value(slice[i]->front());
             item_index = i;
         }
@@ -3072,4 +3081,7 @@ void npc::do_reload( item &it )
         sfx::play_variant_sound( "reload", it.typeId(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
     }
+
+    // Otherwise the NPC may not equip the weapon until they see danger
+    has_new_items = true;
 }

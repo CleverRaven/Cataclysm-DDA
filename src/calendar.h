@@ -129,12 +129,6 @@ class calendar
         static bool once_every( int event_frequency );
 
         // Season and year length stuff
-    private:
-        // cached value from world options
-        static int cached_season_length;
-    public:
-        // to be called from option handling when the options of the active world change.
-        static void set_season_length( int new_length );
         static int year_turns() {
             return DAYS( year_length() );
         }
@@ -154,6 +148,9 @@ class calendar
 
         int day_of_year() const;
 
+        /** Returns the remaining time (in turns) before the specified diurnal time (in turns) */
+        int diurnal_time_before( int turn ) const;
+
         static std::string print_duration( int turns );
 
         /** Returns the current time in a string according to the options set */
@@ -168,4 +165,5 @@ class calendar
         static season_type initial_season;
         static bool eternal_season;
 };
+
 #endif

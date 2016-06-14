@@ -15,7 +15,6 @@
     "bashing": 10,
     "cutting": 37,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 6]]
   }

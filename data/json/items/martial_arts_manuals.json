@@ -13,6 +13,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -20,8 +21,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -38,6 +38,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -45,8 +46,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -63,6 +63,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -70,8 +71,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -88,6 +88,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -95,8 +96,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -113,6 +113,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -120,8 +121,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -138,6 +138,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -145,8 +146,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -163,6 +163,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -170,8 +171,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -188,6 +188,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -195,8 +196,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -213,6 +213,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -220,8 +221,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -237,6 +237,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -244,8 +245,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -262,6 +262,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -269,8 +270,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -287,6 +287,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -294,8 +295,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -312,6 +312,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -319,8 +320,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -337,6 +337,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -344,8 +345,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -362,6 +362,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -369,8 +370,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -387,6 +387,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -394,8 +395,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -412,6 +412,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -419,8 +420,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -437,6 +437,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -444,8 +445,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -462,6 +462,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -469,8 +470,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -487,6 +487,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -494,8 +495,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -512,6 +512,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -519,8 +520,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -537,6 +537,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -544,8 +545,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -562,6 +562,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -569,8 +570,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -587,6 +587,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -594,8 +595,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {
@@ -612,6 +612,7 @@
         "weight": 150,
         "volume": 1,
         "to_hit": -1,
+        "use_action": "MA_MANUAL",
         "book_data": {
             "max_level" : 0,
             "intelligence" : 0,
@@ -619,8 +620,7 @@
             "fun" : 0,
             "skill" : "none",
             "required_level" : 0,
-            "chapters": 0,
-            "use_action": "MA_MANUAL"
+            "chapters": 0
         }
     },
     {

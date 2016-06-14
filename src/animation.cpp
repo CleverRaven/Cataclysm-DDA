@@ -8,8 +8,9 @@
 #include "player.h"
 #ifdef TILES
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
+#include <memory>
 
-extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
+extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #endif
 
 bool is_valid_in_w_terrain(int x, int y); // see game.cpp

@@ -554,6 +554,8 @@
 		<Unit filename="src/newcharacter.cpp" />
 		<Unit filename="src/npc.cpp" />
 		<Unit filename="src/npc.h" />
+		<Unit filename="src/npc_class.cpp" />
+		<Unit filename="src/npc_class.h" />
 		<Unit filename="src/npc_favor.h" />
 		<Unit filename="src/npcmove.cpp" />
 		<Unit filename="src/npctalk.cpp" />
@@ -600,6 +602,8 @@
 		<Unit filename="src/savegame_legacy.cpp" />
 		<Unit filename="src/scenario.cpp" />
 		<Unit filename="src/scenario.h" />
+		<Unit filename="src/scent_map.cpp" />
+		<Unit filename="src/scent_map.h" />
 		<Unit filename="src/sdltiles.cpp" />
 		<Unit filename="src/shadowcasting.h" />
 		<Unit filename="src/simplexnoise.cpp" />

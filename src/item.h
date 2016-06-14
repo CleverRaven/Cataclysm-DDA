@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "debug.h"
 
 class game;
 class Character;
@@ -115,7 +116,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item() = default;
+        ~item() override = default;
 
         explicit item( const itype_id& id, int turn = -1, long qty = -1 );
         explicit item( const itype *type, int turn = -1, long qty = -1 );
@@ -398,6 +399,11 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     int reach_range( const player &p ) const;
 
     /**
+     * Sets time until activation for an item that will self-activate in the future.
+     **/
+    void set_countdown( int num_turns );
+
+    /**
      * Consumes specified charges (or fewer) from this and any contained items
      * @param what specific type of charge required, eg. 'battery'
      * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
@@ -468,6 +474,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     template<typename ... Args>
     item& emplace_back( Args&&... args ) {
         contents.emplace_back( std::forward<Args>( args )... );
+        if( contents.back().is_null() ) {
+            debugmsg( "Tried to emplace null item" );
+        }
         return contents.back();
     }
 
@@ -601,13 +610,13 @@ public:
      * one item of the passed in set matches any material).
      * @param mat_idents Set of material ids.
      */
-    bool made_of_any( const std::vector<material_id> &mat_idents ) const;
+    bool made_of_any( const std::set<material_id> &mat_idents ) const;
     /**
      * Check we are made of only the materials (e.g. false if we have
      * one material not in the set or no materials at all).
      * @param mat_idents Set of material ids.
      */
-    bool only_made_of( const std::vector<material_id> &mat_idents ) const;
+    bool only_made_of( const std::set<material_id> &mat_idents ) const;
     /**
      * Check we are made of this material (e.g. matches at least one
      * in our set.)
@@ -742,6 +751,7 @@ public:
 
     bool is_brewable() const;
     bool is_engine() const;
+    bool is_wheel() const;
 
     bool is_faulty() const;
 
@@ -1230,12 +1240,19 @@ public:
         bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         struct gun_mode {
-            std::string mode; /** name of this mode */
-            item *target;     /** pointer to base gun or attached gunmod */
-            int qty;          /** burst size or melee range */
+            std::string mode;           /** name of this mode */
+            item *target = nullptr;     /** pointer to base gun or attached gunmod */
+            int qty = 0;                /** burst size or melee range */
 
             /** flags change behavior of gun mode and are **not** equivalent to item flags */
             std::set<std::string> flags;
+
+            gun_mode() = default;
+            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
+                mode( mode ),
+                target( target ),
+                qty( qty ),
+                flags( flags ) {}
 
             /** if true perform a melee attach as opposed to shooting */
             bool melee() const { return flags.count( "MELEE" ); }
@@ -1425,7 +1442,6 @@ public:
     int burnt = 0;           // How badly we're burnt
     int bday;                // The turn on which it was created
     int poison = 0;          // How badly poisoned is it?
-    int bigness = 0;         // engine power, wheel size
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.
     int irridation = 0;      // Tracks radiation dosage.

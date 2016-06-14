@@ -1124,7 +1124,7 @@
         "bgcolor": "brown",
         "move_cost_mod": -1,
         "required_str": 14,
-        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM", 
+        "flags": ["TRANSPARENT", "CONTAINER", "SEALED", "ALLOW_FIELD_EFFECT", "FLAMMABLE", "PLACE_ITEM",
                   "ORGANIC", "MOUNTABLE", "SHORT"],
         "deconstruct": {
             "items": [
@@ -1796,9 +1796,9 @@
         "name": "statue",
         "symbol": "S",
         "color": "dkgray",
-        "move_cost_mod": 2,
+        "move_cost_mod": -1,
         "required_str": 10,
-        "flags": ["PLACE_ITEM","BLOCKSDOOR"],
+        "flags": ["PLACE_ITEM", "BLOCKSDOOR"],
         "bash": {
             "str_min": 16, "str_max": 40,
             "sound": "smash!",
@@ -2648,6 +2648,108 @@
                 { "item": "rock", "count": [10, 22] },
                 { "item": "material_limestone", "charges": [2, 5], "prob": 30 },
                 { "item": "material_rocksalt", "count": [0, 1], "prob": 10 }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_slab",
+        "name": "stone slab",
+        "symbol": "n",
+        "color": "dkgray",
+        "move_cost_mod": 2,
+        "required_str": 12,
+        "flags": ["PLACE_ITEM", "BLOCKSDOOR", "TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
+        "bash": {
+            "str_min": 20, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "count": [2, 7] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_shackle",
+        "name": "manacles",
+        "symbol": "8",
+        "color": "ltgray",
+        "move_cost_mod": 1,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "SHORT"],
+        "bash": {
+            "str_min": 18, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "crack.",
+            "items": [
+                { "item": "chain", "count": [0, 2] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_grave_head",
+        "name": "headstone",
+        "symbol": "_",
+        "color": "ltgray",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["MINEABLE", "TRANSPARENT", "SHORT", "NOCOLLIDE", "ALLOW_FIELD_EFFECT", "MOUNTABLE", "PLACE_ITEM"],
+        "bash": {
+            "str_min": 50, "str_max": 150,
+            "sound": "crash!",
+            "sound_fail": "thump!",
+            "items": [
+                { "item": "rock", "count": [2, 4] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_grave_stone",
+        "name": "gravestone",
+        "symbol": "^",
+        "color": "ltgray",
+        "move_cost_mod": 2,
+        "required_str": -1,
+        "flags": ["MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM"],
+        "bash": {
+            "str_min": 60, "str_max": 160,
+            "sound": "crash!",
+            "sound_fail": "thump!",
+            "items": [
+                { "item": "rock", "count": [8, 14] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_grave_stone_old",
+        "name": "worn gravestone",
+        "symbol": "^",
+        "color": "dkgray",
+        "move_cost_mod": 1.5,
+        "required_str": -1,
+        "flags": ["MINEABLE", "NOITEM", "TRANSPARENT", "MOUNTABLE", "ROUGH", "PLACE_ITEM", "UNSTABLE"],
+        "bash": {
+            "str_min": 40, "str_max": 120,
+            "sound": "crash!",
+            "sound_fail": "thump!",
+            "items": [
+                { "item": "rock", "count": [5, 10] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_grave_monument",
+        "name": "obelisk",
+        "symbol": "$",
+        "color": "black_white",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "flags": ["MINEABLE", "NOITEM"],
+        "bash": {
+            "str_min": 80, "str_max": 180,
+            "sound": "crash!",
+            "sound_fail": "thunk!",
+            "items": [
+                { "item": "rock", "count": [18, 30] }
             ]
         }
     }

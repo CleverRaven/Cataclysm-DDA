@@ -104,22 +104,6 @@ void Character::mod_stat( const std::string &stat, int modifier )
         mod_healthy( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
-    } else if( stat == "speed" ) {
-        mod_speed_bonus( modifier );
-    } else if( stat == "dodge" ) {
-        mod_dodge_bonus( modifier );
-    } else if( stat == "block" ) {
-        mod_block_bonus( modifier );
-    } else if( stat == "hit" ) {
-        mod_hit_bonus( modifier );
-    } else if( stat == "bash" ) {
-        mod_bash_bonus( modifier );
-    } else if( stat == "cut" ) {
-        mod_cut_bonus( modifier );
-    } else if( stat == "pain" ) {
-        mod_pain( modifier );
-    } else if( stat == "moves" ) {
-        mod_moves( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -646,8 +630,8 @@ bool Character::i_add_or_drop(item& it, int qty) {
     bool drop = false;
     inv.assign_empty_invlet(it);
     for (int i = 0; i < qty; ++i) {
-        if (!drop && (!can_pickWeight(it.weight(), !OPTIONS["DANGEROUS_PICKUPS"])
-                      || !can_pickVolume(it.volume()))) {
+        if ( !drop && ( !can_pickWeight( it, !OPTIONS["DANGEROUS_PICKUPS"] )
+                      || !can_pickVolume( it ) ) ) {
             drop = true;
         }
         if( drop ) {
@@ -836,21 +820,23 @@ int Character::volume_capacity() const
     return ret;
 }
 
-bool Character::can_pickVolume( int volume, bool ) const
+bool Character::can_pickVolume( const item &it, bool ) const
 {
-   return volume_carried() + volume <= volume_capacity();
+    inventory projected = inv;
+    projected.add_item( it );
+   return projected.volume() <= volume_capacity();
 }
 
-bool Character::can_pickWeight( int weight, bool safe ) const
+bool Character::can_pickWeight( const item &it, bool safe ) const
 {
     if (!safe)
     {
         // Character can carry up to four times their maximum weight
-        return (weight_carried() + weight <= weight_capacity() * 4);
+        return ( weight_carried() + it.weight() <= weight_capacity() * 4 );
     }
     else
     {
-        return (weight_carried() + weight <= weight_capacity());
+        return ( weight_carried() + it.weight() <= weight_capacity() );
     }
 }
 
@@ -1832,78 +1818,43 @@ nc_color Character::symbol_color() const
     return basic;
 }
 
-bool Character::is_dangerous_field( const field &fd ) const
+bool Character::is_immune_field( const field_id fid ) const
 {
-    if( fd.fieldCount() == 0 || has_trait( debug_nodmg ) ) {
-        return false;
-    }
-
-    for( auto &fld : fd ) {
-        if( is_dangerous_field( fld.second ) ) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool Character::is_dangerous_field( const field_entry &entry ) const
-{
-    const field_id fid = entry.getFieldType();
-    switch( fid ) {
-        // @todo Lower density fields are less dangerous
-        case fd_smoke:
-        case fd_tear_gas:
-        case fd_toxic_gas:
-        case fd_gas_vent:
-        case fd_relax_gas:
-        case fd_fungal_haze:
-        case fd_electricity:
-        case fd_acid:
-            return is_dangerous_field( fid );
-        default:
-            return !has_trait( debug_nodmg ) && entry.is_dangerous();
-    }
-
-    return false;
-}
-
-bool Character::is_dangerous_field( const field_id fid ) const
-{
+    // Obviously this makes us invincible
     if( has_trait( debug_nodmg ) ) {
-        return false;
+        return true;
     }
 
+    // Check to see if we are immune
     switch( fid ) {
         case fd_smoke:
-            return get_env_resist( bp_mouth ) < 12;
+            return get_env_resist( bp_mouth ) >= 12;
         case fd_tear_gas:
         case fd_toxic_gas:
         case fd_gas_vent:
         case fd_relax_gas:
-            return get_env_resist( bp_mouth ) < 15;
+            return get_env_resist( bp_mouth ) >= 15;
         case fd_fungal_haze:
-            return get_env_resist( bp_mouth ) < 15 ||
-                   get_env_resist( bp_eyes ) < 15 ||
-                   has_trait("M_IMMUNE");
+            return has_trait("M_IMMUNE") || (get_env_resist( bp_mouth ) >= 15 &&
+                   get_env_resist( bp_eyes ) >= 15);
         case fd_electricity:
-            return !is_elec_immune();
+            return is_elec_immune();
         case fd_acid:
-            return !has_trait("ACIDPROOF") &&
-                   (is_on_ground() ||
-                   get_env_resist( bp_foot_l ) < 15 ||
-                   get_env_resist( bp_foot_r ) < 15 ||
-                   get_env_resist( bp_leg_l ) < 15 ||
-                   get_env_resist( bp_leg_r ) < 15 ||
-                   get_armor_type( DT_ACID, bp_foot_l ) < 5 ||
-                   get_armor_type( DT_ACID, bp_foot_r ) < 5 ||
-                   get_armor_type( DT_ACID, bp_leg_l ) < 5 ||
-                   get_armor_type( DT_ACID, bp_leg_r ) < 5);
+            return has_trait("ACIDPROOF") ||
+                   (!is_on_ground() && get_env_resist( bp_foot_l ) >= 15 &&
+                   get_env_resist( bp_foot_r ) >= 15 &&
+                   get_env_resist( bp_leg_l ) >= 15 &&
+                   get_env_resist( bp_leg_r ) >= 15 &&
+                   get_armor_type( DT_ACID, bp_foot_l ) >= 5 &&
+                   get_armor_type( DT_ACID, bp_foot_r ) >= 5 &&
+                   get_armor_type( DT_ACID, bp_leg_l ) >= 5 &&
+                   get_armor_type( DT_ACID, bp_leg_r ) >= 5);
         default:
-            return field_type_dangerous( fid );
+            // Suppress warning
+            break;
     }
-
-    return false;
+    // If we haven't found immunity yet fall up to the next level
+    return Creature::is_immune_field(fid);
 }
 
 int Character::throw_range( const item &it ) const
@@ -1926,7 +1877,7 @@ int Character::throw_range( const item &it ) const
     ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
     ret -= int(tmp.volume() / 4);
-    static const std::vector<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> affected_materials = { material_id( "iron" ), material_id( "steel" ) };
     if( has_active_bionic("bio_railgun") && tmp.made_of_any( affected_materials ) ) {
         ret *= 2;
     }
@@ -2033,4 +1984,66 @@ bool Character::pour_into( vehicle &veh, item &liquid )
                  liquid.type_name().c_str() );
     }
     return true;
+}
+
+resistances Character::mutation_armor( body_part bp ) const
+{
+    resistances res;
+    for( auto &iter : my_mutations ) {
+        const mutation_branch &mb = mutation_branch::get( iter.first );
+        res += mb.damage_resistance( bp );
+    }
+
+    return res;
+}
+
+float Character::mutation_armor( body_part bp, damage_type dt ) const
+{
+    return mutation_armor( bp ).type_resist( dt );
+}
+
+float Character::mutation_armor( body_part bp, const damage_unit &du ) const
+{
+    return mutation_armor( bp ).get_effective_resist( du );
+}
+
+long Character::ammo_count_for( const item &gun )
+{
+    long ret = item::INFINITE_CHARGES;
+    if( !gun.is_gun() ) {
+        return ret;
+    }
+
+    long required = gun.ammo_required();
+
+    if( required > 0 ) {
+        long total_ammo = 0;
+        total_ammo += gun.ammo_remaining();
+
+        bool has_mag = gun.magazine_integral();
+
+        const auto found_ammo = find_ammo( gun, true, -1 );
+        long loose_ammo = 0;
+        for( const auto &ammo : found_ammo ) {
+            if( ammo->is_magazine() ) {
+                has_mag = true;
+                total_ammo += ammo->ammo_remaining();
+            } else if( ammo->is_ammo() ) {
+                loose_ammo += ammo->charges;
+            }
+        }
+
+        if( has_mag ) {
+            total_ammo += loose_ammo;
+        }
+
+        ret = std::min<long>( ret, total_ammo / required );
+    }
+
+    long ups_drain = gun.get_gun_ups_drain();
+    if( ups_drain > 0 ) {
+        ret = std::min<long>( ret, charges_of( "UPS" ) / ups_drain );
+    }
+
+    return ret;
 }

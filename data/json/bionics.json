@@ -242,7 +242,7 @@
         "occupied_bodyparts": [
             [ "EYES", 2 ]
         ],
-        "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearer than before, any vision problems you might have had are now gone."
+        "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearly than before, any vision problems you might have had are now gone."
     },{
         "type": "bionic",
         "id": "bio_targeting",
@@ -595,8 +595,8 @@
         "occupied_bodyparts": [
             [ "TORSO", 10 ]
         ],
-        "act_cost": 125,
-        "description": "Inside your body is a fleet of tiny dormant robots.  Once charged from your energy banks, they will flit about your body, repairing damage and stopping bleeding."
+        "toggled": true,
+        "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of power."
     },{
         "type": "bionic",
         "id": "bio_heatsink",
@@ -803,7 +803,7 @@
             [ "HAND_L", 5 ]
         ],
         "act_cost": 50,
-        "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray. However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand."
+        "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand."
     },{
         "type": "bionic",
         "id": "bio_laser",

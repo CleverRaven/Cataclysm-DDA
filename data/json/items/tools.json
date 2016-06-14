@@ -291,7 +291,6 @@
     "volume": 1,
     "cutting": 6,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
   {
@@ -343,7 +342,6 @@
     "cutting" : 8,
     "flags" : ["STAB", "SHEATH_KNIFE"],
     "price" : 1000,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
   {
@@ -775,9 +773,8 @@
     "color": "light_blue",
     "name": "active glowstick",
     "description": "This is an active glowstick and is producing light.  It will last for a few hours before burning out.",
-    "price": 0,
     "material": "plastic",
-    "flags": "LIGHT_8",
+    "flags": [ "LIGHT_8", "TRADER_AVOID" ],
     "weight": 29,
     "volume": 1,
     "to_hit": -1,
@@ -832,9 +829,8 @@
     "color": "white",
     "name": "active flare",
     "description": "This burning magnesium flare is producing light.  It will last for about a half hour before burning out.",
-    "price": 0,
     "material": ["paper", "plastic"],
-    "flags": ["FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING"],
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ],
     "weight": 128,
     "volume": 1,
     "bashing": 2,
@@ -3843,7 +3839,6 @@
     "volume": 1,
     "cutting": 7,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
   {
@@ -3861,7 +3856,6 @@
     "volume": 1,
     "cutting": 8,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1]]
   },
   {
@@ -3881,7 +3875,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 15]]
   },
   {
@@ -3904,21 +3897,16 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category": "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "firemachete_on",
-            "success_message": "Your No. 9 glows!",
-            "lacks_fuel_message": "Click.",
-            "failure_message": "Click.",
-            "noise": 0,
-            "moves": 10,
-            "success_chance": 2
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+      "type": "fireweapon_off",
+      "target_id": "firemachete_on",
+      "success_message": "Your No. 9 glows!",
+      "lacks_fuel_message": "Click.",
+      "failure_message": "Click.",
+      "noise": 0,
+      "moves": 10,
+      "success_chance": 2
+    }
   },
   {
     "id": "firemachete_on",
@@ -3958,9 +3946,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -3982,7 +3967,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
   {
@@ -4002,7 +3986,6 @@
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 24]]
   },
   {
@@ -4022,7 +4005,6 @@
     "flags" : ["CHOP", "NON_STUCK", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
@@ -4041,7 +4023,6 @@
     "bashing": 4,
     "cutting": 38,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -4062,7 +4043,6 @@
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
   {
@@ -4083,7 +4063,6 @@
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },
   {
@@ -4103,7 +4082,6 @@
     "bashing": 3,
     "cutting": 24,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 13]]
   },
@@ -4123,7 +4101,6 @@
     "bashing": 4,
     "cutting": 31,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4146,19 +4123,14 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category": "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "firekatana_on",
-            "success_message": "The Sun rises.",
-            "lacks_fuel_message": "Time stands still.",
-            "noise": 10,
-            "moves": 10
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+    "type": "fireweapon_off",
+      "target_id": "firekatana_on",
+      "success_message": "The Sun rises.",
+      "lacks_fuel_message": "Time stands still.",
+      "noise": 10,
+      "moves": 10
+    }
   },
   {
     "id": "firekatana_on",
@@ -4194,9 +4166,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -4217,7 +4186,6 @@
     "cutting": 16,
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["COOK", 1]]
   },
   {
@@ -4236,7 +4204,6 @@
     "bashing": 2,
     "cutting": 29,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4275,7 +4242,6 @@
     "bashing": 8,
     "cutting": 35,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -4295,8 +4261,7 @@
     "bashing": 17,
     "cutting": 40,
     "to_hit": 1,
-    "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "category" : "weapons"
   },
   {
     "id": "zweifire_off", "//": "All of this is SUPPOSED to be in German.",
@@ -4317,19 +4282,14 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category" : "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "zweifire_on",
-            "success_message": "Die Klinge deines Schwertes brennt!",
-            "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr.",
-            "noise": 10,
-            "moves": 10
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+      "type": "fireweapon_off",
+      "target_id": "zweifire_on",
+      "success_message": "Die Klinge deines Schwertes brennt!",
+      "lacks_fuel_message": "Dein Flammenschwert hat keinen Brennstoff mehr.",
+      "noise": 10,
+      "moves": 10
+    }
   },
   {
     "id": "zweifire_on", "//": "All of this is SUPPOSED to be in German.",
@@ -4364,9 +4324,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -4390,19 +4347,14 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category" : "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "broadfire_on",
-            "success_message": "Charge!!",
-            "lacks_fuel_message": "No strength to fight!",
-            "noise": 10,
-            "moves": 10
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+      "type": "fireweapon_off",
+      "target_id": "broadfire_on",
+      "success_message": "Charge!!",
+      "lacks_fuel_message": "No strength to fight!",
+      "noise": 10,
+      "moves": 10
+    }
   },
   {
     "id": "broadfire_on",
@@ -4438,9 +4390,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -4460,7 +4409,6 @@
     "cutting": 14,
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -27]]
   },
   {
@@ -4481,21 +4429,16 @@
     "max_charges": 50,
     "ammo": "gasoline",
     "category" : "weapons",
-    "use_action": [
-        {
-            "type": "fireweapon_off",
-            "target_id": "shishkebab_on",
-            "success_message": "Let's dance, Zeds!",
-            "lacks_fuel_message": "This thing needs some fuel!",
-            "failure_message": "Aw, dangit.  It fails to start!",
-            "noise": 10,
-            "moves": 10,
-            "success_chance": 5
-        },
-        {
-            "type": "knife"
-        }
-    ]
+    "use_action": {
+      "type": "fireweapon_off",
+      "target_id": "shishkebab_on",
+      "success_message": "Let's dance, Zeds!",
+      "lacks_fuel_message": "This thing needs some fuel!",
+      "failure_message": "Aw, dangit.  It fails to start!",
+      "noise": 10,
+      "moves": 10,
+      "success_chance": 5
+    }
   },
   {
     "id": "shishkebab_on",
@@ -4532,9 +4475,6 @@
         {
             "type": "firestarter",
             "moves": 15
-        },
-        {
-            "type": "knife"
         }
     ]
   },
@@ -4571,7 +4511,6 @@
     "bashing": 2,
     "cutting": 7,
     "to_hit": -3,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },
@@ -4591,7 +4530,6 @@
     "cutting": 10,
     "to_hit": -3,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 25]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
@@ -4613,7 +4551,6 @@
     "cutting": 18,
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
   {
@@ -4702,8 +4639,7 @@
     "bashing": 1,
     "cutting": 1,
     "to_hit": -1,
-    "use_action": [ "HACKSAW", "SAW_BARREL" ],
-    "qualities":[["SAW_M", 1], ["SAW_M_FINE", 1]]
+    "qualities": [ [ "SAW_M", 2 ], [ "SAW_M_FINE", 1 ] ]
   },{
     "id": "tent_kit",
     "type": "TOOL",
@@ -4818,7 +4754,7 @@
     "color" : "red",
     "symbol" : "/",
     "material" : ["wood", "nomex"],
-    "flags": ["FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
+    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "DURABLE_MELEE", "TRADER_AVOID" ],
     "techniques" : ["WBLOCK_1"],
     "volume" : 8,
     "bashing" : 18,
@@ -5351,7 +5287,6 @@
     "volume": 0,
     "cutting": 7,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 12]]
   },{
     "id" : "copper_knife",
@@ -5367,7 +5302,6 @@
     "volume": 1,
     "bashing": 2,
     "cutting": 12,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },{
@@ -5385,7 +5319,6 @@
     "bashing": 2,
     "cutting": 10,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
    },
@@ -5549,7 +5482,6 @@
     "bashing": 2,
     "cutting": 5,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 11]],
     "flags": ["STAB", "SHEATH_KNIFE"]
   },{
@@ -5565,7 +5497,6 @@
     "volume": 4,
     "bashing": 10,
     "cutting": 8,
-    "use_action": { "type": "knife" },
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
     "qualities": [["CUT", 1], ["DIG", 3], ["BUTCHER", -8]]
@@ -5670,7 +5601,7 @@
     "description": "This is a sealed glass jar containing some meat.  Use to open and eat to enjoy.",
     "price": 750,
     "material": ["glass", "flesh"],
-    "weight": 567,
+    "weight": 984,
     "volume": 2,
     "bashing": 4,
     "category": "food",
@@ -5678,6 +5609,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "meat_canned",
+        "target_charges":2,
         "container": "jar_glass"
     }
   },
@@ -5691,7 +5623,7 @@
     "description": "This is a sealed glass jar containing some fish.  Use to open and eat to enjoy.",
     "price": 750,
     "material": ["glass", "flesh"],
-    "weight": 512,
+    "weight": 874,
     "volume": 2,
     "bashing": 4,
     "category": "food",
@@ -5699,6 +5631,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "fish_canned",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5734,7 +5667,7 @@
     "description": "This is a sealed glass jar containing human meat.  Use to open and eat to enjoy - if you really want to.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 565,
+    "weight": 980,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5742,6 +5675,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "human_canned",
+        "target_charges":2,
         "container": "jar_glass"
     }
   },
@@ -5755,7 +5689,7 @@
     "description": "This is a sealed glass jar containing mixed vegetables.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 500,
+    "weight": 850,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5763,6 +5697,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_canned",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5776,7 +5711,7 @@
     "description": "This is a sealed glass jar containing sliced fruits.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "veggy"],
-    "weight": 600,
+    "weight": 1050,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5784,7 +5719,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "apple_canned",
-        "target_charges": 3,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5798,7 +5733,7 @@
     "description": "This is a sealed glass jar containing tomatoes.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 600,
+    "weight": 1050,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5806,7 +5741,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "can_tomato",
-        "target_charges": 3,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },{
@@ -5819,7 +5754,7 @@
     "description": "This is a sealed glass jar containing pickled vegetables.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "veggy"],
-    "weight": 533,
+    "weight": 916,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5827,6 +5762,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_pickled",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5840,7 +5776,7 @@
     "description": "This is a sealed glass jar containing sauerkraut.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 550,
+    "weight": 1750,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5862,7 +5798,7 @@
     "description": "This is a sealed glass jar containing pickled meat.  Use to open and eat to enjoy.",
     "price": 700,
     "material": ["glass", "flesh"],
-    "weight": 609,
+    "weight": 1068,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5870,6 +5806,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "meat_pickled",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5883,7 +5820,7 @@
     "description": "This is a sealed glass jar containing pickled fish.  Use to open and eat to enjoy.",
     "price": 700,
     "material": ["glass", "flesh"],
-    "weight": 555,
+    "weight": 960,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5891,6 +5828,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "fish_pickled",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -5904,7 +5842,7 @@
     "description": "This is sealed glass jar containing pickled human flesh.  Use to open.  You might even enjoy it.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 609,
+    "weight": 1068,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5912,6 +5850,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "human_pickled",
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },{
@@ -5924,7 +5863,7 @@
     "description": "This is a sealed glass jar containing mushroom soup.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "veggy"],
-    "weight": 1302,
+    "weight": 2454,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5932,7 +5871,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_mushroom",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -5946,7 +5885,7 @@
     "description": "This is a sealed glass jar containing woods soup.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "flesh", "veggy"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5954,7 +5893,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_woods",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -5968,7 +5907,7 @@
     "description": "This is a sealed glass jar containing meat soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "flesh"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5976,7 +5915,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_meat",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -5990,7 +5929,7 @@
     "description": "This is a sealed glass jar containing fish soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "flesh"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -5998,7 +5937,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_fish",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -6012,7 +5951,7 @@
     "description": "This is a sealed glass jar containing vegetable soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "veggy"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6020,7 +5959,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_veggy",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -6034,7 +5973,7 @@
     "description": "This is a sealed glass jar containing sap soup.  Use to open and eat to enjoy.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 650,
+    "weight": 1150,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6042,7 +5981,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "soup_human",
-        "target_charges": 4,
+        "target_charges": 8,
         "container": "jar_glass"
     }
   },
@@ -6056,7 +5995,7 @@
     "description": "This is a sealed glass jar containing broth.  Use to open and eat to enjoy.",
     "price": 250,
     "material": ["glass", "veggy"],
-    "weight": 400,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6064,7 +6003,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth",
-        "target_charges": 1,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -6078,7 +6017,7 @@
     "description": "This is a sealed glass jar containing bone broth.  Use to open and eat to enjoy.",
     "price": 200,
     "material": ["glass", "bone"],
-    "weight": 400,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6086,7 +6025,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth_bone",
-        "target_charges": 1,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -6100,7 +6039,7 @@
     "description": "This is a sealed glass jar containing human bone broth.  Use to open and eat to enjoy - if you really want to.",
     "price": 200,
     "material": ["glass", "bone"],
-    "weight": 400,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6108,7 +6047,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "broth_human",
-        "target_charges": 1,
+        "target_charges": 2,
         "container": "jar_glass"
     }
   },
@@ -6122,7 +6061,7 @@
     "description": "This is a sealed glass jar containing V8.  Use to open and drink to enjoy.",
     "price": 120,
     "material": ["glass", "veggy"],
-    "weight": 522,
+    "weight": 500,
     "volume": 2,
     "bashing": 4,
     "category" : "food",
@@ -6656,7 +6595,8 @@
     "volume": 1,
     "bashing": 4,
     "cutting": 2,
-    "to_hit": 2
+    "to_hit": 2,
+    "qualities": [ [ "CHISEL", 3 ] ]
   },
   {
     "id": "swage",
@@ -6691,7 +6631,6 @@
     "cutting": 50,
     "to_hit": 1,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },
   {
@@ -6904,7 +6843,7 @@
     "color": "brown",
     "name": "lit charcoal kiln",
     "description": "A kiln full of wood that has been lit; better drop it!",
-    "flags": ["LIGHT_8"],
+    "flags": [ "LIGHT_8", "TRADER_AVOID" ],
     "price": 100,
     "material": ["steel", "wood"],
     "weight": 15142,
@@ -7039,7 +6978,6 @@
     "cutting": 14,
     "to_hit": -1,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
   {
@@ -7075,7 +7013,6 @@
     "volume": 0,
     "cutting": 16,
     "to_hit": -2,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 14]]
   },
   {
@@ -7095,7 +7032,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 18]]
   },
   {
@@ -7115,7 +7051,6 @@
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 20]]
   },
   {
@@ -7135,7 +7070,6 @@
     "flags" : ["SHEATH_KNIFE","CHOP"],
     "to_hit": -1,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 30]]
   },
   {
@@ -7156,7 +7090,6 @@
     "bashing": 4,
     "cutting": 15,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["BUTCHER", 7]]
   },
   {
@@ -7175,7 +7108,6 @@
     "volume": 0,
     "cutting": 6,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["SCREW", 1], ["BUTCHER", 8]]
   },
   {
@@ -7194,7 +7126,6 @@
     "bashing": 1,
     "cutting": 4,
     "to_hit": -4,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["SAW_W", 1], ["SAW_M", 1], ["WRENCH", 1], ["SCREW", 1], ["SCREW_FINE", 1], ["BUTCHER", 7]]
   },
   {
@@ -7215,7 +7146,6 @@
     "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 19]]
   },
   {
@@ -7234,7 +7164,6 @@
     "bashing": 6,
     "cutting": 14,
     "to_hit": -6,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", -22]]
   },
   {
@@ -7254,7 +7183,6 @@
     "cutting": 26,
     "to_hit": 1,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 1]]
   },
   {
@@ -7272,7 +7200,6 @@
     "bashing": 2,
     "cutting": 16,
     "to_hit": -6,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 7]]
   },
   {
@@ -7355,7 +7282,6 @@
     "volume": 0,
     "cutting": 12,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["PRY", 1], ["BUTCHER", 15]],
     "flags": ["CHOP", "SHEATH_KNIFE"]
   },
@@ -7392,7 +7318,7 @@
     "charges_per_use": 100,
     "ammo": "battery",
     "use_action": "GUN_REPAIR",
-    "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
+    "qualities": [ ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1], [ "CHISEL", 3 ] ]
   },
   {
     "id": "large_repairkit",
@@ -7412,7 +7338,7 @@
     "charges_per_use": 25,
     "ammo": "battery",
     "use_action": "GUN_REPAIR",
-    "qualities": [["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1]]
+    "qualities": [ ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1], [ "CHISEL", 3 ] ]
   },
   {
     "id": "misc_repairkit",
@@ -7517,8 +7443,8 @@
     "volume": 10,
     "bashing": 8,
     "to_hit": -2,
-    "use_action": [ "HACKSAW", "SAW_BARREL", "LUMBER", "REMOVE_ALL_MODS", "HAMMER", { "type": "knife" } ],
-    "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 1], ["SAW_W", 2], ["WRENCH", 1],
+    "use_action": [ "LUMBER", "REMOVE_ALL_MODS", "HAMMER" ],
+    "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 2], ["SAW_W", 2], ["WRENCH", 1],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
         ["BUTCHER", 12]]
   },
@@ -8208,8 +8134,7 @@
     "cutting": 26,
     "flags" : ["CHOP"],
     "to_hit": -3,
-    "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]],
-    "use_action": { "type": "knife" }
+    "qualities": [["DIG", 2], ["AXE", 1], ["CUT", 1], ["BUTCHER", -11]]
   },
   {
     "id": "survivor_machete",
@@ -8228,7 +8153,6 @@
     "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },
   {
@@ -8247,7 +8171,6 @@
     "bashing": 2,
     "cutting": 35,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -8267,7 +8190,6 @@
     "bashing": 8,
     "cutting": 44,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 16]]
   },
@@ -8287,8 +8209,7 @@
     "bashing": 17,
     "cutting": 50,
     "to_hit": 1,
-    "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "category" : "weapons"
   },
   {
     "id": "diamond_wakizashi",
@@ -8307,7 +8228,6 @@
     "bashing": 3,
     "cutting": 34,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 23]]
   },
@@ -8329,7 +8249,6 @@
     "cutting": 56,
     "to_hit": 1,
     "category" : "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 10]]
   },{
     "id": "remotevehcontrol",

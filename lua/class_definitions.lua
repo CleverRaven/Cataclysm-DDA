@@ -146,10 +146,10 @@ classes = {
             { name = "add_traits", rval = nil, args = { } },
             { name = "aim_per_time", rval = "int", args = { "item", "int" } },
             { name = "bloodType", rval = "field_id", args = { } },
-            { name = "can_pickVolume", rval = "bool", args = { "int" } },
-            { name = "can_pickVolume", rval = "bool", args = { "int", "bool" } },
-            { name = "can_pickWeight", rval = "bool", args = { "int" } },
-            { name = "can_pickWeight", rval = "bool", args = { "int", "bool" } },
+            { name = "can_pickVolume", rval = "bool", args = { "item" } },
+            { name = "can_pickVolume", rval = "bool", args = { "item", "bool" } },
+            { name = "can_pickWeight", rval = "bool", args = { "item" } },
+            { name = "can_pickWeight", rval = "bool", args = { "item", "bool" } },
             { name = "die", rval = nil, args = { "Creature" } },
             { name = "empty_skills", rval = nil, args = { } },
             { name = "empty_traits", rval = nil, args = { } },
@@ -861,7 +861,6 @@ classes = {
         attributes = {
             active = { type = "bool", writable = true },
             bday = { type = "int", writable = true },
-            bigness = { type = "int", writable = true },
             burnt = { type = "int", writable = true },
             charges = { type = "int", writable = true },
             damage = { type = "int", writable = true },
@@ -1016,7 +1015,6 @@ classes = {
             { name = "is_tool", rval = "bool", args = { } },
             { name = "is_tool_reversible", rval = "bool", args = { } },
             { name = "is_two_handed", rval = "bool", args = { "player" } },
-            { name = "is_var_veh_part", rval = "bool", args = { } },
             { name = "is_watertight_container", rval = "bool", args = { } },
             { name = "is_weap", rval = "bool", args = { } },
             { name = "label", rval = "string", args = { } },
@@ -1427,7 +1425,7 @@ classes = {
     furn_t = {
         int_id = "furn_id",
         string_id = "furn_str_id",
-        
+
         attributes = {
             close = { type = "furn_str_id", writable = true },
             id = { type = "furn_str_id" },
@@ -1610,7 +1608,6 @@ classes = {
         parent = "Creature",
         attributes = {
             anger = { type = "int", writable = true },
-            def_chance = { type = "int", writable = true },
             friendly = { type = "int", writable = true },
             hallucination = { type = "bool", writable = true },
             ignoring = { type = "int", writable = true },

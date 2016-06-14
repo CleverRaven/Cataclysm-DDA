@@ -1,0 +1,27 @@
+[
+  {
+    "id": "hk_g80",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "name": "H&K G80 Railgun",
+    "description": "Developed by Heckler & Koch in 2033, the railgun magnetically propels a ferromagnetic projectile using an alternating current.  This makes it silent while still deadly.  Powered by UPS.",
+    "weight": 3914,
+    "volume": 11,
+    "price": 1920000,
+    "bashing": 12,
+    "to_hit": -1,
+    "material": "steel",
+    "skill": "rifle",
+    "ammo": "12mm",
+    "ranged_damage": 45,
+    "dispersion": 45,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": 150,
+    "durability": 8,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ],[ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
+    "ups_charges": 5,
+    "magazines": [ [ "12mm", [ "hk_g80mag" ] ] ],
+    "flags": "NEVER_JAMS"
+  }
+]

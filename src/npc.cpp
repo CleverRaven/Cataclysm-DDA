@@ -14,6 +14,7 @@
 #include "overmapbuffer.h"
 #include "messages.h"
 #include "mission.h"
+#include "npc_class.h"
 #include "json.h"
 #include "sounds.h"
 #include "morale_types.h"
@@ -64,8 +65,8 @@ const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_infection( "infection" );
 
-std::list<item> starting_clothes(npc_class type, bool male);
-std::list<item> starting_inv(npc *me, npc_class type);
+std::list<item> starting_clothes( const npc_class_id &type, bool male );
+std::list<item> starting_inv( npc *me, const npc_class_id &type );
 
 npc::npc()
 {
@@ -125,7 +126,17 @@ void npc::load_npc(JsonObject &jsobj)
     }
     if (jsobj.has_string("faction"))
         guy.fac_id = jsobj.get_string("faction");
-    guy.myclass = npc_class(jsobj.get_int("class"));
+
+    if( jsobj.has_int( "class" ) ) {
+        guy.myclass = npc_class::from_legacy_int( jsobj.get_int("class") );
+    } else if( jsobj.has_string( "class" ) ) {
+        guy.myclass = npc_class_id( jsobj.get_string("class") );
+        if( !guy.myclass.is_valid() ) {
+            debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
+            guy.myclass = NC_NONE;
+        }
+    }
+
     guy.attitude = npc_attitude(jsobj.get_int("attitude"));
     guy.mission = npc_mission(jsobj.get_int("mission"));
     guy.chatbin.first_topic = jsobj.get_string( "chat" );
@@ -154,7 +165,7 @@ void npc::load_npc_template(std::string ident)
     npc_map::iterator found = _all_npc.find(ident);
     if (found != _all_npc.end()){
         idz = found->second.idz;
-        myclass = found->second.myclass;
+        myclass = npc_class_id( found->second.myclass );
         randomize(myclass);
         std::string tmpname = found->second.name.c_str();
         if (tmpname[0] == ','){
@@ -203,7 +214,7 @@ void npc::load_info(std::string data)
 }
 
 
-void npc::randomize(npc_class type)
+void npc::randomize( const npc_class_id &type )
 {
  this->setID(g->assign_npc_id());
  str_max = dice(4, 3);
@@ -226,18 +237,17 @@ void npc::randomize(npc_class type)
   male = false;
  pick_name();
 
- npc_class typetmp;
- if (type == NC_NONE){
-  typetmp = npc_class(rng(0, NC_MAX - 1));
-  if (typetmp != NC_SHOPKEEP) //Exclude unique classes from random NPCs here
-    type = typetmp;
-  if (one_in(5))
-    type = NC_NONE;
- }
+    if( !type.is_valid() ) {
+        debugmsg( "Invalid NPC class %s", type.c_str() );
+        myclass = NC_NONE;
+    } else if( type.is_null() && !one_in( 5 ) ) {
+        npc_class_id typetmp;
+        myclass = npc_class::random_common();
+    } else {
+        myclass = type;
+    }
 
- myclass = type;
- switch (type) { // Type of character
- case NC_NONE: // Untyped; no particular specialization
+ if( type == NC_NONE ) { // Untyped; no particular specialization
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -246,9 +256,8 @@ void npc::randomize(npc_class type)
    }
    set_skill_level( skill.ident(), level );
   }
-  break;
 
- case NC_EVAC_SHOPKEEP:
+ } else if( type == NC_EVAC_SHOPKEEP ) {
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -267,9 +276,8 @@ void npc::randomize(npc_class type)
   personality.collector += rng(1, 5);
   cash = 100000 * rng(1, 10)+ rng(1, 100000);
   this->restock = 14400*3;  //Every three days
-  break;
 
- case NC_BARTENDER:
+ } else if( type == NC_BARTENDER ) {
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -284,9 +292,8 @@ void npc::randomize(npc_class type)
   personality.collector += rng(1, 5);
   cash = 10000 * rng(1, 10)+ rng(1, 10000);
   this->restock = 14400*3;  //Every three days
-  break;
 
- case NC_JUNK_SHOPKEEP:
+ } else if( type == NC_JUNK_SHOPKEEP ) {
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -301,9 +308,8 @@ void npc::randomize(npc_class type)
   personality.collector += rng(1, 5);
   cash = 25000 * rng(1, 10)+ rng(1, 100000);
   this->restock = 14400*3;  //Every three days
-  break;
 
- case NC_ARSONIST:
+ } else if( type == NC_ARSONIST ) {
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
@@ -323,9 +329,8 @@ void npc::randomize(npc_class type)
   personality.collector += rng(0, 2);
   cash = 25000 * rng(1, 10)+ rng(1, 1000);
   this->restock = 14400*3;  //Every three days
-  break;
 
- case NC_HUNTER:
+ } else if( type == NC_HUNTER ) {
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
@@ -346,9 +351,8 @@ void npc::randomize(npc_class type)
   per_max += rng(2, 4);
   cash = 15000 * rng(1, 10)+ rng(1, 1000);
   this->restock = 14400*3;  //Every three days
-  break;
 
- case NC_SOLDIER:
+ } else if( type == NC_SOLDIER ) {
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(5))
@@ -367,9 +371,8 @@ void npc::randomize(npc_class type)
   boost_skill_level( skill_gun, rng(2, 4));
   personality.aggression += rng(1, 3);
   personality.bravery += rng(0, 5);
-  break;
 
- case NC_HACKER:
+ } else if( type == NC_HACKER ) {
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -386,9 +389,8 @@ void npc::randomize(npc_class type)
   per_max -= rng(0, 2);
   personality.bravery -= rng(1, 3);
   personality.aggression -= rng(0, 2);
-  break;
 
- case NC_DOCTOR:
+ } else if( type == NC_DOCTOR ) {
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -402,12 +404,9 @@ void npc::randomize(npc_class type)
   int_max += rng(0, 2);
   per_max += rng(0, 1) * rng(0, 1);
   personality.aggression -= rng(0, 4);
-  if (one_in(4))
-   flags |= mfb(NF_DRUGGIE);
   cash += 10000 * rng(0, 3) * rng(0, 3);
-  break;
 
- case NC_TRADER:
+ } else if( type == NC_TRADER ) {
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -424,9 +423,8 @@ void npc::randomize(npc_class type)
   per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
   cash += 25000 * rng(1, 10);
-  break;
 
- case NC_NINJA:
+ } else if( type == NC_NINJA ) {
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -445,9 +443,8 @@ void npc::randomize(npc_class type)
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
   // TODO: give ninja his styles back
-  break;
 
- case NC_COWBOY:
+ } else if( type == NC_COWBOY ) {
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - rng(0, 4);
    if (level < 0)
@@ -464,9 +461,8 @@ void npc::randomize(npc_class type)
   per_max += rng(0, 2);
   personality.aggression += rng(0, 2);
   personality.bravery += rng(1, 5);
-  break;
 
- case NC_SCIENTIST:
+ } else if( type == NC_SCIENTIST ) {
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 4;
    if (level < 0)
@@ -483,19 +479,14 @@ void npc::randomize(npc_class type)
    case 2: boost_skill_level( skill_electronics, rng(2, 6)); break;
    case 3: boost_skill_level( skill_firstaid, rng(2, 6)); break;
   }
-  if (one_in(4))
-   flags |= mfb(NF_TECHNOPHILE);
-  if (one_in(3))
-   flags |= mfb(NF_BOOKWORM);
   str_max -= rng(1, 3);
   dex_max -= rng(0, 1);
   int_max += rng(2, 5);
   personality.aggression -= rng(1, 5);
   personality.bravery -= rng(2, 8);
   personality.collector += rng (0, 2);
-  break;
 
- case NC_BOUNTY_HUNTER:
+ } else if( type == NC_BOUNTY_HUNTER ) {
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
@@ -508,9 +499,8 @@ void npc::randomize(npc_class type)
   boost_skill_level(Skill::random_skill_with_tag("gun_type"), rng(3, 5));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
-  break;
 
- case NC_THUG:
+ } else if( type == NC_THUG ) {
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
@@ -529,9 +519,8 @@ void npc::randomize(npc_class type)
   boost_skill_level( skill_unarmed, rng(1, 3));
   personality.aggression += rng(1, 6);
   personality.bravery += rng(0, 5);
-  break;
 
- case NC_SCAVENGER:
+ } else if( type == NC_SCAVENGER ) {
      for( auto &skill : Skill::skills ) {
    int level = dice(3, 2) - 3;
    if (level > 0 && one_in(3))
@@ -546,11 +535,7 @@ void npc::randomize(npc_class type)
   boost_skill_level( skill_archery, rng(0, 3));
   personality.aggression += rng(1, 3);
   personality.bravery += rng(1, 4);
-  break;
 
- default:
-    //Suppress warnings
-    break;
 
  }
   //A universal barter boost to keep NPCs competitive with players
@@ -575,7 +560,7 @@ void npc::randomize_from_faction(faction *fac)
 // Personality = aggression, bravery, altruism, collector
  my_fac = fac;
  fac_id = fac->id;
- randomize();
+    randomize( NC_NONE );
 
  switch (fac->goal) {
   case FACGOAL_DOMINANCE:
@@ -612,7 +597,7 @@ void npc::randomize_from_faction(faction *fac)
    break;
   case FACGOAL_KNOWLEDGE:
    if (one_in(2))
-    randomize(NC_SCIENTIST);
+    randomize( NC_SCIENTIST );
    personality.aggression -= rng(2, 5);
    personality.bravery -= rng(1, 4);
    personality.collector += rng(2, 4);
@@ -648,7 +633,7 @@ void npc::randomize_from_faction(faction *fac)
  }
  if (fac->has_job(FACJOB_TRADE) || fac->has_job(FACJOB_CARAVANS)) {
   if (!one_in(3))
-   randomize(NC_TRADER);
+   randomize( NC_TRADER );
   personality.aggression -= rng(1, 5);
   personality.collector += rng(1, 4);
   personality.altruism -= rng(0, 3);
@@ -658,9 +643,9 @@ void npc::randomize_from_faction(faction *fac)
  if (fac->has_job(FACJOB_MERCENARIES)) {
   if (!one_in(3)) {
    switch (rng(1, 3)) {
-    case 1: randomize(NC_NINJA);  break;
-    case 2: randomize(NC_COWBOY);  break;
-    case 3: randomize(NC_BOUNTY_HUNTER); break;
+    case 1: randomize( NC_NINJA );  break;
+    case 2: randomize( NC_COWBOY );  break;
+    case 3: randomize( NC_BOUNTY_HUNTER ); break;
    }
   }
   personality.aggression += rng(0, 2);
@@ -678,7 +663,7 @@ void npc::randomize_from_faction(faction *fac)
  }
  if (fac->has_job(FACJOB_RAIDERS)) {
   if (one_in(3))
-   randomize(NC_COWBOY);
+   randomize( NC_COWBOY );
   personality.aggression += rng(3, 5);
   personality.bravery += rng(0, 2);
   personality.altruism -= rng(3, 6);
@@ -687,7 +672,7 @@ void npc::randomize_from_faction(faction *fac)
  }
  if (fac->has_job(FACJOB_THIEVES)) {
   if (one_in(3))
-   randomize(NC_NINJA);
+   randomize( NC_NINJA );
   personality.aggression -= rng(2, 5);
   personality.bravery -= rng(1, 3);
   personality.altruism -= rng(1, 4);
@@ -697,7 +682,7 @@ void npc::randomize_from_faction(faction *fac)
  }
  if (fac->has_job(FACJOB_DOCTORS)) {
   if (!one_in(4))
-   randomize(NC_DOCTOR);
+   randomize( NC_DOCTOR );
   personality.aggression -= rng(3, 6);
   personality.bravery += rng(0, 4);
   personality.altruism += rng(0, 4);
@@ -811,9 +796,9 @@ void npc::set_fac(std::string fac_name)
 
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
-item random_item_from( npc_class type, const std::string &what, const std::string &fallback )
+item random_item_from( const npc_class_id &type, const std::string &what, const std::string &fallback )
 {
-    auto result = item_group::item_from( npc_class_name_str( type ) + "_" + what );
+    auto result = item_group::item_from( type.str() + "_" + what );
     if( result.is_null() ) {
         result = item_group::item_from( fallback );
     }
@@ -821,13 +806,13 @@ item random_item_from( npc_class type, const std::string &what, const std::strin
 }
 
 // item id from "<class-name>_<what>" or from "npc_<what>"
-item random_item_from( npc_class type, const std::string &what )
+item random_item_from( const npc_class_id &type, const std::string &what )
 {
     return random_item_from( type, what, "npc_" + what );
 }
 
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
-item get_clothing_item( npc_class type, const std::string &what, bool male )
+item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
     if( male ) {
         return random_item_from( type, what + "_male", "npc_" + what + "_male" );
@@ -836,7 +821,7 @@ item get_clothing_item( npc_class type, const std::string &what, bool male )
     }
 }
 
-std::list<item> starting_clothes( npc_class type, bool male )
+std::list<item> starting_clothes( const npc_class_id &type, bool male )
 {
     std::list<item> ret;
 
@@ -882,7 +867,7 @@ std::list<item> starting_clothes( npc_class type, bool male )
  return ret;
 }
 
-std::list<item> starting_inv( npc *me, npc_class type )
+std::list<item> starting_inv( npc *me, const npc_class_id &type )
 {
     std::list<item> res;
     res.emplace_back( "lighter" );
@@ -897,11 +882,12 @@ std::list<item> starting_inv( npc *me, npc_class type )
             ammo = container;
         }
 
-        // NC_COWBOY and NC_BOUNTY_HUNTER get 2-4 whilst all others get 1 or 2
-        int qty = 1 + ( type == NC_COWBOY || type == NC_BOUNTY_HUNTER );
+        // @todo Move to npc_class
+        int qty = 1 + ( type == NC_COWBOY ||
+                        type == NC_BOUNTY_HUNTER );
         qty = rng( qty, qty * 2 );
 
-        while ( qty-- != 0 && me->can_pickVolume( ammo.volume() ) ) {
+        while ( qty-- != 0 && me->can_pickVolume( ammo ) ) {
             // @todo give NPC a default magazine instead
             res.push_back( ammo );
         }
@@ -912,7 +898,8 @@ std::list<item> starting_inv( npc *me, npc_class type )
     }
 
     // NC_COWBOY and NC_BOUNTY_HUNTER get 5-15 whilst all others get 3-6
-    int qty = ( type == NC_EVAC_SHOPKEEP || type == NC_TRADER ) ? 5 : 2;
+    int qty = ( type == NC_EVAC_SHOPKEEP ||
+                type == NC_TRADER ) ? 5 : 2;
     qty = rng( qty, qty * 3 );
 
     while ( qty-- != 0 ) {
@@ -921,7 +908,7 @@ std::list<item> starting_inv( npc *me, npc_class type )
             if( !one_in( 3 ) && tmp.has_flag( "VARSIZE" ) ) {
                 tmp.item_tags.insert( "FIT" );
             }
-            if( me->can_pickVolume( tmp.volume() ) ) {
+            if( me->can_pickVolume( tmp ) ) {
                 res.push_back( tmp );
             }
         }
@@ -1020,7 +1007,7 @@ skill_id npc::best_skill() const
     return highest_skill;
 }
 
-void npc::starting_weapon(npc_class type)
+void npc::starting_weapon( const npc_class_id &type )
 {
     const skill_id best = best_skill();
 
@@ -1710,27 +1697,23 @@ void npc::shop_restock(){
     std::list<item> ret;
     //list all merchant types here along with the item group they pull from and how much extra space they should have
     //guards and other fixed npcs may need a small supply of food daily...
-    switch (this->myclass) {
-        case NC_EVAC_SHOPKEEP:
-            from = "NC_EVAC_SHOPKEEP_misc";
-            total_space += rng(30,40);
-            this-> cash = 100000 * rng(1, 10)+ rng(1, 100000);
-        case NC_ARSONIST:
-            from = "NC_ARSONIST_misc";
-            this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
-            ret.push_back(item("molotov", 0));
-        case NC_HUNTER:
-            from = "NC_HUNTER_misc";
-            this-> cash = 15000 * rng(1, 10)+ rng(1, 1000);
-        case NC_BARTENDER:
-            from = "NC_BARTENDER_misc";
-            this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);;
-        case NC_JUNK_SHOPKEEP:
-            from = "NC_JUNK_SHOPKEEP_misc";
-            this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
-        default:
-            //Suppress warnings
-            break;
+    if( myclass == NC_EVAC_SHOPKEEP ) {
+        from = "NC_EVAC_SHOPKEEP_misc";
+        total_space += rng(30,40);
+        this-> cash = 100000 * rng(1, 10)+ rng(1, 100000);
+    } else if( myclass == NC_ARSONIST ) {
+        from = "NC_ARSONIST_misc";
+        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
+        ret.push_back(item("molotov", 0));
+    } else if( myclass == NC_HUNTER ) {
+        from = "NC_HUNTER_misc";
+        this-> cash = 15000 * rng(1, 10)+ rng(1, 1000);
+    } else if( myclass == NC_BARTENDER ) {
+        from = "NC_BARTENDER_misc";
+        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);;
+    } else if( myclass == NC_JUNK_SHOPKEEP ) {
+        from = "NC_JUNK_SHOPKEEP_misc";
+        this-> cash = 25000 * rng(1, 10)+ rng(1, 1000);
     }
     if (from == "NULL")
         return;
@@ -2378,94 +2361,6 @@ std::string npc_attitude_name(npc_attitude att)
   return _("Unknown");
  }
  return _("Unknown");
-}
-
-std::string npc_class_name_str(npc_class classtype)
-{
-    switch(classtype) {
-    case NC_NONE:
-        return "NC_NONE";
-    case NC_EVAC_SHOPKEEP:  // Found in the evacuation center.
-        return "NC_EVAC_SHOPKEEP";
-    case NC_ARSONIST:       // Found in the evacuation center.
-        return "NC_ARSONIST";
-    case NC_SHOPKEEP:       // Found in towns.  Stays in his shop mostly.
-        return "NC_SHOPKEEP";
-    case NC_HACKER:         // Weak in combat but has hacking skills and equipment
-        return "NC_HACKER";
-    case NC_DOCTOR:         // Found in towns, or roaming.  Stays in the clinic.
-        return "NC_DOCTOR";
-    case NC_TRADER:         // Roaming trader, journeying between towns.
-        return "NC_TRADER";
-    case NC_NINJA:          // Specializes in unarmed combat, carries few items
-        return "NC_NINJA";
-    case NC_COWBOY:         // Gunslinger and survivalist
-        return "NC_COWBOY";
-    case NC_SCIENTIST:      // Uses intelligence-based skills and high-tech items
-        return "NC_SCIENTIST";
-    case NC_BOUNTY_HUNTER:  // Resourceful and well-armored
-        return "NC_BOUNTY_HUNTER";
-    case NC_THUG:           // Moderate melee skills and poor equipment
-        return "NC_THUG";
-    case NC_SCAVENGER:      // Good with pistols light weapons
-        return "NC_SCAVENGER";
-    case NC_HUNTER:         // Good with bows and rifles
-        return "NC_HUNTER";
-    case NC_SOLDIER:        // Well equiped and trained combatant, good with rifles and melee
-        return "NC_SOLDIER";
-    case NC_BARTENDER:      // Stocks alcohol
-        return "NC_BARTENDER";
-    case NC_JUNK_SHOPKEEP:  // Stocks wide range of items...
-        return "NC_JUNK_SHOPKEEP";
-    default:
-        //Suppress warnings
-        break;
-    }
-    return "Unknown class";
-}
-
-std::string npc_class_name(npc_class classtype)
-{
-    switch(classtype) {
-    case NC_NONE:
-        return _("No class");
-    case NC_EVAC_SHOPKEEP:  // Found in the evacuation center.
-        return _("Merchant");
-    case NC_ARSONIST:       // Found in the evacuation center.
-        return _("Arsonist");
-    case NC_SHOPKEEP:       // Found in towns.  Stays in his shop mostly.
-        return _("Shopkeep");
-    case NC_HACKER:         // Weak in combat but has hacking skills and equipment
-        return _("Hacker");
-    case NC_DOCTOR:         // Found in towns, or roaming.  Stays in the clinic.
-        return _("Doctor");
-    case NC_TRADER:         // Roaming trader, journeying between towns.
-        return _("Trader");
-    case NC_NINJA:          // Specializes in unarmed combat, carries few items
-        return _("Ninja");
-    case NC_COWBOY:         // Gunslinger and survivalist
-        return _("Cowboy");
-    case NC_SCIENTIST:      // Uses intelligence-based skills and high-tech items
-        return _("Scientist");
-    case NC_BOUNTY_HUNTER:  // Resourceful and well-armored
-        return _("Bounty Hunter");
-    case NC_THUG:           // Moderate melee skills and poor equipment
-        return _("Thug");
-    case NC_SCAVENGER:      // Good with pistols light weapons
-        return _("Scavenger");
-    case NC_HUNTER:         // Good with bows and rifles
-        return _("Hunter");
-    case NC_SOLDIER:        // Well equiped and trained combatant, good with rifles and melee
-        return _("Soldier");
-    case NC_BARTENDER:      // Stocks alcohol
-        return _("Bartender");
-    case NC_JUNK_SHOPKEEP:  // Stocks wide range of items...
-        return _("Shopkeep");
-    default:
-        //Suppress warnings
-        break;
-    }
-    return _("Unknown class");
 }
 
 void npc::setID (int i)

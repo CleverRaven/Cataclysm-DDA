@@ -2301,8 +2301,7 @@
       "id": "ammolink223",
       "copy-from": "ammolink",
       "type": "AMMO",
-      "name": "ammo belt linkage (223)",
-      "name_plural": "ammo belt linkages (223)",
+      "name": ".223 ammo belt linkage",
       "use_action": {
         "type": "ammobelt",
         "belt": "belt223"
@@ -2312,11 +2311,36 @@
       "id": "ammolink308",
       "copy-from": "ammolink",
       "type": "AMMO",
-      "name": "ammo belt linkage (308)",
-      "name_plural": "ammo belt linkages (308)",
+      "name": ".308 ammo belt linkage",
       "use_action": {
         "type": "ammobelt",
         "belt": "belt308"
+      }
+    },
+    {
+      "id": "ammolink40mm",
+      "copy-from": "ammolink",
+      "type": "AMMO",
+      "name": "40mm grenade belt linkage",
+      "weight": 6,
+      "count": 25,
+      "stack_size": 25,
+      "use_action": {
+        "type": "ammobelt",
+        "belt": "belt40mm"
+      }
+    },
+    {
+      "id": "ammolink50",
+      "copy-from": "ammolink",
+      "type": "AMMO",
+      "name": ".50 ammo belt linkage",
+      "weight": 3,
+      "count": 50,
+      "stack_size": 50,
+      "use_action": {
+        "type": "ammobelt",
+        "belt": "belt50"
       }
     }
 ]

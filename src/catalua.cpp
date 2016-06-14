@@ -749,10 +749,8 @@ class lua_iuse_wrapper : public iuse_actor {
 private:
     int lua_function;
 public:
-    lua_iuse_wrapper( const int f, const std::string &type ) : lua_function( f ) {
-        iuse_actor::type = type;
-    }
-    ~lua_iuse_wrapper() = default;
+    lua_iuse_wrapper( const int f, const std::string &type ) : iuse_actor( type ), lua_function( f ) {}
+    ~lua_iuse_wrapper() override = default;
     long use( player *, item *it, bool a, const tripoint &pos ) const override {
         // We'll be using lua_state a lot!
         lua_State * const L = lua_state;
@@ -793,6 +791,8 @@ public:
     iuse_actor *clone() const override {
         return new lua_iuse_wrapper( *this );
     }
+
+    void load( JsonObject & ) override {}
 };
 
 // iuse abstraction to make iuse's both in lua and C++ possible
@@ -1180,11 +1180,6 @@ void game::init_lua()
 }
 
 #endif // #ifdef LUA
-
-use_function::use_function( iuse_actor * const f )
-: actor( f )
-{
-}
 
 use_function::use_function( const use_function &other )
 : actor( other.actor ? other.actor->clone() : nullptr )

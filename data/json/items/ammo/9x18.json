@@ -1,5 +1,5 @@
 [
-  {   
+  {
     "id": "9x18mm",
     "type": "AMMO",
     "name": "9x18mm 57-N-181S",
@@ -22,7 +22,7 @@
     "recoil": 185,
     "effects": [ "COOKOFF" ]
   },
-  {   
+  {
     "id": "9x18mmP2",
     "copy-from": "9x18mm",
     "type": "AMMO",
@@ -38,7 +38,7 @@
         "recoil": 30
     }
   },
-  {   
+  {
     "id": "9x18mmfmj",
     "copy-from": "9x18mm",
     "type": "AMMO",

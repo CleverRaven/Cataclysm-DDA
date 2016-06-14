@@ -149,11 +149,11 @@ class Item_factory
         void load_comestible( JsonObject &jo );
         void load_container( JsonObject &jo );
         void load_engine( JsonObject &jo );
+        void load_wheel( JsonObject &jo );
         void load_gunmod( JsonObject &jo );
         void load_magazine( JsonObject &jo );
         void load_generic( JsonObject &jo );
         void load_bionic( JsonObject &jo );
-        void load_veh_part( JsonObject &jo );
         /*@}*/
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
@@ -299,10 +299,10 @@ class Item_factory
         void load( islot_armor &slot, JsonObject &jo );
         void load( islot_book &slot, JsonObject &jo );
         void load( islot_engine &slot, JsonObject &jo );
+        void load( islot_wheel &slot, JsonObject &jo );
         void load( islot_gun &slot, JsonObject &jo );
         void load( islot_gunmod &slot, JsonObject &jo );
         void load( islot_magazine &slot, JsonObject &jo );
-        void load( islot_variable_bigness &slot, JsonObject &jo );
         void load( islot_bionic &slot, JsonObject &jo );
         void load( islot_spawn &slot, JsonObject &jo );
         void load( islot_ammo &slot, JsonObject &jo );
@@ -314,9 +314,9 @@ class Item_factory
 
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, std::string member,
-                                        std::vector<use_function> &use_methods );
-        use_function use_from_string( std::string name );
-        void set_uses_from_object( JsonObject obj, std::vector<use_function> &use_methods );
+                                        std::map<std::string, use_function> &use_methods );
+        use_function use_from_string( const std::string &type );
+        void set_uses_from_object( JsonObject &obj, std::map<std::string, use_function> &methods );
 
         void add_entry( Item_group *sg, JsonObject &obj );
         void load_item_group_entries( Item_group &ig, JsonArray &entries );
@@ -340,6 +340,9 @@ class Item_factory
 
         //iuse stuff
         std::map<Item_tag, use_function> iuse_function_list;
+
+        void add_iuse( const std::string &type, const use_function_pointer f );
+        void add_actor( iuse_actor *ptr );
 
         /** JSON data dependent upon as-yet unparsed definitions */
         std::list<std::string> deferred;

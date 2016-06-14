@@ -15,6 +15,7 @@
 #include "submap.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "scent_map.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -39,6 +40,7 @@ field_t fieldlist[num_fields];
 
 void game::init_fields()
 {
+    // ID, {name}, symbol, priority, {color}, {transparency}, {dangerous}, half-life, {move_cost}
     field_t tmp_fields[num_fields] =
     {
         {

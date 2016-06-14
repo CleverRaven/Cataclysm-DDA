@@ -5,6 +5,7 @@
 #include "enums.h" // tripoint
 #include "bodypart.h"
 #include "color.h"
+#include "damage.h"
 #include "string_id.h"
 #include <string>
 #include <vector>
@@ -88,6 +89,7 @@ struct mutation_branch {
     std::set<body_part> restricts_gear;
     /** Key pair is <active: bool, mod type: "STR"> */
     std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
+    std::map<body_part, resistances> armor;
     std::vector<matype_id>
     initial_ma_styles; // Martial art styles that can be chosen upon character generation
     std::string name;
@@ -100,6 +102,10 @@ struct mutation_branch {
      * Returns true if a character with this mutation shouldn't be able to wear given item.
      */
     bool conflicts_with_item( const item &it ) const;
+    /**
+     * Returns damage resistance on a given body part granted by this mutation.
+     */
+    const resistances &damage_resistance( body_part bp ) const;
     /**
      * Check whether the given id is a valid mutation id (refers to a known mutation).
      */

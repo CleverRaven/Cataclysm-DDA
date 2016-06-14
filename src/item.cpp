@@ -153,9 +153,6 @@ item::item( const itype *type, int turn, long qty ) : type( type )
         set_var( "magazine_converted", true );
     }
 
-    if( type->variable_bigness ) {
-        bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
-    }
     if( !type->snippet_category.empty() ) {
         note = SNIPPET.assign( type->snippet_category );
     }
@@ -242,9 +239,11 @@ item& item::ammo_set( const itype_id& ammo, long qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( is_tool() || is_gun() ) && magazine_integral() && ammo == "null" && ammo_type() == "NULL" ) {
-        curammo = nullptr;
-        charges = std::min( qty, ammo_capacity() );
+    if( ammo == "null" && ammo_type() == "NULL" ) {
+        if( ( is_tool() || is_gun() ) && magazine_integral() ) {
+            curammo = nullptr;
+            charges = std::min( qty, ammo_capacity() );
+        }
         return *this;
     }
 
@@ -466,9 +465,6 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
-        return false;
-    }
-    if( is_var_veh_part() && bigness != rhs.bigness ) {
         return false;
     }
     if( contents.size() != rhs.contents.size() ) {
@@ -1421,7 +1417,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         for( const auto &method : type->use_methods ) {
             insert_separation_line();
-            method.dump_info( *this, info );
+            method.second.dump_info( *this, info );
         }
 
         insert_separation_line();
@@ -1758,7 +1754,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
 
         for( auto &u : type->use_methods ) {
-            const auto tt = dynamic_cast<const delayed_transform_iuse *>( u.get_actor_ptr() );
+            const auto tt = dynamic_cast<const delayed_transform_iuse *>( u.second.get_actor_ptr() );
             if( tt == nullptr ) {
                 continue;
             }
@@ -2039,10 +2035,6 @@ nc_color item::color_in_inventory() const
                        u->get_skill_level( tmp.skill ).can_train() &&
                        u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
-            } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
-                // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
-                       (!item_group::group_contains_item("ma_manuals", type->id) || !u->has_martialart(matype_id( "style_" + type->id.substr(7)))) ) {
-                ret = c_ltblue;
             }
         } else {
             ret = c_red; // Book hasn't been identified yet: red
@@ -2187,13 +2179,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_engine() && engine_displacement() > 0 ) {
         vehtext = rmp_format( _( "<veh_adj>%2.1fL " ), engine_displacement() / 100.0f );
 
-    } else if( is_var_veh_part() ) {
-        switch( type->variable_bigness->bigness_aspect ) {
-            case BIGNESS_WHEEL_DIAMETER:
-                //~ inches, e.g. 20" wheel
-                vehtext = rmp_format( _( "<veh_adj>%d\" " ), bigness );
-                break;
-        }
+    } else if( is_wheel() && type->wheel->diameter > 0 ) {
+        vehtext = rmp_format( _( "<veh_adj>%d\" " ), type->wheel->diameter );
     }
 
     std::string burntext = "";
@@ -2959,12 +2946,12 @@ int item::get_warmth() const
 
 int item::brewing_time() const
 {
-    return ( is_brewable() ? type->brewable->time : 0 ) * ( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] / 14.0 );
+    return ( is_brewable() ? type->brewable->time : 0 ) * ( calendar::season_length() / 14.0 );
 }
 
 const std::vector<itype_id> &item::brewing_results() const
 {
-    static const std::vector<itype_id> nulresult;
+    static const std::vector<itype_id> nulresult{};
     return is_brewable() ? type->brewable->results : nulresult;
 }
 
@@ -3255,32 +3242,28 @@ std::vector<const material_type*> item::made_of_types() const
     return material_types_composed_of;
 }
 
-bool item::made_of_any( const std::vector<material_id> &mat_idents ) const
+bool item::made_of_any( const std::set<material_id> &mat_idents ) const
 {
     const auto mats = made_of();
     if( mats.empty() ) {
         return false;
     }
-    for( auto candidate_material : mat_idents ) {
-        if( std::find( mats.begin(), mats.end(), candidate_material ) != mats.end() ) {
-            return true;
-        }
-    }
-    return false;
+
+    return std::any_of( mats.begin(), mats.end(), [&mat_idents]( const material_id &e ) {
+        return mat_idents.count( e );
+    } );
 }
 
-bool item::only_made_of( const std::vector<material_id> &mat_idents ) const
+bool item::only_made_of( const std::set<material_id> &mat_idents ) const
 {
     const auto mats = made_of();
     if( mats.empty() ) {
         return false;
     }
-    for( auto target_material : mats ) {
-        if( std::find( mat_idents.begin(), mat_idents.end(), target_material ) == mat_idents.end() ) {
-            return false;
-        }
-    }
-    return true;
+
+    return std::all_of( mats.begin(), mats.end(), [&mat_idents]( const material_id &e ) {
+        return mat_idents.count( e );
+    } );
 }
 
 bool item::made_of( const material_id &mat_ident ) const
@@ -3316,11 +3299,6 @@ bool item::conductive() const
 bool item::destroyed_at_zero_charges() const
 {
     return (is_ammo() || is_food());
-}
-
-bool item::is_var_veh_part() const
-{
-    return type->variable_bigness.get() != nullptr;
 }
 
 bool item::is_gun() const
@@ -3520,6 +3498,11 @@ bool item::is_bucket_nonempty() const
 bool item::is_engine() const
 {
     return type->engine.get() != nullptr;
+}
+
+bool item::is_wheel() const
+{
+    return type->wheel.get() != nullptr;
 }
 
 bool item::is_faulty() const
@@ -4277,8 +4260,8 @@ std::map<std::string, const item::gun_mode> item::gun_all_modes() const
                     qty *= 1.5;
                 }
 
-                res.emplace( prefix += m.first, item::gun_mode { std::get<0>( m.second ), const_cast<item *>( e ),
-                                                                 qty, std::get<2>( m.second ) } );
+                res.emplace( prefix += m.first, item::gun_mode( std::get<0>( m.second ), const_cast<item *>( e ),
+                                                                qty, std::get<2>( m.second ) ) );
             };
         }
         if( e->is_gunmod() ) {
@@ -4301,7 +4284,7 @@ const item::gun_mode item::gun_get_mode( const std::string& mode ) const
             }
         }
     }
-    return { "", nullptr, 0, {} };
+    return gun_mode();
 }
 
 item::gun_mode item::gun_current_mode()
@@ -4574,7 +4557,7 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     struct : public uimenu_callback {
         std::function<std::string( int )> draw_row;
 
-        bool key( int ch, int idx, uimenu * menu ) {
+        bool key( int ch, int idx, uimenu * menu ) override {
             auto& sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
             switch( ch ) {
                 case KEY_LEFT:
@@ -5060,6 +5043,19 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
     liquid.charges -= amount;
 
     return true;
+}
+
+void item::set_countdown( int num_turns )
+{
+    if( num_turns < 0 ) {
+        debugmsg( "Tried to set a negative countdown value %d.", num_turns );
+        return;
+    }
+    if( ammo_type() != "NULL" ) {
+        debugmsg( "Tried to set countdown on an item with ammo=%s.", ammo_type().c_str() );
+        return;
+    }
+    charges = num_turns;
 }
 
 bool item::use_charges( const itype_id& what, long& qty, std::list<item>& used, const tripoint& pos )
@@ -5871,7 +5867,7 @@ bool item::is_soft() const
 {
     // @todo Make this a material property
     // @todo Add a SOFT flag (for chainmail and the like)
-    static const std::vector<material_id> soft_mats = {{
+    static const std::set<material_id> soft_mats = {{
         material_id( "cotton" ), material_id( "leather" ), material_id( "wool" ), material_id( "nomex" )
     }};
 

@@ -1,4 +1,5 @@
 #include "npc.h"
+#include "npc_class.h"
 #include "output.h"
 #include "game.h"
 #include "map.h"
@@ -1205,42 +1206,39 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             case NPC_MISSION_GUARD:
                 return _("I'm guarding this location.");
             case NPC_MISSION_NULL:
-                switch (p->myclass) {
-                    case NC_SHOPKEEP:
-                        return _("I'm a local shopkeeper.");
-                    case NC_EVAC_SHOPKEEP:
-                        return _("I'm a local shopkeeper.");
-                    case NC_HACKER:
-                        return _("I'm looking for some choice systems to hack.");
-                    case NC_DOCTOR:
-                        return _("I'm looking for wounded to help.");
-                    case NC_TRADER:
-                        return _("I'm collecting gear and selling it.");
-                    case NC_NINJA: // TODO: implement this
-                        return _("I'm a wandering master of martial arts but I'm currently not implemented in the code.");
-                    case NC_COWBOY:
-                        return _("Just looking for some wrongs to right.");
-                    case NC_SCIENTIST:
-                        return _("I'm looking for clues concerning these monsters' origins...");
-                    case NC_BOUNTY_HUNTER:
-                        return _("I'm a killer for hire.");
-                    case NC_THUG:
-                        return _("I'm just here for the paycheck.");
-                    case NC_SCAVENGER:
-                        return _("I'm just trying to survive.");
-                    case NC_ARSONIST:
-                        return _("I'm just watching the world burn.");
-                    case NC_HUNTER:
-                        return _("I'm tracking game.");
-                    case NC_BARTENDER:
-                        return _("I'm looking for new drink recipes.");
-                    case NC_MAX:
-                        return _("I should not be able to exist!");
-                    case NC_NONE:
-                        return _("I'm just wandering.");
-                    default:
-                        return "ERROR: Someone forgot to code an npc_class text.";
-                } // switch (p->myclass)
+                if( p->myclass == NC_SHOPKEEP ) {
+                    return _("I'm a local shopkeeper.");
+                } else if( p->myclass == NC_EVAC_SHOPKEEP ) {
+                    return _("I'm a local shopkeeper.");
+                } else if( p->myclass == NC_HACKER ) {
+                    return _("I'm looking for some choice systems to hack.");
+                } else if( p->myclass == NC_DOCTOR ) {
+                    return _("I'm looking for wounded to help.");
+                } else if( p->myclass == NC_TRADER ) {
+                    return _("I'm collecting gear and selling it.");
+                } else if( p->myclass == NC_NINJA ) { // TODO: implement this
+                    return _("I'm a wandering master of martial arts but I'm currently not implemented in the code.");
+                } else if( p->myclass == NC_COWBOY ) {
+                    return _("Just looking for some wrongs to right.");
+                } else if( p->myclass == NC_SCIENTIST ) {
+                    return _("I'm looking for clues concerning these monsters' origins...");
+                } else if( p->myclass == NC_BOUNTY_HUNTER ) {
+                    return _("I'm a killer for hire.");
+                } else if( p->myclass == NC_THUG ) {
+                    return _("I'm just here for the paycheck.");
+                } else if( p->myclass == NC_SCAVENGER ) {
+                    return _("I'm just trying to survive.");
+                } else if( p->myclass == NC_ARSONIST ) {
+                    return _("I'm just watching the world burn.");
+                } else if( p->myclass == NC_HUNTER ) {
+                    return _("I'm tracking game.");
+                } else if( p->myclass == NC_BARTENDER ) {
+                    return _("I'm looking for new drink recipes.");
+                } else if( p->myclass == NC_NONE ) {
+                    return _("I'm just wandering.");
+                } else {
+                    return "ERROR: Someone forgot to code an npc_class text.";
+                }
             default:
                 return "ERROR: Someone forgot to code an npc_mission text.";
         } // switch (p->mission)
@@ -4493,45 +4491,19 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
     }
 
-    long our_ammo = 0;
-    if( p.weapon.is_gun() ) {
-        our_ammo = p.weapon.charges;
-        const auto other_ammo = p.get_ammo( p.weapon.ammo_type() );
-        for( const auto &amm : other_ammo ) {
-            our_ammo += amm->charges;
-        }
-    }
-
     bool taken = false;
-    const double new_melee_value = p.melee_value( given );
-    double new_weapon_value = new_melee_value;
+    long our_ammo = p.ammo_count_for( p.weapon );
+    long new_ammo = p.ammo_count_for( given );
+    const double new_weapon_value = p.weapon_value( given, new_ammo );
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     if( allow_use ) {
         add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
                  p.weapon.tname().c_str(), our_ammo, cur_weapon_value );
-        add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
-                 given.tname().c_str(), new_melee_value );
-        if( new_melee_value > cur_weapon_value ) {
+        add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
+                 given.tname().c_str(), new_ammo, new_weapon_value );
+        if( new_weapon_value > cur_weapon_value ) {
             p.wield( given );
             taken = true;
-        }
-
-        if( !taken && given.is_gun() ) {
-            // Don't take guns for which we have no ammo, even if they look cool
-            int ammo_count = given.charges;
-            const auto other_ammo = p.get_ammo( given.ammo_type() );
-            for( const auto &amm : other_ammo ) {
-                ammo_count += amm->charges;
-            }
-            // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
-            new_weapon_value = p.weapon_value( given, ammo_count );
-
-            add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                     given.tname().c_str(), ammo_count, new_weapon_value );
-            if( new_weapon_value > cur_weapon_value ) {
-                p.wield( given );
-                taken = true;
-            }
         }
 
         // is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
@@ -4541,8 +4513,8 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     }
 
     if( !taken && allow_carry &&
-        p.can_pickVolume( given.volume() ) &&
-        p.can_pickWeight( given.weight() ) ) {
+        p.can_pickVolume( given ) &&
+        p.can_pickWeight( given ) ) {
         taken = true;
         p.i_add( given );
     }
@@ -4573,7 +4545,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         }
     }
     if( allow_carry ) {
-        if( !p.can_pickVolume( given.volume() ) ) {
+        if( !p.can_pickVolume( given ) ) {
             const int free_space = p.volume_capacity() - p.volume_carried();
             reason << std::endl;
             reason << string_format( _("I have no space to store it.") );
@@ -4585,7 +4557,7 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
                 reason << string_format( _("...or to store anything else for that matter.") );
             }
         }
-        if( !p.can_pickWeight( given.weight() ) ) {
+        if( !p.can_pickWeight( given ) ) {
             reason << std::endl;
             reason << string_format( _("It is too heavy for me to carry.") );
         }

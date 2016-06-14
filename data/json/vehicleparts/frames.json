@@ -1,5 +1,39 @@
 [
   {
+    "id": "folding_frame",
+    "type": "vehicle_part",
+    "name": "foldable light frame",
+    "item": "foldframe",
+    "location": "structure",
+    "symbol": "h",
+    "durability": 50,
+    "difficulty": 2,
+    "folded_volume": 10,
+    "breaks_into": [
+      { "item": "steel_chunk", "count": [ 0, 2 ] },
+      { "item": "scrap", "count": [ 1, 2 ] }
+    ],
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
+  },
+  {
+    "id": "folding_wooden_frame",
+    "type": "vehicle_part",
+    "name": "foldable wooden frame",
+    "item": "foldwoodframe",
+    "location": "structure",
+    "symbol": "h",
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 15,
+    "difficulty": 2,
+    "folded_volume": 15,
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE", "NAILABLE" ],
+    "breaks_into": [
+      { "item": "splinter", "count": [ 0, 6 ] },
+      { "item": "nail", "charges": [ 1, 15 ] }
+    ]
+  },
+  {
     "abstract": "frame",
     "type": "vehicle_part",
     "name": "frame",
@@ -8,7 +42,7 @@
     "durability": 400,
     "difficulty": 1,
     "breaks_into": "ig_vp_frame",
-    "flags" : [ "MOUNTABLE" ]
+    "flags": [ "MOUNTABLE" ]
   },
   {
     "abstract": "frame_wood",
@@ -27,6 +61,22 @@
     "flags": [ "NAILABLE" ]
   },
   {
+    "abstract": "frame_wood_light",
+    "type": "vehicle_part",
+    "name": "light wooden frame",
+    "item": "frame_wood_light",
+    "location": "structure",
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 100,
+    "difficulty": 0,
+    "breaks_into": [
+      { "item": "splinter", "count": [ 3, 5 ] },
+      { "item": "string_36", "count": [ 10, 15 ] }
+    ],
+    "flags": [ "NAILABLE" ]
+  },
+  {
     "abstract": "hdframe",
     "type": "vehicle_part",
     "name": "heavy duty frame",
@@ -36,6 +86,18 @@
     "durability": 1600,
     "difficulty": 1,
     "breaks_into": "ig_vp_hdframe",
+    "flags": [ "MOUNTABLE" ]
+  },
+  {
+    "abstract": "xlframe",
+    "type": "vehicle_part",
+    "name": "extra light frame",
+    "item": "xlframe",
+    "location": "structure",
+    "color": "light_gray",
+    "durability": 150,
+    "difficulty": 1,
+    "breaks_into": "ig_vp_xlframe",
     "flags": [ "MOUNTABLE" ]
   },
   {
@@ -51,8 +113,20 @@
     "symbol": "^"
   },
   {
+    "id": "frame_wood_light_cover",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
     "id": "hdframe_cover",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "xlframe_cover",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "^"
   },
@@ -60,19 +134,36 @@
     "id": "frame_cross",
     "copy-from": "frame",
     "type": "vehicle_part",
-    "symbol": "c"
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
   },
   {
     "id": "frame_wood_cross",
     "copy-from": "frame_wood",
     "type": "vehicle_part",
-    "symbol": "c"
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_wood_light_cross",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
   },
   {
     "id": "hdframe_cross",
     "copy-from": "hdframe",
     "type": "vehicle_part",
-    "symbol": "c"
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "xlframe_cross",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
   },
   {
     "id": "frame_horizontal",
@@ -87,8 +178,20 @@
     "symbol": "h"
   },
   {
+    "id": "frame_wood_light_horizontal",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
     "id": "hdframe_horizontal",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_horizontal",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "h"
   },
@@ -105,8 +208,20 @@
     "symbol": "="
   },
   {
+    "id": "frame_wood_light_horizontal_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
     "id": "hdframe_horizontal_2",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlframe_horizontal_2",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "="
   },
@@ -123,8 +238,20 @@
     "symbol": "u"
   },
   {
+    "id": "frame_wood_light_ne",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
     "id": "hdframe_ne",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "xlframe_ne",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "u"
   },
@@ -141,8 +268,20 @@
     "symbol": "y"
   },
   {
+    "id": "frame_wood_light_nw",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
     "id": "hdframe_nw",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "xlframe_nw",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "y"
   },
@@ -159,8 +298,20 @@
     "symbol": "n"
   },
   {
+    "id": "frame_wood_light_se",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
     "id": "hdframe_se",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "xlframe_se",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "n"
   },
@@ -177,8 +328,20 @@
     "symbol": "b"
   },
   {
+    "id": "frame_wood_light_sw",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "hdframe_sw",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "xlframe_sw",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "b"
   },
@@ -195,8 +358,20 @@
     "symbol": "j"
   },
   {
+    "id": "frame_wood_light_vertical",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
     "id": "hdframe_vertical",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "xlframe_vertical",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "j"
   },
@@ -213,8 +388,20 @@
     "symbol": "H"
   },
   {
+    "id": "frame_wood_light_vertical_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
     "id": "hdframe_vertical_2",
     "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "xlframe_vertical_2",
+    "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "H"
   }

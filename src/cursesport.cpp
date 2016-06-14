@@ -31,7 +31,7 @@
 
 WINDOW *mainwin;
 WINDOW *stdscr;
-pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
+std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
 
 //***********************************

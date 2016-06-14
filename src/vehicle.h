@@ -61,13 +61,6 @@ enum veh_coll_type : int {
     num_veh_coll_types
 };
 
-// Saved to file as int, so values should not change
-enum turret_mode_type : int {
-    turret_mode_off = 0,
-    turret_mode_autotarget = 1,
-    turret_mode_manual = 2
-};
-
 // Describes turret's ability to fire (possibly at a particular target)
 enum turret_fire_ability {
     turret_all_ok,
@@ -174,6 +167,12 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Try to set fault returning false if specified fault cannot occur with this item */
     bool fault_set( const fault_id &f );
 
+    /** Get wheel diameter (inches) or return 0 if part is not wheel */
+    int wheel_diameter() const;
+
+    /** Get wheel width (inches) or return 0 if part is not wheel */
+    int wheel_width() const;
+
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */
     point mount;
@@ -183,7 +182,6 @@ public:
 
     int hp           = 0;         // current durability, if 0, then broken
     int blood        = 0;         // how much blood covers part (in turns).
-    int bigness      = 0;         // size of engine, wheel radius, translates to item properties.
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
@@ -193,7 +191,6 @@ public:
 
     bool open = false;            // door is open
     int direction = 0;            // direction the part is facing
-    int mode = 0;                 // turret mode
 
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
@@ -204,8 +201,6 @@ private:
     vpart_id id;         // id in map of parts (vehicle_part_types key)
     item base;
     std::list<item> items; // inventory
-
-    int amount = 0; // amount of fuel for tank/charge in battery
 
 public:
     const vpart_str_id &get_id() const;
@@ -219,8 +214,7 @@ public:
 
     /**
      * Generate the corresponding item from this vehicle part. It includes
-     * the hp (item damage), fuel charges (battery or liquids), bigness
-     * aspect, ...
+     * the hp (item damage), fuel charges (battery or liquids), aspect, ...
      */
     item properties_to_item() const;
 };
@@ -401,7 +395,7 @@ private:
 public:
     vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
     vehicle();
-    ~vehicle ();
+    ~vehicle () override;
 
     // check if given player controls this vehicle
     bool player_in_control(player const &p) const;
@@ -708,6 +702,9 @@ public:
     // <0 means there is no steering installed at all.
     float steering_effectiveness() const;
 
+    /** Returns roughly driving skill level at which there is no chance of fumbling. */
+    float handling_difficulty() const;
+
     // idle fuel consumption
     void idle(bool on_map = true);
     // continuous processing for running vehicle alarms
@@ -796,9 +793,7 @@ public:
     void shed_loose_parts();
 
     // Gets range of part p if it's a turret
-    // If `manual` is true, gets the real item range (gun+ammo range)
-    // otherwise gets part range (as in json)
-    int get_turret_range( int p, bool manual = true );
+    int get_turret_range( int p );
 
     // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
     // Does not handle tags like FIRE_100
@@ -813,16 +808,11 @@ public:
     std::map< int, turret_fire_ability > turrets_can_shoot( const tripoint &pos );
     turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
 
-    // Cycle mode for this turret
-    // If `from_controls` is false, only manual modes are allowed
-    // and message describing the new mode is printed
-    void cycle_turret_mode( int p, bool from_controls );
+    /** Set targeting mode for specific turrets */
+    void turrets_set_targeting();
 
-    // Per-turret mode selection
-    void control_turrets();
-
-    // Cycle through available turret modes
-    void cycle_global_turret_mode();
+    /** Set firing mode for specific turrets */
+    void turrets_set_mode();
 
     // Set up the turret to fire
     bool fire_turret( int p, bool manual );
@@ -902,6 +892,8 @@ public:
     //normalized vectors, from tilerays face & move
     rl_vec2d face_vec() const;
     rl_vec2d move_vec() const;
+    // As above, but calculated for the actually used variable `dir`
+    rl_vec2d dir_vec() const;
     void on_move();
     /**
      * Update the submap coordinates smx, smy, and update the tracker info in the overmap
@@ -994,8 +986,6 @@ public:
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
-
-    int turret_mode = 0;    // turret firing mode: 0 = off, 1 = burst fire
 
     int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
     int overhead_epower     = 0; // total power of components with CIRCLE_LIGHT flag

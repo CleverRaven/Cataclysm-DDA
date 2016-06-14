@@ -189,7 +189,6 @@
     "bashing": 5,
     "cutting": 3,
     "to_hit": -1,
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 6], ["SAW_W", 1], ["AXE", 1], ["HAMMER", 1]],
     "flags": ["CHOP"]
   },{

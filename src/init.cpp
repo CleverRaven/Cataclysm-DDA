@@ -17,8 +17,6 @@
 #include "vehicle_group.h"
 #include "crafting.h"
 #include "crafting_gui.h"
-#include "computer.h"
-#include "help.h"
 #include "mapdata.h"
 #include "color.h"
 #include "trap.h"
@@ -52,6 +50,8 @@
 #include "sounds.h"
 #include "gates.h"
 #include "overlay_ordering.h"
+#include "worldfactory.h"
+#include "npc_class.h"
 
 #include <string>
 #include <vector>
@@ -110,8 +110,6 @@ void DynamicDataLoader::initialize()
     type_function_map["dream"] = new StaticFunctionAccessor(&load_dream);
     type_function_map["mutation_category"] = new StaticFunctionAccessor(&load_mutation_category);
     type_function_map["mutation"] = new StaticFunctionAccessor(&mutation_branch::load);
-    type_function_map["lab_note"] = new StaticFunctionAccessor(&computer::load_lab_note);
-    type_function_map["hint"] = new StaticFunctionAccessor(&load_hint);
     type_function_map["furniture"] = new StaticFunctionAccessor(&load_furniture);
     type_function_map["terrain"] = new StaticFunctionAccessor(&load_terrain);
     type_function_map["monstergroup"] = new StaticFunctionAccessor(
@@ -160,6 +158,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_container);
     type_function_map["ENGINE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_engine);
+    type_function_map["WHEEL"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_wheel);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_gunmod);
     type_function_map["MAGAZINE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -168,8 +168,6 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_generic);
     type_function_map["BIONIC_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_bionic);
-    type_function_map["VAR_VEH_PART"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_veh_part);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_category);
     type_function_map["MIGRATION"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -203,8 +201,7 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_item_blacklist);
     type_function_map["ITEM_WHITELIST"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_whitelist);
-
-    type_function_map[ "GAME_OPTION" ] = new ClassFunctionAccessor<game>( g, &game::load_game_option );
+    type_function_map["WORLD_OPTION"] = new StaticFunctionAccessor(&load_world_option);
 
     // ...unimplemented?
     type_function_map["INSTRUMENT"] = new StaticFunctionAccessor(&load_ingored_type);
@@ -217,6 +214,8 @@ void DynamicDataLoader::initialize()
         &faction::load_faction);
     type_function_map["npc"] = new StaticFunctionAccessor(
         &npc::load_npc);
+    type_function_map["npc_class"] = new StaticFunctionAccessor(
+        &npc_class::load_npc_class );
     type_function_map["talk_topic"] = new StaticFunctionAccessor(
         &load_talk_topic);
     type_function_map["epilogue"] = new StaticFunctionAccessor(
@@ -329,9 +328,7 @@ void DynamicDataLoader::unload_data()
     material_type::reset();
     profession::reset();
     Skill::reset();
-    computer::clear_lab_notes();
     dreams.clear();
-    clear_hints();
     // clear techniques, martial arts, and ma buffs
     clear_techniques_and_martial_arts();
     // Mission types are not loaded from json, but they depend on
@@ -366,7 +363,7 @@ void DynamicDataLoader::unload_data()
     scenario::reset();
     gates::reset();
     reset_overlay_ordering();
-    g->options.clear();
+    npc_class::reset_npc_classes();
 
     // TODO:
     //    NameGenerator::generator().clear_names();
@@ -390,6 +387,7 @@ void DynamicDataLoader::finalize_loaded_data()
     monfactions::finalize();
     finalize_recipes();
     finialize_martial_arts();
+    finalize_constructions();
     check_consistency();
 }
 
@@ -411,4 +409,5 @@ void DynamicDataLoader::check_consistency()
     ammunition_type::check_consistency();
     trap::check_consistency();
     check_bionics();
+    npc_class::check_consistency();
 }

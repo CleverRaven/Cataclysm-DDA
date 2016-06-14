@@ -627,6 +627,10 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act_, player *p )
                 if( g->m.ter_at( source_pos ).examine == &iexamine::gaspump ) {
                     add_msg( _( "With a clang and a shudder, the %s pump goes silent."),
                              liquid.type_name( 1 ).c_str() );
+                } else if( g->m.furn_at( source_pos ).examine == &iexamine::fvat_full ) {
+                    g->m.furn_set( source_pos, f_fvat_empty );
+                    add_msg( _( "You squeeze the last drops of %s from the vat." ),
+                             liquid.type_name( 1 ).c_str() );
                 }
                 act.type = ACT_NULL;
             }
@@ -1545,7 +1549,12 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     if( need_input ) {
         g->draw();
-        auto action_type = actor->default_action( fix );
+        const int level = p->get_skill_level( actor->used_skill );
+        auto action_type = actor->default_action( fix, level );
+        if( action_type == repair_item_actor::RT_NOTHING ) {
+            p->add_msg_if_player( _( "You won't learn anything more by doing that." ) );
+        }
+
         const auto chance = actor->repair_chance( *p, fix, action_type );
         if( chance.first <= 0.0f ) {
             action_type = repair_item_actor::RT_PRACTICE;

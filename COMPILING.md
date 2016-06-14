@@ -385,20 +385,16 @@ For localization support, pre-built binaries of `libintl` and `libiconv` can be 
 
 ### Configuration
 
-If your machine doesn't support AVX2 instruction set, edit file `msvc140/arch.props`, change
+If your machine doesn't support SSE2 instruction set, edit file `msvc140/common.props`, change
 
 ```
-<ClCompile>
-      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-</ClCompile>
+<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
 ```
 
 to
 
 ```
-<ClCompile>
-      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-</ClCompile>
+<EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
 ```
 
 ### Building

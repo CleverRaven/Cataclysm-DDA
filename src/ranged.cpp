@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <cmath>
+#include "cata_utility.h"
 #include "game.h"
 #include "map.h"
 #include "debug.h"
@@ -33,12 +34,13 @@ const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
 const skill_id skill_driving( "driving" );
+const skill_id skill_dodge( "dodge" );
 
 const efftype_id effect_on_roof( "on_roof" );
 const efftype_id effect_bounced( "bounced" );
 
 static projectile make_gun_projectile( const item &gun );
-int time_to_fire(player &p, const itype &firing);
+int time_to_fire( const Character &p, const itype &firing );
 static inline void eject_casing( player& p, item& weap );
 int recoil_add( player& p, const item& gun, int shot );
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
@@ -125,6 +127,11 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
     dealt_projectile_attack attack {
         proj_arg, nullptr, dealt_damage_instance(), source, missed_by
     };
+
+    if( source == target_arg ) { // No suicidal shots
+        debugmsg( "%s tried to commit suicide.", get_name().c_str() );
+        return attack;
+    }
 
     projectile &proj = attack.proj;
     const auto &proj_effects = proj.proj_effects;
@@ -626,7 +633,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Rescaling to use the same units as projectile_attack
     const double shot_dispersion = deviation * (.01 / 0.00021666666666666666);
-    static const std::vector<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
+    static const std::set<material_id> ferric = { material_id( "iron" ), material_id( "steel" ) };
 
     bool do_railgun = has_active_bionic("bio_railgun") &&
                       thrown.made_of_any( ferric );
@@ -1359,7 +1366,7 @@ static projectile make_gun_projectile( const item &gun ) {
     return proj;
 }
 
-int time_to_fire(player &p, const itype &firingt)
+int time_to_fire( const Character &p, const itype &firingt )
 {
     struct time_info_t {
         int min_time;  // absolute floor on the time taken to fire.
@@ -1660,5 +1667,119 @@ void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             }
         }
     }
+}
+
+double player::gun_value( const item &weap, long ammo ) const
+{
+    // TODO: Mods
+    // TODO: Allow using a specified type of ammo rather than default
+    if( weap.type->gun.get() == nullptr ) {
+        return 0.0;
+    }
+
+    if( ammo <= 0 ) {
+        return 0.0;
+    }
+
+    const islot_gun& gun = *weap.type->gun.get();
+    const itype_id ammo_type = weap.ammo_default( true );
+    const itype *def_ammo_i = ammo_type != "NULL" ?
+                              item::find_type( ammo_type ) :
+                              nullptr;
+    if( def_ammo_i != nullptr && def_ammo_i->ammo == nullptr ) {
+        debugmsg( "%s is default ammo for gun %s, but lacks ammo data",
+                  def_ammo_i->nname( ammo ).c_str(), weap.tname().c_str() );
+    }
+
+    float damage_factor = weap.gun_damage( false );
+    damage_factor += weap.gun_pierce( false ) / 2.0;
+
+    int total_dispersion = weap.gun_dispersion( false );
+    int total_recoil = weap.gun_recoil( false );
+
+    if( def_ammo_i != nullptr && def_ammo_i->ammo != nullptr ) {
+        const islot_ammo &def_ammo = *def_ammo_i->ammo;
+        damage_factor += def_ammo.damage;
+        damage_factor += def_ammo.pierce / 2;
+        total_dispersion += def_ammo.dispersion;
+        total_recoil += def_ammo.recoil;
+    }
+
+    total_dispersion += skill_dispersion( weap, false );
+    total_dispersion += weap.sight_dispersion( -1 );
+
+    int move_cost = time_to_fire( *this, *weap.type );
+    if( gun.clip != 0 && gun.clip < 10 ) {
+        // @todo RELOAD_ONE should get a penalty here
+        int reload_cost = gun.reload_time + encumb( bp_hand_l ) + encumb( bp_hand_r );
+        reload_cost /= gun.clip;
+        move_cost += reload_cost;
+    }
+
+    // "Medium range" below means 9 tiles, "short range" means 4
+    // Those are guarantees (assuming maximum time spent aiming)
+    static const std::vector<std::pair<float, float>> dispersion_thresholds = {{
+        // Headshots all the time
+        { 0.0f, 5.0f },
+        // Crit at medium range
+        { 100.0f, 4.5f },
+        // Crit at short range or good hit at medium
+        { 200.0f, 3.5f },
+        // OK hits at medium
+        { 300.0f, 3.0f },
+        // Point blank headshots
+        { 450.0f, 2.5f },
+        // OK hits at short
+        { 700.0f, 1.5f },
+        // Glances at medium, crits at point blank
+        { 1000.0f, 1.0f },
+        // Nothing guaranteed, pure gamble
+        { 2000.0f, 0.1f },
+    }};
+
+    static const std::vector<std::pair<float, float>> move_cost_thresholds = {{
+        { 10.0f, 4.0f },
+        { 25.0f, 3.0f },
+        { 100.0f, 1.0f },
+        { 500.0f, 5.0f },
+    }};
+
+    float move_cost_factor = multi_lerp( move_cost_thresholds, move_cost );
+
+    // Penalty for dodging in melee makes the gun unusable in melee
+    // Until NPCs get proper kiting, at least
+    int melee_penalty = weapon.volume() - get_skill_level( skill_dodge );
+    if( melee_penalty <= 0 ) {
+        // Dispersion matters less if you can just use the gun in melee
+        total_dispersion = std::min<int>(
+            ( total_dispersion + total_recoil ) / move_cost_factor,
+            total_dispersion );
+    }
+
+    float dispersion_factor = multi_lerp( dispersion_thresholds, total_dispersion );
+
+    float damage_and_accuracy = damage_factor * dispersion_factor;
+
+    // @todo Some better approximation of the ability to keep on shooting
+    static const std::vector<std::pair<float, float>> capacity_thresholds = {{
+        { 1.0f, 0.5f },
+        { 5.0f, 1.0f },
+        { 10.0f, 1.5f },
+        { 20.0f, 2.0f },
+        { 50.0f, 3.0f },
+    }};
+
+    // How much until reload
+    float capacity = gun.clip > 0 ? std::min<float>( gun.clip, ammo ) : ammo;
+    // How much until dry and a new weapon is needed
+    capacity += std::min<float>( 1.0, ammo / 20 );
+    float capacity_factor = multi_lerp( capacity_thresholds, capacity );
+
+    double gun_value = damage_and_accuracy * capacity_factor;
+
+    add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
+             weap.tname().c_str(), gun_value, dispersion_factor, damage_factor,
+             capacity_factor );
+    return std::max( 0.0, gun_value );
 }
 
