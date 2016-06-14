@@ -391,7 +391,7 @@ private:
 public:
     vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
     vehicle();
-    ~vehicle ();
+    ~vehicle () override;
 
     // check if given player controls this vehicle
     bool player_in_control(player const &p) const;

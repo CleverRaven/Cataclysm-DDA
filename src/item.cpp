@@ -4546,7 +4546,7 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     struct : public uimenu_callback {
         std::function<std::string( int )> draw_row;
 
-        bool key( int ch, int idx, uimenu * menu ) {
+        bool key( int ch, int idx, uimenu * menu ) override {
             auto& sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
             switch( ch ) {
                 case KEY_LEFT:

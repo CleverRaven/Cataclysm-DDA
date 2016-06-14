@@ -292,7 +292,7 @@ class iuse_function_wrapper : public iuse_actor
         iuse_function_wrapper( const std::string &type, const use_function_pointer f )
             : iuse_actor( type ), cpp_function( f ) { }
 
-        ~iuse_function_wrapper() = default;
+        ~iuse_function_wrapper() override = default;
         long use( player *p, item *it, bool a, const tripoint &pos ) const override {
             iuse tmp;
             return ( tmp.*cpp_function )( p, it, a, pos );
@@ -301,7 +301,7 @@ class iuse_function_wrapper : public iuse_actor
             return new iuse_function_wrapper( *this );
         }
 
-        void load( JsonObject & ) {}
+        void load( JsonObject & ) override {}
 };
 
 use_function::use_function( const std::string &type, const use_function_pointer f )

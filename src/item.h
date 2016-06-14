@@ -115,7 +115,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item() = default;
+        ~item() override = default;
 
         explicit item( const itype_id& id, int turn = -1, long qty = -1 );
         explicit item( const itype *type, int turn = -1, long qty = -1 );
