@@ -2487,7 +2487,7 @@ int item::precise_unit_volume() const
     return volume() * 1000;
 }
 
-int corpse_volume( m_size corpse_size )
+static int corpse_volume( m_size corpse_size )
 {
     switch( corpse_size ) {
         case MS_TINY:    return    3;
@@ -5195,7 +5195,7 @@ bool item::will_explode_in_fire() const
     }
 
     // Most containers do nothing to protect the contents from fire
-    if( type->magazine == nullptr || !type->magazine->protects_contents ) {
+    if( !is_magazine() || !type->magazine->protects_contents ) {
         return std::any_of( contents.begin(), contents.end(), []( const item &it ) {
             return it.will_explode_in_fire();
         });
