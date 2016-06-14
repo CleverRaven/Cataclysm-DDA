@@ -450,10 +450,18 @@ struct islot_ammo : common_ranged_data {
      */
     int loudness = -1;
 
-    /** Should this ammo explode in fire? */
+    /**
+     * Should this ammo explode in fire?
+     * This value is cached by item_factory based on ammo_effects and item material.
+     * It is not read from the json directly.
+     */
     bool cookoff = false;
 
-    /** Should this ammo apply a special explosion effect when in fire? */
+    /**
+     * Should this ammo apply a special explosion effect when in fire?
+     * This value is cached by item_factory based on ammo_effects and item material.
+     * It is not read from the json directly.
+     * */
     bool special_cookoff = false;
 };
 

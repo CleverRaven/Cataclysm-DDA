@@ -2487,6 +2487,19 @@ int item::precise_unit_volume() const
     return volume() * 1000;
 }
 
+int corpse_volume( m_size corpse_size )
+{
+    switch( corpse_size ) {
+        case MS_TINY:    return    3;
+        case MS_SMALL:   return  120;
+        case MS_MEDIUM:  return  250;
+        case MS_LARGE:   return  370;
+        case MS_HUGE:    return 3500;
+    }
+    debugmsg( "unknown monster size for corpse" );
+    return 0;
+}
+
 int item::base_volume() const
 {
     if( is_null() ) {
@@ -2494,15 +2507,7 @@ int item::base_volume() const
     }
 
     if( is_corpse() ) {
-        switch( corpse->size ) {
-            case MS_TINY:    return    3;
-            case MS_SMALL:   return  120;
-            case MS_MEDIUM:  return  250;
-            case MS_LARGE:   return  370;
-            case MS_HUGE:    return 3500;
-        }
-        debugmsg( "unknown monster size for corpse" );
-        return 0;
+        return corpse_volume( corpse->size );
     }
 
     return type->volume;
@@ -2515,15 +2520,7 @@ int item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        switch( corpse->size ) {
-            case MS_TINY:    return    3;
-            case MS_SMALL:   return  120;
-            case MS_MEDIUM:  return  250;
-            case MS_LARGE:   return  370;
-            case MS_HUGE:    return 3500;
-        }
-        debugmsg( "unknown monster size for corpse" );
-        return 0;
+        return corpse_volume( corpse->size );
     }
 
     int ret = get_var( "volume", integral ? type->integral_volume : type->volume );
@@ -5199,7 +5196,7 @@ bool item::will_explode_in_fire() const
 
     // Most containers do nothing to protect the contents from fire
     if( type->magazine == nullptr || !type->magazine->protects_contents ) {
-        return any_of( contents.begin(), contents.end(), []( const item &it ) {
+        return std::any_of( contents.begin(), contents.end(), []( const item &it ) {
             return it.will_explode_in_fire();
         });
     }

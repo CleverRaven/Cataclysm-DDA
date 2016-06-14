@@ -55,11 +55,11 @@ material_type::material_type()
 mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {
     mat_burn_data bd;
-    bd.immune = jsobj.get_bool( "immune", false );
-    bd.fuel = jsobj.get_int( "fuel", 0 );
-    bd.smoke = jsobj.get_int( "smoke", 0 );
-    bd.burn = jsobj.get_int( "burn", 0 );
-    bd.chance_in_volume = jsobj.get_int( "chance", 0 );
+    bd.immune = jsobj.get_bool( "immune", bd.immune );
+    bd.fuel = jsobj.get_int( "fuel", bd.fuel );
+    bd.smoke = jsobj.get_int( "smoke", bd.smoke );
+    bd.burn = jsobj.get_int( "burn", bd.burn );
+    bd.chance_in_volume = jsobj.get_int( "chance", bd.chance_in_volume );
     return bd;
 }
 
@@ -103,7 +103,12 @@ void material_type::load_material( JsonObject &jsobj )
         } else {
             // If not specified, supply default
             bool flammable = mat._fire_resist <= ( int )intensity;
-            mat._burn_data[ intensity ] = mat_burn_data{ false, 0, 0, 0, flammable ? 1 : 0 };
+            mat_burn_data mbd;
+            if( flammable ) {
+                mbd.burn = 1;
+            }
+
+            mat._burn_data[ intensity ] = mbd;
         }
     }
 
