@@ -25,14 +25,14 @@ std::vector<vehicle_part *> vehicle::turrets()
     return res;
 }
 
-std::vector<vehicle_part *> vehicle::turrets( const tripoint &pos )
+std::vector<vehicle_part *> vehicle::turrets( const tripoint &target )
 {
     std::vector<vehicle_part *> res = turrets();
 
     // exclude turrets not ready to fire or where target is out of range
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const vehicle_part * e ) {
         return turret_query( *e ) != turret_status::ready ||
-               rl_dist( global_part_pos3( *e ), pos ) > e->base.gun_range();
+               rl_dist( global_part_pos3( *e ), target ) > e->base.gun_range();
     } ), res.end() );
 
     return res;

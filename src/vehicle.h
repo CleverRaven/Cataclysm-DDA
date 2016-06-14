@@ -791,8 +791,8 @@ public:
     /** Get all vehicle turrets (excluding any that are destroyed) */
     std::vector<vehicle_part *> turrets();
 
-    /** Get all vehicle turrets loaded and ready to fire at @ref pos */
-    std::vector<vehicle_part *> turrets( const tripoint &pos );
+    /** Get all vehicle turrets loaded and ready to fire at @ref target */
+    std::vector<vehicle_part *> turrets( const tripoint &target );
 
     enum class turret_status {
         ready,
