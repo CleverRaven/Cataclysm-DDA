@@ -369,8 +369,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     bool has_no_key = false;
     bool destroyAlarm = false;
 
-    std::map<vpart_id, int> consistent_bignesses;
-
     // More realistically it should be -5 days old
     last_update_turn = 0;
 
@@ -473,15 +471,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
     int blood_inside_x = 0;
     int blood_inside_y = 0;
     for( size_t p = 0; p < parts.size(); p++ ) {
-        if( part_flag(p, "VARIABLE_SIZE") ) { // generate its bigness attribute.?
-            const vpart_info &vpinfo = parts[p].info();
-            if( consistent_bignesses.count( vpinfo.id ) < 1 ) {
-                //generate an item for this type, & cache its bigness
-                item tmp (vpinfo.item, 0);
-                consistent_bignesses[vpinfo.id] = tmp.bigness;
-            }
-            parts[p].bigness = consistent_bignesses[vpinfo.id];
-        }
         if( part_flag( p, "REACTOR" ) ) {
             // De-hardcoded reactors. Should always start active
             reactor_on = true;
@@ -1395,7 +1384,7 @@ bool vehicle::fold_up() {
     unboard_all();
 
     // Store data of all parts, iuse::unfold_bicyle only loads
-    // some of them (like bigness), some are expect to be
+    // some of them, some are expect to be
     // vehicle specific and therefor constant (like id, mount).
     // Writing everything here is easier to manage, as only
     // iuse::unfold_bicyle has to adopt to changes.
@@ -3370,10 +3359,9 @@ float vehicle::wheels_area (int *const cnt) const
     const auto &wheel_indices = wheelcache;
     for( auto &wheel_indice : wheel_indices ) {
         int p = wheel_indice;
-        int width = part_info(p).wheel_width;
-        int bigness = parts[p].bigness;
+        int width = parts[ p ].wheel_width();
         // 9 inches, for reference, is about normal for cars.
-        total_area += ((float)width / 9) * bigness;
+        total_area += ((float)width / 9) * parts[ p ].wheel_diameter();
         count++;
     }
     if (cnt) {
@@ -5347,7 +5335,8 @@ void vehicle::refresh_pivot() const {
     for (int p : wheelcache) {
         const auto &wheel = parts[p];
 
-        float contact_area = wheel.info().wheel_width * wheel.bigness;        // todo: load on tyre?
+        // @todo: load on tyre?
+        float contact_area = wheel.wheel_width() * wheel.wheel_diameter();
         float weight_i;  // weighting for the in-line part
         float weight_p;  // weighting for the perpendicular part
         if (wheel.hp <= 0) {
@@ -6126,10 +6115,6 @@ vehicle_part::vehicle_part( const vpart_str_id& str, int const dx, int const dy,
                   vp.item.c_str(), base.typeId().c_str() );
     }
 
-    if( base.is_var_veh_part() ) {
-        bigness = base.bigness;
-    }
-
     // item damage is [ 0..MAX_ITEM_DAMAGE ] whereas part hp is [ 1..durability ]
     int health = ( MAX_ITEM_DAMAGE + 1 ) - base.damage;
     health *= vp.durability; // [ 0, durability ]
@@ -6178,8 +6163,8 @@ std::string vehicle_part::name() const {
     if( base.engine_displacement() > 0 ) {
         res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
 
-    } else if( has_flag( VPFLAG_VARIABLE_SIZE ) && has_flag( VPFLAG_WHEEL ) ) {
-        res.insert( 0, string_format( _( "%d\"" ), bigness ) );
+    } else if( wheel_diameter() > 0 ) {
+        res.insert( 0, string_format( _( "%d\" " ), wheel_diameter() ) );
     }
 
     if( base.is_faulty() ) {
@@ -6301,6 +6286,18 @@ bool vehicle_part::fault_set( const fault_id &f )
     }
     base.faults.insert( f );
     return true;
+}
+
+/** Get wheel diameter (inches) or return 0 if part is not wheel */
+int vehicle_part::wheel_diameter() const
+{
+    return base.is_wheel() ? base.type->wheel->diameter : 0;
+}
+
+/** Get wheel width (inches) or return 0 if part is not wheel */
+int vehicle_part::wheel_width() const
+{
+    return base.is_wheel() ? base.type->wheel->width : 0;
 }
 
 const vpart_info &vehicle_part::info() const

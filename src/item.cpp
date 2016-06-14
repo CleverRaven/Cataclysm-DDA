@@ -152,9 +152,6 @@ item::item( const itype *type, int turn, long qty ) : type( type )
         set_var( "magazine_converted", true );
     }
 
-    if( type->variable_bigness ) {
-        bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
-    }
     if( !type->snippet_category.empty() ) {
         note = SNIPPET.assign( type->snippet_category );
     }
@@ -467,9 +464,6 @@ bool item::stacks_with( const item &rhs ) const
         return false;
     }
     if( corpse != nullptr && rhs.corpse != nullptr && corpse->id != rhs.corpse->id ) {
-        return false;
-    }
-    if( is_var_veh_part() && bigness != rhs.bigness ) {
         return false;
     }
     if( contents.size() != rhs.contents.size() ) {
@@ -2184,13 +2178,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     if( is_engine() && engine_displacement() > 0 ) {
         vehtext = rmp_format( _( "<veh_adj>%2.1fL " ), engine_displacement() / 100.0f );
 
-    } else if( is_var_veh_part() ) {
-        switch( type->variable_bigness->bigness_aspect ) {
-            case BIGNESS_WHEEL_DIAMETER:
-                //~ inches, e.g. 20" wheel
-                vehtext = rmp_format( _( "<veh_adj>%d\" " ), bigness );
-                break;
-        }
+    } else if( is_wheel() && type->wheel->diameter > 0 ) {
+        vehtext = rmp_format( _( "<veh_adj>%d\" " ), type->wheel->diameter );
     }
 
     std::string burntext = "";
@@ -3290,11 +3279,6 @@ bool item::destroyed_at_zero_charges() const
     return (is_ammo() || is_food());
 }
 
-bool item::is_var_veh_part() const
-{
-    return type->variable_bigness.get() != nullptr;
-}
-
 bool item::is_gun() const
 {
     return type->gun.get() != nullptr;
@@ -3492,6 +3476,11 @@ bool item::is_bucket_nonempty() const
 bool item::is_engine() const
 {
     return type->engine.get() != nullptr;
+}
+
+bool item::is_wheel() const
+{
+    return type->wheel.get() != nullptr;
 }
 
 bool item::is_faulty() const
@@ -4546,7 +4535,7 @@ item::reload_option item::pick_reload_ammo( player &u, bool prompt ) const
     struct : public uimenu_callback {
         std::function<std::string( int )> draw_row;
 
-        bool key( int ch, int idx, uimenu * menu ) {
+        bool key( int ch, int idx, uimenu * menu ) override {
             auto& sel = static_cast<std::vector<reload_option> *>( myptr )->operator[]( idx );
             switch( ch ) {
                 case KEY_LEFT:

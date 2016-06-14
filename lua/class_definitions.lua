@@ -861,7 +861,6 @@ classes = {
         attributes = {
             active = { type = "bool", writable = true },
             bday = { type = "int", writable = true },
-            bigness = { type = "int", writable = true },
             burnt = { type = "int", writable = true },
             charges = { type = "int", writable = true },
             damage = { type = "int", writable = true },
@@ -1019,7 +1018,6 @@ classes = {
             { name = "is_tool", rval = "bool", args = { } },
             { name = "is_tool_reversible", rval = "bool", args = { } },
             { name = "is_two_handed", rval = "bool", args = { "player" } },
-            { name = "is_var_veh_part", rval = "bool", args = { } },
             { name = "is_watertight_container", rval = "bool", args = { } },
             { name = "is_weap", rval = "bool", args = { } },
             { name = "label", rval = "string", args = { } },

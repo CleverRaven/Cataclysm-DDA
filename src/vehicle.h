@@ -158,6 +158,12 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Try to set fault returning false if specified fault cannot occur with this item */
     bool fault_set( const fault_id &f );
 
+    /** Get wheel diameter (inches) or return 0 if part is not wheel */
+    int wheel_diameter() const;
+
+    /** Get wheel width (inches) or return 0 if part is not wheel */
+    int wheel_width() const;
+
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */
     point mount;
@@ -167,7 +173,6 @@ public:
 
     int hp           = 0;         // current durability, if 0, then broken
     int blood        = 0;         // how much blood covers part (in turns).
-    int bigness      = 0;         // size of engine, wheel radius, translates to item properties.
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
@@ -200,8 +205,7 @@ public:
 
     /**
      * Generate the corresponding item from this vehicle part. It includes
-     * the hp (item damage), fuel charges (battery or liquids), bigness
-     * aspect, ...
+     * the hp (item damage), fuel charges (battery or liquids), aspect, ...
      */
     item properties_to_item() const;
 };
@@ -382,7 +386,7 @@ private:
 public:
     vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
     vehicle();
-    ~vehicle ();
+    ~vehicle () override;
 
     // check if given player controls this vehicle
     bool player_in_control(player const &p) const;

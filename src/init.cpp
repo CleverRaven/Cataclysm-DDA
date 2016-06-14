@@ -158,6 +158,8 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_container);
     type_function_map["ENGINE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_engine);
+    type_function_map["WHEEL"] = new ClassFunctionAccessor<Item_factory>(item_controller,
+            &Item_factory::load_wheel);
     type_function_map["GUNMOD"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_gunmod);
     type_function_map["MAGAZINE"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -166,8 +168,6 @@ void DynamicDataLoader::initialize()
             &Item_factory::load_generic);
     type_function_map["BIONIC_ITEM"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_bionic);
-    type_function_map["VAR_VEH_PART"] = new ClassFunctionAccessor<Item_factory>(item_controller,
-            &Item_factory::load_veh_part);
     type_function_map["ITEM_CATEGORY"] = new ClassFunctionAccessor<Item_factory>(item_controller,
             &Item_factory::load_item_category);
     type_function_map["MIGRATION"] = new ClassFunctionAccessor<Item_factory>(item_controller,

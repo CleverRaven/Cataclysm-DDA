@@ -115,7 +115,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item() = default;
+        ~item() override = default;
 
         explicit item( const itype_id& id, int turn = -1, long qty = -1 );
         explicit item( const itype *type, int turn = -1, long qty = -1 );
@@ -734,6 +734,7 @@ public:
 
     bool is_brewable() const;
     bool is_engine() const;
+    bool is_wheel() const;
 
     bool is_faulty() const;
 
@@ -1424,7 +1425,6 @@ public:
     int burnt = 0;           // How badly we're burnt
     int bday;                // The turn on which it was created
     int poison = 0;          // How badly poisoned is it?
-    int bigness = 0;         // engine power, wheel size
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.
     int irridation = 0;      // Tracks radiation dosage.

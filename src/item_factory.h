@@ -149,11 +149,11 @@ class Item_factory
         void load_comestible( JsonObject &jo );
         void load_container( JsonObject &jo );
         void load_engine( JsonObject &jo );
+        void load_wheel( JsonObject &jo );
         void load_gunmod( JsonObject &jo );
         void load_magazine( JsonObject &jo );
         void load_generic( JsonObject &jo );
         void load_bionic( JsonObject &jo );
-        void load_veh_part( JsonObject &jo );
         /*@}*/
 
         /** called after all JSON has been read and performs any necessary cleanup tasks */
@@ -299,10 +299,10 @@ class Item_factory
         void load( islot_armor &slot, JsonObject &jo );
         void load( islot_book &slot, JsonObject &jo );
         void load( islot_engine &slot, JsonObject &jo );
+        void load( islot_wheel &slot, JsonObject &jo );
         void load( islot_gun &slot, JsonObject &jo );
         void load( islot_gunmod &slot, JsonObject &jo );
         void load( islot_magazine &slot, JsonObject &jo );
-        void load( islot_variable_bigness &slot, JsonObject &jo );
         void load( islot_bionic &slot, JsonObject &jo );
         void load( islot_spawn &slot, JsonObject &jo );
         void load( islot_ammo &slot, JsonObject &jo );

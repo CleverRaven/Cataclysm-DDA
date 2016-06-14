@@ -292,7 +292,7 @@ class iuse_function_wrapper : public iuse_actor
         iuse_function_wrapper( const std::string &type, const use_function_pointer f )
             : iuse_actor( type ), cpp_function( f ) { }
 
-        ~iuse_function_wrapper() = default;
+        ~iuse_function_wrapper() override = default;
         long use( player *p, item *it, bool a, const tripoint &pos ) const override {
             iuse tmp;
             return ( tmp.*cpp_function )( p, it, a, pos );
@@ -301,7 +301,7 @@ class iuse_function_wrapper : public iuse_actor
             return new iuse_function_wrapper( *this );
         }
 
-        void load( JsonObject & ) {}
+        void load( JsonObject & ) override {}
 };
 
 use_function::use_function( const std::string &type, const use_function_pointer f )
@@ -962,6 +962,21 @@ void Item_factory::load_engine( JsonObject &jo )
     }
 }
 
+void Item_factory::load( islot_wheel &slot, JsonObject &jo )
+{
+    assign( jo, "diameter", slot.diameter );
+    assign( jo, "width", slot.width );
+}
+
+void Item_factory::load_wheel( JsonObject &jo )
+{
+    auto def = load_definition( jo );
+    if( def) {
+        load_slot( def->wheel, jo );
+        load_basic_info( jo, def );
+    }
+}
+
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     if( jo.has_member( "burst" ) && jo.has_member( "modes" ) ) {
@@ -1319,25 +1334,6 @@ void Item_factory::load_bionic( JsonObject &jo )
 {
     itype *new_item_template = new itype();
     load_slot( new_item_template->bionic, jo );
-    load_basic_info( jo, new_item_template );
-}
-
-void Item_factory::load( islot_variable_bigness &slot, JsonObject &jo )
-{
-    slot.min_bigness = jo.get_int( "min-bigness" );
-    slot.max_bigness = jo.get_int( "max-bigness" );
-    const std::string big_aspect = jo.get_string( "bigness-aspect" );
-    if( big_aspect == "WHEEL_DIAMETER" ) {
-        slot.bigness_aspect = BIGNESS_WHEEL_DIAMETER;
-    } else {
-        jo.throw_error( "invalid bigness-aspect", "bigness-aspect" );
-    }
-}
-
-void Item_factory::load_veh_part(JsonObject &jo)
-{
-    itype *new_item_template = new itype();
-    load_slot( new_item_template->variable_bigness, jo );
     load_basic_info( jo, new_item_template );
 }
 
@@ -1896,7 +1892,8 @@ void Item_factory::set_uses_from_object(JsonObject &obj, std::map<std::string, u
 
     use_function method;
     if( type == "repair_item" ) {
-        method = use_function( new repair_item_actor( obj.get_string( "item_action_type" ) ) );
+        type = obj.get_string( "item_action_type" );
+        method = use_function( new repair_item_actor( type ) );
     } else {
         method = use_from_string( type );
     }

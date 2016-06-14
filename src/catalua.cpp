@@ -750,7 +750,7 @@ private:
     int lua_function;
 public:
     lua_iuse_wrapper( const int f, const std::string &type ) : iuse_actor( type ), lua_function( f ) {}
-    ~lua_iuse_wrapper() = default;
+    ~lua_iuse_wrapper() override = default;
     long use( player *, item *it, bool a, const tripoint &pos ) const override {
         // We'll be using lua_state a lot!
         lua_State * const L = lua_state;
@@ -792,7 +792,7 @@ public:
         return new lua_iuse_wrapper( *this );
     }
 
-    void load( JsonObject & ) {}
+    void load( JsonObject & ) override {}
 };
 
 // iuse abstraction to make iuse's both in lua and C++ possible
