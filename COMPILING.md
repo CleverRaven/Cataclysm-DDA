@@ -369,11 +369,11 @@ Open Terminal's preferences, turn on "Use bright colors for bold text" in "Prefe
 
 ## Visual Studio Guide
 
-MSVC 13 and earlier versions are likely unable to build Cataclysm, so we recommend you to use Visual Studio 2015. Project files are in `msvc140/` directory.
+Visual Studio 2015 is required to build Cataclysm. We created solution and project files in directory `msvc-full-features`. Because of the complexity and how troublesome defining every combination of build feature options are, in Visual Studio project we added all build features, including tiles, sound, localization and lua.
 
 ### Dependencies
 
-For tiles support, the following 3 libraries need to be downloaded and installed:
+For tiles and sound support, the following 3 libraries need to be downloaded and installed:
 
 [http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip](http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip)
 
@@ -381,21 +381,9 @@ For tiles support, the following 3 libraries need to be downloaded and installed
 
 [http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip](http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip)
 
-For localization support, pre-built binaries of `libintl` and `libiconv` can be obtained from GNOME FTP.
+For localization support, we recommend you to build `libintl` and `libiconv` by yourself. [https://github.com/kahrl/gettext-msvc](https://github.com/kahrl/gettext-msvc) might be useful.
 
-### Configuration
-
-If your machine doesn't support SSE2 instruction set, edit file `msvc140/common.props`, change
-
-```
-<EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
-```
-
-to
-
-```
-<EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
-```
+For lua support, we recommend you to build lua library by yourself.
 
 ### Building
 
