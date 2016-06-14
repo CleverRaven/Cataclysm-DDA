@@ -4829,8 +4829,8 @@ bool item::flammable() const
     }
 
     int flammability = 0;
-    for( const auto &mat : mats ) {
-        const auto &bd = mat->burn_data( 1 );
+    for( const auto &m : mats ) {
+        const auto &bd = m->burn_data( 1 );
         if( bd.immune ) {
             // Made to protect from fire
             return false;
