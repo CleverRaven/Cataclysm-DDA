@@ -476,6 +476,11 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             reactor_on = true;
         }
 
+        // By default turrets will not be automatically fired
+        if( parts[ p ].base.is_gun() ) {
+            parts[ p ].enabled = false;
+        }
+
         if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
             parts[ p ].ammo_set( parts[ p ].ammo_current(), parts[ p ].ammo_capacity() * veh_fuel_mult / 100 );
         }
