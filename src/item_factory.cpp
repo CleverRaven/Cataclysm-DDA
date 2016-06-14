@@ -129,9 +129,32 @@ void Item_factory::finalize() {
             }
         }
         // for ammo not specifying loudness (or an explicit zero) derive value from other properties
-        if( obj.ammo && obj.ammo->loudness < 0 ) {
-            obj.ammo->loudness = std::max( std::max( { obj.ammo->damage, obj.ammo->pierce, obj.ammo->range } ) * 3,
-                                           obj.ammo->recoil / 3 );
+        if( obj.ammo ) {
+            if( obj.ammo->loudness < 0 ) {
+                obj.ammo->loudness = std::max( std::max( { obj.ammo->damage, obj.ammo->pierce, obj.ammo->range } ) * 3,
+                                               obj.ammo->recoil / 3 );
+            }
+
+            const auto &mats = obj.materials;
+            if( std::find( mats.begin(), mats.end(), material_id( "hydrocarbons" ) ) == mats.end() &&
+                std::find( mats.begin(), mats.end(), material_id( "oil" ) ) == mats.end() ) {
+                const auto &ammo_effects = obj.ammo->ammo_effects;
+                obj.ammo->cookoff = ammo_effects.count( "INCENDIARY" ) > 0 ||
+                                    ammo_effects.count( "COOKOFF" ) > 0;
+                static const std::set<std::string> special_cookoff_tags = {{
+                    "NAPALM", "NAPALM_BIG",
+                    "EXPLOSIVE_SMALL", "EXPLOSIVE", "EXPLOSIVE_BIG", "EXPLOSIVE_HUGE",
+                    "TOXICGAS", "TEARGAS", "SMOKE", "SMOKE_BIG",
+                    "FRAG", "FLASHBANG"
+                }};
+                obj.ammo->special_cookoff = std::any_of( ammo_effects.begin(), ammo_effects.end(),
+                    []( const std::string &s ) {
+                        return special_cookoff_tags.count( s ) > 0;
+                    } );
+            } else {
+                obj.ammo->cookoff = false;
+                obj.ammo->special_cookoff = false;
+            }
         }
         if( obj.gun ) {
             // @todo add explicit action field to gun definitions

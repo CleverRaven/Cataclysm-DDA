@@ -2,6 +2,7 @@
 #define MATERIALS_H
 
 #include <string>
+#include <array>
 
 #include "game_constants.h"
 #include "damage.h" // damage_type
@@ -9,6 +10,7 @@
 #include "json.h"
 #include "string_id.h"
 #include "vitamin.h"
+#include "fire.h"
 
 class material_type;
 using material_id = string_id<material_type>;
@@ -33,6 +35,8 @@ class material_type
         bool _edible;
 
         std::map<vitamin_id, double> _vitamins;
+
+        std::array<mat_burn_data, MAX_FIELD_DENSITY> _burn_data;
 
     public:
         material_type();
@@ -64,6 +68,8 @@ class material_type
             auto iter = _vitamins.find( id );
             return iter != _vitamins.end() ? iter->second : 0;
         }
+
+        const mat_burn_data &burn_data( size_t intensity ) const;
 };
 
 #endif

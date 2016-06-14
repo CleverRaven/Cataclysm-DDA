@@ -2,6 +2,7 @@
 #include "map.h"
 #include "debug.h"
 #include "field.h"
+#include "fire.h"
 #include "game.h"
 #include "messages.h"
 #include "translations.h"
@@ -752,218 +753,50 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // We've got ter/furn cached, so let's use that
                         const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
                                                !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
-                        // Volume, Smoke generation probability, consumed items count
-                        int vol = 0, smoke = 0, consumed = 0;
+                        // Smoke generation probability, consumed items count
+                        int smoke = 0;
+                        int consumed = 0;
                         // How much time to add to the fire's life due to burned items/terrain/furniture
                         int time_added = 0;
                         // The huge indent below should probably be somehow moved away from here
                         // without forcing the function to use i_at( p ) for fires without items
                         if( !is_sealed && map_tile.get_item_count() > 0 ) {
                             auto items_here = i_at( p );
-                            // explosions will destroy items on this square, iterating
-                            // backwards makes sure that every item is visited.
+                            std::vector<item> new_content;
                             for( auto explosive = items_here.begin(); explosive != items_here.end(); ) {
-                                if( explosive->type->explode_in_fire ) {
-                                    // Make a copy and let the copy explode.
-                                    item tmp = *explosive;
-                                    i_rem( p, explosive );
-                                    tmp.detonate( p );
-                                    // Just restart from the beginning.
-                                    explosive = items_here.begin();
+                                if( explosive->will_explode_in_fire() ) {
+                                    // We need to make a copy because the iterator validity is not predictable
+                                    item copy = *explosive;
+                                    explosive = items_here.erase( explosive );
+                                    if( copy.detonate( p, new_content ) ) {
+                                        // Need to restart, iterators may not be valid
+                                        explosive = items_here.begin();
+                                    }
                                 } else {
                                     ++explosive;
                                 }
                             }
 
-                            std::vector<item> new_content;
-                            // Consume items as fuel to help us grow/last longer.
-                            bool destroyed = false; //Is the item destroyed?
+                            fire_data frd{ cur->getFieldDensity(), 0, 0 };
                             // The highest # of items this fire can remove in one turn
                             int max_consume = cur->getFieldDensity() * 2;
+
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
-                                // Stop when we hit the end of the item buffer OR we consumed
-                                // more than max_consume items
-                                destroyed = false;
-                                // Used to feed the fire based on volume of item burnt.
-                                vol = fuel->volume();
-                                const islot_ammo *ammo_type = nullptr; //Special case if its ammo.
-
-                                if( fuel->is_ammo() ) {
-                                    ammo_type = fuel->type->ammo.get();
-                                }
-                                // Types of ammo with special effects.
-                                bool cookoff = false;
-                                bool special = false;
-                                //Flame type ammo removed so gasoline isn't explosive, it just burns.
-                                if( ammo_type != nullptr &&
-                                    ( !fuel->made_of( material_id( "hydrocarbons" ) ) && !fuel->made_of( material_id( "oil" ) ) ) ) {
-                                    cookoff = ammo_type->ammo_effects.count("INCENDIARY") ||
-                                              ammo_type->ammo_effects.count("COOKOFF");
-                                    special = ammo_type->ammo_effects.count("FRAG") ||
-                                              ammo_type->ammo_effects.count("NAPALM") ||
-                                              ammo_type->ammo_effects.count("NAPALM_BIG") ||
-                                              ammo_type->ammo_effects.count("EXPLOSIVE_SMALL") ||
-                                              ammo_type->ammo_effects.count("EXPLOSIVE") ||
-                                              ammo_type->ammo_effects.count("EXPLOSIVE_BIG") ||
-                                              ammo_type->ammo_effects.count("EXPLOSIVE_HUGE") ||
-                                              ammo_type->ammo_effects.count("TOXICGAS") ||
-                                              ammo_type->ammo_effects.count("TEARGAS") ||
-                                              ammo_type->ammo_effects.count("SMOKE") ||
-                                              ammo_type->ammo_effects.count("SMOKE_BIG") ||
-                                              ammo_type->ammo_effects.count("FLASHBANG");
-                                }
-
-                                // How much more burnt the item will be,
-                                // should be a multiple of 'base_burn_amt'.
-                                int burn_amt = 0;
-                                // 'burn_amt' / 'base_burn_amt' == 1 to 'consumed',
-                                // Right now all materials are 1, except paper, which is 3
-                                // This means paper is consumed 3x as fast
-                                int base_burn_amt = 1;
-
-                                if( special || cookoff ) {
-                                    int charges_remaining = fuel->charges;
-                                    const long rounds_exploded = rng( 1, charges_remaining );
-                                    // Yank the exploding item off the map for the duration of the explosion
-                                    // so it doesn't blow itself up.
-                                    item temp_item = *fuel;
-                                    items_here.erase( fuel );
-                                    // cook off ammo instead of just burning it.
-                                    for(int j = 0; j < (rounds_exploded / 10) + 1; j++) {
-                                        if( cookoff ) {
-                                            // Ammo that cooks off, but doesn't have a
-                                            // large intrinsic effect blows up with half
-                                            // the ammos damage in force, for each bullet,
-                                            // just creating shrapnel.
-                                            g->explosion( p, ammo_type->damage / 2, 0.5f, false, 1 );
-                                        } else if( special ) {
-                                            // If it has a special effect just trigger it.
-                                            apply_ammo_effects( p, ammo_type->ammo_effects );
-                                        }
-                                    }
-                                    charges_remaining -= rounds_exploded;
-                                    if( charges_remaining > 0 ) {
-                                        temp_item.charges = charges_remaining;
-                                        items_here.push_back( temp_item );
-                                    }
-                                    // Can't find an easy way to handle reinserting the ammo into a potentially
-                                    // invalidated list and continuing iteration, so just bail out.
-                                    break;
-                                } else if( fuel->made_of( material_id( "paper" ) ) ) {
-                                    //paper items feed the fire moderately.
-                                    base_burn_amt = 3;
-                                    burn_amt = base_burn_amt * (max_consume - consumed);
-                                    if (cur->getFieldDensity() == 1) {
-                                        time_added += vol * 10;
-                                        time_added += (vol * 10) * (burn_amt / base_burn_amt);
-                                    }
-                                    if( vol >= 4 ) {
-                                        smoke++;    //Large paper items give chance to smoke.
-                                    }
-
-                                } else if( fuel->made_of( material_id( "wood" ) ) || fuel->made_of( material_id( "veggy" ) ) ) {
-                                    //Wood or vegy items burn slowly.
-                                    if (vol <= cur->getFieldDensity() * 10 ||
-                                        cur->getFieldDensity() == 3) {
-                                        // A single wood item will just maintain at the current level.
-                                        time_added += 1;
-                                        // ammo has more surface area, and burns quicker
-                                        if (one_in( (ammo_type != NULL) ? 25 : 50 )) {
-                                            burn_amt = cur->getFieldDensity();
-                                        }
-                                    } else if( fuel->burnt < cur->getFieldDensity() ) {
-                                        burn_amt = 1;
-                                    }
-                                    smoke++;
-
-                                } else if( (fuel->made_of( material_id( "cotton" ) ) || fuel->made_of( material_id( "wool" ) )) &&
-                                           !fuel->made_of( material_id( "nomex" ) ) ) {
-                                    //Cotton and wool moderately quickly but don't feed the fire much.
-                                    if( vol <= 5 || cur->getFieldDensity() > 1 ) {
-                                        time_added += 1;
-                                        burn_amt = cur->getFieldDensity();
-                                    } else if( x_in_y( cur->getFieldDensity(), fuel->burnt ) ) {
-                                        burn_amt = 1;
-                                    }
-                                    smoke++;
-
-                                } else if( fuel->made_of( material_id( "flesh" ) ) || fuel->made_of( material_id( "hflesh" ) ) ||
-                                           fuel->made_of( material_id( "iflesh" ) ) ) {
-                                    // Slow and smokey
-                                    if( one_in( vol / 25 / cur->getFieldDensity() ) ) {
-                                        time_added += 1;
-                                        burn_amt = cur->getFieldDensity();
-                                        smoke += 3 * cur->getFieldDensity();
-                                    } else if( x_in_y( cur->getFieldDensity(), fuel->burnt ) ) {
-                                        time_added += 1;
-                                        burn_amt = 1;
-                                        smoke++;
-                                    }
-
-                                } else if( fuel->made_of(LIQUID) ) {
-                                    // Lots of smoke if alcohol, and LOTS of fire fueling power
-                                    if( fuel->made_of( material_id( "hydrocarbons" ) ) ) {
-                                        time_added += 300;
-                                        smoke += 6;
-                                    } else if( fuel->made_of( material_id( "alcohol" ) ) && fuel->made_of().size() == 1 ) {
-                                        // Only strong alcohol for now
-                                        time_added += 250;
-                                        smoke += 1;
-                                    } else if( fuel->type->id == "lamp_oil" ) {
-                                        time_added += 300;
-                                        smoke += 3;
-                                    } else {
-                                        // kills a fire otherwise.
-                                        time_added += -rng(80 * vol, 300 * vol);
-                                        smoke++;
-                                    }
-                                    // burn_amt will get multiplied by stack size in item::burn
-                                    burn_amt = cur->getFieldDensity();
-
-                                } else if( fuel->made_of( material_id( "powder" ) ) ) {
-                                    // Any powder will fuel the fire as 100 times much as its volume
-                                    // but be immediately destroyed.
-                                    time_added += vol * 100;
-                                    destroyed = true;
-                                    smoke += 2;
-
-                                } else if( fuel->made_of( material_id( "plastic" ) ) && !fuel->made_of( material_id( "nomex" ) ) ) {
-                                    //Smokey material, doesn't fuel well.
-                                    smoke += 3;
-                                    if( fuel->burnt <= cur->getFieldDensity() * 2 ||
-                                        (cur->getFieldDensity() == 3 && one_in(vol)) ) {
-                                        burn_amt = cur->getFieldDensity();
-                                        if( one_in( fuel->burnt ) ) {
-                                            time_added += 1;
-                                        }
-                                    }
-                                } else if( !fuel->made_of( material_id( "nomex" ) ) ) {
-                                    // Generic materials, like bone, wheat or fruit
-                                    // Just damage and smoke, don't feed the fire
-                                    int best_res = 0;
-                                    for( auto mat : fuel->made_of_types() ) {
-                                        best_res = std::max( best_res, mat->fire_resist() );
-                                    }
-                                    if( best_res < cur->getFieldDensity() && one_in( fuel->volume() ) ) {
-                                        smoke++;
-                                        burn_amt = cur->getFieldDensity() - best_res;
-                                    }
-                                }
-                                if( !destroyed ) {
-                                    destroyed = fuel->burn( burn_amt );
-                                }
+                                
+                                bool destroyed = fuel->burn( p, frd, new_content );
 
                                 if( destroyed ) {
-                                    //If we decided the item was destroyed by fire, remove it.
-                                    new_content.insert( new_content.end(),
-                                                        fuel->contents.begin(), fuel->contents.end() );
+                                    // If we decided the item was destroyed by fire, remove it.
                                     fuel = items_here.erase( fuel );
+                                    consumed++;
                                 } else {
                                     ++fuel;
                                 }
                             }
 
                             spawn_items( p, new_content );
+                            smoke = frd.smoke_produced;
+                            time_added = frd.fuel_produced;
                         }
 
                         //Get the part of the vehicle in the fire.
@@ -974,9 +807,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         // If the flames are in a brazier, they're fully contained,
                         // so skip consuming terrain
-                        if( tr_brazier != trp &&
-                            !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) ) {
-
+                        const bool can_spread = tr_brazier != trp &&
+                                                !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+                        if( can_spread ) {
                             if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
                                 // Flames die quickly on water
                                 cur->setFieldAge( cur->getFieldAge() + MINUTES(4) );
@@ -1063,8 +896,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         int adjacent_fires = 0;
 
                         // If the flames are big, they contribute to adjacent flames
-                        if( tr_brazier != trp &&
-                            !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) ) {
+                        if( can_spread ) {
                             if( cur->getFieldDensity() > 1 && one_in( 3 ) ) {
                                 // Basically: Scan around for a spot,
                                 // if there is more fire there, make it bigger and give it some fuel.
@@ -1184,8 +1016,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             const auto &dsfrn = dst.get_furn_t();
                             // Allow weaker fires to spread occasionally
                             const int power = cur->getFieldDensity() + one_in( 5 );
-                            if( rng(1, 100) < spread_chance && tr_brazier != trp &&
-                                  !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) &&
+                            if( can_spread && rng(1, 100) < spread_chance &&
                                   (in_pit == (dster.id.id() == t_pit)) &&
                                   (
                                     (power >= 3 && cur->getFieldAge() < 0 && one_in( 20 ) ) ||

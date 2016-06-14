@@ -246,6 +246,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/coordinates.h
     ${CMAKE_SOURCE_DIR}/src/coordinate_conversions.h
     ${CMAKE_SOURCE_DIR}/src/field.h
+    ${CMAKE_SOURCE_DIR}/src/fire.h
     ${CMAKE_SOURCE_DIR}/src/monstergenerator.h
     ${CMAKE_SOURCE_DIR}/src/monfaction.h
     ${CMAKE_SOURCE_DIR}/src/event.h

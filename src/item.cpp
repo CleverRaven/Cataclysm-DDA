@@ -29,6 +29,7 @@
 #include "vehicle.h"
 #include "mtype.h"
 #include "field.h"
+#include "fire.h"
 #include "weather.h"
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -2486,6 +2487,32 @@ int item::precise_unit_volume() const
     return volume() * 1000;
 }
 
+static int corpse_volume( m_size corpse_size )
+{
+    switch( corpse_size ) {
+        case MS_TINY:    return    3;
+        case MS_SMALL:   return  120;
+        case MS_MEDIUM:  return  250;
+        case MS_LARGE:   return  370;
+        case MS_HUGE:    return 3500;
+    }
+    debugmsg( "unknown monster size for corpse" );
+    return 0;
+}
+
+int item::base_volume() const
+{
+    if( is_null() ) {
+        return 0;
+    }
+
+    if( is_corpse() ) {
+        return corpse_volume( corpse->size );
+    }
+
+    return type->volume;
+}
+
 int item::volume( bool integral ) const
 {
     if( is_null() ) {
@@ -2493,15 +2520,7 @@ int item::volume( bool integral ) const
     }
 
     if( is_corpse() ) {
-        switch( corpse->size ) {
-            case MS_TINY:    return    3;
-            case MS_SMALL:   return  120;
-            case MS_MEDIUM:  return  250;
-            case MS_LARGE:   return  370;
-            case MS_HUGE:    return 3500;
-        }
-        debugmsg( "unknown monster size for corpse" );
-        return 0;
+        return corpse_volume( corpse->size );
     }
 
     int ret = get_var( "volume", integral ? type->integral_volume : type->volume );
@@ -4724,15 +4743,50 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
-bool item::burn(int amount)
+bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
 {
-    if( amount < 0 ) {
+    const auto &mats = made_of();
+    int smoke_added = 0;
+    int time_added = 0;
+    int burn_added = 0;
+    const int vol = base_volume();
+    for( const auto &m : mats ) {
+        const auto &bd = m.obj().burn_data( frd.fire_intensity );
+        if( bd.immune ) {
+            // Made to protect from fire
+            return false;
+        }
+
+        if( bd.chance_in_volume == 0 || vol == 0 || x_in_y( bd.chance_in_volume, vol ) ) {
+            time_added += bd.fuel;
+            smoke_added += bd.smoke;
+            burn_added += bd.burn;
+        }
+    }
+
+    // Liquids that don't burn well smother fire well instead
+    if( made_of( LIQUID ) && time_added < 200 ) {
+        time_added -= rng( 100 * vol, 300 * vol );
+    } else if( mats.size() > 1 ) {
+        // Average the materials
+        time_added /= mats.size();
+        smoke_added /= mats.size();
+        burn_added /= mats.size();
+    } else if( mats.empty() ) {
+        // Non-liquid items with no specified materials will burn at moderate speed
+        burn_added = 1;
+    }
+
+    frd.fuel_produced += time_added;
+    frd.smoke_produced += smoke_added;
+
+    if( burn_added < 0 ) {
         return false;
     }
 
     if( is_corpse() ) {
         const mtype *mt = get_mtype();
-        if( active && mt != nullptr && burnt + amount > mt->hp &&
+        if( active && mt != nullptr && burnt + burn_added > mt->hp &&
             !mt->burn_into.is_null() && mt->burn_into.is_valid() ) {
             corpse = &get_mtype()->burn_into.obj();
             // Delay rezing
@@ -4741,59 +4795,51 @@ bool item::burn(int amount)
             return false;
         }
 
-        if( burnt + amount > mt->hp ) {
+        if( burnt + burn_added > mt->hp ) {
             active = false;
         }
     }
 
     if( !count_by_charges() ) {
-        burnt += amount;
-        return burnt >= volume() * 3;
+        burnt += burn_added;
+        bool destroyed = burnt >= vol * 3;
+        if( destroyed ) {
+            std::copy( contents.begin(), contents.end(),
+                       std::back_inserter( drops ) );
+        }
+
+        return destroyed;
     }
 
-    amount *= rng( type->stack_size / 2, type->stack_size );
-    if( charges <= amount ) {
+    burn_added *= rng( type->stack_size / 2, type->stack_size );
+    if( charges <= burn_added ) {
         return true;
     }
 
-    charges -= amount;
+    charges -= burn_added;
     return false;
 }
 
 bool item::flammable() const
 {
-    const auto mats = made_of_types();
+    const auto &mats = made_of_types();
     if( mats.empty() ) {
         // Don't know how to burn down something made of nothing.
         return false;
     }
+
     int flammability = 0;
-    for( auto mat : mats ) {
-        flammability += mat->fire_resist();
+    for( const auto &m : mats ) {
+        const auto &bd = m->burn_data( 1 );
+        if( bd.immune ) {
+            // Made to protect from fire
+            return false;
+        }
+
+        flammability += bd.fuel;
     }
 
-    if( flammability == 0 ) {
-        return true;
-    }
-
-    if( made_of( material_id( "nomex" ) ) ) {
-        return false;
-    }
-
-    if( made_of( material_id( "paper" ) ) || made_of( material_id( "powder" ) ) || made_of( material_id( "plastic" ) ) ) {
-        return true;
-    }
-
-    int vol = volume();
-    if( ( made_of( material_id( "wood" ) ) || made_of( material_id( "veggy" ) ) ) && ( burnt < 1 || vol <= 10 ) ) {
-        return true;
-    }
-
-    if( ( made_of( material_id( "cotton" ) ) || made_of( material_id( "wool" ) ) ) && ( burnt / ( vol + 1 ) <= 1 ) ) {
-        return true;
-    }
-
-    return false;
+    return flammability > 0;
 }
 
 std::ostream & operator<<(std::ostream & out, const item * it)
@@ -5138,13 +5184,66 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
     bDrawName = DrawName;
 }
 
-void item::detonate( const tripoint &p ) const
+bool item::will_explode_in_fire() const
 {
-    if( type == nullptr || type->explosion.power < 0 ) {
-        return;
+    if( type->explode_in_fire ) {
+        return true;
     }
 
-    g->explosion( p, type->explosion );
+    if( type->ammo != nullptr && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
+        return true;
+    }
+
+    // Most containers do nothing to protect the contents from fire
+    if( !is_magazine() || !type->magazine->protects_contents ) {
+        return std::any_of( contents.begin(), contents.end(), []( const item &it ) {
+            return it.will_explode_in_fire();
+        });
+    }
+
+    return false;
+}
+
+bool item::detonate( const tripoint &p, std::vector<item> &drops )
+{
+    if( type->explosion.power >= 0 ) {
+        g->explosion( p, type->explosion );
+        return true;
+    } else if( type->ammo != nullptr && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
+        long charges_remaining = charges;
+        const long rounds_exploded = rng( 1, charges_remaining );
+        // Yank the exploding item off the map for the duration of the explosion
+        // so it doesn't blow itself up.
+        item temp_item = *this;
+        const islot_ammo *ammo_type = type->ammo.get();
+
+        if( ammo_type->special_cookoff ) {
+            // If it has a special effect just trigger it.
+            apply_ammo_effects( p, ammo_type->ammo_effects );
+        } else if( ammo_type->cookoff ) {
+            // Ammo that cooks off, but doesn't have a
+            // large intrinsic effect blows up with shrapnel
+            g->explosion( p, ammo_type->damage / 2, 0.5f, false, rounds_exploded / 5 );
+        }
+        charges_remaining -= rounds_exploded;
+        if( charges_remaining > 0 ) {
+            temp_item.charges = charges_remaining;
+            drops.push_back( temp_item );
+        }
+
+        return true;
+    } else if( !contents.empty() && ( type->magazine == nullptr || !type->magazine->protects_contents ) ) {
+        const auto new_end = std::remove_if( contents.begin(), contents.end(), [ &p, &drops ]( item &it ) {
+            return it.detonate( p, drops );
+        } );
+        if( new_end != contents.end() ) {
+            contents.erase( new_end, contents.end() );
+            // If any of the contents explodes, so does the container
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)

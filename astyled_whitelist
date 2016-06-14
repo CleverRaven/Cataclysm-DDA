@@ -114,6 +114,7 @@ src/explosion.h
 src/faction.h
 src/fault.h
 src/filesystem.h
+src/fire.h
 src/game_constants.h
 src/gates.h
 src/generic_factory.h

@@ -40,6 +40,7 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+struct fire_data;
 
 enum damage_type : int;
 
@@ -252,7 +253,12 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string info( bool showtext = false) const;
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
-    bool burn(int amount = 1); // Returns true if destroyed
+    /**
+     * Burns the item at point p.
+     * Returns true if the item was destroyed.
+     * May add items to drops.
+     */
+    bool burn( const tripoint &p, fire_data &bd, std::vector<item> &drops );
 
  // Returns the category of this item.
  const item_category &get_category() const;
@@ -336,6 +342,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
     int volume( bool integral = false ) const;
+
+    /** Simplified, faster volume check for when processing time is important and exact volume is not. */
+    int base_volume() const;
 
     /* Volume of an item or of a single unit for charged items multipled by 1000 */
     int precise_unit_volume() const;
@@ -551,7 +560,15 @@ public:
     /** The results of fermenting this item. */
     const std::vector<itype_id> &brewing_results() const;
 
- void detonate( const tripoint &p ) const;
+    /**
+     * Detonates the item and adds remains (if any) to drops.
+     * Returns true if the item actually detonated,
+     * potentially destroying other items and invalidating iterators.
+     * Should NOT be called on an item on the map, but on a local copy.
+     */
+    bool detonate( const tripoint &p, std::vector<item> &drops );
+
+    bool will_explode_in_fire() const;
 
     /**
      * @name Material(s) of the item
