@@ -1414,7 +1414,6 @@ void item::io( Archive& archive )
 
     archive.io( "burnt", burnt, 0 );
     archive.io( "poison", poison, 0 );
-    archive.io( "bigness", bigness, 0 );
     archive.io( "frequency", frequency, 0 );
     archive.io( "note", note, 0 );
     archive.io( "irridation", irridation, 0 );
@@ -1450,9 +1449,6 @@ void item::io( Archive& archive )
 
     // Old saves used to only contain one of those values (stored under "poison"), it would be
     // loaded into a union of those members. Now they are separate members and must be set separately.
-    if( poison != 0 && bigness == 0 && is_var_veh_part() ) {
-        std::swap( bigness, poison );
-    }
     if( poison != 0 && note == 0 && !type->snippet_category.empty() ) {
         std::swap( note, poison );
     }
@@ -1549,7 +1545,6 @@ void vehicle_part::deserialize(JsonIn &jsin)
     data.read("open", open );
     data.read("direction", direction );
     data.read("blood", blood );
-    data.read("bigness", bigness );
     data.read("enabled", enabled );
     data.read("flags", flags );
     data.read("passenger_id", passenger_id );
@@ -1588,7 +1583,6 @@ void vehicle_part::serialize(JsonOut &json) const
     json.member("open", open );
     json.member("direction", direction );
     json.member("blood", blood);
-    json.member("bigness", bigness);
     json.member("enabled", enabled);
     json.member("flags", flags);
     json.member("passenger_id", passenger_id);

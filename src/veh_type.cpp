@@ -66,7 +66,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "CARGO", VPFLAG_CARGO },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
-    { "VARIABLE_SIZE", VPFLAG_VARIABLE_SIZE },
     { "VPFLAG_TRACK", VPFLAG_TRACK },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION }
@@ -202,7 +201,6 @@ void vpart_info::load( JsonObject &jo )
 
     //Handle the par1 union as best we can by accepting any ONE of its elements
     int element_count = (jo.has_member("par1") ? 1 : 0)
-                        + (jo.has_member("wheel_width") ? 1 : 0)
                         + (jo.has_member("bonus") ? 1 : 0);
 
     if(element_count == 0) {
@@ -211,15 +209,13 @@ void vpart_info::load( JsonObject &jo )
     } else if(element_count == 1) {
         if(jo.has_member("par1")) {
             def.par1 = jo.get_int("par1");
-        } else if(jo.has_member("wheel_width")) {
-            def.par1 = jo.get_int("wheel_width");
         } else { //bonus
             def.par1 = jo.get_int("bonus");
         }
     } else {
         //Too many
         debugmsg("Error parsing vehicle part '%s': \
-               Use AT MOST one of: par1, wheel_width, bonus",
+               Use AT MOST one of: par1, bonus",
                  def.name().c_str());
         //Keep going to produce more messages if other parts are wrong
         def.par1 = 0;

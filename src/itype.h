@@ -40,10 +40,6 @@ using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
 
-enum bigness_property_aspect : int {
-    BIGNESS_WHEEL_DIAMETER      // wheel size in inches, including tire
-};
-
 // Returns the name of a category of ammo (e.g. "shot")
 std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
@@ -285,6 +281,16 @@ struct islot_engine
         std::set<fault_id> faults;
 };
 
+struct islot_wheel
+{
+    public:
+        /** diameter of wheel (inches) */
+        int diameter = 0;
+
+        /** width of wheel (inches) */
+        int width = 0;
+};
+
 // TODO: this shares a lot with the ammo item type, merge into a separate slot type?
 struct islot_gun : common_ranged_data {
     /**
@@ -442,21 +448,6 @@ struct islot_ammo : common_ranged_data {
     int loudness = -1;
 };
 
-struct islot_variable_bigness {
-    /**
-     * Minimal value of the bigness value of items of this type.
-     */
-    int min_bigness = 0;
-    /**
-     * Maximal value of the bigness value of items of this type.
-     */
-    int max_bigness = 0;
-    /**
-     * What the bigness actually represent see @ref bigness_property_aspect
-     */
-    bigness_property_aspect bigness_aspect = BIGNESS_WHEEL_DIAMETER;
-};
-
 struct islot_bionic {
     /**
      * Arbitrary difficulty scale, see bionics.cpp for its usage.
@@ -540,10 +531,10 @@ struct itype {
     copyable_unique_ptr<islot_armor> armor;
     copyable_unique_ptr<islot_book> book;
     copyable_unique_ptr<islot_engine> engine;
+    copyable_unique_ptr<islot_wheel> wheel;
     copyable_unique_ptr<islot_gun> gun;
     copyable_unique_ptr<islot_gunmod> gunmod;
     copyable_unique_ptr<islot_magazine> magazine;
-    copyable_unique_ptr<islot_variable_bigness> variable_bigness;
     copyable_unique_ptr<islot_bionic> bionic;
     copyable_unique_ptr<islot_spawn> spawn;
     copyable_unique_ptr<islot_ammo> ammo;
@@ -635,8 +626,6 @@ public:
             return "BOOK";
         } else if( gun ) {
             return "GUN";
-        } else if( variable_bigness ) {
-            return "VEHICLE_PART";
         } else if( bionic ) {
             return "BIONIC";
         } else if( ammo ) {

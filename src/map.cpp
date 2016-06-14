@@ -650,9 +650,8 @@ float map::vehicle_traction( const vehicle &veh ) const
 
         // Not using vehicle::wheels_area so that if it changes,
         //  this section will stay correct (ie. proportion of wheel area/total area)
-        const int width = veh.part_info( p ).wheel_width;
-        const int bigness = veh.parts[p].bigness;
-        const float wheel_area = width * bigness;
+        const int width = veh.parts[ p ].wheel_width();
+        const float wheel_area = width * veh.parts[ p ].wheel_diameter();
         total_wheel_area += wheel_area;
 
         const auto &tr = ter_at( pp );
