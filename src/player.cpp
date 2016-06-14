@@ -10720,22 +10720,19 @@ bool player::invoke_item( item* used, const tripoint &pt )
 
     uimenu umenu;
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
-    int num_total = 0;
-    for( const auto &um : used->type->use_methods ) {
-        bool usable = um.can_call( this, used, false, pt );
-        const std::string &aname = um.get_name();
-        umenu.addentry( num_total, usable, MENU_AUTOASSIGN, aname );
-        num_total++;
+    umenu.return_invalid = true;
+    for( const auto &e : used->type->use_methods ) {
+        umenu.addentry( MENU_AUTOASSIGN, e.second.can_call( this, used, false, pt ),
+                        MENU_AUTOASSIGN, e.second.get_name() );
     }
 
-    umenu.addentry( num_total, true, 'q', _("Cancel") );
     umenu.query();
     int choice = umenu.ret;
-    if( choice < 0 || choice >= num_total ) {
+    if( choice < 0 || choice >= static_cast<int>( used->type->use_methods.size() ) ) {
         return false;
     }
 
-    const std::string &method = used->type->use_methods[choice].get_type();
+    const std::string &method = std::next( used->type->use_methods.begin(), choice )->first;
     long charges_used = used->type->invoke( this, used, pt, method );
     return ( used->is_tool() || used->is_food() ) && consume_charges( *used, charges_used );
 }
@@ -11328,8 +11325,9 @@ void player::do_read( item *book )
         add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
     }
 
-    for( auto &m : reading->use_methods ) {
-        m.call( this, book, false, pos() );
+    auto m = book->type->use_methods.find( "MA_MANUAL" );
+    if( m != book->type->use_methods.end() ) {
+        m->second.call( this, book, false, pos() );
     }
 
     activity.type = ACT_NULL;
