@@ -4,6 +4,7 @@
 #include "damage.h" // damage_type
 #include "json.h"
 #include "translations.h"
+#include "generic_factory.h"
 
 #include <string>
 #include <map>
@@ -55,11 +56,11 @@ material_type::material_type()
 mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {
     mat_burn_data bd;
-    jsobj.read( "immune", bd.immune );
-    jsobj.read( "fuel", bd.fuel );
-    jsobj.read( "smoke", bd.smoke );
-    jsobj.read( "burn", bd.burn );
-    jsobj.read( "chance", bd.chance_in_volume );
+    assign( jsobj, "immune", bd.immune );
+    assign( jsobj, "fuel", bd.fuel );
+    assign( jsobj, "smoke", bd.smoke );
+    assign( jsobj, "burn", bd.burn );
+    assign( jsobj, "chance", bd.chance_in_volume );
     return bd;
 }
 
