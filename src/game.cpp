@@ -2756,17 +2756,10 @@ bool game::handle_action()
             zones_manager();
             break;
 
-        case ACTION_INVENTORY: {
-            int cMenu = ' ';
-            int position = INT_MIN;
-            do {
-                position = inv( position );
-                cMenu = inventory_item_menu(position);
-            } while (cMenu == ' ' || cMenu == '.' || cMenu == 'q' || cMenu == '\n' ||
-                     cMenu == KEY_ESCAPE || cMenu == KEY_LEFT || cMenu == '=');
+        case ACTION_INVENTORY:
+            interactive_inv();
             refresh_all();
-        }
-        break;
+            break;
 
         case ACTION_COMPARE:
             compare();
@@ -14091,14 +14084,6 @@ void game::wait()
 
     u.assign_activity(actType, time, 0);
     u.rooted_message();
-}
-
-void game::gameover()
-{
-    erase();
-    gamemode->game_over();
-    mvprintw(0, 35, _("GAME OVER"));
-    inv();
 }
 
 bool game::game_quit()

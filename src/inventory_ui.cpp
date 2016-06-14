@@ -77,8 +77,6 @@ enum class add_to : int {
 
 class inventory_column {
     public:
-        static const size_t npos = -1; // Returned if no item found
-
         std::vector<itemstack_or_category> items;
 
         inventory_column() :
@@ -119,9 +117,8 @@ class inventory_column {
             return ( items.size() + items_per_page - 1 ) / items_per_page;
         }
 
-        size_t find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const;
-        size_t find_by_pos( int pos ) const;
-        size_t find_by_invlet( long invlet ) const;
+        itemstack_or_category *get_by_invlet( long invlet ) const;
+
         size_t get_max_width() const;
 
         void draw( WINDOW *win, size_t x, size_t y, size_t width ) const;
@@ -222,7 +219,7 @@ class inventory_selector
         ~inventory_selector();
 
         /** Executes the selector */
-        int execute_pick( const std::string &title, const int position = INT_MIN );
+        int execute_pick( const std::string &title );
         // @todo opts should not be passed here. Temporary solution for further refactoring
         item_location execute_pick_map( const std::string &title, std::unordered_map<item *, item_location> &opts );
         void execute_compare( const std::string &title );
@@ -264,8 +261,7 @@ class inventory_selector
         void handle_movement( const std::string &action );
         /** Update the @ref w_inv window, including wrefresh */
         void display( const std::string &title, selector_mode mode ) const;
-        /** Select the item at position and set the correct in_inventory and current_page_offset value */
-        void select_item_by_position(const int &position);
+
         void remove_dropping_items( player &u ) const;
         WINDOW *w_inv;
 
@@ -304,28 +300,14 @@ class inventory_selector
         void add_column( inventory_column *new_column );
 };
 
-size_t inventory_column::find_if( const std::function<bool( const itemstack_or_category & )> &pred ) const
+itemstack_or_category *inventory_column::get_by_invlet( long invlet ) const
 {
-    for( size_t i = 0; i < items.size(); ++i ) {
-        if( pred( items[i] ) ) {
-            return i;
+    for( const auto &entry : items ) {
+        if( entry.it != nullptr && entry.it->invlet == invlet ) {
+            return const_cast<itemstack_or_category *>( &entry );
         }
     }
-    return npos;
-}
-
-size_t inventory_column::find_by_pos( int pos ) const
-{
-    return find_if( [ pos ]( const itemstack_or_category &it ) {
-        return it.item_pos == pos;
-    } );
-}
-
-size_t inventory_column::find_by_invlet( long invlet ) const
-{
-    return find_if( [ invlet ]( const itemstack_or_category &it ) {
-        return it.it != nullptr && it.it->invlet == invlet;
-    } );
+    return nullptr;
 }
 
 size_t inventory_column::get_max_width() const
@@ -624,10 +606,9 @@ void inventory_selector::add_items(const indexed_invslice &slice, add_to where, 
 itemstack_or_category *inventory_selector::invlet_to_itemstack( long invlet ) const
 {
     for( const auto &column : columns ) {
-        const size_t index = column->find_by_invlet( invlet );
-
-        if( index != inventory_column::npos ) {
-            return &column->items[index];
+        const auto res = column->get_by_invlet( invlet );
+        if( res != nullptr ) {
+            return res;
         }
     }
     return nullptr;
@@ -822,22 +803,6 @@ void inventory_selector::handle_movement(const std::string &action)
     }
 }
 
-void inventory_selector::select_item_by_position( const int &position )
-{
-    if( position == INT_MIN ) {
-        return;
-    }
-    for( size_t index = 0; index < columns.size(); ++index ) {
-        const size_t item_index = get_column( index ).find_by_pos( position );
-
-        if( item_index != inventory_column::npos ) {
-            set_active_column( index );
-            get_active_column().select( item_index );
-            return;
-        }
-    }
-}
-
 void inventory_selector::set_drop_count( itemstack_or_category &entry, size_t count )
 {
     const auto iter = dropping.find( entry.item_pos );
@@ -949,10 +914,9 @@ void inventory_selector::add_column( inventory_column *new_column )
     }
 }
 
-int inventory_selector::execute_pick( const std::string &title, const int position )
+int inventory_selector::execute_pick( const std::string &title )
 {
     prepare_columns( false );
-    select_item_by_position( position );
 
     while( true ) {
         display( title, SM_PICK );
@@ -1155,13 +1119,21 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
     return dropped_pos_and_qty;
 }
 
-// Display current inventory.
-int game::inv( const int position )
+void game::interactive_inv()
 {
+    static const std::array<int, 7> stoppers = { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE };
+
     u.inv.restack( &u );
     u.inv.sort();
 
-    return inventory_selector( u ).execute_pick( _( "Inventory:" ), position );
+    inventory_selector inv_s( u );
+
+    int res;
+    do {
+        const int pos = inv_s.execute_pick( _( "Inventory:" ) );
+        refresh_all();
+        res = inventory_item_menu( pos );
+    } while( std::find( stoppers.begin(), stoppers.end(), res ) != stoppers.end() );
 }
 
 int game::inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message )
