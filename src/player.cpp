@@ -2017,17 +2017,17 @@ void player::memorial( std::ostream &memorial_file, std::string epitaph )
     //HP
 
     const auto limb_hp =
-    [this, &memorial_file, &indent]( const std::string & desc, const body_part bp ) {
-        memorial_file << indent << string_format( desc, hp_cur[bp], hp_max[bp] ) << "\n";
+    [this, &memorial_file, &indent]( const std::string & desc, const hp_part bp ) {
+        memorial_file << indent << string_format( desc, get_hp( bp ), get_hp_max( bp ) ) << "\n";
     };
 
     memorial_file << _( "Final HP:" ) << "\n";
-    limb_hp( _( " Head: %d/%d" ), bp_head );
-    limb_hp( _( "Torso: %d/%d" ), bp_torso );
-    limb_hp( _( "L Arm: %d/%d" ), bp_arm_l );
-    limb_hp( _( "R Arm: %d/%d" ), bp_arm_r );
-    limb_hp( _( "L Leg: %d/%d" ), bp_leg_l );
-    limb_hp( _( "R Leg: %d/%d" ), bp_leg_r );
+    limb_hp( _( " Head: %d/%d" ), hp_head );
+    limb_hp( _( "Torso: %d/%d" ), hp_torso );
+    limb_hp( _( "L Arm: %d/%d" ), hp_arm_l );
+    limb_hp( _( "R Arm: %d/%d" ), hp_arm_r );
+    limb_hp( _( "L Leg: %d/%d" ), hp_leg_l );
+    limb_hp( _( "R Leg: %d/%d" ), hp_leg_r );
     memorial_file << "\n";
 
     //Stats
