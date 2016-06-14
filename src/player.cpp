@@ -10985,7 +10985,7 @@ bool player::read(int inventory_position)
 
     auto tmp = it->type->book.get();
     int time; //Declare this here so that we can change the time depending on whats needed
-    // activity.get_value(0) == 1: see below at player_activity(ACT_READ)
+    // See below at player_activity(ACT_READ)
     const bool continuous = (activity.get_value(0) == 1);
     bool study = continuous;
     if (tmp->intel > 0 && has_trait("ILLITERATE")) {
@@ -11035,47 +11035,29 @@ bool player::read(int inventory_position)
     } else if( skill_level < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    skill.obj().name().c_str());
-        if (tmp->recipes.empty()) {
-            return false;
-        } else {
-            add_msg(m_info, _("But you might be able to learn a recipe or two."));
-        }
-    } else if( skill_level >= tmp->level && !can_study_recipe(*it->type) &&
+        return false;
+    } else if( skill_level >= tmp->level &&
                !query_yn(tmp->fun > 0 ?
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
                          skill.obj().name().c_str())) {
         return false;
     } else if( !continuous &&
-                 ( ( skill_level.can_train() && skill_level < tmp->level ) ||
-                     can_study_recipe(*it->type) ) &&
-                 !query_yn( skill_level.can_train() && skill_level < tmp->level ?
-                 _("Study %s until you learn something? (gain a level)") :
-                 _("Study the book until you learn all recipes?"),
-                 skill.obj().name().c_str()) ) {
+               ( ( skill_level.can_train() && skill_level < tmp->level ) ) &&
+               !query_yn( _("Study %s until you learn something? (gain a level)"),
+                          skill.obj().name().c_str() ) ) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
-        if(!continuous) {
-            add_msg(m_info, _("Now studying %s, %s to stop early."),
-                    it->tname().c_str(), press_x(ACTION_PAUSE).c_str());
-            if ( (has_trait("ROOTS2") || (has_trait("ROOTS3"))) &&
-                 g->m.has_flag("DIGGABLE", pos()) &&
-                 (!(footwear_factor())) ) {
-                add_msg(m_info, _("You sink your roots into the soil."));
+        if( !continuous ) {
+            add_msg( m_info, _( "Now studying %s, %s to stop early." ),
+                     it->tname().c_str(), press_x( ACTION_PAUSE ).c_str() );
+            if( ( has_trait( "ROOTS2" ) || has_trait( "ROOTS3" ) ) &&
+                g->m.has_flag( "DIGGABLE", pos() ) && !footwear_factor() ) {
+                add_msg( m_info, _( "You sink your roots into the soil." ) );
             }
         }
         study = true;
-    }
-
-    if (!tmp->recipes.empty() && !continuous) {
-        if( can_study_recipe( *it->type ) ) {
-            add_msg(m_info, _("This book has more recipes for you to learn."));
-        } else if( studied_all_recipes( *it->type ) ) {
-            add_msg(m_info, _("You know all the recipes this book has to offer."));
-        } else {
-            add_msg(m_info, _("This book has more recipes, but you don't have the skill to learn them yet."));
-        }
     }
 
     // Base read_speed() is 1000 move points (1 minute per tmp->time)
@@ -11207,25 +11189,6 @@ void player::do_read( item *book )
 
     book->mark_chapter_as_read( *this );
 
-    bool no_recipes = true;
-    if( !reading->recipes.empty() ) {
-        bool recipe_learned = try_study_recipe( *book->type );
-        if( !studied_all_recipes( *book->type ) ) {
-            no_recipes = false;
-        }
-
-        // for books that the player cannot yet read due to skill level or have no skill component,
-        // but contain lower level recipes, break out once recipe has been studied
-        if( !skill || (get_skill_level(skill) < reading->req) ) {
-            if( recipe_learned ) {
-                add_msg(m_info, _("The rest of the book is currently still beyond your understanding."));
-            }
-
-            activity.type = ACT_NULL;
-            return;
-        }
-    }
-
     if( skill && get_skill_level( skill ) < reading->level &&
         get_skill_level( skill ).can_train() ) {
         auto &skill_level = get_skill_level( skill );
@@ -11293,35 +11256,9 @@ void player::do_read( item *book )
         }
 
         if( skill_level == reading->level || !skill_level.can_train() ) {
-            if( no_recipes ) {
-                add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
-            } else {
-                add_msg(m_info, _("Your skill level won't improve, but %s has more recipes for you."),
-                        book->type_name().c_str());
-            }
+            add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
         }
-    } else if( can_study_recipe(*book->type) && activity.get_value(0) == 1 ) {
-        // continuously read until player gains a new recipe
-        activity.type = ACT_NULL;
-        read(activity.position);
-        // Rooters root (based on time spent reading)
-        int root_factor = (reading->time / 20);
-        double foot_factor = footwear_factor();
-        if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
-            g->m.has_flag("DIGGABLE", pos()) &&
-            !foot_factor ) {
-            if (get_hunger() > -20) {
-                mod_hunger(-root_factor * foot_factor);
-            }
-            if (get_thirst() > -20) {
-                mod_thirst(-root_factor * foot_factor);
-            }
-            mod_healthy_mod(root_factor * foot_factor, 50);
-        }
-        if (activity.type != ACT_NULL) {
-            return;
-        }
-    } else if ( !reading->recipes.empty() && no_recipes ) {
+    } else {
         add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
     }
 
@@ -11338,22 +11275,6 @@ bool player::has_identified( std::string item_id ) const
     return items_identified.count( item_id ) > 0;
 }
 
-bool player::can_study_recipe(const itype &book) const
-{
-    if( !book.book ) {
-        return false;
-    }
-    for( auto const &elem : book.book->recipes ) {
-        auto const r = elem.recipe;
-        if( !knows_recipe( r ) &&
-            ( !r->skill_used ||
-              get_skill_level( r->skill_used ) >= elem.skill_level ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool player::studied_all_recipes(const itype &book) const
 {
     if( !book.book ) {
@@ -11365,32 +11286,6 @@ bool player::studied_all_recipes(const itype &book) const
         }
     }
     return true;
-}
-
-bool player::try_study_recipe( const itype &book )
-{
-    if( !book.book ) {
-        return false;
-    }
-    for( auto const & elem : book.book->recipes ) {
-        auto const r = elem.recipe;
-        if( knows_recipe( r ) || !r->valid_learn() ) {
-            continue;
-        }
-        if( !r->skill_used || get_skill_level( r->skill_used ) >= elem.skill_level ) {
-            if( !r->skill_used ||
-                rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2 ) {
-                learn_recipe( r );
-                add_msg(m_good, _("Learned a recipe for %1$s from the %2$s."),
-                                item::nname( r->result ).c_str(), book.nname(1).c_str());
-                return true;
-            } else {
-                add_msg(_("Failed to learn a recipe from the %s."), book.nname(1).c_str());
-                return false;
-            }
-        }
-    }
-    return true; // _("false") seems to mean _("attempted and failed")
 }
 
 void player::try_to_sleep()
@@ -12371,7 +12266,6 @@ void player::practice( const skill_id &id, int amount, int cap )
             add_msg(m_info, _("You feel that %s tasks of this level are becoming trivial."),
                     skill.name().c_str());
         }
-
 
         int chance_to_drop = focus_pool;
         focus_pool -= chance_to_drop / 100;
