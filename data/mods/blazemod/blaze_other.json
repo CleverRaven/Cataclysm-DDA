@@ -109,7 +109,7 @@
         "price" : 10500
     },
   {
-        "type":"VAR_VEH_PART",
+        "type":"WHEEL",
         "id" : "tread1",
         "name" : "Rubber Caterpiller Track",
         "description": "A short, interlocking set of hard rubber tracks reinforced by stiff wire held in place by a set of smaller wheels.  Similar with what you might see used on light construction vehicles.  It's significantly stronger than regular tires due to not being at risk of bursting; but is quite heavy.",
@@ -121,13 +121,12 @@
         "volume" : 250,
         "bashing" : 30,
         "price" : 25500,
-        "min-bigness": 40,
-        "max-bigness": 40,
-        "category": "veh_parts",
-        "bigness-aspect": "WHEEL_DIAMETER"
+        "diameter": 40,
+        "width": 40,
+        "category": "veh_parts"
     },
   {
-        "type":"VAR_VEH_PART",
+        "type":"WHEEL",
         "id" : "tread2",
         "name" : "Steel Caterpiller Track",
         "description": "A short, interlocking set of shaped steel tracks held in place by a set of smaller wheels.  Similar with what you might see used on large construction vehicles.  It's significantly stronger than regular tires due to not being at risk of bursting; but is very heavy.",
@@ -139,13 +138,12 @@
         "volume" : 350,
         "bashing" : 30,
         "price" : 45500,
-        "min-bigness": 50,
-        "max-bigness": 50,
-        "category": "veh_parts",
-        "bigness-aspect": "WHEEL_DIAMETER"
+        "diameter": 50,
+        "width": 50,
+        "category": "veh_parts"
     },
   {
-        "type":"VAR_VEH_PART",
+        "type":"WHEEL",
         "id" : "tread3",
         "name" : "Reinforced Caterpiller Track",
         "description": "A short, interlocking set of shaped steel tracks held in place by a set of smaller wheels.  Similar with what you might see used on APCs and armored vehicles.  It's significantly stronger than regular tires due to not being at risk of bursting; but is extremely heavy.",
@@ -157,10 +155,9 @@
         "volume" : 400,
         "bashing" : 30,
         "price" : 75500,
-        "min-bigness": 60,
-        "max-bigness": 60,
-        "category": "veh_parts",
-        "bigness-aspect": "WHEEL_DIAMETER"
+        "diameter": 60,
+        "width": 60,
+        "category": "veh_parts"
     },
   {
     "id": "smokescreen",
