@@ -519,9 +519,9 @@ public:
  npc(npc &&) = default;
  npc &operator=(const npc &) = default;
  npc &operator=(npc &&) = default;
- virtual ~npc();
- virtual bool is_player() const override { return false; }
- virtual bool is_npc() const override { return true; }
+ ~npc() override;
+ bool is_player() const override { return false; }
+ bool is_npc() const override { return true; }
 
  static void load_npc(JsonObject &jsobj);
  npc* find_npc(std::string ident);
@@ -558,16 +558,16 @@ public:
  void starting_weapon( const npc_class_id &type );
 
 // Save & load
-    virtual void load_info(std::string data) override;// Overloaded from player
+    void load_info(std::string data) override;// Overloaded from player
     virtual std::string save_info() const override;
 
     using player::deserialize;
-    virtual void deserialize(JsonIn &jsin) override;
+    void deserialize(JsonIn &jsin) override;
     using player::serialize;
-    virtual void serialize(JsonOut &jsout) const override;
+    void serialize(JsonOut &jsout) const override;
 
 // Display
-    virtual nc_color basic_symbol_color() const override;
+    nc_color basic_symbol_color() const override;
  int print_info(WINDOW* w, int vStart, int vLines, int column) const override;
  std::string short_description() const;
  std::string opinion_text() const;
@@ -639,7 +639,7 @@ public:
     int value( const item &it ) const;
     int value( const item &it, int market_price ) const;
     bool wear_if_wanted( const item &it );
-    virtual bool wield( item& it ) override;
+    bool wield( item& it ) override;
     bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false);
     item &get_healing_item( bool bleed = false, bool bite = false, bool infect = false,
                             bool first_best = false );
@@ -770,16 +770,16 @@ public:
     void guard_current_pos();
 
  //message related stuff
- virtual void add_msg_if_npc(const char* msg, ...) const override;
- virtual void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const override;
- virtual void add_msg_if_npc(game_message_type type, const char* msg, ...) const override;
- virtual void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const override;
- virtual void add_msg_if_player(const char *, ...) const override{};
- virtual void add_msg_if_player(game_message_type, const char *, ...) const override{};
- virtual void add_memorial_log(const char*, const char*, ...) override {};
+ void add_msg_if_npc(const char* msg, ...) const override;
+ void add_msg_player_or_npc(const char* player_str, const char* npc_str, ...) const override;
+ void add_msg_if_npc(game_message_type type, const char* msg, ...) const override;
+ void add_msg_player_or_npc(game_message_type type, const char* player_str, const char* npc_str, ...) const override;
+ void add_msg_if_player(const char *, ...) const override{};
+ void add_msg_if_player(game_message_type, const char *, ...) const override{};
+ void add_memorial_log(const char*, const char*, ...) override {};
  virtual void add_miss_reason(const char *, unsigned int) {};
-    virtual void add_msg_player_or_say( const char *, const char *, ... ) const override;
-    virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
+    void add_msg_player_or_say( const char *, const char *, ... ) const override;
+    void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
 
 // The preceding are in npcmove.cpp
 
@@ -787,7 +787,7 @@ public:
 
     // Note: NPCs use a different speed rating than players
     // Because they can't run yet
-    virtual float speed_rating() const override;
+    float speed_rating() const override;
 
 // #############   VALUES   ################
 

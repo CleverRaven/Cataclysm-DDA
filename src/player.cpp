@@ -9691,7 +9691,7 @@ static const std::array<matype_id, 4> bio_cqb_styles {{
 class ma_style_callback : public uimenu_callback
 {
 public:
-    virtual bool key(int key, int entnum, uimenu *menu) override {
+    bool key(int key, int entnum, uimenu *menu) override {
         if( key != '?' ) {
             return false;
         }
@@ -9742,7 +9742,7 @@ public:
         }
         return true;
     }
-    virtual ~ma_style_callback() { }
+    ~ma_style_callback() override { }
 };
 
 bool player::pick_style() // Style selection menu

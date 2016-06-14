@@ -197,7 +197,7 @@ class Single_item_creator : public Item_spawn_data
         } Type;
 
         Single_item_creator(const std::string &id, Type type, int probability);
-        virtual ~Single_item_creator();
+        ~Single_item_creator() override;
 
         /**
          * Id of the item group or id of the item.
@@ -207,10 +207,10 @@ class Single_item_creator : public Item_spawn_data
         std::unique_ptr<Item_modifier> modifier;
 
         virtual ItemList create(int birthday, RecursionList &rec) const override;
-        virtual item create_single(int birthday, RecursionList &rec) const override;
-        virtual void check_consistency() const override;
-        virtual bool remove_item(const Item_tag &itemid) override;
-        virtual bool has_item(const Item_tag &itemid) const override;
+        item create_single(int birthday, RecursionList &rec) const override;
+        void check_consistency() const override;
+        bool remove_item(const Item_tag &itemid) override;
+        bool has_item(const Item_tag &itemid) const override;
 };
 
 /**
@@ -227,7 +227,7 @@ class Item_group : public Item_spawn_data
         } Type;
 
         Item_group(Type type, int probability);
-        virtual ~Item_group();
+        ~Item_group() override;
 
         const Type type;
         /**
@@ -245,10 +245,10 @@ class Item_group : public Item_spawn_data
         void add_entry(std::unique_ptr<Item_spawn_data> &ptr);
 
         virtual ItemList create(int birthday, RecursionList &rec) const override;
-        virtual item create_single(int birthday, RecursionList &rec) const override;
-        virtual void check_consistency() const override;
-        virtual bool remove_item(const Item_tag &itemid) override;
-        virtual bool has_item(const Item_tag &itemid) const override;
+        item create_single(int birthday, RecursionList &rec) const override;
+        void check_consistency() const override;
+        bool remove_item(const Item_tag &itemid) override;
+        bool has_item(const Item_tag &itemid) const override;
 
         /** Chance [0-100%] for items to spawn with ammo (plus default magazine if necesssary) */
         int with_ammo = 0;

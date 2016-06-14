@@ -76,12 +76,12 @@ class iuse_transform : public iuse_actor
 
         iuse_transform( const std::string &type = "transform" ) : iuse_actor( type ) {}
 
-        virtual ~iuse_transform();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~iuse_transform() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
         std::string get_name() const override;
-        virtual void finalize( const itype_id &my_item_type ) override;
+        void finalize( const itype_id &my_item_type ) override;
 };
 
 /**
@@ -126,10 +126,10 @@ class explosion_iuse : public iuse_actor
 
         explosion_iuse( const std::string &type = "explosion" ) : iuse_actor( type ) {}
 
-        virtual ~explosion_iuse();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~explosion_iuse() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -149,10 +149,10 @@ class unfold_vehicle_iuse : public iuse_actor
 
         unfold_vehicle_iuse( const std::string &type = "unfold_vehicle" ) : iuse_actor( type ) {}
 
-        virtual ~unfold_vehicle_iuse();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~unfold_vehicle_iuse() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /** Used in consume_drug_iuse for storing effect data. */
@@ -194,11 +194,11 @@ class consume_drug_iuse : public iuse_actor
 
         consume_drug_iuse( const std::string &type = "consume_drug" ) : iuse_actor( type ) {}
 
-        virtual ~consume_drug_iuse();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
-        virtual void info( const item &, std::vector<iteminfo> & ) const override;
+        ~consume_drug_iuse() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -225,10 +225,10 @@ class delayed_transform_iuse : public iuse_transform
 
         delayed_transform_iuse( const std::string &type = "delayed_transform" ) : iuse_transform( type ) {}
 
-        virtual ~delayed_transform_iuse();
-        virtual void load( JsonObject &jo ) override;
-        virtual long use( player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~delayed_transform_iuse() override;
+        void load( JsonObject &jo ) override;
+        long use( player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -255,10 +255,10 @@ class place_monster_iuse : public iuse_actor
         skill_id skill2 = NULL_ID;
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
-        virtual ~place_monster_iuse();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~place_monster_iuse() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -278,10 +278,10 @@ class ups_based_armor_actor : public iuse_actor
 
         ups_based_armor_actor( const std::string &type = "ups_based_armor" ) : iuse_actor( type ) {}
 
-        virtual ~ups_based_armor_actor();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~ups_based_armor_actor() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -297,10 +297,10 @@ class pick_lock_actor : public iuse_actor
 
         pick_lock_actor() : iuse_actor( "picklock" ) {}
 
-        virtual ~pick_lock_actor();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~pick_lock_actor() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -328,10 +328,10 @@ class reveal_map_actor : public iuse_actor
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
-        virtual ~reveal_map_actor();
-        virtual void load( JsonObject &jo );
-        virtual long use(player *, item *, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~reveal_map_actor() override;
+        void load( JsonObject &jo ) override;
+        long use(player *, item *, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -350,11 +350,11 @@ class firestarter_actor : public iuse_actor
 
         firestarter_actor( const std::string &type = "firestarter" ) : iuse_actor( type ) {}
 
-        virtual ~firestarter_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~firestarter_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -372,11 +372,11 @@ class extended_firestarter_actor : public firestarter_actor
 
         extended_firestarter_actor( const std::string &type = "extended_firestarter" ) : firestarter_actor( type ) {}
 
-        virtual ~extended_firestarter_actor() { }
-        virtual void load( JsonObject &jo ) override;
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~extended_firestarter_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -407,10 +407,10 @@ class salvage_actor : public iuse_actor
 
         salvage_actor( const std::string &type = "salvage" ) : iuse_actor( type, 0 ) {}
 
-        virtual ~salvage_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~salvage_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -445,10 +445,10 @@ class inscribe_actor : public iuse_actor
 
         inscribe_actor( const std::string &type = "inscribe" ) : iuse_actor( type, 0 ) {}
 
-        virtual ~inscribe_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~inscribe_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -464,11 +464,11 @@ class cauterize_actor : public iuse_actor
 
         cauterize_actor( const std::string &type = "cauterize" ) : iuse_actor( type ) {}
 
-        virtual ~cauterize_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~cauterize_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -479,11 +479,11 @@ class enzlave_actor : public iuse_actor
     public:
         enzlave_actor( const std::string &type = "enzlave" ) : iuse_actor( type, 0 ) {}
 
-        virtual ~enzlave_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~enzlave_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -503,11 +503,11 @@ class fireweapon_off_actor : public iuse_actor
 
         fireweapon_off_actor() : iuse_actor( "fireweapon_off" ) {}
 
-        virtual ~fireweapon_off_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~fireweapon_off_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -527,10 +527,10 @@ class fireweapon_on_actor : public iuse_actor
 
         fireweapon_on_actor( const std::string &type = "fireweapon_on" ) : iuse_actor( type ) {}
 
-        virtual ~fireweapon_on_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~fireweapon_on_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -547,11 +547,11 @@ class manualnoise_actor : public iuse_actor
 
         manualnoise_actor( const std::string &type = "manualnoise" ) : iuse_actor( type ) {}
 
-        virtual ~manualnoise_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~manualnoise_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -587,11 +587,11 @@ class musical_instrument_actor : public iuse_actor
 
         musical_instrument_actor( const std::string &type = "musical_instrument" ) : iuse_actor( type ) {}
 
-        virtual ~musical_instrument_actor() = default;
-        virtual void load( JsonObject &jo );
-        virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
-        virtual iuse_actor *clone() const override;
+        ~musical_instrument_actor() override = default;
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint& ) const override;
+        bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -627,10 +627,10 @@ class holster_actor : public iuse_actor
 
         holster_actor( const std::string &type = "holster" ) : iuse_actor( type ) {}
 
-        virtual ~holster_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player *, item *, bool, const tripoint & ) const override;
-        virtual iuse_actor *clone() const override;
+        ~holster_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
 };
 
 /**
@@ -652,11 +652,11 @@ class bandolier_actor : public iuse_actor
 
         bandolier_actor( const std::string &type = "bandolier" ) : iuse_actor( type ) {}
 
-        virtual ~bandolier_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player *, item *, bool, const tripoint & ) const override;
-        virtual iuse_actor *clone() const override;
-        virtual void info( const item &, std::vector<iteminfo> & ) const override;
+        ~bandolier_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 class ammobelt_actor : public iuse_actor
@@ -666,11 +666,11 @@ class ammobelt_actor : public iuse_actor
 
         ammobelt_actor() : iuse_actor( "ammobelt" ) {}
 
-        virtual ~ammobelt_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player *, item *, bool, const tripoint & ) const override;
-        virtual iuse_actor *clone() const override;
-        virtual void info( const item &, std::vector<iteminfo> & ) const override;
+        ~ammobelt_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 /**
@@ -736,10 +736,10 @@ class repair_item_actor : public iuse_actor
 
         repair_item_actor( const std::string &type = "repair_item" ) : iuse_actor( type ) {}
 
-        virtual ~repair_item_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player *, item *, bool, const tripoint & ) const override;
-        virtual iuse_actor *clone() const override;
+        ~repair_item_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
 };
 
 class heal_actor : public iuse_actor
@@ -786,11 +786,11 @@ class heal_actor : public iuse_actor
 
         heal_actor( const std::string &type = "heal" ) : iuse_actor( type ) {}
 
-        virtual ~heal_actor() { }
-        virtual void load( JsonObject &jo );
-        virtual long use( player *, item *, bool, const tripoint & ) const override;
-        virtual iuse_actor *clone() const override;
-        virtual void info( const item &, std::vector<iteminfo> & ) const override;
+        ~heal_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player *, item *, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
 #endif
