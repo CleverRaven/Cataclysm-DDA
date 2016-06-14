@@ -4750,8 +4750,8 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
     int time_added = 0;
     int burn_added = 0;
     const int vol = base_volume();
-    for( const auto &mat : mats ) {
-        const auto &bd = mat.obj().burn_data( frd.fire_intensity );
+    for( const auto &m : mats ) {
+        const auto &bd = m.obj().burn_data( frd.fire_intensity );
         if( bd.immune ) {
             // Made to protect from fire
             return false;
@@ -5233,20 +5233,14 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
 
         return true;
     } else if( !contents.empty() && ( type->magazine == nullptr || !type->magazine->protects_contents ) ) {
-        bool destroyed = false;
-
-        for( auto content = contents.begin(); content != contents.end(); ) {
-            bool content_destroyed = content->detonate( p, drops );
+        const auto new_end = std::remove_if( contents.begin(), contents.end(), [ &p, &drops ]( item &it ) {
+            return it.detonate( p, drops );
+        } );
+        if( new_end != contents.end() ) {
+            contents.erase( new_end, contents.end() );
             // If any of the contents explodes, so does the container
-            destroyed |= content_destroyed;
-            if( content_destroyed ) {
-                content = contents.erase( content );
-            } else {
-                content++;
-            }
+            return true;
         }
-
-        return destroyed;
     }
 
     return false;
