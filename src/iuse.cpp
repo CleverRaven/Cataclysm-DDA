@@ -8293,3 +8293,31 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
 
     return 0;
 }
+
+int iuse::washclothes( player *p, item *it, bool, const tripoint& )
+{
+    if( it->charges < it->type->charges_to_use() ) {
+        p->add_msg_if_player( _( "You need a soap to use this." ) );
+        return 0;
+    }
+    
+    if( !g->m.has_nearby_water( p->pos() ) ) {
+        p->add_msg_if_player( _( "You need a source of fresh water to use this." ) );
+        return 0;
+    }
+    
+    int pos = g->inv_for_filter( _( "Wash what?" ), []( const item & itm ) {
+        return itm.has_flag( "FILTHY" ); 
+    } );
+    item &mod = p->i_at( pos );
+    if( pos == INT_MIN ) {
+        p->add_msg_if_player( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    p->add_msg_if_player( _( "You washed your clothing." ) );
+    p->mod_moves( -3000 );
+    mod.item_tags.erase( "FILTHY" );
+
+    return it->type->charges_to_use();
+}
