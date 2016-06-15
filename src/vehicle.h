@@ -1009,17 +1009,13 @@ public:
     bool cruise_on                  = true;  // cruise control on/off
     bool reactor_on                 = false; // reactor on/off
     bool engine_on                  = false; // at least one engine is on, of any type
-    bool lights_on                  = false; // lights on/off
     bool stereo_on                  = false;
     bool chimes_on                  = false; // ice cream truck chimes
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key
     bool is_alarm_on                = false; // vehicle has alarm on
     bool camera_on                  = false;
-    bool overhead_lights_on         = false; // circle lights on/off
-    bool dome_lights_on             = false; // dome lights (rear view mirror lights)
     bool has_atomic_lights          = false; // has any always-on atomic lights on
-    bool aisle_lights_on            = false; // aisle lights on
     bool fridge_on                  = false; // fridge on/off
     bool recharger_on               = false; // recharger on/off
     bool skidding                   = false; // skidding mode

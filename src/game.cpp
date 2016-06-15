@@ -1225,14 +1225,18 @@ bool game::cleanup_at_end()
     return true;
 }
 
-static int veh_lumi(vehicle *veh)
+static int veh_lumi( vehicle &veh )
 {
     float veh_luminance = 0.0;
     float iteration = 1.0;
-    std::vector<int> light_indices = veh->all_parts_with_feature(VPFLAG_CONE_LIGHT);
-    for( auto &light_indice : light_indices ) {
-        veh_luminance += ( veh->part_info( light_indice ).bonus / iteration );
-        iteration = iteration * 1.1;
+    auto lights = veh.lights( true );
+
+    for( const auto pt : lights ) {
+        const auto &vp = pt->info();
+        if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
+            veh_luminance += vp.bonus / iteration;
+            iteration = iteration * 1.1;
+        }
     }
     // Calculation: see lightmap.cpp
     return LIGHT_RANGE((veh_luminance * 3));
@@ -1246,10 +1250,7 @@ void game::calc_driving_offset(vehicle *veh)
     }
     const int g_light_level = (int)light_level( u.posz() );
     const int light_sight_range = u.sight_range(g_light_level);
-    int sight = light_sight_range;
-    if (veh->lights_on) {
-        sight = std::max(veh_lumi(veh), sight);
-    }
+    int sight = std::max( veh_lumi( *veh ), light_sight_range );
 
     // velocity at or below this results in no offset at all
     static const float min_offset_vel = 10 * 100;
