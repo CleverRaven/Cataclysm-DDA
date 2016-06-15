@@ -913,23 +913,8 @@ void color_manager::load_custom(const std::string &sPath)
 {
     const auto file = ( sPath.empty() ) ? FILENAMES["custom_colors"] : sPath;
 
-    std::ifstream fin;
-    fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
-    if( !fin.good() ) {
-        fin.close();
-        finalize(); // Need to finalize regardless of success
-        return;
-    }
-
-    try {
-        JsonIn jsin(fin);
-        deserialize(jsin);
-    } catch( const JsonError &e ) {
-        DebugLog(D_ERROR, DC_ALL) << "load_custom: " << e;
-    }
-
-    fin.close();
-    finalize();
+    read_from_file_optional( file, *this );
+    finalize(); // Need to finalize regardless of success
 }
 
 void color_manager::serialize(JsonOut &json) const
