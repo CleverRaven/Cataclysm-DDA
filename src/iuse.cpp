@@ -8307,9 +8307,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         return 0;
     }
     
-    int pos = g->inv_for_filter( _( "Wash what?" ), []( const item & itm ) {
-        return itm.has_flag( "FILTHY" ); 
-    } );
+    const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
         p->add_msg_if_player( m_info, _( "Never mind." ) );
