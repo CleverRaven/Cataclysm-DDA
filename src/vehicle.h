@@ -618,8 +618,11 @@ public:
 
     void consume_fuel( double load );
 
-    /** Get all vehicle lights (excluding any that are destroyed) */
-    std::vector<vehicle_part *> lights();
+    /**
+     * Get all vehicle lights (excluding any that are destroyed)
+     * @param active if true return only lights which are enabled
+     */
+    std::vector<vehicle_part *> lights( bool active = false );
 
     /** Enable or disable specific vehicle lighting parts */
     void lights_control();
@@ -995,13 +998,9 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
 
-    int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
-    int overhead_epower     = 0; // total power of components with CIRCLE_LIGHT flag
     int tracking_epower     = 0; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower       = 0; // total power consumed by fridges
     int alarm_epower        = 0;
-    int dome_lights_epower  = 0;
-    int aisle_lights_epower = 0;
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
     int extra_drag          = 0;

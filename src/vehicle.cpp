@@ -466,24 +466,20 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
             engine_on = true;
         }
 
-        //Turn on lights on some vehicles
-        if( one_in(20) ) {
-            lights_on = true;
-        }
-
-        // dome lights could be on if the person was hurrily looking for things (or being looted)
-        if( one_in(16) ) {
-            dome_lights_on = true;
-        }
-
-        // aisle lights being on would be common for the vehicles they are in (vans, RVs, 18-wheelers, etc)
-        if( one_in(8) ) {
-            aisle_lights_on = true;
-        }
-
-        //Turn flasher/overhead lights on separately (more likely since these are rarer)
-        if( one_in(4) ) {
-            overhead_lights_on = true;
+        auto light_head  = one_in( 20 );
+        auto light_dome  = one_in( 16 );
+        auto light_aisle = one_in(  8 );
+        auto light_overh = one_in(  4 );
+        for( auto &pt : parts ) {
+            if( pt.has_flag( VPFLAG_CONE_LIGHT ) ) {
+                pt.enabled = light_head;
+            } else if( pt.has_flag( VPFLAG_DOME_LIGHT ) ) {
+                pt.enabled = light_dome;
+            } else if( pt.has_flag( VPFLAG_AISLE_LIGHT ) ) {
+                pt.enabled = light_aisle;
+            } else if( pt.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
+                pt.enabled = light_overh;
+            }
         }
 
         if( one_in(10) ) {
@@ -3573,11 +3569,11 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
 }
 
-std::vector<vehicle_part *> vehicle::lights()
+std::vector<vehicle_part *> vehicle::lights( bool active )
 {
     std::vector<vehicle_part *> res;
     for( auto& e : parts ) {
-        if( e.hp > 0 && e.is_light() ) {
+        if( e.hp > 0 && e.is_light() && ( !active || e.enabled ) ) {
             res.push_back( &e );
         }
     }
@@ -3623,15 +3619,15 @@ void vehicle::power_parts()
 {
     int epower = 0;
 
+    for( const auto pt : lights( true ) ) {
+        epower += pt->info().epower;
+    }
+
     // Consumers of epower
-    if( lights_on ) epower += lights_epower;
-    if( overhead_lights_on ) epower += overhead_epower;
     if( fridge_on ) epower += fridge_epower;
     if( recharger_on ) epower += recharger_epower;
     if( is_alarm_on ) epower += alarm_epower;
     if( camera_on ) epower += camera_epower;
-    if( dome_lights_on ) epower += dome_lights_epower;
-    if( aisle_lights_on ) epower += aisle_lights_epower;
     if( scoop_on ) epower += scoop_epower;
     // Engines: can both produce (plasma) or consume (gas, diesel)
     // Gas engines require epower to run for ignition system, ECU, etc.
@@ -3714,16 +3710,16 @@ void vehicle::power_parts()
     }
 
     if( battery_deficit != 0 ) {
+        for( auto &pt : lights() ) {
+            pt->enabled = false;
+        }
+
         is_alarm_on = false;
-        lights_on = false;
-        overhead_lights_on = false;
         fridge_on = false;
         stereo_on = false;
         chimes_on = false;
         recharger_on = false;
         camera_on = false;
-        dome_lights_on = false;
-        aisle_lights_on = false;
         scoop_on = false;
         if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
             add_msg( _("The %s's battery dies!"), name.c_str() );
@@ -5154,13 +5150,9 @@ void vehicle::refresh()
     steering.clear();
     speciality.clear();
     floating.clear();
-    lights_epower = 0;
-    overhead_epower = 0;
     tracking_epower = 0;
     fridge_epower = 0;
     recharger_epower = 0;
-    dome_lights_epower = 0;
-    aisle_lights_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
     has_atomic_lights = false;
@@ -5179,21 +5171,6 @@ void vehicle::refresh()
         const vpart_info& vpi = part_info( p );
         if( parts[p].removed ) {
             continue;
-        }
-        if( vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT) ) {
-            lights_epower += vpi.epower;
-        }
-        if( vpi.has_flag(VPFLAG_CIRCLE_LIGHT) ) {
-            overhead_epower += vpi.epower;
-        }
-        if( vpi.has_flag(VPFLAG_DOME_LIGHT) ) {
-            dome_lights_epower += vpi.epower;
-        }
-        if( vpi.has_flag(VPFLAG_AISLE_LIGHT) ) {
-            aisle_lights_epower += vpi.epower;
-        }
-        if( vpi.has_flag(VPFLAG_TRACK) ) {
-            tracking_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_FRIDGE) ) {
             fridge_epower += vpi.epower;
