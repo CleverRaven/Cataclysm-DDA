@@ -785,30 +785,23 @@ void auto_pickup::deserialize(JsonIn &jsin)
 
 bool auto_pickup::load_legacy(const bool bCharacter)
 {
-    std::ifstream fin;
     std::string sFile = FILENAMES["legacy_autopickup2"];
 
     if (bCharacter) {
         sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
     }
 
-    fin.open(sFile.c_str());
-    if(!fin.is_open()) {
-        if( !bCharacter ) {
-            fin.open(FILENAMES["legacy_autopickup"].c_str());
+    auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
 
-            if( !fin.is_open() ) {
-                DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create " << sFile;
-                return false;
-            }
+    using namespace std::placeholders;
+    const auto reader = std::bind( &auto_pickup::load_legacy_rules, this, std::ref( rules ), _1 );
+    if( !read_from_file_optional( sFile, reader ) ) {
+        if( !bCharacter ) {
+            return read_from_file_optional( FILENAMES["legacy_autopickup"], reader );
         } else {
             return false;
         }
     }
-
-    auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
-
-    load_legacy_rules( rules, fin );
 
     return true;
 }
