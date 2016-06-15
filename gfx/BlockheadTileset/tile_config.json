@@ -8366,81 +8366,81 @@
       },
       {
          "id" : "novel_coa",
-         "fg" : 928, 
-         "bg" : 913, 
-         "rotates" : false, 
+         "fg" : 928,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_buddy", 
-         "fg" : 931, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_buddy",
+         "fg" : 931,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_road", 
-         "fg" : 931, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_road",
+         "fg" : 931,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_satire", 
-         "fg" : 930, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_satire",
+         "fg" : 930,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_adventure", 
-         "fg" : 929, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_adventure",
+         "fg" : 929,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_swash", 
-         "fg" : 929, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_swash",
+         "fg" : 929,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_experimental", 
-         "fg" : 930, 
-         "bg" : 917, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_experimental",
+         "fg" : 930,
+         "bg" : 917,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_fantasy", 
-         "fg" : 929, 
-         "bg" : 917, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_fantasy",
+         "fg" : 929,
+         "bg" : 917,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_mystery", 
-         "fg" : 930, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_mystery",
+         "fg" : 930,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_horror", 
-         "fg" : 929, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_horror",
+         "fg" : 929,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_erotic", 
-         "fg" : 928, 
-         "bg" : 913, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_erotic",
+         "fg" : 928,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "ZSG",
          "fg" : 901,
@@ -8489,35 +8489,35 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "pocket_firstaid", 
-         "fg" : 891, 
-         "bg" : 913, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "pocket_firstaid",
+         "fg" : 891,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_first_aid", 
-         "fg" : 891, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_first_aid",
+         "fg" : 891,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "textbook_firstaid", 
-         "fg" : 891, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "textbook_firstaid",
+         "fg" : 891,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "emergency_book", 
-         "fg" : 891, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "emergency_book",
+         "fg" : 891,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "manual_computers",
          "fg" : 909,
@@ -8546,18 +8546,18 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "manual_electronics", 
-         "fg" : 889, 
-         "bg" : 913, 
-         "rotates" : false, 
+      {
+         "id" : "manual_electronics",
+         "fg" : 889,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "advanced_electronics", 
-         "fg" : 889, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "advanced_electronics",
+         "fg" : 889,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
       }, 
       { 
