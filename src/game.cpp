@@ -949,7 +949,7 @@ void game::create_starting_npcs()
 
     npc *tmp = new npc();
     tmp->normalize();
-    tmp->randomize();
+    tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
     // spawn the npc in the overmap, sets its overmap and submap coordinates
     tmp->spawn_at( get_levx(), get_levy(), get_levz() );
     tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
