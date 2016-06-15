@@ -8232,140 +8232,140 @@
          "multitile" : false
       },
       {
-         "id" : "pocket_firearms", 
-         "fg" : 894, 
-         "bg" : 913, 
-         "rotates" : false, 
+         "id" : "pocket_firearms",
+         "fg" : 894,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_gun", 
-         "fg" : 894, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_gun",
+         "fg" : 894,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "mag_archery",
-         "fg" : 880, 
-         "bg" : 912, 
+         "fg" : 880,
+         "bg" : 912,
          "rotates" : false,
          "multitile" : false
       },
       {
          "id" : "mag_gaming",
-         "fg" : 930, 
-         "bg" : 913, 
+         "fg" : 930,
+         "bg" : 913,
          "rotates" : false,
          "multitile" : false
       },
       {
          "id" : "mag_comic",
-         "fg" : 928, 
-         "bg" : 912, 
+         "fg" : 928,
+         "bg" : 912,
          "rotates" : false,
          "multitile" : false
       },
       {
          "id" : "mag_firstaid",
-         "fg" : 891, 
-         "bg" : 912, 
+         "fg" : 891,
+         "bg" : 912,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_dodge", 
-         "fg" : 887, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_dodge",
+         "fg" : 887,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_dodge", 
-         "fg" : 887, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_dodge",
+         "fg" : 887,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_throwing", 
-         "fg" : 905, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_throwing",
+         "fg" : 905,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_throw", 
-         "fg" : 905, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_throw",
+         "fg" : 905,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_swimming", 
-         "fg" : 903, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_swimming",
+         "fg" : 903,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_swimming", 
-         "fg" : 903, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_swimming",
+         "fg" : 903,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_romance", 
-         "fg" : 928, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_romance",
+         "fg" : 928,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_spy", 
-         "fg" : 930, 
-         "bg" : 915, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_spy",
+         "fg" : 930,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_thriller", 
-         "fg" : 929, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_thriller",
+         "fg" : 929,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_crime", 
-         "fg" : 928, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_crime",
+         "fg" : 928,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_scifi", 
-         "fg" : 930, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_scifi",
+         "fg" : 930,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_drama", 
-         "fg" : 929, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_drama",
+         "fg" : 929,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_tragedy", 
-         "fg" : 929, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_tragedy",
+         "fg" : 929,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "novel_coa", 
+      },
+      {
+         "id" : "novel_coa",
          "fg" : 928, 
          "bg" : 913, 
          "rotates" : false, 
