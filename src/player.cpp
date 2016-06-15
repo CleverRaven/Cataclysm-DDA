@@ -3362,7 +3362,7 @@ static std::string print_gun_mode( const player &p )
     auto m = p.weapon.gun_current_mode();
     if( m ) {
         if( m.melee() || !m->is_gunmod() ) {
-            return string_format( m.mode.empty() ? "%s": "%s (%s)",
+            return string_format( m.mode.empty() ? "%s" : "%s (%s)",
                                   p.weapname().c_str(), m.mode.c_str() );
         } else {
             return string_format( "%s (%i/%i)", m->tname().c_str(),
@@ -3377,8 +3377,8 @@ void player::print_stamina_bar( WINDOW *w ) const
 {
     std::string sta_bar = "";
     nc_color sta_color;
-    std::tie(sta_bar, sta_color) = get_hp_bar( stamina ,  get_stamina_max() );
-    wprintz(w, sta_color, sta_bar.c_str());
+    std::tie( sta_bar, sta_color ) = get_hp_bar( stamina ,  get_stamina_max() );
+    wprintz( w, sta_color, sta_bar.c_str() );
 }
 
 void player::disp_status( WINDOW *w, WINDOW *w2 )
@@ -3731,38 +3731,38 @@ void player::disp_status( WINDOW *w, WINDOW *w2 )
     }
 }
 
-bool player::has_conflicting_trait(const std::string &flag) const
+bool player::has_conflicting_trait( const std::string &flag ) const
 {
-    return (has_opposite_trait(flag) || has_lower_trait(flag) || has_higher_trait(flag));
+    return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) );
 }
 
-bool player::has_opposite_trait(const std::string &flag) const
+bool player::has_opposite_trait( const std::string &flag ) const
 {
-        for (auto &i : mutation_branch::get( flag ).cancels) {
-            if (has_trait(i)) {
-                return true;
-            }
+    for( auto &i : mutation_branch::get( flag ).cancels ) {
+        if( has_trait( i ) ) {
+            return true;
         }
+    }
     return false;
 }
 
-bool player::has_lower_trait(const std::string &flag) const
+bool player::has_lower_trait( const std::string &flag ) const
 {
-        for (auto &i : mutation_branch::get( flag ).prereqs) {
-            if (has_trait(i) || has_lower_trait(i)) {
-                return true;
-            }
+    for( auto &i : mutation_branch::get( flag ).prereqs ) {
+        if( has_trait( i ) || has_lower_trait( i ) ) {
+            return true;
         }
+    }
     return false;
 }
 
-bool player::has_higher_trait(const std::string &flag) const
+bool player::has_higher_trait( const std::string &flag ) const
 {
-        for (auto &i : mutation_branch::get( flag ).replacements) {
-            if (has_trait(i) || has_higher_trait(i)) {
-                return true;
-            }
+    for( auto &i : mutation_branch::get( flag ).replacements ) {
+        if( has_trait( i ) || has_higher_trait( i ) ) {
+            return true;
         }
+    }
     return false;
 }
 
@@ -3776,25 +3776,25 @@ bool player::crossed_threshold() const
     return false;
 }
 
-bool player::purifiable(const std::string &flag) const
+bool player::purifiable( const std::string &flag ) const
 {
-    return mutation_branch::get(flag).purifiable;
+    return mutation_branch::get( flag ).purifiable;
 }
 
-void player::set_cat_level_rec(const std::string &sMut)
+void player::set_cat_level_rec( const std::string &sMut )
 {
-    if (!has_base_trait(sMut)) { //Skip base traits
+    if( !has_base_trait( sMut ) ) { //Skip base traits
         const auto &mdata = mutation_branch::get( sMut );
         for( auto &elem : mdata.category ) {
             mutation_category_level[elem] += 8;
         }
 
-        for (auto &i : mdata.prereqs) {
-            set_cat_level_rec(i);
+        for( auto &i : mdata.prereqs ) {
+            set_cat_level_rec( i );
         }
 
-        for (auto &i : mdata.prereqs2) {
-            set_cat_level_rec(i);
+        for( auto &i : mdata.prereqs2 ) {
+            set_cat_level_rec( i );
         }
     }
 }
@@ -3809,7 +3809,8 @@ void player::set_highest_cat_level()
     }
 }
 
-std::string player::get_highest_category() const // Returns the mutation category with the highest strength
+/// Returns the mutation category with the highest strength
+std::string player::get_highest_category() const 
 {
     int iLevel = 0;
     std::string sMaxCat = "";
@@ -3825,29 +3826,31 @@ std::string player::get_highest_category() const // Returns the mutation categor
     return sMaxCat;
 }
 
-std::string player::get_category_dream(const std::string &cat, int strength) const // Returns a randomly selected dream
+/// Returns a randomly selected dream
+std::string player::get_category_dream( const std::string &cat,
+                                        int strength ) const 
 {
     std::vector<dream> valid_dreams;
     //Pull the list of dreams
-    for (auto &i : dreams) {
+    for( auto &i : dreams ) {
         //Pick only the ones matching our desired category and strength
-        if ((i.category == cat) && (i.strength == strength)) {
+        if( ( i.category == cat ) && ( i.strength == strength ) ) {
             // Put the valid ones into our list
-            valid_dreams.push_back(i);
+            valid_dreams.push_back( i );
         }
     }
     if( valid_dreams.empty() ) {
         return "";
     }
-    const dream& selected_dream = random_entry( valid_dreams );
+    const dream &selected_dream = random_entry( valid_dreams );
     return random_entry( selected_dream.messages );
 }
 
 bool player::in_climate_control()
 {
-    bool regulated_area=false;
+    bool regulated_area = false;
     // Check
-    if( has_active_bionic("bio_climate") ) {
+    if( has_active_bionic( "bio_climate" ) ) {
         return true;
     }
     for( auto &w : worn ) {
@@ -3858,16 +3861,16 @@ bool player::in_climate_control()
             return true;
         }
     }
-    if( int(calendar::turn) >= next_climate_control_check ) {
+    if( int( calendar::turn ) >= next_climate_control_check ) {
         // save cpu and simulate acclimation.
-        next_climate_control_check = int(calendar::turn) + 20;
+        next_climate_control_check = int( calendar::turn ) + 20;
         int vpart = -1;
         vehicle *veh = g->m.veh_at( pos(), vpart );
-        if(veh) {
+        if( veh ) {
             regulated_area = (
-                veh->is_inside(vpart) &&    // Already checks for opened doors
-                veh->total_power(true) > 0  // Out of gas? No AC for you!
-            );  // TODO: (?) Force player to scrounge together an AC unit
+                                 veh->is_inside( vpart ) &&  // Already checks for opened doors
+                                 veh->total_power( true ) > 0 // Out of gas? No AC for you!
+                             );  // TODO: (?) Force player to scrounge together an AC unit
         }
         // TODO: AC check for when building power is implemented
         last_climate_control_ret = regulated_area;
@@ -3884,11 +3887,11 @@ bool player::in_climate_control()
 std::list<item *> player::get_radio_items()
 {
     std::list<item *> rc_items;
-    const invslice & stacks = inv.slice();
+    const invslice &stacks = inv.slice();
     for( auto &stack : stacks ) {
         item &itemit = stack->front();
         item *stack_iter = &itemit;
-        if( stack_iter->has_flag("RADIO_ACTIVATION") ) {
+        if( stack_iter->has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( stack_iter );
         }
     }
@@ -3899,8 +3902,8 @@ std::list<item *> player::get_radio_items()
         }
     }
 
-    if (!weapon.is_null()) {
-        if ( weapon.has_flag("RADIO_ACTIVATION")) {
+    if( !weapon.is_null() ) {
+        if( weapon.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &weapon );
         }
     }
@@ -3917,13 +3920,15 @@ bool player::has_active_optcloak() const
     return false;
 }
 
-void player::charge_power(int amount)
+void player::charge_power( int amount )
 {
- power_level += amount;
- if (power_level > max_power_level)
-  power_level = max_power_level;
- if (power_level < 0)
-  power_level = 0;
+    power_level += amount;
+    if( power_level > max_power_level ) {
+        power_level = max_power_level;
+    }
+    if( power_level < 0 ) {
+        power_level = 0;
+    }
 }
 
 
@@ -3938,7 +3943,7 @@ float player::active_light() const
     float lumination = 0;
 
     int maxlum = 0;
-    has_item_with( [&maxlum]( const item &it ) {
+    has_item_with( [&maxlum]( const item & it ) {
         const int lumit = it.getlight_emit();
         if( maxlum < lumit ) {
             maxlum = lumit;
@@ -3946,14 +3951,14 @@ float player::active_light() const
         return false; // continue search, otherwise has_item_with would cancel the search
     } );
 
-    lumination = (float)maxlum;
+    lumination = ( float )maxlum;
 
-    if ( lumination < 60 && has_active_bionic("bio_flashlight") ) {
+    if( lumination < 60 && has_active_bionic( "bio_flashlight" ) ) {
         lumination = 60;
-    } else if ( lumination < 25 && has_artifact_with(AEP_GLOW) ) {
+    } else if( lumination < 25 && has_artifact_with( AEP_GLOW ) ) {
         lumination = 25;
     } else if( lumination < 5 && has_effect( effect_glowing ) ) {
-            lumination = 5;
+        lumination = 5;
     }
     return lumination;
 }
@@ -3978,7 +3983,7 @@ const tripoint &player::pos() const
     return position;
 }
 
-int player::sight_range(int light_level) const
+int player::sight_range( int light_level ) const
 {
     /* Via Beer-Lambert we have:
      * light_level * (1 / exp( LIGHT_TRANSPARENCY_OPEN_AIR * distance) ) <= LIGHT_AMBIENT_LOW
@@ -3991,8 +3996,9 @@ int player::sight_range(int light_level) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = int(-log( get_vision_threshold( int(g->m.ambient_light_at(pos())) ) / (float)light_level ) *
-        (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR));
+    int range = int( -log( get_vision_threshold( int( g->m.ambient_light_at( pos() ) ) ) /
+                           ( float )light_level ) *
+                     ( 1.0 / LIGHT_TRANSPARENCY_OPEN_AIR ) );
     // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
     // Clamp to [1, sight_max].
@@ -4001,7 +4007,7 @@ int player::sight_range(int light_level) const
 
 int player::unimpaired_range() const
 {
-    return std::min(sight_max, 60);
+    return std::min( sight_max, 60 );
 }
 
 bool player::overmap_los( const tripoint &omt, int sight_points )
@@ -4019,20 +4025,21 @@ bool player::overmap_los( const tripoint &omt, int sight_points )
         const oter_id &ter = overmap_buffer.ter( pt );
         const int cost = otermap[ter].see_cost;
         sight_points -= cost;
-        if( sight_points < 0 )
+        if( sight_points < 0 ) {
             return false;
+        }
     }
     return true;
 }
 
-int player::overmap_sight_range(int light_level) const
+int player::overmap_sight_range( int light_level ) const
 {
-    int sight = sight_range(light_level);
+    int sight = sight_range( light_level );
     if( sight < SEEX ) {
         return 0;
     }
-    if( sight <= SEEX * 4) {
-        return (sight / (SEEX / 2) );
+    if( sight <= SEEX * 4 ) {
+        return ( sight / ( SEEX / 2 ) );
     }
     sight = has_trait( "BIRD_EYE" ) ? 15 : 10;
     bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_eye_optic" ) );
@@ -4060,25 +4067,25 @@ int player::clairvoyance() const
 
 bool player::sight_impaired() const
 {
- return ((( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) &&
-          (!(has_trait("PER_SLIME_OK")))) ||
-  (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE") &&
-              !worn_with_flag("SWIM_GOGGLES") && !has_trait("PER_SLIME_OK") &&
-              !has_trait("CEPH_EYES") ) ||
-  ((has_trait("MYOPIC") || has_trait("URSINE_EYE") ) &&
-                        !is_wearing("glasses_eye") &&
-                        !is_wearing("glasses_monocle") &&
-                        !is_wearing("glasses_bifocal") &&
-                        !has_effect( effect_contacts )) ||
-   has_trait("PER_SLIME"));
+    return ( ( ( has_effect( effect_boomered ) || has_effect( effect_darkness ) ) &&
+               ( !( has_trait( "PER_SLIME_OK" ) ) ) ) ||
+             ( underwater && !has_bionic( "bio_membrane" ) && !has_trait( "MEMBRANE" ) &&
+               !worn_with_flag( "SWIM_GOGGLES" ) && !has_trait( "PER_SLIME_OK" ) &&
+               !has_trait( "CEPH_EYES" ) ) ||
+             ( ( has_trait( "MYOPIC" ) || has_trait( "URSINE_EYE" ) ) &&
+               !is_wearing( "glasses_eye" ) &&
+               !is_wearing( "glasses_monocle" ) &&
+               !is_wearing( "glasses_bifocal" ) &&
+               !has_effect( effect_contacts ) ) ||
+             has_trait( "PER_SLIME" ) );
 }
 
 bool player::has_two_arms() const
 {
     // If you've got a blaster arm, low hp arm, or you're inside a shell then you don't have two
     // arms to use.
-    return !((has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10) ||
-             has_active_mutation("SHELL2"));
+    return !( ( has_bionic( "bio_blaster" ) || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10 ) ||
+              has_active_mutation( "SHELL2" ) );
 }
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
@@ -4113,23 +4120,23 @@ body_part player::get_random_body_part( bool main ) const
 
 bool player::has_alarm_clock() const
 {
-    return ( has_item_with_flag("ALARMCLOCK") ||
+    return ( has_item_with_flag( "ALARMCLOCK" ) ||
              (
-               ( g->m.veh_at( pos() ) != nullptr ) &&
-               !g->m.veh_at( pos() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
+                 ( g->m.veh_at( pos() ) != nullptr ) &&
+                 !g->m.veh_at( pos() )->all_parts_with_feature( "ALARMCLOCK", true ).empty()
              ) ||
-             has_bionic("bio_watch")
+             has_bionic( "bio_watch" )
            );
 }
 
 bool player::has_watch() const
 {
-    return ( has_item_with_flag("WATCH") ||
+    return ( has_item_with_flag( "WATCH" ) ||
              (
-               ( g->m.veh_at( pos() ) != nullptr ) &&
-               !g->m.veh_at( pos() )->all_parts_with_feature( "WATCH", true ).empty()
+                 ( g->m.veh_at( pos() ) != nullptr ) &&
+                 !g->m.veh_at( pos() )->all_parts_with_feature( "WATCH", true ).empty()
              ) ||
-             has_bionic("bio_watch")
+             has_bionic( "bio_watch" )
            );
 }
 
@@ -4140,22 +4147,24 @@ void player::pause()
 
     ///\EFFECT_GUN increases recoil recovery speed
     recoil -= str_cur + 2 * get_skill_level( skill_gun );
-    recoil = std::max(MIN_RECOIL * 2, recoil);
+    recoil = std::max( MIN_RECOIL * 2, recoil );
     recoil = recoil / 2;
 
     // Train swimming if underwater
     if( underwater ) {
         practice( skill_swimming, 1 );
-        drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
-                    mfb(bp_head)| mfb(bp_eyes)|mfb(bp_mouth)|mfb(bp_foot_l)|mfb(bp_foot_r)|
-                    mfb(bp_hand_l)|mfb(bp_hand_r), true );
+        drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) | mfb(
+                    bp_arm_r ) |
+                mfb( bp_head ) | mfb( bp_eyes ) | mfb( bp_mouth ) | mfb( bp_foot_l ) | mfb( bp_foot_r ) |
+                mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
     } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
         practice( skill_swimming, 1 );
         // Same as above, except no head/eyes/mouth
-        drench(100, mfb(bp_leg_l)|mfb(bp_leg_r)|mfb(bp_torso)|mfb(bp_arm_l)|mfb(bp_arm_r)|
-                    mfb(bp_foot_l)|mfb(bp_foot_r)| mfb(bp_hand_l)|mfb(bp_hand_r), true );
+        drench( 100, mfb( bp_leg_l ) | mfb( bp_leg_r ) | mfb( bp_torso ) | mfb( bp_arm_l ) | mfb(
+                    bp_arm_r ) |
+                mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_hand_l ) | mfb( bp_hand_r ), true );
     } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
-        drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
+        drench( 40, mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_leg_l ) | mfb( bp_leg_r ), false );
     }
 
     if( is_npc() ) {
@@ -4165,13 +4174,13 @@ void player::pause()
     }
 
     VehicleList vehs = g->m.get_vehicles();
-    vehicle* veh = NULL;
-    for (auto &v : vehs) {
+    vehicle *veh = NULL;
+    for( auto &v : vehs ) {
         veh = v.v;
-        if (veh && veh->velocity != 0 && veh->player_in_control(*this)) {
-            if (one_in(8)) {
-                double exp_temp = 1 + veh->total_mass() / 400.0 + std::abs (veh->velocity / 3200.0);
-                int experience = int(exp_temp);
+        if( veh && veh->velocity != 0 && veh->player_in_control( *this ) ) {
+            if( one_in( 8 ) ) {
+                double exp_temp = 1 + veh->total_mass() / 400.0 + std::abs( veh->velocity / 3200.0 );
+                int experience = int( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
