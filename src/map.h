@@ -586,8 +586,6 @@ public:
     // "fire" item to be used for example when crafting or when
     // a iuse function needs fire.
     bool has_nearby_fire( const tripoint &p, int radius = 1);
-    //Check for terrain with fresh water
-    bool has_nearby_water( const tripoint &p, int radius = 1);
     /**
      * Check if creature can see some items at p. Includes:
      * - check for items at this location (has_items(p))
