@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "path_info.h"
 #include "translations.h"
+#include "cata_utility.h"
 
 #include <iostream>
 #include <iterator>
@@ -36,7 +37,7 @@ void sokoban_game::print_score(WINDOW *w_sokoban, int iScore, int iMoves)
 
 }
 
-bool sokoban_game::parse_level( std::istream &fin )
+void sokoban_game::parse_level( std::istream &fin )
 {
     /*
     # Wall
@@ -87,9 +88,8 @@ bool sokoban_game::parse_level( std::istream &fin )
                     mLevelInfo[iNumLevel]["PlayerY"] = mLevelInfo[iNumLevel]["MaxLevelY"];
                     mLevelInfo[iNumLevel]["PlayerX"] = i;
                 } else {
-                    //2 @ found error!
-                    fin.close();
-                    return false;
+                    // TODO: describe why it's invalid
+                    throw std::runtime_error( "invalid content of sokoban file" );
                 }
             }
 
@@ -102,24 +102,6 @@ bool sokoban_game::parse_level( std::istream &fin )
 
         mLevelInfo[iNumLevel]["MaxLevelY"]++;
     }
-    return true;
-}
-
-bool sokoban_game::parse_level()
-{
-    std::ifstream fin;
-    fin.open(std::string(FILENAMES["sokoban"]).c_str());
-    if(!fin.is_open()) {
-        fin.close();
-        debugmsg("Could not read \"%s\".", FILENAMES["sokoban"].c_str());
-        return false;
-    }
-
-    const bool result = parse_level( fin );
-
-    fin.close();
-
-    return result;
 }
 
 int sokoban_game::get_wall_connection(const int iY, const int iX)
@@ -255,7 +237,8 @@ int sokoban_game::start_game()
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    parse_level();
+    using namespace std::placeholders;
+    read_from_file( FILENAMES["sokoban"], std::bind( &sokoban_game::parse_level, this, _1 ) );
 
     WINDOW *w_sokoban = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
     WINDOW_PTR w_sokobanptr( w_sokoban );
