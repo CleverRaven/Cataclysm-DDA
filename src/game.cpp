@@ -3504,11 +3504,9 @@ void game::load_uistate(std::string worldname)
 void game::load(std::string worldname, std::string name)
 {
     std::ifstream fin;
-    std::string worldpath = world_generator->all_worlds[worldname]->world_path;
-    worldpath += "/";
-    std::stringstream playerfile;
-    playerfile << worldpath << name << ".sav";
-    fin.open(playerfile.str().c_str(), std::ifstream::in | std::ifstream::binary);
+    const std::string worldpath = world_generator->all_worlds[worldname]->world_path + "/";
+    const std::string playerfile = worldpath + name + ".sav";
+    fin.open(playerfile.c_str(), std::ifstream::in | std::ifstream::binary);
     // First, read in basic game state information.
     if (!fin.is_open()) {
         dbg(D_ERROR) << "game:load: No save game exists!";
