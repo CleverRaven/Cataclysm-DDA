@@ -10848,6 +10848,10 @@ void game::butcher()
         add_msg(m_info, _("You can't butcher while driving!"));
         return;
     }
+    if( !m.can_put_items_ter_furn( u.pos() ) ) {
+        add_msg( m_info, _( "You can't butcher while standing here!" ) );
+        return;
+    }
 
     const int factor = u.max_quality( quality_id( "BUTCHER" ) );
     const item *first_item_without_tools = nullptr;
