@@ -123,6 +123,7 @@ class player_morale
         void invalidate();
 
         void update_stylish_bonus();
+        void update_squeamish_penalty();
         void update_masochist_bonus();
         void update_bodytemp_penalty( int ticks );
         void update_constrained_penalty();
@@ -133,12 +134,14 @@ class player_morale
         struct body_part_data {
             unsigned int covered;
             unsigned int fancy;
+            unsigned int filthy;
             int hot;
             int cold;
 
             body_part_data() :
                 covered( 0 ),
                 fancy( 0 ),
+                filthy( 0 ),
                 hot( 0 ),
                 cold( 0 ) {};
         };
