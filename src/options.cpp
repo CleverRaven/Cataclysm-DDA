@@ -683,51 +683,44 @@ static std::string build_resource_list(
                                                      FILENAMES[dirname_label], true );
 
     for( auto &resource_dir : resource_dirs ) {
-        std::ifstream fin;
-        std::string file = resource_dir + "/" + FILENAMES[filename_label];
+        read_from_file( resource_dir + "/" + FILENAMES[filename_label], [&]( std::istream &fin ) {
+            std::string resource_name;
+            // should only have 2 values inside it, otherwise is going to only load the last 2 values
+            while( !fin.eof() ) {
+                std::string sOption;
+                fin >> sOption;
 
-        fin.open( file.c_str() );
-        if( !fin.is_open() ) {
-            DebugLog( D_ERROR, DC_ALL ) << "Can't read " << operation_name << " config from " << file;
-        }
-
-        std::string resource_name;
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        while( !fin.eof() ) {
-            std::string sOption;
-            fin >> sOption;
-
-            if( sOption.empty() ) {
-                getline( fin, sOption );    // Empty line, chomp it
-            } else if( sOption[0] == '#' ) { // # indicates a comment
-                getline( fin, sOption );
-            } else {
-                if( sOption.find( "NAME" ) != std::string::npos ) {
-                    resource_name = "";
-                    getline( fin, resource_name );
-                    resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
-                    resource_name = trim( resource_name );
-                    if( resource_names.empty() ) {
-                        resource_names += resource_name;
-                    } else {
-                        resource_names += std::string( "," );
-                        resource_names += resource_name;
+                if( sOption.empty() ) {
+                    getline( fin, sOption );    // Empty line, chomp it
+                } else if( sOption[0] == '#' ) { // # indicates a comment
+                    getline( fin, sOption );
+                } else {
+                    if( sOption.find( "NAME" ) != std::string::npos ) {
+                        resource_name = "";
+                        getline( fin, resource_name );
+                        resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
+                        resource_name = trim( resource_name );
+                        if( resource_names.empty() ) {
+                            resource_names += resource_name;
+                        } else {
+                            resource_names += std::string( "," );
+                            resource_names += resource_name;
+                        }
+                    } else if( sOption.find( "VIEW" ) != std::string::npos ) {
+                        std::string viewName = "";
+                        getline( fin, viewName );
+                        viewName = trim( viewName );
+                        optionNames[resource_name] = viewName;
+                        break;
                     }
-                } else if( sOption.find( "VIEW" ) != std::string::npos ) {
-                    std::string viewName = "";
-                    getline( fin, viewName );
-                    viewName = trim( viewName );
-                    optionNames[resource_name] = viewName;
-                    break;
                 }
             }
-        }
-        fin.close();
-        if( resource_option.count( resource_name ) != 0 ) {
-            DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
-        } else {
-            resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
-        }
+            if( resource_option.count( resource_name ) != 0 ) {
+                DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
+            } else {
+                resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
+            }
+        } );
     }
 
     return resource_names;
