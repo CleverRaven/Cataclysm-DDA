@@ -94,17 +94,13 @@ class inventory_column {
         bool empty() const {
             return items.empty();
         }
-        // true if can be shown on the screen
-        virtual bool visible() const {
-            return !empty();
-        }
         // true if can be activated
         virtual bool activatable() const {
-            return visible();
+            return !empty();
         }
         // true if allows selecting items
         virtual bool allows_selecting() const {
-            return visible();
+            return activatable();
         }
 
         size_t page_index() const {
@@ -303,7 +299,7 @@ class inventory_selector
         void toggle_active_column();
         void toggle_navigation_mode();
 
-        void add_column( inventory_column *new_column );
+        void insert_column( decltype( columns )::iterator position, inventory_column *new_column );
 };
 
 itemstack_or_category *inventory_column::get_by_invlet( long invlet ) const
@@ -671,9 +667,6 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     size_t column_x = 1;
 
     for( const auto &column : columns ) {
-        if( !column->visible() ) {
-            continue;
-        }
         column_x += column->get_max_width();
         if( column_x > max_x ) {
             break;
@@ -687,10 +680,6 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         ++i, column_x += column_width ) {
 
         const auto &column = get_column( i );
-
-        if( !column.visible() ) {
-            continue;
-        }
 
         column.draw( w_inv, column_x, 2, column_width );
 
@@ -763,10 +752,15 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("ANY_INPUT"); // For invlets
 
-    auto first_column = new inventory_column();
-    auto second_column = new inventory_column();
+
+    std::unique_ptr<inventory_column> first_column( new inventory_column() );
+    std::unique_ptr<inventory_column> second_column( new inventory_column() );
 
     first_column->add_items( u.inv.indexed_slice_filter_by( filter ), add_to::END );
+
+    if( !first_column->empty() ) {
+        insert_column( columns.end(), first_column.release() );
+    }
 
     if( u.is_armed() && filter( u.weapon ) ) {
         second_column->add_item( itemstack_or_category( &u.weapon, -1, &weapon_cat ), add_to::END );
@@ -781,8 +775,9 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
         ++i;
     }
 
-    add_column( first_column );
-    add_column( second_column );
+    if( !second_column->empty() ) {
+        insert_column( columns.end(), second_column.release() );
+    }
 }
 
 inventory_selector::~inventory_selector()
@@ -880,16 +875,13 @@ void inventory_selector::set_active_column( size_t index )
 
 void inventory_selector::toggle_active_column()
 {
-    size_t new_index = active_column_index;
-    do {
-        if( ++new_index == columns.size() ) {
-            new_index = 0;
-        } else if( new_index == active_column_index ) {
-            return; // no toggling is possible
-        }
-    } while( !get_column( new_index ).activatable() );
+    size_t index = active_column_index;
 
-    set_active_column( new_index );
+    do {
+        index = ( index + 1 < columns.size() ) ? index + 1 : 0;
+    } while( index != active_column_index && !get_column( index ).activatable() );
+
+    set_active_column( index );
 }
 
 void inventory_selector::toggle_navigation_mode()
@@ -905,17 +897,17 @@ void inventory_selector::toggle_navigation_mode()
     }
 }
 
-void inventory_selector::add_column( inventory_column *new_column )
+void inventory_selector::insert_column( decltype( columns )::iterator position, inventory_column *new_column )
 {
-    if( new_column != nullptr ) {
-        std::unique_ptr<inventory_column> column( new_column );
+    assert( new_column != nullptr );
 
-        if( columns.empty() ) {
-            column->on_activate();
-        }
-        column->on_mode_change( navigation );
-        columns.push_back( std::move( column ) );
+    std::unique_ptr<inventory_column> column( new_column );
+
+    if( columns.empty() ) {
+        column->on_activate();
     }
+    column->on_mode_change( navigation );
+    columns.insert( position, std::move( column ) );
 }
 
 int inventory_selector::execute_pick( const std::string &title )
@@ -996,7 +988,7 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
 
 void inventory_selector::execute_compare( const std::string &title )
 {
-    add_column( new selection_column( "ITEMS TO COMPARE", _( "ITEMS TO COMPARE" ) ) );
+    insert_column( columns.end(), new selection_column( "ITEMS TO COMPARE", _( "ITEMS TO COMPARE" ) ) );
     prepare_columns( true );
 
     std::vector<itemstack_or_category *> compared;
@@ -1081,7 +1073,7 @@ void inventory_selector::execute_compare( const std::string &title )
 
 std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std::string &title )
 {
-    add_column( new selection_column( "ITEMS TO DROP", _( "ITEMS TO DROP" ) ) );
+    insert_column( columns.end(), new selection_column( "ITEMS TO DROP", _( "ITEMS TO DROP" ) ) );
     prepare_columns( true );
 
     int count = 0;
