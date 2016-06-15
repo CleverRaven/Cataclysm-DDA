@@ -8301,8 +8301,9 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         return 0;
     }
     
-    if( !g->m.has_nearby_water( p->pos() ) ) {
-        p->add_msg_if_player( _( "You need a source of fresh water to use this." ) );
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_amount( "water", 40 ) && !crafting_inv.has_amount( "water_clean", 40 ) ) {
+        p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
         return 0;
     }
     
@@ -8315,6 +8316,11 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         return 0;
     }
 
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "water", 40 ) );
+    comps.push_back( item_comp( "water_clean", 40 ) );
+    p->consume_items( comps );
+    
     p->add_msg_if_player( _( "You washed your clothing." ) );
     p->mod_moves( -3000 );
     mod.item_tags.erase( "FILTHY" );
