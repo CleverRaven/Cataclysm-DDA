@@ -3236,70 +3236,70 @@
       {
          "id" : "recipe_bows",
          "fg" : 880,
-         "bg" : 912, 
-         "rotates" : false, 
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      },  
+      },
         {
           "rotates": false,
           "id": "recipe_serum",
-         "fg" : 885, 
+         "fg" : 885,
          "bg" : 912
         },
-      { 
-         "id" : "sm_extinguisher", 
-         "fg" : 426, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "sm_extinguisher",
+         "fg" : 426,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "longshirt", 
-         "fg" : 957, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "longshirt",
+         "fg" : 957,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_mechanics", 
-         "fg" : 895, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_mechanics",
+         "fg" : 895,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_mechanics", 
-         "fg" : 895, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_mechanics",
+         "fg" : 895,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "glass_shard",
           "fg": 77
         },
-      { 
-         "id" : "mag_smg", 
-         "fg" : 901, 
-         "bg" : 912, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "manual_smg", 
-         "fg" : 901, 
-         "bg" : 914, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
       {
-         "id" : "mag_survival", 
-         "fg" : 902, 
-         "bg" : 912, 
-         "rotates" : false, 
+         "id" : "mag_smg",
+         "fg" : 901,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
+      {
+         "id" : "manual_smg",
+         "fg" : 901,
+         "bg" : 914,
+         "rotates" : false,
+         "multitile" : false
+      },
+      {
+         "id" : "mag_survival",
+         "fg" : 902,
+         "bg" : 912,
+         "rotates" : false,
+         "multitile" : false
+      },
         {
             "id":"f_sofa",
             "fg":103,
@@ -3861,7 +3861,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_hdframe_horizontal",
             "fg":1968,
@@ -3987,7 +3987,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_hdframe_cover",
             "fg":1970,
@@ -4127,7 +4127,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_frame_wood_cover",
             "fg":2050,
@@ -4141,7 +4141,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_frame_handle",
             "fg":323,
@@ -4165,7 +4165,7 @@
                     "fg":361
                 }
             ]
-        },      
+        },
         {
             "id":"vp_board_horizontal",
             "fg":2036,
@@ -4875,12 +4875,12 @@
             "id":"vp_roof_cloth",
             "fg":320,
             "rotates":true
-        },  
+        },
         {
             "id":"vp_hdroof",
             "fg":320,
             "rotates":true
-        },  
+        },
         {
             "id":"vp_door",
             "fg":326,
@@ -5022,7 +5022,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_blade_horizontal",
             "fg":330,
@@ -5075,7 +5075,7 @@
                     "bg": -1
                 }
             ]
-        },      
+        },
         {
             "id":"vp_wheel_wide",
             "fg":338,
@@ -5146,7 +5146,7 @@
             "id":"wheel_motorbike",
             "fg":456,
             "rotates":true
-        },      
+        },
         {
             "id":"vp_wheel_small",
             "fg":339,
@@ -5346,7 +5346,7 @@
             "id":"vp_solar_panel",
             "fg":340,
             "bg":-1,
-            "rotates":true,      
+            "rotates":true,
             "multitile":true,
             "additional_tiles":
             [
@@ -5360,7 +5360,7 @@
             "id":"vp_solar_panel_v2",
             "fg":2226,
             "bg":-1,
-            "rotates":true,      
+            "rotates":true,
             "multitile":true,
             "additional_tiles":
             [
@@ -5374,7 +5374,7 @@
             "id":"vp_solar_panel_v3",
             "fg":2227,
             "bg":-1,
-            "rotates":true,      
+            "rotates":true,
             "multitile":true,
             "additional_tiles":
             [
@@ -5511,10 +5511,10 @@
             "id":"vp_veh_table",
             "fg":315,
             "rotates":true
-        },      
+        },
         {
             "id":"vp_m249",
-            "fg":375,           
+            "fg":375,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5529,7 +5529,7 @@
         },
         {
             "id":"vp_flamethrower",
-            "fg":376,           
+            "fg":376,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5544,7 +5544,7 @@
         },
         {
             "id":"vp_plasma_gun",
-            "fg":377,           
+            "fg":377,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5559,7 +5559,7 @@
         },
         {
             "id":"vp_fusion_gun",
-            "fg":378,           
+            "fg":378,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5574,7 +5574,7 @@
         },
         {
             "id":"vp_mounted_browning",
-            "fg":374,           
+            "fg":374,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -5586,10 +5586,10 @@
                     "bg":364
                 }
             ]
-        },      
+        },
         {
            "id": "vp_laser_gun",
-            "fg":379,           
+            "fg":379,
             "bg":320,
             "rotates":true,
             "multitile":true,
@@ -6149,7 +6149,6 @@
          "rotates" : false,
          "multitile" : false
       },
-
         {
             "id":"shot_hull",
             "fg":577,
@@ -6552,13 +6551,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "oxy_powder", 
-         "fg" : 452, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "oxy_powder",
+         "fg" : 452,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "selfbow",
          "fg" : 646,
@@ -6734,13 +6733,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "boots_rubber", 
-         "fg" : 451, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "boots_rubber",
+         "fg" : 451,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "boots_winter",
          "fg" : 682,
@@ -7231,7 +7230,6 @@
          "rotates" : false,
          "multitile" : false
       },
-
       {
          "id" : "coat_rain",
          "fg" : 744,
@@ -8198,20 +8196,20 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "mag_cars", 
-         "fg" : 888, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "mag_cars",
+         "fg" : 888,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_driving", 
-         "fg" : 888, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_driving",
+         "fg" : 888,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "mag_cooking",
          "fg" : 884,
@@ -8225,15 +8223,15 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_guns", 
-         "fg" : 894, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "mag_guns",
+         "fg" : 894,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
+      },
+      {
          "id" : "pocket_firearms", 
          "fg" : 894, 
          "bg" : 913, 
