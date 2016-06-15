@@ -152,6 +152,15 @@ Name::Name( std::string name, uint32_t type )
     _type = type;
 }
 
+void NameGenerator::load( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        JsonObject json_name = jsin.get_object();
+        load_name( json_name );
+    }
+}
+
 void load_names_from_file( const std::string &filename )
 {
     std::ifstream data_file;
@@ -159,8 +168,6 @@ void load_names_from_file( const std::string &filename )
     if( !data_file.good() ) {
         throw std::runtime_error( std::string( "Could not read " ) + filename );
     }
-
-    NameGenerator &gen = NameGenerator::generator();
 
     std::istringstream iss(
         std::string(
@@ -171,11 +178,6 @@ void load_names_from_file( const std::string &filename )
     JsonIn jsin( iss );
     data_file.close();
 
-    // load em all
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject json_name = jsin.get_object();
-        gen.load_name( json_name );
-    }
+    NameGenerator::generator().load( jsin );
 }
 
