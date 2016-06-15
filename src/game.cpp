@@ -3482,16 +3482,11 @@ void game::load_uistate(std::string worldname)
 
 void game::load(std::string worldname, std::string name)
 {
-    std::ifstream fin;
+    using namespace std::placeholders;
+
     const std::string worldpath = world_generator->all_worlds[worldname]->world_path + "/";
     const std::string playerfile = worldpath + name + ".sav";
-    fin.open(playerfile.c_str(), std::ifstream::in | std::ifstream::binary);
-    // First, read in basic game state information.
-    if (!fin.is_open()) {
-        dbg(D_ERROR) << "game:load: No save game exists!";
-        debugmsg("No save game exists!");
-        return;
-    }
+
     // Now load up the master game data; factions (and more?)
     load_master(worldname);
     u = player();
@@ -3499,24 +3494,15 @@ void game::load(std::string worldname, std::string name)
     // This should be initialized more globally (in player/Character constructor)
     u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
-    unserialize(fin);
-    fin.close();
+    if( !read_from_file( playerfile, std::bind( &game::unserialize, this, _1 ) ) ) {
+        return;
+    }
 
-    // weather
-    std::string wfile = std::string(worldpath + name + ".weather");
-    fin.open(wfile.c_str());
-    if (fin.is_open()) {
-        load_weather(fin);
-    }
-    fin.close();
+    read_from_file_optional( worldpath + name + ".weather", std::bind( &game::load_weather, this, _1 ) );
     nextweather = int(calendar::turn);
-    // log
-    std::string mfile = std::string(worldpath + name + ".log");
-    fin.open(mfile.c_str());
-    if (fin.is_open()) {
-        u.load_memorial_file(fin);
-    }
-    fin.close();
+
+    read_from_file_optional( worldpath + name + ".log", std::bind( &player::load_memorial_file, &u, _1 ) );
+
     // Now that the player's worn items are updated, their sight limits need to be
     // recalculated. (This would be cleaner if u.worn were private.)
     u.recalc_sight_limits();
