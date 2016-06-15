@@ -431,14 +431,8 @@ void mod_manager::load_mods_list(WORLDPTR world) const
     }
     std::vector<std::string> &amo = world->active_mod_order;
     amo.clear();
-    std::ifstream mods_list_file( get_mods_list_file(world).c_str(),
-                                  std::ios::in | std::ios::binary );
-    if (!mods_list_file) {
-        return;
-    }
     bool obsolete_mod_found = false;
-    try {
-        JsonIn jsin(mods_list_file);
+    read_from_file_optional( get_mods_list_file( world ), [&]( JsonIn &jsin ) {
         JsonArray ja = jsin.get_array();
         while (ja.has_more()) {
             const std::string mod = ja.next_string();
@@ -452,9 +446,7 @@ void mod_manager::load_mods_list(WORLDPTR world) const
 
             amo.push_back(mod);
         }
-    } catch( const JsonError &e ) {
-        DebugLog( D_ERROR, DC_ALL ) << "worldfactory: loading mods list failed: " << e;
-    }
+    } );
     if( obsolete_mod_found ) {
         // If we found an obsolete mod, overwrite the mod list without the obsolete one.
         save_mods_list(world);
