@@ -6704,11 +6704,11 @@ int vehicle_part::wheel_width() const
 bool vehicle_part::is_light() const
 {
     const auto &vp = info();
-    return vp.has_flag( "CONE_LIGHT" ) ||
-           vp.has_flag( "CIRCLE_LIGHT" ) ||
-           vp.has_flag( "AISLE_LIGHT" ) ||
-           vp.has_flag( "DOME_LIGHT" ) ||
-           vp.has_flag( "ATOMIC_LIGHT" );
+    return vp.has_flag( VPFLAG_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
+           vp.has_flag( VPFLAG_AISLE_LIGHT ) ||
+           vp.has_flag( VPFLAG_DOME_LIGHT ) ||
+           vp.has_flag( VPFLAG_ATOMIC_LIGHT );
 }
 
 const vpart_info &vehicle_part::info() const
