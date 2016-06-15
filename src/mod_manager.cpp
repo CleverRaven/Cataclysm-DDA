@@ -59,22 +59,13 @@ const std::map<std::string, std::string> &get_mod_list_cat_tab() {
 
 static void load_obsolete_mods( const std::string path )
 {
-    // info_file_path is the fully qualified path to the information file for this mod
-    std::ifstream infile( path.c_str(), std::ifstream::in | std::ifstream::binary );
-    if( !infile ) {
-        // fail silently?
-        return;
-    }
-    try {
-        JsonIn jsin( infile );
+    read_from_file_optional( path, [&]( JsonIn &jsin ) {
         jsin.start_array();
         // find type and dispatch each object until array close
         while (!jsin.end_array()) {
             obsolete_mod_list.insert( jsin.get_string() );
         }
-    } catch( const JsonError &e ) {
-        debugmsg("%s", e.c_str());
-    }
+    } );
 }
 
 mod_manager::mod_manager()
