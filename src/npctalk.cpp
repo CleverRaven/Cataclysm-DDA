@@ -1158,9 +1158,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         return _("How should I aim?");
 
     } else if( topic == "TALK_STRANGER_NEUTRAL" ) {
-        if (p->myclass == NC_TRADER) {
-            return _("Hello!  Would you care to see my goods?");
-        }
         return _("Hello there.");
 
     } else if( topic == "TALK_STRANGER_WARY" ) {
@@ -1170,9 +1167,6 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         return _("Keep your distance!");
 
     } else if( topic == "TALK_STRANGER_FRIENDLY" ) {
-        if (p->myclass == NC_TRADER) {
-            return _("Hello!  Would you care to see my goods?");
-        }
         return _("Hey there, <name_g>.");
 
     } else if( topic == "TALK_STRANGER_AGGRESSIVE" ) {
@@ -1549,8 +1543,7 @@ void dialogue::gen_responses( const std::string &topic )
                 SUCCESS_ACTION(&talk_function::clear_mission);
         add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
                       &talk_function::mission_reward );
-        if((!p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty())
-              && p->myclass != NC_EVAC_SHOPKEEP) {
+        if( !p->skills_offered_to(g->u).empty() || !p->styles_offered_to(g->u).empty() ) {
             RESPONSE(_("Maybe you can teach me something as payment."));
                 SUCCESS("TALK_TRAIN");
         }
