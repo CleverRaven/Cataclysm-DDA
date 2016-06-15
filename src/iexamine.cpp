@@ -646,7 +646,7 @@ void iexamine::rubble(player &p, const tripoint &examp)
 
     // Select our best shovel
     auto it = std::max_element( shovels.begin(), shovels.end(), []( const item *lhs, const item *rhs ) {
-        return lhs->get_quality( quality_dig ) > rhs->get_quality( quality_dig );
+        return lhs->get_quality( quality_dig ) < rhs->get_quality( quality_dig );
     } );
 
     p.invoke_item( *it, "DIG", examp );
