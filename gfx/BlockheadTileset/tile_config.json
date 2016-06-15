@@ -10275,11 +10275,11 @@
       },
       {
          "id" : "caff_gum",
-         "fg" : 1145, 
-         "bg" : -1, 
-         "rotates" : false, 
+         "fg" : 1145,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "vinegar",
          "fg" : 1145,
@@ -10342,20 +10342,20 @@
             "fg":135,
             "rotates":true
         },
-      { 
-         "id" : "canteen", 
-         "fg" : 2213, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "canteen",
+         "fg" : 2213,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "2lcanteen", 
-         "fg" : 2215, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "2lcanteen",
+         "fg" : 2215,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "jerrycan",
          "fg" : 1159,
@@ -10635,13 +10635,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "chitin_piece", 
-         "fg" : 1215, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "chitin_piece",
+         "fg" : 1215,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "biollante_bud",
          "fg" : 1216,
@@ -10725,14 +10725,14 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "wire", 
-         "fg" : 411, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "wire",
+         "fg" : 411,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "wire_barbed",
          "fg" : 1228,
@@ -12268,18 +12268,18 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "flaregun", 
-         "fg" : 463, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "flaregun",
+         "fg" : 463,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "RPG",
         "fg" : 1764,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
         {
@@ -12418,13 +12418,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "hotplate", 
-         "fg" : 2217, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "hotplate",
+         "fg" : 2217,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "soldering_iron",
          "fg" : 1493,
@@ -12656,13 +12656,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "canister_goo", 
-         "fg" : 2222, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "canister_goo",
+         "fg" : 2222,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "pipebomb",
          "fg" : 1527,
@@ -14240,13 +14240,13 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "charcoal", 
-         "fg" : 459, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "charcoal",
+         "fg" : 459,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "tanto",
          "fg" : 1584,
@@ -14327,45 +14327,45 @@
       {
         "id" : "cranberries",
         "fg" : 1847,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
         "id" : "rm614_lmg",
         "fg" : 1765,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
+      {
          "id" : "50bmg",
          "fg" : 621,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
+      {
          "id" : "50ss",
          "fg" : 622,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
+      {
          "id" : "50_incendiary",
          "fg" : 623,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
+      {
          "id" : "40mm_shot",
          "fg" : 578,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
+      },
+      {
          "id" : "40mm_flechette",
          "fg" : 579,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "eyedrops",
@@ -14377,15 +14377,15 @@
           "fg": 2211
         },
       {
-        "id" : "e_scrap", 
+        "id" : "e_scrap",
         "fg" : 1827,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "spoon",
         "fg" : 1824,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
         {
@@ -14421,13 +14421,13 @@
           "id": "dinosuit",
           "fg": 2220
         },
-      { 
-         "id" : "novel_pulp", 
-         "fg" : 930, 
-         "bg" : 913, 
-         "rotates" : false, 
+      {
+         "id" : "novel_pulp",
+         "fg" : 930,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "solder_wire",
@@ -14436,65 +14436,65 @@
       {
         "id" : "battletorch",
         "fg" : 1752,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "battletorch_lit",
         "fg" : 1753,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "makeshift_knife",
         "fg" : 1751,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "switchblade",
         "fg" : 1748,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "jack",
         "fg" : 1747,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "scythe",
         "fg" : 1745,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
-        "id" : "scythe_war", 
+        "id" : "scythe_war",
         "fg" : 1746,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
       {
         "id" : "sickle",
         "fg" : 1744,
-         "rotates" : false, 
+         "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "minifridge", 
-         "fg" : 1293, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "minifridge",
+         "fg" : 1293,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "char_smoker", 
-         "fg" : 435, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "char_smoker",
+         "fg" : 435,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "sharp_toothbrush",
@@ -14503,7 +14503,7 @@
         {
           "rotates": false,
           "id": "file",
-         "fg" : 912, 
+         "fg" : 912,
          "bg" : 936
         },
         {
