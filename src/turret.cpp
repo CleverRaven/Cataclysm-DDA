@@ -248,7 +248,7 @@ void vehicle::turret_reload( vehicle_part &pt )
     // try to reload using stored fuel from onboard vehicle tanks
     for( const auto &e : fuels_left() ) {
         const itype *fuel = item::find_type( e.first );
-        if( !fuel->ammo ) {
+        if( !fuel->ammo || e.second == 0 ) {
             continue;
         }
 
