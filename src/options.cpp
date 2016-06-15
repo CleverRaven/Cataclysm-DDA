@@ -1908,36 +1908,25 @@ void options_manager::load()
 
 bool options_manager::load_legacy()
 {
-    std::ifstream fin;
-    // Try at the legacy location.
-    fin.open(FILENAMES["legacy_options"].c_str());
-    if(!fin.is_open()) {
-        // Try at the legacy location 2.
-        fin.open(FILENAMES["legacy_options2"].c_str());
-        if(!fin.is_open()) {
-            //No legacy txt options found, load json options
-            return false;
+    const auto reader = [&]( std::istream &fin ) {
+        std::string sLine;
+        while(!fin.eof()) {
+            getline(fin, sLine);
+
+            if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
+                int iPos = sLine.find(' ');
+                const std::string loadedvar = sLine.substr(0, iPos);
+                const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
+                // option with values from post init() might get clobbered
+                add_retry(loadedvar, loadedval); // stash it until update();
+
+                global_options[ loadedvar ].setValue( loadedval );
+            }
         }
-    }
+    };
 
-    std::string sLine;
-    while(!fin.eof()) {
-        getline(fin, sLine);
-
-        if(sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
-            int iPos = sLine.find(' ');
-            const std::string loadedvar = sLine.substr(0, iPos);
-            const std::string loadedval = sLine.substr(iPos + 1, sLine.length());
-            // option with values from post init() might get clobbered
-            add_retry(loadedvar, loadedval); // stash it until update();
-
-            global_options[ loadedvar ].setValue( loadedval );
-        }
-    }
-
-    fin.close();
-
-    return true;
+    return read_from_file_optional( FILENAMES["legacy_options"], reader ) ||
+           read_from_file_optional( FILENAMES["legacy_options2"], reader );
 }
 
 bool use_narrow_sidebar()
