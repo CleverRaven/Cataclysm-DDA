@@ -65,11 +65,11 @@ int vehicle::turret_fire( vehicle_part &pt )
 
     switch( turret_query( pt ) ) {
         case turret_status::no_ammo:
-            add_msg( m_bad, string_format( _( "The %s is out of ammo" ), pt.name().c_str() ).c_str() );
+            add_msg( m_bad, string_format( _( "The %s is out of ammo." ), pt.name().c_str() ).c_str() );
             break;
 
         case turret_status::no_power:
-            add_msg( m_bad, string_format( _( "The %s is not powered" ), pt.name().c_str() ).c_str() );
+            add_msg( m_bad, string_format( _( "The %s is not powered." ), pt.name().c_str() ).c_str() );
             break;
 
         case turret_status::ready: {
