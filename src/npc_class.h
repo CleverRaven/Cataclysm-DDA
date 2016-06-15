@@ -15,6 +15,7 @@ class npc_class
 {
     private:
         std::string name;
+        std::string job_description;
 
     public:
         npc_class_id id;
@@ -23,6 +24,7 @@ class npc_class
         npc_class();
 
         const std::string &get_name() const;
+        const std::string &get_job_description() const;
 
         void load( JsonObject &jo );
 

@@ -2,70 +2,87 @@
     {
         "type" : "npc_class",
         "id" : "NC_NONE",
-        "name" : "No class"
+        "name" : "No class",
+        "job_description" : "I'm just wandering."
     },{
         "type" : "npc_class",
         "id" : "NC_EVAC_SHOPKEEP",
-        "name" : "Merchant"
+        "name" : "Merchant",
+        "job_description" : "I'm a local shopkeeper."
     },{
         "type" : "npc_class",
         "id" : "NC_SHOPKEEP",
-        "name" : "Shopkeep"
+        "name" : "Shopkeep",
+        "job_description" : "I'm a local shopkeeper."
     },{
         "type" : "npc_class",
         "id" : "NC_HACKER",
-        "name" : "Hacker"
+        "name" : "Hacker",
+        "job_description" : "I'm looking for some choice systems to hack."
     },{
         "type" : "npc_class",
         "id" : "NC_DOCTOR",
-        "name" : "Doctor"
+        "name" : "Doctor",
+        "job_description" : "I'm looking for wounded to help."
     },{
         "type" : "npc_class",
         "id" : "NC_TRADER",
-        "name" : "Trader"
+        "name" : "Trader",
+        "job_description" : "I'm collecting gear and selling it."
     },{
         "type" : "npc_class",
         "id" : "NC_NINJA",
-        "name" : "Ninja"
+        "name" : "Ninja",
+        "job_description" : "I'm a wandering master of martial arts."
     },{
         "type" : "npc_class",
         "id" : "NC_COWBOY",
-        "name" : "Cowboy"
+        "name" : "Cowboy",
+        "job_description" : "Just looking for some wrongs to right."
     },{
         "type" : "npc_class",
         "id" : "NC_SCIENTIST",
-        "name" : "Scientist"
+        "name" : "Scientist",
+        "job_description" : "I'm looking for clues concerning these monsters' origins..."
     },{
         "type" : "npc_class",
         "id" : "NC_BOUNTY_HUNTER",
-        "name" : "Bounty Hunter"
+        "name" : "Bounty Hunter",
+        "job_description" : "I'm a killer for hire."
     },{
         "type" : "npc_class",
         "id" : "NC_THUG",
-        "name" : "Thug"
+        "name" : "Thug",
+        "job_description" : "I'm just here for the paycheck."
     },{
         "type" : "npc_class",
         "id" : "NC_SCAVENGER",
-        "name" : "Scavenger"
+        "name" : "Scavenger",
+        "job_description" : "I'm just trying to survive."
     },{
         "type" : "npc_class",
         "id" : "NC_ARSONIST",
-        "name" : "Arsonist"
+        "name" : "Arsonist",
+        "job_description" : "I'm just watching the world burn."
     },{
         "type" : "npc_class",
         "id" : "NC_HUNTER",
-        "name" : "Hunter"
+        "name" : "Hunter",
+        "job_description" : "I'm tracking game."
     },{
         "type" : "npc_class",
         "id" : "NC_SOLDIER",
-        "name" : "Soldier"
+        "name" : "Soldier",
+        "job_description" : "I'm just here for the paycheck."
     },{
         "type" : "npc_class",
         "id" : "NC_BARTENDER",
-        "name" : "Bartender"
+        "name" : "Bartender",
+        "job_description" : "I'm looking for new drink recipes."
     },{
         "type" : "npc_class",
         "id" : "NC_JUNK_SHOPKEEP",
-        "name" : "Shopkeep"
+        "name" : "Shopkeep",
+        "job_description" : "I'm a local shopkeeper."
     }
 ]

@@ -87,6 +87,7 @@ void npc_class::check_consistency()
 void npc_class::load( JsonObject &jo )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
+    mandatory( jo, was_loaded, "job_description", job_description, translated_string_reader );
 }
 
 const npc_class_id &npc_class::from_legacy_int( int i )
@@ -119,4 +120,9 @@ const npc_class_id &npc_class::random_common()
 const std::string &npc_class::get_name() const
 {
     return name;
+}
+
+const std::string &npc_class::get_job_description() const
+{
+    return job_description;
 }

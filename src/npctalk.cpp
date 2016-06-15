@@ -1206,39 +1206,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             case NPC_MISSION_GUARD:
                 return _("I'm guarding this location.");
             case NPC_MISSION_NULL:
-                if( p->myclass == NC_SHOPKEEP ) {
-                    return _("I'm a local shopkeeper.");
-                } else if( p->myclass == NC_EVAC_SHOPKEEP ) {
-                    return _("I'm a local shopkeeper.");
-                } else if( p->myclass == NC_HACKER ) {
-                    return _("I'm looking for some choice systems to hack.");
-                } else if( p->myclass == NC_DOCTOR ) {
-                    return _("I'm looking for wounded to help.");
-                } else if( p->myclass == NC_TRADER ) {
-                    return _("I'm collecting gear and selling it.");
-                } else if( p->myclass == NC_NINJA ) { // TODO: implement this
-                    return _("I'm a wandering master of martial arts but I'm currently not implemented in the code.");
-                } else if( p->myclass == NC_COWBOY ) {
-                    return _("Just looking for some wrongs to right.");
-                } else if( p->myclass == NC_SCIENTIST ) {
-                    return _("I'm looking for clues concerning these monsters' origins...");
-                } else if( p->myclass == NC_BOUNTY_HUNTER ) {
-                    return _("I'm a killer for hire.");
-                } else if( p->myclass == NC_THUG ) {
-                    return _("I'm just here for the paycheck.");
-                } else if( p->myclass == NC_SCAVENGER ) {
-                    return _("I'm just trying to survive.");
-                } else if( p->myclass == NC_ARSONIST ) {
-                    return _("I'm just watching the world burn.");
-                } else if( p->myclass == NC_HUNTER ) {
-                    return _("I'm tracking game.");
-                } else if( p->myclass == NC_BARTENDER ) {
-                    return _("I'm looking for new drink recipes.");
-                } else if( p->myclass == NC_NONE ) {
-                    return _("I'm just wandering.");
-                } else {
-                    return "ERROR: Someone forgot to code an npc_class text.";
-                }
+                return p->myclass.obj().get_job_description();
             default:
                 return "ERROR: Someone forgot to code an npc_mission text.";
         } // switch (p->mission)
