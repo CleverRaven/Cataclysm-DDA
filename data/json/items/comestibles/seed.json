@@ -10,7 +10,6 @@
         "price": 120,
         "charges": 4,
         "stack_size": 100,
-        "material": "fruit",
         "symbol": ".",
         "color": "brown"
     },
@@ -21,6 +20,7 @@
         "name": "blackberry seed",
         "name_plural": "blackberry seeds",
         "description": "Some blackberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "blackberry",
             "fruit": "blackberries",
@@ -35,6 +35,7 @@
         "name": "blueberry seed",
         "name_plural": "blueberry seeds",
         "description": "Some blueberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "blueberry",
             "fruit": "blueberries",
@@ -49,6 +50,7 @@
         "name": "cranberry seed",
         "name_plural": "cranberry seeds",
         "description": "Some cranberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "cranberry",
             "fruit": "cranberries",
@@ -82,6 +84,7 @@
         "name": "raspberry seed",
         "name_plural": "raspberry seeds",
         "description": "Some raspberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "raspberry",
             "fruit": "raspberries",
@@ -96,6 +99,7 @@
         "name": "strawberry seed",
         "name_plural": "strawberry seeds",
         "description": "Some strawberry seeds.",
+        "material": "fruit",
         "seed_data": {
             "plant_name": "strawberry",
             "fruit": "strawberries",
