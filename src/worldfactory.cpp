@@ -1417,6 +1417,39 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     return false;
 }
 
+void WORLD::load_options( JsonIn &jsin )
+{
+    jsin.start_array();
+    while( !jsin.end_array() ) {
+        JsonObject jo = jsin.get_object();
+        const std::string name = jo.get_string( "name" );
+        const std::string value = jo.get_string( "value" );
+        if( get_options().get_option( name ).getPage() == "world_default" ) {
+            WORLD_OPTIONS[ name ].setValue( value );
+        }
+    }
+    // for legacy saves, try to simulate old city_size based density
+    if( WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
+        WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
+    }
+}
+
+void WORLD::load_legacy_options( std::istream &fin )
+{
+    //load legacy txt
+    std::string sLine;
+    while( !fin.eof() ) {
+        getline( fin, sLine );
+        if( sLine != "" && sLine[0] != '#' && std::count( sLine.begin(), sLine.end(), ' ' ) == 1 ) {
+            int ipos = sLine.find( ' ' );
+            // make sure that the option being loaded is part of the world_default page in OPTIONS
+            if( get_options().get_option( sLine.substr( 0, ipos ) ).getPage() == "world_default" ) {
+                WORLD_OPTIONS[sLine.substr( 0, ipos )].setValue( sLine.substr( ipos + 1, sLine.length() ) );
+            }
+        }
+    }
+}
+
 bool worldfactory::load_world_options(WORLDPTR &world)
 {
     world->WORLD_OPTIONS = get_options().get_world_defaults();
@@ -1439,20 +1472,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
             return false;
 
         } else {
-            //load legacy txt
-            std::string sLine;
-
-            while (!fin.eof()) {
-                getline(fin, sLine);
-
-                if (sLine != "" && sLine[0] != '#' && std::count(sLine.begin(), sLine.end(), ' ') == 1) {
-                    int ipos = sLine.find(' ');
-                    // make sure that the option being loaded is part of the world_default page in OPTIONS
-                    if(get_options().get_option(sLine.substr(0, ipos)).getPage() == "world_default") {
-                        world->WORLD_OPTIONS[sLine.substr(0, ipos)].setValue(sLine.substr(ipos + 1, sLine.length()));
-                    }
-                }
-            }
+            world->load_legacy_options( fin );
             fin.close();
 
             if ( save_world( world ) ) {
@@ -1463,25 +1483,8 @@ bool worldfactory::load_world_options(WORLDPTR &world)
         }
     }
 
-    //load json
     JsonIn jsin(fin);
-
-    jsin.start_array();
-    while (!jsin.end_array()) {
-        JsonObject jo = jsin.get_object();
-
-        const std::string name = jo.get_string("name");
-        const std::string value = jo.get_string("value");
-
-        if(get_options().get_option( name ).getPage() == "world_default") {
-            world->WORLD_OPTIONS[ name ].setValue( value );
-        }
-    }
-
-    // for legacy saves, try to simulate old city_size based density
-    if( world->WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 ) {
-        world->WORLD_OPTIONS["CITY_SPACING"].setValue( 5 - get_option<int>( "CITY_SIZE" ) / 3 );
-    }
+    world->load_options( jsin );
 
     return true;
 }
