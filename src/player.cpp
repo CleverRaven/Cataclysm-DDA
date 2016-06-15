@@ -3810,7 +3810,7 @@ void player::set_highest_cat_level()
 }
 
 /// Returns the mutation category with the highest strength
-std::string player::get_highest_category() const 
+std::string player::get_highest_category() const
 {
     int iLevel = 0;
     std::string sMaxCat = "";
@@ -3828,7 +3828,7 @@ std::string player::get_highest_category() const
 
 /// Returns a randomly selected dream
 std::string player::get_category_dream( const std::string &cat,
-                                        int strength ) const 
+                                        int strength ) const
 {
     std::vector<dream> valid_dreams;
     //Pull the list of dreams
