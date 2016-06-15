@@ -3524,7 +3524,7 @@ void game::load(std::string worldname, std::string name)
     fin.close();
 
     // weather
-    std::string wfile = std::string(worldpath + base64_encode(u.name) + ".weather");
+    std::string wfile = std::string(worldpath + name + ".weather");
     fin.open(wfile.c_str());
     if (fin.is_open()) {
         load_weather(fin);
@@ -3532,7 +3532,7 @@ void game::load(std::string worldname, std::string name)
     fin.close();
     nextweather = int(calendar::turn);
     // log
-    std::string mfile = std::string(worldpath + base64_encode(u.name) + ".log");
+    std::string mfile = std::string(worldpath + name + ".log");
     fin.open(mfile.c_str());
     if (fin.is_open()) {
         u.load_memorial_file(fin);
