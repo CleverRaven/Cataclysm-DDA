@@ -173,6 +173,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
 
+    /** Is this any type of vehicle light? */
+    bool is_light() const;
+
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */
     point mount;
@@ -615,6 +618,12 @@ public:
 
     void consume_fuel( double load );
 
+    /** Get all vehicle lights (excluding any that are destroyed) */
+    std::vector<vehicle_part *> lights();
+
+    /** Enable or disable specific vehicle lighting parts */
+    void lights_control();
+
     void power_parts();
 
     /**
@@ -920,7 +929,6 @@ public:
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
-    std::vector<int> lights;           // List of light part indices
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices
     std::vector<int> engines;          // List of engine indices

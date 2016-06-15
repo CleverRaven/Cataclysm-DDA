@@ -94,9 +94,6 @@ int fuel_charges_to_amount_factor( const itype_id &ftype )
 enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
- toggle_overhead_lights,
- toggle_dome_lights,
- toggle_aisle_lights,
  toggle_turrets,
  toggle_stereo,
  toggle_tracker,
@@ -965,10 +962,8 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         add_msg( m_info, _( "No controls there." ) );
         return;
     }
-    bool has_lights = false;
     bool has_stereo = false;
     bool has_chimes = false;
-    bool has_overhead_lights = false;
     bool has_horn = false;
     bool has_turrets = false;
     bool has_reactor = false;
@@ -980,30 +975,13 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     bool has_door_motor = false;
     bool has_camera = false;
     bool has_camera_control = false;
-    bool has_aisle_lights = false;
-    bool has_dome_lights = false;
     bool has_plow = false;
     bool has_planter = false;
     bool has_scoop = false;
     bool has_reaper = false;
 
     for( size_t p = 0; p < parts.size(); p++ ) {
-        if (part_flag(p, "CONE_LIGHT")) {
-            has_lights = true;
-        }
-        if (part_flag(p, "CIRCLE_LIGHT")) {
-            has_overhead_lights = true;
-        }
-        if (part_flag(p, "LIGHT")) {
-            has_lights = true;
-        }
-        if (part_flag(p, "AISLE_LIGHT")) {
-            has_aisle_lights = true;
-        }
-        if (part_flag(p, "DOME_LIGHT")) {
-            has_dome_lights = true;
-        }
-        else if (part_flag(p, "TURRET")) {
+        if (part_flag(p, "TURRET")) {
             has_turrets = true;
         }
         else if (part_flag(p, "HORN")) {
@@ -1066,10 +1044,8 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         menu.addentry( try_disarm_alarm, true, 'z', _("Try to disarm alarm.") );
     }
 
-    // Lights if they are there - Note you can turn them on even when damaged, they just don't work
-    if ( has_electronic_controls && has_lights ) {
-        menu.addentry( toggle_lights, true, 'h', lights_on ?
-                       _("Turn off headlights") : _("Turn on headlights") );
+    if ( has_electronic_controls && !lights().empty() ) {
+        menu.addentry( toggle_lights, true, 'h', _( "Control vehicle lights" ) );
     }
 
     if ( has_electronic_controls && has_stereo ) {
@@ -1080,22 +1056,6 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     if (has_electronic_controls && has_chimes) {
         menu.addentry( toggle_chimes, true, 'i', chimes_on ?
                        _("Turn off chimes") : _("Turn on chimes") );
-    }
-
-   if ( has_electronic_controls && has_overhead_lights ) {
-        menu.addentry( toggle_overhead_lights, true, 'v', overhead_lights_on ?
-                       _("Turn off overhead lights") : _("Turn on overhead lights") );
-   }
-
-
-    if ( has_electronic_controls && has_dome_lights && fuel_left( fuel_type_battery, true ) ) {
-        menu.addentry( toggle_dome_lights, true, 'D', dome_lights_on ?
-                       _("Turn off dome lights") : _("Turn on dome lights") );
-    }
-
-    if ( has_electronic_controls && has_aisle_lights ) {
-        menu.addentry( toggle_aisle_lights, true, 'A', aisle_lights_on ?
-                       _("Turn off aisle lights") : _("Turn on aisle lights") );
     }
 
     //Honk the horn!
@@ -1188,29 +1148,8 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         cruise_on = !cruise_on;
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
-    case toggle_aisle_lights:
-        if(aisle_lights_on || fuel_left(fuel_type_battery, true)) {
-            aisle_lights_on = !aisle_lights_on;
-            add_msg((aisle_lights_on) ? _("Aisle lights turned on") : _("Aisle lights turned off"));
-        } else {
-            add_msg(_("The aisle lights won't come on!"));
-        }
-        break;
-    case toggle_dome_lights:
-        if(dome_lights_on || fuel_left(fuel_type_battery, true)) {
-            dome_lights_on = !dome_lights_on;
-            add_msg((dome_lights_on) ? _("Dome lights turned on") : _("Dome lights turned off"));
-        } else {
-            add_msg(_("The dome lights won't come on!"));
-        }
-        break;
     case toggle_lights:
-        if(lights_on || fuel_left(fuel_type_battery, true) ) {
-            lights_on = !lights_on;
-            add_msg((lights_on) ? _("Headlights turned on") : _("Headlights turned off"));
-        } else {
-            add_msg(_("The headlights won't come on!"));
-        }
+        lights_control();
         break;
     case toggle_stereo:
         if( ( stereo_on || fuel_left( fuel_type_battery, true ) ) ) {
@@ -1226,17 +1165,6 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
             add_msg( chimes_on ? _("Turned on chimes") : _("Turned off chimes") );
         } else {
             add_msg(_("The chimes won't come on!"));
-        }
-        break;
-    case toggle_overhead_lights:
-        if( overhead_lights_on ) {
-            overhead_lights_on = false;
-            add_msg(_("Overhead lights turned off"));
-        } else if( fuel_left(fuel_type_battery, true) ) {
-            overhead_lights_on = true;
-            add_msg(_("Overhead lights turned on"));
-        } else {
-            add_msg(_("The lights won't come on!"));
         }
         break;
     case activate_horn:
@@ -3645,6 +3573,52 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
 }
 
+std::vector<vehicle_part *> vehicle::lights()
+{
+    std::vector<vehicle_part *> res;
+    for( auto& e : parts ) {
+        if( e.hp > 0 && e.is_light() ) {
+            res.push_back( &e );
+        }
+    }
+    return res;
+}
+
+void vehicle::lights_control() {
+    std::vector<vehicle_part *> opts = lights();
+    std::vector<tripoint> locations;
+
+    for( const auto pt : opts ) {
+        locations.push_back( global_part_pos3( *pt ) );
+    }
+
+    pointmenu_cb callback( locations );
+
+    int sel = 0;
+    while( true ) {
+        uimenu menu;
+        menu.text = _( "Control vehicle lights" );
+        menu.return_invalid = true;
+        menu.callback = &callback;
+        menu.selected = sel;
+        menu.fselected = sel;
+        menu.w_y = 2;
+
+        for( auto pt : opts ) {
+            menu.addentry( MENU_AUTOASSIGN, true, MENU_AUTOASSIGN,
+                           "[%c] %s", pt->enabled ? 'x' : ' ', pt->name().c_str() );
+        }
+
+        menu.query();
+        if( menu.ret < 0 || menu.ret >= static_cast<int>( opts.size() ) ) {
+            break;
+        }
+
+        sel = menu.ret;
+        opts[ sel ]->enabled = !opts[ sel ]->enabled;
+    }
+}
+
 void vehicle::power_parts()
 {
     int epower = 0;
@@ -5168,7 +5142,6 @@ void vehicle::gain_moves()
  */
 void vehicle::refresh()
 {
-    lights.clear();
     alternators.clear();
     fuel.clear();
     engines.clear();
@@ -5208,18 +5181,15 @@ void vehicle::refresh()
             continue;
         }
         if( vpi.has_flag(VPFLAG_LIGHT) || vpi.has_flag(VPFLAG_CONE_LIGHT) ) {
-            lights.push_back( p );
             lights_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_CIRCLE_LIGHT) ) {
             overhead_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_DOME_LIGHT) ) {
-            lights.push_back( p);
             dome_lights_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_AISLE_LIGHT) ) {
-            lights.push_back( p);
             aisle_lights_epower += vpi.epower;
         }
         if( vpi.has_flag(VPFLAG_TRACK) ) {
@@ -6767,6 +6737,15 @@ int vehicle_part::wheel_diameter() const
 int vehicle_part::wheel_width() const
 {
     return base.is_wheel() ? base.type->wheel->width : 0;
+}
+
+bool vehicle_part::is_light() const
+{
+    const auto &vp = info();
+    return vp.has_flag( "CONE_LIGHT" ) ||
+           vp.has_flag( "CIRCLE_LIGHT" ) ||
+           vp.has_flag( "AISLE_LIGHT" ) ||
+           vp.has_flag( "DOME_LIGHT" );
 }
 
 const vpart_info &vehicle_part::info() const
