@@ -5772,19 +5772,17 @@ void vehicle::leak_fuel( vehicle_part &pt )
     }
 
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
-    auto tiles = closest_tripoints_first( 2, global_part_pos3( pt ) );
+    auto tiles = closest_tripoints_first( 1, global_part_pos3( pt ) );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), []( const tripoint& e ) {
         return !g->m.passable( e );
     } ), tiles.end() );
 
-    // leak 0-10% of remaining fuel per iteration and continue until the part is empty
+    // leak up to 1/3 ofremaining fuel per iteration and continue until the part is empty
     while( !tiles.empty() && pt.ammo_remaining() ) {
-        for( const auto &dst : tiles ) {
-            int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 10, 1L ) ), global_part_pos3( pt ) );
-            if( qty > 0 ) {
-                g->m.add_item_or_charges( dst, item( fuel, calendar::turn, qty ) );
-            }
+        int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1L ) ), global_part_pos3( pt ) );
+        if( qty > 0 ) {
+            g->m.add_item_or_charges( random_entry( tiles ), item( fuel, calendar::turn, qty ) );
         }
     }
 
