@@ -5513,7 +5513,8 @@
       ["bio_speed", 5],
       ["bio_faraday", 10],
       ["bio_power_armor_interface_mkII", 5],
-      ["bio_remote", 10]
+      ["bio_remote", 10],
+      ["bio_cable", 10]
     ]
   },{
     "type" : "item_group",
@@ -5533,7 +5534,8 @@
       ["bio_ethanol", 10],
       ["bio_furnace", 10],
       ["bio_watch", 10],
-      ["bio_torsionratchet", 10]
+      ["bio_torsionratchet", 10],
+      ["bio_cable", 10]
     ]
   },{
     "type" : "item_group",
@@ -5912,7 +5914,8 @@
       ["bio_adrenaline", 10],
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5],
-      ["bio_meteorologist", 10]
+      ["bio_meteorologist", 10],
+      ["bio_cable", 10]
     ]
   },{
       "type" : "item_group",
@@ -5976,7 +5979,8 @@
       ["bio_adrenaline", 15],
       ["bio_watch", 10],
       ["bio_power_armor_interface_mkII", 5],
-      ["bio_meteorologist", 10]
+      ["bio_meteorologist", 10],
+      ["bio_cable", 10]
     ]
   },{
     "type" : "item_group",

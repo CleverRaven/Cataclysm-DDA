@@ -704,6 +704,12 @@ protected:
     bool process_cable(player *carrier, const tripoint &pos);
     bool process_tool(player *carrier, const tripoint &pos);
 public:
+
+    /**
+     * Gets the point (vehicle tile) the cable is connected to.
+     * Returns tripoint_min if not connected to anything.
+     */
+    tripoint get_cable_target() const;
     /**
      * Helper to bring a cable back to its initial state.
      */

@@ -24,6 +24,15 @@
         "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be toggled on and off at will."
     },{
         "type": "bionic",
+        "id": "bio_cable",
+        "name": "Cable Charger System",
+        "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+        "capacity": 10,
+        "power_source": true,
+        "toggled": true,
+        "description": "You have a complex port mounted above your hip.  While active, it will drain power through a jumper cable held on your person."
+    },{
+        "type": "bionic",
         "id": "bio_plut_filter",
         "name": "Plutonium Filter",
         "occupied_bodyparts": [
