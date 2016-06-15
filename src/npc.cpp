@@ -95,7 +95,7 @@ npc::npc()
     hit_by_player = false;
     moves = 100;
     mission = NPC_MISSION_NULL;
-    myclass = NC_NONE;
+    myclass = NULL_ID;
     patience = 0;
     restock = -1;
     companion_mission = "";
@@ -133,7 +133,7 @@ void npc::load_npc(JsonObject &jsobj)
         guy.myclass = npc_class_id( jsobj.get_string("class") );
         if( !guy.myclass.is_valid() ) {
             debugmsg( "Invalid NPC class %s", guy.myclass.c_str() );
-            guy.myclass = NC_NONE;
+            guy.myclass = NULL_ID;
         }
     }
 
@@ -213,33 +213,27 @@ void npc::load_info(std::string data)
     }
 }
 
-
 void npc::randomize( const npc_class_id &type )
 {
- this->setID(g->assign_npc_id());
- str_max = dice(4, 3);
- dex_max = dice(4, 3);
- int_max = dice(4, 3);
- per_max = dice(4, 3);
- ret_null = item("null", 0);
- weapon   = item("null", 0);
- inv.clear();
- personality.aggression = rng(-10, 10);
- personality.bravery =    rng( -3, 10);
- personality.collector =  rng( -1, 10);
- personality.altruism =   rng(-10, 10);
- cash = 100000 * rng(0, 10) + 10000 * rng(0, 20) + 100 * rng(0, 30) + + 1 * rng(0, 30), rng(0, 99);
- moves = 100;
- mission = NPC_MISSION_NULL;
- if (one_in(2))
-  male = true;
- else
-  male = false;
- pick_name();
+    if( id <= 0 ) {
+        setID( g->assign_npc_id() );
+    }
+
+    ret_null = item("null", 0);
+    weapon   = item("null", 0);
+    inv.clear();
+    personality.aggression = rng(-10, 10);
+    personality.bravery =    rng( -3, 10);
+    personality.collector =  rng( -1, 10);
+    personality.altruism =   rng(-10, 10);
+    moves = 100;
+    mission = NPC_MISSION_NULL;
+    male = one_in( 2 );
+    pick_name();
 
     if( !type.is_valid() ) {
         debugmsg( "Invalid NPC class %s", type.c_str() );
-        myclass = NC_NONE;
+        myclass = NULL_ID;
     } else if( type.is_null() && !one_in( 5 ) ) {
         npc_class_id typetmp;
         myclass = npc_class::random_common();
@@ -247,17 +241,23 @@ void npc::randomize( const npc_class_id &type )
         myclass = type;
     }
 
- if( type == NC_NONE ) { // Untyped; no particular specialization
-     for( auto &skill : Skill::skills ) {
-   int level = 0;
-   if (one_in(3))
-   {
-    level = dice(4, 2) - rng(1, 4);
-   }
-   set_skill_level( skill.ident(), level );
-  }
+    const auto &the_class = myclass.obj();
+    str_max = the_class.roll_strength();
+    dex_max = the_class.roll_dexterity();
+    int_max = the_class.roll_intelligence();
+    per_max = the_class.roll_perception();
 
- } else if( type == NC_EVAC_SHOPKEEP ) {
+    if( type.is_null() ) { // Untyped; no particular specialization
+        for( auto &skill : Skill::skills ) {
+            int level = 0;
+            if( one_in(3) ) {
+                level = dice(4, 2) - rng(1, 4);
+            }
+
+            set_skill_level( skill.ident(), level );
+        }
+
+    } else if( type == NC_EVAC_SHOPKEEP ) {
      for( auto &skill : Skill::skills ) {
    int level = 0;
    if (one_in(3))
@@ -560,7 +560,7 @@ void npc::randomize_from_faction(faction *fac)
 // Personality = aggression, bravery, altruism, collector
  my_fac = fac;
  fac_id = fac->id;
-    randomize( NC_NONE );
+    randomize( NULL_ID );
 
  switch (fac->goal) {
   case FACGOAL_DOMINANCE:

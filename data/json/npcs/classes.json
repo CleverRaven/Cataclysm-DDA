@@ -6,6 +6,27 @@
         "job_description" : "I'm just wandering."
     },{
         "type" : "npc_class",
+        "id" : "NC_TEST_CLASS",
+        "name" : "Debug Dude",
+        "job_description" : "I'm helping you test the game.",
+        "common" : false,
+        "bonus_str" : {
+            "constant" : 100
+        },
+        "bonus_dex" : {
+            "dice" : [ 10, 10 ]
+        },
+        "bonus_int" : {
+            "one_in" : 2
+        },
+        "bonus_per" : {
+            "sum" : [
+                { "constant" : 100 },
+                { "sides" : 10, "size" : 10 }
+            ]
+        }
+    },{
+        "type" : "npc_class",
         "id" : "NC_EVAC_SHOPKEEP",
         "name" : "Merchant",
         "job_description" : "I'm a local shopkeeper.",

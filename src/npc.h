@@ -527,8 +527,8 @@ public:
  npc* find_npc(std::string ident);
  void load_npc_template(std::string ident);
 
-// Generating our stats, etc.
- void randomize( const npc_class_id &type );
+    // Generating our stats, etc.
+    void randomize( const npc_class_id &type = NULL_ID );
  void randomize_from_faction(faction *fac);
  void set_fac(std::string fac_name);
     /**

@@ -949,7 +949,7 @@ void game::create_starting_npcs()
 
     npc *tmp = new npc();
     tmp->normalize();
-    tmp->randomize( one_in(2) ? NC_DOCTOR : NC_NONE );
+    tmp->randomize();
     // spawn the npc in the overmap, sets its overmap and submap coordinates
     tmp->spawn_at( get_levx(), get_levy(), get_levz() );
     tmp->setx( SEEX * int(MAPSIZE / 2) + SEEX );
@@ -3915,7 +3915,7 @@ void game::debug()
         case 5: {
             npc *temp = new npc();
             temp->normalize();
-            temp->randomize( NC_NONE );
+            temp->randomize();
             temp->spawn_at( get_levx(), get_levy(), get_levz() );
             temp->setx( u.posx() - 4 );
             temp->sety( u.posy() - 4 );
@@ -4075,7 +4075,7 @@ void game::debug()
 
                 enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
                        D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE,
-                       D_MUTATE
+                       D_MUTATE, D_CLASS
                      };
                 nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
                 nmenu.addentry( D_STATS, true, 't', "%s", _( "Edit s[t]ats" ) );
@@ -4092,6 +4092,7 @@ void game::debug()
                 nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
                 if( p.is_npc() ) {
                     nmenu.addentry( D_MISSION, true, 'm', "%s", _( "Add [m]ission" ) );
+                    nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
                 }
                 nmenu.addentry( 999, true, 'q', "%s", _( "[q]uit" ) );
                 nmenu.selected = 0;
@@ -4303,6 +4304,25 @@ void game::debug()
                             if( p.is_player() ) {
                                 update_map( &u );
                             }
+                        }
+                    }
+                    break;
+                    case D_CLASS: {
+                        uimenu classes;
+                        classes.return_invalid = true;
+                        classes.text = _( "Choose new class" );
+                        std::vector<npc_class_id> ids;
+                        size_t i = 0;
+                        for( auto &cl : npc_class::get_all() ) {
+                            ids.push_back( cl.id );
+                            classes.addentry( i, true, -1, cl.get_name() );
+                            i++;
+                        }
+
+                        classes.addentry( INT_MAX, true, -1, _( "Cancel" ) );
+                        classes.query();
+                        if( classes.ret < (int)ids.size() && classes.ret >= 0 ) {
+                            np->randomize( ids[ classes.ret ] );
                         }
                     }
                 }
@@ -13841,7 +13861,7 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     if( x_in_y( density, 100 ) ) {
         npc *tmp = new npc();
         tmp->normalize();
-        tmp->randomize( NC_NONE );
+        tmp->randomize();
         //tmp->stock_missions();
         // Create the NPC in one of the outermost submaps,
         // hopefully far away to be invisible to the player,
