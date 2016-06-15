@@ -8559,35 +8559,35 @@
          "bg" : 914,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_tailor", 
-         "fg" : 904, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_tailor",
+         "fg" : 904,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "mag_tailor", 
-         "fg" : 904, 
-         "bg" : 913, 
-         "rotates" : false, 
+      {
+         "id" : "mag_tailor",
+         "fg" : 904,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "textbook_tailor", 
-         "fg" : 904, 
-         "bg" : 915, 
-         "rotates" : false, 
+      {
+         "id" : "textbook_tailor",
+         "fg" : 904,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "tailor_portfolio", 
-         "fg" : 904, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "tailor_portfolio",
+         "fg" : 904,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "manual_traps",
          "fg" : 917,
@@ -8623,13 +8623,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "textbook_computer", 
-         "fg" : 883, 
-         "bg" : 916, 
-         "rotates" : false, 
+      {
+         "id" : "textbook_computer",
+         "fg" : 883,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "textbook_electronics",
          "fg" : 920,
@@ -8657,20 +8657,20 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      },       { 
-         "id" : "textbook_chemistry", 
-         "fg" : 885, 
-         "bg" : 916, 
-         "rotates" : false, 
+      },       {
+         "id" : "textbook_chemistry",
+         "fg" : 885,
+         "bg" : 916,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "adv_chemistry", 
-         "fg" : 885, 
-         "bg" : 917, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "adv_chemistry",
+         "fg" : 885,
+         "bg" : 917,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "textbook_carpentry",
          "fg" : 924,
@@ -8678,18 +8678,18 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "recipe_maiar", 
-         "fg" : 885, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "recipe_maiar",
+         "fg" : 885,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "id": "recipe_creepy",
-         "fg" : 885, 
-         "bg" : 912, 
-         "rotates" : false, 
+         "fg" : 885,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
         },
       {
@@ -8748,18 +8748,18 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "mag_fabrication", 
-         "fg" : 890, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "mag_fabrication",
+         "fg" : 890,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "manual_fabrication", 
-         "fg" : 890, 
-         "bg" : 914, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "manual_fabrication",
+         "fg" : 890,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
       },
         {
@@ -8779,20 +8779,20 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "mag_computer", 
-         "fg" : 883, 
-         "bg" : 912, 
-         "rotates" : false, 
+      {
+         "id" : "mag_computer",
+         "fg" : 883,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "howto_computer", 
-         "fg" : 883, 
-         "bg" : 913, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "howto_computer",
+         "fg" : 883,
+         "bg" : 913,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "textbook_weapwest",
          "fg" : 936,
@@ -9747,14 +9747,14 @@
          "bg" : -1,
          "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "seasoning_italian", 
-         "fg" : 1073, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "seasoning_italian",
+         "fg" : 1073,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
       {
          "id" : "potato_raw",
          "fg" : 1074,
@@ -9964,13 +9964,13 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "pur_tablets", 
-         "fg" : 1124, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "pur_tablets",
+         "fg" : 1124,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
             "id":"dayquil",
             "fg":291,
@@ -10259,22 +10259,22 @@
          "rotates" : false,
          "multitile" : false
       },
-      { 
-         "id" : "gum", 
-         "fg" : 1143, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "gum",
+         "fg" : 1143,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "nic_gum", 
-         "fg" : 1144, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "nic_gum",
+         "fg" : 1144,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "caff_gum", 
+      },
+      {
+         "id" : "caff_gum",
          "fg" : 1145, 
          "bg" : -1, 
          "rotates" : false, 
