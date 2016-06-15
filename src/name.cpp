@@ -7,6 +7,7 @@
 #include "output.h"
 #include "translations.h"
 #include "rng.h"
+#include "cata_utility.h"
 
 NameGenerator::NameGenerator()
 {
@@ -163,21 +164,7 @@ void NameGenerator::load( JsonIn &jsin )
 
 void load_names_from_file( const std::string &filename )
 {
-    std::ifstream data_file;
-    data_file.open( filename.c_str(), std::ifstream::in | std::ifstream::binary );
-    if( !data_file.good() ) {
-        throw std::runtime_error( std::string( "Could not read " ) + filename );
-    }
-
-    std::istringstream iss(
-        std::string(
-            ( std::istreambuf_iterator<char>( data_file ) ),
-            std::istreambuf_iterator<char>()
-        )
-    );
-    JsonIn jsin( iss );
-    data_file.close();
-
-    NameGenerator::generator().load( jsin );
+    using namespace std::placeholders;
+    read_from_file( filename, std::bind( &NameGenerator::load, &NameGenerator::generator(), _1 ) );
 }
 
