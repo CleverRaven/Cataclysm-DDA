@@ -1889,26 +1889,14 @@ void options_manager::load()
 {
     const auto file = FILENAMES["options"];
 
-    std::ifstream fin;
-    fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
-    if( !fin.good() ) {
+    if( !read_from_file_optional( file, *this ) ) {
         if (load_legacy()) {
             if (save()) {
                 remove_file(FILENAMES["legacy_options"]);
                 remove_file(FILENAMES["legacy_options2"]);
             }
         }
-
-    } else {
-        try {
-            JsonIn jsin(fin);
-            deserialize(jsin);
-        } catch( const JsonError &e ) {
-            DebugLog(D_ERROR, DC_ALL) << "options_manager::load: " << e;
-        }
     }
-
-    fin.close();
 
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
