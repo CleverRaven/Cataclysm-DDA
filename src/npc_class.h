@@ -29,6 +29,7 @@ class distribution
         distribution operator+( const distribution &other ) const;
 
         static distribution constant( float val );
+        static distribution rng_roll( int from, int to );
         static distribution dice_roll( int sides, int sizes );
         static distribution one_in( float in );
 };

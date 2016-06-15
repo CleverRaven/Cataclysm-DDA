@@ -99,8 +99,9 @@ distribution load_distribution( JsonObject &jo )
         return distribution::dice_roll( jarr.get_int( 0 ), jarr.get_int( 1 ) );
     }
 
-    if( jo.has_int( "sides" ) ) {
-        return distribution::dice_roll( jo.get_int( "sides" ), jo.get_int( "size" ) );
+    if( jo.has_array( "rng" ) ) {
+        JsonArray jarr = jo.get_array( "rng" );
+        return distribution::rng_roll( jarr.get_int( 0 ), jarr.get_int( 1 ) );
     }
 
     if( jo.has_array( "sum" ) ) {
@@ -148,12 +149,6 @@ void npc_class::load( JsonObject &jo )
     bonus_dex = load_distribution( jo, "bonus_dex" );
     bonus_int = load_distribution( jo, "bonus_int" );
     bonus_per = load_distribution( jo, "bonus_per" );
-    /*
-    optional( jo, was_loaded, "bonus_str", bonus_str );
-    optional( jo, was_loaded, "bonus_dex", bonus_dex );
-    optional( jo, was_loaded, "bonus_int", bonus_int );
-    optional( jo, was_loaded, "bonus_per", bonus_per );
-    */
 }
 
 const npc_class_id &npc_class::from_legacy_int( int i )
@@ -250,6 +245,13 @@ distribution distribution::one_in( float in )
 
     return distribution( [in]() {
         return one_in_improved( in );
+    } );
+}
+
+distribution distribution::rng_roll( int from, int to )
+{
+    return distribution( [from, to]() -> float {
+        return rng( from, to );
     } );
 }
 

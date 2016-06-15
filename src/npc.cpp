@@ -215,7 +215,7 @@ void npc::load_info(std::string data)
 
 void npc::randomize( const npc_class_id &type )
 {
-    if( id <= 0 ) {
+    if( getID() <= 0 ) {
         setID( g->assign_npc_id() );
     }
 
@@ -271,8 +271,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_electronics, rng(1, 2));
   boost_skill_level( skill_speech, rng(1, 3));
   boost_skill_level( skill_barter, rng(3, 5));
-  int_max += rng(0, 1) * rng(0, 1);
-  per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
   cash = 100000 * rng(1, 10)+ rng(1, 100000);
   this->restock = 14400*3;  //Every three days
@@ -288,7 +286,6 @@ void npc::randomize( const npc_class_id &type )
   }
   boost_skill_level( skill_speech, rng(1, 5));
   boost_skill_level( skill_barter, rng(2, 4));
-  per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
   cash = 10000 * rng(1, 10)+ rng(1, 10000);
   this->restock = 14400*3;  //Every three days
@@ -304,7 +301,6 @@ void npc::randomize( const npc_class_id &type )
   }
   boost_skill_level( skill_speech, rng(1, 5));
   boost_skill_level( skill_barter, rng(2, 4));
-  per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
   cash = 25000 * rng(1, 10)+ rng(1, 100000);
   this->restock = 14400*3;  //Every three days
@@ -322,9 +318,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_pistol, rng(1, 3));
   boost_skill_level( skill_throw, rng(0, 2));
   boost_skill_level( skill_barter, rng(2, 4));
-  int_max -= rng(0, 2);
-  dex_max -= rng(0, 2);
-  per_max += rng(0, 2);
   personality.aggression += rng(0, 1);
   personality.collector += rng(0, 2);
   cash = 25000 * rng(1, 10)+ rng(1, 1000);
@@ -346,9 +339,6 @@ void npc::randomize( const npc_class_id &type )
   } else {
     boost_skill_level( skill_archery, rng(2, 4));
   }
-  str_max -= rng(0, 2);
-  dex_max -= rng(1, 3);
-  per_max += rng(2, 4);
   cash = 15000 * rng(1, 10)+ rng(1, 1000);
   this->restock = 14400*3;  //Every three days
 
@@ -361,9 +351,6 @@ void npc::randomize( const npc_class_id &type )
    }
    set_skill_level( skill.ident(), level );
   }
-  int_max -= rng(0, 2);
-  str_max += rng(0, 2);
-  dex_max += rng(0, 1);
   boost_skill_level( skill_dodge, rng(1, 2));
   boost_skill_level( skill_melee, rng(1, 2));
   boost_skill_level( skill_unarmed, rng(1, 2));
@@ -383,10 +370,6 @@ void npc::randomize( const npc_class_id &type )
   }
   boost_skill_level( skill_electronics, rng(1, 4));
   boost_skill_level( skill_computer, rng(3, 6));
-  str_max -= rng(0, 4);
-  dex_max -= rng(0, 2);
-  int_max += rng(1, 5);
-  per_max -= rng(0, 2);
   personality.bravery -= rng(1, 3);
   personality.aggression -= rng(0, 2);
 
@@ -400,9 +383,6 @@ void npc::randomize( const npc_class_id &type )
    set_skill_level( skill.ident(), level );
   }
   boost_skill_level( skill_firstaid, rng(2, 6));
-  str_max -= rng(0, 2);
-  int_max += rng(0, 2);
-  per_max += rng(0, 1) * rng(0, 1);
   personality.aggression -= rng(0, 4);
   cash += 10000 * rng(0, 3) * rng(0, 3);
 
@@ -419,8 +399,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_electronics, rng(0, 2));
   boost_skill_level( skill_speech, rng(0, 3));
   boost_skill_level( skill_barter, rng(2, 5));
-  int_max += rng(0, 1) * rng(0, 1);
-  per_max += rng(0, 1) * rng(0, 1);
   personality.collector += rng(1, 5);
   cash += 25000 * rng(1, 10);
 
@@ -437,9 +415,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_melee, rng(1, 4));
   boost_skill_level( skill_unarmed, rng(4, 6));
   boost_skill_level( skill_throw, rng(0, 2));
-  str_max -= rng(0, 1);
-  dex_max += rng(0, 2);
-  per_max += rng(0, 2);
   personality.bravery += rng(0, 3);
   personality.collector -= rng(1, 6);
   // TODO: give ninja his styles back
@@ -456,9 +431,6 @@ void npc::randomize( const npc_class_id &type )
   boost_skill_level( skill_gun, rng(1, 3));
   boost_skill_level( skill_pistol, rng(1, 3));
   boost_skill_level( skill_rifle, rng(0, 2));
-  int_max -= rng(0, 2);
-  str_max += rng(0, 1);
-  per_max += rng(0, 2);
   personality.aggression += rng(0, 2);
   personality.bravery += rng(1, 5);
 
@@ -479,9 +451,6 @@ void npc::randomize( const npc_class_id &type )
    case 2: boost_skill_level( skill_electronics, rng(2, 6)); break;
    case 3: boost_skill_level( skill_firstaid, rng(2, 6)); break;
   }
-  str_max -= rng(1, 3);
-  dex_max -= rng(0, 1);
-  int_max += rng(2, 5);
   personality.aggression -= rng(1, 5);
   personality.bravery -= rng(2, 8);
   personality.collector += rng (0, 2);
@@ -509,8 +478,6 @@ void npc::randomize( const npc_class_id &type )
    }
    set_skill_level( skill.ident(), level );
   }
-  str_max += rng(2, 4);
-  dex_max += rng(0, 2);
   boost_skill_level( skill_dodge, rng(1, 3));
   boost_skill_level( skill_melee, rng(2, 4));
   boost_skill_level( skill_unarmed, rng(1, 3));
