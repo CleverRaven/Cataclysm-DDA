@@ -3475,22 +3475,9 @@ bool game::load_master(std::string worldname)
 
 void game::load_uistate(std::string worldname)
 {
-    std::stringstream savefile;
-    savefile << world_generator->all_worlds[worldname]->world_path << "/uistate.json";
-
-    std::ifstream fin;
-    fin.open(savefile.str().c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!fin.good()) {
-        fin.close();
-        return;
-    }
-    try {
-        JsonIn jsin(fin);
-        uistate.deserialize(jsin);
-    } catch( const JsonError &e ) {
-        dbg(D_ERROR) << "load_uistate: " << e;
-    }
-    fin.close();
+    using namespace std::placeholders;
+    const auto savefile = world_generator->all_worlds[worldname]->world_path + "/uistate.json";
+    read_from_file_optional( savefile, uistate );
 }
 
 void game::load(std::string worldname, std::string name)
