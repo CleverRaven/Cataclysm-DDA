@@ -36,7 +36,7 @@ void sokoban_game::print_score(WINDOW *w_sokoban, int iScore, int iMoves)
 
 }
 
-bool sokoban_game::parse_level()
+bool sokoban_game::parse_level( std::istream &fin )
 {
     /*
     # Wall
@@ -54,14 +54,6 @@ bool sokoban_game::parse_level()
     vLevel.clear();
     vUndo.clear();
     vLevelDone.clear();
-
-    std::ifstream fin;
-    fin.open(std::string(FILENAMES["sokoban"]).c_str());
-    if(!fin.is_open()) {
-        fin.close();
-        debugmsg("Could not read \"%s\".", FILENAMES["sokoban"].c_str());
-        return false;
-    }
 
     std::string sLine;
     while(!fin.eof()) {
@@ -110,10 +102,24 @@ bool sokoban_game::parse_level()
 
         mLevelInfo[iNumLevel]["MaxLevelY"]++;
     }
+    return true;
+}
+
+bool sokoban_game::parse_level()
+{
+    std::ifstream fin;
+    fin.open(std::string(FILENAMES["sokoban"]).c_str());
+    if(!fin.is_open()) {
+        fin.close();
+        debugmsg("Could not read \"%s\".", FILENAMES["sokoban"].c_str());
+        return false;
+    }
+
+    const bool result = parse_level( fin );
 
     fin.close();
 
-    return true;
+    return result;
 }
 
 int sokoban_game::get_wall_connection(const int iY, const int iX)
