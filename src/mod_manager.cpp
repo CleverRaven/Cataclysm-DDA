@@ -379,22 +379,8 @@ bool mod_manager::copy_mod_contents(const t_mod_list &mods_to_copy,
 
 void mod_manager::load_mod_info(std::string info_file_path)
 {
-    // info_file_path is the fully qualified path to the information file for this mod
-    std::ifstream infile(info_file_path.c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!infile) {
-        // fail silently?
-        return;
-    }
-    std::istringstream iss(
-        std::string(
-            (std::istreambuf_iterator<char>(infile)),
-            std::istreambuf_iterator<char>()
-        )
-    );
-    infile.close();
     const std::string main_path = info_file_path.substr(0, info_file_path.find_last_of("/\\"));
-    try {
-        JsonIn jsin(iss);
+    read_from_file_optional( info_file_path, [&]( JsonIn &jsin ) {
         if( jsin.test_object() ) {
             // find type and dispatch single object
             JsonObject jo = jsin.get_object();
@@ -412,9 +398,7 @@ void mod_manager::load_mod_info(std::string info_file_path)
             // not an object or an array?
             jsin.error( "expected array or object" );
         }
-    } catch( const JsonError &e ) {
-        debugmsg("%s", e.c_str());
-    }
+    } );
 }
 
 std::string mod_manager::get_mods_list_file(const WORLDPTR world)
