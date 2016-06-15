@@ -4319,17 +4319,10 @@ void overmap::open()
 {
     std::string const plrfilename = overmapbuffer::player_filename(loc.x, loc.y);
     std::string const terfilename = overmapbuffer::terrain_filename(loc.x, loc.y);
-    std::ifstream fin;
 
-    fin.open(terfilename.c_str(), std::ifstream::binary);
-    if( fin.is_open() ) {
-        unserialize(fin);
-        fin.close();
-        fin.open(plrfilename, std::ifstream::binary);
-        if( fin.is_open() ) {
-            unserialize_view(fin);
-            fin.close();
-        }
+    using namespace std::placeholders;
+    if( read_from_file_optional( terfilename, std::bind( &overmap::unserialize, this, _1 ) ) ) {
+        read_from_file_optional( plrfilename, std::bind( &overmap::unserialize_view, this, _1 ) );
     } else { // No map exists!  Prepare neighbors, and generate one.
         std::vector<const overmap*> pointers;
         // Fetch south and north
