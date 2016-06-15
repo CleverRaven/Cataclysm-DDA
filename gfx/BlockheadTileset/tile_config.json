@@ -184,56 +184,47 @@
         {
          "id" : "mon_zombie_fat",
          "fg" :275,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
          "id" : "mon_zombie_crawler",
          "fg" :276,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
          "id" : "mon_zombie_hazmat",
          "fg" :278,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
          "id" : "mon_zombie_fireman",
          "fg" :277,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
          "id" : "mon_zombie_survivor",
          "fg" :284,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
          "id" : "mon_zombie_rot",
          "fg" :285,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
          "id" : "mon_dog_skeleton",
          "fg" :280,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
          "id" : "mon_dog_zombie_cop",
          "fg" :281,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
          "id" : "mon_dog_zombie_rot",
          "fg" :279,
-         "rotates":false,
-         "multitile" : false
+         "rotates": false
         },
         {
             "id":"t_rock_floor",
@@ -263,15 +254,13 @@
          "id" : "cowboy_hat",
          "fg" : 814,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "e_tool",
          "fg" : 438,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
         {
             "id":"f_wreckage",
@@ -2408,8 +2397,7 @@
          "id" : "signal_flare",
          "fg" : 447,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
         {
             "id":"mon_opossum",
@@ -3166,36 +3154,31 @@
          "id" : "mag_pistol",
          "fg" : 892,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "manual_pistol",
          "fg" : 892,
          "bg" : 914,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "novel_western",
          "fg" : 928,
          "bg" : 915,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "novel_war",
          "fg" : 930,
          "bg" : 916,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mag_dude",
          "fg" : 902,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
         {
           "rotates": false,
@@ -3213,8 +3196,7 @@
          "id" : "pistol_bayonet",
          "fg" : 1351,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
         {
           "rotates": false,
@@ -3237,8 +3219,7 @@
          "id" : "recipe_bows",
          "fg" : 880,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
         {
           "rotates": false,
@@ -3250,29 +3231,25 @@
          "id" : "sm_extinguisher",
          "fg" : 426,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "longshirt",
          "fg" : 957,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mag_mechanics",
          "fg" : 895,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "manual_mechanics",
          "fg" : 895,
          "bg" : 914,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
         {
           "rotates": false,
@@ -3283,22 +3260,19 @@
          "id" : "mag_smg",
          "fg" : 901,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "manual_smg",
          "fg" : 901,
          "bg" : 914,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mag_survival",
          "fg" : 902,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
         {
             "id":"f_sofa",
@@ -5691,120 +5665,103 @@
          "id" : "battery",
          "fg" : 512,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "thread",
          "fg" : 513,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "sinew",
          "fg" : 514,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "plant_fibre",
          "fg" : 515,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "duct_tape",
          "fg" : 516,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "cable",
          "fg" : 517,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "plut_cell",
          "fg" : 518,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "nail",
          "fg" : 519,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "pebble",
          "fg" : 520,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "dart",
          "fg" : 521,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "bearing",
          "fg" : 522,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "bb",
          "fg" : 523,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "feather",
          "fg" : 524,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "shot_bird",
          "fg" : 525,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "shot_00",
          "fg" : 526,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "shot_slug",
          "fg" : 527,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "20x66_slug",
          "fg" : 527,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "shot_he",
