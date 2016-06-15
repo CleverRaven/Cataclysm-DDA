@@ -806,7 +806,16 @@ bool auto_pickup::load_legacy(const bool bCharacter)
         }
     }
 
-    vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB].clear();
+    auto &rules = vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB];
+
+    load_legacy_rules( rules, fin );
+
+    return true;
+}
+
+void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &fin )
+{
+    rules.clear();
 
     std::string sLine;
     while(!fin.eof()) {
@@ -847,10 +856,8 @@ bool auto_pickup::load_legacy(const bool bCharacter)
 
                 } while(iPos != std::string::npos);
 
-                vRules[(bCharacter) ? CHARACTER_TAB : GLOBAL_TAB].push_back(cRules(sRule, bActive, bExclude));
+                rules.push_back(cRules(sRule, bActive, bExclude));
             }
         }
     }
-
-    return true;
 }

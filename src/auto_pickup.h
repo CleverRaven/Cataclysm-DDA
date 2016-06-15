@@ -6,6 +6,7 @@
 #include <vector>
 #include <locale>
 #include <algorithm>
+#include <iosfwd>
 #include "json.h"
 
 enum pickup_rule_state : int {
@@ -85,6 +86,8 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer
          *      character-specific. Allows the editor to show one or the other.
          */
         std::array<std::vector<cRules>, MAX_TAB> vRules;
+
+        void load_legacy_rules( std::vector<cRules> &rules, std::istream &fin );
 
     public:
         bool has_rule( const std::string &sRule );
