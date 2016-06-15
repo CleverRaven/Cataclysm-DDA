@@ -1453,40 +1453,23 @@ void WORLD::load_legacy_options( std::istream &fin )
 bool worldfactory::load_world_options(WORLDPTR &world)
 {
     world->WORLD_OPTIONS = get_options().get_world_defaults();
-    std::ifstream fin;
 
-    auto path = world->world_path + "/" + FILENAMES["worldoptions"];
-
-    fin.open(path.c_str(), std::ifstream::in | std::ifstream::binary);
-
-    if (!fin.is_open()) {
-        fin.close();
-
-        path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
-        fin.open(path.c_str());
-
-        if (!fin.is_open()) {
-            fin.close();
-
-            DebugLog( D_ERROR, DC_ALL ) << "Couldn't read world options file";
-            return false;
-
-        } else {
-            world->load_legacy_options( fin );
-            fin.close();
-
-            if ( save_world( world ) ) {
-                remove_file( path );
-            }
-
-            return true;
-        }
+    using namespace std::placeholders;
+    const auto path = world->world_path + "/" + FILENAMES["worldoptions"];
+    if( read_from_file_optional( path, std::bind( &WORLD::load_options, world, _1 ) ) ) {
+        return true;
     }
 
-    JsonIn jsin(fin);
-    world->load_options( jsin );
+    const auto legacy_path = world->world_path + "/" + FILENAMES["legacy_worldoptions"];
+    if( read_from_file_optional( legacy_path, std::bind( &WORLD::load_legacy_options, world, _1 ) ) ) {
+        if( save_world( world ) ) {
+            // Remove old file as the options have been saved to the new file.
+            remove_file( legacy_path );
+        }
+        return true;
+    }
 
-    return true;
+    return false;
 }
 
 void load_world_option( JsonObject &jo )
