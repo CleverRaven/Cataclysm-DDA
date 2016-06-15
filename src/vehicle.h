@@ -61,15 +61,6 @@ enum veh_coll_type : int {
     num_veh_coll_types
 };
 
-// Describes turret's ability to fire (possibly at a particular target)
-enum turret_fire_ability {
-    turret_all_ok,
-    turret_wont_aim,
-    turret_is_off,
-    turret_out_of_range,
-    turret_no_ammo
-};
-
 struct veh_collision {
     //int veh?
     int           part        = 0;
@@ -792,21 +783,31 @@ public:
 
     void shed_loose_parts();
 
-    // Gets range of part p if it's a turret
-    int get_turret_range( int p );
+    /**
+     * @name Vehicle turrets
+     *
+     *@{*/
 
-    // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
-    // Does not handle tags like FIRE_100
-    class turret_ammo_data;
-    turret_ammo_data turret_has_ammo( int p ) const;
+    /** Get all vehicle turrets (excluding any that are destroyed) */
+    std::vector<vehicle_part *> turrets();
 
-    // Manual turret aiming menu (select turrets etc.) when shooting from controls
-    // Returns whether a valid target was picked
-    bool aim_turrets();
+    /** Get all vehicle turrets loaded and ready to fire at @ref target */
+    std::vector<vehicle_part *> turrets( const tripoint &target );
 
-    // Maps turret ids to an enum describing their ability to shoot `pos`
-    std::map< int, turret_fire_ability > turrets_can_shoot( const tripoint &pos );
-    turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
+    enum class turret_status {
+        ready,
+        no_ammo,
+        no_power
+    };
+
+    /** Query ability of turret to fire */
+    turret_status turret_query( const vehicle_part &pt ) const;
+
+    /**
+     * Manually aim and fire turret
+     * @return number of shots actually fired (which may be zero)
+     */
+    int turret_fire( vehicle_part &pt );
 
     /** Set targeting mode for specific turrets */
     void turrets_set_targeting();
@@ -814,23 +815,13 @@ public:
     /** Set firing mode for specific turrets */
     void turrets_set_mode();
 
-    // Set up the turret to fire
-    bool fire_turret( int p, bool manual );
-
     /*
-     * Fire turret at some automatically acquired target
-     * @param p part number for the turret
-     * @return number of shots actually fired (which may be zero)
+     * Set specific target for automatic turret fire
+     * @returns whether a valid target was selected
      */
-    int automatic_fire_turret( int p, item &gun );
+    bool turrets_aim();
 
-    /*
-     * Aim and fire turret manually
-     * @param p part number for the turret
-     * @return number of shots actually fired (which may be zero)
-     */
-    // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
-    int manual_fire_turret( int p, player &shooter, item &gun );
+    /*@}*/
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );
@@ -1032,6 +1023,15 @@ private:
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;
+
+    void turret_reload( vehicle_part &pt );
+    void turret_unload( vehicle_part &pt );
+
+    /*
+     * Fire turret at automatically acquired targets
+     * @return number of shots actually fired (which may be zero)
+     */
+    int automatic_fire_turret( vehicle_part &pt );
 
     mutable bool mass_dirty                     = true;
     mutable bool mass_center_precalc_dirty      = true;

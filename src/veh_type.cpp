@@ -166,7 +166,6 @@ void vpart_info::load( JsonObject &jo )
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "folded_volume", def.folded_volume );
-    assign( jo, "range", def.range );
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "flags", def.flags );
@@ -375,9 +374,6 @@ void vpart_info::check()
         }
         if( part.size < 0 ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
-        }
-        if( part.range < 0 ) {
-            debugmsg( "vehicle part %s has negative range", part.id.c_str() );
         }
         if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
