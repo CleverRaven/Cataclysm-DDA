@@ -346,7 +346,6 @@
         "broken_color" : "light_gray",
         "damage_modifier" : 80,
         "durability" : 750,
-        "wheel_width" : 20,
         "item" : "bwheel",
         "difficulty" : 1,
         "location" : "under",
@@ -1032,7 +1031,7 @@
     }
   },
   {
-        "type":"VAR_VEH_PART",
+        "type": "WHEEL",
         "id" : "bwheel",
         "name" : "blob wheel",
         "description": "A piece of the blob grinder that seems to have split off from the main body.  A bit larger than a bicycle wheel and covered in a hard stone shell.  It sits dormant.",
@@ -1044,10 +1043,9 @@
         "volume" : 20,
         "bashing" : 9,
         "price" : 500,
-        "min-bigness": 25,
-        "max-bigness": 25,
-        "category": "veh_parts",
-        "bigness-aspect": "WHEEL_DIAMETER"
+        "diameter": 25,
+        "width": 20,
+        "category": "veh_parts"
     },
 {
         "type" : "recipe",

@@ -1,6 +1,6 @@
 [
   {
-    "type":"VAR_VEH_PART",
+    "type":"WHEEL",
     "id": "inflatable_section",
     "symbol": "o",
     "color": "green",
@@ -13,10 +13,9 @@
     "volume": 50,
     "bashing": 8,
     "to_hit": -1,
-    "min-bigness": 30,
-    "max-bigness": 30,
-    "category": "veh_parts",
-    "bigness-aspect": "WHEEL_DIAMETER"
+    "diameter": 30,
+    "width": 4,
+    "category": "veh_parts"
 },{
     "type":"GENERIC",
     "id" : "hand_paddles",
@@ -33,7 +32,7 @@
     "category" : "veh_parts",
     "price" : 9000
 },{
-    "type":"VAR_VEH_PART",
+    "type":"WHEEL",
     "id": "inflatable_airbag",
     "symbol": "o",
     "color": "dark_gray",
@@ -46,9 +45,8 @@
     "volume": 50,
     "bashing": 8,
     "to_hit": -1,
-    "min-bigness": 30,
-    "max-bigness": 30,
-    "category": "veh_parts",
-    "bigness-aspect": "WHEEL_DIAMETER"
+    "diameter": 30,
+    "width": 4,
+    "category": "veh_parts"
   }
 ]

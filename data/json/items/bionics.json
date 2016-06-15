@@ -137,6 +137,21 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_cable",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "Cable Charger System CBM",
+        "description": "You have a complex port mounted above your hip.  While active, it will drain power through a jumper cable held on your person.",
+        "price": 80000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "difficulty": 4
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_blaster",
         "symbol": ":",
         "color": "yellow",
