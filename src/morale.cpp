@@ -89,7 +89,7 @@ const std::string &get_morale_data( const morale_type id )
             { _( "Freshly Shaven" ) },
 
             { _( "Barfed" ) },
-            
+
             { _( "Filthy Gear" ) }
         }
     };
