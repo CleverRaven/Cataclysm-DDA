@@ -2097,17 +2097,6 @@ bool vehicle::remove_part (int p)
         return false;
     }
 
-    if (part_flag(p, "ATOMIC_LIGHT")) {
-        // disable atomic lights if this was the last one
-        has_atomic_lights = false;
-        for (int i = 0; i != (int)parts.size(); i++){
-            if (i != p && part_flag(i, "ATOMIC_LIGHT")){
-                has_atomic_lights = true;
-                break;
-            }
-        }
-    }
-
     int x = parts[p].precalc[0].x;
     int y = parts[p].precalc[0].y;
     tripoint part_loc( global_x() + x, global_y() + y, smz );
@@ -5155,7 +5144,6 @@ void vehicle::refresh()
     recharger_epower = 0;
     alternator_load = 0;
     camera_epower = 0;
-    has_atomic_lights = false;
     extra_drag = 0;
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
@@ -5216,9 +5204,6 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "CAMERA" ) ) {
             camera_epower += vpi.epower;
-        }
-        if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
-            has_atomic_lights = true;
         }
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             floating.push_back( p );
@@ -6722,7 +6707,8 @@ bool vehicle_part::is_light() const
     return vp.has_flag( "CONE_LIGHT" ) ||
            vp.has_flag( "CIRCLE_LIGHT" ) ||
            vp.has_flag( "AISLE_LIGHT" ) ||
-           vp.has_flag( "DOME_LIGHT" );
+           vp.has_flag( "DOME_LIGHT" ) ||
+           vp.has_flag( "ATOMIC_LIGHT" );
 }
 
 const vpart_info &vehicle_part::info() const

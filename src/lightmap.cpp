@@ -321,36 +321,25 @@ void map::generate_lightmap( const int zlev )
                 continue;
             }
 
-            if( veh_luminance > LL_LIT && vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
-                add_light_source( src, SQRT_2 ); // Add a little surrounding light
-                apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
-            }
+            if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
+                if( veh_luminance > LL_LIT ) {
+                    add_light_source( src, SQRT_2 ); // Add a little surrounding light
+                    apply_light_arc( src, v->face.dir() + pt->direction, veh_luminance, 45 );
+                }
 
-            if( vp.has_flag( VPFLAG_DOME_LIGHT ) || vp.has_flag( VPFLAG_AISLE_LIGHT ) ) {
-                add_light_source( src, vp.bonus );
-            }
-
-            if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
+            } else if( vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
                 if( (    calendar::turn % 2   && vp.has_flag( VPFLAG_ODDTURN  ) ) ||
                     ( !( calendar::turn % 2 ) && vp.has_flag( VPFLAG_EVENTURN ) ) ||
                     ( !( vp.has_flag( VPFLAG_EVENTURN ) || vp.has_flag( VPFLAG_ODDTURN ) ) ) ) {
 
                     add_light_source( src, vp.bonus );
                 }
+
+            } else {
+                add_light_source( src, vp.bonus );
             }
         };
 
-        if(v->has_atomic_lights) {
-            // atomic light is always on
-            std::vector<int> light_indices = v->all_parts_with_feature(VPFLAG_ATOMIC_LIGHT);
-            for( auto &light_indice : light_indices ) {
-                tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
-                              v->parts[light_indice].precalc[0];
-                if(inbounds( pp )) {
-                    add_light_source( pp, v->part_info( light_indice ).bonus );
-                }
-            }
-        }
         for( size_t p = 0; p < v->parts.size(); ++p ) {
             tripoint pp = tripoint( vv.x, vv.y, vv.z ) +
                           v->parts[p].precalc[0];

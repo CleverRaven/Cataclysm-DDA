@@ -1015,7 +1015,6 @@ public:
     bool is_locked                  = false; // vehicle has no key
     bool is_alarm_on                = false; // vehicle has alarm on
     bool camera_on                  = false;
-    bool has_atomic_lights          = false; // has any always-on atomic lights on
     bool fridge_on                  = false; // fridge on/off
     bool recharger_on               = false; // recharger on/off
     bool skidding                   = false; // skidding mode
