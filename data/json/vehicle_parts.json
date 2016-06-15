@@ -2565,7 +2565,7 @@
         "folded_volume": 1,
         "epower" : -187,
         "bonus" : 8000,
-        "item" : "flashlight",
+        "item" : "car_headlight",
         "difficulty" : 1,
         "flags" : ["CONE_LIGHT", "TOOL_SCREWDRIVER", "FOLDABLE"],
         "breaks_into" : [
