@@ -188,6 +188,7 @@ public:
     int weather_tool        ( player*, item*, bool, const tripoint& );
     int ladder              ( player*, item*, bool, const tripoint& );
     int saw_barrel          ( player*, item*, bool, const tripoint& );
+    int washclothes         ( player*, item*, bool, const tripoint& );
 
 // MACGUFFINS
     int mcg_note            ( player*, item*, bool, const tripoint& );
