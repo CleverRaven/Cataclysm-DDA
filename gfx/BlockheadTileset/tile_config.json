@@ -41,8 +41,7 @@
         {
             "id":"line_trail",
             "fg":288
-        },  
-
+        },
         {
             "id":"animation_line",
             "bg":49
@@ -176,64 +175,64 @@
             "bg":20,
             "rotates":false
         },
-        { 
-         "id" : "mon_zombie_tough", 
-         "fg" :283, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_tough",
+         "fg" :283,
+         "rotates":false,
           "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_fat", 
-         "fg" :275, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_fat",
+         "fg" :275,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_crawler", 
+        {
+         "id" : "mon_zombie_crawler",
          "fg" :276,
-         "rotates":false, 
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_hazmat", 
+        {
+         "id" : "mon_zombie_hazmat",
          "fg" :278,
-         "rotates":false, 
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_fireman", 
-         "fg" :277, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_fireman",
+         "fg" :277,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_survivor", 
-         "fg" :284, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_survivor",
+         "fg" :284,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_zombie_rot", 
-         "fg" :285, 
-         "rotates":false, 
+        {
+         "id" : "mon_zombie_rot",
+         "fg" :285,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_dog_skeleton", 
-         "fg" :280, 
-         "rotates":false, 
+        {
+         "id" : "mon_dog_skeleton",
+         "fg" :280,
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_dog_zombie_cop", 
+        {
+         "id" : "mon_dog_zombie_cop",
          "fg" :281,
-         "rotates":false, 
+         "rotates":false,
          "multitile" : false
         },
-        { 
-         "id" : "mon_dog_zombie_rot", 
+        {
+         "id" : "mon_dog_zombie_rot",
          "fg" :279,
-         "rotates":false, 
+         "rotates":false,
          "multitile" : false
         },
         {
@@ -248,7 +247,7 @@
         },
         {
             "id":"f_ash",
-            "bg":171,           
+            "bg":171,
             "rotates":false
         },
         {
@@ -260,20 +259,20 @@
           "id": "briefcase",
           "fg": 2214
         },
-      { 
-         "id" : "cowboy_hat", 
+      {
+         "id" : "cowboy_hat",
          "fg" : 814,
-         "bg" : -1, 
-         "rotates" : false, 
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "e_tool", 
-         "fg" : 438, 
-         "bg" : -1, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "e_tool",
+         "fg" : 438,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
             "id":"f_wreckage",
             "fg":2188,
@@ -939,7 +938,7 @@
                     "id": "t_connection",
                     "fg": 2007,
                     "bg":1
-                },              
+                },
                 {
                     "id": "edge",
                     "fg": 2009,
@@ -2405,13 +2404,13 @@
             "fg":486,
             "rotates":false
         },
-      { 
-         "id" : "signal_flare", 
-         "fg" : 447, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "signal_flare",
+         "fg" : 447,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
             "id":"mon_opossum",
             "fg":487,
@@ -3162,71 +3161,71 @@
             "id":"f_armchair",
             "fg":125,
             "rotates":false
-        }, 
-      { 
-         "id" : "mag_pistol", 
-         "fg" : 892, 
-         "bg" : 912, 
-         "rotates" : false, 
-         "multitile" : false
-      }, 
-      { 
-         "id" : "manual_pistol", 
-         "fg" : 892, 
-         "bg" : 914, 
-         "rotates" : false, 
-         "multitile" : false
-      },  
+        },
       {
-         "id" : "novel_western", 
-         "fg" : 928, 
-         "bg" : 915, 
-         "rotates" : false, 
+         "id" : "mag_pistol",
+         "fg" : 892,
+         "bg" : 912,
+         "rotates" : false,
          "multitile" : false
       },
       {
-         "id" : "novel_war", 
-         "fg" : 930, 
-         "bg" : 916, 
-         "rotates" : false, 
+         "id" : "manual_pistol",
+         "fg" : 892,
+         "bg" : 914,
+         "rotates" : false,
          "multitile" : false
-      }, 
-      { 
-         "id" : "mag_dude", 
-         "fg" : 902, 
-         "bg" : 912, 
-         "rotates" : false, 
+      },
+      {
+         "id" : "novel_western",
+         "fg" : 928,
+         "bg" : 915,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
+      {
+         "id" : "novel_war",
+         "fg" : 930,
+         "bg" : 916,
+         "rotates" : false,
+         "multitile" : false
+      },
+      {
+         "id" : "mag_dude",
+         "fg" : 902,
+         "bg" : 912,
+         "rotates" : false,
+         "multitile" : false
+      },
         {
           "rotates": false,
           "id": "shorts_denim",
-         "fg" : 689, 
+         "fg" : 689,
          "bg" : -1
         },
         {
           "rotates": false,
           "id": "boxer_shorts",
-         "fg" : 689, 
+         "fg" : 689,
          "bg" : -1
         },
-      { 
-         "id" : "pistol_bayonet", 
-         "fg" : 1351, 
-         "bg" : -1, 
-         "rotates" : false, 
+      {
+         "id" : "pistol_bayonet",
+         "fg" : 1351,
+         "bg" : -1,
+         "rotates" : false,
          "multitile" : false
-      }, 
+      },
         {
           "rotates": false,
           "id": "briefs",
-         "fg" : 689, 
+         "fg" : 689,
          "bg" : -1
         },
         {
           "rotates": false,
           "id": "panties",
-         "fg" : 689, 
+         "fg" : 689,
          "bg" : -1
         },
         {
@@ -3234,10 +3233,9 @@
           "id": "camisole",
           "fg": 2216
         },
-
-      { 
-         "id" : "recipe_bows", 
-         "fg" : 880, 
+      {
+         "id" : "recipe_bows",
+         "fg" : 880,
          "bg" : 912, 
          "rotates" : false, 
          "multitile" : false
