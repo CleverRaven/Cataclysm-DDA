@@ -17,6 +17,8 @@ class npc_class
         std::string name;
         std::string job_description;
 
+        bool common;
+
     public:
         npc_class_id id;
         bool was_loaded;

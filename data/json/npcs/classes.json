@@ -8,12 +8,14 @@
         "type" : "npc_class",
         "id" : "NC_EVAC_SHOPKEEP",
         "name" : "Merchant",
-        "job_description" : "I'm a local shopkeeper."
+        "job_description" : "I'm a local shopkeeper.",
+        "common" : false
     },{
         "type" : "npc_class",
         "id" : "NC_SHOPKEEP",
         "name" : "Shopkeep",
-        "job_description" : "I'm a local shopkeeper."
+        "job_description" : "I'm a local shopkeeper.",
+        "common" : false
     },{
         "type" : "npc_class",
         "id" : "NC_HACKER",
@@ -78,11 +80,13 @@
         "type" : "npc_class",
         "id" : "NC_BARTENDER",
         "name" : "Bartender",
-        "job_description" : "I'm looking for new drink recipes."
+        "job_description" : "I'm looking for new drink recipes.",
+        "common" : false
     },{
         "type" : "npc_class",
         "id" : "NC_JUNK_SHOPKEEP",
         "name" : "Shopkeep",
-        "job_description" : "I'm a local shopkeeper."
+        "job_description" : "I'm a local shopkeeper.",
+        "common" : false
     }
 ]

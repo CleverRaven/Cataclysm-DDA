@@ -88,6 +88,8 @@ void npc_class::load( JsonObject &jo )
 {
     mandatory( jo, was_loaded, "name", name, translated_string_reader );
     mandatory( jo, was_loaded, "job_description", job_description, translated_string_reader );
+
+    optional( jo, was_loaded, "common", common, true );
 }
 
 const npc_class_id &npc_class::from_legacy_int( int i )
@@ -102,10 +104,9 @@ const npc_class_id &npc_class::from_legacy_int( int i )
 
 const npc_class_id &npc_class::random_common()
 {
-    // @todo Rewrite, make `common` a class member
     std::list<const npc_class_id *> common_classes;
     for( const auto &pr : npc_class_factory.get_all() ) {
-        if( pr.id != NC_SHOPKEEP ) {
+        if( pr.common ) {
             common_classes.push_back( &pr.id );
         }
     }
