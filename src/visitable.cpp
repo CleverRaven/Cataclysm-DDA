@@ -297,8 +297,8 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( node->is_gun() || node->is_magazine() ) {
-                // content of guns and magazines are accessible only via their specific accessors
+            if( node->is_tool() || node->is_gun() || node->is_magazine() ) {
+                // content of tools, guns and magazines are accessible only via their specific accessors
                 return VisitResponse::NEXT;
             }
 

@@ -60,6 +60,8 @@ src/rng.cpp
 src/scenario.cpp
 src/scent_map.cpp
 src/scent_map.h
+src/snapshot.h
+src/snapshot.cpp
 src/speech.cpp
 src/start_location.cpp
 src/submap.cpp
