@@ -624,8 +624,7 @@ void vehicle::smash() {
         parts[part_index].hp -= damage;
         if (parts[part_index].hp <= 0) {
             parts[part_index].hp = 0;
-            // @todo leak fuel
-            parts[ part_index ].ammo_unset();
+            leak_fuel( parts[ part_index ] );
         }
     }
 }
@@ -5705,7 +5704,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
     const int pow = 120 * (1 - exp(data.explosion_factor / -5000 * (parts[p].ammo_remaining() * data.fuel_size_factor)));
     //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
     if( parts[p].hp <= 0 ) {
-        leak_fuel( p );
+        leak_fuel( parts[ p ] );
     }
 
     int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
@@ -5745,6 +5744,9 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     if( parts[p].hp == 0 && last_hp > 0 ) {
         insides_dirty = true;
         pivot_dirty = true;
+
+        // destroyed parts lose any contained fuels, battery charges or ammo
+        leak_fuel( parts [ p ] );
     }
 
     if( part_flag( p, "FUEL_TANK" ) ) {
@@ -5757,24 +5759,36 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     return std::max( dres, 0 );
 }
 
-void vehicle::leak_fuel( int p )
+void vehicle::leak_fuel( vehicle_part &pt )
 {
-    if( parts[ p ].ammo_remaining() <= 0 ) {
+    if( pt.ammo_remaining() <= 0 ) {
         return;
     }
 
-    const itype_id &ft = part_info( p ).fuel_type;
+    // only liquid fuels can leak out onto map tiles
+    auto *fuel = item::find_type( pt.ammo_current() );
+    if( fuel->phase != LIQUID ) {
+        pt.ammo_unset();
+    }
 
-    if( ft == fuel_type_gasoline || ft == fuel_type_diesel ) {
-        for( const tripoint &pt : g->m.points_in_radius( global_part_pos3( p ), 2 ) ) {
-            if( one_in( 2 ) && g->m.passable( pt ) ) {
-                int qty = parts[p].ammo_consume( rng( 79, 121 ), global_part_pos3( p ) );
-                g->m.add_item_or_charges( pt, item( ft, calendar::turn, qty ) );
+    // leak in random directions but prefer closest tiles and avoid walls or other obstacles
+    auto tiles = closest_tripoints_first( 2, global_part_pos3( pt ) );
+    tiles.erase( tiles.begin() );
+    tiles.erase( std::remove_if( tiles.begin(), tiles.end(), []( const tripoint& e ) {
+        return !g->m.passable( e );
+    } ), tiles.end() );
+
+    // leak 0-10% of remaining fuel per iteration and continue until the part is empty
+    while( !tiles.empty() && pt.ammo_remaining() ) {
+        for( const auto &dst : tiles ) {
+            int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 10, 1L ) ), global_part_pos3( pt ) );
+            if( qty > 0 ) {
+                g->m.add_item_or_charges( dst, item( fuel, calendar::turn, qty ) );
             }
         }
     }
 
-    parts[ p ].ammo_unset();
+    pt.ammo_unset();
 }
 
 std::map<itype_id, long> vehicle::fuels_left() const
