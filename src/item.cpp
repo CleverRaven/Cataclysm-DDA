@@ -1943,6 +1943,8 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if(has_flag("LITCIG")) {
         ret = c_red;
+    } else if( is_disgusting_for( *u ) ) {
+        ret = c_brown;
     } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0 ) {
         ret = c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
@@ -5994,5 +5996,5 @@ bool item_category::operator!=( const item_category &rhs ) const
 }
 
 bool item::is_disgusting_for( const player &p ) const {
-    return has_flag( "FILTHY" ) && p.has_trait( "SQUEAMISH" );
+    return has_flag( "FILTHY" );
 }
