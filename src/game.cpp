@@ -3468,17 +3468,9 @@ void game::move_save_to_graveyard()
 
 bool game::load_master(std::string worldname)
 {
-    std::ifstream fin;
-    std::stringstream datafile;
-    datafile << world_generator->all_worlds[worldname]->world_path << "/master.gsav";
-    fin.open(datafile.str().c_str(), std::ifstream::in | std::ifstream::binary);
-    if (!fin.is_open()) {
-        return false;
-    }
-
-    unserialize_master(fin);
-    fin.close();
-    return true;
+    using namespace std::placeholders;
+    const auto datafile = world_generator->all_worlds[worldname]->world_path + "/master.gsav";
+    return read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
 }
 
 void game::load_uistate(std::string worldname)
