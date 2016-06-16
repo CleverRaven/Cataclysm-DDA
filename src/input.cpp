@@ -221,9 +221,9 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         // with empty input_events and disregard them. When keybindings are
         // later saved, these remnants won't be saved.
         if( !is_user_preferences ||
-                !events.empty() ||
-                context == default_context_id ||
-                actions.count( action_id ) > 0 ) {
+            !events.empty() ||
+            context == default_context_id ||
+            actions.count( action_id ) > 0 ) {
             // In case this is the second file containing user preferences,
             // this replaces the default bindings with the user's preferences.
             action_attributes &attributes = actions[action_id];
@@ -242,7 +242,7 @@ void input_manager::save()
 
         jsout.start_array();
         for( t_action_contexts::const_iterator a = action_contexts.begin(); a != action_contexts.end();
-                ++a ) {
+             ++a ) {
             const t_actions &actions = a->second;
             for( const auto &action : actions ) {
                 const t_input_event_list &events = action.second.input_events;
@@ -260,17 +260,17 @@ void input_manager::save()
                 for( const auto &event : events ) {
                     jsout.start_object();
                     switch( event.type ) {
-                    case CATA_INPUT_KEYBOARD:
-                        jsout.member( "input_method", "keyboard" );
-                        break;
-                    case CATA_INPUT_GAMEPAD:
-                        jsout.member( "input_method", "gamepad" );
-                        break;
-                    case CATA_INPUT_MOUSE:
-                        jsout.member( "input_method", "mouse" );
-                        break;
-                    default:
-                        throw std::runtime_error( "unknown input_event_t" );
+                        case CATA_INPUT_KEYBOARD:
+                            jsout.member( "input_method", "keyboard" );
+                            break;
+                        case CATA_INPUT_GAMEPAD:
+                            jsout.member( "input_method", "gamepad" );
+                            break;
+                        case CATA_INPUT_MOUSE:
+                            jsout.member( "input_method", "mouse" );
+                            break;
+                        default:
+                            throw std::runtime_error( "unknown input_event_t" );
                     }
                     jsout.member( "key" );
                     jsout.start_array();
@@ -543,8 +543,8 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     input_manager::t_actions &category_actions = inp_mngr.action_contexts[category];
 
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-            registered_action != registered_actions.end();
-            ++registered_action ) {
+         registered_action != registered_actions.end();
+         ++registered_action ) {
         input_manager::t_actions::iterator default_action = default_actions.find( *registered_action );
         input_manager::t_actions::iterator category_action = category_actions.find( *registered_action );
         if( default_action != default_actions.end() ) {
@@ -617,7 +617,7 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for unicode.
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
-                events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
+            events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
             result.push_back( ( char )events_event.sequence.front() );
         }
     }
@@ -627,8 +627,8 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
 std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
 {
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-            registered_action != registered_actions.end();
-            ++registered_action ) {
+         registered_action != registered_actions.end();
+         ++registered_action ) {
 
         const std::vector<input_event> &events = inp_mngr.get_input_for_action( *registered_action,
                 category );
@@ -833,7 +833,7 @@ void input_context::display_help()
     // keybindings before the user changed anything.
     input_manager::t_action_contexts old_action_contexts( inp_mngr.action_contexts );
     // current status: adding/removing/showing keybindings
-    enum { s_remove, s_add, s_add_global, s_show, s_search } status = s_show;
+    enum { s_remove, s_add, s_add_global, s_show } status = s_show;
     // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions( registered_actions );
     std::vector<std::string>::iterator any_input = std::find( org_registered_actions.begin(),
@@ -1041,9 +1041,9 @@ void input_context::display_help()
             if( scroll_offset >= display_height ) {
                 scroll_offset -= display_height;
             } else if( scroll_offset > 0 ) {
-                scroll_offset = 0;
+                       scroll_offset = 0;
             } else if( filtered_registered_actions.size() > display_height ) {
-                scroll_offset = filtered_registered_actions.size() - display_height;
+                       scroll_offset = filtered_registered_actions.size() - display_height;
             }
         } else if( action == "QUIT" ) {
             if( status != s_show ) {
@@ -1198,7 +1198,7 @@ bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
     int win_top = getbegy( capture_win ) - VIEW_OFFSET_Y;
     int win_bottom = win_top + view_rows - 1;
     if( coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top ||
-            coordinate_y > win_bottom ) {
+        coordinate_y > win_bottom ) {
         return false;
     }
 
