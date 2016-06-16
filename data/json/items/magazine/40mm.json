@@ -13,6 +13,9 @@
     "color": "ltgray",
     "rigid": false,
     "reliability": 6,
+    "capacity": 50,
+    "count": 25,
+    "linkage": "ammolink40mm",
     "flags": [ "MAG_BELT", "MAG_DESTROY" ]
   }
 ]
