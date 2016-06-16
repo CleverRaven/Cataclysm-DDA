@@ -145,10 +145,8 @@ void veh_interact::allocate_windows()
 
     page_size = grid_h - ( mode_h + msg_h ) - ( stats_h + name_h ) - 2;
 
-    int list_w = 32 + (extra_w / 4); // uses 1/4 of extra space
-    int parts_w = 32 + (extra_w / 4); // uses 1/4 of extra space
-
-    int disp_w = grid_w - list_w - parts_w - 2; // interior borders take 2
+    int pane_w = 32 + (extra_w / 4); // uses 1/4 of extra space
+    int disp_w = grid_w - ( pane_w * 2 ) - 2; // interior borders take 2
 
     mode_x = x0 + 1;
     mode_y = y0 + 1;
@@ -158,7 +156,7 @@ void veh_interact::allocate_windows()
     disp_y = y0 + 1 + msg_h + mode_h + 1;
     parts_x = disp_x + disp_w + 1;
     parts_y = disp_y;
-    list_x = parts_x + parts_w + 1;
+    list_x = parts_x + pane_w + 1;
     list_y = disp_y;
     name_x = x0 + 1;
     name_y = disp_y + page_size + 1;
@@ -175,8 +173,8 @@ void veh_interact::allocate_windows()
     w_mode  = newwin(mode_h,  grid_w,  mode_y,  mode_x );
     w_msg   = newwin(msg_h,   grid_w,   msg_y,   msg_x  );
     w_disp  = newwin(page_size,  disp_w,  disp_y,  disp_x );
-    w_parts = newwin(page_size, parts_w, parts_y, parts_x);
-    w_list  = newwin(page_size,  list_w,  list_y,  list_x );
+    w_parts = newwin(page_size, pane_w, parts_y, parts_x);
+    w_list  = newwin(page_size,  pane_w,  list_y,  list_x );
     w_details = NULL;  // only pops up when in install menu
     w_stats = newwin(stats_h, grid_w, stats_y, stats_x);
     w_name  = newwin(name_h,  grid_w,  name_y,  name_x );
