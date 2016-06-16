@@ -15,8 +15,10 @@
 #include <sstream>
 #include <stdexcept>
 #include <errno.h>
+#include <ctype.h>
 
 extern bool tile_iso;
+extern bool lcmatch( const std::string &str, const std::string &findstr ); // ui.cpp
 
 static const std::string default_context_id( "default" );
 
@@ -219,9 +221,9 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         // with empty input_events and disregard them. When keybindings are
         // later saved, these remnants won't be saved.
         if( !is_user_preferences ||
-            !events.empty() ||
-            context == default_context_id ||
-            actions.count( action_id ) > 0 ) {
+                !events.empty() ||
+                context == default_context_id ||
+                actions.count( action_id ) > 0 ) {
             // In case this is the second file containing user preferences,
             // this replaces the default bindings with the user's preferences.
             action_attributes &attributes = actions[action_id];
@@ -240,7 +242,7 @@ void input_manager::save()
 
         jsout.start_array();
         for( t_action_contexts::const_iterator a = action_contexts.begin(); a != action_contexts.end();
-             ++a ) {
+                ++a ) {
             const t_actions &actions = a->second;
             for( const auto &action : actions ) {
                 const t_input_event_list &events = action.second.input_events;
@@ -258,17 +260,17 @@ void input_manager::save()
                 for( const auto &event : events ) {
                     jsout.start_object();
                     switch( event.type ) {
-                        case CATA_INPUT_KEYBOARD:
-                            jsout.member( "input_method", "keyboard" );
-                            break;
-                        case CATA_INPUT_GAMEPAD:
-                            jsout.member( "input_method", "gamepad" );
-                            break;
-                        case CATA_INPUT_MOUSE:
-                            jsout.member( "input_method", "mouse" );
-                            break;
-                        default:
-                            throw std::runtime_error( "unknown input_event_t" );
+                    case CATA_INPUT_KEYBOARD:
+                        jsout.member( "input_method", "keyboard" );
+                        break;
+                    case CATA_INPUT_GAMEPAD:
+                        jsout.member( "input_method", "gamepad" );
+                        break;
+                    case CATA_INPUT_MOUSE:
+                        jsout.member( "input_method", "mouse" );
+                        break;
+                    default:
+                        throw std::runtime_error( "unknown input_event_t" );
                     }
                     jsout.member( "key" );
                     jsout.start_array();
@@ -541,8 +543,8 @@ void input_context::clear_conflicting_keybindings( const input_event &event )
     input_manager::t_actions &category_actions = inp_mngr.action_contexts[category];
 
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-         registered_action != registered_actions.end();
-         ++registered_action ) {
+            registered_action != registered_actions.end();
+            ++registered_action ) {
         input_manager::t_actions::iterator default_action = default_actions.find( *registered_action );
         input_manager::t_actions::iterator category_action = category_actions.find( *registered_action );
         if( default_action != default_actions.end() ) {
@@ -615,7 +617,7 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for unicode.
         if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
-            events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
+                events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
             result.push_back( ( char )events_event.sequence.front() );
         }
     }
@@ -625,8 +627,8 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
 std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
 {
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
-         registered_action != registered_actions.end();
-         ++registered_action ) {
+            registered_action != registered_actions.end();
+            ++registered_action ) {
 
         const std::vector<input_event> &events = inp_mngr.get_input_for_action( *registered_action,
                 category );
@@ -831,7 +833,7 @@ void input_context::display_help()
     // keybindings before the user changed anything.
     input_manager::t_action_contexts old_action_contexts( inp_mngr.action_contexts );
     // current status: adding/removing/showing keybindings
-    enum { s_remove, s_add, s_add_global, s_show } status = s_show;
+    enum { s_remove, s_add, s_add_global, s_show, s_search } status = s_show;
     // copy of registered_actions, but without the ANY_INPUT and COORDINATE, which should not be shown
     std::vector<std::string> org_registered_actions( registered_actions );
     std::vector<std::string>::iterator any_input = std::find( org_registered_actions.begin(),
@@ -852,7 +854,7 @@ void input_context::display_help()
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // height of the area usable for display of keybindings, excludes headers & borders
-    const size_t display_height = FULL_SCREEN_HEIGHT - 9 - 2; // -2 for the border
+    const size_t display_height = FULL_SCREEN_HEIGHT - 11 - 2; // -2 for the border
     // width of the legend
     const size_t legwidth = FULL_SCREEN_WIDTH - 4 - 2;
     // keybindings help
@@ -883,17 +885,21 @@ void input_context::display_help()
     }
 
     std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
+    std::vector<std::string> filtered_registered_actions = org_registered_actions;
+    std::string filter_phrase = "";
 
     while( true ) {
         werase( w_help );
         draw_border( w_help );
         draw_scrollbar( w_help, scroll_offset, display_height,
-                        org_registered_actions.size() - display_height, 8 );
+                        filtered_registered_actions.size() - display_height, 8 );
         center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
 
-        for( size_t i = 0; i + scroll_offset < org_registered_actions.size() && i < display_height; i++ ) {
-            const std::string &action_id = org_registered_actions[i + scroll_offset];
+        mvwprintz( w_help, 8, 2, c_ltgreen, "Search phrase: %s_", filter_phrase.c_str() );
+
+        for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() && i < display_height; i++ ) {
+            const std::string &action_id = filtered_registered_actions[i + scroll_offset];
 
             bool overwrite_default;
             const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category,
@@ -909,13 +915,13 @@ void input_context::display_help()
             if( status == s_add_global && overwrite_default ) {
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
-                mvwprintz( w_help, i + 8, 2, c_dkgray, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_dkgray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, i + 8, 2, c_blue, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
             } else if( status == s_remove ) {
-                mvwprintz( w_help, i + 8, 2, c_blue, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
             } else {
-                mvwprintz( w_help, i + 8, 2, c_blue, "  " );
+                mvwprintz( w_help, i + 10, 2, c_blue, "  " );
             }
             nc_color col;
             if( attributes.input_events.empty() ) {
@@ -925,8 +931,8 @@ void input_context::display_help()
             } else {
                 col = global_key;
             }
-            mvwprintz( w_help, i + 8, 4, col, "%s: ", get_action_name( action_id ).c_str() );
-            mvwprintz( w_help, i + 8, 52, col, "%s", get_desc( action_id ).c_str() );
+            mvwprintz( w_help, i + 10, 4, col, "%s: ", get_action_name( action_id ).c_str() );
+            mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ).c_str() );
         }
         wrefresh( w_help );
         refresh();
@@ -942,22 +948,29 @@ void input_context::display_help()
             status = s_add_global;
         } else if( action == "REMOVE" || raw_input_char == '-' ) {
             status = s_remove;
+        } else if( status == s_show && isalnum( raw_input_char ) ) {
+            scroll_offset = 0;
+            filter_phrase += tolower(raw_input_char);
+            filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
+        } else if ( status == s_show && raw_input_char == KEY_BACKSPACE && filter_phrase.size() > 0 ) {
+            scroll_offset = 0;
+            filter_phrase.pop_back();
+            filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
         } else if( action == "ANY_INPUT" ) {
             const size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
-            if( status == s_show || hotkey_index == std::string::npos ) {
+            if( hotkey_index == std::string::npos ) {
                 continue;
             }
             const size_t action_index = hotkey_index + scroll_offset;
-            if( action_index >= org_registered_actions.size() ) {
+            if( action_index >= filtered_registered_actions.size() ) {
                 continue;
             }
-            const std::string &action_id = org_registered_actions[action_index];
+            const std::string &action_id = filtered_registered_actions[action_index];
 
             // Check if this entry is local or global.
             bool is_local = false;
             inp_mngr.get_action_attributes( action_id, category, &is_local );
             const std::string name = get_action_name( action_id );
-
 
             if( status == s_remove && ( !OPTIONS["QUERY_KEYBIND_REMOVAL"] ||
                                         query_yn( _( "Clear keys for %s?" ), name.c_str() ) ) ) {
@@ -1010,7 +1023,7 @@ void input_context::display_help()
             }
             status = s_show;
         } else if( action == "DOWN" ) {
-            if( scroll_offset < org_registered_actions.size() - display_height ) {
+            if( filtered_registered_actions.size() > display_height &&scroll_offset < filtered_registered_actions.size() - display_height ) {
                 scroll_offset++;
             }
         } else if( action == "UP" ) {
@@ -1018,10 +1031,10 @@ void input_context::display_help()
                 scroll_offset--;
             }
         } else if( action == "PAGE_DOWN" ) {
-            if( scroll_offset + display_height < org_registered_actions.size() ) {
-                scroll_offset += std::min( display_height, org_registered_actions.size() -
+            if( scroll_offset + display_height < filtered_registered_actions.size() ) {
+                scroll_offset += std::min( display_height, filtered_registered_actions.size() -
                                            display_height - scroll_offset );
-            } else if( org_registered_actions.size() > display_height ) {
+            } else if( filtered_registered_actions.size() > display_height ) {
                 scroll_offset = 0;
             }
         } else if( action == "PAGE_UP" ) {
@@ -1029,8 +1042,8 @@ void input_context::display_help()
                 scroll_offset -= display_height;
             } else if( scroll_offset > 0 ) {
                 scroll_offset = 0;
-            } else if( org_registered_actions.size() > display_height ) {
-                scroll_offset = org_registered_actions.size() - display_height;
+            } else if( filtered_registered_actions.size() > display_height ) {
+                scroll_offset = filtered_registered_actions.size() - display_height;
             }
         } else if( action == "QUIT" ) {
             if( status != s_show ) {
@@ -1185,7 +1198,7 @@ bool input_context::get_coordinates( WINDOW *capture_win, int &x, int &y )
     int win_top = getbegy( capture_win ) - VIEW_OFFSET_Y;
     int win_bottom = win_top + view_rows - 1;
     if( coordinate_x < win_left || coordinate_x > win_right || coordinate_y < win_top ||
-        coordinate_y > win_bottom ) {
+            coordinate_y > win_bottom ) {
         return false;
     }
 
@@ -1279,3 +1292,17 @@ void input_context::set_iso( bool mode )
 {
     iso_mode = mode;
 }
+
+std::vector<std::string> input_context::filter_strings_by_phrase( std::vector<std::string> strings,
+                                                                  std::string phrase) const
+{
+    std::vector<std::string> filtered_strings;
+
+    for( size_t i = 0; i < strings.size(); i++ ) {
+        if ( lcmatch( remove_color_tags( get_action_name( strings[i] ) ), phrase ) )
+            filtered_strings.push_back( strings[i]) ;
+    }
+
+    return filtered_strings;
+}
+
