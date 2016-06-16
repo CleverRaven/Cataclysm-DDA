@@ -7998,14 +7998,28 @@ bool npc_menu( npc &who )
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
-        const int pos = g->inv_for_flag( "USE_ON_NPC", _("Use which item:") );
+        static const std::string heal_string( "heal" );
+        const auto will_accept = [&who]( const item &it ) {
+            const auto use_fun = it.get_use( heal_string );
+            if( use_fun == nullptr ) {
+                return false;
+            }
+
+            const auto *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+
+            return actor != nullptr &&
+                   actor->limb_power >= 0 &&
+                   actor->head_power >= 0 &&
+                   actor->torso_power >= 0;
+        };
+        const int pos = g->inv_for_filter( _("Use which item:"), will_accept );
 
         if( pos == INT_MIN ) {
             add_msg( _("Never mind") );
             return false;
         }
         item &used = g->u.i_at( pos );
-        bool did_use = g->u.invoke_item( &used, who.pos() );
+        bool did_use = g->u.invoke_item( &used, heal_string, who.pos() );
         if( did_use ) {
             // Note: exiting a body part selection menu counts as use here
             g->u.mod_moves( -300 );

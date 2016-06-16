@@ -24,8 +24,7 @@
             "move_cost" : 6000,
             "long_action" : true,
             "effects" : [ { "id" : "pkill1", "duration" : 120 } ]
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "adderall",
@@ -39,10 +38,11 @@
         "price" : 14500,
         "charges" : 10,
         "stack_size" : 200,
+        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "light_red",
         "stim" : 24,
-         "fun" : 10,
+        "fun" : 10,
         "addiction_potential" : 10,
         "addiction_type" : "amphetamine"
     },
@@ -73,6 +73,7 @@
         "price" : 9000,
         "charges" : 15,
         "stack_size" : 200,
+        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "white",
         "use_action" : "ANTIBIOTIC"
@@ -88,6 +89,7 @@
         "price" : 1000,
         "charges" : 5,
         "stack_size" : 100,
+        "flags" : "NPC_SAFE",
         "material" : "powder",
         "symbol" : "!",
         "color" : "white",
@@ -105,6 +107,7 @@
         "charges" : 5,
         "stack_size" : 100,
         "material" : "powder",
+        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "white",
         "healthy" : -5,
@@ -152,8 +155,7 @@
             "torso_power" : 4,
             "bleed" : 0.9,
             "move_cost" : 300
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "bfipowder",
@@ -178,8 +180,7 @@
             "torso_power" : 9,
             "bite" : 0.95,
             "move_cost" : 100
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "brownie_weed",
@@ -335,7 +336,6 @@
         "material" : "cotton",
         "symbol" : "!",
         "color" : "red",
-        "flags" : [ "USE_ON_NPC" ],
         "use_action" : {
             "type" : "heal",
             "limb_power" : 1,
@@ -409,6 +409,7 @@
         "charges" : 6,
         "stack_size" : 36,
         "material" : "plastic",
+        "flags" : "NPC_SAFE",
         "symbol" : "[",
         "color" : "cyan",
         "use_action" : "CONTACTS"
@@ -436,8 +437,7 @@
             "torso_power" : 4,
             "bleed" : 0.9,
             "move_cost" : 300
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "crack",
@@ -507,6 +507,7 @@
         "volume" : 1,
         "price" : 800,
         "charges" : 5,
+        "flags" : "NPC_SAFE",
         "symbol" : "~",
         "color" : "yellow",
         "phase" : "liquid",
@@ -534,8 +535,7 @@
             "torso_power" : 9,
             "bite" : 0.95,
             "move_cost" : 100
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "diazepam",
@@ -587,6 +587,7 @@
         "weight" : 18,
         "price" : 300,
         "charges" : 10,
+        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "light_blue",
         "use_action" : "EYEDROPS"
@@ -602,6 +603,7 @@
         "price" : 5000, "//" : "Yeah, kinda guessing at these ones.",
         "stack_size" : 40,
         "material" : "plastic",
+        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "magenta",
         "use_action" : "FLU_VACCINE"
@@ -811,6 +813,7 @@
         "volume" : 1,
         "price" : 0,
         "material" : "powder",
+        "flags" : "NPC_SAFE",
         "symbol" : "~",
         "color" : "yellow",
         "phase" : "liquid",
@@ -994,6 +997,7 @@
         "charges" : 10,
         "stack_size" : 200,
         "material" : "powder",
+        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "blue",
         "use_action" : {
@@ -1025,8 +1029,7 @@
             "torso_power" : 4,
             "bleed" : 90,
             "move_cost" : 100
-        },
-        "flags" : [ "USE_ON_NPC" ]
+        }
     },
     {
         "id" : "saline",
@@ -1038,6 +1041,7 @@
         "volume" : 1,
         "price" : 500,
         "charges" : 5,
+        "flags" : "NPC_SAFE",
         "symbol" : "~",
         "color" : "light_cyan",
         "phase" : "liquid",
@@ -1145,7 +1149,7 @@
         "price" : 5000, "//" : "Yeah, kinda guessing at these ones.",
         "stack_size" : 40,
         "material" : "plastic",
-        "flags" : "TRADER_AVOID",
+        "flags" : [ "NPC_SAFE", "TRADER_AVOID" ],
         "symbol" : "!",
         "color" : "magenta",
         "use_action" : "VACCINE"

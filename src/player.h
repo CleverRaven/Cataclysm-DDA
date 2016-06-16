@@ -710,6 +710,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
         bool consume_item( item &eat );
+        /**
+         * Consumes an item as medication.
+         * Can be used to heal others (using `pos` argument), if med type handles that.
+         * Will complain if the item isn't actually a med type.
+         */
+        bool consume_med( item &target, const tripoint &pos );
 
         /** This block is to be moved to character.h */
         bool is_allergic( const item &food ) const;

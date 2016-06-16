@@ -2685,3 +2685,21 @@ std::ostream& operator<< (std::ostream & os, npc_need need)
     };
     return os << "unknown need";
 }
+
+bool npc::will_accept_from_player( const item &it ) const
+{
+    if( is_minion() || g->u.has_trait( "DEBUG_MIND_CONTROL" ) || it.has_flag( "NPC_SAFE" ) ) {
+        return true;
+    }
+
+    if( !it.type->use_methods.empty() ) {
+        return false;
+    }
+
+    const auto comest = it.type->comestible;
+    if( comest != nullptr && ( comest->quench < 0 || it.poison > 0 ) ) {
+        return false;
+    }
+
+    return true;
+}
