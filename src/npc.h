@@ -640,6 +640,7 @@ public:
     int value( const item &it, int market_price ) const;
     bool wear_if_wanted( const item &it );
     bool wield( item& it ) override;
+    bool adjust_worn();
     bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false);
     item &get_healing_item( bool bleed = false, bool bite = false, bool infect = false,
                             bool first_best = false );
