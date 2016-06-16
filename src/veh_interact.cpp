@@ -151,12 +151,11 @@ void veh_interact::allocate_windows()
     int stats_h = h3 - name_h;
     int stats_w = grid_w;
 
-    int list_h = grid_h - h3 - h1 - 2; // interior borders take 2
+    page_size = grid_h - h3 - h1 - 2;
+
     int list_w = 32 + (extra_w / 4); // uses 1/4 of extra space
-    int parts_h = list_h;
     int parts_w = 32 + (extra_w / 4); // uses 1/4 of extra space
 
-    int disp_h = list_h;
     int disp_w = grid_w - list_w - parts_w - 2; // interior borders take 2
 
     mode_x = x0 + 1;
@@ -170,27 +169,25 @@ void veh_interact::allocate_windows()
     list_x = parts_x + parts_w + 1;
     list_y = disp_y;
     name_x = x0 + 1;
-    name_y = disp_y + disp_h + 1;
+    name_y = disp_y + page_size + 1;
     stats_x = x0 + 1;
     stats_y = name_y + name_h;
 
     // match grid lines
     mvwputch(w_border, h1 + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
     mvwputch(w_border, h1 + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
-    mvwputch(w_border, h1 + 1 + disp_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, h1 + 1 + disp_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_border, h1 + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, h1 + 1 + page_size + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     // make the windows
     w_mode  = newwin(mode_h,  mode_w,  mode_y,  mode_x );
     w_msg   = newwin(msg_h,   msg_w,   msg_y,   msg_x  );
-    w_disp  = newwin(disp_h,  disp_w,  disp_y,  disp_x );
-    w_parts = newwin(parts_h, parts_w, parts_y, parts_x);
-    w_list  = newwin(list_h,  list_w,  list_y,  list_x );
+    w_disp  = newwin(page_size,  disp_w,  disp_y,  disp_x );
+    w_parts = newwin(page_size, parts_w, parts_y, parts_x);
+    w_list  = newwin(page_size,  list_w,  list_y,  list_x );
     w_details = NULL;  // only pops up when in install menu
     w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
     w_name  = newwin(name_h,  name_w,  name_y,  name_x );
-
-    page_size = list_h;
 
     wrefresh(w_border);
     delwin( w_border );
