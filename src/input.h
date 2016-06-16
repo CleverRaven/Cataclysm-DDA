@@ -491,7 +491,7 @@ class input_context
          * @return A vector of the filtered strings
          */
         std::vector<std::string> filter_strings_by_phrase( std::vector<std::string> strings,
-                                                           std::string phrase) const;
+                std::string phrase ) const;
 };
 
 /**

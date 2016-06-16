@@ -898,7 +898,8 @@ void input_context::display_help()
 
         mvwprintz( w_help, 8, 2, c_ltgreen, "Search phrase: %s_", filter_phrase.c_str() );
 
-        for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() && i < display_height; i++ ) {
+        for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
+             i < display_height; i++ ) {
             const std::string &action_id = filtered_registered_actions[i + scroll_offset];
 
             bool overwrite_default;
@@ -950,9 +951,9 @@ void input_context::display_help()
             status = s_remove;
         } else if( status == s_show && isalnum( raw_input_char ) ) {
             scroll_offset = 0;
-            filter_phrase += tolower(raw_input_char);
+            filter_phrase += tolower( raw_input_char );
             filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
-        } else if ( status == s_show && raw_input_char == KEY_BACKSPACE && filter_phrase.size() > 0 ) {
+        } else if( status == s_show && raw_input_char == KEY_BACKSPACE && filter_phrase.size() > 0 ) {
             scroll_offset = 0;
             filter_phrase.pop_back();
             filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
@@ -1023,7 +1024,8 @@ void input_context::display_help()
             }
             status = s_show;
         } else if( action == "DOWN" ) {
-            if( filtered_registered_actions.size() > display_height &&scroll_offset < filtered_registered_actions.size() - display_height ) {
+            if( filtered_registered_actions.size() > display_height &&
+                scroll_offset < filtered_registered_actions.size() - display_height ) {
                 scroll_offset++;
             }
         } else if( action == "UP" ) {
@@ -1041,9 +1043,9 @@ void input_context::display_help()
             if( scroll_offset >= display_height ) {
                 scroll_offset -= display_height;
             } else if( scroll_offset > 0 ) {
-                       scroll_offset = 0;
+                scroll_offset = 0;
             } else if( filtered_registered_actions.size() > display_height ) {
-                       scroll_offset = filtered_registered_actions.size() - display_height;
+                scroll_offset = filtered_registered_actions.size() - display_height;
             }
         } else if( action == "QUIT" ) {
             if( status != s_show ) {
@@ -1294,13 +1296,14 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase( std::vector<std::string> strings,
-                                                                  std::string phrase) const
+        std::string phrase ) const
 {
     std::vector<std::string> filtered_strings;
 
     for( size_t i = 0; i < strings.size(); i++ ) {
-        if ( lcmatch( remove_color_tags( get_action_name( strings[i] ) ), phrase ) )
-            filtered_strings.push_back( strings[i]) ;
+        if( lcmatch( remove_color_tags( get_action_name( strings[i] ) ), phrase ) ) {
+            filtered_strings.push_back( strings[i] ) ;
+        }
     }
 
     return filtered_strings;
