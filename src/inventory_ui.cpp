@@ -506,19 +506,20 @@ nc_color inventory_column::get_item_color( const itemstack_or_category &entry ) 
     if( !entry.is_item() ) {
         return c_magenta;
     }
-    const nc_color highlight_color( active ? h_white : h_ltgray );
 
-    switch( mode ) {
-        case navigation_mode::ITEM:
-            if( entry == get_selected() ) {
-                return highlight_color;
-            }
-            break;
-        case navigation_mode::CATEGORY:
-            if( entry.category == get_selected().category ) {
-                return highlight_color;
-            }
-            break;
+    if( active ) {
+        switch( mode ) {
+            case navigation_mode::ITEM:
+                if( entry == get_selected() ) {
+                    return h_white;
+                }
+                break;
+            case navigation_mode::CATEGORY:
+                if( entry.category == get_selected().category ) {
+                    return h_white;
+                }
+                break;
+        }
     }
 
     return entry.it->color_in_inventory();
