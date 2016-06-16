@@ -10847,12 +10847,23 @@ void game::butcher()
         add_msg(m_info, _("You can't butcher while driving!"));
         return;
     }
-    if( !m.can_put_items_ter_furn( u.pos() ) ) {
-        add_msg( m_info, _( "You can't butcher while standing here!" ) );
+
+    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
+    static const char *no_knife_msg = _( "You don't have a sharp item to butcher with." );
+    static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
+
+    //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
+    if( m.has_flag( "SEALED", u.pos() ) ) {
+        if( m.sees_some_items( u.pos(), u ) ) {
+            add_msg( m_info, _( "You can't access the items here." ) );
+        } else if( factor > INT_MIN ) {
+            add_msg( m_info, no_corpse_msg );
+        } else {
+            add_msg( m_info, no_knife_msg );
+        }
         return;
     }
 
-    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
     const item *first_item_without_tools = nullptr;
     // Indices of relevant items
     std::vector<int> corpses;
@@ -10920,9 +10931,9 @@ void game::butcher()
 
     if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
         if( factor > INT_MIN ) {
-            add_msg( m_info, _("There are no corpses here to butcher.") );
+            add_msg( m_info, no_corpse_msg );
         } else {
-            add_msg( m_info, _("You don't have a sharp item to butcher with.") );
+            add_msg( m_info, no_knife_msg );
         }
 
         if( first_item_without_tools != nullptr ) {
