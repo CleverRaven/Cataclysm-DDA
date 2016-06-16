@@ -36,6 +36,19 @@
     "flags": [ "OPAQUE", "OBSTACLE" ]
   },
   {
+    "abstract": "woodboard",
+    "type": "vehicle_part",
+    "name": "wooden board",
+    "item": "wood_plate",
+    "location": "center",
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 300,
+    "difficulty": 1,
+    "breaks_into": "ig_vp_wood_plate",
+    "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE" ]
+  },
+  {
     "id": "board_horizontal",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -50,6 +63,12 @@
   {
     "id": "hdboard_horizontal",
     "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "woodboard_horizontal",
+    "copy-from": "woodboard",
     "type": "vehicle_part",
     "symbol": "h"
   },
@@ -72,6 +91,12 @@
     "symbol": "u"
   },
   {
+    "id": "woodboard_ne",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
     "id": "board_nw",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -86,6 +111,12 @@
   {
     "id": "hdboard_nw",
     "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "woodboard_nw",
+    "copy-from": "woodboard",
     "type": "vehicle_part",
     "symbol": "y"
   },
@@ -108,6 +139,12 @@
     "symbol": "n"
   },
   {
+    "id": "woodboard_se",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
     "id": "board_sw",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -126,6 +163,12 @@
     "symbol": "b"
   },
   {
+    "id": "woodboard_sw",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "board_vertical",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -140,6 +183,12 @@
   {
     "id": "hdboard_vertical",
     "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "woodboard_vertical",
+    "copy-from": "woodboard",
     "type": "vehicle_part",
     "symbol": "j"
   }
