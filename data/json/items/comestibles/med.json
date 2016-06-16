@@ -432,9 +432,7 @@
         "container" : "bag_plastic",
         "use_action" : {
             "type" : "heal",
-            "limb_power" : 3,
-            "head_power" : 1,
-            "torso_power" : 4,
+            "limb_power" : 0,
             "bleed" : 0.9,
             "move_cost" : 300
         }
