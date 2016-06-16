@@ -143,13 +143,6 @@ void veh_interact::allocate_windows()
     int name_h  = 1;
     int stats_h = 6;
 
-    int mode_w = grid_w;
-
-    int msg_w = mode_w;
-
-    int name_w = grid_w;
-    int stats_w = grid_w;
-
     page_size = grid_h - ( mode_h + msg_h ) - ( stats_h + name_h ) - 2;
 
     int list_w = 32 + (extra_w / 4); // uses 1/4 of extra space
@@ -179,14 +172,14 @@ void veh_interact::allocate_windows()
     mvwputch(w_border, msg_h + mode_h + 1 + page_size + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     // make the windows
-    w_mode  = newwin(mode_h,  mode_w,  mode_y,  mode_x );
-    w_msg   = newwin(msg_h,   msg_w,   msg_y,   msg_x  );
+    w_mode  = newwin(mode_h,  grid_w,  mode_y,  mode_x );
+    w_msg   = newwin(msg_h,   grid_w,   msg_y,   msg_x  );
     w_disp  = newwin(page_size,  disp_w,  disp_y,  disp_x );
     w_parts = newwin(page_size, parts_w, parts_y, parts_x);
     w_list  = newwin(page_size,  list_w,  list_y,  list_x );
     w_details = NULL;  // only pops up when in install menu
-    w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
-    w_name  = newwin(name_h,  name_w,  name_y,  name_x );
+    w_stats = newwin(stats_h, grid_w, stats_y, stats_x);
+    w_name  = newwin(name_h,  grid_w,  name_y,  name_x );
 
     wrefresh(w_border);
     delwin( w_border );
