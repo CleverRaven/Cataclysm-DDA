@@ -135,8 +135,8 @@ void veh_interact::allocate_windows()
     const int grid_h = total_h - 2; // exterior borders take 2
     w_grid = newwin(grid_h, grid_w, y0 + 1, x0 + 1);
 
-    int mode_x, mode_y, msg_x, msg_y, disp_x, disp_y, parts_x, parts_y;
-    int stats_x, stats_y, list_x, list_y, name_x, name_y;
+    int mode_x, mode_y, msg_x, msg_y, disp_x, parts_x;
+    int stats_x, stats_y, list_x, name_x, name_y;
 
     int mode_h  = 1;
     int msg_h   = 3;
@@ -144,6 +144,8 @@ void veh_interact::allocate_windows()
     int stats_h = 6;
 
     page_size = grid_h - ( mode_h + msg_h ) - ( stats_h + name_h ) - 2;
+
+    int pane_y = y0 + 1 + msg_h + mode_h + 1;
 
     int pane_w = 32 + (extra_w / 4); // uses 1/4 of extra space
     int disp_w = grid_w - ( pane_w * 2 ) - 2; // interior borders take 2
@@ -153,13 +155,10 @@ void veh_interact::allocate_windows()
     msg_x = x0 + 1;
     msg_y = mode_y + mode_h;
     disp_x = x0 + 1;
-    disp_y = y0 + 1 + msg_h + mode_h + 1;
     parts_x = disp_x + disp_w + 1;
-    parts_y = disp_y;
     list_x = parts_x + pane_w + 1;
-    list_y = disp_y;
     name_x = x0 + 1;
-    name_y = disp_y + page_size + 1;
+    name_y = pane_y + page_size + 1;
     stats_x = x0 + 1;
     stats_y = name_y + name_h;
 
@@ -172,9 +171,9 @@ void veh_interact::allocate_windows()
     // make the windows
     w_mode  = newwin(mode_h,  grid_w,  mode_y,  mode_x );
     w_msg   = newwin(msg_h,   grid_w,   msg_y,   msg_x  );
-    w_disp  = newwin(page_size,  disp_w,  disp_y,  disp_x );
-    w_parts = newwin(page_size, pane_w, parts_y, parts_x);
-    w_list  = newwin(page_size,  pane_w,  list_y,  list_x );
+    w_disp  = newwin(page_size,  disp_w,  pane_y,  disp_x );
+    w_parts = newwin(page_size, pane_w, pane_y, parts_x);
+    w_list  = newwin(page_size,  pane_w,  pane_y,  list_x );
     w_details = NULL;  // only pops up when in install menu
     w_stats = newwin(stats_h, grid_w, stats_y, stats_x);
     w_name  = newwin(name_h,  grid_w,  name_y,  name_x );
