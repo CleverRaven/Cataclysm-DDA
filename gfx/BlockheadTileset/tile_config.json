@@ -7047,701 +7047,601 @@
          "id" : "coat_fur",
          "fg" : 752,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "peacoat",
          "fg" : 753,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "vest",
          "fg" : 754,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "vest_leather",
          "fg" : 755,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "tool_belt",
          "fg" : 756,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "chestrig",
          "fg" : 757,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "coat_lab",
          "fg" : 758,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "armguard_soft",
          "fg" : 759,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "armguard_hard",
          "fg" : 760,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "elbow_pads",
          "fg" : 761,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "armguard_chitin",
          "fg" : 762,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "armguard_metal",
          "fg" : 763,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_liner",
          "fg" : 764,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_light",
          "fg" : 765,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mittens",
          "fg" : 766,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_fur",
          "fg" : 767,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_wool",
          "fg" : 768,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_winter",
          "fg" : 769,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_leather",
          "fg" : 770,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_tactical",
          "fg" : 771,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_fingerless",
          "fg" : 772,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_rubber",
          "fg" : 773,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gloves_medical",
          "fg" : 774,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "fire_gauntlets",
          "fg" : 775,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gauntlets_chitin",
          "fg" : 776,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mask_dust",
          "fg" : 777,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "bandana",
          "fg" : 778,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "scarf",
          "fg" : 779,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "scarf_fur",
          "fg" : 780,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mask_filter",
          "fg" : 781,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mask_gas",
          "fg" : 782,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "glasses_eye",
          "fg" : 783,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "glasses_reading",
          "fg" : 784,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "glasses_bifocal",
          "fg" : 785,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "glasses_safety",
          "fg" : 786,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "goggles_swim",
          "fg" : 787,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "goggles_ski",
          "fg" : 788,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "goggles_welding",
          "fg" : 789,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "goggles_nv",
          "fg" : 790,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "glasses_bal",
          "fg" : 791,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "glasses_monocle",
          "fg" : 792,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "sunglasses",
          "fg" : 793,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "hat_ball",
          "fg" : 794,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "hat_boonie",
          "fg" : 795,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "hat_cotton",
          "fg" : 796,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "hat_knit",
          "fg" : 797,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "hat_hunting",
          "fg" : 798,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "hat_fur",
          "fg" : 799,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "balclava",
          "fg" : 800,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "hat_hard",
          "fg" : 801,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "pickelhaube",
          "fg" : 802,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "beret",
          "fg" : 803,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_bike",
          "fg" : 804,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_skid",
          "fg" : 805,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_ball",
          "fg" : 806,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_army",
          "fg" : 807,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_liner",
          "fg" : 808,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_riot",
          "fg" : 809,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_motor",
          "fg" : 810,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_chitin",
          "fg" : 811,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "helmet_plate",
          "fg" : 812,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "tophat",
          "fg" : 813,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "bowhat",
          "fg" : 814,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "backpack",
          "fg" : 815,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "backpack_leather",
          "fg" : 816,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "rucksack",
          "fg" : 817,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "duffelbag",
          "fg" : 818,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "purse",
          "fg" : 819,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mbag",
          "fg" : 820,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "fanny",
          "fg" : 821,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "holster",
          "fg" : 822,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "bootstrap",
          "fg" : 823,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "quiver",
          "fg" : 824,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "quiver_large",
          "fg" : 825,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "ragpouch",
          "fg" : 826,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "leather_pouch",
          "fg" : 827,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "ring",
          "fg" : 828,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "necklace",
          "fg" : 829,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "small_relic",
          "fg" : 830,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "wrapped_rad_badge",
          "fg" : 831,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "rad_badge",
          "fg" : 832,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "badge_deputy",
          "fg" : 833,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "american_flag",
          "fg" : 834,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "blanket",
          "fg" : 835,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "fur_blanket",
          "fg" : 836,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "emer_blanket",
          "fg" : 837,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "sleeping_bag",
          "fg" : 838,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "sleeping_bag_fur",
          "fg" : 839,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "house_coat",
          "fg" : 840,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "snuggie",
          "fg" : 841,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "cloak",
          "fg" : 842,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "cloak_fur",
          "fg" : 843,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "cloak_leather",
          "fg" : 844,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "jedi_cloak",
          "fg" : 845,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "power_armor_basic",
          "fg" : 846,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "power_armor_helmet_basic",
          "fg" : 847,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "power_armor_light",
          "fg" : 848,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "power_armor_helmet_light",
          "fg" : 849,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "power_armor_heavy",
          "fg" : 850,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "power_armor_helmet_heavy",
          "fg" : 851,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "power_armor_frame",
