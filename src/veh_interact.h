@@ -53,7 +53,6 @@ class veh_interact
         int cpart;
         int page_size;
         int fuel_index;
-        bool vertical_menu;
         WINDOW *w_grid;
         WINDOW *w_mode;
         WINDOW *w_msg;
