@@ -630,7 +630,6 @@ class game
         std::vector<std::shared_ptr<npc>> active_npc;
     public:
         std::vector<faction> factions;
-        int weight_dragged; // Computed once, when you start dragging
 
         int ter_view_x, ter_view_y, ter_view_z;
 
