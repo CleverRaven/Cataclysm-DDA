@@ -141,23 +141,23 @@ void veh_interact::allocate_windows()
     const int h1 = 4; // 4 lines for msg + mode
     const int h3 = 7; // 7 lines for name + stats
 
-    mode_h = 1;
-    mode_w = grid_w;
-    msg_h = h1 - mode_h;
-    msg_w = mode_w;
+    int mode_h = 1;
+    int mode_w = grid_w;
+    int msg_h = h1 - mode_h;
+    int msg_w = mode_w;
 
-    name_h = 1;
-    name_w = grid_w;
-    stats_h = h3 - name_h;
-    stats_w = grid_w;
+    int name_h = 1;
+    int name_w = grid_w;
+    int stats_h = h3 - name_h;
+    int stats_w = grid_w;
 
-    list_h = grid_h - h3 - h1 - 2; // interior borders take 2
-    list_w = 32 + (extra_w / 4); // uses 1/4 of extra space
-    parts_h = list_h;
-    parts_w = 32 + (extra_w / 4); // uses 1/4 of extra space
+    int list_h = grid_h - h3 - h1 - 2; // interior borders take 2
+    int list_w = 32 + (extra_w / 4); // uses 1/4 of extra space
+    int parts_h = list_h;
+    int parts_w = 32 + (extra_w / 4); // uses 1/4 of extra space
 
-    disp_h = list_h;
-    disp_w = grid_w - list_w - parts_w - 2; // interior borders take 2
+    int disp_h = list_h;
+    int disp_w = grid_w - list_w - parts_w - 2; // interior borders take 2
 
     mode_x = x0 + 1;
     mode_y = y0 + 1;
@@ -757,7 +757,7 @@ void veh_interact::do_install()
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
-                    selected_shape = uimenu( true, getbegx(w_list), list_w, getbegy(w_list),
+                    selected_shape = uimenu( true, getbegx( w_list ), getmaxx( w_list ), getbegy( w_list ),
                                              _("Choose shape:"), shape_ui_entries ).ret;
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
@@ -875,7 +875,7 @@ void veh_interact::do_repair()
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
         sel_vpart_info = &sel_vehicle_part->info();
         werase (w_parts);
-        veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, need_repair[pos]);
+        veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
@@ -904,7 +904,7 @@ void veh_interact::do_repair()
             return;
         } else if (action == "QUIT") {
             werase (w_parts);
-            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
+            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             wrefresh(w_msg);
@@ -956,7 +956,7 @@ void veh_interact::do_mend()
         sel_vpart_info = &sel_vehicle_part->info();
         werase( w_parts );
         int idx = std::distance( parts_here.begin(), std::find( parts_here.begin(), parts_here.end(), opts[ pos ] ) );
-        veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, idx );
+        veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, idx );
         wrefresh( w_parts );
 
         werase( w_list );
@@ -977,7 +977,7 @@ void veh_interact::do_mend()
 
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1 );
+            veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1188,7 +1188,7 @@ void veh_interact::do_remove()
         sel_vpart_info = &sel_vehicle_part->info();
         //redraw list of parts
         werase (w_parts);
-        veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, pos);
+        veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos);
         wrefresh (w_parts);
         bool can_remove = can_remove_part(parts_here[pos], skilllevel, msg_width);
         //read input
@@ -1198,7 +1198,7 @@ void veh_interact::do_remove()
             break;
         } else if (action == "QUIT") {
             werase (w_parts);
-            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
+            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             wrefresh(w_msg);
@@ -1408,7 +1408,7 @@ void veh_interact::move_cursor (int dx, int dy)
               special_symbol(sym));
     wrefresh (w_disp);
     werase (w_parts);
-    veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
+    veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
     wrefresh (w_parts);
 
     can_mount.clear();
@@ -1460,20 +1460,20 @@ void veh_interact::display_grid()
     const int grid_w = getmaxx(w_grid);
 
     // Two lines dividing the three middle sections.
-    for (int i = 1 + mode_h + msg_h; i < (1 + mode_h + msg_h + disp_h); ++i) {
-        mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
-        mvwputch(w_grid, i, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XOXO); // |
+    for (int i = 1 + getmaxy( w_mode ) + getmaxy( w_msg ); i < (1 + getmaxy( w_mode ) + getmaxy( w_msg ) + getmaxy( w_disp ) ); ++i) {
+        mvwputch(w_grid, i, getmaxx( w_disp ), BORDER_COLOR, LINE_XOXO); // |
+        mvwputch(w_grid, i, getmaxx( w_disp ) + 1 + getmaxx( w_parts) , BORDER_COLOR, LINE_XOXO); // |
     }
     // Two lines dividing the vertical menu sections.
     for (int i = 0; i < grid_w; ++i) {
-        mvwputch( w_grid, mode_h + msg_h, i, BORDER_COLOR, LINE_OXOX ); // -
-        mvwputch( w_grid, mode_h + msg_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX ); // -
+        mvwputch( w_grid, getmaxy( w_mode ) + getmaxy( w_msg ), i, BORDER_COLOR, LINE_OXOX ); // -
+        mvwputch( w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), i, BORDER_COLOR, LINE_OXOX ); // -
     }
     // Fix up the line intersections.
-    mvwputch(w_grid, mode_h + msg_h,              disp_w, BORDER_COLOR, LINE_OXXX);
-    mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w, BORDER_COLOR, LINE_XXOX); // _|_
-    mvwputch(w_grid, mode_h + msg_h,              disp_w + 1 + parts_w, BORDER_COLOR, LINE_OXXX);
-    mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ),              getmaxx( w_disp ), BORDER_COLOR, LINE_OXXX);
+    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), getmaxx( w_disp ), BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ),              getmaxx( w_disp ) + 1 + getmaxx( w_parts ), BORDER_COLOR, LINE_OXXX);
+    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), getmaxx( w_disp ) + 1 + getmaxx( w_parts ), BORDER_COLOR, LINE_XXOX); // _|_
 
     wrefresh(w_grid);
 }
@@ -1704,8 +1704,8 @@ void veh_interact::display_stats()
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
     veh->print_fuel_indicators (w_stats, y[12], x[12], fuel_index, true,
-                               (x[12] + 10 < stats_w),
-                               (x[12] + 10 + fuel_name_length < stats_w));
+                               ( x[ 12 ] + 10 < getmaxx( w_stats ) ),
+                               ( x[ 12 ] + 10 + fuel_name_length < getmaxx( w_stats ) ) );
 
     wrefresh(w_stats);
 }
@@ -1819,9 +1819,9 @@ void veh_interact::display_details( const vpart_info *part )
         // clear rightmost blocks of w_stats to avoid overlap
         int stats_col_2 = 33;
         int stats_col_3 = 65 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
-        int clear_x = stats_w - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
-        for( int i = 0; i < stats_h; i++) {
-            mvwhline(w_stats, i, clear_x, ' ', stats_w - clear_x);
+        int clear_x = getmaxx( w_stats ) - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
+        for( int i = 0; i < getmaxy( w_stats ); i++) {
+            mvwhline(w_stats, i, clear_x, ' ', getmaxx( w_stats ) - clear_x);
         }
 
         wrefresh(w_stats);
