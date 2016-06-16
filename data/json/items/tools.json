@@ -1729,8 +1729,7 @@
     "bashing": 14,
     "cutting": 3,
     "to_hit": 3,
-    "qualities": [["DIG", 3]],
-    "use_action": "DIG"
+    "qualities": [ [ "DIG", 3 ] ]
   },
   {
     "id": "stethoscope",
@@ -4566,7 +4565,6 @@
     "volume": 5,
     "cutting": 1,
     "to_hit": -2,
-    "use_action": "LUMBER",
     "qualities":[["SAW_W", 2]]
   },
   {
@@ -4584,8 +4582,7 @@
     "cutting": 14,
     "flags" : ["CHOP"],
     "to_hit": 1,
-    "qualities": [["AXE", 3]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 3]]
   },
   {
     "id": "fire_ax",
@@ -4603,8 +4600,7 @@
     "cutting": 20,
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },
   {
     "id": "battleaxe",
@@ -4622,8 +4618,7 @@
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },
   {
     "id": "hacksaw",
@@ -4932,7 +4927,6 @@
     "bashing": 2,
     "cutting": 6,
     "to_hit": 1,
-    "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1]]
   },
   {
@@ -4949,7 +4943,6 @@
     "bashing": 2,
     "cutting": 6,
     "to_hit": 1,
-    "use_action": "REMOVE_ALL_MODS",
     "qualities": [["SCREW", 1], ["SCREW_FINE", 1]]
   },
   {
@@ -5434,8 +5427,7 @@
     "bashing": 11,
     "cutting": 8,
     "flags" : ["CHOP"],
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },{
     "id": "copper_ax",
     "type": "TOOL",
@@ -5450,8 +5442,7 @@
     "bashing": 18,
     "cutting": 12,
     "flags" : ["CHOP"],
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
   },{
     "id": "primitive_shovel",
     "type": "TOOL",
@@ -5465,8 +5456,7 @@
     "volume": 16,
     "bashing": 15,
     "cutting": 1,
-    "qualities": [["DIG", 2]],
-    "use_action": "DIG"
+    "qualities": [ [ "DIG", 2 ] ]
   },{
     "id": "primitive_knife",
     "type": "TOOL",
@@ -7443,7 +7433,7 @@
     "volume": 10,
     "bashing": 8,
     "to_hit": -2,
-    "use_action": [ "LUMBER", "REMOVE_ALL_MODS", "HAMMER" ],
+    "use_action": [ "HAMMER" ],
     "qualities": [["CUT", 1], ["HAMMER", 3], ["SAW_M", 2], ["SAW_W", 2], ["WRENCH", 1],
         ["SCREW", 1], ["HAMMER_FINE", 1], ["SAW_M_FINE", 1], ["WRENCH_FINE", 1], ["SCREW_FINE", 1],
         ["BUTCHER", 12]]
@@ -7508,7 +7498,6 @@
     "volume": 2,
     "bashing": 3,
     "cutting": 5,
-    "use_action": "DIG",
     "flags" : ["CHOP"],
     "to_hit": 1,
     "qualities": [["DIG", 1], ["BUTCHER", -4]]

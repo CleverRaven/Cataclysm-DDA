@@ -182,6 +182,7 @@ src/tile_id_data.h
 src/tileray.h
 src/translations.h
 src/trap.h
+src/turret.cpp
 src/tutorial.h
 src/ui.h
 src/veh_interact.h

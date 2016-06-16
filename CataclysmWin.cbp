@@ -628,6 +628,7 @@
 		<Unit filename="src/trap.cpp" />
 		<Unit filename="src/trap.h" />
 		<Unit filename="src/trapfunc.cpp" />
+		<Unit filename="src/turret.cpp" />
 		<Unit filename="src/tutorial.cpp" />
 		<Unit filename="src/tutorial.h" />
 		<Unit filename="src/ui.cpp" />

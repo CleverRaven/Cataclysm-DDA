@@ -2386,38 +2386,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "improve_sights",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_MODS",
-  "skill_used": "fabrication",
-  "skills_required": [[ "gun", 1 ]],
-  "difficulty": 2,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "mag_guns", 1 ] , [ "mag_pistol", 1] , [ "mag_shotgun", 1] , [ "mag_smg", 1] , [ "mag_rifle", 1] , [ "manual_gun", 1 ] , [ "manual_pistol", 1] , [ "manual_shotgun", 1] , [ "manual_smg", 1] , [ "manual_rifle", 1]],
-  "qualities":[
-    {"id":"HAMMER_FINE","level":1,"amount":1},
-    {"id":"SAW_M_FINE","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "large_repairkit", 5 ],
-      [ "small_repairkit", 15 ],
-      [ "soldering_iron", 15 ],
-      [ "toolset", 15 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 1 ]
-    ],
-    [
-      [ "plastic_chunk", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "laser_sight",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_MODS",
