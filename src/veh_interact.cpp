@@ -138,20 +138,19 @@ void veh_interact::allocate_windows()
     int mode_x, mode_y, msg_x, msg_y, disp_x, disp_y, parts_x, parts_y;
     int stats_x, stats_y, list_x, list_y, name_x, name_y;
 
-    const int h1 = 4; // 4 lines for msg + mode
-    const int h3 = 7; // 7 lines for name + stats
+    int mode_h  = 1;
+    int msg_h   = 3;
+    int name_h  = 1;
+    int stats_h = 6;
 
-    int mode_h = 1;
     int mode_w = grid_w;
-    int msg_h = h1 - mode_h;
+
     int msg_w = mode_w;
 
-    int name_h = 1;
     int name_w = grid_w;
-    int stats_h = h3 - name_h;
     int stats_w = grid_w;
 
-    page_size = grid_h - h3 - h1 - 2;
+    page_size = grid_h - ( mode_h + msg_h ) - ( stats_h + name_h ) - 2;
 
     int list_w = 32 + (extra_w / 4); // uses 1/4 of extra space
     int parts_w = 32 + (extra_w / 4); // uses 1/4 of extra space
@@ -174,10 +173,10 @@ void veh_interact::allocate_windows()
     stats_y = name_y + name_h;
 
     // match grid lines
-    mvwputch(w_border, h1 + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, h1 + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
-    mvwputch(w_border, h1 + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, h1 + 1 + page_size + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_border, msg_h + mode_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, msg_h + mode_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_border, msg_h + mode_h + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, msg_h + mode_h + 1 + page_size + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     // make the windows
     w_mode  = newwin(mode_h,  mode_w,  mode_y,  mode_x );
