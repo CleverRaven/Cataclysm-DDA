@@ -224,7 +224,7 @@ class inventory_selector
                     return false;
                 }
             }
-            return true;
+            return custom_column == nullptr || custom_column->empty();
         }
         /** Creates the inventory screen */
         inventory_selector( player &u, item_filter filter = allow_all_items );
@@ -245,6 +245,7 @@ class inventory_selector
         };
 
         std::vector<std::unique_ptr<inventory_column>> columns;
+        std::unique_ptr<inventory_column> custom_column;
         size_t active_column_index;
 
         /**
@@ -433,6 +434,15 @@ void inventory_column::add_items( const indexed_invslice &slice, add_to where, c
 {
     for( const auto &scit : slice ) {
         add_item( itemstack_or_category( scit, def_cat ), where );
+    }
+}
+
+void inventory_column::add_items( const inventory_column &source, add_to where )
+{
+    for( const auto &entry : source.items ) {
+        if( entry.it != nullptr ) {
+            add_item( entry, where );
+        }
     }
 }
 
@@ -629,7 +639,10 @@ nc_color selection_column::get_item_color( const itemstack_or_category &entry ) 
 
 void inventory_selector::add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat )
 {
-    columns.front()->add_items( slice, where, def_cat );
+    if( custom_column == nullptr ) {
+        custom_column.reset( new inventory_column() );
+    }
+    custom_column->add_items( slice, where, def_cat );
 }
 
 itemstack_or_category *inventory_selector::invlet_to_itemstack( long invlet ) const
@@ -645,15 +658,27 @@ itemstack_or_category *inventory_selector::invlet_to_itemstack( long invlet ) co
 
 void inventory_selector::prepare_columns( bool markers )
 {
-    const size_t items_per_page = getmaxy( w_inv ) - 5;
-
     for( auto &column : columns ) {
-        column->prepare_paging( items_per_page );
         column->set_markers( markers );
     }
-    if( get_active_column().activatable() ) {
-        return;
+
+    if( custom_column != nullptr ) {
+        if( columns.empty() || column_can_fit( *custom_column ) ) {
+            // Make the column second if possible
+            const auto position = ( !columns.empty() ) ? std::next( columns.begin() ) : columns.begin();
+
+            custom_column->set_markers( markers );
+            insert_column( position, custom_column.release() );
+        } else {
+            columns.front()->add_items( *custom_column, add_to::END );
+            custom_column.release();
+        }
     }
+
+    for( auto &column : columns ) {
+        column->prepare_paging( getmaxy( w_inv ) - 5 );
+    }
+
     for( size_t i = 0; i < columns.size(); ++i ) {
         if( get_column( i ).activatable() ) {
             set_active_column( i );
