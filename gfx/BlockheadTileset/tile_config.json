@@ -8246,78 +8246,67 @@
           "id": "recipe_creepy",
          "fg" : 885,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
         },
       {
          "id" : "SICP",
          "fg" : 925,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "textbook_robots",
          "fg" : 926,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "record_weather",
          "fg" : 927,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "record_patient",
          "fg" : 928,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "record_accounting",
          "fg" : 929,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "black_box_transcript",
          "fg" : 930,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "priest_diary",
          "fg" : 931,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "visions_solitude",
          "fg" : 932,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mag_fabrication",
          "fg" : 890,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "manual_fabrication",
          "fg" : 890,
          "bg" : 914,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
         {
           "rotates": false,
@@ -8333,624 +8322,535 @@
          "id" : "textbook_fabrication",
          "fg" : 935,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mag_computer",
          "fg" : 883,
          "bg" : 912,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "howto_computer",
          "fg" : 883,
          "bg" : 913,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "textbook_weapwest",
          "fg" : 936,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "textbook_weapeast",
          "fg" : 937,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "textbook_armwest",
          "fg" : 938,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "textbook_armeast",
          "fg" : 939,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "water",
          "fg" : 944,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "water_clean",
          "fg" : 945,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "sewage",
          "fg" : 946,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "salt_water",
          "fg" : 947,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "oj",
          "fg" : 948,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "apple_cider",
          "fg" : 949,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "energy_drink",
          "fg" : 950,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "cola",
          "fg" : 951,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "rootbeer",
          "fg" : 952,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "milk",
          "fg" : 953,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "V8",
          "fg" : 954,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "broth",
          "fg" : 955,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "broth_bone",
          "fg" : 956,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "soup_veggy",
          "fg" : 957,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "soup_meat",
          "fg" : 958,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "soup_woods",
          "fg" : 959,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "soup_human",
          "fg" : 960,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "wine_riesling",
          "fg" : 961,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "wine_chardonnay",
          "fg" : 962,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "wine_cabernet",
          "fg" : 963,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "wine_noir",
          "fg" : 964,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "whiskey",
          "fg" : 965,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "vodka",
          "fg" : 966,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "gin",
          "fg" : 967,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "rum",
          "fg" : 968,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "tequila",
          "fg" : 969,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "triple_sec",
          "fg" : 970,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "long_island",
          "fg" : 971,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "drink_screwdriver",
          "fg" : 972,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "drink_wild_apple",
          "fg" : 973,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "beer",
          "fg" : 974,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "bleach",
          "fg" : 975,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "ammonia",
          "fg" : 976,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "fertilizer_liquid",
          "fg" : 977,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "water_acid",
          "fg" : 978,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "water_acid_weak",
          "fg" : 979,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "acid",
          "fg" : 980,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen",
          "fg" : 981,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_plant",
          "fg" : 982,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_insect",
          "fg" : 983,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_spider",
          "fg" : 984,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_slime",
          "fg" : 985,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_fish",
          "fg" : 986,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_rat",
          "fg" : 987,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_beast",
          "fg" : 988,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_cattle",
          "fg" : 989,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_cephalopod",
          "fg" : 990,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_bird",
          "fg" : 991,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_lizard",
          "fg" : 992,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "mutagen_troglobite",
          "fg" : 993,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "purifier",
          "fg" : 994,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "tea",
          "fg" : 995,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "kompot",
          "fg" : 996,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "coffee",
          "fg" : 997,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "blood",
          "fg" : 998,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "bone",
          "fg" : 999,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "plant_sac",
          "fg" : 1000,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "meat",
          "fg" : 1001,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "veggy",
          "fg" : 1002,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "human_flesh",
          "fg" : 1003,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "veggy_wild",
          "fg" : 1004,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "meat_tainted",
          "fg" : 1005,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "veggy_tainted",
          "fg" : 1006,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "meat_cooked",
          "fg" : 1007,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "human_cooked",
          "fg" : 1008,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "veggy_cooked",
          "fg" : 1009,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "veggy_wild_cooked",
          "fg" : 1010,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "apple",
          "fg" : 1011,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "banana",
          "fg" : 1012,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "orange",
          "fg" : 1013,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "lemon",
          "fg" : 1014,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "chips",
          "fg" : 1015,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "chips2",
          "fg" : 1016,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "chips3",
          "fg" : 1017,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "kernels",
          "fg" : 1018,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "popcorn",
          "fg" : 1019,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "popcorn2",
          "fg" : 1020,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "popcorn3",
          "fg" : 1021,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "pretzels",
          "fg" : 1022,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "chocolate",
          "fg" : 1023,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "jerky",
          "fg" : 1024,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "jerky_human",
          "fg" : 1025,
          "bg" : -1,
-         "rotates" : false,
-         "multitile" : false
+         "rotates": false
       },
       {
          "id" : "sandwich_t",
