@@ -150,17 +150,19 @@ void veh_interact::allocate_windows()
     int pane_w = 32 + (extra_w / 4); // uses 1/4 of extra space
     int disp_w = grid_w - ( pane_w * 2 ) - 2; // interior borders take 2
 
-    mode_x = x0 + 1;
     mode_y = y0 + 1;
-    msg_x = x0 + 1;
     msg_y = mode_y + mode_h;
-    disp_x = x0 + 1;
+    name_y = pane_y + page_size + 1;
+    stats_y = name_y + name_h;
+
+    mode_x  = x0 + 1;
+    msg_x   = x0 + 1;
+    disp_x  = x0 + 1;
+    name_x  = x0 + 1;
+    stats_x = x0 + 1;
+
     parts_x = disp_x + disp_w + 1;
     list_x = parts_x + pane_w + 1;
-    name_x = x0 + 1;
-    name_y = pane_y + page_size + 1;
-    stats_x = x0 + 1;
-    stats_y = name_y + name_h;
 
     // match grid lines
     mvwputch(w_border, msg_h + mode_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
