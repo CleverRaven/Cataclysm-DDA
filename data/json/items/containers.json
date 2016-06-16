@@ -595,7 +595,7 @@
         "description": "A massive steel barrel with a resealable lid.",
         "price": 10000,
         "weight": 20000,
-        "volume": 825,
+        "volume": 800,
         "bashing": 8,
         "to_hit": -5,
         "material": "steel",
