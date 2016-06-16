@@ -11,6 +11,19 @@
     "flags": [ "OPAQUE", "OBSTACLE" ]
   },
   {
+    "abstract": "clothboard",
+    "type": "vehicle_part",
+    "name": "cloth board",
+    "item": "sheet",
+    "location": "center",
+    "broken_color": "dark_gray",
+    "durability": 15,
+    "difficulty": 1,
+    "folded_volume": 15,
+    "breaks_into": "ig_vp_cloth",
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE" ]
+  },
+  {
     "abstract": "hdboard",
     "type": "vehicle_part",
     "name": "heavy duty board",
@@ -29,6 +42,12 @@
     "symbol": "h"
   },
   {
+    "id": "clothboard_horizontal",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
     "id": "hdboard_horizontal",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -37,6 +56,12 @@
   {
     "id": "board_ne",
     "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "clothboard_ne",
+    "copy-from": "clothboard",
     "type": "vehicle_part",
     "symbol": "u"
   },
@@ -53,6 +78,12 @@
     "symbol": "y"
   },
   {
+    "id": "clothboard_nw",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
     "id": "hdboard_nw",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -61,6 +92,12 @@
   {
     "id": "board_se",
     "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "clothboard_se",
+    "copy-from": "clothboard",
     "type": "vehicle_part",
     "symbol": "n"
   },
@@ -77,6 +114,12 @@
     "symbol": "b"
   },
   {
+    "id": "clothboard_sw",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
     "id": "hdboard_sw",
     "copy-from": "hdboard",
     "type": "vehicle_part",
@@ -85,6 +128,12 @@
   {
     "id": "board_vertical",
     "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "clothboard_vertical",
+    "copy-from": "clothboard",
     "type": "vehicle_part",
     "symbol": "j"
   },
