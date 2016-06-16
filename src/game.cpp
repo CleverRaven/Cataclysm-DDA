@@ -268,7 +268,6 @@ game::game() :
     mostseen(0),
     gamemode(),
     user_action_counter(0),
-    lookHeight(13),
     tileset_zoom(16),
     weather_override( WEATHER_NULL )
 {
@@ -405,6 +404,7 @@ game::~game()
 // Fixed window sizes
 #define MINIMAP_HEIGHT 7
 #define MINIMAP_WIDTH 7
+static constexpr int LOOK_AROUND_HEIGHT = 13;
 
 #if (defined TILES)
 // defined in sdltiles.cpp
@@ -7979,7 +7979,7 @@ void game::print_graffiti_info( const tripoint &lp, WINDOW *w_look, const int co
 void game::get_lookaround_dimensions(int &lookWidth, int &begin_y, int &begin_x) const
 {
     lookWidth = getmaxx(w_messages);
-    begin_y = TERMY - lookHeight + 1;
+    begin_y = TERMY - LOOK_AROUND_HEIGHT + 1;
     if (getbegy(w_messages) < begin_y) {
         begin_y = getbegy(w_messages);
     }
@@ -8449,7 +8449,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     bool bNewWindow = false;
     if (w_info == nullptr) {
-        w_info = newwin(lookHeight, lookWidth, lookY, lookX);
+        w_info = newwin(LOOK_AROUND_HEIGHT, lookWidth, lookY, lookX);
         bNewWindow = true;
     }
 
@@ -8560,7 +8560,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
         } else {
             //Look around
             int first_line = 1;
-            const int last_line = lookHeight - 2;
+            const int last_line = LOOK_AROUND_HEIGHT - 2;
             print_all_tile_info( lp, w_info, 1, first_line, last_line, !is_draw_tiles_mode(), cache );
 
             if (fast_scroll) {
