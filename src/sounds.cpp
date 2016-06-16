@@ -283,11 +283,8 @@ void sounds::process_sound_markers( player *p )
         }
         // Only print a description if it exists
         if( !description.empty() ) {
-            // If it came from us, don't print a direction
             if( pos == p->pos() ) {
-                std::string uppercased = description;
-                capitalize_letter( uppercased, 0 );
-                add_msg( "%s", uppercased.c_str() );
+                add_msg( "You hear %s", description.c_str());
             } else {
                 // Else print a direction as well
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
