@@ -104,11 +104,11 @@ class inventory_column {
         }
 
         size_t page_index() const {
-            return page_offset / items_per_page;
+            return page_of( page_offset );
         }
 
         size_t pages_count() const {
-            return ( items.size() + items_per_page - 1 ) / items_per_page;
+            return page_of( items.size() + items_per_page - 1 );
         }
 
         const itemstack_or_category &get_selected() const {
@@ -150,6 +150,10 @@ class inventory_column {
 
     protected:
         void select( size_t new_index );
+
+        size_t page_of( size_t index ) const {
+            return index / items_per_page;
+        }
 
         virtual std::string get_item_text( const itemstack_or_category &entry ) const;
         virtual nc_color get_item_color( const itemstack_or_category &entry ) const;
@@ -364,9 +368,11 @@ std::vector<itemstack_or_category *> inventory_column::get_all_selected() const
             }
             break;
         case navigation_mode::CATEGORY:
-            for( const auto &entry : items ) {
-                if( entry.is_item() && entry.category == get_selected().category ) {
-                    res.push_back( const_cast<itemstack_or_category *>( &entry ) );
+            // Only items on one page can be selected
+            const size_t bound = std::min( items.size(), page_offset + items_per_page );
+            for( size_t i = page_offset; i < bound; ++i ) {
+                if( items[i].is_item() && items[i].category == get_selected().category ) {
+                    res.push_back( const_cast<itemstack_or_category *>( &items[i] ) );
                 }
             }
             break;
@@ -382,8 +388,10 @@ void inventory_column::on_action( const std::string &action )
     }
 
     const auto is_valid_selection = [ this ]( size_t index ) {
-        return index == selected_index || ( items[index].is_item() && ( mode != navigation_mode::CATEGORY ||
-                                                                        items[index].category != get_selected().category ) );
+        return index == selected_index
+            || ( items[index].is_item() && (    mode != navigation_mode::CATEGORY
+                                             || items[index].category != get_selected().category
+                                             || page_of( index ) != page_index() ) );
     };
 
     const auto move_forward = [ this, &is_valid_selection ]( size_t step = 1 ) {
