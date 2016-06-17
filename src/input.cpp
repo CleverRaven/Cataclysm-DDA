@@ -892,7 +892,7 @@ void input_context::display_help()
         werase( w_help );
         draw_border( w_help );
         draw_scrollbar( w_help, scroll_offset, display_height,
-                        filtered_registered_actions.size() - display_height, 8 );
+                        filtered_registered_actions.size() - display_height, 10, 0, c_white, true );
         center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
 
@@ -949,17 +949,21 @@ void input_context::display_help()
             status = s_add_global;
         } else if( action == "REMOVE" || raw_input_char == '-' ) {
             status = s_remove;
-        } else if( status == s_show && isalnum( raw_input_char ) ) {
-            scroll_offset = 0;
-            filter_phrase += tolower( raw_input_char );
-            filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
-        } else if( status == s_show && raw_input_char == KEY_BACKSPACE && filter_phrase.size() > 0 ) {
-            scroll_offset = 0;
-            filter_phrase.pop_back();
-            filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
         } else if( action == "ANY_INPUT" ) {
             const size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
-            if( hotkey_index == std::string::npos ) {
+            if( status == s_show ) {
+                if( isalnum( raw_input_char ) ) {
+                    scroll_offset = 0;
+                    filter_phrase += tolower( raw_input_char );
+                    filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
+                    continue;
+                } else if( raw_input_char == KEY_BACKSPACE && filter_phrase.size() > 0 ) {
+                    scroll_offset = 0;
+                    filter_phrase.pop_back();
+                    filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
+                    continue;
+                }
+            } else if( hotkey_index == std::string::npos ) {
                 continue;
             }
             const size_t action_index = hotkey_index + scroll_offset;
