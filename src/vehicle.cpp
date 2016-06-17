@@ -2040,6 +2040,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
     parts.push_back( new_part );
     parts.back().mount.x = dx;
     parts.back().mount.y = dy;
+    parts.back().enabled = false;
     refresh();
     return parts.size() - 1;
 }
