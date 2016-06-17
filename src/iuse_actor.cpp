@@ -24,6 +24,7 @@
 #include "recipe_dictionary.h"
 #include "player.h"
 #include "generic_factory.h"
+#include "map_iterator.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2928,4 +2929,142 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
+}
+
+
+
+void place_trap_actor::data::load( JsonObject obj )
+{
+    assign( obj, "trap", trap );
+    assign( obj, "done_message", done_message );
+    assign( obj, "practice", practice );
+    assign( obj, "moves", moves );
+}
+
+void place_trap_actor::load( JsonObject &obj )
+{
+    assign( obj, "allow_underwater", allow_underwater );
+    assign( obj, "allow_under_player", allow_under_player );
+    assign( obj, "needs_solid_neighbor", needs_solid_neighbor );
+    assign( obj, "needs_neighbor_terrain", needs_neighbor_terrain );
+    assign( obj, "bury_question", bury_question );
+    if( !bury_question.empty() ) {
+        buried_data.load( obj.get_object( "bury" ) );
+    }
+    unburied_data.load( obj );
+    assign( obj, "outer_layer_trap", outer_layer_trap );
+}
+
+iuse_actor *place_trap_actor::clone() const
+{
+    return new place_trap_actor( *this );
+}
+
+bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
+{
+    const tripoint a = pos + tripoint( offset_x, offset_y, 0 );
+    const tripoint b = pos - tripoint( offset_x, offset_y, 0 );
+    return g->m.move_cost( a ) != 2 && g->m.move_cost( b ) != 2;
+}
+
+bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
+{
+    for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
+        if( g->m.ter( t ) == terrain_id ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::string &name ) const
+{
+    if( !allow_under_player && pos == p.pos() ) {
+        p.add_msg_if_player( m_info, _( "Yeah. Place the %s at your feet. Real damn smart move." ), name.c_str() );
+        return false;
+    }
+    if( g->m.move_cost( pos ) != 2 ) {
+        p.add_msg_if_player( m_info, _( "You can't place a %s there." ), name.c_str() );
+        return false;
+    }
+    if( needs_solid_neighbor ) {
+        if( !is_solid_neighbor( pos, 1, 0 ) && !is_solid_neighbor( pos, 0, 1 ) &&
+            !is_solid_neighbor( pos, 1, 1 ) && !is_solid_neighbor( pos, 1, -1) ) {
+            p.add_msg_if_player( m_info, _( "You must place the %s between two solid tiles." ), name.c_str() );
+            return false;
+        }
+    }
+    if( needs_neighbor_terrain && !has_neighbor( pos, needs_neighbor_terrain ) ) {
+        p.add_msg_if_player( m_info, _( "The %s needs a %s adjacent to it." ), name.c_str(), needs_neighbor_terrain.obj().name.c_str() );
+        return false;
+    }
+    const trap &existing_trap = g->m.tr_at( pos );
+    if( !existing_trap.is_null() ) {
+        if( existing_trap.can_see( pos, p ) ) {
+            p.add_msg_if_player( m_info, _( "You can't place a %s there. It contains a trap already." ), name.c_str() );
+        } else {
+            p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name.c_str() );
+            existing_trap.trigger( pos, &p );
+        }
+        return false;
+    }
+    return true;
+}
+
+void place_and_add_as_known( player &p, const tripoint &pos, const trap_str_id &id )
+{
+    g->m.trap_set( pos, id );
+    const trap &tr = g->m.tr_at( pos );
+    if( !tr.can_see( pos, p ) ) {
+        p.add_known_trap( pos, tr );
+    }
+}
+
+long place_trap_actor::use( player * const p, item * const it, bool, const tripoint & ) const
+{
+    const bool is_3x3_trap = !outer_layer_trap.is_null();
+    const bool could_bury = !bury_question.empty();
+    if( !allow_underwater && p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+    tripoint pos = p->pos();
+    if( !choose_adjacent( string_format( _( "Place %s where?" ), it->tname().c_str() ), pos ) ) {
+        return 0;
+    }
+    if( !is_allowed( *p, pos, it->tname() ) ) {
+        return 0;
+    }
+    if( is_3x3_trap ) {
+        pos.x = ( pos.x - p->posx() ) * 2 + p->posx(); //math correction for blade trap
+        pos.y = ( pos.y - p->posy() ) * 2 + p->posy();
+        for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
+            if( !is_allowed( *p, t, it->tname() ) ) {
+                p->add_msg_if_player( m_info, _( "That trap needs a 3x3 space to be clear, centered two tiles from you." ) );
+                return false;
+            }
+        }
+    }
+
+    const bool has_shovel = p->has_quality( quality_id( "DIG" ), 3 );
+    const bool is_diggable = g->m.has_flag( "DIGGABLE", pos );
+    bool bury = false;
+    if( could_bury && has_shovel && is_diggable ) {
+        bury = query_yn( _( bury_question.c_str() ) );
+    }
+    const auto &data = bury ? buried_data : unburied_data;
+
+    p->add_msg_if_player( m_info, _( data.done_message.c_str() ), g->m.name( pos ).c_str() );
+    p->practice( skill_id( "traps" ), data.practice );
+    p->mod_moves( -data.moves );
+
+    place_and_add_as_known( *p, pos, data.trap );
+    if( is_3x3_trap ) {
+        for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
+            if( t != pos ) {
+                place_and_add_as_known( *p, t, outer_layer_trap );
+            }
+        }
+    }
+    return 1;
 }

@@ -793,4 +793,53 @@ class heal_actor : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
+struct ter_t;
+struct trap;
+class place_trap_actor : public iuse_actor
+{
+    public:
+        using trap_str_id = string_id<trap>;
+        using ter_str_id = string_id<ter_t>;
+        struct data {
+            trap_str_id trap = trap_str_id( "tr_null" ); // TODO: should be NULL_ID
+            /** The message shown when the trap has been set. */
+            std::string done_message;
+            /** Amount of practice of the "trap" skill. */
+            int practice = 0;
+            /** Move points that are used when placing the trap. */
+            int moves = 100;
+            void load( JsonObject jo );
+        };
+        /** Whether one can place the trap when underwater. */
+        bool allow_underwater = false;
+        /** Whether one can place the trap directly under the character itself. */
+        bool allow_under_player = false;
+        /** Whether the trap needs solid neighbor squares (e.g. for trap wire). */
+        bool needs_solid_neighbor = false;
+        /**
+         * Contains a terrain id of the terrain that must exist in a neighbor square to allow
+         * placing this trap. If empty, it is ignored. This is for example for snare traps.
+         */
+        ter_str_id needs_neighbor_terrain = ter_str_id( "t_null" ); // TODO: should be NULL_ID
+        /** Data that applies to unburied traps and to traps that *can * not be buried. */
+        data unburied_data;
+        /**
+         * Contains the question asked when the player can bury the trap. Something like "Bury the trap?"
+         */
+        std::string bury_question;
+        /** Data that applies to buried traps. */
+        data buried_data;
+        /**
+         * The trap that makes up the outer layer of a 3x3 trap. This is not supported for buried traps!
+         */
+        trap_str_id outer_layer_trap = trap_str_id( "tr_null" ); // TODO: should be NULL_ID
+        bool is_allowed( player &p, const tripoint &pos, const std::string &name ) const;
+
+        place_trap_actor( const std::string &type = "place_trap" ) : iuse_actor( type ) {}
+        ~place_trap_actor() override { }
+        void load( JsonObject &jo ) override;
+        long use( player*, item*, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+};
+
 #endif
