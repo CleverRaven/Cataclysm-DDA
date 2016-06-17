@@ -884,8 +884,9 @@ void input_context::display_help()
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
 
-    const std::set<long> search_character_blacklist = { '+', '-', '=', KEY_ESCAPE };
     std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
+    const std::set<long> search_character_blacklist = { '+', '-', '=', KEY_ESCAPE };
+    const std::set<long> edit_character_blacklist = std::set<long>( hotkeys.begin(), hotkeys.end() );
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
     std::string action;
@@ -900,8 +901,7 @@ void input_context::display_help()
         center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
 
-        for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
-             i < display_height; i++ ) {
+        for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() && i < display_height; i++ ) {
             const std::string &action_id = filtered_registered_actions[i + scroll_offset];
 
             bool overwrite_default;
@@ -938,9 +938,12 @@ void input_context::display_help()
             mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ).c_str() );
         }
 
-        filter_phrase = string_input_win_from_context( w_help, ctxt, filter_phrase, legwidth - 1, 4, 8, legwidth, false, action,
-                                                       raw_input_char, current_search_cursor_pos, "", -1, -1, true, false,
-                                                       std::map<long, std::function<void()>>(), search_character_blacklist );
+        const std::set<long> blacklist = status == s_show ? search_character_blacklist :
+                                         edit_character_blacklist;
+
+        filter_phrase = string_input_win_from_context( w_help, ctxt, filter_phrase, legwidth - 1, 4, 8,
+                        legwidth, false, action, raw_input_char, current_search_cursor_pos, "", -1, -1,
+                        true, false, std::map<long, std::function<void()>>(), blacklist );
 
         if( scroll_offset > filtered_registered_actions.size() ) {
             scroll_offset = 0;
@@ -1298,8 +1301,8 @@ void input_context::set_iso( bool mode )
     iso_mode = mode;
 }
 
-std::vector<std::string> input_context::filter_strings_by_phrase( const std::vector<std::string> &strings,
-        const std::string &phrase ) const
+std::vector<std::string> input_context::filter_strings_by_phrase(
+    const std::vector<std::string> &strings, const std::string &phrase ) const
 {
     std::vector<std::string> filtered_strings;
 
