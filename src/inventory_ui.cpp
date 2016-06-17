@@ -194,7 +194,7 @@ class selection_column : public inventory_column {
             return false;
         }
 
-        void expand_according_to( const inventory_column &column );
+        void reserve_width_for( const inventory_column &column );
 
         virtual size_t get_width() const override;
         virtual void prepare_paging( size_t new_items_per_page = 0 ) override; // Zero means unchanged
@@ -269,8 +269,7 @@ class inventory_selector
          * the count is never 0, and it is -1 only if all items should be dropped.
          * Any value > 0 means at least one item will remain after dropping.
          */
-        typedef std::map<int, int> drop_map;
-        drop_map dropping;
+        std::map<int, int> dropping;
         /** The input context for navigation, already contains some actions for movement.
          * See @ref handle_movement */
         input_context ctxt;
@@ -311,7 +310,9 @@ class inventory_selector
         void set_drop_count( itemstack_or_category &entry, size_t count );
 
         inventory_column &get_column( size_t index ) const;
-        inventory_column &get_active_column() const;
+        inventory_column &get_active_column() const {
+            return get_column( active_column_index );
+        }
 
         void set_active_column( size_t index );
         size_t get_columns_width() const;
@@ -531,7 +532,7 @@ void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
     }
 }
 
-void selection_column::expand_according_to( const inventory_column &column )
+void selection_column::reserve_width_for( const inventory_column &column )
 {
     for( const auto &entry : column.get_items() ) {
         if( entry.is_item() ) {
@@ -591,7 +592,7 @@ std::string selection_column::get_item_text( const itemstack_or_category &entry 
         size_t count;
         if( entry.chosen_count > 0 && entry.chosen_count < entry.get_available_count() ) {
             count = entry.get_available_count();
-            res << string_format( _( "%d of %d "), entry.chosen_count, count );
+            res << string_format( _( "%d of %d"), entry.chosen_count, count ) << ' ';
         } else {
             count = ( entry.slice != nullptr ) ? entry.slice->size() : 1;
             if( count > 1 ) {
@@ -600,14 +601,15 @@ std::string selection_column::get_item_text( const itemstack_or_category &entry 
         }
         res << entry.it->display_name( count );
     } else {
-        res << inventory_column::get_item_text( entry );
+        res << inventory_column::get_item_text( entry ) << ' ';
 
         if( items.size() > 1 ) {
-            res << string_format( " (%d)", items.size() - 1 );
+            res << string_format( "(%d)", items.size() - 1 );
         } else {
-            res << _( " (NONE)");
+            res << _( "(NONE)" );
         }
     }
+
     return res.str();
 }
 
@@ -615,9 +617,7 @@ nc_color selection_column::get_item_color( const itemstack_or_category &entry ) 
 {
     if( !entry.is_item() || ( activatable() && entry == get_selected() ) ) {
         return inventory_column::get_item_color( entry );
-    }
-
-    if( entry.item_pos == -1 ) {
+    } else if( entry.item_pos == -1 ) {
         return c_ltblue;
     } else if( entry.item_pos <= -2 ) {
         return c_cyan;
@@ -862,8 +862,7 @@ void inventory_selector::set_drop_count( itemstack_or_category &entry, size_t co
 void inventory_selector::remove_dropping_items( player &u ) const
 {
     // We iterate backwards because deletion will invalidate later indices.
-    for( inventory_selector::drop_map::const_reverse_iterator a = dropping.rbegin();
-         a != dropping.rend(); ++a ) {
+    for( auto a = dropping.rbegin(); a != dropping.rend(); ++a ) {
         if( a->first < 0 ) { // weapon or armor, handled separately
             continue;
         }
@@ -895,11 +894,6 @@ inventory_column &inventory_selector::get_column( size_t index ) const
         return dummy;
     }
     return *columns[index];
-}
-
-inventory_column &inventory_selector::get_active_column() const
-{
-    return get_column( active_column_index );
 }
 
 void inventory_selector::set_active_column( size_t index )
@@ -962,9 +956,8 @@ void inventory_selector::insert_selection_column( const std::string &id, const s
 {
     std::unique_ptr<selection_column> new_column( new selection_column( id, name ) );
 
-    new_column->expand_according_to( *new_column ); // Not narrower than it is now
     for( const auto &column : columns ) {
-        new_column->expand_according_to( *column );
+        new_column->reserve_width_for( *column );
     }
 
     if( column_can_fit( *new_column ) ) { // Insert only if it will be visible. Ignore otherwise.
@@ -1189,9 +1182,12 @@ void game::interactive_inv()
     int res;
     do {
         const int pos = inv_s.execute_pick( _( "Inventory:" ) );
+        if( pos == INT_MIN ) {
+            break;
+        }
         refresh_all();
         res = inventory_item_menu( pos );
-    } while( std::find( stoppers.begin(), stoppers.end(), res ) != stoppers.end() );
+    } while( std::find( stoppers.begin(), stoppers.end(), res ) == stoppers.end() );
 }
 
 int game::inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message )
