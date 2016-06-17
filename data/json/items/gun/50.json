@@ -67,7 +67,9 @@
     },
     "material": [ "steel", "wood" ],
     "clip_size": 1,
-    "modes": [],
+    "modes": [
+      [ "DEFAULT", "manual", 1 ]
+    ],
     "valid_mod_locations": [ ["accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "sights", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "stock", 1 ], [ "grip", 1 ] ],
     "magazines": [],
     "flags": [ "RELOAD_EJECT" ]
