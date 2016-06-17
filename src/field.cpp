@@ -777,7 +777,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
 
-                            fire_data frd{ cur->getFieldDensity(), 0, 0 };
+                            fire_data frd{ cur->getFieldDensity(), 0.0f, 0.0f };
                             // The highest # of items this fire can remove in one turn
                             int max_consume = cur->getFieldDensity() * 2;
 
@@ -795,8 +795,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
 
                             spawn_items( p, new_content );
-                            smoke = frd.smoke_produced;
-                            time_added = frd.fuel_produced;
+                            smoke = roll_remainder( frd.smoke_produced );
+                            time_added = roll_remainder( frd.fuel_produced );
                         }
 
                         //Get the part of the vehicle in the fire.
@@ -879,9 +879,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Lower age is a longer lasting fire
                         if( time_added != 0 ) {
                             cur->setFieldAge( cur->getFieldAge() - time_added );
-                        } else {
+                        } else if( can_spread || !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) ) {
                             // Nothing to burn = fire should be dying out faster
                             // Drain more power from big fires, so that they stop raging over nothing
+                            // Except for fires on stoves and fireplaces, those are made to keep the fire alive
                             cur->setFieldAge( cur->getFieldAge() + 2 * cur->getFieldDensity() );
                         }
 
