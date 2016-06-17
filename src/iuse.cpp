@@ -2397,10 +2397,10 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
 int iuse::remove_all_mods(player *p, item *, bool, const tripoint& )
 {
     static const std::vector<std::string> removable_mods = {{
-        "DOUBLE_AMMO", "USE_UPS", "ATOMIC_AMMO"
+        "DOUBLE_AMMO", "USE_UPS", "ATOMIC_AMMO", "BATTERY_AMMO", "RADIO_MOD"
     }};
 
-    int inventory_index = g->inv_for_filter( _( "Detach power mods from what?" ), []( const item & itm ) {
+    int inventory_index = g->inv_for_filter( _( "Detach power/radio mods from what?" ), []( const item & itm ) {
         return itm.is_tool() && itm.has_any_flag( removable_mods );
     } );
     item &modded = p->i_at( inventory_index );
