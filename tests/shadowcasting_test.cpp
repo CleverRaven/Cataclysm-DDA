@@ -96,6 +96,30 @@ bool bresenham_visibility_check( int offsetX, int offsetY, int x, int y,
     return visible;
 }
 
+static void castLightAll( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                          const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+                          const int offsetX, const int offsetY ) {
+        castLight<0, 1, 1, 0, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+        castLight<1, 0, 0, 1, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+
+        castLight<0, -1, 1, 0, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+
+        castLight<0, 1, -1, 0, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+        castLight<1, 0, 0, -1, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+
+        castLight<0, -1, -1, 0, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
+            output_cache, input_array, offsetX, offsetY, 0 );
+}
+
 void shadowcasting_runoff(int iterations, bool test_bresenham = false ) {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
@@ -145,25 +169,7 @@ void shadowcasting_runoff(int iterations, bool test_bresenham = false ) {
     auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
-        castLight<0, 1, 1, 0, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, 1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-
-        castLight<0, -1, 1, 0, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-
-        castLight<0, 1, -1, 0, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-
-        castLight<0, -1, -1, 0, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_cache, offsetX, offsetY, 0 );
+        castLightAll( seen_squares_experiment, transparency_cache, offsetX, offsetY );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -295,25 +301,7 @@ void shadowcasting_3d_2d( int iterations )
     auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
-        castLight<0, 1, 1, 0, sight_calc, sight_check>(
-            seen_squares_control, transparency_cache, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, 1, sight_calc, sight_check>(
-            seen_squares_control, transparency_cache, offsetX, offsetY, 0 );
-
-        castLight<0, -1, 1, 0, sight_calc, sight_check>(
-            seen_squares_control, transparency_cache, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
-            seen_squares_control, transparency_cache, offsetX, offsetY, 0 );
-
-        castLight<0, 1, -1, 0, sight_calc, sight_check>(
-            seen_squares_control, transparency_cache, offsetX, offsetY, 0 );
-        castLight<1, 0, 0, -1, sight_calc, sight_check>(
-            seen_squares_control, transparency_cache, offsetX, offsetY, 0 );
-
-        castLight<0, -1, -1, 0, sight_calc, sight_check>(
-            seen_squares_control, transparency_cache, offsetX, offsetY, 0 );
-        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
-            seen_squares_control, transparency_cache, offsetX, offsetY, 0 );
+        castLightAll( seen_squares_control, transparency_cache, offsetX, offsetY );
     }
     auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -441,6 +429,83 @@ void shadowcasting_3d_2d( int iterations )
     }
 
     REQUIRE( passed );
+}
+
+
+// T, O and V are 'T'ransparent, 'O'paque and 'V'isible.
+// X marks the player location, which is not set to visible by this algorithm.
+#define T LIGHT_TRANSPARENCY_CLEAR
+#define O LIGHT_TRANSPARENCY_SOLID
+#define V LIGHT_TRANSPARENCY_CLEAR
+#define X LIGHT_TRANSPARENCY_SOLID
+
+TEST_CASE( "shadowcasting_spot_checks" ) {
+    float seen_squares[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{ 0 }};
+    float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{ 0 }};
+    point test_case_offset(55, 55);
+    float test_case[][13] = {
+        {T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,O,T,T,T,T,T,T,T,T},
+        {T,T,T,T,O,T,T,T,T,T,T,T,T},
+        {T,T,T,T,O,O,T,O,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,O,T},
+        {T,T,T,T,T,T,T,T,T,O,T,O,T},
+        {T,T,T,T,T,T,T,T,T,O,O,O,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T}
+    };
+
+    const int test_case_height = sizeof( test_case ) / sizeof( test_case[0] );
+    const int test_case_width = sizeof( test_case[0] ) / sizeof( float );
+    float expected_result[][13] = {
+        {O,O,O,O,O,V,V,V,V,V,V,V,V},
+        {O,O,O,O,O,O,V,V,V,V,V,V,V},
+        {O,O,O,O,O,O,V,V,V,V,V,V,V},
+        {O,O,O,O,V,V,O,V,V,V,V,V,V},
+        {O,O,O,O,O,V,V,V,V,V,V,V,V},
+        {O,O,O,O,O,V,V,V,V,V,V,V,V},
+        {O,O,O,O,O,V,V,V,V,V,V,V,V},
+        {O,O,O,O,O,O,V,V,V,V,V,V,O},
+        {O,O,O,O,O,O,O,V,V,V,V,V,O},
+        {O,O,O,O,O,O,O,O,V,V,V,V,O},
+        {O,O,O,O,O,O,O,O,O,V,X,V,O},
+        {O,O,O,O,O,O,O,O,O,V,V,V,O},
+        {O,O,O,O,O,O,O,O,O,O,O,O,O}
+    };
+
+    for( auto &inner : transparency_cache ) {
+        for( float &square : inner ) {
+            square = LIGHT_TRANSPARENCY_CLEAR;
+        }
+    }
+
+    for( int y = 0; y < test_case_height; ++y ) {
+        for( int x = 0; x < test_case_width; ++x ) {
+            transparency_cache[test_case_offset.y + y][test_case_offset.x + x] =
+                test_case[y][x];
+        }
+    }
+
+    int offsetX = 65;
+    int offsetY = 65;
+
+    castLightAll( seen_squares, transparency_cache, offsetX, offsetY );
+
+    for( int y = 0; y < test_case_height; ++y ) {
+        for( int x = 0; x < test_case_width; ++x ) {
+            INFO( "x:" << x << " y:" << y << " expected:" << expected_result[y][x] << " actual:" <<
+                  seen_squares[test_case_offset.y + y][test_case_offset.x + x] );
+            if( V == expected_result[y][x] ) {
+                CHECK( seen_squares[test_case_offset.y + y][test_case_offset.x + x] > 0 );
+            } else {
+                CHECK( seen_squares[test_case_offset.y + y][test_case_offset.x + x] == 0 );
+            }
+        }
+    }
 }
 
 // Some random edge cases aren't matching.
