@@ -13888,14 +13888,13 @@ void game::wait()
     const auto add_menu_item = [ &as_m, &durations, has_watch ]
         ( int retval, int hotkey, const std::string &caption = "", int duration = calendar::INDEFINITELY_LONG ) {
 
-        const bool enabled = duration == calendar::INDEFINITELY_LONG || duration < DAYS( 1 ) - MINUTES( 30 );
         std::string text( caption );
 
-        if( enabled && has_watch && duration != calendar::INDEFINITELY_LONG ) {
+        if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
             const std::string dur_str( calendar::print_duration( duration ) );
             text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
         }
-        as_m.addentry( retval, enabled, hotkey, text );
+        as_m.addentry( retval, true, hotkey, text );
         durations[retval] = duration;
     };
 
