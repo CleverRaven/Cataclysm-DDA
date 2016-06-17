@@ -286,11 +286,11 @@ std::string calendar::print_duration( int turns )
 {
     std::string res;
 
-    if( turns < MINUTES( 1 ) ) {
+    if( turns <= MINUTES( 1 ) ) {
         const int sec = FULL_SECONDS_IN( turns );
         res += string_format( ngettext( "%d second", "%d seconds", sec ), sec );
 
-    } else if( turns < HOURS( 1 ) ) {
+    } else if( turns <= HOURS( 1 ) ) {
         const int min = FULL_MINUTES_IN( turns );
         const int sec = FULL_SECONDS_IN( turns % MINUTES( 1 ) );
         res += string_format( ngettext( "%d minute", "%d minutes", min ), min );
@@ -298,7 +298,7 @@ std::string calendar::print_duration( int turns )
             res += string_format( ngettext( " and %d second", " and %d seconds", sec ), sec );
         }
 
-    } else if( turns < DAYS( 1 ) ) {
+    } else if( turns <= DAYS( 1 ) ) {
         const int hour = FULL_HOURS_IN( turns );
         const int min = FULL_MINUTES_IN( turns % HOURS( 1 ) );
         res += string_format( ngettext( "%d hour", "%d hours", hour ), hour );
@@ -474,8 +474,8 @@ int calendar::day_of_year() const
 
 int calendar::diurnal_time_before( int turn ) const
 {
-    const int remainder = turn - get_turn() % DAYS( 1 );
-    return ( remainder >= 0 ) ? remainder : DAYS( 1 ) + remainder;
+    const int remainder = turn % DAYS( 1 ) - get_turn() % DAYS( 1 );
+    return ( remainder > 0 ) ? remainder : DAYS( 1 ) + remainder;
 }
 
 void calendar::sync()

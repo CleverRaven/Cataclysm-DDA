@@ -13926,7 +13926,7 @@ void game::wait()
 
     activity_type actType = ( as_m.ret == 11 ) ? ACT_WAIT_WEATHER : ACT_WAIT;
 
-    player_activity new_act( actType, 100 * durations[as_m.ret], 0 );
+    player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
 
     u.assign_activity( new_act, false );
     u.rooted_message();
