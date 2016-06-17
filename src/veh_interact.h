@@ -53,7 +53,6 @@ class veh_interact
         int cpart;
         int page_size;
         int fuel_index;
-        bool vertical_menu;
         WINDOW *w_grid;
         WINDOW *w_mode;
         WINDOW *w_msg;
@@ -63,21 +62,6 @@ class veh_interact
         WINDOW *w_list;
         WINDOW *w_details;
         WINDOW *w_name;
-
-        int mode_h;
-        int mode_w;
-        int msg_h;
-        int msg_w;
-        int disp_h;
-        int disp_w;
-        int parts_h;
-        int parts_w;
-        int stats_h;
-        int stats_w;
-        int list_h;
-        int list_w;
-        int name_h;
-        int name_w;
 
         vehicle *veh;
         bool has_screwdriver;

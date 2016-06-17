@@ -135,140 +135,50 @@ void veh_interact::allocate_windows()
     const int grid_h = total_h - 2; // exterior borders take 2
     w_grid = newwin(grid_h, grid_w, y0 + 1, x0 + 1);
 
-    // Define type of menu:
-    std::string menu = OPTIONS["VEH_MENU_STYLE"].getValue();
-    int dir = veh->face.dir();
-    vertical_menu = (menu == "vertical") ||
-                    (menu == "hybrid" && (((dir >= 45) && (dir <= 135)) || ((dir >= 225) && (dir <= 315))));
+    int mode_x, mode_y, msg_x, msg_y, disp_x, parts_x;
+    int stats_x, stats_y, list_x, name_x, name_y;
 
-    int mode_x, mode_y, msg_x, msg_y, disp_x, disp_y, parts_x, parts_y;
-    int stats_x, stats_y, list_x, list_y, name_x, name_y;
+    int mode_h  = 1;
+    int msg_h   = 3;
+    int name_h  = 1;
+    int stats_h = 6;
 
-    if (vertical_menu) {
-        //         Vertical menu:
-        // +----------------------------+
-        // |           w_mode           |
-        // |           w_msg            |
-        // +--------+---------+---------+
-        // | w_disp | w_parts |  w_list |
-        // +--------+---------+---------+
-        // |          w_name   w_details|
-        // |          w_stats           |
-        // +----------------------------+
-        //
-        // w_disp/w_parts/w_list expand to take up extra height.
-        // w_disp, w_parts and w_list share extra width in a 2:1:1 ratio,
-        // but w_parts and w_list start with more than w_disp.
-        //
-        // w_details only shows in install view and covers rightmost columns of w_name and w_stats
+    page_size = grid_h - ( mode_h + msg_h ) - ( stats_h + name_h ) - 2;
 
-        const int h1 = 4; // 4 lines for msg + mode
-        const int h3 = 7; // 7 lines for name + stats
+    int pane_y = y0 + 1 + msg_h + mode_h + 1;
 
-        mode_h = 1;
-        mode_w = grid_w;
-        msg_h = h1 - mode_h;
-        msg_w = mode_w;
+    int pane_w = 32 + (extra_w / 4); // uses 1/4 of extra space
+    int disp_w = grid_w - ( pane_w * 2 ) - 2; // interior borders take 2
 
-        name_h = 1;
-        name_w = grid_w;
-        stats_h = h3 - name_h;
-        stats_w = grid_w;
+    mode_y = y0 + 1;
+    msg_y = mode_y + mode_h;
+    name_y = pane_y + page_size + 1;
+    stats_y = name_y + name_h;
 
-        list_h = grid_h - h3 - h1 - 2; // interior borders take 2
-        list_w = 32 + (extra_w / 4); // uses 1/4 of extra space
-        parts_h = list_h;
-        parts_w = 32 + (extra_w / 4); // uses 1/4 of extra space
+    mode_x  = x0 + 1;
+    msg_x   = x0 + 1;
+    disp_x  = x0 + 1;
+    name_x  = x0 + 1;
+    stats_x = x0 + 1;
 
-        disp_h = list_h;
-        disp_w = grid_w - list_w - parts_w - 2; // interior borders take 2
+    parts_x = disp_x + disp_w + 1;
+    list_x = parts_x + pane_w + 1;
 
-        mode_x = x0 + 1;
-        mode_y = y0 + 1;
-        msg_x = x0 + 1;
-        msg_y = mode_y + mode_h;
-        disp_x = x0 + 1;
-        disp_y = y0 + 1 + msg_h + mode_h + 1;
-        parts_x = disp_x + disp_w + 1;
-        parts_y = disp_y;
-        list_x = parts_x + parts_w + 1;
-        list_y = disp_y;
-        name_x = x0 + 1;
-        name_y = disp_y + disp_h + 1;
-        stats_x = x0 + 1;
-        stats_y = name_y + name_h;
-
-        // match grid lines
-        mvwputch(w_border, h1 + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-        mvwputch(w_border, h1 + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
-        mvwputch(w_border, h1 + 1 + disp_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-        mvwputch(w_border, h1 + 1 + disp_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
-    } else {
-        //        Horizontal menu:
-        // +----------------------------+
-        // |           w_name           |
-        // +------------------+---------+
-        // |      w_disp      |         |
-        // +---------+--------+ w_stats |
-        // | w_parts | w_list |w_details|
-        // +---------+--------+---------+
-        // |           w_mode           |
-        // |           w_msg            |
-        // +----------------------------+
-        //
-        // w_details only shows in install view and covers lower part of w_stats
-
-        name_h  = 1;
-        name_w  = grid_w;
-        mode_h  = 1;
-        mode_w  = grid_w;
-        msg_h   = 3;
-        msg_w   = grid_w;
-
-        stats_h = grid_h - mode_h - msg_h - name_h - 2;
-        stats_w = 26 + (extra_w / 4);
-
-        disp_h = stats_h / 3;
-        disp_w = grid_w - stats_w - 1;
-        parts_h = stats_h - disp_h - 1;
-        parts_w = disp_w / 2;
-        list_h = parts_h;
-        list_w = disp_w - parts_w - 1;
-
-        name_y  = y0 + 1;
-        name_x  = x0 + 1;
-        disp_y  = name_y + name_h + 1;
-        disp_x  = x0 + 1;
-        parts_y = disp_y + disp_h + 1;
-        parts_x = x0 + 1;
-        list_y  = parts_y;
-        list_x  = x0 + 1 + parts_w + 1;
-        stats_y = disp_y;
-        stats_x = x0 + 1 + disp_w + 1;
-        mode_y  = name_y + name_h + 1 + stats_h + 1;
-        mode_x  = x0 + 1;
-        msg_y   = mode_y + mode_h;
-        msg_x   = x0 + 1;
-
-        // match grid lines
-        mvwputch(w_border, name_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-        mvwputch(w_border, name_h + 1 + disp_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-        mvwputch(w_border, name_h + 1 + stats_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-        mvwputch(w_border, name_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
-        mvwputch(w_border, name_h + 1 + stats_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
-    }
+    // match grid lines
+    mvwputch(w_border, msg_h + mode_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, msg_h + mode_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_border, msg_h + mode_h + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, msg_h + mode_h + 1 + page_size + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     // make the windows
-    w_mode  = newwin(mode_h,  mode_w,  mode_y,  mode_x );
-    w_msg   = newwin(msg_h,   msg_w,   msg_y,   msg_x  );
-    w_disp  = newwin(disp_h,  disp_w,  disp_y,  disp_x );
-    w_parts = newwin(parts_h, parts_w, parts_y, parts_x);
-    w_list  = newwin(list_h,  list_w,  list_y,  list_x );
+    w_mode  = newwin(mode_h,  grid_w,  mode_y,  mode_x );
+    w_msg   = newwin(msg_h,   grid_w,   msg_y,   msg_x  );
+    w_disp  = newwin(page_size,  disp_w,  pane_y,  disp_x );
+    w_parts = newwin(page_size, pane_w, pane_y, parts_x);
+    w_list  = newwin(page_size,  pane_w,  pane_y,  list_x );
     w_details = NULL;  // only pops up when in install menu
-    w_stats = newwin(stats_h, stats_w, stats_y, stats_x);
-    w_name  = newwin(name_h,  name_w,  name_y,  name_x );
-
-    page_size = list_h;
+    w_stats = newwin(stats_h, grid_w, stats_y, stats_x);
+    w_name  = newwin(name_h,  grid_w,  name_y,  name_x );
 
     wrefresh(w_border);
     delwin( w_border );
@@ -680,7 +590,7 @@ bool veh_interact::can_install_part(int msg_width){
 void veh_interact::move_fuel_cursor(int delta)
 {
     int max_fuel_indicators = (int)veh->get_printable_fuel_types(true).size();
-    int height = vertical_menu ? 5 : 12;
+    int height = 5;
     fuel_index += delta;
 
     if(fuel_index < 0) {
@@ -835,7 +745,7 @@ void veh_interact::do_install()
                         entry.extratxt.color = shapes[i]->color;
                         shape_ui_entries.push_back( entry );
                     }
-                    selected_shape = uimenu( true, getbegx(w_list), list_w, getbegy(w_list),
+                    selected_shape = uimenu( true, getbegx( w_list ), getmaxx( w_list ), getbegy( w_list ),
                                              _("Choose shape:"), shape_ui_entries ).ret;
                 } else { // only one shape available, default to first one
                     selected_shape = 0;
@@ -923,15 +833,8 @@ void veh_interact::do_repair()
     case INVALID_TARGET:
         if(mostDamagedPart != -1) {
             int p = mostDamagedPart; // for convenience
+            move_cursor( veh->parts[p].mount.y + ddy, -( veh->parts[p].mount.x + ddx ) );
 
-            int xOffset = veh->parts[p].mount.x + ddx;
-            int yOffset = veh->parts[p].mount.y + ddy;
-
-            if (vertical_menu) {
-                move_cursor(yOffset, -xOffset);
-            } else {
-                move_cursor(xOffset, yOffset);
-            }
         } else {
             mvwprintz(w_msg, 0, 1, c_ltred, _("There are no damaged parts on this vehicle."));
             wrefresh (w_msg);
@@ -960,7 +863,7 @@ void veh_interact::do_repair()
         sel_vehicle_part = &veh->parts[parts_here[need_repair[pos]]];
         sel_vpart_info = &sel_vehicle_part->info();
         werase (w_parts);
-        veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, need_repair[pos]);
+        veh->print_part_desc(w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, need_repair[pos]);
         wrefresh (w_parts);
         werase (w_msg);
         bool has_comps = true;
@@ -989,7 +892,7 @@ void veh_interact::do_repair()
             return;
         } else if (action == "QUIT") {
             werase (w_parts);
-            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
+            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             wrefresh(w_msg);
@@ -1041,7 +944,7 @@ void veh_interact::do_mend()
         sel_vpart_info = &sel_vehicle_part->info();
         werase( w_parts );
         int idx = std::distance( parts_here.begin(), std::find( parts_here.begin(), parts_here.end(), opts[ pos ] ) );
-        veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, idx );
+        veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, idx );
         wrefresh( w_parts );
 
         werase( w_list );
@@ -1062,7 +965,7 @@ void veh_interact::do_mend()
 
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1 );
+            veh->print_part_desc( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1273,7 +1176,7 @@ void veh_interact::do_remove()
         sel_vpart_info = &sel_vehicle_part->info();
         //redraw list of parts
         werase (w_parts);
-        veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, pos);
+        veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos);
         wrefresh (w_parts);
         bool can_remove = can_remove_part(parts_here[pos], skilllevel, msg_width);
         //read input
@@ -1283,7 +1186,7 @@ void veh_interact::do_remove()
             break;
         } else if (action == "QUIT") {
             werase (w_parts);
-            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
+            veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
             wrefresh (w_parts);
             werase (w_msg);
             wrefresh(w_msg);
@@ -1472,13 +1375,9 @@ void veh_interact::move_cursor (int dx, int dy)
     const int hw = getmaxx(w_disp) / 2;
     const int hh = getmaxy(w_disp) / 2;
 
-    if (vertical_menu) {
-        ddx += dy;
-        ddy -= dx;
-    } else {
-        ddx -= dx;
-        ddy -= dy;
-    }
+    ddx += dy;
+    ddy -= dx;
+
     display_veh();
     // Update the current active component index to the new position.
     cpart = part_at (0, 0);
@@ -1493,16 +1392,11 @@ void veh_interact::move_cursor (int dx, int dy)
     }
     nc_color col = cpart >= 0 ? veh->part_color (cpart) : c_black;
     long sym = cpart >= 0 ? veh->part_sym( cpart ) : ' ';
-    if( !vertical_menu ) {
-        // Rotate the symbol if necessary.
-        tileray tdir( 0 );
-        sym = tdir.dir_symbol( sym );
-    }
     mvwputch (w_disp, hh, hw, obstruct ? red_background(col) : hilite(col),
               special_symbol(sym));
     wrefresh (w_disp);
     werase (w_parts);
-    veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, parts_w, cpart, -1);
+    veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1);
     wrefresh (w_parts);
 
     can_mount.clear();
@@ -1552,38 +1446,23 @@ void veh_interact::move_cursor (int dx, int dy)
 void veh_interact::display_grid()
 {
     const int grid_w = getmaxx(w_grid);
-    if (vertical_menu) {
-        // Two lines dividing the three middle sections.
-        for (int i = 1 + mode_h + msg_h; i < (1 + mode_h + msg_h + disp_h); ++i) {
-            mvwputch(w_grid, i, disp_w, BORDER_COLOR, LINE_XOXO); // |
-            mvwputch(w_grid, i, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XOXO); // |
-        }
-        // Two lines dividing the vertical menu sections.
-        for (int i = 0; i < grid_w; ++i) {
-            mvwputch( w_grid, mode_h + msg_h, i, BORDER_COLOR, LINE_OXOX ); // -
-            mvwputch( w_grid, mode_h + msg_h + 1 + disp_h, i, BORDER_COLOR, LINE_OXOX ); // -
-        }
-        // Fix up the line intersections.
-        mvwputch(w_grid, mode_h + msg_h,              disp_w, BORDER_COLOR, LINE_OXXX);
-        mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w, BORDER_COLOR, LINE_XXOX); // _|_
-        mvwputch(w_grid, mode_h + msg_h,              disp_w + 1 + parts_w, BORDER_COLOR, LINE_OXXX);
-        mvwputch(w_grid, mode_h + msg_h + 1 + disp_h, disp_w + 1 + parts_w, BORDER_COLOR, LINE_XXOX); // _|_
-    } else {
-        // Vertical lines
-        mvwvline(w_grid, name_h + 1, disp_w, LINE_XOXO, disp_h + 1 + parts_h);
-        mvwvline(w_grid, name_h + 1 + disp_h + 1, parts_w, LINE_XOXO, (stats_h - disp_h - 1));
-        // Two horizontal lines: one after name window, and another after parts window
-        mvwhline(w_grid, name_h, 0, LINE_OXOX, grid_w);
-        mvwhline(w_grid, name_h + 1 + stats_h, 0, LINE_OXOX, grid_w);
-        // Horizontal line between vehicle/parts windows
-        mvwhline(w_grid, name_h + 1 + disp_h, 0, LINE_OXOX, disp_w);
-        // Fix up the line intersections.
-        mvwputch(w_grid, name_h, disp_w, BORDER_COLOR, LINE_OXXX);
-        mvwputch(w_grid, name_h + 1 + disp_h, parts_w, BORDER_COLOR, LINE_OXXX);
-        mvwputch(w_grid, name_h + 1 + disp_h + parts_h + 1, parts_w, BORDER_COLOR, LINE_XXOX);
-        mvwputch(w_grid, name_h + 1 + disp_h, disp_w, BORDER_COLOR, LINE_XOXX); // -|
-        mvwputch(w_grid, name_h + 1 + stats_h, disp_w, BORDER_COLOR, LINE_XXOX );
+
+    // Two lines dividing the three middle sections.
+    for (int i = 1 + getmaxy( w_mode ) + getmaxy( w_msg ); i < (1 + getmaxy( w_mode ) + getmaxy( w_msg ) + getmaxy( w_disp ) ); ++i) {
+        mvwputch(w_grid, i, getmaxx( w_disp ), BORDER_COLOR, LINE_XOXO); // |
+        mvwputch(w_grid, i, getmaxx( w_disp ) + 1 + getmaxx( w_parts) , BORDER_COLOR, LINE_XOXO); // |
     }
+    // Two lines dividing the vertical menu sections.
+    for (int i = 0; i < grid_w; ++i) {
+        mvwputch( w_grid, getmaxy( w_mode ) + getmaxy( w_msg ), i, BORDER_COLOR, LINE_OXOX ); // -
+        mvwputch( w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), i, BORDER_COLOR, LINE_OXOX ); // -
+    }
+    // Fix up the line intersections.
+    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ),              getmaxx( w_disp ), BORDER_COLOR, LINE_OXXX);
+    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), getmaxx( w_disp ), BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ),              getmaxx( w_disp ) + 1 + getmaxx( w_parts ), BORDER_COLOR, LINE_OXXX);
+    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), getmaxx( w_disp ) + 1 + getmaxx( w_parts ), BORDER_COLOR, LINE_XXOX); // _|_
+
     wrefresh(w_grid);
 }
 
@@ -1606,18 +1485,10 @@ void veh_interact::display_veh ()
         mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com_x, com_y);
         mvwprintz(w_disp, 1, 0, c_red,   "Pivot %d,%d", pivot.x, pivot.y);
 
-        int com_sx, com_sy, pivot_sx, pivot_sy;
-        if (vertical_menu) {
-            com_sx = com_y + ddy + hw;
-            com_sy = -(com_x + ddx) + hh;
-            pivot_sx = pivot.y + ddy + hw;
-            pivot_sy = -(pivot.x + ddx) + hh;
-        } else {
-            com_sx = com_x + ddx + hw;
-            com_sy = com_y + ddy + hh;
-            pivot_sx = pivot.x + ddx + hw;
-            pivot_sy = pivot.y + ddy + hh;
-        }
+        int com_sx = com_y + ddy + hw;
+        int com_sy = -(com_x + ddx) + hh;
+        int pivot_sx = pivot.y + ddy + hw;
+        int pivot_sy = -(pivot.x + ddx) + hh;
 
         for (int x = 0; x < getmaxx(w_disp); ++x) {
             if (x <= com_sx) {
@@ -1642,28 +1513,19 @@ void veh_interact::display_veh ()
 
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
-    int x, y;
     for( auto &structural_part : structural_parts ) {
         const int p = structural_part;
         long sym = veh->part_sym (p);
         nc_color col = veh->part_color (p);
-        if (vertical_menu) {
-            x =   veh->parts[p].mount.y + ddy;
-            y = -(veh->parts[p].mount.x + ddx);
-        } else {
-            tileray tdir( 0 );
-            sym = tdir.dir_symbol( sym );
-            x = veh->parts[p].mount.x + ddx;
-            y = veh->parts[p].mount.y + ddy;
-        }
+
+        int x =   veh->parts[p].mount.y + ddy;
+        int y = -(veh->parts[p].mount.x + ddx);
+
         if (x == 0 && y == 0) {
             col = hilite(col);
             cpart = p;
         }
         mvwputch (w_disp, hh + y, hw + x, col, special_symbol(sym));
-    }
-    if (!vertical_menu) {
-        right_print( w_disp, 0, 0, c_dkgray, _( "FWD ->" ) );
     }
     wrefresh (w_disp);
 }
@@ -1686,30 +1548,22 @@ void veh_interact::display_stats()
         total_cargo += veh->max_volume(p);
         free_cargo += veh->free_volume(p);
     }
-    if (vertical_menu) {
-        // Vertical menu
-        const int second_column = 33 + (extraw / 4);
-        const int third_column = 65 + (extraw / 2);
-        for (int i = 0; i < 18; i++) {
-            if (i < 6) { // First column
-                x[i] = 1;
-                y[i] = i;
-                w[i] = second_column - 2;
-            } else if (i < 12) { // Second column
-                x[i] = second_column;
-                y[i] = i - 6;
-                w[i] = third_column - second_column - 1;
-            } else { // Third column
-                x[i] = third_column;
-                y[i] = i - 12;
-                w[i] = extraw - third_column - 2;
-            }
-        }
-    } else {
-        for (int i = 0; i < 18; i++) {
+
+    const int second_column = 33 + (extraw / 4);
+    const int third_column = 65 + (extraw / 2);
+    for (int i = 0; i < 18; i++) {
+        if (i < 6) { // First column
             x[i] = 1;
             y[i] = i;
-            w[i] = stats_w - 1;
+            w[i] = second_column - 2;
+        } else if (i < 12) { // Second column
+            x[i] = second_column;
+            y[i] = i - 6;
+            w[i] = third_column - second_column - 1;
+        } else { // Third column
+            x[i] = third_column;
+            y[i] = i - 12;
+            w[i] = extraw - third_column - 2;
         }
     }
 
@@ -1838,9 +1692,8 @@ void veh_interact::display_stats()
 
     // Print fuel percentage & type name only if it fits in the window, 10 is width of "E...F 100%"
     veh->print_fuel_indicators (w_stats, y[12], x[12], fuel_index, true,
-                               (x[12] + 10 < stats_w),
-                               (x[12] + 10 + fuel_name_length < stats_w),
-                               !vertical_menu);
+                               ( x[ 12 ] + 10 < getmaxx( w_stats ) ),
+                               ( x[ 12 ] + 10 + fuel_name_length < getmaxx( w_stats ) ) );
 
     wrefresh(w_stats);
 }
@@ -1850,9 +1703,6 @@ void veh_interact::display_name()
     werase(w_name);
     mvwprintz(w_name, 0, 1, c_ltgray, _("Name: "));
     mvwprintz(w_name, 0, 1 + utf8_width(_("Name: ")), c_ltgreen, veh->name.c_str());
-    if (!vertical_menu) {
-        display_esc(w_name);
-    }
     wrefresh(w_name);
 }
 
@@ -1864,12 +1714,7 @@ void veh_interact::display_mode(char mode)
 {
     werase (w_mode);
 
-    size_t esc_pos;
-    if (vertical_menu) {
-        esc_pos = display_esc(w_mode);
-    } else {
-        esc_pos = getmaxx(w_mode);
-    }
+    size_t esc_pos = display_esc(w_mode);
 
     if (mode == ' ') {
         const std::array<std::string, 9> actions = { {
@@ -1952,23 +1797,21 @@ void veh_interact::display_details( const vpart_info *part )
 
     if (w_details == NULL) { // create details window first if required
 
-        // covers right part of w_name and w_stats in vertical/hybrid, lower block of w_stats in horizontal mode
-        const int details_y = vertical_menu ? getbegy(w_name) : getbegy(w_stats) + stats_h - 7;
-        const int details_x = vertical_menu ? getbegx(w_list) : getbegx(w_stats);
+        // covers right part of w_name and w_stats in vertical/hybrid
+        const int details_y = getbegy(w_name);
+        const int details_x = getbegx(w_list);
 
         const int details_h = 7;
         const int details_w = getbegx(w_grid) + getmaxx(w_grid) - details_x;
 
-        if (vertical_menu) { // clear rightmost blocks of w_stats in vertical/hybrid mode to avoid overlap
-            int stats_col_2 = 33;
-            int stats_col_3 = 65 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
-            int clear_x = stats_w - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
-            for( int i = 0; i < stats_h; i++) {
-                mvwhline(w_stats, i, clear_x, ' ', stats_w - clear_x);
-            }
-        } else { // clear one line above w_details in horizontal mode to make sure it's separated from stats text
-            mvwhline(w_stats, details_y - getbegy(w_stats) - 1, 0, ' ', stats_w);
+        // clear rightmost blocks of w_stats to avoid overlap
+        int stats_col_2 = 33;
+        int stats_col_3 = 65 + ((TERMX - FULL_SCREEN_WIDTH) / 4);
+        int clear_x = getmaxx( w_stats ) - details_w + 1 >= stats_col_3 ? stats_col_3 : stats_col_2;
+        for( int i = 0; i < getmaxy( w_stats ); i++) {
+            mvwhline(w_stats, i, clear_x, ' ', getmaxx( w_stats ) - clear_x);
         }
+
         wrefresh(w_stats);
 
         w_details = newwin(details_h, details_w, details_y, details_x);
@@ -1985,9 +1828,9 @@ void veh_interact::display_details( const vpart_info *part )
     }
     int details_w = getmaxx(w_details);
     int column_width = details_w / 2; // displays data in two columns
-    int col_1 = vertical_menu ? 2 : 1;
+    int col_1 = 2;
     int col_2 = col_1 + column_width;
-    int line = vertical_menu ? 0 : 0;
+    int line = 0;
     bool small_mode = column_width < 20 ? true : false;
 
     // line 0: part name
@@ -2056,15 +1899,12 @@ void veh_interact::display_details( const vpart_info *part )
     // line 4 [vertical/hybrid]: (column 1) fuel_type (if applicable)    (column 2) power (if applicable)
     // line 5 [horizontal]: power (if applicable)
     if ( part->fuel_type != "null" ) {
-        fold_and_print( w_details, line+4, col_1, ( vertical_menu ? column_width : details_w ),
+        fold_and_print( w_details, line+4, col_1, column_width,
                         c_white, _("Charge: <color_ltgray>%s</color>"),
                         item::nname( part->fuel_type ).c_str() );
     }
     if ( part->power != 0 ) {
-        fold_and_print(w_details, ( vertical_menu ? line+4 : line+5 ), ( vertical_menu ? col_2 : col_1 ),
-                       ( vertical_menu ? column_width : details_w ), c_white,
-                       _("Power: <color_ltgray>%d</color>"),
-                       part->power);
+        fold_and_print( w_details, line + 4, col_2, column_width, c_white, _( "Power: <color_ltgray>%d</color>" ), part->power );
     }
 
     // line 5 [vertical/hybrid] 6 [horizontal]: flags
@@ -2076,7 +1916,7 @@ void veh_interact::display_details( const vpart_info *part )
             label += ( label.empty() ? "" : " " ) + flag_labels[i];
         }
     }
-    fold_and_print(w_details, ( vertical_menu ? line+5 : line+6 ), col_1, details_w, c_yellow, label);
+    fold_and_print(w_details, line + 5, col_1, details_w, c_yellow, label);
 
     wrefresh(w_details);
 }
