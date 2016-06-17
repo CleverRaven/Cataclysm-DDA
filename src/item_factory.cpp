@@ -471,7 +471,6 @@ void Item_factory::init()
     add_iuse( "ROYAL_JELLY", &iuse::royal_jelly );
     add_iuse( "SAW_BARREL", &iuse::saw_barrel );
     add_iuse( "SEED", &iuse::seed );
-    add_iuse( "SET_TRAP", &iuse::set_trap );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SEW_ADVANCED", &iuse::sew_advanced );
     add_iuse( "SHAVEKIT", &iuse::shavekit );
@@ -527,6 +526,7 @@ void Item_factory::init()
     add_actor( new salvage_actor() );
     add_actor( new unfold_vehicle_iuse() );
     add_actor( new ups_based_armor_actor() );
+    add_actor( new place_trap_actor() );
 
     create_inital_categories();
 

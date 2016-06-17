@@ -2121,7 +2121,14 @@
     "material": "plastic",
     "weight": 6,
     "volume": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_underwater": true,
+        "done_message": "You set the bubble wrap on the ground, ready to be popped.",
+        "practice": 2,
+        "moves": 150,
+        "trap": "tr_bubblewrap"
+    }
   },
   {
     "id": "beartrap",
@@ -2137,7 +2144,21 @@
     "bashing": 9,
     "cutting": 1,
     "to_hit": -2,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_underwater": true,
+        "bury_question": "Bury the beartrap?",
+        "bury": {
+            "done_message": "You bury the beartrap.",
+            "practice": 7,
+            "moves": 275,
+            "trap": "tr_beartrap_buried"
+        },
+        "done_message": "You set the beartrap.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_beartrap"
+    }
   },
   {
     "id": "board_trap",
@@ -2153,7 +2174,14 @@
     "bashing": 12,
     "cutting": 6,
     "to_hit": -3,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_underwater": true,
+        "done_message": "You set the board trap on the %s, nails facing up.",
+        "practice": 2,
+        "moves": 150,
+        "trap": "tr_nailboard"
+    }
   },
   {
     "id": "caltrops",
@@ -2170,7 +2198,13 @@
     "bashing": 1,
     "cutting": 8,
     "to_hit": -4,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You scatter the caltrops on the %s.",
+        "practice": 2,
+        "moves": 150,
+        "trap": "tr_caltrops"
+    }
   },
   {
     "id": "tripwire",
@@ -2184,7 +2218,14 @@
     "weight": 40,
     "volume": 1,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "needs_solid_neighbor": true,
+        "done_message": "You string up the tripwire.",
+        "practice": 3,
+        "moves": 175,
+        "trap": "tr_tripwire"
+    }
   },
   {
     "id": "crossbow_trap",
@@ -2199,7 +2240,13 @@
     "volume": 7,
     "bashing": 4,
     "to_hit": -2,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You set the crossbow trap.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_crossbow"
+    }
   },
   {
     "id": "shotgun_trap",
@@ -2214,7 +2261,13 @@
     "volume": 7,
     "bashing": 12,
     "to_hit": -2,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You set the shotgun trap.",
+        "practice": 5,
+        "moves": 225,
+        "trap": "tr_shotgun_2"
+    }
   },
   {
     "id": "blade_trap",
@@ -2230,7 +2283,14 @@
     "bashing": 4,
     "cutting": 14,
     "to_hit": -4,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "outer_layer_trap": "tr_blade",
+        "done_message": "You set the blade trap two squares away.",
+        "practice": 12,
+        "moves": 400,
+        "trap": "tr_engine"
+    }
   },
   {
     "id": "light_snare_kit",
@@ -2244,7 +2304,14 @@
     "weight": 886,
     "volume": 1,
     "cutting": 6,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "needs_neighbor_terrain": "t_tree_young",
+        "done_message": "You set the snare trap.",
+        "practice": 2,
+        "moves": 150,
+        "trap": "tr_light_snare"
+    }
   },
   {
     "id": "heavy_snare_kit",
@@ -2258,7 +2325,14 @@
     "weight": 1066,
     "volume": 1,
     "cutting": 10,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "needs_neighbor_terrain": "t_tree",
+        "done_message": "You set the snare trap.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_heavy_snare"
+    }
   },
   {
     "id": "landmine",
@@ -2273,7 +2347,20 @@
     "volume": 2,
     "bashing": 6,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "bury_question": "Bury the land mine?",
+        "bury": {
+            "done_message": "You bury the land mine.",
+            "practice": 7,
+            "moves": 275,
+            "trap": "tr_landmine_buried"
+        },
+        "done_message": "You set the land mine.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_landmine"
+    }
   },
   {
     "id": "telepad",
@@ -2289,7 +2376,13 @@
     "bashing": 1,
     "cutting": 8,
     "to_hit": -4,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You place the telepad.",
+        "practice": 10,
+        "moves": 350,
+        "trap": "tr_telepad"
+    }
   },
   {
     "id": "geiger_off",
@@ -3669,7 +3762,13 @@
     "weight": 586,
     "volume": 3,
     "to_hit": -4,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "done_message": "You set the booby trap up and activate the grenade.",
+        "practice": 4,
+        "moves": 200,
+        "trap": "tr_boobytrap"
+    }
   },
   {
     "id": "c4",
@@ -3792,7 +3891,14 @@
     "volume": 8,
     "bashing": 6,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You unfold the cot and place it on the ground.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_cot"
+    }
   },
   {
     "id": "rollmat",
@@ -3806,7 +3912,14 @@
     "weight": 250,
     "volume": 4,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You unroll the mat and lay it on the ground.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_rollmat"
+    }
   },
   {
     "id": "fur_rollmat",
@@ -3820,7 +3933,14 @@
     "weight": 1800,
     "volume": 12,
     "to_hit": -1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You unroll the fur mat and lay it on the ground.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_fur_rollmat"
+    }
   },
   {
     "id": "xacto",
@@ -4823,7 +4943,14 @@
     "volume": 6,
     "bashing": 7,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the brazier securely.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_brazier"
+    }
   },{
     "id": "metal_funnel",
     "type": "TOOL",
@@ -4837,7 +4964,14 @@
     "volume": 16,
     "bashing": 4,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the brazier securely.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_metal_funnel"
+    }
   },
   {
     "id": "funnel",
@@ -4852,7 +4986,14 @@
     "volume": 2,
     "bashing": 4,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the funnel, waiting to collect rain.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_funnel"
+    }
   },
   {
     "id": "makeshift_funnel",
@@ -4866,7 +5007,14 @@
     "weight": 4,
     "volume": 1,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the makeshift funnel, waiting to collect rain.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_makeshift_funnel"
+    }
   },
   {
     "id": "leather_funnel",
@@ -4880,7 +5028,14 @@
     "weight": 4,
     "volume": 1,
     "to_hit": 1,
-    "use_action": "SET_TRAP"
+    "use_action": {
+        "type": "place_trap",
+        "allow_under_player": true,
+        "done_message": "You place the leather funnel, waiting to collect rain.",
+        "practice": 0,
+        "moves": 100,
+        "trap": "tr_leather_funnel"
+    }
   },
   {
     "id": "puller",
