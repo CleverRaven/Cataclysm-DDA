@@ -356,6 +356,11 @@ void vehicle::save (std::ostream &stout)
 
 void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 {
+    // vehicle parts are by default turned off
+    for( auto &pt : parts ) {
+        pt.enabled = false;
+    }
+
     bool destroySeats = false;
     bool destroyControls = false;
     bool destroyTank = false;
@@ -467,11 +472,6 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
         if( part_flag( p, "REACTOR" ) ) {
             // De-hardcoded reactors. Should always start active
             reactor_on = true;
-        }
-
-        // By default turrets will not be automatically fired
-        if( parts[ p ].base.is_gun() ) {
-            parts[ p ].enabled = false;
         }
 
         if( part_flag(p, "FUEL_TANK") ) {   // set fuel status
