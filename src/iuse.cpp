@@ -8302,7 +8302,7 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     }
     
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.amount_of( "water", 40 ) && !crafting_inv.amount_of( "water_clean", 40 ) ) {
+    if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
         p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
         return 0;
     }
