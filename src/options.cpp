@@ -1016,16 +1016,6 @@ void options_manager::init()
                                         0, 1000, 0
                                        );
 
-
-    //~ style of vehicle interaction menu; vertical is old one.
-    optionNames["vertical"] = _("Vertical");
-    optionNames["horizontal"] = _("Horizontal");
-    optionNames["hybrid"] = _("Hybrid");
-    OPTIONS["VEH_MENU_STYLE"] = cOpt("interface", _("Vehicle menu style"),
-                                     _("Switch between two different styles of vehicle interaction menu or combination of them."),
-                                     "vertical,horizontal,hybrid", "vertical"
-                                    );
-
     mOptionsSort["interface"]++;
 
     OPTIONS["MOVE_VIEW_OFFSET"] = cOpt("interface", _("Move view offset"),

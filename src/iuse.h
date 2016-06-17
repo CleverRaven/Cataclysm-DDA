@@ -103,7 +103,6 @@ public:
     int jackhammer          ( player*, item*, bool, const tripoint& );
     int jacqueshammer       ( player*, item*, bool, const tripoint& );
     int pickaxe             ( player*, item*, bool, const tripoint& );
-    int set_trap            ( player*, item*, bool, const tripoint& );
     int geiger              ( player*, item*, bool, const tripoint& );
     int teleport            ( player*, item*, bool, const tripoint& );
     int can_goo             ( player*, item*, bool, const tripoint& );
