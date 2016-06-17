@@ -115,8 +115,8 @@ class inventory_column {
             return items[selected_index];
         }
 
+        bool is_selected( const itemstack_or_category &entry ) const;
         std::vector<itemstack_or_category *> get_all_selected() const;
-
         const std::vector<itemstack_or_category> &get_items() const {
             return items;
         }
@@ -153,6 +153,10 @@ class inventory_column {
 
         size_t page_of( size_t index ) const {
             return index / items_per_page;
+        }
+
+        size_t page_of( const itemstack_or_category &entry ) const {
+            return page_of( std::distance( items.begin(), std::find( items.begin(), items.end(), entry ) ) );
         }
 
         virtual std::string get_item_text( const itemstack_or_category &entry ) const;
@@ -353,29 +357,23 @@ void inventory_column::select( size_t new_index )
     }
 }
 
+bool inventory_column::is_selected( const itemstack_or_category &entry ) const {
+    return entry.is_item() && ( entry == get_selected()
+        || ( mode  == navigation_mode::CATEGORY
+            && entry.category == get_selected().category
+            && page_of( entry ) == page_index() ) );
+}
+
 std::vector<itemstack_or_category *> inventory_column::get_all_selected() const
 {
     std::vector<itemstack_or_category *> res;
 
-    if( !allows_selecting() || selected_index >= items.size() ) {
-        return res;
-    }
-
-    switch( mode ) {
-        case navigation_mode::ITEM:
-            if( get_selected().is_item() ) {
-                res.push_back( const_cast<itemstack_or_category *>( &get_selected() ) );
+    if( allows_selecting() ) {
+        for( const auto &entry : items ) {
+            if( is_selected( entry ) ) {
+                res.push_back( const_cast<itemstack_or_category *>( &entry ) );
             }
-            break;
-        case navigation_mode::CATEGORY:
-            // Only items on one page can be selected
-            const size_t bound = std::min( items.size(), page_offset + items_per_page );
-            for( size_t i = page_offset; i < bound; ++i ) {
-                if( items[i].is_item() && items[i].category == get_selected().category ) {
-                    res.push_back( const_cast<itemstack_or_category *>( &items[i] ) );
-                }
-            }
-            break;
+        }
     }
 
     return res;
@@ -388,10 +386,7 @@ void inventory_column::on_action( const std::string &action )
     }
 
     const auto is_valid_selection = [ this ]( size_t index ) {
-        return index == selected_index
-            || ( items[index].is_item() && (    mode != navigation_mode::CATEGORY
-                                             || items[index].category != get_selected().category
-                                             || page_of( index ) != page_index() ) );
+        return index == selected_index || ( items[index].is_item() && !is_selected( items[index] ) );
     };
 
     const auto move_forward = [ this, &is_valid_selection ]( size_t step = 1 ) {
@@ -511,26 +506,11 @@ std::string inventory_column::get_item_text( const itemstack_or_category &entry 
 
 nc_color inventory_column::get_item_color( const itemstack_or_category &entry ) const
 {
-    if( !entry.is_item() ) {
+    if( entry.is_item() ) {
+        return ( active && is_selected( entry ) ) ? h_white : entry.it->color_in_inventory();
+    } else {
         return c_magenta;
     }
-
-    if( active ) {
-        switch( mode ) {
-            case navigation_mode::ITEM:
-                if( entry == get_selected() ) {
-                    return h_white;
-                }
-                break;
-            case navigation_mode::CATEGORY:
-                if( entry.category == get_selected().category ) {
-                    return h_white;
-                }
-                break;
-        }
-    }
-
-    return entry.it->color_in_inventory();
 }
 
 void inventory_column::draw( WINDOW *win, size_t x, size_t y ) const
@@ -1199,7 +1179,7 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
 
 void game::interactive_inv()
 {
-    static const std::array<int, 7> stoppers = { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE };
+    static const std::array<int, 7> stoppers = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
 
     u.inv.restack( &u );
     u.inv.sort();
