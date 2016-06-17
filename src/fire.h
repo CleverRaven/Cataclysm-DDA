@@ -4,8 +4,8 @@
 struct fire_data {
     int fire_intensity;
 
-    int smoke_produced;
-    int fuel_produced;
+    float smoke_produced;
+    float fuel_produced;
 };
 
 struct mat_burn_data {
@@ -15,12 +15,13 @@ struct mat_burn_data {
     // Fire has this in volume chance of working
     // If 0, always works
     int chance_in_volume = 0;
+    // Fractions are rolled as probability (to add 1)
     // Fuel produced per tick
-    int fuel = 0;
+    float fuel = 0.0f;
     // Smoke produced per tick
-    int smoke = 0;
+    float smoke = 0.0f;
     // Burned volume per tick
-    int burn = 0;
+    float burn = 0.0f;
 };
 
 #endif

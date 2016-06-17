@@ -57,10 +57,10 @@ mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {
     mat_burn_data bd;
     assign( jsobj, "immune", bd.immune );
-    assign( jsobj, "fuel", bd.fuel );
-    assign( jsobj, "smoke", bd.smoke );
-    assign( jsobj, "burn", bd.burn );
     assign( jsobj, "chance", bd.chance_in_volume );
+    jsobj.read( "fuel", bd.fuel );
+    jsobj.read( "smoke", bd.smoke );
+    jsobj.read( "burn", bd.burn );
     return bd;
 }
 
