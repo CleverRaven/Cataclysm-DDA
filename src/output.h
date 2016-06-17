@@ -4,7 +4,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-#include "input.h"
 #include <cstdarg>
 #include <string>
 #include <vector>
@@ -14,7 +13,7 @@
 
 struct iteminfo;
 enum direction : unsigned;
-
+class input_context;
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
 #define LINE_OXOX 4194417 // '-'   Horizontal line. ncurses: ACS_HLINE; Unicode: U+2500
