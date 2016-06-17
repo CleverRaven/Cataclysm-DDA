@@ -4552,11 +4552,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
         const std::string &music = get_music_description();
         if( !music.empty() ) {
             sound = music;
-            // music source is on player's square
-            if( p->pos() == source && volume != 0 ) {
-                // generic stereo players without earphones
-                sound = string_format( _("You listen to %s"), music.c_str() );
-            } else if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
+            if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
                 // in-ear music, such as mp3 player
                 p->add_msg_if_player( _( "You listen to %s"), music.c_str() );
             }
