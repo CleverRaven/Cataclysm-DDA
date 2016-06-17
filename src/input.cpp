@@ -884,9 +884,18 @@ void input_context::display_help()
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
 
+    std::set<long> character_blacklist = std::set<long>();
+    character_blacklist.insert( '+' );
+    character_blacklist.insert( '-' );
+    character_blacklist.insert( '=' );
+    character_blacklist.insert( KEY_ESCAPE );
+
     std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase = "";
+    std::string action = "";
+    long raw_input_char = 0;
+    int current_search_cursor_pos = -1;
 
     while( true ) {
         werase( w_help );
@@ -895,8 +904,6 @@ void input_context::display_help()
                         filtered_registered_actions.size() - display_height, 10, 0, c_white, true );
         center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
-
-        mvwprintz( w_help, 8, 2, c_ltgreen, "Search phrase: %s_", filter_phrase.c_str() );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
              i < display_height; i++ ) {
@@ -935,13 +942,22 @@ void input_context::display_help()
             mvwprintz( w_help, i + 10, 4, col, "%s: ", get_action_name( action_id ).c_str() );
             mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ).c_str() );
         }
+
+        filter_phrase = string_input_win_from_context( w_help, ctxt, filter_phrase, legwidth - 1, 4, 8, legwidth, false, action,
+                                                       raw_input_char, current_search_cursor_pos, "", -1, -1, true, false,
+                                                       std::map<long, std::function<void()>>(), character_blacklist );
+
+        if ( scroll_offset > filtered_registered_actions.size() )
+            scroll_offset = 0;
+
+        filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
+
         wrefresh( w_help );
         refresh();
 
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', in order to prevent the user from
         // entering an unrecoverable state.
-        const std::string action = ctxt.handle_input();
         const long raw_input_char = ctxt.get_raw_input().get_first_input();
         if( action == "ADD_LOCAL" || raw_input_char == '+' ) {
             status = s_add;
@@ -949,21 +965,9 @@ void input_context::display_help()
             status = s_add_global;
         } else if( action == "REMOVE" || raw_input_char == '-' ) {
             status = s_remove;
-        } else if( action == "ANY_INPUT" ) {
+        } else if ( action == "ANY_INPUT" ) {
             const size_t hotkey_index = hotkeys.find_first_of( raw_input_char );
-            if( status == s_show ) {
-                if( isalnum( raw_input_char ) ) {
-                    scroll_offset = 0;
-                    filter_phrase += tolower( raw_input_char );
-                    filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
-                    continue;
-                } else if( raw_input_char == KEY_BACKSPACE && filter_phrase.size() > 0 ) {
-                    scroll_offset = 0;
-                    filter_phrase.pop_back();
-                    filtered_registered_actions = filter_strings_by_phrase( org_registered_actions, filter_phrase );
-                    continue;
-                }
-            } else if( hotkey_index == std::string::npos ) {
+            if( hotkey_index == std::string::npos ) {
                 continue;
             }
             const size_t action_index = hotkey_index + scroll_offset;

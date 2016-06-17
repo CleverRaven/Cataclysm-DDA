@@ -772,7 +772,20 @@ std::string string_input_popup( std::string title, int width, std::string input,
 std::string string_input_win( WINDOW *w, std::string input, int max_length, int startx, int starty,
                               int endx, bool loop, long &ch, int &pos, std::string identifier,
                               int w_x, int w_y, bool dorefresh, bool only_digits,
-                              std::map<long, std::function<void()>> callbacks )
+                              std::map<long, std::function<void()>> callbacks, std::set<long> ch_code_blacklist ) 
+{
+    input_context ctxt( "STRING_INPUT" );
+    ctxt.register_action( "ANY_INPUT" );
+    std::string action;
+
+    return string_input_win_from_context( w, ctxt, input, max_length, startx, starty, endx, loop, action, ch, pos, identifier, w_x, w_y,
+                                         dorefresh, only_digits, callbacks );
+}
+
+std::string string_input_win_from_context( WINDOW *w, input_context &ctxt, std::string input, int max_length, int startx, int starty,
+                                           int endx, bool loop, std::string &action, long &ch, int &pos, std::string identifier,
+                                           int w_x, int w_y, bool dorefresh, bool only_digits,
+                                           std::map<long, std::function<void()>> callbacks, std::set<long> ch_code_blacklist ) 
 {
     utf8_wrapper ret( input );
     nc_color string_color = c_magenta;
@@ -785,9 +798,6 @@ std::string string_input_win( WINDOW *w, std::string input, int max_length, int 
     // in output (console) cells, not characters of the string!
     int shift = 0;
     bool redraw = true;
-
-    input_context ctxt( "STRING_INPUT" );
-    ctxt.register_action( "ANY_INPUT" );
 
     do {
 
@@ -869,118 +879,122 @@ std::string string_input_win( WINDOW *w, std::string input, int max_length, int 
             wrefresh( w );
         }
         bool return_key = false;
-        const std::string action = ctxt.handle_input();
+        action = ctxt.handle_input();
         const input_event ev = ctxt.get_raw_input();
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
-        if( callbacks[ch] ) {
-            callbacks[ch]();
-        }
-        if( ch == KEY_ESCAPE ) {
-            return "";
-        } else if( ch == '\n' ) {
-            return_key = true;
-        } else if( ch == KEY_UP ) {
-            if( !identifier.empty() ) {
-                std::vector<std::string> &hist = uistate.gethistory( identifier );
-                uimenu hmenu;
-                hmenu.title = _( "d: delete history" );
-                hmenu.return_invalid = true;
-                for( size_t h = 0; h < hist.size(); h++ ) {
-                    hmenu.addentry( h, true, -2, hist[h].c_str() );
-                }
-                if( !ret.empty() && ( hmenu.entries.empty() ||
-                                      hmenu.entries[hist.size() - 1].txt != ret.str() ) ) {
-                    hmenu.addentry( hist.size(), true, -2, ret.str() );
-                    hmenu.selected = hist.size();
-                } else {
-                    hmenu.selected = hist.size() - 1;
-                }
-                // number of lines that make up the menu window: title,2*border+entries
-                hmenu.w_height = 3 + hmenu.entries.size();
-                hmenu.w_y = w_y - hmenu.w_height;
-                if( hmenu.w_y < 0 ) {
-                    hmenu.w_y = 0;
-                    hmenu.w_height = std::max( w_y, 4 );
-                }
-                hmenu.w_x = w_x;
 
-                hmenu.query();
-                if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
-                    ret = hmenu.entries[hmenu.ret].txt;
-                    if( hmenu.ret < ( int )hist.size() ) {
-                        hist.erase( hist.begin() + hmenu.ret );
-                        hist.push_back( ret.str() );
-                    }
-                    pos = ret.size();
-                    redraw = true;
-                } else if( hmenu.keypress == 'd' ) {
-                    hist.clear();
-                }
+        if ( ch_code_blacklist.find(ch) == ch_code_blacklist.end() ) {
+            if( callbacks[ch] ) {
+                callbacks[ch]();
             }
-        } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
-            /* absolutely nothing */
-        } else if( ch == KEY_RIGHT ) {
-            if( pos + 1 <= ( int )ret.size() ) {
-                pos++;
-            }
-            redraw = true;
-        } else if( ch == KEY_LEFT ) {
-            if( pos > 0 ) {
-                pos--;
-            }
-            redraw = true;
-        } else if( ch == 0x15 ) {                      // ctrl-u: delete all the things
-            pos = 0;
-            ret.erase( 0 );
-            redraw = true;
-            // Move the cursor back and re-draw it
-        } else if( ch == KEY_BACKSPACE ) {
-            // but silently drop input if we're at 0, instead of adding '^'
-            if( pos > 0 && pos <= ( int )ret.size() ) {
-                //TODO: it is safe now since you only input ascii chars
-                pos--;
-                ret.erase( pos, 1 );
-                redraw = true;
-            }
-        } else if( ch == KEY_HOME ) {
-            pos = 0;
-            redraw = true;
-        } else if( ch == KEY_END ) {
-            pos = ret.size();
-            redraw = true;
-        } else if( ch == KEY_DC ) {
-            if( pos < ( int )ret.size() ) {
-                ret.erase( pos, 1 );
-                redraw = true;
-            }
-        } else if( ch == KEY_F( 2 ) ) {
-            std::string tmp = get_input_string_from_file();
-            int tmplen = utf8_width( tmp );
-            if( tmplen > 0 && ( tmplen + utf8_width( ret.c_str() ) <= max_length || max_length == 0 ) ) {
-                ret.append( tmp );
-            }
-        } else if( ch == ERR ) {
-            // Ignore the error
-        } else if( ch != 0 && only_digits && !isdigit( ch ) ) {
-            return_key = true;
-        } else if( max_length > 0 && ( int )ret.length() >= max_length ) {
-            // no further input possible, ignore key
-        } else if( !ev.text.empty() ) {
-            const utf8_wrapper t( ev.text );
-            ret.insert( pos, t );
-            pos += t.length();
-            redraw = true;
-        }
 
-        if( return_key ) { //"/n" return code
-            {
-                if( !identifier.empty() && !ret.empty() ) {
+            if( ch == KEY_ESCAPE ) {
+                return "";
+            } else if( ch == '\n' ) {
+                return_key = true;
+            } else if( ch == KEY_UP ) {
+                if( !identifier.empty() ) {
                     std::vector<std::string> &hist = uistate.gethistory( identifier );
-                    if( hist.size() == 0 || hist[hist.size() - 1] != ret.str() ) {
-                        hist.push_back( ret.str() );
+                    uimenu hmenu;
+                    hmenu.title = _( "d: delete history" );
+                    hmenu.return_invalid = true;
+                    for( size_t h = 0; h < hist.size(); h++ ) {
+                        hmenu.addentry( h, true, -2, hist[h].c_str() );
+                    }
+                    if( !ret.empty() && ( hmenu.entries.empty() ||
+                                          hmenu.entries[hist.size() - 1].txt != ret.str() ) ) {
+                        hmenu.addentry( hist.size(), true, -2, ret.str() );
+                        hmenu.selected = hist.size();
+                    } else {
+                        hmenu.selected = hist.size() - 1;
+                    }
+                    // number of lines that make up the menu window: title,2*border+entries
+                    hmenu.w_height = 3 + hmenu.entries.size();
+                    hmenu.w_y = w_y - hmenu.w_height;
+                    if( hmenu.w_y < 0 ) {
+                        hmenu.w_y = 0;
+                        hmenu.w_height = std::max( w_y, 4 );
+                    }
+                    hmenu.w_x = w_x;
+
+                    hmenu.query();
+                    if( hmenu.ret >= 0 && hmenu.entries[hmenu.ret].txt != ret.str() ) {
+                        ret = hmenu.entries[hmenu.ret].txt;
+                        if( hmenu.ret < ( int )hist.size() ) {
+                            hist.erase( hist.begin() + hmenu.ret );
+                            hist.push_back( ret.str() );
+                        }
+                        pos = ret.size();
+                        redraw = true;
+                    } else if( hmenu.keypress == 'd' ) {
+                        hist.clear();
                     }
                 }
-                return ret.str();
+            } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
+                /* absolutely nothing */
+            } else if( ch == KEY_RIGHT ) {
+                if( pos + 1 <= ( int )ret.size() ) {
+                    pos++;
+                }
+                redraw = true;
+            } else if( ch == KEY_LEFT ) {
+                if( pos > 0 ) {
+                    pos--;
+                }
+                redraw = true;
+            } else if( ch == 0x15 ) {                      // ctrl-u: delete all the things
+                pos = 0;
+                ret.erase( 0 );
+                redraw = true;
+                // Move the cursor back and re-draw it
+            } else if( ch == KEY_BACKSPACE ) {
+                // but silently drop input if we're at 0, instead of adding '^'
+                if( pos > 0 && pos <= ( int )ret.size() ) {
+                    //TODO: it is safe now since you only input ascii chars
+                    pos--;
+                    ret.erase( pos, 1 );
+                    redraw = true;
+                }
+            } else if( ch == KEY_HOME ) {
+                pos = 0;
+                redraw = true;
+            } else if( ch == KEY_END ) {
+                pos = ret.size();
+                redraw = true;
+            } else if( ch == KEY_DC ) {
+                if( pos < ( int )ret.size() ) {
+                    ret.erase( pos, 1 );
+                    redraw = true;
+                }
+            } else if( ch == KEY_F( 2 ) ) {
+                std::string tmp = get_input_string_from_file();
+                int tmplen = utf8_width( tmp );
+                if( tmplen > 0 && ( tmplen + utf8_width( ret.c_str() ) <= max_length || max_length == 0 ) ) {
+                    ret.append( tmp );
+                }
+            } else if( ch == ERR ) {
+                // Ignore the error
+            } else if( ch != 0 && only_digits && !isdigit( ch ) ) {
+                return_key = true;
+            } else if( max_length > 0 && ( int )ret.length() >= max_length ) {
+                // no further input possible, ignore key
+            } else if( !ev.text.empty() ) {
+                const utf8_wrapper t( ev.text );
+                ret.insert( pos, t );
+                pos += t.length();
+                redraw = true;
+            }
+
+            if( return_key ) { //"/n" return code
+                {
+                    if( !identifier.empty() && !ret.empty() ) {
+                        std::vector<std::string> &hist = uistate.gethistory( identifier );
+                        if( hist.size() == 0 || hist[hist.size() - 1] != ret.str() ) {
+                            hist.push_back( ret.str() );
+                        }
+                    }
+                    return ret.str();
+                }
             }
         }
     } while( loop == true );
