@@ -3244,7 +3244,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 20]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES". "POISON"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_irradiated_wanderer_2",
