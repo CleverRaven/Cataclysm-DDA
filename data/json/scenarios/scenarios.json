@@ -77,7 +77,7 @@
     "allowed_locs": ["cabin"],
     "start_name": "Abandoned Cabin",
     "flags" : ["SUR_START","WIN_START"],
-    "professions" : ["winter_survivor","winter_scavenger","winter_army","unemployed"]
+    "professions" : ["winter_survivor","winter_scavenger","winter_warrior","winter_army","unemployed"]
   },{
     "type": "scenario",
     "ident": "alone",
