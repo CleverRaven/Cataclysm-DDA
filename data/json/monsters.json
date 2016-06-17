@@ -2259,7 +2259,7 @@
         }
     ],
     "description":"This canines see-through thin, black veined and scab riddled skin, is tightly compressed around its skeletal frame.",
-    "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES"]
+    "flags":["SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dog_zombie_cop",
@@ -2652,7 +2652,7 @@
         }
     ],
     "description":"With its skin so tight the cracked bones are visible beneath it, covered in scar tissue and coils of scabbed black liquid and with eyes so deeply sunken into its skull they are barely visible, it's a wonder this once-human creature can move at all.",
-    "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE"]
+    "flags":["SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_necro",
@@ -3244,7 +3244,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 20]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES". "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_irradiated_wanderer_2",
@@ -3278,7 +3278,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 15]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_irradiated_wanderer_3",
@@ -3312,7 +3312,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 10]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_irradiated_wanderer_4",
@@ -3346,7 +3346,7 @@
     "death_function":"MELT",
     "special_attacks":[["LUNGE", 5]],
     "description":"This rotting corpse seeps a glowing ooze from its lesions.  A strange tattered jumpsuit marks it as an oddity across the wasteland.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_charred_nightmare",
@@ -3379,7 +3379,7 @@
     "death_function":"MELT",
     "special_attacks":[["LONGSWIPE", 8]],
     "description":"Intense radiation has spurred a unique form of necrosis and regeneration, it is impossible to tell if this creature was ever human.",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "BONES", "POISON"]
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid",
