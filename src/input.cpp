@@ -901,7 +901,8 @@ void input_context::display_help()
         center_print( w_help, 0, c_ltred, _( "Keybindings" ) );
         fold_and_print( w_help, 1, 2, legwidth, c_white, legend.str() );
 
-        for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() && i < display_height; i++ ) {
+        for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
+             i < display_height; i++ ) {
             const std::string &action_id = filtered_registered_actions[i + scroll_offset];
 
             bool overwrite_default;
