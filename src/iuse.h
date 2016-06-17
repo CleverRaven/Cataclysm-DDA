@@ -163,7 +163,6 @@ public:
     int contacts            ( player*, item*, bool, const tripoint& );
     int talking_doll        ( player*, item*, bool, const tripoint& );
     int bell                ( player*, item*, bool, const tripoint& );
-    int seed                ( player*, item*, bool, const tripoint& );
     int oxygen_bottle       ( player*, item*, bool, const tripoint& );
     int atomic_battery      ( player*, item*, bool, const tripoint& );
     int ups_battery         ( player*, item*, bool, const tripoint& );
