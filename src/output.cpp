@@ -772,20 +772,23 @@ std::string string_input_popup( std::string title, int width, std::string input,
 std::string string_input_win( WINDOW *w, std::string input, int max_length, int startx, int starty,
                               int endx, bool loop, long &ch, int &pos, std::string identifier,
                               int w_x, int w_y, bool dorefresh, bool only_digits,
-                              std::map<long, std::function<void()>> callbacks, std::set<long> ch_code_blacklist ) 
+                              std::map<long, std::function<void()>> callbacks, std::set<long> ch_code_blacklist )
 {
     input_context ctxt( "STRING_INPUT" );
     ctxt.register_action( "ANY_INPUT" );
     std::string action;
 
-    return string_input_win_from_context( w, ctxt, input, max_length, startx, starty, endx, loop, action, ch, pos, identifier, w_x, w_y,
-                                         dorefresh, only_digits, callbacks );
+    return string_input_win_from_context( w, ctxt, input, max_length, startx, starty, endx, loop,
+                                          action, ch, pos, identifier, w_x, w_y, dorefresh,
+                                          only_digits, callbacks, ch_code_blacklist );
 }
 
-std::string string_input_win_from_context( WINDOW *w, input_context &ctxt, std::string input, int max_length, int startx, int starty,
-                                           int endx, bool loop, std::string &action, long &ch, int &pos, std::string identifier,
-                                           int w_x, int w_y, bool dorefresh, bool only_digits,
-                                           std::map<long, std::function<void()>> callbacks, std::set<long> ch_code_blacklist ) 
+std::string string_input_win_from_context( WINDOW *w, input_context &ctxt, std::string input,
+        int max_length, int startx, int starty, int endx,
+        bool loop, std::string &action, long &ch, int &pos,
+        std::string identifier, int w_x, int w_y, bool dorefresh,
+        bool only_digits, std::map<long, std::function<void()>> callbacks,
+        std::set<long> ch_code_blacklist )
 {
     utf8_wrapper ret( input );
     nc_color string_color = c_magenta;
@@ -887,8 +890,9 @@ std::string string_input_win_from_context( WINDOW *w, input_context &ctxt, std::
             callbacks[ch]();
         }
 
-        if( ch_code_blacklist.find(ch) != ch_code_blacklist.end() )
+        if( ch_code_blacklist.find( ch ) != ch_code_blacklist.end() ) {
             continue;
+        }
 
         if( ch == KEY_ESCAPE ) {
             return "";
