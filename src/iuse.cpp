@@ -3438,7 +3438,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
             if (g->u.sees(goop)) {
                 add_msg(m_warning, _("A nearby splatter of goo forms into a goo pit."));
             }
-            g->m.add_trap(goop, tr_goo);
+            g->m.trap_set(goop, tr_goo);
         } else {
             return 0;
         }
@@ -3914,7 +3914,7 @@ int iuse::portal(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     tripoint t(p->posx() + rng(-2, 2), p->posy() + rng(-2, 2), p->posz());
-    g->m.add_trap(t, tr_portal);
+    g->m.trap_set(t, tr_portal);
     return it->type->charges_to_use();
 }
 
