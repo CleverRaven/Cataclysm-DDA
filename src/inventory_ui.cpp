@@ -74,11 +74,6 @@ enum class navigation_mode : int {
     CATEGORY
 };
 
-enum class add_to : int {
-    BEGINNING = 0,
-    END
-};
-
 class inventory_column {
     public:
         inventory_column() :
@@ -124,9 +119,10 @@ class inventory_column {
         itemstack_or_category *get_by_invlet( long invlet ) const;
 
         void draw( WINDOW *win, size_t x, size_t y ) const;
-        void add_item( const itemstack_or_category &item_entry, add_to where );
-        void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
-        void add_items( const inventory_column &source, add_to where );
+
+        void add_item( const itemstack_or_category &entry );
+        void add_items( const inventory_column &source );
+        void add_items( const indexed_invslice &slice, const item_category *def_cat = nullptr );
 
         void set_markers( bool markers ) {
             this->markers = markers;
@@ -186,6 +182,8 @@ class selection_column : public inventory_column {
               selected_cat( id, name, 0 ),
               reserved_width( 0 ) {}
 
+        void reserve_width_for( const inventory_column &column );
+
         virtual bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
         }
@@ -194,9 +192,10 @@ class selection_column : public inventory_column {
             return false;
         }
 
-        void reserve_width_for( const inventory_column &column );
+        virtual size_t get_width() const override {
+            return std::max( inventory_column::get_width(), reserved_width );
+        }
 
-        virtual size_t get_width() const override;
         virtual void prepare_paging( size_t new_items_per_page = 0 ) override; // Zero means unchanged
 
         virtual void on_change( const itemstack_or_category &entry ) override;
@@ -220,9 +219,9 @@ class inventory_selector
          * Extracts <B>slice</B> into @ref items, adding category entries.
          * For each item in the slice an entry that points to it is added to @ref items.
          * For a consecutive sequence of items of the same category a single
-         * category entry is added in front of them or after them depending on @ref where.
+         * category entry is added.
          */
-        void add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat = nullptr );
+        void add_items( const indexed_invslice &slice, const item_category *def_cat = nullptr );
         /**
          * Checks the selector for emptiness (absence of available items).
          */
@@ -421,32 +420,28 @@ void inventory_column::on_action( const std::string &action )
     }
 }
 
-void inventory_column::add_item( const itemstack_or_category &item_entry, add_to where )
+void inventory_column::add_item( const itemstack_or_category &entry )
 {
-    auto cat_iter = std::find_if( items.rbegin(), items.rend(), [ &item_entry ]( const itemstack_or_category &entry ) {
-        return entry.category == item_entry.category;
-    } );
-
-    if( cat_iter == items.rend() && where == add_to::END ) {
-        cat_iter = items.rbegin();
-    }
-
-    items.insert( cat_iter.base(), item_entry );
-}
-
-void inventory_column::add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat )
-{
-    for( const auto &scit : slice ) {
-        add_item( itemstack_or_category( scit, def_cat ), where );
+    if( entry.is_item() ) {
+        const auto iter = std::find_if( items.rbegin(), items.rend(),
+            [ &entry ]( const itemstack_or_category &cur ) {
+                return cur.category == entry.category || cur.category->sort_rank <= entry.category->sort_rank;
+            } );
+        items.insert( iter.base(), entry );
     }
 }
 
-void inventory_column::add_items( const inventory_column &source, add_to where )
+void inventory_column::add_items( const inventory_column &source )
 {
     for( const auto &entry : source.items ) {
-        if( entry.it != nullptr ) {
-            add_item( entry, where );
-        }
+        add_item( entry );
+    }
+}
+
+void inventory_column::add_items( const indexed_invslice &slice, const item_category *def_cat )
+{
+    for( const auto &scit : slice ) {
+        add_item( itemstack_or_category( scit, def_cat ) );
     }
 }
 
@@ -541,16 +536,11 @@ void selection_column::reserve_width_for( const inventory_column &column )
     }
 }
 
-size_t selection_column::get_width() const
-{
-    return std::max( inventory_column::get_width(), reserved_width );
-}
-
 void selection_column::prepare_paging( size_t new_items_per_page )
 {
     inventory_column::prepare_paging( new_items_per_page );
     if( items.empty() ) { // Category must always persist
-        add_item( itemstack_or_category( &selected_cat ), add_to::END );
+        add_item( itemstack_or_category( &selected_cat ) );
     }
 }
 
@@ -562,7 +552,7 @@ void selection_column::on_change( const itemstack_or_category &entry )
     const auto iter = std::find( items.begin(), items.end(), my_entry );
     if( my_entry.chosen_count != 0 ) {
         if( iter == items.end() ) {
-            add_item( my_entry, add_to::END );
+            add_item( my_entry );
         } else {
             iter->chosen_count = my_entry.chosen_count;
         }
@@ -626,12 +616,12 @@ nc_color selection_column::get_item_color( const itemstack_or_category &entry ) 
     return entry.it->color_in_inventory();
 }
 
-void inventory_selector::add_items( const indexed_invslice &slice, add_to where, const item_category *def_cat )
+void inventory_selector::add_items( const indexed_invslice &slice, const item_category *def_cat )
 {
     if( custom_column == nullptr ) {
         custom_column.reset( new inventory_column() );
     }
-    custom_column->add_items( slice, where, def_cat );
+    custom_column->add_items( slice, def_cat );
 }
 
 itemstack_or_category *inventory_selector::invlet_to_itemstack( long invlet ) const
@@ -659,7 +649,7 @@ void inventory_selector::prepare_columns( bool markers )
             custom_column->set_markers( markers );
             insert_column( position, custom_column.release() );
         } else {
-            columns.front()->add_items( *custom_column, add_to::END );
+            columns.front()->add_items( *custom_column );
             custom_column.release();
         }
     }
@@ -794,21 +784,20 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     std::unique_ptr<inventory_column> first_column( new inventory_column() );
     std::unique_ptr<inventory_column> second_column( new inventory_column() );
 
-    first_column->add_items( u.inv.indexed_slice_filter_by( filter ), add_to::END );
+    first_column->add_items( u.inv.indexed_slice_filter_by( filter ) );
 
     if( !first_column->empty() ) {
         insert_column( columns.end(), first_column.release() );
     }
 
     if( u.is_armed() && filter( u.weapon ) ) {
-        second_column->add_item( itemstack_or_category( &u.weapon, -1, &weapon_cat ), add_to::END );
+        second_column->add_item( itemstack_or_category( &u.weapon, -1, &weapon_cat ) );
     }
 
     size_t i = 0;
     for( const auto &it : u.worn ) {
         if( filter( it ) ) {
-            second_column->add_item( itemstack_or_category( &it, player::worn_position_to_index( i ),
-                                     &worn_cat ), add_to::END );
+            second_column->add_item( itemstack_or_category( &it, player::worn_position_to_index( i ), &worn_cat ) );
         }
         ++i;
     }
@@ -1321,8 +1310,8 @@ item_location game::inv_map_splice(
                 }
             }
             std::string name = trim( std::string( _( "GROUND" ) ) + " " + direction_suffix( g->u.pos(), pos ) );
-            categories.emplace_back( name, name, rank-- );
-            inv_s.add_items( slices.back(), add_to::END, &categories.back() );
+            categories.emplace_back( name, name, rank++ );
+            inv_s.add_items( slices.back(), &categories.back() );
         }
 
         // finally get all matching items in vehicle cargo spaces
@@ -1361,7 +1350,7 @@ item_location game::inv_map_splice(
                 }
                 std::string name = trim( std::string( _( "VEHICLE" ) )  + " " + direction_suffix( g->u.pos(), pos ) );
                 categories.emplace_back( name, name, rank-- );
-                inv_s.add_items( slices.back(), add_to::END, &categories.back() );
+                inv_s.add_items( slices.back(), &categories.back() );
             }
         }
     }
@@ -1473,7 +1462,7 @@ void game::compare( const tripoint &offset )
 
     inventory_selector inv_s( u );
 
-    inv_s.add_items( grounditems_slice, add_to::BEGINNING, &category_on_ground );
+    inv_s.add_items( grounditems_slice, &category_on_ground );
     if( inv_s.empty() ) {
         popup( std::string( _( "There are no items to compare." ) ), PF_GET_KEY );
         return;
