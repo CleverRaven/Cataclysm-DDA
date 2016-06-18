@@ -326,7 +326,7 @@ class inventory_selector
         void toggle_active_column();
         void toggle_navigation_mode();
 
-        void insert_column( decltype( columns )::iterator position, inventory_column *new_column );
+        void insert_column( decltype( columns )::iterator position, std::unique_ptr<inventory_column> &new_column );
         void insert_selection_column( const std::string &id, const std::string &name );
 };
 
@@ -647,7 +647,7 @@ void inventory_selector::prepare_columns( bool markers )
             const auto position = ( !columns.empty() ) ? std::next( columns.begin() ) : columns.begin();
 
             custom_column->set_markers( markers );
-            insert_column( position, custom_column.release() );
+            insert_column( position, custom_column );
         } else {
             columns.front()->add_items( *custom_column );
             custom_column.release();
@@ -787,7 +787,7 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     first_column->add_items( u.inv.indexed_slice_filter_by( filter ) );
 
     if( !first_column->empty() ) {
-        insert_column( columns.end(), first_column.release() );
+        insert_column( columns.end(), first_column );
     }
 
     if( u.is_armed() && filter( u.weapon ) ) {
@@ -803,7 +803,7 @@ inventory_selector::inventory_selector( player &u, item_filter filter )
     }
 
     if( !second_column->empty() ) {
-        insert_column( columns.end(), second_column.release() );
+        insert_column( columns.end(), second_column );
     }
 }
 
@@ -928,11 +928,9 @@ void inventory_selector::toggle_navigation_mode()
     }
 }
 
-void inventory_selector::insert_column( decltype( columns )::iterator position, inventory_column *new_column )
+void inventory_selector::insert_column( decltype( columns )::iterator position, std::unique_ptr<inventory_column> &column )
 {
-    assert( new_column != nullptr );
-
-    std::unique_ptr<inventory_column> column( new_column );
+    assert( column != nullptr );
 
     if( columns.empty() ) {
         column->on_activate();
@@ -943,14 +941,14 @@ void inventory_selector::insert_column( decltype( columns )::iterator position, 
 
 void inventory_selector::insert_selection_column( const std::string &id, const std::string &name )
 {
-    std::unique_ptr<selection_column> new_column( new selection_column( id, name ) );
+    std::unique_ptr<inventory_column> new_column( new selection_column( id, name ) );
 
     for( const auto &column : columns ) {
-        new_column->reserve_width_for( *column );
+        static_cast<selection_column *>( new_column.get() )->reserve_width_for( *column );
     }
 
     if( column_can_fit( *new_column ) ) { // Insert only if it will be visible. Ignore otherwise.
-        insert_column( columns.end(), new_column.release() );
+        insert_column( columns.end(), new_column );
     }
 }
 
