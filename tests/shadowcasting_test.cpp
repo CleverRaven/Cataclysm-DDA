@@ -535,6 +535,36 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test" ) {
     run_spot_check( test_case, expected_results );
 }
 
+TEST_CASE( "shadowcasting_pillar_behavior" ) {
+    grid_overlay test_case( { 64, 61 }, LIGHT_TRANSPARENCY_CLEAR );
+    test_case.data = {
+        {T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T},
+        {T,T,O,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T}
+    };
+
+    grid_overlay expected_results( { 64, 61 }, LIGHT_TRANSPARENCY_CLEAR );
+    expected_results.data = {
+        {V,V,V,V,V,V,V,O,O},
+        {V,V,V,V,V,V,O,O,O},
+        {V,V,V,V,V,O,O,O,O},
+        {V,V,V,V,O,O,O,O,O},
+        {V,X,V,O,O,O,O,O,O},
+        {V,V,V,V,O,O,O,O,O},
+        {V,V,V,V,V,O,O,O,O},
+        {V,V,V,V,V,V,O,O,O},
+        {V,V,V,V,V,V,V,O,O}
+    };
+
+    run_spot_check( test_case, expected_results );
+}
+
 // Some random edge cases aren't matching.
 TEST_CASE("shadowcasting_runoff", "[.]") {
     shadowcasting_runoff(1);
