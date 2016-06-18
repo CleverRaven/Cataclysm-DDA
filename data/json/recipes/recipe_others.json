@@ -7691,5 +7691,16 @@
       [ "tailors_kit", 1 ]
     ]
   ]
+},{
+   "type" : "recipe",
+  "result": "washboard",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "autolearn": true,
+  "qualities" : [ {"id":"CUT","level":1} ],
+  "components": [ [ [ "2x4", 1 ] ] ] 
 }
 ]

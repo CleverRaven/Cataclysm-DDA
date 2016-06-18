@@ -1535,7 +1535,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving)." ) ) );
             }
-            if( is_disgusting_for( g->u ) ) {
+            if( is_filthy() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
             }
@@ -1943,6 +1943,8 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if(has_flag("LITCIG")) {
         ret = c_red;
+    } else if( is_filthy() ) {
+        ret = c_brown;
     } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0 ) {
         ret = c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
@@ -2274,7 +2276,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (fits)");
     }
 
-    if( is_disgusting_for( g->u ) ) {
+    if( is_filthy() ) {
         ret << _(" (filthy)" );
     }
 
@@ -5999,6 +6001,6 @@ bool item_category::operator!=( const item_category &rhs ) const
     return !( *this == rhs );
 }
 
-bool item::is_disgusting_for( const player &p ) const {
-    return has_flag( "FILTHY" ) && p.has_trait( "SQUEAMISH" );
+bool item::is_filthy() const {
+    return has_flag( "FILTHY" );
 }

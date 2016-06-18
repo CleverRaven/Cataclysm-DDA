@@ -498,6 +498,7 @@ void Item_factory::init()
     add_iuse( "VACUTAINER", &iuse::vacutainer );
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "VORTEX", &iuse::vortex );
+    add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
