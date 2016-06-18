@@ -133,10 +133,8 @@ class vpart_info
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
 
-        union {
-            int par1;
-            int bonus;      // seatbelt (str), muffler (%), horn (vol)
-        };
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
+        int bonus = 0;
 
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;
