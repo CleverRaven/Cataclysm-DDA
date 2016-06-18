@@ -116,3 +116,9 @@ lnk*.tmp
 # cppcheck
 *cppcheck.xml
 *.cppcheck
+
+# IDA database
+Cataclysm.i64
+Cataclysm.id*
+Cataclysm.til
+Cataclysm.nam
