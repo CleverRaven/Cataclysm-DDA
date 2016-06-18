@@ -269,7 +269,7 @@ bool player::activate_bionic( int b, bool eff_only )
 
         for( const auto &pr : good_effects ) {
             if( has_effect( pr.first ) ) {
-                bad.push_back( pr.second );
+                good.push_back( pr.second );
             }
         }
 
