@@ -780,14 +780,14 @@ std::string string_input_win( WINDOW *w, std::string input, int max_length, int 
 
     return string_input_win_from_context( w, ctxt, input, max_length, startx, starty, endx, loop,
                                           action, ch, pos, identifier, w_x, w_y, dorefresh,
-                                          only_digits, callbacks, ch_code_blacklist );
+                                          only_digits, false, callbacks, ch_code_blacklist );
 }
 
 std::string string_input_win_from_context( WINDOW *w, input_context &ctxt, std::string input,
         int max_length, int startx, int starty, int endx,
         bool loop, std::string &action, long &ch, int &pos,
         std::string identifier, int w_x, int w_y, bool dorefresh,
-        bool only_digits, std::map<long, std::function<void()>> callbacks,
+        bool only_digits, bool draw_only, std::map<long, std::function<void()>> callbacks,
         std::set<long> ch_code_blacklist )
 {
     utf8_wrapper ret( input );
@@ -881,6 +881,11 @@ std::string string_input_win_from_context( WINDOW *w, input_context &ctxt, std::
         if( dorefresh ) {
             wrefresh( w );
         }
+
+        if ( draw_only ) {
+            return input;
+        }
+
         bool return_key = false;
         action = ctxt.handle_input();
         const input_event ev = ctxt.get_raw_input();

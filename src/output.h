@@ -312,7 +312,7 @@ std::string string_input_win( WINDOW *w, std::string input, int max_length, int 
 std::string string_input_win_from_context(
     WINDOW *w, input_context &ctxt, std::string input, int max_length, int startx, int starty,
     int endx, bool loop, std::string &action, long &ch, int &pos, std::string identifier = "",
-    int w_x = -1, int w_y = -1, bool dorefresh = true, bool only_digits = false,
+    int w_x = -1, int w_y = -1, bool dorefresh = true, bool only_digits = false, bool draw_only = false,
     std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>(),
     std::set<long> ch_code_blacklist = std::set<long>() );
 

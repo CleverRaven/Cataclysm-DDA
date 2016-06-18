@@ -817,9 +817,6 @@ bool input_context::get_direction( int &dx, int &dy, const std::string &action )
     return true;
 }
 
-const std::string display_help_hotkeys =
-    "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:;'\",./<>?!@#$%^&*()_[]\\{}|`~";
-
 void input_context::display_help()
 {
     inp_mngr.set_timeout( -1 );
@@ -884,9 +881,8 @@ void input_context::display_help()
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
 
-    std::string hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
-    const std::set<long> search_character_blacklist = { '+', '-', '=', KEY_ESCAPE };
-    const std::set<long> edit_character_blacklist = std::set<long>( hotkeys.begin(), hotkeys.end() );
+    std::string hotkeys = ctxt.get_available_single_char_hotkeys();
+    const std::set<long> bound_character_blacklist = { '+', '-', '=', KEY_ESCAPE };
     std::vector<std::string> filtered_registered_actions = org_registered_actions;
     std::string filter_phrase;
     std::string action;
@@ -939,12 +935,19 @@ void input_context::display_help()
             mvwprintz( w_help, i + 10, 52, col, "%s", get_desc( action_id ).c_str() );
         }
 
-        const std::set<long> blacklist = status == s_show ? search_character_blacklist :
-                                         edit_character_blacklist;
+        if( status == s_show ) {
+            filter_phrase = string_input_win_from_context( w_help, ctxt, filter_phrase, legwidth, 4, 8,
+                            legwidth, false, action, raw_input_char, current_search_cursor_pos, "", -1, -1,
+                            true, false, false, std::map<long, std::function<void()>>(),
+                            bound_character_blacklist );
+        } else {
+            string_input_win_from_context( w_help, ctxt, filter_phrase, legwidth, 4, 8, legwidth, false,
+                                           action, raw_input_char, current_search_cursor_pos, "", -1, -1,
+                                           true, false, true );
+            action = ctxt.handle_input();
+            raw_input_char = ctxt.get_raw_input().get_first_input();
+        }
 
-        filter_phrase = string_input_win_from_context( w_help, ctxt, filter_phrase, legwidth - 1, 4, 8,
-                        legwidth, false, action, raw_input_char, current_search_cursor_pos, "", -1, -1,
-                        true, false, std::map<long, std::function<void()>>(), blacklist );
 
         if( scroll_offset > filtered_registered_actions.size() ) {
             scroll_offset = 0;
@@ -954,6 +957,10 @@ void input_context::display_help()
 
         wrefresh( w_help );
         refresh();
+
+        if( filtered_registered_actions.size() == 0 && action != "QUIT" ) {
+            continue;
+        }
 
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', in order to prevent the user from
@@ -1062,7 +1069,7 @@ void input_context::display_help()
             }
         } else if( action == "HELP_KEYBINDINGS" ) {
             // update available hotkeys in case they've changed
-            hotkeys = ctxt.get_available_single_char_hotkeys( display_help_hotkeys );
+            hotkeys = ctxt.get_available_single_char_hotkeys();
         }
     }
 
@@ -1303,13 +1310,14 @@ void input_context::set_iso( bool mode )
 }
 
 std::vector<std::string> input_context::filter_strings_by_phrase(
-    const std::vector<std::string> &strings, const std::string &phrase ) const
+    const std::vector<std::string> &strings, std::string phrase ) const
 {
     std::vector<std::string> filtered_strings;
+    transform( phrase.begin(), phrase.end(), phrase.begin(), tolower );
 
     for( auto &str : strings ) {
         if( lcmatch( remove_color_tags( get_action_name( str ) ), phrase ) ) {
-            filtered_strings.push_back( str ) ;
+            filtered_strings.push_back( str );
         }
     }
 

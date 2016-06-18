@@ -1941,6 +1941,19 @@
     },
     {
         "type" : "keybinding",
+        "id": "QUIT",
+        "category": "HELP_KEYBINDINGS",
+        "name": "Exit all commands help screen",
+        "comment": "separate entry, because the global entry also has 'q', 'Q' and space listed, which conflicts with the search text input",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"REMOVE",
         "category":"HELP_KEYBINDINGS",
         "name":"Remove bindings",
