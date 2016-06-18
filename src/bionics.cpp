@@ -149,7 +149,15 @@ bool player::activate_bionic( int b, bool eff_only )
                                  calendar::turn );
 
     // On activation effects go here
-    if( bio.id == "bio_painkiller" ) {
+    if( bionics[bio.id].gun_bionic ) {
+        item old_weapon = weapon;
+        weapon = item( bionics[bio.id].fake_item );
+        g->refresh_all();
+        if( !g->plfire() ) {
+            charge_power( bionics[bio.id].power_activate );
+        }
+        weapon = old_weapon;
+    } else if( bio.id == "bio_painkiller" ) {
         mod_pain( -2 );
         mod_painkiller( 6 );
         if( get_painkiller() > get_pain() ) {
@@ -380,33 +388,6 @@ bool player::activate_bionic( int b, bool eff_only )
         } else {
             add_effect( effect_adrenaline, 200 );
         }
-
-    } else if( bio.id == "bio_blaster" ) {
-        tmp_item = weapon;
-        weapon = item( "bio_blaster_gun" );
-        g->refresh_all();
-        if( !g->plfire() ) {
-            charge_power( bionics[bio.id].power_activate );
-        }
-        weapon = tmp_item;
-
-    } else if( bio.id == "bio_laser" ) {
-        tmp_item = weapon;
-        weapon = item( "bio_laser_gun" );
-        g->refresh_all();
-        if( !g->plfire() ) {
-            charge_power( bionics[bio.id].power_activate );
-        }
-        weapon = tmp_item;
-
-    } else if( bio.id == "bio_chain_lightning" ) {
-        tmp_item = weapon;
-        weapon = item( "bio_lightning" );
-        g->refresh_all();
-        if( !g->plfire() ) {
-            charge_power( bionics[bio.id].power_activate );
-        }
-        weapon = tmp_item;
 
     } else if (bio.id == "bio_emp") {
         g->refresh_all();
@@ -1394,6 +1375,8 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.faulty = jsobj.get_bool( "faulty", false );
     new_bionic.power_source = jsobj.get_bool( "power_source", false );
+
+    new_bionic.gun_bionic = jsobj.get_bool( "gun_bionic", false );
 
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 
