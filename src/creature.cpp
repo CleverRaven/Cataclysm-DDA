@@ -567,6 +567,13 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     impact.mult_damage(damage_mult);
 
+    if( proj_effects.count( "NOGIB" ) > 0 ) {
+        float dmg_ratio = (float)impact.total_damage() / get_hp_max( player::bp_to_hp( bp_hit ) );
+        if( dmg_ratio > 1.25f ) {
+            impact.mult_damage( 1.0f / dmg_ratio );
+        }
+    }
+
     dealt_dam = deal_damage(source, bp_hit, impact);
     dealt_dam.bp_hit = bp_hit;
 

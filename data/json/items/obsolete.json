@@ -42,8 +42,7 @@
     "recoil" : 75,
     "count" : 100,
     "stack_size" : 100,
-    "flags" : ["NOGIB"],
-    "effects" : ["COOKOFF", "SHOT", "RECYCLED"]
+    "effects" : ["COOKOFF", "SHOT", "RECYCLED", "NOGIB"]
   },
   {
     "type" : "AMMO",

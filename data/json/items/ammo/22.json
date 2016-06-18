@@ -61,8 +61,7 @@
         "recoil": 0.5
     },
     "extend": {
-        "effects": [ "SHOT" ],
-        "flags": [ "NOGIB" ]
+        "effects": [ "SHOT", "NOGIB" ]
     }
   },
   {

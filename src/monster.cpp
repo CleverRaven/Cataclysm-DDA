@@ -1103,13 +1103,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         missed_by = 0.2;
     }
 
-    const auto old_hp = hp;
-
     Creature::deal_projectile_attack( source, attack );
-
-    if( hp < 0 && attack.proj.proj_effects.count( "NOGIB" ) > 0 ) {
-        hp = std::max( 0, old_hp );
-    }
 
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
@@ -1528,52 +1522,8 @@ void monster::normalize_ammo( const int old_ammo )
 
 void monster::explode()
 {
-    if( is_hallucination() ) {
-        //Can't gib hallucinations
-        return;
-    }
-    if( type->has_flag( MF_NOGIB ) ) {
-        return;
-    }
-    // Send body parts and blood all over!
-    const itype_id meat = type->get_meat_itype();
-    if( meat == "null" ) {
-        return; // Only create chunks if we know what kind to make.
-    }
-    const int num_chunks = type->get_meat_chunks_count();
-    const field_id type_blood = bloodType();
-    const field_id type_gib = gibType();
-
-    for( int i = 0; i < num_chunks; i++ ) {
-        tripoint tarp( pos() + tripoint( rng( -3, 3 ), rng( -3, 3 ), 0 ) );
-        const auto traj = line_to( pos(), tarp );
-
-        for( size_t j = 0; j < traj.size(); j++ ) {
-            tarp = traj[j];
-            if( one_in( 2 ) && type_blood != fd_null ) {
-                g->m.add_splatter( type_blood, tarp );
-            } else {
-                g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
-            }
-            if( g->m.impassable( tarp ) ) {
-                g->m.bash( tarp, 3 );
-                if( g->m.impassable( tarp ) ) {
-                    // Target is obstacle, not destroyed by bashing,
-                    // stop trajectory in front of it, if this is the first
-                    // point (e.g. wall adjacent to monster) , make it invalid.
-                    if( j > 0 ) {
-                        tarp = traj[j - 1];
-                    } else {
-                        tarp = tripoint_min;
-                    }
-                    break;
-                }
-            }
-            if( tarp != tripoint_min ) {
-                g->m.spawn_item( tarp, meat, 1, 0, calendar::turn );
-            }
-        }
-    }
+    // Handled in mondeath::normal
+    hp = INT_MIN;
 }
 
 void monster::die(Creature* nkiller)
@@ -1585,9 +1535,6 @@ void monster::die(Creature* nkiller)
     }
     dead = true;
     set_killer( nkiller );
-    if( hp < -( type->size < MS_MEDIUM ? 1.5 : 3 ) * type->hp ) {
-        explode(); // Explode them if it was big overkill
-    }
     if (!no_extra_death_drops) {
         drop_items_on_death();
     }
