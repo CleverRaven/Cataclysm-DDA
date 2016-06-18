@@ -93,6 +93,7 @@ int fuel_charges_to_amount_factor( const itype_id &ftype )
 enum vehicle_controls {
  toggle_cruise_control,
  toggle_lights,
+ enable_headlights,
  disable_lights,
  toggle_turrets,
  toggle_stereo,
@@ -1007,8 +1008,13 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
     }
 
     if ( has_electronic_controls && !lights().empty() ) {
-        menu.addentry( toggle_lights, true, 'h', _( "Control vehicle lights" ) );
+        menu.addentry( toggle_lights, true, 'v', _( "Control vehicle lights" ) );
         auto opts = lights();
+        if( std::any_of( opts.begin(), opts.end(),[]( const vehicle_part *e ) {
+            return e->info().has_flag( VPFLAG_CONE_LIGHT ) && !e->enabled;
+        } ) ) {
+            menu.addentry( enable_headlights, true, 'h', _( "Turn on headlights" ) );
+        }
         if( std::any_of( opts.begin(), opts.end(),[]( const vehicle_part *e ) {
             return e->enabled;
         } ) ) {
@@ -1118,6 +1124,13 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         break;
     case toggle_lights:
         lights_control();
+        break;
+    case enable_headlights:
+        for( auto e : lights() ) {
+            if( e->info().has_flag( VPFLAG_CONE_LIGHT ) ) {
+                e->enabled = true;
+            }
+        }
         break;
     case disable_lights:
         for( auto e : lights() ) {
