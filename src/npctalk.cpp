@@ -1370,6 +1370,12 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             status << string_format(_(" %s will leave zombie corpses intact."), npcstr.c_str());
         }
 
+        if( p->rules.close_doors ) {
+            status << string_format(_(" %s will close doors behind themselves."), npcstr.c_str());
+        } else {
+            status << string_format(_(" %s will leave doors open."), npcstr.c_str());
+        }
+
         return status.str();
 
     } else if( topic == "TALK_USE_ITEM" ) {
@@ -2645,6 +2651,9 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( p->rules.allow_pulp ? _("Leave corpses alone.") : _("Smash zombie corpses."),
                           "TALK_MISC_RULES", &talk_function::toggle_allow_pulp );
 
+            add_response( p->rules.close_doors ? _("Leave doors open.") : _("Close the doors."),
+                          "TALK_MISC_RULES", &talk_function::toggle_close_doors );
+
             add_response_none( _("Never mind.") );
 
     }
@@ -3051,6 +3060,11 @@ void talk_function::toggle_allow_complain( npc *p )
 void talk_function::toggle_allow_pulp( npc *p )
 {
     p->rules.allow_pulp = !p->rules.allow_pulp;
+}
+
+void talk_function::toggle_close_doors( npc *p )
+{
+    p->rules.close_doors = !p->rules.close_doors;
 }
 
 void talk_function::reveal_stats (npc *p)

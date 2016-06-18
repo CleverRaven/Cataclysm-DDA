@@ -192,6 +192,8 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     bool allow_complain;
     bool allow_pulp;
 
+    bool close_doors;
+
     npc_follower_rules()
     {
         engagement = ENGAGE_ALL;
@@ -205,6 +207,8 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
         allow_sleep = false;
         allow_complain = true;
         allow_pulp = true;
+
+        close_doors = false;
     };
 
     using JsonSerializer::serialize;
