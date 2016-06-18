@@ -552,7 +552,7 @@ void selection_column::prepare_paging( size_t new_items_per_page )
 {
     inventory_column::prepare_paging( new_items_per_page );
     if( items.empty() ) { // Category must always persist
-        add_item( itemstack_or_category( &selected_cat ) );
+        items.emplace_back( &selected_cat );
     }
 }
 
@@ -670,11 +670,8 @@ void inventory_selector::prepare_columns( bool multiselect )
         column->prepare_paging( getmaxy( w_inv ) - 5 );
     }
 
-    for( size_t i = 0; i < columns.size(); ++i ) {
-        if( get_column( i ).activatable() ) {
-            set_active_column( i );
-            break;
-        }
+    if( !get_active_column().activatable() ) {
+        toggle_active_column();
     }
 }
 
