@@ -783,10 +783,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
                                 
-                                bool destroyed = fuel->burn( p, frd, new_content );
+                                bool destroyed = fuel->burn( frd );
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
+                                    // But remember its contents
+                                    std::copy( fuel->contents.begin(), fuel->contents.end(),
+                                               std::back_inserter( new_content ) );
                                     fuel = items_here.erase( fuel );
                                     consumed++;
                                 } else {
@@ -1746,9 +1749,6 @@ void map::player_in_field( player &u )
                     const auto dealt = u.deal_damage( nullptr, part_burned,
                         damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
                     total_damage += dealt.type_damage( DT_HEAT );
-                }
-                if( total_damage > 10 ) {
-                    u.add_effect( effect_onfire, 2 + adjusted_intensity );
                 }
                 if( total_damage > 0 ) {
                     u.add_msg_player_or_npc( m_bad,
