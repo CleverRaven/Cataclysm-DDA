@@ -3631,8 +3631,9 @@ bool item::spill_contents( Character &c )
             }
         } else {
             c.i_add_or_drop( contents.front() );
-            contents.erase( contents.begin() );
         }
+
+        contents.erase( contents.begin() );
     }
 
     return true;
