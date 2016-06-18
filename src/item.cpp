@@ -12,6 +12,7 @@
 #include "text_snippets.h"
 #include "material.h"
 #include "item_factory.h"
+#include "projectile.h"
 #include "item_group.h"
 #include "options.h"
 #include "uistate.h"

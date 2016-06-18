@@ -9,6 +9,7 @@
 #include "line.h"
 #include "skill.h"
 #include "rng.h"
+#include "projectile.h"
 #include "item.h"
 #include "options.h"
 #include "action.h"
@@ -1781,4 +1782,3 @@ double player::gun_value( const item &weap, long ammo ) const
              capacity_factor );
     return std::max( 0.0, gun_value );
 }
-

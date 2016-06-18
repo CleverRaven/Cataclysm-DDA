@@ -6,6 +6,7 @@
 #include "mondeath.h"
 #include "output.h"
 #include "game.h"
+#include "projectile.h"
 #include "debug.h"
 #include "rng.h"
 #include "item.h"
@@ -1102,7 +1103,14 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
         missed_by = 0.2;
     }
 
+    const auto old_hp = hp;
+
     Creature::deal_projectile_attack( source, attack );
+
+    if( hp < 0 && attack.proj.proj_effects.count( "NOGIB" ) > 0 ) {
+        hp = std::max( 0, old_hp );
+    }
+
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
         on_hit( source, bp_torso, INT_MIN, &attack );

@@ -28,6 +28,7 @@
 
 #include <math.h>
 #include <sstream>
+#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

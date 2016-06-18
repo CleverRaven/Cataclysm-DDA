@@ -159,6 +159,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/iuse.cpp
     ${CMAKE_SOURCE_DIR}/src/crafting.cpp
     ${CMAKE_SOURCE_DIR}/src/pathfinding.cpp
+    ${CMAKE_SOURCE_DIR}/src/projectile.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_companion.cpp
     ${CMAKE_SOURCE_DIR}/src/recipe_dictionary.cpp
     ${CMAKE_SOURCE_DIR}/src/craft_command.cpp
@@ -317,6 +318,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/profession.h
     ${CMAKE_SOURCE_DIR}/src/path_info.h
     ${CMAKE_SOURCE_DIR}/src/pathfinding.h
+    ${CMAKE_SOURCE_DIR}/src/projectile.h
     ${CMAKE_SOURCE_DIR}/src/version.h
     ${CMAKE_SOURCE_DIR}/src/input.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h

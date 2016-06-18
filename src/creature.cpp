@@ -13,6 +13,7 @@
 #include "vehicle.h"
 #include "debug.h"
 #include "field.h"
+#include "projectile.h"
 
 #include <algorithm>
 #include <numeric>
@@ -560,9 +561,6 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( proj_effects.count("NOGIB") > 0 ) {
-        impact.add_effect("NOGIB");
-    }
     if( damage_mult > 0.0f && proj_effects.count( "NO_DAMAGE_SCALING" ) ) {
         damage_mult = 1.0f;
     }
@@ -681,6 +679,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             }
         }
     }
+
     check_dead_state();
     attack.hit_critter = this;
     attack.missed_by = goodhit;
@@ -696,29 +695,24 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
     int total_pain = 0;
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
-    std::vector<int> dealt_dams(NUM_DT, 0);
+    dealt_damage_instance dealt_dams;
 
     absorb_hit(bp, d);
 
-    // add up all the damage units dealt
-    int cur_damage;
-    for (std::vector<damage_unit>::const_iterator it = d.damage_units.begin();
-         it != d.damage_units.end(); ++it) {
-        cur_damage = 0;
-        deal_damage_handle_type(*it, bp, cur_damage, total_pain);
-        if (cur_damage > 0) {
-            dealt_dams[it->type] += cur_damage;
+    // Add up all the damage units dealt
+    for( const auto &it : d.damage_units ) {
+        int cur_damage = 0;
+        deal_damage_handle_type( it, bp, cur_damage, total_pain );
+        if( cur_damage > 0 ) {
+            dealt_dams.dealt_dams[ it.type ] += cur_damage;
             total_damage += cur_damage;
         }
     }
 
     mod_pain(total_pain);
-    if( dam.effects.count("NOGIB") ) {
-        total_damage = std::min( total_damage, get_hp() + 1 );
-    }
 
-    apply_damage(source, bp, total_damage);
-    return dealt_damage_instance(dealt_dams);
+    apply_damage( source, bp, total_damage );
+    return dealt_dams;
 }
 void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
 {

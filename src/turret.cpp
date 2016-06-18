@@ -6,9 +6,12 @@
 #include "itype.h"
 #include "veh_type.h"
 #include "npc.h"
+#include "projectile.h"
 #include "messages.h"
 #include "translations.h"
 #include "ui.h"
+
+#include <algorithm>
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );

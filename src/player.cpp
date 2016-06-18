@@ -4725,7 +4725,7 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
     }
 
     on_hurt( source );
-    return dealt_damage_instance(dealt_dams);
+    return dealt_dams;
 }
 
 void player::mod_pain(int npain) {
