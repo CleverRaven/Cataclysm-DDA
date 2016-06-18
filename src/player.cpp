@@ -6396,16 +6396,17 @@ void player::hardcoded_effects(effect &it)
     bool sleeping = has_effect( effect_sleep );
     bool msg_trig = one_in(400);
     if( id == effect_onfire ) {
-        // TODO: this should be determined by material properties
-        if (!has_trait("M_SKIN2")) {
-            hurtall(3, nullptr);
+        if( !is_immune_damage( DT_HEAT ) ) {
+            // @todo Allow armor to protect covered bodyparts from onfire damage
+            hurtall( 3, nullptr );
         }
-        remove_worn_items_with( []( item &tmp ) {
-            bool burnVeggy = (tmp.made_of( material_id( "veggy" ) ) || tmp.made_of( material_id( "paper" ) ));
-            bool burnFabric = ((tmp.made_of( material_id( "cotton" ) ) || tmp.made_of( material_id( "wool" ) )) && one_in(10));
-            bool burnPlastic = ((tmp.made_of( material_id( "plastic" ) )) && one_in(50));
-            return burnVeggy || burnFabric || burnPlastic;
+
+        std::vector<item> new_content;
+        fire_data frd{ 3, 0.0f, 0.0f };
+        remove_worn_items_with( [&frd, &new_content, this]( item &it ) {
+            return it.burn( pos(), frd, new_content );
         } );
+        g->m.spawn_items( pos(), new_content );
     } else if( id == effect_spores ) {
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
