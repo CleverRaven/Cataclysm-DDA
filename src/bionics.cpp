@@ -157,6 +157,21 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power( bionics[bio.id].power_activate );
         }
         weapon = old_weapon;
+    } else if( bionics[ bio.id ].weapon_bionic ) {
+        if( weapon.has_flag( "NO_UNWIELD" ) ) {
+            add_msg( m_info, _("Deactivate your %s first!"), weapon.tname().c_str() );
+            charge_power( bionics[bio.id].power_activate );
+            bio.powered = false;
+            return false;
+        }
+
+        if( !weapon.is_null() ) {
+            add_msg( m_warning, _( "You're forced to drop your %s." ), weapon.tname().c_str() );
+            g->m.add_item_or_charges( pos(), weapon );
+        }
+
+        weapon = item( bionics[bio.id].fake_item );
+        weapon.invlet = '#';
     } else if( bio.id == "bio_painkiller" ) {
         mod_pain( -2 );
         mod_painkiller( 6 );
@@ -514,42 +529,6 @@ bool player::activate_bionic( int b, bool eff_only )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                                     windpower ) + g->get_temperature() ).c_str() );
-    } else if(bio.id == "bio_claws") {
-        if (weapon.has_flag ("NO_UNWIELD")) {
-            add_msg(m_info, _("Deactivate your %s first!"),
-                    weapon.tname().c_str());
-            charge_power(bionics[bio.id].power_activate);
-            bio.powered = false;
-            return false;
-        } else if(weapon.type->id != "null") {
-            add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
-                    weapon.tname().c_str());
-            g->m.add_item_or_charges(pos(), weapon);
-            weapon = item("bio_claws_weapon", 0);
-            weapon.invlet = '#';
-        } else {
-            add_msg(m_neutral, _("Your claws extend!"));
-            weapon = item("bio_claws_weapon", 0);
-            weapon.invlet = '#';
-        }
-    } else if(bio.id == "bio_blade") {
-        if (weapon.has_flag ("NO_UNWIELD")) {
-            add_msg(m_info, _("Deactivate your %s first!"),
-                    weapon.tname().c_str());
-            charge_power(bionics[bio.id].power_activate);
-            bio.powered = false;
-            return false;
-        } else if(weapon.type->id != "null") {
-            add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
-                    weapon.tname().c_str());
-            g->m.add_item_or_charges(pos(), weapon);
-            weapon = item("bio_blade_weapon", 0);
-            weapon.invlet = '#';
-        } else {
-            add_msg(m_neutral, _("You extend your blade!"));
-            weapon = item("bio_blade_weapon", 0);
-            weapon.invlet = '#';
-        }
     } else if( bio.id == "bio_remote" ) {
         int choice = menu( true, _("Perform which function:"), _("Nothing"),
                            _("Control vehicle"), _("RC radio"), NULL );
@@ -617,7 +596,12 @@ bool player::deactivate_bionic( int b, bool eff_only )
     }
 
     // Deactivation effects go here
-    if( bio.id == "bio_cqb" ) {
+    if( bionics[ bio.id ].weapon_bionic ) {
+        if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
+            add_msg( _( "You withdraw your %s." ), weapon.tname().c_str() );
+            weapon = ret_null;
+        }
+    } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
         if( style_selected != matype_id( "style_none" ) ) {
             bool has_style = false;
@@ -629,16 +613,6 @@ bool player::deactivate_bionic( int b, bool eff_only )
             if( !has_style ) {
                 style_selected = matype_id( "style_none" );
             }
-        }
-    } else if( bio.id == "bio_claws" ) {
-        if( weapon.type->id == "bio_claws_weapon" ) {
-            add_msg( m_neutral, _( "You withdraw your claws." ) );
-            weapon = ret_null;
-        }
-    } else if( bio.id == "bio_blade" ) {
-        if( weapon.type->id == "bio_blade_weapon" ) {
-            add_msg( m_neutral, _( "You retract your blade." ) );
-            weapon = ret_null;
         }
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
@@ -879,18 +853,13 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
 
-    // surgery is imminent, retract claws or blade if active
-    if( has_bionic( "bio_claws" ) && skill_level == -1 ) {
-        if( weapon.type->id == "bio_claws_weapon" ) {
-            add_msg( m_neutral, _( "You withdraw your claws." ) );
-            weapon = ret_null;
-        }
-    }
-
-    if( has_bionic( "bio_blade" ) && skill_level == -1 ) {
-        if( weapon.type->id == "bio_blade_weapon" ) {
-            add_msg( m_neutral, _( "You retract your blade." ) );
-            weapon = ret_null;
+    // Surgery is imminent, retract claws or blade if active
+    if( skill_level == -1 ) {
+        for( size_t i = 0; i < my_bionics.size(); i++ ) {
+            const auto &bio = my_bionics[ i ];
+            if( bio.powered && bio.info().weapon_bionic ) {
+                deactivate_bionic( i );
+            }
         }
     }
 
@@ -1377,6 +1346,10 @@ void load_bionic( JsonObject &jsobj )
     new_bionic.power_source = jsobj.get_bool( "power_source", false );
 
     new_bionic.gun_bionic = jsobj.get_bool( "gun_bionic", false );
+    new_bionic.weapon_bionic = jsobj.get_bool( "weapon_bionic", false );
+    if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
+        debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
+    }
 
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 

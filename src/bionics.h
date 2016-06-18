@@ -35,6 +35,12 @@ struct bionic_data {
      * Prevents all other activation effects.
      */
     bool gun_bionic = false;
+    /**
+     * If true, this bionic is a weapon bionic and activating it will
+     * create (or destroy) bionic's fake_item in user's hands.
+     * Prevents all other activation effects.
+     */
+    bool weapon_bionic = false;
     std::map<body_part, size_t> occupied_bodyparts;
     /**
      * Fake item created for crafting with this bionic available.
