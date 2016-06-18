@@ -14553,7 +14553,8 @@ void game::start_calendar()
 {
     calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
-        scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ) {
+        scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
+        scen->has_flag("ADV_START") ) {
         if( scen->has_flag("SPR_START") ) {
             ; // Do nothing;
         } else if( scen->has_flag("SUM_START") ) {
@@ -14562,6 +14563,8 @@ void game::start_calendar()
             calendar::start += DAYS( calendar::season_length() * 2 );
         } else if( scen->has_flag("WIN_START") ) {
             calendar::start += DAYS( calendar::season_length() * 3 );
+        } else if( scen->has_flag("SUM_ADV_START") ) {
+            calendar::start += DAYS( calendar::season_length() * 5 );
         } else {
             debugmsg("The Unicorn");
         }

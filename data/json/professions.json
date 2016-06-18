@@ -3801,7 +3801,7 @@
     },
     {
         "type": "profession",
-        "ident": "winter_warrior",
+        "ident": "road_warrior",
         "name" : "Road Warrior",
         "description" : "You lived by your wheels during the first few months of the apocalypse, but now your car is lost to this maelstrom of decay, your ammo is low, and your situation is dire.  You've been reduced to a scavenger, living off the corpse of the old world.",
         "points" : 6,
