@@ -1018,7 +1018,7 @@ void vehicle::use_controls( const tripoint &pos, const bool remote_action )
         if( std::any_of( opts.begin(), opts.end(),[]( const vehicle_part *e ) {
             return e->enabled;
         } ) ) {
-            menu.addentry( disable_lights, true, 'v', _( "Turn off all lights" ) );
+            menu.addentry( disable_lights, true, 'D', _( "Turn off all lights" ) );
         }
     }
 
