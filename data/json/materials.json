@@ -576,9 +576,9 @@
         "chip_resist" : 10,
         "density" : 4,
         "burn_data": [
-            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
-            { "fuel": 2, "smoke": 1, "burn": 2, "chance": 20 },
-            { "fuel": 3, "smoke": 1, "burn": 3 }
+            { "fuel": 1, "smoke": 1, "burn": 0.02, "chance": 5 },
+            { "fuel": 2, "smoke": 1, "burn": 0.04, "chance": 20 },
+            { "fuel": 3, "smoke": 1, "burn": 0.06 }
         ]
     },{
         "type" : "material",

@@ -4746,9 +4746,9 @@ bool item::reload( player &u, item_location loc, long qty )
 bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
 {
     const auto &mats = made_of();
-    int smoke_added = 0;
-    int time_added = 0;
-    int burn_added = 0;
+    float smoke_added = 0.0f;
+    float time_added = 0.0f;
+    float burn_added = 0.0f;
     const int vol = base_volume();
     for( const auto &m : mats ) {
         const auto &bd = m.obj().burn_data( frd.fire_intensity );
@@ -4757,7 +4757,8 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
             return false;
         }
 
-        if( bd.chance_in_volume == 0 || vol == 0 || x_in_y( bd.chance_in_volume, vol ) ) {
+        if( bd.chance_in_volume == 0 || bd.chance_in_volume >= vol ||
+            x_in_y( bd.chance_in_volume, vol ) ) {
             time_added += bd.fuel;
             smoke_added += bd.smoke;
             burn_added += bd.burn;
@@ -4780,8 +4781,16 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
     frd.fuel_produced += time_added;
     frd.smoke_produced += smoke_added;
 
-    if( burn_added < 0 ) {
+    if( burn_added <= 0 ) {
         return false;
+    }
+
+    if( count_by_charges() ) {
+        burn_added *= rng( type->stack_size / 2, type->stack_size );
+        charges -= roll_remainder( burn_added );
+        if( charges <= 0 ) {
+            return true;
+        }
     }
 
     if( is_corpse() ) {
@@ -4800,24 +4809,13 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
         }
     }
 
-    if( !count_by_charges() ) {
-        burnt += burn_added;
-        bool destroyed = burnt >= vol * 3;
-        if( destroyed ) {
-            std::copy( contents.begin(), contents.end(),
-                       std::back_inserter( drops ) );
-        }
-
-        return destroyed;
+    burnt += roll_remainder( burn_added );
+    bool destroyed = burnt >= vol * 3;
+    if( destroyed ) {
+        std::copy( contents.begin(), contents.end(), std::back_inserter( drops ) );
     }
 
-    burn_added *= rng( type->stack_size / 2, type->stack_size );
-    if( charges <= burn_added ) {
-        return true;
-    }
-
-    charges -= burn_added;
-    return false;
+    return destroyed;
 }
 
 bool item::flammable() const
