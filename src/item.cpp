@@ -1315,9 +1315,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
                 buffer << it.front().to_string();
             }
+
+            const std::string dis_time = calendar::print_duration( dis_recipe->time / 100 );
+
             insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", _( "Disassembling this item might yield:" ) ) );
-            info.push_back( iteminfo( "DESCRIPTION", buffer.str().c_str() ) );
+            info.push_back( iteminfo( "DESCRIPTION",
+                string_format( _( "Disassembling this item takes %s and might yield: %s." ),
+                dis_time.c_str(), buffer.str().c_str() ) ) );
         }
     }
 
