@@ -3750,12 +3750,28 @@ bool mattack::longswipe(monster *z)
     if( target == nullptr ) {
         return false;
     }
+    if( rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
+        return false; //out of range
+    }
+    //Is there something impassable blocking the claw?
+    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
+    for( auto &i : line ){
+        ter_t terrain = g->m.ter_at( i );
+        if( terrain.movecost == 0 ){
+            //If we're here, it's an unadjacent attack, which is only attempted 1/5 of the time.
+            if( !one_in( 5 ) ) {
+                return false;
+            }
+            target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
+                                           _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
+                                           z->name().c_str(), terrain.name.c_str() );
+            z->moves -= 150;
+            return true;
+        }
+    }
+
     if( !is_adjacent( z, target, true ) ) {
         if (one_in(5)) {
-            if( rl_dist( z->pos(), target->pos() ) > 3 ||
-                !z->sees( *target ) ) {
-                return false; // Out of range
-            }
 
             z->moves -= 150;
 
