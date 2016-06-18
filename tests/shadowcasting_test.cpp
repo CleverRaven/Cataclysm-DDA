@@ -439,11 +439,71 @@ void shadowcasting_3d_2d( int iterations )
 #define V LIGHT_TRANSPARENCY_CLEAR
 #define X LIGHT_TRANSPARENCY_SOLID
 
+struct grid_overlay {
+    std::vector<std::vector<float>> data;
+    point offset;
+    float default_value;
+
+    grid_overlay( point offset, float default_value ) {
+        this->offset = offset;
+        this->default_value = default_value;
+    }
+
+    int height() const {
+        return data.size();
+    }
+    int width() const {
+        if( data.empty() ) {
+            return 0;
+        }
+        return data[0].size();
+    }
+
+    float get_global( int x, int y ) const {
+        if( y > offset.y && y < offset.y + height() &&
+            x > offset.x && x < offset.x + width() ) {
+            return data[ y - offset.y ][ x - offset.x ];
+        }
+        return default_value;
+    }
+
+    float get_local( int x, int y ) const {
+        return data[ y ][ x ];
+    }
+};
+
+static void run_spot_check( const grid_overlay &test_case, const grid_overlay &expected_result ) {
+    float seen_squares[ MAPSIZE * SEEY ][ MAPSIZE * SEEX ] = {{ 0 }};
+    float transparency_cache[ MAPSIZE * SEEY ][ MAPSIZE * SEEX ] = {{ 0 }};
+
+    for( int y = 0; y < sizeof( transparency_cache ) / sizeof( transparency_cache[0] ); ++y ) {
+        for( int x = 0; x < sizeof( transparency_cache[0] ) / sizeof( transparency_cache[0][0] ); ++x ) {
+            transparency_cache[ y ][ x ] = test_case.get_global( x, y );
+        }
+    }
+
+    int offsetX = 65;
+    int offsetY = 65;
+
+    castLightAll( seen_squares, transparency_cache, offsetX, offsetY );
+
+    // Compares the whole grid, but out-of-bounds compares will de-facto pass.
+    for( int y = 0; y < expected_result.height(); ++y ) {
+        for( int x = 0; x < expected_result.width(); ++x ) {
+            INFO( "x:" << x << " y:" << y << " expected:" << expected_result.data[y][x] << " actual:" <<
+                  seen_squares[expected_result.offset.y + y][expected_result.offset.x + x] );
+            if( V == expected_result.get_local( x, y ) ) {
+                CHECK( seen_squares[expected_result.offset.y + y][expected_result.offset.x + x] > 0 );
+            } else {
+                CHECK( seen_squares[expected_result.offset.y + y][expected_result.offset.x + x] == 0 );
+            }
+        }
+    }
+}
+
 TEST_CASE( "shadowcasting_spot_checks" ) {
-    float seen_squares[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{ 0 }};
-    float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{ 0 }};
-    point test_case_offset(55, 55);
-    float test_case[][13] = {
+    grid_overlay test_case( { 55, 55 }, LIGHT_TRANSPARENCY_CLEAR );
+    test_case.data = {
         {T,T,T,T,T,T,T,T,T,T,T,T,T},
         {T,T,T,T,T,T,T,T,T,T,T,T,T},
         {T,T,T,T,T,T,T,T,T,T,T,T,T},
@@ -459,9 +519,8 @@ TEST_CASE( "shadowcasting_spot_checks" ) {
         {T,T,T,T,T,T,T,T,T,T,T,T,T}
     };
 
-    const int test_case_height = sizeof( test_case ) / sizeof( test_case[0] );
-    const int test_case_width = sizeof( test_case[0] ) / sizeof( float );
-    float expected_result[][13] = {
+    grid_overlay expected_results( { 55, 55 }, LIGHT_TRANSPARENCY_CLEAR );
+    expected_results.data = {
         {O,O,O,O,O,V,V,V,V,V,V,V,V},
         {O,O,O,O,O,O,V,V,V,V,V,V,V},
         {O,O,O,O,O,O,V,V,V,V,V,V,V},
@@ -477,35 +536,7 @@ TEST_CASE( "shadowcasting_spot_checks" ) {
         {O,O,O,O,O,O,O,O,O,O,O,O,O}
     };
 
-    for( auto &inner : transparency_cache ) {
-        for( float &square : inner ) {
-            square = LIGHT_TRANSPARENCY_CLEAR;
-        }
-    }
-
-    for( int y = 0; y < test_case_height; ++y ) {
-        for( int x = 0; x < test_case_width; ++x ) {
-            transparency_cache[test_case_offset.y + y][test_case_offset.x + x] =
-                test_case[y][x];
-        }
-    }
-
-    int offsetX = 65;
-    int offsetY = 65;
-
-    castLightAll( seen_squares, transparency_cache, offsetX, offsetY );
-
-    for( int y = 0; y < test_case_height; ++y ) {
-        for( int x = 0; x < test_case_width; ++x ) {
-            INFO( "x:" << x << " y:" << y << " expected:" << expected_result[y][x] << " actual:" <<
-                  seen_squares[test_case_offset.y + y][test_case_offset.x + x] );
-            if( V == expected_result[y][x] ) {
-                CHECK( seen_squares[test_case_offset.y + y][test_case_offset.x + x] > 0 );
-            } else {
-                CHECK( seen_squares[test_case_offset.y + y][test_case_offset.x + x] == 0 );
-            }
-        }
-    }
+    run_spot_check( test_case, expected_results );
 }
 
 // Some random edge cases aren't matching.
