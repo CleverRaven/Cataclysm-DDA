@@ -46780,11 +46780,6 @@
           "rotates": false
         },
         {
-          "id": "battery_truck",
-          "fg": 1377,
-          "rotates": false
-        },
-        {
           "id": "vp_battery_car",
           "fg": 1377,
           "rotates": false,
@@ -46798,18 +46793,6 @@
         },
         {
           "id": "vp_battery_motorbike",
-          "fg": 1377,
-          "rotates": false,
-          "multitile": true,
-          "additional_tiles": [
-            {
-              "id": "broken",
-              "fg": 3256
-            }
-          ]
-        },
-        {
-          "id": "vp_battery_truck",
           "fg": 1377,
           "rotates": false,
           "multitile": true,

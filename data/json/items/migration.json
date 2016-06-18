@@ -5,6 +5,11 @@
     "replace": "adv_UPS_off"
   },
   {
+    "id": "battery_truck",
+    "type": "MIGRATION",
+    "replace": "battery_car"
+  },
+  {
     "id": "m14a",
     "type": "MIGRATION",
     "replace": "m1a"
