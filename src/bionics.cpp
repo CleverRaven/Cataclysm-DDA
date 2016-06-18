@@ -289,27 +289,18 @@ bool player::activate_bionic( int b, bool eff_only )
         getch();
         delwin( w );
     } else if( bio.id == "bio_blood_filter" ) {
-        remove_effect( effect_fungus );
-        remove_effect( effect_dermatik );
-        remove_effect( effect_bloodworms );
-        remove_effect( effect_tetanus );
-        remove_effect( effect_poison );
-        remove_effect( effect_stung );
-        remove_effect( effect_pkill1 );
-        remove_effect( effect_pkill2 );
-        remove_effect( effect_pkill3 );
-        remove_effect( effect_pkill_l );
-        remove_effect( effect_drunk );
-        remove_effect( effect_cig );
-        remove_effect( effect_high );
-        remove_effect( effect_hallu );
-        remove_effect( effect_visuals );
-        remove_effect( effect_pblue );
-        remove_effect( effect_iodine );
-        remove_effect( effect_datura );
-        remove_effect( effect_took_xanax );
-        remove_effect( effect_took_prozac );
-        remove_effect( effect_took_flumed );
+        static const std::vector<efftype_id> removable = {{
+            effect_fungus, effect_dermatik, effect_bloodworms,
+            effect_tetanus, effect_poison, effect_stung,
+            effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
+            effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
+            effect_pblue, effect_iodine, effect_datura,
+            effect_took_xanax, effect_took_prozac, effect_took_flumed,
+        }};
+
+        for( const auto &eff : removable ) {
+            remove_effect( eff );
+        }
         // Purging the substance won't remove the fatigue it caused
         force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );
