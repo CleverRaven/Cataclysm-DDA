@@ -13,29 +13,29 @@
         "rotate" : false,
         "spawns" : { "group" : "GROUP_GOO", "population":[75,200], "radius":[3,12] }
     },{
-        "type" : "overmap_special",
-        "id" : "Lab",
-        "overmaps" :
+        "type": "overmap_special",
+        "id": "Lab",
+        "overmaps":
         [
             { "point":[0,0,0], "overmap": "lab_stairs", "connect":"road"}
         ],
-        "locations" : [ "wilderness" ],
-        "city_distance" : [8, -1],
-        "city_sizes" : [4, 12],
-        "occurrences" : [0, 3],
-        "rotate" : true
+        "locations": [ "wilderness" ],
+        "city_distance": [8, -1],
+        "city_sizes": [4, 12],
+        "occurrences": [1, 10],
+        "rotate": true
     },{
-        "type" : "overmap_special",
-        "id" : "Ice Lab",
-        "overmaps" :
+        "type": "overmap_special",
+        "id": "Ice Lab",
+        "overmaps":
         [
             { "point":[0,0,0], "overmap": "ice_lab_stairs", "connect":"road"}
         ],
-        "locations" : [ "wilderness" ],
-        "city_distance" : [8, -1],
-        "city_sizes" : [4, 12],
-        "occurrences" : [0, 2],
-        "rotate" : true
+        "locations": [ "wilderness" ],
+        "city_distance": [8, -1],
+        "city_sizes": [4, 12],
+        "occurrences": [1, 5],
+        "rotate": true
     },{
         "type" : "overmap_special",
         "id" : "Triffid Grove",
