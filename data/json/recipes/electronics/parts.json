@@ -21,7 +21,7 @@
       [ [ "plastic_chunk", 20 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "lead", 5000 ] ],
-      [ [ "chem_sulphuric_acid", 2500 ] ]
+      [ [ "acid", 4 ] ]
     ]
   },
   {
@@ -46,7 +46,7 @@
       [ [ "plastic_chunk", 4 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "lead", 1000 ] ],
-      [ [ "chem_sulphuric_acid", 500 ] ]
+      [ [ "acid", 2 ] ]
     ]
   }
 ]
