@@ -1161,7 +1161,7 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
 
 void game::interactive_inv()
 {
-    static const std::array<int, 7> stoppers = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
+    static const std::set<int> stoppers = { { ' ', '.', 'q', '=', '\n', KEY_ESCAPE } };
 
     u.inv.restack( &u );
     u.inv.sort();
@@ -1176,7 +1176,7 @@ void game::interactive_inv()
         }
         refresh_all();
         res = inventory_item_menu( pos );
-    } while( std::find( stoppers.begin(), stoppers.end(), res ) == stoppers.end() );
+    } while( stoppers.count( res ) == 0 );
 }
 
 int game::inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message )
