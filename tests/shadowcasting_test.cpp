@@ -501,39 +501,35 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
     }
 }
 
-TEST_CASE( "shadowcasting_spot_checks" ) {
-    grid_overlay test_case( { 55, 55 }, LIGHT_TRANSPARENCY_CLEAR );
+TEST_CASE( "shadowcasting_slope_inversion_regression_test" ) {
+    grid_overlay test_case( { 58, 57 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
-        {T,T,T,T,T,T,T,T,T,T,T,T,T},
-        {T,T,T,T,T,T,T,T,T,T,T,T,T},
-        {T,T,T,T,T,T,T,T,T,T,T,T,T},
-        {T,T,T,T,O,T,T,T,T,T,T,T,T},
-        {T,T,T,T,O,T,T,T,T,T,T,T,T},
-        {T,T,T,T,O,O,T,O,T,T,T,T,T},
-        {T,T,T,T,T,T,T,T,T,T,T,T,T},
-        {T,T,T,T,T,T,T,T,T,T,T,T,T},
-        {T,T,T,T,T,T,T,T,T,T,T,T,T},
-        {T,T,T,T,T,T,T,T,T,T,T,O,T},
-        {T,T,T,T,T,T,T,T,T,O,T,O,T},
-        {T,T,T,T,T,T,T,T,T,O,O,O,T},
-        {T,T,T,T,T,T,T,T,T,T,T,T,T}
+        {T,T,T,T,T,T,T,T,T,T},
+        {T,O,T,T,T,T,T,T,T,T},
+        {T,O,T,T,T,T,T,T,T,T},
+        {T,O,O,T,O,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,O,T},
+        {T,T,T,T,T,T,O,T,O,T},
+        {T,T,T,T,T,T,O,O,O,T},
+        {T,T,T,T,T,T,T,T,T,T}
     };
 
-    grid_overlay expected_results( { 55, 55 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 58, 57 }, LIGHT_TRANSPARENCY_CLEAR );
     expected_results.data = {
-        {O,O,O,O,O,V,V,V,V,V,V,V,V},
-        {O,O,O,O,O,O,V,V,V,V,V,V,V},
-        {O,O,O,O,O,O,V,V,V,V,V,V,V},
-        {O,O,O,O,V,V,O,V,V,V,V,V,V},
-        {O,O,O,O,O,V,V,V,V,V,V,V,V},
-        {O,O,O,O,O,V,V,V,V,V,V,V,V},
-        {O,O,O,O,O,V,V,V,V,V,V,V,V},
-        {O,O,O,O,O,O,V,V,V,V,V,V,O},
-        {O,O,O,O,O,O,O,V,V,V,V,V,O},
-        {O,O,O,O,O,O,O,O,V,V,V,V,O},
-        {O,O,O,O,O,O,O,O,O,V,X,V,O},
-        {O,O,O,O,O,O,O,O,O,V,V,V,O},
-        {O,O,O,O,O,O,O,O,O,O,O,O,O}
+        {O,O,O,V,V,V,V,V,V,V},
+        {O,V,V,O,V,V,V,V,V,V},
+        {O,O,V,V,V,V,V,V,V,V},
+        {O,O,V,V,V,V,V,V,V,V},
+        {O,O,V,V,V,V,V,V,V,V},
+        {O,O,O,V,V,V,V,V,V,O},
+        {O,O,O,O,V,V,V,V,V,O},
+        {O,O,O,O,O,V,V,V,V,O},
+        {O,O,O,O,O,O,V,X,V,O},
+        {O,O,O,O,O,O,V,V,V,O},
+        {O,O,O,O,O,O,O,O,O,O}
     };
 
     run_spot_check( test_case, expected_results );
