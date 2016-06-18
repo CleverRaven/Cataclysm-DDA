@@ -80,6 +80,16 @@
     "professions" : ["winter_survivor","winter_scavenger","winter_army","unemployed"]
   },{
     "type": "scenario",
+    "ident": "summer_advanced_start",
+    "name": "The Next Summer",
+    "points" : 0,
+    "description": "A little over a year has passed since the apocalypse started, and you're about to face your second summer in Hell.",
+    "allowed_locs" : ["forest","field","cabin"],
+    "start_name": "Outside Town",
+    "flags" : ["SUM_ADV_START"],
+    "professions" : ["naturalist","road_warrior","winter_scavenger","winter_army","unemployed"]
+  },{
+    "type": "scenario",
     "ident": "alone",
     "name": "Sheltered",
     "points" : -3,
