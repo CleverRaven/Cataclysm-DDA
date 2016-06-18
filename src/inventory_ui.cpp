@@ -106,11 +106,10 @@ class inventory_column {
             return page_of( items.size() + items_per_page - 1 );
         }
 
-        const itemstack_or_category &get_selected() const {
-            return items[selected_index];
-        }
-
         bool is_selected( const itemstack_or_category &entry ) const;
+        bool is_selected_by_category( const itemstack_or_category &entry ) const;
+
+        const itemstack_or_category &get_selected() const;
         std::vector<itemstack_or_category *> get_all_selected() const;
         const std::vector<itemstack_or_category> &get_items() const {
             return items;
@@ -124,8 +123,8 @@ class inventory_column {
         void add_items( const inventory_column &source );
         void add_items( const indexed_invslice &slice, const item_category *def_cat = nullptr );
 
-        void set_markers( bool markers ) {
-            this->markers = markers;
+        void set_multiselect( bool multiselect ) {
+            this->multiselect = multiselect;
         }
 
         virtual size_t get_width() const;
@@ -168,7 +167,7 @@ class inventory_column {
 
         std::vector<itemstack_or_category> items;
         bool active;
-        bool markers;
+        bool multiselect;
         navigation_mode mode;
         size_t selected_index;
         size_t page_offset;
@@ -261,7 +260,7 @@ class inventory_selector
          * right before that one. The category entry goes now on the next page.
          * This is done for both list (@ref items and @ref worn).
          */
-        void prepare_columns( bool markers );
+        void prepare_columns( bool multiselect );
         /**
          * What has been selected for dropping/comparing. The key is the item position,
          * the value is the count, or -1 for dropping all. The class makes sure that
@@ -357,11 +356,24 @@ void inventory_column::select( size_t new_index )
     }
 }
 
-bool inventory_column::is_selected( const itemstack_or_category &entry ) const {
-    return entry.is_item() && ( entry == get_selected()
-        || ( mode  == navigation_mode::CATEGORY
-            && entry.category == get_selected().category
-            && page_of( entry ) == page_index() ) );
+bool inventory_column::is_selected( const itemstack_or_category &entry ) const
+{
+    return entry == get_selected() || ( multiselect && is_selected_by_category( entry ) );
+}
+
+bool inventory_column::is_selected_by_category( const itemstack_or_category &entry ) const
+{
+    return entry.is_item() && mode == navigation_mode::CATEGORY
+                           && entry.category == get_selected().category
+                           && page_of( entry ) == page_index();
+}
+
+const itemstack_or_category &inventory_column::get_selected() const {
+    if( selected_index >= items.size() ) {
+        static const itemstack_or_category dummy;
+        return dummy;
+    }
+    return items[selected_index];
 }
 
 std::vector<itemstack_or_category *> inventory_column::get_all_selected() const
@@ -385,13 +397,13 @@ void inventory_column::on_action( const std::string &action )
         return; // ignore
     }
 
-    const auto is_valid_selection = [ this ]( size_t index ) {
-        return index == selected_index || ( items[index].is_item() && !is_selected( items[index] ) );
+    const auto is_valid_selection = [ this ]( const itemstack_or_category &entry ) {
+        return entry == get_selected() || ( entry.is_item() && !is_selected_by_category( entry ) );
     };
 
     const auto move_forward = [ this, &is_valid_selection ]( size_t step = 1 ) {
         size_t index = ( selected_index + step < items.size() ) ? selected_index + step : 0;
-        while( !is_valid_selection( index ) ) {
+        while( !is_valid_selection( items[index] ) ) {
             index = ( index + 1 < items.size() ) ? index + 1 : 0;
         }
         select( index );
@@ -399,7 +411,7 @@ void inventory_column::on_action( const std::string &action )
 
     const auto move_backward = [ this, &is_valid_selection ]( size_t step = 1 ) {
         size_t index = ( selected_index >= step ) ? selected_index - step : items.size() - 1;
-        while( !is_valid_selection( index ) ) {
+        while( !is_valid_selection( items[index] ) ) {
             index = ( index > 0 ) ? index - 1 : items.size() - 1;
         }
         select( index );
@@ -478,7 +490,7 @@ std::string inventory_column::get_item_text( const itemstack_or_category &entry 
             res << entry.it->symbol() << ' ';
         }
 
-        if( markers ) {
+        if( multiselect ) {
             if( entry.chosen_count == 0 ) {
                 res << "<color_c_dkgray>-";
             } else if( entry.chosen_count >= entry.get_available_count() ) {
@@ -635,10 +647,10 @@ itemstack_or_category *inventory_selector::invlet_to_itemstack( long invlet ) co
     return nullptr;
 }
 
-void inventory_selector::prepare_columns( bool markers )
+void inventory_selector::prepare_columns( bool multiselect )
 {
     for( auto &column : columns ) {
-        column->set_markers( markers );
+        column->set_multiselect( multiselect );
     }
 
     if( custom_column != nullptr ) {
@@ -646,7 +658,7 @@ void inventory_selector::prepare_columns( bool markers )
             // Make the column second if possible
             const auto position = ( !columns.empty() ) ? std::next( columns.begin() ) : columns.begin();
 
-            custom_column->set_markers( markers );
+            custom_column->set_multiselect( multiselect );
             insert_column( position, custom_column );
         } else {
             columns.front()->add_items( *custom_column );
@@ -966,16 +978,7 @@ int inventory_selector::execute_pick( const std::string &title )
         if( itemstack != nullptr ) {
             return itemstack->item_pos;
         } else if ( action == "CONFIRM" || action == "RIGHT" ) {
-            const auto selection( get_active_column().get_all_selected() );
-
-            if( selection.empty() ) {
-                return INT_MIN;
-            } else if( selection.size() == 1 ) {
-                return selection.front()->item_pos;
-            } else {
-                const std::string msg( _( "Please pick only one item." ) );
-                popup( msg , PF_GET_KEY );
-            }
+            return get_active_column().get_selected().item_pos;
         } else if ( action == "QUIT" ) {
             return INT_MIN;
         } else {
@@ -1003,25 +1006,20 @@ item_location inventory_selector::execute_pick_map( const std::string &title, st
             return item_location();
 
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
-            const auto selection( get_active_column().get_all_selected() );
+            const auto selected = get_active_column().get_selected();
+            const auto it = const_cast<item *>( selected.it );
 
-            if( selection.empty() ) {
-                return item_location();
-            } else if( selection.size() == 1 ) {
-                item *it = const_cast<item *>( selection.front()->it );
-                // Item in inventory
-                if( selection.front()->item_pos != INT_MIN ) {
-                    return item_location( u, it );
-                }
-                // Item on ground or in vehicle
-                auto iter = opts.find( it );
-                if( iter != opts.end() ) {
-                    return std::move( iter->second );
-                }
-            } else {
-                const std::string msg( _( "Please pick only one item." ) );
-                popup( msg , PF_GET_KEY );
+            // Item in inventory
+            if( selected.item_pos != INT_MIN ) {
+                return item_location( u, it );
             }
+            // Item on ground or in vehicle
+            auto iter = opts.find( it );
+            if( iter != opts.end() ) {
+                return std::move( iter->second );
+            }
+
+            return item_location();
         } else {
             handle_movement( action );
         }
