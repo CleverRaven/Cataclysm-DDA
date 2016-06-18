@@ -357,9 +357,9 @@ void vehicle::save (std::ostream &stout)
 
 void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 {
-    // vehicle parts are by default turned off
+    // vehicle parts excluding engines are by default turned off
     for( auto &pt : parts ) {
-        pt.enabled = false;
+        pt.enabled = pt.base.is_engine();
     }
 
     bool destroySeats = false;
@@ -2052,7 +2052,7 @@ int vehicle::install_part( int dx, int dy, const vehicle_part &new_part )
     parts.push_back( new_part );
     parts.back().mount.x = dx;
     parts.back().mount.y = dy;
-    parts.back().enabled = false;
+    parts.back().enabled = parts.back().base.is_engine();
     refresh();
     return parts.size() - 1;
 }
