@@ -191,8 +191,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     auto contents = corpse_item.contents;
     const int age = corpse_item.bday;
     itype_id meat = corpse->get_meat_itype();
-    if( meat == "bone_tainted" || meat == "bone" ) {
-        //For butchering yield purposes, we treat these as bones, not meat
+    if( corpse->made_of( material_id( "bone" ) ) ) {
+        //For butchering yield purposes, we treat it as bones, not meat
         meat = "null";
     }
     g->m.i_rem( p->pos(), act->index );
@@ -479,7 +479,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             chunk.set_mtype( corpse );
 
             // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
-            bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) && meat != "veggy";
+            bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
+                              !chunk.made_of ( material_id ( "veggy" ) );
             item parts( make_offal ? "offal" : meat, age );
             parts.set_mtype( corpse );
 
