@@ -190,7 +190,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     const mtype *corpse = corpse_item.get_mtype();
     auto contents = corpse_item.contents;
     const int age = corpse_item.bday;
-    const itype_id meat = corpse->get_meat_itype();
+    itype_id meat = corpse->get_meat_itype();
+    if( meat == "bone_tainted" || meat == "bone" ) {
+        //For butchering yield purposes, we treat these as bones, not meat
+        meat = "null";
+    }
     g->m.i_rem( p->pos(), act->index );
 
     const int factor = p->max_quality( quality_id( "BUTCHER" ) );
@@ -293,7 +297,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.spawn_item( p->pos(), "bone", bones, 0, age );
             p->add_msg_if_player( m_good, _( "You harvest some usable bones!" ) );
         }
-    } else if( meat == "bone_tainted" ) {
+    } else if( meat == "null" && corpse->has_flag( MF_BONES ) ) {
+        //print a failure message only if the corpse doesn't have meat and has bones
         p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the bones!" ) );
     }
 
@@ -465,9 +470,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     //now handle the meat, if there is any
     //bone_tainted is handled above (treated as a byproduct, not a meat)
-    if( pieces <= 0 && meat != "null" && meat != "bone_tainted" ) {
+    if( pieces <= 0 && meat != "null" ) {
         p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the flesh!" ) );
-    } else if( meat!= "null" && meat != "bone_tainted" ) {
+    } else if( meat!= "null" ) {
         p->add_msg_if_player( m_good, _( "You harvest some flesh." ) );
 
         item chunk( meat, age );
