@@ -3755,15 +3755,14 @@ bool mattack::longswipe(monster *z)
     }
     //Is there something impassable blocking the claw?
     for( const auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ){
-        ter_t terrain = g->m.ter_at( pnt );
-        if( terrain.movecost == 0 ){
+        if( g->m.impassable(pnt) ) {
             //If we're here, it's an unadjacent attack, which is only attempted 1/5 of the time.
             if( !one_in( 5 ) ) {
                 return false;
             }
             target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
                                            _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
-                                           z->name().c_str(), terrain.name.c_str() );
+                                           z->name().c_str(), g->m.disp_name( pnt ).c_str() );
             z->mod_moves( -150 );
             return true;
         }
