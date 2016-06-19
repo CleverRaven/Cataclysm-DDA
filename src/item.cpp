@@ -4728,7 +4728,7 @@ bool item::reload( player &u, item_location loc, long qty )
         return true;
 
     } else {
-        obj->set_curammo( *ammo );
+        obj->curammo = item::find_type( ammo->typeId() );
 
         if( ammo_type() == "plutonium" ) {
             // always consume at least one cell but never more than actually available
