@@ -44,6 +44,7 @@
 #include <array>
 #include <tuple>
 #include <iterator>
+#include <type_traits>
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 
@@ -480,11 +481,19 @@ bool item::merge_charges( const item &rhs )
     if( !count_by_charges() || !stacks_with( rhs ) ) {
         return false;
     }
+    // assumes that charges are always >= 0 (as negative charges make no sense for items counted by charges)
+    using ct = decltype(charges);
+    using unsigned_ct = std::make_unsigned<decltype(charges)>::type;
+    // perform the operation as unsigned, to handle overflow correctly
+    // and if so, fallback to the maximum as it represents infinite charges anyway
+    const unsigned_ct sum = static_cast<unsigned_ct>( charges ) + rhs.charges;
+    const bool did_overflow = static_cast<ct>( sum ) < 0;
+    const ct new_charges = did_overflow ? std::numeric_limits<ct>::max() : static_cast<ct>( sum );
     // We'll just hope that the item counter represents the same thing for both items
     if( item_counter > 0 || rhs.item_counter > 0 ) {
-        item_counter = ( item_counter * charges + rhs.item_counter * rhs.charges ) / ( charges + rhs.charges );
+        item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>( rhs.item_counter ) * rhs.charges ) / new_charges;
     }
-    charges += rhs.charges;
+    charges = new_charges;
     return true;
 }
 
