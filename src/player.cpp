@@ -6429,7 +6429,7 @@ void player::hardcoded_effects(effect &it)
     bool sleeping = has_effect( effect_sleep );
     bool msg_trig = one_in(400);
     if( id == effect_onfire ) {
-        const auto dealt = deal_damage( nullptr, bp, damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
+        deal_damage( nullptr, bp, damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
     } else if( id == effect_spores ) {
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
