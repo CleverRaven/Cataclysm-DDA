@@ -132,6 +132,9 @@ class vpart_info
         /** Mechanics skill required to install item */
         int difficulty = 0;
 
+        /** Legacy parts don't specify installation requirements */
+        bool legacy = true;
+
         /** Installation requirements for this component */
         requirement_data install_reqs;
 

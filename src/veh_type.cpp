@@ -190,6 +190,7 @@ void vpart_info::load( JsonObject &jo )
         assign( ins, "time", def.install_moves );
 
         def.install_reqs.load( ins );
+        def.legacy = false;
     }
 
     if( jo.has_member( "symbol" ) ) {
@@ -347,8 +348,29 @@ void vpart_info::finalize()
 
 void vpart_info::check()
 {
-    for( auto &part_ptr : vehicle_part_int_types ) {
-        auto &part = *part_ptr;
+    for( auto &vp : vehicle_part_types ) {
+        auto &part = vp.second;
+
+        // handle legacy parts without requirement data
+        if( part.legacy ) {
+            part.install_reqs.components = { { { { part.item, 1 } } } };
+            part.install_skills.emplace( skill_mechanics, part.difficulty );
+
+            if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
+                part.install_reqs.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
+            } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
+                part.install_reqs.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
+            } else if( part.has_flag( "NAILABLE" ) ) {
+                part.install_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
+                part.install_reqs.components.push_back( { { { "nail", 20 } } } );
+            } else {
+                part.install_reqs.components.push_back( { { { "duct_tape", 20 } } } );
+            }
+        }
+
+        if( part.install_reqs.get_components().empty() ) {
+            debugmsg( "vehicle part %s has no installation components", part.id.c_str() );
+        }
 
         for( auto &e : part.install_skills ) {
             if( !e.first.is_valid() ) {
