@@ -58,8 +58,6 @@
         "color": "light_cyan",
         "name": "unsealed plastic cup",
         "description": "A small, vacuum formed cup, essentially trash.",
-        "contains": 1,
-        "watertight": true,
         "unseals_into": "null"
     },
     {
@@ -109,7 +107,6 @@
         "color": "light_blue",
         "name": "unsealed aluminum can",
         "description": "An aluminum can, like what soda comes in.  This one is open and can't be easily sealed.",
-        "contains": 1,
         "preserves": false,
         "unseals_into": "null"
     },
@@ -155,7 +152,6 @@
         "color": "blue",
         "name": "unsealed aluminum can",
         "description": "A tin can, like what beans come in.  This one is open and can't be easily sealed.",
-        "contains": 1,
         "preserves": false,
         "unseals_into": "null"
     },
@@ -554,8 +550,6 @@
         "color": "light_cyan",
         "name": "sealed glass jar",
         "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly and will preserve the contents from rot (assuming it was sterile before sealing).",
-        "contains": 2,
-        "watertight": true,
         "preserves": true,
         "seals": false,
         "unseals_into": "jar_glass"
