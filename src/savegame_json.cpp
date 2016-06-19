@@ -1493,7 +1493,7 @@ void item::io( Archive& archive )
 
     // Sealed item migration: items with "unseals_into" set should always have contents
     if( contents.empty() && is_non_resealable_container() ) {
-        on_contents_changed();
+        convert( type->container->unseals_into );
     }
 }
 

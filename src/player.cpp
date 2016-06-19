@@ -10828,7 +10828,6 @@ bool player::gunmod_remove( item &gun, item& mod )
 
     i_add_or_drop( mod );
     gun.contents.erase( iter );
-    gun.on_contents_changed();
     return true;
 }
 

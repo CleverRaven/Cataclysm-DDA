@@ -1255,9 +1255,11 @@ void Item_factory::load_comestible(JsonObject &jo)
 
 void Item_factory::load_container(JsonObject &jo)
 {
-    itype *new_item_template = new itype();
-    load_slot( new_item_template->container, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def ) {
+        load_slot( def->container, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load( islot_seed &slot, JsonObject &jo )

@@ -2150,11 +2150,9 @@ void item::on_pickup( Character &p )
 
 void item::on_contents_changed()
 {
-    if( !is_non_resealable_container() ) {
-        return;
+    if( is_non_resealable_container() ) {
+        convert( type->container->unseals_into );
     }
-
-    convert( type->container->unseals_into );
 }
 
 std::string item::tname( unsigned int quantity, bool with_prefix ) const

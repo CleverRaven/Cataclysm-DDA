@@ -11355,7 +11355,6 @@ bool game::unload( item &it )
             u.moves -= mv;
             return true;
         } ), target->contents.end() );
-        target->on_contents_changed();
 
         if( target->is_ammo_belt() ) {
             if( target->type->magazine->linkage != "NULL" ) {
@@ -11378,7 +11377,6 @@ bool game::unload( item &it )
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&target]( const item& e ) {
             return target->magazine_current() == &e;
         } ) );
-        target->on_contents_changed();
 
     } else {
         long qty = target->ammo_remaining();
