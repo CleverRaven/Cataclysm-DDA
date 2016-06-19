@@ -408,9 +408,9 @@ void vpart_info::check()
             }
         }
 
-        part.install_reqs.check_consistency( part.id.c_str() );
+        part.install_reqs.check_consistency( part.id.str() );
 
-        part.removal_reqs.check_consistency( part.id.c_str() );
+        part.removal_reqs.check_consistency( part.id.str() );
 
         if( part.install_moves < 0 ) {
             debugmsg( "vehicle part %s has negative installation time", part.id.c_str() );
