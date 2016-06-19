@@ -103,7 +103,7 @@
         "skills": [ [ "mechanics", 3 ] ],
         "time": 240000,
         "qualities": [ { "id": "GLARE", "level": 2 } ],
-        "tools": [ [ [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 150 ], [ "oxy_torch", 60 ] ] ],
+        "tools": [ [ [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 300 ], [ "oxy_torch", 60 ] ] ],
         "components": [ [ [ "hdframe", 1 ] ] ]
       },
       "removal": {
