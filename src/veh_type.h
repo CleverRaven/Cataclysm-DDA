@@ -7,6 +7,7 @@
 #include "color.h"
 #include "damage.h"
 #include "requirements.h"
+#include "calendar.h"
 
 #include <vector>
 #include <bitset>
@@ -142,7 +143,7 @@ class vpart_info
         std::map<skill_id, int> install_skills;
 
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
-        int install_moves = 60000;
+        int install_moves = MOVES( HOURS( 1 ) );
 
         /** Installation time (in moves) for this component accounting for player skills */
         int install_time( const Character &ch ) const;
