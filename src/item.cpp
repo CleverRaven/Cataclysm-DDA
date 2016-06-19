@@ -375,16 +375,22 @@ bool item::set_side (side s) {
     return true;
 }
 
-item item::in_its_container()
+item item::in_its_container() const
 {
-    if( type->default_container != "null" ) {
-        item ret( type->default_container, bday );
+    return in_container( type->default_container );
+}
+
+item item::in_container( const itype_id &cont ) const
+{
+    if( cont != "null" ) {
+        item ret( cont, bday );
+        ret.contents.push_back( *this );
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            charges = liquid_charges( ret.type->container->contains );
+            ret.contents.back().charges = liquid_charges( ret.type->container->contains );
         }
-        ret.contents.push_back(*this);
+
         ret.invlet = invlet;
         return ret;
     } else {
