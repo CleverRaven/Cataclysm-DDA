@@ -29,5 +29,11 @@
     "id": "UPS_on",
     "type": "MIGRATION",
     "replace": "UPS_off"
+  },
+  {
+    "id": "jar_V8",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "V8" ]
   }
 ]
