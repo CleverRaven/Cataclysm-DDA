@@ -2234,27 +2234,26 @@ void complete_vehicle ()
         }
         g->pl_refill_vehicle(*veh, vehicle_part);
         break;
-    case 'o':
-        // Only parts that use charges
-        if (!(is_wrenchable && has_wrench) && !(is_screwable && has_screwdriver) && !is_hand_remove && !is_wheel){
-            if( !crafting_inv.has_quality( SAW_M_FINE ) && ( is_wood && !crafting_inv.has_quality( HAMMER ) ) ) {
-                tools.push_back(tool_comp("circsaw_off", 20));
-                tools.push_back(tool_comp("oxy_torch", 10));
-                g->u.consume_tools(tools);
-            }
+    case 'o': {
+        auto inv = g->u.crafting_inventory();
+
+        const auto& reqs = vpinfo.removal_reqs;
+        if( !reqs.can_make_with_inventory( inv ) ) {
+           add_msg( m_info, _( "You lack the requirements to remove the %s." ), vpinfo.name().c_str() );
         }
-        // Nails survive if pulled out with pliers or a claw hammer. TODO: implement PLY tool quality and random chance based on skill/quality
-        /*if( is_wood && crafting_inv.has_quality( HAMMER ) ) {
-            item return_nails("nail");
-            return_nails.charges = 10;
-            g->m.add_item_or_charges( g->u.posx, g->u.posy, return_nails );
-        }*/ //causes runtime errors. not a critical feature; implement with PLY quality.
+
+        for( const auto& e : reqs.get_components() ) {
+            g->u.consume_items( e );
+        }
+        for( const auto& e : reqs.get_tools() ) {
+            g->u.consume_tools( e );
+        }
+
+        g->u.invalidate_crafting_inventory();
+
         // Dump contents of part at player's feet, if any.
         for( auto &elem : veh->get_items(vehicle_part) ) {
             g->m.add_item_or_charges( g->u.posx(), g->u.posy(), elem );
-        }
-        while( !veh->get_items(vehicle_part).empty() ) {
-            veh->get_items(vehicle_part).erase( veh->get_items(vehicle_part).begin() );
         }
 
         // Power cables must remove parts from the target vehicle, too.
@@ -2266,8 +2265,8 @@ void complete_vehicle ()
         if (!broken) {
             g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             // simple tasks won't train mechanics
-            if(type != SEL_JACK && !is_hand_remove) {
-                g->u.practice( skill_mechanics, (is_wood || is_wrenchable || is_screwable) ? 15 : 30);
+            if( reqs.get_tools().empty() ) {
+                g->u.practice( skill_mechanics, vpinfo.difficulty * 50 );
             }
         } else {
             veh->break_part_into_pieces(vehicle_part, g->u.posx(), g->u.posy());
@@ -2288,6 +2287,8 @@ void complete_vehicle ()
             veh->part_removal_cleanup();
         }
         break;
+    }
+
     case 'c':
         parts = veh->parts_at_relative( dx, dy );
         if( parts.size() ) {
