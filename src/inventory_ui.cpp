@@ -55,9 +55,12 @@ struct itemstack_or_category {
     {
     }
     // used for searching the category header, only the item pointer and the category are important there
-    bool operator==(const itemstack_or_category &other) const
-    {
+    bool operator==(const itemstack_or_category &other) const {
         return category == other.category && it == other.it;
+    }
+
+    bool operator!=(const itemstack_or_category &other) const {
+        return !( *this == other );
     }
 
     size_t get_available_count() const {
@@ -397,34 +400,27 @@ void inventory_column::on_action( const std::string &action )
         return; // ignore
     }
 
-    const auto is_valid_selection = [ this ]( const itemstack_or_category &entry ) {
-        return entry == get_selected() || ( entry.is_item() && !is_selected_by_category( entry ) );
-    };
+    const auto move_selection = [ this ]( int step ) {
+        const auto get_incremented = [ this ]( size_t index, int step ) -> size_t {
+            return ( index + step + items.size() ) % items.size();
+        };
 
-    const auto move_forward = [ this, &is_valid_selection ]( size_t step = 1 ) {
-        size_t index = ( selected_index + step < items.size() ) ? selected_index + step : 0;
-        while( !is_valid_selection( items[index] ) ) {
-            index = ( index + 1 < items.size() ) ? index + 1 : 0;
+        size_t index = get_incremented( selected_index, step );
+        while( items[index] != get_selected() && ( !items[index].is_item() || is_selected_by_category( items[index] ) ) ) {
+            index = get_incremented( index, ( step > 0 ? 1 : -1 ) );
         }
-        select( index );
-    };
 
-    const auto move_backward = [ this, &is_valid_selection ]( size_t step = 1 ) {
-        size_t index = ( selected_index >= step ) ? selected_index - step : items.size() - 1;
-        while( !is_valid_selection( items[index] ) ) {
-            index = ( index > 0 ) ? index - 1 : items.size() - 1;
-        }
         select( index );
     };
 
     if( action == "DOWN" ) {
-        move_forward();
+        move_selection( 1 );
     } else if( action == "UP" ) {
-        move_backward();
+        move_selection( -1 );
     } else if( action == "NEXT_TAB" ) {
-        move_forward( items_per_page );
+        move_selection( std::max( std::min<int>( items_per_page, items.size() - selected_index - 1 ), 1 ) );
     } else if( action == "PREV_TAB" ) {
-        move_backward( items_per_page );
+        move_selection( std::min( std::max<int>( -items_per_page, -selected_index + 1 ), -1 ) );
     } else if( action == "HOME" ) {
         select( 1 );
     } else if( action == "END" ) {
