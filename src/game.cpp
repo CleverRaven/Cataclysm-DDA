@@ -10188,7 +10188,12 @@ bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const
 bool game::handle_liquid_from_container( std::list<item>::iterator in_container, item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
+    const long old_charges = in_container->charges;
     handle_liquid( *in_container, &container, radius );
+    if( in_container->charges != old_charges ) {
+        container.on_contents_changed();
+    }
+
     if( in_container->charges > 0 ) {
         return false;
     }
@@ -11296,6 +11301,7 @@ bool game::unload( item &it )
             u.moves -= mv;
             return true;
         } ), it.contents.end() );
+        it.on_contents_changed();
         return true;
     }
 
@@ -11349,6 +11355,7 @@ bool game::unload( item &it )
             u.moves -= mv;
             return true;
         } ), target->contents.end() );
+        target->on_contents_changed();
 
         if( target->is_ammo_belt() ) {
             if( target->type->magazine->linkage != "NULL" ) {
@@ -11371,6 +11378,7 @@ bool game::unload( item &it )
         target->contents.erase( std::remove_if( target->contents.begin(), target->contents.end(), [&target]( const item& e ) {
             return target->magazine_current() == &e;
         } ) );
+        target->on_contents_changed();
 
     } else {
         long qty = target->ammo_remaining();

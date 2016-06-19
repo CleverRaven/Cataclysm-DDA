@@ -1976,7 +1976,7 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
-    if ( !src_container.is_sealable_container() ) {
+    if( src_container.is_non_resealable_container() ) {
         long max_charges = dest_container.get_remaining_capacity_for_liquid( src );
         if ( src.charges > max_charges ) {
             popup( _( "You can't partially unload liquids from unsealable container." ) );
@@ -1990,6 +1990,8 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         popup( err.c_str() );
         return false;
     }
+
+    src_container.on_contents_changed();
 
     uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
     if( src.charges <= 0 ) {

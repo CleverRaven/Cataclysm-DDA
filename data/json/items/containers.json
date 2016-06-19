@@ -40,14 +40,27 @@
         "color": "light_cyan",
         "name": "plastic cup",
         "category": "other",
-        "description": "A small, vacuum formed cup, essentially trash.",
+        "description": "A small, vacuum formed cup.",
         "price": 0,
         "weight": 6,
         "volume": 1,
         "to_hit": 1,
         "material": "plastic",
         "contains": 1,
-        "watertight": true
+        "watertight": true,
+        "unseals_into": "cup_plastic_unsealed"
+    },
+    {
+        "id": "cup_plastic_unsealed",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "copy-from": "cup_plastic",
+        "name": "unsealed plastic cup",
+        "description": "A small, vacuum formed cup, essentially trash.",
+        "contains": 1,
+        "watertight": true,
+        "unseals_into": "null"
     },
     {
         "id": "bottle_glass",
@@ -85,7 +98,21 @@
         "contains": 1,
         "watertight": true,
         "preserves": true,
+        "unseals_into": "can_drink_unsealed",
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
+    },
+    {
+        "id": "can_drink_unsealed",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_blue",
+        "copy-from": "can_drink",
+        "name": "unsealed aluminum can",
+        "description": "An aluminum can, like what soda comes in.  This one is open and can't be easily sealed.",
+        "contains": 1,
+        "watertight": true,
+        "preserves": false,
+        "unseals_into": "null"
     },
     {
         "id":"bowl_pewter",
@@ -118,7 +145,21 @@
         "contains": 1,
         "watertight": true,
         "preserves": true,
+        "unseals_into": "can_food_unsealed",
         "qualities": [["CONTAIN", 1], ["BOIL", 2]]
+    },
+    {
+        "id": "can_food_unsealed",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "blue",
+        "copy-from": "can_food",
+        "name": "unsealed aluminum can",
+        "description": "A tin can, like what beans come in.  This one is open and can't be easily sealed.",
+        "contains": 1,
+        "watertight": true,
+        "preserves": false,
+        "unseals_into": "null"
     },
     {
         "id": "box_small",
@@ -504,7 +545,21 @@
         "contains": 2,
         "watertight": true,
         "seals": true,
+        "unseals_into": "null",
         "qualities": [["CONTAIN", 1], ["BOIL", 1]]
+    },
+    {
+        "id": "jar_glass_sealed",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "copy-from": "jar_glass",
+        "name": "sealed glass jar",
+        "description": "A half-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly and will preserve the contents from rot (assuming it was sterile before sealing).",
+        "contains": 2,
+        "watertight": true,
+        "preserves": true,
+        "unseals_into": "jar_glass"
     },
     {
         "id": "jar_3l_glass",

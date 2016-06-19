@@ -3766,7 +3766,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -10918,7 +10918,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -10962,7 +10962,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -11006,7 +11006,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -11050,7 +11050,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -11106,7 +11106,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -11172,7 +11172,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -11217,7 +11217,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -11295,7 +11295,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -11383,7 +11383,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]
@@ -11453,7 +11453,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [ [ "scrap", 1 ] ],
     [
@@ -11520,7 +11520,7 @@
   "components": [
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "scrap", 1 ]

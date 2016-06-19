@@ -4896,7 +4896,7 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
-    "revert_to": "can_food",
+    "revert_to": "can_food_unsealed",
     "use_action": {
         "type": "transform",
         "target": "candle_lit",

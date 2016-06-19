@@ -400,8 +400,8 @@
     [ [ "amplifier", 1 ] ],
     [
       [ "scrap", 4 ],
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "bottle_glass", 1 ],
       [ "bottle_plastic", 1 ],
       [ "bottle_plastic_small", 1 ]
@@ -516,8 +516,8 @@
       [ "scrap", 1 ]
     ],
     [
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ]
   ]

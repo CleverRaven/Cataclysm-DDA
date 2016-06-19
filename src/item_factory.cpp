@@ -795,6 +795,18 @@ void Item_factory::check_definitions() const
                 msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
             }
         }
+
+        if( type->container != nullptr ) {
+            if( type->container->seals && type->container->unseals_into != "null" ) {
+                msg << string_format("Resealable container unseals_into %s", type->container->unseals_into.c_str() ) << "\n";
+            }
+            if( type->container->contains <= 0 ) {
+                msg << string_format("\"contains\" (%d) must be >0", type->container->contains ) << "\n";
+            }
+            if( !has_template( type->container->unseals_into ) ) {
+                msg << string_format("unseals_into invalid id", type->container->unseals_into.c_str() ) << "\n";
+            }
+        }
         if (msg.str().empty()) {
             continue;
         }
@@ -1260,10 +1272,11 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo )
 
 void Item_factory::load( islot_container &slot, JsonObject &jo )
 {
-    slot.contains = jo.get_int( "contains" );
-    slot.seals = jo.get_bool( "seals", false );
-    slot.watertight = jo.get_bool( "watertight", false );
-    slot.preserves = jo.get_bool( "preserves", false );
+    assign( jo, "contains", slot.contains );
+    assign( jo, "seals", slot.seals );
+    assign( jo, "watertight", slot.watertight );
+    assign( jo, "preserves", slot.preserves );
+    assign( jo, "unseals_into", slot.unseals_into );
 }
 
 void Item_factory::load( islot_gunmod &slot, JsonObject &jo )

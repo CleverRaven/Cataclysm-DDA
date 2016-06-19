@@ -2142,6 +2142,15 @@ void item::on_pickup( Character &p )
     }
 }
 
+void item::on_contents_changed()
+{
+    if( !is_non_resealable_container() ) {
+        return;
+    }
+
+    convert( type->container->unseals_into );
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
@@ -3477,9 +3486,9 @@ bool item::is_watertight_container() const
     return type->container && type->container->watertight && type->container->seals;
 }
 
-bool item::is_sealable_container() const
+bool item::is_non_resealable_container() const
 {
-    return type->container && type->container->seals;
+    return type->container && !type->container->seals && type->container->unseals_into != "null";
 }
 
 bool item::is_bucket() const
@@ -3490,7 +3499,7 @@ bool item::is_bucket() const
     return type->container != nullptr &&
            type->container->watertight &&
            !type->container->seals &&
-           !type->container->preserves;
+           type->container->unseals_into == "null";
 }
 
 bool item::is_bucket_nonempty() const
@@ -3625,6 +3634,7 @@ bool item::spill_contents( Character &c )
     }
 
     while( !contents.empty() ) {
+        on_contents_changed();
         if( contents.front().made_of( LIQUID ) ) {
             if( !g->handle_liquid_from_container( *this, 1 ) ) {
                 return false;
@@ -5043,6 +5053,7 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
         put_in( liquid_copy );
     }
     liquid.charges -= amount;
+    on_contents_changed();
 
     return true;
 }

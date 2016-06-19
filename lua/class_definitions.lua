@@ -1008,7 +1008,7 @@ classes = {
             { name = "is_null", rval = "bool", args = { } },
             { name = "is_power_armor", rval = "bool", args = { } },
             { name = "is_salvageable", rval = "bool", args = { } },
-            { name = "is_sealable_container", rval = "bool", args = { } },
+            { name = "is_non_resealable_container", rval = "bool", args = { } },
             { name = "is_seed", rval = "bool", args = { } },
             { name = "is_sided", rval = "bool", args = { } },
             { name = "is_silent", rval = "bool", args = { } },
