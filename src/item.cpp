@@ -5376,42 +5376,6 @@ bool item::can_holster ( const item& obj, bool ignore ) const {
     return true;
 }
 
-void item::unset_curammo()
-{
-    curammo = nullptr;
-}
-
-void item::set_curammo( const itype_id &type )
-{
-    if( type == "null" ) {
-        unset_curammo();
-        return;
-    }
-    const auto at = item_controller->find_template( type );
-    if( !at->ammo ) {
-        // Much code expects curammo to be a valid ammo, or null, make sure this assumption
-        // is correct
-        debugmsg( "Tried to set non-ammo type %s as curammo of %s", type.c_str(), tname().c_str() );
-        return;
-    }
-    curammo = at;
-}
-
-void item::set_curammo( const item &ammo )
-{
-    if( ammo.is_null() ) {
-        unset_curammo();
-        return;
-    }
-    const auto at = ammo.type;
-    if( !at->ammo ) {
-        debugmsg( "Tried to set non-ammo type %s as curammo of %s", ammo.type->id.c_str(),
-                  tname().c_str() );
-        return;
-    }
-    curammo = at;
-}
-
 std::string item::components_to_string() const
 {
     typedef std::map<std::string, int> t_count_map;

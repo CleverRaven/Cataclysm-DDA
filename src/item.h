@@ -834,22 +834,6 @@ public:
         bool can_holster ( const item& obj, bool ignore = false ) const;
 
         /**
-         * Sets the current ammo to nullptr. Note that it does not touch the charges or anything else.
-         */
-        void unset_curammo();
-        /**
-         * Set the current ammo from an item type id (not an ammo type id!). The type must have
-         * an ammo slot (@ref itype::ammo). If the type id is "null", the curammo is unset as by calling
-         * @ref unset_curammo.
-         */
-        void set_curammo( const itype_id &type );
-        /**
-         * Shortcut to set the current ammo to the type of the given item. This is the same as
-         * calling @ref set_curammo with item type id of the ammo item:
-         * \code set_curammo(ammo.typeId()) \endcode
-         */
-        void set_curammo( const item &ammo );
-        /**
          * Callback when a character starts wearing the item. The item is already in the worn
          * items vector and is called from there.
          */
