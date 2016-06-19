@@ -4330,11 +4330,7 @@ void iuse::play_music( player * const p, const tripoint &source, int const volum
         const std::string &music = get_music_description();
         if( !music.empty() ) {
             sound = music;
-            // music source is on player's square
-            if( p->pos() == source && volume != 0 ) {
-                // generic stereo players without earphones
-                sound = string_format( _("You listen to %s"), music.c_str() );
-            } else if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
+            if( p->pos() == source && volume == 0 && p->can_hear( source, volume ) ) {
                 // in-ear music, such as mp3 player
                 p->add_msg_if_player( _( "You listen to %s"), music.c_str() );
             }
@@ -8085,4 +8081,39 @@ int iuse::saw_barrel( player *p, item *, bool, const tripoint& )
     obj.contents.emplace_back( "barrel_small", calendar::turn );
 
     return 0;
+}
+
+int iuse::washclothes( player *p, item *it, bool, const tripoint& )
+{
+    if( it->charges < it->type->charges_to_use() ) {
+        p->add_msg_if_player( _( "You need a soap to use this." ) );
+        return 0;
+    }
+    
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
+        p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
+        return 0;
+    }
+    
+    const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
+    item &mod = p->i_at( pos );
+    if( pos == INT_MIN ) {
+        p->add_msg_if_player( m_info, _( "Never mind." ) );
+        return 0;
+    }
+
+    std::vector<item_comp> comps;
+    comps.push_back( item_comp( "water", 40 ) );
+    comps.push_back( item_comp( "water_clean", 40 ) );
+    p->consume_items( comps );
+    
+    p->add_msg_if_player( _( "You washed your clothing." ) );
+    p->mod_moves( -3000 );
+
+    mod.on_takeoff(g->u);
+    mod.item_tags.erase( "FILTHY" );
+    mod.on_wear(g->u);
+
+    return it->type->charges_to_use();
 }

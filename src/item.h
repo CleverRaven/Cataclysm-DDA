@@ -253,12 +253,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string info( bool showtext = false) const;
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
-    /**
-     * Burns the item at point p.
-     * Returns true if the item was destroyed.
-     * May add items to drops.
-     */
-    bool burn( const tripoint &p, fire_data &bd, std::vector<item> &drops );
+    /** Burns the item. Returns true if the item was destroyed. */
+    bool burn( fire_data &bd );
 
  // Returns the category of this item.
  const item_category &get_category() const;
@@ -676,7 +672,7 @@ public:
     void mark_as_used_by_player(const player &p);
     /** Marks the item as filthy, so characters with squeamish trait can't wear it.
     */
-    bool is_disgusting_for( const player &p ) const;
+    bool is_filthy() const;
     /**
      * This is called once each turn. It's usually only useful for active items,
      * but can be called for inactive items without problems.

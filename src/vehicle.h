@@ -164,6 +164,9 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Get wheel width (inches) or return 0 if part is not wheel */
     int wheel_width() const;
 
+    /** Is this any type of vehicle light? */
+    bool is_light() const;
+
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */
     point mount;
@@ -606,6 +609,15 @@ public:
 
     void consume_fuel( double load );
 
+    /**
+     * Get all vehicle lights (excluding any that are destroyed)
+     * @param active if true return only lights which are enabled
+     */
+    std::vector<vehicle_part *> lights( bool active = false );
+
+    /** Enable or disable specific vehicle lighting parts */
+    void lights_control();
+
     void power_parts();
 
     /**
@@ -908,7 +920,6 @@ public:
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
-    std::vector<int> lights;           // List of light part indices
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices
     std::vector<int> engines;          // List of engine indices
@@ -975,13 +986,9 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
 
-    int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
-    int overhead_epower     = 0; // total power of components with CIRCLE_LIGHT flag
     int tracking_epower     = 0; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower       = 0; // total power consumed by fridges
     int alarm_epower        = 0;
-    int dome_lights_epower  = 0;
-    int aisle_lights_epower = 0;
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
     int extra_drag          = 0;
@@ -990,17 +997,12 @@ public:
     bool cruise_on                  = true;  // cruise control on/off
     bool reactor_on                 = false; // reactor on/off
     bool engine_on                  = false; // at least one engine is on, of any type
-    bool lights_on                  = false; // lights on/off
     bool stereo_on                  = false;
     bool chimes_on                  = false; // ice cream truck chimes
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key
     bool is_alarm_on                = false; // vehicle has alarm on
     bool camera_on                  = false;
-    bool overhead_lights_on         = false; // circle lights on/off
-    bool dome_lights_on             = false; // dome lights (rear view mirror lights)
-    bool has_atomic_lights          = false; // has any always-on atomic lights on
-    bool aisle_lights_on            = false; // aisle lights on
     bool fridge_on                  = false; // fridge on/off
     bool recharger_on               = false; // recharger on/off
     bool skidding                   = false; // skidding mode

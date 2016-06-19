@@ -2012,6 +2012,9 @@ tab_direction set_scenario(WINDOW *w, player *u, points_left &points)
         } else if ( sorted_scens[cur_id]->has_flag("WIN_START")) {
             wprintz(w_flags, c_ltgray, _("Winter start"));
             wprintz(w_flags, c_ltgray, ("\n"));
+        } else if ( sorted_scens[cur_id]->has_flag("SUM_ADV_START")) {
+            wprintz(w_flags, c_ltgray, _("Next summer start"));
+            wprintz(w_flags, c_ltgray, ("\n"));
         }
 
         if ( sorted_scens[cur_id]->has_flag("INFECTED") ) {

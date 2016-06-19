@@ -229,10 +229,12 @@
         "name": ["On Fire"],
         "desc": ["Loss of health - Entire Body\nYour clothing and other equipment may be consumed by the flames."],
         "remove_memorial_log": "Put out the fire.",
-        "apply_message": "You're on fire!",
+        "apply_message": "You're on fire!  Wait in place to attempt to put out the fire.",
         "apply_memorial_log": "Caught on fire.",
         "rating": "bad",
-        "max_duration": 10
+        "max_intensity": 3,
+        "int_dur_factor": 5,
+        "max_duration": 50
     },
     {
         "type": "effect_type",

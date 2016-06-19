@@ -32739,13 +32739,6 @@
         },
         {
           "fg": [
-            1377
-          ],
-          "id": "battery_truck",
-          "rotates": false
-        },
-        {
-          "fg": [
             1377,
             3813,
             3814,
@@ -32759,13 +32752,6 @@
             1377
           ],
           "id": "vp_battery_motorbike",
-          "rotates": false
-        },
-        {
-          "fg": [
-            1377
-          ],
-          "id": "vp_battery_truck",
           "rotates": false
         },
         {

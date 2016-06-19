@@ -1225,14 +1225,18 @@ bool game::cleanup_at_end()
     return true;
 }
 
-static int veh_lumi(vehicle *veh)
+static int veh_lumi( vehicle &veh )
 {
     float veh_luminance = 0.0;
     float iteration = 1.0;
-    std::vector<int> light_indices = veh->all_parts_with_feature(VPFLAG_CONE_LIGHT);
-    for( auto &light_indice : light_indices ) {
-        veh_luminance += ( veh->part_info( light_indice ).bonus / iteration );
-        iteration = iteration * 1.1;
+    auto lights = veh.lights( true );
+
+    for( const auto pt : lights ) {
+        const auto &vp = pt->info();
+        if( vp.has_flag( VPFLAG_CONE_LIGHT ) ) {
+            veh_luminance += vp.bonus / iteration;
+            iteration = iteration * 1.1;
+        }
     }
     // Calculation: see lightmap.cpp
     return LIGHT_RANGE((veh_luminance * 3));
@@ -1246,10 +1250,7 @@ void game::calc_driving_offset(vehicle *veh)
     }
     const int g_light_level = (int)light_level( u.posz() );
     const int light_sight_range = u.sight_range(g_light_level);
-    int sight = light_sight_range;
-    if (veh->lights_on) {
-        sight = std::max(veh_lumi(veh), sight);
-    }
+    int sight = std::max( veh_lumi( *veh ), light_sight_range );
 
     // velocity at or below this results in no offset at all
     static const float min_offset_vel = 10 * 100;
@@ -13880,72 +13881,55 @@ void game::spawn_mon(int /*shiftx*/, int /*shifty*/)
     }
 }
 
-// Helper function for game::wait().
-static int convert_wait_chosen_to_turns( int choice ) {
-    switch( choice ) {
-    case 1:
-        return MINUTES( 5 );
-    case 2:
-        return MINUTES( 30 );
-    case 3:
-        return HOURS( 1 );
-    case 4:
-        return HOURS( 2 );
-    case 5:
-        return HOURS( 3 );
-    case 6:
-        return HOURS( 6 );
-    case 7:
-        return calendar::turn.diurnal_time_before( calendar::turn.sunrise() );
-    case 8:
-        return calendar::turn.diurnal_time_before( HOURS( 12 ) );
-    case 9:
-        return calendar::turn.diurnal_time_before( calendar::turn.sunset() );
-    case 10:
-        return calendar::turn.diurnal_time_before( HOURS( 0 ) );
-    case 11:
-    default:
-        return 999999999;
-    }
-}
-
 void game::wait()
 {
-    const bool bHasWatch = u.has_watch();
-
+    std::map<int, int> durations;
     uimenu as_m;
-    as_m.text = _("Wait for how long?");
-    as_m.return_invalid = true;
-    as_m.entries.push_back(uimenu_entry(1, true, '1',
-                                        (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats")));
-    as_m.entries.push_back(uimenu_entry(2, true, '2',
-                                        (bHasWatch) ? _("30 Minutes") : _("Wait 1800 heartbeats")));
 
-    if (bHasWatch) {
-        as_m.entries.push_back(uimenu_entry(3, true, '3', _("1 hour")));
-        as_m.entries.push_back(uimenu_entry(4, true, '4', _("2 hours")));
-        as_m.entries.push_back(uimenu_entry(5, true, '5', _("3 hours")));
-        as_m.entries.push_back(uimenu_entry(6, true, '6', _("6 hours")));
+    const bool has_watch = u.has_watch();
+    const auto add_menu_item = [ &as_m, &durations, has_watch ]
+        ( int retval, int hotkey, const std::string &caption = "", int duration = calendar::INDEFINITELY_LONG ) {
+
+        std::string text( caption );
+
+        if( has_watch && duration != calendar::INDEFINITELY_LONG ) {
+            const std::string dur_str( calendar::print_duration( duration ) );
+            text += ( text.empty() ? dur_str : string_format( " (%s)", dur_str.c_str() ) );
+        }
+        as_m.addentry( retval, true, hotkey, text );
+        durations[retval] = duration;
+    };
+
+    add_menu_item( 1, '1', !has_watch ? _( "Wait 300 heartbeats" ) : "", MINUTES( 5 ) );
+    add_menu_item( 2, '2', !has_watch ? _( "Wait 1800 heartbeats" ) : "", MINUTES( 30 ) );
+
+    if( has_watch ) {
+        add_menu_item( 3, '3', "", HOURS( 1 ) );
+        add_menu_item( 4, '4', "", HOURS( 2 ) );
+        add_menu_item( 5, '5', "", HOURS( 3 ) );
+        add_menu_item( 6, '6', "", HOURS( 6 ) );
     }
 
-    as_m.entries.push_back(uimenu_entry(7, true, 'd', _("Wait till dawn")));
-    as_m.entries.push_back(uimenu_entry(8, true, 'n', _("Wait till noon")));
-    as_m.entries.push_back(uimenu_entry(9, true, 'k', _("Wait till dusk")));
-    as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight")));
-    as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes")));
+    add_menu_item( 7,  'd', _( "Wait till dawn" ),     calendar::turn.diurnal_time_before( calendar::turn.sunrise() ) );
+    add_menu_item( 8,  'n', _( "Wait till noon" ),     calendar::turn.diurnal_time_before( HOURS( 12 ) ) );
+    add_menu_item( 9,  'k', _( "Wait till dusk" ),     calendar::turn.diurnal_time_before( calendar::turn.sunset() ) );
+    add_menu_item( 10, 'm', _( "Wait till midnight" ), calendar::turn.diurnal_time_before( HOURS( 0 ) ) );
+    add_menu_item( 11, 'w', _( "Wait till weather changes" ) );
+    add_menu_item( 12, 'q', _( "Exit" ) );
 
-    as_m.entries.push_back(uimenu_entry(12, true, 'q', _("Exit")));
+    as_m.text = ( has_watch ) ? string_format( _( "It's %s now. " ), calendar::turn.print_time().c_str() ) : "";
+    as_m.text += _( "Wait for how long?" );
+    as_m.return_invalid = true;
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
-    if( as_m.ret < 1 || as_m.ret > 11 ) {
+    if( as_m.ret == 12 || durations.count( as_m.ret ) == 0 ) {
         return;
     }
 
-    int chosen_turns = convert_wait_chosen_to_turns( as_m.ret );
     activity_type actType = ( as_m.ret == 11 ) ? ACT_WAIT_WEATHER : ACT_WAIT;
 
-    constexpr int turns_to_moves = 100;
-    player_activity new_act( actType, chosen_turns * turns_to_moves, 0 );
+    player_activity new_act( actType, 100 * ( durations[as_m.ret] - 1 ), 0 );
+
     u.assign_activity( new_act, false );
     u.rooted_message();
 }
@@ -14554,7 +14538,8 @@ void game::start_calendar()
 {
     calendar::start = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
     if( scen->has_flag("SPR_START") || scen->has_flag("SUM_START") ||
-        scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ) {
+        scen->has_flag("AUT_START") || scen->has_flag("WIN_START") ||
+        scen->has_flag("ADV_START") ) {
         if( scen->has_flag("SPR_START") ) {
             ; // Do nothing;
         } else if( scen->has_flag("SUM_START") ) {
@@ -14563,6 +14548,8 @@ void game::start_calendar()
             calendar::start += DAYS( calendar::season_length() * 2 );
         } else if( scen->has_flag("WIN_START") ) {
             calendar::start += DAYS( calendar::season_length() * 3 );
+        } else if( scen->has_flag("SUM_ADV_START") ) {
+            calendar::start += DAYS( calendar::season_length() * 5 );
         } else {
             debugmsg("The Unicorn");
         }

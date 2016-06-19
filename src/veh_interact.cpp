@@ -1859,10 +1859,8 @@ void veh_interact::display_details( const vpart_info *part )
                        part->folded_volume);
     }
 
-    // line 3: (column 1) par1,size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
-    if ( part->par1 > 0 || part->size > 0 ) {
-        const int par1 = std::max(part->par1, part->size);
-
+    // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)
+    if ( part->size > 0 ) {
         std::string label;
         if ( part->has_flag(VPFLAG_CARGO) || part->has_flag(VPFLAG_FUEL_TANK) ) {
             label = small_mode ? _("Cap") : _("Capacity");
@@ -1885,7 +1883,7 @@ void veh_interact::display_details( const vpart_info *part )
 
         fold_and_print(w_details, line+3, col_1, column_width, c_white,
                        (label + ": <color_ltgray>%d</color>").c_str(),
-                       par1);
+                       part->size);
     }
     if ( part->epower != 0 ) {
         fold_and_print(w_details, line+3, col_2, column_width, c_white,

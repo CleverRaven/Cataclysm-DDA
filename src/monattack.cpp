@@ -3138,7 +3138,7 @@ void mattack::flame( monster *z, Creature *target )
             }
             g->m.add_field( i, fd_fire, 1, 0 );
         }
-        target->add_effect( effect_onfire, 8);
+        target->add_effect( effect_onfire, 8, bp_torso );
 
         return;
     }
@@ -3161,7 +3161,7 @@ void mattack::flame( monster *z, Creature *target )
         g->m.add_field(i, fd_fire, 1, 0);
     }
     if( !target->uncanny_dodge() ) {
-        target->add_effect( effect_onfire, 8);
+        target->add_effect( effect_onfire, 8, bp_torso );
     }
 }
 
