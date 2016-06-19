@@ -688,7 +688,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Siphons fuel (if available) from the specified vehicle into container or
          * similar via @ref game::handle_liquid. May start a player activity.
          */
-        void siphon( vehicle &veh, const itype_id &desired_liquid );
+        void siphon( vehicle &veh, const itype_id &liquid );
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */

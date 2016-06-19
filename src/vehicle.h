@@ -45,12 +45,9 @@ struct fuel_type {
     nc_color color;
     /** See @ref vehicle::consume_fuel */
     int coeff;
-    /** Factor is used when transforming from item charges to fuel amount. */
-    int charges_to_amount_factor;
 };
 
 const std::array<fuel_type, 7> &get_fuel_types();
-int fuel_charges_to_amount_factor( const itype_id &ftype );
 
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,
@@ -602,7 +599,7 @@ public:
 
     // drains a fuel type (e.g. for the kitchen unit)
     // returns amount actually drained, does not engage reactor
-    int drain (const itype_id &ftype, int amount);
+    int drain( const itype_id &ftype, int amount = INT_MAX );
 
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const itype_id &ftype) const;
