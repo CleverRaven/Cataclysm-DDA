@@ -193,6 +193,8 @@ itype_id mtype::get_meat_itype() const
             return "meat";
         } else if( made_of( material_id( "veggy" ) ) ) {
             return "veggy";
+        } else if( made_of( material_id( "bone" ) ) ) {
+            return "bone";
         }
     }
     return "null";
