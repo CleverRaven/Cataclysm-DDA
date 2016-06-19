@@ -209,8 +209,6 @@ bool vehicle::turrets_aim()
 
     // fake gun item to aim
     item pointer( "vehicle_pointer" );
-    pointer.set_curammo( "pointer_fake_ammo" );
-    pointer.ammo_data()->ammo->range = range;
 
     tripoint pos = g->u.pos();
     std::vector<tripoint> trajectory;
