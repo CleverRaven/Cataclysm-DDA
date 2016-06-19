@@ -7448,13 +7448,10 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         return;
     }
 
-    if (vehint.sel_cmd != ' ') {
+    if (vehint.sel_cmd != ' '&& vehint.sel_vpart_info != nullptr ) {
         int time = 200;
         int skill = u.get_skill_level( skill_id( "mechanics" ) );
-        int diff = 1;
-        if (vehint.sel_vpart_info != NULL) {
-            diff = vehint.sel_vpart_info->difficulty + 3;
-        }
+        int diff = vehint.sel_vpart_info->difficulty + 3;
         int setup = (calendar::turn == veh.last_repair_turn ? 0 : 1);
         ///\EFFECT_MECHANICS reduces time spent examining vehicle
         int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
@@ -7468,7 +7465,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         // Stored in activity.index and used in the complete_vehicle() callback to finish task.
         switch (vehint.sel_cmd) {
         case 'i':
-            time = setuptime + std::max(mintime, 5000 * diff - skill * 2500);
+            time = vehint.sel_vpart_info->install_time( g->u );
             break;
         case 'r':
             time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);

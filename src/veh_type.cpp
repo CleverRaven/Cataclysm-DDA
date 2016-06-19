@@ -10,10 +10,13 @@
 #include "vehicle_group.h"
 #include "init.h"
 #include "generic_factory.h"
+#include "character.h"
 
 #include <unordered_map>
 #include <unordered_set>
 #include <sstream>
+
+const skill_id skill_mechanics( "mechanics" );
 
 std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
@@ -170,6 +173,24 @@ void vpart_info::load( JsonObject &jo )
     assign( jo, "difficulty", def.difficulty );
     assign( jo, "bonus", def.bonus );
     assign( jo, "flags", def.flags );
+
+    auto reqs = jo.get_object( "requirements" );
+    if( reqs.has_object( "install" ) ) {
+        auto ins = reqs.get_object( "install" );
+
+        auto sk = ins.get_array( "skills" );
+        if( !sk.empty() ) {
+            def.install_skills.clear();
+        }
+        while( sk.has_more() ) {
+            auto cur = sk.next_array();
+            def.install_skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        }
+
+        assign( ins, "time", def.install_moves );
+
+        def.install_reqs.load( ins );
+    }
 
     if( jo.has_member( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" )[ 0 ];
@@ -329,6 +350,18 @@ void vpart_info::check()
     for( auto &part_ptr : vehicle_part_int_types ) {
         auto &part = *part_ptr;
 
+        for( auto &e : part.install_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown install skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
+        part.install_reqs.check_consistency( part.id.c_str() );
+
+        if( part.install_moves < 0 ) {
+            debugmsg( "vehicle part %s has negative installation time", part.id.c_str() );
+        }
+
         if( !item_group::group_is_defined( part.breaks_into_group ) ) {
             debugmsg( "Vehicle part %s breaks into non-existent item group %s.",
                       part.id.c_str(), part.breaks_into_group.c_str() );
@@ -389,6 +422,12 @@ std::string vpart_info::name() const
         name_ = item::nname( item ); // cache on first request
     }
     return name_;
+}
+
+int vpart_info::install_time( const Character &ch ) const {
+    ///\EFFECT_MECHANICS reduces time consumed installing vehicle parts
+    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
+    return install_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
 }
 
 template<>
