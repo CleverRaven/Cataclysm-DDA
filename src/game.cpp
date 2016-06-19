@@ -7471,10 +7471,11 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
             time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);
             break;
         case 'o':
-            time = setuptime + std::max(mintime, 4000 * diff - skill * 2000);
+            time = vehint.sel_vpart_info->removal_time( g->u );
             break;
         case 'c':
-            time = setuptime + std::max(mintime, 6000 * diff - skill * 4000);
+            time = vehint.sel_vpart_info->removal_time( g->u ) +
+                   vehint.sel_vpart_info->install_time( g->u );
             break;
         }
         u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );

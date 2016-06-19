@@ -192,6 +192,23 @@ void vpart_info::load( JsonObject &jo )
         def.install_reqs.load( ins );
         def.legacy = false;
     }
+    if( reqs.has_object( "removal" ) ) {
+        auto rem = reqs.get_object( "removal" );
+
+        auto sk = rem.get_array( "skills" );
+        if( !sk.empty() ) {
+            def.removal_skills.clear();
+        }
+        while( sk.has_more() ) {
+            auto cur = sk.next_array();
+            def.removal_skills.emplace( skill_id( cur.get_string( 0 ) ) , cur.size() >= 2 ? cur.get_int( 1 ) : 1 );
+        }
+
+        assign( rem, "time", def.removal_moves );
+
+        def.removal_reqs.load( rem );
+        def.legacy = false;
+    }
 
     if( jo.has_member( "symbol" ) ) {
         def.sym = jo.get_string( "symbol" )[ 0 ];
@@ -358,10 +375,13 @@ void vpart_info::check()
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
                 part.install_reqs.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
+                part.removal_reqs.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
                 part.install_reqs.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
+                part.removal_reqs.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
             } else if( part.has_flag( "NAILABLE" ) ) {
                 part.install_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
+                part.removal_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
                 part.install_reqs.components.push_back( { { { "nail", 20 } } } );
             } else {
                 part.install_reqs.components.push_back( { { { "duct_tape", 20 } } } );
@@ -372,16 +392,32 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has no installation components", part.id.c_str() );
         }
 
+        if( part.removal_moves < 0 ) {
+            part.removal_moves = part.install_moves / 2;
+        }
+
         for( auto &e : part.install_skills ) {
             if( !e.first.is_valid() ) {
                 debugmsg( "vehicle part %s has unknown install skill %s", part.id.c_str(), e.first.c_str() );
             }
         }
 
+        for( auto &e : part.removal_skills ) {
+            if( !e.first.is_valid() ) {
+                debugmsg( "vehicle part %s has unknown removal skill %s", part.id.c_str(), e.first.c_str() );
+            }
+        }
+
         part.install_reqs.check_consistency( part.id.c_str() );
+
+        part.removal_reqs.check_consistency( part.id.c_str() );
 
         if( part.install_moves < 0 ) {
             debugmsg( "vehicle part %s has negative installation time", part.id.c_str() );
+        }
+
+        if( part.removal_moves < 0 ) {
+            debugmsg( "vehicle part %s has negative removal time", part.id.c_str() );
         }
 
         if( !item_group::group_is_defined( part.breaks_into_group ) ) {
@@ -450,6 +486,12 @@ int vpart_info::install_time( const Character &ch ) const {
     ///\EFFECT_MECHANICS reduces time consumed installing vehicle parts
     int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
     return install_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
+}
+
+int vpart_info::removal_time( const Character &ch ) const {
+    ///\EFFECT_MECHANICS reduces time consumed removing vehicle parts
+    int lvl = std::min( ch.get_skill_level( skill_mechanics ).level(), MAX_SKILL );
+    return removal_moves * ( 1.0 - ( lvl / 2.0 ) / MAX_SKILL );
 }
 
 template<>
