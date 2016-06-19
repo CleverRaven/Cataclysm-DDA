@@ -3764,7 +3764,7 @@ bool mattack::longswipe(monster *z)
             target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
                                            _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
                                            z->name().c_str(), terrain.name.c_str() );
-            z->moves -= 150;
+            z->mod_moves( -150 );
             return true;
         }
     }
