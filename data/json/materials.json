@@ -42,6 +42,11 @@
           [ "calcium", 0.1 ],
           [ "vitA", 1.0 ],
           [ "vitC", 0.5 ]
+        ],
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
+            { "fuel": 2, "smoke": 1, "burn": 2, "chance": 10 },
+            { "fuel": 2, "smoke": 1, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -65,6 +70,11 @@
         "edible": true,
         "vitamins" : [
             [ "vitC", 2.0 ]
+        ],
+        "burn_data": [
+            { "fuel": 1, "smoke": 2, "burn": 1, "chance": 5 },
+            { "fuel": 1, "smoke": 1, "burn": 2 },
+            { "fuel": 1, "smoke": 1, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -85,7 +95,12 @@
         "fire_resist" : 1,
         "chip_resist" : 0,
         "density" : 1,
-        "edible": true
+        "edible": true,
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 1 },
+            { "fuel": 1, "smoke": 1, "burn": 2 },
+            { "fuel": 1, "smoke": 1, "burn": 3 }
+        ]
     },{
         "type" : "material",
         "ident" : "wheat",
@@ -108,6 +123,11 @@
         "edible": true,
         "vitamins": [
           [ "vitB", 1.0 ]
+        ],
+        "burn_data": [
+            { "fuel": 1, "smoke": 2, "burn": 1 },
+            { "fuel": 1, "smoke": 2, "burn": 2 },
+            { "fuel": 1, "smoke": 1, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -128,7 +148,12 @@
         "fire_resist" : 1,
         "chip_resist" : 2,
         "density" : 4,
-        "edible": true
+        "edible": true,
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 1 },
+            { "fuel": 1, "smoke": 1, "burn": 2 },
+            { "fuel": 1, "smoke": 1, "burn": 3 }
+        ]
     },{
         "type" : "material",
         "ident" : "flesh",
@@ -153,6 +178,11 @@
           [ "calcium", 0.1 ],
           [ "vitB", 1.0 ],
           [ "iron", 2.0 ]
+        ],
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
+            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
+            { "fuel": 3, "smoke": 10, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -172,7 +202,12 @@
         "elec_resist" : 2,
         "fire_resist" : 0,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "burn_data": [
+            { "fuel": 10, "smoke": 2, "burn": 10 },
+            { "fuel": 10, "smoke": 2, "burn": 10 },
+            { "fuel": 10, "smoke": 2, "burn": 10 }
+        ]
     },{
         "type" : "material",
         "ident" : "water",
@@ -192,7 +227,12 @@
         "fire_resist" : 1,
         "chip_resist" : 0,
         "density" : 1,
-        "edible": true
+        "edible": true,
+        "burn_data": [
+            { "fuel": -100, "smoke": 1, "burn": 1 },
+            { "fuel": -50, "smoke": 2, "burn": 1 },
+            { "fuel": -10, "smoke": 2, "burn": 2 }
+        ]
     },{
         "type" : "material",
         "ident" : "milk",
@@ -216,6 +256,11 @@
         "vitamins" : [
           [ "vitB", 0.5 ],
           [ "calcium", 1.5 ]
+        ],
+        "burn_data": [
+            { "fuel": -100, "smoke": 1, "burn": 1 },
+            { "fuel": -50, "smoke": 2, "burn": 1 },
+            { "fuel": -10, "smoke": 2, "burn": 2 }
         ]
     },{
         "type" : "material",
@@ -239,6 +284,11 @@
         "edible": true,
         "vitamins" : [
           [ "calcium", 1.0 ]
+        ],
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
+            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
+            { "fuel": 3, "smoke": 10, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -264,6 +314,11 @@
           [ "calcium", 0.1 ],
           [ "vitB", 1.0 ],
           [ "iron", 2.0 ]
+        ],
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 10 },
+            { "fuel": 2, "smoke": 3, "burn": 2, "chance": 40 },
+            { "fuel": 3, "smoke": 10, "burn": 3 }
         ]
     },{
         "type" : "material",
@@ -284,7 +339,12 @@
         "elec_resist" : 2,
         "fire_resist" : 0,
         "chip_resist" : 6,
-        "density" : 3
+        "density" : 3,
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
+            { "fuel": 1, "smoke": 1, "burn": 1 },
+            { "fuel": 1, "smoke": 1, "burn": 2 }
+        ]
     },{
         "type" : "material",
         "ident" : "wool",
@@ -304,7 +364,12 @@
         "elec_resist" : 2,
         "fire_resist" : 0,
         "chip_resist" : 6,
-        "density" : 9
+        "density" : 9,
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 1, "chance": 5 },
+            { "fuel": 1, "smoke": 1, "burn": 2 },
+            { "fuel": 1, "smoke": 1, "burn": 5 }
+        ]
     },{
         "type" : "material",
         "ident" : "leather",
@@ -324,7 +389,12 @@
         "elec_resist" : 2,
         "fire_resist" : 2,
         "chip_resist" : 10,
-        "density" : 6
+        "density" : 6,
+        "burn_data": [
+            { "fuel": 0, "smoke": 0, "burn": 0 },
+            { "fuel": 1, "smoke": 3, "burn": 2, "chance": 2 },
+            { "fuel": 1, "smoke": 3, "burn": 2 }
+        ]
     },{
         "type" : "material",
         "ident" : "kevlar",
@@ -383,7 +453,12 @@
         "elec_resist" : 2,
         "fire_resist" : 1,
         "chip_resist" : 8,
-        "density" : 9
+        "density" : 9,
+        "burn_data": [
+            { "fuel": 1, "smoke": 3, "burn": 1, "chance": 5 },
+            { "fuel": 1, "smoke": 5, "burn": 2 },
+            { "fuel": 1, "smoke": 10, "burn": 4 }
+        ]
     },{
         "type" : "material",
         "ident" : "chitin",
@@ -402,7 +477,12 @@
         "elec_resist" : 2,
         "fire_resist" : 2,
         "chip_resist" : 10,
-        "density" : 10
+        "density" : 10,
+        "burn_data": [
+            { "fuel": 0, "smoke": 1, "burn": 1, "chance": 5 },
+            { "fuel": 1, "smoke": 3, "burn": 1 },
+            { "fuel": 1, "smoke": 5, "burn": 5 }
+        ]
     },{
         "type" : "material",
         "ident" : "bone",
@@ -425,6 +505,11 @@
         "edible": true,
         "vitamins" : [
             [ "calcium", 2.0 ]
+        ],
+        "burn_data": [
+            { "fuel": 0, "smoke": 0, "burn": 0 },
+            { "fuel": 0, "smoke": 1, "burn": 1, "chance": 1 },
+            { "fuel": 1, "smoke": 1, "burn": 2 }
         ]
     },{
         "type" : "material",
@@ -463,7 +548,12 @@
         "elec_resist" : 2,
         "fire_resist" : 0,
         "chip_resist" : 0,
-        "density" : 4
+        "density" : 4,
+        "burn_data": [
+            { "fuel": 10, "smoke": 1, "burn": 10 },
+            { "fuel": 8, "smoke": 1, "burn": 20 },
+            { "fuel": 5, "smoke": 1, "burn": 50 }
+        ]
     },{
         "type" : "material",
         "ident" : "wood",
@@ -484,7 +574,12 @@
         "elec_resist" : 2,
         "fire_resist" : 1,
         "chip_resist" : 10,
-        "density" : 4
+        "density" : 4,
+        "burn_data": [
+            { "fuel": 1, "smoke": 1, "burn": 0.02, "chance": 5 },
+            { "fuel": 2, "smoke": 1, "burn": 0.04, "chance": 20 },
+            { "fuel": 3, "smoke": 1, "burn": 0.06 }
+        ]
     },{
         "type" : "material",
         "ident" : "plastic",
@@ -504,7 +599,12 @@
         "elec_resist" : 2,
         "fire_resist" : 1,
         "chip_resist" : 6,
-        "density" : 8
+        "density" : 8,
+        "burn_data": [
+            { "fuel": 1, "smoke": 2, "burn": 1, "chance": 3 },
+            { "fuel": 1, "smoke": 3, "burn": 2 },
+            { "fuel": 1, "smoke": 5, "burn": 5 }
+        ]
     },{
         "type" : "material",
         "ident" : "glass",
@@ -523,7 +623,12 @@
         "elec_resist" : 2,
         "fire_resist" : 3,
         "chip_resist" : 0,
-        "density" : 14
+        "density" : 14,
+        "burn_data": [
+            { "fuel": 0, "smoke": 0, "burn": 0 },
+            { "fuel": 0, "smoke": 0, "burn": 0 },
+            { "fuel": 0, "smoke": 0, "burn": 1000, "chance": 20, "//": "More like shattering than melting" }
+        ]
     },{
         "type" : "material",
         "ident" : "iron",
@@ -676,7 +781,12 @@
         "elec_resist" : 4,
         "fire_resist" : 20,
         "chip_resist" : 8,
-        "density" : 4
+        "density" : 4,
+        "burn_data": [
+            { "immune": true },
+            { "immune": true },
+            { "immune": true }
+        ]
     },{
         "type" : "material",
         "ident" : "gold",
@@ -778,6 +888,11 @@
           [ "vitB", 0.5 ],
           [ "calcium", 0.5 ],
           [ "iron", 0.5 ]
+        ],
+        "burn_data": [
+            { "fuel": 0, "smoke": 1, "burn": 1 },
+            { "fuel": 1, "smoke": 3, "burn": 2 },
+            { "fuel": 1, "smoke": 5, "burn": 5 }
         ]
     },{
         "type" : "material",
@@ -836,7 +951,12 @@
         "fire_resist" : 0,
         "chip_resist" : 0,
         "density" : 1,
-        "edible": true
+        "edible": true,
+        "burn_data": [
+            { "fuel": 150, "smoke": 0, "burn": 1 },
+            { "fuel": 300, "smoke": 0, "burn": 2 },
+            { "fuel": 450, "smoke": 0, "burn": 3 }
+        ]
     },{
         "type" : "material",
         "ident" : "oil",
@@ -856,7 +976,12 @@
         "fire_resist" : 0,
         "chip_resist" : 0,
         "density" : 1,
-        "edible": true
+        "edible": true,
+        "burn_data": [
+            { "fuel": 300, "smoke": 3, "burn": 1 },
+            { "fuel": 600, "smoke": 6, "burn": 2 },
+            { "fuel": 900, "smoke": 9, "burn": 3 }
+        ]
     },{
         "type" : "material",
         "ident" : "hydrocarbons",
@@ -875,7 +1000,12 @@
         "elec_resist" : 0,
         "fire_resist" : 0,
         "chip_resist" : 0,
-        "density" : 1
+        "density" : 1,
+        "burn_data": [
+            { "fuel": 300, "smoke": 6, "burn": 1 },
+            { "fuel": 600, "smoke": 6, "burn": 2 },
+            { "fuel": 900, "smoke": 6, "burn": 3 }
+        ]
     },{
         "type" : "material",
         "ident" : "neoprene",
@@ -895,6 +1025,11 @@
         "fire_resist" : 2,
         "chip_resist" : 5,
         "acid_resist" : 1,
-        "density" : 4
+        "density" : 4,
+        "burn_data": [
+            { "fuel": 1, "smoke": 3, "burn": 1, "chance": 10 },
+            { "fuel": 1, "smoke": 3, "burn": 2 },
+            { "fuel": 1, "smoke": 3, "burn": 3 }
+        ]
     }
 ]

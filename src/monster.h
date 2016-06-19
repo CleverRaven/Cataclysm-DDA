@@ -27,7 +27,7 @@ class mon_special_attack : public JsonSerializer
         bool enabled = true;
 
         using JsonSerializer::serialize;
-        virtual void serialize( JsonOut &jsout ) const override;
+        void serialize( JsonOut &jsout ) const override;
         // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
@@ -52,11 +52,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & ) = default;
         monster( monster && ) = default;
-        virtual ~monster() override;
+        ~monster() override;
         monster &operator=( const monster & ) = default;
         monster &operator=( monster && ) = default;
 
-        virtual bool is_monster() const override {
+        bool is_monster() const override {
             return true;
         }
 
@@ -113,9 +113,9 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void load_info( std::string data );
 
         using JsonSerializer::serialize;
-        virtual void serialize( JsonOut &jsout ) const override;
+        void serialize( JsonOut &jsout ) const override;
         using JsonDeserializer::deserialize;
-        virtual void deserialize( JsonIn &jsin ) override;
+        void deserialize( JsonIn &jsin ) override;
 
         tripoint move_target(); // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
@@ -165,7 +165,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int calc_movecost( const tripoint &f, const tripoint &t ) const;
         int calc_climb_cost( const tripoint &f, const tripoint &t ) const;
 
-        virtual bool is_immune_field( const field_id fid ) const override;
+        bool is_immune_field( const field_id fid ) const override;
 
         /**
          * Attempt to move to p.
@@ -242,8 +242,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
         using Creature::melee_attack;
         void melee_attack( Creature &p, bool allow_special, const matec_id &force_technique ) override;
-        virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
-        virtual void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+        void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
+        void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
                                               int &pain ) override;
         void apply_damage( Creature *source, body_part bp, int amount ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
@@ -262,19 +262,19 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void set_hp( int hp );
 
         /** Processes monster-specific effects effects before calling Creature::process_effects(). */
-        virtual void process_effects() override;
+        void process_effects() override;
         /** Processes effects which may prevent the monster from moving (bear traps, crushed, etc.).
          *  Returns false if movement is stopped. */
-        virtual bool move_effects( bool attacking ) override;
+        bool move_effects( bool attacking ) override;
         /** Handles any monster-specific effect application effects before calling Creature::add_eff_effects(). */
-        virtual void add_eff_effects( effect e, bool reduced ) override;
+        void add_eff_effects( effect e, bool reduced ) override;
         /** Performs any monster-specific modifications to the arguments before passing to Creature::add_effect(). */
-        virtual void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
+        void add_effect( const efftype_id &eff_id, int dur, body_part bp = num_bp,
                                  bool permanent = false,
                                  int intensity = 0, bool force = false ) override;
 
-        virtual float power_rating() const override;
-        virtual float speed_rating() const override;
+        float power_rating() const override;
+        float speed_rating() const override;
 
         int  get_armor_cut( body_part bp ) const override; // Natural armor, plus any worn armor
         int  get_armor_bash( body_part bp ) const override; // Natural armor, plus any worn armor
@@ -348,7 +348,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::vector<item> inv; // Inventory
 
         // DEFINING VALUES
-        int def_chance;
         int friendly;
         int anger, morale;
         mfaction_id faction; // Our faction (species, for most monsters)

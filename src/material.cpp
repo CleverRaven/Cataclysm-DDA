@@ -4,6 +4,7 @@
 #include "damage.h" // damage_type
 #include "json.h"
 #include "translations.h"
+#include "generic_factory.h"
 
 #include <string>
 #include <map>
@@ -52,6 +53,17 @@ material_type::material_type()
     _density = 1;
 }
 
+mat_burn_data load_mat_burn_data( JsonObject &jsobj )
+{
+    mat_burn_data bd;
+    assign( jsobj, "immune", bd.immune );
+    assign( jsobj, "chance", bd.chance_in_volume );
+    jsobj.read( "fuel", bd.fuel );
+    jsobj.read( "smoke", bd.smoke );
+    jsobj.read( "burn", bd.burn );
+    return bd;
+}
+
 // load a material object from incoming JSON
 void material_type::load_material( JsonObject &jsobj )
 {
@@ -83,6 +95,23 @@ void material_type::load_material( JsonObject &jsobj )
     mat._dmg_adj[1] = _( jsarr.next_string().c_str() );
     mat._dmg_adj[2] = _( jsarr.next_string().c_str() );
     mat._dmg_adj[3] = _( jsarr.next_string().c_str() );
+
+    JsonArray burn_data_array = jsobj.get_array( "burn_data" );
+    for( size_t intensity = 0; intensity < MAX_FIELD_DENSITY; intensity++ ) {
+        if( burn_data_array.has_more() ) {
+            JsonObject brn = burn_data_array.next_object();
+            mat._burn_data[ intensity ] = load_mat_burn_data( brn );
+        } else {
+            // If not specified, supply default
+            bool flammable = mat._fire_resist <= ( int )intensity;
+            mat_burn_data mbd;
+            if( flammable ) {
+                mbd.burn = 1;
+            }
+
+            mat._burn_data[ intensity ] = mbd;
+        }
+    }
 
     _all_materials[mat._ident] = mat;
     DebugLog( D_INFO, DC_ALL ) << "Loaded material: " << mat._name;
@@ -201,4 +230,9 @@ int material_type::density() const
 bool material_type::edible() const
 {
     return _edible;
+}
+
+const mat_burn_data &material_type::burn_data( size_t intensity ) const
+{
+    return _burn_data[ std::min<size_t>( intensity, MAX_FIELD_DENSITY ) - 1 ];
 }

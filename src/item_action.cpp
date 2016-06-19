@@ -47,7 +47,7 @@ class actmenu_cb : public uimenu_callback
                 ctxt.register_action( id.first, id.second.name );
             }
         }
-        ~actmenu_cb() { }
+        ~actmenu_cb() override { }
 
         bool key( int ch, int /*num*/, uimenu * /*menu*/ ) override {
             input_event wrap = input_event( ch, CATA_INPUT_KEYBOARD );

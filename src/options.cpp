@@ -23,6 +23,7 @@
 #include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <memory>
 
 bool trigdist;
 bool use_tiles;
@@ -32,7 +33,7 @@ bool fov_3d;
 bool tile_iso;
 
 #ifdef TILES
-extern cata_tiles *tilecontext;
+extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
@@ -267,7 +268,7 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
 //helper functions
 bool options_manager::cOpt::is_hidden()
 {
-    switch(hide) {
+    switch( hide ) {
     case COPT_NO_HIDE:
         return false;
 
@@ -300,9 +301,11 @@ bool options_manager::cOpt::is_hidden()
         return false;
 #endif
 
-    default:
-        return false; // No hide on default
+    case COPT_ALWAYS_HIDE:
+        return true;
     }
+    // Make compiler happy, this is unreachable.
+    return false;
 }
 
 void options_manager::cOpt::setSortPos(const std::string sPageIn)
@@ -1013,16 +1016,6 @@ void options_manager::init()
                                         0, 1000, 0
                                        );
 
-
-    //~ style of vehicle interaction menu; vertical is old one.
-    optionNames["vertical"] = _("Vertical");
-    optionNames["horizontal"] = _("Horizontal");
-    optionNames["hybrid"] = _("Hybrid");
-    OPTIONS["VEH_MENU_STYLE"] = cOpt("interface", _("Vehicle menu style"),
-                                     _("Switch between two different styles of vehicle interaction menu or combination of them."),
-                                     "vertical,horizontal,hybrid", "vertical"
-                                    );
-
     mOptionsSort["interface"]++;
 
     OPTIONS["MOVE_VIEW_OFFSET"] = cOpt("interface", _("Move view offset"),
@@ -1358,6 +1351,29 @@ void options_manager::init()
                               _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
                               false
                              );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["NO_FAULTS"] = cOpt("world_default", _("Disables vehicle part faults."),
+                              _("If true, disables vehicle part faults, vehicle parts will be totally reliable unless destroyed, and can only be repaired via replacement."),
+                                false, COPT_ALWAYS_HIDE
+                             );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["BLACKLIST_MAGAZINES"] = cOpt("world_default", _("Disables removable gun magaziones."),
+                              _("If true, disables removeable gun magazines, guns will all act as if they have integral magazines."),
+                                false, COPT_ALWAYS_HIDE
+                             );
+
+    mOptionsSort["world_default"]++;
+
+    OPTIONS["NO_VITAMINS"] = cOpt("world_default", _("Disables tracking vitamins in food items."),
+                              _("If true, disables vitamin tracking and vitamin disorders."),
+                                false, COPT_ALWAYS_HIDE
+                             );
+
+
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
@@ -1746,8 +1762,9 @@ void options_manager::show(bool ingame)
 
     if (options_changed) {
         if(query_yn(_("Save changes?"))) {
-            save(ingame && world_options_changed);
-            if( world_options_changed ) {
+            save();
+            if( ingame && world_options_changed ) {
+                world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
                 world_generator->save_world( world_generator->active_world, false );
             }
         } else {
@@ -1778,7 +1795,6 @@ void options_manager::serialize(JsonOut &json) const
     json.start_array();
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
-        bool update_wopt = (bIngame && (int)j == iWorldOptPage );
         for( auto &elem : mPageItems[j] ) {
             if( OPTIONS[elem].getDefaultText() != "" ) {
                 json.start_object();
@@ -1789,15 +1805,7 @@ void options_manager::serialize(JsonOut &json) const
                 json.member( "value", OPTIONS[elem].getValue() );
 
                 json.end_object();
-
-                if ( update_wopt ) {
-                    world_generator->active_world->WORLD_OPTIONS[elem] = ACTIVE_WORLD_OPTIONS[elem];
-                }
             }
-        }
-
-        if( update_wopt ) {
-            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
         }
     }
 
@@ -1818,9 +1826,8 @@ void options_manager::deserialize(JsonIn &jsin)
     }
 }
 
-bool options_manager::save(bool ingame)
+bool options_manager::save()
 {
-    bIngame = ingame;
     const auto savefile = FILENAMES["options"];
 
     trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well

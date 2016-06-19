@@ -383,6 +383,25 @@ Mods can modify this via "add:traits" and "remove:traits".
 "leads_to": [], // Mutations that add to this one
 "wet_protection":[{ "part": "HEAD", // Wet Protection on specific bodyparts
                     "good": 1 } ] // "neutral/good/ignored" // Good increases pos and cancels neg, neut cancels neg, ignored cancels both
+"vitamin_rates": [ [ "vitC", -1200 ] ], // How much extra vitamins do you consume per minute. Negative values mean production
+"encumbrance_always" : [ // Adds this much encumbrance to selected body parts
+    [ "ARM_L", 20 ],
+    [ "ARM_R", 20 ]
+],
+"encumbrance_covered" : [ // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment
+    [ "HAND_L", 50 ],
+    [ "HAND_R", 50 ]
+]
+"armor" : [ // Protects selected body parts this much. Resistances use syntax like `PART RESISTANCE` below.
+    [
+        [ "ALL" ], // Shorthand that applies the selected resistance to the entire body
+        { "bash" : 2 } // The resistance provided to the body part(s) selected above
+    ],
+    [   // NOTE: Resistances are applies in order and ZEROED between applications!
+        [ "ARM_L", "ARM_R" ], // Overrides the above settings for those body parts
+        { "bash" : 1 }        // ...and gives them those resistances instead
+    ]
+]
 ```
 ###VEHICLE GROUPS
 ```C++
@@ -1094,6 +1113,22 @@ The contents of use_action fields can either be a string indicating a built-in f
         { "id" : "pkill1", "duration" : 120 }
     ],
     "used_up_item" : "rag_bloody" // Item produced on successful healing. If the healing item is a tool, it is turned into the new type. Otherwise a new item is produced.
+},
+"use_action": {
+    "type": "place_trap", // places a trap
+    "allow_underwater": false, // (optional) allow placing this trap when the player character is underwater
+    "allow_under_player": false, // (optional) allow placing the trap on the same square as the player character (e.g. for benign traps)
+    "needs_solid_neighbor": false, // (optional) trap must be placed between two solid tiles (e.g. for tripwire).
+    "needs_neighbor_terrain": "t_tree", // (optional, default is empty) if non-empty: a terrain id, the trap must be placed adjacent to that terrain.
+    "outer_layer_trap": "tr_blade", // (optional, default is empty) if non-empty: a trap id, makes the game place a 3x3 field of traps. The center trap is the one defined by "trap", the 8 surrounding traps are defined by this (e.g. tr_blade for blade traps).
+    "bury_question": "", // (optional) if non-empty: a question that will be asked if the player character has a shoveling tool and the target location is diggable. It allows to place a buried trap. If the player answers the question (e.g. "Bury the X-trap?") with yes, the data from the "bury" object will be used.
+    "bury": { // If the bury_question was answered with yes, data from this entry will be used instead of outer data.
+         // This json object should contain "trap", "done_message", "practice" and (optional) "moves", with the same meaning as below.
+    },
+    "trap": "tr_engine", // The trap to place.
+    "done_message": "Place the beartrap on the %s.", // The message that appears after the trap has been placed. %s is replaced with the terrain name of the place where the trap has been put.
+    "practice": 4, // How much practice to the "traps" skill placing the trap gives.
+    "moves": 10 // (optional, default is 100): the move points that are used by placing the trap.
 }
 ```
 ###Random descriptions

@@ -57,7 +57,6 @@ enum vpart_bitflags : int {
     VPFLAG_CARGO,
     VPFLAG_INTERNAL,
     VPFLAG_SOLAR_PANEL,
-    VPFLAG_VARIABLE_SIZE,
     VPFLAG_TRACK,
     VPFLAG_RECHARGE,
     VPFLAG_EXTENDS_VISION,
@@ -68,7 +67,6 @@ enum vpart_bitflags : int {
  * INTERNAL - Can be mounted inside other parts
  * ANCHOR_POINT - Allows secure seatbelt attachment
  * OVER - Can be mounted over other parts
- * VARIABLE_SIZE - Has 'bigness' for power, wheel radius, etc
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
 class vpart_info
@@ -123,10 +121,7 @@ class vpart_info
         /** Volume of a foldable part when folded */
         int folded_volume = 0;
 
-        /** Maximum turret range */
-        int range = 12;
-
-        /** Fuel tank or cargo location volume */
+        /** Cargo location volume */
         int size = 0;
 
         /** Mechanics skill required to install item */
@@ -138,11 +133,8 @@ class vpart_info
         /** Tool qualities this vehicle part can provide when installed */
         std::map<quality_id, int> qualities;
 
-        union {
-            int par1;
-            int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
-            int bonus;      // seatbelt (str), muffler (%), horn (vol)
-        };
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity) */
+        int bonus = 0;
 
         /** Flat decrease of damage of a given type. */
         std::array<float, NUM_DT> damage_reduction;

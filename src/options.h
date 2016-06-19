@@ -27,7 +27,6 @@ class options_manager : public JsonSerializer, public JsonDeserializer
     private:
         static std::string build_tilesets_list();
         static std::string build_soundpacks_list();
-        bool bIngame;
 
         bool load_legacy();
 
@@ -42,7 +41,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer
             /** Hide this option in non-Windows Curses builds */
             COPT_POSIX_CURSES_HIDE,
             /** Hide this option in builds without sound support */
-            COPT_NO_SOUND_HIDE
+            COPT_NO_SOUND_HIDE,
+            /** Hide this option always, it is set as a mod. **/
+            COPT_ALWAYS_HIDE
         };
 
         class cOpt
@@ -161,7 +162,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer
 
         void init();
         void load();
-        bool save( bool ingame = false );
+        bool save();
         void show( bool ingame = false );
 
         using JsonSerializer::serialize;

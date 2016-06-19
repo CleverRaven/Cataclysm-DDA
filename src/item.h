@@ -40,6 +40,7 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+struct fire_data;
 
 enum damage_type : int;
 
@@ -115,7 +116,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item() = default;
+        ~item() override = default;
 
         explicit item( const itype_id& id, int turn = -1, long qty = -1 );
         explicit item( const itype *type, int turn = -1, long qty = -1 );
@@ -252,7 +253,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string info( bool showtext = false) const;
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
-    bool burn(int amount = 1); // Returns true if destroyed
+    /** Burns the item. Returns true if the item was destroyed. */
+    bool burn( fire_data &bd );
 
  // Returns the category of this item.
  const item_category &get_category() const;
@@ -336,6 +338,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
     int volume( bool integral = false ) const;
+
+    /** Simplified, faster volume check for when processing time is important and exact volume is not. */
+    int base_volume() const;
 
     /* Volume of an item or of a single unit for charged items multipled by 1000 */
     int precise_unit_volume() const;
@@ -551,7 +556,15 @@ public:
     /** The results of fermenting this item. */
     const std::vector<itype_id> &brewing_results() const;
 
- void detonate( const tripoint &p ) const;
+    /**
+     * Detonates the item and adds remains (if any) to drops.
+     * Returns true if the item actually detonated,
+     * potentially destroying other items and invalidating iterators.
+     * Should NOT be called on an item on the map, but on a local copy.
+     */
+    bool detonate( const tripoint &p, std::vector<item> &drops );
+
+    bool will_explode_in_fire() const;
 
     /**
      * @name Material(s) of the item
@@ -593,13 +606,13 @@ public:
      * one item of the passed in set matches any material).
      * @param mat_idents Set of material ids.
      */
-    bool made_of_any( const std::vector<material_id> &mat_idents ) const;
+    bool made_of_any( const std::set<material_id> &mat_idents ) const;
     /**
      * Check we are made of only the materials (e.g. false if we have
      * one material not in the set or no materials at all).
      * @param mat_idents Set of material ids.
      */
-    bool only_made_of( const std::vector<material_id> &mat_idents ) const;
+    bool only_made_of( const std::set<material_id> &mat_idents ) const;
     /**
      * Check we are made of this material (e.g. matches at least one
      * in our set.)
@@ -659,7 +672,7 @@ public:
     void mark_as_used_by_player(const player &p);
     /** Marks the item as filthy, so characters with squeamish trait can't wear it.
     */
-    bool is_disgusting_for( const player &p ) const;
+    bool is_filthy() const;
     /**
      * This is called once each turn. It's usually only useful for active items,
      * but can be called for inactive items without problems.
@@ -687,6 +700,12 @@ protected:
     bool process_cable(player *carrier, const tripoint &pos);
     bool process_tool(player *carrier, const tripoint &pos);
 public:
+
+    /**
+     * Gets the point (vehicle tile) the cable is connected to.
+     * Returns tripoint_min if not connected to anything.
+     */
+    tripoint get_cable_target() const;
     /**
      * Helper to bring a cable back to its initial state.
      */
@@ -734,6 +753,7 @@ public:
 
     bool is_brewable() const;
     bool is_engine() const;
+    bool is_wheel() const;
 
     bool is_faulty() const;
 
@@ -1222,12 +1242,19 @@ public:
         bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         struct gun_mode {
-            std::string mode; /** name of this mode */
-            item *target;     /** pointer to base gun or attached gunmod */
-            int qty;          /** burst size or melee range */
+            std::string mode;           /** name of this mode */
+            item *target = nullptr;     /** pointer to base gun or attached gunmod */
+            int qty = 0;                /** burst size or melee range */
 
             /** flags change behavior of gun mode and are **not** equivalent to item flags */
             std::set<std::string> flags;
+
+            gun_mode() = default;
+            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
+                mode( mode ),
+                target( target ),
+                qty( qty ),
+                flags( flags ) {}
 
             /** if true perform a melee attach as opposed to shooting */
             bool melee() const { return flags.count( "MELEE" ); }
@@ -1417,7 +1444,6 @@ public:
     int burnt = 0;           // How badly we're burnt
     int bday;                // The turn on which it was created
     int poison = 0;          // How badly poisoned is it?
-    int bigness = 0;         // engine power, wheel size
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.
     int irridation = 0;      // Tracks radiation dosage.

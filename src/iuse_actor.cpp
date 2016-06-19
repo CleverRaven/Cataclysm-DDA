@@ -23,6 +23,8 @@
 #include "pldata.h"
 #include "recipe_dictionary.h"
 #include "player.h"
+#include "generic_factory.h"
+#include "map_iterator.h"
 
 #include <sstream>
 #include <algorithm>
@@ -336,7 +338,6 @@ long unfold_vehicle_iuse::use(player *p, item *it, bool /*t*/, const tripoint &/
                 // expected to be consistent.
                 dst.hp = src.hp;
                 dst.blood = src.blood;
-                dst.bigness = src.bigness;
                 // door state/amount of fuel/direction of headlight
                 dst.ammo_set( src.ammo_current(), src.ammo_remaining() );
                 dst.flags = src.flags;
@@ -997,23 +998,12 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
 void salvage_actor::load( JsonObject &obj )
 {
-    moves_per_part = obj.get_int( "moves_per_part", 25 );
+    assign( obj, "cost", cost );
+    assign( obj, "moves_per_part", moves_per_part );
+
     if( obj.has_array( "material_whitelist" ) ) {
-        JsonArray jarr = obj.get_array( "material_whitelist" );
-        while( jarr.has_more() ) {
-            material_whitelist.push_back( material_id( jarr.next_string() ) );
-        }
-    } else {
-        // Default to old salvageable materials
-        material_whitelist.push_back( material_id( "cotton" ) );
-        material_whitelist.push_back( material_id( "leather" ) );
-        material_whitelist.push_back( material_id( "fur" ) );
-        material_whitelist.push_back( material_id( "nomex" ) );
-        material_whitelist.push_back( material_id( "kevlar" ) );
-        material_whitelist.push_back( material_id( "plastic" ) );
-        material_whitelist.push_back( material_id( "wood" ) );
-        material_whitelist.push_back( material_id( "wool" ) );
-        material_whitelist.push_back( material_id( "neoprene" ) );
+        material_whitelist.clear();
+        assign( obj, "material_whitelist", material_whitelist );
     }
 }
 
@@ -1204,34 +1194,23 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         }
     }
     // No matter what, cutting has been done by the time we get here.
-    return it->type->charges_to_use();
+    return cost >= 0 ? cost : it->ammo_required();
 }
 
 void inscribe_actor::load( JsonObject &obj )
 {
-    on_items = obj.get_bool( "on_items", true );
-    on_terrain = obj.get_bool( "on_terrain", false );
-    material_restricted = obj.get_bool( "material_restricted", true );
+    assign( obj, "cost", cost );
+    assign( obj, "on_items", on_items );
+    assign( obj, "on_terrain", on_terrain );
+    assign( obj, "material_restricted", material_restricted );
 
     if( obj.has_array( "material_whitelist" ) ) {
-        JsonArray jarr = obj.get_array( "material_whitelist" );
-        while( jarr.has_more() ) {
-            material_whitelist.push_back( material_id( jarr.next_string() ) );
-        }
-    } else if( material_restricted ) {
-        material_whitelist.reserve( 7 );
-        // Default to old carveable materials
-        material_whitelist.push_back( material_id( "wood" ) );
-        material_whitelist.push_back( material_id( "plastic" ) );
-        material_whitelist.push_back( material_id( "glass" ) );
-        material_whitelist.push_back( material_id( "chitin" ) );
-        material_whitelist.push_back( material_id( "iron" ) );
-        material_whitelist.push_back( material_id( "steel" ) );
-        material_whitelist.push_back( material_id( "silver" ) );
+        material_whitelist.clear();
+        assign( obj, "material_whitelist", material_whitelist );
     }
 
-    verb = _(obj.get_string( "verb", "Carve" ).c_str());
-    gerund = _(obj.get_string( "gerund", "Carved" ).c_str());
+    assign( obj, "verb", verb );
+    assign( obj, "gerund", gerund );
 
     if( !on_items && !on_terrain ) {
         obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
@@ -1265,7 +1244,7 @@ bool inscribe_actor::item_inscription( item *cut ) const
     };
 
     uimenu menu;
-    menu.text = string_format(_("%s meaning?"), verb.c_str());
+    menu.text = string_format(_("%s meaning?"), _( verb.c_str() ) );
     menu.addentry(INSCRIPTION_LABEL, true, -1, _("It's a label"));
     menu.addentry(INSCRIPTION_NOTE, true, -1, _("It's a note"));
     menu.addentry(INSCRIPTION_CANCEL, true, 'q', _("Cancel"));
@@ -1290,8 +1269,8 @@ bool inscribe_actor::item_inscription( item *cut ) const
     std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
-                                        gerund.c_str(), cut->type_name().c_str());
-    message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
+                                        _( gerund.c_str() ), cut->type_name().c_str());
+    message = string_input_popup(string_format(_("%s what?"), _( verb.c_str() ) ), 64,
                                  (hasnote ? cut->get_var( carving ) : message),
                                  messageprefix, "inscribe_item", 128);
 
@@ -1302,7 +1281,7 @@ bool inscribe_actor::item_inscription( item *cut ) const
             cut->erase_var( carving_type );
         } else {
             cut->set_var( carving, message );
-            cut->set_var( carving_type, gerund );
+            cut->set_var( carving_type, _( gerund.c_str() ) );
         }
     }
 
@@ -1319,7 +1298,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uimenu imenu;
-        imenu.text = string_format( _("%s on what?"), verb.c_str() );
+        imenu.text = string_format( _("%s on what?"), _( verb.c_str() ) );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _("The ground") );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _("An item") );
         imenu.addentry( 2, true, MENU_AUTOASSIGN, _("Cancel") );
@@ -1336,14 +1315,15 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
+        return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), _( verb.c_str() ) ) );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
+
     if( item_inscription( cut ) ) {
-        return it->type->charges_to_use();
+        return cost >= 0 ? cost : it->ammo_required();
     }
 
     return 0;
@@ -1351,7 +1331,8 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
 void cauterize_actor::load( JsonObject &obj )
 {
-    flame = obj.get_bool( "flame", true );
+    assign( obj, "cost", cost );
+    assign( obj, "flame", flame );
 }
 
 iuse_actor *cauterize_actor::clone() const
@@ -1407,8 +1388,8 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     if( flame && !p->has_charges("fire", 4) ) {
         p->add_msg_if_player( m_info, _("You need a source of flame (4 charges worth) before you can cauterize yourself.") );
         return 0;
-    } else if( !flame && it->type->charges_to_use() > it->charges ) {
-        p->add_msg_if_player( m_info, _("You need at least %d charges to cauterize wounds."), it->type->charges_to_use() );
+    } else if( !flame && !it->ammo_sufficient() ) {
+        p->add_msg_if_player( m_info, _("You need at least %d charges to cauterize wounds."), it->ammo_required() );
         return 0;
     } else if( p->is_underwater() ) {
         p->add_msg_if_player( m_info, _("You can't cauterize anything underwater.") );
@@ -1431,9 +1412,10 @@ long cauterize_actor::use( player *p, item *it, bool t, const tripoint& ) const
     if( flame ) {
         p->use_charges("fire", 4);
         return 0;
-    }
 
-    return it->type->charges_to_use();
+    } else {
+        return cost >= 0 ? cost : it->ammo_required();
+    }
 }
 
 bool cauterize_actor::can_use( const player *p, const item *it, bool, const tripoint& ) const
@@ -1453,8 +1435,9 @@ bool cauterize_actor::can_use( const player *p, const item *it, bool, const trip
     return false;
 }
 
-void enzlave_actor::load( JsonObject & )
+void enzlave_actor::load( JsonObject &obj )
 {
+    assign( obj, "cost", cost );
 }
 
 iuse_actor *enzlave_actor::clone() const
@@ -1571,7 +1554,8 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(success);
     p->activity.str_values.push_back(corpses[selected_corpse]->display_name());
-    return it->type->charges_to_use();
+
+    return cost >= 0 ? cost : it->ammo_required();
 }
 
 bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
@@ -2144,7 +2128,7 @@ void repair_item_actor::load( JsonObject &obj )
     // Mandatory:
     JsonArray jarr = obj.get_array( "materials" );
     while( jarr.has_more() ) {
-        materials.push_back( material_id( jarr.next_string() ) );
+        materials.emplace( jarr.next_string() );
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
@@ -2156,12 +2140,10 @@ void repair_item_actor::load( JsonObject &obj )
 
     cost_scaling = obj.get_float( "cost_scaling" );
 
-    // Kinda hacky: get subtype of the actor for item action menu
-    type = obj.get_string( "item_action_type" );
-
     // Optional
     tool_quality = obj.get_int( "tool_quality", 0 );
     move_cost    = obj.get_int( "move_cost", 500 );
+    trains_skill_to = obj.get_int( "trains_skill_to", 5 ) - 1;
 }
 
 // TODO: This should be a property of material json, not a hardcoded hack
@@ -2431,6 +2413,9 @@ std::pair<float, float> repair_item_actor::repair_chance(
             // Reinforcing is at least as hard as refitting
             action_difficulty = std::max( MAX_ITEM_DAMAGE, recipe_difficulty );
             break;
+        case RT_PRACTICE:
+            // Skill gain scales with recipe difficulty, so practice difficulty should too
+            action_difficulty = recipe_difficulty;
         default:
             std::make_pair( 0.0f, 0.0f );
     }
@@ -2456,7 +2441,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
     return std::make_pair( success_chance, damage_chance );
 }
 
-repair_item_actor::repair_type repair_item_actor::default_action( const item &fix ) const
+repair_item_actor::repair_type repair_item_actor::default_action( const item &fix, int current_skill_level ) const
 {
     if( fix.damage > 0 ) {
         return RT_REPAIR;
@@ -2470,7 +2455,31 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_REINFORCE;
     }
 
+    if( current_skill_level <= trains_skill_to ) {
+        return RT_PRACTICE;
+    }
+
     return RT_NOTHING;
+}
+
+bool damage_item( player &pl, item &fix )
+{
+    pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
+    fix.damage++;
+    if( fix.damage >= 5 ) {
+        pl.add_msg_if_player(m_bad, _("You destroy it!"));
+        const int pos = pl.get_item_position( &fix );
+        if( pos != INT_MIN ) {
+            pl.i_rem_keep_contents( pos );
+        } else {
+            // NOTE: Repairing items outside inventory is NOT yet supported!
+            debugmsg( "Tried to remove an item that doesn't exist" );
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix ) const
@@ -2479,10 +2488,10 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         return AS_CANT;
     }
 
-    const auto action = default_action( fix );
+    const int current_skill_level = pl.get_skill_level( used_skill );
+    const auto action = default_action( fix, current_skill_level );
     const auto chance = repair_chance( pl, fix, action );
     const int practice_amount = repair_recipe_difficulty( pl, fix, true );
-    pl.practice( used_skill, practice_amount );
     float roll_value = rng_float( 0.0, 1.0 );
     enum roll_result {
         SUCCESS,
@@ -2498,26 +2507,25 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         roll = NEUTRAL;
     }
 
+    if( action == RT_NOTHING ) {
+        pl.add_msg_if_player( m_bad, _("You won't learn anything more by doing that.") );
+        return AS_CANT;
+    }
+
+    // If not for this if, it would spam a lot
+    if( current_skill_level <= trains_skill_to ) {
+        pl.practice( used_skill, practice_amount / 2 + 1, trains_skill_to );
+    }
+
+    if( roll == FAILURE ) {
+        return damage_item( pl, fix ) ? AS_DESTROYED : AS_FAILURE;
+    }
+
+    if( action == RT_PRACTICE ) {
+        return AS_RETRY;
+    }
+
     if( action == RT_REPAIR ) {
-        if( roll == FAILURE ) {
-            pl.add_msg_if_player(m_bad, _("You damage your %s further!"), fix.tname().c_str());
-            fix.damage++;
-            if( fix.damage >= 5 ) {
-                pl.add_msg_if_player(m_bad, _("You destroy it!"));
-                const int pos = pl.get_item_position( &fix );
-                if( pos != INT_MIN ) {
-                    pl.i_rem_keep_contents( pos );
-                } else {
-                    // NOTE: Repairing items outside inventory is NOT yet supported!
-                    debugmsg( "Tried to remove an item that doesn't exist" );
-                }
-
-                return AS_DESTROYED;
-            }
-
-            return AS_FAILURE;
-        }
-
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
             handle_components( pl, fix, false, false );
@@ -2529,12 +2537,6 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( action == RT_REFIT ) {
-        if( roll == FAILURE ) {
-            pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
-            fix.damage++;
-            return AS_FAILURE;
-        }
-
         if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
                                  fix.tname().c_str());
@@ -2927,4 +2929,142 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 
     dump.emplace_back( "TOOL", _( "<bold>Moves to use</bold>:" ), "", move_cost );
+}
+
+
+
+void place_trap_actor::data::load( JsonObject obj )
+{
+    assign( obj, "trap", trap );
+    assign( obj, "done_message", done_message );
+    assign( obj, "practice", practice );
+    assign( obj, "moves", moves );
+}
+
+void place_trap_actor::load( JsonObject &obj )
+{
+    assign( obj, "allow_underwater", allow_underwater );
+    assign( obj, "allow_under_player", allow_under_player );
+    assign( obj, "needs_solid_neighbor", needs_solid_neighbor );
+    assign( obj, "needs_neighbor_terrain", needs_neighbor_terrain );
+    assign( obj, "bury_question", bury_question );
+    if( !bury_question.empty() ) {
+        buried_data.load( obj.get_object( "bury" ) );
+    }
+    unburied_data.load( obj );
+    assign( obj, "outer_layer_trap", outer_layer_trap );
+}
+
+iuse_actor *place_trap_actor::clone() const
+{
+    return new place_trap_actor( *this );
+}
+
+bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
+{
+    const tripoint a = pos + tripoint( offset_x, offset_y, 0 );
+    const tripoint b = pos - tripoint( offset_x, offset_y, 0 );
+    return g->m.move_cost( a ) != 2 && g->m.move_cost( b ) != 2;
+}
+
+bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
+{
+    for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
+        if( g->m.ter( t ) == terrain_id ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::string &name ) const
+{
+    if( !allow_under_player && pos == p.pos() ) {
+        p.add_msg_if_player( m_info, _( "Yeah. Place the %s at your feet. Real damn smart move." ), name.c_str() );
+        return false;
+    }
+    if( g->m.move_cost( pos ) != 2 ) {
+        p.add_msg_if_player( m_info, _( "You can't place a %s there." ), name.c_str() );
+        return false;
+    }
+    if( needs_solid_neighbor ) {
+        if( !is_solid_neighbor( pos, 1, 0 ) && !is_solid_neighbor( pos, 0, 1 ) &&
+            !is_solid_neighbor( pos, 1, 1 ) && !is_solid_neighbor( pos, 1, -1) ) {
+            p.add_msg_if_player( m_info, _( "You must place the %s between two solid tiles." ), name.c_str() );
+            return false;
+        }
+    }
+    if( needs_neighbor_terrain && !has_neighbor( pos, needs_neighbor_terrain ) ) {
+        p.add_msg_if_player( m_info, _( "The %s needs a %s adjacent to it." ), name.c_str(), needs_neighbor_terrain.obj().name.c_str() );
+        return false;
+    }
+    const trap &existing_trap = g->m.tr_at( pos );
+    if( !existing_trap.is_null() ) {
+        if( existing_trap.can_see( pos, p ) ) {
+            p.add_msg_if_player( m_info, _( "You can't place a %s there. It contains a trap already." ), name.c_str() );
+        } else {
+            p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name.c_str() );
+            existing_trap.trigger( pos, &p );
+        }
+        return false;
+    }
+    return true;
+}
+
+void place_and_add_as_known( player &p, const tripoint &pos, const trap_str_id &id )
+{
+    g->m.trap_set( pos, id );
+    const trap &tr = g->m.tr_at( pos );
+    if( !tr.can_see( pos, p ) ) {
+        p.add_known_trap( pos, tr );
+    }
+}
+
+long place_trap_actor::use( player * const p, item * const it, bool, const tripoint & ) const
+{
+    const bool is_3x3_trap = !outer_layer_trap.is_null();
+    const bool could_bury = !bury_question.empty();
+    if( !allow_underwater && p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+    tripoint pos = p->pos();
+    if( !choose_adjacent( string_format( _( "Place %s where?" ), it->tname().c_str() ), pos ) ) {
+        return 0;
+    }
+    if( !is_allowed( *p, pos, it->tname() ) ) {
+        return 0;
+    }
+    if( is_3x3_trap ) {
+        pos.x = ( pos.x - p->posx() ) * 2 + p->posx(); //math correction for blade trap
+        pos.y = ( pos.y - p->posy() ) * 2 + p->posy();
+        for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
+            if( !is_allowed( *p, t, it->tname() ) ) {
+                p->add_msg_if_player( m_info, _( "That trap needs a 3x3 space to be clear, centered two tiles from you." ) );
+                return false;
+            }
+        }
+    }
+
+    const bool has_shovel = p->has_quality( quality_id( "DIG" ), 3 );
+    const bool is_diggable = g->m.has_flag( "DIGGABLE", pos );
+    bool bury = false;
+    if( could_bury && has_shovel && is_diggable ) {
+        bury = query_yn( _( bury_question.c_str() ) );
+    }
+    const auto &data = bury ? buried_data : unburied_data;
+
+    p->add_msg_if_player( m_info, _( data.done_message.c_str() ), g->m.name( pos ).c_str() );
+    p->practice( skill_id( "traps" ), data.practice );
+    p->mod_moves( -data.moves );
+
+    place_and_add_as_known( *p, pos, data.trap );
+    if( is_3x3_trap ) {
+        for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
+            if( t != pos ) {
+                place_and_add_as_known( *p, t, outer_layer_trap );
+            }
+        }
+    }
+    return 1;
 }

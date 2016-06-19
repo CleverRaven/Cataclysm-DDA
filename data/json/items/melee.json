@@ -150,7 +150,6 @@
         "flags" : ["DURABLE_MELEE","CHOP","BELT_CLIP"],
         "to_hit": 1,
         "category" : "weapons",
-        "use_action": { "type": "knife" },
         "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]]
     },
     {
@@ -1017,8 +1016,7 @@
         "volume" : 3,
         "cutting" : 36,
         "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID"],
-        "qualities": [["CUT", 1], ["BUTCHER", 22]],
-        "use_action": { "type": "knife" }
+        "qualities": [["CUT", 1], ["BUTCHER", 22]]
     },
     {
         "type":"GENERIC",
@@ -1035,7 +1033,6 @@
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE"],
         "price" : 10000,
-        "use_action": { "type": "knife" },
         "qualities": [["CUT", 1], ["BUTCHER", 14]]
     },
     {
@@ -1397,7 +1394,6 @@
     "bashing": 7,
     "cutting": 29,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -1439,7 +1435,6 @@
     "flags" : ["CHOP", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
     {
@@ -1477,7 +1472,6 @@
     "bashing": 3,
     "cutting": 24,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -1517,8 +1511,7 @@
     "bashing": 13,
     "cutting": 35,
     "to_hit": 1,
-    "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "category" : "weapons"
   },
     {
     "id": "broadsword_fake",
@@ -1594,7 +1587,6 @@
     "bashing": 3,
     "cutting": 20,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 13]]
   },
@@ -1651,8 +1643,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
     },
     {
     "id": "nodachi_fake",
@@ -1721,7 +1712,6 @@
     "bashing": 8,
     "cutting": 30,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
     },{
@@ -1741,7 +1731,6 @@
     "bashing": 7,
     "cutting": 24,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
     },{
@@ -1779,7 +1768,6 @@
     "bashing": 6,
     "cutting": 30,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
     },
@@ -1799,7 +1787,6 @@
     "bashing": 5,
     "cutting": 24,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },{
@@ -1871,7 +1858,6 @@
     "bashing": 10,
     "cutting": 38,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
@@ -1891,11 +1877,6 @@
     "bashing": 10,
     "cutting": 30,
     "to_hit": 1,
-    "use_action": [
-        {
-            "type": "knife"
-        }
-    ],
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },{
@@ -1932,7 +1913,6 @@
     "bashing": 14,
     "cutting": 31,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },{
@@ -1970,7 +1950,6 @@
     "bashing": 12,
     "cutting": 25,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   }

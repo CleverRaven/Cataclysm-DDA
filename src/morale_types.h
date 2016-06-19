@@ -66,6 +66,8 @@ enum morale_type : int {
 
     MORALE_VOMITED,
 
+    MORALE_PERM_FILTHY,
+
     NUM_MORALE_TYPES
 };
 

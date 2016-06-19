@@ -18,6 +18,7 @@
 #include "mtype.h"
 #include "field.h"
 #include "player.h"
+#include "text_snippets.h"
 
 #include <fstream>
 #include <string>
@@ -33,7 +34,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_amigara( "amigara" );
 const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
 
-std::vector<std::string> computer::lab_notes;
 int alerts = 0;
 
 computer::computer(): name(DEFAULT_COMPUTER_NAME)
@@ -463,13 +463,14 @@ void computer::activate_function(computer_action action, char ch)
     break;
 
     case COMPACT_RESEARCH: {
-        std::string log;
-        if (lab_notes.empty()) {
+        // TODO: seed should probably be a member of the computer, or better: of the computer action.
+        // It is here to ensure one computer reporting the same text on each invocation.
+        const int seed = g->get_levx() + g->get_levy() + g->get_levz() + alerts;
+        std::string log = SNIPPET.get( SNIPPET.assign( "lab_notes", seed ) );
+        if( log.empty() ) {
             log = _("No data found.");
         } else {
             g->u.moves -= 70;
-            log = lab_notes[(g->get_levx() + g->get_levy() + g->get_levz() + alerts) %
-                            lab_notes.size()];
         }
 
         print_text("%s", log.c_str());
@@ -1504,14 +1505,4 @@ void computer::reset_terminal()
 void computer::print_newline()
 {
     wprintz(w_terminal, c_green, "\n");
-}
-
-void computer::load_lab_note(JsonObject &jsobj)
-{
-    lab_notes.push_back(_(jsobj.get_string("text").c_str()));
-}
-
-void computer::clear_lab_notes()
-{
-    lab_notes.clear();
 }

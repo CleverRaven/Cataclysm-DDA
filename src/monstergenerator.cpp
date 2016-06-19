@@ -21,8 +21,6 @@
 #include <algorithm>
 
 const mtype_id mon_generator( "mon_generator" );
-const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-const mtype_id mon_fungaloid( "mon_fungaloid" );
 
 template<>
 const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
@@ -30,25 +28,7 @@ const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
 template<>
 const mtype& string_id<mtype>::obj() const
 {
-    auto &factory = *MonsterGenerator::generator().mon_templates;
-
-    // first do the look-up as it is most likely to succeed
-    if( factory.is_valid( *this ) ) {
-        return factory.obj( *this );
-    }
-
-    // second most likely are outdated ids from old saves, this compares against strings, not
-    // mtype_ids because the old ids are not valid ids at all.
-    if( str() == "mon_zombie_fast" ) {
-        return mon_zombie_dog.obj();
-    }
-    if( str() == "mon_fungaloid_dormant" ) {
-        return mon_fungaloid.obj();
-    }
-
-    // this is most unlikely and therefor checked last.
-    debugmsg( "Could not find monster with type %s", c_str() );
-    return factory.obj( mtype_id::NULL_ID );
+    return MonsterGenerator::generator().mon_templates->obj( *this );
 }
 
 template<>
@@ -63,8 +43,7 @@ const species_id string_id<species_type>::NULL_ID( "spec_null" );
 template<>
 const species_type& string_id<species_type>::obj() const
 {
-    auto &factory = *MonsterGenerator::generator().mon_species;
-    return factory.obj( *this );
+    return MonsterGenerator::generator().mon_species->obj( *this );
 }
 
 template<>
@@ -74,7 +53,7 @@ bool string_id<species_type>::is_valid() const
 }
 
 MonsterGenerator::MonsterGenerator()
-: mon_templates( new generic_factory<mtype>( "monster type" ) )
+: mon_templates( new generic_factory<mtype>( "monster type", "id", "alias" ) )
 , mon_species( new generic_factory<species_type>( "species" ) )
 {
     mon_templates->insert( mtype() );
@@ -317,11 +296,6 @@ void MonsterGenerator::init_flags()
     // see mtype.h for commentary
     flag_map["NULL"] = MF_NULL;
     flag_map["SEES"] = MF_SEES;
-    flag_map["VIS50"] = MF_VIS50;
-    flag_map["VIS40"] = MF_VIS40;
-    flag_map["VIS30"] = MF_VIS30;
-    flag_map["VIS20"] = MF_VIS20;
-    flag_map["VIS10"] = MF_VIS10;
     flag_map["HEARS"] = MF_HEARS;
     flag_map["GOODHEARING"] = MF_GOODHEARING;
     flag_map["SMELLS"] = MF_SMELLS;

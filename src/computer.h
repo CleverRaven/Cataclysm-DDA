@@ -109,9 +109,6 @@ class computer
         std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         int mission_id; // Linked to a mission?
 
-        static void load_lab_note( JsonObject &jsobj );
-        static void clear_lab_notes();
-
     private:
         // Difficulty of simply logging in
         int security;

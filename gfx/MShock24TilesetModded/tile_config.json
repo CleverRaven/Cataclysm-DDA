@@ -7307,12 +7307,6 @@
           "rotates": false
         },
         {
-          "id": "battery_truck",
-          "fg": 1423,
-          "bg": 621,
-          "rotates": false
-        },
-        {
           "id": "battleaxe_fake",
           "fg": 2475,
           "bg": 621,
@@ -19380,11 +19374,6 @@
         },
         {
           "id": "vp_battery_motorbike",
-          "fg": 1423,
-          "rotates": false
-        },
-        {
-          "id": "vp_battery_truck",
           "fg": 1423,
           "rotates": false
         },

@@ -66,7 +66,6 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "CARGO", VPFLAG_CARGO },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
-    { "VARIABLE_SIZE", VPFLAG_VARIABLE_SIZE },
     { "VPFLAG_TRACK", VPFLAG_TRACK },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION }
@@ -150,7 +149,6 @@ void vpart_info::load( JsonObject &jo )
         } else {
             deferred.emplace_back( jo.str() );
         }
-        def.id = vpart_str_id( jo.get_string( "id" ) );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -168,9 +166,9 @@ void vpart_info::load( JsonObject &jo )
     assign( jo, "epower", def.epower );
     assign( jo, "fuel_type", def.fuel_type );
     assign( jo, "folded_volume", def.folded_volume );
-    assign( jo, "range", def.range );
     assign( jo, "size", def.size );
     assign( jo, "difficulty", def.difficulty );
+    assign( jo, "bonus", def.bonus );
     assign( jo, "flags", def.flags );
 
     if( jo.has_member( "symbol" ) ) {
@@ -199,31 +197,6 @@ void vpart_info::load( JsonObject &jo )
             auto pair = qual.next_array();
             def.qualities[ quality_id( pair.get_string( 0 ) ) ] = pair.get_int( 1 );
         }
-    }
-
-    //Handle the par1 union as best we can by accepting any ONE of its elements
-    int element_count = (jo.has_member("par1") ? 1 : 0)
-                        + (jo.has_member("wheel_width") ? 1 : 0)
-                        + (jo.has_member("bonus") ? 1 : 0);
-
-    if(element_count == 0) {
-        //If not specified, assume 0
-        def.par1 = 0;
-    } else if(element_count == 1) {
-        if(jo.has_member("par1")) {
-            def.par1 = jo.get_int("par1");
-        } else if(jo.has_member("wheel_width")) {
-            def.par1 = jo.get_int("wheel_width");
-        } else { //bonus
-            def.par1 = jo.get_int("bonus");
-        }
-    } else {
-        //Too many
-        debugmsg("Error parsing vehicle part '%s': \
-               Use AT MOST one of: par1, wheel_width, bonus",
-                 def.name().c_str());
-        //Keep going to produce more messages if other parts are wrong
-        def.par1 = 0;
     }
 
     if( jo.has_member( "damage_reduction" ) ) {
@@ -380,9 +353,6 @@ void vpart_info::check()
         }
         if( part.size < 0 ) {
             debugmsg( "vehicle part %s has negative size", part.id.c_str() );
-        }
-        if( part.range < 0 ) {
-            debugmsg( "vehicle part %s has negative range", part.id.c_str() );
         }
         if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
             debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );

@@ -190,9 +190,11 @@ void player::power_mutations()
                     std::ostringstream mut_desc;
                     mut_desc << md.name;
                     if( md.cost > 0 && md.cooldown > 0 ) {
+                        //~ RU means Resource Units
                         mut_desc << string_format( _( " - %d RU / %d turns" ),
                                                    md.cost, md.cooldown );
                     } else if( md.cost > 0 ) {
+                        //~ RU means Resource Units
                         mut_desc << string_format( _( " - %d RU" ), md.cost );
                     } else if( md.cooldown > 0 ) {
                         mut_desc << string_format( _( " - %d turns" ), md.cooldown );

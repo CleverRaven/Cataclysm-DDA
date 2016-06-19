@@ -15,6 +15,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <memory>
 
 class input_context;
 class JsonObject;
@@ -111,7 +112,7 @@ struct regional_settings {
     std::string default_oter; // 'field'
 
     id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
-    sid_or_sid *default_groundcover_str = nullptr;
+    std::shared_ptr<sid_or_sid> default_groundcover_str;
 
     int num_forests           = 250;  // amount of forest groupings per overmap
     int forest_size_min       = 15;   // size range of a forest group

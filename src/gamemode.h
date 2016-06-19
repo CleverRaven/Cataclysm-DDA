@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 #include "cursesdef.h" // WINDOW
 #include "itype.h"
 #include "string_id.h"
@@ -14,7 +15,7 @@ struct mtype;
 using mtype_id = string_id<mtype>;
 
 std::string special_game_name(special_game_id id);
-special_game *get_special_game(special_game_id id);
+std::unique_ptr<special_game> get_special_game(special_game_id id);
 
 struct special_game {
     virtual ~special_game() {
@@ -67,14 +68,14 @@ enum tut_lesson {
 };
 
 struct tutorial_game : public special_game {
-        virtual special_game_id id() override {
+        special_game_id id() override {
             return SGAME_TUTORIAL;
         };
-        virtual bool init() override;
-        virtual void per_turn() override;
-        virtual void pre_action( action_id &act ) override;
-        virtual void post_action( action_id act ) override;
-        virtual void game_over() override { };
+        bool init() override;
+        void per_turn() override;
+        void pre_action( action_id &act ) override;
+        void post_action( action_id act ) override;
+        void game_over() override { };
 
     private:
         void add_message( tut_lesson lesson );
@@ -123,14 +124,14 @@ enum caravan_category {
 struct defense_game : public special_game {
         defense_game();
 
-        virtual special_game_id id() override {
+        special_game_id id() override {
             return SGAME_DEFENSE;
         };
-        virtual bool init() override;
-        virtual void per_turn() override;
-        virtual void pre_action( action_id &act ) override;
-        virtual void post_action( action_id act ) override;
-        virtual void game_over() override;
+        bool init() override;
+        void per_turn() override;
+        void pre_action( action_id &act ) override;
+        void post_action( action_id act ) override;
+        void game_over() override;
 
     private:
         void init_to_style( defense_style new_style );

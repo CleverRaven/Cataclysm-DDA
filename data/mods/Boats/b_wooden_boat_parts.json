@@ -10,11 +10,10 @@
     "broken_color" : "light_gray",
     "damage_modifier" : 50,
     "durability" : 40,
-    "wheel_width" : 4,
     "item" : "boat_board",
     "difficulty" : 2,
     "location" : "under",
-    "flags" : ["FLOATS", "STABLE", "VARIABLE_SIZE", "BOARDABLE", "NAILABLE"],
+    "flags" : ["FLOATS", "STABLE", "BOARDABLE", "NAILABLE"],
     "breaks_into" : [ {"item": "splinter", "count": [10, 20]} ]
   }
 ]

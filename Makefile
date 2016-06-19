@@ -223,7 +223,11 @@ ifndef RELEASE
   CXXFLAGS += $(OPTLEVEL)
 endif
 
-OTHERS += -std=c++11
+ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
+    OTHERS += -std=gnu++11
+  else
+    OTHERS += -std=c++11
+endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
 
@@ -740,6 +744,10 @@ endif  # ifndef FRAMEWORK
 
 appclean:
 	rm -rf $(APPTARGETDIR)
+	rm -f data/options.txt
+	rm -f data/keymap.txt
+	rm -f data/auto_pickup.txt
+	rm -f data/fontlist.txt
 
 data/osx/AppIcon.icns: data/osx/AppIcon.iconset
 	iconutil -c icns $<
@@ -800,8 +808,9 @@ endif  # ifdef TILES
 
 dmgdistclean:
 	rm -f Cataclysm.dmg
+	rm -rf lang/mo
 
-dmgdist: app dmgdistclean
+dmgdist: dmgdistclean app $(L10N)
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)

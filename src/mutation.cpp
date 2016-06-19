@@ -129,6 +129,17 @@ bool mutation_branch::conflicts_with_item( const item &it ) const
     return false;
 }
 
+const resistances &mutation_branch::damage_resistance( body_part bp ) const
+{
+    const auto iter = armor.find( bp );
+    if( iter == armor.end() ) {
+        static const resistances nulres;
+        return nulres;
+    }
+
+    return iter->second;
+}
+
 void Character::mutation_effect(std::string mut)
 {
     if (mut == "TOUGH" || mut == "TOUGH2" || mut == "TOUGH3" || mut == "GLASSJAW" ||

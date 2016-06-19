@@ -13,7 +13,6 @@
 #include "messages.h"
 #include "compatibility.h"
 #include "sounds.h"
-#include "worldfactory.h"
 #include "input.h"
 #include "monster.h"
 #include "event.h"
@@ -625,8 +624,12 @@ void iexamine::cardreader(player &p, const tripoint &examp)
 
 void iexamine::rubble(player &p, const tripoint &examp)
 {
-    bool has_digging_tool = p.has_quality( quality_id( "DIG" ), 2 );
-    if( !has_digging_tool ) {
+    static quality_id quality_dig( "DIG" );
+    auto shovels = p.items_with( []( const item &e ) {
+        return e.get_quality( quality_dig ) >= 2;
+    } );
+
+    if( shovels.empty() ) {
         add_msg(m_info, _("If only you had a shovel..."));
         return;
     }
@@ -641,12 +644,12 @@ void iexamine::rubble(player &p, const tripoint &examp)
         return;
     }
 
-    // "Remove"
-    p.moves -= 200;
-    g->m.furn_set(examp, f_null);
+    // Select our best shovel
+    auto it = std::max_element( shovels.begin(), shovels.end(), []( const item *lhs, const item *rhs ) {
+        return lhs->get_quality( quality_dig ) < rhs->get_quality( quality_dig );
+    } );
 
-    // "Remind"
-    add_msg(_("You clear up that %s."), xname.c_str());
+    p.invoke_item( *it, "DIG", examp );
 }
 
 void iexamine::crate(player &p, const tripoint &examp)
@@ -1690,11 +1693,7 @@ void iexamine::aggie_plant(player &p, const tripoint &examp)
             }
             // Reduce the amount of time it takes until the next stage of the plant by
             // 20% of a seasons length. (default 2.8 days).
-            WORLDPTR world = world_generator->active_world;
-            int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
-            if (!world->WORLD_OPTIONS.empty()) {
-                fertilizerEpoch = 14400 * (world->WORLD_OPTIONS["SEASON_LENGTH"] * 0.2) ;
-            }
+            const int fertilizerEpoch = 14400 * calendar::season_length() * 0.2;
 
             item &seed = g->m.i_at( examp ).front();
 
@@ -1728,7 +1727,7 @@ void iexamine::kiln_empty(player &p, const tripoint &examp)
         return;
     }
 
-    static const std::vector<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
+    static const std::set<material_id> kilnable{ material_id( "wood" ), material_id( "bone" ) };
     bool fuel_present = false;
     auto items = g->m.i_at( examp );
     for( auto i : items ) {
