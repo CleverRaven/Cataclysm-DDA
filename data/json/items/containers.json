@@ -110,7 +110,6 @@
         "name": "unsealed aluminum can",
         "description": "An aluminum can, like what soda comes in.  This one is open and can't be easily sealed.",
         "contains": 1,
-        "watertight": true,
         "preserves": false,
         "unseals_into": "null"
     },
@@ -157,7 +156,6 @@
         "name": "unsealed aluminum can",
         "description": "A tin can, like what beans come in.  This one is open and can't be easily sealed.",
         "contains": 1,
-        "watertight": true,
         "preserves": false,
         "unseals_into": "null"
     },
@@ -559,6 +557,7 @@
         "contains": 2,
         "watertight": true,
         "preserves": true,
+        "seals": false,
         "unseals_into": "jar_glass"
     },
     {
