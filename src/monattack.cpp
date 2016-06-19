@@ -3754,9 +3754,8 @@ bool mattack::longswipe(monster *z)
         return false; //out of range
     }
     //Is there something impassable blocking the claw?
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
-    for( auto &i : line ){
-        ter_t terrain = g->m.ter_at( i );
+    for( const auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ){
+        ter_t terrain = g->m.ter_at( pnt );
         if( terrain.movecost == 0 ){
             //If we're here, it's an unadjacent attack, which is only attempted 1/5 of the time.
             if( !one_in( 5 ) ) {
