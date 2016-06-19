@@ -1034,83 +1034,71 @@ void veh_interact::do_refill()
     sel_cmd = 'f';
 }
 
-bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_width){
-    werase (w_msg);
-    if (veh->can_unmount(veh_part_index)) {
-        bool is_wood = veh->part_flag(veh_part_index, "NAILABLE");
-        bool is_wheel = veh->part_flag(veh_part_index, "WHEEL");
-        bool is_wrenchable = veh->part_flag(veh_part_index, "TOOL_WRENCH") ||
-                                (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
-        bool is_screwable = veh->part_flag(veh_part_index, "TOOL_SCREWDRIVER");
-        bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
-
-        int skill_req;
-        if (veh->part_flag(veh_part_index, "DIFFICULTY_REMOVE")) {
-            skill_req = veh->part_info(veh_part_index).difficulty;
-        } else if (is_screwable || is_wrenchable || is_hand_remove || is_wood) {
-            skill_req = 1;
-        } else {
-            skill_req = 2;
-        }
-
-        bool has_skill = false;
-        if (mech_skill >= skill_req) has_skill = true;
-
-        std::string msg;
-
-        if( is_hand_remove ) {
-            msg = _( "You need ");
-
-        } else if( is_wood ) {
-            msg = string_format( _("You need a <color_%1$s>hammer</color> and"), status_color( has_hammer ) );
-
-        } else if( is_wrenchable ) {
-            msg = string_format( _("You need a <color_%1$s>wrench</color> and"), status_color( has_wrench ) );
-
-        } else if( is_screwable ) {
-            msg = string_format( _("You need a <color_%1$s>screwdriver</color> and"), status_color( has_screwdriver ) );
-
-        } else if( is_wheel ) {
-            msg = string_format( _("You need a <color_%1$s>wrench</color>, either <color_%2$s>lifting equipment</color> or <color_%3$s>%4$d</color> strength and"),
-                                 status_color( has_wrench ), status_color( has_jack ), status_color( g->u.can_lift( *veh ) ), veh->lift_strength() );
-        } else {
-            msg = string_format( _( "You need a <color_%1$s>wrench</color> and a <color_%2$s>hacksaw, cutting torch and welding goggles, or circular saw (off)</color> and" ),
-                                 status_color( has_wrench ), status_color( has_hacksaw ) );
-        }
-
-        msg += string_format( " <color_%1$s>level %2$d</color> mechanics skill to remove this part.", status_color( has_skill ), skill_req );
-
-        fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, msg );
-        wrefresh(w_msg);
-
-        if (g->u.has_trait("DEBUG_HS")) {
-            return true;
-        }
-
-        if( !has_skill ) {
-            return false;
-        }
-
-        if( is_wheel ) {
-            ///\EFFECT_STR allows removing tires on heavier vehicles without a jack
-            return has_wrench && ( g->u.can_lift( *veh ) || has_jack );
-        }
-
-        //check if have all necessary materials
-        if( ( is_wrenchable && ( has_wrench || has_hacksaw) ) ||
-            ( is_hand_remove ) ||
-            ( is_wood && has_hammer ) ||
-            ( is_screwable && ( has_screwdriver || has_hacksaw ) ) ||
-            ( has_wrench && has_hacksaw ) ) {
-            return true;
-        }
-    } else {
-        mvwprintz(w_msg, 0, 1, c_ltred,
-                  _("You cannot remove that part while something is attached to it."));
+bool veh_interact::can_remove_part( int idx ) {
+    if( sel_vpart_info == NULL ) {
+        werase( w_msg );
         wrefresh (w_msg);
+        return false;
     }
-    return false;
 
+    auto reqs = sel_vpart_info->removal_reqs;
+    bool ok = reqs.can_make_with_inventory( crafting_inv );
+
+    std::ostringstream msg;
+    msg << _( "<color_white>Time required:</color>\n" );
+    msg << "> " << calendar::print_duration( sel_vpart_info->removal_time( g->u ) / 100 ) << "\n";
+
+    msg << _( "<color_white>Skills required:</color>\n" );
+    for( const auto& e : sel_vpart_info->removal_skills ) {
+        bool hasSkill = g->u.get_skill_level( e.first ) >= e.second;
+        ok -= !hasSkill;
+        msg << string_format( "> <color_%1$s>%2$s %3$i</color>\n", status_color( hasSkill ),
+                              _( e.first.obj().name().c_str() ), e.second );
+    }
+    if( sel_vpart_info->removal_skills.empty() ) {
+        msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
+    }
+
+    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, crafting_inv );
+    std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
+
+    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ), c_white, crafting_inv );
+    std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
+
+    msg << _( "<color_white>Additional requirements:</color>\n" );
+
+    int lvl, str;
+    quality_id qual;
+    bool use_aid, use_str;
+    item base( sel_vpart_info->item );
+    if( base.is_wheel() ) {
+        qual = JACK;
+        lvl = ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) / TOOL_LIFT_FACTOR ) );
+        str = veh->lift_strength();
+        use_aid = max_jack >= lvl;
+        use_str = g->u.can_lift( *veh );
+    } else {
+        qual = LIFT;
+        lvl = ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
+        str = base.lift_strength();
+        use_aid = max_lift >= lvl;
+        use_str = g->u.can_lift( base );
+    }
+
+    ok -= !( use_aid || use_str );
+    msg << string_format( _( "> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_%4$s>strength %5$i</color>" ),
+                          status_color( use_aid ), qual.obj().name.c_str(), lvl,
+                          status_color( use_str ), str ) << "\n";
+
+    if( !veh->can_unmount( idx ) ) {
+        msg << string_format( _( "> <color_%1$s>%2$s</color>" ), status_color( false ), "Remove attached parts first" ) << "\n";
+        ok = false;
+    }
+
+    werase( w_msg );
+    fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_ltgray, msg.str() );
+    wrefresh( w_msg );
+    return ok || g->u.has_trait( "DEBUG_HS" );
 }
 
 /**
@@ -1152,11 +1140,9 @@ void veh_interact::do_remove()
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
 
-    ///\EFFECT_MECHANICS determines which vehicle parts can be removed
-    const int skilllevel = g->u.get_skill_level( skill_mechanics );
     int pos = 0;
     for( size_t i = 0; i < parts_here.size(); i++ ) {
-        if( can_remove_part( parts_here[i], skilllevel, msg_width ) ) {
+        if( can_remove_part( parts_here[ i ] ) ) {
             pos = i;
             break;
         }
@@ -1169,7 +1155,7 @@ void veh_interact::do_remove()
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos);
         wrefresh (w_parts);
-        bool can_remove = can_remove_part(parts_here[pos], skilllevel, msg_width);
+        bool can_remove = can_remove_part( parts_here[ pos ] );
         //read input
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
