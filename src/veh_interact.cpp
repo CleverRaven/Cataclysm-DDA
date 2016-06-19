@@ -2097,7 +2097,6 @@ void complete_vehicle ()
     int dx = g->u.activity.values[4];
     int dy = g->u.activity.values[5];
     int vehicle_part = g->u.activity.values[6];
-    int type = g->u.activity.values[7];
     const vpart_str_id part_id( g->u.activity.str_values[0] );
     std::vector<tool_comp> tools;
     int welder_charges = charges_per_use( "welder" );
@@ -2105,10 +2104,6 @@ void complete_vehicle ()
     int welder_crude_charges = charges_per_use( "welder_crude" );
     const inventory &crafting_inv = g->u.crafting_inventory();
     const bool has_goggles = crafting_inv.has_quality( GLARE, 2 );
-    const bool has_screwdriver = crafting_inv.has_quality( SCREW );
-    const bool has_wrench = crafting_inv.has_quality( WRENCH );
-
-
 
     int partnum;
     bool broken;
@@ -2116,11 +2111,6 @@ void complete_vehicle ()
     std::vector<int> parts;
 
     const vpart_info &vpinfo = part_id.obj();
-    bool is_wheel = vpinfo.has_flag("WHEEL");
-    bool is_wood = vpinfo.has_flag("NAILABLE");
-    bool is_screwable = vpinfo.has_flag("TOOL_SCREWDRIVER");
-    bool is_wrenchable = vpinfo.has_flag("TOOL_WRENCH");
-    bool is_hand_remove = vpinfo.has_flag("TOOL_NONE");
 
     // cmd = Install Repair reFill remOve Siphon Changetire reName relAbel
     switch (cmd) {
