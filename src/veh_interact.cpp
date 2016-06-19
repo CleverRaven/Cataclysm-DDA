@@ -550,13 +550,13 @@ bool veh_interact::can_install_part() {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) / TOOL_LIFT_FACTOR ) );
+        lvl = std::ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) / TOOL_LIFT_FACTOR ) );
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
-        lvl = ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
+        lvl = std::ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
@@ -1073,13 +1073,13 @@ bool veh_interact::can_remove_part( int idx ) {
     item base( sel_vpart_info->item );
     if( base.is_wheel() ) {
         qual = JACK;
-        lvl = ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) / TOOL_LIFT_FACTOR ) );
+        lvl = std::ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) / TOOL_LIFT_FACTOR ) );
         str = veh->lift_strength();
         use_aid = max_jack >= lvl;
         use_str = g->u.can_lift( *veh );
     } else {
         qual = LIFT;
-        lvl = ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
+        lvl = std::ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
         str = base.lift_strength();
         use_aid = max_lift >= lvl;
         use_str = g->u.can_lift( base );
