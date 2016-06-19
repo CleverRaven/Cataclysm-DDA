@@ -469,23 +469,24 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     //now handle the meat, if there is any
-    //bone_tainted is handled above (treated as a byproduct, not a meat)
-    if( pieces <= 0 && meat != "null" ) {
-        p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the flesh!" ) );
-    } else if( meat!= "null" ) {
-        p->add_msg_if_player( m_good, _( "You harvest some flesh." ) );
+    if( meat!= "null" ) {
+        if( pieces <= 0 ) {
+            p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the flesh!" ) );
+        } else {
+            p->add_msg_if_player( m_good, _( "You harvest some flesh." ) );
 
-        item chunk( meat, age );
-        chunk.set_mtype( corpse );
+            item chunk( meat, age );
+            chunk.set_mtype( corpse );
 
-        // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
-        bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) && meat != "veggy";
-        item parts( make_offal ? "offal" : meat, age );
-        parts.set_mtype( corpse );
+            // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
+            bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) && meat != "veggy";
+            item parts( make_offal ? "offal" : meat, age );
+            parts.set_mtype( corpse );
 
-        g->m.add_item_or_charges( p->pos(), chunk );
-        for( int i = 1; i <= pieces; ++i ) {
-            g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
+            g->m.add_item_or_charges( p->pos(), chunk );
+            for( int i = 1; i <= pieces; ++i ) {
+                g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
+            }
         }
     }
 
