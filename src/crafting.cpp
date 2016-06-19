@@ -261,6 +261,11 @@ void finalize_recipes()
                    ", which is not defined" << "\n";
         }
 
+        if( r->result_mult != 1 && !item::find_type( r->result )->count_by_charges() ) {
+            buffer << "Recipe " << r->ident() << " has result_mult " << r->result_mult <<
+                   ", but result " << r->result << " is not count_by_charges" << "\n";
+        }
+
         if( !buffer.str().empty() ) {
             debugmsg( "%s", buffer.str().c_str() );
         }
@@ -647,7 +652,7 @@ std::vector<item> recipe::create_results( int batch ) const
 {
     std::vector<item> items;
 
-    if( !contained || !item::count_by_charges( result ) ) {
+    if( contained || !item::count_by_charges( result ) ) {
         for( int i = 0; i < batch; i++ ) {
             item newit = create_result();
             items.push_back( newit );
