@@ -7465,17 +7465,17 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         // Stored in activity.index and used in the complete_vehicle() callback to finish task.
         switch (vehint.sel_cmd) {
         case 'i':
-            time = vehint.sel_vpart_info->install_time( g->u );
+            time = vehint.sel_vpart_info->install_time( u );
             break;
         case 'r':
             time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);
             break;
         case 'o':
-            time = vehint.sel_vpart_info->removal_time( g->u );
+            time = vehint.sel_vpart_info->removal_time( u );
             break;
         case 'c':
-            time = vehint.sel_vpart_info->removal_time( g->u ) +
-                   vehint.sel_vpart_info->install_time( g->u );
+            time = vehint.sel_vpart_info->removal_time( u ) +
+                   vehint.sel_vpart_info->install_time( u );
             break;
         }
         u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
