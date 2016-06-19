@@ -135,47 +135,49 @@ void veh_interact::allocate_windows()
     const int grid_h = total_h - 2; // exterior borders take 2
     w_grid = newwin(grid_h, grid_w, y0 + 1, x0 + 1);
 
-    int mode_x, mode_y, msg_x, msg_y, disp_x, parts_x;
+    int mode_x, mode_y, msg_x, disp_x, parts_x;
     int stats_x, stats_y, list_x, name_x, name_y;
 
     int mode_h  = 1;
-    int msg_h   = 3;
     int name_h  = 1;
     int stats_h = 6;
 
-    page_size = grid_h - ( mode_h + msg_h ) - ( stats_h + name_h ) - 2;
+    page_size = grid_h - ( mode_h + stats_h + name_h ) - 2;
 
-    int pane_y = y0 + 1 + msg_h + mode_h + 1;
+    int pane_y = y0 + 1 + mode_h + 1;
 
-    int pane_w = 32 + (extra_w / 4); // uses 1/4 of extra space
-    int disp_w = grid_w - ( pane_w * 2 ) - 2; // interior borders take 2
+    int pane_w = ( grid_w / 3 ) - 1;
+
+    int disp_w = grid_w - ( pane_w * 2 ) - 2;
+    int disp_h = page_size * 0.45;
+    int parts_h = page_size - disp_h;
+    int parts_y = pane_y + disp_h;
 
     mode_y = y0 + 1;
-    msg_y = mode_y + mode_h;
     name_y = pane_y + page_size + 1;
     stats_y = name_y + name_h;
 
     mode_x  = x0 + 1;
-    msg_x   = x0 + 1;
     disp_x  = x0 + 1;
+    parts_x = x0 + 1;
     name_x  = x0 + 1;
     stats_x = x0 + 1;
 
-    parts_x = disp_x + disp_w + 1;
-    list_x = parts_x + pane_w + 1;
+    list_x = disp_x + disp_w + 1;
+    msg_x  = list_x + pane_w + 1;
 
     // match grid lines
-    mvwputch(w_border, msg_h + mode_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, msg_h + mode_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
-    mvwputch(w_border, msg_h + mode_h + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, msg_h + mode_h + 1 + page_size + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_border, mode_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, mode_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_border, mode_h + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
+    mvwputch(w_border, mode_h + 1 + page_size + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     // make the windows
     w_mode  = newwin(mode_h,  grid_w,  mode_y,  mode_x );
-    w_msg   = newwin(msg_h,   grid_w,   msg_y,   msg_x  );
-    w_disp  = newwin(page_size,  disp_w,  pane_y,  disp_x );
-    w_parts = newwin(page_size, pane_w, pane_y, parts_x);
-    w_list  = newwin(page_size,  pane_w,  pane_y,  list_x );
+    w_msg   = newwin(page_size, pane_w, pane_y, msg_x  );
+    w_disp  = newwin(disp_h, disp_w, pane_y, disp_x );
+    w_parts = newwin(parts_h, disp_w, parts_y, parts_x);
+    w_list  = newwin(page_size, pane_w, pane_y, list_x );
     w_details = NULL;  // only pops up when in install menu
     w_stats = newwin(stats_h, grid_w, stats_y, stats_x);
     w_name  = newwin(name_h,  grid_w,  name_y,  name_x );
@@ -1448,20 +1450,20 @@ void veh_interact::display_grid()
     const int grid_w = getmaxx(w_grid);
 
     // Two lines dividing the three middle sections.
-    for (int i = 1 + getmaxy( w_mode ) + getmaxy( w_msg ); i < (1 + getmaxy( w_mode ) + getmaxy( w_msg ) + getmaxy( w_disp ) ); ++i) {
+    for (int i = 1 + getmaxy( w_mode ); i < (1 + getmaxy( w_mode ) + page_size ); ++i) {
         mvwputch(w_grid, i, getmaxx( w_disp ), BORDER_COLOR, LINE_XOXO); // |
-        mvwputch(w_grid, i, getmaxx( w_disp ) + 1 + getmaxx( w_parts) , BORDER_COLOR, LINE_XOXO); // |
+        mvwputch(w_grid, i, getmaxx( w_disp ) + 1 + getmaxx( w_list) , BORDER_COLOR, LINE_XOXO); // |
     }
     // Two lines dividing the vertical menu sections.
     for (int i = 0; i < grid_w; ++i) {
-        mvwputch( w_grid, getmaxy( w_mode ) + getmaxy( w_msg ), i, BORDER_COLOR, LINE_OXOX ); // -
-        mvwputch( w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), i, BORDER_COLOR, LINE_OXOX ); // -
+        mvwputch( w_grid, getmaxy( w_mode ), i, BORDER_COLOR, LINE_OXOX ); // -
+        mvwputch( w_grid, getmaxy( w_mode ) + 1 + page_size, i, BORDER_COLOR, LINE_OXOX ); // -
     }
     // Fix up the line intersections.
-    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ),              getmaxx( w_disp ), BORDER_COLOR, LINE_OXXX);
-    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), getmaxx( w_disp ), BORDER_COLOR, LINE_XXOX); // _|_
-    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ),              getmaxx( w_disp ) + 1 + getmaxx( w_parts ), BORDER_COLOR, LINE_OXXX);
-    mvwputch(w_grid, getmaxy( w_mode ) + getmaxy( w_msg ) + 1 + getmaxy( w_disp ), getmaxx( w_disp ) + 1 + getmaxx( w_parts ), BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(w_grid, getmaxy( w_mode ), getmaxx( w_disp ), BORDER_COLOR, LINE_OXXX);
+    mvwputch(w_grid, getmaxy( w_mode ) + 1 + page_size, getmaxx( w_disp ), BORDER_COLOR, LINE_XXOX); // _|_
+    mvwputch(w_grid, getmaxy( w_mode ), getmaxx( w_disp ) + 1 + getmaxx( w_list ), BORDER_COLOR, LINE_OXXX);
+    mvwputch(w_grid, getmaxy( w_mode ) + 1 + page_size, getmaxx( w_disp ) + 1 + getmaxx( w_list ), BORDER_COLOR, LINE_XXOX); // _|_
 
     wrefresh(w_grid);
 }
