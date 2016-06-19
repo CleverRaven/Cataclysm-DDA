@@ -4167,6 +4167,39 @@ void player::pause()
         drench( 40, mfb( bp_foot_l ) | mfb( bp_foot_r ) | mfb( bp_leg_l ) | mfb( bp_leg_r ), false );
     }
 
+    // Try to put out clothing/hair fire
+    if( has_effect( effect_onfire ) ) {
+        int total_removed = 0;
+        int total_left = 0;
+        bool on_ground = has_effect( effect_downed );
+        for( size_t i = 0; i < num_bp; i++ ) {
+            body_part bp = body_part( i );
+            effect &eff = get_effect( effect_onfire, bp );
+            if( eff.is_null() ) {
+                continue;
+            }
+
+            // @todo Tools and skills
+            total_left += eff.get_duration();
+            // Being on the ground will smother the fire much faster because you can roll
+            int dur_removed = on_ground ? eff.get_duration() / 2 + 2 : 1;
+            eff.mod_duration( -dur_removed );
+            total_removed += dur_removed;
+        }
+
+        // Don't drop on the ground when the ground is on fire
+        if( total_left > 10 && !is_dangerous_fields( g->m.field_at( pos() ) ) ) {
+            add_effect( effect_downed, 2, num_bp, false, 0, true );
+            add_msg_player_or_npc( m_warning,
+                                   _( "You roll on the ground, trying to smother the fire!" ),
+                                   _( "<npcname> rolls on the ground!" ) );
+        } else if( total_removed > 0 ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "You attempt to put out the fire on you!" ),
+                                   _( "<npcname> attempts to put out the fire on them!" ) );
+        }
+    }
+
     if( is_npc() ) {
         // The stuff below doesn't apply to NPCs
         // search_surroundings should eventually do, though
@@ -6396,16 +6429,7 @@ void player::hardcoded_effects(effect &it)
     bool sleeping = has_effect( effect_sleep );
     bool msg_trig = one_in(400);
     if( id == effect_onfire ) {
-        // TODO: this should be determined by material properties
-        if (!has_trait("M_SKIN2")) {
-            hurtall(3, nullptr);
-        }
-        remove_worn_items_with( []( item &tmp ) {
-            bool burnVeggy = (tmp.made_of( material_id( "veggy" ) ) || tmp.made_of( material_id( "paper" ) ));
-            bool burnFabric = ((tmp.made_of( material_id( "cotton" ) ) || tmp.made_of( material_id( "wool" ) )) && one_in(10));
-            bool burnPlastic = ((tmp.made_of( material_id( "plastic" ) )) && one_in(50));
-            return burnVeggy || burnFabric || burnPlastic;
-        } );
+        const auto dealt = deal_damage( nullptr, bp, damage_instance( DT_HEAT, rng( intense, intense * 2 ) ) );
     } else if( id == effect_spores ) {
         // Equivalent to X in 150000 + health * 100
         if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
@@ -8567,6 +8591,10 @@ void player::vomit()
 
 void player::drench( int saturation, int flags, bool ignore_waterproof )
 {
+    if( saturation < 1 ) {
+        return;
+    }
+
     // OK, water gets in your AEP suit or whatever.  It wasn't built to keep you dry.
     if( has_trait("DEBUG_NOTEMP") || has_active_mutation("SHELL2") ||
         ( !ignore_waterproof && is_waterproof(flags) ) ) {
@@ -8592,6 +8620,11 @@ void player::drench( int saturation, int flags, bool ignore_waterproof )
         if( body_wetness[i] < wetness_max ){
             body_wetness[i] = std::min( wetness_max, body_wetness[i] + wetness_increment );
         }
+    }
+
+    // Remove onfire effect
+    if( saturation > 10 || x_in_y( saturation, 10 ) ) {
+        remove_effect( effect_onfire );
     }
 }
 
@@ -11812,7 +11845,19 @@ int player::get_armor_fire(body_part bp) const
     return get_armor_type( DT_HEAT, bp );
 }
 
-bool player::armor_absorb(damage_unit& du, item& armor) {
+void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
+{
+    //~ %s is armor name
+    who.add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
+                          pgettext("memorial_female", "Worn %s was completely destroyed."),
+                          pre_damage_name.c_str() );
+    who.add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
+                               _("<npcname>'s %s is completely destroyed!"),
+                               pre_damage_name.c_str() );
+}
+
+bool player::armor_absorb( damage_unit& du, item& armor )
+{
     if( rng( 1, 100 ) > armor.get_coverage() ) {
         return false;
     }
@@ -11826,7 +11871,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     du.amount -= mitigation; // mitigate the damage first
 
     // We want armor's own resistance to this type, not the resistance it grants
-    const int armors_own_resist = resistances( armor, true ).type_resist( du.type );
+    const int armors_own_resist = armor.damage_resist( du.type, true );
     if( armors_own_resist > 1000 ) {
         // This is some weird type that doesn't damage armors
         return false;
@@ -11882,18 +11927,7 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
         armor.damage++;
     }
 
-    if( armor.damage >= 5 ) {
-        //~ %s is armor name
-        add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
-                          pgettext("memorial_female", "Worn %s was completely destroyed."),
-                          pre_damage_name.c_str() );
-        add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
-                               _("<npcname>'s %s is completely destroyed!"),
-                               pre_damage_name.c_str() );
-        return true;
-    }
-
-    return false;
+    return armor.damage >= 5;
 }
 
 void player::absorb_hit(body_part bp, damage_instance &dam) {
@@ -11924,6 +11958,8 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
             }
         }
 
+        // Only the outermost armor can be set on fire
+        bool outermost = true;
         // The worn vector has the innermost item first, so
         // iterate reverse to damage the outermost (last in worn vector) first.
         for( auto iter = worn.rbegin(); iter != worn.rend(); ) {
@@ -11934,7 +11970,29 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 continue;
             }
 
-            if( armor_absorb( elem, armor ) ) {
+            const std::string pre_damage_name = armor.tname();
+            bool destroy = false;
+
+            // Heat damage can set armor on fire
+            // Even though it doesn't cause direct physical damage to it
+            if( outermost && elem.type == DT_HEAT && elem.amount >= 1.0f ) {
+                // @todo Different fire intensity values based on damage
+                fire_data frd{ 2, 0.0f, 0.0f };
+                destroy = armor.burn( frd );
+                int fuel = roll_remainder( frd.fuel_produced );
+                if( fuel > 0 ) {
+                    add_effect( effect_onfire, fuel + 1, bp );
+                }
+            }
+
+            if( !destroy ) {
+                destroy = armor_absorb( elem, armor );
+            }
+
+            if( destroy ) {
+                SCT.add( posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
+                         m_neutral, _( "destroyed" ), m_info);
+                destroyed_armor_msg( *this, pre_damage_name );
                 armor_destroyed = true;
                 armor.on_takeoff( *this );
                 worn_remains.insert( worn_remains.end(), armor.contents.begin(), armor.contents.end() );
@@ -11944,6 +12002,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 iter = decltype(iter)( worn.erase( --iter.base() ) );
             } else {
                 ++iter;
+                outermost = false;
             }
         }
 
