@@ -3142,6 +3142,11 @@ int item::acid_resist( bool to_self ) const
 
 int item::fire_resist( bool to_self ) const
 {
+    if( to_self ) {
+        // Fire damages items in a different way
+        return INT_MAX;
+    }
+
     float resist = 0.0;
     if( is_null() ) {
         return 0.0;
@@ -4749,7 +4754,7 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
-bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
+bool item::burn( fire_data &frd )
 {
     const auto &mats = made_of();
     float smoke_added = 0.0f;
@@ -4816,12 +4821,8 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
     }
 
     burnt += roll_remainder( burn_added );
-    bool destroyed = burnt >= vol * 3;
-    if( destroyed ) {
-        std::copy( contents.begin(), contents.end(), std::back_inserter( drops ) );
-    }
 
-    return destroyed;
+    return burnt >= vol * 3;
 }
 
 bool item::flammable() const

@@ -253,12 +253,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string info( bool showtext = false) const;
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
-    /**
-     * Burns the item at point p.
-     * Returns true if the item was destroyed.
-     * May add items to drops.
-     */
-    bool burn( const tripoint &p, fire_data &bd, std::vector<item> &drops );
+    /** Burns the item. Returns true if the item was destroyed. */
+    bool burn( fire_data &bd );
 
  // Returns the category of this item.
  const item_category &get_category() const;
