@@ -23,6 +23,8 @@
 #include <cmath>
 #include <list>
 #include <functional>
+#include <sstream>
+#include <iterator>
 
 #ifdef _MSC_VER
 #include <math.h>
@@ -33,7 +35,7 @@
 
 static inline const char * status_color( bool status )
 {
-    static const char *good = "ltgreen";
+    static const char *good = "green";
     static const char *bad = "red";
     return status ? good : bad;
 }
@@ -312,6 +314,10 @@ void veh_interact::cache_tool_availability()
                            map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( LIFT ),
                            vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( LIFT ) } );
 
+    max_jack = std::max( { g->u.max_quality( JACK ),
+                           map_selector( g->u.pos(), PICKUP_RANGE ).max_quality( JACK ),
+                           vehicle_selector(g->u.pos(), 2, true, *veh ).max_quality( JACK ) } );
+
     // cap JACK requirements at 6000kg to support arbritrarily large vehicles
     double qual = ceil( double( std::min( veh->total_mass(), 6000 ) * 1000 ) / TOOL_LIFT_FACTOR );
 
@@ -440,29 +446,29 @@ task_reason veh_interact::cant_do (char mode)
     return CAN_DO;
 }
 
-bool veh_interact::is_drive_conflict(int msg_width){
+bool veh_interact::is_drive_conflict() {
     bool install_muscle_engine = (sel_vpart_info->fuel_type == "muscle");
     bool has_muscle_engine = veh->has_engine_type("muscle", false);
     bool can_install = !(has_muscle_engine && install_muscle_engine);
 
     if (!can_install) {
         werase (w_msg);
-        fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltred,
+        fold_and_print(w_msg, 0, 1, getmaxx( w_msg ) - 2, c_ltred,
                        _("Only one muscle powered engine can be installed."));
         wrefresh (w_msg);
     }
     return !can_install;
 }
 
-bool veh_interact::can_install_part(int msg_width){
+bool veh_interact::can_install_part() {
     if( sel_vpart_info == NULL ) {
         werase (w_msg);
         wrefresh (w_msg);
         return false;
     }
 
-    if( g->u.has_trait("DEBUG_HS") ) {
-        return true;
+    if( is_drive_conflict() ) {
+        return false;
     }
 
     bool is_engine = sel_vpart_info->has_flag("ENGINE");
@@ -480,7 +486,6 @@ bool veh_interact::can_install_part(int msg_width){
             }
         }
     }
-    bool is_wheel = sel_vpart_info->has_flag("WHEEL");
 
     int dif_steering = 0;
     if (sel_vpart_info->has_flag("STEERABLE")) {
@@ -499,89 +504,73 @@ bool veh_interact::can_install_part(int msg_width){
         }
     }
 
-    itype_id itm = sel_vpart_info->item;
-    bool drive_conflict = is_drive_conflict(msg_width);
+    auto reqs = sel_vpart_info->install_reqs;
+    bool ok = reqs.can_make_with_inventory( crafting_inv );
 
-    bool has_comps = crafting_inv.has_components(itm, 1);
+    std::ostringstream msg;
+    msg << _( "<color_white>Time required:</color>\n" );
+    msg << "> " << calendar::print_duration( sel_vpart_info->install_time( g->u ) / 100 ) << "\n";
 
-    ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
-    ///\EFFECT_STR allows installing heavier parts without lifting equipment
-    bool can_lift = is_wheel ? g->u.can_lift( *veh ) : g->u.can_lift( item( itm ) );
-    bool has_aid = is_wheel ? has_jack : item( itm ).weight() < max_lift * TOOL_LIFT_FACTOR;
-    int req_str = is_wheel ? veh->lift_strength() : item( itm ).lift_strength();
-
-    ///\EFFECT_MECHANICS determines which vehicle parts can be installed
-    bool has_skill = g->u.get_skill_level( skill_mechanics ) >= sel_vpart_info->difficulty;
-
-    bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
-    bool has_skill2 = !is_engine || (g->u.get_skill_level( skill_mechanics ) >= dif_eng);
-    bool has_skill3 = g->u.get_skill_level(skill_mechanics) >= dif_steering;
-    bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
-    bool is_screwable = sel_vpart_info->has_flag("TOOL_SCREWDRIVER");
-    bool is_wood = sel_vpart_info->has_flag("NAILABLE");
-    bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
-
-    if (drive_conflict) {
-        return false; // No, you cannot has twin pedal power
+    msg << _( "<color_white>Skills required:</color>\n" );
+    for( const auto& e : sel_vpart_info->install_skills ) {
+        bool hasSkill = g->u.get_skill_level( e.first ) >= e.second;
+        ok -= !hasSkill;
+        msg << string_format( "> <color_%1$s>%2$s %3$i</color>\n", status_color( hasSkill ),
+                              _( e.first.obj().name().c_str() ), e.second );
     }
-
-    std::string msg = string_format( _( "Needs <color_%1$s>%2$s</color>" ), status_color( has_comps ), item::nname( itm ).c_str() );
-
-    if( is_hand_remove ) {
-        // no other tool requirements
-
-    } else if( is_wrenchable ) {
-        msg += string_format( _( ", a <color_%1$s>wrench</color> or <color_%2$s>duct tape</color>" ),
-                              status_color( has_wrench ), status_color( has_duct_tape ) );
-
-    } else if( is_screwable ) {
-        msg += string_format( _( ", a <color_%1$s>screwdriver</color> or <color_%2$s>duct tape</color>"),
-                              status_color( has_screwdriver ), status_color( has_duct_tape ) );
-
-    } else if( is_wood ) {
-        msg += string_format( _( ", either <color_%1$s>nails</color> and <color_%2$s>something to drive them</color> or <color_%3$s>duct tape</color>" ),
-                              status_color( has_nails ), status_color( has_hammer || has_nailgun ), status_color( has_duct_tape ) );
-
-    } else {
-        msg += string_format( _( ", a <color_%1$s>wrench</color>, either a <color_%2$s>powered welder</color> (and <color_%3$s>welding goggles</color>) or <color_%4$s>duct tape</color>" ),
-                              status_color( has_wrench ), status_color( has_welder ), status_color( has_goggles ), status_color( has_duct_tape ) );
+    if( sel_vpart_info->install_skills.empty() ) {
+        msg << string_format( "> <color_%1$s>%2$s</color>", status_color( true ), _( "NONE" ) ) << "\n";
     }
+ 
+    auto comps = reqs.get_folded_components_list( getmaxx( w_msg ), c_white, crafting_inv );
+    std::copy( comps.begin(), comps.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
+    auto tools = reqs.get_folded_tools_list( getmaxx( w_msg ), c_white, crafting_inv );
+    std::copy( tools.begin(), tools.end(), std::ostream_iterator<std::string>( msg, "\n" ) );
 
-    msg += string_format( _( " and level <color_%1$s>%2$d</color> skill in mechanics." ), status_color( has_skill ), sel_vpart_info->difficulty );
+    msg << _( "<color_white>Additional requirements:</color>\n" );
 
-    if( engines && is_engine ) { // already has engine
-        msg += string_format( _( "  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional engines." ),
-                              status_color( has_skill2 ), dif_eng );
+    if( dif_eng > 0 ) {
+        ok -= g->u.get_skill_level( skill_mechanics ) < dif_eng;
+        msg << string_format( _( "> <color_%1$s>%2$s %3$i</color> for extra engines." ),
+                              status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
+                              skill_mechanics.obj().name().c_str(), dif_eng ) << "\n";
     }
 
     if( dif_steering > 0 ) {
-        msg += string_format( _( "  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional steering axles." ),
-                              status_color( has_skill3 ), dif_steering );
+        ok -= g->u.get_skill_level( skill_mechanics ) < dif_steering;
+        msg << string_format( _( "> <color_%1$s>%2$s %3$i</color> for extra steering axles." ),
+                              status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
+                              skill_mechanics.obj().name().c_str(), dif_steering ) << "\n";
     }
 
-    msg += string_format( _("  You also need either <color_%1$s>lifting equipment</color> or <color_%2$s>%3$d</color> strength." ),
-                          status_color( has_aid ), status_color( can_lift ), req_str );
-
-    werase (w_msg);
-    fold_and_print( w_msg, 0, 1, msg_width - 2, c_ltgray, msg );
-    wrefresh (w_msg);
-
-    if( !has_comps || !has_skill || !has_skill2 || !has_skill3 ) {
-        return false;
-    } else if( !can_lift && !has_aid ) {
-        return false;
-    } else if(is_hand_remove) {
-        return true;
-    } else if(is_wrenchable) {
-        return has_duct_tape || has_wrench;
-    } else if(is_screwable) {
-        return has_duct_tape || has_screwdriver;
-    } else if(is_wood) {
-        return has_duct_tape || (has_nails && (has_hammer || has_nailgun));
+    int lvl, str;
+    quality_id qual;
+    bool use_aid, use_str;
+    item base( sel_vpart_info->item );
+    if( base.is_wheel() ) {
+        qual = JACK;
+        lvl = ceil( double( std::min( veh->total_mass() * 1000, JACK_LIMIT ) / TOOL_LIFT_FACTOR ) );
+        str = veh->lift_strength();
+        use_aid = max_jack >= lvl;
+        use_str = g->u.can_lift( *veh );
     } else {
-        return has_tools;
+        qual = LIFT;
+        lvl = ceil( double( base.weight() ) / TOOL_LIFT_FACTOR );
+        str = base.lift_strength();
+        use_aid = max_lift >= lvl;
+        use_str = g->u.can_lift( base );
     }
+
+    ok -= !( use_aid || use_str );
+    msg << string_format( _( "> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_%4$s>strength %5$i</color>" ),
+                          status_color( use_aid ), qual.obj().name.c_str(), lvl,
+                          status_color( use_str ), str ) << "\n";
+
+    werase( w_msg );
+    fold_and_print( w_msg, 0, 1, getmaxx( w_msg ) - 2, c_ltgray, msg.str() );
+    wrefresh( w_msg );
+    return ok || g->u.has_trait( "DEBUG_HS" );
 }
 
 /**
@@ -730,7 +719,7 @@ void veh_interact::do_install()
 
         display_details( sel_vpart_info );
 
-        bool can_install = can_install_part(msg_width);
+        bool can_install = can_install_part();
 
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){

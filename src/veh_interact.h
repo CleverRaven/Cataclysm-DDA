@@ -80,6 +80,7 @@ class veh_interact
         input_context main_context;
 
         int max_lift; // maximum level of available lifting equipment (if any)
+        int max_jack; // maximum level of available jacking equipment (if any)
 
         int part_at( int dx, int dy );
         void move_cursor( int dx, int dy );
@@ -132,10 +133,10 @@ class veh_interact
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int veh_part_index, int mech_skill, int msg_width );
         //do install support, writes requirements to ui
-        bool can_install_part( int msg_width );
+        bool can_install_part();
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
-        bool is_drive_conflict( int msg_width );
+        bool is_drive_conflict();
         /* true if current selected square has part with "FUEL_TANK flag and
          * they are not full. Otherwise will be false.
          */
