@@ -41,6 +41,19 @@
     "location": "structure",
     "durability": 400,
     "difficulty": 1,
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": 120000,
+        "qualities": [ { "id": "GLARE", "level": 2 } ],
+        "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "oxy_torch", 20 ] ] ],
+        "components": [ [ [ "frame", 1 ] ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "qualities": [ { "id": "SAW_M", "level": 1 } ]
+      }
+    },
     "breaks_into": "ig_vp_frame",
     "flags": [ "MOUNTABLE" ]
   },
@@ -84,7 +97,20 @@
     "location": "structure",
     "color": "dark_gray",
     "durability": 1600,
-    "difficulty": 1,
+    "difficulty": 3,
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": 240000,
+        "qualities": [ { "id": "GLARE", "level": 2 } ],
+        "tools": [ [ [ "welder", 200 ], [ "welder_crude", 300 ], [ "toolset", 150 ], [ "oxy_torch", 60 ] ] ],
+        "components": [ [ [ "hdframe", 1 ] ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "qualities": [ { "id": "SAW_M", "level": 1 } ]
+      }
+    },
     "breaks_into": "ig_vp_hdframe",
     "flags": [ "MOUNTABLE" ]
   },
