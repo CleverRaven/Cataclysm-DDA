@@ -1035,7 +1035,7 @@ void veh_interact::do_refill()
 }
 
 bool veh_interact::can_remove_part( int idx ) {
-    if( sel_vpart_info == NULL ) {
+    if( sel_vpart_info == nullptr ) {
         werase( w_msg );
         wrefresh (w_msg);
         return false;
