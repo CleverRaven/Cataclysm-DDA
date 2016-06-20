@@ -1,5 +1,10 @@
 [
   {
+    "id": "UPS_on",
+    "type": "MIGRATION",
+    "replace": "UPS_off"
+  },
+  {
     "id": "adv_UPS_on",
     "type": "MIGRATION",
     "replace": "adv_UPS_off"
@@ -10,97 +15,16 @@
     "replace": "battery_car"
   },
   {
-    "id": "m14a",
-    "type": "MIGRATION",
-    "replace": "m1a"
-  },
-  {
-    "id": "metal_tank_small",
-    "type": "MIGRATION",
-    "replace": "jerrycan"
-  },
-  {
-    "id": "saiga_sawn",
-    "type": "MIGRATION",
-    "replace": "saiga_12",
-    "contents": [ "barrel_small" ]
-  },
-  {
-    "id": "UPS_on",
-    "type": "MIGRATION",
-    "replace": "UPS_off"
-  },
-  {
     "id": "jar_V8",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
     "contents": [ "V8" ]
   },
   {
-    "id": "jar_soup_mushroom",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "soup_mushroom" ]
-  },
-  {
-    "id": "jar_meat_canned",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "meat_canned" ]
-  },
-  {
-    "id": "jar_fish_canned",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "fish_canned" ]
-  },
-  {
-    "id": "jar_human_canned",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "human_canned" ]
-  },
-  {
-    "id": "jar_veggy_canned",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "veggy_canned" ]
-  },
-  {
     "id": "jar_apple_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
     "contents": [ "apple_canned" ]
-  },
-  {
-    "id": "jar_soup_woods",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "soup_woods" ]
-  },
-  {
-    "id": "jar_soup_meat",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "soup_meat" ]
-  },
-  {
-    "id": "jar_soup_veggy",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "soup_veggy" ]
-  },
-  {
-    "id": "jar_soup_fish",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "soup_fish" ]
-  },
-  {
-    "id": "jar_soup_human",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "soup_human" ]
   },
   {
     "id": "jar_broth",
@@ -121,16 +45,10 @@
     "contents": [ "broth_human" ]
   },
   {
-    "id": "jar_veggy_pickled",
+    "id": "jar_fish_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "veggy_pickled" ]
-  },
-  {
-    "id": "jar_meat_pickled",
-    "type": "MIGRATION",
-    "replace": "jar_glass_sealed",
-    "contents": [ "meat_pickled" ]
+    "contents": [ "fish_canned" ]
   },
   {
     "id": "jar_fish_pickled",
@@ -139,10 +57,70 @@
     "contents": [ "fish_pickled" ]
   },
   {
+    "id": "jar_human_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "human_canned" ]
+  },
+  {
     "id": "jar_human_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
     "contents": [ "human_pickled" ]
+  },
+  {
+    "id": "jar_kompot",
+    "type": "MIGRATION",
+    "replace": "jar_3l_glass_sealed",
+    "contents": [ "kompot" ]
+  },
+  {
+    "id": "jar_meat_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "meat_canned" ]
+  },
+  {
+    "id": "jar_meat_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "meat_pickled" ]
+  },
+  {
+    "id": "jar_soup_fish",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_fish" ]
+  },
+  {
+    "id": "jar_soup_human",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_human" ]
+  },
+  {
+    "id": "jar_soup_meat",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_meat" ]
+  },
+  {
+    "id": "jar_soup_mushroom",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_mushroom" ]
+  },
+  {
+    "id": "jar_soup_veggy",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_veggy" ]
+  },
+  {
+    "id": "jar_soup_woods",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_woods" ]
   },
   {
     "id": "jar_tomato_canned",
@@ -151,9 +129,31 @@
     "contents": [ "tomato_canned" ]
   },
   {
-    "id": "jar_kompot",
+    "id": "jar_veggy_canned",
     "type": "MIGRATION",
-    "replace": "jar_3l_glass_sealed",
-    "contents": [ "kompot" ]
+    "replace": "jar_glass_sealed",
+    "contents": [ "veggy_canned" ]
+  },
+  {
+    "id": "jar_veggy_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "veggy_pickled" ]
+  },
+  {
+    "id": "m14a",
+    "type": "MIGRATION",
+    "replace": "m1a"
+  },
+  {
+    "id": "metal_tank_small",
+    "type": "MIGRATION",
+    "replace": "jerrycan"
+  },
+  {
+    "id": "saiga_sawn",
+    "type": "MIGRATION",
+    "replace": "saiga_12",
+    "contents": [ "barrel_small" ]
   }
 ]
