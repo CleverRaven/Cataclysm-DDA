@@ -684,12 +684,25 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
     werase(w_inv);
     mvwprintw(w_inv, 0, 0, title.c_str());
 
+    // Position of inventory columns is adaptive. They're aligned to the left if they occupy less than 2/3 of the screen.
+    // Otherwise they're aligned symmetrically to the center of the screen.
+    static const float min_ratio_to_center = 1.f / 3;
+    const int free_space = getmaxx( w_inv ) - get_columns_width();
+    const bool center_align = std::abs( float( free_space ) / getmaxx( w_inv ) ) <= min_ratio_to_center;
+
+    const int max_gap = ( columns.size() > 1 ) ? free_space / ( columns.size() - 1 ) : 0;
+    const int gap = center_align ? max_gap : std::min<int>( max_gap, 4 );
+    const int gap_rounding_error = ( center_align && columns.size() > 1 ) ? free_space % ( columns.size() - 1 ) : 0;
+
     size_t x = 1;
     size_t y = 2;
     size_t active_x = 0;
-    const int gap = ( columns.size() > 1 ) ? ( getmaxx( w_inv ) - get_columns_width() ) / ( columns.size() - 1 ) : 0;
 
     for( const auto &column : columns ) {
+        if( &column == &columns.back() ) {
+            x += gap_rounding_error;
+        }
+
         if( !is_active_column( *column ) ) {
             column->draw( w_inv, x, y );
         } else {
@@ -739,7 +752,12 @@ void inventory_selector::display( const std::string &title, selector_mode mode )
         ? _( "Category selection; [TAB] switches mode, arrows select." )
         : _( "Item selection; [TAB] switches mode, arrows select." );
     const nc_color msg_color = ( navigation == navigation_mode::CATEGORY ) ? h_white : c_ltgray;
-    center_print( w_inv, getmaxy( w_inv ) - 1, msg_color, msg_str.c_str() );
+
+    if( center_align ) {
+        center_print( w_inv, getmaxy( w_inv ) - 1, msg_color, msg_str.c_str() );
+    } else {
+        trim_and_print( w_inv, getmaxy( w_inv ) - 1, 1, getmaxx( w_inv ), msg_color, msg_str.c_str() );
+    }
 
     wrefresh(w_inv);
 }
