@@ -9326,9 +9326,9 @@ int player::drink_from_hands(item& water) {
 bool player::consume_med( item &target, const tripoint &pos )
 {
     item *the_med = nullptr;
-    if( target.is_med_container() ) {
+    if( target.is_medication_container() ) {
         the_med = &target.contents.front();
-    } else if( target.is_med() ) {
+    } else if( target.is_medication() ) {
         the_med = &target;
     } else {
         debugmsg( "%s tried to use a %s as medication", name.c_str(), target.tname().c_str() );
@@ -9355,7 +9355,7 @@ bool player::consume_med( item &target, const tripoint &pos )
     // @todo Get the target it was used on
     // Otherwise injecting someone will give us addictions etc.
     consume_effects( *the_med );
-    moves -= 250;
+    mod_moves( -250 );
     the_med->charges -= amount_used;
     return the_med->charges <= 0;
 }
@@ -9384,7 +9384,7 @@ bool player::consume_item( item &target )
         return false;
     }
 
-    if( to_eat->is_med() ) {
+    if( to_eat->is_medication() ) {
         return consume_med( target, pos() );
     } else if( to_eat->is_food() ) {
         if( to_eat->type->comestible->comesttype == "FOOD" ||
@@ -10613,7 +10613,7 @@ bool player::consume_charges( item& used, long qty )
         return false;
     }
 
-    if( !used.is_tool() && !used.is_food() && !used.is_med() ) {
+    if( !used.is_tool() && !used.is_food() && !used.is_medication() ) {
         debugmsg( "Tried to consume charges for non-tool, non-food, non-med item" );
         return false;
     }
@@ -10623,7 +10623,7 @@ bool player::consume_charges( item& used, long qty )
     }
 
     // Consume comestibles destroying them if no charges remain
-    if( used.is_food() || used.is_med() ) {
+    if( used.is_food() || used.is_medication() ) {
         used.charges -= qty;
         if( used.charges <= 0 ) {
             i_rem( &used );
@@ -10776,9 +10776,9 @@ bool player::invoke_item( item* used, const tripoint &pt )
     // Food can't be invoked here - it is already invoked as a part of consumption
     // Same for meds
     if( used->is_food() || used->is_food_container() ||
-        used->is_med() || used->is_med_container() ) {
-        bool med = used->is_med() || used->is_med_container();
-        bool in_container = used->is_food_container() || used->is_med_container();
+        used->is_medication() || used->is_medication_container() ) {
+        bool med = used->is_medication() || used->is_medication_container();
+        bool in_container = used->is_food_container() || used->is_medication_container();
         bool consumed = med ? consume_med( *used, pt ) : consume_item( *used );
         if( consumed ) {
             i_rem( in_container ? &used->contents.front() : used );
@@ -10833,9 +10833,9 @@ bool player::invoke_item( item* used, const std::string &method, const tripoint 
     // Food can't be invoked here - it is already invoked as a part of consumption
     // Same for meds
     if( used->is_food() || used->is_food_container() ||
-        used->is_med() || used->is_med_container() ) {
-        bool med = used->is_med() || used->is_med_container();
-        bool in_container = used->is_food_container() || used->is_med_container();
+        used->is_medication() || used->is_medication_container() ) {
+        bool med = used->is_medication() || used->is_medication_container();
+        bool in_container = used->is_food_container() || used->is_medication_container();
         bool consumed = med ? consume_med( *used, pt ) : consume_item( *used );
         if( consumed ) {
             i_rem( in_container ? &used->contents.front() : used );

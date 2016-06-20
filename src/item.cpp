@@ -3404,7 +3404,7 @@ bool item::is_food() const
     return type->comestible != nullptr;
 }
 
-bool item::is_med() const
+bool item::is_medication() const
 {
     if( type->comestible == nullptr || type->comestible->comesttype != "MED" ) {
         return false;
@@ -3413,9 +3413,9 @@ bool item::is_med() const
     return true;
 }
 
-bool item::is_med_container() const
+bool item::is_medication_container() const
 {
-    return !contents.empty() && contents.front().is_med();
+    return !contents.empty() && contents.front().is_medication();
 }
 
 bool item::is_brewable() const

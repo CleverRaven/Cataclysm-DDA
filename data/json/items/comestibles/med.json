@@ -38,13 +38,13 @@
         "price" : 14500,
         "charges" : 10,
         "stack_size" : 200,
-        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "light_red",
         "stim" : 24,
         "fun" : 10,
         "addiction_potential" : 10,
-        "addiction_type" : "amphetamine"
+        "addiction_type" : "amphetamine",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "adrenaline_injector",
@@ -73,10 +73,10 @@
         "price" : 9000,
         "charges" : 15,
         "stack_size" : 200,
-        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "white",
-        "use_action" : "ANTIBIOTIC"
+        "use_action" : "ANTIBIOTIC",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "antifungal",
@@ -89,11 +89,11 @@
         "price" : 1000,
         "charges" : 5,
         "stack_size" : 100,
-        "flags" : "NPC_SAFE",
         "material" : "powder",
         "symbol" : "!",
         "color" : "white",
-        "use_action" : "ANTIFUNGAL"
+        "use_action" : "ANTIFUNGAL",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "antiparasitic",
@@ -107,11 +107,11 @@
         "charges" : 5,
         "stack_size" : 100,
         "material" : "powder",
-        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "white",
         "healthy" : -5,
-        "use_action" : "ANTIPARASITIC"
+        "use_action" : "ANTIPARASITIC",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "aspirin",
@@ -409,10 +409,10 @@
         "charges" : 6,
         "stack_size" : 36,
         "material" : "plastic",
-        "flags" : "NPC_SAFE",
         "symbol" : "[",
         "color" : "cyan",
-        "use_action" : "CONTACTS"
+        "use_action" : "CONTACTS",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "cotton_ball",
@@ -505,12 +505,12 @@
         "volume" : 1,
         "price" : 800,
         "charges" : 5,
-        "flags" : "NPC_SAFE",
         "symbol" : "~",
         "color" : "yellow",
         "phase" : "liquid",
         "container" : "bottle_plastic",
-        "use_action" : "FLUMED"
+        "use_action" : "FLUMED",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "disinfectant",
@@ -585,10 +585,10 @@
         "weight" : 18,
         "price" : 300,
         "charges" : 10,
-        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "light_blue",
-        "use_action" : "EYEDROPS"
+        "use_action" : "EYEDROPS",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "flu_shot",
@@ -601,10 +601,10 @@
         "price" : 5000, "//" : "Yeah, kinda guessing at these ones.",
         "stack_size" : 40,
         "material" : "plastic",
-        "flags" : "NPC_SAFE",
         "symbol" : "!",
         "color" : "magenta",
-        "use_action" : "FLU_VACCINE"
+        "use_action" : "FLU_VACCINE",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "gum",
@@ -811,14 +811,14 @@
         "volume" : 1,
         "price" : 0,
         "material" : "powder",
-        "flags" : "NPC_SAFE",
         "symbol" : "~",
         "color" : "yellow",
         "phase" : "liquid",
         "quench" : -50,
         "fun" : -5,
         "spoils_in" : 672,
-        "use_action" : "ANTIPARASITIC"
+        "use_action" : "ANTIPARASITIC",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "nic_gum",
@@ -1039,12 +1039,12 @@
         "volume" : 1,
         "price" : 500,
         "charges" : 5,
-        "flags" : "NPC_SAFE",
         "symbol" : "~",
         "color" : "light_cyan",
         "phase" : "liquid",
         "container" : "bottle_plastic",
-        "use_action" : "EYEDROPS"
+        "use_action" : "EYEDROPS",
+        "flags" : "NPC_SAFE"
     },
     {
         "id" : "thorazine",
@@ -1147,10 +1147,10 @@
         "price" : 5000, "//" : "Yeah, kinda guessing at these ones.",
         "stack_size" : 40,
         "material" : "plastic",
-        "flags" : [ "NPC_SAFE", "TRADER_AVOID" ],
         "symbol" : "!",
         "color" : "magenta",
-        "use_action" : "VACCINE"
+        "use_action" : "VACCINE",
+        "flags" : [ "NPC_SAFE", "TRADER_AVOID" ]
     },
     {
         "id" : "vitamins",
