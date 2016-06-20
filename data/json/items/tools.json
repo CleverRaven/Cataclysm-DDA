@@ -5738,28 +5738,6 @@
     }
   },
   {
-    "id": "jar_kompot",
-    "type": "GENERIC",
-    "symbol": ")",
-    "color": "cyan",
-    "name": "sealed 3-liter jar of kompot",
-    "name_plural": "sealed 3-liter jars of kompot",
-    "description": "This is a sealed glass jar containing kompot.  Use to open and eat to enjoy.",
-    "price": 800,
-    "material": ["glass", "water"],
-    "weight": 617,
-    "volume": 12,
-    "bashing": 8,
-    "category": "food",
-    "use_action": {
-        "type": "transform",
-        "msg": "You open the jar, exposing it to the atmosphere.",
-        "target": "kompot",
-        "target_charges": 12,
-        "container": "jar_3l_glass"
-    }
-  },
-  {
     "id": "jar_sauerkraut_pickled",
     "type": "GENERIC",
     "symbol": "%",

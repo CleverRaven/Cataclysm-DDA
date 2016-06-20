@@ -574,6 +574,19 @@
         "qualities": [["CONTAIN", 1], ["BOIL", 1]]
     },
     {
+        "id": "jar_3l_glass_sealed",
+        "copy-from": "jar_3l_glass",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "light_cyan",
+        "name": "sealed 3L glass jar",
+        "category": "other",
+        "description": "A three-liter glass jar with a metal screw top lid, used for canning.  Sealed tightly to preserve contents from rot.",
+        "seals": false,
+        "preserves": true,
+        "unseals_into": "jar_3l_glass"
+    },
+    {
         "id": "flask_hip",
         "type": "CONTAINER",
         "symbol": ")",

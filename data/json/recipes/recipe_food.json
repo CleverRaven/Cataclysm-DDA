@@ -8497,14 +8497,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_kompot",
+  "result": "kompot",
+  "id_suffix" : "jarred",
+  "container": "jar_3l_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 3,
-  "time": 30100,
-  "reversible": false,
+  "time": 30000,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[

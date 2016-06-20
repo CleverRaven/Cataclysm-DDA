@@ -149,5 +149,11 @@
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
     "contents": [ "tomato_canned" ]
+  },
+  {
+    "id": "jar_kompot",
+    "type": "MIGRATION",
+    "replace": "jar_3l_glass_sealed",
+    "contents": [ "kompot" ]
   }
 ]
