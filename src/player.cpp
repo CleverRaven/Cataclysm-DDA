@@ -9333,7 +9333,8 @@ bool player::consume_item( item &target )
         return false;
     }
     item *to_eat = nullptr;
-    if( target.is_food_container( this ) ) {
+    bool in_container = target.is_food_container( this );
+    if( in_container ) {
         to_eat = &target.contents.front();
     } else if( target.is_food( this ) ) {
         to_eat = &target;
@@ -9422,6 +9423,10 @@ bool player::consume_item( item &target )
     }
 
     to_eat->charges -= amount_used;
+    if( in_container ) {
+        target.on_contents_changed();
+    }
+
     return to_eat->charges <= 0;
 }
 
@@ -12589,6 +12594,7 @@ bool player::wield_contents( item *container, int pos, int factor, bool effects 
 
     weapon = std::move( *target );
     container->contents.erase( target );
+    container->on_contents_changed();
 
     inv.assign_empty_invlet( weapon, true );
     last_item = itype_id( weapon.type->id );

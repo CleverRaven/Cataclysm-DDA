@@ -29,8 +29,8 @@
   "book_learn": [["mag_survival", 1] , ["textbook_survival", 1]],
   "qualities" : [{"id":"CUT","level":1}],
   "components": [[
-    [ "can_drink", 1 ],
-    [ "can_food", 1 ],
+    [ "can_drink_unsealed", 1 ],
+    [ "can_food_unsealed", 1 ],
     [ "scrap", 2 ]
   ]]
 },
@@ -47,8 +47,8 @@
   "book_learn": [["mag_survival", 2] , ["textbook_survival", 1] , ["cookbook", 2]],
   "qualities" : [{"id":"CUT","level":1}],
   "components": [[
-    [ "can_drink", 2 ],
-    [ "can_food", 2 ],
+    [ "can_drink_unsealed", 2 ],
+    [ "can_food_unsealed", 2 ],
     [ "scrap", 4 ]
   ]]
 },

@@ -1490,6 +1490,11 @@ void item::io( Archive& archive )
     contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item &cont ) {
         return cont.is_null();
     } ), contents.end() );
+
+    // Sealed item migration: items with "unseals_into" set should always have contents
+    if( contents.empty() && is_non_resealable_container() ) {
+        convert( type->container->unseals_into );
+    }
 }
 
 void item::deserialize(JsonObject &data)

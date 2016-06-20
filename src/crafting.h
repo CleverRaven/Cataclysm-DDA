@@ -49,7 +49,10 @@ struct recipe {
         requirement_data requirements;
         std::vector<byproduct> byproducts;
         std::string cat;
-        bool contained; // Does the item spawn contained?
+        // Does the item spawn contained in container?
+        bool contained;
+        // What does the item spawn contained in? Unset ("null") means default container.
+        itype_id container;
         std::string subcat;
         skill_id skill_used;
         std::map<skill_id, int> required_skills;

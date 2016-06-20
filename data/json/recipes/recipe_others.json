@@ -467,8 +467,8 @@
     [
       [ "clay_teapot", 1 ],
       [ "jug_clay", 1 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ]
   ]
@@ -499,8 +499,8 @@
     [
       [ "clay_teapot", 1 ],
       [ "jug_clay", 1 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ]
   ]
@@ -2887,7 +2887,7 @@
     ],
     [
       [ "clay_canister", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ]
   ]
 },{
@@ -2913,7 +2913,7 @@
       [ "string_6", 1 ]
     ],
     [
-      [ "can_drink", 1 ]
+      [ "can_drink_unsealed", 1 ]
     ]
   ]
 },{
@@ -2940,7 +2940,7 @@
       [ "steel_chunk", 1 ],
       [ "canister_empty", 1 ],
       [ "clay_canister", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "bb", 200 ],
@@ -3806,7 +3806,7 @@
   "book_learn": [["fun_survival", 1], ["manual_fabrication", 1]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
-  ], "components": [ [ [ "can_drink", 2 ] ],
+  ], "components": [ [ [ "can_drink_unsealed", 2 ] ],
     [ [ "bottle_plastic", 1 ] ] ]
 },{
   "type" : "recipe",
@@ -7340,7 +7340,7 @@
 [
 [
 [ "material_aluminium_ingot", 1],
-[ "can_drink", 6],
+[ "can_drink_unsealed", 6],
 [ "aluminum_foil", 40]
 ],
 [
