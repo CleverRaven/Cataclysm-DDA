@@ -769,6 +769,8 @@
         ],
         "toggled": true,
         "act_cost": 100,
+        "weapon_bionic": true,
+        "fake_item": "bio_claws_weapon",
         "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended."
     },{
         "type": "bionic",
@@ -802,6 +804,8 @@
         ],
         "toggled": true,
         "act_cost": 200,
+        "weapon_bionic": true,
+        "fake_item": "bio_blade_weapon",
         "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended."
     },{
         "type": "bionic",
@@ -812,6 +816,8 @@
             [ "HAND_L", 5 ]
         ],
         "act_cost": 50,
+        "gun_bionic": true,
+        "fake_item": "bio_blaster_gun",
         "description": "Your left arm has been replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand."
     },{
         "type": "bionic",
@@ -821,6 +827,8 @@
             [ "HAND_R", 1 ]
         ],
         "act_cost": 50,
+        "gun_bionic": true,
+        "fake_item": "bio_laser_gun",
         "description": "One of your fingers has a small high-powered laser embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires."
     },{
         "type": "bionic",
@@ -988,6 +996,8 @@
             [ "ARM_R", 4 ]
         ],
         "act_cost": 125,
+        "gun_bionic": true,
+        "fake_item": "bio_lightning",
         "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target."
     },{
         "type": "bionic",
