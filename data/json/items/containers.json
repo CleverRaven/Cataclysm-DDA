@@ -56,7 +56,7 @@
         "type": "CONTAINER",
         "symbol": ")",
         "color": "light_cyan",
-        "name": "unsealed plastic cup",
+        "name": "opened plastic cup",
         "description": "A small, vacuum formed cup, essentially trash.",
         "unseals_into": "null"
     },
@@ -105,8 +105,8 @@
         "type": "CONTAINER",
         "symbol": ")",
         "color": "light_blue",
-        "name": "unsealed aluminum can",
-        "description": "An aluminum can, like what soda comes in.  This one is open and can't be easily sealed.",
+        "name": "opened aluminum can",
+        "description": "An aluminum can, like what soda comes in.  This one is opened and can't be easily sealed.",
         "preserves": false,
         "unseals_into": "null"
     },
@@ -150,8 +150,8 @@
         "type": "CONTAINER",
         "symbol": ")",
         "color": "blue",
-        "name": "unsealed aluminum can",
-        "description": "A tin can, like what beans come in.  This one is open and can't be easily sealed.",
+        "name": "opened tin can",
+        "description": "A tin can, like what beans come in.  This one is opened and can't be easily sealed.",
         "preserves": false,
         "unseals_into": "null"
     },
