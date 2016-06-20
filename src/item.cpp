@@ -4756,7 +4756,7 @@ bool item::reload( player &u, item_location loc, long qty )
             auto cells = std::min( qty / PLUTONIUM_CHARGES + ( qty % PLUTONIUM_CHARGES != 0 ), ammo->charges );
             ammo->charges -= cells;
             // any excess is wasted rather than overfilling the obj
-            obj->charges += std::min( cells * PLUTONIUM_CHARGES, qty * PLUTONIUM_CHARGES );
+            obj->charges += std::min( cells, qty ) * PLUTONIUM_CHARGES;
             // Cap at max, because the above formula doesn't guarantee it
             obj->charges = std::min( obj->charges, obj->ammo_capacity() );
         } else {
