@@ -13,11 +13,9 @@
       { "id": "HAMMER", "level": 2 },
       { "id": "SAW_M", "level": 1 },
       { "id": "WRENCH_F", "level": 1 },
-      { "id" : "GLARE", "level" : 2 }
+      { "id": "GLARE", "level" : 2 }
     ],
-    "tools": [
-      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ]
-    ],
+    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ] ] ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
