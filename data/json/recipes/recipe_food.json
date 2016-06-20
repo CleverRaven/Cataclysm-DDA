@@ -3461,6 +3461,7 @@
   "type" : "recipe",
   "result": "V8",
   "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
@@ -3468,7 +3469,6 @@
   "difficulty": 4,
   "time": 30000,
   "autolearn": true,
-  "container": "jar_glass_sealed",
   "batch_time_factors":[83, 5],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
@@ -3697,14 +3697,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_soup_mushroom",
+  "result": "soup_mushroom",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -7507,13 +7509,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_meat_canned",
+  "result": "meat_canned",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -7541,13 +7545,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_fish_canned",
+  "result": "fish_canned",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -7575,14 +7581,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_human_canned",
+  "result": "human_canned",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
-  "autolearn": false,
+  "result_mult": 2,
   "book_learn": [[ "cookbook_human", 4 ]],
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -7610,13 +7617,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_veggy_canned",
+  "result": "veggy_canned",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -7646,13 +7655,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_apple_canned",
+  "result": "apple_canned",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -7725,14 +7736,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_soup_woods",
+  "result": "soup_woods",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -7797,14 +7810,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_soup_meat",
+  "result": "soup_meat",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -7861,14 +7876,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_soup_veggy",
+  "result": "soup_veggy",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -7942,14 +7959,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_soup_fish",
+  "result": "soup_fish",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -8038,15 +8057,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_soup_human",
+  "result": "soup_human",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
-  "autolearn": false,
+  "result_mult": 2,
   "book_learn": [[ "cookbook_human", 4 ]],
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -8101,14 +8121,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_broth",
+  "result": "broth",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -8169,14 +8191,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_broth_bone",
+  "result": "broth_bone",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -8207,15 +8231,16 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_broth_human",
+  "result": "broth_human",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "skills_required": ["mechanics",1],
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
-  "autolearn": false,
+  "result_mult": 2,
   "book_learn": [[ "cookbook_human", 4 ]],
   "batch_time_factors":[80, 4],
   "qualities":[
@@ -10076,13 +10101,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_veggy_pickled",
+  "result": "veggy_pickled",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 5,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -10209,13 +10236,15 @@
   ]
   },{
   "type" : "recipe",
-  "result": "jar_meat_pickled",
+  "result": "meat_pickled",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -10248,13 +10277,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_fish_pickled",
+  "result": "fish_pickled",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
+  "result_mult": 2,
   "autolearn": true,
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -10287,14 +10318,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "jar_human_pickled",
+  "result": "human_pickled",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
   "skill_used": "cooking",
   "difficulty": 6,
   "time": 30000,
-  "reversible": false,
-  "autolearn": false,
+  "result_mult": 2,
   "book_learn": [[ "cookbook_human", 6 ]],
   "batch_time_factors":[83, 5],
   "qualities" : [
@@ -10855,7 +10887,9 @@
    ]
 },{
   "type" : "recipe",
-  "result": "jar_tomato_canned",
+  "result": "can_tomato",
+  "id_suffix" : "jarred",
+  "container": "jar_glass_sealed",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
