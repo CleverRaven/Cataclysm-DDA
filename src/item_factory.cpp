@@ -471,7 +471,6 @@ void Item_factory::init()
     add_iuse( "ROYAL_JELLY", &iuse::royal_jelly );
     add_iuse( "SAW_BARREL", &iuse::saw_barrel );
     add_iuse( "SEED", &iuse::seed );
-    add_iuse( "SET_TRAP", &iuse::set_trap );
     add_iuse( "SEWAGE", &iuse::sewage );
     add_iuse( "SEW_ADVANCED", &iuse::sew_advanced );
     add_iuse( "SHAVEKIT", &iuse::shavekit );
@@ -499,6 +498,7 @@ void Item_factory::init()
     add_iuse( "VACUTAINER", &iuse::vacutainer );
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "VORTEX", &iuse::vortex );
+    add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
     add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
@@ -527,6 +527,7 @@ void Item_factory::init()
     add_actor( new salvage_actor() );
     add_actor( new unfold_vehicle_iuse() );
     add_actor( new ups_based_armor_actor() );
+    add_actor( new place_trap_actor() );
 
     create_inital_categories();
 
@@ -792,6 +793,18 @@ void Item_factory::check_definitions() const
         if( type->bionic ) {
             if (!is_valid_bionic(type->bionic->bionic_id)) {
                 msg << string_format("there is no bionic with id %s", type->bionic->bionic_id.c_str()) << "\n";
+            }
+        }
+
+        if( type->container != nullptr ) {
+            if( type->container->seals && type->container->unseals_into != "null" ) {
+                msg << string_format("Resealable container unseals_into %s", type->container->unseals_into.c_str() ) << "\n";
+            }
+            if( type->container->contains <= 0 ) {
+                msg << string_format("\"contains\" (%d) must be >0", type->container->contains ) << "\n";
+            }
+            if( !has_template( type->container->unseals_into ) ) {
+                msg << string_format("unseals_into invalid id", type->container->unseals_into.c_str() ) << "\n";
             }
         }
         if (msg.str().empty()) {
@@ -1242,9 +1255,11 @@ void Item_factory::load_comestible(JsonObject &jo)
 
 void Item_factory::load_container(JsonObject &jo)
 {
-    itype *new_item_template = new itype();
-    load_slot( new_item_template->container, jo );
-    load_basic_info( jo, new_item_template );
+    auto def = load_definition( jo );
+    if( def ) {
+        load_slot( def->container, jo );
+        load_basic_info( jo, def );
+    }
 }
 
 void Item_factory::load( islot_seed &slot, JsonObject &jo )
@@ -1259,10 +1274,11 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo )
 
 void Item_factory::load( islot_container &slot, JsonObject &jo )
 {
-    slot.contains = jo.get_int( "contains" );
-    slot.seals = jo.get_bool( "seals", false );
-    slot.watertight = jo.get_bool( "watertight", false );
-    slot.preserves = jo.get_bool( "preserves", false );
+    assign( jo, "contains", slot.contains );
+    assign( jo, "seals", slot.seals );
+    assign( jo, "watertight", slot.watertight );
+    assign( jo, "preserves", slot.preserves );
+    assign( jo, "unseals_into", slot.unseals_into );
 }
 
 void Item_factory::load( islot_gunmod &slot, JsonObject &jo )

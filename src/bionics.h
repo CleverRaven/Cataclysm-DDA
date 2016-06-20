@@ -27,10 +27,25 @@ struct bionic_data {
     /** Is true if a bionic is an active instead of a passive bionic */
     bool activated = false;
     /** If true, then the bionic only has a function when activated, else it causes
-        *  it's effect every turn. */
+     *  it's effect every turn.
+     */
     bool toggled = false;
+    /**
+     * If true, this bionic is a gun bionic and activating it will fire it.
+     * Prevents all other activation effects.
+     */
+    bool gun_bionic = false;
+    /**
+     * If true, this bionic is a weapon bionic and activating it will
+     * create (or destroy) bionic's fake_item in user's hands.
+     * Prevents all other activation effects.
+     */
+    bool weapon_bionic = false;
     std::map<body_part, size_t> occupied_bodyparts;
-    /** Fake item created for crafting with this bionic available. */
+    /**
+     * Fake item created for crafting with this bionic available.
+     * Also the item used for gun bionics.
+     */
     std::string fake_item;
 };
 

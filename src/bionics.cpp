@@ -139,8 +139,6 @@ bool player::activate_bionic( int b, bool eff_only )
         add_msg( m_info, _( "You activate your %s." ), bionics[bio.id].name.c_str() );
     }
 
-    std::vector<std::string> good;
-    std::vector<std::string> bad;
     tripoint dirp = pos();
     int &dirx = dirp.x;
     int &diry = dirp.y;
@@ -149,7 +147,30 @@ bool player::activate_bionic( int b, bool eff_only )
                                  calendar::turn );
 
     // On activation effects go here
-    if( bio.id == "bio_painkiller" ) {
+    if( bionics[bio.id].gun_bionic ) {
+        item old_weapon = weapon;
+        weapon = item( bionics[bio.id].fake_item );
+        g->refresh_all();
+        if( !g->plfire() ) {
+            charge_power( bionics[bio.id].power_activate );
+        }
+        weapon = old_weapon;
+    } else if( bionics[ bio.id ].weapon_bionic ) {
+        if( weapon.has_flag( "NO_UNWIELD" ) ) {
+            add_msg( m_info, _("Deactivate your %s first!"), weapon.tname().c_str() );
+            charge_power( bionics[bio.id].power_activate );
+            bio.powered = false;
+            return false;
+        }
+
+        if( !weapon.is_null() ) {
+            add_msg( m_warning, _( "You're forced to drop your %s." ), weapon.tname().c_str() );
+            g->m.add_item_or_charges( pos(), weapon );
+        }
+
+        weapon = item( bionics[bio.id].fake_item );
+        weapon.invlet = '#';
+    } else if( bio.id == "bio_painkiller" ) {
         mod_pain( -2 );
         mod_painkiller( 6 );
         if( get_painkiller() > get_pain() ) {
@@ -211,94 +232,70 @@ bool player::activate_bionic( int b, bool eff_only )
         WINDOW *w = newwin( 20, 40, 3 + ( ( TERMY > 25 ) ? ( TERMY - 25 ) / 2 : 0 ),
                             10 + ( ( TERMX > 80 ) ? ( TERMX - 80 ) / 2 : 0 ) );
         draw_border( w );
-        if( has_effect( effect_fungus ) ) {
-            bad.push_back( _( "Fungal Parasite" ) );
-        }
-        if( has_effect( effect_dermatik ) ) {
-            bad.push_back( _( "Insect Parasite" ) );
-        }
-        if( has_effect( effect_stung ) ) {
-            bad.push_back( _( "Stung" ) );
-        }
-        if( has_effect( effect_poison ) ) {
-            bad.push_back( _( "Poison" ) );
-        }
+
+        static const std::map<efftype_id, std::string> bad_effects = {{
+            { effect_fungus, _( "Fungal Parasite" ) },
+            { effect_dermatik, _( "Insect Parasite" ) },
+            { effect_stung, _( "Stung" ) },
+            { effect_poison, _( "Poison" ) },
+            // Those may be good for the player, but the scanner doesn't like them
+            { effect_drunk, _( "Alcohol" ) },
+            { effect_cig, _( "Nicotine" ) },
+            { effect_meth, _( "Methamphetamines" ) },
+            { effect_high, _( "Intoxicant: Other" ) },
+            { effect_weed_high, _( "THC Intoxication" ) },
+            // This little guy is immune to the blood filter though, as he lives in your bowels.
+            { effect_tapeworm, _( "Intestinal Parasite" ) },
+            { effect_bloodworms, _( "Hemolytic Parasites" ) },
+            // These little guys are immune to the blood filter too, as they live in your brain.
+            { effect_brainworms, _( "Intracranial Parasite" ) },
+            // These little guys are immune to the blood filter too, as they live in your muscles.
+            { effect_paincysts, _( "Intramuscular Parasites" ) },
+            // Tetanus infection.
+            { effect_tetanus, _( "Clostridium Tetani Infection" ) },
+            { effect_datura, _( "Anticholinergic Tropane Alkaloids" ) },
+            // @todo Hallucinations not inducted by chemistry
+            { effect_hallu, _( "Hallucinations" ) },
+            { effect_visuals, _( "Hallucinations" ) },
+        }};
+
+        static const std::map<efftype_id, std::string> good_effects = {{
+            { effect_pkill1, _( "Minor Painkiller" ) },
+            { effect_pkill2, _( "Moderate Painkiller" ) },
+            { effect_pkill3, _( "Heavy Painkiller" ) },
+            { effect_pkill_l, _( "Slow-Release Painkiller" ) },
+            
+            { effect_pblue, _( "Prussian Blue" ) },
+            { effect_iodine, _( "Potassium Iodide" ) },
+            
+            { effect_took_xanax, _( "Xanax" ) },
+            { effect_took_prozac, _( "Prozac" ) },
+            { effect_took_flumed, _( "Antihistamines" ) },
+            { effect_adrenaline, _( "Adrenaline Spike" ) },
+            // Should this be described like that? Does the bionic know what is this?
+            { effect_adrenaline_mycus, _( "Mycal Spike" ) },
+        }};
+
+        std::vector<std::string> good;
+        std::vector<std::string> bad;
+
         if( radiation > 0 ) {
             bad.push_back( _( "Irradiated" ) );
         }
-        if( has_effect( effect_pkill1 ) ) {
-            good.push_back( _( "Minor Painkiller" ) );
+
+        // @todo Expose the player's effects to check it in a cleaner way
+        for( const auto &pr : bad_effects ) {
+            if( has_effect( pr.first ) ) {
+                bad.push_back( pr.second );
+            }
         }
-        if( has_effect( effect_pkill2 ) ) {
-            good.push_back( _( "Moderate Painkiller" ) );
+
+        for( const auto &pr : good_effects ) {
+            if( has_effect( pr.first ) ) {
+                good.push_back( pr.second );
+            }
         }
-        if( has_effect( effect_pkill3 ) ) {
-            good.push_back( _( "Heavy Painkiller" ) );
-        }
-        if( has_effect( effect_pkill_l ) ) {
-            good.push_back( _( "Slow-Release Painkiller" ) );
-        }
-        if( has_effect( effect_drunk ) ) {
-            good.push_back( _( "Alcohol" ) );
-        }
-        if( has_effect( effect_cig ) ) {
-            good.push_back( _( "Nicotine" ) );
-        }
-        if( has_effect( effect_meth ) ) {
-            good.push_back( _( "Methamphetamines" ) );
-        }
-        if( has_effect( effect_high ) ) {
-            good.push_back( _( "Intoxicant: Other" ) );
-        }
-        if( has_effect( effect_weed_high ) ) {
-            good.push_back( _( "THC Intoxication" ) );
-        }
-        if( has_effect( effect_hallu ) || has_effect( effect_visuals ) ) {
-            bad.push_back( _( "Hallucinations" ) );
-        }
-        if( has_effect( effect_pblue ) ) {
-            good.push_back( _( "Prussian Blue" ) );
-        }
-        if( has_effect( effect_iodine ) ) {
-            good.push_back( _( "Potassium Iodide" ) );
-        }
-        if( has_effect( effect_datura ) ) {
-            good.push_back( _( "Anticholinergic Tropane Alkaloids" ) );
-        }
-        if( has_effect( effect_took_xanax ) ) {
-            good.push_back( _( "Xanax" ) );
-        }
-        if( has_effect( effect_took_prozac ) ) {
-            good.push_back( _( "Prozac" ) );
-        }
-        if( has_effect( effect_took_flumed ) ) {
-            good.push_back( _( "Antihistamines" ) );
-        }
-        if( has_effect( effect_adrenaline ) ) {
-            good.push_back( _( "Adrenaline Spike" ) );
-        }
-        if( has_effect( effect_adrenaline_mycus ) ) {
-            good.push_back( _( "Mycal Spike" ) );
-        }
-        if( has_effect( effect_tapeworm ) ) {
-            // This little guy is immune to the blood filter though, as he lives in your bowels.
-            good.push_back( _( "Intestinal Parasite" ) );
-        }
-        if( has_effect( effect_bloodworms ) ) {
-            good.push_back( _( "Hemolytic Parasites" ) );
-        }
-        if( has_effect( effect_brainworms ) ) {
-            // These little guys are immune to the blood filter too, as they live in your brain.
-            good.push_back( _( "Intracranial Parasite" ) );
-        }
-        if( has_effect( effect_paincysts ) ) {
-            // These little guys are immune to the blood filter too, as they live in your muscles.
-            good.push_back( _( "Intramuscular Parasites" ) );
-        }
-        if( has_effect( effect_tetanus ) ) {
-            // Tetanus infection.
-            good.push_back( _( "Clostridium Tetani Infection" ) );
-        }
+
         if( good.empty() && bad.empty() ) {
             mvwprintz( w, 1, 1, c_white, _( "No effects." ) );
         } else {
@@ -315,27 +312,18 @@ bool player::activate_bionic( int b, bool eff_only )
         getch();
         delwin( w );
     } else if( bio.id == "bio_blood_filter" ) {
-        remove_effect( effect_fungus );
-        remove_effect( effect_dermatik );
-        remove_effect( effect_bloodworms );
-        remove_effect( effect_tetanus );
-        remove_effect( effect_poison );
-        remove_effect( effect_stung );
-        remove_effect( effect_pkill1 );
-        remove_effect( effect_pkill2 );
-        remove_effect( effect_pkill3 );
-        remove_effect( effect_pkill_l );
-        remove_effect( effect_drunk );
-        remove_effect( effect_cig );
-        remove_effect( effect_high );
-        remove_effect( effect_hallu );
-        remove_effect( effect_visuals );
-        remove_effect( effect_pblue );
-        remove_effect( effect_iodine );
-        remove_effect( effect_datura );
-        remove_effect( effect_took_xanax );
-        remove_effect( effect_took_prozac );
-        remove_effect( effect_took_flumed );
+        static const std::vector<efftype_id> removable = {{
+            effect_fungus, effect_dermatik, effect_bloodworms,
+            effect_tetanus, effect_poison, effect_stung,
+            effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
+            effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
+            effect_pblue, effect_iodine, effect_datura,
+            effect_took_xanax, effect_took_prozac, effect_took_flumed,
+        }};
+
+        for( const auto &eff : removable ) {
+            remove_effect( eff );
+        }
         // Purging the substance won't remove the fatigue it caused
         force_comedown( get_effect( effect_adrenaline ) );
         force_comedown( get_effect( effect_meth ) );
@@ -380,33 +368,6 @@ bool player::activate_bionic( int b, bool eff_only )
         } else {
             add_effect( effect_adrenaline, 200 );
         }
-
-    } else if( bio.id == "bio_blaster" ) {
-        tmp_item = weapon;
-        weapon = item( "bio_blaster_gun" );
-        g->refresh_all();
-        if( !g->plfire() ) {
-            charge_power( bionics[bio.id].power_activate );
-        }
-        weapon = tmp_item;
-
-    } else if( bio.id == "bio_laser" ) {
-        tmp_item = weapon;
-        weapon = item( "bio_laser_gun" );
-        g->refresh_all();
-        if( !g->plfire() ) {
-            charge_power( bionics[bio.id].power_activate );
-        }
-        weapon = tmp_item;
-
-    } else if( bio.id == "bio_chain_lightning" ) {
-        tmp_item = weapon;
-        weapon = item( "bio_lightning" );
-        g->refresh_all();
-        if( !g->plfire() ) {
-            charge_power( bionics[bio.id].power_activate );
-        }
-        weapon = tmp_item;
 
     } else if (bio.id == "bio_emp") {
         g->refresh_all();
@@ -533,42 +494,6 @@ bool player::activate_bionic( int b, bool eff_only )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                                     windpower ) + g->get_temperature() ).c_str() );
-    } else if(bio.id == "bio_claws") {
-        if (weapon.has_flag ("NO_UNWIELD")) {
-            add_msg(m_info, _("Deactivate your %s first!"),
-                    weapon.tname().c_str());
-            charge_power(bionics[bio.id].power_activate);
-            bio.powered = false;
-            return false;
-        } else if(weapon.type->id != "null") {
-            add_msg(m_warning, _("Your claws extend, forcing you to drop your %s."),
-                    weapon.tname().c_str());
-            g->m.add_item_or_charges(pos(), weapon);
-            weapon = item("bio_claws_weapon", 0);
-            weapon.invlet = '#';
-        } else {
-            add_msg(m_neutral, _("Your claws extend!"));
-            weapon = item("bio_claws_weapon", 0);
-            weapon.invlet = '#';
-        }
-    } else if(bio.id == "bio_blade") {
-        if (weapon.has_flag ("NO_UNWIELD")) {
-            add_msg(m_info, _("Deactivate your %s first!"),
-                    weapon.tname().c_str());
-            charge_power(bionics[bio.id].power_activate);
-            bio.powered = false;
-            return false;
-        } else if(weapon.type->id != "null") {
-            add_msg(m_warning, _("Your blade extends, forcing you to drop your %s."),
-                    weapon.tname().c_str());
-            g->m.add_item_or_charges(pos(), weapon);
-            weapon = item("bio_blade_weapon", 0);
-            weapon.invlet = '#';
-        } else {
-            add_msg(m_neutral, _("You extend your blade!"));
-            weapon = item("bio_blade_weapon", 0);
-            weapon.invlet = '#';
-        }
     } else if( bio.id == "bio_remote" ) {
         int choice = menu( true, _("Perform which function:"), _("Nothing"),
                            _("Control vehicle"), _("RC radio"), NULL );
@@ -636,7 +561,12 @@ bool player::deactivate_bionic( int b, bool eff_only )
     }
 
     // Deactivation effects go here
-    if( bio.id == "bio_cqb" ) {
+    if( bionics[ bio.id ].weapon_bionic ) {
+        if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
+            add_msg( _( "You withdraw your %s." ), weapon.tname().c_str() );
+            weapon = ret_null;
+        }
+    } else if( bio.id == "bio_cqb" ) {
         // check if player knows current style naturally, otherwise drop them back to style_none
         if( style_selected != matype_id( "style_none" ) ) {
             bool has_style = false;
@@ -648,16 +578,6 @@ bool player::deactivate_bionic( int b, bool eff_only )
             if( !has_style ) {
                 style_selected = matype_id( "style_none" );
             }
-        }
-    } else if( bio.id == "bio_claws" ) {
-        if( weapon.type->id == "bio_claws_weapon" ) {
-            add_msg( m_neutral, _( "You withdraw your claws." ) );
-            weapon = ret_null;
-        }
-    } else if( bio.id == "bio_blade" ) {
-        if( weapon.type->id == "bio_blade_weapon" ) {
-            add_msg( m_neutral, _( "You retract your blade." ) );
-            weapon = ret_null;
         }
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() != nullptr && !has_active_item( "remotevehcontrol" ) ) {
@@ -898,18 +818,13 @@ bool player::uninstall_bionic( std::string const &b_id, int skill_level )
         return false;
     }
 
-    // surgery is imminent, retract claws or blade if active
-    if( has_bionic( "bio_claws" ) && skill_level == -1 ) {
-        if( weapon.type->id == "bio_claws_weapon" ) {
-            add_msg( m_neutral, _( "You withdraw your claws." ) );
-            weapon = ret_null;
-        }
-    }
-
-    if( has_bionic( "bio_blade" ) && skill_level == -1 ) {
-        if( weapon.type->id == "bio_blade_weapon" ) {
-            add_msg( m_neutral, _( "You retract your blade." ) );
-            weapon = ret_null;
+    // Surgery is imminent, retract claws or blade if active
+    if( skill_level == -1 ) {
+        for( size_t i = 0; i < my_bionics.size(); i++ ) {
+            const auto &bio = my_bionics[ i ];
+            if( bio.powered && bio.info().weapon_bionic ) {
+                deactivate_bionic( i );
+            }
         }
     }
 
@@ -1394,6 +1309,12 @@ void load_bionic( JsonObject &jsobj )
 
     new_bionic.faulty = jsobj.get_bool( "faulty", false );
     new_bionic.power_source = jsobj.get_bool( "power_source", false );
+
+    new_bionic.gun_bionic = jsobj.get_bool( "gun_bionic", false );
+    new_bionic.weapon_bionic = jsobj.get_bool( "weapon_bionic", false );
+    if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
+        debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
+    }
 
     new_bionic.fake_item = jsobj.get_string( "fake_item", "" );
 

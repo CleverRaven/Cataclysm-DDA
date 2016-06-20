@@ -275,180 +275,6 @@
         ]
     },{
         "type" : "vehicle_part",
-        "id" : "woodboard_horizontal",
-        "name" : "wooden board",
-        "symbol" : "h",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 300,
-        "item" : "wood_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into": "ig_vp_wood_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "woodboard_vertical",
-        "name" : "wooden board",
-        "symbol" : "j",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 300,
-        "item" : "wood_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into": "ig_vp_wood_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "woodboard_nw",
-        "name" : "wooden board",
-        "symbol" : "y",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 300,
-        "item" : "wood_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into": "ig_vp_wood_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "woodboard_ne",
-        "name" : "wooden board",
-        "symbol" : "u",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 300,
-        "item" : "wood_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into": "ig_vp_wood_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "woodboard_se",
-        "name" : "wooden board",
-        "symbol" : "n",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 300,
-        "item" : "wood_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into": "ig_vp_wood_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "woodboard_sw",
-        "name" : "wooden board",
-        "symbol" : "b",
-        "color" : "brown",
-        "broken_symbol" : "#",
-        "broken_color" : "brown",
-        "durability" : 300,
-        "item" : "wood_plate",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "NAILABLE"],
-        "breaks_into": "ig_vp_wood_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "clothboard_horizontal",
-        "name" : "cloth board",
-        "symbol" : "h",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 15,
-        "folded_volume": 15,
-        "item" : "sheet",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
-        "breaks_into": "ig_vp_cloth"
-    },{
-        "type" : "vehicle_part",
-        "id" : "clothboard_vertical",
-        "name" : "cloth board",
-        "symbol" : "j",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 15,
-        "folded_volume": 15,
-        "item" : "sheet",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
-        "breaks_into": "ig_vp_cloth"
-    },{
-        "type" : "vehicle_part",
-        "id" : "clothboard_nw",
-        "name" : "cloth board",
-        "symbol" : "y",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 15,
-        "folded_volume": 15,
-        "item" : "sheet",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
-        "breaks_into": "ig_vp_cloth"
-    },{
-        "type" : "vehicle_part",
-        "id" : "clothboard_ne",
-        "name" : "cloth board",
-        "symbol" : "u",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 15,
-        "folded_volume": 15,
-        "item" : "sheet",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
-        "breaks_into": "ig_vp_cloth"
-    },{
-        "type" : "vehicle_part",
-        "id" : "clothboard_se",
-        "name" : "cloth board",
-        "symbol" : "n",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 15,
-        "folded_volume": 15,
-        "item" : "sheet",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
-        "breaks_into": "ig_vp_cloth"
-    },{
-        "type" : "vehicle_part",
-        "id" : "clothboard_sw",
-        "name" : "cloth board",
-        "symbol" : "b",
-        "color" : "light_gray",
-        "broken_symbol" : "#",
-        "broken_color" : "dark_gray",
-        "durability" : 15,
-        "folded_volume": 15,
-        "item" : "sheet",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
-        "breaks_into": "ig_vp_cloth"
-    },{
-        "type" : "vehicle_part",
         "id" : "cloth_halfboard_horizontal",
         "name" : "cloth quarterpanel",
         "symbol" : "h",
@@ -1045,46 +871,6 @@
         "location" : "center",
         "flags" : ["OBSTACLE", "NAILABLE"],
         "breaks_into": "ig_vp_wood_plate"
-    },{
-        "type" : "vehicle_part",
-        "id" : "aisle_lights",
-        "name" : "aisle lights",
-        "symbol" : "*",
-        "color" : "white",
-        "broken_symbol" : "*",
-        "broken_color" : "light_gray",
-        "durability" : 20,
-        "epower" : -75,
-        "bonus" : 30,
-        "item" : "flashlight",
-        "difficulty" : 1,
-        "location" : "on_ceiling",
-        "flags" : ["TOOL_SCREWDRIVER", "AISLE_LIGHT"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [0, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "lit_aisle_horizontal",
-        "name" : "aisle with lights",
-        "symbol" : "=",
-        "color" : "white",
-        "broken_symbol" : "#",
-        "broken_color" : "light_gray",
-        "durability" : 400,
-        "epower" : -75,
-        "bonus" : 30,
-        "item" : "sheet_metal_lit",
-        "difficulty" : 1,
-        "location" : "center",
-        "flags" : ["AISLE", "BOARDABLE", "AISLE_LIGHT"],
-        "breaks_into" : [
-            {"item": "steel_lump", "count": [4, 6]},
-            {"item": "steel_chunk", "count": [4, 6]},
-            {"item": "scrap", "count": [4, 6]},
-            {"item": "cable", "charges": [6, 10]},
-            {"item": "plastic_chunk", "count": [1, 3]}
-        ]
     },{
         "type" : "vehicle_part",
         "id" : "aisle_horizontal",
@@ -2329,43 +2115,6 @@
         }
     },{
         "type" : "vehicle_part",
-        "id" : "headlight",
-        "name" : "head light",
-        "symbol" : "*",
-        "color" : "white",
-        "broken_symbol" : "*",
-        "broken_color" : "white",
-        "damage_modifier" : 10,
-        "durability" : 20,
-        "folded_volume": 1,
-        "epower" : -187,
-        "bonus" : 8000,
-        "item" : "car_headlight",
-        "difficulty" : 1,
-        "flags" : ["CONE_LIGHT", "TOOL_SCREWDRIVER", "FOLDABLE"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [0, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "headlight_reinforced",
-        "name" : "reinforced head light",
-        "symbol" : "*",
-        "color" : "light_blue",
-        "broken_symbol" : "*",
-        "broken_color" : "white",
-        "damage_modifier" : 10,
-        "durability" : 80,
-        "epower" : -187,
-        "bonus" : 8000,
-        "item" : "headlight_reinforced",
-        "difficulty" : 1,
-        "flags" : ["CONE_LIGHT", "TOOL_SCREWDRIVER"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [0, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
         "id" : "reinforced_windshield",
         "name" : "reinforced windshield",
         "symbol" : "\"",
@@ -2500,73 +2249,6 @@
         "breaks_into": "ig_vp_frame"
     },{
         "type" : "vehicle_part",
-        "id" : "light_red",
-        "name" : "red light",
-        "symbol" : "*",
-        "color" : "red",
-        "broken_symbol" : "-",
-        "broken_color" : "red",
-        "damage_modifier" : 10,
-        "durability" : 20,
-        "folded_volume": 2,
-        "epower" : -125,
-        "bonus" : 500,
-        "item" : "light_emergency_red",
-        "difficulty" : 1,
-        "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "ODDTURN", "FOLDABLE", "TOOL_SCREWDRIVER"],
-        "breaks_into" : [
-          {"item": "steel_lump", "count": [4, 6]},
-          {"item": "steel_chunk", "count": [4, 6]},
-          {"item": "scrap", "count": [4, 6]},
-          {"item": "cable", "charges": [2, 4]},
-          {"item": "plastic_chunk", "count": [1, 3]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "light_blue",
-        "name" : "blue light",
-        "symbol" : "*",
-        "color" : "blue",
-        "broken_symbol" : "-",
-        "broken_color" : "blue",
-        "damage_modifier" : 10,
-        "durability" : 20,
-        "folded_volume": 2,
-        "epower" : -125,
-        "bonus" : 500,
-        "item" : "light_emergency_blue",
-        "difficulty" : 1,
-        "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "EVENTURN", "FOLDABLE", "TOOL_SCREWDRIVER"],
-        "breaks_into" : [
-            {"item": "steel_chunk", "prob": 50},
-            {"item": "scrap"}
-        ]
-    },{
-      "type" : "vehicle_part",
-      "id" : "lit_aisle_vertical",
-      "name" : "aisle with lights",
-      "symbol" : "H",
-      "color" : "white",
-      "broken_symbol" : "#",
-      "broken_color" : "light_gray",
-      "durability" : 400,
-      "epower" : -75,
-      "bonus" : 30,
-      "item" : "sheet_metal_lit",
-      "difficulty" : 1,
-      "location" : "center",
-      "flags" : ["AISLE", "BOARDABLE", "AISLE_LIGHT"],
-      "breaks_into" : [
-        {"item": "steel_lump", "count": [4, 6]},
-        {"item": "steel_chunk", "count": [4, 6]},
-        {"item": "scrap", "count": [4, 6]},
-        {"item": "cable", "charges": [2, 4]},
-        {"item": "plastic_chunk", "count": [1, 3]}
-      ]
-    },{
-        "type" : "vehicle_part",
         "id" : "cargo_space",
         "name" : "cargo space",
         "symbol" : "=",
@@ -2583,27 +2265,6 @@
             {"item": "steel_lump", "count": [6, 8]},
             {"item": "steel_chunk", "count": [6, 8]},
             {"item": "scrap", "count": [6, 8]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "floodlight",
-        "name" : "floodlight",
-        "symbol" : "*",
-        "color" : "white",
-        "broken_symbol" : "-",
-        "broken_color" : "blue",
-        "damage_modifier" : 10,
-        "durability" : 20,
-        "epower" : -2000,
-        "bonus" : 8000,
-        "item" : "floodlight",
-        "difficulty" : 1,
-        "location" : "on_roof",
-        "flags" : ["CIRCLE_LIGHT", "FOLDABLE", "TOOL_SCREWDRIVER"],
-        "folded_volume": 8,
-        "breaks_into" : [
-            {"item": "steel_chunk", "count": [0, 2]},
-            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -3009,42 +2670,6 @@
             {"item": "motor_small", "count": [1, 3]},
             {"item": "steel_chunk", "count": [1, 3]},
             {"item": "e_scrap", "count": [1, 5]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "atomic_lamp",
-        "name" : "atomic lamp",
-        "symbol" : "*",
-        "color" : "light_blue",
-        "broken_symbol" : "*",
-        "broken_color" : "light_gray",
-        "durability" : 20,
-        "epower" : 0,
-        "bonus" : 30,
-        "item" : "atomic_lamp",
-        "difficulty" : 1,
-        "location" : "on_ceiling",
-        "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "TOOL_SCREWDRIVER"],
-        "breaks_into" : [
-            {"item": "scrap", "count": [0, 2]}
-        ]
-    },{
-        "type" : "vehicle_part",
-        "id" : "atomic_light",
-        "name" : "atomic nightlight",
-        "symbol" : "*",
-        "color" : "light_blue",
-        "broken_symbol" : "*",
-        "broken_color" : "light_gray",
-        "durability" : 20,
-        "epower" : 0,
-        "bonus" : 5,
-        "item" : "atomic_light",
-        "difficulty" : 1,
-        "location" : "on_ceiling",
-        "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "TOOL_SCREWDRIVER"],
-        "breaks_into" : [
-            {"item": "scrap", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",

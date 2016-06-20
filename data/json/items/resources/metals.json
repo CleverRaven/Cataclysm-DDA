@@ -1,0 +1,19 @@
+[
+  {
+    "id": "lead",
+    "type": "AMMO",
+    "category": "spare_parts",
+    "name": "lead",
+    "name_plural": "lead",
+    "description": "A soft dull metal known since ancient times.  Due to its malleability it has a wide variety of uses including the manufacture of ammunition.",
+    "weight": 3, "//": "Density 11.34g/cm³ ~ 2.8kg/250ml @ stack 1000 = 3g/unit",
+    "volume": 1,
+    "price": 5000,
+    "count": 100,
+    "stack_size": 1000,
+    "material": [ "lead" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "ammo_type": "components"
+  }
+]

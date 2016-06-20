@@ -1490,6 +1490,11 @@ void item::io( Archive& archive )
     contents.erase( std::remove_if( contents.begin(), contents.end(), []( const item &cont ) {
         return cont.is_null();
     } ), contents.end() );
+
+    // Sealed item migration: items with "unseals_into" set should always have contents
+    if( contents.empty() && is_non_resealable_container() ) {
+        convert( type->container->unseals_into );
+    }
 }
 
 void item::deserialize(JsonObject &data)
@@ -1520,6 +1525,10 @@ void vehicle_part::deserialize(JsonIn &jsin)
     // swap deprecated charger gun for laser rifle
     if( pid.str() == "laser_gun" ) {
         pid = vpart_str_id( "laser_rifle" );
+    }
+
+    if( pid.str() == "battery_truck" ) {
+        pid = vpart_str_id( "battery_car" );
     }
 
     // if we don't know what type of part it is, it'll cause problems later.
@@ -1639,10 +1648,8 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
-    data.read("lights_on", lights_on);
     data.read("stereo_on", stereo_on);
     data.read("chimes_on", chimes_on);
-    data.read("overhead_lights_on", overhead_lights_on);
     data.read("fridge_on", fridge_on);
     data.read("recharger_on", recharger_on);
     data.read("skidding", skidding);
@@ -1650,9 +1657,6 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("is_locked", is_locked);
     data.read("is_alarm_on", is_alarm_on);
     data.read("camera_on", camera_on);
-    data.read("dome_lights_on", dome_lights_on);
-    data.read("aisle_lights_on", aisle_lights_on);
-    data.read("has_atomic_lights", has_atomic_lights);
     data.read("scoop_on",scoop_on);
     data.read("plow_on",plow_on);
     data.read("reaper_on",reaper_on);
@@ -1735,10 +1739,8 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );
-    json.member( "lights_on", lights_on );
     json.member( "stereo_on", stereo_on);
     json.member( "chimes_on", chimes_on);
-    json.member( "overhead_lights_on", overhead_lights_on );
     json.member( "fridge_on", fridge_on );
     json.member( "recharger_on", recharger_on );
     json.member( "skidding", skidding );
@@ -1750,9 +1752,6 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "is_locked", is_locked );
     json.member( "is_alarm_on", is_alarm_on );
     json.member( "camera_on", camera_on );
-    json.member( "dome_lights_on", dome_lights_on );
-    json.member( "aisle_lights_on", aisle_lights_on );
-    json.member( "has_atomic_lights", has_atomic_lights );
     json.member( "last_update_turn", last_update_turn.get_turn() );
     json.member("scoop_on",scoop_on);
     json.member("plow_on",plow_on);

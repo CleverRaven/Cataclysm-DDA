@@ -777,16 +777,19 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 }
                             }
 
-                            fire_data frd{ cur->getFieldDensity(), 0, 0 };
+                            fire_data frd{ cur->getFieldDensity(), 0.0f, 0.0f };
                             // The highest # of items this fire can remove in one turn
                             int max_consume = cur->getFieldDensity() * 2;
 
                             for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
                                 
-                                bool destroyed = fuel->burn( p, frd, new_content );
+                                bool destroyed = fuel->burn( frd );
 
                                 if( destroyed ) {
                                     // If we decided the item was destroyed by fire, remove it.
+                                    // But remember its contents
+                                    std::copy( fuel->contents.begin(), fuel->contents.end(),
+                                               std::back_inserter( new_content ) );
                                     fuel = items_here.erase( fuel );
                                     consumed++;
                                 } else {
@@ -795,8 +798,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             }
 
                             spawn_items( p, new_content );
-                            smoke = frd.smoke_produced;
-                            time_added = frd.fuel_produced;
+                            smoke = roll_remainder( frd.smoke_produced );
+                            time_added = roll_remainder( frd.fuel_produced );
                         }
 
                         //Get the part of the vehicle in the fire.
@@ -879,9 +882,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Lower age is a longer lasting fire
                         if( time_added != 0 ) {
                             cur->setFieldAge( cur->getFieldAge() - time_added );
-                        } else {
+                        } else if( can_spread || !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER ) ) {
                             // Nothing to burn = fire should be dying out faster
                             // Drain more power from big fires, so that they stop raging over nothing
+                            // Except for fires on stoves and fireplaces, those are made to keep the fire alive
                             cur->setFieldAge( cur->getFieldAge() + 2 * cur->getFieldDensity() );
                         }
 
@@ -1745,9 +1749,6 @@ void map::player_in_field( player &u )
                     const auto dealt = u.deal_damage( nullptr, part_burned,
                         damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
                     total_damage += dealt.type_damage( DT_HEAT );
-                }
-                if( total_damage > 10 ) {
-                    u.add_effect( effect_onfire, 2 + adjusted_intensity );
                 }
                 if( total_damage > 0 ) {
                     u.add_msg_player_or_npc( m_bad,

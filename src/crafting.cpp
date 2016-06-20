@@ -35,7 +35,8 @@ static const std::string fake_recipe_book = "book";
 void remove_from_component_lookup( recipe *r );
 
 recipe::recipe() :
-    result( "null" ), contained( false ), skill_used( NULL_ID ), reversible( false ),
+    result( "null" ), contained( false ), container( "null" ),
+    skill_used( NULL_ID ), reversible( false ),
     autolearn_requirements(), learn_by_disassembly(), result_mult( 1 )
 {
 }
@@ -72,7 +73,9 @@ void load_recipe( JsonObject &jsobj )
     int difficulty = jsobj.get_int( "difficulty" );
 
     // optional
-    bool contained = jsobj.get_bool( "contained", false );
+    std::string container = jsobj.get_string( "container", "null" );
+    bool contained = jsobj.get_bool( "contained", container != "null" );
+
     std::string subcategory = jsobj.get_string( "subcategory", "" );
     bool reversible = jsobj.get_bool( "reversible", false );
     skill_id skill_used( jsobj.get_string( "skill_used", skill_id::NULL_ID.str() ) );
@@ -167,6 +170,7 @@ void load_recipe( JsonObject &jsobj )
     rec->byproducts = bps;
     rec->cat = category;
     rec->contained = contained;
+    rec->container = container;
     rec->subcat = subcategory;
     rec->skill_used = skill_used;
     for( const auto &elem : requires_skills ) {
@@ -208,17 +212,19 @@ void reset_recipes()
 
 void finalize_recipes()
 {
+    std::ostringstream buffer;
     for( auto r : recipe_dict ) {
+        buffer.clear();
         for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
             const std::string &book_id = j->book_id;
             if( !item::type_is_defined( book_id ) ) {
-                debugmsg( "book %s for recipe %s does not exist", book_id.c_str(), r->ident().c_str() );
+                buffer << "book " << book_id << " for recipe " << r->ident() << " does not exist" << "\n";
                 continue;
             }
             const itype *t = item::find_type( book_id );
             if( !t->book ) {
                 // TODO: we could make up a book slot?
-                debugmsg( "book %s for recipe %s is not a book", book_id.c_str(), r->ident().c_str() );
+                buffer << "book " << book_id << " for recipe " << r->ident() << " is not a book" << "\n";
                 continue;
             }
             islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
@@ -230,6 +236,39 @@ void finalize_recipes()
             t->book->recipes.insert( rwd );
         }
         r->booksets.clear();
+
+        if( !item::type_is_defined( r->result ) ) {
+            buffer << "Recipe " << r->ident() << " defines invalid result " << r->result << "\n";
+        }
+
+        for( const auto &bp : r->byproducts ) {
+            if( !item::type_is_defined( bp.result ) ) {
+                buffer << "Recipe " << r->ident() << " defines invalid byproduct " << bp.result << "\n";
+            }
+        }
+
+        if( !r->contained && r->container != "null" ) {
+            buffer << "Recipe " << r->ident() << " defines container " << r->container << ", but not contained"
+                   << "\n";
+        }
+
+        if( r->contained && r->container == "null" ) {
+            r->container = item::find_type( r->result )->default_container;
+        }
+
+        if( !item::type_is_defined( r->container ) ) {
+            buffer << "Recipe " << r->ident() << " defines container " << r->container <<
+                   ", which is not defined" << "\n";
+        }
+
+        if( r->result_mult != 1 && !item::find_type( r->result )->count_by_charges() ) {
+            buffer << "Recipe " << r->ident() << " has result_mult " << r->result_mult <<
+                   ", but result " << r->result << " is not count_by_charges" << "\n";
+        }
+
+        if( !buffer.str().empty() ) {
+            debugmsg( "%s", buffer.str().c_str() );
+        }
     }
 }
 
@@ -296,7 +335,6 @@ void player::recraft()
 {
     if( lastrecipe.empty() ) {
         popup( _( "Craft something first" ) );
-        g->refresh_all();
     } else if( making_would_work( lastrecipe, last_batch ) ) {
         last_craft.execute();
     }
@@ -595,7 +633,7 @@ item recipe::create_result() const
 {
     item newit( result, calendar::turn, item::default_charges_tag{} );
     if( contained == true ) {
-        newit = newit.in_its_container();
+        newit = newit.in_container( container );
     }
     if( result_mult != 1 ) {
         newit.charges *= result_mult;
@@ -613,7 +651,7 @@ std::vector<item> recipe::create_results( int batch ) const
 {
     std::vector<item> items;
 
-    if( !item::count_by_charges( result ) ) {
+    if( contained || !item::count_by_charges( result ) ) {
         for( int i = 0; i < batch; i++ ) {
             item newit = create_result();
             items.push_back( newit );
@@ -631,7 +669,7 @@ std::vector<item> recipe::create_byproducts( int batch ) const
 {
     std::vector<item> bps;
     for( auto &val : byproducts ) {
-        if( !item::count_by_charges( val.result ) ) {
+        if( !contained || !item::count_by_charges( val.result ) ) {
             for( int i = 0; i < val.amount * batch; i++ ) {
                 item newit( val.result, calendar::turn, item::default_charges_tag{} );
                 if( !newit.craft_has_charges() ) {

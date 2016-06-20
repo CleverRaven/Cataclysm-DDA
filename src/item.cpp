@@ -375,16 +375,22 @@ bool item::set_side (side s) {
     return true;
 }
 
-item item::in_its_container()
+item item::in_its_container() const
 {
-    if( type->default_container != "null" ) {
-        item ret( type->default_container, bday );
+    return in_container( type->default_container );
+}
+
+item item::in_container( const itype_id &cont ) const
+{
+    if( cont != "null" ) {
+        item ret( cont, bday );
+        ret.contents.push_back( *this );
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            charges = liquid_charges( ret.type->container->contains );
+            ret.contents.back().charges = liquid_charges( ret.type->container->contains );
         }
-        ret.contents.push_back(*this);
+
         ret.invlet = invlet;
         return ret;
     } else {
@@ -480,9 +486,14 @@ bool item::merge_charges( const item &rhs )
     if( !count_by_charges() || !stacks_with( rhs ) ) {
         return false;
     }
+    // Prevent overflow when either item has "near infinite" charges.
+    if( charges >= INFINITE_CHARGES / 2 || rhs.charges >= INFINITE_CHARGES / 2 ) {
+        charges = INFINITE_CHARGES;
+        return true;
+    }
     // We'll just hope that the item counter represents the same thing for both items
     if( item_counter > 0 || rhs.item_counter > 0 ) {
-        item_counter = ( item_counter * charges + rhs.item_counter * rhs.charges ) / ( charges + rhs.charges );
+        item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>( rhs.item_counter ) * rhs.charges ) / ( charges + rhs.charges );
     }
     charges += rhs.charges;
     return true;
@@ -1315,9 +1326,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 }
                 buffer << it.front().to_string();
             }
+
+            const std::string dis_time = calendar::print_duration( dis_recipe->time / 100 );
+
             insert_separation_line();
-            info.push_back( iteminfo( "DESCRIPTION", _( "Disassembling this item might yield:" ) ) );
-            info.push_back( iteminfo( "DESCRIPTION", buffer.str().c_str() ) );
+            info.push_back( iteminfo( "DESCRIPTION",
+                string_format( _( "Disassembling this item takes %s and might yield: %s." ),
+                dis_time.c_str(), buffer.str().c_str() ) ) );
         }
     }
 
@@ -1535,7 +1550,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving)." ) ) );
             }
-            if( is_disgusting_for( g->u ) ) {
+            if( is_filthy() ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           _( "* This piece of clothing is <bad>filthy</bad>." ) ) );
             }
@@ -1943,6 +1958,8 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if(has_flag("LITCIG")) {
         ret = c_red;
+    } else if( is_filthy() ) {
+        ret = c_brown;
     } else if ( has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0 ) {
         ret = c_ltgreen;
     } else if (active && !is_food() && !is_food_container()) { // Active items show up as yellow
@@ -2136,6 +2153,13 @@ void item::on_pickup( Character &p )
     }
 }
 
+void item::on_contents_changed()
+{
+    if( is_non_resealable_container() ) {
+        convert( type->container->unseals_into );
+    }
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
@@ -2274,7 +2298,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         ret << _(" (fits)");
     }
 
-    if( is_disgusting_for( g->u ) ) {
+    if( is_filthy() ) {
         ret << _(" (filthy)" );
     }
 
@@ -3136,6 +3160,11 @@ int item::acid_resist( bool to_self ) const
 
 int item::fire_resist( bool to_self ) const
 {
+    if( to_self ) {
+        // Fire damages items in a different way
+        return INT_MAX;
+    }
+
     float resist = 0.0;
     if( is_null() ) {
         return 0.0;
@@ -3487,9 +3516,9 @@ bool item::is_watertight_container() const
     return type->container && type->container->watertight && type->container->seals;
 }
 
-bool item::is_sealable_container() const
+bool item::is_non_resealable_container() const
 {
-    return type->container && type->container->seals;
+    return type->container && !type->container->seals && type->container->unseals_into != "null";
 }
 
 bool item::is_bucket() const
@@ -3500,7 +3529,7 @@ bool item::is_bucket() const
     return type->container != nullptr &&
            type->container->watertight &&
            !type->container->seals &&
-           !type->container->preserves;
+           type->container->unseals_into == "null";
 }
 
 bool item::is_bucket_nonempty() const
@@ -3635,14 +3664,16 @@ bool item::spill_contents( Character &c )
     }
 
     while( !contents.empty() ) {
+        on_contents_changed();
         if( contents.front().made_of( LIQUID ) ) {
             if( !g->handle_liquid_from_container( *this, 1 ) ) {
                 return false;
             }
         } else {
             c.i_add_or_drop( contents.front() );
-            contents.erase( contents.begin() );
         }
+
+        contents.erase( contents.begin() );
     }
 
     return true;
@@ -4759,12 +4790,12 @@ bool item::reload( player &u, item_location loc, long qty )
     return true;
 }
 
-bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
+bool item::burn( fire_data &frd )
 {
     const auto &mats = made_of();
-    int smoke_added = 0;
-    int time_added = 0;
-    int burn_added = 0;
+    float smoke_added = 0.0f;
+    float time_added = 0.0f;
+    float burn_added = 0.0f;
     const int vol = base_volume();
     for( const auto &m : mats ) {
         const auto &bd = m.obj().burn_data( frd.fire_intensity );
@@ -4773,7 +4804,8 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
             return false;
         }
 
-        if( bd.chance_in_volume == 0 || vol == 0 || x_in_y( bd.chance_in_volume, vol ) ) {
+        if( bd.chance_in_volume == 0 || bd.chance_in_volume >= vol ||
+            x_in_y( bd.chance_in_volume, vol ) ) {
             time_added += bd.fuel;
             smoke_added += bd.smoke;
             burn_added += bd.burn;
@@ -4796,8 +4828,16 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
     frd.fuel_produced += time_added;
     frd.smoke_produced += smoke_added;
 
-    if( burn_added < 0 ) {
+    if( burn_added <= 0 ) {
         return false;
+    }
+
+    if( count_by_charges() ) {
+        burn_added *= rng( type->stack_size / 2, type->stack_size );
+        charges -= roll_remainder( burn_added );
+        if( charges <= 0 ) {
+            return true;
+        }
     }
 
     if( is_corpse() ) {
@@ -4816,24 +4856,9 @@ bool item::burn( const tripoint &, fire_data &frd, std::vector<item> &drops )
         }
     }
 
-    if( !count_by_charges() ) {
-        burnt += burn_added;
-        bool destroyed = burnt >= vol * 3;
-        if( destroyed ) {
-            std::copy( contents.begin(), contents.end(),
-                       std::back_inserter( drops ) );
-        }
+    burnt += roll_remainder( burn_added );
 
-        return destroyed;
-    }
-
-    burn_added *= rng( type->stack_size / 2, type->stack_size );
-    if( charges <= burn_added ) {
-        return true;
-    }
-
-    charges -= burn_added;
-    return false;
+    return burnt >= vol * 3;
 }
 
 bool item::flammable() const
@@ -5054,6 +5079,7 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
         put_in( liquid_copy );
     }
     liquid.charges -= amount;
+    on_contents_changed();
 
     return true;
 }
@@ -6017,6 +6043,6 @@ bool item_category::operator!=( const item_category &rhs ) const
     return !( *this == rhs );
 }
 
-bool item::is_disgusting_for( const player &p ) const {
-    return has_flag( "FILTHY" ) && p.has_trait( "SQUEAMISH" );
+bool item::is_filthy() const {
+    return has_flag( "FILTHY" );
 }

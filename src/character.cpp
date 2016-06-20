@@ -1936,6 +1936,7 @@ bool Character::pour_into( item &container, item &liquid )
         auto qty = std::min( liquid.charges, container.ammo_capacity() - container.ammo_remaining() );
         liquid.charges -= qty;
         container.ammo_set( liquid.typeId(), container.ammo_remaining() + qty );
+        container.on_contents_changed();
         if( liquid.charges > 0 ) {
             add_msg_if_player( _( "There's some left over!" ) );
         }
@@ -1948,6 +1949,8 @@ bool Character::pour_into( item &container, item &liquid )
             add_msg_if_player( m_info, err.c_str() );
             return false;
         }
+
+        container.on_contents_changed();
 
         inv.unsort();
         add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),

@@ -235,7 +235,7 @@
         "price" : 1500000,
 		"watertight": true,
 		"seals": true,
-		"contains": 0
+		"contains": 1
     },
     {
         "type":"CONTAINER",
@@ -252,7 +252,7 @@
         "price" : 1500000,
 		"watertight": true,
 		"seals": true,
-		"contains": 0
+		"contains": 1
     },
     {
         "type" : "ammunition_type",

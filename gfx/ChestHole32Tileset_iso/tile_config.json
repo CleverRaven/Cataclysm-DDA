@@ -27367,11 +27367,6 @@
           "rotates": false
         },
         {
-          "fg": 1377,
-          "id": "battery_truck",
-          "rotates": false
-        },
-        {
           "additional_tiles": [
             {
               "fg": 3256,
@@ -27392,18 +27387,6 @@
           ],
           "fg": 1377,
           "id": "vp_battery_motorbike",
-          "multitile": true,
-          "rotates": false
-        },
-        {
-          "additional_tiles": [
-            {
-              "fg": 3256,
-              "id": "broken"
-            }
-          ],
-          "fg": 1377,
-          "id": "vp_battery_truck",
           "multitile": true,
           "rotates": false
         },

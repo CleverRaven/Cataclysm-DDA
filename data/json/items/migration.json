@@ -5,6 +5,137 @@
     "replace": "adv_UPS_off"
   },
   {
+    "id": "battery_truck",
+    "type": "MIGRATION",
+    "replace": "battery_car"
+  },
+  {
+    "id": "jar_V8",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "V8" ]
+  },
+  {
+    "id": "jar_apple_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "apple_canned" ]
+  },
+  {
+    "id": "jar_broth",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "broth" ]
+  },
+  {
+    "id": "jar_broth_bone",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "broth_bone" ]
+  },
+  {
+    "id": "jar_broth_human",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "broth_human" ]
+  },
+  {
+    "id": "jar_fish_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "fish_canned" ]
+  },
+  {
+    "id": "jar_fish_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "fish_pickled" ]
+  },
+  {
+    "id": "jar_human_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "human_canned" ]
+  },
+  {
+    "id": "jar_human_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "human_pickled" ]
+  },
+  {
+    "id": "jar_kompot",
+    "type": "MIGRATION",
+    "replace": "jar_3l_glass_sealed",
+    "contents": [ "kompot" ]
+  },
+  {
+    "id": "jar_meat_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "meat_canned" ]
+  },
+  {
+    "id": "jar_meat_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "meat_pickled" ]
+  },
+  {
+    "id": "jar_soup_fish",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_fish" ]
+  },
+  {
+    "id": "jar_soup_human",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_human" ]
+  },
+  {
+    "id": "jar_soup_meat",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_meat" ]
+  },
+  {
+    "id": "jar_soup_mushroom",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_mushroom" ]
+  },
+  {
+    "id": "jar_soup_veggy",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_veggy" ]
+  },
+  {
+    "id": "jar_soup_woods",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "soup_woods" ]
+  },
+  {
+    "id": "jar_tomato_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "tomato_canned" ]
+  },
+  {
+    "id": "jar_veggy_canned",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "veggy_canned" ]
+  },
+  {
+    "id": "jar_veggy_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "veggy_pickled" ]
+  },
+  {
     "id": "m14a",
     "type": "MIGRATION",
     "replace": "m1a"

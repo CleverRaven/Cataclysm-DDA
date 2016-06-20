@@ -75,7 +75,7 @@
             ["rolling_paper", 10],
             ["bottle_glass",  70],
             ["bucket",         5],
-            ["can_drink",     65],
+            ["can_drink_unsealed",     65],
             ["wrapper",       50],
             ["ceramic_plate", 40],
             ["news_regional", 20],
@@ -104,7 +104,7 @@
         "items" : [
             ["wrapper",       50],
             ["bottle_glass",  70],
-            ["can_drink",     60],
+            ["can_drink_unsealed",     60],
             ["flyer",         30],
             ["box_small",     30],
             ["rag",           20],

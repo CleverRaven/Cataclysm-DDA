@@ -3419,8 +3419,8 @@
     ],
     [
       [ "scrap", 2 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ]
   ]

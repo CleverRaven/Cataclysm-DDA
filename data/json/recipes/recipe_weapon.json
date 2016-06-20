@@ -1727,9 +1727,9 @@
     ],
     [
       [ "canister_empty", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "clay_canister", 1],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "bb", 100 ],
@@ -1847,9 +1847,9 @@
     ],
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "clay_canister", 1],
-      [ "can_drink", 1 ]
+      [ "can_drink_unsealed", 1 ]
     ],
     [
       [ "superglue", 1 ]
@@ -1881,8 +1881,8 @@
     ],
     [
       [ "canister_empty", 1 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ]
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ]
     ],
     [
       [ "superglue", 1 ]
@@ -1906,11 +1906,11 @@
     {"id":"WRENCH","level":1,"amount":1}
   ], "components": [
     [
-      [ "can_food", 2 ],
+      [ "can_food_unsealed", 2 ],
       [ "steel_chunk", 2 ],
       [ "scrap", 6 ],
       [ "canister_empty", 1 ],
-      [ "can_drink", 2 ]
+      [ "can_drink_unsealed", 2 ]
     ],
     [
       [ "grenade", 1 ],
@@ -1992,8 +1992,8 @@
     ],
     [
       [ "scrap", 3 ],
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "clay_canister", 1],
       [ "canister_empty", 1 ]
     ],
@@ -2419,8 +2419,8 @@
     ],
     [
       [ "scrap", 1 ],
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "canister_empty", 1 ],
       [ "plastic_chunk", 1 ]
     ],
@@ -2555,8 +2555,8 @@
     ],
     [
       [ "scrap", 1 ],
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
+      [ "can_drink_unsealed", 1 ],
+      [ "can_food_unsealed", 1 ],
       [ "canister_empty", 1 ],
       [ "plastic_chunk", 1 ]
     ],
@@ -5930,9 +5930,9 @@
     ],
     [
       [ "canister_empty", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "clay_canister", 1 ],
-      [ "can_food", 1 ]
+      [ "can_food_unsealed", 1 ]
     ],
     [
       [ "oxy_powder", 75 ]
@@ -6562,7 +6562,7 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components": [
     [
-      [ "can_drink", 1 ]
+      [ "can_drink_unsealed", 1 ]
     ],
     [
       [ "chem_black_powder", 100 ]

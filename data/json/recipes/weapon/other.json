@@ -40,7 +40,7 @@
       { "id": "SCREW", "level": 1 }
     ],
     "components": [
-      [ [ "can_drink", 1 ], [ "can_food", 1 ] ],
+      [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "spring", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "duct_tape", 20 ] ]
