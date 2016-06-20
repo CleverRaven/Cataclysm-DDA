@@ -835,10 +835,9 @@ bool game::start_game(std::string worldname)
         u.add_effect( effect_infected, 1, random_body_part(), true);
     }
     if (scen->has_flag("BAD_DAY")){
-        u.add_effect( effect_flu, 10000);
-        ///\EFFECT_STR_MAX decreases drunkenness at start of BAD_DAY scenarios
-        u.add_effect( effect_drunk, 2700 - (12 * u.str_max));
-        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
+        u.add_effect( effect_flu, 10000 );
+        u.add_effect( effect_drunk, 2700 );
+        u.add_morale( MORALE_FEELING_BAD, -100, -100, MINUTES( 5 ), MINUTES( 5 ) );
     }
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
