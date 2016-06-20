@@ -1139,7 +1139,7 @@ std::list<std::pair<int, int>> inventory_selector::execute_multidrop( const std:
 
 void game::interactive_inv()
 {
-    static const std::set<int> stoppers = { { ' ', '.', 'q', '=', '\n', KEY_ESCAPE } };
+    static const std::set<int> allowed_selections = { { ' ', '.', 'q', '=', '\n', KEY_LEFT, KEY_ESCAPE } };
 
     u.inv.restack( &u );
     u.inv.sort();
@@ -1154,7 +1154,7 @@ void game::interactive_inv()
         }
         refresh_all();
         res = inventory_item_menu( pos );
-    } while( stoppers.count( res ) == 0 );
+    } while( allowed_selections.count( res ) != 0 );
 }
 
 int game::inv_for_filter( const std::string &title, item_filter filter, const std::string &none_message )
