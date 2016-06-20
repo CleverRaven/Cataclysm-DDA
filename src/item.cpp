@@ -480,9 +480,14 @@ bool item::merge_charges( const item &rhs )
     if( !count_by_charges() || !stacks_with( rhs ) ) {
         return false;
     }
+    // Prevent overflow when either item has "near infinite" charges.
+    if( charges >= INFINITE_CHARGES / 2 || rhs.charges >= INFINITE_CHARGES / 2 ) {
+        charges = INFINITE_CHARGES;
+        return true;
+    }
     // We'll just hope that the item counter represents the same thing for both items
     if( item_counter > 0 || rhs.item_counter > 0 ) {
-        item_counter = ( item_counter * charges + rhs.item_counter * rhs.charges ) / ( charges + rhs.charges );
+        item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>( rhs.item_counter ) * rhs.charges ) / ( charges + rhs.charges );
     }
     charges += rhs.charges;
     return true;
