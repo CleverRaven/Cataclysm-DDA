@@ -1,10 +1,5 @@
 [
   {
-    "id": "UPS_on",
-    "type": "MIGRATION",
-    "replace": "UPS_off"
-  },
-  {
     "id": "adv_UPS_on",
     "type": "MIGRATION",
     "replace": "adv_UPS_off"
@@ -155,5 +150,10 @@
     "type": "MIGRATION",
     "replace": "saiga_12",
     "contents": [ "barrel_small" ]
+  },
+  {
+    "id": "UPS_on",
+    "type": "MIGRATION",
+    "replace": "UPS_off"
   }
 ]
