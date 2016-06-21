@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "debug.h"
+#include "field.h"
 
 #include <algorithm>
 #include <numeric>
@@ -102,6 +103,12 @@ void Creature::reset()
     reset_bonuses();
     reset_stats();
 }
+
+void Creature::bleed() const
+{
+    g->m.add_splatter( bloodType(), pos() );
+}
+
 void Creature::reset_bonuses()
 {
     num_blocks = 1;
@@ -156,6 +163,25 @@ bool Creature::digging() const
     return false;
 }
 
+
+bool Creature::is_dangerous_fields( const field &fld ) const
+{
+    // Else check each field to see if it's dangerous to us
+    for( auto &dfield : fld ) {
+        if( is_dangerous_field( dfield.second ) ) {
+            return true;
+        }
+    }
+    // No fields were found to be dangerous, so the field set isn't dangerous
+    return false;
+}
+
+bool Creature::is_dangerous_field( const field_entry &entry ) const
+{
+    // If it's dangerous and we're not immune return true, else return false
+    return entry.is_dangerous() && !is_immune_field(entry.getFieldType());
+}
+
 bool Creature::sees( const Creature &critter ) const
 {
     if( critter.is_hallucination() ) {
@@ -204,12 +230,14 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         return false;
     }
 
-    const int range_cur = sight_range( g->m.ambient_light_at(t) );
+    const int range_cur = sight_range( g->m.ambient_light_at( t ) );
     const int range_day = sight_range( DAYLIGHT_LEVEL );
-    const int range_min = std::min( range_cur, range_day );
+    const int range_night = sight_range( 0 );
+    const int range_max = std::max( range_day, range_night );
+    const int range_min = std::min( range_cur, range_max );
     const int wanted_range = rl_dist( pos(), t );
     if( wanted_range <= range_min ||
-        ( wanted_range <= range_day &&
+        ( wanted_range <= range_max &&
           g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
         int range = 0;
         if( g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) {
@@ -549,26 +577,26 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(8, 20));
+            add_effect( effect_onfire, rng(8, 20), bp_hit );
         } else if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-            add_effect( effect_onfire, rng(5, 10));
+            add_effect( effect_onfire, rng(5, 10), bp_hit );
         }
     } else if (proj.proj_effects.count("INCENDIARY") ) {
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(2, 6));
+            add_effect( effect_onfire, rng(2, 6), bp_hit );
         } else if ( (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) &&
                     one_in(4) ) {
-            add_effect( effect_onfire, rng(1, 4));
+            add_effect( effect_onfire, rng(1, 4), bp_hit );
         }
     } else if (proj.proj_effects.count("IGNITE")) {
         if (made_of( material_id( "veggy" ) ) || made_of( material_id( "cotton" ) ) ||
             made_of( material_id( "wool" ) ) || made_of( material_id( "paper" ) ) ||
             made_of( material_id( "wood" ) ) ) {
-            add_effect( effect_onfire, rng(6, 6));
+            add_effect( effect_onfire, rng(6, 6), bp_hit );
         } else if (made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ) {
-            add_effect( effect_onfire, rng(10, 10));
+            add_effect( effect_onfire, rng(10, 10), bp_hit );
         }
     }
 
@@ -692,7 +720,7 @@ dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
     apply_damage(source, bp, total_damage);
     return dealt_damage_instance(dealt_dams);
 }
-void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &damage, int &pain)
+void Creature::deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain)
 {
     // Handles ACIDPROOF, electric immunity etc.
     if( is_immune_damage( du.type ) ) {
@@ -720,7 +748,7 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
         if( rng(0, 100) < adjusted_damage ) {
-            add_effect( effect_onfire, rng(1, 3));
+            add_effect( effect_onfire, rng(1, 3), bp );
         }
         break;
     case DT_ELECTRIC: // Electrical damage adds a major speed/dex debuff

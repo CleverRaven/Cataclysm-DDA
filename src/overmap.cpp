@@ -510,7 +510,7 @@ void load_region_settings( JsonObject &jo )
     }
     if ( jo.has_object("default_groundcover") ) {
         JsonObject jio = jo.get_object("default_groundcover");
-        new_region.default_groundcover_str = new sid_or_sid("t_grass", 4, "t_dirt");
+        new_region.default_groundcover_str.reset( new sid_or_sid("t_grass", 4, "t_dirt") );
         if ( ! jio.read("primary", new_region.default_groundcover_str->primary_str) ||
              ! jio.read("secondary", new_region.default_groundcover_str->secondary_str) ||
              ! jio.read("ratio", new_region.default_groundcover.chance) ) {
@@ -4466,10 +4466,11 @@ void groundcover_extra::setup()   // fixme return bool for failure
             continue;
         }
         const ter_str_id tid( it->first );
+        const furn_str_id fid( it->first );
         if( tid.is_valid() ) {
             tf_id.ter = tid.id();
-        } else if ( furnmap.find( it->first ) != furnmap.end() ) {
-            tf_id.furn = furnmap[ it->first ].loadid;
+        } else if( fid.is_valid() ) {
+            tf_id.furn = fid.id();
         } else {
             debugmsg("No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
             continue;
@@ -4486,11 +4487,12 @@ void groundcover_extra::setup()   // fixme return bool for failure
             continue;
         }
         const ter_str_id tid( it->first );
+        const furn_str_id fid( it->first );
 
         if( tid.is_valid() ) {
             tf_id.ter = tid.id();
-        } else if ( furnmap.find( it->first ) != furnmap.end() ) {
-            tf_id.furn = furnmap[ it->first ].loadid;
+        } else if( fid.is_valid() ) {
+            tf_id.furn = fid.id();
         } else {
             debugmsg("No clue what '%s' is! No such terrain or furniture", it->first.c_str() );
             continue;
@@ -4525,7 +4527,7 @@ ter_furn_id groundcover_extra::pick( bool boosted ) const
 
 void regional_settings::setup()
 {
-    if ( default_groundcover_str != NULL ) {
+    if ( default_groundcover_str ) {
         const ter_str_id primary( default_groundcover_str->primary_str );
         const ter_str_id secondary( default_groundcover_str->secondary_str );
 
@@ -4534,7 +4536,7 @@ void regional_settings::setup()
         field_coverage.setup();
         city_spec.shops.apply(&setup_oter);
         city_spec.parks.apply(&setup_oter);
-        default_groundcover_str = NULL;
+        default_groundcover_str.reset();
         optionsdata.add_value("DEFAULT_REGION", id );
     }
 }

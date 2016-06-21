@@ -22,6 +22,7 @@
         "name": "heavy stick",
         "description": "A sturdy, heavy stick.  Makes a decent melee weapon, and can be cut into two by fours for crafting.",
         "material": "wood",
+        "flags": "TRADER_AVOID",
         "weight": 1700,
         "volume": 5,
         "bashing": 14,
@@ -54,7 +55,7 @@
         "price": 55000,
         "material": "wood",
         "techniques": ["RAPID", "WBLOCK_2"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE", "SHEATH_SWORD"],
         "weight": 1133,
         "volume": 8,
         "//" : "MA reference I used held that a bokken crushes rather than cuts (or impales) but is otherwise just as damaging as a katana.  Nerfed by popular demand.",
@@ -149,7 +150,6 @@
         "flags" : ["DURABLE_MELEE","CHOP","BELT_CLIP"],
         "to_hit": 1,
         "category" : "weapons",
-        "use_action": { "type": "knife" },
         "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]]
     },
     {
@@ -177,6 +177,7 @@
         "name":"rock",
         "description":"A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies.",
         "material": "stone",
+        "flags": "TRADER_AVOID",
         "weight": 657,
         "volume": 1,
         "bashing": 7,
@@ -206,6 +207,7 @@
         "name":"ceramic shard",
         "description": "A broken ceramic shard.  It is heavy and has a somewhat sharp edge, but it's too irregular to cut properly.",
         "material": "ceramic",
+        "flags": "TRADER_AVOID",
         "weight": 750,
         "volume": 1,
         "bashing": 5,
@@ -997,7 +999,7 @@
         "volume" : 2,
         "bashing" : 8,
         "cutting" : 16,
-        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE"],
+        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID"],
         "qualities": [["BUTCHER", 12]]
     },
     {
@@ -1013,9 +1015,8 @@
         "techniques" : ["WBLOCK_1"],
         "volume" : 3,
         "cutting" : 36,
-        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE"],
-        "qualities": [["CUT", 1], ["BUTCHER", 22]],
-        "use_action": { "type": "knife" }
+        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID"],
+        "qualities": [["CUT", 1], ["BUTCHER", 22]]
     },
     {
         "type":"GENERIC",
@@ -1032,7 +1033,6 @@
         "cutting" : 10,
         "flags" : ["STAB", "UNARMED_WEAPON", "DURABLE_MELEE", "SHEATH_KNIFE"],
         "price" : 10000,
-        "use_action": { "type": "knife" },
         "qualities": [["CUT", 1], ["BUTCHER", 14]]
     },
     {
@@ -1394,7 +1394,6 @@
     "bashing": 7,
     "cutting": 29,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -1436,7 +1435,6 @@
     "flags" : ["CHOP", "SHEATH_SWORD"],
     "to_hit": 2,
     "category": "weapons",
-    "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
     {
@@ -1474,7 +1472,6 @@
     "bashing": 3,
     "cutting": 24,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 9]]
   },
@@ -1514,8 +1511,7 @@
     "bashing": 13,
     "cutting": 35,
     "to_hit": 1,
-    "category" : "weapons",
-    "use_action": { "type": "knife" }
+    "category" : "weapons"
   },
     {
     "id": "broadsword_fake",
@@ -1591,7 +1587,6 @@
     "bashing": 3,
     "cutting": 20,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 13]]
   },
@@ -1648,8 +1643,7 @@
     "flags" : ["CHOP"],
     "to_hit": 1,
     "category": "weapons",
-    "qualities": [["AXE", 2]],
-    "use_action": "LUMBER"
+    "qualities": [["AXE", 2]]
     },
     {
     "id": "nodachi_fake",
@@ -1718,7 +1712,6 @@
     "bashing": 8,
     "cutting": 30,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
     },{
@@ -1738,7 +1731,6 @@
     "bashing": 7,
     "cutting": 24,
     "to_hit": 2,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
     },{
@@ -1776,7 +1768,6 @@
     "bashing": 6,
     "cutting": 30,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
     },
@@ -1796,7 +1787,6 @@
     "bashing": 5,
     "cutting": 24,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },{
@@ -1868,7 +1858,6 @@
     "bashing": 10,
     "cutting": 38,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },
@@ -1888,11 +1877,6 @@
     "bashing": 10,
     "cutting": 30,
     "to_hit": 1,
-    "use_action": [
-        {
-            "type": "knife"
-        }
-    ],
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },{
@@ -1929,7 +1913,6 @@
     "bashing": 14,
     "cutting": 31,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   },{
@@ -1967,7 +1950,6 @@
     "bashing": 12,
     "cutting": 25,
     "to_hit": 1,
-    "use_action": { "type": "knife" },
     "category" : "weapons",
     "qualities": [["CUT", 1], ["BUTCHER", 8]]
   }

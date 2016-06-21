@@ -3,6 +3,11 @@
 
 #include <string>
 
+constexpr int SECONDS( int n )
+{
+    return n / 6;
+}
+
 constexpr int MINUTES( int n )
 {
     return n * 10;
@@ -128,18 +133,18 @@ class calendar
          */
         static bool once_every( int event_frequency );
 
-        // Season and year length stuff
-    private:
-        // cached value from world options
-        static int cached_season_length;
     public:
-        // to be called from option handling when the options of the active world change.
-        static void set_season_length( int new_length );
+        // Used for durations
+        static const int INDEFINITELY_LONG;
+
         static int year_turns() {
             return DAYS( year_length() );
         }
         static int year_length() { // In days
             return season_length() * 4;
+        }
+        static int season_turns() {
+            return DAYS( season_length() );
         }
         static int season_length(); // In days
 
@@ -147,12 +152,12 @@ class calendar
             return static_cast<float>( season_length() ) / REAL_WORLD_SEASON_LENGTH;
         }
 
-        int turn_of_year() const {
-            return turn_number % year_turns();
-        }
-        int day_of_year() const {
-            return day + season_length() * season;
-        }
+        int turn_of_year() const;
+
+        int day_of_year() const;
+
+        /** Returns the remaining time (in turns) before the specified diurnal time (in turns) */
+        int diurnal_time_before( int turn ) const;
 
         static std::string print_duration( int turns );
 
@@ -168,4 +173,5 @@ class calendar
         static season_type initial_season;
         static bool eternal_season;
 };
+
 #endif

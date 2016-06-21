@@ -10,11 +10,11 @@
     "time": 300000,
     "book_learn": [ [ "manual_mechanics", 3 ] , [ "manual_fabrication", 5 ] , [ "textbook_fabrication", 5 ] ],
     "qualities": [
-      { "id":"HAMMER", "level": 3 }
+      { "id":"HAMMER", "level": 3 },
+      { "id": "CHISEL", "level": 3 }
     ],
     "tools": [
       [ ["tongs", -1 ] ],
-      [ ["chisel", -1 ] ],
       [ ["anvil", -1 ] ],
       [ ["crucible", -1 ], ["crucible_clay", -1] ],
       [ ["swage", -1 ] ],
@@ -74,8 +74,8 @@
     "time": 200000,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "brewing_cookbook", 3 ] ],
     "qualities" : [
-      { "id":"CUT", "level": 1, "amount": 1 },
-      { "id":"HAMMER", "level": 2, "amount": 1 }
+      { "id":"CUT", "level": 1 },
+      { "id":"HAMMER", "level": 2 }
     ],
     "components": [
       [ [ "pot_copper", 1 ] ],

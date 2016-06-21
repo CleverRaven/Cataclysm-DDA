@@ -16,6 +16,7 @@
 #include "string_id.h"
 #include "line.h"
 #include "item_location.h"
+#include "debug.h"
 
 class game;
 class Character;
@@ -39,6 +40,7 @@ class fault;
 using fault_id = string_id<fault>;
 struct quality;
 using quality_id = string_id<quality>;
+struct fire_data;
 
 enum damage_type : int;
 
@@ -114,10 +116,10 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
         item( const item & ) = default;
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
-        virtual ~item() = default;
+        ~item() override = default;
 
-        explicit item( const itype_id& id, int turn = -1, int qty = -1 );
-        explicit item( const itype *type, int turn = -1, int qty = -1 );
+        explicit item( const itype_id& id, int turn = -1, long qty = -1 );
+        explicit item( const itype *type, int turn = -1, long qty = -1 );
 
         /** Suppress randomisation and always start with default quantity of charges */
         struct default_charges_tag {};
@@ -251,7 +253,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     std::string info( bool showtext = false) const;
     std::string info( bool showtext, std::vector<iteminfo> &dump ) const;
 
-    bool burn(int amount = 1); // Returns true if destroyed
+    /** Burns the item. Returns true if the item was destroyed. */
+    bool burn( fire_data &bd );
 
  // Returns the category of this item.
  const item_category &get_category() const;
@@ -312,7 +315,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
 
     // Legacy function, don't use.
     void load_info( const std::string &data );
- char symbol() const;
+        const std::string &symbol() const;
         /**
          * Returns the monetary value of an item.
          * If `practical` is false, returns pre-cataclysm market value,
@@ -335,6 +338,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     /* Total volume of an item accounting for all contained/integrated items
      * @param integral if true return effective volume if item was integrated into another */
     int volume( bool integral = false ) const;
+
+    /** Simplified, faster volume check for when processing time is important and exact volume is not. */
+    int base_volume() const;
 
     /* Volume of an item or of a single unit for charged items multipled by 1000 */
     int precise_unit_volume() const;
@@ -385,10 +391,13 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     skill_id weap_skill() const;
     /*@}*/
 
+    /** Max range weapon usable for melee attack accounting for player/NPC abilities */
+    int reach_range( const player &p ) const;
+
     /**
-     * Maximum range at which this weapon can be used for melee/reach attacks.
-     */
-    int reach_range() const;
+     * Sets time until activation for an item that will self-activate in the future.
+     **/
+    void set_countdown( int num_turns );
 
     /**
      * Consumes specified charges (or fewer) from this and any contained items
@@ -410,6 +419,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
   */
  bool use_amount(const itype_id &it, long &quantity, std::list<item> &used);
 
+    /** Can item can be used as crafting component in current state? */
+    bool allow_crafting_component() const;
+
     /**
      * @name Containers
      *
@@ -423,10 +435,10 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     bool is_container() const;
     /** Whether this is a container which can be used to store liquids. */
     bool is_watertight_container() const;
-    /** Whether this is sealable container which can be resealed after removing part of it's content */
-    bool is_sealable_container() const;
     /** Whether this item has no contents at all. */
     bool is_container_empty() const;
+    /** Whether removing this item's contents will permanently alter it. */
+    bool is_non_resealable_container() const;
     /**
      * Whether this item has no more free capacity for its current content.
      * @param allow_bucket Allow filling non-sealable containers
@@ -458,6 +470,9 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     template<typename ... Args>
     item& emplace_back( Args&&... args ) {
         contents.emplace_back( std::forward<Args>( args )... );
+        if( contents.back().is_null() ) {
+            debugmsg( "Tried to emplace null item" );
+        }
         return contents.back();
     }
 
@@ -465,7 +480,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Returns this item into its default container. If it does not have a default container,
      * returns this. It's intended to be used like \code newitem = newitem.in_its_container();\endcode
      */
-    item in_its_container(); // TODO: make this const
+    item in_its_container() const;
+    item in_container( const itype_id &container_type ) const;
     /*@}*/
 
     /*@{*/
@@ -541,7 +557,15 @@ public:
     /** The results of fermenting this item. */
     const std::vector<itype_id> &brewing_results() const;
 
- void detonate( const tripoint &p ) const;
+    /**
+     * Detonates the item and adds remains (if any) to drops.
+     * Returns true if the item actually detonated,
+     * potentially destroying other items and invalidating iterators.
+     * Should NOT be called on an item on the map, but on a local copy.
+     */
+    bool detonate( const tripoint &p, std::vector<item> &drops );
+
+    bool will_explode_in_fire() const;
 
     /**
      * @name Material(s) of the item
@@ -583,13 +607,13 @@ public:
      * one item of the passed in set matches any material).
      * @param mat_idents Set of material ids.
      */
-    bool made_of_any( const std::vector<material_id> &mat_idents ) const;
+    bool made_of_any( const std::set<material_id> &mat_idents ) const;
     /**
      * Check we are made of only the materials (e.g. false if we have
      * one material not in the set or no materials at all).
      * @param mat_idents Set of material ids.
      */
-    bool only_made_of( const std::vector<material_id> &mat_idents ) const;
+    bool only_made_of( const std::set<material_id> &mat_idents ) const;
     /**
      * Check we are made of this material (e.g. matches at least one
      * in our set.)
@@ -649,7 +673,7 @@ public:
     void mark_as_used_by_player(const player &p);
     /** Marks the item as filthy, so characters with squeamish trait can't wear it.
     */
-    bool is_disgusting_for( const player &p ) const;
+    bool is_filthy() const;
     /**
      * This is called once each turn. It's usually only useful for active items,
      * but can be called for inactive items without problems.
@@ -677,6 +701,12 @@ protected:
     bool process_cable(player *carrier, const tripoint &pos);
     bool process_tool(player *carrier, const tripoint &pos);
 public:
+
+    /**
+     * Gets the point (vehicle tile) the cable is connected to.
+     * Returns tripoint_min if not connected to anything.
+     */
+    tripoint get_cable_target() const;
     /**
      * Helper to bring a cable back to its initial state.
      */
@@ -724,6 +754,7 @@ public:
 
     bool is_brewable() const;
     bool is_engine() const;
+    bool is_wheel() const;
 
     bool is_faulty() const;
 
@@ -841,6 +872,10 @@ public:
          * from worn vector or weapon slot. The item is considered already carried.
          */
         void on_pickup( Character &p );
+        /**
+         * Callback when contents of the item are affected in any way other than just processing.
+         */
+        void on_contents_changed();
         /**
          * Name of the item type (not the item), with proper plural.
          * This is only special when the item itself has a special name ("name" entry in
@@ -1136,6 +1171,13 @@ public:
         long ammo_required() const;
 
         /**
+         * Is sufficient ammo loaded for at @ref qty uses of tool or shots of gun?
+         * This function is preferred as when support for items consuming multiple ammo types
+         * concurrently is added consumers of this function will not need refactoring
+         */
+        bool ammo_sufficient( int qty = 1 ) const;
+
+        /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
@@ -1205,10 +1247,22 @@ public:
         bool gunmod_compatible( const item& mod, bool alert = true, bool effects = true ) const;
 
         struct gun_mode {
-            std::string mode; /** name of this mode */
-            item *target;     /** pointer to base gun or attached gunmod */
-            int qty;          /** burst size or melee range */
-            bool melee;       /** if true perform a melee attach as opposed to shooting */
+            std::string mode;           /** name of this mode */
+            item *target = nullptr;     /** pointer to base gun or attached gunmod */
+            int qty = 0;                /** burst size or melee range */
+
+            /** flags change behavior of gun mode and are **not** equivalent to item flags */
+            std::set<std::string> flags;
+
+            gun_mode() = default;
+            gun_mode( const std::string &mode, item *target, int qty, const std::set<std::string> &flags ) :
+                mode( mode ),
+                target( target ),
+                qty( qty ),
+                flags( flags ) {}
+
+            /** if true perform a melee attach as opposed to shooting */
+            bool melee() const { return flags.count( "MELEE" ); }
 
             operator bool() const { return target != nullptr; }
 
@@ -1364,6 +1418,9 @@ public:
         * Returns label from "item_label" itemvar and quantity
         */
         std::string label( unsigned int quantity = 0 ) const;
+
+        bool has_infinite_charges() const;
+
     private:
         /** Helper for liquid and container related stuff. */
         enum LIQUID_FILL_ERROR : int;
@@ -1376,6 +1433,8 @@ public:
         light_emission light = nolight;
 
 public:
+    static const long INFINITE_CHARGES;
+
      char invlet = 0;      // Inventory letter
      long charges;
      bool active = false; // If true, it has active effects to be processed
@@ -1390,7 +1449,6 @@ public:
     int burnt = 0;           // How badly we're burnt
     int bday;                // The turn on which it was created
     int poison = 0;          // How badly poisoned is it?
-    int bigness = 0;         // engine power, wheel size
     int frequency = 0;       // Radio frequency
     int note = 0;            // Associated dynamic text snippet.
     int irridation = 0;      // Tracks radiation dosage.

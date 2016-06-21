@@ -58,8 +58,12 @@ bool do_mkdir(std::string const& path, int const mode)
 
 bool assure_dir_exist(std::string const &path)
 {
-    std::unique_ptr<DIR, decltype(&closedir)> dir {opendir(path.c_str()), closedir};
-    return dir || do_mkdir(path, 0777);
+    DIR *dir = opendir(path.c_str());
+    if(dir != nullptr) {
+        closedir(dir);
+        return true;
+    }
+    return do_mkdir(path, 0777);
 }
 
 bool file_exist(const std::string &path)
@@ -114,22 +118,23 @@ inline size_t sizeof_array(T const (&)[N]) noexcept {
 template <typename Function>
 void for_each_dir_entry(std::string const &path, Function function)
 {
-    using dir_ptr = std::unique_ptr<DIR, decltype(&closedir)>;
+    using dir_ptr = DIR*;
 
     if (path.empty()) {
         return;
     }
 
-    dir_ptr root {opendir(path.c_str()), closedir};
+    dir_ptr root = opendir(path.c_str());
     if (!root) {
         auto const e_str = strerror(errno);
         DebugLog(D_WARNING, D_MAIN) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
-    while (auto const entry = readdir(root.get())) {
+    while (auto const entry = readdir(root) ) {
         function(*entry);
     }
+    closedir(root);
 }
 
 //--------------------------------------------------------------------------------------------------

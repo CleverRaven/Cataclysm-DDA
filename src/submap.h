@@ -25,11 +25,9 @@ struct furn_t;
 using trap_id = int_id<trap>;
 using ter_id = int_id<ter_t>;
 using furn_id = int_id<furn_t>;
+using furn_str_id = string_id<furn_t>;
 struct mtype;
 using mtype_id = string_id<mtype>;
-
-// TODO: use string_id and string_id::id to get the id
-extern furn_id furnfind(const std::string & id);
 
 struct spawn_point {
  int posx, posy;
@@ -122,7 +120,7 @@ struct submap {
     // writing on the square. When both are present, we have signage.
     // Its effect is meant to be cosmetic and atmospheric only.
     bool has_signage( const int x, const int y) const {
-        if( frn[x][y] == furnfind( "f_sign" ) ) {
+        if( frn[x][y] == furn_id( "f_sign" ) ) {
             return cosmetics[x][y].find("SIGNAGE") != cosmetics[x][y].end();
         }
 
@@ -130,7 +128,7 @@ struct submap {
     }
     // Dependent on furniture + cosmetics.
     const std::string get_signage( const int x, const int y ) const {
-        if( frn[x][y] == furnfind( "f_sign" ) ) {
+        if( frn[x][y] == furn_id( "f_sign" ) ) {
             auto iter = cosmetics[x][y].find("SIGNAGE");
             if( iter != cosmetics[x][y].end() ) {
                 return iter->second;

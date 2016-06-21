@@ -1,0 +1,42 @@
+[
+  {
+    "id": "545", "//": "Mainlined from Icecoon's Weapons Pack.",
+    "type": "AMMO",
+    "name": "5.45x39mm 7N10",
+    "name_plural": "5.45x39mm 7N10",
+    "description": "5.45x39mm 7N10 ammunition with 56gr FMJ bullets.  The 5.45x39mm round was introduced along with the AK-74 in 1974.  It has superior wounding potential to the older 7.62x39mm round and quickly replaced it in Soviet military use.",
+    "weight": 10,
+    "volume": 1,
+    "price": 2900,
+    "count": 30,
+    "stack_size": 30,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "545x39",
+    "casing": "545_casing",
+    "damage": 40,
+    "pierce": 6,
+    "range": 37,
+    "dispersion": 5,
+    "recoil": 360,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "545_ap",
+    "copy-from": "545",
+    "type": "AMMO",
+    "price": 6500,
+    "name": "5.45x39mm 7N22",
+    "name_plural": "5.45x39mm 7N22",
+    "description": "Armor piercing 5.45x39mm ammunition with 57gr bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "545x39",
+    "relative": {
+        "damage": -2,
+        "pierce": 8,
+        "recoil": 30
+    }
+  }
+]

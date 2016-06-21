@@ -17,7 +17,7 @@
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
 
-struct vpart_info;
+class vpart_info;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
 
@@ -45,7 +45,7 @@ class veh_interact
     public:
         int ddx;
         int ddy;
-        const struct vpart_info *sel_vpart_info;
+        const vpart_info *sel_vpart_info;
         const struct vehicle_part *sel_vehicle_part;
         char sel_cmd; //Command currently being run by the player
         int sel_type;
@@ -53,7 +53,6 @@ class veh_interact
         int cpart;
         int page_size;
         int fuel_index;
-        bool vertical_menu;
         WINDOW *w_grid;
         WINDOW *w_mode;
         WINDOW *w_msg;
@@ -63,21 +62,6 @@ class veh_interact
         WINDOW *w_list;
         WINDOW *w_details;
         WINDOW *w_name;
-
-        int mode_h;
-        int mode_w;
-        int msg_h;
-        int msg_w;
-        int disp_h;
-        int disp_w;
-        int parts_h;
-        int parts_w;
-        int stats_h;
-        int stats_w;
-        int list_h;
-        int list_w;
-        int name_h;
-        int name_w;
 
         vehicle *veh;
         bool has_screwdriver;

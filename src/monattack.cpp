@@ -2276,6 +2276,10 @@ bool mattack::dance(monster *z)
 
 bool mattack::dogthing(monster *z)
 {
+    if( z == nullptr ) {
+        return false; // TODO: replace pointers with references
+    }
+
     if (!one_in(3) || !g->u.sees(*z)) {
         return false;
     }
@@ -2283,11 +2287,7 @@ bool mattack::dogthing(monster *z)
     add_msg(_("The %s's head explodes in a mass of roiling tentacles!"),
             z->name().c_str());
 
-    for( const tripoint &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
-        if( rng(0, 2) >= rl_dist( z->pos(), dest ) ) {
-            g->m.add_field( dest, fd_blood, 2, 0 );
-        }
-    }
+    g->m.add_splash( z->bloodType(), z->pos(), 2, 3 );
 
     z->friendly = 0;
     z->poly( mon_headless_dog_thing );
@@ -3137,7 +3137,7 @@ void mattack::flame( monster *z, Creature *target )
             }
             g->m.add_field( i, fd_fire, 1, 0 );
         }
-        target->add_effect( effect_onfire, 8);
+        target->add_effect( effect_onfire, 8, bp_torso );
 
         return;
     }
@@ -3160,7 +3160,7 @@ void mattack::flame( monster *z, Creature *target )
         g->m.add_field(i, fd_fire, 1, 0);
     }
     if( !target->uncanny_dodge() ) {
-        target->add_effect( effect_onfire, 8);
+        target->add_effect( effect_onfire, 8, bp_torso );
     }
 }
 

@@ -1,0 +1,54 @@
+[
+  {
+    "id": "9x18mm",
+    "type": "AMMO",
+    "name": "9x18mm 57-N-181S",
+    "name_plural": "9x18mm",
+    "description": "9x18mm Makarov ammunition with 93gr steel core FMJ bullets.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st century.",
+    "weight": 8,
+    "volume" : 1,
+    "price": 2600,
+    "count": 50,
+    "stack_size": 50,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "9x18",
+    "casing": "9x18mm_casing",
+    "damage": 16,
+    "pierce": 2,
+    "range": 13,
+    "dispersion": 140,
+    "recoil": 185,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "9x18mmP2",
+    "copy-from": "9x18mm",
+    "type": "AMMO",
+    "name": "9x18mm SP-7",
+    "name_plural": "9x18mm SP-7",
+    "description": "9x18mm Makarov SP-7 ammunition.  The 9x18mm round was very common in the Eastern Bloc during the 20th century and remained in Russian military service into the 21st century.",
+    "price": 2900,
+    "count": 25,
+    "relative": {
+        "damage": 4,
+        "range": 2,
+        "dispersion": -30,
+        "recoil": 30
+    }
+  },
+  {
+    "id": "9x18mmfmj",
+    "copy-from": "9x18mm",
+    "type": "AMMO",
+    "name": "9x18mm RG028",
+    "name_plural": "9x18mm RG028",
+    "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses bullets with a hardened steel core to improve armor penetration.",
+    "price": 3100,
+    "relative": {
+        "damage": -2,
+        "pierce": 8
+    }
+  }
+]

@@ -28,7 +28,6 @@
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-extern worldfactory *world_generator;
 
 namespace
 {
@@ -603,7 +602,6 @@ bool game::opening_screen()
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
-                        delete gamemode;
                         gamemode = get_special_game( special_game_id( sel2 + 1 ) );
                         // check world
                         WORLDPTR world = world_generator->make_new_world( special_game_id( sel2 + 1 ) );
@@ -613,8 +611,7 @@ bool game::opening_screen()
                         world_generator->set_active_world( world );
                         setup();
                         if( !gamemode->init() ) {
-                            delete gamemode;
-                            gamemode = NULL;
+                            gamemode.reset();
                             u = player();
                             continue;
                         }

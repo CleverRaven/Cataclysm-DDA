@@ -1,0 +1,173 @@
+[
+  {
+    "abstract": "turret",
+    "type": "vehicle_part",
+    "location": "on_roof",
+    "symbol": "t",
+    "damage_modifier": 80,
+    "durability": 400,
+    "flags": [ "TURRET" ]
+  },
+  {
+    "//": "deprecate when turrets support direct reloading",
+    "abstract": "turret_with_ammo",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "size": 40,
+    "extend": { "flags": [ "CARGO" ] }
+  },
+  {
+    "id": "flamethrower",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted flamethrower",
+    "item": "flamethrower",
+    "difficulty": 5,
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "flamethrower", "prob": 50 } ]
+  },
+  {
+    "id": "fusion_gun",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted fusion gun",
+    "item": "ftk93",
+    "difficulty": 8,
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ {"item": "ftk93", "prob": 50 } ]
+  },
+  {
+    "id": "laser_rifle",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted A7 laser rifle",
+    "item": "laser_rifle",
+    "difficulty": 8,
+    "color": "magenta",
+    "broken_color": "magenta",
+    "breaks_into": [ { "item": "laser_rifle", "prob": 50 } ]
+  },
+  {
+    "id": "m249",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted M249",
+    "item": "m249",
+    "difficulty": 4,
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "m249", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_abzats",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted automatic shotgun",
+    "item": "abzats",
+    "difficulty": 5,
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "abzats", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_browning",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted M2 Browning",
+    "item": "m2browning",
+    "difficulty": 5,
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "m2browning", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_m134",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted M134D-H Minigun",
+    "item": "m134",
+    "difficulty": 7,
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "m134", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_m1918",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted Browning Automatic Rifle",
+    "item": "m1918",
+    "difficulty": 4,
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "m1918", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_m240",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted M240",
+    "item": "m240",
+    "difficulty": 4,
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "m240", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_m60",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted M60",
+    "item": "m60",
+    "difficulty": 4,
+    "color": "cyan",
+    "broken_color": "cyan",
+    "breaks_into": [ { "item": "m60", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_mk19",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted Mark 19 grenade launcher",
+    "item": "mark19",
+    "difficulty": 5,
+    "color": "green",
+    "broken_color": "green",
+    "breaks_into": [ { "item": "mark19", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_rm298",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted RM298 HMG",
+    "item": "rm298",
+    "difficulty": 6,
+    "color": "white",
+    "broken_color": "white",
+    "breaks_into": [ { "item": "rm298", "prob": 50 } ]
+  },
+  {
+    "id": "mounted_rm614",
+    "copy-from": "turret_with_ammo",
+    "type": "vehicle_part",
+    "name": "mounted RM614 LMG",
+    "item": "rm614_lmg",
+    "difficulty": 6,
+    "color": "white",
+    "broken_color": "white",
+    "breaks_into": [ { "item": "rm614_lmg", "prob": 50 } ]
+  },
+  {
+    "id": "plasma_gun",
+    "copy-from": "turret",
+    "type": "vehicle_part",
+    "name": "mounted plasma gun",
+    "item": "plasma_rifle",
+    "difficulty": 8,
+    "color": "light_blue",
+    "broken_color": "light_blue",
+    "breaks_into": [ { "item": "plasma_rifle", "prob": 50 } ]
+  }
+]

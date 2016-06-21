@@ -11,8 +11,7 @@
     "weight": 100,
     "volume": 0,
     "bashing": 0,
-    "category" : "spare_parts",
-    "use_action": "NONE"
+    "category" : "spare_parts"
   },{
     "id" : "blob_dormant",
     "type": "TOOL",

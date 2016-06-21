@@ -31,8 +31,11 @@
 
 WINDOW *mainwin;
 WINDOW *stdscr;
-pairs *colorpairs;   //storage for pair'ed colored, should be dynamic, meh
+std::array<pairs, 100> colorpairs;   //storage for pair'ed colored
 int echoOn;     //1 = getnstr shows input, 0 = doesn't show. needed for echo()-ncurses compatibility.
+
+// allow extra logic for framebuffer clears
+extern void handle_additional_window_clear( WINDOW* win );
 
 //***********************************
 //Pseudo-Curses Functions           *
@@ -546,6 +549,8 @@ int werase(WINDOW *win)
     win->draw = true;
     wmove(win, 0, 0);
     //    wrefresh(win);
+    handle_additional_window_clear( win );
+
     return 1;
 }
 

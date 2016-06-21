@@ -1,17 +1,19 @@
 #include "player.h"
-#include "monster.h"
-#include "game.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "morale_types.h"
-#include "itype.h"
-#include "messages.h"
-#include "material.h"
+
 #include "addiction.h"
-#include "mutation.h"
-#include "translations.h"
 #include "cata_utility.h"
 #include "debug.h"
+#include "game.h"
+#include "itype.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "morale_types.h"
+#include "mutation.h"
+#include "options.h"
+#include "translations.h"
 
 #include <string>
 #include <algorithm>
@@ -124,7 +126,7 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 
 int player::vitamin_get( const vitamin_id &vit ) const
 {
-    if( g->has_option( "no_vitamins" ) ) {
+    if( ACTIVE_WORLD_OPTIONS[ "NO_VITAMINS" ] ) {
         return 0;
     }
 
@@ -381,7 +383,7 @@ edible_rating player::can_eat( const item &food, bool interactive, bool force ) 
         overfull = !maybe_query( _( "You're full.  Force yourself to eat?" ) );
     } else if( ( ( nutr > 0 && temp_hunger < capacity ) ||
                  ( comest->quench > 0 && temp_thirst < capacity ) ) &&
-               !eathealth && !slimespawner ) {
+               !food.has_infinite_charges() && !eathealth && !slimespawner ) {
         overfull = !maybe_query( _( "You will not be able to finish it all.  Consume it?" ) );
     }
 
@@ -402,6 +404,7 @@ bool player::eat( item &food, bool force )
     // Check if it's rotten before eating!
     food.calc_rot( global_square_location() );
     const auto edible = can_eat( food, is_player() && !force, force );
+    g->refresh_all();
     if( edible != EDIBLE ) {
         return false;
     }

@@ -2,6 +2,7 @@
 
 #include "player.h"
 #include "npc.h"
+#include "npc_class.h"
 #include "game.h"
 #include "map.h"
 
@@ -26,7 +27,7 @@ npc create_model()
 {
     npc model_npc;
     model_npc.normalize();
-    model_npc.randomize();
+    model_npc.randomize( NC_NONE );
     model_npc.set_hunger( 0 );
     model_npc.set_thirst( 0 );
     model_npc.set_fatigue( 0 );

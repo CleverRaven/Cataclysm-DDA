@@ -2563,13 +2563,20 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
 
     if ("house_base" == terrain_type.t().id_base ) {
         int attempts = 100;
+        int stairs_height = actual_house_height - 1;
         do {
-            rn = rng(lw + 1, rw - 1);
+            rn = rng( lw + 1, rw - 1 );
+            // After 50 failed attempts, relax the placement limitations a bit
+            // Otherwise it will most likely fail the next 50 too
+            if( attempts < 50 ) {
+                stairs_height = rng( 1, SEEY );
+            }
             attempts--;
-        } while (m->ter(rn, actual_house_height - 1) != t_floor && attempts);
-        if( m->ter(rn, actual_house_height - 1) == t_floor && attempts && !m->has_furn( rn, actual_house_height - 1 ) ) {
-            m->ter_set(rn, actual_house_height - 1, t_stairs_down);
-        }
+            if( m->ter( rn, stairs_height ) == t_floor && !m->has_furn( rn, stairs_height ) ) {
+                m->ter_set( rn, stairs_height, t_stairs_down );
+                break;
+            }
+        } while( attempts > 0 );
     }
     if (one_in(100)) { // todo: region data // Houses have a 1 in 100 chance of wasps!
         for (int i = 0; i < SEEX * 2; i++) {
@@ -3062,7 +3069,7 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     for (int i = 1; i <= 23; i++) {
             for (int j = 1; j <= 23; j++) {
                 if (one_in(1600)) {
-                    m->furn_set(i, j, "f_gun_safe_el");
+                    m->furn_set(i, j, furn_str_id( "f_gun_safe_el" ) );
                     if (one_in(2)){
                         m->spawn_item(i, j, "9mm", 2);
                         m->spawn_item(i, j, "usp_9mm");

@@ -31,7 +31,7 @@
     "type": "GUN",
     "name": "M1014 shotgun",
     "name_plural": "M1014 shotguns",
-    "description": "Its relative simplicity and reliability made the Benelli M4 the most successful semi-automatic shotgun ever created.  Unlike pump action shotguns, it can be fired in short bursts.",
+    "description": "Its relative simplicity and reliability made the Benelli M4 the most successful semi-automatic shotgun ever created.",
     "weight": 3820,
     "volume": 10,
     "price": 169900,
@@ -42,12 +42,12 @@
     "color": "light_gray",
     "skill": "shotgun",
     "ammo": "shot",
+    "range": 1,
     "dispersion": 45,
     "sight_dispersion": 90,
     "aim_speed": 4,
     "recoil": 120,
     "durability": 9,
-    "burst": 2,
     "clip_size": 8,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "muzzle", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_ONE" ]
@@ -89,7 +89,10 @@
         "volume": 1,
         "price": 5000
     },
-    "burst": 2,
+    "modes": [
+      [ "DEFAULT", "single", 1 ],
+      [ "DOUBLE", "double", 2 ]
+    ],
     "clip_size": 2
   },
   {
@@ -208,7 +211,10 @@
         "volume": 1,
         "price": 5000
     },
-    "burst": 2,
+    "modes": [
+      [ "DEFAULT", "single", 1 ],
+      [ "DOUBLE", "double", 2 ]
+    ],
     "clip_size": 2
   },
   {

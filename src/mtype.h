@@ -66,11 +66,6 @@ enum monster_trigger : int {
 enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
-    MF_VIS50,               // Vision -10
-    MF_VIS40,               // Vision -20
-    MF_VIS30,               // Vision -30
-    MF_VIS20,               // Vision -40
-    MF_VIS10,               // Vision -50
     MF_HEARS,               // It can hear you
     MF_GOODHEARING,         // Pursues sounds more than most monsters
     MF_SMELLS,              // It can smell you
@@ -148,6 +143,9 @@ enum m_flag : int {
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
     MF_REVIVES_HEALTHY,     // When revived, this monster has full hitpoints and speed
     MF_NO_NECRO,            // This monster can't be revived by necros. It will still rise on its own.
+    MF_AVOID_DANGER_1,      // This monster will path around some dangers instead of through them.
+    MF_AVOID_DANGER_2,      // This monster will path around most dangers instead of through them.
+    MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -342,6 +340,7 @@ struct mtype {
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
+        int get_meat_chunks_count() const;
 
         // Historically located in monstergenerator.cpp
         void load( JsonObject &jo );

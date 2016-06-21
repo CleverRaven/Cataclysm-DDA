@@ -87,8 +87,6 @@
 		[ "steel_chunk", 2]
     ],
 	[
-		["shotgun_sawn", 1],
-		["saiga_sawn", 1],
 		["shotgun_s", 1],
 		["shotgun_d", 1],
 		["remington_870", 1],
@@ -99,7 +97,6 @@
 		["revolver_shotgun", 1],
 		["pipe_shotgun", 1],
 		["pipe_double_shotgun", 1],
-		["pipe_shotgunsawn", 1],
 		["bigun", 1]
     ]
 			]

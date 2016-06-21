@@ -24,9 +24,6 @@ extern game *g;
 
 #ifdef TILES
 extern void try_sdl_update();
-extern void invalidate_map_framebuffer();
-extern void invalidate_overmap_framebuffer();
-extern void clear_window_area( WINDOW* win );
 #endif // TILES
 
 extern bool trigdist;
@@ -36,6 +33,11 @@ extern bool tile_iso;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
+
+enum class dump_mode {
+    TSV,
+    HTML
+};
 
 enum tut_type {
     TUT_NULL,
@@ -114,6 +116,7 @@ typedef int nc_color;
 struct w_point;
 struct explosion_data;
 struct visibility_variables;
+class scent_map;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -127,7 +130,6 @@ class game
 {
         friend class editmap;
         friend class advanced_inventory;
-        friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
     public:
         game();
         ~game();
@@ -149,6 +151,7 @@ class game
         std::unique_ptr<player> u_ptr;
         std::unique_ptr<live_view> liveview_ptr;
         live_view& liveview;
+        std::unique_ptr<scent_map> scent_ptr;
     public:
 
         /** Initializes the UI. */
@@ -170,7 +173,7 @@ class game
         bool unserialize_master_legacy(std::istream &fin);  // for old load
 
         /** write stats of all loaded items of the given type to stdout */
-        void dump_stats( const std::string& what );
+        void dump_stats( const std::string& what, dump_mode mode );
 
         /** Returns false if saving failed. */
         bool save();
@@ -192,13 +195,16 @@ class game
          * Returns the location where the indicator should go relative to the reality bubble,
          * or tripoint_min to indicate no indicator should be drawn.
          * Based on the vehicle the player is driving, if any.
+         * @param next If true, bases it on the vehicle the vehicle will turn to next turn,
+         * instead of the one it is currently facing.
          */
-        tripoint get_veh_dir_indicator_location() const;
-        void draw_veh_dir_indicator(void);
+        tripoint get_veh_dir_indicator_location( bool next ) const;
+        void draw_veh_dir_indicator( bool next );
 
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         player &u;
+        scent_map &scent;
 
         std::unique_ptr<Creature_tracker> critter_tracker;
         /**
@@ -310,12 +316,12 @@ class game
          */
         bool revive_corpse( const tripoint &location, item &corpse );
 
-        /** Handles player input parts of gun firing (target selection, etc.). Actual firing is done
-         *  in player::fire_gun(). This is interactive and should not be used by NPC's. */
-        void plfire( const tripoint &default_target = tripoint_min );
+        /**
+         *  Handles interactive parts of gun firing (target selection, etc.).
+         *  @return whether an attack was actually performed
+         */
+        bool plfire( const tripoint &default_target = tripoint_min );
 
-        /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
-        void cycle_item_mode( bool force_gun );
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
@@ -377,7 +383,6 @@ class game
         void nuke( const tripoint &p );
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
-        int &scent( const tripoint &p );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -553,7 +558,7 @@ class game
          * charges of the liquid have been transferred.
          * `true` indicates some charges have been transferred (but not necessarily all of them).
          */
-        void handle_all_liquid( item liquid, int radius = 0 );
+        void handle_all_liquid( item liquid, int radius );
 
         /**
          * Consume / handle as much of the liquid as possible in varying ways. This function can
@@ -863,7 +868,6 @@ private:
          */
         bool disable_robot( const tripoint &p );
 
-        void update_scent();     // Updates the scent map
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void gameover();         // Ends the game
@@ -913,8 +917,6 @@ private:
         calendar nextspawn; // The turn on which monsters will spawn next.
         calendar nextweather; // The turn on which weather will shift next.
         int next_npc_id, next_faction_id, next_mission_id; // Keep track of UIDs
-        int grscent[SEEX *MAPSIZE][SEEY *MAPSIZE];   // The scent map
-        int nulscent;    // Returned for OOB scent checks
         std::list<event> events;         // Game events to be processed
         std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
@@ -924,7 +926,7 @@ private:
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;
 
-        special_game *gamemode;
+        std::unique_ptr<special_game> gamemode;
 
         int moveCount; //Times the player has moved (not pause, sleep, etc)
         int user_action_counter; // Times the user has input an action
@@ -940,15 +942,6 @@ private:
 
         void move_save_to_graveyard();
         bool save_player_data();
-
-        /** Options can be specified by mods from JSON using GAME_OPTION */
-        void load_game_option( JsonObject& jo );
-        std::set<std::string> options;
-
-    public:
-        bool has_option( const std::string& opt ) {
-            return options.count( opt );
-        }
 };
 
 #endif

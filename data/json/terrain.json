@@ -2650,7 +2650,7 @@
         "color": "ltgreen",
         "move_cost": 0,
         "roof": "t_rock_floor",
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL"],
         "bash": {
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
@@ -2668,7 +2668,7 @@
         "color": "ltred",
         "move_cost": 0,
         "roof": "t_rock_floor",
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL"],
         "bash": {
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
@@ -2686,7 +2686,7 @@
         "color": "ltblue",
         "move_cost": 0,
         "roof": "t_rock_floor",
-        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW"],
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL"],
         "bash": {
             "str_min": 100, "str_max": 400,
             "sound": "glass breaking!",
@@ -2715,6 +2715,26 @@
                 { "item": "coal_lump", "charges": [250, 500], "prob": 10 },
                 { "item": "material_limestone", "charges": [10, 25], "prob": 80 },
                 { "item": "material_rocksalt", "count": [0, 1], "prob": 20 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_rock_smooth",
+        "name": "smoothed rock",
+        "symbol": "LINE_OXOX",   "//": "use pillars, 't_column', as a compliment.",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL"],
+        "roof": "t_rock_floor",
+        "connects_to": "WALL",
+        "bash": {
+            "str_min": 120, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [6, 12] },
+                { "item": "material_rocksalt", "count": [0, 1], "prob": 10 }
             ]
         }
     },{
@@ -3369,7 +3389,7 @@
             "SHRUB", "SHORT"
         ],
         "bash": {
-            "str_min": 4, "str_max": 60,
+            "str_min": 4, "str_max": 30,
             "sound": "crunch.",
             "sound_fail": "brush.",
             "ter_set": "t_dirt"

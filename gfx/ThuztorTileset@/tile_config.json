@@ -5741,13 +5741,6 @@
          "multitile" : false
         },
         {
-         "id" : "saiga_sawn",
-         "fg" : 799,
-         "bg" : 758,
-         "rotates" : false,
-         "multitile" : false
-        },
-        {
          "id" : "shotgun_s",
          "fg" : 800,
          "bg" : 758,
@@ -5902,7 +5895,7 @@
          "multitile" : false
         },
         {
-         "id" : "m14a",
+         "id" : "m1a",
          "fg" : 822,
          "bg" : 758,
          "rotates" : false,
@@ -13101,11 +13094,6 @@
             "rotates":true
         },
         {
-            "id":"vp_battery_truck",
-            "fg":1876,
-            "rotates":true
-        },
-        {
             "id":"vp_door_trunk",
             "fg":1877,
             "rotates":true
@@ -13462,13 +13450,6 @@
         {
          "id" : "battery_car",
          "fg" : 1936,
-         "bg" : 1436,
-         "rotates" : false,
-         "multitile" : false
-        },
-        {
-         "id" : "battery_truck",
-         "fg" : 1937,
          "bg" : 1436,
          "rotates" : false,
          "multitile" : false

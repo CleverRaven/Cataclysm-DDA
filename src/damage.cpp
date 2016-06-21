@@ -100,8 +100,10 @@ int dealt_damage_instance::total_damage() const
 }
 
 
-resistances::resistances() : resist_vals( NUM_DT, 0 ) { }
-resistances::resistances( item &armor, bool to_self ) : resist_vals( NUM_DT, 0 )
+resistances::resistances()
+{ }
+
+resistances::resistances( item &armor, bool to_self )
 {
     // Armors protect, but all items can resist
     if( to_self || armor.is_armor() ) {
@@ -111,7 +113,7 @@ resistances::resistances( item &armor, bool to_self ) : resist_vals( NUM_DT, 0 )
         }
     }
 }
-resistances::resistances( monster &monster ) : resist_vals( NUM_DT, 0 )
+resistances::resistances( monster &monster )
 {
     set_resist( DT_BASH, monster.type->armor_bash );
     set_resist( DT_CUT,  monster.type->armor_cut );
@@ -119,37 +121,26 @@ resistances::resistances( monster &monster ) : resist_vals( NUM_DT, 0 )
     set_resist( DT_ACID, monster.type->armor_acid );
     set_resist( DT_HEAT, monster.type->armor_fire );
 }
-void resistances::set_resist( damage_type dt, int amount )
+void resistances::set_resist( damage_type dt, float amount )
 {
     resist_vals[dt] = amount;
 }
-int resistances::type_resist( damage_type dt ) const
+float resistances::type_resist( damage_type dt ) const
 {
     return resist_vals[dt];
 }
 float resistances::get_effective_resist( const damage_unit &du ) const
 {
-    float effective_resist;
-    switch( du.type ) {
-        case DT_BASH:
-            effective_resist = std::max( type_resist( DT_BASH ) - du.res_pen, 0 ) * du.res_mult;
-            break;
-        case DT_CUT:
-            effective_resist = std::max( type_resist( DT_CUT ) - du.res_pen, 0 ) * du.res_mult;
-            break;
-        case DT_STAB:
-            effective_resist = std::max( type_resist( DT_STAB ) - du.res_pen, 0 ) * du.res_mult;
-            break;
-        case DT_ACID:
-            effective_resist = std::max( type_resist( DT_ACID ) - du.res_pen, 0 ) * du.res_mult;
-            break;
-        case DT_HEAT:
-            effective_resist = std::max( type_resist( DT_HEAT ) - du.res_pen, 0 ) * du.res_mult;
-            break;
-        default: // TODO: Other types
-            effective_resist = 0;
+    return std::max( type_resist( du.type ) - du.res_pen, 0.0f ) * du.res_mult;
+}
+
+resistances &resistances::operator+=( const resistances &other )
+{
+    for( size_t i = 0; i < NUM_DT; i++ ) {
+        resist_vals[ i ] += other.resist_vals[ i ];
     }
-    return effective_resist;
+
+    return *this;
 }
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
@@ -442,3 +433,31 @@ damage_instance load_damage_instance( JsonArray &jarr )
     return di;
 }
 
+std::array<float, NUM_DT> load_damage_array( JsonObject &jo )
+{
+    std::array<float, NUM_DT> ret;
+    float init_val = jo.get_float( "all", 0.0f );
+
+    float phys = jo.get_float( "physical", init_val );
+    ret[ DT_BASH ] = jo.get_float( "bash", phys );
+    ret[ DT_CUT ] = jo.get_float( "cut", phys );
+    ret[ DT_STAB ] = jo.get_float( "stab", phys );
+
+    float non_phys = jo.get_float( "non_physical", init_val );
+    ret[ DT_BIOLOGICAL ] = jo.get_float( "biological", non_phys );
+    ret[ DT_ACID ] = jo.get_float( "acid", non_phys );
+    ret[ DT_HEAT ] = jo.get_float( "heat", non_phys );
+    ret[ DT_COLD ] = jo.get_float( "cold", non_phys );
+    ret[ DT_ELECTRIC ] = jo.get_float( "electric", non_phys );
+
+    // DT_TRUE should never be resisted
+    ret[ DT_TRUE ] = 0.0f;
+    return ret;
+}
+
+resistances load_resistances_instance( JsonObject &jo )
+{
+    resistances ret;
+    ret.resist_vals = load_damage_array( jo );
+    return ret;
+}

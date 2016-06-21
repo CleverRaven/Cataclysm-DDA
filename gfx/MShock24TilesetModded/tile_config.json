@@ -5968,12 +5968,6 @@
           "rotates": false
         },
         {
-          "id": "saiga_sawn",
-          "fg": 1605,
-          "bg": 621,
-          "rotates": false
-        },
-        {
           "id": "salt",
           "fg": 956,
           "bg": 621,
@@ -7308,12 +7302,6 @@
         },
         {
           "id": "battery_motorbike",
-          "fg": 1423,
-          "bg": 621,
-          "rotates": false
-        },
-        {
-          "id": "battery_truck",
           "fg": 1423,
           "bg": 621,
           "rotates": false
@@ -19390,11 +19378,6 @@
           "rotates": false
         },
         {
-          "id": "vp_battery_truck",
-          "fg": 1423,
-          "rotates": false
-        },
-        {
           "id": "vp_small_storage_battery",
           "fg": 1423,
           "rotates": true
@@ -19702,7 +19685,7 @@
           "rotates": false
         },
         {
-          "id": "m14a",
+          "id": "m1a",
           "fg": 1547,
           "rotates": false
         },

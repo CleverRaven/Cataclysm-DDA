@@ -23,7 +23,7 @@
 class map;
 class player;
 class vehicle;
-struct vpart_info;
+class vpart_info;
 enum vpart_bitflags : int;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
@@ -59,22 +59,6 @@ enum veh_coll_type : int {
     veh_coll_bashable, // 3 - bashable
     veh_coll_other,    // 4 - other
     num_veh_coll_types
-};
-
-// Saved to file as int, so values should not change
-enum turret_mode_type : int {
-    turret_mode_off = 0,
-    turret_mode_autotarget = 1,
-    turret_mode_manual = 2
-};
-
-// Describes turret's ability to fire (possibly at a particular target)
-enum turret_fire_ability {
-    turret_all_ok,
-    turret_wont_aim,
-    turret_is_off,
-    turret_out_of_range,
-    turret_no_ammo
 };
 
 struct veh_collision {
@@ -137,6 +121,34 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
     /** Translated name of a part inclusive of any current status effects */
     std::string name() const;
 
+    /** Specific type of fuel, charges or ammunition currently contained by a part */
+    itype_id ammo_current() const;
+
+    /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
+    long ammo_capacity() const;
+
+    /** Amount of fuel, charges or ammunition currently contained by a part */
+    long ammo_remaining() const;
+
+    /**
+     * Set fuel, charges or ammunition for this part removing any existing ammo
+     * @param ammo specific type of ammo (must be compatible with vehicle part)
+     * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
+     * @return amount of ammo actually set or negative on failure
+     */
+    int ammo_set( const itype_id &ammo, long qty = -1 );
+
+    /** Remove all fuel, charges or ammunition (if any) from this part */
+    void ammo_unset();
+
+    /**
+     * Consume fuel, charges or ammunition (if available)
+     * @param qty maximum amount of ammo that should be consumed
+     * @param pos current global location of part from which ammo is being consumed
+     * @return amount consumed which will be between 0 and @ref qty
+     */
+    long ammo_consume( long qty, const tripoint& pos );
+
     /** Current faults affecting this part (if any) */
     const std::set<fault_id>& faults() const;
 
@@ -145,6 +157,15 @@ struct vehicle_part : public JsonSerializer, public JsonDeserializer
 
     /** Try to set fault returning false if specified fault cannot occur with this item */
     bool fault_set( const fault_id &f );
+
+    /** Get wheel diameter (inches) or return 0 if part is not wheel */
+    int wheel_diameter() const;
+
+    /** Get wheel width (inches) or return 0 if part is not wheel */
+    int wheel_width() const;
+
+    /** Is this any type of vehicle light? */
+    bool is_light() const;
 
 public:
     /** mount point: x is on the forward/backward axis, y is on the left/right axis */
@@ -155,7 +176,6 @@ public:
 
     int hp           = 0;         // current durability, if 0, then broken
     int blood        = 0;         // how much blood covers part (in turns).
-    int bigness      = 0;         // size of engine, wheel radius, translates to item properties.
     bool inside      = false;     // if tile provides cover. WARNING: do not read it directly, use vehicle::is_inside() instead
     bool removed     = false;     // true if this part is removed. The part won't disappear until the end of the turn
                                   // so our indices can remain consistent.
@@ -163,10 +183,8 @@ public:
     int flags        = 0;         //
     int passenger_id = 0;         // carrying passenger
 
-    int amount = 0;               // amount of fuel for tank/charge in battery
     bool open = false;            // door is open
     int direction = 0;            // direction the part is facing
-    int mode = 0;                 // turret mode
 
     // Coordinates for some kind of target; jumper cables and turrets use this
     // Two coord pairs are stored: actual target point, and target vehicle center.
@@ -190,8 +208,7 @@ public:
 
     /**
      * Generate the corresponding item from this vehicle part. It includes
-     * the hp (item damage), fuel charges (battery or liquids), bigness
-     * aspect, ...
+     * the hp (item damage), fuel charges (battery or liquids), aspect, ...
      */
     item properties_to_item() const;
 };
@@ -305,6 +322,10 @@ private:
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
     int damage_direct( int p, int dmg, damage_type type = DT_TRUE );
+    // Removes the part, breaks it into pieces and possibly removes parts attached to it
+    int break_off( int p, int dmg );
+    // Returns if it did actually explode
+    bool explode_fuel( int p, damage_type type );
     //damages vehicle controls and security system
     void smash_security_system();
     // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
@@ -368,7 +389,7 @@ private:
 public:
     vehicle(const vproto_id &type_id, int veh_init_fuel = -1, int veh_init_status = -1);
     vehicle();
-    ~vehicle ();
+    ~vehicle () override;
 
     // check if given player controls this vehicle
     bool player_in_control(player const &p) const;
@@ -557,6 +578,7 @@ public:
      * Get the coordinates of the studied part of the vehicle
      */
     tripoint global_part_pos3( const int &index ) const;
+    tripoint global_part_pos3( const vehicle_part &pt ) const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.
@@ -586,6 +608,15 @@ public:
     int basic_consumption (const itype_id &ftype) const;
 
     void consume_fuel( double load );
+
+    /**
+     * Get all vehicle lights (excluding any that are destroyed)
+     * @param active if true return only lights which are enabled
+     */
+    std::vector<vehicle_part *> lights( bool active = false );
+
+    /** Enable or disable specific vehicle lighting parts */
+    void lights_control();
 
     void power_parts();
 
@@ -674,6 +705,9 @@ public:
     // <0 means there is no steering installed at all.
     float steering_effectiveness() const;
 
+    /** Returns roughly driving skill level at which there is no chance of fumbling. */
+    float handling_difficulty() const;
+
     // idle fuel consumption
     void idle(bool on_map = true);
     // continuous processing for running vehicle alarms
@@ -756,55 +790,47 @@ public:
     void shift_parts( point delta );
     bool shift_if_needed();
 
-    void leak_fuel (int p);
     void shed_loose_parts();
 
-    // Gets range of part p if it's a turret
-    // If `manual` is true, gets the real item range (gun+ammo range)
-    // otherwise gets part range (as in json)
-    int get_turret_range( int p, bool manual = true );
+    /**
+     * @name Vehicle turrets
+     *
+     *@{*/
 
-    // Returns the number of shots this turret could make with current ammo/gas/batteries/etc.
-    // Does not handle tags like FIRE_100
-    class turret_ammo_data;
-    turret_ammo_data turret_has_ammo( int p ) const;
+    /** Get all vehicle turrets (excluding any that are destroyed) */
+    std::vector<vehicle_part *> turrets();
 
-    // Manual turret aiming menu (select turrets etc.) when shooting from controls
-    // Returns whether a valid target was picked
-    bool aim_turrets();
+    /** Get all vehicle turrets loaded and ready to fire at @ref target */
+    std::vector<vehicle_part *> turrets( const tripoint &target );
 
-    // Maps turret ids to an enum describing their ability to shoot `pos`
-    std::map< int, turret_fire_ability > turrets_can_shoot( const tripoint &pos );
-    turret_fire_ability turret_can_shoot( const int p, const tripoint &pos );
+    enum class turret_status {
+        ready,
+        no_ammo,
+        no_power
+    };
 
-    // Cycle mode for this turret
-    // If `from_controls` is false, only manual modes are allowed
-    // and message describing the new mode is printed
-    void cycle_turret_mode( int p, bool from_controls );
+    /** Query ability of turret to fire */
+    turret_status turret_query( const vehicle_part &pt ) const;
 
-    // Per-turret mode selection
-    void control_turrets();
-
-    // Cycle through available turret modes
-    void cycle_global_turret_mode();
-
-    // Set up the turret to fire
-    bool fire_turret( int p, bool manual );
-
-    /*
-     * Fire turret at some automatically acquired target
-     * @param p part number for the turret
+    /**
+     * Manually aim and fire turret
      * @return number of shots actually fired (which may be zero)
      */
-    int automatic_fire_turret( int p, item &gun );
+    int turret_fire( vehicle_part &pt );
+
+    /** Set targeting mode for specific turrets */
+    void turrets_set_targeting();
+
+    /** Set firing mode for specific turrets */
+    void turrets_set_mode();
 
     /*
-     * Aim and fire turret manually
-     * @param p part number for the turret
-     * @return number of shots actually fired (which may be zero)
+     * Set specific target for automatic turret fire
+     * @returns whether a valid target was selected
      */
-    // TODO: Make it work correctly with UPS-powered turrets when player has a UPS already
-    int manual_fire_turret( int p, player &shooter, item &gun );
+    bool turrets_aim();
+
+    /*@}*/
 
     // Update the set of occupied points and return a reference to it
     std::set<tripoint> &get_points( bool force_refresh = false );
@@ -866,6 +892,8 @@ public:
     //normalized vectors, from tilerays face & move
     rl_vec2d face_vec() const;
     rl_vec2d move_vec() const;
+    // As above, but calculated for the actually used variable `dir`
+    rl_vec2d dir_vec() const;
     void on_move();
     /**
      * Update the submap coordinates smx, smy, and update the tracker info in the overmap
@@ -892,7 +920,6 @@ public:
     int removed_part_count;            // Subtract from parts.size() to get the real part count.
     std::map<point, std::vector<int> > relative_parts;    // parts_at_relative(x,y) is used alot (to put it mildly)
     std::set<label> labels;            // stores labels
-    std::vector<int> lights;           // List of light part indices
     std::vector<int> alternators;      // List of alternator indices
     std::vector<int> fuel;             // List of fuel tank indices
     std::vector<int> engines;          // List of engine indices
@@ -959,15 +986,9 @@ public:
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn
     float of_turn_carry;// leftover from prev. turn
 
-    int turret_mode = 0;    // turret firing mode: 0 = off, 1 = burst fire
-
-    int lights_epower       = 0; // total power of components with LIGHT or CONE_LIGHT flag
-    int overhead_epower     = 0; // total power of components with CIRCLE_LIGHT flag
     int tracking_epower     = 0; // total power consumed by tracking devices (why would you use more than one?)
     int fridge_epower       = 0; // total power consumed by fridges
     int alarm_epower        = 0;
-    int dome_lights_epower  = 0;
-    int aisle_lights_epower = 0;
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
     int extra_drag          = 0;
@@ -976,17 +997,12 @@ public:
     bool cruise_on                  = true;  // cruise control on/off
     bool reactor_on                 = false; // reactor on/off
     bool engine_on                  = false; // at least one engine is on, of any type
-    bool lights_on                  = false; // lights on/off
     bool stereo_on                  = false;
     bool chimes_on                  = false; // ice cream truck chimes
     bool tracking_on                = false; // vehicle tracking on/off
     bool is_locked                  = false; // vehicle has no key
     bool is_alarm_on                = false; // vehicle has alarm on
     bool camera_on                  = false;
-    bool overhead_lights_on         = false; // circle lights on/off
-    bool dome_lights_on             = false; // dome lights (rear view mirror lights)
-    bool has_atomic_lights          = false; // has any always-on atomic lights on
-    bool aisle_lights_on            = false; // aisle lights on
     bool fridge_on                  = false; // fridge on/off
     bool recharger_on               = false; // recharger on/off
     bool skidding                   = false; // skidding mode
@@ -1006,6 +1022,18 @@ private:
 
     void refresh_mass() const;
     void calc_mass_center( bool precalc ) const;
+
+    /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
+    void leak_fuel( vehicle_part &pt );
+
+    void turret_reload( vehicle_part &pt );
+    void turret_unload( vehicle_part &pt );
+
+    /*
+     * Fire turret at automatically acquired targets
+     * @return number of shots actually fired (which may be zero)
+     */
+    int automatic_fire_turret( vehicle_part &pt );
 
     mutable bool mass_dirty                     = true;
     mutable bool mass_center_precalc_dirty      = true;

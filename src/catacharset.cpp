@@ -323,7 +323,7 @@ std::string base64_encode(std::string str)
     int input_length = str.length();
     int output_length = 4 * ((input_length + 2) / 3);
 
-    char *encoded_data = new char[output_length + 1];
+    std::string encoded_data( output_length, '\0' );
     const unsigned char *data = (const unsigned char *)str.c_str();
 
     for (int i = 0, j = 0; i < input_length;) {
@@ -344,12 +344,7 @@ std::string base64_encode(std::string str)
         encoded_data[output_length - 1 - i] = '=';
     }
 
-    encoded_data[output_length] = '\0';
-    std::string ret = "#";
-    ret += encoded_data;
-    delete[] encoded_data;
-
-    return ret;
+    return "#" + encoded_data;
 }
 
 
@@ -380,7 +375,7 @@ std::string base64_decode(std::string str)
         output_length--;
     }
 
-    unsigned char *decoded_data = new unsigned char[output_length + 1];
+    std::string decoded_data( output_length, '\0' );
 
     for (int i = 0, j = 0; i < input_length;) {
 
@@ -405,12 +400,7 @@ std::string base64_decode(std::string str)
         }
     }
 
-    decoded_data[output_length] = 0;
-
-    std::string ret = (char *)decoded_data;
-    delete[] decoded_data;
-
-    return ret;
+    return decoded_data;
 }
 
 int center_text_pos(const char *text, int start_pos, int end_pos)

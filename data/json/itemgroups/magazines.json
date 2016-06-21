@@ -20,6 +20,8 @@
       ["lw21mag", 60],
       ["lw223mag", 60],
       ["lw223bigmag", 20],
+      ["m107a1mag", 50],
+      ["m2010mag", 10 ],
       ["scarhmag", 50],
       ["scarhbigmag", 20]
     ]
@@ -240,7 +242,8 @@
       ["ppshdrum", 10],
       ["rpk74mag", 10],
       ["skorpion61mag", 10],
-      ["skorpion82mag", 10]
+      ["skorpion82mag", 10],
+      ["tokarevmag", 10]
     ]
   },
   {

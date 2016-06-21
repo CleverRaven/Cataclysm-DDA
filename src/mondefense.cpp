@@ -21,7 +21,7 @@ void mdefense::zapback( monster &m, Creature *const source,
 {
     // Not a melee attack, attacker lucked out or out of range
     if( source == nullptr || proj != nullptr ||
-        rng( 0, 100 ) > m.def_chance || rl_dist( m.pos(), source->pos() ) > 1 ) {
+        rl_dist( m.pos(), source->pos() ) > 1 ) {
         return;
     }
 
@@ -35,17 +35,18 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
+    if( g->u.sees( source->pos() ) ) {
+        auto const msg_type = ( source == &g->u ) ? m_bad : m_info;
+        add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
+                 m.name().c_str(), source->disp_name().c_str() );
+    }
+
     damage_instance const shock {
         DT_ELECTRIC, static_cast<float>( rng( 1, 5 ) )
     };
     source->deal_damage( &m, bp_arm_l, shock );
     source->deal_damage( &m, bp_arm_r, shock );
 
-    if( g->u.sees( source->pos() ) ) {
-        auto const msg_type = ( source == &g->u ) ? m_bad : m_info;
-        add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
-                 m.name().c_str(), source->disp_name().c_str() );
-    }
     source->check_dead_state();
 }
 

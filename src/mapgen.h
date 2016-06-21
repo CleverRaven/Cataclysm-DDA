@@ -34,7 +34,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override;
+    void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -181,11 +181,11 @@ class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( const jmapgen_int &var ) const;
     void setup_setmap( JsonArray &parray );
-    virtual bool setup() override;
-    virtual void generate(map *, oter_id, mapgendata, int, float) override;
+    bool setup() override;
+    void generate(map *, oter_id, mapgendata, int, float) override;
 
     mapgen_function_json( std::string s, int w = 1000 );
-    ~mapgen_function_json() {
+    ~mapgen_function_json() override {
     }
 
     size_t calc_index( size_t x, size_t y ) const;
@@ -228,7 +228,7 @@ class mapgen_function_lua : public virtual mapgen_function {
     mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
         // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
-    virtual void generate(map*, oter_id, mapgendata, int, float) override;
+    void generate(map*, oter_id, mapgendata, int, float) override;
 };
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists

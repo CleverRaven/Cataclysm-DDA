@@ -120,7 +120,6 @@ monster::monster()
     wandf = 0;
     hp = 60;
     moves = 0;
-    def_chance = 0;
     friendly = 0;
     anger = 0;
     morale = 2;
@@ -147,7 +146,6 @@ monster::monster( const mtype_id& id ) : monster()
         auto &entry = special_attacks[sa.first];
         entry.cooldown = rng( 0, sa.second.get_cooldown() );
     }
-    def_chance = type->def_chance;
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
@@ -198,7 +196,6 @@ void monster::poly( const mtype_id& id )
         auto &entry = special_attacks[sa.first];
         entry.cooldown = sa.second.get_cooldown();
     }
-    def_chance = type->def_chance;
     faction = type->default_faction;
     upgrades = type->upgrades;
 }
@@ -1469,12 +1466,12 @@ int monster::impact( const int force, const tripoint &p )
     const float mod = fall_damage_mod();
     int total_dealt = 0;
     if( g->m.has_flag( TFLAG_SHARP, p ) ) {
-        const int cut_damage = 10 * mod - get_armor_cut( bp_torso );
+        const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bp_torso ) );
         apply_damage( nullptr, bp_torso, cut_damage );
         total_dealt += 10 * mod;
     }
 
-    const int bash_damage = force * mod - get_armor_bash( bp_torso );
+    const int bash_damage = std::max( 0.0f, force * mod - get_armor_bash( bp_torso ) );
     apply_damage( nullptr, bp_torso, bash_damage );
     total_dealt += force * mod;
 
@@ -1532,55 +1529,39 @@ void monster::explode()
     }
     // Send body parts and blood all over!
     const itype_id meat = type->get_meat_itype();
+    if( meat == "null" ) {
+        return; // Only create chunks if we know what kind to make.
+    }
+    const int num_chunks = type->get_meat_chunks_count();
     const field_id type_blood = bloodType();
     const field_id type_gib = gibType();
-    if( meat != "null" || type_blood != fd_null || type_gib != fd_null ) {
-        // Only create chunks if we know what kind to make.
-        int num_chunks = 0;
-        switch( type->size ) {
-            case MS_TINY:
-                num_chunks = 1;
-                break;
-            case MS_SMALL:
-                num_chunks = 2;
-                break;
-            case MS_MEDIUM:
-                num_chunks = 4;
-                break;
-            case MS_LARGE:
-                num_chunks = 8;
-                break;
-            case MS_HUGE:
-                num_chunks = 16;
-                break;
-        }
 
-        for( int i = 0; i < num_chunks; i++ ) {
-            tripoint tarp( posx() + rng( -3, 3 ), posy() + rng( -3, 3 ), posz() );
-            std::vector<tripoint> traj = line_to( pos(), tarp, 0, 0 );
+    for( int i = 0; i < num_chunks; i++ ) {
+        tripoint tarp( pos() + tripoint( rng( -3, 3 ), rng( -3, 3 ), 0 ) );
+        const auto traj = line_to( pos(), tarp );
 
-            for( size_t j = 0; j < traj.size(); j++ ) {
-                tarp = traj[j];
-                if( one_in( 2 ) && type_blood != fd_null ) {
-                    g->m.add_field( tarp, type_blood, 1, 0 );
-                } else if( type_gib != fd_null ) {
-                    g->m.add_field( tarp, type_gib, rng( 1, j + 1 ), 0 );
-                }
+        for( size_t j = 0; j < traj.size(); j++ ) {
+            tarp = traj[j];
+            if( one_in( 2 ) && type_blood != fd_null ) {
+                g->m.add_splatter( type_blood, tarp );
+            } else {
+                g->m.add_splatter( type_gib, tarp, rng( 1, j + 1 ) );
+            }
+            if( g->m.impassable( tarp ) ) {
+                g->m.bash( tarp, 3 );
                 if( g->m.impassable( tarp ) ) {
-                    if( !g->m.bash( tarp, 3 ).success ) {
-                        // Target is obstacle, not destroyed by bashing,
-                        // stop trajectory in front of it, if this is the first
-                        // point (e.g. wall adjacent to monster) , make it invalid.
-                        if( j > 0 ) {
-                            tarp = traj[j - 1];
-                        } else {
-                            tarp = tripoint_min;
-                        }
-                        break;
+                    // Target is obstacle, not destroyed by bashing,
+                    // stop trajectory in front of it, if this is the first
+                    // point (e.g. wall adjacent to monster) , make it invalid.
+                    if( j > 0 ) {
+                        tarp = traj[j - 1];
+                    } else {
+                        tarp = tripoint_min;
                     }
+                    break;
                 }
             }
-            if( meat != "null" && tarp != tripoint_min ) {
+            if( tarp != tripoint_min ) {
                 g->m.spawn_item( tarp, meat, 1, 0, calendar::turn );
             }
         }
@@ -1897,9 +1878,15 @@ bool monster::is_hallucination() const
 }
 
 field_id monster::bloodType() const {
+    if( is_hallucination() ) {
+        return fd_null;
+    }
     return type->bloodType();
 }
 field_id monster::gibType() const {
+    if( is_hallucination() ) {
+        return fd_null;
+    }
     return type->gibType();
 }
 
@@ -2028,7 +2015,9 @@ void monster::on_hit( Creature *source, body_part,
         return;
     }
 
-    type->sp_defense( *this, source, proj );
+    if( rng( 0, 100 ) <= (long)type->def_chance ) {
+        type->sp_defense( *this, source, proj );
+    }
 
     // Adjust anger/morale of same-species monsters, if appropriate
     int anger_adjust = 0;

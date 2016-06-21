@@ -1104,7 +1104,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
             }
 
             for (int j = 0; j < item_count[0][i]; j++) {
-                if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight())) {
+                if ( g->u.can_pickVolume( tmp ) && g->u.can_pickWeight( tmp ) ) {
                     g->u.i_add(tmp);
                 } else { // Could fit it in the inventory!
                     dropped_some = true;

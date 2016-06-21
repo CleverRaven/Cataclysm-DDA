@@ -172,6 +172,29 @@ void mutation_branch::load( JsonObject &jsobj )
     while( jsarr.has_more() ) {
         new_mut.restricts_gear.insert( get_body_part_token( jsarr.next_string() ) );
     }
+
+    jsarr = jsobj.get_array( "armor" );
+    while( jsarr.has_more() ) {
+        JsonObject jo = jsarr.next_object();
+        auto parts = jo.get_tags( "parts" );
+        std::set<body_part> bps;
+        for( const std::string &part_string : parts ) {
+            if( part_string == "ALL" ) {
+                // Shorthand, since many muts protect whole body
+                for( size_t i = 0; i < num_bp; i++ ) {
+                    bps.insert( static_cast<body_part>( i ) );
+                }
+            } else {
+                bps.insert( get_body_part_token( part_string ) );
+            }
+        }
+
+        resistances res = load_resistances_instance( jo );
+
+        for( body_part bp : bps ) {
+            new_mut.armor[ bp ] = res;
+        }
+    }
 }
 
 static void check_consistency( const std::vector<std::string> &mvec, const std::string &mid, const std::string &what )

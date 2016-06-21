@@ -31,7 +31,7 @@
     "id": "bayonet",
     "type": "GUNMOD",
     "name": "bayonet",
-    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachinegun or rifle, allowing a melee attack to deal piercing damage.  The added length increases recoil slightly.",
+    "description": "A bayonet is a stabbing weapon that can be attached to the front of a shotgun, submachinegun or rifle, allowing a melee attack to deal piercing damage.",
     "weight": 387,
     "volume": 2,
     "price": 4000,
@@ -43,8 +43,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 10,
-    "recoil_modifier": 45,
-    "flags": [ "NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET" ]
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
   },
   {
     "id": "bipod",
@@ -92,7 +92,7 @@
       "reload": 100
     },
     "dispersion_modifier": 15,
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE", "TRADER_AVOID" ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
@@ -128,58 +128,35 @@
   {
     "id": "diamond_bayonet",
     "type": "GUNMOD",
+    "copy-from": "bayonet",
     "name": "diamond bayonet",
     "description": "This bayonet incorporates a layer of diamond-like carbon on its edges, increasing its lethality.",
-    "weight": 566,
-    "volume": 2,
-    "price": 40000,
-    "cutting": 22,
-    "to_hit": -1,
-    "material": [ "steel", "diamond" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "smg", "rifle", "crossbow", "launcher" ],
-    "dispersion_modifier": 10,
-    "recoil_modifier": 45,
-    "flags": [ "NON_STUCK", "SPEAR", "BAYONET" ]
+    "proportional": {
+      "price": 4.0,
+      "cutting": 2.0
+    }
   },
   {
     "id": "diamond_pistol_bayonet",
+    "copy-from": "pistol_bayonet",
     "type": "GUNMOD",
     "name": "diamond pistol bayonet",
     "description": "This pistol bayonet incorporates a layer of diamond-like carbon on its edges, increasing its lethality.",
-    "weight": 542,
-    "volume": 1,
-    "price": 40000,
-    "cutting": 22,
-    "to_hit": -4,
-    "material": [ "steel", "diamond" ],
-    "symbol": ":",
-    "color": "light_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "pistol", "smg", "crossbow" ],
-    "dispersion_modifier": 15,
-    "recoil_modifier": 45,
-    "flags": [ "STAB", "BAYONET" ]
+    "proportional": {
+      "price": 4.0,
+      "cutting": 2.0
+    }
   },
   {
     "id": "diamond_sword_bayonet",
+    "copy-from": "sword_bayonet",
     "type": "GUNMOD",
     "name": "diamond sword bayonet",
     "description": "This sword bayonet is coated with a layer of diamond-like carbon, greatly augmenting its cutting damage.",
-    "weight": 546,
-    "volume": 3,
-    "price": 50000,
-    "cutting": 28,
-    "material": [ "steel", "diamond" ],
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "underbarrel",
-    "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
-    "dispersion_modifier": 20,
-    "recoil_modifier": 105,
-    "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
+    "proportional": {
+      "price": 4.0,
+      "cutting": 2.0
+    }
   },
   {
     "id": "grip",
@@ -386,7 +363,7 @@
     "id": "pistol_bayonet",
     "type": "GUNMOD",
     "name": "pistol bayonet",
-    "description": "A pistol bayonet is a stabbing weapon that can be attached to the front of a handgun, allowing a melee attack to deal piercing damage.  The added length reduces the gun's overall handling somewhat.",
+    "description": "A pistol bayonet is a stabbing weapon that can be attached to the front of a handgun, allowing a melee attack to deal piercing damage.",
     "weight": 122,
     "volume": 1,
     "price": 4000,
@@ -396,9 +373,8 @@
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
-    "mod_targets": [ "pistol", "smg", "crossbow" ],
+    "mod_targets": [ "pistol" ],
     "dispersion_modifier": 15,
-    "recoil_modifier": 45,
     "flags": [ "STAB", "BAYONET" ]
   },
   {
@@ -436,7 +412,7 @@
     "id": "sword_bayonet",
     "type": "GUNMOD",
     "name": "sword bayonet",
-    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a shotgun or rifle, allowing a melee attack to deal cutting damage.  The added length increases recoil substantially.",
+    "description": "A sword bayonet is a large slashing weapon that can be attached to the front of a shotgun or rifle, allowing a melee attack to deal cutting damage.",
     "weight": 923,
     "volume": 3,
     "price": 5000,
@@ -447,8 +423,8 @@
     "location": "underbarrel",
     "mod_targets": [ "shotgun", "rifle", "crossbow", "launcher" ],
     "dispersion_modifier": 20,
-    "recoil_modifier": 105,
-    "flags": [ "NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET" ]
+    "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE" ] ] ],
+    "flags": [ "NON_STUCK", "CHOP", "BAYONET" ]
   },
   {
     "id": "u_shotgun",
