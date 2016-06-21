@@ -10445,7 +10445,7 @@ hint_rating player::rate_action_takeoff( const item &it ) const
     return HINT_IFFY;
 }
 
-std::list<const item *> player::get_dependent_worn_items( const item &it )
+std::list<const item *> player::get_dependent_worn_items( const item &it ) const
 {
     std::list<const item *> dependent;
     // Adds dependent worn items recursively

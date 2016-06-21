@@ -20,15 +20,25 @@
 #include <vector>
 #include <cassert>
 
-#include <functional>
-
 const efftype_id effect_controlled( "controlled" );
 const efftype_id effect_pet( "pet" );
 
-typedef std::list<std::pair<const item *, int>> activity_items;
+struct act_item {
+    const item *it;
+    int count;
+    int consumed_moves;
+
+    act_item( const item *it, int count, int consumed_moves )
+        : it( it ),
+          count( count ),
+          consumed_moves( consumed_moves ) {};
+};
+
+// @todo Deliberately unified with multidrop. Unify further.
+typedef std::list<std::pair<int, int>> drop_indexes;
 
 bool game::make_drop_activity( enum activity_type act,
-                               const std::list<std::pair<int, int>> &dropped,
+                               const drop_indexes &dropped,
                                const tripoint &target )
 {
     if( dropped.empty() ) {
@@ -41,62 +51,6 @@ bool game::make_drop_activity( enum activity_type act,
         u.activity.values.push_back( item_pair.second );
     }
     return true;
-}
-
-activity_items retrieve_items( const player_activity &act,
-                               const std::function<void( activity_items &, int, int )> &retriever )
-{
-    activity_items retrieved;
-
-    if( act.values.size() % 2 != 0 ) {
-        debugmsg( "Activity \"%s\"contains odd number of values.", act.name.c_str() );
-        return retrieved;
-    }
-    for( size_t index = 0; index < act.values.size(); index += 2 ) {
-        const int position = act.values[index];
-        const int quantity = act.values[index + 1];
-
-        retriever( retrieved, position, quantity );
-    }
-    return retrieved;
-}
-
-activity_items retrieve_weapons( const player_activity &act, const player &p )
-{
-    return retrieve_items( act, [ &p ]( activity_items & retrieved, int position, int quantity ) {
-        if( position == -1 ) {
-            retrieved.emplace_back( &p.weapon, quantity );
-        }
-    } );
-}
-
-activity_items retrieve_inventory_items( const player_activity &act, const player &p )
-{
-    return retrieve_items( act, [ &p ]( activity_items & retrieved, int position, int quantity ) {
-        if( position < 0 ) {
-            return;
-        }
-        int obtained = 0;
-        const auto &stack = p.inv.const_stack( position );
-        for( const auto &it : stack ) {
-            const int qty = it.count_by_charges() ? std::min( ( int )it.charges, quantity - obtained ) : 1;
-            retrieved.emplace_back( &it, qty );
-            obtained += qty;
-
-            if( obtained >= quantity ) {
-                break;
-            }
-        }
-    } );
-}
-
-activity_items retrieve_worn_items( const player_activity &act, const player &p )
-{
-    return retrieve_items( act, [ &p ]( activity_items & retrieved, int position, int quantity ) {
-        if( position < -1 ) {
-            retrieved.emplace_back( &p.i_at( position ), quantity );
-        }
-    } );
 }
 
 bool same_type( const std::vector<item> &items )
@@ -119,7 +73,7 @@ void put_into_vehicle( player &p, const std::vector<item> &items, vehicle &veh, 
     }
 
     const tripoint where = veh.global_part_pos3( part );
-    const std::string ter_name =  g->m.name( where );
+    const std::string ter_name = g->m.name( where );
     int fallen_count = 0;
 
     for( auto it : items ) { // cant use constant reference here because of the spill_contents()
@@ -236,87 +190,145 @@ void put_into_vehicle_or_drop( player &p, const std::vector<item> &items, const 
     drop_on_map( items, where );
 }
 
-// Returns number of items that fit into the volume. Order of the items matters.
-int count_contained_items( const std::vector<item> &items, int volume )
+drop_indexes convert_to_indexes( const player_activity &act )
 {
-    int count = 0;
-    for( const auto &it : items ) {
-        volume -= it.volume();
-        if( volume < 0 ) {
-            break;
-        }
-        ++count;
+    drop_indexes res;
+
+    if( act.values.size() % 2 != 0 ) {
+        debugmsg( "Drop/stash activity contains an odd number of values." );
+        return res;
     }
-    return count;
+    for( auto iter = act.values.begin(); iter != act.values.end(); iter += 2 ) {
+        res.emplace_back( *iter, *std::next( iter ) );
+    }
+    return res;
 }
 
-std::vector<item> withdraw_items_to_dispose( player_activity &act, player &p )
+drop_indexes convert_to_indexes( const player &p, const std::list<act_item> &items )
 {
-    auto weapons = retrieve_weapons( act, p );
-    auto inventory_items = retrieve_inventory_items( act, p );
-    auto worn_items = retrieve_worn_items( act, p );
+    drop_indexes res;
 
-    std::vector<item> result;
+    for( const auto &ait : items ) {
+        const int pos = p.get_item_position( ait.it );
 
-    const auto process_unworn_item = [ &p, &result ]( activity_items & items ) {
-        auto &it = items.front();
-
-        if( it.first->count_by_charges() ) {
-            result.push_back( p.reduce_charges( const_cast<item *>( it.first ), it.second ) );
-        } else {
-            result.push_back( p.i_rem( it.first ) );
-            if( --it.second > 0 ) {
-                return; // Process one item at a time
+        if( pos != INT_MIN && ait.count > 0 ) {
+            if( res.empty() || res.back().first != pos ) {
+                res.emplace_back( pos, ait.count );
+            } else {
+                res.back().second += ait.count;
             }
         }
-        items.pop_front();
-    };
-
-    while( !weapons.empty() ) {
-        process_unworn_item( weapons ); // Just let go. Don't consume moves.
     }
+    return res;
+}
 
-    while( p.moves >= 0 && !inventory_items.empty() ) {
-        process_unworn_item( inventory_items );
-        p.mod_moves( -100 );
-    }
+std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
+                                      int min_pos, int max_pos )
+{
+    std::list<act_item> res;
 
-    while( p.moves >= 0 && !worn_items.empty() ) {
-        p.takeoff( *worn_items.front().first, [ &result ]( const item & it ) {
-            result.push_back( it );
-            return true;
-        } );
-        worn_items.pop_front();
-    }
+    for( const auto &rec : drop ) {
+        const auto pos = rec.first;
+        const auto count = rec.second;
 
-    // Load anything left (if any) into a new activity.
-    if( !weapons.empty() || !inventory_items.empty() || !worn_items.empty() ) {
-        const player_activity prev_activity = act;
-        const auto append_items = [ &p ]( const activity_items & items ) {
-            for( const auto &it : items ) {
-                p.activity.values.push_back( p.get_item_position( it.first ) );
-                p.activity.values.push_back( it.second );
+        if( pos < min_pos || pos > max_pos ) {
+            continue;
+        } else if( pos >= 0 ) {
+            int obtained = 0;
+            for( const auto &it : p.inv.const_stack( pos ) ) {
+                if( obtained >= count ) {
+                    break;
+                }
+                const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
+                obtained += qty;
+                res.emplace_back( &it, qty, 100 ); // @todo Use a calculated cost
             }
-        };
-        p.cancel_activity();
-        p.assign_activity( prev_activity.type, 0 );
-        p.activity.placement = prev_activity.placement;
-        p.activity.ignore_trivial = prev_activity.ignore_trivial;
+        } else {
+            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // @todo Use a calculated cost
+        }
+    }
 
-        append_items( weapons );
-        append_items( inventory_items );
-        append_items( worn_items );
+    return res;
+}
+
+// Prepares items for dropping by ordering them so that drop cost is minimal
+std::list<act_item> order_to_drop( const player &p, const drop_indexes &drop )
+{
+    std::list<act_item> res;
+
+    auto weapons = convert_to_items( p, drop, -1, -1 );
+    auto inventory_items = convert_to_items( p, drop, 0, INT_MAX );
+    auto worn_items = convert_to_items( p, drop, INT_MIN, -2 );
+
+    //@todo Implement smart ordering
+    std::copy( weapons.begin(), weapons.end(), std::back_inserter( res ) );
+    std::copy( inventory_items.begin(), inventory_items.end(), std::back_inserter( res ) );
+    std::copy( worn_items.begin(), worn_items.end(), std::back_inserter( res ) );
+
+    return res;
+}
+
+//@todo Display costs in the multidrop menu
+void debug_drop_list( const std::list<act_item> &list )
+{
+    if( !debug_mode ) {
+        return;
+    }
+
+    std::string res( "Items ordered to drop:\n" );
+    for( const auto &ait : list ) {
+        res += string_format( "Drop %d %s for %d moves\n",
+                              ait.count, ait.it->display_name( ait.count ).c_str(), ait.consumed_moves );
+    }
+    popup( res, PF_GET_KEY );
+}
+
+std::vector<item> obtain_activity_items( player_activity &act, player &p )
+{
+    std::vector<item> res;
+
+    auto items = order_to_drop( p, convert_to_indexes( act ) );
+
+    debug_drop_list( items );
+
+    while( !items.empty() && ( p.moves > 0 || items.front().consumed_moves == 0 ) ) {
+        const auto &ait = items.front();
+
+        p.mod_moves( -ait.consumed_moves );
+
+        if( p.is_worn( *ait.it ) ) {
+            p.takeoff( *ait.it, [ &res ]( const item & tit ) {
+                res.push_back( tit );
+                return true;
+            } );
+        } else if( ait.it->count_by_charges() ) {
+            res.push_back( p.reduce_charges( const_cast<item *>( ait.it ), ait.count ) );
+        } else {
+            res.push_back( p.i_rem( ait.it ) );
+        }
+
+        items.pop_front();
+    }
+    // Load anything that remains (if any) into a new activity.
+    if( !items.empty() ) {
+        p.drop_inventory_overflow(); // Make sure the state is consistent
+        act.values.clear();
+        for( const auto &drop : convert_to_indexes( p, items ) ) {
+            act.values.push_back( drop.first );
+            act.values.push_back( drop.second );
+        }
+        p.assign_activity( act );
     } else {
         p.cancel_activity();
     }
 
-    return result;
+    return res;
 }
 
 void activity_handlers::drop_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
-    put_into_vehicle_or_drop( *p, withdraw_items_to_dispose( *act, *p ), pos );
+    put_into_vehicle_or_drop( *p, obtain_activity_items( *act, *p ), pos );
 }
 
 void activity_handlers::stash_do_turn( player_activity *act, player *p )
@@ -327,7 +339,7 @@ void activity_handlers::stash_do_turn( player_activity *act, player *p )
     if( critter != nullptr ) {
         monster *pet = dynamic_cast<monster *>( critter );
         if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-            stash_on_pet( withdraw_items_to_dispose( *act, *p ), *pet );
+            stash_on_pet( obtain_activity_items( *act, *p ), *pet );
         }
     }
 }
