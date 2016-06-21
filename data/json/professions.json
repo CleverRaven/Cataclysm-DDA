@@ -3381,6 +3381,50 @@
         }
     },
     {
+                "type": "profession",
+        "ident": "boxer",
+        "name": "Boxer",
+        "description": "You were training for the fight of your life before the Cataclysm struck. Now you fight just to keep yourself alive.",
+        "points": 3,
+        "traits": [
+            "PROF_BOXER"
+        ],
+        "skills": [
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 2,
+                "name": "unarmed"
+            },
+            {
+                "level": 2,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both": [
+                "shorts",
+                "gloves_wraps",
+				"boxing_gloves",
+				"headgear",
+                "mouthpiece",
+                "socks",
+                "boots"
+            ],
+            "male": [
+                "under_armor"
+                "under_armor_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "under_armor"
+                "under_armor_shorts"
+            ]
+        }
+    },
+    {
         "type": "profession",
         "ident": "pizzaboy",
         "name": {
