@@ -2178,7 +2178,7 @@ void complete_vehicle ()
 
         add_msg( m_good, _("You install a %1$s into the %2$s." ), veh->parts[ partnum ].name().c_str(), veh->name.c_str() );
 
-        if( reqs.get_tools().empty() ) {
+        if( !reqs.get_tools().empty() ) {
             g->u.practice( skill_mechanics, vpinfo.difficulty * 50 );
         }
         break;
@@ -2255,7 +2255,7 @@ void complete_vehicle ()
         if (!broken) {
             g->m.add_item_or_charges( g->u.pos(), veh->parts[vehicle_part].properties_to_item() );
             // simple tasks won't train mechanics
-            if( reqs.get_tools().empty() ) {
+            if( !reqs.get_tools().empty() ) {
                 g->u.practice( skill_mechanics, vpinfo.difficulty * 50 );
             }
         } else {
