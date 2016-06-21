@@ -2,7 +2,7 @@
     {
             "type": "profession",
             "ident": "bionic_prepper",
-            "name": "Bionic Prepper",
+            "name": "Bionic Prepper",b
             "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
             "points": 8,
             "CBMs":[
@@ -3381,7 +3381,7 @@
         }
     },
     {
-                "type": "profession",
+        "type": "profession",
         "ident": "boxer",
         "name": "Boxer",
         "description": "You were training for the fight of your life before the Cataclysm struck.  Now you fight just to keep yourself alive.",
