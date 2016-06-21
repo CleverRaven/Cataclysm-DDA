@@ -1233,36 +1233,32 @@ bool advanced_inventory::move_all_items(bool nested_call)
     }
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        g->u.assign_activity( ACT_DROP, 0 );
-        g->u.activity.placement = darea.off;
-        g->u.activity.values.push_back(dpane.in_vehicle());
-    }
-    if( spane.get_area() == AIM_INVENTORY ) {
-        for( size_t index = 0; index < g->u.inv.size(); ++index ) {
-            const auto &stack = g->u.inv.const_stack( index );
-            if( spane.is_filtered( &( stack.front() ) ) ) {
-                continue;
+        std::list<std::pair<int, int>> dropped;
+
+        if( spane.get_area() == AIM_INVENTORY ) {
+            for( size_t index = 0; index < g->u.inv.size(); ++index ) {
+                const auto &stack = g->u.inv.const_stack( index );
+                const auto &it = stack.front();
+
+                if( !spane.is_filtered( &it ) ) {
+                    dropped.emplace_back( index, it.count_by_charges() ? it.charges : stack.size() );
+                }
             }
-            g->u.activity.values.push_back( index );
-            if( stack.front().count_by_charges() ) {
-                g->u.activity.values.push_back( stack.front().charges );
-            } else {
-                g->u.activity.values.push_back( stack.size() );
+        } else if( spane.get_area() == AIM_WORN ) {
+            // do this in reverse, to account for vector item removal messing with future indices
+            auto iter = g->u.worn.rbegin();
+            for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
+                const size_t index = ( g->u.worn.size() - idx - 1 );
+                const auto &it = *iter;
+
+                if( !spane.is_filtered( &it ) ) {
+                    dropped.emplace_back( player::worn_position_to_index( index ),
+                                          it.count_by_charges() ? it.charges : 1 );
+                }
             }
         }
-    } else if( spane.get_area() == AIM_WORN ) {
-        // do this in reverse, to account for vector item removal messing with future indices
-        auto iter = g->u.worn.rbegin();
-        for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
-            size_t index = ( g->u.worn.size() - idx - 1 );
-            auto &elem = *iter;
-            if( spane.is_filtered( &elem ) ) {
-                continue;
-            }
-            g->u.activity.values.push_back( player::worn_position_to_index( index ) );
-            int amount = (elem.count_by_charges() == true) ? elem.charges : 1;
-            g->u.activity.values.push_back(amount);
-        }
+
+        g->u.drop( dropped, g->u.pos() + darea.off );
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
             g->u.assign_activity( ACT_PICKUP, 0 );
