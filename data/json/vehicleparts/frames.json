@@ -51,7 +51,7 @@
       },
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
-        "qualities": [ { "id": "SAW_M", "level": 1 } ]
+        "qualities": [ { "id": "SAW_M", "level": 2 } ]
       }
     },
     "breaks_into": "ig_vp_frame",
@@ -108,7 +108,7 @@
       },
       "removal": {
         "skills": [ [ "mechanics", 1 ] ],
-        "qualities": [ { "id": "SAW_M", "level": 1 } ]
+        "qualities": [ { "id": "SAW_M", "level": 2 } ]
       }
     },
     "breaks_into": "ig_vp_hdframe",
