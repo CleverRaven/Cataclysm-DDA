@@ -2,7 +2,7 @@
     {
             "type": "profession",
             "ident": "bionic_prepper",
-            "name": "Bionic Prepper",b
+            "name": "Bionic Prepper",
             "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
             "points": 8,
             "CBMs":[
