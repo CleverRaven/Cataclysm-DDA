@@ -4728,7 +4728,7 @@
         "id" : "PROF_BOXER",
         "name" : "Pugilist",
         "points" : 0,
-        "description" : "You are experienced in the Sweet Science of boxing. You could've had a shot at a local boxing tournament, if the Cataclysm hadn't screwed that up.",
+        "description" : "You are experienced in the Sweet Science of boxing.  You could've had a shot at a local boxing tournament, if the Cataclysm hadn't screwed that up.",
         "valid": false,
         "initial_ma_styles" : [ "style_boxing" ],
         "purifiable": false,
