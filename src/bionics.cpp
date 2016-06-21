@@ -229,10 +229,6 @@ bool player::activate_bionic( int b, bool eff_only )
         add_effect( effect_teleglow, 300 );
         // TODO: More stuff here (and bio_blood_filter)
     } else if( bio.id == "bio_blood_anal" ) {
-        WINDOW *w = newwin( 20, 40, 3 + ( ( TERMY > 25 ) ? ( TERMY - 25 ) / 2 : 0 ),
-                            10 + ( ( TERMX > 80 ) ? ( TERMX - 80 ) / 2 : 0 ) );
-        draw_border( w );
-
         static const std::map<efftype_id, std::string> bad_effects = {{
             { effect_fungus, _( "Fungal Parasite" ) },
             { effect_dermatik, _( "Insect Parasite" ) },
@@ -264,10 +260,10 @@ bool player::activate_bionic( int b, bool eff_only )
             { effect_pkill2, _( "Moderate Painkiller" ) },
             { effect_pkill3, _( "Heavy Painkiller" ) },
             { effect_pkill_l, _( "Slow-Release Painkiller" ) },
-            
+
             { effect_pblue, _( "Prussian Blue" ) },
             { effect_iodine, _( "Potassium Iodide" ) },
-            
+
             { effect_took_xanax, _( "Xanax" ) },
             { effect_took_prozac, _( "Prozac" ) },
             { effect_took_flumed, _( "Antihistamines" ) },
@@ -296,14 +292,19 @@ bool player::activate_bionic( int b, bool eff_only )
             }
         }
 
+        const size_t win_h = std::min( static_cast<size_t>( TERMY ), bad.size() + good.size() + 2 );
+        const int win_w = 46;
+        WINDOW *w = newwin( win_h, win_w, ( TERMY - win_h ) / 2, ( TERMX - win_w ) / 2 );
+        draw_border( w, c_red, string_format( " %s ", _( "Blood Test Results" ) ) );
         if( good.empty() && bad.empty() ) {
-            mvwprintz( w, 1, 1, c_white, _( "No effects." ) );
+            trim_and_print( w, 1, 2, win_w - 3, c_white, _( "No effects." ) );
         } else {
-            for( unsigned line = 1; line < 39 && line <= good.size() + bad.size(); line++ ) {
+            for( size_t line = 1; line < ( win_h - 1 ) && line <= good.size() + bad.size(); ++line ) {
                 if( line <= bad.size() ) {
-                    mvwprintz( w, line, 1, c_red, "%s", bad[line - 1].c_str() );
+                    trim_and_print( w, line, 2, win_w - 3, c_red, "%s", bad[line - 1].c_str() );
                 } else {
-                    mvwprintz( w, line, 1, c_green, "%s", good[line - 1 - bad.size()].c_str() );
+                    trim_and_print( w, line, 2, win_w - 3, c_green, "%s",
+                                    good[line - 1 - bad.size()].c_str() );
                 }
             }
         }
