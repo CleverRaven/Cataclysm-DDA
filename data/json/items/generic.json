@@ -1743,12 +1743,11 @@
         "name": "glass shard",
         "category": "other",
         "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
-        "price": 0,
         "material": "glass",
         "weight": 89,
         "volume": 1,
         "cutting": 6,
-        "flags": ["HURT_WHEN_WIELDED", "HURT_WHEN_PULLED"],
+        "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
         "to_hit": -1
     },
     {
@@ -1836,11 +1835,11 @@
         "color": "green",
         "name": "pine bough",
         "description": "A branch from a pine tree, oozing sticky sap and bristling with prickly needles.",
-        "price": 0,
         "material": "wood",
         "weight": 220,
         "volume": 2,
-        "to_hit": -2
+        "to_hit": -2,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -1849,11 +1848,11 @@
         "color": "brown",
         "name": "pinecone",
         "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
-        "price": 0,
         "material": "wood",
         "weight": 90,
         "volume": 1,
-        "to_hit": -2
+        "to_hit": -2,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
