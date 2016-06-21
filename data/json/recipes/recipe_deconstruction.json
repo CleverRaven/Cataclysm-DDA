@@ -2201,7 +2201,7 @@
   "reversible": true,
   "autolearn": false,
   "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
-  "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ], [ "welder_crude", 750 ] ] ],
+  "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
   "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
 },{
   "type" : "recipe",
