@@ -509,8 +509,8 @@
       [
       [ "oxy_torch", 4 ],
       [ "welder", 20 ],
-      [ "welder_crude", 20 ],
-      [ "toolset", 20 ]
+      [ "welder_crude", 30 ],
+      [ "toolset", 30 ]
       ]
       ],
   "components":
@@ -827,8 +827,8 @@
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ],
       [ "small_repairkit", 150 ],
       [ "large_repairkit", 30 ]
     ]
@@ -865,8 +865,8 @@
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ],
       [ "small_repairkit", 150 ],
       [ "large_repairkit", 30 ]
     ]
@@ -901,8 +901,8 @@
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ],
       [ "small_repairkit", 150 ],
       [ "large_repairkit", 30 ]
     ]
@@ -2587,7 +2587,7 @@
       [ "oxy_torch", 3 ],
       [ "welder", 15 ],
       [ "welder_crude", 25 ],
-      [ "toolset", 15 ],
+      [ "toolset", 25 ],
       [ "small_repairkit", 15 ],
       [ "large_repairkit", 15 ]
     ]
@@ -3927,8 +3927,8 @@
       [
       [ "oxy_torch", 10 ],
       [ "welder", 50 ],
-      [ "welder_crude", 70 ],
-      [ "toolset", 70 ]
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ]
       ]
       ],
   "components":
@@ -6378,8 +6378,8 @@
     [
       [ "oxy_torch", 6 ],
       [ "welder", 30 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ]
+      [ "welder_crude", 45 ],
+      [ "toolset", 45 ]
     ],
     [
       [ "small_repairkit", 150 ],
@@ -6470,7 +6470,7 @@
 [
 [ "welder", 20 ],
 [ "welder_crude", 30 ],
-[ "toolset", 20 ],
+[ "toolset", 30 ],
 [ "soldering_iron", 30 ]
 ]
 ],
@@ -6618,8 +6618,8 @@
 [
 [ "oxy_torch", 6 ],
 [ "welder", 30 ],
-[ "welder_crude", 30 ],
-[ "toolset", 30 ]
+[ "welder_crude", 45 ],
+[ "toolset", 45 ]
 ]
 ],
 "components":
@@ -6804,8 +6804,8 @@
     [
       ["oxy_torch", 80],
       ["welder", 400],
-      ["welder_crude", 550],
-      ["toolset", 550]
+      ["welder_crude", 600],
+      ["toolset", 600]
     ]
   ],
   "components": [
