@@ -3405,15 +3405,16 @@
         ],
         "items": {
             "both": [
-                "under_armor_shorts"
-                "under_armor"
+                "under_armor_shorts",
+                "under_armor",
                 "shorts",
                 "gloves_wraps",
                 "boxing_gloves",
                 "headgear",
                 "mouthpiece",
                 "socks",
-                "boots"
+                "boots",
+                "towel"
             ],
             "female": [
                 "sports_bra"
