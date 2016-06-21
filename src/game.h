@@ -674,9 +674,6 @@ class game
         /** open vehicle interaction screen */
         void exam_vehicle(vehicle &veh, int cx = 0, int cy = 0);
 
-        bool make_drop_activity( enum activity_type act, const std::list<std::pair<int, int>> &dropped,
-                  const tripoint &target );
-
         // Forcefully close a door at p.
         // The function checks for creatures/items/vehicles at that point and
         // might kill/harm/destroy them.
@@ -767,8 +764,7 @@ class game
 
         void grab(); // Establish a grab on something.
         void compare( const tripoint &offset = tripoint_min ); // Compare items 'I'
-
-        void drop(int pos = INT_MIN); // Drop an item  'd'
+        void drop(int pos = INT_MIN, const tripoint &where = tripoint_min ); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='

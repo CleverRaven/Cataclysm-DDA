@@ -10521,11 +10521,7 @@ bool player::takeoff( const item &it )
     return takeoff( it, [ this ]( const item &it ) {
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ), it.tname().c_str() ) ) {
-                assign_activity( ACT_DROP, 0 );
-
-                activity.placement = tripoint();
-                activity.values.push_back( get_item_position( &it ) );
-                activity.values.push_back( 1 );
+                drop( get_item_position( &it ) );
             }
             return false; // Will takeoff during dropping
         }
@@ -10537,6 +10533,38 @@ bool player::takeoff( const item &it )
 bool player::takeoff( int pos )
 {
     return takeoff( i_at( pos ) );
+}
+
+void player::drop( int pos, const tripoint &where )
+{
+    const item &it = i_at( pos );
+    const int count = it.count_by_charges() ? it.charges : 1;
+
+    drop( { std::make_pair( pos, count ) }, where );
+}
+
+void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash )
+{
+    if( what.empty() ) {
+        return;
+    }
+
+    const tripoint target = ( where != tripoint_min ) ? where : pos();
+    if( rl_dist( pos(), target ) > 1 || !( stash || g->m.can_put_items( target ) ) ) {
+        add_msg_player_or_npc( m_info, _( "You can't place items here!" ),
+                                       _( "<npcname> can't place items here!" ) );
+        return;
+    }
+
+    assign_activity( stash ? ACT_STASH : ACT_DROP, 0 );
+    activity.placement = target - pos();
+
+    for( auto item_pair : what ) {
+        if( can_unwield( i_at( item_pair.first ) ) ) {
+            activity.values.push_back( item_pair.first );
+            activity.values.push_back( item_pair.second );
+        }
+    }
 }
 
 void player::use_wielded() {

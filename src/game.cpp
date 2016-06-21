@@ -7892,11 +7892,14 @@ bool pet_menu(monster *z)
             return true;
         }
 
-        bool success = g->make_drop_activity( ACT_STASH, g->multidrop(), z->pos() );
-        if( success ) {
+        const auto items_to_stash = g->multidrop();
+        if( !items_to_stash.empty() ) {
+            g->u.drop( items_to_stash, z->pos(), true );
             z->add_effect( effect_controlled, 5);
+            return true;
         }
-        return success;
+
+        return false;
     }
 
     if (pheromone == choice && query_yn(_("Really kill the zombie slave?"))) {
@@ -10375,38 +10378,23 @@ bool game::handle_liquid( item &liquid, item * const source, const int radius,
     return true;
 }
 
-void game::drop(int pos)
+void game::drop( int pos, const tripoint &where )
 {
-    if( pos == -1 && !u.can_unwield( u.weapon ) ) {
-        return;
-    }
-
-    if (!m.can_put_items(u.pos())) {
-        add_msg(m_info, _("You can't place items here!"));
-        return;
-    }
-
-    if (pos == INT_MIN) {
-        make_drop_activity( ACT_DROP, multidrop(), u.pos() );
+    if( pos != INT_MIN ) {
+        u.drop( pos, where );
     } else {
-        make_drop_activity( ACT_DROP, { std::make_pair( pos, 1 ) }, u.pos() );
+        u.drop( multidrop(), where );
     }
 }
 
 void game::drop_in_direction()
 {
     tripoint dirp;
-    if (!choose_adjacent(_("Drop where?"), dirp)) {
-        return;
-    }
 
-    if (!m.can_put_items(dirp)) {
-        add_msg(m_info, _("You can't place items there!"));
-        return;
+    if( choose_adjacent( _( "Drop where?" ), dirp ) ) {
+        refresh_all();
+        drop( INT_MIN, dirp );
     }
-
-    refresh_all();
-    make_drop_activity( ACT_DROP, multidrop(), dirp );
 }
 
 void game::reassign_item( int pos )

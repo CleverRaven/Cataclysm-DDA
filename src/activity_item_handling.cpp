@@ -37,22 +37,6 @@ struct act_item {
 // @todo Deliberately unified with multidrop. Unify further.
 typedef std::list<std::pair<int, int>> drop_indexes;
 
-bool game::make_drop_activity( enum activity_type act,
-                               const drop_indexes &dropped,
-                               const tripoint &target )
-{
-    if( dropped.empty() ) {
-        return false;
-    }
-    u.assign_activity( act, 0 );
-    u.activity.placement = target - u.pos();
-    for( auto item_pair : dropped ) {
-        u.activity.values.push_back( item_pair.first );
-        u.activity.values.push_back( item_pair.second );
-    }
-    return true;
-}
-
 bool same_type( const std::vector<item> &items )
 {
     if( items.size() <= 1 ) {

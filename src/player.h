@@ -873,6 +873,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool takeoff( const item &it, std::function<bool( const item & )> interact );
         bool takeoff( const item &it );
         bool takeoff( int pos );
+        /** Drops an item to the specified location */
+        void drop( int pos, const tripoint &where = tripoint_min );
+        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where = tripoint_min, bool stash = false );
 
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
          *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
