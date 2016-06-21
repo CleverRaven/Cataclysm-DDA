@@ -3384,7 +3384,7 @@
                 "type": "profession",
         "ident": "boxer",
         "name": "Boxer",
-        "description": "You were training for the fight of your life before the Cataclysm struck. Now you fight just to keep yourself alive.",
+        "description": "You were training for the fight of your life before the Cataclysm struck.  Now you fight just to keep yourself alive.",
         "points": 3,
         "traits": [
             "PROF_BOXER"
