@@ -251,19 +251,72 @@ std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
     return res;
 }
 
-// Prepares items for dropping by ordering them so that drop cost is minimal
-std::list<act_item> order_to_drop( const player &p, const drop_indexes &drop )
+// Prepares items for dropping by reordering them so that the drop
+// cost is minimal and "dependent" items get taken off first.
+// Implements the "backpack" logic.
+std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &drop )
 {
-    std::list<act_item> res;
+    auto res  = convert_to_items( p, drop, -1, -1 );
+    auto inv  = convert_to_items( p, drop, 0, INT_MAX );
+    auto worn = convert_to_items( p, drop, INT_MIN, -2 );
 
-    auto weapons = convert_to_items( p, drop, -1, -1 );
-    auto inventory_items = convert_to_items( p, drop, 0, INT_MAX );
-    auto worn_items = convert_to_items( p, drop, INT_MIN, -2 );
+    // Sort inventory items by volume in ascending order
+    inv.sort( []( const act_item & first, const act_item & second ) {
+        return first.it->volume() < second.it->volume();
+    } );
+    // Add missing dependent worn items (if any).
+    for( const auto &wait : worn ) {
+        for( const auto dit : p.get_dependent_worn_items( *wait.it ) ) {
+            const auto iter = std::find_if( worn.begin(), worn.end(),
+            [ dit ]( const act_item & ait ) {
+                return ait.it == dit;
+            } );
 
-    //@todo Implement smart ordering
-    std::copy( weapons.begin(), weapons.end(), std::back_inserter( res ) );
-    std::copy( inventory_items.begin(), inventory_items.end(), std::back_inserter( res ) );
-    std::copy( worn_items.begin(), worn_items.end(), std::back_inserter( res ) );
+            if( iter == worn.end() ) {
+                worn.emplace_front( dit, dit->count_by_charges() ? dit->charges : 1,
+                                    100 ); // @todo Use a calculated cost
+            }
+        }
+    }
+    // Sort worn items by storage in descending order, but dependent items always go first.
+    worn.sort( []( const act_item & first, const act_item & second ) {
+        return first.it->is_worn_only_with( *second.it )
+               || ( ( first.it->get_storage() > second.it->get_storage() )
+                    && !second.it->is_worn_only_with( *first.it ) );
+    } );
+
+    int remaining_storage = p.volume_capacity(); // Cumulatively decreases
+    int storage_loss = 0;                        // Cumulatively increases
+
+    while( !worn.empty() && !inv.empty() ) {
+        storage_loss += worn.front().it->get_storage();
+        const int freed_storage = remaining_storage - p.volume_capacity_reduced_by( storage_loss );
+        remaining_storage -= freed_storage;
+
+        if( freed_storage < inv.front().it->volume() ) {
+            break; // Does not fit
+        }
+
+        res.push_back( worn.front() );
+        worn.pop_front();
+
+        int dropped_volume = 0; // Cumulatively increases
+        while( !inv.empty() ) {
+            dropped_volume += inv.front().it->volume();
+
+            if( dropped_volume > freed_storage ) {
+                break; // Does not fit
+            }
+
+            res.push_back( inv.front() );
+            res.back().consumed_moves = 0; // Free of charge
+
+            inv.pop_front();
+        }
+    }
+    // Now insert everything that remains
+    std::copy( inv.begin(), inv.end(), std::back_inserter( res ) );
+    std::copy( worn.begin(), worn.end(), std::back_inserter( res ) );
 
     return res;
 }
@@ -287,7 +340,7 @@ std::vector<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::vector<item> res;
 
-    auto items = order_to_drop( p, convert_to_indexes( act ) );
+    auto items = reorder_for_dropping( p, convert_to_indexes( act ) );
 
     debug_drop_list( items );
 
