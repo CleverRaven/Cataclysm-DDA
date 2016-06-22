@@ -117,28 +117,14 @@ void veh_interact::exec(vehicle *v)
 
 void veh_interact::allocate_windows()
 {
-    // main window should also expand to use available display space.
-    // expanding to evenly use up half of extra space, for now.
-    const int extra_w = ((TERMX - FULL_SCREEN_WIDTH) / 4) * 2;
-    const int extra_h = ((TERMY - FULL_SCREEN_HEIGHT) / 4) * 2;
-    const int total_w = FULL_SCREEN_WIDTH + extra_w;
-    const int total_h = FULL_SCREEN_HEIGHT + extra_h;
-
-    // position of window within main display
-    const int x0 = (TERMX - total_w) / 2;
-    const int y0 = (TERMY - total_h) / 2;
-
     // border window
-    WINDOW *w_border = newwin(total_h, total_w, y0, x0);
+    WINDOW *w_border = newwin( TERMY, TERMX, 0, 0 );
     draw_border(w_border);
 
     // grid window
-    const int grid_w = total_w - 2; // exterior borders take 2
-    const int grid_h = total_h - 2; // exterior borders take 2
-    w_grid = newwin(grid_h, grid_w, y0 + 1, x0 + 1);
-
-    int mode_x, mode_y, msg_x, disp_x, parts_x;
-    int stats_x, stats_y, list_x, name_x, name_y;
+    const int grid_w = TERMX - 2; // exterior borders take 2
+    const int grid_h = TERMY - 2; // exterior borders take 2
+    w_grid = newwin(grid_h, grid_w, 1, 1);
 
     int mode_h  = 1;
     int name_h  = 1;
@@ -146,7 +132,7 @@ void veh_interact::allocate_windows()
 
     page_size = grid_h - ( mode_h + stats_h + name_h ) - 2;
 
-    int pane_y = y0 + 1 + mode_h + 1;
+    int pane_y = 1 + mode_h + 1;
 
     int pane_w = ( grid_w / 3 ) - 1;
 
@@ -155,34 +141,28 @@ void veh_interact::allocate_windows()
     int parts_h = page_size - disp_h;
     int parts_y = pane_y + disp_h;
 
-    mode_y = y0 + 1;
-    name_y = pane_y + page_size + 1;
-    stats_y = name_y + name_h;
+    int name_y = pane_y + page_size + 1;
+    int stats_y = name_y + name_h;
 
-    mode_x  = x0 + 1;
-    disp_x  = x0 + 1;
-    parts_x = x0 + 1;
-    name_x  = x0 + 1;
-    stats_x = x0 + 1;
-
-    list_x = disp_x + disp_w + 1;
-    msg_x  = list_x + pane_w + 1;
+    int list_x = 1 + disp_w + 1;
+    int msg_x  = list_x + pane_w + 1;
 
     // match grid lines
     mvwputch(w_border, mode_h + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_border, mode_h + 1, TERMX - 1, BORDER_COLOR, LINE_XOXX); // -|
     mvwputch(w_border, mode_h + 1 + page_size + 1, 0, BORDER_COLOR, LINE_XXXO); // |-
-    mvwputch(w_border, mode_h + 1 + page_size + 1, total_w - 1, BORDER_COLOR, LINE_XOXX); // -|
+    mvwputch(w_border, mode_h + 1 + page_size + 1, TERMX - 1, BORDER_COLOR, LINE_XOXX); // -|
 
     // make the windows
-    w_mode  = newwin(mode_h,  grid_w,  mode_y,  mode_x );
-    w_msg   = newwin(page_size, pane_w, pane_y, msg_x  );
-    w_disp  = newwin(disp_h, disp_w, pane_y, disp_x );
-    w_parts = newwin(parts_h, disp_w, parts_y, parts_x);
-    w_list  = newwin(page_size, pane_w, pane_y, list_x );
-    w_details = NULL;  // only pops up when in install menu
-    w_stats = newwin(stats_h, grid_w, stats_y, stats_x);
-    w_name  = newwin(name_h,  grid_w,  name_y,  name_x );
+    w_mode  = newwin( mode_h,    grid_w, 1,       1 );
+    w_msg   = newwin( page_size, pane_w, pane_y,  msg_x  );
+    w_disp  = newwin( disp_h,    disp_w, pane_y,  1 );
+    w_parts = newwin( parts_h,   disp_w, parts_y, 1);
+    w_list  = newwin( page_size, pane_w, pane_y,  list_x );
+    w_stats = newwin( stats_h,   grid_w, stats_y, 1 );
+    w_name  = newwin( name_h,    grid_w, name_y,  1 );
+
+    w_details = NULL; // only pops up when in install menu
 
     wrefresh(w_border);
     delwin( w_border );
