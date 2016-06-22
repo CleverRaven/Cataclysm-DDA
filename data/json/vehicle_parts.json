@@ -1702,7 +1702,19 @@
         "item" : "processor",
         "difficulty" : 6,
         "location" : "on_controls",
-        "flags" : ["ON_CONTROLS", "DIFFICULTY_REMOVE", "SECURITY"],
+        "requirements": {
+          "install": {
+            "time": 30000,
+            "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
+            "qualities": [ { "id": "SCREW", "level": 2 } ],
+            "components": [ [ [ "processor", 1 ] ] ]
+          },
+          "removal": {
+            "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
+            "qualities": [ { "id": "SCREW", "level": 2 } ]
+          }
+        },
+        "flags" : ["ON_CONTROLS", "SECURITY"],
         "breaks_into" : [
             {"item": "scrap", "prob": 50},
             {"item": "e_scrap", "count": [0, 3]}

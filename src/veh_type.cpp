@@ -373,7 +373,7 @@ void vpart_info::check()
             part.install_reqs.components = { { { { part.item, 1 } } } };
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
-            part.removal_skills.emplace( skill_mechanics, part.difficulty );
+            part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
                 part.install_reqs.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
