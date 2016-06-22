@@ -328,7 +328,7 @@ std::vector<item> obtain_activity_items( player_activity &act, player &p )
 
     debug_drop_list( items );
 
-    while( !items.empty() && ( p.moves > 0 || items.front().consumed_moves == 0 ) ) {
+    while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
         const auto &ait = items.front();
 
         p.mod_moves( -ait.consumed_moves );

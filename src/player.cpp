@@ -10545,6 +10545,8 @@ void player::drop( int pos, const tripoint &where )
 
 void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash )
 {
+    const activity_type type = stash ? ACT_STASH : ACT_DROP;
+
     if( what.empty() ) {
         return;
     }
@@ -10556,7 +10558,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
         return;
     }
 
-    assign_activity( stash ? ACT_STASH : ACT_DROP, 0 );
+    assign_activity( type, 0 );
     activity.placement = target - pos();
 
     for( auto item_pair : what ) {
@@ -10564,6 +10566,10 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &w
             activity.values.push_back( item_pair.first );
             activity.values.push_back( item_pair.second );
         }
+    }
+    // @todo Remove the hack. Its here because npcs don't process activities
+    if( is_npc() ) {
+        activity.do_turn( this );
     }
 }
 
