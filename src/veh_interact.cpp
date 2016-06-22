@@ -255,9 +255,7 @@ void veh_interact::cache_tool_availability()
                   crafting_inv.has_charges("welder_crude", charges_crude)) ||
                  (crafting_inv.has_tools("toolset", 1) &&
                   crafting_inv.has_charges("toolset", charges_crude));
-    has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED) ||
-                     (crafting_inv.has_tools("toolbox", 1) &&
-                      crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
+    has_duct_tape = crafting_inv.has_charges( "duct_tape", DUCT_TAPE_USED );
 
     has_wheel = crafting_inv.has_components( "wheel", 1 ) ||
                 crafting_inv.has_components( "wheel_wide", 1 ) ||
@@ -2173,7 +2171,6 @@ void complete_vehicle ()
             tools.emplace_back( "toolset", welder_crude_charges * dmg );
         }
         tools.emplace_back( "duct_tape", DUCT_TAPE_USED * dmg );
-        tools.emplace_back( "toolbox", DUCT_TAPE_USED * dmg );
 
         g->u.consume_tools( tools, 1, repair_hotkeys );
         add_msg( m_good, _( "You repair the %1$s's %2$s." ), veh->name.c_str(), name.c_str() );
