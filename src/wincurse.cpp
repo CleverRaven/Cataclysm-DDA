@@ -725,4 +725,8 @@ void curses_timeout(int t)
     inputdelay = t;
 }
 
+void handle_additional_window_clear(WINDOW*)
+{
+}
+
 #endif

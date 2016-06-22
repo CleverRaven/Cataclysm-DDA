@@ -190,6 +190,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     const mtype *corpse = corpse_item.get_mtype();
     auto contents = corpse_item.contents;
     const int age = corpse_item.bday;
+    itype_id meat = corpse->get_meat_itype();
+    if( corpse->made_of( material_id( "bone" ) ) ) {
+        //For butchering yield purposes, we treat it as bones, not meat
+        meat = "null";
+    }
     g->m.i_rem( p->pos(), act->index );
 
     const int factor = p->max_quality( quality_id( "BUTCHER" ) );
@@ -292,6 +297,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.spawn_item( p->pos(), "bone", bones, 0, age );
             p->add_msg_if_player( m_good, _( "You harvest some usable bones!" ) );
         }
+    } else if( meat == "null" && corpse->has_flag( MF_BONES ) ) {
+        //print a failure message only if the corpse doesn't have meat and has bones
+        p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the bones!" ) );
     }
 
     if( sinews > 0 ) {
@@ -460,25 +468,26 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
     }
 
-    if( pieces <= 0 ) {
-        p->add_msg_if_player(m_bad, _("Your clumsy butchering destroys the flesh!"));
-    } else {
-        p->add_msg_if_player(m_good, _("You harvest some flesh."));
-        const itype_id meat = corpse->get_meat_itype();
-        if( meat == "null" ) {
-            return;
-        }
+    //now handle the meat, if there is any
+    if( meat!= "null" ) {
+        if( pieces <= 0 ) {
+            p->add_msg_if_player( m_bad, _( "Your clumsy butchering destroys the flesh!" ) );
+        } else {
+            p->add_msg_if_player( m_good, _( "You harvest some flesh." ) );
 
-        item chunk( meat, age );
-        chunk.set_mtype( corpse );
+            item chunk( meat, age );
+            chunk.set_mtype( corpse );
 
-        // for now don't drop non-tainted parts overhaul of taint system to not require excessive item duplication
-        item parts( chunk.is_tainted() || chunk.has_flag( "CANNIBALISM" ) ? meat : "offal", age );
-        parts.set_mtype( corpse );
+            // for now don't drop tainted or cannibal. parts overhaul of taint system to not require excessive item duplication
+            bool make_offal = !chunk.is_tainted() && !chunk.has_flag( "CANNIBALISM" ) &&
+                              !chunk.made_of ( material_id ( "veggy" ) );
+            item parts( make_offal ? "offal" : meat, age );
+            parts.set_mtype( corpse );
 
-        g->m.add_item_or_charges( p->pos(), chunk );
-        for( int i = 1; i <= pieces; ++i ) {
-            g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
+            g->m.add_item_or_charges( p->pos(), chunk );
+            for( int i = 1; i <= pieces; ++i ) {
+                g->m.add_item_or_charges( p->pos(), one_in( 3 ) ? parts : chunk );
+            }
         }
     }
 

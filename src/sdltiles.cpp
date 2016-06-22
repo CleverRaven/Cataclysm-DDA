@@ -226,6 +226,7 @@ static std::vector<curseline> oversized_framebuffer;
 static std::vector<curseline> terminal_framebuffer;
 static WINDOW *winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
+extern WINDOW *w_hit_animation; //this window overlays w_terrain which can be oversized
 
 //***********************************
 //Tile-version specific functions   *
@@ -776,13 +777,66 @@ void reinitialize_framebuffer()
     }
 }
 
+void invalidate_framebuffer_proportion( WINDOW* win )
+{
+    const int oversized_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH ) );
+    const int oversized_height = std::max( TERMY, std::max( OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT ) );
+
+    // check if the framebuffers/windows have been prepared yet
+    if ( oversized_height == 0 || oversized_width == 0 ) {
+        return;
+    }
+    if ( !g || win == nullptr ) {
+        return;
+    }
+    if ( win == g->w_overmap || win == g->w_terrain || win == w_hit_animation ) {
+        return;
+    }
+
+    // track the dimensions for conversion
+    const int termpixel_x = win->x * font->fontwidth;
+    const int termpixel_y = win->y * font->fontheight;
+    const int termpixel_x2 = termpixel_x + win->width * font->fontwidth - 1;
+    const int termpixel_y2 = termpixel_y + win->height * font->fontheight - 1;
+
+    if ( map_font != nullptr && map_font->fontwidth != 0 && map_font->fontheight != 0 ) {
+        const int mapfont_x = termpixel_x / map_font->fontwidth;
+        const int mapfont_y = termpixel_y / map_font->fontheight;
+        const int mapfont_x2 = std::min( termpixel_x2 / map_font->fontwidth, oversized_width - 1 );
+        const int mapfont_y2 = std::min( termpixel_y2 / map_font->fontheight, oversized_height - 1 );
+        const int mapfont_width = mapfont_x2 - mapfont_x + 1;
+        const int mapfont_height = mapfont_y2 - mapfont_y + 1;
+        invalidate_framebuffer( oversized_framebuffer, mapfont_x, mapfont_y, mapfont_width, mapfont_height );
+    }
+
+    if ( overmap_font != nullptr && overmap_font->fontwidth != 0 && overmap_font->fontheight != 0 ) {
+        const int overmapfont_x = termpixel_x / overmap_font->fontwidth;
+        const int overmapfont_y = termpixel_y / overmap_font->fontheight;
+        const int overmapfont_x2 = std::min( termpixel_x2 / overmap_font->fontwidth, oversized_width - 1 );
+        const int overmapfont_y2 = std::min( termpixel_y2 / overmap_font->fontheight, oversized_height - 1 );
+        const int overmapfont_width = overmapfont_x2 - overmapfont_x + 1;
+        const int overmapfont_height = overmapfont_y2 - overmapfont_y + 1;
+        invalidate_framebuffer( oversized_framebuffer, overmapfont_x, overmapfont_y, overmapfont_width, overmapfont_height );
+    }
+}
+
+// clear the framebuffer when werase is called on certain windows that don't use the main terminal font
+void handle_additional_window_clear( WINDOW* win )
+{
+    if ( !g ) {
+        return;
+    }
+    if( win == g->w_terrain || win == g->w_overmap ){
+        invalidate_framebuffer( oversized_framebuffer );
+    }
+}
+
 void clear_window_area(WINDOW* win)
 {
     FillRectDIB(win->x * fontwidth, win->y * fontheight,
                 win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
 }
 
-extern WINDOW *w_hit_animation;
 void curses_drawwindow(WINDOW *win)
 {
     bool update = false;
@@ -877,6 +931,9 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
     //Specifically when showing the overmap
     //And in some instances of screen change, i.e. inventory.
     bool oldWinCompatible = false;
+
+    // clear the oversized buffer proportionally
+    invalidate_framebuffer_proportion( win );
 
     // use the oversize buffer when dealing with windows that can have a different font than the main text font
     bool use_oversized_framebuffer = g && ( win == g->w_terrain || win == g->w_overmap ||

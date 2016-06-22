@@ -181,7 +181,7 @@
             "items": [
                 { "item": "withered", "prob": 50 },
                 { "item": "wrapper", "prob": 50 },
-                { "item": "can_drink", "prob": 50 },
+                { "item": "can_drink_unsealed", "prob": 50 },
                 { "item": "bag_plastic", "prob": 50 },
                 { "item": "ceramic_shard", "count": [1, 3] },
                 { "item": "cig_butt", "prob": 50 }
@@ -1784,7 +1784,7 @@
             "items": [
                 { "item": "withered", "prob": 50 },
                 { "item": "wrapper", "prob": 50 },
-                { "item": "can_drink", "prob": 50 },
+                { "item": "can_drink_unsealed", "prob": 50 },
                 { "item": "bag_plastic", "prob": 50 },
                 { "item": "ceramic_shard", "count": [1, 3] },
                 { "item": "cig_butt", "prob": 50 }

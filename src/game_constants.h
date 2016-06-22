@@ -82,7 +82,13 @@
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500000 // 500kg/level
 
+/** Cap JACK requirements to support arbritrarily large vehicles */
+#define JACK_LIMIT 6000000 // 6000kg (6 metric tonnes)
+
 /** Maximum density of a map field */
 #define MAX_FIELD_DENSITY 3
+
+/** Maximum (effective) level for a skill */
+#define MAX_SKILL 10
 
 #endif

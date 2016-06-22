@@ -104,7 +104,8 @@ automatically_convertible = {
     "VAR_VEH_PART",
     "vehicle",
     "vehicle_part",
-    "vitamin"
+    "vitamin",
+    "WHEEL"
 }
 
 # for these objects a plural form is needed

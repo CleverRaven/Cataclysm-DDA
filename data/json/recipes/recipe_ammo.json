@@ -785,8 +785,8 @@
       [ "string_36", 1 ]
     ],
     [
-      [ "can_food", 1 ],
-      [ "can_drink", 1 ],
+      [ "can_food_unsealed", 1 ],
+      [ "can_drink_unsealed", 1 ],
       [ "canister_empty", 1 ]
     ],
     [
@@ -2909,8 +2909,8 @@
     ],
     "components": [
     [
-      [ "can_drink", 2 ],
-      [ "can_food", 2 ],
+      [ "can_drink_unsealed", 2 ],
+      [ "can_food_unsealed", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -2942,8 +2942,8 @@
     ],
     "components": [
     [
-      [ "can_drink", 2 ],
-      [ "can_food", 2 ],
+      [ "can_drink_unsealed", 2 ],
+      [ "can_food_unsealed", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -2975,8 +2975,8 @@
     ],
     "components": [
     [
-      [ "can_drink", 2 ],
-      [ "can_food", 2 ],
+      [ "can_drink_unsealed", 2 ],
+      [ "can_food_unsealed", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -3008,8 +3008,8 @@
     ],
     "components": [
     [
-      [ "can_drink", 2 ],
-      [ "can_food", 2 ],
+      [ "can_drink_unsealed", 2 ],
+      [ "can_food_unsealed", 2 ],
       [ "scrap", 4 ]
     ],
       [
@@ -3041,8 +3041,8 @@
     ],
     "components": [
     [
-      [ "can_drink", 2 ],
-      [ "can_food", 2 ],
+      [ "can_drink_unsealed", 2 ],
+      [ "can_food_unsealed", 2 ],
       [ "scrap", 4 ]
     ],
       [

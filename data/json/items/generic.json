@@ -91,7 +91,7 @@
         "symbol" : ",",
         "material" : ["paper"],
         "volume" : 1,
-        "price" : 0
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -100,12 +100,12 @@
         "color": "light_gray",
         "name": "withered plant",
         "description": "A dead plant.  Good for starting fires.",
-        "price": 100,
         "material": "paper",
         "weight": 20,
         "volume": 1,
         "bashing": -8,
-        "to_hit": -2
+        "to_hit": -2,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -322,13 +322,13 @@
         "color": "light_gray",
         "name": "empty canister",
         "description": "An empty canister, which may have once held tear gas or other substances.",
-        "price": 100,
         "material": "aluminum",
         "weight": 158,
         "volume": 1,
         "bashing": 2,
         "to_hit": -1,
-        "qualities": [["BOIL", 2], ["CONTAIN", 1]]
+        "qualities": [ ["BOIL", 2], ["CONTAIN", 1] ],
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -553,12 +553,12 @@
         "name": "splintered wood",
         "description": "A splintered piece of wood, useless as anything but kindling.",
         "category": "other",
-        "price": 0,
         "material": "wood",
         "weight": 453,
         "volume": 1,
         "bashing": 4,
-        "to_hit": 1
+        "to_hit": 1,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -568,9 +568,8 @@
         "name": "skewer",
         "description": "A thin wooden skewer.  Squirrel on a stick, anyone?",
         "category": "other",
-        "price": 0,
         "material": "wood",
-        "flags": ["NO_SALVAGE"],
+        "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
         "weight": 6,
         "volume": 0,
         "to_hit": -5,
@@ -584,8 +583,8 @@
         "name": "bone skewer",
         "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
         "category": "other",
-        "price": 0,
         "material": "bone",
+        "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
         "weight": 10,
         "volume": 0,
         "to_hit": -5,
@@ -600,7 +599,6 @@
         "name_plural": "burnt out torches",
         "description": "A torch that has consumed all its fuel; it can be recrafted into another torch.",
         "category": "other",
-        "price": 0,
         "material": "wood",
         "weight": 751,
         "volume": 3,
@@ -617,7 +615,6 @@
         "name": "dead flare",
         "name_plural": "dead flares",
         "description": "This is a spent magnesium flare.  It is essentially trash.",
-        "price": 0,
         "material": "plastic",
         "flags": "TRADER_AVOID",
         "weight": 39,
@@ -1466,7 +1463,6 @@
         "color": "red",
         "name": "blood soaked rag",
         "description": "A large rag, drenched in blood.  It could be cleaned with boiling water.",
-        "price": 0,
         "material": "cotton",
         "flags": ["NO_SALVAGE", "TRADER_AVOID"],
         "weight": 80,
@@ -1747,12 +1743,11 @@
         "name": "glass shard",
         "category": "other",
         "description": "A broken shard of glass covered in sharp edges.  You could use it as a weapon, but you might want to wear gloves.",
-        "price": 0,
         "material": "glass",
         "weight": 89,
         "volume": 1,
         "cutting": 6,
-        "flags": ["HURT_WHEN_WIELDED", "HURT_WHEN_PULLED"],
+        "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
         "to_hit": -1
     },
     {
@@ -1840,11 +1835,11 @@
         "color": "green",
         "name": "pine bough",
         "description": "A branch from a pine tree, oozing sticky sap and bristling with prickly needles.",
-        "price": 0,
         "material": "wood",
         "weight": 220,
         "volume": 2,
-        "to_hit": -2
+        "to_hit": -2,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -1853,11 +1848,11 @@
         "color": "brown",
         "name": "pinecone",
         "description": "A spiny pod from a pine tree.  Dry seeds rattle around inside when you shake it.",
-        "price": 0,
         "material": "wood",
         "weight": 90,
         "volume": 1,
-        "to_hit": -2
+        "to_hit": -2,
+        "flags": [ "TRADER_AVOID" ]
     },
     {
         "type":"GENERIC",
@@ -2326,7 +2321,6 @@
         "name_plural": "piles of straw",
         "category": "spare_parts",
         "description": "A pile of dry grass.  Can be used if there is nothing else to sleep on.",
-        "price": 0,
         "material": ["paper"],
         "flags": "TRADER_AVOID",
         "weight": 20,
