@@ -1046,7 +1046,8 @@
         "material" : "alcohol",
         "volume" : 1,
         "phase" : "liquid",
-        "charges" : 7,
+        "charges" : 1,
+        "stack_size" : 7,
         "flags" : ["EATEN_COLD"],
         "fun" : 5
     },
