@@ -385,6 +385,8 @@ void vpart_info::check()
                 part.install_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
                 part.removal_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
                 part.install_reqs.components.push_back( { { { "nail", 20 } } } );
+            } else if( part.has_flag( "TOOL_NONE" ) {
+                // intentional no-op as we require nothing
             } else {
                 part.install_reqs.components.push_back( { { { "duct_tape", 20 } } } );
             }
