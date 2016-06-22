@@ -535,7 +535,7 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test" ) {
     run_spot_check( test_case, expected_results );
 }
 
-TEST_CASE( "shadowcasting_pillar_behavior" ) {
+TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent" ) {
     grid_overlay test_case( { 64, 61 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T},
@@ -560,6 +560,36 @@ TEST_CASE( "shadowcasting_pillar_behavior" ) {
         {V,V,V,V,V,O,O,O,O},
         {V,V,V,V,V,V,O,O,O},
         {V,V,V,V,V,V,V,O,O}
+    };
+
+    run_spot_check( test_case, expected_results );
+}
+
+TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap" ) {
+    grid_overlay test_case( { 64, 64 }, LIGHT_TRANSPARENCY_CLEAR );
+    test_case.data = {
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,O,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T}
+    };
+
+    grid_overlay expected_results( { 64, 64 }, LIGHT_TRANSPARENCY_CLEAR );
+    expected_results.data = {
+        {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
+        {V,X,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,O,O,O,V,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,V,O,O,O,O,O,O,O,V,V,V,V,V},
+        {V,V,V,V,V,V,V,O,O,O,O,O,O,O,O,O,O,O},
+        {V,V,V,V,V,V,V,V,O,O,O,O,O,O,O,O,O,O},
+        {V,V,V,V,V,V,V,V,V,O,O,O,O,O,O,O,O,O},
+        {V,V,V,V,V,V,V,V,V,V,O,O,O,O,O,O,O,O},
     };
 
     run_spot_check( test_case, expected_results );
