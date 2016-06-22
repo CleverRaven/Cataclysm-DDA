@@ -1706,12 +1706,12 @@
           "install": {
             "time": 30000,
             "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
-            "qualities": [ { "id": "SCREW", "level": 2 } ],
+            "qualities": [ { "id": "SCREW_F", "level": 1 } ],
             "components": [ [ [ "processor", 1 ] ] ]
           },
           "removal": {
             "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
-            "qualities": [ { "id": "SCREW", "level": 2 } ]
+            "qualities": [ { "id": "SCREW_F", "level": 1 } ]
           }
         },
         "flags" : ["ON_CONTROLS", "SECURITY"],
