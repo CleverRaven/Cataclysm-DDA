@@ -595,6 +595,35 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap" ) {
     run_spot_check( test_case, expected_results );
 }
 
+TEST_CASE( "shadowcasting_vision_along_a_wall" ) {
+    grid_overlay test_case( { 57, 63 }, LIGHT_TRANSPARENCY_CLEAR );
+    test_case.data = {
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
+        {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T}
+    };
+
+    grid_overlay expected_results( { 57, 63 }, LIGHT_TRANSPARENCY_CLEAR );
+    expected_results.data = {
+        {O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
+        {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,V,V,V,X,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
+        {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V}
+    };
+
+    run_spot_check( test_case, expected_results );
+}
+
 // Some random edge cases aren't matching.
 TEST_CASE("shadowcasting_runoff", "[.]") {
     shadowcasting_runoff(1);
