@@ -59,8 +59,8 @@ void act_vehicle_siphon(vehicle* veh);
 /**
  * Creates a blank veh_interact window.
  */
-veh_interact::veh_interact ()
-    : main_context("VEH_INTERACT")
+veh_interact::veh_interact( vehicle &veh, int x, int y )
+    : ddx( x ), ddy( y ), veh( &veh ), main_context( "VEH_INTERACT" )
 {
     // Only build the shapes map and the wheel list once
     for( auto vp : vpart_info::get_all() ) {
@@ -85,15 +85,7 @@ veh_interact::veh_interact ()
     main_context.register_action("NEXT_TAB");
     main_context.register_action("CONFIRM");
     main_context.register_action("HELP_KEYBINDINGS");
-}
 
-/**
- * Creates a veh_interact window based on the given parameters.
- * @param v The vehicle the player is interacting with.
- */
-void veh_interact::exec(vehicle *v)
-{
-    veh = v;
     countDurability();
     cache_tool_availability();
     allocate_windows();

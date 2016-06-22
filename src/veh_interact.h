@@ -35,6 +35,8 @@ struct vehicle_part;
 class veh_interact
 {
     public:
+        veh_interact( vehicle &veh, int x, int y );
+
         int ddx = 0;
         int ddy = 0;
         const vpart_info *sel_vpart_info = nullptr;
@@ -170,10 +172,6 @@ class veh_interact
         void allocate_windows();
         void do_main_loop();
         void deallocate_windows();
-
-    public:
-        veh_interact();
-        void exec( vehicle *v );
 };
 
 void complete_vehicle();
