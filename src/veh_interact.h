@@ -30,6 +30,7 @@ enum task_reason {
 };
 
 class vehicle;
+struct vehicle_part;
 
 class veh_interact
 {
@@ -37,10 +38,16 @@ class veh_interact
         int ddx = 0;
         int ddy = 0;
         const vpart_info *sel_vpart_info = nullptr;
-        const struct vehicle_part *sel_vehicle_part = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
 
+        /** Get selected vehicle part (if any) */
+        const vehicle_part *part() const {
+            return sel_vehicle_part;
+        }
+
     private:
+        const vehicle_part *sel_vehicle_part = nullptr;
+
         int cpart = -1;
         int page_size;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
