@@ -388,7 +388,7 @@ item item::in_container( const itype_id &cont ) const
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            ret.contents.back().charges = liquid_charges( ret.type->container->contains );
+            ret.contents.back().charges = liquid_charges( ret.get_container_capacity() );
         }
 
         ret.invlet = invlet;
@@ -3576,7 +3576,7 @@ bool item::is_funnel_container(int &bigger_than) const
         return false;
     }
     // todo; consider linking funnel to item or -making- it an active item
-    if ( type->container->contains <= bigger_than ) {
+    if ( get_container_capacity() <= bigger_than ) {
         return false; // skip contents check, performance
     }
     if (
@@ -3584,7 +3584,7 @@ bool item::is_funnel_container(int &bigger_than) const
         contents.front().typeId() == "water" ||
         contents.front().typeId() == "water_acid" ||
         contents.front().typeId() == "water_acid_weak") {
-        bigger_than = type->container->contains;
+        bigger_than = get_container_capacity();
         return true;
     }
     return false;
@@ -4931,6 +4931,14 @@ int item::getlight_emit() const
     return lumint;
 }
 
+long item::get_container_capacity() const
+{
+    if( !is_container() ) {
+        return 0;
+    }
+    return type->container->contains;
+}
+
 long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
 {
     if ( has_valid_capacity_for_liquid( liquid, allow_bucket ) != L_ERR_NONE) {
@@ -4942,7 +4950,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
         return ammo_capacity() - ammo_remaining();
     }
 
-    const auto total_capacity = liquid.liquid_charges( type->container->contains );
+    const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
 
     long remaining_capacity = total_capacity;
     if (!contents.empty()) {
@@ -4985,7 +4993,7 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid,
     }
 
     if (!contents.empty()) {
-        const auto total_capacity = liquid.liquid_charges( type->container->contains);
+        const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
         if( ( total_capacity - contents.front().charges) <= 0 ) {
             return L_ERR_FULL;
         }
