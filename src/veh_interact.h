@@ -64,17 +64,11 @@ class veh_interact
         WINDOW *w_name;
 
         vehicle *veh;
-        bool has_screwdriver;
         bool has_wrench;
-        bool has_hammer;
-        bool has_nailgun;
         bool has_welder;
         bool has_goggles;
         bool has_duct_tape;
-        bool has_nails;
-        bool has_hacksaw;
         bool has_jack;
-        bool has_siphon;
         bool has_wheel;
         inventory crafting_inv;
         input_context main_context;

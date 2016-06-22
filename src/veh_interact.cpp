@@ -259,16 +259,8 @@ void veh_interact::cache_tool_availability()
     int charges = charges_per_use( "welder" );
     int charges_oxy = charges_per_use( "oxy_torch" );
     int charges_crude = charges_per_use( "welder_crude" );
-    has_screwdriver = crafting_inv.has_quality( SCREW );
     has_wrench = crafting_inv.has_quality( WRENCH );
-    has_hammer = crafting_inv.has_quality( HAMMER );
-    has_nailgun = crafting_inv.has_tools("nailgun", 1);
     has_goggles = (g->u.has_bionic("bio_sunglasses") || crafting_inv.has_quality( GLARE, 2 ));
-    has_hacksaw = crafting_inv.has_quality( SAW_M_FINE ) ||
-                  (crafting_inv.has_tools("circsaw_off", 1) &&
-                   crafting_inv.has_charges("circsaw_off", CIRC_SAW_USED)) ||
-                  (crafting_inv.has_tools("oxy_torch", 1) &&
-                   crafting_inv.has_charges("oxy_torch", OXY_CUTTING) && has_goggles);
     has_welder = (crafting_inv.has_tools("welder", 1) &&
                   crafting_inv.has_charges("welder", charges)) ||
                  (crafting_inv.has_tools("oxy_torch", 1) &&
@@ -280,8 +272,6 @@ void veh_interact::cache_tool_availability()
     has_duct_tape = (crafting_inv.has_charges("duct_tape", DUCT_TAPE_USED) ||
                      (crafting_inv.has_tools("toolbox", 1) &&
                       crafting_inv.has_charges("toolbox", DUCT_TAPE_USED)));
-    has_nails = crafting_inv.has_charges("nail", NAILS_USED);
-    has_siphon = crafting_inv.has_tools("hose", 1);
 
     has_wheel = crafting_inv.has_components( "wheel", 1 ) ||
                 crafting_inv.has_components( "wheel_wide", 1 ) ||
@@ -390,7 +380,7 @@ task_reason veh_interact::cant_do (char mode)
                 break;
             }
         }
-        has_tools = has_siphon;
+        has_tools = crafting_inv.has_tools( "hose", 1 );
         break;
     case 'c': // change tire
         valid_target = wheel != NULL;
