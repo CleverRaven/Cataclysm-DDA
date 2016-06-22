@@ -3,6 +3,11 @@
 
 #include <string>
 
+constexpr int MOVES( int n )
+{
+    return n * 100;
+}
+
 constexpr int SECONDS( int n )
 {
     return n / 6;

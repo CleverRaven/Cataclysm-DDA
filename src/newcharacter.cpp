@@ -54,7 +54,6 @@
 
 #define HIGH_STAT 14 // The point after which stats cost double
 #define MAX_STAT 20 // The point after which stats can not be increased further
-#define MAX_SKILL 20 // The maximum selectable skill level
 
 #define NEWCHAR_TAB_MAX 6 // The ID of the rightmost tab
 

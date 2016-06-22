@@ -6,6 +6,8 @@
 #include "enums.h"
 #include "color.h"
 #include "damage.h"
+#include "requirements.h"
+#include "calendar.h"
 
 #include <vector>
 #include <bitset>
@@ -25,6 +27,10 @@ struct vehicle_item_spawn;
 struct quality;
 using quality_id = string_id<quality>;
 typedef int nc_color;
+class Character;
+
+class Skill;
+using skill_id = string_id<Skill>;
 
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
@@ -126,6 +132,33 @@ class vpart_info
 
         /** Mechanics skill required to install item */
         int difficulty = 0;
+
+        /** Legacy parts don't specify installation requirements */
+        bool legacy = true;
+
+        /** Installation requirements for this component */
+        requirement_data install_reqs;
+
+        /** Required skills to install this component */
+        std::map<skill_id, int> install_skills;
+
+        /** Installation time (in moves) for component (@see install_time), default 1 hour */
+        int install_moves = MOVES( HOURS( 1 ) );
+
+        /** Installation time (in moves) for this component accounting for player skills */
+        int install_time( const Character &ch ) const;
+
+        /** Requirements for removal of this component */
+        requirement_data removal_reqs;
+
+        /** Required skills to remove this component */
+        std::map<skill_id, int> removal_skills;
+
+        /** Removal time (in moves) for component (@see removal_time), default is half @ref install_moves */
+        int removal_moves = -1;
+
+        /** Removal time (in moves) for this component accounting for player skills */
+        int removal_time( const Character &ch ) const;
 
         /** @ref item_group this part breaks into when destroyed */
         std::string breaks_into_group = "EMPTY_GROUP";
