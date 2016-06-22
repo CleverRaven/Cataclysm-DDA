@@ -400,10 +400,8 @@ item item::in_container( const itype_id &cont ) const
 
 long item::liquid_charges( long units ) const
 {
-    if( is_ammo() ) {
-        return type->ammo->def_charges * units;
-    } else if( is_food() ) {
-        return type->comestible->def_charges * units;
+    if( is_ammo() || is_food() ) {
+        return std::max( type->stack_size, 1 ) * units;
     } else {
         return units;
     }
@@ -411,10 +409,8 @@ long item::liquid_charges( long units ) const
 
 long item::liquid_units( long charges ) const
 {
-    if( is_ammo() ) {
-        return charges / type->ammo->def_charges;
-    } else if( is_food() ) {
-        return charges / type->comestible->def_charges;
+    if( is_ammo() || is_food() ) {
+        return charges / std::max( type->stack_size, 1 );
     } else {
         return charges;
     }
