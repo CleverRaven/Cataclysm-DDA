@@ -16,10 +16,6 @@ class vpart_info;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
 
-enum sel_types {
-    SEL_NULL, SEL_JACK
-};
-
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
     UNKNOWN_TASK = -1, //No such task
@@ -43,7 +39,7 @@ class veh_interact
         const vpart_info *sel_vpart_info = nullptr;
         const struct vehicle_part *sel_vehicle_part = nullptr;
         char sel_cmd = ' '; //Command currently being run by the player
-        int sel_type = 0;
+
     private:
         int cpart = -1;
         int page_size;

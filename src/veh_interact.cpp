@@ -2043,7 +2043,7 @@ void act_vehicle_siphon(vehicle* veh) {
  */
 void complete_vehicle ()
 {
-    if (g->u.activity.values.size() < 8) {
+    if (g->u.activity.values.size() < 7) {
         debugmsg ("Invalid activity ACT_VEHICLE values:%d", g->u.activity.values.size());
         return;
     }

@@ -7474,7 +7474,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         u.activity.values.push_back(-vehint.ddy);   // values[5]
         // values[6]
         u.activity.values.push_back(veh.index_of_part(vehint.sel_vehicle_part));
-        u.activity.values.push_back(vehint.sel_type); // int. might make bitmask
+
         if (vehint.sel_vpart_info != NULL) {
             u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
         } else {
