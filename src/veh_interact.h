@@ -85,7 +85,7 @@ class veh_interact
         int part_at( int dx, int dy );
         void move_cursor( int dx, int dy );
         task_reason cant_do( char mode );
-        bool can_currently_install( const vpart_info &vpart );
+        bool can_potentially_install( const vpart_info &vpart );
         /** Move index (parameter pos) according to input action:
          * (up or down, single step or whole page).
          * @param pos index to change.

@@ -1306,20 +1306,13 @@ int veh_interact::part_at (int dx, int dy)
 }
 
 /**
- * Checks to see if you can currently install this part at current position.
+ * Checks to see if you can potentially install this part at current position.
  * Affects coloring in display_list() and is also used to
- * sort can_mount so installable parts come first.
+ * sort can_mount so potentially installable parts come first.
  */
-bool veh_interact::can_currently_install(const vpart_info &vpart)
+bool veh_interact::can_potentially_install(const vpart_info &vpart)
 {
-    if (g->u.has_trait("DEBUG_HS")) {
-        return true;
-    }
-    bool has_comps = crafting_inv.has_components(vpart.item, 1);
-    ///\EFFECT_MECHANICS determines which vehicle parts can be installed
-    bool has_skill = g->u.get_skill_level( skill_mechanics ) >= vpart.difficulty;
-    bool is_wheel = vpart.has_flag("WHEEL");
-    return (has_comps && (has_skill || is_wheel));
+    return g->u.has_trait( "DEBUG_HS" ) || vpart.install_reqs.can_make_with_inventory( crafting_inv );
 }
 
 /**
@@ -1364,7 +1357,7 @@ void veh_interact::move_cursor (int dx, int dy)
                 const vpart_info &vpi = *vp;
                 if ( vpi.id != vpart_shapes[ vpi.name()+ vpi.item][0]->id )
                     continue; // only add first shape to install list
-                if (can_currently_install(vpi)) {
+                if (can_potentially_install(vpi)) {
                     can_mount.insert( can_mount.begin() + divider_index++, &vpi );
                 } else {
                     can_mount.push_back( &vpi );
@@ -1738,7 +1731,7 @@ void veh_interact::display_list(size_t pos, std::vector<const vpart_info*> list,
         const vpart_info &info = *list[i];
         int y = i - page * lines_per_page + header;
         mvwputch( w_list, y, 1, info.color, special_symbol( info.sym ) );
-        nc_color col = can_currently_install( info ) ? c_white : c_dkgray;
+        nc_color col = can_potentially_install( info ) ? c_white : c_dkgray;
         trim_and_print( w_list, y, 3, getmaxx( w_list ) - 3, pos == i ? hilite( col ) : col,
                         info.name().c_str() );
     }
