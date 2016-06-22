@@ -15,5 +15,53 @@
     "symbol": "=",
     "color": "dark_gray",
     "ammo_type": "components"
+  },
+  {
+    "id": "scrap",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "scrap metal",
+    "name_plural": "scrap metal",
+    "description": "An assortment of small bits of metal and scrap useful in all kinds of crafting",
+    "weight": 113,
+    "volume": 1,
+    "price": 1000,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray"
+  },
+  {
+    "id": "steel_chunk",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "chunk of steel",
+    "name_plural": "chunks of steel",
+    "description": "A misshapen chunk of steel.  Makes a decent weapon in a pinch, and is also useful for some crafting recipes.",
+    "weight": 340,
+    "volume": 2,
+    "price": 1000,
+    "bashing": 8,
+    "to_hit": -2,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "steel_lump",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "lump of steel",
+    "name_plural": "lumps of steel",
+    "description": "A misshapen heavy piece of steel.  Useful for some crafting recipes.",
+    "weight": 1360,
+    "volume": 2,
+    "price": 2000,
+    "bashing": 12,
+    "to_hit": -4,
+    "material": "steel",
+    "symbol": ",",
+    "color": "light_gray",
+    "qualities": [ [ "HAMMER", 1 ] ]
   }
 ]
