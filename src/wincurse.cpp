@@ -676,17 +676,12 @@ int curses_start_color(void)
     try{
         JsonIn jsin(colorfile);
         // Manually load the colordef object because the json handler isn't loaded yet.
-        if( jsin.test_array() ) {
-            jsin.start_array();
-            // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
-                JsonObject jo = jsin.get_object();
-                load_colors(jo);
-                jo.finish();
-            }
-        } else {
-            // not an array?
-            jsin.error( "expected array" );
+        jsin.start_array();
+        // find type and dispatch each object until array close
+        while (!jsin.end_array()) {
+            JsonObject jo = jsin.get_object();
+            load_colors(jo);
+            jo.finish();
         }
     } catch( const JsonError &err ){
         throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );

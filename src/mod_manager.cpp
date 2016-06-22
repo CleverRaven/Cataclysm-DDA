@@ -67,14 +67,10 @@ static void load_obsolete_mods( const std::string path )
     }
     try {
         JsonIn jsin( infile );
-        if( jsin.test_array() ) {
-            jsin.start_array();
-            // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
-                obsolete_mod_list.insert( jsin.get_string() );
-            }
-        } else {
-            jsin.error( "expected array" );
+        jsin.start_array();
+        // find type and dispatch each object until array close
+        while (!jsin.end_array()) {
+            obsolete_mod_list.insert( jsin.get_string() );
         }
     } catch( const JsonError &e ) {
         debugmsg("%s", e.c_str());
