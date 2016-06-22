@@ -349,7 +349,7 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
     units::volume volume( bool integral = false ) const;
 
     /** Simplified, faster volume check for when processing time is important and exact volume is not. */
-    int base_volume() const;
+    units::volume base_volume() const;
 
     /* Volume of an item or of a single unit for charged items multipled by 1000 */
     int precise_unit_volume() const;

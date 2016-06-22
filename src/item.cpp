@@ -2543,17 +2543,17 @@ static units::volume corpse_volume( m_size corpse_size )
     return 0;
 }
 
-int item::base_volume() const
+units::volume item::base_volume() const
 {
     if( is_null() ) {
         return 0;
     }
 
     if( is_corpse() ) {
-        return corpse_volume( corpse->size ) / units::legacy_volume_factor;
+        return corpse_volume( corpse->size );
     }
 
-    return type->volume / units::legacy_volume_factor;
+    return type->volume;
 }
 
 units::volume item::volume( bool integral ) const
@@ -4761,7 +4761,7 @@ bool item::burn( fire_data &frd )
     float smoke_added = 0.0f;
     float time_added = 0.0f;
     float burn_added = 0.0f;
-    const int vol = base_volume();
+    const int vol = base_volume() / units::legacy_volume_factor;
     for( const auto &m : mats ) {
         const auto &bd = m.obj().burn_data( frd.fire_intensity );
         if( bd.immune ) {
@@ -4852,7 +4852,7 @@ bool item::flammable( int threshold ) const
     }
 
     chance /= mats.size();
-    int vol = base_volume();
+    int vol = base_volume() / units::legacy_volume_factor;
     if( chance > 0 && chance < vol ) {
         flammability = flammability * chance / vol;
     } else {
