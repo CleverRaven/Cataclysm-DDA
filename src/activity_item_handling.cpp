@@ -269,34 +269,28 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
                     && !second.it->is_worn_only_with( *first.it ) );
     } );
 
-    int remaining_storage = p.volume_capacity(); // Cumulatively decreases
     int storage_loss = 0;                        // Cumulatively increases
+    int remaining_storage = p.volume_capacity(); // Cumulatively decreases
 
     while( !worn.empty() && !inv.empty() ) {
         storage_loss += worn.front().it->get_storage();
-        const int freed_storage = remaining_storage - p.volume_capacity_reduced_by( storage_loss );
-        remaining_storage -= freed_storage;
+        remaining_storage -= p.volume_capacity_reduced_by( storage_loss );
 
-        if( freed_storage < inv.front().it->volume() ) {
+        if( remaining_storage < inv.front().it->volume() ) {
             break; // Does not fit
         }
 
-        res.push_back( worn.front() );
-        worn.pop_front();
-
-        int dropped_volume = 0; // Cumulatively increases
-        while( !inv.empty() ) {
-            dropped_volume += inv.front().it->volume();
-
-            if( dropped_volume > freed_storage ) {
-                break; // Does not fit
-            }
+        while( !inv.empty() && remaining_storage >= inv.front().it->volume() ) {
+            remaining_storage -= inv.front().it->volume();
 
             res.push_back( inv.front() );
             res.back().consumed_moves = 0; // Free of charge
 
             inv.pop_front();
         }
+
+        res.push_back( worn.front() );
+        worn.pop_front();
     }
     // Now insert everything that remains
     std::copy( inv.begin(), inv.end(), std::back_inserter( res ) );
@@ -346,17 +340,30 @@ std::vector<item> obtain_activity_items( player_activity &act, player &p )
 
         items.pop_front();
     }
-    // Load anything that remains (if any) into a new activity.
+    // Avoid tumbling to the ground. Unload cleanly.
+    const int excessive_volume = p.volume_carried() - p.volume_capacity();
+    if( excessive_volume > 0 ) {
+        const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
+
+        res.reserve( res.size() + excess.size() );
+        auto iter = res.begin();
+        for( const auto &random_item : excess ) {
+            iter = res.insert( iter, std::move( random_item ) );
+        }
+    }
+    // Load anything that remains (if any) into the activity
+    act.values.clear();
     if( !items.empty() ) {
-        p.drop_inventory_overflow(); // Make sure the state is consistent
-        act.values.clear();
         for( const auto &drop : convert_to_indexes( p, items ) ) {
             act.values.push_back( drop.first );
             act.values.push_back( drop.second );
         }
-        p.assign_activity( act );
-    } else {
+    }
+    // And either cancel if it's empty, or restart if it's not.
+    if( act.values.empty() ) {
         p.cancel_activity();
+    } else {
+        p.assign_activity( act );
     }
 
     return res;
