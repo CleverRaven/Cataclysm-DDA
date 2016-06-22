@@ -4595,22 +4595,16 @@ bool mattack::stretch_attack(monster *z)
     }
 
     int distance = rl_dist( z->pos(), target->pos() );
-    if( distance > 3 || !z->sees(*target)) {
-        return false;
-    }
-
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
-    if( distance < 2 && distance > 3 ) {
+    if( distance < 2 || distance > 3 || !z->sees( *target ) ) {
         return false;
     }
 
     int dam = rng(5, 10);
     z->moves -= 100;
-    ter_t terrain;
-    for (auto &i : line){
-            terrain = g->m.ter_at( i );
-            if (!(terrain.id == "t_bars") && terrain.movecost == 0 ){
-                add_msg( _("The %1$s thrusts its arm at you but bounces off the %2$s"), z->name().c_str(), terrain.name.c_str() );
+    for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
+            if( g->m.impassable( pnt ) ) {
+                add_msg( _( "The %1$s thrusts its arm at you but bounces off the %2$s" ), z->name().c_str(),
+                         g->m.disp_name( pnt ).c_str() );
                 return true;
             }
     }
