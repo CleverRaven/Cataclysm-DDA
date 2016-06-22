@@ -60,22 +60,6 @@ void act_vehicle_siphon(vehicle* veh);
 veh_interact::veh_interact ()
     : main_context("VEH_INTERACT")
 {
-    cpart = -1;
-    ddx = 0;
-    ddy = 0;
-    sel_cmd = ' ';
-    sel_type = 0;
-    sel_vpart_info = NULL;
-    sel_vehicle_part = NULL;
-
-    // Starting index of where to start printing fuels from
-    fuel_index = 0;
-
-    totalDurabilityColor = c_green;
-    worstDurabilityColor = c_green;
-    durabilityPercent = 100;
-    mostDamagedPart = -1;
-
     // Only build the shapes map and the wheel list once
     for( auto vp : vpart_info::get_all() ) {
         vpart_shapes[ vp->name() + vp->item ].push_back( vp );

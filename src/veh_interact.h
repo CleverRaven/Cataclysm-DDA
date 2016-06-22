@@ -43,16 +43,16 @@ class vehicle;
 class veh_interact
 {
     public:
-        int ddx;
-        int ddy;
-        const vpart_info *sel_vpart_info;
-        const struct vehicle_part *sel_vehicle_part;
-        char sel_cmd; //Command currently being run by the player
-        int sel_type;
+        int ddx = 0;
+        int ddy = 0;
+        const vpart_info *sel_vpart_info = nullptr;
+        const struct vehicle_part *sel_vehicle_part = nullptr;
+        char sel_cmd = ' '; //Command currently being run by the player
+        int sel_type = 0;
     private:
-        int cpart;
+        int cpart = -1;
         int page_size;
-        int fuel_index;
+        int fuel_index = 0; /** Starting index of where to start printing fuels from */
         WINDOW *w_grid;
         WINDOW *w_mode;
         WINDOW *w_msg;
@@ -115,14 +115,14 @@ class veh_interact
         friend nc_color getDurabilityColor( const int &dur );
         std::string getDurabilityDescription( const int &dur );
 
-        int durabilityPercent;
+        int durabilityPercent = 100;
         std::string totalDurabilityText;
         std::string worstDurabilityText;
-        nc_color totalDurabilityColor;
-        nc_color worstDurabilityColor;
+        nc_color totalDurabilityColor = c_green;
+        nc_color worstDurabilityColor = c_green;
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
-        int mostDamagedPart;
+        int mostDamagedPart = -1;
 
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int idx );
