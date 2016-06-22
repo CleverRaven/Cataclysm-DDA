@@ -3529,18 +3529,14 @@ bool mattack::stretch_bite(monster *z)
         return false;
     }
 
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
-
     z->moves -= 150;
 
-    for (auto &i : line){
-        ter_t terrain = g->m.ter_at( i );
-        //head's not going to fit through the bars
-        if( terrain.movecost == 0 ){
+    for (auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ){
+        if( g->m.impassable( pnt ) ){
             z->add_effect( effect_stunned, 6);
             target->add_msg_player_or_npc( _("The %1$s stretches its head at you, but bounces off the %2$s"),
                                            _("The %1$s stretches its head at <npcname>, but bounces off the %2$s"),
-                                           z->name().c_str(), terrain.name.c_str() );
+                                           z->name().c_str(), g->m.disp_name( pnt ).c_str() );
             return true;
         }
     }
