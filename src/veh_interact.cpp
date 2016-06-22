@@ -33,6 +33,8 @@
 #define ISNAN std::isnan
 #endif
 
+static const int DUCT_TAPE_USED = 100;
+
 static inline const char * status_color( bool status )
 {
     static const char *good = "green";

@@ -12,11 +12,6 @@
 #include <vector>
 #include <map>
 
-#define DUCT_TAPE_USED 100
-#define NAILS_USED 10
-#define CIRC_SAW_USED 20
-#define OXY_CUTTING 10
-
 class vpart_info;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
