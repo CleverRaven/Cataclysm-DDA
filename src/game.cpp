@@ -7418,9 +7418,8 @@ void game::handbrake()
     u.moves = 0;
 }
 
-void game::exam_vehicle( vehicle &veh, const tripoint &p, int cx, int cy )
+void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
-    (void)p; // not currently used
     veh_interact vehint( veh, cx, cy );
 
     if( vehint.sel_cmd == 'q' ) {

@@ -669,8 +669,9 @@ class game
         bool right_sidebar;
         bool fullscreen;
         bool was_fullscreen;
-        void exam_vehicle(vehicle &veh, const tripoint &p, int cx = 0,
-                          int cy = 0); // open vehicle interaction screen
+
+        /** open vehicle interaction screen */
+        void exam_vehicle(vehicle &veh, int cx = 0, int cy = 0);
 
         // put items from the item-vector on the map/a vehicle
         // at (dirx, diry), items are dropped into a vehicle part
