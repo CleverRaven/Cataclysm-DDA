@@ -42,7 +42,15 @@
     "durability": 400,
     "difficulty": 1,
     "breaks_into": "ig_vp_frame",
-    "flags": [ "MOUNTABLE" ]
+    "mounts": [
+      { "name": "roof" },
+      { "name": "under" },
+      { "name": "armor" },
+      { "name": "center" },
+      { "name": "engine_block" },
+      { "name": "fuel_source" }
+    ],
+    "flags" : [ "MOUNTABLE" ]
   },
   {
     "abstract": "frame_wood",
@@ -57,6 +65,14 @@
     "breaks_into": [
         { "item": "splinter", "count": [ 7, 9 ] },
         { "item": "nail", "charges": [ 5, 10 ] }
+    ],
+    "mounts": [
+      { "name": "roof" },
+      { "name": "under" },
+      { "name": "armor" },
+      { "name": "center" },
+      { "name": "engine_block" },
+      { "name": "fuel_source" }
     ],
     "flags": [ "NAILABLE" ]
   },
@@ -86,6 +102,14 @@
     "durability": 1600,
     "difficulty": 1,
     "breaks_into": "ig_vp_hdframe",
+    "mounts": [
+      { "name": "roof" },
+      { "name": "under" },
+      { "name": "armor" },
+      { "name": "center" },
+      { "name": "engine_block" },
+      { "name": "fuel_source" }
+    ],
     "flags": [ "MOUNTABLE" ]
   },
   {
