@@ -241,7 +241,6 @@ void item::load_info( const std::string &data )
     if (acttmp == 1) {
         active = true;
     }
-    set_curammo( ammotmp );
 }
 
 ///// overmap legacy deserialization, replaced with json serialization June 2015

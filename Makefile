@@ -810,7 +810,7 @@ dmgdistclean:
 	rm -f Cataclysm.dmg
 	rm -rf lang/mo
 
-dmgdist: dmgdistclean app $(L10N)
+dmgdist: dmgdistclean $(L10N) app
 	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)

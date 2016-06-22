@@ -204,19 +204,13 @@ void Item_modifier::modify(item &new_item) const
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
             if( new_item.ammo_type() != "NULL" ) {
-                new_item.charges = ch;
-                new_item.set_curammo( new_item.ammo_type() );
+                new_item.ammo_set( new_item.ammo_type(), ch );
             }
         } else {
-            const item am = ammo->create_single( new_item.bday );
-            new_item.set_curammo( am );
             // Prefer explicit charges of the gun, else take the charges of the ammo item,
             // Gun charges are easier to define: {"item":"gun","charge":10,"ammo-item":"ammo"}
-            if( ch > 0 ) {
-                new_item.charges = ch;
-            } else {
-                new_item.charges = am.charges;
-            }
+            const item am = ammo->create_single( new_item.bday );
+            new_item.ammo_set( am.typeId(), ch > 0 ? ch : am.charges );
         }
         // Make sure the item is in valid state
         if( new_item.ammo_data() && new_item.magazine_integral() ) {

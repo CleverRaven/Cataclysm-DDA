@@ -375,16 +375,22 @@ bool item::set_side (side s) {
     return true;
 }
 
-item item::in_its_container()
+item item::in_its_container() const
 {
-    if( type->default_container != "null" ) {
-        item ret( type->default_container, bday );
+    return in_container( type->default_container );
+}
+
+item item::in_container( const itype_id &cont ) const
+{
+    if( cont != "null" ) {
+        item ret( cont, bday );
+        ret.contents.push_back( *this );
         if( made_of( LIQUID ) && ret.is_container() ) {
             // Note: we can't use any of the normal normal container functions as they check the
             // container being suitable (seals, watertight etc.)
-            charges = liquid_charges( ret.type->container->contains );
+            ret.contents.back().charges = liquid_charges( ret.type->container->contains );
         }
-        ret.contents.push_back(*this);
+
         ret.invlet = invlet;
         return ret;
     } else {
@@ -480,9 +486,14 @@ bool item::merge_charges( const item &rhs )
     if( !count_by_charges() || !stacks_with( rhs ) ) {
         return false;
     }
+    // Prevent overflow when either item has "near infinite" charges.
+    if( charges >= INFINITE_CHARGES / 2 || rhs.charges >= INFINITE_CHARGES / 2 ) {
+        charges = INFINITE_CHARGES;
+        return true;
+    }
     // We'll just hope that the item counter represents the same thing for both items
     if( item_counter > 0 || rhs.item_counter > 0 ) {
-        item_counter = ( item_counter * charges + rhs.item_counter * rhs.charges ) / ( charges + rhs.charges );
+        item_counter = ( static_cast<double>( item_counter ) * charges + static_cast<double>( rhs.item_counter ) * rhs.charges ) / ( charges + rhs.charges );
     }
     charges += rhs.charges;
     return true;
@@ -2142,6 +2153,13 @@ void item::on_pickup( Character &p )
     }
 }
 
+void item::on_contents_changed()
+{
+    if( is_non_resealable_container() ) {
+        convert( type->container->unseals_into );
+    }
+}
+
 std::string item::tname( unsigned int quantity, bool with_prefix ) const
 {
     std::stringstream ret;
@@ -3482,9 +3500,9 @@ bool item::is_watertight_container() const
     return type->container && type->container->watertight && type->container->seals;
 }
 
-bool item::is_sealable_container() const
+bool item::is_non_resealable_container() const
 {
-    return type->container && type->container->seals;
+    return type->container && !type->container->seals && type->container->unseals_into != "null";
 }
 
 bool item::is_bucket() const
@@ -3495,7 +3513,7 @@ bool item::is_bucket() const
     return type->container != nullptr &&
            type->container->watertight &&
            !type->container->seals &&
-           !type->container->preserves;
+           type->container->unseals_into == "null";
 }
 
 bool item::is_bucket_nonempty() const
@@ -3630,14 +3648,16 @@ bool item::spill_contents( Character &c )
     }
 
     while( !contents.empty() ) {
+        on_contents_changed();
         if( contents.front().made_of( LIQUID ) ) {
             if( !g->handle_liquid_from_container( *this, 1 ) ) {
                 return false;
             }
         } else {
             c.i_add_or_drop( contents.front() );
-            contents.erase( contents.begin() );
         }
+
+        contents.erase( contents.begin() );
     }
 
     return true;
@@ -4728,14 +4748,17 @@ bool item::reload( player &u, item_location loc, long qty )
         return true;
 
     } else {
-        obj->set_curammo( *ammo );
+        obj->curammo = item::find_type( ammo->typeId() );
 
         if( ammo_type() == "plutonium" ) {
+            // Warning: qty here refers to minimum of plutonium cells and capacity left
             // always consume at least one cell but never more than actually available
             auto cells = std::min( qty / PLUTONIUM_CHARGES + ( qty % PLUTONIUM_CHARGES != 0 ), ammo->charges );
             ammo->charges -= cells;
             // any excess is wasted rather than overfilling the obj
-            obj->charges += std::min( cells * PLUTONIUM_CHARGES, qty );
+            obj->charges += std::min( cells, qty ) * PLUTONIUM_CHARGES;
+            // Cap at max, because the above formula doesn't guarantee it
+            obj->charges = std::min( obj->charges, obj->ammo_capacity() );
         } else {
             qty = std::min( qty, ammo->charges );
             ammo->charges   -= qty;
@@ -5043,6 +5066,7 @@ bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
         put_in( liquid_copy );
     }
     liquid.charges -= amount;
+    on_contents_changed();
 
     return true;
 }
@@ -5374,42 +5398,6 @@ bool item::can_holster ( const item& obj, bool ignore ) const {
     }
 
     return true;
-}
-
-void item::unset_curammo()
-{
-    curammo = nullptr;
-}
-
-void item::set_curammo( const itype_id &type )
-{
-    if( type == "null" ) {
-        unset_curammo();
-        return;
-    }
-    const auto at = item_controller->find_template( type );
-    if( !at->ammo ) {
-        // Much code expects curammo to be a valid ammo, or null, make sure this assumption
-        // is correct
-        debugmsg( "Tried to set non-ammo type %s as curammo of %s", type.c_str(), tname().c_str() );
-        return;
-    }
-    curammo = at;
-}
-
-void item::set_curammo( const item &ammo )
-{
-    if( ammo.is_null() ) {
-        unset_curammo();
-        return;
-    }
-    const auto at = ammo.type;
-    if( !at->ammo ) {
-        debugmsg( "Tried to set non-ammo type %s as curammo of %s", ammo.type->id.c_str(),
-                  tname().c_str() );
-        return;
-    }
-    curammo = at;
 }
 
 std::string item::components_to_string() const

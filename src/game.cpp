@@ -835,10 +835,9 @@ bool game::start_game(std::string worldname)
         u.add_effect( effect_infected, 1, random_body_part(), true);
     }
     if (scen->has_flag("BAD_DAY")){
-        u.add_effect( effect_flu, 10000);
-        ///\EFFECT_STR_MAX decreases drunkenness at start of BAD_DAY scenarios
-        u.add_effect( effect_drunk, 2700 - (12 * u.str_max));
-        u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
+        u.add_effect( effect_flu, 10000 );
+        u.add_effect( effect_drunk, 2700 );
+        u.add_morale( MORALE_FEELING_BAD, -100, -100, MINUTES( 5 ), MINUTES( 5 ) );
     }
     if(scen->has_flag("HELI_CRASH")) {
         start_loc.handle_heli_crash( u );
@@ -2702,7 +2701,6 @@ bool game::handle_action()
                 examine( mouse_target );
             } else {
                 examine();
-                refresh_all();
             }
             break;
 
@@ -2809,7 +2807,6 @@ bool game::handle_action()
 
         case ACTION_PICK_STYLE:
             u.pick_style();
-            refresh_all();
             break;
 
         case ACTION_RELOAD:
@@ -2927,7 +2924,6 @@ bool game::handle_action()
 
         case ACTION_WAIT:
             wait();
-            refresh_all();
             break;
 
         case ACTION_CRAFT:
@@ -2935,7 +2931,6 @@ bool game::handle_action()
                 add_msg(m_info, _("You can't craft while you're in your shell."));
             } else {
                 u.craft();
-                refresh_all();
             }
             break;
 
@@ -3069,8 +3064,6 @@ bool game::handle_action()
                     u.moves = 0;
                     u.try_to_sleep();
                 }
-
-                refresh_all();
             }
             break;
 
@@ -3162,9 +3155,7 @@ bool game::handle_action()
             break;
 
         case ACTION_MAP:
-            #ifdef TILES
-            invalidate_all_framebuffers();
-            #endif // TILES
+            werase( w_terrain );
             draw_overmap();
             break;
 
@@ -3244,7 +3235,6 @@ bool game::handle_action()
 
         case ACTION_ITEMACTION:
             item_action_menu();
-            refresh_all();
             break;
         default:
             break;
@@ -5360,10 +5350,6 @@ void game::refresh_all()
         m.reset_vehicle_cache( z );
     }
 
-    #ifdef TILES
-    invalidate_all_framebuffers();
-    clear_window_area( w_terrain );
-    #endif // TILES
     draw();
     refresh();
 }
@@ -7084,7 +7070,6 @@ void game::open()
 {
     tripoint openp;
     if (!choose_adjacent_highlight(_("Open where?"), openp, ACTION_OPEN)) {
-        refresh_all();
         return;
     }
 
@@ -7153,7 +7138,6 @@ void game::close()
     if( choose_adjacent_highlight( _("Close where?"), closep, ACTION_CLOSE ) ) {
         close( closep );
     }
-    refresh_all();
 }
 
 void game::close( const tripoint &closep )
@@ -7273,7 +7257,6 @@ void game::smash()
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
     if( !choose_adjacent(_("Smash where?"), smashp, allow_floor_bash ) ) {
-        refresh_all();
         return;
     }
 
@@ -7692,7 +7675,6 @@ void game::control_vehicle()
     } else {
         tripoint examp;
         if (!choose_adjacent(_("Control vehicle where?"), examp)) {
-            refresh_all();
             return;
         }
         veh = m.veh_at(examp, veh_part);
@@ -8038,7 +8020,6 @@ void game::examine()
 
     tripoint examp = u.pos();
     if( !choose_adjacent_highlight( _("Examine where?"), examp, ACTION_EXAMINE ) ) {
-        refresh_all();
         return;
     }
     examine( examp );
@@ -10133,7 +10114,6 @@ void game::grab()
     } else {
         add_msg(_("Never mind."));
     }
-    refresh_all();
 }
 
 std::vector<vehicle*> nearby_vehicles_for( const itype_id &ft )
@@ -10186,7 +10166,12 @@ bool game::handle_liquid_from_ground( std::list<item>::iterator on_ground, const
 bool game::handle_liquid_from_container( std::list<item>::iterator in_container, item &container, int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
+    const long old_charges = in_container->charges;
     handle_liquid( *in_container, &container, radius );
+    if( in_container->charges != old_charges ) {
+        container.on_contents_changed();
+    }
+
     if( in_container->charges > 0 ) {
         return false;
     }
@@ -10394,7 +10379,6 @@ void game::drop_in_direction()
 {
     tripoint dirp;
     if (!choose_adjacent(_("Drop where?"), dirp)) {
-        refresh_all();
         return;
     }
 
@@ -10846,12 +10830,23 @@ void game::butcher()
         add_msg(m_info, _("You can't butcher while driving!"));
         return;
     }
-    if( !m.can_put_items_ter_furn( u.pos() ) ) {
-        add_msg( m_info, _( "You can't butcher while standing here!" ) );
+
+    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
+    static const char *no_knife_msg = _( "You don't have a sharp item to butcher with." );
+    static const char *no_corpse_msg = _( "There are no corpses here to butcher." );
+
+    //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
+    if( m.has_flag( "SEALED", u.pos() ) ) {
+        if( m.sees_some_items( u.pos(), u ) ) {
+            add_msg( m_info, _( "You can't access the items here." ) );
+        } else if( factor > INT_MIN ) {
+            add_msg( m_info, no_corpse_msg );
+        } else {
+            add_msg( m_info, no_knife_msg );
+        }
         return;
     }
 
-    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
     const item *first_item_without_tools = nullptr;
     // Indices of relevant items
     std::vector<int> corpses;
@@ -10919,9 +10914,9 @@ void game::butcher()
 
     if( corpses.empty() && disassembles.empty() && salvageables.empty() ) {
         if( factor > INT_MIN ) {
-            add_msg( m_info, _("There are no corpses here to butcher.") );
+            add_msg( m_info, no_corpse_msg );
         } else {
-            add_msg( m_info, _("You don't have a sharp item to butcher with.") );
+            add_msg( m_info, no_knife_msg );
         }
 
         if( first_item_without_tools != nullptr ) {
@@ -11294,6 +11289,7 @@ bool game::unload( item &it )
             u.moves -= mv;
             return true;
         } ), it.contents.end() );
+        it.on_contents_changed();
         return true;
     }
 
@@ -11405,10 +11401,7 @@ bool game::unload( item &it )
             qty *= PLUTONIUM_CHARGES;
         }
 
-        target->charges -= qty;
-        if( target->ammo_remaining() == 0 ) {
-            target->unset_curammo();
-        }
+        target->ammo_set( target->ammo_type(), target->ammo_remaining() - qty );
     }
 
     // Turn off any active tools

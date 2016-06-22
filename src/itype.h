@@ -133,6 +133,11 @@ struct islot_container {
      * Contents do not spoil.
      */
     bool preserves = false;
+    /**
+     * If this is set to anything but "null", changing this container's contents in any way
+     * will turn this item into that type.
+     */
+    itype_id unseals_into = "null";
 };
 
 struct islot_armor {
