@@ -2541,30 +2541,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "sheet_metal",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MATERIALS",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 4000,
-  "reversible": true,
-  "autolearn": true,
-  "qualities" : [ { "id" : "GLARE", "level" : 2 } ],
-  "tools": [
-    [
-      [ "welder", 20 ],
-      [ "welder_crude", 30 ],
-      [ "toolset", 30 ],
-      [ "oxy_torch", 2]
-    ]
-  ],
-  "components": [
-    [
-      [ "scrap", 4 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "wood_plate",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_PARTS",
