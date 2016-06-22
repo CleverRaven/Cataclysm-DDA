@@ -5068,7 +5068,7 @@ void vehicle::place_spawn_items()
                             e.contents.emplace_back( e.magazine_default(), e.bday );
                         }
                         if( spawn_ammo ) {
-                            e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                            e.ammo_set( default_ammo( e.ammo_type() ) );
                         }
                     }
                     add_item( part, e);
