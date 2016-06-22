@@ -687,11 +687,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation -= per_cur - 8;
     }
 
+    const int vol = thrown.volume();
+
     deviation += rng(0, ((encumb(bp_hand_l) + encumb(bp_hand_r)) + encumb(bp_eyes) + 1) / 10);
-    if (thrown.volume() > 5) {
-        deviation += rng(0, 1 + (thrown.volume() - 5) / 4);
+    if (vol > 5) {
+        deviation += rng(0, 1 + (vol - 5) / 4);
     }
-    if (thrown.volume() == 0) {
+    if (vol == 0) {
         deviation += rng(0, 3);
     }
 
@@ -711,7 +713,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     int real_dam = ( (thrown.weight() / 452)
                      + (thrown.type->melee_dam / 2)
                      + (str_cur / 2) )
-                   / (2.0 + (thrown.volume() / 4.0));
+                   / (2.0 + (vol / 4.0));
     if( real_dam > thrown.weight() / 40 ) {
         real_dam = thrown.weight() / 40;
     }
@@ -739,7 +741,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
     ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
-                         rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
+                         rng(0, vol + 8) - rng(0, str_cur) < vol;
 
     // Add some flags to the projectile
     // TODO: Add this flag only when the item is heavy
@@ -756,13 +758,13 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "LIGHTNING" );
     }
 
-    if( thrown.volume() > 2 ) {
+    if( vol > 2 ) {
         proj_effects.insert( "WIDE" );
     }
 
     // Deal extra cut damage if the item breaks
     if( shatter ) {
-        const int glassdam = rng( 0, thrown.volume() * 2 );
+        const int glassdam = rng( 0, vol * 2 );
         impact.add_damage( DT_CUT, glassdam );
         proj_effects.insert( "SHATTER_SELF" );
     }
