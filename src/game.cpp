@@ -11403,10 +11403,7 @@ bool game::unload( item &it )
             qty *= PLUTONIUM_CHARGES;
         }
 
-        target->charges -= qty;
-        if( target->ammo_remaining() == 0 ) {
-            target->unset_curammo();
-        }
+        target->ammo_set( target->ammo_type(), target->ammo_remaining() - qty );
     }
 
     // Turn off any active tools
