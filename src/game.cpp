@@ -7475,11 +7475,8 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         // values[6]
         u.activity.values.push_back( veh.index_of_part( vehint.part() ) );
 
-        if (vehint.sel_vpart_info != NULL) {
-            u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
-        } else {
-            u.activity.str_values.push_back(vpart_str_id::NULL_ID.str());
-        }
+        u.activity.str_values.push_back( vehint.sel_vpart_info->id.str() );
+
         u.moves = 0;
     }
     refresh_all();
