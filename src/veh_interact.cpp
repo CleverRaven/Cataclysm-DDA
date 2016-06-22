@@ -494,7 +494,9 @@ bool veh_interact::can_install_part() {
     msg << _( "<color_white>Skills required:</color>\n" );
     for( const auto& e : sel_vpart_info->install_skills ) {
         bool hasSkill = g->u.get_skill_level( e.first ) >= e.second;
-        ok -= !hasSkill;
+        if( !hasSkill ) {
+            ok = false;
+        }
         msg << string_format( "> <color_%1$s>%2$s %3$i</color>\n", status_color( hasSkill ),
                               _( e.first.obj().name().c_str() ), e.second );
     }
@@ -511,14 +513,18 @@ bool veh_interact::can_install_part() {
     msg << _( "<color_white>Additional requirements:</color>\n" );
 
     if( dif_eng > 0 ) {
-        ok -= g->u.get_skill_level( skill_mechanics ) < dif_eng;
+        if( g->u.get_skill_level( skill_mechanics ) < dif_eng ) {
+            ok = false;
+        }
         msg << string_format( _( "> <color_%1$s>%2$s %3$i</color> for extra engines." ),
                               status_color( g->u.get_skill_level( skill_mechanics ) >= dif_eng ),
                               skill_mechanics.obj().name().c_str(), dif_eng ) << "\n";
     }
 
     if( dif_steering > 0 ) {
-        ok -= g->u.get_skill_level( skill_mechanics ) < dif_steering;
+        if( g->u.get_skill_level( skill_mechanics ) < dif_steering ) {
+            ok = false;
+        }
         msg << string_format( _( "> <color_%1$s>%2$s %3$i</color> for extra steering axles." ),
                               status_color( g->u.get_skill_level( skill_mechanics ) >= dif_steering ),
                               skill_mechanics.obj().name().c_str(), dif_steering ) << "\n";
@@ -542,7 +548,9 @@ bool veh_interact::can_install_part() {
         use_str = g->u.can_lift( base );
     }
 
-    ok -= !( use_aid || use_str );
+    if( !( use_aid || use_str ) ) {
+        ok = false;
+    }
     msg << string_format( _( "> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_%4$s>strength %5$i</color>" ),
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
@@ -1031,7 +1039,9 @@ bool veh_interact::can_remove_part( int idx ) {
     msg << _( "<color_white>Skills required:</color>\n" );
     for( const auto& e : sel_vpart_info->removal_skills ) {
         bool hasSkill = g->u.get_skill_level( e.first ) >= e.second;
-        ok -= !hasSkill;
+        if( !hasSkill ) {
+            ok = false;
+        }
         msg << string_format( "> <color_%1$s>%2$s %3$i</color>\n", status_color( hasSkill ),
                               _( e.first.obj().name().c_str() ), e.second );
     }
@@ -1065,7 +1075,9 @@ bool veh_interact::can_remove_part( int idx ) {
         use_str = g->u.can_lift( base );
     }
 
-    ok -= !( use_aid || use_str );
+    if( !( use_aid || use_str ) ) {
+        ok = false;
+    }
     msg << string_format( _( "> <color_%1$s>1 tool with %2$s %3$i</color> <color_white>OR</color> <color_%4$s>strength %5$i</color>" ),
                           status_color( use_aid ), qual.obj().name.c_str(), lvl,
                           status_color( use_str ), str ) << "\n";
