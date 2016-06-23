@@ -6015,5 +6015,5 @@ bool item_category::operator!=( const item_category &rhs ) const
 }
 
 bool item::is_filthy() const {
-    return has_flag( "FILTHY" );
+    return has_flag( "FILTHY" ) && !g->u.has_trait( "NONSQUEAMISH" );
 }
