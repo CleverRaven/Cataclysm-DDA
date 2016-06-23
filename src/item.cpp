@@ -3370,11 +3370,13 @@ bool item::is_ammo() const
 
 bool item::is_food(player const*u) const
 {
-    if (!u)
+    if( !u ) {
         return is_food();
+    }
 
-    if( is_null() )
+    if( is_null() ) {
         return false;
+    }
 
     if( type->comestible ) {
         return true;
@@ -3400,6 +3402,20 @@ bool item::is_food_container(player const*u) const
 bool item::is_food() const
 {
     return type->comestible != nullptr;
+}
+
+bool item::is_medication() const
+{
+    if( type->comestible == nullptr || type->comestible->comesttype != "MED" ) {
+        return false;
+    }
+
+    return true;
+}
+
+bool item::is_medication_container() const
+{
+    return !contents.empty() && contents.front().is_medication();
 }
 
 bool item::is_brewable() const

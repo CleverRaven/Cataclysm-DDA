@@ -640,6 +640,7 @@ public:
     int value( const item &it, int market_price ) const;
     bool wear_if_wanted( const item &it );
     bool wield( item& it ) override;
+    bool adjust_worn();
     bool has_healing_item( bool bleed = false, bool bite = false, bool infect = false);
     item &get_healing_item( bool bleed = false, bool bite = false, bool infect = false,
                             bool first_best = false );
@@ -647,6 +648,9 @@ public:
  bool took_painkiller() const;
  void use_painkiller();
  void activate_item(int position);
+    /** Is the item safe or does the NPC trust you enough? */
+    bool will_accept_from_player( const item &it ) const;
+
     bool wants_to_sell( const item &it ) const;
     bool wants_to_sell( const item &it, int at_price, int market_price ) const;
     bool wants_to_buy( const item &it ) const;

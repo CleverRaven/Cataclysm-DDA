@@ -1022,6 +1022,10 @@ npc_action npc::address_needs( int danger )
         return npc_noop;
     }
 
+    if( danger <= NPC_DANGER_VERY_LOW && adjust_worn() ) {
+        return npc_noop;
+    }
+
     // TODO: More risky attempts at sleep when exhausted
     if( danger == 0 && get_fatigue() > TIRED ) {
         if( !is_following() ) {
@@ -3084,4 +3088,45 @@ void npc::do_reload( item &it )
 
     // Otherwise the NPC may not equip the weapon until they see danger
     has_new_items = true;
+}
+
+bool covers_broken( const Character &who, const item &it )
+{
+    const auto covered = it.get_covered_body_parts();
+    for( size_t i = 0; i < num_hp_parts; i++ ) {
+        
+        if( who.hp_cur[ i ] <= 0 && covered[ player::hp_to_bp( hp_part( i ) ) ] ) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool npc::adjust_worn()
+{
+    // Currently just splints
+    const std::string splint_string( "SPLINT" );
+    for( auto &it : worn ) {
+        if( !it.has_flag( splint_string ) ) {
+            continue;
+        }
+
+        // If the split is covering a broken part, let it stay there
+        bool any_broken = covers_broken( *this, it );
+        if( any_broken ) {
+            continue;
+        }
+
+        // Not covering any broken part, see if we have any on opposite side
+        it.set_side( it.get_side() == LEFT ? RIGHT : LEFT );
+        any_broken = covers_broken( *this, it );
+        if( !any_broken ) {
+            if( takeoff( &it ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
