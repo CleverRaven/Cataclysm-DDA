@@ -13,6 +13,7 @@
 #include "weather.h"
 
 #include <algorithm>
+#include <set>
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -101,6 +102,22 @@ const std::string &get_morale_data( const morale_type id )
 
     return morale_data[id];
 }
+
+bool is_permanent_morale( const morale_type id )
+{
+    static const std::set<morale_type> permanent_morale = {{
+            MORALE_PERM_OPTIMIST,
+            MORALE_PERM_BADTEMPER,
+            MORALE_PERM_FANCY,
+            MORALE_PERM_MASOCHIST,
+            MORALE_PERM_CONSTRAINED,
+            MORALE_PERM_FILTHY
+        }
+    };
+
+    return permanent_morale.count( id ) != 0;
+}
+
 } // namespace
 
 // Morale multiplier
@@ -302,6 +319,12 @@ void player_morale::add( morale_type type, int bonus, int max_bonus,
                          int duration, int decay_start,
                          bool capped, const itype *item_type )
 {
+    if( ( duration == 0 ) & !is_permanent_morale( type ) ) {
+        debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
+                  get_morale_data( type ).c_str() );
+        return;
+    }
+
     for( auto &m : points ) {
         if( m.matches( type, item_type ) ) {
             const int prev_bonus = m.get_net_bonus();
