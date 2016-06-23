@@ -82,7 +82,10 @@
                 { "group": "guns_shotgun_common", "chance":  75,  "x": 15,      "y": [9,10] },
                 { "group": "guns_rifle_common",   "chance":  75,  "x": 16,      "y": [9,10] },
                 { "group": "mags_common",         "chance": 100,  "x": [14,16], "y": 12, "repeat": [1,4] },
-                { "group": "mags_rare",           "chance":  75,  "x": [14,16], "y": 13, "repeat": [1,3] }
+                { "group": "mags_rare",           "chance":  75,  "x": [14,16], "y": 13, "repeat": [1,3] },
+                { "group": "ammo_common",         "chance":  80,  "x": 3,       "y": 10, "repeat": [8,15] },
+                { "group": "ammo_rare",           "chance":  65,  "x": 3,       "y": 12, "repeat": [8,15] },
+                { "group": "ammo_milspec",        "chance":  65,  "x": 20,      "y": 12, "repeat": [8,15] }
             ]
         }
     }
