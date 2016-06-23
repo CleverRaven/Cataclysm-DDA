@@ -10749,11 +10749,10 @@ bool game::plfire( const tripoint &default_target )
         if( gun->get_gun_ups_drain() > 0 ) {
             const int ups_drain       = gun->get_gun_ups_drain();
             const int adv_ups_drain   = std::max( 1, ups_drain * 3 / 5 );
-            const int bio_power_drain = std::max( 1, ups_drain / 5 );
 
             if( !( u.has_charges( "UPS_off", ups_drain ) ||
                    u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= bio_power_drain ) ) ) {
+                   (u.has_active_bionic( "bio_ups" ) && u.power_level >= ups_drain ) ) ) {
                 add_msg( m_info,
                          _("You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!"),
                          ups_drain, adv_ups_drain );

@@ -9221,9 +9221,9 @@ std::list<item> player::use_charges( const itype_id& what, long qty )
 
     } else if( what == "UPS" ) {
         if( power_level > 0 && has_active_bionic( "bio_ups" ) ) {
-            auto bio = std::min( long( power_level ) , qty / 10 + ( qty % 10 != 0 ) );
+            auto bio = std::min( long( power_level ), qty );
             charge_power( -bio );
-            qty -= std::min( qty, bio * 10 );
+            qty -= std::min( qty, bio );
         }
 
         auto adv = charges_of( "adv_UPS_off", ceil( qty * 0.6 ) );
