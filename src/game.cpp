@@ -1498,9 +1498,15 @@ bool game::do_turn()
     u.update_body_wetness( *weather_precise );
     u.apply_wetness_morale( temperature );
     rustCheck();
-    if (calendar::once_every(MINUTES(1))) {
+
+    if( calendar::once_every( MINUTES( 1 ) ) ) {
         u.update_morale();
     }
+
+    if( calendar::once_every( SECONDS( 90 ) ) ) {
+        u.check_and_recover_morale();
+    }
+
     sfx::remove_hearing_loss();
     sfx::do_danger_music();
     sfx::do_fatigue();

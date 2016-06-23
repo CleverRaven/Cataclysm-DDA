@@ -216,6 +216,11 @@ bool player_morale::morale_point::matches( morale_type _type, const itype *_item
     return ( _type == type ) && ( _item_type == nullptr || _item_type == item_type );
 }
 
+bool player_morale::morale_point::matches( const morale_point &mp ) const
+{
+    return ( type == mp.type ) && ( item_type == mp.item_type );
+}
+
 void player_morale::morale_point::add( int new_bonus, int new_max_bonus, int new_duration,
                                        int new_decay_start,
                                        bool new_cap )
@@ -512,6 +517,42 @@ void player_morale::display( double focus_gain )
 
     werase( w );
     delwin( w );
+}
+
+bool player_morale::consistent_with( const player_morale &morale ) const
+{
+    const auto test_points = []( const player_morale & lhs, const player_morale & rhs ) {
+        for( const auto &lhp : lhs.points ) {
+            if( !lhp.is_permanent() ) {
+                continue;
+            }
+
+            const auto iter = std::find_if( rhs.points.begin(), rhs.points.end(),
+            [ &lhp ]( const morale_point & rhp ) {
+                return lhp.matches( rhp );
+            } );
+
+            if( iter == rhs.points.end() || lhp.get_net_bonus() != iter->get_net_bonus() ) {
+                debugmsg( "Morale \"%s\" is inconsistent.", lhp.get_name().c_str() );
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+    if( took_prozac != morale.took_prozac ) {
+        debugmsg( "player_morale::took_prozac is inconsistent." );
+        return false;
+    } else if( stylish != morale.stylish ) {
+        debugmsg( "player_morale::stylish is inconsistent." );
+        return false;
+    } else if( perceived_pain != morale.perceived_pain ) {
+        debugmsg( "player_morale::perceived_pain is inconsistent." );
+        return false;
+    }
+
+    return test_points( *this, morale ) && test_points( morale, *this );
 }
 
 void player_morale::clear()
