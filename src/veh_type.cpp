@@ -386,15 +386,11 @@ void vpart_info::check()
         // @todo deprecate once requirements are entirely loaded from JSON
         if( part.legacy ) {
             part.install_reqs = requirement_id( std::string( "inline_vehins_" ) += part.id.str() );
-            part.removal_reqs = requirement_id( std::string( "inline_vehrem_" ) += part.id.str() );
 
             // <ugly hack>
             JsonObject dummy;
             requirement_data::load_requirement( dummy, part.install_reqs.str() );
-            requirement_data::load_requirement( dummy, part.removal_reqs.str() );
-
             auto &ins = const_cast<requirement_data &>( part.install_reqs.obj() );
-            auto &rem = const_cast<requirement_data &>( part.removal_reqs.obj() );
             // </ugly hack>
 
             ins.components = { { { { part.item, 1 } } } };
@@ -404,22 +400,26 @@ void vpart_info::check()
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
                 ins.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
-                rem.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
+                part.removal_reqs = requirement_id( "vehicle_bolt" );
+
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
                 ins.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
-                rem.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
+                part.removal_reqs = requirement_id( "vehicle_screw" );
+
             } else if( part.has_flag( "NAILABLE" ) ) {
                 ins.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
-                rem.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
                 ins.components.push_back( { { { "nail", 20 } } } );
+                part.removal_reqs = requirement_id( "vehicle_nail_removal" );
+
             } else if( part.has_flag( "TOOL_NONE" ) ) {
-                // intentional no-op as we require nothing
+                part.removal_reqs = requirement_id( "null" );
+
             } else {
                 ins.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
                                                   { { quality_id( "GLARE" ), 1, 2 } } } };
                 ins.tools.push_back( { { { "welder", 50 }, { "welder_crude", 75 }, { "oxy_torch", 10 } } } );
-                rem.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
-                                                  { { quality_id( "SAW_M" ), 1, 2 } } } };
+
+                part.removal_reqs = requirement_id( "vehicle_weld_removal" );
             }
         }
 
@@ -448,7 +448,7 @@ void vpart_info::check()
                       part.id.c_str(), part.install_reqs.c_str() );
         }
 
-        if( !part.removal_reqs.is_valid() ) {
+        if( !( part.removal_reqs.is_null() || part.removal_reqs.is_valid() ) ) {
             debugmsg( "vehicle part %s has unknown removal requirements %s",
                       part.id.c_str(), part.removal_reqs.c_str() );
         }
