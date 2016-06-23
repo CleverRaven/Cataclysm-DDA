@@ -595,7 +595,7 @@
         "occupied_bodyparts": [
             [ "HEAD", 2 ]
         ],
-        "act_cost": 50,
+        "toggled": true,
         "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness."
     },{
         "type": "bionic",

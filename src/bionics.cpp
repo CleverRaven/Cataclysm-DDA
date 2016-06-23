@@ -170,12 +170,6 @@ bool player::activate_bionic( int b, bool eff_only )
 
         weapon = item( bionics[bio.id].fake_item );
         weapon.invlet = '#';
-    } else if( bio.id == "bio_painkiller" ) {
-        mod_pain( -2 );
-        mod_painkiller( 6 );
-        if( get_painkiller() > get_pain() ) {
-            set_painkiller( get_pain() );
-        }
     } else if( bio.id == "bio_ears" && has_active_bionic( "bio_earplugs" ) ) {
         for( auto &i : my_bionics ) {
             if( i.id == "bio_earplugs" ) {
@@ -660,6 +654,22 @@ void player::process_bionic( int b )
             if( power_level >= 2 && remove_effect( effect_bleed, ( body_part )i ) ) {
                 charge_power( -2 );
             }
+        }
+    } else if( bio.id == "bio_painkiller" ) {
+        const int pkill = get_painkiller();
+        const int pain = get_pain();
+        int max_pkill = std::min( 150, pain );
+        if( pkill < max_pkill ) {
+            mod_painkiller( 1 );
+            charge_power( -2 );
+        }
+
+        // Only dull pain so extreme that we can't pkill it safely
+        if( pkill >= 150 && pain > pkill && stim > -150 ) {
+            mod_pain( -1 );
+            // Negative side effect: negative stim
+            stim--;
+            charge_power( -2 );
         }
     } else if( bio.id == "bio_cable" ) {
         const std::vector<item*> cables = items_with( []( const item &it ) {
