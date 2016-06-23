@@ -484,7 +484,7 @@ bool veh_interact::can_install_part() {
         }
     }
 
-    auto reqs = sel_vpart_info->install_reqs.obj();
+    const auto &reqs = *sel_vpart_info->install_reqs;
     bool ok = reqs.can_make_with_inventory( crafting_inv );
 
     std::ostringstream msg;
@@ -1029,7 +1029,7 @@ bool veh_interact::can_remove_part( int idx ) {
         return false;
     }
 
-    auto reqs = sel_vpart_info->removal_reqs.obj();
+    const auto &reqs = *sel_vpart_info->removal_reqs;
     bool ok = reqs.can_make_with_inventory( crafting_inv );
 
     std::ostringstream msg;
@@ -1324,7 +1324,7 @@ int veh_interact::part_at (int dx, int dy)
  */
 bool veh_interact::can_potentially_install(const vpart_info &vpart)
 {
-    return g->u.has_trait( "DEBUG_HS" ) || vpart.install_reqs.obj().can_make_with_inventory( crafting_inv );
+    return g->u.has_trait( "DEBUG_HS" ) || vpart.install_reqs->can_make_with_inventory( crafting_inv );
 }
 
 /**
@@ -2103,7 +2103,7 @@ void complete_vehicle ()
         case 'i': {
         auto inv = g->u.crafting_inventory();
 
-        const auto& reqs = vpinfo.install_reqs.obj();
+        const auto &reqs = *vpinfo.install_reqs;
         if( !reqs.can_make_with_inventory( inv ) ) {
            add_msg( m_info, _( "You lack the requirements to install the %s." ), vpinfo.name().c_str() );
            break;
@@ -2213,7 +2213,7 @@ void complete_vehicle ()
     case 'o': {
         auto inv = g->u.crafting_inventory();
 
-        const auto& reqs = vpinfo.removal_reqs.obj();
+        const auto &reqs = *vpinfo.removal_reqs;
         if( !reqs.can_make_with_inventory( inv ) ) {
            add_msg( m_info, _( "You lack the requirements to remove the %s." ), vpinfo.name().c_str() );
            break;
