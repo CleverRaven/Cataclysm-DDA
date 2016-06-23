@@ -7424,13 +7424,9 @@ void game::handbrake()
     u.moves = 0;
 }
 
-void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
+void game::exam_vehicle( vehicle &veh, int cx, int cy )
 {
-    (void)p; // not currently used
-    veh_interact vehint;
-    vehint.ddx = cx;
-    vehint.ddy = cy;
-    vehint.exec(&veh);
+    veh_interact vehint( veh, cx, cy );
 
     if( vehint.sel_cmd == 'q' ) {
         refresh_all();
@@ -7446,7 +7442,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
         int dmg = 1000;
         if (vehint.sel_cmd == 'r') {
-            dmg = 1000 - vehint.sel_vehicle_part->hp * 1000 / vehint.sel_vpart_info->durability;
+            dmg = 1000 - vehint.part()->hp * 1000 / vehint.sel_vpart_info->durability;
         }
         int mintime = 300 + diff * dmg;
         // sel_cmd = Install Repair reFill remOve Siphon Drainwater Changetire reName
@@ -7471,7 +7467,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
 
         // if we're working on an existing part, use that part as the reference point
         // otherwise (e.g. installing a new frame), just use part 0
-        point q = veh.coord_translate(vehint.sel_vehicle_part ? vehint.sel_vehicle_part->mount : veh.parts[0].mount);
+        point q = veh.coord_translate( vehint.part() ? vehint.part()->mount : veh.parts[0].mount );
         u.activity.values.push_back(veh.global_x() + q.x);    // values[0]
         u.activity.values.push_back(veh.global_y() + q.y);    // values[1]
         u.activity.values.push_back(vehint.ddx);   // values[2]
@@ -7479,13 +7475,10 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         u.activity.values.push_back(-vehint.ddx);   // values[4]
         u.activity.values.push_back(-vehint.ddy);   // values[5]
         // values[6]
-        u.activity.values.push_back(veh.index_of_part(vehint.sel_vehicle_part));
-        u.activity.values.push_back(vehint.sel_type); // int. might make bitmask
-        if (vehint.sel_vpart_info != NULL) {
-            u.activity.str_values.push_back(vehint.sel_vpart_info->id.str());
-        } else {
-            u.activity.str_values.push_back(vpart_str_id::NULL_ID.str());
-        }
+        u.activity.values.push_back( veh.index_of_part( vehint.part() ) );
+
+        u.activity.str_values.push_back( vehint.sel_vpart_info->id.str() );
+
         u.moves = 0;
     }
     refresh_all();
