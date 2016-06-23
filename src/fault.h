@@ -41,7 +41,7 @@ class fault
         }
 
         const requirement_data &requirements() const {
-            return requirements_;
+            return requirements_.obj();
         }
 
         /** Load fault from JSON definition */
@@ -62,7 +62,7 @@ class fault
         std::string description_;
         int time_;
         std::map<skill_id, int> skills_;
-        requirement_data requirements_;
+        requirement_id requirements_;
 };
 
 #endif

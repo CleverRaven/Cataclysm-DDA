@@ -137,7 +137,7 @@ class vpart_info
         bool legacy = true;
 
         /** Installation requirements for this component */
-        requirement_data install_reqs;
+        requirement_id install_reqs;
 
         /** Required skills to install this component */
         std::map<skill_id, int> install_skills;
@@ -149,7 +149,7 @@ class vpart_info
         int install_time( const Character &ch ) const;
 
         /** Requirements for removal of this component */
-        requirement_data removal_reqs;
+        requirement_id removal_reqs;
 
         /** Required skills to remove this component */
         std::map<skill_id, int> removal_skills;

@@ -257,12 +257,13 @@ void Item_factory::finalize_item_blacklist()
         for( auto &g : m_template_groups ) {
             g.second->remove_item( e.first );
         }
+
         recipe_dict.delete_if( [&]( recipe &r ) {
-            return r.result == e.first || r.requirements.remove_item( e.first );
+            return r.result == e.first || const_cast<requirement_data &>( r.requirements.obj() ).remove_item( e.first );
         } );
 
         remove_construction_if([&](construction &c) {
-            return c.requirements.remove_item( e.first );
+            return const_cast<requirement_data &>( c.requirements.obj() ).remove_item( e.first );
         });
     }
 

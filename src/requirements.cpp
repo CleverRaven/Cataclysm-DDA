@@ -14,6 +14,26 @@
 #include <algorithm>
 #include "generic_factory.h"
 
+static std::map<requirement_id, requirement_data> requirements_all;
+
+template<>
+bool string_id<requirement_data>::is_valid() const
+{
+    return requirements_all.count( *this );
+}
+
+template<>
+const requirement_data &string_id<requirement_data>::obj() const
+{
+    const auto found = requirements_all.find( *this );
+    if( found == requirements_all.end() ) {
+        debugmsg( "Tried to get invalid requirements: %s", c_str() );
+        static const requirement_data null_requirement{};
+        return null_requirement;
+    }
+    return found->second;
+}
+
 namespace {
 generic_factory<quality> quality_factory( "tool quality" );
 } // namespace
@@ -150,15 +170,32 @@ void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector
     }
 }
 
-void requirement_data::load( JsonObject &jsobj )
+void requirement_data::load_requirement( JsonObject &jsobj, const std::string &id )
 {
+    requirement_data req;
+
     JsonArray jsarr;
     jsarr = jsobj.get_array( "components" );
-    load_obj_list( jsarr, components );
+    req.load_obj_list( jsarr, req.components );
     jsarr = jsobj.get_array( "qualities" );
-    load_obj_list( jsarr, qualities );
+    req.load_obj_list( jsarr, req.qualities );
     jsarr = jsobj.get_array( "tools" );
-    load_obj_list( jsarr, tools );
+    req.load_obj_list( jsarr, req.tools );
+
+    if( !id.empty() ) {
+        req.id_ = requirement_id( id );
+    } else if( jsobj.has_string( "id" ) ) {
+        req.id_ = requirement_id( jsobj.get_string( "id" ) );
+    } else {
+        jsobj.throw_error( "id was not specified for requirement" );
+    }
+
+    if( requirements_all.find( req.id_ ) != requirements_all.end() ) {
+        jsobj.throw_error( "parsed requirement overwrites existing definition", "id" );
+    } else {
+        requirements_all[ req.id_ ] = req;
+        DebugLog( D_INFO, DC_ALL ) << "Loaded requiremnet: " << req.id_.str();
+    }
 }
 
 template<typename T>
@@ -231,12 +268,26 @@ void requirement_data::check_consistency( const std::vector< std::vector<T> > &v
     }
 }
 
-void requirement_data::check_consistency( const std::string &display_name ) const
+const std::map<requirement_id, requirement_data> &requirement_data::all()
 {
-    check_consistency( tools, display_name );
-    check_consistency( components, display_name );
-    check_consistency( qualities, display_name );
+    return requirements_all;
 }
+
+
+void requirement_data::check_consistency()
+{
+    for( const auto &r : all() ) {
+        check_consistency( r.second.tools, r.first.str() );
+        check_consistency( r.second.components, r.first.str() );
+        check_consistency( r.second.qualities, r.first.str() );
+    }
+}
+
+void requirement_data::reset()
+{
+    requirements_all.clear();
+}
+
 
 int requirement_data::print_components( WINDOW *w, int ypos, int xpos, int width, nc_color col,
                                         const inventory &crafting_inv, int batch ) const

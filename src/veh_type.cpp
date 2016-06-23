@@ -189,7 +189,14 @@ void vpart_info::load( JsonObject &jo )
 
         assign( ins, "time", def.install_moves );
 
-        def.install_reqs.load( ins );
+        if( ins.has_string( "using" ) ) {
+            def.install_reqs = requirement_id( ins.get_string( "using" ) );
+        } else {
+            auto req_id = std::string( "inline_vehins_" ) += def.id.str();
+            requirement_data::load_requirement( ins, req_id );
+            def.install_reqs = requirement_id( req_id );
+        }
+
         def.legacy = false;
     }
     if( reqs.has_object( "removal" ) ) {
@@ -206,7 +213,14 @@ void vpart_info::load( JsonObject &jo )
 
         assign( rem, "time", def.removal_moves );
 
-        def.removal_reqs.load( rem );
+        if( rem.has_string( "using" ) ) {
+            def.removal_reqs = requirement_id( rem.get_string( "using" ) );
+        } else {
+            auto req_id = std::string( "inline_vehrem_" ) += def.id.str();
+            requirement_data::load_requirement( rem, req_id );
+            def.removal_reqs = requirement_id( req_id );
+        }
+
         def.legacy = false;
     }
 
@@ -369,34 +383,47 @@ void vpart_info::check()
         auto &part = vp.second;
 
         // handle legacy parts without requirement data
+        // @todo deprecate once requirements are entirely loaded from JSON
         if( part.legacy ) {
-            part.install_reqs.components = { { { { part.item, 1 } } } };
+            part.install_reqs = requirement_id( std::string( "inline_vehins_" ) += part.id.str() );
+            part.removal_reqs = requirement_id( std::string( "inline_vehrem_" ) += part.id.str() );
+
+            // <ugly hack>
+            JsonObject dummy;
+            requirement_data::load_requirement( dummy, part.install_reqs.str() );
+            requirement_data::load_requirement( dummy, part.removal_reqs.str() );
+
+            auto &ins = const_cast<requirement_data &>( part.install_reqs.obj() );
+            auto &rem = const_cast<requirement_data &>( part.removal_reqs.obj() );
+            // </ugly hack>
+
+            ins.components = { { { { part.item, 1 } } } };
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
             part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
-                part.install_reqs.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
-                part.removal_reqs.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
+                ins.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
+                rem.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
-                part.install_reqs.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
-                part.removal_reqs.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
+                ins.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
+                rem.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
             } else if( part.has_flag( "NAILABLE" ) ) {
-                part.install_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
-                part.removal_reqs.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
-                part.install_reqs.components.push_back( { { { "nail", 20 } } } );
+                ins.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
+                rem.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
+                ins.components.push_back( { { { "nail", 20 } } } );
             } else if( part.has_flag( "TOOL_NONE" ) ) {
                 // intentional no-op as we require nothing
             } else {
-                part.install_reqs.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
+                ins.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
                                                   { { quality_id( "GLARE" ), 1, 2 } } } };
-                part.install_reqs.tools.push_back( { { { "welder", 50 }, { "welder_crude", 75 }, { "oxy_torch", 10 } } } );
-                part.removal_reqs.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
+                ins.tools.push_back( { { { "welder", 50 }, { "welder_crude", 75 }, { "oxy_torch", 10 } } } );
+                rem.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
                                                   { { quality_id( "SAW_M" ), 1, 2 } } } };
             }
         }
 
-        if( part.install_reqs.get_components().empty() ) {
+        if( part.install_reqs.obj().get_components().empty() ) {
             debugmsg( "vehicle part %s has no installation components", part.id.c_str() );
         }
 
@@ -416,9 +443,15 @@ void vpart_info::check()
             }
         }
 
-        part.install_reqs.check_consistency( part.id.str() );
+        if( !part.install_reqs.is_valid() ) {
+            debugmsg( "vehicle part %s has unknown install requirements %s",
+                      part.id.c_str(), part.install_reqs.c_str() );
+        }
 
-        part.removal_reqs.check_consistency( part.id.str() );
+        if( !part.removal_reqs.is_valid() ) {
+            debugmsg( "vehicle part %s has unknown removal requirements %s",
+                      part.id.c_str(), part.removal_reqs.c_str() );
+        }
 
         if( part.install_moves < 0 ) {
             debugmsg( "vehicle part %s has negative installation time", part.id.c_str() );

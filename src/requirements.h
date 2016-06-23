@@ -13,6 +13,9 @@ class JsonObject;
 class JsonArray;
 class inventory;
 
+struct requirement_data;
+using requirement_id = string_id<requirement_data>;
+
 // Denotes the id of an item type
 typedef std::string itype_id;
 struct quality;
@@ -142,23 +145,38 @@ struct requirement_data {
         alter_item_comp_vector components;
 
     public:
+        requirement_data() : id_( requirement_id( "null" ) ) {}
+
+        const requirement_id &id() const {
+            return id_;
+        }
+
+        bool is_null() const {
+            return id_ == requirement_id( "null" );
+        }
 
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.
+         * @param id provide (or override) unique id for this instance
          */
-        void load( JsonObject &jsobj );
+        static void load_requirement( JsonObject &jsobj, const std::string &id = "" );
+
+        /** Get all currently loaded requirements */
+        static const std::map<requirement_id, requirement_data> &all();
+
+        /** Check consistency of all loaded requirements */
+        static void check_consistency();
+
+        /** Clear all loaded requirements (invalidating any pointers) */
+        static void reset();
+
         /**
          * Returns a list of components/tools/qualities that are not available,
          * nicely formatted for popup window or similar.
          */
         std::string list_missing() const;
-        /**
-         * Consistency checking
-         * @param display_name the string is used when displaying a error about
-         * inconsistent data (unknown item id, ...).
-         */
-        void check_consistency( const std::string &display_name ) const;
+
         /**
          * Remove components (tools/items) of the given item type. Qualities are not
          * changed.
@@ -190,6 +208,8 @@ struct requirement_data {
         const requirement_data disassembly_requirements() const;
 
     private:
+        requirement_id id_;
+
         bool check_enough_materials( const inventory &crafting_inv, int batch = 1 ) const;
         bool check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
                                      int batch = 1 ) const;

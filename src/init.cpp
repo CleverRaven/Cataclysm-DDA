@@ -277,6 +277,7 @@ void init_names()
 
 void DynamicDataLoader::unload_data()
 {
+    requirement_data::reset();
     vitamin::reset();
     fault::reset();
     material_type::reset();
@@ -347,6 +348,7 @@ void DynamicDataLoader::finalize_loaded_data()
 
 void DynamicDataLoader::check_consistency()
 {
+    requirement_data::check_consistency();
     vitamin::check_consistency();
     item_controller->check_definitions();
     fault::check_consistency();
