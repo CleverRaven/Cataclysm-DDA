@@ -1869,7 +1869,7 @@ void veh_interact::display_details( const vpart_info *part )
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
                        "%s: <color_ltgray>%d</color>",
                        small_mode ? _("FoldVol") : _("Folded Volume"),
-                       part->folded_volume);
+                       part->folded_volume / units::legacy_volume_factor);
     }
 
     // line 3: (column 1) size,bonus,wheel_width (as applicable)    (column 2) epower (if applicable)

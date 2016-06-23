@@ -7,6 +7,7 @@
 #include "color.h"
 #include "damage.h"
 #include "calendar.h"
+#include "units.h"
 
 #include <vector>
 #include <bitset>
@@ -127,7 +128,7 @@ class vpart_info
         itype_id fuel_type = "null";
 
         /** Volume of a foldable part when folded */
-        int folded_volume = 0;
+        units::volume folded_volume = 0;
 
         /** Cargo location volume */
         int size = 0;

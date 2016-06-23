@@ -1139,7 +1139,7 @@ bool vehicle::fold_up() {
 
     if (can_be_folded) {
         bicycle.set_var( "weight", total_mass() * 1000 );
-        bicycle.set_var( "volume", total_folded_volume() );
+        bicycle.set_var( "volume", total_folded_volume() / units::legacy_volume_factor );
         bicycle.set_var( "name", string_format(_("folded %s"), name.c_str()) );
         bicycle.set_var( "vehicle_name", name );
         // TODO: a better description?
@@ -2850,9 +2850,9 @@ int vehicle::total_mass() const
     return mass_cache;
 }
 
-int vehicle::total_folded_volume() const
+units::volume vehicle::total_folded_volume() const
 {
-    int m = 0;
+    units::volume m = 0;
     for( size_t i = 0; i < parts.size(); i++ ) {
         if( parts[i].removed ) {
             continue;
