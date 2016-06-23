@@ -66,11 +66,6 @@ const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_weed_high( "weed_high" );
 
-enum item::LIQUID_FILL_ERROR : int {
-    L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
-    L_ERR_NOT_SEALED, L_ERR_FULL
-};
-
 std::string const& rad_badge_color(int const rad)
 {
     using pair_t = std::pair<int const, std::string const>;
@@ -4957,7 +4952,9 @@ long item::get_container_capacity() const
 
 long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
 {
-    if ( has_valid_capacity_for_liquid( liquid, allow_bucket ) != L_ERR_NONE) {
+    std::string dummy_err;
+
+    if ( !has_valid_capacity_for_liquid( liquid, allow_bucket, dummy_err ) )  {
         return 0;
     }
 
@@ -4975,36 +4972,43 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
     return remaining_capacity;
 }
 
-item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
+bool item::has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket, std::string &err ) const
 {
     const bool uses_ammo = liquid.is_ammo() && ( is_tool() || is_gun() );
 
     const bool wrong_ammo = uses_ammo && ( ammo_type() != liquid.ammo_type() );
     if( !is_container() || wrong_ammo ) {
-        return L_ERR_NOT_CONTAINER;
+        err = string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
+        return false;
     }
 
     const bool mixed_ammo = uses_ammo && ( ammo_remaining() != 0 && ammo_current() != liquid.typeId() );
     if( mixed_ammo || ( !contents.empty() && contents.front().typeId() != liquid.typeId() ) ) {
-        return L_ERR_NO_MIX;
+        err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
+        return false;
     }
 
     if( !type->container->watertight ) {
-        return L_ERR_NOT_WATERTIGHT;
+        err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
+        return false;
     }
 
     if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
-        return L_ERR_NOT_SEALED;
+        err = is_bucket() ?
+                  string_format( _( "That %s must be on the ground or held to hold contents!" ), tname().c_str()) :
+                  string_format( _( "You can't seal that %s!" ), tname().c_str());
+        return false;
     }
 
     const bool fully_loded = uses_ammo && ( ammo_remaining() >= ammo_capacity() );
     const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
 
     if( fully_loded || ( !contents.empty() && ( total_capacity - contents.front().charges <= 0 ) ) ) {
-        return L_ERR_FULL;
+        err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());
+        return false;
     }
 
-    return L_ERR_NONE;
+    return true;
 }
 
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
@@ -5039,30 +5043,8 @@ bool item::allow_crafting_component() const
 
 bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
 {
-    LIQUID_FILL_ERROR lferr = has_valid_capacity_for_liquid( liquid, allow_bucket );
-    switch ( lferr ) {
-        case L_ERR_NONE :
-            break;
-        case L_ERR_NO_MIX:
-            err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
-            return false;
-        case L_ERR_NOT_CONTAINER:
-            err = string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
-            return false;
-        case L_ERR_NOT_WATERTIGHT:
-            err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
-            return false;
-        case L_ERR_NOT_SEALED:
-            err = is_bucket() ?
-                  string_format( _( "That %s must be on the ground or held to hold contents!" ), tname().c_str()) :
-                  string_format( _( "You can't seal that %s!" ), tname().c_str());
-            return false;
-        case L_ERR_FULL:
-            err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());
-            return false;
-        default:
-            err = string_format( _( "Unimplemented liquid fill error '%s'." ),lferr);
-            return false;
+    if( !has_valid_capacity_for_liquid( liquid, allow_bucket, err ) ) {
+        return false;
     }
 
     const long remaining_capacity = get_remaining_capacity_for_liquid( liquid, allow_bucket );

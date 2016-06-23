@@ -1414,9 +1414,7 @@ public:
         bool has_infinite_charges() const;
 
     private:
-        /** Helper for liquid and container related stuff. */
-        enum LIQUID_FILL_ERROR : int;
-        LIQUID_FILL_ERROR has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const;
+        bool has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket, std::string &err ) const;
         std::string name;
         const itype* curammo = nullptr;
         std::map<std::string, std::string> item_vars;
