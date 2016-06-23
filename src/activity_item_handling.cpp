@@ -88,7 +88,7 @@ void put_into_vehicle( player &p, const std::vector<item> &items, vehicle &veh, 
     }
 
     if( fallen_count > 0 ) {
-        add_msg( m_warning, _( "The trunk is full, so some items fell to the %2$s." ), ter_name.c_str() );
+        add_msg( m_warning, _( "The trunk is full, so some items fell to the %s." ), ter_name.c_str() );
     }
 }
 
@@ -116,9 +116,9 @@ void stash_on_pet( const std::vector<item> &items, monster &pet )
             const std::string ter_name = g->m.name( pet.pos() );
 
             if( too_big ) {
-                add_msg( m_bad, _( "%s did not fit and fell to the %1$s." ), it_name.c_str(), ter_name.c_str() );
+                add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it_name.c_str(), ter_name.c_str() );
             } else {
-                add_msg( m_bad, _( "%s is too heavy and fell to the %1$s." ), it_name.c_str(), ter_name.c_str() );
+                add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it_name.c_str(), ter_name.c_str() );
             }
 
             g->m.add_item_or_charges( pet.pos(), it, 1 );
