@@ -16,6 +16,9 @@
 
 static std::map<requirement_id, requirement_data> requirements_all;
 
+template <>
+const requirement_id string_id<requirement_data>::NULL_ID( "null" );
+
 template<>
 bool string_id<requirement_data>::is_valid() const
 {

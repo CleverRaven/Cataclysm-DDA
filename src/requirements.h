@@ -151,10 +151,6 @@ struct requirement_data {
             return id_;
         }
 
-        bool is_null() const {
-            return id_ == requirement_id( "null" );
-        }
-
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.
