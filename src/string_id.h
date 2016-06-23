@@ -128,8 +128,13 @@ class string_id
          */
         const T &obj() const;
 
-        const T &operator*() const { return obj(); }
-        const T *operator->() const { return &obj(); }
+        const T &operator*() const {
+            return obj();
+
+        }
+        const T *operator->() const {
+            return &obj();
+        }
 
         /**
          * Returns whether this id is valid, that means whether it refers to an existing object.
