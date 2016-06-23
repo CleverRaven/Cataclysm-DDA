@@ -94,36 +94,28 @@ void put_into_vehicle( player &p, const std::vector<item> &items, vehicle &veh, 
 
 void stash_on_pet( const std::vector<item> &items, monster &pet )
 {
-    if( pet.inv.empty() ) {
-        return;
+    int remaining_volume = pet.inv.empty() ? 0 : pet.inv.front().get_storage();
+    int remaining_weight = pet.weight_capacity();
+
+    for( const auto &it : pet.inv ) {
+        remaining_volume -= it.volume();
+        remaining_weight -= it.weight();
     }
+
     for( auto &it : items ) {
-        int max_volume = pet.inv.front().get_storage();
-        int max_weight = pet.weight_capacity();
-
-        for( const auto &it : pet.inv ) {
-            max_volume -= it.volume();
-            max_weight -= it.weight();
-        }
-
-        const bool too_heavy = it.weight() > max_weight;
-        const bool too_big = it.volume() > max_volume;
-
         pet.add_effect( effect_controlled, 5 );
-
-        if( too_heavy || too_big ) {
-            const std::string it_name = it.display_name();
-            const std::string ter_name = g->m.name( pet.pos() );
-
-            if( too_big ) {
-                add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ), it_name.c_str(), ter_name.c_str() );
-            } else {
-                add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ), it_name.c_str(), ter_name.c_str() );
-            }
-
+        if( it.volume() > remaining_weight ) {
+            add_msg( m_bad, _( "%1$s did not fit and fell to the %2$s." ),
+                     it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
+            g->m.add_item_or_charges( pet.pos(), it, 1 );
+        } else if( it.weight() > remaining_volume ) {
+            add_msg( m_bad, _( "%1$s is too heavy and fell to the %2$s." ),
+                     it.display_name().c_str(), g->m.name( pet.pos() ).c_str() );
             g->m.add_item_or_charges( pet.pos(), it, 1 );
         } else {
-            pet.inv.push_back( it );
+            pet.add_item( it );
+            remaining_volume -= it.volume();
+            remaining_weight -= it.weight();
         }
     }
 }
@@ -373,13 +365,13 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
 void activity_handlers::stash_do_turn( player_activity *act, player *p )
 {
     const tripoint pos = act->placement + p->pos();
-    Creature *critter = g->critter_at( pos );
 
-    if( critter != nullptr ) {
-        monster *pet = dynamic_cast<monster *>( critter );
-        if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-            stash_on_pet( obtain_activity_items( *act, *p ), *pet );
-        }
+    monster *pet = dynamic_cast<monster *>( g->critter_at( pos ) );
+    if( pet != nullptr && pet->has_effect( effect_pet ) ) {
+        stash_on_pet( obtain_activity_items( *act, *p ), *pet );
+    } else {
+        p->add_msg_if_player( _( "The pet has moved somewhere else." ) );
+        p->cancel_activity();
     }
 }
 
