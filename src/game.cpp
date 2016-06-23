@@ -7375,17 +7375,18 @@ void game::smash()
         if (u.get_skill_level( skill_melee ) == 0) {
             u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
+        const int vol = u.weapon.volume();
         if (u.weapon.made_of( material_id( "glass" ) ) &&
-            rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
+            rng(0, vol + 3) < vol) {
             add_msg(m_bad, _("Your %s shatters!"), u.weapon.tname().c_str());
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.pos(), elem );
             }
             sounds::sound(u.pos(), 24, "");
-            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, u.weapon.volume() ) ) );
-            if (u.weapon.volume() > 20) {
+            u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
+            if (vol > 20) {
                 // Hurt left arm too, if it was big
-                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( u.weapon.volume() * .5 ) ) ) );
+                u.deal_damage( nullptr, bp_hand_l, damage_instance( DT_CUT, rng( 0, long( vol * .5 ) ) ) );
             }
             u.remove_weapon();
             u.check_dead_state();
