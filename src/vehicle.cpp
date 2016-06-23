@@ -6169,7 +6169,7 @@ long vehicle_part::ammo_capacity() const
     }
 
     if( base.is_watertight_container() ) {
-        return base.type->container->contains * std::max( item::find_type( ammo_current() )->stack_size, 1 );
+        return base.get_container_capacity() * std::max( item::find_type( ammo_current() )->stack_size, 1 );
     }
 
     return 0;
