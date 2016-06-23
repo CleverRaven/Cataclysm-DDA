@@ -2884,11 +2884,9 @@ static tripoint getNearFilledGasTank(const tripoint &center, long &gas_units)
             }
             for( auto &k : g->m.i_at(tmp)) {
                 if(k.made_of(LIQUID)) {
-                    const long units = k.liquid_units( k.charges );
-
                     distance = new_distance;
                     tank_loc = tmp;
-                    gas_units = units;
+                    gas_units = k.charges;
                     break;
                 }
             }
@@ -3005,15 +3003,13 @@ static bool toPumpFuel(const tripoint &src, const tripoint &dst, long units)
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID)) {
-            const long amount = item_it->liquid_charges( units );
-
-            if( item_it->charges < amount ) {
+            if( item_it->charges < units ) {
                 return false;
             }
 
-            item_it->charges -= amount;
+            item_it->charges -= units;
 
-            item liq_d( item_it->type, calendar::turn, amount );
+            item liq_d( item_it->type, calendar::turn, units );
 
             const auto backup_pump = g->m.ter( dst );
             g->m.ter_set( dst, ter_id( NULL_ID ) );
@@ -3052,7 +3048,7 @@ static long fromPumpFuel(const tripoint &dst, const tripoint &src)
             // remove the liquid from the pump
             long amount = item_it->charges;
             items.erase( item_it );
-            return item_it->liquid_units( amount );
+            return amount;
         }
     }
     return -1;
