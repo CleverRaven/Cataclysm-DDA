@@ -145,9 +145,9 @@ struct requirement_data {
         alter_item_comp_vector components;
 
     public:
-        requirement_data() : id_( requirement_id( "null" ) ) {}
+        requirement_data() : id_( "null" ) {}
 
-        const requirement_id &id() const {
+        const std::string &id() const {
             return id_;
         }
 
@@ -157,6 +157,12 @@ struct requirement_data {
          * @param id provide (or override) unique id for this instance
          */
         static void load_requirement( JsonObject &jsobj, const std::string &id = "" );
+
+        /**
+         * Store requirement data for future lookup
+         * @param id provide (or override) unique id for this instance
+         */
+        static void save_requirement( const requirement_data &req, const std::string &id = "" );
 
         /** Get all currently loaded requirements */
         static const std::map<requirement_id, requirement_data> &all();
@@ -204,7 +210,7 @@ struct requirement_data {
         const requirement_data disassembly_requirements() const;
 
     private:
-        requirement_id id_;
+        std::string id_;
 
         bool check_enough_materials( const inventory &crafting_inv, int batch = 1 ) const;
         bool check_enough_materials( const item_comp &comp, const inventory &crafting_inv,

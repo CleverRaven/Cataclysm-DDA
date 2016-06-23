@@ -186,19 +186,29 @@ void requirement_data::load_requirement( JsonObject &jsobj, const std::string &i
     req.load_obj_list( jsarr, req.tools );
 
     if( !id.empty() ) {
-        req.id_ = requirement_id( id );
+        req.id_ = id;
     } else if( jsobj.has_string( "id" ) ) {
-        req.id_ = requirement_id( jsobj.get_string( "id" ) );
+        req.id_ = jsobj.get_string( "id" );
     } else {
         jsobj.throw_error( "id was not specified for requirement" );
     }
 
-    if( requirements_all.find( req.id_ ) != requirements_all.end() ) {
+    if( requirements_all.find( requirement_id( req.id_ ) ) != requirements_all.end() ) {
         jsobj.throw_error( "parsed requirement overwrites existing definition", "id" );
     } else {
-        requirements_all[ req.id_ ] = req;
-        DebugLog( D_INFO, DC_ALL ) << "Loaded requiremnet: " << req.id_.str();
+        save_requirement( req );
     }
+}
+
+void requirement_data::save_requirement( const requirement_data &req, const std::string &id )
+{
+    auto dup = req;
+    if( !id.empty() ) {
+        dup.id_ = id;
+    }
+
+    DebugLog( D_INFO, DC_ALL ) << "Added requirement: " << dup.id_.c_str();
+    requirements_all[ requirement_id( dup.id_ ) ] = dup;
 }
 
 template<typename T>
