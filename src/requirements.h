@@ -151,6 +151,9 @@ struct requirement_data {
             return id_;
         }
 
+        /** Scales tool and component requirements leaving qualities unaffected */
+        requirement_data operator*( unsigned scalar ) const;
+
         /**
          * Load @ref tools, @ref qualities and @ref components from
          * the json object. Assumes them to be in sub-objects.

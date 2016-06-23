@@ -173,6 +173,23 @@ void requirement_data::load_obj_list( JsonArray &jsarr, std::vector< std::vector
     }
 }
 
+requirement_data requirement_data::operator*( unsigned scalar ) const
+{
+    requirement_data res = *this;
+    for( auto &group : res.components ) {
+        for( auto &e : group ) {
+            e.count = std::max( e.count *= scalar, -1 );
+        }
+    }
+    for( auto &group : res.tools ) {
+        for( auto &e : group ) {
+            e.count = std::max( e.count *= scalar, -1 );
+        }
+    }
+
+    return res;
+}
+
 void requirement_data::load_requirement( JsonObject &jsobj, const std::string &id )
 {
     requirement_data req;
