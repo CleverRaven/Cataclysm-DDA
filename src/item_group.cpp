@@ -346,7 +346,7 @@ Item_spawn_data::ItemList Item_group::create(int birthday, RecursionList &rec) c
                 e.contents.emplace_back( e.magazine_default(), e.bday );
             }
             if( spawn_ammo ) {
-                e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                e.ammo_set( default_ammo( e.ammo_type() ) );
             }
         }
     }

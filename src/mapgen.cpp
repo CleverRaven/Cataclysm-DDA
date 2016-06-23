@@ -884,7 +884,7 @@ class jmapgen_loot : public jmapgen_piece {
                         e.contents.emplace_back( e.magazine_default(), e.bday );
                     }
                     if( spawn_ammo ) {
-                        e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                        e.ammo_set( default_ammo( e.ammo_type() ) );
                     }
                 }
                 m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ), m.get_abs_sub().z ), spawn );
