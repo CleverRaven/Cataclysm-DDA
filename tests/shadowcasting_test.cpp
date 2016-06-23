@@ -463,8 +463,8 @@ struct grid_overlay {
     }
 
     float get_global( int x, int y ) const {
-        if( y > offset.y && y < offset.y + height() &&
-            x > offset.x && x < offset.x + width() ) {
+        if( y >= offset.y && y < offset.y + height() &&
+            x >= offset.x && x < offset.x + width() ) {
             return data[ y - offset.y ][ x - offset.x ];
         }
         return default_value;
