@@ -18,8 +18,6 @@
 #include "sounds.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
-#define TARGET_NONE INT_MIN
-#define TARGET_PLAYER -2
 
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_gun( "gun" );
@@ -162,15 +160,28 @@ void npc::assess_danger()
 
 void npc::regen_ai_cache()
 {
+    ai_cache.friends.clear();
     assess_danger();
-    ai_cache.target = TARGET_NONE;
+    ai_cache.target = npc_target::none();
+
+    if( is_friend() ) {
+        ai_cache.friends.emplace_back( npc_target::player() );
+    }
+
+    for( size_t i = 0; i < g->active_npc.size(); i++ ) {
+        const auto &np = *g->active_npc[ i ];
+        if( &np != this && attitude_to( np ) == Attitude::A_FRIENDLY ) {
+            ai_cache.friends.emplace_back( npc_target::npc( i ) );
+        }
+    }
+
     choose_monster_target();
 
     if( is_enemy() ) {
         int pl_danger = player_danger( g->u );
         if( ( pl_danger > ai_cache.danger || rl_dist( pos(), g->u.pos() ) <= 1 ) ||
-              ai_cache.target == TARGET_NONE ) {
-            ai_cache.target = TARGET_PLAYER;
+              current_target() == nullptr ) {
+            ai_cache.target = npc_target::player();
             ai_cache.danger = pl_danger;
             add_msg( m_debug, "NPC %s: Set target to PLAYER, danger = %d", name.c_str(), ai_cache.danger );
         }
@@ -182,8 +193,11 @@ void npc::move()
     regen_ai_cache();
     npc_action action = npc_undecided;
 
-    add_msg( m_debug, "NPC %s: target = %d, danger = %d, range = %d",
-             name.c_str(), ai_cache.target, ai_cache.danger, confident_shoot_range( weapon ) );
+    static const std::string no_target_str = "none";
+    const Creature *target = current_target();
+    const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
+    add_msg( m_debug, "NPC %s: target = %s, danger = %d, range = %d",
+             name.c_str(), target_name.c_str(), ai_cache.danger, confident_shoot_range( weapon ) );
 
     //faction opinion determines if it should consider you hostile
     if( my_fac != nullptr && my_fac->likes_u < -10 && sees( g->u ) ) {
@@ -218,17 +232,16 @@ void npc::move()
 
     if( is_enemy() && vehicle_danger(avoidance_vehicles_radius) > 0 ) {
         // TODO: Think about how this actually needs to work, for now assume flee from player
-        ai_cache.target = TARGET_PLAYER;
+        ai_cache.target = npc_target::player();
     }
 
     // TODO: morale breaking when surrounded by hostiles
     //if (!bravery_check(danger) || !bravery_check(total_danger) ||
     // TODO: near by active explosives spotted
 
-    if( ai_cache.target == TARGET_PLAYER && attitude == NPCATT_FLEE ) {
+    if( target == &g->u && attitude == NPCATT_FLEE ) {
         action = method_of_fleeing();
-    } else if( ( ai_cache.target != TARGET_NONE && ai_cache.danger > 0 ) ||
-               ( ai_cache.target == TARGET_PLAYER && attitude == NPCATT_KILL) ) {
+    } else if( target != nullptr && ai_cache.danger > 0  ) {
         action = method_of_attack();
     } else {
         // No present danger
@@ -278,7 +291,7 @@ void npc::move()
      * If we are following a embarked player and we are in a vehicle then shoot anyway
      * as we are most likely riding shotgun
      */
-    if( ai_cache.danger > 0 && ai_cache.target != INT_MIN &&
+    if( ai_cache.danger > 0 && target != nullptr &&
         (
           ( action == npc_follow_embarked && in_vehicle) ||
           ( action == npc_follow_player &&
@@ -632,12 +645,10 @@ void npc::execute_action( npc_action action )
 
 void npc::choose_monster_target()
 {
-    int &enemy = ai_cache.target;
-    int &danger = ai_cache.danger;
-    int &total_danger = ai_cache.total_danger;
-    enemy = 0;
-    danger = 0;
-    total_danger = 0;
+    bool has_any = false;
+    size_t enemy = 0;
+    int danger = 0;
+    int total_danger = 0;
 
     bool defend_u = sees( g->u ) && is_defending();
     int highest_priority = 0;
@@ -660,7 +671,11 @@ void npc::choose_monster_target()
         int monster_danger = mon.type->difficulty * hp_percent;
 
         auto att = mon.attitude( this );
-        if( att == MATT_FRIEND || att == MATT_FPASSIVE ) {
+        if( att == MATT_FRIEND ) {
+            ai_cache.friends.emplace_back( npc_target::monster( i ) );
+        }
+
+        if( att == MATT_FPASSIVE ) {
             continue;
         }
 
@@ -712,6 +727,7 @@ void npc::choose_monster_target()
         if( priority > highest_priority ) {
             highest_priority = priority;
             enemy = i;
+            has_any = true;
         } else if( defend_u ) {
             priority = mon.type->difficulty * (1 + hp_percent);
             scaled_distance = (100 * rl_dist(g->u.pos(), mon.pos())) / mon.get_speed();
@@ -723,14 +739,21 @@ void npc::choose_monster_target()
             if( priority > highest_priority ) {
                 highest_priority = priority;
                 enemy = i;
+                has_any = true;
             }
         }
+    }
+
+    if( has_any ) {
+        ai_cache.target = npc_target::monster( enemy );
+        ai_cache.danger = danger;
+        ai_cache.total_danger = total_danger;
     }
 }
 
 npc_action npc::method_of_fleeing()
 {
-    Creature *target = current_target();
+    const Creature *target = current_target();
     if( target == nullptr ) {
         // Shouldn't be called
         debugmsg("Ran npc::method_of_fleeing without a target!");
@@ -750,7 +773,7 @@ npc_action npc::method_of_fleeing()
 
 npc_action npc::method_of_attack()
 {
-    Creature *critter = get_target( ai_cache.target );
+    Creature *critter = current_target();
     if( critter == nullptr ) {
         // This function shouldn't be called...
         debugmsg("Ran npc::method_of_attack without a target!");
@@ -1168,6 +1191,8 @@ int npc::confident_throw_range( const item &thrown ) const
 
     deviation += encumb( bp_hand_r ) + encumb( bp_hand_l ) + encumb( bp_eyes );
 
+    deviation = std::max( 1.0, deviation );
+
     const int ret = std::min( int( confidence_mult() * 360 / deviation ), throw_range( thrown ) );
     add_msg( m_debug, "confident_throw_range == %d", ret );
     return ret;
@@ -1176,46 +1201,43 @@ int npc::confident_throw_range( const item &thrown ) const
 // Index defaults to -1, i.e., wielded weapon
 bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
+    // @todo Get actual dispersion instead of extracting it (badly) from confident range
     int confident = throwing ? confident_throw_range( it ) : confident_shoot_range( it );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
         return true;
     }
+
     if( rl_dist( pos(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    std::vector<tripoint> traj = g->m.find_clear_path( pos(), tar );
+    int target_angle = g->m.coord_to_angle( posx(), posy(), tar.x, tar.y );
 
-    for( auto &i : traj ) {
-        int dist = rl_dist( pos(), i );
-        int deviation = 1 + int(dist / confident);
-        for (int x = i.x - deviation; x <= i.x + deviation; x++) {
-            for (int y = i.y - deviation; y <= i.y + deviation; y++) {
-                // Hit the player?
-                if (is_friend() && g->u.posx() == x && g->u.posy() == y) {
-                    return false;
-                }
-                // Hit a friendly monster?
-                /*
-                    for (int n = 0; n < g->num_zombies(); n++) {
-                     if (g->zombie(n).friendly != 0 && g->zombie(n).posx == x && g->zombie(n).posyposition == y)
-                      return false;
-                    }
-                */
-                // Hit an NPC that's on our team?
-                /*
-                    for (int n = 0; n < g->active_npc.size(); n++) {
-                     npc* guy = &(g->active_npc[n]);
-                     if (guy != this && (is_friend() == guy->is_friend()) &&
-                         guy->posx == x && guy->posy == y)
-                      return false;
-                    }
-                */
-            }
+    // @todo Base on dispersion
+    int safe_angle = 30;
+
+    for( const auto &fr : ai_cache.friends ) {
+        const Creature &ally = *fr.get();
+
+        // @todo Extract common functions with turret target selection
+        int safe_angle_ally = safe_angle;
+        int ally_dist = rl_dist( pos(), ally.pos() );
+        if( ally_dist < 3 ) {
+            safe_angle_ally += ( 3 - ally_dist ) * 30;
+        }
+
+        int ally_angle = g->m.coord_to_angle( posx(), posy(), ally.posx(), ally.posy() );
+        int angle_diff = abs( ally_angle - target_angle );
+        angle_diff = std::min( 360 - angle_diff, angle_diff );
+        add_msg( "%d - %d = %d", target_angle, ally_angle, angle_diff );
+        if( angle_diff < safe_angle_ally ) {
+            // @todo Disable NPC whining is it's other NPC who prevents aiming
+            return false;
         }
     }
+
     return true;
 }
 
@@ -1224,7 +1246,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     int rltime = item_reload_cost( gun, item( default_ammo( gun.ammo_type() ) ), gun.ammo_capacity() );
     const float turns_til_reloaded = (float)rltime / get_speed();
 
-    Creature *target = current_target();
+    const Creature *target = current_target();
     if( target == nullptr ) {
         // No target, plenty of time to reload
         return true;
@@ -1485,105 +1507,33 @@ void npc::move_to_next()
     }
 }
 
-// TODO: Rewrite this.  It doesn't work well and is ugly.
 void npc::avoid_friendly_fire()
 {
-    tripoint tar;
-    Creature *critter = current_target();
-    if( critter != nullptr ) {
-        tar = critter->pos();
-        if( critter != &g->u && !one_in( 3 ) ) {
-            say( _("<move> so I can shoot that %s!"), critter->get_name().c_str() );
-        }
-    } else { // This function shouldn't be called...
-        debugmsg("npc::avoid_friendly_fire() called with no target!");
-        move_pause();
-        return;
+    // @todo To parameter
+    const tripoint &tar = current_target()->pos();
+    // Calculate center of weight of friends and move away from that
+    tripoint center;
+    for( const auto &fr : ai_cache.friends ) {
+        const Creature &ally = *fr.get();
+        center += ally.pos();
     }
 
-    int xdir = (tar.x > posx() ? 1 : -1), ydir = (tar.y > posy() ? 1 : -1);
-    direction dir_to_target = direction_from( posx(), posy(), tar.x, tar.y );
-    std::vector<point> valid_moves;
-    /* Ugh, big ugly switch.  This fills valid_moves with a list of moves from most
-     * desirable to least; the only two moves excluded are those along the line of
-     * sight.
-     * TODO: Use some math instead of a big ugly switch.
-     */
-    switch (dir_to_target) {
-    case NORTH:
-        valid_moves.push_back(point(posx() + xdir, posy()));
-        valid_moves.push_back(point(posx() - xdir, posy()));
-        valid_moves.push_back(point(posx() + xdir, posy() + 1));
-        valid_moves.push_back(point(posx() - xdir, posy() + 1));
-        valid_moves.push_back(point(posx() + xdir, posy() - 1));
-        valid_moves.push_back(point(posx() - xdir, posy() - 1));
-        break;
-    case NORTHEAST:
-        valid_moves.push_back(point(posx() + 1, posy() + 1));
-        valid_moves.push_back(point(posx() - 1, posy() - 1));
-        valid_moves.push_back(point(posx() - 1, posy()    ));
-        valid_moves.push_back(point(posx()    , posy() + 1));
-        valid_moves.push_back(point(posx() + 1, posy()    ));
-        valid_moves.push_back(point(posx()    , posy() - 1));
-        break;
-    case EAST:
-        valid_moves.push_back(point(posx(), posy() - 1));
-        valid_moves.push_back(point(posx(), posy() + 1));
-        valid_moves.push_back(point(posx() - 1, posy() - 1));
-        valid_moves.push_back(point(posx() - 1, posy() + 1));
-        valid_moves.push_back(point(posx() + 1, posy() - 1));
-        valid_moves.push_back(point(posx() + 1, posy() + 1));
-        break;
-    case SOUTHEAST:
-        valid_moves.push_back(point(posx() + 1, posy() - 1));
-        valid_moves.push_back(point(posx() - 1, posy() + 1));
-        valid_moves.push_back(point(posx() + 1, posy()    ));
-        valid_moves.push_back(point(posx()    , posy() + 1));
-        valid_moves.push_back(point(posx() - 1, posy()    ));
-        valid_moves.push_back(point(posx()    , posy() - 1));
-        break;
-    case SOUTH:
-        valid_moves.push_back(point(posx() + xdir, posy()));
-        valid_moves.push_back(point(posx() - xdir, posy()));
-        valid_moves.push_back(point(posx() + xdir, posy() - 1));
-        valid_moves.push_back(point(posx() - xdir, posy() - 1));
-        valid_moves.push_back(point(posx() + xdir, posy() + 1));
-        valid_moves.push_back(point(posx() - xdir, posy() + 1));
-        break;
-    case SOUTHWEST:
-        valid_moves.push_back(point(posx() + 1, posy() + 1));
-        valid_moves.push_back(point(posx() - 1, posy() - 1));
-        valid_moves.push_back(point(posx() + 1, posy()    ));
-        valid_moves.push_back(point(posx()    , posy() - 1));
-        valid_moves.push_back(point(posx() - 1, posy()    ));
-        valid_moves.push_back(point(posx()    , posy() + 1));
-        break;
-    case WEST:
-        valid_moves.push_back(point(posx()    , posy() + ydir));
-        valid_moves.push_back(point(posx()    , posy() - ydir));
-        valid_moves.push_back(point(posx() + 1, posy() + ydir));
-        valid_moves.push_back(point(posx() + 1, posy() - ydir));
-        valid_moves.push_back(point(posx() - 1, posy() + ydir));
-        valid_moves.push_back(point(posx() - 1, posy() - ydir));
-        break;
-    case NORTHWEST:
-        valid_moves.push_back(point(posx() + 1, posy() - 1));
-        valid_moves.push_back(point(posx() - 1, posy() + 1));
-        valid_moves.push_back(point(posx() - 1, posy()    ));
-        valid_moves.push_back(point(posx()    , posy() - 1));
-        valid_moves.push_back(point(posx() + 1, posy()    ));
-        valid_moves.push_back(point(posx()    , posy() + 1));
-        break;
-    default:
-        // contains the case CENTER (pos==target, can not happen) and above/below (can not happen, function above is 2D only)
-        dbg( D_ERROR ) << "avoid_friendly_fire has strange direction to target: " << dir_to_target;
-        break;
-    }
+    float friend_count = ai_cache.friends.size();
+    center.x = std::round( center.x / friend_count );
+    center.y = std::round( center.y / friend_count );
+    center.z = std::round( center.z / friend_count );
 
-    for (auto &i : valid_moves) {
-        const tripoint maybe_valid( i, posz() );
-        if( can_move_to( maybe_valid ) ) {
-            move_to( maybe_valid );
+    auto candidates = closest_tripoints_first( 1, pos() );
+    candidates.erase( candidates.begin() );
+    std::sort( candidates.begin(), candidates.end(),
+        [&tar, &center, this]( const tripoint &l, const tripoint &r ) {
+        return ( rl_dist( l, tar ) - rl_dist( l, center ) ) <
+               ( rl_dist( r, tar ) - rl_dist( r, center ) );
+    } );
+
+    for( const auto &pt : candidates ) {
+        if( can_move_to( pt ) ) {
+            move_to( pt );
             return;
         }
     }
@@ -1594,7 +1544,7 @@ void npc::avoid_friendly_fire()
      * eating food (or, god help us, sleeping).
      */
     npc_action action = address_needs(NPC_DANGER_VERY_LOW + 1);
-    if (action == npc_undecided) {
+    if( action == npc_undecided ) {
         move_pause();
     }
     execute_action( action );
@@ -2120,10 +2070,10 @@ bool npc::alt_attack()
         return false;
     }
 
-    Creature *critter = get_target( ai_cache.target );
+    Creature *critter = current_target();
     if( critter == nullptr ) {
         // This function shouldn't be called...
-        debugmsg( "npc::alt_attack() called with target = %d", ai_cache.target );
+        debugmsg( "npc::alt_attack() called with no target" );
         move_pause();
         return false;
     }
@@ -2219,7 +2169,7 @@ bool npc::alt_attack()
             if( newdist <= conf && newdist >= 2 && newtarget != -1 &&
                 wont_hit_friend( pt, *used, true ) ) {
                 // Friendlyfire-safe!
-                ai_cache.target = newtarget;
+                ai_cache.target = npc_target::monster( newtarget );
                 if( !one_in( 100 ) ) {
                     // Just to prevent infinite loops...
                     if( alt_attack() ) {
@@ -2824,23 +2774,14 @@ void print_action( const char *prepend, npc_action action )
     }
 }
 
-Creature *npc::current_target() const
+const Creature *npc::current_target() const
 {
-    return get_target( ai_cache.target );
+    return ai_cache.target.get();
 }
 
-Creature *npc::get_target( int target ) const
+Creature *npc::current_target()
 {
-    if( target == TARGET_PLAYER && !is_following() ) {
-        return &g->u;
-    } else if( target >= 0 && g->num_zombies() > (size_t)target ) {
-        return &g->zombie( target );
-    } else if( target == TARGET_NONE ) {
-        return nullptr;
-    }
-
-    // Should actually return a NPC, but those aren't well supported yet
-    return nullptr;
+    return const_cast<Creature *>( const_cast<const npc *>( this )->current_target() );
 }
 
 // Maybe TODO: Move to Character method and use map methods
@@ -2971,4 +2912,54 @@ void npc::do_reload( item &it )
 
     // Otherwise the NPC may not equip the weapon until they see danger
     has_new_items = true;
+}
+
+const Creature *npc_target::get() const
+{
+    switch( type ) {
+        case TARGET_PLAYER:
+            return &g->u;
+        case TARGET_MONSTER:
+            return index < g->num_zombies() ? &g->zombie( index ) : nullptr;
+        case TARGET_NPC:
+            return index < g->active_npc.size() ? g->active_npc[ index ] : nullptr;
+        case TARGET_NONE:
+            return nullptr;
+    }
+
+    debugmsg( "Invalid npc_target type %d", type );
+    return nullptr;
+}
+
+Creature *npc_target::get()
+{
+    return const_cast<Creature *>( const_cast<const npc_target *>( this )->get() );
+}
+
+npc_target npc_target::monster( size_t index )
+{
+    return npc_target{ TARGET_MONSTER, index };
+}
+
+npc_target npc_target::npc( size_t index )
+{
+    return npc_target{ TARGET_NPC, index };
+}
+
+npc_target npc_target::player()
+{
+    return npc_target{ TARGET_PLAYER, 0 };
+}
+
+npc_target npc_target::none()
+{
+    return npc_target{ TARGET_NONE, 0 };
+}
+
+npc_target::npc_target( target_type t, size_t i ) : type( t ), index( i )
+{
+}
+
+npc_target::npc_target() : npc_target( TARGET_NONE, 0 )
+{
 }

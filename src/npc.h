@@ -213,13 +213,41 @@ struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
     void deserialize(JsonIn &jsin) override;
 };
 
+struct npc_target {
+    private:
+        enum target_type : int {
+            TARGET_PLAYER,
+            TARGET_MONSTER,
+            TARGET_NPC,
+            TARGET_NONE
+        };
+
+        target_type type;
+        size_t index;
+
+        npc_target( target_type, size_t );
+
+    public:
+        npc_target();
+
+        Creature *get();
+        const Creature *get() const;
+
+        static npc_target monster( size_t index );
+        static npc_target npc( size_t index );
+        static npc_target player();
+        static npc_target none();
+};
+
 // Data relevant only for this action
 struct npc_short_term_cache
 {
     int danger;
     int total_danger;
     int danger_assessment;
-    int target;
+    npc_target target;
+
+    std::vector<npc_target> friends;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -654,7 +682,8 @@ public:
 
     // AI helpers
     void regen_ai_cache();
-    Creature *current_target() const;
+    const Creature *current_target() const;
+    Creature *current_target();
 
 // Interaction and assessment of the world around us
     int  danger_assessment();
@@ -746,7 +775,6 @@ public:
     bool do_pulp();
 
 // Combat functions and player interaction functions
-    Creature *get_target( int target ) const;
  void wield_best_melee ();
  bool alt_attack(); // Returns true if did something
  void heal_player (player &patient);
