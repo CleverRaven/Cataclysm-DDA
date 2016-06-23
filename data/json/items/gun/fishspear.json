@@ -1,0 +1,77 @@
+[
+  {
+    "id": "speargun",
+    "type": "GUN",
+    "name": "speargun",
+    "description": "An underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
+    "weight": 2100,
+    "volume": 7,
+    "price": 11500,
+    "bashing": 7,
+    "material": [ "wood", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "skill": "rifle",
+    "ammo": "fishspear",
+    "ranged_damage": 6,
+    "range": 4,
+    "dispersion": 90,
+    "sight_dispersion": 150,
+    "aim_speed": 1,
+    "durability": 8,
+    "clip_size": 1,
+    "reload": 700,
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "flags": [ "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS" ]
+  },
+  {
+    "id": "minispeargun",
+    "copy-from": "speargun",
+    "type": "GUN",
+    "name": "mini speargun",
+    "description": "A small underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
+    "weight": 840,
+    "volume": 4,
+    "price": 10000,
+    "color": "yellow",
+    "skill": "pistol",
+    "dispersion": 120,
+    "reload": 600,
+    "relative": {
+        "dispersion": 30,
+        "recoil": -100
+    }
+  },
+  {
+    "id": "doublespeargun",
+    "copy-from": "speargun",
+    "type": "GUN",
+    "name": "double speargun",
+    "description": "A double-loading underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
+    "weight": 3060,
+    "volume": 8,
+    "price": 17500,
+    "bashing": 8,
+    "durability": 7,
+    "clip_size": 2
+  },
+  {
+    "id": "airspeargun",
+    "copy-from": "speargun",
+    "type": "GUN",
+    "name": "pneumatic speargun",
+    "description": "A sophisticated underwater fishing implement designed to fire a specialized type of spear using a hand-pump pressure system.  While highly effective when used underwater, it is nearly useless on dry land.",
+    "weight": 3460,
+    "volume": 8,
+    "price": 25000,
+    "bashing": 8,
+    "ranged_damage": 12,
+    "range": 2,
+    "dispersion": 105,
+    "clip_size": 4,
+    "reload": 800,
+    "relative": {
+        "recoil": 100
+    }
+  }
+]
