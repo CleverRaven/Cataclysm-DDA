@@ -2071,7 +2071,7 @@ void complete_vehicle ()
 
         const auto& reqs = vpinfo.install_reqs;
         if( !reqs.can_make_with_inventory( inv ) ) {
-           add_msg( m_info, _( "You lack the requirements to install the %s." ), vpinfo.name().c_str() );
+           add_msg( m_info, _( "You don't meet the requirements to install the %s." ), vpinfo.name().c_str() );
            break;
         }
 
@@ -2185,7 +2185,7 @@ void complete_vehicle ()
 
         const auto& reqs = vpinfo.removal_reqs;
         if( !reqs.can_make_with_inventory( inv ) ) {
-           add_msg( m_info, _( "You lack the requirements to remove the %s." ), vpinfo.name().c_str() );
+           add_msg( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name().c_str() );
            break;
         }
 
