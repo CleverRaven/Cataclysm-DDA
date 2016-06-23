@@ -6349,8 +6349,8 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     mass_cache = m_total / 1000;
     mass_dirty = false;
 
-    xf /= m_total;
-    yf /= m_total;
+    xf /= mass_cache;
+    yf /= mass_cache;
     if( use_precalc ) {
         mass_center_precalc.x = round( xf );
         mass_center_precalc.y = round( yf );
