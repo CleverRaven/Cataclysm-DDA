@@ -4953,62 +4953,56 @@ long item::get_container_capacity() const
 long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
 {
     std::string dummy_err;
-
-    if ( !has_valid_capacity_for_liquid( liquid, allow_bucket, dummy_err ) )  {
-        return 0;
-    }
-
-    if (liquid.is_ammo() && (is_tool() || is_gun())) {
-        // for filling up chainsaws, jackhammers and flamethrowers
-        return ammo_capacity() - ammo_remaining();
-    }
-
-    const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
-
-    long remaining_capacity = total_capacity;
-    if (!contents.empty()) {
-        remaining_capacity -= contents.front().charges;
-    }
-    return remaining_capacity;
+    return get_remaining_capacity_for_liquid( liquid, dummy_err, allow_bucket );
 }
 
-bool item::has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket, std::string &err ) const
+long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &err, bool allow_bucket ) const
 {
-    const bool uses_ammo = liquid.is_ammo() && ( is_tool() || is_gun() );
+    const auto error = [ &err ]( const char *message, ... ) {
+        va_list ap;
+        va_start( ap, message );
+        err = vstring_format( message, ap );
+        va_end( ap );
+        return 0;
+    };
 
+    const bool uses_ammo = liquid.is_ammo() && ( is_tool() || is_gun() );
     const bool wrong_ammo = uses_ammo && ( ammo_type() != liquid.ammo_type() );
-    if( !is_container() || wrong_ammo ) {
-        err = string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
-        return false;
+    const bool mixed_ammo = uses_ammo && ( ammo_remaining() != 0 && ammo_current() != liquid.typeId() );
+    const bool mixed_liquids = !contents.empty() && contents.front().typeId() != liquid.typeId();
+
+    if( wrong_ammo || !is_container() ) {
+        return error( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str());
     }
 
-    const bool mixed_ammo = uses_ammo && ( ammo_remaining() != 0 && ammo_current() != liquid.typeId() );
-    if( mixed_ammo || ( !contents.empty() && contents.front().typeId() != liquid.typeId() ) ) {
-        err = string_format( _( "You can't mix loads in your %s." ), tname().c_str() );
-        return false;
+    if( mixed_ammo || mixed_liquids ) {
+        return error( _( "You can't mix loads in your %s." ), tname().c_str() );
     }
 
     if( !type->container->watertight ) {
-        err = string_format( _( "That %s isn't water-tight." ), tname().c_str());
-        return false;
+        return error( _( "That %s isn't water-tight." ), tname().c_str() );
     }
 
     if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
-        err = is_bucket() ?
-                  string_format( _( "That %s must be on the ground or held to hold contents!" ), tname().c_str()) :
-                  string_format( _( "You can't seal that %s!" ), tname().c_str());
-        return false;
+        return error( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
+                                  : _( "You can't seal that %s!" ), tname().c_str() );
     }
 
-    const bool fully_loded = uses_ammo && ( ammo_remaining() >= ammo_capacity() );
-    const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
-
-    if( fully_loded || ( !contents.empty() && ( total_capacity - contents.front().charges <= 0 ) ) ) {
-        err = string_format( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str());
-        return false;
+    long remaining_capacity;
+    if( uses_ammo ) { // for filling up chainsaws, jackhammers and flamethrowers
+        remaining_capacity = ammo_capacity() - ammo_remaining();
+    } else {
+        remaining_capacity = liquid.liquid_charges( get_container_capacity() );
+        if( !contents.empty() ) {
+            remaining_capacity -= contents.front().charges;
+        }
     }
 
-    return true;
+    if( remaining_capacity <= 0 ) {
+        return error( _( "Your %1$s can't hold any more %2$s." ), tname().c_str(), liquid.tname().c_str() );
+    }
+
+    return remaining_capacity;
 }
 
 bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
@@ -5043,11 +5037,12 @@ bool item::allow_crafting_component() const
 
 bool item::fill_with( item &liquid, std::string &err, bool allow_bucket )
 {
-    if( !has_valid_capacity_for_liquid( liquid, allow_bucket, err ) ) {
+    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid, err, allow_bucket );
+
+    if( remaining_capacity == 0 || !err.empty() ) {
         return false;
     }
 
-    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid, allow_bucket );
     const long amount = std::min( remaining_capacity, liquid.charges );
 
     if( !is_container_empty() ) {
