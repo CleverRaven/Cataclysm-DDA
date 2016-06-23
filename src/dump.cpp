@@ -3,6 +3,7 @@
 #include <iostream>
 #include <iterator>
 
+#include "compatibility.h"
 #include "init.h"
 #include "item_factory.h"
 #include "player.h"
@@ -26,14 +27,14 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
             r.push_back( obj.type->ammo->type );
-            r.push_back( std::to_string( obj.volume() ) );
-            r.push_back( std::to_string( obj.weight() ) );
-            r.push_back( std::to_string( obj.type->stack_size ) );
-            r.push_back( std::to_string( obj.type->ammo->range ) );
-            r.push_back( std::to_string( obj.type->ammo->dispersion ) );
-            r.push_back( std::to_string( obj.type->ammo->recoil ) );
-            r.push_back( std::to_string( obj.type->ammo->damage ) );
-            r.push_back( std::to_string( obj.type->ammo->pierce ) );
+            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.weight() ) );
+            r.push_back( to_string( obj.type->stack_size ) );
+            r.push_back( to_string( obj.type->ammo->range ) );
+            r.push_back( to_string( obj.type->ammo->dispersion ) );
+            r.push_back( to_string( obj.type->ammo->recoil ) );
+            r.push_back( to_string( obj.type->ammo->damage ) );
+            r.push_back( to_string( obj.type->ammo->pierce ) );
             rows.push_back( r );
         };
         for( auto& e : item_controller->get_all_itypes() ) {
@@ -52,15 +53,15 @@ void game::dump_stats( const std::string& what, dump_mode mode )
         auto dump = [&rows]( const item& obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
-            r.push_back( std::to_string( obj.volume() ) );
-            r.push_back( std::to_string( obj.weight() ) );
-            r.push_back( std::to_string( obj.type->stack_size ) );
-            r.push_back( std::to_string( obj.type->comestible->get_calories() ) );
-            r.push_back( std::to_string( obj.type->comestible->quench ) );
-            r.push_back( std::to_string( obj.type->comestible->healthy ) );
+            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.weight() ) );
+            r.push_back( to_string( obj.type->stack_size ) );
+            r.push_back( to_string( obj.type->comestible->get_calories() ) );
+            r.push_back( to_string( obj.type->comestible->quench ) );
+            r.push_back( to_string( obj.type->comestible->healthy ) );
             auto vits = g->u.vitamins_from( obj );
             for( const auto& v : vitamin::all() ) {
-                 r.push_back( std::to_string( vits[ v.first ] ) );
+                 r.push_back( to_string( vits[ v.first ] ) );
             }
             rows.push_back( r );
         };
@@ -98,16 +99,16 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             std::vector<std::string> r;
             r.push_back( obj.tname( false ) );
             r.push_back( obj.ammo_type() != "NULL" ? obj.ammo_type() : "" );
-            r.push_back( std::to_string( obj.volume() ) );
-            r.push_back( std::to_string( obj.weight() ) );
-            r.push_back( std::to_string( obj.ammo_capacity() ) );
-            r.push_back( std::to_string( obj.gun_range() ) );
-            r.push_back( std::to_string( obj.gun_dispersion() ) );
-            r.push_back( std::to_string( obj.gun_recoil() ) );
-            r.push_back( std::to_string( obj.gun_damage() ) );
-            r.push_back( std::to_string( obj.gun_pierce() ) );
+            r.push_back( to_string( obj.volume() ) );
+            r.push_back( to_string( obj.weight() ) );
+            r.push_back( to_string( obj.ammo_capacity() ) );
+            r.push_back( to_string( obj.gun_range() ) );
+            r.push_back( to_string( obj.gun_dispersion() ) );
+            r.push_back( to_string( obj.gun_recoil() ) );
+            r.push_back( to_string( obj.gun_damage() ) );
+            r.push_back( to_string( obj.gun_pierce() ) );
             for( const auto &e : locations ) {
-                r.push_back( std::to_string( obj.type->gun->valid_mod_locations[ e ] ) );
+                r.push_back( to_string( obj.type->gun->valid_mod_locations[ e ] ) );
             }
             rows.push_back( r );
         };
@@ -136,8 +137,8 @@ void game::dump_stats( const std::string& what, dump_mode mode )
 
             std::vector<std::string> r;
             r.push_back( veh_empty.name );
-            r.push_back( std::to_string( veh_empty.total_mass() ) );
-            r.push_back( std::to_string( veh_fueled.total_mass() ) );
+            r.push_back( to_string( veh_empty.total_mass() ) );
+            r.push_back( to_string( veh_fueled.total_mass() ) );
             rows.push_back( r );
         };
         for( auto& e : vehicle_prototype::get_all() ) {
@@ -152,8 +153,8 @@ void game::dump_stats( const std::string& what, dump_mode mode )
             std::vector<std::string> r;
             r.push_back( obj->name() );
             r.push_back( obj->location );
-            r.push_back( std::to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
-            r.push_back( std::to_string( obj->size ) );
+            r.push_back( to_string( int( ceil( item( obj->item ).weight() / 1000.0 ) ) ) );
+            r.push_back( to_string( obj->size ) );
             rows.push_back( r );
         };
         for( const auto e : vpart_info::get_all() ) {

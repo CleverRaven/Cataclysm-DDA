@@ -119,7 +119,6 @@
     "volume": 2,
     "charges": 3,
     "stack_size": 6,
-    "flags": ["USE_ON_NPC"],
     "revert_to": "",
     "use_action": {
         "type": "heal",

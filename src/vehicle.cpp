@@ -5068,7 +5068,7 @@ void vehicle::place_spawn_items()
                             e.contents.emplace_back( e.magazine_default(), e.bday );
                         }
                         if( spawn_ammo ) {
-                            e.ammo_set( default_ammo( e.ammo_type() ), e.ammo_capacity() );
+                            e.ammo_set( default_ammo( e.ammo_type() ) );
                         }
                     }
                     add_item( part, e);
@@ -6169,7 +6169,7 @@ long vehicle_part::ammo_capacity() const
     }
 
     if( base.is_watertight_container() ) {
-        return base.type->container->contains * std::max( item::find_type( ammo_current() )->stack_size, 1 );
+        return base.get_container_capacity() * std::max( item::find_type( ammo_current() )->stack_size, 1 );
     }
 
     return 0;
@@ -6349,8 +6349,8 @@ void vehicle::calc_mass_center( bool use_precalc ) const
     mass_cache = m_total / 1000;
     mass_dirty = false;
 
-    xf /= m_total;
-    yf /= m_total;
+    xf /= mass_cache;
+    yf /= mass_cache;
     if( use_precalc ) {
         mass_center_precalc.x = round( xf );
         mass_center_precalc.y = round( yf );

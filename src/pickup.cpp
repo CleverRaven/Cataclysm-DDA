@@ -201,7 +201,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
             return DONE;
 
         case EXAMINE:
-            g->exam_vehicle( *veh, pos );
+            g->exam_vehicle( *veh );
             return DONE;
 
         case GET_ITEMS_ON_GROUND:

@@ -1,0 +1,13 @@
+[
+  {
+    "result": "sheet_metal",
+    "type": "recipe",
+    "category": "CC_NONCRAFT",
+    "subcategory": "CSC_NONCRAFT",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 15000,
+    "qualities": [ { "id": "SAW_M","level": 2 } ],
+    "components": [ [ [ "scrap", 20 ] ] ]
+  }
+]
