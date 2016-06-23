@@ -555,6 +555,9 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     } else if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
         return false;
+    } else if( nonsqueamish != morale.nonsqueamish ) {
+        debugmsg( "player_morale::nonsqueamish is inconsistent." );
+        return false;
     }
 
     return test_points( *this, morale ) && test_points( morale, *this );
