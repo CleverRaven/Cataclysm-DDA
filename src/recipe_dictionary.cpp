@@ -7,10 +7,16 @@ using itype_id = std::string; // From itype.h
 
 recipe_dictionary recipe_dict;
 
+void recipe_dictionary::finalize()
+{
+    for( auto r : recipes ) {
+        add_to_component_lookup( r );
+    }
+}
+
 void recipe_dictionary::add( recipe *rec )
 {
     recipes.push_back( rec );
-    add_to_component_lookup( rec );
     by_name[rec->ident()] = rec;
     by_category[rec->cat].push_back( rec );
 }

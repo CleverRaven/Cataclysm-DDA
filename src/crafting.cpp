@@ -219,6 +219,8 @@ void reset_recipes()
 
 void finalize_recipes()
 {
+    recipe_dict.finalize();
+
     std::ostringstream buffer;
     for( auto r : recipe_dict ) {
         buffer.clear();
