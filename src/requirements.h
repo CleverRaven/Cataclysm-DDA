@@ -147,7 +147,7 @@ struct requirement_data {
     public:
         requirement_data() : id_( "null" ) {}
 
-        const std::string &id() const {
+        const requirement_id &id() const {
             return id_;
         }
 
@@ -213,7 +213,7 @@ struct requirement_data {
         const requirement_data disassembly_requirements() const;
 
     private:
-        std::string id_;
+        requirement_id id_;
 
         bool check_enough_materials( const inventory &crafting_inv, int batch = 1 ) const;
         bool check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
