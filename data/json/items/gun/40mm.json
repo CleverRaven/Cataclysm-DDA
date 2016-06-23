@@ -11,7 +11,6 @@
     "bashing": 12,
     "to_hit": -3,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
     "color": "brown",
     "ammo": "40mm",
     "dispersion": 300,
@@ -62,7 +61,6 @@
     "bashing": 8,
     "to_hit": -1,
     "material": [ "superalloy", "ceramic" ],
-    "color": "dark_gray",
     "ammo": "40mm",
     "dispersion": 150,
     "sight_dispersion": 120,
@@ -70,7 +68,6 @@
     "recoil": 30,
     "durability": 9,
     "clip_size": 4,
-    "reload": 100,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS" ]
   },
