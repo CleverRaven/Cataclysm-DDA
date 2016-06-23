@@ -1,6 +1,7 @@
 [
   {
     "id": "launcher_simple",
+    "copy-from": "launcher_base",
     "type": "GUN",
     "name": "tube 40mm launcher",
     "description": "A simple, home-made grenade launcher.  Basically a tube with a pin firing mechanism to activate the grenade.",
@@ -12,7 +13,6 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "skill": "launcher",
     "ammo": "40mm",
     "dispersion": 300,
     "sight_dispersion": 150,
@@ -47,10 +47,12 @@
     "burst": 10,
     "reload": 400,
     "magazines": [ [ "40mm", [ "belt40mm" ] ] ],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]],
     "flags": "MOUNTED_GUN"
   },
   {
     "id": "rm802",
+    "copy-from": "launcher_base",
     "type": "GUN",
     "name": "RM802 grenade launcher",
     "description": "The Rivtech RM802 pump-action 40mm grenade launcher was designed to be a step ahead of single-shot grenade launchers by allowing sustained heavy firepower.  However, its capacity is fairly limited so it must be used with careful planning.",
@@ -60,9 +62,7 @@
     "bashing": 8,
     "to_hit": -1,
     "material": [ "superalloy", "ceramic" ],
-    "symbol": "(",
     "color": "dark_gray",
-    "skill": "launcher",
     "ammo": "40mm",
     "dispersion": 150,
     "sight_dispersion": 120,
@@ -76,6 +76,7 @@
   },
   {
     "id": "triple_launcher_simple",
+    "copy-from": "launcher_base",
     "type": "GUN",
     "name": "triple-barrel 40mm launcher",
     "description": "A homemade triple-barrel 40mm grenade launcher.  Capable of launching all three grenades at once, it is extremely powerful for a homemade weapon.",
@@ -85,9 +86,7 @@
     "bashing": 12,
     "to_hit": -3,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
     "color": "dark_gray",
-    "skill": "launcher",
     "ammo": "40mm",
     "dispersion": 300,
     "sight_dispersion": 150,
