@@ -160,7 +160,7 @@
     "price": 130000,
     "bashing": 12,
     "to_hit": -1,
-    "material": [ "iron", "wood" ],
+    "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
     "ammo": "308",
