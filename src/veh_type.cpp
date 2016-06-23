@@ -190,11 +190,16 @@ void vpart_info::load( JsonObject &jo )
         assign( ins, "time", def.install_moves );
 
         if( ins.has_string( "using" ) ) {
-            def.install_reqs = requirement_id( ins.get_string( "using" ) );
+            def.install_reqs = { requirement_id( ins.get_string( "using" ) ), 1 };
+
+        } else if( ins.has_array( "using" ) ) {
+            auto arr = ins.get_array( "using" );
+            def.install_reqs = { requirement_id( arr.get_string( 0 ) ), arr.get_int( 1 ) };
+
         } else {
             auto req_id = std::string( "inline_vehins_" ) += def.id.str();
             requirement_data::load_requirement( ins, req_id );
-            def.install_reqs = requirement_id( req_id );
+            def.install_reqs = { requirement_id( req_id ), 1 };
         }
 
         def.legacy = false;
@@ -214,11 +219,16 @@ void vpart_info::load( JsonObject &jo )
         assign( rem, "time", def.removal_moves );
 
         if( rem.has_string( "using" ) ) {
-            def.removal_reqs = requirement_id( rem.get_string( "using" ) );
+            def.removal_reqs = { requirement_id( rem.get_string( "using" ) ), 1 };
+
+        } else if( rem.has_array( "using" ) ) {
+            auto arr = rem.get_array( "using" );
+            def.removal_reqs = { requirement_id( arr.get_string( 0 ) ), arr.get_int( 1 ) };
+
         } else {
             auto req_id = std::string( "inline_vehrem_" ) += def.id.str();
             requirement_data::load_requirement( rem, req_id );
-            def.removal_reqs = requirement_id( req_id );
+            def.removal_reqs = { requirement_id( req_id ), 1 };
         }
 
         def.legacy = false;
@@ -390,40 +400,40 @@ void vpart_info::check()
             part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
-                part.install_reqs = requirement_id( "vehicle_bolt" );
-                part.removal_reqs = requirement_id( "vehicle_bolt" );
+                part.install_reqs = { requirement_id( "vehicle_bolt" ), 1 };
+                part.removal_reqs = { requirement_id( "vehicle_bolt" ), 1 };
 
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
-                part.install_reqs = requirement_id( "vehicle_screw" );
-                part.removal_reqs = requirement_id( "vehicle_screw" );
+                part.install_reqs = { requirement_id( "vehicle_screw" ), 1 };
+                part.removal_reqs = { requirement_id( "vehicle_screw" ), 1 };
 
             } else if( part.has_flag( "NAILABLE" ) ) {
-                part.install_reqs = requirement_id( "vehicle_nail_install" );
-                part.removal_reqs = requirement_id( "vehicle_nail_removal" );
+                part.install_reqs = { requirement_id( "vehicle_nail_install" ), 1 };
+                part.removal_reqs = { requirement_id( "vehicle_nail_removal" ), 1 };
 
             } else if( part.has_flag( "TOOL_NONE" ) ) {
-                part.install_reqs = requirement_id( "null" );
-                part.removal_reqs = requirement_id( "null" );
+                part.install_reqs = { requirement_id( "null" ), 1 };
+                part.removal_reqs = { requirement_id( "null" ), 0 };
 
             } else {
-                part.install_reqs = requirement_id( "welding_quick" );
-                part.removal_reqs = requirement_id( "vehicle_weld_removal" );
+                part.install_reqs = { requirement_id( "welding_standard" ), 5 };
+                part.removal_reqs = { requirement_id( "vehicle_weld_removal" ), 1 };
             }
         }
 
         // add the base item to the installation requirements
         // @todo support multiple/alternative base items
         requirement_data ins;
-        if( !part.install_reqs.is_null() ) {
-            ins = *part.install_reqs;
+        if( !part.install_reqs.first.is_null() ) {
+            ins = *part.install_reqs.first;
         }
         ins.components.push_back( { { { part.item, 1 } } } );
 
         std::string ins_id = std::string( "inline_vehins_" ) += part.id.str();
         requirement_data::save_requirement( ins, ins_id );
-        part.install_reqs = requirement_id( ins_id );
+        part.install_reqs.first = requirement_id( ins_id );
 
-        if( part.install_reqs->get_components().empty() ) {
+        if( part.install_reqs.first->get_components().empty() ) {
             debugmsg( "vehicle part %s has no installation components", part.id.c_str() );
         }
 
@@ -443,14 +453,14 @@ void vpart_info::check()
             }
         }
 
-        if( !part.install_reqs.is_valid() ) {
-            debugmsg( "vehicle part %s has unknown install requirements %s",
-                      part.id.c_str(), part.install_reqs.c_str() );
+        if( !part.install_reqs.first.is_valid() || part.install_reqs.second <= 0 ) {
+            debugmsg( "vehicle part %s has unknown or incorrectly specified install requirements %s",
+                      part.id.c_str(), part.install_reqs.first.c_str() );
         }
 
-        if( !( part.removal_reqs.is_null() || part.removal_reqs.is_valid() ) ) {
-            debugmsg( "vehicle part %s has unknown removal requirements %s",
-                      part.id.c_str(), part.removal_reqs.c_str() );
+        if( !( part.removal_reqs.first.is_null() || part.removal_reqs.first.is_valid() ) || part.removal_reqs.second < 0 ) {
+            debugmsg( "vehicle part %s has unknown or incorrectly specified removal requirements %s",
+                      part.id.c_str(), part.removal_reqs.first.c_str() );
         }
 
         if( part.install_moves < 0 ) {
@@ -521,6 +531,16 @@ std::string vpart_info::name() const
         name_ = item::nname( item ); // cache on first request
     }
     return name_;
+}
+
+requirement_data vpart_info::install_requirements() const
+{
+    return *install_reqs.first * install_reqs.second;
+}
+
+requirement_data vpart_info::removal_requirements() const
+{
+    return *removal_reqs.first * removal_reqs.second;
 }
 
 int vpart_info::install_time( const Character &ch ) const {

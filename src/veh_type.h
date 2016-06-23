@@ -137,7 +137,7 @@ class vpart_info
         bool legacy = true;
 
         /** Installation requirements for this component */
-        requirement_id install_reqs;
+        requirement_data install_requirements() const;
 
         /** Required skills to install this component */
         std::map<skill_id, int> install_skills;
@@ -149,7 +149,7 @@ class vpart_info
         int install_time( const Character &ch ) const;
 
         /** Requirements for removal of this component */
-        requirement_id removal_reqs;
+        requirement_data removal_requirements() const;
 
         /** Required skills to remove this component */
         std::map<skill_id, int> removal_skills;
@@ -178,6 +178,11 @@ class vpart_info
 
         std::set<std::string> flags;    // flags
         std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
+
+        /** Second field is the multiplier */
+        std::pair<requirement_id, int> install_reqs;
+        std::pair<requirement_id, int> removal_reqs;
+
     public:
 
         int z_order;        // z-ordering, inferred from location, cached here
