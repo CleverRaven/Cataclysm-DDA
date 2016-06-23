@@ -1619,7 +1619,7 @@ void Item_factory::migrate_item( const itype_id& id, item& obj )
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {
             item &child = obj.contents.back();
-            long capacity = obj.type->container->contains * std::max( child.type->stack_size, 1 );
+            const long capacity = child.liquid_charges( obj.get_container_capacity() );
             child.charges = std::min( child.charges, capacity );
         }
     }

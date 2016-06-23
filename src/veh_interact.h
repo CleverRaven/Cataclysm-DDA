@@ -12,18 +12,9 @@
 #include <vector>
 #include <map>
 
-#define DUCT_TAPE_USED 100
-#define NAILS_USED 10
-#define CIRC_SAW_USED 20
-#define OXY_CUTTING 10
-
 class vpart_info;
 using vpart_id = int_id<vpart_info>;
 using vpart_str_id = string_id<vpart_info>;
-
-enum sel_types {
-    SEL_NULL, SEL_JACK
-};
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
@@ -39,20 +30,29 @@ enum task_reason {
 };
 
 class vehicle;
+struct vehicle_part;
 
 class veh_interact
 {
     public:
-        int ddx;
-        int ddy;
-        const vpart_info *sel_vpart_info;
-        const struct vehicle_part *sel_vehicle_part;
-        char sel_cmd; //Command currently being run by the player
-        int sel_type;
+        veh_interact( vehicle &veh, int x, int y );
+
+        int ddx = 0;
+        int ddy = 0;
+        const vpart_info *sel_vpart_info = nullptr;
+        char sel_cmd = ' '; //Command currently being run by the player
+
+        /** Get selected vehicle part (if any) */
+        const vehicle_part *part() const {
+            return sel_vehicle_part;
+        }
+
     private:
-        int cpart;
+        const vehicle_part *sel_vehicle_part = nullptr;
+
+        int cpart = -1;
         int page_size;
-        int fuel_index;
+        int fuel_index = 0; /** Starting index of where to start printing fuels from */
         WINDOW *w_grid;
         WINDOW *w_mode;
         WINDOW *w_msg;
@@ -64,17 +64,11 @@ class veh_interact
         WINDOW *w_name;
 
         vehicle *veh;
-        bool has_screwdriver;
         bool has_wrench;
-        bool has_hammer;
-        bool has_nailgun;
         bool has_welder;
         bool has_goggles;
         bool has_duct_tape;
-        bool has_nails;
-        bool has_hacksaw;
         bool has_jack;
-        bool has_siphon;
         bool has_wheel;
         inventory crafting_inv;
         input_context main_context;
@@ -121,14 +115,14 @@ class veh_interact
         friend nc_color getDurabilityColor( const int &dur );
         std::string getDurabilityDescription( const int &dur );
 
-        int durabilityPercent;
+        int durabilityPercent = 100;
         std::string totalDurabilityText;
         std::string worstDurabilityText;
-        nc_color totalDurabilityColor;
-        nc_color worstDurabilityColor;
+        nc_color totalDurabilityColor = c_green;
+        nc_color worstDurabilityColor = c_green;
 
         /** Store the most damaged part's index, or -1 if they're all healthy. */
-        int mostDamagedPart;
+        int mostDamagedPart = -1;
 
         //do_remove supporting operation, writes requirements to ui
         bool can_remove_part( int idx );
@@ -178,10 +172,6 @@ class veh_interact
         void allocate_windows();
         void do_main_loop();
         void deallocate_windows();
-
-    public:
-        veh_interact();
-        void exec( vehicle *v );
 };
 
 void complete_vehicle();

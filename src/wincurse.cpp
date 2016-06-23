@@ -675,26 +675,13 @@ int curses_start_color(void)
     std::ifstream colorfile(FILENAMES["colors"].c_str(), std::ifstream::in | std::ifstream::binary);
     try{
         JsonIn jsin(colorfile);
-        char ch;
         // Manually load the colordef object because the json handler isn't loaded yet.
-        jsin.eat_whitespace();
-        ch = jsin.peek();
-        if( ch == '[' ) {
-            jsin.start_array();
-            // find type and dispatch each object until array close
-            while (!jsin.end_array()) {
-                jsin.eat_whitespace();
-                char ch = jsin.peek();
-                if (ch != '{') {
-                    jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
-                }
-                JsonObject jo = jsin.get_object();
-                load_colors(jo);
-                jo.finish();
-            }
-        } else {
-            // not an array?
-            jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
+        jsin.start_array();
+        // find type and dispatch each object until array close
+        while (!jsin.end_array()) {
+            JsonObject jo = jsin.get_object();
+            load_colors(jo);
+            jo.finish();
         }
     } catch( const JsonError &err ){
         throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );

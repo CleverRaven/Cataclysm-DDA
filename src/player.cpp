@@ -8833,6 +8833,40 @@ bool player::has_morale_to_read() const
     return get_morale_level() >= -40;
 }
 
+void player::check_and_recover_morale()
+{
+    player_morale test_morale;
+
+    for( const auto &wit : worn ) {
+        test_morale.on_item_wear( wit );
+    }
+
+    for( const auto &mut : my_mutations ) {
+        test_morale.on_mutation_gain( mut.first );
+    }
+
+    for( auto &elem : effects ) {
+        for( auto &_effect_it : elem.second ) {
+            const effect &e = _effect_it.second;
+            test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+        }
+    }
+
+    test_morale.on_stat_change( "hunger", get_hunger() );
+    test_morale.on_stat_change( "thirst", get_thirst() );
+    test_morale.on_stat_change( "fatigue", get_fatigue() );
+    test_morale.on_stat_change( "pain", get_pain() );
+    test_morale.on_stat_change( "pkill", get_painkiller() );
+    test_morale.on_stat_change( "perceived_pain", get_perceived_pain() );
+
+    apply_persistent_morale();
+
+    if( !morale->consistent_with( test_morale ) ) {
+        morale.reset( new player_morale( test_morale ) ); // Recover consistency
+        add_msg( m_debug, "%s morale was recovered.", disp_name( true ).c_str() );
+    }
+}
+
 void player::process_active_items()
 {
     if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
