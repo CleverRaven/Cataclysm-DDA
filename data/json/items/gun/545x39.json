@@ -46,6 +46,7 @@
     "aim_speed": 4,
     "recoil": -10,
     "durability": 7,
+    "barrel_length": 1,
     "modes": [
       [ "DEFAULT", "semi-auto", 1 ],
       [ "BURST", "2 rd.", 2 ],
