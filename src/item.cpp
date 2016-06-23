@@ -4977,26 +4977,15 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
 
 item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid, bool allow_bucket ) const
 {
-    if (liquid.is_ammo() && (is_tool() || is_gun())) {
-        // for filling up chainsaws, jackhammers and flamethrowers
-        if( ammo_type() != liquid.ammo_type() ) {
-            return L_ERR_NOT_CONTAINER;
-        }
+    const bool uses_ammo = liquid.is_ammo() && ( is_tool() || is_gun() );
 
-        if( ammo_remaining() >= ammo_capacity() ) {
-            return L_ERR_FULL;
-        }
-
-        if( ammo_remaining() && ammo_current() != liquid.typeId() ) {
-            return L_ERR_NO_MIX;
-        }
-    }
-
-    if( !is_container() ) {
+    const bool wrong_ammo = uses_ammo && ( ammo_type() != liquid.ammo_type() );
+    if( !is_container() || wrong_ammo ) {
         return L_ERR_NOT_CONTAINER;
     }
 
-    if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
+    const bool mixed_ammo = uses_ammo && ( ammo_remaining() != 0 && ammo_current() != liquid.typeId() );
+    if( mixed_ammo || ( !contents.empty() && contents.front().typeId() != liquid.typeId() ) ) {
         return L_ERR_NO_MIX;
     }
 
@@ -5008,12 +4997,13 @@ item::LIQUID_FILL_ERROR item::has_valid_capacity_for_liquid( const item &liquid,
         return L_ERR_NOT_SEALED;
     }
 
-    if (!contents.empty()) {
-        const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
-        if( ( total_capacity - contents.front().charges) <= 0 ) {
-            return L_ERR_FULL;
-        }
+    const bool fully_loded = uses_ammo && ( ammo_remaining() >= ammo_capacity() );
+    const auto total_capacity = liquid.liquid_charges( get_container_capacity() );
+
+    if( fully_loded || ( !contents.empty() && ( total_capacity - contents.front().charges <= 0 ) ) ) {
+        return L_ERR_FULL;
     }
+
     return L_ERR_NONE;
 }
 
