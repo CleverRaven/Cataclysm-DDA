@@ -8090,22 +8090,22 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
         return 0;
     }
     
-    const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", 40 ) && !crafting_inv.has_charges( "water_clean", 40 ) ) {
-        p->add_msg_if_player( _( "You need a large amount of fresh water to use this." ) );
-        return 0;
-    }
-    
     const int pos = g->inv_for_flag( "FILTHY", _( "Wash what?" ) );
     item &mod = p->i_at( pos );
     if( pos == INT_MIN ) {
         p->add_msg_if_player( m_info, _( "Never mind." ) );
         return 0;
     }
-
+    
+    const inventory &crafting_inv = p->crafting_inventory();
+    if( !crafting_inv.has_charges( "water", 3 * mod.volume() ) && !crafting_inv.has_charges( "water_clean", 3 * mod.volume() ) ) {
+        p->add_msg_if_player( _( "You need amount of water equal to thrice the volume of the item you want to wash." ) );
+        return 0;
+    }
+    
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", 40 ) );
-    comps.push_back( item_comp( "water_clean", 40 ) );
+    comps.push_back( item_comp( "water", 3 * mod.volume() ) );
+    comps.push_back( item_comp( "water_clean", 3 * mod.volume() ) );
     p->consume_items( comps );
     
     p->add_msg_if_player( _( "You washed your clothing." ) );
