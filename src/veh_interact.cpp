@@ -2084,6 +2084,10 @@ void complete_vehicle ()
                 }
             }
         }
+        if( base.is_null() ) {
+           add_msg( m_info, _( "Could not find base part in requirements for %s." ), vpinfo.name().c_str() );
+           break;
+        }
 
         for( const auto& e : reqs.get_tools() ) {
             g->u.consume_tools( e );
@@ -2094,6 +2098,7 @@ void complete_vehicle ()
         int partnum = !base.is_null() ? veh->install_part( dx, dy, part_id, std::move( base ) ) : -1;
         if(partnum < 0) {
             debugmsg ("complete_vehicle install part fails dx=%d dy=%d id=%d", dx, dy, part_id.c_str());
+            break;
         }
 
         if ( vpinfo.has_flag("CONE_LIGHT") ) {
