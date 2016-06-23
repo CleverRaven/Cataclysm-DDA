@@ -655,7 +655,7 @@ public:
     std::map< ammotype, itype_id > magazine_default;
 
     /** Volume above which the magazine starts to protrude from the item and add extra volume */
-    int magazine_well = 0;
+    units::volume magazine_well = 0;
 
     std::string get_item_type_string() const
     {

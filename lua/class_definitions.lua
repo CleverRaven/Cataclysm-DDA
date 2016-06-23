@@ -1911,7 +1911,7 @@ classes = {
             integral_volume = { type = "volume", writable = true },
             light_emission = { type = "int", writable = true },
             m_to_hit = { type = "int", writable = true },
-            magazine_well = { type = "int", writable = true },
+            magazine_well = { type = "volume", writable = true },
             melee_cut = { type = "int", writable = true },
             melee_dam = { type = "int", writable = true },
             min_dex = { type = "int", writable = true },

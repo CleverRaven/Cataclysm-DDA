@@ -2589,7 +2589,7 @@ int item::volume( bool integral ) const
 
     // Some magazines sit (partly) flush with the item so add less extra volume
     if( magazine_current() != nullptr ) {
-        ret += std::max( magazine_current()->volume() - type->magazine_well, 0 );
+        ret += std::max( magazine_current()->volume() - type->magazine_well / units::legacy_volume_factor, 0 );
     }
 
     if (is_gun()) {
