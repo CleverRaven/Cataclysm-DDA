@@ -2386,14 +2386,11 @@
         "points" : 1,
         "visibility" : 6,
         "ugliness" : 4,
-        "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.  Won't fit well in non-fabric pants.",
+        "description" : "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.  Prevents wearing non-fabric pants.",
         "prereqs" : ["TAIL_LONG", "TAIL_STUB"],
         "cancels" : ["TAIL_FIN", "TAIL_FLUFFY", "TAIL_STING", "TAIL_CLUB", "TAIL_THICK", "TAIL_RAPTOR", "TAIL_CATTLE"],
         "category" : ["MUTCAT_RAT"],
-        "encumbrance_covered" : [
-            [ "LEG_L", 50 ],
-            [ "LEG_R", 50 ]
-        ],
+        "restricts_gear" : [ "LEG_L", "LEG_R" ],
         "allow_soft_gear" : true
     },{
         "type" : "mutation",
