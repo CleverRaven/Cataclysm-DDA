@@ -344,12 +344,7 @@ std::vector<item> obtain_activity_items( player_activity &act, player &p )
     const int excessive_volume = p.volume_carried() - p.volume_capacity();
     if( excessive_volume > 0 ) {
         const auto excess = p.inv.remove_randomly_by_volume( excessive_volume );
-
-        res.reserve( res.size() + excess.size() );
-        auto iter = res.begin();
-        for( const auto &random_item : excess ) {
-            iter = res.insert( iter, std::move( random_item ) );
-        }
+        res.insert( res.begin(), excess.begin(), excess.end() );
     }
     // Load anything that remains (if any) into the activity
     act.values.clear();
