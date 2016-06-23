@@ -409,17 +409,19 @@ void vpart_info::check()
                 part.install_reqs = requirement_id( "welding_quick" );
                 part.removal_reqs = requirement_id( "vehicle_weld_removal" );
             }
-
-            requirement_data ins;
-            if( !part.install_reqs.is_null() ) {
-                ins = *part.install_reqs;
-            }
-            ins.components.push_back( { { { part.item, 1 } } } );
-
-            std::string ins_id = std::string( "inline_vehins_" ) += part.id.str();
-            requirement_data::save_requirement( ins, ins_id );
-            part.install_reqs = requirement_id( ins_id );
         }
+
+        // add the base item to the installation requirements
+        // @todo support multiple/alternative base items
+        requirement_data ins;
+        if( !part.install_reqs.is_null() ) {
+            ins = *part.install_reqs;
+        }
+        ins.components.push_back( { { { part.item, 1 } } } );
+
+        std::string ins_id = std::string( "inline_vehins_" ) += part.id.str();
+        requirement_data::save_requirement( ins, ins_id );
+        part.install_reqs = requirement_id( ins_id );
 
         if( part.install_reqs->get_components().empty() ) {
             debugmsg( "vehicle part %s has no installation components", part.id.c_str() );
