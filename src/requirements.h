@@ -145,10 +145,18 @@ struct requirement_data {
         alter_item_comp_vector components;
 
     public:
-        requirement_data() : id_( "null" ) {}
-
         const requirement_id &id() const {
             return id_;
+        }
+
+        /** null requirements are always empty (were never initialized) */
+        bool is_null() const {
+            return id_ == requirement_id( "null" );
+        }
+
+        /** empty requirements are not necessary null (@see remove_item) */
+        bool is_empty() const {
+            return tools.empty() && components.empty() && qualities.empty();
         }
 
         /** Scales tool and component requirements leaving qualities unaffected */
@@ -213,7 +221,7 @@ struct requirement_data {
         const requirement_data disassembly_requirements() const;
 
     private:
-        requirement_id id_;
+        requirement_id id_ = requirement_id( "null" );
 
         bool check_enough_materials( const inventory &crafting_inv, int batch = 1 ) const;
         bool check_enough_materials( const item_comp &comp, const inventory &crafting_inv,
