@@ -37,6 +37,10 @@
     "skill": "pistol",
     "dispersion": 120,
     "reload": 600
+    "relative": {
+        "dispersion": 30,
+        "recoil": -100
+    }
   },
   {
     "id": "doublespeargun",
@@ -66,5 +70,8 @@
     "dispersion": 105,
     "clip_size": 4,
     "reload": 800
+    "relative": {
+        "recoil": 100
+    }
   }
 ]
