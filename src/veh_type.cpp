@@ -423,7 +423,7 @@ void vpart_info::check()
             }
         }
 
-        if( part.install_reqs.obj().get_components().empty() ) {
+        if( part.install_reqs->get_components().empty() ) {
             debugmsg( "vehicle part %s has no installation components", part.id.c_str() );
         }
 

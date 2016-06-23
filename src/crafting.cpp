@@ -370,7 +370,7 @@ bool player::making_would_work( const std::string &id_to_make, int batch_size )
     if( !can_make( making, batch_size ) ) {
         std::ostringstream buffer;
         buffer << _( "You can no longer make that craft!" ) << "\n";
-        buffer << making->requirements.obj().list_missing();
+        buffer << making->requirements->list_missing();
         popup( buffer.str(), PF_NONE );
         return false;
     }
@@ -510,7 +510,7 @@ bool recipe::can_make_with_inventory( const inventory &crafting_inv, int batch )
     if( !g->u.knows_recipe( this ) && -1 == g->u.has_recipe( this, crafting_inv ) ) {
         return false;
     }
-    return requirements.obj().can_make_with_inventory( crafting_inv, batch );
+    return requirements->can_make_with_inventory( crafting_inv, batch );
 }
 
 bool recipe::valid_learn() const
@@ -829,10 +829,10 @@ void player::complete_craft()
             last_craft.consume_components();
         } else {
             // @todo Guarantee that selections are cached
-            for( const auto &it : making->requirements.obj().get_components() ) {
+            for( const auto &it : making->requirements->get_components() ) {
                 consume_items( it, batch_size );
             }
-            for( const auto &it : making->requirements.obj().get_tools() ) {
+            for( const auto &it : making->requirements->get_tools() ) {
                 consume_tools( it, batch_size );
             }
         }
@@ -856,11 +856,11 @@ void player::complete_craft()
         // Meaning there are still cases where has_cached_selections will be false
         // @todo Allow saving last_craft and debugmsg+fail craft if selection isn't cached
         if( !has_trait( "DEBUG_HS" ) ) {
-            for( const auto &it : making->requirements.obj().get_components() ) {
+            for( const auto &it : making->requirements->get_components() ) {
                 std::list<item> tmp = consume_items( it, batch_size );
                 used.splice( used.end(), tmp );
             }
-            for( const auto &it : making->requirements.obj().get_tools() ) {
+            for( const auto &it : making->requirements->get_tools() ) {
                 consume_tools( it, batch_size );
             }
         }
@@ -1313,7 +1313,7 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
     }
 
     bool have_all_qualities = true;
-    const auto &dis_requirements = cur_recipe->requirements.obj().disassembly_requirements();
+    const auto &dis_requirements = cur_recipe->requirements->disassembly_requirements();
     for( const auto &itq : dis_requirements.get_qualities() ) {
         for( const auto &it : itq ) {
             if( !it.has( crafting_inv ) ) {
@@ -1623,7 +1623,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                                    bool from_ground, const recipe &dis )
 {
     // Get the proper recipe - the one for disassembly, not assembly
-    const auto dis_requirements = dis.requirements.obj().disassembly_requirements();
+    const auto dis_requirements = dis.requirements->disassembly_requirements();
     item &org_item = get_item_for_uncraft( *this, item_pos, loc, from_ground );
     if( org_item.is_null() ) {
         add_msg( _( "The item has vanished." ) );

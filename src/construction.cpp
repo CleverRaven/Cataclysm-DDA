@@ -145,7 +145,7 @@ nc_color construction_color( std::string &con_name, bool highlight )
         std::vector<construction *> cons = constructions_by_desc( con_name );
         const inventory &total_inv = g->u.crafting_inventory();
         for( auto &con : cons ) {
-            if( con->requirements.obj().can_make_with_inventory( total_inv ) ) {
+            if( con->requirements->can_make_with_inventory( total_inv ) ) {
                 con_first = con;
                 break;
             }
@@ -357,7 +357,7 @@ void construction_menu()
                             continue;
                         }
                         // Update the cached availability of components and tools in the requirement object
-                        current_con->requirements.obj().can_make_with_inventory( total_inv );
+                        current_con->requirements->can_make_with_inventory( total_inv );
 
                         std::vector<std::string> current_buffer;
                         std::ostringstream current_line;
@@ -419,11 +419,11 @@ void construction_menu()
                                 available_window_width );
                         current_buffer.insert( current_buffer.end(), folded_time.begin(), folded_time.end() );
 
-                        std::vector<std::string> folded_tools = current_con->requirements.obj().get_folded_tools_list(
+                        std::vector<std::string> folded_tools = current_con->requirements->get_folded_tools_list(
                                 available_window_width, color_stage, total_inv );
                         current_buffer.insert( current_buffer.end(), folded_tools.begin(), folded_tools.end() );
 
-                        std::vector<std::string> folded_components = current_con->requirements.obj().get_folded_components_list(
+                        std::vector<std::string> folded_components = current_con->requirements->get_folded_components_list(
                                     available_window_width, color_stage, total_inv );
                         current_buffer.insert( current_buffer.end(), folded_components.begin(), folded_components.end() );
 
@@ -597,7 +597,7 @@ bool player_can_build( player &p, const inventory &pinv, construction const *con
     if( p.get_skill_level( con->skill ) < con->difficulty ) {
         return false;
     }
-    return con->requirements.obj().can_make_with_inventory( pinv );
+    return con->requirements->can_make_with_inventory( pinv );
 }
 
 bool can_construct( const std::string &desc )
@@ -726,12 +726,12 @@ void complete_construction()
         }
     }
 
-    for( const auto &it : built.requirements.obj().get_components() ) {
+    for( const auto &it : built.requirements->get_components() ) {
         // Tried issuing rope for WEB_ROPE here.  Didn't arrive in time for the
         // gear check.  Ultimately just coded a bypass in crafting.cpp.
         u.consume_items( it );
     }
-    for( const auto &it : built.requirements.obj().get_tools() ) {
+    for( const auto &it : built.requirements->get_tools() ) {
         u.consume_tools( it );
     }
 
