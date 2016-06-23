@@ -439,13 +439,16 @@ void shadowcasting_3d_2d( int iterations )
 #define V LIGHT_TRANSPARENCY_CLEAR
 #define X LIGHT_TRANSPARENCY_SOLID
 
+const point ORIGIN( 65, 65 );
+
 struct grid_overlay {
     std::vector<std::vector<float>> data;
     point offset;
     float default_value;
 
-    grid_overlay( point offset, float default_value ) {
-        this->offset = offset;
+    // origin_offset is specified as the coordinates of the "camera" within the overlay.
+    grid_overlay( point origin_offset, float default_value ) {
+        this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }
 
@@ -482,10 +485,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         }
     }
 
-    int offsetX = 65;
-    int offsetY = 65;
-
-    castLightAll( seen_squares, transparency_cache, offsetX, offsetY );
+    castLightAll( seen_squares, transparency_cache, ORIGIN.x, ORIGIN.y );
 
     // Compares the whole grid, but out-of-bounds compares will de-facto pass.
     for( int y = 0; y < expected_result.height(); ++y ) {
@@ -502,7 +502,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
 }
 
 TEST_CASE( "shadowcasting_slope_inversion_regression_test" ) {
-    grid_overlay test_case( { 58, 57 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 7, 8 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T,T},
         {T,O,T,T,T,T,T,T,T,T},
@@ -517,7 +517,7 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test" ) {
         {T,T,T,T,T,T,T,T,T,T}
     };
 
-    grid_overlay expected_results( { 58, 57 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 7, 8 }, LIGHT_TRANSPARENCY_CLEAR );
     expected_results.data = {
         {O,O,O,V,V,V,V,V,V,V},
         {O,V,V,O,V,V,V,V,V,V},
@@ -536,7 +536,7 @@ TEST_CASE( "shadowcasting_slope_inversion_regression_test" ) {
 }
 
 TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent" ) {
-    grid_overlay test_case( { 64, 61 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 1, 4 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T},
         {T,T,T,T,T,T,T,T,T},
@@ -549,7 +549,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent" ) {
         {T,T,T,T,T,T,T,T,T}
     };
 
-    grid_overlay expected_results( { 64, 61 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 1, 4 }, LIGHT_TRANSPARENCY_CLEAR );
     expected_results.data = {
         {V,V,V,V,V,V,V,O,O},
         {V,V,V,V,V,V,O,O,O},
@@ -566,7 +566,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_cardinally_adjacent" ) {
 }
 
 TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap" ) {
-    grid_overlay test_case( { 64, 64 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
         {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
@@ -579,7 +579,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap" ) {
         {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T}
     };
 
-    grid_overlay expected_results( { 64, 64 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 1, 1 }, LIGHT_TRANSPARENCY_CLEAR );
     expected_results.data = {
         {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
         {V,X,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
@@ -596,7 +596,7 @@ TEST_CASE( "shadowcasting_pillar_behavior_2_1_diagonal_gap" ) {
 }
 
 TEST_CASE( "shadowcasting_vision_along_a_wall" ) {
-    grid_overlay test_case( { 57, 63 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay test_case( { 8, 2 }, LIGHT_TRANSPARENCY_CLEAR );
     test_case.data = {
         {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T},
         {T,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,T},
@@ -609,7 +609,7 @@ TEST_CASE( "shadowcasting_vision_along_a_wall" ) {
         {T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T,T}
     };
 
-    grid_overlay expected_results( { 57, 63 }, LIGHT_TRANSPARENCY_CLEAR );
+    grid_overlay expected_results( { 8, 2 }, LIGHT_TRANSPARENCY_CLEAR );
     expected_results.data = {
         {O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O,O},
         {V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V,V},
