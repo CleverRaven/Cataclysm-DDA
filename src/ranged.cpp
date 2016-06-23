@@ -265,11 +265,17 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         }
 
         Creature *critter = g->critter_at( tp );
+        if( critter == this ) {
+            // No hitting self with "weird" attacks
+            critter = nullptr;
+        }
+
         monster *mon = dynamic_cast<monster *>(critter);
         // ignore non-point-blank digging targets (since they are underground)
         if( mon != nullptr && mon->digging() &&
             rl_dist( pos(), tp ) > 1) {
-            critter = mon = nullptr;
+            critter = nullptr;
+            mon = nullptr;
         }
 
         // Reset hit critter from the last iteration
