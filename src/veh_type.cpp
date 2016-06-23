@@ -385,42 +385,40 @@ void vpart_info::check()
         // handle legacy parts without requirement data
         // @todo deprecate once requirements are entirely loaded from JSON
         if( part.legacy ) {
-            part.install_reqs = requirement_id( std::string( "inline_vehins_" ) += part.id.str() );
-
-            // <ugly hack>
-            JsonObject dummy;
-            requirement_data::load_requirement( dummy, part.install_reqs.str() );
-            auto &ins = const_cast<requirement_data &>( part.install_reqs.obj() );
-            // </ugly hack>
-
-            ins.components = { { { { part.item, 1 } } } };
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
             part.removal_skills.emplace( skill_mechanics, std::max( part.difficulty - 2, 2 ) );
 
             if( part.has_flag( "TOOL_WRENCH" ) || part.has_flag( "WHEEL" ) ) {
-                ins.qualities = { { { quality_id( "WRENCH" ), 1, 1 } } };
+                part.install_reqs = requirement_id( "vehicle_bolt" );
                 part.removal_reqs = requirement_id( "vehicle_bolt" );
 
             } else if( part.has_flag( "TOOL_SCREWDRIVER" ) ) {
-                ins.qualities = { { { { quality_id( "SCREW" ), 1, 1 } } } };
+                part.install_reqs = requirement_id( "vehicle_screw" );
                 part.removal_reqs = requirement_id( "vehicle_screw" );
 
             } else if( part.has_flag( "NAILABLE" ) ) {
-                ins.qualities = { { { { quality_id( "HAMMER" ), 1, 1 } } } };
-                ins.components.push_back( { { { "nail", 20 } } } );
+                part.install_reqs = requirement_id( "vehicle_nail_install" );
                 part.removal_reqs = requirement_id( "vehicle_nail_removal" );
 
             } else if( part.has_flag( "TOOL_NONE" ) ) {
+                part.install_reqs = requirement_id( "null" );
                 part.removal_reqs = requirement_id( "null" );
 
             } else {
-                ins.qualities = { { { { quality_id( "WRENCH" ), 1, 2 } },
-                                                  { { quality_id( "GLARE" ), 1, 2 } } } };
-                ins.tools.push_back( { { { "welder", 50 }, { "welder_crude", 75 }, { "oxy_torch", 10 } } } );
-
+                part.install_reqs = requirement_id( "welding_quick" );
                 part.removal_reqs = requirement_id( "vehicle_weld_removal" );
             }
+
+            requirement_data ins;
+            if( !part.install_reqs.is_null() ) {
+                ins = *part.install_reqs;
+            }
+            ins.components.push_back( { { { part.item, 1 } } } );
+
+            std::string ins_id = std::string( "inline_vehins_" ) += part.id.str();
+            requirement_data::save_requirement( ins, ins_id );
+            part.install_reqs = requirement_id( ins_id );
         }
 
         if( part.install_reqs->get_components().empty() ) {
