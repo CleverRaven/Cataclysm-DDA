@@ -35,35 +35,14 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_stunned( "stunned" );
 
-// A list of items used for escape, in order from least to most valuable
-#ifndef NUM_ESCAPE_ITEMS
-#define NUM_ESCAPE_ITEMS 11
-itype_id ESCAPE_ITEMS[NUM_ESCAPE_ITEMS] = {
-    "cola", "caffeine", "energy_drink", "canister_goo", "smokebomb",
-    "smokebomb_act", "adderall", "coke", "meth", "teleporter",
-    "pheromone"
-};
-#endif
-
-// A list of alternate attack items (e.g. grenades), from least to most valuable
-#ifndef NUM_ALT_ATTACK_ITEMS
-#define NUM_ALT_ATTACK_ITEMS 16
-itype_id ALT_ATTACK_ITEMS[NUM_ALT_ATTACK_ITEMS] = {
-    "knife_combat", "spear_wood", "molotov", "pipebomb", "grenade",
-    "gasbomb", "bot_manhack", "tazer", "dynamite", "mininuke",
-    "molotov_lit", "pipebomb_act", "grenade_act", "gasbomb_act",
-    "dynamite_act", "mininuke_act"
-};
-#endif
-
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
     npc_reload, npc_sleep,
     npc_pickup,
-    npc_escape_item, npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
+    npc_wield_melee, npc_wield_loaded_gun, npc_wield_empty_gun,
     npc_heal, npc_use_painkiller, npc_drop_items,
-    npc_flee, npc_melee, npc_shoot, npc_alt_attack,
+    npc_flee, npc_melee, npc_shoot,
     npc_look_for_player, npc_heal_player, npc_follow_player, npc_follow_embarked,
     npc_talk_to_player, npc_mug_player,
     npc_goto_destination, npc_avoid_friendly_fire,
@@ -76,7 +55,6 @@ enum npc_action : int {
 const int avoidance_vehicles_radius = 5;
 
 std::string npc_action_name(npc_action action);
-bool thrown_item( item &used );
 
 void print_action( const char *prepend, npc_action action );
 
@@ -205,7 +183,7 @@ void npc::move()
     npc_action action = npc_undecided;
 
     add_msg( m_debug, "NPC %s: target = %d, danger = %d, range = %d",
-                 name.c_str(), ai_cache.target, ai_cache.danger, confident_range(-1));
+             name.c_str(), ai_cache.target, ai_cache.danger, confident_shoot_range( weapon ) );
 
     //faction opinion determines if it should consider you hostile
     if( my_fac != nullptr && my_fac->likes_u < -10 && sees( g->u ) ) {
@@ -379,10 +357,6 @@ void npc::execute_action( npc_action action )
         pick_up_item();
         break;
 
-    case npc_escape_item:
-        use_escape_item(choose_escape_item());
-        break;
-
     case npc_wield_melee:
         wield_best_melee();
         break;
@@ -480,10 +454,6 @@ void npc::execute_action( npc_action action )
         fire_gun( tar, mode.qty, *mode );
         break;
     }
-
-    case npc_alt_attack:
-        alt_attack();
-        break;
 
     case npc_look_for_player:
         if( saw_player_recently() && sees( last_player_seen_pos ) ) {
@@ -673,7 +643,7 @@ void npc::choose_monster_target()
     int highest_priority = 0;
 
     // Radius we can attack without moving
-    const int cur_range = std::max( weapon.reach_range( *this ), confident_range() );
+    const int cur_range = std::max( weapon.reach_range( *this ), confident_shoot_range( weapon ) );
 
     constexpr int def_radius = 6;
 
@@ -770,11 +740,6 @@ npc_action npc::method_of_fleeing()
     const tripoint &enemy_loc = target->pos();
     int distance = rl_dist( pos(), enemy_loc );
 
-    if( choose_escape_item() != INT_MIN ) {
-        // We have an escape item!
-        return npc_escape_item;
-    }
-
     if( distance / enemy_speed < 4 && enemy_speed > speed_rating() ) {
         // Can't outrun, so attack
         return method_of_attack();
@@ -832,11 +797,11 @@ npc_action npc::method_of_attack()
     // modes outside confident range should always be the last option(s)
     std::stable_sort( modes.begin(), modes.end(), [&]( const std::pair<std::string, item::gun_mode>& lhs,
                                                        const std::pair<std::string, item::gun_mode>& rhs ) {
-        return ( confident_gun_range( lhs.second ) >= dist ) > ( confident_gun_range( rhs.second ) >= dist );
+        return ( confident_gun_mode_range( lhs.second ) >= dist ) > ( confident_gun_mode_range( rhs.second ) >= dist );
     } );
 
-    if( emergency() && alt_attack_available() ) {
-        return npc_alt_attack;
+    if( emergency() && alt_attack() ) {
+        return npc_noop;
     }
 
     // reach attacks are silent and consume no ammo so prefer these if available
@@ -846,11 +811,11 @@ npc_action npc::method_of_attack()
     }
 
     // if the best mode is within the confident range try for a shot
-    if( !modes.empty() && sees( *critter ) && confident_gun_range( modes[ 0 ].second ) >= dist ) {
+    if( !modes.empty() && sees( *critter ) && confident_gun_mode_range( modes[ 0 ].second ) >= dist ) {
 
         // @todo Make NPCs understand reinforced glass and vehicles blocking line of fire
 
-        if( wont_hit_friend( tar ) ) {
+        if( wont_hit_friend( tar, weapon, false ) ) {
             weapon.gun_set_mode( modes[ 0 ].first );
             return npc_shoot;
 
@@ -1127,68 +1092,6 @@ npc_action npc::long_term_goal_action()
     return npc_undecided;
 }
 
-
-bool npc::alt_attack_available()
-{
-    for( auto &elem : ALT_ATTACK_ITEMS ) {
-        if( ( !is_following() || rules.use_grenades ) && has_amount( elem, 1 ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-int npc::choose_escape_item()
-{
-    int best = -1;
-    int ret = INT_MIN;
-    invslice slice = inv.slice();
-    for (size_t i = 0; i < slice.size(); i++) {
-        item &it = slice[i]->front();
-        for (int j = 0; j < NUM_ESCAPE_ITEMS; j++) {
-            const auto food = it.type->comestible.get();
-            if (it.type->id == ESCAPE_ITEMS[j] &&
-                (food == NULL || stim < food->stim ||            // Avoid guzzling down
-                 (food->stim >= 10 && stim < food->stim * 2)) && //  Adderall etc.
-                (j > best || (j == best && it.charges < slice[ret]->front().charges))) {
-                ret = i;
-                best = j;
-                break;
-            }
-        }
-    }
-    return ret;
-}
-
-void npc::use_escape_item(int position)
-{
-    item *used = &i_at(position);
-    if (used->is_null()) {
-        debugmsg("%s tried to use null item (position: %d)", name.c_str(), position);
-        move_pause();
-        return;
-    }
-
-    /* There is a static list of items that NPCs consider to be "escape items," so
-     * we can just use a switch here to decide what to do based on type.  See
-     * ESCAPE_ITEMS, defined in npc.h
-     */
-
-    if (used->is_food() || used->is_food_container()) {
-        consume(position);
-        return;
-    }
-
-    if (used->is_tool()) {
-        use(position);
-        return;
-    }
-
-    debugmsg("NPC tried to use %s (%d) but it has no use?", used->tname().c_str(),
-             position);
-    move_pause();
-}
-
 double npc::confidence_mult() const
 {
     if( !is_following() ) {
@@ -1213,20 +1116,16 @@ double npc::confidence_mult() const
     return 1.0f;
 }
 
-int npc::confident_range( int position ) const
+int npc::confident_shoot_range( const item &it ) const
 {
-    if( position == -1 ) {
-        int res = 0;
-        for( const auto &m : weapon.gun_all_modes() ) {
-            res = std::max( res, confident_gun_range( m.second ) );
-        }
-        return res;
+    int res = 0;
+    for( const auto &m : it.gun_all_modes() ) {
+        res = std::max( res, confident_gun_mode_range( m.second ) );
     }
-
-    return confident_throw_range( i_at( position ) );
+    return res;
 }
 
-int npc::confident_gun_range( const item::gun_mode &gun, int at_recoil ) const
+int npc::confident_gun_mode_range( const item::gun_mode &gun, int at_recoil ) const
 {
     if( at_recoil < 0 ) {
         at_recoil = recoil + driving_recoil;
@@ -1247,7 +1146,7 @@ int npc::confident_gun_range( const item::gun_mode &gun, int at_recoil ) const
     // 5 round burst equivalent to ~2 individually aimed shots
     ret /= std::max( sqrt( gun.qty / 1.5 ), 1.0 );
 
-    add_msg( m_debug, "confident_gun_range (%s=%d)", gun.mode.c_str(), ret );
+    add_msg( m_debug, "confident_gun_mode_range (%s=%d)", gun.mode.c_str(), ret );
     return std::max( ret, 1 );
 }
 
@@ -1275,9 +1174,9 @@ int npc::confident_throw_range( const item &thrown ) const
 }
 
 // Index defaults to -1, i.e., wielded weapon
-bool npc::wont_hit_friend( const tripoint &tar, int weapon_index ) const
+bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) const
 {
-    int confident = confident_range(weapon_index);
+    int confident = throwing ? confident_throw_range( it ) : confident_shoot_range( it );
     // if there is no confidence at using weapon, it's not used at range
     // zero confidence leads to divide by zero otherwise
     if( confident < 1 ) {
@@ -2195,90 +2094,106 @@ void npc::wield_best_melee()
     wield( *it );
 }
 
-void npc::alt_attack()
+void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 {
-    itype_id which = "null";
+    if( g->u.sees( np ) ) {
+        add_msg( _("%1$s throws a %2$s."), np.name.c_str(), it.tname().c_str() );
+    }
+
+    int stack_size = -1;
+    if( it.count_by_charges() ) {
+        stack_size = it.charges;
+        it.charges = 1;
+    }
+    np.throw_item( pos, it );
+    // Throw a single charge of a stacking object.
+    if( stack_size == -1 || stack_size == 1 ) {
+        np.i_rem( index );
+    } else {
+        it.charges = stack_size - 1;
+    }
+}
+
+bool npc::alt_attack()
+{
+    if( is_following() && !rules.use_grenades ) {
+        return false;
+    }
+
     Creature *critter = get_target( ai_cache.target );
     if( critter == nullptr ) {
         // This function shouldn't be called...
         debugmsg( "npc::alt_attack() called with target = %d", ai_cache.target );
         move_pause();
-        return;
+        return false;
     }
 
     tripoint tar = critter->pos();
 
-    int dist = rl_dist( pos(), tar );
-    /* ALT_ATTACK_ITEMS is an array which stores the itype_id of all alternate
-     * items, from least to most important.
-     * See npc.h for definition of ALT_ATTACK_ITEMS
-     */
-    for( auto &elem : ALT_ATTACK_ITEMS ) {
-        if( ( !is_following() || rules.use_grenades ) && has_amount( elem, 1 ) ) {
-            which = elem;
-        }
-    }
-
-    if (which == "null") { // We ain't got shit!
-        // Not sure if this should ever occur.  For now, let's warn with a debug msg
-        debugmsg("npc::alt_attack() couldn't find an alt attack item!");
-        if (dist == 1) {
-            melee_attack( *critter, true );
-        } else {
-            move_to( tar );
-        }
-    }
-
-    int weapon_index = INT_MIN;
+    const int dist = rl_dist( pos(), tar );
     item *used = nullptr;
-    if (weapon.type->id == which) {
-        used = &weapon;
-        weapon_index = -1;
-    } else {
-        invslice slice = inv.slice();
-        for (size_t i = 0; i < inv.size(); i++) {
-            if (slice[i]->front().type->id == which) {
-                used = &(slice[i]->front());
-                weapon_index = i;
-            }
+    // Remember if we have an item that is dangerous to hold
+    bool used_dangerous = false;
+
+    static const std::string danger_string( "NPC_THROW_NOW" );
+    static const std::string alt_string( "NPC_ALT_ATTACK" );
+    // @todo The active bomb with shortest fuse should be thrown first
+    const auto check_alt_item = [&used, &used_dangerous, dist, this]( item &it ) {
+        const bool dangerous = it.has_flag( danger_string );
+        if( !dangerous && used_dangerous ) {
+            return;
         }
+
+        // Not alt attack
+        if( !dangerous && !it.has_flag( alt_string ) ) {
+            return;
+        }
+
+        // @todo Non-thrown alt items
+        if( !dangerous && throw_range( it ) < dist ) {
+            return;
+        }
+
+        // Low priority items
+        if( !dangerous && used != nullptr ) {
+            return;
+        }
+
+        used = &it;
+        used_dangerous = used_dangerous || dangerous;
+    };
+
+    check_alt_item( weapon );
+    for( auto &sl : inv.slice() ) {
+        // @todo Cached values - an itype slot maybe?
+        check_alt_item( sl->front() );
     }
 
     if( used == nullptr ) {
-        debugmsg( "npc::alt_attack() couldn't find expected item of type %s",
-                  which.c_str() );
-        return;
+        return false;
+    }
+
+    int weapon_index = get_item_position( used );
+    if( weapon_index == INT_MIN ) {
+        debugmsg( "npc::alt_attack() couldn't find expected item %s",
+                  used->tname().c_str() );
+        return false;
     }
 
     // Are we going to throw this item?
-    if( !thrown_item( *used ) ) {
+    if( !used->active && used->has_flag( "NPC_ACTIVATE" ) ) {
         activate_item( weapon_index );
-        return;
+        // Note: intentional lack of return here
+        // We want to ignore player-centric rules to avoid carrying live nades
+        // @todo Non-grenades
     }
 
     // We are throwing it!
     int conf = confident_throw_range( *used );
-    const bool wont_hit = wont_hit_friend( tar, weapon_index );
+    const bool wont_hit = wont_hit_friend( tar, *used, true );
     if( dist <= conf && wont_hit ) {
-        if( g->u.sees( *this ) ) {
-            add_msg(_("%1$s throws a %2$s."),
-                    name.c_str(), used->tname().c_str());
-        }
-
-        int stack_size = -1;
-        if( used->count_by_charges() ) {
-            stack_size = used->charges;
-            used->charges = 1;
-        }
-        throw_item( tar, *used );
-        // Throw a single charge of a stacking object.
-        if( stack_size == -1 || stack_size == 1 ) {
-            i_rem(weapon_index);
-        } else {
-            used->charges = stack_size - 1;
-        }
-
-        return;
+        npc_throw( *this, *used, weapon_index, tar );
+        return true;
     }
 
     if( wont_hit ) {
@@ -2288,11 +2203,11 @@ void npc::alt_attack()
     }
 
     // Danger of friendly fire
-    if( !used->active || used->charges > 2 ) {
+    if( !wont_hit && !used_dangerous ) {
         // Safe to hold on to, for now
         // Maneuver around player
         avoid_friendly_fire();
-        return;
+        return true;
     }
 
     // We need to throw this live (grenade, etc) NOW! Pick another target?
@@ -2302,14 +2217,16 @@ void npc::alt_attack()
             int newdist = rl_dist( pos(), pt );
             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
             if( newdist <= conf && newdist >= 2 && newtarget != -1 &&
-                wont_hit_friend( pt, weapon_index ) ) {
+                wont_hit_friend( pt, *used, true ) ) {
                 // Friendlyfire-safe!
                 ai_cache.target = newtarget;
                 if( !one_in( 100 ) ) {
                     // Just to prevent infinite loops...
-                    alt_attack();
+                    if( alt_attack() ) {
+                        return true;
+                    }
                 }
-                return;
+                return false;
             }
         }
     }
@@ -2321,7 +2238,7 @@ void npc::alt_attack()
     for (int dist = 2; dist <= conf; dist++) {
         for( const tripoint &pt : g->m.points_in_radius( pos(), dist ) ) {
             int new_dist = rl_dist( pos(), pt );
-            if( new_dist > best_dist && wont_hit_friend( pt ), weapon_index ) {
+            if( new_dist > best_dist && wont_hit_friend( pt, *used, true ) ) {
                 best_dist = new_dist;
                 tar = pt;
             }
@@ -2331,27 +2248,8 @@ void npc::alt_attack()
      * should be equal to the original location of our target, and risking friendly
      * fire is better than holding on to a live grenade / whatever.
      */
-    if( g->u.sees( *this ) ) {
-        add_msg(_("%1$s throws a %2$s."), name.c_str(),
-                used->tname().c_str());
-    }
-
-    int stack_size = -1;
-    if( used->count_by_charges() ) {
-        stack_size = used->charges;
-        used->charges = 1;
-    }
-    throw_item( tar, *used );
-
-    // Throw a single charge of a stacking object.
-    if( stack_size == -1 || stack_size == 1 ) {
-        i_rem(weapon_index);
-    } else {
-        used->charges = stack_size - 1;
-        if( used->charges == 0 ) {
-            i_rem( weapon_index );
-        }
-    }
+    npc_throw( *this, *used, weapon_index, tar );
+    return true;
 }
 
 void npc::activate_item(int item_index)
@@ -2367,13 +2265,6 @@ void npc::activate_item(int item_index)
         // while not removing the debugmsgs for other 0 move actions
         moves--;
     }
-}
-
-bool thrown_item( item &used )
-{
-    const itype_id &type = used.type->id;
-    // TODO: Remove the horrid hardcode
-    return (used.active || type == "knife_combat" || type == "spear_wood");
 }
 
 void npc::heal_player( player &patient )
@@ -2883,8 +2774,6 @@ std::string npc_action_name(npc_action action)
         return _("Sleep");
     case npc_pickup:
         return _("Pick up items");
-    case npc_escape_item:
-        return _("Use escape item");
     case npc_wield_melee:
         return _("Wield melee weapon");
     case npc_wield_loaded_gun:
@@ -2907,8 +2796,6 @@ std::string npc_action_name(npc_action action)
         return _("Aim");
     case npc_shoot:
         return _("Shoot");
-    case npc_alt_attack:
-        return _("Use alternate attack");
     case npc_look_for_player:
         return _("Look for player");
     case npc_heal_player:

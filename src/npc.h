@@ -697,16 +697,14 @@ public:
     bool scan_new_items();
     // Returns true if did wield it
     bool wield_better_weapon();
- bool alt_attack_available(); // Do we have grenades, molotov, etc?
- int choose_escape_item(); // Returns item position of our best escape aid
 
 // Helper functions for ranged combat
     // Multiplier for acceptable angle of inaccuracy
     double confidence_mult() const;
-    int confident_range( int weapon_index = -1 ) const;
-    int confident_gun_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
+    int confident_shoot_range( const item &it ) const;
+    int confident_gun_mode_range( const item::gun_mode &gun, int at_recoil = -1 ) const;
     int confident_throw_range( const item & ) const;
-    bool wont_hit_friend( const tripoint &p , int position = -1 ) const;
+    bool wont_hit_friend( const tripoint &p, const item &it, bool throwing ) const;
     bool enough_time_to_reload( const item &gun ) const;
     /** Can reload currently wielded gun? */
     bool can_reload_current();
@@ -750,8 +748,7 @@ public:
 // Combat functions and player interaction functions
     Creature *get_target( int target ) const;
  void wield_best_melee ();
- void alt_attack();
- void use_escape_item (int position);
+ bool alt_attack(); // Returns true if did something
  void heal_player (player &patient);
  void heal_self  ();
  void take_painkiller ();

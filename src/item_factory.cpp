@@ -51,6 +51,7 @@ std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
+static void npc_implied_flags( itype &item_template );
 
 bool item_is_blacklisted(const std::string &id)
 {
@@ -180,6 +181,7 @@ void Item_factory::finalize() {
 
         set_allergy_flags( *e.second );
         hflesh_to_flesh( *e.second );
+        npc_implied_flags( *e.second );
 
         if( obj.comestible ) {
             if( ACTIVE_WORLD_OPTIONS[ "NO_VITAMINS" ] ) {
@@ -1433,6 +1435,35 @@ void hflesh_to_flesh( itype &item_template )
     if( old_size != mats.size() &&
         std::find( mats.begin(), mats.end(), material_id( "flesh" ) ) == mats.end() ) {
         mats.push_back( material_id( "flesh" ) );
+    }
+}
+
+void npc_implied_flags( itype &item_template )
+{
+    if( item_template.use_methods.count( "explosion" ) > 0 ) {
+        item_template.item_tags.insert( "DANGEROUS" );
+    }
+
+    if( item_template.item_tags.count( "DANGEROUS" ) > 0 ) {
+        item_template.item_tags.insert( "NPC_THROW_NOW" );
+    }
+
+    if( item_template.item_tags.count( "BOMB" ) > 0 ) {
+        item_template.item_tags.insert( "NPC_ACTIVATE" );
+    }
+
+    if( item_template.item_tags.count( "NPC_THROW_NOW" ) > 0 ) {
+        item_template.item_tags.insert( "NPC_THROWN" );
+    }
+
+    if( item_template.item_tags.count( "NPC_ACTIVATE" ) > 0 ||
+        item_template.item_tags.count( "NPC_THROWN" ) > 0 ) {
+        item_template.item_tags.insert( "NPC_ALT_ATTACK" );
+    }
+
+    if( item_template.item_tags.count( "DANGEROUS" ) > 0 ||
+        item_template.item_tags.count( "PSEUDO" ) > 0 ) {
+        item_template.item_tags.insert( "TRADER_AVOID" );
     }
 }
 
