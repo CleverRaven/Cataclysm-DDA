@@ -3545,7 +3545,7 @@
     "color": "light_green",
     "name": "advanced UPS",
     "name_plural": "advanced UPS's",
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, it's plutonium reactor can't be charged in UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "price": 560000,
     "material": ["aluminum", "plastic"],
     "weight": 453,
