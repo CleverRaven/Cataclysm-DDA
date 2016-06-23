@@ -939,12 +939,12 @@ int inventory::weight() const
     return ret;
 }
 
-int inventory::volume() const
+units::volume inventory::volume() const
 {
-    int ret = 0;
+    units::volume ret = 0;
     for( const auto &elem : items ) {
         for( const auto &elem_stack_iter : elem ) {
-            ret += elem_stack_iter.volume() / units::legacy_volume_factor;
+            ret += elem_stack_iter.volume();
         }
     }
     return ret;

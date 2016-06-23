@@ -828,7 +828,7 @@ int Character::weight_carried() const
 
 int Character::volume_carried() const
 {
-    return inv.volume();
+    return inv.volume() / units::legacy_volume_factor;
 }
 
 int Character::weight_capacity() const
@@ -892,7 +892,7 @@ bool Character::can_pickVolume( const item &it, bool ) const
 {
     inventory projected = inv;
     projected.add_item( it );
-   return projected.volume() <= volume_capacity();
+   return projected.volume() / units::legacy_volume_factor <= volume_capacity();
 }
 
 bool Character::can_pickWeight( const item &it, bool safe ) const
