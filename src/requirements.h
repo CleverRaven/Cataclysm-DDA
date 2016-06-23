@@ -190,13 +190,8 @@ struct requirement_data {
          */
         std::string list_missing() const;
 
-        /**
-         * Remove components (tools/items) of the given item type. Qualities are not
-         * changed.
-         * @returns true if any the last requirement in a list of alternatives has
-         * been removed. This requirement can never be fulfilled and should be discarded.
-         */
-        bool remove_item( const std::string &type );
+        /** Remove tools or components of given type leaving qualities unchanged */
+        void remove_item( const std::string &type );
 
         const alter_tool_comp_vector &get_tools() const;
         const alter_quali_req_vector &get_qualities() const;
@@ -243,7 +238,7 @@ struct requirement_data {
         static std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
                 const std::vector< std::vector<T> > &objs, int batch = 1 );
         template<typename T>
-        static bool remove_item( const std::string &type, std::vector< std::vector<T> > &vec );
+        static void remove_item( const std::string &type, std::vector< std::vector<T> > &vec );
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );
         template<typename T>

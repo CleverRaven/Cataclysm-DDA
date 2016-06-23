@@ -632,26 +632,25 @@ bool requirement_data::check_enough_materials( const item_comp &comp,
 }
 
 template<typename T>
-bool requirement_data::remove_item( const std::string &type, std::vector< std::vector<T> > &vec )
+void requirement_data::remove_item( const std::string &type, std::vector< std::vector<T> > &vec )
 {
-    for( auto &elem : vec ) {
-        for( auto c = elem.begin(); c != elem.end(); ) {
-            if( c->type == type ) {
-                if( elem.size() == 1 ) {
-                    return true;
-                }
-                c = elem.erase( c );
-            } else {
-                ++c;
-            }
-        }
+    // remove all instances of @ref type from each of the options
+    for( auto &opts : vec ) {
+        opts.erase( std::remove_if( opts.begin(), opts.end(), [&type]( const T &e ) {
+            return e.type == type;
+        } ), opts.end() );
     }
-    return false;
+
+    // if an option group is left empty then it can be removed
+    vec.erase( std::remove_if( vec.begin(), vec.end(), []( const std::vector<T> &e ) {
+        return e.empty();
+    } ), vec.end() );
 }
 
-bool requirement_data::remove_item( const std::string &type )
+void requirement_data::remove_item( const std::string &type )
 {
-    return remove_item( type, tools ) || remove_item( type, components );
+    remove_item( type, tools );
+    remove_item( type, components );
 }
 
 const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const
