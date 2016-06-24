@@ -9981,7 +9981,8 @@ bool player::can_use( const item& it, bool interactive ) const {
 }
 
 bool player::can_reload( const item& it, const itype_id& ammo ) const {
-    if( !it.is_reloadable() ) {
+
+    if( !it.is_reloadable_with( ammo ) ) {
         return false;
     }
 
@@ -9992,23 +9993,7 @@ bool player::can_reload( const item& it, const itype_id& ammo ) const {
         }
     }
 
-    if( it.magazine_integral() ) {
-        if( !ammo.empty() ) {
-            if( it.ammo_data() ) {
-                if( it.ammo_data()->id != ammo ) {
-                    return false;
-                }
-            } else {
-                auto at = item::find_type( ammo );
-                if( !at->ammo || it.ammo_type() != at->ammo->type ) {
-                    return false;
-                }
-            }
-        }
-        return it.ammo_remaining() < it.ammo_capacity();
-    } else {
-        return ammo.empty() ? true : it.magazine_compatible().count( ammo );
-    }
+    return true;
 }
 
 bool player::dispose_item( item& obj, const std::string& prompt )

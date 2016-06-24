@@ -3570,9 +3570,27 @@ bool item::is_container_full( bool allow_bucket ) const
     return get_remaining_capacity_for_liquid( contents.front(), allow_bucket ) == 0;
 }
 
-bool item::is_reloadable_with( const item &it ) const
+bool item::is_reloadable_with( const itype_id& ammo ) const
 {
-    return ( is_tool() || is_gun() ) && it.is_ammo() && ( ammo_type() == it.ammo_type() );
+    if( !is_reloadable() ) {
+        return false;
+    } else if( magazine_integral() ) {
+        if( !ammo.empty() ) {
+            if( ammo_data() ) {
+                if( ammo_data()->id != ammo ) {
+                    return false;
+                }
+            } else {
+                auto at = item::find_type( ammo );
+                if( !at->ammo || ammo_type() != at->ammo->type ) {
+                    return false;
+                }
+            }
+        }
+        return ammo_remaining() < ammo_capacity();
+    } else {
+        return ammo.empty() ? true : magazine_compatible().count( ammo );
+    }
 }
 
 bool item::is_salvageable() const
@@ -4976,7 +4994,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
 
     long remaining_capacity = 0;
 
-    if( is_reloadable_with( liquid ) ) {
+    if( is_reloadable_with( liquid.typeId() ) ) {
         if( ammo_remaining() != 0 && ammo_current() != liquid.typeId() ) {
             return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
         }
@@ -5052,7 +5070,7 @@ void item::fill_with( item &liquid, long amount )
         return;
     }
 
-    if( is_reloadable_with( liquid ) ) {
+    if( is_reloadable_with( liquid.typeId() ) ) {
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
     } else if( !is_container() ) {
         debugmsg( "Tried to fill %s which is not a container and can't be reloaded with %s.",
