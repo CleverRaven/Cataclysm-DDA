@@ -5186,7 +5186,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         const int cargo = veh->part_with_feature(vpart, "CARGO");
 
         if (kpart >= 0) { // we have a faucet, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "water_clean") {
                 ftype = "water_clean";
@@ -5208,7 +5208,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (weldpart >= 0) { // we have a weldrig, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "welder") {
                 ftype = "battery";
@@ -5227,7 +5227,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (craftpart >= 0) { // we have a craftrig, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "press") {
                 ftype = "battery";
@@ -5248,7 +5248,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (forgepart >= 0) { // we have a veh_forge, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "forge") {
                 ftype = "battery";
@@ -5265,7 +5265,7 @@ std::list<item> map::use_charges(const tripoint &origin, const int range,
         }
 
         if (chempart >= 0) { // we have a chem_lab, now to see what to drain
-            ammotype ftype = "NULL";
+            itype_id ftype = "null";
 
             if (type == "chemistry_set") {
                 ftype = "battery";
