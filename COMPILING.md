@@ -373,7 +373,9 @@ Visual Studio 2015 is required to build Cataclysm. We created solution and proje
 
 ### Dependencies
 
-For tiles and sound support, the following 3 libraries need to be downloaded and installed:
+#### SDL
+
+The following 4 libraries are required.
 
 [http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip](http://www.libsdl.org/release/SDL2-devel-2.0.4-VC.zip)
 
@@ -381,9 +383,25 @@ For tiles and sound support, the following 3 libraries need to be downloaded and
 
 [http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip](http://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.1-VC.zip)
 
-For localization support, we recommend you to build `libintl` and `libiconv` by yourself. [https://github.com/kahrl/gettext-msvc](https://github.com/kahrl/gettext-msvc) might be useful.
+[http://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.1-VC.zip](http://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.1-VC.zip)
 
-For lua support, we recommend you to build lua library by yourself.
+#### libintl and libiconv
+
+There is a repo providing MSVC project files to build those two libraries. 
+
+[https://github.com/kahrl/gettext-msvc](https://github.com/kahrl/gettext-msvc)
+
+#### Lua
+
+Download and extract lua source code. The source of lua can be obtained from [https://www.lua.org/download.html](https://www.lua.org/download.html). Open a Visual Studio Command Prompt, switch to `src` directory in lua source code and excute the following commands:
+
+```
+cl /MD /O2 /c *.c
+del lua.obj luac.obj
+lib -out:Lua.lib *.obj
+```
+
+Then, we get the static library `Lua.lib`.
 
 ### Building
 
@@ -393,7 +411,11 @@ If you need localization support, execute the bash script `lang/compile_mo.sh` i
 
 ### Debugging
 
-After building Cataclysm, you may discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1. That is because of the wrong working directory. You need to configure the working directory to `$(ProjectDir)..`. It should be the root directory of Cataclysm, not `$(ProjectDir)`( = `msvc140/`).
+After building Cataclysm, you may discover that after pressing the debug button in Visual Studio, Cataclysm just exits after launch with return code 1. That is because of the wrong working directory. You need to configure the working directory to `$(ProjectDir)..`.
+
+### Make a distribution
+
+There is a batch script in `msvc-full-features` folder `distribute.bat`. It will create a sub folder `distribution` and copy all required files(eg. `data/`, `Cataclysm.exe` and dlls) into that folder. Then you can zip it and share the archive on the Internet.
 
 ## MinGW Guide
 To compile under windows MinGW you first need to download mingw. An automated GUI installer assistant called mingw-get-setup.exe will make everything a lot easier. I recommend installing it to `C:\MinGW`
