@@ -71,7 +71,7 @@ long itype::invoke( player *p, item *it, const tripoint &pos, const std::string 
 
 std::string ammo_name( const ammotype &t )
 {
-    std::string ret = ammunition_type::find_ammunition_type( t ).name();
+    std::string ret = t.obj().name();
     if( ret != "none" ) {
         ret = _( ret.c_str() );
     }
@@ -80,5 +80,5 @@ std::string ammo_name( const ammotype &t )
 
 const itype_id &default_ammo( const ammotype &t )
 {
-    return ammunition_type::find_ammunition_type( t ).default_ammotype();
+    return t.obj().default_ammotype();
 }

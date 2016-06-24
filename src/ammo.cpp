@@ -42,19 +42,14 @@ bool string_id<ammunition_type>::is_valid() const
 template<>
 ammunition_type const &string_id<ammunition_type>::obj() const
 {
-    return ammunition_type::find_ammunition_type( *this );
-}
-
-ammunition_type const &ammunition_type::find_ammunition_type( const ammotype &ident )
-{
     auto const &the_map = all_ammunition_types();
 
-    auto const it = the_map.find( ident );
+    auto const it = the_map.find( *this );
     if( it != the_map.end() ) {
         return it->second;
     }
 
-    debugmsg( "Tried to get invalid ammunition: %s", ident.c_str() );
+    debugmsg( "Tried to get invalid ammunition: %s", c_str() );
     static ammunition_type const null_ammunition {
         "null"
     };
