@@ -578,8 +578,8 @@ bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) co
         return false; // skip fake types
     }
 
-    if (ammo_name(ammo) == "none") {
-        msg << string_format("ammo type %s not listed in ammo_name() function", ammo.c_str()) << "\n";
+    if( !ammo.is_valid() ) {
+        msg << string_format("ammo type %s is not known", ammo.c_str()) << "\n";
         return false;
     }
 
