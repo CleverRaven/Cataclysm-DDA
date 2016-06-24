@@ -672,6 +672,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
         int start = 0, cur_it;
         player pl_copy = g->u;
+        pl_copy.set_fake( true );
         bool update = true;
         mvwprintw( w_pickup, 0, 0, _( "PICK UP" ) );
         int selected = 0;
@@ -842,6 +843,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                         getitem[i].pick = false;
                     }
                     pl_copy = g->u;
+                    pl_copy.set_fake( true );
                 }
                 update = true;
             }

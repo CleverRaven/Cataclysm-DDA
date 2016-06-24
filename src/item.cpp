@@ -2135,6 +2135,11 @@ void item::on_wield( player &p, int mv )
 
 void item::on_pickup( Character &p )
 {
+    // Fake characters are used to determine pickup weight and volume
+    if( p.is_fake() ) {
+        return;
+    }
+
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
@@ -2142,7 +2147,7 @@ void item::on_pickup( Character &p )
 
     if( is_bucket_nonempty() ) {
         for( const auto &it : contents ) {
-            g->m.add_item( p.pos(), it );
+            g->m.add_item_or_charges( p.pos(), it );
         }
 
         contents.clear();
