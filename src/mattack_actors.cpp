@@ -375,8 +375,8 @@ void gun_actor::shoot( monster &z, Creature &target, const std::string &mode ) c
     item gun( gun_type );
     gun.gun_set_mode( mode );
 
-    itype_id ammo = ( ammo_type != "NULL" ) ? ammo_type : gun.ammo_default();
-    if( ammo != "NULL" ) {
+    itype_id ammo = ( ammo_type != "null" ) ? ammo_type : gun.ammo_default();
+    if( ammo != "null" ) {
         gun.ammo_set( ammo, z.ammo[ ammo ] );
     }
 
