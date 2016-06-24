@@ -46,7 +46,7 @@ std::string ammo_name( const ammotype &ammo );
 const itype_id &default_ammo( const ammotype &ammo );
 
 struct islot_tool {
-    std::string ammo_id = "NULL";
+    ammotype ammo_id = "NULL";
 
     itype_id revert_to = "null";
     std::string revert_msg;
@@ -407,7 +407,7 @@ struct islot_gunmod : common_ranged_data {
 
 struct islot_magazine {
     /** What type of ammo this magazine can be loaded with */
-    std::string type = "NULL";
+    ammotype type = "NULL";
 
     /** Capacity of magazine (in equivalent units to ammo charges) */
     int capacity = 0;
@@ -436,7 +436,7 @@ struct islot_ammo : common_ranged_data {
      * Ammo type, basically the "form" of the ammo that fits into the gun/tool.
      * This is an id, it can be looked up in the @ref ammunition_type class.
      */
-    std::string type;
+    ammotype type;
     /**
      * Type id of casings, can be "null" for no casings at all.
      */

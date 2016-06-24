@@ -7,7 +7,7 @@
 
 namespace
 {
-using ammo_map_t = std::unordered_map<std::string, ammunition_type>;
+using ammo_map_t = std::unordered_map<ammotype, ammunition_type>;
 
 ammo_map_t &all_ammunition_types()
 {
