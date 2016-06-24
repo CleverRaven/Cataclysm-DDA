@@ -8098,14 +8098,15 @@ int iuse::washclothes( player *p, item *it, bool, const tripoint& )
     }
     
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", 3 * mod.volume() ) && !crafting_inv.has_charges( "water_clean", 3 * mod.volume() ) ) {
+    const auto required_water_charges = 3 * mod.volume();
+    if( !crafting_inv.has_charges( "water", required_water_charges ) && !crafting_inv.has_charges( "water_clean", required_water_charges ) ) {
         p->add_msg_if_player( _( "You need amount of water equal to thrice the volume of the item you want to wash." ) );
         return 0;
     }
     
     std::vector<item_comp> comps;
-    comps.push_back( item_comp( "water", 3 * mod.volume() ) );
-    comps.push_back( item_comp( "water_clean", 3 * mod.volume() ) );
+    comps.push_back( item_comp( "water", required_water_charges ) );
+    comps.push_back( item_comp( "water_clean", required_water_charges ) );
     p->consume_items( comps );
     
     p->add_msg_if_player( _( "You washed your clothing." ) );
