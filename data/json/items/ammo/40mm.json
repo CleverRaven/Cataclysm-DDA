@@ -98,8 +98,8 @@
     "type": "AMMO",
     "name": "40mm smoke cover",
     "name_plural": "40mm smoke cover",
-    "description": "A 40mm grenade with a smoke load.  It will burst in a cloud of harmless gas, and will also leave a streak of smoke cover in its wake.",
-    "extend": { "effects": [ "SMOKE", "TRAIL" ] }
+    "description": "A 40mm grenade designed to provide smoke cover.",
+    "extend": { "effects": [ "SMOKE_BIG" ] }
   },
   {
     "id": "40mm_teargas",
