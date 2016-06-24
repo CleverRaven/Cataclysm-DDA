@@ -240,6 +240,18 @@
   },
   {
     "type" : "item_group",
+    "id" : "ammo_launcher_grenade",
+    "//" : "Factory specification grenade launcher ammo intended for military use",
+    "items": [
+      [ "40mm_flare", 40 ],
+      [ "40mm_flechette", 10 ],
+      [ "40mm_frag", 100 ],
+      [ "40mm_incendiary", 20 ],
+      [ "40mm_smoke", 50 ]
+    ]
+  },
+  {
+    "type" : "item_group",
     "id" : "ammo_common",
     "//" : "Common ammo for guns typically owned by citizens.",
     "items": [
@@ -268,7 +280,8 @@
       { "group": "ammo_pistol_milspec", "prob": 50 },
       { "group": "ammo_smg_milspec", "prob": 20 },
       { "group": "ammo_rifle_milspec", "prob": 200 },
-      { "group": "ammo_shotgun_milspec", "prob": 30 }
+      { "group": "ammo_shotgun_milspec", "prob": 30 },
+      { "group": "ammo_launcher_grenade", "prob": 30 }
     ]
   },
   {
