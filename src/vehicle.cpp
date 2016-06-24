@@ -6154,6 +6154,28 @@ std::string vehicle_part::name() const {
     return res;
 }
 
+ammotype vehicle_part::ammo_type() const
+{
+    // @todo generic fuel tanks are not yet supported
+    if( is_tank() ) {
+        return info().fuel_type;
+    }
+
+    if( is_battery() ) {
+        return base.ammo_type();
+    }
+
+    if( is_turret() ) {
+        return base.ammo_type();
+    }
+
+    if( base.typeId() == "minireactor" ) {
+        return base.ammo_type();
+    }
+
+    return "NULL";
+}
+
 itype_id vehicle_part::ammo_current() const
 {
     // @todo currently only support fuel tanks and batteries
