@@ -5052,13 +5052,16 @@ void item::fill_with( item &liquid, long amount )
     if( amount <= 0 ) {
         return;
     }
-    if( !is_container_empty() ) {
+    if( liquid.is_ammo() && ( is_tool() || is_gun() ) ) {
+        ammo_set( liquid.typeId(), ammo_remaining() + amount );
+    } else if( !is_container_empty() ) {
         contents.front().mod_charges( amount );
     } else {
         item liquid_copy( liquid );
         liquid_copy.charges = amount;
         put_in( liquid_copy );
     }
+
     liquid.mod_charges( -amount );
     on_contents_changed();
 }
