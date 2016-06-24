@@ -9732,10 +9732,6 @@ bool player::wield( item& target )
         return false;
     }
 
-    if( weapon.is_bucket_nonempty() && !weapon.spill_contents( *this ) ) {
-        return false;
-    }
-
     if( target.is_null() ) {
         return dispose_item( weapon, string_format( _( "Stop wielding %s?" ), weapon.tname().c_str() ) );
     }
@@ -10020,29 +10016,46 @@ bool player::dispose_item( item& obj, const std::string& prompt )
         bool enabled;
         char invlet;
         int moves;
-        std::function<void()> action;
+        std::function<bool()> action;
     };
 
     std::vector<dispose_option> opts;
 
+    const bool bucket = obj.is_bucket_nonempty();
+
     opts.emplace_back( dispose_option {
-        _( "Store in inventory" ), volume_carried() + obj.volume() <= volume_capacity(), '1',
+        bucket ? _( "Spill contents and store in inventory" ) : _( "Store in inventory" ),
+        volume_carried() + obj.volume() <= volume_capacity(), '1',
         item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR,
-        [this,&obj]{
+        [this,&obj] {
+            if( !obj.spill_contents( *this ) ) {
+                return false;
+            }
+
             moves -= item_handling_cost( obj ) * INVENTORY_HANDLING_FACTOR;
             inv.add_item_keep_invlet( i_rem( &obj ) );
             inv.unsort();
+            return true;
         }
     } );
 
     opts.emplace_back( dispose_option {
-        _( "Drop item" ), true, '2', 0,
-        [this,&obj]{ g->m.add_item_or_charges( pos(), i_rem( &obj ) ); }
+        _( "Drop item" ), true, '2', 0, [this, &obj] {
+            g->m.add_item_or_charges( pos(), i_rem( &obj ) );
+            return true;
+        }
     } );
 
     opts.emplace_back( dispose_option {
-        _( "Wear item" ), can_wear( obj, false ), '3', item_wear_cost( obj ),
-        [this,&obj]{ wear_item( i_rem( &obj ) ); }
+        bucket ? _( "Spill contents and wear item" ) : _( "Wear item" ),
+        can_wear( obj, false ), '3', item_wear_cost( obj ),
+        [this, &obj] {
+            if( !obj.spill_contents( *this ) ) {
+                return false;
+            }
+
+            return wear_item( i_rem( &obj ) );
+        }
     } );
 
     for( auto& e : worn ) {
@@ -10051,7 +10064,9 @@ bool player::dispose_item( item& obj, const std::string& prompt )
             opts.emplace_back( dispose_option {
                 string_format( _( "Store in %s" ), e.tname().c_str() ), true, e.invlet,
                 item_store_cost( obj, e, false, ptr->draw_cost ),
-                [this,ptr,&e,&obj]{ ptr->store( *this, e, obj ); }
+                [this, ptr, &e, &obj]{
+                    return ptr->store( *this, e, obj );
+                }
             } );
         }
     }
@@ -10074,8 +10089,7 @@ bool player::dispose_item( item& obj, const std::string& prompt )
 
     menu.query();
     if( menu.ret >= 0 ) {
-        opts[ menu.ret ].action();
-        return true;
+        return opts[ menu.ret ].action();
     }
     return false;
 }
