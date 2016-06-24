@@ -4,6 +4,7 @@
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "projectile.h"
 #include "line.h"
 #include "debug.h"
 #include "overmapbuffer.h"
@@ -16,6 +17,8 @@
 #include "mtype.h"
 #include "field.h"
 #include "sounds.h"
+
+#include <algorithm>
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 #define TARGET_NONE INT_MIN

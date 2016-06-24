@@ -82,6 +82,7 @@
 #include "recipe_dictionary.h"
 #include "cata_utility.h"
 #include "pathfinding.h"
+#include "projectile.h"
 #include "gates.h"
 #include "item_factory.h"
 #include "scent_map.h"

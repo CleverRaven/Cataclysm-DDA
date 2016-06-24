@@ -9,6 +9,7 @@
 #include "line.h"
 #include "options.h"
 #include "item_factory.h"
+#include "projectile.h"
 #include "mapbuffer.h"
 #include "translations.h"
 #include "sounds.h"

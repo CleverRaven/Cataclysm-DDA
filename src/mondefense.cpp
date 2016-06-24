@@ -3,6 +3,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "game.h"
+#include "projectile.h"
 #include "rng.h"
 #include "line.h"
 #include "bodypart.h"
@@ -11,6 +12,8 @@
 #include "translations.h"
 #include "field.h"
 #include "player.h"
+
+#include <algorithm>
 
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
