@@ -5,6 +5,8 @@
 
 class JsonObject;
 
+using ammotype = std::string;
+
 class ammunition_type
 {
         friend class DynamicDataLoader;
@@ -20,7 +22,7 @@ class ammunition_type
             return default_ammotype_;
         }
 
-        static ammunition_type const &find_ammunition_type( std::string const &ident );
+        static ammunition_type const &find_ammunition_type( const ammotype &ident );
     private:
         std::string name_;
         std::string default_ammotype_;

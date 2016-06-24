@@ -41,9 +41,9 @@ struct quality;
 using quality_id = string_id<quality>;
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string ammo_name(std::string const &t);
+std::string ammo_name( const ammotype &ammo );
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-std::string const& default_ammo(std::string const &guntype);
+const itype_id &default_ammo( const ammotype &ammo );
 
 struct islot_tool {
     std::string ammo_id = "NULL";
