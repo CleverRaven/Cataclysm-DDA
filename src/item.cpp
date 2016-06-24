@@ -3570,6 +3570,11 @@ bool item::is_container_full( bool allow_bucket ) const
     return get_remaining_capacity_for_liquid( contents.front(), allow_bucket ) == 0;
 }
 
+bool item::is_reloadable_with( const item &it ) const
+{
+    return ( is_tool() || is_gun() ) && it.is_ammo() && ( ammo_type() == it.ammo_type() );
+}
+
 bool item::is_salvageable() const
 {
     if( is_null() ) {
@@ -4969,31 +4974,23 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
         return 0;
     };
 
-    const bool uses_ammo = liquid.is_ammo() && ( is_tool() || is_gun() );
-    const bool wrong_ammo = uses_ammo && ( ammo_type() != liquid.ammo_type() );
-    const bool mixed_ammo = uses_ammo && ( ammo_remaining() != 0 && ammo_current() != liquid.typeId() );
-    const bool mixed_liquids = !contents.empty() && contents.front().typeId() != liquid.typeId();
+    long remaining_capacity = 0;
 
-    if( wrong_ammo || !is_container() ) {
-        return error( string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str() ) );
-    }
-
-    if( mixed_ammo || mixed_liquids ) {
-        return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
-    }
-
-    if( !type->container->watertight ) {
-        return error( string_format( _( "That %s isn't water-tight." ), tname().c_str() ) );
-    }
-
-    if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
-        return error( string_format( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
-                                                 : _( "You can't seal that %s!" ), tname().c_str() ) );
-    }
-    long remaining_capacity;
-    if( uses_ammo ) { // for filling up chainsaws, jackhammers and flamethrowers
+    if( is_reloadable_with( liquid ) ) {
+        if( ammo_remaining() != 0 && ammo_current() != liquid.typeId() ) {
+            return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
+        }
         remaining_capacity = ammo_capacity() - ammo_remaining();
-    } else {
+    } else if( is_container() ) {
+        if( !type->container->watertight ) {
+            return error( string_format( _( "That %s isn't water-tight." ), tname().c_str() ) );
+        } else if( !type->container->seals && ( !allow_bucket || !is_bucket() ) ) {
+            return error( string_format( is_bucket() ? _( "That %s must be on the ground or held to hold contents!" )
+                                                     : _( "You can't seal that %s!" ), tname().c_str() ) );
+        } else if( !contents.empty() && contents.front().typeId() != liquid.typeId() ) {
+            return error( string_format( _( "You can't mix loads in your %s." ), tname().c_str() ) );
+        }
+
         remaining_capacity = liquid.liquid_charges( get_container_capacity() );
         if( !contents.empty() ) {
             remaining_capacity -= contents.front().charges;
@@ -5005,6 +5002,8 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, std::string &e
             }
             remaining_capacity = std::min( remaining_capacity, expansion );
         }
+    } else {
+        return error( string_format( _( "That %1$s won't hold %2$s." ), tname().c_str(), liquid.tname().c_str() ) );
     }
 
     if( remaining_capacity <= 0 ) {
@@ -5052,8 +5051,12 @@ void item::fill_with( item &liquid, long amount )
     if( amount <= 0 ) {
         return;
     }
-    if( liquid.is_ammo() && ( is_tool() || is_gun() ) ) {
+
+    if( is_reloadable_with( liquid ) ) {
         ammo_set( liquid.typeId(), ammo_remaining() + amount );
+    } else if( !is_container() ) {
+        debugmsg( "Tried to fill %s which is not a container and can't be reloaded with %s.",
+                  tname().c_str(), liquid.tname().c_str() );
     } else if( !is_container_empty() ) {
         contents.front().mod_charges( amount );
     } else {

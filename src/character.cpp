@@ -1927,11 +1927,7 @@ bool Character::pour_into( item &container, item &liquid )
     container.fill_with( liquid, amount );
     inv.unsort();
 
-    if( !container.is_container_full( allow_bucket ) ) {
-        add_msg_if_player( "The %s isn't full.", container.tname().c_str() );
-    }
-
-    if( liquid.charges > 0 && !liquid.has_infinite_charges() ) {
+    if( liquid.charges > 0 ) {
         add_msg_if_player( _( "There's some left over!" ) );
     }
 

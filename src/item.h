@@ -444,6 +444,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * @param allow_bucket Allow filling non-sealable containers
      */
     bool is_container_full( bool allow_bucket = false ) const;
+    /** Returns true if this item can be reloaded with @param it. */
+    bool is_reloadable_with( const item &it ) const;
     /**
      * Fill item with liquid up to its capacity. This works for guns and tools that accept
      * liquid ammo.
