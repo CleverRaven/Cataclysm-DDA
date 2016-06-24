@@ -640,7 +640,6 @@ static std::string build_resource_list(
     std::string dirname_label, std::string filename_label ) {
     std::string resource_names;
 
-    resource_option.clear();
     auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
                                                      FILENAMES[dirname_label], true );
 
@@ -651,9 +650,11 @@ static std::string build_resource_list(
         fin.open( file.c_str() );
         if( !fin.is_open() ) {
             DebugLog( D_ERROR, DC_ALL ) << "Can't read " << operation_name << " config from " << file;
+            continue;
         }
 
         std::string resource_name;
+        std::string view_name;
         // should only have 2 values inside it, otherwise is going to only load the last 2 values
         while( !fin.eof() ) {
             std::string sOption;
@@ -665,29 +666,29 @@ static std::string build_resource_list(
                 getline( fin, sOption );
             } else {
                 if( sOption.find( "NAME" ) != std::string::npos ) {
-                    resource_name = "";
                     getline( fin, resource_name );
                     resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
                     resource_name = trim( resource_name );
-                    if( resource_names.empty() ) {
-                        resource_names += resource_name;
-                    } else {
-                        resource_names += std::string( "," );
-                        resource_names += resource_name;
-                    }
                 } else if( sOption.find( "VIEW" ) != std::string::npos ) {
-                    std::string viewName = "";
-                    getline( fin, viewName );
-                    viewName = trim( viewName );
-                    optionNames[resource_name] = viewName;
-                    break;
+                    getline( fin, view_name );
+                    view_name = trim( view_name );
                 }
             }
         }
         fin.close();
-        if( resource_option.count( resource_name ) != 0 ) {
-            DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
+
+        if ( view_name.empty() || resource_name.empty() ) {
+            DebugLog( D_ERROR, DC_ALL ) << "NAME and/or VIEW line missing from " << file;
+        } else if( resource_option.count( resource_name ) != 0 ) {
+            DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name << " in " << file;
         } else {
+            if( resource_names.empty() ) {
+                resource_names += resource_name;
+            } else {
+                resource_names += std::string( "," );
+                resource_names += resource_name;
+            }
+            optionNames[resource_name] = view_name;
             resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
         }
     }
@@ -697,8 +698,18 @@ static std::string build_resource_list(
 
 std::string options_manager::build_tilesets_list()
 {
+    TILESETS.clear();
     std::string tileset_names = build_resource_list( TILESETS, "tileset",
                                                      "gfxdir", "tileset-conf");
+    if ( FILENAMES["user_gfxdir"] != FILENAMES["gfxdir"] ) {
+        std::string user_tileset_names = build_resource_list( TILESETS, "tileset",
+                                                              "user_gfxdir", "tileset-conf");
+        if ( tileset_names.empty() ) {
+            tileset_names = user_tileset_names;
+        } else if ( !user_tileset_names.empty() ) {
+            tileset_names = tileset_names + "," + user_tileset_names;
+        }
+    }
 
     if( tileset_names.empty() ) {
         optionNames["deon"] = _("Deon's");
@@ -710,8 +721,19 @@ std::string options_manager::build_tilesets_list()
 
 std::string options_manager::build_soundpacks_list()
 {
-    const std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
-                                                             "sounddir", "soundpack-conf");
+    SOUNDPACKS.clear();
+    std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
+                                                       "sounddir", "soundpack-conf");
+    if ( FILENAMES["user_sounddir"] != FILENAMES["sounddir"] ) {
+        std::string user_soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
+                                                                "user_sounddir", "soundpack-conf");
+        if ( soundpack_names.empty() ) {
+            soundpack_names = user_soundpack_names;
+        } else if ( !user_soundpack_names.empty() ) {
+            soundpack_names = soundpack_names + "," + user_soundpack_names;
+        }
+    }
+
     if( soundpack_names.empty() ) {
         optionNames["basic"] = _("Basic");
         return "basic";
