@@ -12,6 +12,7 @@
 #include "ui.h"
 
 #include <algorithm>
+#include <numeric>
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );

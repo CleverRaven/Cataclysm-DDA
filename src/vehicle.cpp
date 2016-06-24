@@ -37,6 +37,7 @@
 #include <queue>
 #include <math.h>
 #include <array>
+#include <numeric>
 
 /*
  * Speed up all those if ( blarg == "structure" ) statements that are used everywhere;

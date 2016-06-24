@@ -13,6 +13,7 @@
 
 #include <map>
 #include <algorithm>
+#include <numeric>
 
 damage_instance::damage_instance() { }
 damage_instance damage_instance::physical( float bash, float cut, float stab, int arpen )

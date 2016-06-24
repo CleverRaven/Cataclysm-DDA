@@ -28,6 +28,7 @@
 
 #include <sstream>
 #include <algorithm>
+#include <numeric>
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
