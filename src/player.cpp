@@ -9434,7 +9434,7 @@ bool player::consume_item( item &target )
  // Consume other type of items.
         // For when bionics let you eat fuel
         if (to_eat->is_ammo() && has_active_bionic("bio_batteries") &&
-            to_eat->ammo_type() == "battery") {
+            to_eat->ammo_type() == ammotype( "battery" ) ) {
             const int factor = 1;
             int max_change = max_power_level - power_level;
             if (max_change == 0) {
@@ -9443,7 +9443,7 @@ bool player::consume_item( item &target )
             charge_power(to_eat->charges / factor);
             to_eat->charges -= max_change * factor; //negative charges seem to be okay
             to_eat->charges++; //there's a flat subtraction later
-        } else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == "reactor_slurry" || to_eat->ammo_type() == "plutonium")) {
+        } else if (to_eat->is_ammo() &&  ( has_active_bionic("bio_reactor") || has_active_bionic("bio_advreactor") ) && ( to_eat->ammo_type() == ammotype( "reactor_slurry" ) || to_eat->ammo_type() == ammotype( "plutonium" ) )) {
             if (to_eat->type->id == "plut_cell" && query_yn(_("Thats a LOT of plutonium.  Are you sure you want that much?"))) {
                 tank_plut += PLUTONIUM_CHARGES * 10;
             } else if (to_eat->type->id == "plut_slurry_dense") {

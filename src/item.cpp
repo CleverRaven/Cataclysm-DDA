@@ -2467,7 +2467,7 @@ int item::weight() const
         }
 
     } else if( magazine_integral() && !is_magazine() ) {
-        if ( ammo_type() == "plutonium" ) {
+        if ( ammo_type() == ammotype( "plutonium" ) ) {
             ret += ammo_remaining() * find_type( default_ammo( ammo_type() ) )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
@@ -3378,11 +3378,11 @@ bool item::is_food(player const*u) const
         return true;
     }
 
-    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == "battery" ) {
+    if( u->has_active_bionic( "bio_batteries" ) && is_ammo() && ammo_type() == ammotype( "battery" ) ) {
         return true;
     }
 
-    if( ( u->has_active_bionic( "bio_reactor" ) || u->has_active_bionic( "bio_advreactor" ) ) && is_ammo() && ( ammo_type() == "reactor_slurry" || ammo_type() == "plutonium" ) ) {
+    if( ( u->has_active_bionic( "bio_reactor" ) || u->has_active_bionic( "bio_advreactor" ) ) && is_ammo() && ( ammo_type() == ammotype( "reactor_slurry" ) || ammo_type() == ammotype( "plutonium" ) ) ) {
         return true;
     }
     if (u->has_active_bionic("bio_furnace") && flammable() && typeId() != "corpse")
@@ -3759,7 +3759,7 @@ std::string item::gun_type() const
         return std::string();
     }
     if( gun_skill() == skill_archery ) {
-        if( ammo_type() == "bolt" || typeId() == "bullet_crossbow" ) {
+        if( ammo_type() == ammotype( "bolt" ) || typeId() == "bullet_crossbow" ) {
             return "crossbow";
         } else{
             return "bow";
@@ -4089,7 +4089,7 @@ ammotype item::ammo_type( bool conversion ) const
 {
     if( conversion ) {
         if( has_flag( "ATOMIC_AMMO" ) ) {
-            return "plutonium";
+            return ammotype( "plutonium" );
         }
         for( const auto mod : gunmods() ) {
             if( mod->type->gunmod->ammo_modifier != "NULL" ) {
@@ -4762,7 +4762,7 @@ bool item::reload( player &u, item_location loc, long qty )
     } else {
         obj->curammo = item::find_type( ammo->typeId() );
 
-        if( ammo_type() == "plutonium" ) {
+        if( ammo_type() == ammotype( "plutonium" ) ) {
             // Warning: qty here refers to minimum of plutonium cells and capacity left
             // always consume at least one cell but never more than actually available
             auto cells = std::min( qty / PLUTONIUM_CHARGES + ( qty % PLUTONIUM_CHARGES != 0 ), ammo->charges );
@@ -5040,7 +5040,7 @@ bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 bool item::allow_crafting_component() const
 {
     // vehicle batteries are implemented as magazines of charge
-    if( is_magazine() && ammo_type() == "battery" ) {
+    if( is_magazine() && ammo_type() == ammotype( "battery" ) ) {
         return true;
     }
 

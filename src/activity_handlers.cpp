@@ -1128,7 +1128,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
         if( reloadable->has_flag( "RELOAD_ONE" ) ) {
             for( int i = 0; i != qty; ++i ) {
-                if( reloadable->ammo_type() == "bolt" ) {
+                if( reloadable->ammo_type() == ammotype( "bolt" ) ) {
                     msg = _( "You insert a bolt into the %s." );
                 } else {
                     msg = _( "You insert a cartridge into the %s." );

@@ -1451,14 +1451,14 @@ item::sound_data item::gun_noise( bool const burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_type() == "40mm") {
+    if( ammo_type() == ammotype( "40mm" ) ) {
         return { 8, _( "Thunk!" ) };
 
     } else if( typeId() == "hk_g80") {
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_type() == "gasoline" || ammo_type() == "66mm" ||
-               ammo_type() == "84x246mm" || ammo_type() == "m235" ) {
+    } else if( ammo_type() == ammotype( "gasoline" ) || ammo_type() == ammotype( "66mm" ) ||
+               ammo_type() == ammotype( "84x246mm" ) || ammo_type() == ammotype( "m235" ) ) {
         return { 4, _( "Fwoosh!" ) };
     }
 

@@ -6794,7 +6794,7 @@ void game::emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto it = m.i_at( x, y ).begin(); it != m.i_at( x, y ).end(); ++it ) {
-        if( it->is_tool() && it->ammo_type() == "battery" ) {
+        if( it->is_tool() && it->ammo_type() == ammotype( "battery" ) ) {
             it->charges = 0;
         }
     }
@@ -11381,7 +11381,7 @@ bool game::unload( item &it )
     } else {
         long qty = target->ammo_remaining();
 
-        if( target->ammo_type() == "plutonium" ) {
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -11409,7 +11409,7 @@ bool game::unload( item &it )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         u.moves -= u.item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_type() == "plutonium" ) {
+        if( target->ammo_type() == ammotype( "plutonium" ) ) {
             qty *= PLUTONIUM_CHARGES;
         }
 

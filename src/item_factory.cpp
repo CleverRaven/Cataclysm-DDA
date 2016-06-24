@@ -574,7 +574,7 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
 
 bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype& ammo ) const
 {
-    if ( ammo == "NULL" || ammo == "pointer_fake_ammo" ) {
+    if ( ammo == "NULL" || ammo == ammotype( "pointer_fake_ammo" ) ) {
         return false; // skip fake types
     }
 

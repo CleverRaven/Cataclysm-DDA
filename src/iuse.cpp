@@ -5452,7 +5452,7 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
     // if quiver is empty or storing more arrows, pull up menu asking what to store
     if (it->contents.empty() || choice == 1) {
         int inventory_index = g->inv_for_filter( _("Store which arrows?"), []( const item & itm ) {
-            return itm.is_ammo() && (itm.ammo_type() == "arrow" || itm.ammo_type() == "bolt");
+            return itm.is_ammo() && (itm.ammo_type() == ammotype( "arrow" ) || itm.ammo_type() == ammotype( "bolt" ) );
         } );
         item *put = &( p->i_at(inventory_index ) );
         if (put == NULL || put->is_null()) {
