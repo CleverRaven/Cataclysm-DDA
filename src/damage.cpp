@@ -154,7 +154,13 @@ void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects
     }
 
     if( effects.count( "FRAG" ) > 0 ) {
-        g->explosion( p, 24, 0.4, false, 28 );
+        explosion_data frag;
+        frag.power = 1.0f;
+        frag.shrapnel.count = 50;
+        frag.shrapnel.mass = 5;
+        frag.shrapnel.recovery = 100;
+        frag.shrapnel.drop = "shrapnel";
+        g->explosion( p, frag );
     }
 
     if( effects.count( "NAPALM" ) > 0 ) {
