@@ -1460,9 +1460,9 @@ void item::io( Archive& archive )
     }
 
     // Compatiblity for item type changes: for example soap changed from being a generic item
-    // (item::charges == -1) to comestible (and thereby counted by charges), old saves still have
-    // charges == -1, this fixes the charges value to the default charges.
-    if( count_by_charges() && charges < 0 ) {
+    // (item::charges -1 or 0 or anything else) to comestible (and thereby counted by charges),
+    // old saves still have invalid charges, this fixes the charges value to the default charges.
+    if( count_by_charges() && charges <= 0 ) {
         charges = item( type->id, 0 ).charges;
     }
     if( !active && !rotten() && goes_bad() ) {
