@@ -5045,28 +5045,22 @@ bool item::allow_crafting_component() const
     return contents.empty();
 }
 
-bool item::fill_with( item &liquid, std::string &err, bool allow_bucket, int volume_limit )
+void item::fill_with( item &liquid, long amount )
 {
-    const long remaining_capacity = get_remaining_capacity_for_liquid( liquid, err, allow_bucket,
-                                                                       volume_limit );
-
-    if( remaining_capacity <= 0 || !err.empty() ) {
-        return false;
+    amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
+                       std::min( amount, liquid.charges ) );
+    if( amount <= 0 ) {
+        return;
     }
-
-    const long amount = std::min( remaining_capacity, liquid.charges );
-
     if( !is_container_empty() ) {
-        contents.front().charges += amount;
+        contents.front().mod_charges( amount );
     } else {
-        item liquid_copy = liquid;
+        item liquid_copy( liquid );
         liquid_copy.charges = amount;
         put_in( liquid_copy );
     }
-    liquid.charges -= amount;
+    liquid.mod_charges( -amount );
     on_contents_changed();
-
-    return true;
 }
 
 void item::set_countdown( int num_turns )

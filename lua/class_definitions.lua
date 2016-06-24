@@ -920,7 +920,7 @@ classes = {
             { name = "display_name", rval = "string", args = { "int" } },
             { name = "display_name", rval = "string", args = { } },
             { name = "erase_var", rval = nil, args = { "string" } },
-            { name = "fill_with", rval = "bool", args = { "item", "string", "bool" } },
+            { name = "fill_with", rval = nil, args = { "item" } },
             { name = "fire_resist", rval = "int", args = { } },
             { name = "fire_resist", rval = "int", args = { "bool" } },
             { name = "flammable", rval = "bool", args = { } },

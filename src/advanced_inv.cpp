@@ -1987,12 +1987,12 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
 
     std::string err;
     // @todo Allow buckets here, but require them to be on the ground or wielded
-    if( !dest_container.fill_with( src, err, false ) ) {
+    const long amount = dest_container.get_remaining_capacity_for_liquid( src, err, false );
+    if( !err.empty() ) {
         popup( err.c_str() );
         return false;
     }
-
-    src_container.on_contents_changed();
+    dest_container.fill_with( src, amount );
 
     uistate.adv_inv_container_content_type = dest_container.contents.front().typeId();
     if( src.charges <= 0 ) {

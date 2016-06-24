@@ -448,11 +448,8 @@ class item : public JsonSerializer, public JsonDeserializer, public visitable<it
      * Fill item with liquid up to its capacity. This works for guns and tools that accept
      * liquid ammo.
      * @param liquid Liquid to fill the container with.
-     * @param err Contains error message if function returns false.
-     * @param allow_bucket Allow filling non-sealable containers
-     * @return Returns false in case of error. Nothing has been added in that case.
      */
-    bool fill_with( item &liquid, std::string &err, bool allow_bucket, int volume_limit = INT_MAX );
+    void fill_with( item &liquid, long amount = INFINITE_CHARGES );
     /**
      * How much more of this liquid (in charges) can be put in this container.
      * If this is not a container (or not suitable for the liquid), it returns 0.
