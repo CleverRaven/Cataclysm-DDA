@@ -131,10 +131,6 @@ class veh_interact
         //true if trying to install foot crank with electric engines for example
         //writes failure to ui
         bool is_drive_conflict();
-        /* true if current selected square has part with "FUEL_TANK flag and
-         * they are not full. Otherwise will be false.
-         */
-        bool has_ptank;
 
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
@@ -160,9 +156,6 @@ class veh_interact
          * Can be converted to a vector<vehicle_part>.
          * Updated whenever the cursor moves. */
         std::vector<int> parts_here;
-
-        /* Refers to the fuel tanks (if any) in the currently selected square. */
-        std::vector<vehicle_part *> ptanks;
 
         /* Refers to the wheel (if any) in the currently selected square. */
         struct vehicle_part *wheel;
